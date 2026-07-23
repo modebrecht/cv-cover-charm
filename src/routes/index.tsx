@@ -1,10 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CoverForm } from "@/components/cover/CoverForm";
 import { CoverPreview } from "@/components/cover/CoverPreview";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
-import { TEMPLATES, type CoverData, type TemplateId } from "@/components/cover/types";
+import {
+  DEMO_DATA,
+  TEMPLATES,
+  type CoverData,
+  type TemplateId,
+} from "@/components/cover/types";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -65,6 +70,8 @@ function Index() {
     freundlich: defaultColors("freundlich"),
   });
   const [downloading, setDownloading] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
   const activeTemplate = useMemo(
@@ -79,8 +86,29 @@ function Index() {
   const resetColors = () =>
     setColorsByTemplate((c) => ({ ...c, [template]: defaultColors(template) }));
 
+  useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, []);
+
+  const loadDemo = () => {
+    setData({ ...DEMO_DATA, datum: today() });
+  };
+  const resetForm = () => setData(emptyData);
+
+  const fileBase = () => {
+    const n = [data.vorname, data.nachname].filter(Boolean).join("-");
+    return n ? `Titelblatt-${n}` : "Titelblatt";
+  };
+
   const downloadPdf = async () => {
     if (!previewRef.current || downloading) return;
+    setMenuOpen(false);
     setDownloading(true);
     try {
       const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
@@ -95,16 +123,49 @@ function Index() {
       const img = canvas.toDataURL("image/jpeg", 0.95);
       const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
       pdf.addImage(img, "JPEG", 0, 0, 210, 297);
-      const name = data.nachname || data.vorname || "Bewerbung";
-      pdf.save(`Titelblatt-${name}.pdf`);
+      pdf.save(`${fileBase()}.pdf`);
     } finally {
       setDownloading(false);
     }
   };
 
+  const downloadJson = () => {
+    setMenuOpen(false);
+    const payload = { version: 1, template, colors: colorsByTemplate, data };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${fileBase()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const importJson = (file: File | undefined) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result));
+        if (parsed.data) setData({ ...emptyData, ...parsed.data });
+        if (parsed.template && ["klassisch", "modern", "freundlich"].includes(parsed.template)) {
+          setTemplate(parsed.template);
+        }
+        if (parsed.colors) {
+          setColorsByTemplate((c) => ({ ...c, ...parsed.colors }));
+        }
+      } catch {
+        // ignore
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div className="min-h-screen bg-muted/30">
-      <header className="border-b bg-background">
+      <header className="sticky top-0 z-20 border-b bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
           <div>
             <h1 className="text-lg font-semibold">Lehrstellen-Titelblatt</h1>
@@ -112,23 +173,85 @@ function Index() {
               Deckblatt für deine Bewerbung – Schweiz
             </p>
           </div>
-          <button
-            type="button"
-            onClick={downloadPdf}
-            disabled={downloading}
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
-          >
-            {downloading ? "Erstelle PDF…" : "PDF herunterladen"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={loadDemo}
+              className="rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-accent"
+            >
+              Demo ausfüllen
+            </button>
+            <label className="cursor-pointer rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-accent">
+              JSON laden
+              <input
+                type="file"
+                accept="application/json"
+                className="hidden"
+                onChange={(e) => {
+                  importJson(e.target.files?.[0]);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+            <div className="relative" ref={menuRef}>
+              <button
+                type="button"
+                onClick={() => setMenuOpen((v) => !v)}
+                disabled={downloading}
+                className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
+              >
+                {downloading ? "Erstelle PDF…" : "Herunterladen"}
+                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                  <path
+                    d="M3 4.5l3 3 3-3"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-48 overflow-hidden rounded-md border bg-popover shadow-lg">
+                  <button
+                    type="button"
+                    onClick={downloadPdf}
+                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
+                  >
+                    <span>Als PDF</span>
+                    <span className="text-xs text-muted-foreground">.pdf</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={downloadJson}
+                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
+                  >
+                    <span>Als JSON</span>
+                    <span className="text-xs text-muted-foreground">.json</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </header>
 
       <main className="mx-auto grid max-w-7xl gap-8 px-6 py-8 lg:grid-cols-[minmax(320px,420px)_1fr]">
         <div className="flex flex-col gap-6">
           <section className="flex flex-col gap-3 rounded-lg border bg-background p-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              Vorlage
-            </h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Vorlage
+              </h3>
+              <button
+                type="button"
+                onClick={resetForm}
+                className="text-xs text-muted-foreground underline hover:text-foreground"
+              >
+                Formular leeren
+              </button>
+            </div>
             <TemplatePicker value={template} onChange={setTemplate} />
           </section>
 
@@ -147,7 +270,7 @@ function Index() {
         </div>
 
         <div className="flex justify-center">
-          <div className="sticky top-6">
+          <div className="sticky top-24">
             <div
               className="origin-top"
               style={{
