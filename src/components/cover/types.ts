@@ -34,32 +34,33 @@ export type TemplateDefinition = {
 export const TEMPLATES: TemplateDefinition[] = [
   {
     id: "klassisch",
-    name: "Klassisch",
-    description: "Serif, ruhig, zentrierte Komposition",
+    name: "Editorial",
+    description: "Ruhige Serif, feine Rahmenlinien",
     slots: [
-      { key: "primary", label: "Akzent", default: "#1a1a1a" },
-      { key: "bg", label: "Hintergrund", default: "#faf7f2" },
+      { key: "ink", label: "Text", default: "#111111" },
+      { key: "accent", label: "Akzent", default: "#8a6a3b" },
+      { key: "bg", label: "Papier", default: "#f5efe4" },
     ],
   },
   {
     id: "modern",
     name: "Modern",
-    description: "Sans-Serif mit Farbbalken",
+    description: "Grosse Typo, minimalistisch",
     slots: [
-      { key: "primary", label: "Hauptfarbe", default: "#0b5cff" },
-      { key: "secondary", label: "Textakzent", default: "#0f172a" },
-      { key: "bg", label: "Hintergrund", default: "#ffffff" },
+      { key: "primary", label: "Hauptfarbe", default: "#111827" },
+      { key: "accent", label: "Akzent", default: "#f43f5e" },
+      { key: "bg", label: "Hintergrund", default: "#fafafa" },
     ],
   },
   {
     id: "freundlich",
-    name: "Freundlich",
-    description: "Farbiger Kreis hinter Foto",
+    name: "Warm",
+    description: "Weiche Formen, warme Farben",
     slots: [
-      { key: "primary", label: "Hauptform", default: "#ff7a59" },
-      { key: "secondary", label: "Zweite Form", default: "#ffd166" },
-      { key: "accent", label: "Typo-Akzent", default: "#1d3557" },
-      { key: "bg", label: "Hintergrund", default: "#fff8f1" },
+      { key: "primary", label: "Hauptform", default: "#0f766e" },
+      { key: "secondary", label: "Zweite Form", default: "#f59e0b" },
+      { key: "ink", label: "Text", default: "#0b1f24" },
+      { key: "bg", label: "Hintergrund", default: "#fff9ef" },
     ],
   },
 ];
@@ -83,3 +84,21 @@ export const LEHRBERUFE = [
   "Coiffeur/Coiffeuse EFZ",
   "Landwirt/in EFZ",
 ];
+
+export const DEMO_DATA: CoverData = {
+  beruf: "Informatiker/in EFZ",
+  lehrbeginn: "August 2027",
+  vorname: "Lea",
+  nachname: "Müller",
+  adresse: "Bahnhofstrasse 42",
+  plzOrt: "8000 Zürich",
+  telefon: "+41 79 123 45 67",
+  email: "lea.mueller@example.ch",
+  geburtsdatum: "14.03.2010",
+  lehrbetrieb: "Beispiel AG",
+  ansprechperson: "Herr Thomas Weber",
+  betriebAdresse: "Industriestrasse 8, 8005 Zürich",
+  ort: "Zürich",
+  datum: "15.11.2026",
+  foto: null,
+};
