@@ -97,6 +97,12 @@ function Index() {
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
+  // set current date after hydration (avoids SSR/client mismatch)
+  useEffect(() => {
+    setData((d) => (d.datum ? d : { ...d, datum: today() }));
+  }, []);
+
+
   const loadDemo = () => {
     setData({ ...DEMO_DATA, datum: today() });
   };
