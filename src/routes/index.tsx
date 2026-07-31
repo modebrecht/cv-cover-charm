@@ -1,18 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CoverForm } from "@/components/cover/CoverForm";
-import { CoverPreview } from "@/components/cover/CoverPreview";
+import { CoverCanvas } from "@/components/cover/CoverCanvas";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
+import { BlockInspector } from "@/components/cover/BlockInspector";
+import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 
 import {
   DEMO_DATA,
   TEMPLATES,
+  type BlockStyle,
   type CoverData,
+  type CustomField,
   type TemplateId,
 } from "@/components/cover/types";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -73,6 +78,13 @@ function Index() {
     modern: defaultColors("modern"),
     freundlich: defaultColors("freundlich"),
   });
+  const [layoutByTemplate, setLayoutByTemplate] = useState<Record<TemplateId, StyleOverrides>>({
+    klassisch: {},
+    modern: {},
+    freundlich: {},
+  });
+  const [customs, setCustoms] = useState<CustomField[]>([]);
+  const [selected, setSelected] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -83,12 +95,44 @@ function Index() {
     [template],
   );
   const colors = colorsByTemplate[template];
+  const overrides = layoutByTemplate[template];
+  const blocks = useMemo(
+    () => buildBlocks(template, data, customs, overrides),
+    [template, data, customs, overrides],
+  );
+  const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
+  const selectedCustom = customs.find((c) => c.id === selected) ?? null;
 
   const patch = (p: Partial<CoverData>) => setData((d) => ({ ...d, ...p }));
   const setColor = (key: string, value: string) =>
     setColorsByTemplate((c) => ({ ...c, [template]: { ...c[template], [key]: value } }));
   const resetColors = () =>
     setColorsByTemplate((c) => ({ ...c, [template]: defaultColors(template) }));
+
+  const patchStyle = (id: string, p: Partial<BlockStyle>) =>
+    setLayoutByTemplate((l) => ({
+      ...l,
+      [template]: { ...l[template], [id]: { ...(l[template][id] ?? {}), ...p } },
+    }));
+  const resetBlock = (id: string) =>
+    setLayoutByTemplate((l) => {
+      const next = { ...l[template] };
+      delete next[id];
+      return { ...l, [template]: next };
+    });
+  const resetLayout = () => setLayoutByTemplate((l) => ({ ...l, [template]: {} }));
+
+  const addCustom = () => {
+    const id = `custom-${Date.now()}`;
+    setCustoms((c) => [...c, { id, label: "Eigenes Feld", text: "Neuer Text" }]);
+    setSelected(id);
+  };
+  const patchCustom = (id: string, p: Partial<CustomField>) =>
+    setCustoms((c) => c.map((f) => (f.id === id ? { ...f, ...p } : f)));
+  const removeCustom = (id: string) => {
+    setCustoms((c) => c.filter((f) => f.id !== id));
+    setSelected(null);
+  };
 
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
@@ -116,11 +160,15 @@ function Index() {
     return n ? `Titelblatt-${n}` : "Titelblatt";
   };
 
+
   const downloadPdf = async () => {
     if (!previewRef.current || downloading) return;
     setMenuOpen(false);
+    setSelected(null);
     setDownloading(true);
     try {
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
       const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
         import("html2canvas-pro"),
         import("jspdf"),
@@ -141,7 +189,15 @@ function Index() {
 
   const downloadJson = () => {
     setMenuOpen(false);
-    const payload = { version: 1, template, colors: colorsByTemplate, data };
+    const payload = {
+      version: 2,
+      template,
+      colors: colorsByTemplate,
+      layout: layoutByTemplate,
+      customs,
+      data,
+    };
+
     const blob = new Blob([JSON.stringify(payload, null, 2)], {
       type: "application/json",
     });
@@ -166,6 +222,13 @@ function Index() {
         if (parsed.colors) {
           setColorsByTemplate((c) => ({ ...c, ...parsed.colors }));
         }
+        if (parsed.layout) {
+          setLayoutByTemplate((l) => ({ ...l, ...parsed.layout }));
+        }
+        if (Array.isArray(parsed.customs)) {
+          setCustoms(parsed.customs);
+        }
+
       } catch {
         // ignore
       }
@@ -302,6 +365,44 @@ function Index() {
             />
           </section>
 
+          <section className="flex flex-col gap-3 rounded-lg border bg-background p-4">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Element
+              </h3>
+              <div className="flex shrink-0 items-center gap-3">
+                <button
+                  type="button"
+                  onClick={addCustom}
+                  className="rounded-md border border-input px-2 py-1 text-xs font-medium hover:bg-accent"
+                >
+                  + Feld
+                </button>
+                <button
+                  type="button"
+                  onClick={resetLayout}
+                  className="text-xs text-muted-foreground underline hover:text-foreground"
+                >
+                  Layout zurücksetzen
+                </button>
+              </div>
+            </div>
+            <BlockInspector
+              block={selectedBlock}
+              slots={activeTemplate.slots}
+              colors={colors}
+              onChange={(p) => selectedBlock && patchStyle(selectedBlock.id, p)}
+              onReset={() => selectedBlock && resetBlock(selectedBlock.id)}
+              customText={
+                selectedCustom ? { label: selectedCustom.label, text: selectedCustom.text } : undefined
+              }
+              onCustomChange={
+                selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
+              }
+              onDelete={selectedCustom ? () => removeCustom(selectedCustom.id) : undefined}
+            />
+          </section>
+
           <section className="rounded-lg border bg-background p-4">
             <CoverForm data={data} onChange={patch} />
           </section>
@@ -310,15 +411,23 @@ function Index() {
         <div className="order-1 min-w-0 lg:order-2">
           <div className="mx-auto w-full max-w-[794px] lg:sticky lg:top-24">
             <ScaledPreview max={0.85}>
-              <CoverPreview
+              <CoverCanvas
                 ref={previewRef}
                 template={template}
                 data={data}
                 colors={colors}
+                blocks={blocks}
+                selected={selected}
+                onSelect={setSelected}
+                onMove={(id, x, y) => patchStyle(id, { x, y })}
               />
             </ScaledPreview>
+            <p className="mt-2 text-center text-xs text-muted-foreground">
+              Tipp: Elemente in der Vorschau verschieben und antippen zum Anpassen.
+            </p>
           </div>
         </div>
+
       </main>
     </div>
   );

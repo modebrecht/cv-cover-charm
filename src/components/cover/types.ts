@@ -31,6 +31,49 @@ export type TemplateDefinition = {
   slots: ColorSlot[];
 };
 
+/** Alle Werte in mm (Position/Grösse) bzw. pt (Schriftgrösse). */
+export type BlockStyle = {
+  x: number;
+  y: number;
+  w: number;
+  size: number;
+  /** Farbe: entweder ein Slot-Key ("accent") oder ein Hex-Wert. */
+  color: string;
+  align: "left" | "center" | "right";
+  weight: number;
+  italic: boolean;
+  uppercase: boolean;
+  tracking: number; // em
+  lineHeight: number;
+  opacity: number;
+  font: "sans" | "serif";
+  hidden: boolean;
+  /** nur für Foto */
+  ratio?: number;
+  radius?: number;
+};
+
+export type BlockKind = "text" | "photo";
+
+export type Block = {
+  id: string;
+  label: string;
+  kind: BlockKind;
+  lines: string[];
+  style: BlockStyle;
+};
+
+export type CustomField = {
+  id: string;
+  label: string;
+  text: string;
+};
+
+export const FONT_STACKS: Record<BlockStyle["font"], string> = {
+  sans: "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+  serif: "Georgia, 'Times New Roman', serif",
+};
+
 export const TEMPLATES: TemplateDefinition[] = [
   {
     id: "klassisch",
