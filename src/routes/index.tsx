@@ -164,8 +164,11 @@ function Index() {
   const downloadPdf = async () => {
     if (!previewRef.current || downloading) return;
     setMenuOpen(false);
+    setSelected(null);
     setDownloading(true);
     try {
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
       const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
         import("html2canvas-pro"),
         import("jspdf"),
@@ -186,7 +189,15 @@ function Index() {
 
   const downloadJson = () => {
     setMenuOpen(false);
-    const payload = { version: 1, template, colors: colorsByTemplate, data };
+    const payload = {
+      version: 2,
+      template,
+      colors: colorsByTemplate,
+      layout: layoutByTemplate,
+      customs,
+      data,
+    };
+
     const blob = new Blob([JSON.stringify(payload, null, 2)], {
       type: "application/json",
     });
@@ -211,6 +222,13 @@ function Index() {
         if (parsed.colors) {
           setColorsByTemplate((c) => ({ ...c, ...parsed.colors }));
         }
+        if (parsed.layout) {
+          setLayoutByTemplate((l) => ({ ...l, ...parsed.layout }));
+        }
+        if (Array.isArray(parsed.customs)) {
+          setCustoms(parsed.customs);
+        }
+
       } catch {
         // ignore
       }
@@ -347,6 +365,44 @@ function Index() {
             />
           </section>
 
+          <section className="flex flex-col gap-3 rounded-lg border bg-background p-4">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Element
+              </h3>
+              <div className="flex shrink-0 items-center gap-3">
+                <button
+                  type="button"
+                  onClick={addCustom}
+                  className="rounded-md border border-input px-2 py-1 text-xs font-medium hover:bg-accent"
+                >
+                  + Feld
+                </button>
+                <button
+                  type="button"
+                  onClick={resetLayout}
+                  className="text-xs text-muted-foreground underline hover:text-foreground"
+                >
+                  Layout zurücksetzen
+                </button>
+              </div>
+            </div>
+            <BlockInspector
+              block={selectedBlock}
+              slots={activeTemplate.slots}
+              colors={colors}
+              onChange={(p) => selectedBlock && patchStyle(selectedBlock.id, p)}
+              onReset={() => selectedBlock && resetBlock(selectedBlock.id)}
+              customText={
+                selectedCustom ? { label: selectedCustom.label, text: selectedCustom.text } : undefined
+              }
+              onCustomChange={
+                selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
+              }
+              onDelete={selectedCustom ? () => removeCustom(selectedCustom.id) : undefined}
+            />
+          </section>
+
           <section className="rounded-lg border bg-background p-4">
             <CoverForm data={data} onChange={patch} />
           </section>
@@ -355,15 +411,23 @@ function Index() {
         <div className="order-1 min-w-0 lg:order-2">
           <div className="mx-auto w-full max-w-[794px] lg:sticky lg:top-24">
             <ScaledPreview max={0.85}>
-              <CoverPreview
+              <CoverCanvas
                 ref={previewRef}
                 template={template}
                 data={data}
                 colors={colors}
+                blocks={blocks}
+                selected={selected}
+                onSelect={setSelected}
+                onMove={(id, x, y) => patchStyle(id, { x, y })}
               />
             </ScaledPreview>
+            <p className="mt-2 text-center text-xs text-muted-foreground">
+              Tipp: Elemente in der Vorschau verschieben und antippen zum Anpassen.
+            </p>
           </div>
         </div>
+
       </main>
     </div>
   );
