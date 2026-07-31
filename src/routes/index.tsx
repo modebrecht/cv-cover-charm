@@ -78,6 +78,13 @@ function Index() {
     modern: defaultColors("modern"),
     freundlich: defaultColors("freundlich"),
   });
+  const [layoutByTemplate, setLayoutByTemplate] = useState<Record<TemplateId, StyleOverrides>>({
+    klassisch: {},
+    modern: {},
+    freundlich: {},
+  });
+  const [customs, setCustoms] = useState<CustomField[]>([]);
+  const [selected, setSelected] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -88,12 +95,44 @@ function Index() {
     [template],
   );
   const colors = colorsByTemplate[template];
+  const overrides = layoutByTemplate[template];
+  const blocks = useMemo(
+    () => buildBlocks(template, data, customs, overrides),
+    [template, data, customs, overrides],
+  );
+  const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
+  const selectedCustom = customs.find((c) => c.id === selected) ?? null;
 
   const patch = (p: Partial<CoverData>) => setData((d) => ({ ...d, ...p }));
   const setColor = (key: string, value: string) =>
     setColorsByTemplate((c) => ({ ...c, [template]: { ...c[template], [key]: value } }));
   const resetColors = () =>
     setColorsByTemplate((c) => ({ ...c, [template]: defaultColors(template) }));
+
+  const patchStyle = (id: string, p: Partial<BlockStyle>) =>
+    setLayoutByTemplate((l) => ({
+      ...l,
+      [template]: { ...l[template], [id]: { ...(l[template][id] ?? {}), ...p } },
+    }));
+  const resetBlock = (id: string) =>
+    setLayoutByTemplate((l) => {
+      const next = { ...l[template] };
+      delete next[id];
+      return { ...l, [template]: next };
+    });
+  const resetLayout = () => setLayoutByTemplate((l) => ({ ...l, [template]: {} }));
+
+  const addCustom = () => {
+    const id = `custom-${Date.now()}`;
+    setCustoms((c) => [...c, { id, label: "Eigenes Feld", text: "Neuer Text" }]);
+    setSelected(id);
+  };
+  const patchCustom = (id: string, p: Partial<CustomField>) =>
+    setCustoms((c) => c.map((f) => (f.id === id ? { ...f, ...p } : f)));
+  const removeCustom = (id: string) => {
+    setCustoms((c) => c.filter((f) => f.id !== id));
+    setSelected(null);
+  };
 
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
@@ -120,6 +159,7 @@ function Index() {
     const n = [data.vorname, data.nachname].filter(Boolean).join("-");
     return n ? `Titelblatt-${n}` : "Titelblatt";
   };
+
 
   const downloadPdf = async () => {
     if (!previewRef.current || downloading) return;
