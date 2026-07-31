@@ -1,18 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CoverForm } from "@/components/cover/CoverForm";
-import { CoverPreview } from "@/components/cover/CoverPreview";
+import { CoverCanvas } from "@/components/cover/CoverCanvas";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
+import { BlockInspector } from "@/components/cover/BlockInspector";
+import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 
 import {
   DEMO_DATA,
   TEMPLATES,
+  type BlockStyle,
   type CoverData,
+  type CustomField,
   type TemplateId,
 } from "@/components/cover/types";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
