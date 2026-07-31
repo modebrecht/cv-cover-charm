@@ -4,6 +4,9 @@ import { CoverForm } from "@/components/cover/CoverForm";
 import { CoverPreview } from "@/components/cover/CoverPreview";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
+import { ScaledPreview } from "@/components/cover/ScaledPreview";
+import { ThemeToggle } from "@/components/cover/ThemeToggle";
+
 import {
   DEMO_DATA,
   TEMPLATES,
