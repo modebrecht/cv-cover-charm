@@ -52,9 +52,10 @@ const emptyData: CoverData = {
   ansprechperson: "",
   betriebAdresse: "",
   ort: "",
-  datum: today(),
+  datum: "",
   foto: null,
 };
+
 
 function defaultColors(templateId: TemplateId): Record<string, string> {
   const t = TEMPLATES.find((x) => x.id === templateId)!;
