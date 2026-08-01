@@ -112,6 +112,9 @@ export const TEMPLATES: TemplateDefinition[] = [
       { key: "primary", label: "Hauptform", default: "#0f766e" },
       { key: "secondary", label: "Zweite Form", default: "#f59e0b" },
       { key: "ink", label: "Text", default: "#0b1f24" },
+      { key: "bg", label: "Hintergrund", default: "#fff9ef" },
+    ],
+  },
   {
     id: "edel",
     name: "Edel",
