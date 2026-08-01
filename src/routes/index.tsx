@@ -216,7 +216,7 @@ function Index() {
       try {
         const parsed = JSON.parse(String(reader.result));
         if (parsed.data) setData({ ...emptyData, ...parsed.data });
-        if (parsed.template && ["klassisch", "modern", "freundlich"].includes(parsed.template)) {
+        if (parsed.template && TEMPLATES.some((t) => t.id === parsed.template)) {
           setTemplate(parsed.template);
         }
         if (parsed.colors) {
