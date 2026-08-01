@@ -61,7 +61,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 33, y: 20, w: 80, size: 9, color: "primary", uppercase: true, tracking: 0.35, font }) },
       { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 110, y: 20, w: 80, size: 9, color: "primary", align: "right", opacity: 0.6, font }) },
       { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 84, y: 55, w: 42, ratio: 1, radius: 999, color: "accent", font }) },
-      { id: "kicker", label: "Über-Titel", lines: data.beruf ? ["Lehrstelle als"] : [], style: s({ x: 20, y: 118, w: 170, size: 10, color: "accent", align: "center", uppercase: true, weight: 600, tracking: 0.4, font }) },
+      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 20, y: 118, w: 170, size: 10, color: "accent", align: "center", uppercase: true, weight: 600, tracking: 0.25, font }) },
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 15, y: 128, w: 180, size: 36, color: "primary", align: "center", weight: 700, lineHeight: 1.05, tracking: -0.02, font }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 168, w: 170, size: 13, color: "primary", align: "center", opacity: 0.85, tracking: 0.08, font }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 180, w: 170, size: 9.5, color: "accent", align: "center", weight: 600, font }) },
@@ -76,7 +76,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
   return [
     { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 16, y: 14, w: 90, size: 9.5, color: "bg", uppercase: true, weight: 500, tracking: 0.3, font }) },
     { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 104, y: 14, w: 90, size: 9.5, color: "bg", align: "right", uppercase: true, tracking: 0.3, opacity: 0.85, font }) },
-    { id: "kicker", label: "Über-Titel", lines: data.beruf ? ["Lehrstelle als"] : [], style: s({ x: 16, y: 42, w: 120, size: 10, color: "bg", uppercase: true, weight: 600, tracking: 0.3, opacity: 0.9, font }) },
+    { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 16, y: 42, w: 150, size: 10, color: "bg", uppercase: true, weight: 600, tracking: 0.25, opacity: 0.9, font }) },
     { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 16, y: 50, w: 130, size: 30, color: "bg", weight: 700, lineHeight: 1.1, font }) },
     { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 82, y: 92, w: 46, ratio: 1, radius: 999, color: "primary", font }) },
     { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 148, w: 170, size: 20, color: "ink", align: "center", weight: 600, font }) },
