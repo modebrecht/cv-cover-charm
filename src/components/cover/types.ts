@@ -22,7 +22,16 @@ export type ColorSlot = {
   default: string;
 };
 
-export type TemplateId = "klassisch" | "modern" | "freundlich";
+export type TemplateId =
+  | "klassisch"
+  | "modern"
+  | "freundlich"
+  | "edel"
+  | "colorful"
+  | "blockig"
+  | "edelBlockig"
+  | "serioes"
+  | "human";
 
 export type TemplateDefinition = {
   id: TemplateId;
