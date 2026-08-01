@@ -73,16 +73,16 @@ function defaultColors(templateId: TemplateId): Record<string, string> {
 function Index() {
   const [data, setData] = useState<CoverData>(emptyData);
   const [template, setTemplate] = useState<TemplateId>("modern");
-  const [colorsByTemplate, setColorsByTemplate] = useState<Record<TemplateId, Record<string, string>>>({
-    klassisch: defaultColors("klassisch"),
-    modern: defaultColors("modern"),
-    freundlich: defaultColors("freundlich"),
-  });
-  const [layoutByTemplate, setLayoutByTemplate] = useState<Record<TemplateId, StyleOverrides>>({
-    klassisch: {},
-    modern: {},
-    freundlich: {},
-  });
+  const [colorsByTemplate, setColorsByTemplate] = useState<Record<TemplateId, Record<string, string>>>(
+    () =>
+      Object.fromEntries(TEMPLATES.map((t) => [t.id, defaultColors(t.id)])) as Record<
+        TemplateId,
+        Record<string, string>
+      >,
+  );
+  const [layoutByTemplate, setLayoutByTemplate] = useState<Record<TemplateId, StyleOverrides>>(
+    () => Object.fromEntries(TEMPLATES.map((t) => [t.id, {}])) as Record<TemplateId, StyleOverrides>,
+  );
   const [customs, setCustoms] = useState<CustomField[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
@@ -216,7 +216,7 @@ function Index() {
       try {
         const parsed = JSON.parse(String(reader.result));
         if (parsed.data) setData({ ...emptyData, ...parsed.data });
-        if (parsed.template && ["klassisch", "modern", "freundlich"].includes(parsed.template)) {
+        if (parsed.template && TEMPLATES.some((t) => t.id === parsed.template)) {
           setTemplate(parsed.template);
         }
         if (parsed.colors) {

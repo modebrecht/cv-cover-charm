@@ -22,7 +22,16 @@ export type ColorSlot = {
   default: string;
 };
 
-export type TemplateId = "klassisch" | "modern" | "freundlich";
+export type TemplateId =
+  | "klassisch"
+  | "modern"
+  | "freundlich"
+  | "edel"
+  | "colorful"
+  | "blockig"
+  | "edelBlockig"
+  | "serioes"
+  | "human";
 
 export type TemplateDefinition = {
   id: TemplateId;
@@ -104,6 +113,72 @@ export const TEMPLATES: TemplateDefinition[] = [
       { key: "secondary", label: "Zweite Form", default: "#f59e0b" },
       { key: "ink", label: "Text", default: "#0b1f24" },
       { key: "bg", label: "Hintergrund", default: "#fff9ef" },
+    ],
+  },
+  {
+    id: "edel",
+    name: "Edel",
+    description: "Dunkel, Gold, feine Serif",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#12131a" },
+      { key: "ink", label: "Text", default: "#f2eee6" },
+      { key: "accent", label: "Gold", default: "#c9a24a" },
+    ],
+  },
+  {
+    id: "colorful",
+    name: "Colorful",
+    description: "Kräftige Farbflächen, fröhlich",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#fffdf7" },
+      { key: "primary", label: "Farbe 1", default: "#ef4444" },
+      { key: "secondary", label: "Farbe 2", default: "#3b82f6" },
+      { key: "tertiary", label: "Farbe 3", default: "#facc15" },
+      { key: "ink", label: "Text", default: "#161616" },
+    ],
+  },
+  {
+    id: "blockig",
+    name: "Blockig",
+    description: "Grosse Rechtecke, Bauhaus-Raster",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#f4f4f2" },
+      { key: "primary", label: "Blockfarbe", default: "#1f2937" },
+      { key: "accent", label: "Akzentblock", default: "#f97316" },
+      { key: "ink", label: "Text", default: "#111111" },
+    ],
+  },
+  {
+    id: "edelBlockig",
+    name: "Edel blockig",
+    description: "Dunkle Flächen mit Goldlinien",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#0f1115" },
+      { key: "primary", label: "Fläche", default: "#1b1f27" },
+      { key: "accent", label: "Gold", default: "#bfa06a" },
+      { key: "ink", label: "Text", default: "#f5f2ec" },
+    ],
+  },
+  {
+    id: "serioes",
+    name: "Seriös",
+    description: "Zurückhaltend, Marineblau",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#ffffff" },
+      { key: "primary", label: "Hauptfarbe", default: "#1e3a5f" },
+      { key: "accent", label: "Akzent", default: "#94a3b8" },
+      { key: "ink", label: "Text", default: "#1f2937" },
+    ],
+  },
+  {
+    id: "human",
+    name: "Human",
+    description: "Weich, persönlich, erdige Töne",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#fdf6f0" },
+      { key: "primary", label: "Hauptfarbe", default: "#9c5b3c" },
+      { key: "secondary", label: "Sanfte Fläche", default: "#e7d3c4" },
+      { key: "ink", label: "Text", default: "#3b2a22" },
     ],
   },
 ];
