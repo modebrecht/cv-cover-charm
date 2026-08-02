@@ -153,7 +153,7 @@ export function CoverBackground({
         />
         <div
           className="absolute"
-          style={{ left: "0mm", bottom: "0mm", width: "100%", height: "26mm", borderTopLeftRadius: "60mm", borderTopRightRadius: "0mm", backgroundColor: colors.secondary, opacity: 0.35 }}
+          style={{ left: "0mm", bottom: "0mm", width: "100%", height: "14mm", borderTopLeftRadius: "50mm", backgroundColor: colors.secondary, opacity: 0.3 }}
         />
         <div
           className="absolute"
@@ -181,7 +181,7 @@ export function CoverBackground({
         />
         <div
           className="absolute"
-          style={{ left: "-30mm", bottom: "-45mm", width: "150mm", height: "90mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.4 }}
+          style={{ left: "-35mm", bottom: "-55mm", width: "130mm", height: "80mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.35 }}
         />
       </div>
     );
