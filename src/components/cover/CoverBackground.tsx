@@ -140,6 +140,99 @@ export function CoverBackground({
     );
   }
 
+  if (template === "sonnig") {
+    return (
+      <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>
+        <div
+          className="absolute"
+          style={{ left: "-30mm", top: "-120mm", width: "270mm", height: "220mm", borderRadius: "9999px", backgroundColor: colors.primary }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "-10mm", top: "-100mm", width: "230mm", height: "175mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.55 }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "0mm", bottom: "0mm", width: "100%", height: "14mm", borderTopLeftRadius: "50mm", backgroundColor: colors.secondary, opacity: 0.3 }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "20mm", top: "236mm", width: "26mm", height: "1.2mm", borderRadius: "9999px", backgroundColor: colors.primary, opacity: 0.6 }}
+        />
+      </div>
+    );
+  }
+
+  if (template === "welle") {
+    return (
+      <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>
+        <div className="absolute left-0 top-0" style={{ width: "100%", height: "100mm", backgroundColor: colors.primary }} />
+        <div
+          className="absolute"
+          style={{ left: "-20mm", top: "72mm", width: "250mm", height: "70mm", borderRadius: "9999px", backgroundColor: colors.bg }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "-20mm", top: "66mm", width: "250mm", height: "70mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.5 }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "-20mm", top: "72mm", width: "250mm", height: "70mm", borderRadius: "9999px", backgroundColor: colors.bg }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "-35mm", bottom: "-55mm", width: "130mm", height: "80mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.35 }}
+        />
+      </div>
+    );
+  }
+
+  if (template === "terracotta") {
+    return (
+      <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>
+        <div
+          className="absolute"
+          style={{ left: "14mm", top: "14mm", width: "182mm", height: "160mm", borderRadius: "14mm", backgroundColor: colors.secondary, opacity: 0.75 }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "14mm", top: "14mm", width: "182mm", height: "34mm", borderTopLeftRadius: "14mm", borderTopRightRadius: "14mm", backgroundColor: colors.primary }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "14mm", top: "244mm", width: "182mm", height: "1mm", borderRadius: "9999px", backgroundColor: colors.primary, opacity: 0.35 }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "-20mm", bottom: "-45mm", width: "110mm", height: "60mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.4 }}
+        />
+      </div>
+    );
+  }
+
+  if (template === "pastell") {
+    return (
+      <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>
+        <div
+          className="absolute"
+          style={{ left: "-45mm", top: "-35mm", width: "140mm", height: "140mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.9 }}
+        />
+        <div
+          className="absolute"
+          style={{ right: "-40mm", top: "20mm", width: "110mm", height: "110mm", borderRadius: "9999px", backgroundColor: colors.primary, opacity: 0.18 }}
+        />
+        <div
+          className="absolute"
+          style={{ right: "-30mm", bottom: "-40mm", width: "130mm", height: "110mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.6 }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "20mm", top: "132mm", width: "28mm", height: "1.2mm", borderRadius: "9999px", backgroundColor: colors.primary, opacity: 0.7 }}
+        />
+      </div>
+    );
+  }
+
 
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>

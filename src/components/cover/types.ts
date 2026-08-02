@@ -31,7 +31,11 @@ export type TemplateId =
   | "blockig"
   | "edelBlockig"
   | "serioes"
-  | "human";
+  | "human"
+  | "sonnig"
+  | "welle"
+  | "terracotta"
+  | "pastell";
 
 export type TemplateDefinition = {
   id: TemplateId;
@@ -181,7 +185,52 @@ export const TEMPLATES: TemplateDefinition[] = [
       { key: "ink", label: "Text", default: "#3b2a22" },
     ],
   },
+  {
+    id: "sonnig",
+    name: "Sonnig",
+    description: "Warmer Bogen, freundlich und hell",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#fff8ec" },
+      { key: "primary", label: "Hauptform", default: "#e4572e" },
+      { key: "secondary", label: "Zweite Form", default: "#f6b352" },
+      { key: "ink", label: "Text", default: "#2a1a12" },
+    ],
+  },
+  {
+    id: "welle",
+    name: "Welle",
+    description: "Weiche Wellenform, ruhig und warm",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#fffaf3" },
+      { key: "primary", label: "Hauptform", default: "#1f7a70" },
+      { key: "secondary", label: "Zweite Form", default: "#f0a35e" },
+      { key: "ink", label: "Text", default: "#12292b" },
+    ],
+  },
+  {
+    id: "terracotta",
+    name: "Terracotta",
+    description: "Erdige Flächen, abgerundetes Panel",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#faf1e8" },
+      { key: "primary", label: "Hauptform", default: "#b1502f" },
+      { key: "secondary", label: "Zweite Form", default: "#e8c9a8" },
+      { key: "ink", label: "Text", default: "#3a2318" },
+    ],
+  },
+  {
+    id: "pastell",
+    name: "Pastell",
+    description: "Sanfte Kreise, luftig und weich",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#fdfaff" },
+      { key: "primary", label: "Hauptform", default: "#7c6cd6" },
+      { key: "secondary", label: "Zweite Form", default: "#ffd9e2" },
+      { key: "ink", label: "Text", default: "#2c2440" },
+    ],
+  },
 ];
+
 
 export const LEHRBERUFE = [
   "Kaufmann/-frau EFZ",

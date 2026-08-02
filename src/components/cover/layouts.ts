@@ -174,6 +174,74 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
     ];
   }
 
+  if (template === "sonnig") {
+    const f: BlockStyle["font"] = "sans";
+    return [
+      { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 18, y: 16, w: 90, size: 9.5, color: "bg", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
+      { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 102, y: 16, w: 90, size: 9.5, color: "bg", align: "right", opacity: 0.9, font: f }) },
+      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 20, y: 40, w: 170, size: 10, color: "bg", align: "center", uppercase: true, weight: 600, tracking: 0.25, opacity: 0.95, font: f }) },
+      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 20, y: 49, w: 170, size: 30, color: "bg", align: "center", weight: 700, lineHeight: 1.1, font: f }) },
+      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 80, y: 86, w: 50, ratio: 1, radius: 999, color: "secondary", font: f }) },
+      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 146, w: 170, size: 20, color: "ink", align: "center", weight: 700, font: f }) },
+      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 158, w: 170, size: 10, color: "primary", align: "center", weight: 600, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, y: 248, w: 80, size: 8, color: "primary", uppercase: true, weight: 700, tracking: 0.3, font: f }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, y: 254, w: 80, size: 9, color: "ink", opacity: 0.85, font: f }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 110, y: 248, w: 80, size: 8, color: "primary", align: "right", uppercase: true, weight: 700, tracking: 0.3, font: f }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, y: 254, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f }) },
+    ];
+  }
+
+  if (template === "welle") {
+    const f: BlockStyle["font"] = "sans";
+    return [
+      { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 18, y: 16, w: 90, size: 9.5, color: "bg", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
+      { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 102, y: 16, w: 90, size: 9.5, color: "bg", align: "right", opacity: 0.85, font: f }) },
+      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 18, y: 38, w: 150, size: 10, color: "bg", uppercase: true, weight: 600, tracking: 0.25, opacity: 0.9, font: f }) },
+      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 18, y: 46, w: 140, size: 28, color: "bg", weight: 700, lineHeight: 1.12, font: f }) },
+      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 82, y: 118, w: 46, ratio: 1, radius: 999, color: "primary", font: f }) },
+      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 172, w: 170, size: 19, color: "ink", align: "center", weight: 600, font: f }) },
+      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 183, w: 170, size: 10, color: "primary", align: "center", weight: 600, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, y: 250, w: 80, size: 8, color: "primary", uppercase: true, weight: 700, tracking: 0.3, font: f }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, y: 256, w: 80, size: 9, color: "ink", opacity: 0.85, font: f }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 110, y: 250, w: 80, size: 8, color: "primary", align: "right", uppercase: true, weight: 700, tracking: 0.3, font: f }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, y: 256, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f }) },
+    ];
+  }
+
+  if (template === "terracotta") {
+    const f: BlockStyle["font"] = "serif";
+    return [
+      { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbungsdossier"], style: s({ x: 22, y: 22, w: 90, size: 9, color: "bg", uppercase: true, tracking: 0.35, font: f }) },
+      { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 98, y: 22, w: 90, size: 9, color: "bg", align: "right", opacity: 0.9, font: f }) },
+      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 80, y: 58, w: 50, ratio: 1, radius: 999, color: "primary", font: f }) },
+      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 20, y: 118, w: 170, size: 9.5, color: "primary", align: "center", uppercase: true, tracking: 0.3, font: f }) },
+      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 22, y: 127, w: 166, size: 26, color: "ink", align: "center", lineHeight: 1.15, font: f }) },
+      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 190, w: 170, size: 17, color: "ink", align: "center", tracking: 0.06, font: f }) },
+      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 200, w: 170, size: 10, color: "primary", align: "center", italic: true, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 22, y: 252, w: 80, size: 8, color: "primary", uppercase: true, tracking: 0.3, font: f }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 22, y: 258, w: 80, size: 9, color: "ink", opacity: 0.85, font: f }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 108, y: 252, w: 80, size: 8, color: "primary", align: "right", uppercase: true, tracking: 0.3, font: f }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 108, y: 258, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f }) },
+    ];
+  }
+
+  if (template === "pastell") {
+    const f: BlockStyle["font"] = "sans";
+    return [
+      { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 20, y: 18, w: 90, size: 9.5, color: "ink", uppercase: true, weight: 600, tracking: 0.3, opacity: 0.7, font: f }) },
+      { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 100, y: 18, w: 90, size: 9.5, color: "ink", align: "right", opacity: 0.6, font: f }) },
+      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 82, y: 52, w: 46, ratio: 1, radius: 999, color: "primary", font: f }) },
+      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 18, y: 118, w: 150, size: 9.5, color: "primary", uppercase: true, weight: 600, tracking: 0.25, font: f }) },
+      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 18, y: 138, w: 150, size: 30, color: "ink", weight: 700, lineHeight: 1.1, tracking: -0.01, font: f }) },
+      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 18, y: 180, w: 150, size: 15, color: "primary", weight: 600, font: f }) },
+      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 18, y: 190, w: 150, size: 10, color: "ink", opacity: 0.7, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 18, y: 250, w: 80, size: 8, color: "primary", uppercase: true, weight: 700, tracking: 0.3, font: f }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 18, y: 256, w: 80, size: 9, color: "ink", opacity: 0.85, font: f }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 112, y: 250, w: 80, size: 8, color: "primary", align: "right", uppercase: true, weight: 700, tracking: 0.3, font: f }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 112, y: 256, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f }) },
+    ];
+  }
+
   // freundlich
   return [
     { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 16, y: 14, w: 90, size: 9.5, color: "bg", uppercase: true, weight: 500, tracking: 0.3, font }) },
