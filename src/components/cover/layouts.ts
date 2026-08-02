@@ -202,7 +202,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 22, y: 70, w: 140, size: 30, color: "ink", weight: 300, lineHeight: 1.12, tracking: -0.01, font: f }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 22, y: 120, w: 140, size: 13, color: "ink", uppercase: true, weight: 600, tracking: 0.16, font: f }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 22, y: 130, w: 140, size: 9.5, color: "ink", opacity: 0.6, font: f }) },
-      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 138, y: 196, w: 50, ratio: 1.25, radius: 0, color: "secondary", font: f }) },
+      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 134, y: 58, w: 52, ratio: 1.25, radius: 0, color: "secondary", font: f }) },
       { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 22, y: 196, w: 60, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
       { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 22, y: 202, w: 60, size: 9, color: "bg", lineHeight: 1.5, font: f }) },
       { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 82, y: 196, w: 60, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
