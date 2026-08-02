@@ -438,7 +438,33 @@ function Index() {
           </div>
         </div>
 
+        {/* Unskalierte 1:1-Kopie für den PDF-Export */}
+        <div
+          aria-hidden
+          style={{
+            position: "fixed",
+            left: "-10000px",
+            top: 0,
+            width: "794px",
+            height: "1123px",
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        >
+          <CoverCanvas
+            ref={exportRef}
+            template={template}
+            data={data}
+            colors={colors}
+            blocks={blocks}
+            selected={null}
+            onSelect={() => {}}
+            onMove={() => {}}
+            editable={false}
+          />
+        </div>
       </main>
+
     </div>
   );
 
