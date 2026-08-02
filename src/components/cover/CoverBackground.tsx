@@ -204,7 +204,7 @@ export function CoverBackground({
         />
         <div
           className="absolute"
-          style={{ left: "0mm", bottom: "-35mm", width: "120mm", height: "70mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.5 }}
+          style={{ left: "-20mm", bottom: "-45mm", width: "110mm", height: "60mm", borderRadius: "9999px", backgroundColor: colors.secondary, opacity: 0.4 }}
         />
       </div>
     );
