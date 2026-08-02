@@ -89,6 +89,8 @@ function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
+  const exportRef = useRef<HTMLDivElement>(null);
+
 
   const activeTemplate = useMemo(
     () => TEMPLATES.find((t) => t.id === template)!,
@@ -162,7 +164,7 @@ function Index() {
 
 
   const downloadPdf = async () => {
-    if (!previewRef.current || downloading) return;
+    if (!exportRef.current || downloading) return;
     setMenuOpen(false);
     setSelected(null);
     setDownloading(true);
@@ -173,19 +175,27 @@ function Index() {
         import("html2canvas-pro"),
         import("jspdf"),
       ]);
-      const canvas = await html2canvas(previewRef.current, {
+      const node = exportRef.current;
+      const canvas = await html2canvas(node, {
         scale: 2,
         backgroundColor: "#ffffff",
         useCORS: true,
+        width: 794,
+        height: 1123,
+        windowWidth: 794,
+        windowHeight: 1123,
+        scrollX: 0,
+        scrollY: 0,
       });
       const img = canvas.toDataURL("image/jpeg", 0.95);
       const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
-      pdf.addImage(img, "JPEG", 0, 0, 210, 297);
+      pdf.addImage(img, "JPEG", 0, 0, 210, 297, undefined, "FAST");
       pdf.save(`${fileBase()}.pdf`);
     } finally {
       setDownloading(false);
     }
   };
+
 
   const downloadJson = () => {
     setMenuOpen(false);
@@ -428,7 +438,33 @@ function Index() {
           </div>
         </div>
 
+        {/* Unskalierte 1:1-Kopie für den PDF-Export */}
+        <div
+          aria-hidden
+          style={{
+            position: "fixed",
+            left: "-10000px",
+            top: 0,
+            width: "794px",
+            height: "1123px",
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        >
+          <CoverCanvas
+            ref={exportRef}
+            template={template}
+            data={data}
+            colors={colors}
+            blocks={blocks}
+            selected={null}
+            onSelect={() => {}}
+            onMove={() => {}}
+            editable={false}
+          />
+        </div>
       </main>
+
     </div>
   );
 
