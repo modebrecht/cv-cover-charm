@@ -77,14 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Lehrstellen-Titelblatt Generator – Bewerbung Schweiz" },
+      { name: "description", content: "Kostenloser Generator für das Deckblatt deiner Lehrstellenbewerbung in der Schweiz. Vorlagen wählen, Farben anpassen, als PDF herunterladen." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Lehrstellen-Titelblatt Generator – Bewerbung Schweiz" },
+      { property: "og:description", content: "Kostenloser Generator für das Deckblatt deiner Lehrstellenbewerbung in der Schweiz. Vorlagen wählen, Farben anpassen, als PDF herunterladen." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Lehrstellen-Titelblatt Generator – Bewerbung Schweiz" },
+      { name: "twitter:description", content: "Kostenloser Generator für das Deckblatt deiner Lehrstellenbewerbung in der Schweiz. Vorlagen wählen, Farben anpassen, als PDF herunterladen." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9d6b119e-02f4-4956-bb24-45e26117702b/id-preview-6feef71c--52bd8fe7-fa0f-4ed2-8814-32cc09941767.lovable.app-1785702588028.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9d6b119e-02f4-4956-bb24-45e26117702b/id-preview-6feef71c--52bd8fe7-fa0f-4ed2-8814-32cc09941767.lovable.app-1785702588028.png" },
     ],
     links: [
       {

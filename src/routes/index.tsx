@@ -28,11 +28,11 @@ export const Route = createFileRoute("/")({
         content:
           "Kostenloser Generator für das Deckblatt deiner Lehrstellenbewerbung in der Schweiz. Vorlagen wählen, Farben anpassen, als PDF herunterladen.",
       },
-      { property: "og:title", content: "Lehrstellen-Titelblatt Generator" },
+      { property: "og:title", content: "Lehrstellen-Titelblatt Generator – Bewerbung Schweiz" },
       {
         property: "og:description",
         content:
-          "Erstelle ein professionelles Titelblatt für deine Lehrstellenbewerbung – gratis als PDF.",
+          "Kostenloser Generator für das Deckblatt deiner Lehrstellenbewerbung in der Schweiz. Vorlagen wählen, Farben anpassen, als PDF herunterladen.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
