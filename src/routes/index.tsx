@@ -89,6 +89,8 @@ function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
+  const exportRef = useRef<HTMLDivElement>(null);
+
 
   const activeTemplate = useMemo(
     () => TEMPLATES.find((t) => t.id === template)!,
