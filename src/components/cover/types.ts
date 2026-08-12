@@ -44,6 +44,16 @@ export type TemplateDefinition = {
   slots: ColorSlot[];
 };
 
+/** Aufzählungszeichen für mehrzeilige Textblöcke. */
+export type ListStyle = "none" | "bullet" | "dash" | "number";
+
+export const LIST_STYLES: { value: ListStyle; label: string }[] = [
+  { value: "none", label: "Ohne" },
+  { value: "bullet", label: "•" },
+  { value: "dash", label: "–" },
+  { value: "number", label: "1." },
+];
+
 /** Alle Werte in mm (Position/Grösse) bzw. pt (Schriftgrösse). */
 export type BlockStyle = {
   x: number;
@@ -55,26 +65,57 @@ export type BlockStyle = {
   align: "left" | "center" | "right";
   weight: number;
   italic: boolean;
+  underline: boolean;
   uppercase: boolean;
   tracking: number; // em
   lineHeight: number;
   opacity: number;
   font: "sans" | "serif";
   hidden: boolean;
+  list: ListStyle;
+  /** Hintergrund-"Badge": Slot-Key, Hex oder null (= keiner). */
+  bg: string | null;
+  /** Innenabstand des Badges in mm. */
+  padX: number;
+  padY: number;
+  /** Eckenradius des Badges in mm (999 = Pille). */
+  bgRadius: number;
+  /** Optional: Schrift automatisch verkleinern, bis der Text in n Zeilen passt. */
+  maxLines?: number;
+  /**
+   * Block hängt unter einem anderen: `y` wird aus dessen Unterkante plus `gap`
+   * berechnet. So schiebt ein zweizeiliger Titel den Namen mit nach unten,
+   * statt ihn zu überdecken. Beim Verschieben löst sich die Bindung.
+   */
+  follows?: string | null;
+  /** Abstand in mm zum Block darüber. */
+  gap?: number;
   /** nur für Foto */
   ratio?: number;
   radius?: number;
+  /** Füllfarbe hinter den Initialen (Slot-Key oder Hex). */
+  fill?: string;
 };
 
 export type BlockKind = "text" | "photo";
+
+/** Ein Textabschnitt mit eigener Farbe/Gewichtung – für zweifarbige Zeilen. */
+export type Segment = { t: string; color?: string; weight?: number };
+
+/** Eine Zeile ist entweder reiner Text oder eine Folge von Abschnitten. */
+export type Line = string | Segment[];
 
 export type Block = {
   id: string;
   label: string;
   kind: BlockKind;
-  lines: string[];
+  lines: Line[];
   style: BlockStyle;
 };
+
+export function lineText(line: Line): string {
+  return typeof line === "string" ? line : line.map((s) => s.t).join("");
+}
 
 export type CustomField = {
   id: string;

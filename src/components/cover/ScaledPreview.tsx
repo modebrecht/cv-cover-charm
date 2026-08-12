@@ -4,35 +4,41 @@ const A4_W = 794; // 210mm @96dpi
 const A4_H = 1123; // 297mm @96dpi
 
 /**
- * Scales the fixed A4 sheet down to the available width so the preview
- * never overflows on small screens.
+ * Skaliert das A4-Blatt so, dass es in die verfügbare Breite *und* Höhe passt.
+ * `overlay` wird unskaliert über das Blatt gelegt (für Bedien-Elemente, die
+ * nicht mitschrumpfen sollen) und bekommt den aktuellen Massstab übergeben.
  */
 export function ScaledPreview({
   children,
   max = 1,
+  fitHeight,
+  overlay,
 }: {
   children: ReactNode;
   max?: number;
+  fitHeight?: number;
+  overlay?: (scale: number) => ReactNode;
 }) {
   const boxRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0.4);
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
     const el = boxRef.current;
     if (!el) return;
-    const update = () => {
-      const w = el.clientWidth;
-      if (w > 0) setScale(Math.min(max, w / A4_W));
-    };
+    const update = () => setWidth(el.clientWidth);
     update();
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [max]);
+  }, []);
+
+  const byWidth = width > 0 ? width / A4_W : 0.4;
+  const byHeight = fitHeight && fitHeight > 0 ? fitHeight / A4_H : Infinity;
+  const scale = Math.max(0.12, Math.min(max, byWidth, byHeight));
 
   return (
     <div ref={boxRef} className="w-full">
-      <div style={{ height: A4_H * scale }}>
+      <div className="relative mx-auto" style={{ width: A4_W * scale, height: A4_H * scale }}>
         <div
           style={{
             width: A4_W,
@@ -43,6 +49,7 @@ export function ScaledPreview({
         >
           {children}
         </div>
+        {overlay?.(scale)}
       </div>
     </div>
   );

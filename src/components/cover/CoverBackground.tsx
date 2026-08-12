@@ -36,16 +36,33 @@ export function CoverBackground({
           className="absolute"
           style={{ left: "20mm", top: "21mm", width: "10mm", height: "2mm", background: colors.accent }}
         />
+        {/* weiche Fläche, damit die obere Seitenhälfte nicht leer wirkt */}
+        <div
+          className="absolute"
+          style={{
+            left: "112mm",
+            top: "24mm",
+            width: "86mm",
+            height: "86mm",
+            borderRadius: "9999px",
+            background: colors.accent,
+            opacity: 0.1,
+          }}
+        />
         <div
           className="absolute"
           style={{
             left: "20mm",
             right: "20mm",
-            top: "245mm",
+            top: "238mm",
             height: "1px",
             background: colors.primary,
             opacity: 0.18,
           }}
+        />
+        <div
+          className="absolute left-0 bottom-0"
+          style={{ width: "100%", height: "4mm", background: colors.primary }}
         />
       </div>
     );
@@ -222,12 +239,12 @@ export function CoverBackground({
       <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>
         <div
           className="absolute left-0 top-0"
-          style={{ width: "62mm", height: "100%", backgroundColor: colors.primary }}
+          style={{ width: "70mm", height: "100%", backgroundColor: colors.primary }}
         />
         <div
           className="absolute"
           style={{
-            left: "56mm",
+            left: "66mm",
             top: 0,
             width: "1.2mm",
             height: "100%",
@@ -238,7 +255,7 @@ export function CoverBackground({
         <div
           className="absolute"
           style={{
-            left: "78mm",
+            left: "82mm",
             top: "190mm",
             width: "30mm",
             height: "0.4mm",

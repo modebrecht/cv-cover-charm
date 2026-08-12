@@ -1,8 +1,9 @@
 import { forwardRef, useRef } from "react";
-import type { Block, BlockStyle, CoverData, TemplateId } from "./types";
-import { FONT_STACKS } from "./types";
+import type { Block, BlockStyle, CoverData, Line, TemplateId } from "./types";
+import { FONT_STACKS, lineText } from "./types";
 import { resolveColor } from "./layouts";
 import { CoverBackground } from "./CoverBackground";
+import { resolveLayout } from "./resolve";
 
 const MM = 96 / 25.4; // px pro mm bei 96dpi
 
@@ -13,7 +14,9 @@ type Props = {
   blocks: Block[];
   selected: string | null;
   onSelect: (id: string | null) => void;
-  onMove: (id: string, x: number, y: number) => void;
+  onMove: (id: string, patch: Partial<BlockStyle>) => void;
+  /** Globale Schriftskalierung (1 = Vorlagen-Standard). */
+  fontScale?: number;
   editable?: boolean;
 };
 
@@ -25,14 +28,19 @@ function initials(data: CoverData) {
     .toUpperCase();
 }
 
-function textStyle(st: BlockStyle, colors: Record<string, string>): React.CSSProperties {
+function textStyle(
+  st: BlockStyle,
+  size: number,
+  colors: Record<string, string>,
+): React.CSSProperties {
   return {
-    fontSize: `${st.size}pt`,
+    fontSize: `${size}pt`,
     lineHeight: st.lineHeight,
     color: resolveColor(st.color, colors),
     textAlign: st.align,
     fontWeight: st.weight,
     fontStyle: st.italic ? "italic" : "normal",
+    textDecoration: st.underline ? "underline" : "none",
     textTransform: st.uppercase ? "uppercase" : "none",
     letterSpacing: `${st.tracking}em`,
     opacity: st.opacity,
@@ -41,11 +49,40 @@ function textStyle(st: BlockStyle, colors: Record<string, string>): React.CSSPro
   };
 }
 
+function marker(st: BlockStyle, index: number): string {
+  switch (st.list) {
+    case "bullet":
+      return "• ";
+    case "dash":
+      return "– ";
+    case "number":
+      return `${index + 1}. `;
+    default:
+      return "";
+  }
+}
+
+function renderLine(line: Line, colors: Record<string, string>) {
+  if (typeof line === "string") return line;
+  return line.map((seg, i) => (
+    <span
+      key={i}
+      style={{
+        color: seg.color ? resolveColor(seg.color, colors) : undefined,
+        fontWeight: seg.weight,
+      }}
+    >
+      {seg.t}
+    </span>
+  ));
+}
+
 export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanvas(
-  { template, data, colors, blocks, selected, onSelect, onMove, editable = true },
+  { template, data, colors, blocks, selected, onSelect, onMove, fontScale = 1, editable = true },
   ref,
 ) {
   const pageRef = useRef<HTMLDivElement>(null);
+  const layout = resolveLayout(blocks, fontScale);
 
   const startDrag = (e: React.PointerEvent, block: Block) => {
     if (!editable) return;
@@ -58,26 +95,29 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     const startX = e.clientX;
     const startY = e.clientY;
     const ox = block.style.x;
-    const oy = block.style.y;
+    const oy = layout[block.id]?.y ?? block.style.y;
     const el = e.currentTarget as HTMLElement;
     el.setPointerCapture(e.pointerId);
 
     const move = (ev: PointerEvent) => {
       const dx = (ev.clientX - startX) / scale / MM;
       const dy = (ev.clientY - startY) / scale / MM;
-      onMove(
-        block.id,
-        Math.round(Math.max(-20, Math.min(210, ox + dx)) * 10) / 10,
-        Math.round(Math.max(-20, Math.min(297, oy + dy)) * 10) / 10,
-      );
+      onMove(block.id, {
+        x: Math.round(Math.max(-20, Math.min(210, ox + dx)) * 10) / 10,
+        y: Math.round(Math.max(-20, Math.min(297, oy + dy)) * 10) / 10,
+        // von Hand verschoben ⇒ nicht mehr an den Block darüber gekoppelt
+        ...(block.style.follows ? { follows: null } : {}),
+      });
     };
     const up = () => {
       el.releasePointerCapture(e.pointerId);
       el.removeEventListener("pointermove", move);
       el.removeEventListener("pointerup", up);
+      el.removeEventListener("pointercancel", up);
     };
     el.addEventListener("pointermove", move);
     el.addEventListener("pointerup", up);
+    el.addEventListener("pointercancel", up);
   };
 
   return (
@@ -86,7 +126,11 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
       className="relative overflow-hidden bg-white shadow-2xl"
       style={{ width: "210mm", height: "297mm" }}
       onPointerDown={(e) => {
-        if (editable && e.target === e.currentTarget) onSelect(null);
+        // Klick auf freie Fläche hebt die Auswahl auf. Der Vergleich mit
+        // currentTarget reicht nicht, weil Hintergrund-Layer darüber liegen.
+        if (editable && !(e.target as HTMLElement).closest("[data-block-id]")) {
+          onSelect(null);
+        }
       }}
     >
       <div ref={pageRef} className="absolute inset-0">
@@ -98,16 +142,20 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
           const empty = isPhoto ? !data.foto && !initials(data) : b.lines.length === 0;
           if (empty) return null;
           const active = editable && selected === b.id;
+          const st = b.style;
+          const { size, y } = layout[b.id];
+          const hasBadge = !isPhoto && !!st.bg;
 
           return (
             <div
               key={b.id}
+              data-block-id={b.id}
               onPointerDown={(e) => startDrag(e, b)}
               className="absolute"
               style={{
-                left: `${b.style.x}mm`,
-                top: `${b.style.y}mm`,
-                width: `${b.style.w}mm`,
+                left: `${st.x}mm`,
+                top: `${y}mm`,
+                width: `${st.w}mm`,
                 cursor: editable ? "move" : "default",
                 touchAction: "none",
                 outline: active ? "1px dashed rgba(59,130,246,0.9)" : "none",
@@ -123,10 +171,10 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
                     draggable={false}
                     style={{
                       width: "100%",
-                      height: `${b.style.w * (b.style.ratio ?? 1)}mm`,
+                      height: `${st.w * (st.ratio ?? 1)}mm`,
                       objectFit: "cover",
-                      borderRadius: b.style.radius ? "9999px" : 0,
-                      boxShadow: `0 0 0 3px ${colors.bg}, 0 0 0 4px ${resolveColor(b.style.color, colors)}`,
+                      borderRadius: st.radius ? "9999px" : 0,
+                      boxShadow: `0 0 0 3px ${colors.bg}, 0 0 0 4px ${resolveColor(st.color, colors)}`,
                     }}
                   />
                 ) : (
@@ -134,21 +182,42 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
                     className="flex items-center justify-center"
                     style={{
                       width: "100%",
-                      height: `${b.style.w * (b.style.ratio ?? 1)}mm`,
-                      borderRadius: b.style.radius ? "9999px" : 0,
-                      border: `1px solid ${resolveColor(b.style.color, colors)}`,
-                      color: resolveColor(b.style.color, colors),
-                      fontFamily: FONT_STACKS[b.style.font],
-                      fontSize: `${Math.max(14, b.style.w * 0.45)}pt`,
+                      height: `${st.w * (st.ratio ?? 1)}mm`,
+                      borderRadius: st.radius ? "9999px" : 0,
+                      background: st.fill ? resolveColor(st.fill, colors) : "transparent",
+                      border: `1px solid ${resolveColor(st.color, colors)}`,
+                      color: resolveColor(st.color, colors),
+                      fontFamily: FONT_STACKS[st.font],
+                      fontWeight: st.weight >= 600 ? st.weight : 400,
+                      fontSize: `${Math.max(14, st.w * 0.42) * fontScale}pt`,
                     }}
                   >
                     {initials(data)}
                   </div>
                 )
               ) : (
-                <div style={textStyle(b.style, colors)}>
+                <div style={textStyle(st, size, colors)}>
                   {b.lines.map((l, i) => (
-                    <div key={i}>{l}</div>
+                    <div key={i}>
+                      {hasBadge ? (
+                        <span
+                          style={{
+                            display: "inline-block",
+                            background: resolveColor(st.bg as string, colors),
+                            padding: `${st.padY}mm ${st.padX}mm`,
+                            borderRadius: st.bgRadius >= 999 ? "9999px" : `${st.bgRadius}mm`,
+                          }}
+                        >
+                          {marker(st, i)}
+                          {renderLine(l, colors)}
+                        </span>
+                      ) : (
+                        <>
+                          {marker(st, i)}
+                          {renderLine(l, colors)}
+                        </>
+                      )}
+                    </div>
                   ))}
                 </div>
               )}

@@ -3,6 +3,7 @@ import type {
   BlockStyle,
   CoverData,
   CustomField,
+  Line,
   TemplateId,
 } from "./types";
 
@@ -15,17 +16,37 @@ const base: BlockStyle = {
   align: "left",
   weight: 400,
   italic: false,
+  underline: false,
   uppercase: false,
   tracking: 0,
   lineHeight: 1.35,
   opacity: 1,
   font: "sans",
   hidden: false,
+  list: "none",
+  bg: null,
+  padX: 4,
+  padY: 1.5,
+  bgRadius: 999,
 };
 
 const s = (o: Partial<BlockStyle>): BlockStyle => ({ ...base, ...o });
 
-type Def = { id: string; label: string; kind?: "text" | "photo"; lines: string[]; style: BlockStyle };
+/**
+ * Die Vorlagen waren auf Druckgrössen ausgelegt (Labels 7.5pt, Fliesstext 9pt).
+ * Weil das Titelblatt fast immer am Bildschirm bzw. als PDF-Anhang gelesen wird,
+ * werden kleine Grössen angehoben – Headlines bleiben unverändert.
+ */
+function lift(st: BlockStyle): number {
+  const size = st.size;
+  if (size >= 20) return size;
+  if (size >= 13) return size + 1;
+  // Gesperrte Versal-Labels werden pro Punkt viel breiter – die hebt man
+  // vorsichtiger an, sonst sprengen sie ihre Spalte.
+  return Math.round((size + (st.tracking >= 0.2 ? 1 : 1.8)) * 2) / 2;
+}
+
+type Def = { id: string; label: string; kind?: "text" | "photo"; lines: Line[]; style: BlockStyle };
 
 function common(data: CoverData) {
   const fullName = [data.vorname, data.nachname].filter(Boolean).join(" ");
@@ -58,17 +79,19 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
 
   if (template === "modern") {
     return [
-      { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 33, y: 20, w: 80, size: 9, color: "primary", uppercase: true, tracking: 0.35, font }) },
-      { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 110, y: 20, w: 80, size: 9, color: "primary", align: "right", opacity: 0.6, font }) },
-      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 84, y: 55, w: 42, ratio: 1, radius: 999, color: "accent", font }) },
-      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 20, y: 118, w: 170, size: 10, color: "accent", align: "center", uppercase: true, weight: 600, tracking: 0.25, font }) },
-      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 15, y: 128, w: 180, size: 36, color: "primary", align: "center", weight: 700, lineHeight: 1.05, tracking: -0.02, font }) },
-      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 168, w: 170, size: 13, color: "primary", align: "center", opacity: 0.85, tracking: 0.08, font }) },
-      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 180, w: 170, size: 9.5, color: "accent", align: "center", weight: 600, font }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, y: 253, w: 80, size: 8, color: "accent", uppercase: true, weight: 600, tracking: 0.3, font }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, y: 259, w: 80, size: 9, color: "primary", opacity: 0.85, font }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 110, y: 253, w: 80, size: 8, color: "accent", align: "right", uppercase: true, weight: 600, tracking: 0.3, font }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, y: 259, w: 80, size: 9, color: "primary", align: "right", opacity: 0.85, font }) },
+      { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 33, y: 19.5, w: 80, size: 9, color: "primary", uppercase: true, tracking: 0.35, font }) },
+      { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 110, y: 19.5, w: 80, size: 9, color: "primary", align: "right", opacity: 0.6, font }) },
+      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 132, y: 38, w: 52, ratio: 1, radius: 999, color: "accent", fill: "bg", font }) },
+      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 20, y: 128, w: 120, size: 10, color: "accent", uppercase: true, weight: 600, tracking: 0.25, font }) },
+      // Titel, Name und Badge hängen aneinander: ein zweizeiliger Beruf
+      // schiebt den Rest nach unten statt ihn zu überdecken.
+      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 20, w: 155, size: 36, color: "primary", weight: 700, lineHeight: 1.05, tracking: -0.02, follows: "kicker", gap: 1, font }) },
+      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, w: 150, size: 15, color: "primary", weight: 600, tracking: 0.02, follows: "beruf", gap: 8, font }) },
+      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, w: 150, size: 9.5, color: "bg", weight: 600, bg: "accent", padX: 4, padY: 1.6, follows: "name", gap: 3, font }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, y: 247, w: 80, size: 8, color: "accent", uppercase: true, weight: 600, tracking: 0.3, font }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, y: 254, w: 80, size: 9, color: "primary", opacity: 0.85, font }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 110, y: 247, w: 80, size: 8, color: "accent", align: "right", uppercase: true, weight: 600, tracking: 0.3, font }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, y: 254, w: 80, size: 9, color: "primary", align: "right", opacity: 0.85, font }) },
     ];
   }
 
@@ -198,11 +221,11 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
     return [
       { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 22, y: 28, w: 90, size: 8.5, color: "ink", uppercase: true, tracking: 0.4, opacity: 0.55, font: f }) },
       { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 98, y: 28, w: 90, size: 8.5, color: "ink", align: "right", opacity: 0.55, font: f }) },
-      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 22, y: 60, w: 150, size: 9, color: "secondary", uppercase: true, weight: 600, tracking: 0.28, font: f }) },
-      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 22, y: 70, w: 140, size: 30, color: "ink", weight: 300, lineHeight: 1.12, tracking: -0.01, font: f }) },
-      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 22, y: 120, w: 140, size: 13, color: "ink", uppercase: true, weight: 600, tracking: 0.16, font: f }) },
-      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 22, y: 130, w: 140, size: 9.5, color: "ink", opacity: 0.6, font: f }) },
-      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 134, y: 58, w: 52, ratio: 1.25, radius: 0, color: "secondary", font: f }) },
+      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 22, y: 62, w: 108, size: 9, color: "secondary", uppercase: true, weight: 600, tracking: 0.28, font: f }) },
+      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 22, w: 106, size: 30, color: "ink", weight: 300, lineHeight: 1.12, tracking: -0.01, follows: "kicker", gap: 2, font: f }) },
+      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 22, y: 128, w: 140, size: 13, color: "ink", uppercase: true, weight: 600, tracking: 0.16, font: f }) },
+      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 22, w: 140, size: 9.5, color: "ink", opacity: 0.6, follows: "name", gap: 2, font: f }) },
+      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 138, y: 62, w: 48, ratio: 1.25, radius: 0, color: "secondary", font: f }) },
       { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 22, y: 196, w: 60, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
       { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 22, y: 202, w: 60, size: 9, color: "bg", lineHeight: 1.5, font: f }) },
       { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 82, y: 196, w: 60, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
@@ -214,17 +237,17 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
   if (template === "terracotta") {
     const f: BlockStyle["font"] = "sans";
     return [
-      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 16, y: 24, w: 30, ratio: 1, radius: 999, color: "secondary", font: f }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 16, y: 70, w: 34, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 16, y: 76, w: 36, size: 8.5, color: "bg", lineHeight: 1.55, font: f }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 16, y: 120, w: 34, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 16, y: 126, w: 36, size: 8.5, color: "bg", lineHeight: 1.55, font: f }) },
-      { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 16, y: 268, w: 40, size: 8, color: "bg", opacity: 0.75, font: f }) },
-      { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbungsdossier"], style: s({ x: 78, y: 30, w: 110, size: 8.5, color: "ink", uppercase: true, tracking: 0.4, opacity: 0.55, font: f }) },
-      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 78, y: 118, w: 110, size: 9, color: "primary", uppercase: true, weight: 600, tracking: 0.28, font: f }) },
-      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 78, y: 128, w: 112, size: 27, color: "ink", weight: 300, lineHeight: 1.14, font: f }) },
-      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 78, y: 200, w: 110, size: 13, color: "ink", uppercase: true, weight: 600, tracking: 0.16, font: f }) },
-      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 78, y: 210, w: 110, size: 9.5, color: "ink", opacity: 0.6, font: f }) },
+      { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 14, y: 24, w: 34, ratio: 1, radius: 999, color: "secondary", font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 14, y: 72, w: 48, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 14, w: 48, size: 8.5, color: "bg", lineHeight: 1.55, follows: "kontaktTitel", gap: 2, font: f }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 14, y: 130, w: 48, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 14, w: 48, size: 8.5, color: "bg", lineHeight: 1.55, follows: "anTitel", gap: 2, font: f }) },
+      { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 14, y: 268, w: 48, size: 8, color: "bg", opacity: 0.75, font: f }) },
+      { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbungsdossier"], style: s({ x: 82, y: 30, w: 110, size: 8.5, color: "ink", uppercase: true, tracking: 0.4, opacity: 0.55, font: f }) },
+      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 82, y: 118, w: 108, size: 9, color: "primary", uppercase: true, weight: 600, tracking: 0.28, font: f }) },
+      { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 82, w: 106, size: 27, color: "ink", weight: 300, lineHeight: 1.14, follows: "kicker", gap: 2, font: f }) },
+      { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 82, y: 200, w: 106, size: 13, color: "ink", uppercase: true, weight: 600, tracking: 0.16, font: f }) },
+      { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 82, w: 106, size: 9.5, color: "ink", opacity: 0.6, follows: "name", gap: 2, font: f }) },
     ];
   }
 
@@ -248,15 +271,22 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
 
 
 
-  // freundlich
+  // freundlich / "Warm"
   return [
-    { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 16, y: 14, w: 90, size: 9.5, color: "bg", uppercase: true, weight: 500, tracking: 0.3, font }) },
-    { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 104, y: 14, w: 90, size: 9.5, color: "bg", align: "right", uppercase: true, tracking: 0.3, opacity: 0.85, font }) },
-    { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 16, y: 42, w: 150, size: 10, color: "bg", uppercase: true, weight: 600, tracking: 0.25, opacity: 0.9, font }) },
-    { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 16, y: 50, w: 130, size: 30, color: "bg", weight: 700, lineHeight: 1.1, font }) },
-    { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 82, y: 92, w: 46, ratio: 1, radius: 999, color: "primary", font }) },
-    { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 148, w: 170, size: 20, color: "ink", align: "center", weight: 600, font }) },
-    { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 160, w: 170, size: 10, color: "primary", align: "center", weight: 500, font }) },
+    { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 16, y: 14, w: 90, size: 9.5, color: "bg", uppercase: true, weight: 600, tracking: 0.3, font }) },
+    { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 104, y: 14, w: 90, size: 9.5, color: "bg", align: "right", uppercase: true, tracking: 0.3, opacity: 0.9, font }) },
+    // Kreis liegt bewusst auf der Kante des Farbbands – deshalb deckende Füllung.
+    { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 75, y: 82, w: 60, ratio: 1, radius: 999, color: "primary", fill: "bg", font }) },
+    { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 150, w: 170, size: 24, color: "ink", align: "center", weight: 700, font }) },
+    {
+      id: "beruf",
+      label: "Titel (Beruf)",
+      lines: data.beruf
+        ? [[{ t: "Bewerbung als " }, { t: data.beruf, color: "primary", weight: 700 }]]
+        : [],
+      style: s({ x: 20, w: 170, size: 13, color: "ink", align: "center", lineHeight: 1.3, opacity: 0.9, follows: "name", gap: 2, font }),
+    },
+    { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn · ${data.lehrbeginn}`] : [], style: s({ x: 20, w: 170, size: 10, color: "ink", align: "center", weight: 700, bg: "secondary", padX: 5, padY: 1.8, follows: "beruf", gap: 4, font }) },
     { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, y: 250, w: 80, size: 8, color: "primary", uppercase: true, weight: 600, tracking: 0.3, font }) },
     { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, y: 256, w: 80, size: 9, color: "ink", opacity: 0.85, font }) },
     { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 110, y: 250, w: 80, size: 8, color: "primary", align: "right", uppercase: true, weight: 600, tracking: 0.3, font }) },
@@ -267,9 +297,9 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
 export function customDefaultStyle(template: TemplateId, index: number): BlockStyle {
   return s({
     x: 20,
-    y: 210 + index * 10,
+    y: 210 + index * 12,
     w: 90,
-    size: 11,
+    size: 12,
     color: template === "modern" ? "primary" : "ink",
     font: template === "klassisch" ? "serif" : "sans",
   });
@@ -289,7 +319,14 @@ export function buildBlocks(
     label: d.label,
     kind: d.kind ?? "text",
     lines: d.lines,
-    style: { ...d.style, ...(overrides[d.id] ?? {}) },
+    style: {
+      ...d.style,
+      size: lift(d.style),
+      // Lange Berufsbezeichnungen ("Fachmann/-frau Betreuung EFZ Fachrichtung …")
+      // dürfen nicht in den Namen darunter laufen.
+      maxLines: d.style.maxLines ?? (d.id === "beruf" ? 3 : d.id === "name" ? 2 : undefined),
+      ...(overrides[d.id] ?? {}),
+    },
   }));
 
   customs.forEach((c, i) => {
