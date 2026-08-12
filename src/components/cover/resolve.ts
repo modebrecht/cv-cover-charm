@@ -9,18 +9,25 @@ type Resolved = { size: number; y: number; height: number };
 
 /**
  * Bestimmt für jeden Block die effektive Schriftgrösse (globale Skalierung +
- * Auto-Verkleinerung) und die tatsächliche y-Position. Blöcke mit `follows`
- * hängen sich unter ihren Vorgänger, damit ein mehrzeiliger Titel den Namen
- * darunter verschiebt statt ihn zu überdecken.
+ * Auto-Verkleinerung) und daraus die tatsächliche y-Position.
+ *
+ * Drei Bindungen verschieben einen Block gegenüber seinem `y`:
+ * - `follows`: hängt unter einem anderen Block, damit ein mehrzeiliger Titel
+ *   den Namen darunter verschiebt statt ihn zu überdecken.
+ * - `above`: sitzt direkt über einem anderen Block (Label über Fliesstext).
+ * - `anchorBottom`: `y` ist die Unterkante, der Block wächst nach oben. So
+ *   läuft die Fusszeile auch bei grosser Schrift nicht aus dem Blatt.
+ *
+ * Die Auflösung folgt den Abhängigkeiten, nicht der Reihenfolge im Array.
  */
 export function resolveLayout(blocks: Block[], fontScale: number): Record<string, Resolved> {
-  const out: Record<string, Resolved> = {};
+  const byId = new Map(blocks.map((b) => [b.id, b]));
+  const metricsOf = new Map<string, { size: number; height: number }>();
 
   for (const b of blocks) {
     const st = b.style;
-    const text = b.lines.map(lineText).join("\n");
     const metrics = {
-      text,
+      text: b.lines.map(lineText).join("\n"),
       widthPx: st.w * MM,
       fontFamily: FONT_STACKS[st.font],
       weight: st.weight,
@@ -31,23 +38,47 @@ export function resolveLayout(blocks: Block[], fontScale: number): Record<string
 
     const wanted = st.size * fontScale;
     const size =
-      b.kind === "photo" || !st.maxLines || b.lines.length === 0
+      b.kind !== "text" || !st.maxLines || b.lines.length === 0
         ? wanted
         : fitFontSize({ ...metrics, sizePt: wanted, maxLines: st.maxLines });
 
     const height =
-      b.kind === "photo"
+      b.kind === "photo" || b.kind === "shape"
         ? st.w * (st.ratio ?? 1)
         : b.lines.length === 0
           ? 0
           : measureLines({ ...metrics, sizePt: size }) * size * st.lineHeight * PT_TO_MM +
             (st.bg ? st.padY * 2 : 0);
 
-    const parent = st.follows ? out[st.follows] : undefined;
-    const y = parent ? parent.y + parent.height + (st.gap ?? 4) : st.y;
-
-    out[b.id] = { size, y, height };
+    metricsOf.set(b.id, { size, height });
   }
 
+  const out: Record<string, Resolved> = {};
+  const visiting = new Set<string>();
+
+  const resolve = (id: string): Resolved => {
+    const cached = out[id];
+    if (cached) return cached;
+
+    const b = byId.get(id)!;
+    const st = b.style;
+    const { size, height } = metricsOf.get(id)!;
+
+    let y = st.anchorBottom ? st.y - height : st.y;
+
+    // `visiting` bricht Ringschlüsse ab, etwa aus einem manipulierten Entwurf
+    const link = st.follows || st.above || null;
+    if (link && byId.has(link) && !visiting.has(link)) {
+      visiting.add(id);
+      const target = resolve(link);
+      visiting.delete(id);
+      y = st.follows ? target.y + target.height + (st.gap ?? 4) : target.y - height - (st.gap ?? 2);
+    }
+
+    out[id] = { size, y, height };
+    return out[id];
+  };
+
+  for (const b of blocks) resolve(b.id);
   return out;
 }

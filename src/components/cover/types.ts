@@ -88,16 +88,25 @@ export type BlockStyle = {
    * statt ihn zu überdecken. Beim Verschieben löst sich die Bindung.
    */
   follows?: string | null;
-  /** Abstand in mm zum Block darüber. */
+  /** Umgekehrt: Block sitzt direkt *über* dem genannten Block. */
+  above?: string | null;
+  /** Abstand in mm zum verketteten Block. */
   gap?: number;
-  /** nur für Foto */
+  /**
+   * `y` ist die Unterkante. Fusszeilen wachsen damit nach oben, statt bei
+   * grösserer Schrift unten aus dem Blatt zu laufen.
+   */
+  anchorBottom?: boolean;
+  /** Foto und Formen: Höhe = w * ratio */
   ratio?: number;
   radius?: number;
-  /** Füllfarbe hinter den Initialen (Slot-Key oder Hex). */
-  fill?: string;
+  /** Füllfarbe: hinter den Initialen bzw. Flächenfarbe einer Form (null = keine). */
+  fill?: string | null;
+  /** Linienstärke einer Form in mm. */
+  strokeWidth?: number;
 };
 
-export type BlockKind = "text" | "photo";
+export type BlockKind = "text" | "photo" | "shape";
 
 /** Ein Textabschnitt mit eigener Farbe/Gewichtung – für zweifarbige Zeilen. */
 export type Segment = { t: string; color?: string; weight?: number };
@@ -111,16 +120,35 @@ export type Block = {
   kind: BlockKind;
   lines: Line[];
   style: BlockStyle;
+  /** nur für kind === "shape" */
+  shape?: ShapeKind;
+  path?: string;
 };
 
 export function lineText(line: Line): string {
   return typeof line === "string" ? line : line.map((s) => s.t).join("");
 }
 
+export type ShapeKind = "circle" | "rect" | "line" | "path";
+
+export const SHAPE_KINDS: { value: ShapeKind; label: string }[] = [
+  { value: "circle", label: "Kreis" },
+  { value: "rect", label: "Rechteck" },
+  { value: "line", label: "Linie" },
+  { value: "path", label: "Freihand" },
+];
+
+/**
+ * Selbst hinzugefügtes Element. Ohne `shape` ist es ein Textfeld – so bleiben
+ * ältere gespeicherte Entwürfe gültig, die nur `text` kannten.
+ */
 export type CustomField = {
   id: string;
   label: string;
   text: string;
+  shape?: ShapeKind;
+  /** Nur für "path": SVG-Pfad in einem 0–100-Koordinatensystem. */
+  path?: string;
 };
 
 export const FONT_STACKS: Record<BlockStyle["font"], string> = {
@@ -270,9 +298,7 @@ export const TEMPLATES: TemplateDefinition[] = [
       { key: "ink", label: "Text", default: "#22212b" },
     ],
   },
-
 ];
-
 
 export const LEHRBERUFE = [
   "Kaufmann/-frau EFZ",
