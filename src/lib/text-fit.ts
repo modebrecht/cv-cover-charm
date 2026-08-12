@@ -76,11 +76,7 @@ export function measureLines(input: Omit<FitInput, "maxLines">): number {
   const px = input.sizePt * PT_TO_PX;
   c.font = `${input.italic ? "italic " : ""}${input.weight} ${px}px ${input.fontFamily}`;
   const extra = input.tracking * px;
-  return countLines(
-    text,
-    input.widthPx * SAFETY,
-    (s) => c.measureText(s).width + extra * s.length,
-  );
+  return countLines(text, input.widthPx * SAFETY, (s) => c.measureText(s).width + extra * s.length);
 }
 
 /** Gibt die passende Schriftgrösse in pt zurück (nie grösser als `sizePt`). */

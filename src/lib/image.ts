@@ -1,4 +1,4 @@
-const MAX_EDGE = 1200;
+import { PHOTO } from "@/default-config";
 
 /**
  * Skaliert ein hochgeladenes Foto herunter und gibt eine JPEG-Data-URL zurück.
@@ -14,7 +14,7 @@ export function readPhoto(file: File): Promise<string> {
       const img = new Image();
       img.onerror = () => reject(new Error("Bildformat wird nicht unterstützt"));
       img.onload = () => {
-        const scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
+        const scale = Math.min(1, PHOTO.MAX_EDGE / Math.max(img.width, img.height));
         if (scale === 1 && src.length < 600_000) {
           resolve(src);
           return;
@@ -28,7 +28,7 @@ export function readPhoto(file: File): Promise<string> {
           return;
         }
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        resolve(canvas.toDataURL("image/jpeg", 0.9));
+        resolve(canvas.toDataURL("image/jpeg", PHOTO.QUALITY));
       };
       img.src = src;
     };

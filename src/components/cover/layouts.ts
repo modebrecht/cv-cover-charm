@@ -6,6 +6,7 @@ import type {
   Line,
   TemplateId,
 } from "./types";
+import { FONT, SHAPE } from "@/default-config";
 
 const base: BlockStyle = {
   x: 20,
@@ -36,14 +37,14 @@ const s = (o: Partial<BlockStyle>): BlockStyle => ({ ...base, ...o });
  * Die Vorlagen waren auf Druckgrössen ausgelegt (Labels 7.5pt, Fliesstext 9pt).
  * Weil das Titelblatt fast immer am Bildschirm bzw. als PDF-Anhang gelesen wird,
  * werden kleine Grössen angehoben – Headlines bleiben unverändert.
+ * Die Werte stehen in `src/default-config.ts`.
  */
 function lift(st: BlockStyle): number {
   const size = st.size;
-  if (size >= 20) return size;
-  if (size >= 13) return size + 1;
-  // Gesperrte Versal-Labels werden pro Punkt viel breiter – die hebt man
-  // vorsichtiger an, sonst sprengen sie ihre Spalte.
-  return Math.round((size + (st.tracking >= 0.2 ? 1 : 1.8)) * 2) / 2;
+  if (size >= FONT.HEADLINE_FROM) return size;
+  const boost =
+    size >= 13 ? FONT.BOOST_MEDIUM : st.tracking >= 0.2 ? FONT.BOOST_TRACKED : FONT.BOOST_SMALL;
+  return Math.max(FONT.MIN_SIZE, Math.round((size + boost) * 2) / 2);
 }
 
 type Def = { id: string; label: string; kind?: "text" | "photo"; lines: Line[]; style: BlockStyle };
@@ -70,10 +71,10 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 25, y: 150, w: 160, size: 24, color: ink, align: "center", italic: true, lineHeight: 1.25, font }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 188, w: 170, size: 18, color: ink, align: "center", tracking: 0.05, font }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn · ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 198, w: 170, size: 10, color: ink, align: "center", italic: true, opacity: 0.75, font }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, y: 255, w: 80, size: 8, color: "accent", uppercase: true, tracking: 0.3, font }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 20, y: 260, w: 80, size: 9, color: ink, opacity: 0.85, font }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 110, y: 255, w: 80, size: 8, color: "accent", align: "right", uppercase: true, tracking: 0.3, font }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, y: 260, w: 80, size: 9, color: ink, align: "right", opacity: 0.85, font }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, w: 80, size: 8, color: "accent", uppercase: true, tracking: 0.3, font, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 20, w: 80, size: 9, color: ink, opacity: 0.85, font, y: 281, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 110, w: 80, size: 8, color: "accent", align: "right", uppercase: true, tracking: 0.3, font, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, w: 80, size: 9, color: ink, align: "right", opacity: 0.85, font, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -82,16 +83,16 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "eyebrow", label: "Kopfzeile", lines: ["Bewerbung"], style: s({ x: 33, y: 19.5, w: 80, size: 9, color: "primary", uppercase: true, tracking: 0.35, font }) },
       { id: "ortDatum", label: "Ort / Datum", lines: ortDatum ? [ortDatum] : [], style: s({ x: 110, y: 19.5, w: 80, size: 9, color: "primary", align: "right", opacity: 0.6, font }) },
       { id: "foto", label: "Foto", kind: "photo", lines: [], style: s({ x: 132, y: 38, w: 52, ratio: 1, radius: 999, color: "accent", fill: "bg", font }) },
-      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 20, y: 128, w: 120, size: 10, color: "accent", uppercase: true, weight: 600, tracking: 0.25, font }) },
+      { id: "kicker", label: "Über-Titel", lines: ["Bewerbung um eine Lehrstelle als"], style: s({ x: 20, y: 128, w: 150, size: 10, color: "accent", uppercase: true, weight: 600, tracking: 0.25, font }) },
       // Titel, Name und Badge hängen aneinander: ein zweizeiliger Beruf
       // schiebt den Rest nach unten statt ihn zu überdecken.
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 20, w: 155, size: 36, color: "primary", weight: 700, lineHeight: 1.05, tracking: -0.02, follows: "kicker", gap: 1, font }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, w: 150, size: 15, color: "primary", weight: 600, tracking: 0.02, follows: "beruf", gap: 8, font }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, w: 150, size: 9.5, color: "bg", weight: 600, bg: "accent", padX: 4, padY: 1.6, follows: "name", gap: 3, font }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, y: 247, w: 80, size: 8, color: "accent", uppercase: true, weight: 600, tracking: 0.3, font }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, y: 254, w: 80, size: 9, color: "primary", opacity: 0.85, font }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 110, y: 247, w: 80, size: 8, color: "accent", align: "right", uppercase: true, weight: 600, tracking: 0.3, font }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, y: 254, w: 80, size: 9, color: "primary", align: "right", opacity: 0.85, font }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, w: 80, size: 8, color: "accent", uppercase: true, weight: 600, tracking: 0.3, font, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, w: 80, size: 9, color: "primary", opacity: 0.85, font, y: 285, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 110, w: 80, size: 8, color: "accent", align: "right", uppercase: true, weight: 600, tracking: 0.3, font, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, w: 80, size: 9, color: "primary", align: "right", opacity: 0.85, font, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -105,10 +106,10 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 20, y: 132, w: 170, size: 30, color: "ink", align: "center", lineHeight: 1.15, tracking: 0.02, font: f }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 172, w: 170, size: 12, color: "ink", align: "center", uppercase: true, tracking: 0.35, opacity: 0.8, font: f }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn · ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 182, w: 170, size: 9.5, color: "accent", align: "center", italic: true, font: f }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 25, y: 252, w: 80, size: 7.5, color: "accent", uppercase: true, tracking: 0.35, font: f }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 25, y: 258, w: 80, size: 9, color: "ink", opacity: 0.8, font: f }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 105, y: 252, w: 80, size: 7.5, color: "accent", align: "right", uppercase: true, tracking: 0.35, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 105, y: 258, w: 80, size: 9, color: "ink", align: "right", opacity: 0.8, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 25, w: 80, size: 7.5, color: "accent", uppercase: true, tracking: 0.35, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 25, w: 80, size: 9, color: "ink", opacity: 0.8, font: f, y: 276, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 105, w: 80, size: 7.5, color: "accent", align: "right", uppercase: true, tracking: 0.35, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 105, w: 80, size: 9, color: "ink", align: "right", opacity: 0.8, font: f, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -122,10 +123,10 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 18, y: 126, w: 150, size: 34, color: "ink", weight: 800, lineHeight: 1.05, tracking: -0.02, font: f }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 18, y: 172, w: 150, size: 16, color: "primary", weight: 700, font: f }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 18, y: 182, w: 150, size: 10, color: "ink", weight: 600, opacity: 0.75, font: f }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 18, y: 248, w: 80, size: 8, color: "primary", uppercase: true, weight: 700, tracking: 0.2, font: f }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 18, y: 254, w: 80, size: 9, color: "ink", opacity: 0.85, font: f }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 112, y: 248, w: 80, size: 8, color: "secondary", align: "right", uppercase: true, weight: 700, tracking: 0.2, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 112, y: 254, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 18, w: 80, size: 8, color: "primary", uppercase: true, weight: 700, tracking: 0.2, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 18, w: 80, size: 9, color: "ink", opacity: 0.85, font: f, y: 283, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 112, w: 80, size: 8, color: "secondary", align: "right", uppercase: true, weight: 700, tracking: 0.2, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 112, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -139,10 +140,10 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 18, y: 138, w: 140, size: 32, color: "ink", weight: 800, lineHeight: 1.0, tracking: -0.03, uppercase: true, font: f }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 18, y: 186, w: 140, size: 14, color: "primary", weight: 700, uppercase: true, tracking: 0.1, font: f }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 18, y: 195, w: 140, size: 9.5, color: "ink", weight: 600, opacity: 0.7, font: f }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 18, y: 246, w: 80, size: 8, color: "accent", uppercase: true, weight: 700, tracking: 0.25, font: f }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 18, y: 252, w: 80, size: 9, color: "ink", opacity: 0.85, font: f }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 112, y: 246, w: 80, size: 8, color: "accent", align: "right", uppercase: true, weight: 700, tracking: 0.25, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 112, y: 252, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 18, w: 80, size: 8, color: "accent", uppercase: true, weight: 700, tracking: 0.25, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 18, w: 80, size: 9, color: "ink", opacity: 0.85, font: f, y: 285, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 112, w: 80, size: 8, color: "accent", align: "right", uppercase: true, weight: 700, tracking: 0.25, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 112, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -156,10 +157,10 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 88, y: 68, w: 100, size: 24, color: "ink", lineHeight: 1.15, font: f }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 88, y: 104, w: 100, size: 11.5, color: "ink", uppercase: true, tracking: 0.3, opacity: 0.8, font: f }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 88, y: 114, w: 100, size: 9.5, color: "accent", italic: true, font: f }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 22, y: 244, w: 80, size: 7.5, color: "accent", uppercase: true, tracking: 0.35, font: f }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 22, y: 250, w: 80, size: 9, color: "ink", opacity: 0.8, font: f }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 108, y: 244, w: 80, size: 7.5, color: "accent", align: "right", uppercase: true, tracking: 0.35, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 108, y: 250, w: 80, size: 9, color: "ink", align: "right", opacity: 0.8, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 22, w: 80, size: 7.5, color: "accent", uppercase: true, tracking: 0.35, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 22, w: 80, size: 9, color: "ink", opacity: 0.8, font: f, y: 285, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 108, w: 80, size: 7.5, color: "accent", align: "right", uppercase: true, tracking: 0.35, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 108, w: 80, size: 9, color: "ink", align: "right", opacity: 0.8, font: f, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -173,10 +174,10 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 20, y: 139, w: 170, size: 25, color: "primary", align: "center", weight: 600, lineHeight: 1.15, font: f }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 172, w: 170, size: 13, color: "ink", align: "center", weight: 500, tracking: 0.05, font: f }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 181, w: 170, size: 9.5, color: "ink", align: "center", opacity: 0.7, font: f }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 25, y: 254, w: 80, size: 8, color: "primary", uppercase: true, weight: 600, tracking: 0.2, font: f }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 25, y: 260, w: 80, size: 9, color: "ink", opacity: 0.85, font: f }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 105, y: 254, w: 80, size: 8, color: "primary", align: "right", uppercase: true, weight: 600, tracking: 0.2, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 105, y: 260, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 25, w: 80, size: 8, color: "primary", uppercase: true, weight: 600, tracking: 0.2, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 25, w: 80, size: 9, color: "ink", opacity: 0.85, font: f, y: 286, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 105, w: 80, size: 8, color: "primary", align: "right", uppercase: true, weight: 600, tracking: 0.2, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 105, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -190,10 +191,10 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 78, y: 64, w: 110, size: 25, color: "ink", lineHeight: 1.15, italic: true, font: f }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 20, y: 118, w: 170, size: 17, color: "ink", weight: 600, font: f }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Ich freue mich auf den Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 20, y: 128, w: 170, size: 10, color: "primary", italic: true, font: f }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["So erreichen Sie mich"] : [], style: s({ x: 20, y: 246, w: 85, size: 8.5, color: "primary", uppercase: true, weight: 600, tracking: 0.2, font: f }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, y: 252, w: 85, size: 9, color: "ink", opacity: 0.85, font: f }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Für"] : [], style: s({ x: 110, y: 246, w: 80, size: 8.5, color: "primary", align: "right", uppercase: true, weight: 600, tracking: 0.2, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, y: 252, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["So erreichen Sie mich"] : [], style: s({ x: 20, w: 85, size: 8.5, color: "primary", uppercase: true, weight: 600, tracking: 0.2, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, w: 85, size: 9, color: "ink", opacity: 0.85, font: f, y: 285, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Für"] : [], style: s({ x: 110, w: 80, size: 8.5, color: "primary", align: "right", uppercase: true, weight: 600, tracking: 0.2, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font: f, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -208,10 +209,10 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 38, y: 118, w: 134, size: 25, color: "bg", align: "center", lineHeight: 1.18, font: f }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 38, y: 152, w: 134, size: 14, color: "secondary", align: "center", tracking: 0.14, uppercase: true, font: f }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 38, y: 165, w: 134, size: 9.5, color: "bg", align: "center", opacity: 0.8, italic: true, font: f }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 28, y: 258, w: 70, size: 7.5, color: "primary", uppercase: true, tracking: 0.32, font: f }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 28, y: 263, w: 75, size: 8.5, color: "ink", opacity: 0.85, font: f }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 112, y: 258, w: 70, size: 7.5, color: "primary", align: "right", uppercase: true, tracking: 0.32, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 107, y: 263, w: 75, size: 8.5, color: "ink", align: "right", opacity: 0.85, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 28, w: 70, size: 7.5, color: "primary", uppercase: true, tracking: 0.32, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 28, w: 75, size: 8.5, color: "ink", opacity: 0.85, font: f, y: 285, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 112, w: 70, size: 7.5, color: "primary", align: "right", uppercase: true, tracking: 0.32, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 107, w: 75, size: 8.5, color: "ink", align: "right", opacity: 0.85, font: f, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -229,7 +230,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 22, y: 196, w: 60, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
       { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 22, y: 202, w: 60, size: 9, color: "bg", lineHeight: 1.5, font: f }) },
       { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 82, y: 196, w: 60, size: 7.5, color: "secondary", uppercase: true, weight: 600, tracking: 0.3, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 82, y: 202, w: 60, size: 9, color: "bg", lineHeight: 1.5, font: f }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 82, y: 202, w: 60, size: 9, color: "bg", lineHeight: 1.5, font: f, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -262,10 +263,10 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       { id: "beruf", label: "Titel (Beruf)", lines: data.beruf ? [data.beruf] : [], style: s({ x: 28, y: 121, w: 154, size: 26, color: "ink", align: "center", lineHeight: 1.18, font: f }) },
       { id: "name", label: "Name", lines: fullName ? [fullName] : [], style: s({ x: 28, y: 158, w: 154, size: 14, color: "ink", align: "center", uppercase: true, tracking: 0.16, font: f }) },
       { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn ${data.lehrbeginn}`] : [], style: s({ x: 28, y: 169, w: 154, size: 9.5, color: "ink", align: "center", italic: true, opacity: 0.65, font: f }) },
-      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 24, y: 250, w: 70, size: 7.5, color: "primary", uppercase: true, tracking: 0.32, font: f }) },
-      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 24, y: 255, w: 75, size: 8.5, color: "ink", opacity: 0.85, font: f }) },
-      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 111, y: 250, w: 75, size: 7.5, color: "primary", align: "right", uppercase: true, tracking: 0.32, font: f }) },
-      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 111, y: 255, w: 75, size: 8.5, color: "ink", align: "right", opacity: 0.85, font: f }) },
+      { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 24, w: 70, size: 7.5, color: "primary", uppercase: true, tracking: 0.32, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [`*${data.geburtsdatum}`] : [])], style: s({ x: 24, w: 75, size: 8.5, color: "ink", opacity: 0.85, font: f, y: 279, anchorBottom: true }) },
+      { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["An"] : [], style: s({ x: 111, w: 75, size: 7.5, color: "primary", align: "right", uppercase: true, tracking: 0.32, font: f, above: "kontakt", gap: 1.5 }) },
+      { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 111, w: 75, size: 8.5, color: "ink", align: "right", opacity: 0.85, font: f, follows: "anTitel", gap: 1.5 }) },
     ];
   }
 
@@ -287,20 +288,40 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       style: s({ x: 20, w: 170, size: 13, color: "ink", align: "center", lineHeight: 1.3, opacity: 0.9, follows: "name", gap: 2, font }),
     },
     { id: "lehrbeginn", label: "Lehrbeginn", lines: data.lehrbeginn ? [`Lehrbeginn · ${data.lehrbeginn}`] : [], style: s({ x: 20, w: 170, size: 10, color: "ink", align: "center", weight: 700, bg: "secondary", padX: 5, padY: 1.8, follows: "beruf", gap: 4, font }) },
-    { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, y: 250, w: 80, size: 8, color: "primary", uppercase: true, weight: 600, tracking: 0.3, font }) },
-    { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, y: 256, w: 80, size: 9, color: "ink", opacity: 0.85, font }) },
-    { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 110, y: 250, w: 80, size: 8, color: "primary", align: "right", uppercase: true, weight: 600, tracking: 0.3, font }) },
-    { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, y: 256, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font }) },
+    { id: "kontaktTitel", label: "Titel Kontakt", lines: kontakt.length ? ["Kontakt"] : [], style: s({ x: 20, w: 80, size: 8, color: "primary", uppercase: true, weight: 600, tracking: 0.3, font, above: "kontakt", gap: 1.5 }) },
+    { id: "kontakt", label: "Kontaktangaben", lines: [...kontakt, ...(data.geburtsdatum ? [data.geburtsdatum] : [])], style: s({ x: 20, w: 80, size: 9, color: "ink", opacity: 0.85, font, y: 285, anchorBottom: true }) },
+    { id: "anTitel", label: "Titel Empfänger", lines: empfaenger.length ? ["Adressiert an"] : [], style: s({ x: 110, w: 80, size: 8, color: "primary", align: "right", uppercase: true, weight: 600, tracking: 0.3, font, above: "kontakt", gap: 1.5 }) },
+    { id: "empfaenger", label: "Empfänger", lines: empfaenger, style: s({ x: 110, w: 80, size: 9, color: "ink", align: "right", opacity: 0.85, font, follows: "anTitel", gap: 1.5 }) },
   ];
 }
 
-export function customDefaultStyle(template: TemplateId, index: number): BlockStyle {
+export function customDefaultStyle(
+  template: TemplateId,
+  index: number,
+  field?: CustomField,
+): BlockStyle {
+  const color = template === "modern" ? "primary" : "ink";
+  if (field?.shape) {
+    const outlineOnly = field.shape === "line" || field.shape === "path";
+    return s({
+      // in einem meist freien Bereich ablegen; verschoben wird per Maus
+      x: 85,
+      y: 205 + index * 6,
+      w: field.shape === "line" ? 60 : SHAPE.SIZE,
+      ratio: field.shape === "line" ? 0 : 1,
+      color: "accent",
+      fill: outlineOnly ? null : "accent",
+      strokeWidth: SHAPE.STROKE_WIDTH,
+      bgRadius: 0,
+      opacity: outlineOnly ? 1 : 0.9,
+    });
+  }
   return s({
     x: 20,
     y: 210 + index * 12,
     w: 90,
     size: 12,
-    color: template === "modern" ? "primary" : "ink",
+    color,
     font: template === "klassisch" ? "serif" : "sans",
   });
 }
@@ -332,10 +353,12 @@ export function buildBlocks(
   customs.forEach((c, i) => {
     blocks.push({
       id: c.id,
-      label: c.label || "Eigenes Feld",
-      kind: "text",
-      lines: c.text ? c.text.split("\n") : [],
-      style: { ...customDefaultStyle(template, i), ...(overrides[c.id] ?? {}) },
+      label: c.label || (c.shape ? "Form" : "Eigenes Feld"),
+      kind: c.shape ? "shape" : "text",
+      shape: c.shape,
+      path: c.path,
+      lines: !c.shape && c.text ? c.text.split("\n") : [],
+      style: { ...customDefaultStyle(template, i, c), ...(overrides[c.id] ?? {}) },
     });
   });
 

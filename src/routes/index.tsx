@@ -7,17 +7,16 @@ import {
   FormOrtDatum,
   FormPerson,
 } from "@/components/cover/CoverForm";
-import { CoverCanvas } from "@/components/cover/CoverCanvas";
+import { CoverCanvas, type Point } from "@/components/cover/CoverCanvas";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import { BlockInspector } from "@/components/cover/BlockInspector";
-import { BlockToolbar } from "@/components/cover/BlockToolbar";
+import { ElementBar } from "@/components/cover/ElementBar";
 import { Section } from "@/components/cover/Section";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
-import { resolveLayout } from "@/components/cover/resolve";
 import { downloadBlob, safeFileName } from "@/lib/download";
+import { DEFAULTS, FONT, PDF, SHAPE } from "@/default-config";
 
 import {
   DEMO_DATA,
@@ -25,6 +24,7 @@ import {
   type BlockStyle,
   type CoverData,
   type CustomField,
+  type ShapeKind,
   type TemplateId,
 } from "@/components/cover/types";
 
@@ -76,6 +76,13 @@ const emptyData: CoverData = {
 const STORAGE_KEY = "titelblatt:v3";
 const SAVE_VERSION = 3;
 
+/** Ort und Datum vorbelegen, ohne Eingaben zu überschreiben. */
+const prefill = (d: CoverData): CoverData => ({
+  ...d,
+  datum: d.datum || today(),
+  ort: d.ort || DEFAULTS.LOCATION,
+});
+
 function defaultColors(templateId: TemplateId): Record<string, string> {
   const t = TEMPLATES.find((x) => x.id === templateId)!;
   return Object.fromEntries(t.slots.map((s) => [s.key, s.default]));
@@ -100,22 +107,30 @@ type SectionKey =
   | "betrieb"
   | "ortDatum";
 
+const SHAPE_LABEL: Record<ShapeKind, string> = {
+  circle: "Kreis",
+  rect: "Rechteck",
+  line: "Linie",
+  path: "Freihand",
+};
+
 const filled = (values: (string | null)[]) => values.filter((v) => v && v.trim()).length;
 
 function Index() {
   const [data, setData] = useState<CoverData>(emptyData);
-  const [template, setTemplate] = useState<TemplateId>("modern");
+  const [template, setTemplate] = useState<TemplateId>(DEFAULTS.TEMPLATE);
   const [colorsByTemplate, setColorsByTemplate] =
     useState<Record<TemplateId, Record<string, string>>>(allDefaultColors);
   const [layoutByTemplate, setLayoutByTemplate] =
     useState<Record<TemplateId, StyleOverrides>>(allEmptyLayouts);
   const [customs, setCustoms] = useState<CustomField[]>([]);
-  const [fontScale, setFontScale] = useState(1);
+  const [fontScale, setFontScale] = useState<number>(FONT.DEFAULT_SCALE);
   const [selected, setSelected] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(true);
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
+  const [drawing, setDrawing] = useState(false);
   const [status, setStatus] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
   const [open, setOpen] = useState<Record<SectionKey, boolean>>({
     vorlage: true,
@@ -131,7 +146,7 @@ function Index() {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const exportRef = useRef<HTMLDivElement>(null);
-  const detailsRef = useRef<HTMLDivElement>(null);
+  const addRef = useRef<HTMLDivElement>(null);
   const restored = useRef(false);
 
   const activeTemplate = useMemo(() => TEMPLATES.find((t) => t.id === template)!, [template]);
@@ -143,9 +158,6 @@ function Index() {
   );
   const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
   const selectedCustom = customs.find((c) => c.id === selected) ?? null;
-  const selectedY = selectedBlock
-    ? (resolveLayout(blocks, fontScale)[selectedBlock.id]?.y ?? selectedBlock.style.y)
-    : 0;
 
   const toggleSection = (key: SectionKey) => setOpen((o) => ({ ...o, [key]: !o[key] }));
 
@@ -171,14 +183,54 @@ function Index() {
     });
   const resetLayout = () => {
     setLayoutByTemplate((l) => ({ ...l, [template]: {} }));
-    setFontScale(1);
+    setFontScale(FONT.DEFAULT_SCALE);
   };
 
-  const addCustom = () => {
+  const addCustom = (shape?: ShapeKind) => {
+    setAddOpen(false);
+    if (shape === "path") {
+      setDrawing(true);
+      setSelected(null);
+      setStatus({ kind: "ok", text: "Form aufs Blatt zeichnen – Esc bricht ab." });
+      return;
+    }
     const id = `custom-${Date.now()}`;
-    setCustoms((c) => [...c, { id, label: "Eigenes Feld", text: "Neuer Text" }]);
+    setCustoms((c) => [
+      ...c,
+      shape
+        ? { id, label: SHAPE_LABEL[shape], text: "", shape }
+        : { id, label: "Eigenes Feld", text: "Neuer Text" },
+    ]);
     setSelected(id);
-    setDetailsOpen(true);
+  };
+
+  /** Freihand-Zug in eine Form umrechnen (Pfad normiert auf 0–100). */
+  const addDrawnShape = (points: Point[]) => {
+    setDrawing(false);
+    const xs = points.map((p) => p.x);
+    const ys = points.map((p) => p.y);
+    const minX = Math.min(...xs);
+    const minY = Math.min(...ys);
+    const w = Math.max(Math.max(...xs) - minX, SHAPE.MIN_DRAW);
+    const h = Math.max(Math.max(...ys) - minY, SHAPE.MIN_DRAW);
+    const d = points
+      .map((p, i) => {
+        const nx = ((p.x - minX) / w) * 100;
+        const ny = ((p.y - minY) / h) * 100;
+        return `${i === 0 ? "M" : "L"}${nx.toFixed(2)} ${ny.toFixed(2)}`;
+      })
+      .join(" ");
+
+    const id = `custom-${Date.now()}`;
+    setCustoms((c) => [...c, { id, label: "Freihand", text: "", shape: "path", path: d }]);
+    setLayoutByTemplate((l) => ({
+      ...l,
+      [template]: {
+        ...l[template],
+        [id]: { x: Math.round(minX * 10) / 10, y: Math.round(minY * 10) / 10, w, ratio: h / w },
+      },
+    }));
+    setSelected(id);
   };
   const patchCustom = (id: string, p: Partial<CustomField>) =>
     setCustoms((c) => c.map((f) => (f.id === id ? { ...f, ...p } : f)));
@@ -192,6 +244,7 @@ function Index() {
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+      if (addRef.current && !addRef.current.contains(e.target as Node)) setAddOpen(false);
     };
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);
@@ -208,6 +261,8 @@ function Index() {
       if (e.key === "Escape") {
         setSelected(null);
         setMenuOpen(false);
+        setAddOpen(false);
+        setDrawing(false);
       }
     };
     document.addEventListener("keydown", onKey);
@@ -216,7 +271,7 @@ function Index() {
 
   // Vorschau soll ohne Scrollen ganz sichtbar sein.
   useEffect(() => {
-    const update = () => setFitHeight(window.innerHeight - 150);
+    const update = () => setFitHeight(window.innerHeight - 230);
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
@@ -245,7 +300,7 @@ function Index() {
         // beschädigter Entwurf – mit leerem Formular weitermachen
       }
     }
-    setData((d) => (d.datum ? d : { ...d, datum: today() }));
+    setData(prefill);
   }, []);
 
   // Entwurf sichern
@@ -273,11 +328,11 @@ function Index() {
   }, [template, colorsByTemplate, layoutByTemplate, customs, fontScale, data]);
 
   const loadDemo = () => {
-    setData({ ...DEMO_DATA, datum: today() });
+    setData(prefill({ ...DEMO_DATA, datum: "", ort: "" }));
     setStatus({ kind: "ok", text: "Beispieldaten eingefügt" });
   };
   const resetForm = () => {
-    setData({ ...emptyData, datum: today() });
+    setData(prefill(emptyData));
     setSelected(null);
   };
 
@@ -299,7 +354,7 @@ function Index() {
         import("jspdf"),
       ]);
       const canvas = await html2canvas(exportRef.current, {
-        scale: 3, // 288 dpi – Text bleibt auch gedruckt scharf
+        scale: PDF.SCALE,
         backgroundColor: "#ffffff",
         useCORS: true,
         width: 794,
@@ -309,7 +364,7 @@ function Index() {
         scrollX: 0,
         scrollY: 0,
       });
-      const img = canvas.toDataURL("image/jpeg", 0.94);
+      const img = canvas.toDataURL("image/jpeg", PDF.QUALITY);
       const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
       pdf.addImage(img, "JPEG", 0, 0, 210, 297, undefined, "FAST");
       downloadBlob(pdf.output("blob"), `${fileBase()}.pdf`);
@@ -364,14 +419,6 @@ function Index() {
       }
     };
     reader.readAsText(file);
-  };
-
-  const openDetails = () => {
-    setPanelOpen(true);
-    setDetailsOpen(true);
-    requestAnimationFrame(() =>
-      detailsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }),
-    );
   };
 
   const personCount = filled([
@@ -617,7 +664,7 @@ function Index() {
                     </span>
                     <button
                       type="button"
-                      onClick={() => setFontScale(1)}
+                      onClick={() => setFontScale(FONT.DEFAULT_SCALE)}
                       className="text-muted-foreground underline hover:text-foreground"
                     >
                       100 %
@@ -625,8 +672,8 @@ function Index() {
                   </span>
                   <input
                     type="range"
-                    min={0.8}
-                    max={1.6}
+                    min={FONT.SCALE_MIN}
+                    max={FONT.SCALE_MAX}
                     step={0.05}
                     value={fontScale}
                     onChange={(e) => setFontScale(Number(e.target.value))}
@@ -637,22 +684,13 @@ function Index() {
                   </span>
                 </label>
 
-                <div className="flex flex-wrap items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={addCustom}
-                    className="rounded-md border border-input px-2 py-1 text-xs font-medium hover:bg-accent"
-                  >
-                    + Eigenes Feld
-                  </button>
-                  <button
-                    type="button"
-                    onClick={resetLayout}
-                    className="text-xs text-muted-foreground underline hover:text-foreground"
-                  >
-                    Layout zurücksetzen
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={resetLayout}
+                  className="self-start text-xs text-muted-foreground underline hover:text-foreground"
+                >
+                  Layout zurücksetzen
+                </button>
 
                 {hiddenBlocks.length > 0 && (
                   <div className="flex flex-col gap-2 rounded-md border border-dashed p-2">
@@ -673,34 +711,6 @@ function Index() {
                 )}
               </div>
             </Section>
-
-            {selectedBlock && (
-              <div ref={detailsRef}>
-                <Section
-                  title="Element – alle Optionen"
-                  open={detailsOpen}
-                  onToggle={() => setDetailsOpen((v) => !v)}
-                  hint={selectedBlock.label}
-                >
-                  <BlockInspector
-                    block={selectedBlock}
-                    slots={activeTemplate.slots}
-                    colors={colors}
-                    onChange={(p) => patchStyle(selectedBlock.id, p)}
-                    onReset={() => resetBlock(selectedBlock.id)}
-                    customText={
-                      selectedCustom
-                        ? { label: selectedCustom.label, text: selectedCustom.text }
-                        : undefined
-                    }
-                    onCustomChange={
-                      selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
-                    }
-                    onDelete={selectedCustom ? () => removeCustom(selectedCustom.id) : undefined}
-                  />
-                </Section>
-              </div>
-            )}
           </div>
         </aside>
 
@@ -713,54 +723,130 @@ function Index() {
           />
         )}
 
-        <main className="min-w-0 flex-1 overflow-auto">
-          <div className="mx-auto w-full max-w-[900px] px-3 py-4 sm:px-6">
-            <ScaledPreview
-              max={1}
-              fitHeight={fitHeight}
-              overlay={(scale) =>
-                selectedBlock ? (
-                  <BlockToolbar
-                    block={selectedBlock}
-                    y={selectedY}
-                    scale={scale}
-                    slots={activeTemplate.slots}
-                    colors={colors}
-                    onChange={(p) => patchStyle(selectedBlock.id, p)}
-                    onReset={() => resetBlock(selectedBlock.id)}
-                    onDelete={selectedCustom ? () => removeCustom(selectedCustom.id) : undefined}
-                    onClose={() => setSelected(null)}
-                    onOpenDetails={openDetails}
-                  />
-                ) : null
-              }
-            >
-              <CoverCanvas
-                template={template}
-                data={data}
-                colors={colors}
-                blocks={blocks}
-                selected={selected}
-                onSelect={setSelected}
-                onMove={patchStyle}
-                fontScale={fontScale}
-              />
-            </ScaledPreview>
-            <p className="mt-3 text-center text-xs text-muted-foreground">
-              {selectedBlock
-                ? "Ziehen zum Verschieben · Esc hebt die Auswahl auf"
-                : "Tipp: Element antippen zum Anpassen, ziehen zum Verschieben."}
-            </p>
-            {status && (
-              <p
-                role="status"
-                className={`mt-2 text-center text-xs md:hidden ${
-                  status.kind === "error" ? "text-destructive" : "text-primary"
-                }`}
-              >
-                {status.text}
-              </p>
-            )}
+        <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          <div className="min-h-0 flex-1 overflow-auto px-3 pt-4 sm:px-6">
+            <div className="mx-auto w-full max-w-[900px]">
+              <ScaledPreview max={1} fitHeight={fitHeight}>
+                <CoverCanvas
+                  template={template}
+                  data={data}
+                  colors={colors}
+                  blocks={blocks}
+                  selected={selected}
+                  onSelect={setSelected}
+                  onMove={patchStyle}
+                  fontScale={fontScale}
+                  drawing={drawing}
+                  onDrawn={addDrawnShape}
+                />
+              </ScaledPreview>
+            </div>
+          </div>
+
+          {/* Werkzeugleiste unter dem Blatt – verdeckt nie das Element selbst */}
+          <div className="shrink-0 px-3 pb-3 pt-2 sm:px-6">
+            <div className="mx-auto w-full max-w-[900px]">
+              {drawing ? (
+                <div className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed bg-background px-4 py-3 text-sm">
+                  <span className="font-medium">Freihand zeichnen</span>
+                  <span className="text-muted-foreground">
+                    Mit gedrückter Maustaste eine Form aufs Blatt ziehen.
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setDrawing(false)}
+                    className="ml-auto rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
+                  >
+                    Abbrechen
+                  </button>
+                </div>
+              ) : selectedBlock ? (
+                <ElementBar
+                  block={selectedBlock}
+                  slots={activeTemplate.slots}
+                  colors={colors}
+                  onChange={(p) => patchStyle(selectedBlock.id, p)}
+                  onReset={() => resetBlock(selectedBlock.id)}
+                  onClose={() => setSelected(null)}
+                  custom={selectedCustom ?? undefined}
+                  onCustomChange={
+                    selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
+                  }
+                  onDelete={selectedCustom ? () => removeCustom(selectedCustom.id) : undefined}
+                />
+              ) : (
+                <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-background px-4 py-2.5">
+                  <span className="text-sm text-muted-foreground">
+                    Element antippen zum Anpassen, ziehen zum Verschieben.
+                  </span>
+                  <div className="relative ml-auto" ref={addRef}>
+                    <button
+                      type="button"
+                      onClick={() => setAddOpen((v) => !v)}
+                      aria-expanded={addOpen}
+                      className="inline-flex items-center gap-2 rounded-md border border-input px-3 py-1.5 text-sm font-medium hover:bg-accent"
+                    >
+                      + Element
+                      <svg width="10" height="10" viewBox="0 0 12 12" aria-hidden="true">
+                        <path
+                          d="M3 4.5l3 3 3-3"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                    {addOpen && (
+                      <div className="absolute bottom-full right-0 mb-2 w-52 overflow-hidden rounded-md border bg-popover shadow-lg">
+                        <button
+                          type="button"
+                          onClick={() => addCustom()}
+                          className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm hover:bg-accent"
+                        >
+                          <span className="w-4 text-center">T</span> Textfeld
+                        </button>
+                        {(["circle", "rect", "line", "path"] as const).map((sh) => (
+                          <button
+                            key={sh}
+                            type="button"
+                            onClick={() => addCustom(sh)}
+                            className="flex w-full items-center gap-3 border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                          >
+                            <span className="w-4 text-center" aria-hidden>
+                              {sh === "circle"
+                                ? "○"
+                                : sh === "rect"
+                                  ? "▭"
+                                  : sh === "line"
+                                    ? "—"
+                                    : "✎"}
+                            </span>
+                            {SHAPE_LABEL[sh]}
+                            {sh === "path" && (
+                              <span className="ml-auto text-xs text-muted-foreground">
+                                zeichnen
+                              </span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              {status && (
+                <p
+                  role="status"
+                  className={`mt-2 text-center text-xs md:hidden ${
+                    status.kind === "error" ? "text-destructive" : "text-primary"
+                  }`}
+                >
+                  {status.text}
+                </p>
+              )}
+            </div>
           </div>
         </main>
       </div>
