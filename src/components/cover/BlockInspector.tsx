@@ -1,4 +1,5 @@
-import type { Block, BlockStyle, ColorSlot } from "./types";
+import type { Block, BlockStyle, ColorSlot, ListStyle } from "./types";
+import { LIST_STYLES } from "./types";
 
 type Props = {
   block: Block | null;
@@ -152,6 +153,13 @@ export function BlockInspector({
               </button>
               <button
                 type="button"
+                onClick={() => onChange({ underline: !st.underline })}
+                className={`rounded-md border px-2 py-1 text-xs underline ${st.underline ? "bg-primary text-primary-foreground" : "border-input hover:bg-accent"}`}
+              >
+                U
+              </button>
+              <button
+                type="button"
                 onClick={() => onChange({ font: st.font === "serif" ? "sans" : "serif" })}
                 className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
               >
@@ -159,6 +167,52 @@ export function BlockInspector({
               </button>
             </div>
           </Row>
+          <Row label="Aufzählung">
+            <div className="flex gap-1">
+              {LIST_STYLES.map((l) => (
+                <button
+                  key={l.value}
+                  type="button"
+                  onClick={() => onChange({ list: l.value as ListStyle })}
+                  className={`rounded-md border px-2 py-1 text-xs ${st.list === l.value ? "bg-primary text-primary-foreground" : "border-input hover:bg-accent"}`}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
+          </Row>
+          <Row label="Hervorhebung">
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => onChange({ bg: st.bg ? null : (slots[slots.length - 1]?.key ?? "accent") })}
+                className={`rounded-md border px-2 py-1 text-xs ${st.bg ? "bg-primary text-primary-foreground" : "border-input hover:bg-accent"}`}
+              >
+                Badge
+              </button>
+              {st.bg && (
+                <input
+                  type="color"
+                  value={colors[st.bg] ?? st.bg}
+                  onChange={(e) => onChange({ bg: e.target.value })}
+                  className="h-7 w-9 cursor-pointer rounded border-0 bg-transparent p-0"
+                />
+              )}
+            </div>
+          </Row>
+          {st.bg && (
+            <Row label={`Badge-Rundung ${st.bgRadius >= 999 ? "Pille" : `${st.bgRadius}mm`}`}>
+              <input
+                type="range"
+                min={0}
+                max={999}
+                step={1}
+                value={st.bgRadius}
+                onChange={(e) => onChange({ bgRadius: Number(e.target.value) })}
+                className="w-32"
+              />
+            </Row>
+          )}
           <Row label={`Laufweite ${st.tracking.toFixed(2)}em`}>
             <input
               type="range"
