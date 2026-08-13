@@ -4,6 +4,7 @@ import {
   FormBetrieb,
   FormBewerbung,
   FormFoto,
+  FormMeta,
   FormOrtDatum,
   FormPerson,
 } from "@/components/cover/CoverForm";
@@ -20,10 +21,12 @@ import { DEFAULTS, FONT, PDF, SHAPE } from "@/default-config";
 
 import {
   DEMO_DATA,
+  EMPTY_META,
   TEMPLATES,
   type BlockStyle,
   type CoverData,
   type CustomField,
+  type PdfMeta,
   type ShapeKind,
   type TemplateId,
 } from "@/components/cover/types";
@@ -56,6 +59,7 @@ const today = () => {
 };
 
 const emptyData: CoverData = {
+  meta: { ...EMPTY_META },
   kicker: "",
   eyebrow: "",
   beruf: "",
@@ -81,6 +85,7 @@ const SAVE_VERSION = 3;
 /** Ort und Datum vorbelegen, ohne Eingaben zu überschreiben. */
 const prefill = (d: CoverData): CoverData => ({
   ...d,
+  meta: { ...EMPTY_META, ...(d.meta ?? {}) },
   datum: d.datum || today(),
   ort: d.ort || DEFAULTS.LOCATION,
   kicker: d.kicker || DEFAULTS.KICKER,
@@ -108,7 +113,8 @@ type SectionKey =
   | "person"
   | "foto"
   | "betrieb"
-  | "ortDatum";
+  | "ortDatum"
+  | "meta";
 
 const SHAPE_LABEL: Record<ShapeKind, string> = {
   circle: "Kreis",
@@ -144,6 +150,7 @@ function Index() {
     foto: false,
     betrieb: false,
     ortDatum: false,
+    meta: false,
   });
   const [fitHeight, setFitHeight] = useState<number | undefined>(undefined);
 
@@ -253,6 +260,23 @@ function Index() {
     setCustoms((c) => c.filter((f) => f.id !== id));
     setSelected(null);
   };
+
+  const photoBlock = blocks.find((b) => b.kind === "photo") ?? null;
+
+  /** Dokumentinfos, die im PDF landen, wenn das Feld leer bleibt. */
+  const autoMeta: PdfMeta = useMemo(() => {
+    const name = [data.vorname, data.nachname].filter(Boolean).join(" ");
+    const titel = ["Titelblatt", name].filter(Boolean).join(" – ");
+    const betreff = [data.kicker, data.beruf].filter(Boolean).join(" ").trim();
+    return {
+      title: data.beruf ? `${titel} – ${data.beruf}` : titel,
+      author: name,
+      subject: betreff || "Bewerbung",
+      keywords: ["Bewerbung", "Lehrstelle", data.beruf, data.lehrbetrieb, data.ort]
+        .filter(Boolean)
+        .join(", "),
+    };
+  }, [data.vorname, data.nachname, data.beruf, data.kicker, data.lehrbetrieb, data.ort]);
 
   const hiddenBlocks = blocks.filter((b) => b.style.hidden);
 
@@ -381,6 +405,13 @@ function Index() {
       });
       const img = canvas.toDataURL("image/jpeg", PDF.QUALITY);
       const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+      pdf.setProperties({
+        title: data.meta.title || autoMeta.title,
+        author: data.meta.author || autoMeta.author,
+        subject: data.meta.subject || autoMeta.subject,
+        keywords: data.meta.keywords || autoMeta.keywords,
+        creator: "Lehrstellen-Titelblatt",
+      });
       pdf.addImage(img, "JPEG", 0, 0, 210, 297, undefined, "FAST");
       downloadBlob(pdf.output("blob"), `${fileBase()}.pdf`);
       setStatus({ kind: "ok", text: "PDF heruntergeladen" });
@@ -569,7 +600,7 @@ function Index() {
       <div className="relative flex min-h-0 flex-1">
         {/* Formular-Panel: schiebt sich nach links raus, die Vorschau wächst nach */}
         <aside
-          className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 overflow-y-auto border-r bg-muted/40 transition-transform duration-300 ease-out lg:static lg:transition-[width,transform] ${
+          className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 overflow-y-auto overflow-x-hidden border-r bg-muted/40 transition-transform duration-300 ease-out lg:static lg:transition-[width,transform] ${
             panelOpen
               ? "translate-x-0 lg:w-[420px]"
               : "-translate-x-full lg:w-0 lg:overflow-hidden lg:border-r-0"
@@ -577,7 +608,7 @@ function Index() {
           aria-hidden={!panelOpen}
           inert={!panelOpen}
         >
-          <div className="flex w-[min(92vw,420px)] flex-col gap-3 p-3 lg:w-[420px]">
+          <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 lg:w-full">
             <div className="flex items-center justify-between gap-2 px-1">
               <span className="text-xs text-muted-foreground">
                 Alles ausfüllen, dann schliessen.
@@ -619,6 +650,8 @@ function Index() {
                 data={data}
                 onChange={patch}
                 onError={(text) => setStatus({ kind: "error", text })}
+                photoStyle={photoBlock?.style}
+                onPhotoStyle={photoBlock ? (p) => patchStyle(photoBlock.id, p) : undefined}
               />
             </Section>
 
@@ -638,6 +671,19 @@ function Index() {
               hint={`${filled([data.ort, data.datum])} / 2`}
             >
               <FormOrtDatum data={data} onChange={patch} />
+            </Section>
+
+            <Section
+              title="PDF-Angaben"
+              open={open.meta}
+              onToggle={() => toggleSection("meta")}
+              hint={filled(Object.values(data.meta)) ? "angepasst" : "automatisch"}
+            >
+              <FormMeta
+                meta={data.meta}
+                auto={autoMeta}
+                onChange={(p) => patch({ meta: { ...data.meta, ...p } })}
+              />
             </Section>
 
             <div className="mt-2 h-px bg-border" />
@@ -788,6 +834,7 @@ function Index() {
                     selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
                   }
                   onDelete={selectedCustom ? () => removeCustom(selectedCustom.id) : undefined}
+                  hasPhoto={!!data.foto}
                 />
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-background px-4 py-2.5">

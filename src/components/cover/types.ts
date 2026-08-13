@@ -18,7 +18,19 @@ export type CoverData = {
   ort: string;
   datum: string;
   foto: string | null;
+  /** PDF-Dokumentinfos. Leere Felder werden automatisch gefüllt. */
+  meta: PdfMeta;
 };
+
+/** Dokumentinfos im PDF – leer heisst "automatisch aus den Daten". */
+export type PdfMeta = {
+  title: string;
+  author: string;
+  subject: string;
+  keywords: string;
+};
+
+export const EMPTY_META: PdfMeta = { title: "", author: "", subject: "", keywords: "" };
 
 export type ColorSlot = {
   key: string;
@@ -109,7 +121,12 @@ export type BlockStyle = {
   anchorBottom?: boolean;
   /** Foto und Formen: Höhe = w * ratio */
   ratio?: number;
+  /** Eckenradius in mm; 999 = Kreis, 0 = eckig. */
   radius?: number;
+  /** Bildzuschnitt: Vergrösserung (1 = ganzes Bild) und Bildausschnitt in %. */
+  imgZoom?: number;
+  imgX?: number;
+  imgY?: number;
   /** Füllfarbe: hinter den Initialen bzw. Flächenfarbe einer Form (null = keine). */
   fill?: string | null;
   /** Linienstärke einer Form in mm. */
@@ -399,6 +416,7 @@ export const LEHRBERUFE = [
 ];
 
 export const DEMO_DATA: CoverData = {
+  meta: { ...EMPTY_META },
   kicker: "",
   eyebrow: "",
   beruf: "Informatiker/in EFZ",
