@@ -674,18 +674,6 @@ export function CoverBackground({
             backgroundColor: colors.bg,
           }}
         />
-        <div
-          className="absolute"
-          style={{
-            left: "14mm",
-            top: "50mm",
-            width: "182mm",
-            height: "3mm",
-            borderTopLeftRadius: "10mm",
-            borderTopRightRadius: "10mm",
-            background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
-          }}
-        />
       </div>
     );
   }
