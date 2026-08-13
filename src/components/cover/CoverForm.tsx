@@ -1,6 +1,7 @@
 import type { CoverData } from "./types";
 import { LEHRBERUFE } from "./types";
 import { readPhoto } from "@/lib/image";
+import { DEFAULTS } from "@/default-config";
 
 type Props = {
   data: CoverData;
@@ -23,6 +24,14 @@ const inputCls =
 export function FormBewerbung({ data, onChange }: Props) {
   return (
     <div className="flex flex-col gap-3">
+      <Field label="Titelzeile">
+        <input
+          className={inputCls}
+          value={data.kicker}
+          onChange={(e) => onChange({ kicker: e.target.value })}
+          placeholder={DEFAULTS.KICKER}
+        />
+      </Field>
       <Field label="Bewerbung als">
         <input
           className={inputCls}
@@ -36,6 +45,14 @@ export function FormBewerbung({ data, onChange }: Props) {
             <option key={b} value={b} />
           ))}
         </datalist>
+      </Field>
+      <Field label="Kopfzeile">
+        <input
+          className={inputCls}
+          value={data.eyebrow}
+          onChange={(e) => onChange({ eyebrow: e.target.value })}
+          placeholder="Vorgabe der Vorlage"
+        />
       </Field>
       <Field label="Lehrbeginn">
         <input

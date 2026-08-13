@@ -56,6 +56,8 @@ const today = () => {
 };
 
 const emptyData: CoverData = {
+  kicker: "",
+  eyebrow: "",
   beruf: "",
   lehrbeginn: "",
   vorname: "",
@@ -81,6 +83,7 @@ const prefill = (d: CoverData): CoverData => ({
   ...d,
   datum: d.datum || today(),
   ort: d.ort || DEFAULTS.LOCATION,
+  kicker: d.kicker || DEFAULTS.KICKER,
 });
 
 function defaultColors(templateId: TemplateId): Record<string, string> {
@@ -186,7 +189,7 @@ function Index() {
     setFontScale(FONT.DEFAULT_SCALE);
   };
 
-  const addCustom = (shape?: ShapeKind) => {
+  const addCustom = (shape?: ShapeKind, pill = false) => {
     setAddOpen(false);
     if (shape === "path") {
       setDrawing(true);
@@ -199,8 +202,20 @@ function Index() {
       ...c,
       shape
         ? { id, label: SHAPE_LABEL[shape], text: "", shape }
-        : { id, label: "Eigenes Feld", text: "Neuer Text" },
+        : { id, label: pill ? "Pille" : "Eigenes Feld", text: pill ? "Neue Pille" : "Neuer Text" },
     ]);
+    if (pill) {
+      // Textfeld mit Hintergrund: schrumpft auf die Textbreite, runde Ecken
+      patchStyle(id, {
+        bg: activeTemplate.slots[activeTemplate.slots.length - 1]?.key ?? "accent",
+        color: "bg",
+        weight: 700,
+        align: "center",
+        padX: 5,
+        padY: 1.8,
+        bgRadius: 999,
+      });
+    }
     setSelected(id);
   };
 
@@ -289,7 +304,7 @@ function Index() {
     if (saved) {
       try {
         const p = JSON.parse(saved);
-        if (p.data) setData({ ...emptyData, ...p.data });
+        if (p.data) setData(prefill({ ...emptyData, ...p.data }));
         if (p.template && TEMPLATES.some((t) => t.id === p.template)) setTemplate(p.template);
         if (p.colors) setColorsByTemplate((c) => ({ ...c, ...p.colors }));
         if (p.layout) setLayoutByTemplate((l) => ({ ...l, ...p.layout }));
@@ -328,7 +343,7 @@ function Index() {
   }, [template, colorsByTemplate, layoutByTemplate, customs, fontScale, data]);
 
   const loadDemo = () => {
-    setData(prefill({ ...DEMO_DATA, datum: "", ort: "" }));
+    setData(prefill({ ...DEMO_DATA, datum: "", ort: "", kicker: "" }));
     setStatus({ kind: "ok", text: "Beispieldaten eingefügt" });
   };
   const resetForm = () => {
@@ -405,7 +420,7 @@ function Index() {
         if (!parsed || typeof parsed !== "object" || !parsed.data) {
           throw new Error("kein Titelblatt-Entwurf");
         }
-        setData({ ...emptyData, ...parsed.data });
+        setData(prefill({ ...emptyData, ...parsed.data }));
         if (parsed.template && TEMPLATES.some((t) => t.id === parsed.template)) {
           setTemplate(parsed.template);
         }
@@ -806,6 +821,16 @@ function Index() {
                           className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm hover:bg-accent"
                         >
                           <span className="w-4 text-center">T</span> Textfeld
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => addCustom(undefined, true)}
+                          className="flex w-full items-center gap-3 border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                        >
+                          <span className="w-4 text-center" aria-hidden>
+                            ⬭
+                          </span>
+                          Pille (Text)
                         </button>
                         {(["circle", "rect", "line", "path"] as const).map((sh) => (
                           <button
