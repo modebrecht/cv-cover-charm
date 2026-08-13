@@ -64,11 +64,15 @@ export type Palette = { name: string; colors: Record<string, string> };
 /** Zielfarbtöne der Varianten – der Name beschreibt, wo die Hauptfarbe landet. */
 const VARIANTS: { name: string; hue: number }[] = [
   { name: "Blau", hue: 214 },
-  { name: "Grün", hue: 152 },
+  { name: "Türkis", hue: 176 },
+  { name: "Grün", hue: 148 },
+  { name: "Limette", hue: 92 },
+  { name: "Orange", hue: 30 },
+  { name: "Rot", hue: 356 },
   { name: "Beere", hue: 322 },
 ];
 
-/** Vier Paletten: das Original der Vorlage plus drei Farbton-Varianten. */
+/** Acht Paletten: das Original der Vorlage plus sieben Farbton-Varianten. */
 export function palettesFor(slots: ColorSlot[]): Palette[] {
   const original = Object.fromEntries(slots.map((s) => [s.key, s.default]));
   const parsed = slots.map((s) => ({ key: s.key, hsl: hexToHsl(s.default) }));
