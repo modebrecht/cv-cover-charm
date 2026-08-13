@@ -627,15 +627,15 @@ function Index() {
       <div className="relative flex min-h-0 flex-1">
         {/* Formular-Panel: schiebt sich nach links raus, die Vorschau wächst nach */}
         <aside
-          className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 overflow-y-auto overflow-x-hidden border-r bg-muted/40 transition-transform duration-300 ease-out md:static md:transition-[width,transform] ${
+          className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 overflow-y-auto overflow-x-hidden border-r bg-muted/40 transition-transform duration-300 ease-out sm:static sm:transition-[width,transform] ${
             panelOpen
-              ? "translate-x-0 md:w-[320px] lg:w-[380px] xl:w-[420px]"
-              : "-translate-x-full md:w-0 md:overflow-hidden md:border-r-0"
+              ? "translate-x-0 sm:w-[260px] md:w-[320px] lg:w-[380px] xl:w-[420px]"
+              : "-translate-x-full sm:w-0 sm:overflow-hidden sm:border-r-0"
           }`}
           aria-hidden={!panelOpen}
           inert={!panelOpen}
         >
-          <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 md:w-full">
+          <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 sm:w-full">
             <div className="flex items-center justify-between gap-2 px-1">
               <span className="text-xs text-muted-foreground">
                 Alles ausfüllen, dann schliessen.
@@ -808,12 +808,12 @@ function Index() {
           <div
             aria-hidden
             onClick={() => setPanelOpen(false)}
-            className="absolute inset-0 z-10 bg-foreground/20 md:hidden"
+            className="absolute inset-0 z-10 bg-foreground/20 sm:hidden"
           />
         )}
 
         <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          <div className="min-h-0 flex-1 overflow-auto px-3 pt-4 sm:px-6">
+          <div className="min-h-0 flex-1 overflow-auto px-2 pt-3 lg:px-6 lg:pt-4">
             <div className="mx-auto w-full max-w-[900px]">
               <ScaledPreview max={1} fitHeight={fitHeight}>
                 <CoverCanvas
@@ -833,7 +833,7 @@ function Index() {
           </div>
 
           {/* Werkzeugleiste unter dem Blatt – verdeckt nie das Element selbst */}
-          <div className="shrink-0 px-3 pb-3 pt-2 sm:px-6">
+          <div className="shrink-0 px-2 pb-3 pt-2 lg:px-6">
             <div className="mx-auto w-full max-w-[900px]">
               {drawing ? (
                 <div className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed bg-background px-4 py-3 text-sm">
