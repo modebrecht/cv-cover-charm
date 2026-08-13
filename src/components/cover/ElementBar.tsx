@@ -189,27 +189,23 @@ export function ElementBar({
         <div className="ml-auto flex items-center gap-1">
           <button
             type="button"
-            onClick={() => onChange({ hidden: true })}
-            className="rounded-md px-2 py-1.5 text-xs text-muted-foreground hover:bg-accent"
-          >
-            Ausblenden
-          </button>
-          <button
-            type="button"
             onClick={onReset}
             className="rounded-md px-2 py-1.5 text-xs text-muted-foreground hover:bg-accent"
           >
             Zurücksetzen
           </button>
-          {onDelete && (
-            <button
-              type="button"
-              onClick={onDelete}
-              className="rounded-md px-2 py-1.5 text-xs text-destructive hover:bg-destructive/10"
-            >
-              Löschen
-            </button>
-          )}
+          {/*
+            Eine einzige Aktion statt "Ausblenden" und "Löschen" nebeneinander:
+            Selbst hinzugefügte Elemente verschwinden ganz, Elemente der Vorlage
+            werden ausgeblendet und lassen sich im Formular wieder einblenden.
+          */}
+          <button
+            type="button"
+            onClick={() => (onDelete ? onDelete() : onChange({ hidden: true }))}
+            className="rounded-md px-2 py-1.5 text-xs text-destructive hover:bg-destructive/10"
+          >
+            Entfernen
+          </button>
           <button
             type="button"
             onClick={onClose}
@@ -302,21 +298,13 @@ export function ElementBar({
 
             {custom && onCustomChange && (
               <Ctl label="Inhalt" grow>
-                <div className="flex w-full flex-col gap-1.5">
-                  <input
-                    className={inputCls}
-                    value={custom.label}
-                    onChange={(e) => onCustomChange({ label: e.target.value })}
-                    placeholder="Bezeichnung"
-                  />
-                  <textarea
-                    className={inputCls}
-                    rows={2}
-                    value={custom.text}
-                    onChange={(e) => onCustomChange({ text: e.target.value })}
-                    placeholder="Text (Zeilenumbruch möglich)"
-                  />
-                </div>
+                <textarea
+                  className={`${inputCls} h-9 w-full max-w-md resize-y`}
+                  rows={1}
+                  value={custom.text}
+                  onChange={(e) => onCustomChange({ text: e.target.value })}
+                  placeholder="Text (Zeilenumbruch möglich)"
+                />
               </Ctl>
             )}
           </>
