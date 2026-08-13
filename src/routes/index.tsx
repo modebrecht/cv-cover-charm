@@ -600,15 +600,15 @@ function Index() {
       <div className="relative flex min-h-0 flex-1">
         {/* Formular-Panel: schiebt sich nach links raus, die Vorschau wächst nach */}
         <aside
-          className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 overflow-y-auto overflow-x-hidden border-r bg-muted/40 transition-transform duration-300 ease-out lg:static lg:transition-[width,transform] ${
+          className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 overflow-y-auto overflow-x-hidden border-r bg-muted/40 transition-transform duration-300 ease-out md:static md:transition-[width,transform] ${
             panelOpen
-              ? "translate-x-0 lg:w-[420px]"
-              : "-translate-x-full lg:w-0 lg:overflow-hidden lg:border-r-0"
+              ? "translate-x-0 md:w-[320px] lg:w-[380px] xl:w-[420px]"
+              : "-translate-x-full md:w-0 md:overflow-hidden md:border-r-0"
           }`}
           aria-hidden={!panelOpen}
           inert={!panelOpen}
         >
-          <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 lg:w-full">
+          <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 md:w-full">
             <div className="flex items-center justify-between gap-2 px-1">
               <span className="text-xs text-muted-foreground">
                 Alles ausfüllen, dann schliessen.
@@ -707,6 +707,7 @@ function Index() {
                 slots={activeTemplate.slots}
                 colors={colors}
                 onChange={setColor}
+                onApplyPalette={(next) => setColorsByTemplate((c) => ({ ...c, [template]: next }))}
                 onReset={resetColors}
               />
             </Section>
@@ -780,7 +781,7 @@ function Index() {
           <div
             aria-hidden
             onClick={() => setPanelOpen(false)}
-            className="absolute inset-0 z-10 bg-foreground/20 lg:hidden"
+            className="absolute inset-0 z-10 bg-foreground/20 md:hidden"
           />
         )}
 
