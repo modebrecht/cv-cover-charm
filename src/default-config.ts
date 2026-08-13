@@ -49,6 +49,15 @@ export const DEFAULTS = {
   KICKER: "Bewerbung um eine Lehrstelle als",
 } as const;
 
+/** Bedienoberfläche. */
+export const UI = {
+  /**
+   * Zeigt in der Vorlagenauswahl die Kurzbeschreibung unter dem Namen.
+   * Auf `false` wird die Liste kompakt und zeigt nur die Namen.
+   */
+  TEMPLATE_DESCRIPTIONS: false,
+} as const;
+
 /** PDF-Export. */
 export const PDF = {
   /** Renderfaktor gegenüber 96 dpi – 3 entspricht 288 dpi. */

@@ -575,61 +575,35 @@ export function CoverBackground({
     );
   }
 
-  // Konfetti – helle Fläche mit gestreuten Punkten
-  if (template === "konfetti") {
-    const dots: [number, number, number, string][] = [
-      [12, 16, 14, colors.primary],
-      [34, 8, 6, colors.secondary],
-      [176, 14, 18, colors.tertiary],
-      [160, 40, 7, colors.primary],
-      [8, 62, 9, colors.tertiary],
-      [186, 88, 11, colors.secondary],
-      [16, 118, 6, colors.secondary],
-      [178, 150, 8, colors.primary],
-      [6, 196, 16, colors.secondary],
-      [188, 214, 13, colors.tertiary],
-      [6, 246, 8, colors.primary],
-      [194, 262, 10, colors.secondary],
-      [98, 291, 6, colors.tertiary],
-    ];
+  // Aurora – Verlaufsband oben, heller Körper darunter
+  if (template === "aurora") {
     return (
       <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>
         <div
-          className="absolute"
+          className="absolute left-0 right-0 top-0"
           style={{
-            left: "52mm",
-            top: "38mm",
-            width: "106mm",
-            height: "106mm",
-            borderRadius: "9999px",
-            backgroundColor: colors.tertiary,
-            opacity: 0.16,
+            height: "128mm",
+            background: `linear-gradient(115deg, ${colors.primary}, ${colors.secondary})`,
+            borderBottomRightRadius: "60mm",
           }}
         />
-        {dots.map(([x, y, d, c], i) => (
-          <div
-            key={i}
-            className="absolute"
-            style={{
-              left: `${x}mm`,
-              top: `${y}mm`,
-              width: `${d}mm`,
-              height: `${d}mm`,
-              borderRadius: "9999px",
-              backgroundColor: c,
-              opacity: 0.9,
-            }}
-          />
-        ))}
         <div
           className="absolute"
           style={{
             left: "20mm",
-            right: "20mm",
-            top: "238mm",
-            height: "0.5mm",
-            backgroundColor: colors.ink,
-            opacity: 0.15,
+            top: "150mm",
+            width: "26mm",
+            height: "1.6mm",
+            borderRadius: "9999px",
+            background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+          }}
+        />
+        <div
+          className="absolute left-0 bottom-0"
+          style={{
+            width: "100%",
+            height: "5mm",
+            background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
           }}
         />
       </div>
@@ -682,48 +656,35 @@ export function CoverBackground({
     );
   }
 
-  // Retro – warme Töne, grosse runde Flächen
-  if (template === "retro") {
+  // Citrus – warmer Verlauf mit weisser Textkarte
+  if (template === "citrus") {
     return (
-      <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>
+      <div
+        className="absolute inset-0 overflow-hidden"
+        style={{ background: `linear-gradient(155deg, ${colors.primary}, ${colors.secondary})` }}
+      >
         <div
           className="absolute"
           style={{
-            left: "22mm",
-            top: "20mm",
-            width: "166mm",
-            height: "120mm",
-            borderTopLeftRadius: "83mm",
-            borderTopRightRadius: "83mm",
-            backgroundColor: colors.primary,
-          }}
-        />
-        <div
-          className="absolute"
-          style={{
-            left: "150mm",
-            top: "116mm",
-            width: "52mm",
-            height: "52mm",
-            borderRadius: "9999px",
-            backgroundColor: colors.tertiary,
+            left: "14mm",
+            top: "88mm",
+            width: "182mm",
+            height: "182mm",
+            borderRadius: "10mm",
+            backgroundColor: colors.bg,
           }}
         />
         <div
           className="absolute"
           style={{
             left: "14mm",
-            top: "150mm",
-            width: "34mm",
-            height: "34mm",
-            borderRadius: "9999px",
-            backgroundColor: colors.secondary,
-            opacity: 0.9,
+            top: "88mm",
+            width: "182mm",
+            height: "3mm",
+            borderTopLeftRadius: "10mm",
+            borderTopRightRadius: "10mm",
+            background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
           }}
-        />
-        <div
-          className="absolute left-0 bottom-0"
-          style={{ width: "100%", height: "26mm", backgroundColor: colors.secondary }}
         />
       </div>
     );

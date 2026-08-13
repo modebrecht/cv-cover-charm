@@ -55,9 +55,9 @@ export type TemplateId =
   | "sonne"
   | "studio"
   | "neon"
-  | "konfetti"
+  | "aurora"
   | "verlauf"
-  | "retro";
+  | "citrus";
 
 export type TemplateDefinition = {
   id: TemplateId;
@@ -359,15 +359,14 @@ export const TEMPLATES: TemplateDefinition[] = [
     ],
   },
   {
-    id: "konfetti",
-    name: "Konfetti",
-    description: "Helle Fläche mit bunten Punkten, verspielt",
+    id: "aurora",
+    name: "Aurora",
+    description: "Verlaufsband oben, heller Körper darunter",
     slots: [
-      { key: "bg", label: "Hintergrund", default: "#fffdf5" },
-      { key: "primary", label: "Farbe 1", default: "#ff5a5f" },
-      { key: "secondary", label: "Farbe 2", default: "#3ddc97" },
-      { key: "tertiary", label: "Farbe 3", default: "#5b8def" },
-      { key: "ink", label: "Text", default: "#1b1b1f" },
+      { key: "primary", label: "Verlauf links", default: "#0ea5e9" },
+      { key: "secondary", label: "Verlauf rechts", default: "#6d28d9" },
+      { key: "bg", label: "Hintergrund", default: "#ffffff" },
+      { key: "ink", label: "Text", default: "#111827" },
     ],
   },
   {
@@ -382,15 +381,14 @@ export const TEMPLATES: TemplateDefinition[] = [
     ],
   },
   {
-    id: "retro",
-    name: "Retro",
-    description: "Warme 70er-Töne, grosse runde Flächen",
+    id: "citrus",
+    name: "Citrus",
+    description: "Warmer Verlauf mit weisser Textkarte",
     slots: [
-      { key: "bg", label: "Hintergrund", default: "#f3e9d2" },
-      { key: "primary", label: "Bogen", default: "#d9583b" },
-      { key: "secondary", label: "Fläche", default: "#2e5a45" },
-      { key: "tertiary", label: "Kreis", default: "#e9a13b" },
-      { key: "ink", label: "Text", default: "#2b2118" },
+      { key: "primary", label: "Verlauf oben", default: "#fb7185" },
+      { key: "secondary", label: "Verlauf unten", default: "#fbbf24" },
+      { key: "bg", label: "Karte", default: "#fffdf9" },
+      { key: "ink", label: "Text", default: "#3f1d2b" },
     ],
   },
 ];
