@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Block, BlockStyle, ColorSlot, CustomField, ListStyle } from "./types";
 import { LIST_STYLES } from "./types";
 import { FONT } from "@/default-config";
+import { PhotoControls } from "./PhotoControls";
 
 type Props = {
   block: Block;
@@ -13,6 +14,8 @@ type Props = {
   custom?: CustomField;
   onCustomChange?: (patch: Partial<CustomField>) => void;
   onDelete?: () => void;
+  /** Ist ein Foto hochgeladen? Steuert die Zuschnitt-Regler. */
+  hasPhoto?: boolean;
 };
 
 type Tab = "text" | "absatz" | "farbe" | "position" | "form";
@@ -129,6 +132,7 @@ export function ElementBar({
   custom,
   onCustomChange,
   onDelete,
+  hasPhoto = false,
 }: Props) {
   const st = block.style;
   const isText = block.kind === "text";
@@ -398,17 +402,7 @@ export function ElementBar({
               </Ctl>
             )}
 
-            {isPhoto && (
-              <Ctl label="Ecken">
-                <button
-                  type="button"
-                  className={toggle(!!st.radius)}
-                  onClick={() => onChange({ radius: st.radius ? 0 : 999 })}
-                >
-                  {st.radius ? "Rund" : "Eckig"}
-                </button>
-              </Ctl>
-            )}
+            {isPhoto && <PhotoControls style={st} onChange={onChange} hasPhoto={hasPhoto} />}
 
             {isShape && (
               <>
