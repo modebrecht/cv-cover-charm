@@ -42,6 +42,11 @@ export const DEFAULTS = {
   LOCATION: "Hubersdorf",
   /** Vorlage, die beim ersten Öffnen gewählt ist. */
   TEMPLATE: "modern",
+  /**
+   * Zeile über dem Beruf. Im Formular überschreibbar – hier steht nur, was
+   * beim leeren Formular drinsteht.
+   */
+  KICKER: "Bewerbung um eine Lehrstelle als",
 } as const;
 
 /** PDF-Export. */

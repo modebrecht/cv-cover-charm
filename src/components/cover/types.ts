@@ -1,4 +1,8 @@
 export type CoverData = {
+  /** Zeile über dem Beruf, z. B. "Bewerbung um eine Lehrstelle als". */
+  kicker: string;
+  /** Kopfzeile oben links. Leer = Vorgabe der Vorlage. */
+  eyebrow: string;
   beruf: string;
   lehrbeginn: string;
   vorname: string;
@@ -35,7 +39,13 @@ export type TemplateId =
   | "sonnig"
   | "welle"
   | "terracotta"
-  | "pastell";
+  | "pastell"
+  | "sonne"
+  | "studio"
+  | "neon"
+  | "konfetti"
+  | "verlauf"
+  | "retro";
 
 export type TemplateDefinition = {
   id: TemplateId;
@@ -298,6 +308,74 @@ export const TEMPLATES: TemplateDefinition[] = [
       { key: "ink", label: "Text", default: "#22212b" },
     ],
   },
+  {
+    id: "sonne",
+    name: "Sonne",
+    description: "Gelbes Band, Foto im Kreis, kräftiger Kontrast",
+    slots: [
+      { key: "primary", label: "Signalfarbe", default: "#fbbf24" },
+      { key: "bg", label: "Dunkelfläche", default: "#333333" },
+      { key: "ink", label: "Text dunkel", default: "#141414" },
+      { key: "light", label: "Text hell", default: "#f7f5f0" },
+    ],
+  },
+  {
+    id: "studio",
+    name: "Studio",
+    description: "Dunkle Spalte links, Farbband mit Namen",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#ffffff" },
+      { key: "primary", label: "Spalte", default: "#232b3a" },
+      { key: "accent", label: "Namensband", default: "#f5d547" },
+      { key: "ink", label: "Text", default: "#1f2937" },
+    ],
+  },
+  {
+    id: "neon",
+    name: "Neon",
+    description: "Dunkel mit Farbverlauf-Blasen, sehr modern",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#0d0b2b" },
+      { key: "primary", label: "Verlauf 1", default: "#e11d8f" },
+      { key: "secondary", label: "Verlauf 2", default: "#7c3aed" },
+      { key: "ink", label: "Text", default: "#f8fafc" },
+    ],
+  },
+  {
+    id: "konfetti",
+    name: "Konfetti",
+    description: "Helle Fläche mit bunten Punkten, verspielt",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#fffdf5" },
+      { key: "primary", label: "Farbe 1", default: "#ff5a5f" },
+      { key: "secondary", label: "Farbe 2", default: "#3ddc97" },
+      { key: "tertiary", label: "Farbe 3", default: "#5b8def" },
+      { key: "ink", label: "Text", default: "#1b1b1f" },
+    ],
+  },
+  {
+    id: "verlauf",
+    name: "Verlauf",
+    description: "Ganzflächiger Farbverlauf, weisse Typo",
+    slots: [
+      { key: "primary", label: "Verlauf oben", default: "#7f5af0" },
+      { key: "secondary", label: "Verlauf unten", default: "#2cb67d" },
+      { key: "ink", label: "Text", default: "#ffffff" },
+      { key: "bg", label: "Kreisfläche", default: "#ffffff" },
+    ],
+  },
+  {
+    id: "retro",
+    name: "Retro",
+    description: "Warme 70er-Töne, grosse runde Flächen",
+    slots: [
+      { key: "bg", label: "Hintergrund", default: "#f3e9d2" },
+      { key: "primary", label: "Bogen", default: "#d9583b" },
+      { key: "secondary", label: "Fläche", default: "#2e5a45" },
+      { key: "tertiary", label: "Kreis", default: "#e9a13b" },
+      { key: "ink", label: "Text", default: "#2b2118" },
+    ],
+  },
 ];
 
 export const LEHRBERUFE = [
@@ -321,6 +399,8 @@ export const LEHRBERUFE = [
 ];
 
 export const DEMO_DATA: CoverData = {
+  kicker: "",
+  eyebrow: "",
   beruf: "Informatiker/in EFZ",
   lehrbeginn: "August 2027",
   vorname: "Lea",
