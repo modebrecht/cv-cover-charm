@@ -55,6 +55,35 @@ function textStyle(
   };
 }
 
+/** Eckenradius des Fotorahmens: 999 = Kreis, sonst mm. */
+export function photoRadius(st: BlockStyle): string | number {
+  const r = st.radius ?? 0;
+  if (r >= 999) return "9999px";
+  return r > 0 ? `${r}mm` : 0;
+}
+
+/**
+ * Bildausschnitt wie in Word: `imgZoom` vergrössert, `imgX`/`imgY` verschieben
+ * den sichtbaren Ausschnitt innerhalb des Rahmens.
+ */
+export function crop(st: BlockStyle): React.CSSProperties {
+  const zoom = Math.max(1, st.imgZoom ?? 1);
+  const x = st.imgX ?? 50;
+  const y = st.imgY ?? 50;
+  return {
+    position: "absolute",
+    width: `${zoom * 100}%`,
+    height: `${zoom * 100}%`,
+    // ohne das begrenzt die Basis-Regel `img { max-width: 100% }` die Breite,
+    // und beim Zoomen entsteht ein unbedeckter Streifen im Rahmen
+    maxWidth: "none",
+    maxHeight: "none",
+    left: `${-(zoom - 1) * x}%`,
+    top: `${-(zoom - 1) * y}%`,
+    objectFit: "cover",
+  };
+}
+
 function marker(st: BlockStyle, index: number): string {
   switch (st.list) {
     case "bullet":
@@ -230,25 +259,25 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
                 <ShapeElement shape={b.shape ?? "rect"} path={b.path} style={st} colors={colors} />
               ) : isPhoto ? (
                 data.foto ? (
-                  <img
-                    src={data.foto}
-                    alt="Bewerbungsfoto"
-                    draggable={false}
+                  <div
                     style={{
+                      position: "relative",
                       width: "100%",
                       height: `${st.w * (st.ratio ?? 1)}mm`,
-                      objectFit: "cover",
-                      borderRadius: st.radius ? "9999px" : 0,
+                      overflow: "hidden",
+                      borderRadius: photoRadius(st),
                       boxShadow: `0 0 0 3px ${colors.bg}, 0 0 0 4px ${resolveColor(st.color, colors)}`,
                     }}
-                  />
+                  >
+                    <img src={data.foto} alt="Bewerbungsfoto" draggable={false} style={crop(st)} />
+                  </div>
                 ) : (
                   <div
                     className="flex items-center justify-center"
                     style={{
                       width: "100%",
                       height: `${st.w * (st.ratio ?? 1)}mm`,
-                      borderRadius: st.radius ? "9999px" : 0,
+                      borderRadius: photoRadius(st),
                       background: st.fill ? resolveColor(st.fill, colors) : "transparent",
                       border: `1px solid ${resolveColor(st.color, colors)}`,
                       color: resolveColor(st.color, colors),

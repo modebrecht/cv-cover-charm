@@ -1,4 +1,5 @@
-import type { CoverData } from "./types";
+import type { BlockStyle, CoverData, PdfMeta } from "./types";
+import { PhotoControls } from "./PhotoControls";
 import { LEHRBERUFE } from "./types";
 import { readPhoto } from "@/lib/image";
 import { DEFAULTS } from "@/default-config";
@@ -32,7 +33,7 @@ export function FormBewerbung({ data, onChange }: Props) {
           placeholder={DEFAULTS.KICKER}
         />
       </Field>
-      <Field label="Bewerbung als">
+      <Field label="Lehrberuf">
         <input
           className={inputCls}
           list="lehrberufe"
@@ -131,7 +132,16 @@ export function FormPerson({ data, onChange }: Props) {
   );
 }
 
-export function FormFoto({ data, onChange, onError }: Props) {
+export function FormFoto({
+  data,
+  onChange,
+  onError,
+  photoStyle,
+  onPhotoStyle,
+}: Props & {
+  photoStyle?: BlockStyle;
+  onPhotoStyle?: (patch: Partial<BlockStyle>) => void;
+}) {
   const onFile = (file: File | undefined) => {
     if (!file) return;
     readPhoto(file)
@@ -140,34 +150,39 @@ export function FormFoto({ data, onChange, onError }: Props) {
   };
 
   return (
-    <div className="flex items-center gap-3">
-      <label className="cursor-pointer rounded-md border border-input bg-background px-3 py-2 text-sm hover:bg-accent">
-        {data.foto ? "Foto ersetzen" : "Foto hochladen"}
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={(e) => {
-            onFile(e.target.files?.[0]);
-            e.target.value = "";
-          }}
-        />
-      </label>
-      {data.foto ? (
-        <>
-          <img src={data.foto} alt="Vorschau" className="h-10 w-10 rounded-full object-cover" />
-          <button
-            type="button"
-            onClick={() => onChange({ foto: null })}
-            className="text-sm text-muted-foreground underline hover:text-foreground"
-          >
-            Entfernen
-          </button>
-        </>
-      ) : (
-        <span className="text-xs text-muted-foreground">
-          Ohne Foto werden die Initialen angezeigt.
-        </span>
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-3">
+        <label className="cursor-pointer rounded-md border border-input bg-background px-3 py-2 text-sm hover:bg-accent">
+          {data.foto ? "Foto ersetzen" : "Foto hochladen"}
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              onFile(e.target.files?.[0]);
+              e.target.value = "";
+            }}
+          />
+        </label>
+        {data.foto ? (
+          <>
+            <img src={data.foto} alt="Vorschau" className="h-10 w-10 rounded-full object-cover" />
+            <button
+              type="button"
+              onClick={() => onChange({ foto: null })}
+              className="text-sm text-muted-foreground underline hover:text-foreground"
+            >
+              Entfernen
+            </button>
+          </>
+        ) : (
+          <span className="text-xs text-muted-foreground">
+            Ohne Foto werden die Initialen angezeigt.
+          </span>
+        )}
+      </div>
+      {photoStyle && onPhotoStyle && (
+        <PhotoControls style={photoStyle} onChange={onPhotoStyle} hasPhoto={!!data.foto} compact />
       )}
     </div>
   );
@@ -219,6 +234,42 @@ export function FormOrtDatum({ data, onChange }: Props) {
           onChange={(e) => onChange({ datum: e.target.value })}
         />
       </Field>
+    </div>
+  );
+}
+
+export function FormMeta({
+  meta,
+  auto,
+  onChange,
+}: {
+  meta: PdfMeta;
+  /** Automatisch berechnete Werte – als Platzhalter sichtbar. */
+  auto: PdfMeta;
+  onChange: (patch: Partial<PdfMeta>) => void;
+}) {
+  const rows: { key: keyof PdfMeta; label: string }[] = [
+    { key: "title", label: "Titel" },
+    { key: "author", label: "Autor/in" },
+    { key: "subject", label: "Betreff" },
+    { key: "keywords", label: "Stichwörter" },
+  ];
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="text-xs text-muted-foreground">
+        Landet als Dokumentinfo im PDF – so heisst die Datei im Mailprogramm nicht nur
+        &bdquo;Titelblatt&ldquo;. Leere Felder werden automatisch gefüllt.
+      </p>
+      {rows.map((r) => (
+        <Field key={r.key} label={r.label}>
+          <input
+            className={inputCls}
+            value={meta[r.key]}
+            onChange={(e) => onChange({ [r.key]: e.target.value })}
+            placeholder={auto[r.key]}
+          />
+        </Field>
+      ))}
     </div>
   );
 }
