@@ -667,9 +667,9 @@ export function CoverBackground({
           className="absolute"
           style={{
             left: "14mm",
-            top: "88mm",
+            top: "62mm",
             width: "182mm",
-            height: "195mm",
+            height: "221mm",
             borderRadius: "10mm",
             backgroundColor: colors.bg,
           }}
@@ -678,7 +678,7 @@ export function CoverBackground({
           className="absolute"
           style={{
             left: "14mm",
-            top: "88mm",
+            top: "62mm",
             width: "182mm",
             height: "3mm",
             borderTopLeftRadius: "10mm",
