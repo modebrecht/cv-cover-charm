@@ -80,7 +80,7 @@ const emptyData: CoverData = {
 };
 
 const STORAGE_KEY = "titelblatt:v3";
-const SAVE_VERSION = 3;
+const SAVE_VERSION = 4;
 
 /** Ort und Datum vorbelegen, ohne Eingaben zu überschreiben. */
 const prefill = (d: CoverData): CoverData => ({
@@ -125,6 +125,29 @@ const SHAPE_LABEL: Record<ShapeKind, string> = {
 
 const filled = (values: (string | null)[]) => values.filter((v) => v && v.trim()).length;
 
+/** "Eigenes Feld 1", "Eigenes Feld 2", … – fortlaufend je Art. */
+function nextLabel(existing: CustomField[], base: string): string {
+  const used = existing
+    .map((c) => new RegExp(`^${base} (\\d+)$`).exec(c.label)?.[1])
+    .filter(Boolean)
+    .map(Number);
+  return `${base} ${(used.length ? Math.max(...used) : 0) + 1}`;
+}
+
+/** Importierte Elemente auf die erwartete Form bringen. */
+function sanitizeCustoms(raw: unknown): CustomField[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((c): c is Record<string, unknown> => !!c && typeof c === "object")
+    .map((c, i) => ({
+      id: typeof c.id === "string" ? c.id : `custom-import-${i}`,
+      label: typeof c.label === "string" ? c.label : "Eigenes Feld",
+      text: typeof c.text === "string" ? c.text : "",
+      shape: (["circle", "rect", "line", "path"] as const).find((k) => k === c.shape),
+      path: typeof c.path === "string" ? c.path : undefined,
+    }));
+}
+
 function Index() {
   const [data, setData] = useState<CoverData>(emptyData);
   const [template, setTemplate] = useState<TemplateId>(DEFAULTS.TEMPLATE);
@@ -163,8 +186,8 @@ function Index() {
   const colors = colorsByTemplate[template];
   const overrides = layoutByTemplate[template];
   const blocks = useMemo(
-    () => buildBlocks(template, data, customs, overrides),
-    [template, data, customs, overrides],
+    () => buildBlocks(template, data, customs, overrides, activeTemplate.slots),
+    [template, data, customs, overrides, activeTemplate],
   );
   const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
   const selectedCustom = customs.find((c) => c.id === selected) ?? null;
@@ -205,11 +228,12 @@ function Index() {
       return;
     }
     const id = `custom-${Date.now()}`;
+    const base = shape ? SHAPE_LABEL[shape] : pill ? "Pille" : "Eigenes Feld";
     setCustoms((c) => [
       ...c,
       shape
-        ? { id, label: SHAPE_LABEL[shape], text: "", shape }
-        : { id, label: pill ? "Pille" : "Eigenes Feld", text: pill ? "Neue Pille" : "Neuer Text" },
+        ? { id, label: nextLabel(c, base), text: "", shape }
+        : { id, label: nextLabel(c, base), text: pill ? "Neue Pille" : "Neuer Text" },
     ]);
     if (pill) {
       // Textfeld mit Hintergrund: schrumpft auf die Textbreite, runde Ecken
@@ -244,7 +268,10 @@ function Index() {
       .join(" ");
 
     const id = `custom-${Date.now()}`;
-    setCustoms((c) => [...c, { id, label: "Freihand", text: "", shape: "path", path: d }]);
+    setCustoms((c) => [
+      ...c,
+      { id, label: nextLabel(c, "Freihand"), text: "", shape: "path", path: d },
+    ]);
     setLayoutByTemplate((l) => ({
       ...l,
       [template]: {
@@ -332,7 +359,7 @@ function Index() {
         if (p.template && TEMPLATES.some((t) => t.id === p.template)) setTemplate(p.template);
         if (p.colors) setColorsByTemplate((c) => ({ ...c, ...p.colors }));
         if (p.layout) setLayoutByTemplate((l) => ({ ...l, ...p.layout }));
-        if (Array.isArray(p.customs)) setCustoms(p.customs);
+        setCustoms(sanitizeCustoms(p.customs));
         if (typeof p.fontScale === "number") setFontScale(p.fontScale);
         return;
       } catch {
@@ -457,7 +484,7 @@ function Index() {
         }
         if (parsed.colors) setColorsByTemplate((c) => ({ ...c, ...parsed.colors }));
         if (parsed.layout) setLayoutByTemplate((l) => ({ ...l, ...parsed.layout }));
-        if (Array.isArray(parsed.customs)) setCustoms(parsed.customs);
+        setCustoms(sanitizeCustoms(parsed.customs));
         if (typeof parsed.fontScale === "number") setFontScale(parsed.fontScale);
         setStatus({ kind: "ok", text: "Entwurf geladen" });
       } catch {

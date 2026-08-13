@@ -669,7 +669,7 @@ export function CoverBackground({
             left: "14mm",
             top: "88mm",
             width: "182mm",
-            height: "182mm",
+            height: "195mm",
             borderRadius: "10mm",
             backgroundColor: colors.bg,
           }}
