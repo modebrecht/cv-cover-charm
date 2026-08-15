@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { PAGE } from "@/default-config";
 
-const A4_W = 794; // 210mm @96dpi
-const A4_H = 1123; // 297mm @96dpi
+/** Muss mit dem Blatt und dem Export übereinstimmen – siehe PAGE. */
+const A4_W = PAGE.WIDTH;
+const A4_H = PAGE.HEIGHT;
 
 /**
  * Skaliert das A4-Blatt so, dass es in die verfügbare Breite *und* Höhe passt.
