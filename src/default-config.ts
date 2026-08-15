@@ -86,6 +86,14 @@ export const PHOTO = {
   QUALITY: 0.9,
 } as const;
 
+/** Voreinstellungen für zusätzlich eingefügte Bilder (nicht das Bewerbungsfoto). */
+export const IMAGE = {
+  /** Kantenlänge in mm. Klein genug, dass es in die freie Fläche der Vorlagen passt. */
+  SIZE: 35,
+  /** Eckenradius in mm; 999 wäre ein Kreis. */
+  RADIUS: 2,
+} as const;
+
 /** Voreinstellungen für neu gezeichnete Formen. */
 export const SHAPE = {
   /** Standardgrösse in mm. */

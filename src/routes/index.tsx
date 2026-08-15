@@ -17,12 +17,14 @@ import { ElementBar } from "@/components/cover/ElementBar";
 import { Section } from "@/components/cover/Section";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
+import { readPhoto } from "@/lib/image";
 import { DEFAULTS, FONT, PAGE, PDF, SHAPE } from "@/default-config";
 
 import {
   DEMO_DATA,
   EMPTY_META,
   TEMPLATES,
+  type Block,
   type BlockStyle,
   type CoverData,
   type CustomField,
@@ -80,7 +82,8 @@ const emptyData: CoverData = {
 };
 
 const STORAGE_KEY = "titelblatt:v3";
-const SAVE_VERSION = 4;
+/** 5 = Bild-Elemente (`kind`/`src` an den eigenen Feldern). */
+const SAVE_VERSION = 5;
 
 /** Ort und Datum vorbelegen, ohne Eingaben zu überschreiben. */
 const prefill = (d: CoverData): CoverData => ({
@@ -139,13 +142,29 @@ function sanitizeCustoms(raw: unknown): CustomField[] {
   if (!Array.isArray(raw)) return [];
   return raw
     .filter((c): c is Record<string, unknown> => !!c && typeof c === "object")
-    .map((c, i) => ({
-      id: typeof c.id === "string" ? c.id : `custom-import-${i}`,
-      label: typeof c.label === "string" ? c.label : "Eigenes Feld",
-      text: typeof c.text === "string" ? c.text : "",
-      shape: (["circle", "rect", "line", "path"] as const).find((k) => k === c.shape),
-      path: typeof c.path === "string" ? c.path : undefined,
-    }));
+    .map((c, i) => {
+      const shape = (["circle", "rect", "line", "path"] as const).find((k) => k === c.shape);
+      // Ältere Entwürfe kennen `kind` noch nicht – dort entscheidet `shape`.
+      const kind =
+        (["text", "shape", "image"] as const).find((k) => k === c.kind) ??
+        (shape ? "shape" : "text");
+      return {
+        id: typeof c.id === "string" ? c.id : `custom-import-${i}`,
+        label: typeof c.label === "string" ? c.label : "Eigenes Feld",
+        text: typeof c.text === "string" ? c.text : "",
+        kind,
+        shape,
+        path: typeof c.path === "string" ? c.path : undefined,
+        // nur Data-URLs übernehmen: ein importierter http-Link würde beim
+        // PDF-Export als leere Fläche enden
+        src:
+          kind === "image" && typeof c.src === "string" && c.src.startsWith("data:")
+            ? c.src
+            : kind === "image"
+              ? null
+              : undefined,
+      };
+    });
 }
 
 function Index() {
@@ -163,7 +182,14 @@ function Index() {
   const [panelOpen, setPanelOpen] = useState(true);
   const [addOpen, setAddOpen] = useState(false);
   const [drawing, setDrawing] = useState(false);
-  const [status, setStatus] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  /** Zweiter Klick bestätigt das Leeren – das Formular ist sonst weg. */
+  const [confirmReset, setConfirmReset] = useState(false);
+  const [status, setStatus] = useState<{
+    kind: "ok" | "error";
+    text: string;
+    /** Optionale Sofort-Rücknahme, z. B. nach dem Entfernen eines Elements. */
+    undo?: () => void;
+  } | null>(null);
   const [open, setOpen] = useState<Record<SectionKey, boolean>>({
     vorlage: true,
     farben: false,
@@ -232,8 +258,13 @@ function Index() {
     setCustoms((c) => [
       ...c,
       shape
-        ? { id, label: nextLabel(c, base), text: "", shape }
-        : { id, label: nextLabel(c, base), text: pill ? "Neue Pille" : "Neuer Text" },
+        ? { id, label: nextLabel(c, base), text: "", kind: "shape", shape }
+        : {
+            id,
+            label: nextLabel(c, base),
+            text: pill ? "Neue Pille" : "Neuer Text",
+            kind: "text",
+          },
     ]);
     if (pill) {
       // Textfeld mit Hintergrund: schrumpft auf die Textbreite, runde Ecken
@@ -248,6 +279,35 @@ function Index() {
       });
     }
     setSelected(id);
+  };
+
+  /**
+   * Bild-Element einfügen. Das Bewerbungsfoto bleibt ein eigener Block der
+   * Vorlage; hierüber lassen sich beliebig viele weitere Bilder platzieren.
+   */
+  const addImage = () => {
+    setAddOpen(false);
+    const id = `custom-${Date.now()}`;
+    setCustoms((c) => [
+      ...c,
+      { id, label: nextLabel(c, "Bild"), text: "", kind: "image", src: null },
+    ]);
+    setSelected(id);
+    setStatus({ kind: "ok", text: "Bild-Element eingefügt – unten „Bild wählen“." });
+  };
+
+  /** Datei in ein Bild-Element laden (null leert es wieder). */
+  const pickImage = async (id: string, file: File | null) => {
+    if (!file) {
+      patchCustom(id, { src: null });
+      return;
+    }
+    try {
+      const src = await readPhoto(file);
+      patchCustom(id, { src });
+    } catch (e) {
+      setStatus({ kind: "error", text: e instanceof Error ? e.message : "Bild nicht lesbar" });
+    }
   };
 
   /** Freihand-Zug in eine Form umrechnen (Pfad normiert auf 0–100). */
@@ -270,7 +330,7 @@ function Index() {
     const id = `custom-${Date.now()}`;
     setCustoms((c) => [
       ...c,
-      { id, label: nextLabel(c, "Freihand"), text: "", shape: "path", path: d },
+      { id, label: nextLabel(c, "Freihand"), text: "", kind: "shape", shape: "path", path: d },
     ]);
     setLayoutByTemplate((l) => ({
       ...l,
@@ -283,9 +343,38 @@ function Index() {
   };
   const patchCustom = (id: string, p: Partial<CustomField>) =>
     setCustoms((c) => c.map((f) => (f.id === id ? { ...f, ...p } : f)));
-  const removeCustom = (id: string) => {
-    setCustoms((c) => c.filter((f) => f.id !== id));
+
+  /**
+   * Element entfernen – mit Rücknahme.
+   *
+   * Selbst eingefügte Elemente verschwinden ganz, Elemente der Vorlage werden
+   * nur ausgeblendet und lassen sich jederzeit wieder einblenden. Damit das
+   * niemand raten muss, sagt die Meldung es und bietet den Weg zurück an.
+   */
+  const removeBlock = (block: Block) => {
     setSelected(null);
+    const own = customs.find((c) => c.id === block.id);
+    if (own) {
+      setCustoms((c) => c.filter((f) => f.id !== block.id));
+      setStatus({
+        kind: "ok",
+        text: `${block.label} gelöscht`,
+        undo: () => {
+          setCustoms((c) => (c.some((f) => f.id === own.id) ? c : [...c, own]));
+          setStatus(null);
+        },
+      });
+      return;
+    }
+    patchStyle(block.id, { hidden: true });
+    setStatus({
+      kind: "ok",
+      text: `${block.label} ausgeblendet – unter der Vorschau wieder einblendbar`,
+      undo: () => {
+        patchStyle(block.id, { hidden: false });
+        setStatus(null);
+      },
+    });
   };
 
   const photoBlock = blocks.find((b) => b.kind === "photo") ?? null;
@@ -318,7 +407,8 @@ function Index() {
 
   useEffect(() => {
     if (!status) return;
-    const t = setTimeout(() => setStatus(null), 4000);
+    // Rücknahme braucht Lesezeit, blosse Bestätigungen nicht
+    const t = setTimeout(() => setStatus(null), status.undo ? 9000 : 4000);
     return () => clearTimeout(t);
   }, [status]);
 
@@ -329,6 +419,7 @@ function Index() {
         setMenuOpen(false);
         setAddOpen(false);
         setDrawing(false);
+        setConfirmReset(false);
       }
     };
     document.addEventListener("keydown", onKey);
@@ -400,6 +491,8 @@ function Index() {
   const resetForm = () => {
     setData(prefill(emptyData));
     setSelected(null);
+    setConfirmReset(false);
+    setStatus({ kind: "ok", text: "Formular geleert" });
   };
 
   const fileBase = () => {
@@ -538,13 +631,22 @@ function Index() {
           {status && (
             <span
               role="status"
-              className={`hidden truncate rounded-md px-3 py-1.5 text-xs md:inline-block ${
+              className={`hidden min-w-0 items-center gap-2 rounded-md px-3 py-1.5 text-xs md:inline-flex ${
                 status.kind === "error"
                   ? "bg-destructive/10 text-destructive"
                   : "bg-primary/10 text-primary"
               }`}
             >
-              {status.text}
+              <span className="truncate">{status.text}</span>
+              {status.undo && (
+                <button
+                  type="button"
+                  onClick={status.undo}
+                  className="shrink-0 font-medium underline underline-offset-2 hover:no-underline"
+                >
+                  Rückgängig
+                </button>
+              )}
             </span>
           )}
 
@@ -637,16 +739,42 @@ function Index() {
         >
           <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 sm:w-full">
             <div className="flex items-center justify-between gap-2 px-1">
-              <span className="text-xs text-muted-foreground">
-                Alles ausfüllen, dann schliessen.
-              </span>
-              <button
-                type="button"
-                onClick={resetForm}
-                className="shrink-0 text-xs text-muted-foreground underline hover:text-foreground"
-              >
-                Formular leeren
-              </button>
+              {confirmReset ? (
+                <>
+                  <span className="text-xs font-medium text-destructive">
+                    Alle Eingaben löschen?
+                  </span>
+                  <span className="flex shrink-0 gap-1">
+                    <button
+                      type="button"
+                      onClick={resetForm}
+                      className="rounded-md bg-destructive px-2 py-1 text-xs font-medium text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      Ja, leeren
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmReset(false)}
+                      className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                    >
+                      Abbrechen
+                    </button>
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="text-xs text-muted-foreground">
+                    Alles ausfüllen, dann schliessen.
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmReset(true)}
+                    className="shrink-0 text-xs text-muted-foreground underline hover:text-foreground"
+                  >
+                    Formular leeren
+                  </button>
+                </>
+              )}
             </div>
 
             <Section
@@ -675,7 +803,14 @@ function Index() {
             >
               <FormFoto
                 data={data}
-                onChange={patch}
+                onChange={(p) => {
+                  patch(p);
+                  // Wer ein Foto hochlädt, will es auch sehen – ein zuvor
+                  // ausgeblendeter Fotorahmen kommt dafür zurück.
+                  if (p.foto && photoBlock?.style.hidden) {
+                    patchStyle(photoBlock.id, { hidden: false });
+                  }
+                }}
                 onError={(text) => setStatus({ kind: "error", text })}
                 photoStyle={photoBlock?.style}
                 onPhotoStyle={photoBlock ? (p) => patchStyle(photoBlock.id, p) : undefined}
@@ -861,14 +996,40 @@ function Index() {
                   onCustomChange={
                     selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
                   }
-                  onDelete={selectedCustom ? () => removeCustom(selectedCustom.id) : undefined}
+                  onDelete={() => removeBlock(selectedBlock)}
                   hasPhoto={!!data.foto}
+                  onPickImage={
+                    selectedBlock.kind === "image"
+                      ? (file) => pickImage(selectedBlock.id, file)
+                      : undefined
+                  }
                 />
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-background px-4 py-2.5">
                   <span className="text-sm text-muted-foreground">
                     Element antippen zum Anpassen, ziehen zum Verschieben.
                   </span>
+
+                  {/*
+                    Ausgeblendetes direkt hier anbieten und nicht nur tief im
+                    Formular: Wer ein Element entfernt, sucht den Weg zurück
+                    genau an dieser Stelle.
+                  */}
+                  {hiddenBlocks.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-1">
+                      {hiddenBlocks.map((b) => (
+                        <button
+                          key={b.id}
+                          type="button"
+                          onClick={() => patchStyle(b.id, { hidden: false })}
+                          className="rounded-full border border-dashed border-input px-2.5 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                          title={`${b.label} wieder einblenden`}
+                        >
+                          + {b.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   <div className="relative ml-auto" ref={addRef}>
                     <button
                       type="button"
@@ -907,6 +1068,17 @@ function Index() {
                           </span>
                           Pille (Text)
                         </button>
+                        <button
+                          type="button"
+                          onClick={addImage}
+                          className="flex w-full items-center gap-3 border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                        >
+                          <span className="w-4 text-center" aria-hidden>
+                            ▣
+                          </span>
+                          Bild
+                          <span className="ml-auto text-xs text-muted-foreground">mehrfach</span>
+                        </button>
                         {(["circle", "rect", "line", "path"] as const).map((sh) => (
                           <button
                             key={sh}
@@ -939,11 +1111,20 @@ function Index() {
               {status && (
                 <p
                   role="status"
-                  className={`mt-2 text-center text-xs md:hidden ${
+                  className={`mt-2 flex flex-wrap items-center justify-center gap-2 text-center text-xs md:hidden ${
                     status.kind === "error" ? "text-destructive" : "text-primary"
                   }`}
                 >
                   {status.text}
+                  {status.undo && (
+                    <button
+                      type="button"
+                      onClick={status.undo}
+                      className="font-medium underline underline-offset-2"
+                    >
+                      Rückgängig
+                    </button>
+                  )}
                 </p>
               )}
             </div>

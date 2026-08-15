@@ -107,7 +107,7 @@ export function PhotoControls({ style: st, onChange, hasPhoto, compact }: Props)
         </>
       ) : (
         <p className="text-xs text-muted-foreground">
-          Zuschneiden ist möglich, sobald ein Foto hochgeladen ist.
+          Zuschneiden ist möglich, sobald ein Bild gewählt ist.
         </p>
       )}
     </div>

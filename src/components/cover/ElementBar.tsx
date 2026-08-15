@@ -16,6 +16,8 @@ type Props = {
   onDelete?: () => void;
   /** Ist ein Foto hochgeladen? Steuert die Zuschnitt-Regler. */
   hasPhoto?: boolean;
+  /** Bild eines Bild-Elements setzen bzw. mit null entfernen. */
+  onPickImage?: (file: File | null) => void;
 };
 
 type Tab = "text" | "absatz" | "farbe" | "position" | "form";
@@ -133,12 +135,17 @@ export function ElementBar({
   onCustomChange,
   onDelete,
   hasPhoto = false,
+  onPickImage,
 }: Props) {
   const st = block.style;
   const isText = block.kind === "text";
   const isShape = block.kind === "shape";
   const isPhoto = block.kind === "photo";
+  const isImage = block.kind === "image";
   const isSlot = slots.some((s) => s.key === st.color);
+  // Zuschnitt braucht ein Bild – beim Foto steckt es in den Daten, beim
+  // Bild-Element am Block selbst.
+  const cropReady = isImage ? !!block.src : hasPhoto;
 
   const tabs: Tab[] = isText
     ? ["text", "absatz", "farbe", "position"]
@@ -195,9 +202,10 @@ export function ElementBar({
             Zurücksetzen
           </button>
           {/*
-            Eine einzige Aktion statt "Ausblenden" und "Löschen" nebeneinander:
-            Selbst hinzugefügte Elemente verschwinden ganz, Elemente der Vorlage
-            werden ausgeblendet und lassen sich im Formular wieder einblenden.
+            Eine einzige Aktion statt "Ausblenden" und "Löschen" nebeneinander.
+            Was danach passiert, entscheidet der Aufrufer: eigene Elemente
+            verschwinden ganz, Elemente der Vorlage werden ausgeblendet. Beides
+            lässt sich über die Meldung sofort zurücknehmen.
           */}
           <button
             type="button"
@@ -366,7 +374,7 @@ export function ElementBar({
 
         {tab === "form" && (
           <>
-            <Ctl label={isPhoto ? "Grösse" : "Breite"} grow>
+            <Ctl label={isPhoto || isImage ? "Grösse" : "Breite"} grow>
               <Slider
                 value={st.w}
                 min={5}
@@ -390,7 +398,35 @@ export function ElementBar({
               </Ctl>
             )}
 
-            {isPhoto && <PhotoControls style={st} onChange={onChange} hasPhoto={hasPhoto} />}
+            {isImage && onPickImage && (
+              <Ctl label="Bild">
+                <label className="cursor-pointer rounded-md border border-input px-2 py-1 text-xs hover:bg-accent">
+                  {block.src ? "Ersetzen" : "Bild wählen"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      onPickImage(e.target.files?.[0] ?? null);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+                {block.src && (
+                  <button
+                    type="button"
+                    className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                    onClick={() => onPickImage(null)}
+                  >
+                    Leeren
+                  </button>
+                )}
+              </Ctl>
+            )}
+
+            {(isPhoto || isImage) && (
+              <PhotoControls style={st} onChange={onChange} hasPhoto={cropReady} />
+            )}
 
             {isShape && (
               <>
@@ -423,7 +459,7 @@ export function ElementBar({
 
         {tab === "farbe" && (
           <>
-            <Ctl label={isShape ? "Linie" : isPhoto ? "Rahmen" : "Textfarbe"}>
+            <Ctl label={isShape ? "Linie" : isPhoto || isImage ? "Rahmen" : "Textfarbe"}>
               <select
                 value={isSlot ? st.color : "custom"}
                 onChange={(e) =>

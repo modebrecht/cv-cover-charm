@@ -7,7 +7,8 @@ import type {
   ColorSlot,
   TemplateId,
 } from "./types";
-import { FONT, SHAPE } from "@/default-config";
+import { customKind } from "./types";
+import { FONT, IMAGE, SHAPE } from "@/default-config";
 import { newElementSpot } from "./new-element";
 
 const base: BlockStyle = {
@@ -3352,6 +3353,24 @@ export function customDefaultStyle(
   field?: CustomField,
 ): BlockStyle {
   const spot = newElementSpot(template, slots, index);
+  if (field && customKind(field) === "image") {
+    // Die Marke aus SPOTS zeigt auf die freie Fläche der Vorlage – dort startet
+    // auch das Bild. Weitere Bilder staffeln sich diagonal wie Fenster, sonst
+    // liegt das zweite exakt auf dem ersten und lässt sich nicht mehr greifen.
+    const step = (index % 4) * 8;
+    const base = newElementSpot(template, slots, 0);
+    return s({
+      x: base.x + step,
+      y: base.y + step,
+      w: IMAGE.SIZE,
+      ratio: 1,
+      radius: IMAGE.RADIUS,
+      color: spot.shapeColor,
+      imgZoom: 1,
+      imgX: 50,
+      imgY: 50,
+    });
+  }
   if (field?.shape) {
     const outlineOnly = field.shape === "line" || field.shape === "path";
     return s({
@@ -3402,13 +3421,15 @@ export function buildBlocks(
   }));
 
   customs.forEach((c, i) => {
+    const kind = customKind(c);
     blocks.push({
       id: c.id,
-      label: c.label || (c.shape ? "Form" : "Eigenes Feld"),
-      kind: c.shape ? "shape" : "text",
+      label: c.label || (kind === "shape" ? "Form" : kind === "image" ? "Bild" : "Eigenes Feld"),
+      kind,
       shape: c.shape,
       path: c.path,
-      lines: !c.shape && c.text ? c.text.split("\n") : [],
+      src: c.src,
+      lines: kind === "text" && c.text ? c.text.split("\n") : [],
       style: { ...customDefaultStyle(template, i, slots, c), ...(overrides[c.id] ?? {}) },
     });
   });

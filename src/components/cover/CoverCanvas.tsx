@@ -242,7 +242,10 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
           if (b.style.hidden) return null;
           const isPhoto = b.kind === "photo";
           const isShape = b.kind === "shape";
-          const empty = isPhoto ? !data.foto && !initials(data) : !isShape && b.lines.length === 0;
+          const isImage = b.kind === "image";
+          const empty = isPhoto
+            ? !data.foto && !initials(data)
+            : !isShape && !isImage && b.lines.length === 0;
           if (empty) return null;
           const active = editable && selected === b.id;
           const st = b.style;
@@ -268,6 +271,37 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
             >
               {isShape ? (
                 <ShapeElement shape={b.shape ?? "rect"} path={b.path} style={st} colors={colors} />
+              ) : isImage ? (
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: `${st.w * (st.ratio ?? 1)}mm`,
+                    overflow: "hidden",
+                    borderRadius: photoRadius(st),
+                    // ohne Bild bleibt ein gestrichelter Platzhalter stehen,
+                    // sonst wäre das frisch eingefügte Element unsichtbar
+                    border: b.src ? "none" : `1px dashed ${resolveColor(st.color, colors)}`,
+                    opacity: st.opacity,
+                  }}
+                >
+                  {b.src ? (
+                    <img src={b.src} alt="" draggable={false} style={crop(st)} />
+                  ) : (
+                    <div
+                      className="flex h-full w-full items-center justify-center"
+                      style={{
+                        color: resolveColor(st.color, colors),
+                        fontFamily: FONT_STACKS[st.font],
+                        fontSize: `${Math.max(7, st.w * 0.13)}pt`,
+                        textAlign: "center",
+                        padding: "2mm",
+                      }}
+                    >
+                      Bild wählen
+                    </div>
+                  )}
+                </div>
               ) : isPhoto ? (
                 data.foto ? (
                   <div
