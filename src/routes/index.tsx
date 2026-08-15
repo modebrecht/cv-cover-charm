@@ -17,7 +17,7 @@ import { ElementBar } from "@/components/cover/ElementBar";
 import { Section } from "@/components/cover/Section";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
-import { DEFAULTS, FONT, PDF, SHAPE } from "@/default-config";
+import { DEFAULTS, FONT, PAGE, PDF, SHAPE } from "@/default-config";
 
 import {
   DEMO_DATA,
@@ -421,12 +421,12 @@ function Index() {
       ]);
       const canvas = await html2canvas(exportRef.current, {
         scale: PDF.SCALE,
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.bg ?? "#ffffff",
         useCORS: true,
-        width: 794,
-        height: 1123,
-        windowWidth: 794,
-        windowHeight: 1123,
+        width: PAGE.WIDTH,
+        height: PAGE.HEIGHT,
+        windowWidth: PAGE.WIDTH,
+        windowHeight: PAGE.HEIGHT,
         scrollX: 0,
         scrollY: 0,
       });
@@ -958,8 +958,8 @@ function Index() {
           position: "fixed",
           left: "-10000px",
           top: 0,
-          width: "794px",
-          height: "1123px",
+          width: `${PAGE.WIDTH}px`,
+          height: `${PAGE.HEIGHT}px`,
           pointerEvents: "none",
           zIndex: -1,
         }}

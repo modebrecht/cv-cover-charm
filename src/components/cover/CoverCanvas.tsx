@@ -5,8 +5,12 @@ import { resolveColor } from "./layouts";
 import { CoverBackground } from "./CoverBackground";
 import { ShapeElement } from "./ShapeElement";
 import { resolveLayout } from "./resolve";
+import { PAGE } from "@/default-config";
 
 const MM = 96 / 25.4; // px pro mm bei 96dpi
+
+/** Ganzzahlige Blattmasse – siehe PAGE in default-config. */
+const { WIDTH: PAGE_W, HEIGHT: PAGE_H } = PAGE;
 
 export type Point = { x: number; y: number };
 
@@ -135,7 +139,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
   /** Zeigerposition in mm auf dem Blatt. */
   const toMm = (e: { clientX: number; clientY: number }): Point => {
     const rect = pageRef.current!.getBoundingClientRect();
-    const scale = rect.width / (210 * MM);
+    const scale = rect.width / PAGE_W;
     return {
       x: (e.clientX - rect.left) / scale / MM,
       y: (e.clientY - rect.top) / scale / MM,
@@ -178,7 +182,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     const page = pageRef.current;
     if (!page) return;
     const rect = page.getBoundingClientRect();
-    const scale = rect.width / (210 * MM);
+    const scale = rect.width / PAGE_W;
     const startX = e.clientX;
     const startY = e.clientY;
     const ox = block.style.x;
@@ -213,8 +217,15 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
   return (
     <div
       ref={ref}
-      className="relative overflow-hidden bg-white shadow-2xl"
-      style={{ width: "210mm", height: "297mm" }}
+      className="relative overflow-hidden shadow-2xl"
+      style={{
+        width: `${PAGE_W}px`,
+        height: `${PAGE_H}px`,
+        // Grundton des Blattes statt Weiss: sollte ein Hintergrund-Layer je um
+        // einen Bruchteil eines Pixels danebenliegen, blitzt die Vorlagenfarbe
+        // durch und nicht ein weisser Haarstrich.
+        backgroundColor: colors.bg ?? "#ffffff",
+      }}
       onPointerDown={(e) => {
         if (drawing) return;
         // Klick auf freie Fläche hebt die Auswahl auf. Der Vergleich mit

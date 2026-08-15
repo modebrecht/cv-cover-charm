@@ -58,6 +58,20 @@ export const UI = {
   TEMPLATE_DESCRIPTIONS: false,
 } as const;
 
+/**
+ * Blattmasse in ganzen Pixeln bei 96 dpi.
+ *
+ * A4 sind 210x297mm, in CSS-Pixeln also 793.69 x 1122.52 – keine ganzen Zahlen.
+ * Der Export rendert aber auf ein ganzzahliges Raster; stünde das Blatt in
+ * Millimetern, blieben rechts 0.31px und unten 0.48px übrig, die html2canvas
+ * mit seiner Hintergrundfarbe füllt – der weisse Rand im PDF. Vorschau,
+ * Blatt und Export müssen deshalb alle dieselbe ganzzahlige Grösse benutzen.
+ */
+export const PAGE = {
+  WIDTH: 794,
+  HEIGHT: 1123,
+} as const;
+
 /** PDF-Export. */
 export const PDF = {
   /** Renderfaktor gegenüber 96 dpi – 3 entspricht 288 dpi. */
