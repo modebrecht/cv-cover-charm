@@ -127,13 +127,25 @@ export type BlockStyle = {
   imgZoom?: number;
   imgX?: number;
   imgY?: number;
+  /**
+   * Rahmen um das Element in mm (0 = keiner) und dessen Farbe. Beim Foto und
+   * bei Bildern liegt der Rahmen aussen an und verändert die Bildgrösse nicht.
+   */
+  borderWidth?: number;
+  borderColor?: string;
+  /**
+   * Eckenradius des Element-Rahmens in mm. Bewusst getrennt von `bgRadius`:
+   * das ist der Radius der Badge-Pille und steht auf 999 vorbelegt – als
+   * Rahmen um ein Textfeld ergäbe das ungefragt eine Pille.
+   */
+  boxRadius?: number;
   /** Füllfarbe: hinter den Initialen bzw. Flächenfarbe einer Form (null = keine). */
   fill?: string | null;
   /** Linienstärke einer Form in mm. */
   strokeWidth?: number;
 };
 
-export type BlockKind = "text" | "photo" | "shape";
+export type BlockKind = "text" | "photo" | "shape" | "image";
 
 /** Ein Textabschnitt mit eigener Farbe/Gewichtung – für zweifarbige Zeilen. */
 export type Segment = { t: string; color?: string; weight?: number };
@@ -150,6 +162,8 @@ export type Block = {
   /** nur für kind === "shape" */
   shape?: ShapeKind;
   path?: string;
+  /** nur für kind === "image": Data-URL des Bildes, null = noch keins gewählt. */
+  src?: string | null;
 };
 
 export function lineText(line: Line): string {
@@ -165,18 +179,33 @@ export const SHAPE_KINDS: { value: ShapeKind; label: string }[] = [
   { value: "path", label: "Freihand" },
 ];
 
+/** Art eines selbst hinzugefügten Elements. */
+export type CustomKind = "text" | "shape" | "image";
+
 /**
- * Selbst hinzugefügtes Element. Ohne `shape` ist es ein Textfeld – so bleiben
- * ältere gespeicherte Entwürfe gültig, die nur `text` kannten.
+ * Selbst hinzugefügtes Element. `kind` fehlt in älteren gespeicherten
+ * Entwürfen – dort entscheidet `shape` zwischen Form und Textfeld, siehe
+ * `customKind`.
  */
 export type CustomField = {
   id: string;
   label: string;
   text: string;
+  kind?: CustomKind;
   shape?: ShapeKind;
   /** Nur für "path": SVG-Pfad in einem 0–100-Koordinatensystem. */
   path?: string;
+  /**
+   * Nur für `kind === "image"`: Data-URL des Bildes. `null` heisst, der Rahmen
+   * steht schon, das Bild fehlt noch.
+   */
+  src?: string | null;
 };
+
+/** Art des Elements – verträgt Entwürfe, die noch kein `kind` gespeichert haben. */
+export function customKind(c: CustomField): CustomKind {
+  return c.kind ?? (c.shape ? "shape" : "text");
+}
 
 export const FONT_STACKS: Record<BlockStyle["font"], string> = {
   sans: "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",

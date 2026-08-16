@@ -86,6 +86,27 @@ export const PHOTO = {
   QUALITY: 0.9,
 } as const;
 
+/** Rahmen um Foto, Bilder und Textfelder. */
+export const FRAME = {
+  /** Vorgabe für das Bewerbungsfoto in mm – entspricht dem bisherigen feinen Ring. */
+  PHOTO_WIDTH: 0.3,
+  /** Obergrenze des Reglers in mm. */
+  MAX_WIDTH: 6,
+  /**
+   * Heller Zwischenraum zwischen Bild und Rahmen in px ("Passepartout").
+   * Er hebt das Foto von farbigen Flächen ab.
+   */
+  GAP_PX: 3,
+} as const;
+
+/** Voreinstellungen für zusätzlich eingefügte Bilder (nicht das Bewerbungsfoto). */
+export const IMAGE = {
+  /** Kantenlänge in mm. Klein genug, dass es in die freie Fläche der Vorlagen passt. */
+  SIZE: 35,
+  /** Eckenradius in mm; 999 wäre ein Kreis. */
+  RADIUS: 2,
+} as const;
+
 /** Voreinstellungen für neu gezeichnete Formen. */
 export const SHAPE = {
   /** Standardgrösse in mm. */
