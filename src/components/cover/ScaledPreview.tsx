@@ -15,11 +15,17 @@ export function ScaledPreview({
   max = 1,
   fitHeight,
   overlay,
+  zoom = 1,
 }: {
   children: ReactNode;
   max?: number;
   fitHeight?: number;
   overlay?: (scale: number) => ReactNode;
+  /**
+   * Faktor auf die eingepasste Grösse. 1 heisst "füllt die Fläche"; darüber
+   * wird das Blatt grösser als der Ausschnitt und der Bereich scrollt.
+   */
+  zoom?: number;
 }) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
@@ -36,7 +42,8 @@ export function ScaledPreview({
 
   const byWidth = width > 0 ? width / A4_W : 0.4;
   const byHeight = fitHeight && fitHeight > 0 ? fitHeight / A4_H : Infinity;
-  const scale = Math.max(0.12, Math.min(max, byWidth, byHeight));
+  const fit = Math.min(max, byWidth, byHeight);
+  const scale = Math.max(0.12, fit * zoom);
 
   return (
     <div ref={boxRef} className="w-full">

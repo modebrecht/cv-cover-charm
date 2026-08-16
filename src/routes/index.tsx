@@ -18,7 +18,15 @@ import { Section } from "@/components/cover/Section";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { readPhoto } from "@/lib/image";
-import { DEFAULTS, FONT, PAGE, PDF, SHAPE } from "@/default-config";
+import {
+  describe,
+  formatWhen,
+  hasContent,
+  pushSnapshot,
+  readHistory,
+  type Snapshot,
+} from "@/lib/history";
+import { DEFAULTS, FONT, PAGE, PDF, PREVIEW, SHAPE } from "@/default-config";
 
 import {
   customKind,
@@ -209,6 +217,10 @@ function Index() {
   const [confirmReset, setConfirmReset] = useState(false);
   /** Dasselbe für "Alles zurücksetzen" im Menü oben rechts. */
   const [confirmWipe, setConfirmWipe] = useState(false);
+  /** … und für die Demo-Daten, die alle Eingaben überschreiben. */
+  const [confirmDemo, setConfirmDemo] = useState(false);
+  const [zoom, setZoom] = useState<number>(PREVIEW.ZOOM_DEFAULT);
+  const [history, setHistory] = useState<Snapshot[]>([]);
   const [status, setStatus] = useState<{
     kind: "ok" | "error";
     text: string;
@@ -454,6 +466,7 @@ function Index() {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setMenuOpen(false);
         setConfirmWipe(false);
+        setConfirmDemo(false);
       }
       if (addRef.current && !addRef.current.contains(e.target as Node)) setAddOpen(false);
     };
@@ -477,6 +490,7 @@ function Index() {
         setDrawing(false);
         setConfirmReset(false);
         setConfirmWipe(false);
+        setConfirmDemo(false);
       }
     };
     document.addEventListener("keydown", onKey);
@@ -494,6 +508,7 @@ function Index() {
   // Entwurf laden (nach der Hydration, damit Server und Client übereinstimmen).
   useEffect(() => {
     restored.current = true;
+    setHistory(readHistory());
     let saved: string | null = null;
     try {
       saved = localStorage.getItem(STORAGE_KEY);
@@ -517,29 +532,51 @@ function Index() {
     setData(prefill);
   }, []);
 
+  /** Der laufende Entwurf, so wie er gespeichert bzw. exportiert wird. */
+  const snapshotPayload = useCallback(
+    () => ({
+      version: SAVE_VERSION,
+      template,
+      colors: colorsByTemplate,
+      layout: layoutByTemplate,
+      customs,
+      fontScale,
+      data,
+    }),
+    [template, colorsByTemplate, layoutByTemplate, customs, fontScale, data],
+  );
+
+  /**
+   * Aktuellen Stand in die Historie legen.
+   *
+   * `force` vor jedem Zurücksetzen: dort zählt jeder Stand, auch wenn eben
+   * erst einer entstanden ist. Ein leeres Formular ist nichts wert und wird
+   * übersprungen.
+   */
+  const keepSnapshot = useCallback(
+    (label: string, force = false) => {
+      const payload = snapshotPayload();
+      if (!hasContent(payload)) return;
+      setHistory(pushSnapshot(payload, label, force));
+    },
+    [snapshotPayload],
+  );
+
   // Entwurf sichern
   useEffect(() => {
     if (!restored.current) return;
     const id = setTimeout(() => {
       try {
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify({
-            version: SAVE_VERSION,
-            template,
-            colors: colorsByTemplate,
-            layout: layoutByTemplate,
-            customs,
-            fontScale,
-            data,
-          }),
-        );
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshotPayload()));
       } catch {
         // Speicher voll (z. B. sehr grosses Foto) – Bearbeiten geht trotzdem weiter
       }
+      // Nebenher einen Stand ohne Bilder ablegen. `pushSnapshot` bremst selbst,
+      // sonst entstünde bei jedem Tastendruck ein Eintrag.
+      keepSnapshot("Automatisch");
     }, 400);
     return () => clearTimeout(id);
-  }, [template, colorsByTemplate, layoutByTemplate, customs, fontScale, data]);
+  }, [snapshotPayload, keepSnapshot]);
 
   /*
    * Beide Knöpfe setzen auch das Layout zurück. Sonst wirkt ein frisch
@@ -547,27 +584,59 @@ function Index() {
    * ein entfernter Fotorahmen fehlt weiter, obwohl "neu angefangen" wurde.
    */
   const loadDemo = () => {
+    keepSnapshot("Vor den Demo-Daten", true);
     setData(prefill({ ...DEMO_DATA, datum: "", ort: "", kicker: "" }));
     resetAllLayouts();
     setMenuOpen(false);
+    setConfirmDemo(false);
     setStatus({ kind: "ok", text: "Beispieldaten eingefügt, Positionen zurückgesetzt" });
   };
   const resetForm = () => {
+    keepSnapshot("Vor dem Leeren", true);
     setData(prefill(emptyData));
     resetAllLayouts();
     setConfirmReset(false);
-    setStatus({ kind: "ok", text: "Formular geleert, Positionen zurückgesetzt" });
+    setStatus({ kind: "ok", text: "Formular geleert – frühere Stände im Menü oben rechts" });
   };
 
   /** Werkseinstellung: Eingaben, Layout, Farben, eigene Elemente, Vorlage. */
   const resetEverything = () => {
+    keepSnapshot("Vor dem Zurücksetzen", true);
     setData(prefill(emptyData));
     setColorsByTemplate(allDefaultColors());
     setCustoms([]);
     setTemplate(DEFAULTS.TEMPLATE);
     resetAllLayouts();
     setMenuOpen(false);
-    setStatus({ kind: "ok", text: "Alles zurückgesetzt" });
+    setConfirmWipe(false);
+    setStatus({ kind: "ok", text: "Alles zurückgesetzt – frühere Stände im Menü oben rechts" });
+  };
+
+  /**
+   * Früheren Stand laden. Der aktuelle wandert vorher in die Historie, damit
+   * das Zurückholen selbst nicht das Einzige ist, was man nicht rückgängig
+   * machen kann. Bilder fehlen in der Historie und bleiben deshalb, wie sie
+   * sind – sonst wäre ein hochgeladenes Foto beim Zurückholen plötzlich weg.
+   */
+  const restoreSnapshot = (snap: Snapshot) => {
+    keepSnapshot("Vor dem Zurückholen", true);
+    const p = snap.payload as {
+      data?: Partial<CoverData>;
+      template?: TemplateId;
+      colors?: Partial<Record<TemplateId, Record<string, string>>>;
+      layout?: Partial<Record<TemplateId, StyleOverrides>>;
+      customs?: unknown;
+      fontScale?: number;
+    };
+    if (p.data) setData(prefill({ ...emptyData, ...p.data, foto: data.foto }));
+    if (p.template && TEMPLATES.some((t) => t.id === p.template)) setTemplate(p.template);
+    if (p.colors) setColorsByTemplate((c) => ({ ...c, ...p.colors }));
+    setLayoutByTemplate({ ...allEmptyLayouts(), ...(p.layout ?? {}) });
+    setCustoms(sanitizeCustoms(p.customs));
+    if (typeof p.fontScale === "number") setFontScale(p.fontScale);
+    setSelected(null);
+    setMenuOpen(false);
+    setStatus({ kind: "ok", text: `Stand von ${formatWhen(snap.at)} geladen` });
   };
 
   const resetPositionsOnly = () => {
@@ -733,13 +802,21 @@ function Index() {
 
           <div className="flex shrink-0 items-center gap-2">
             <ThemeToggle />
-            <button
-              type="button"
-              onClick={loadDemo}
-              className="hidden rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-accent md:inline-flex"
-            >
-              Demo ausfüllen
-            </button>
+            <label className="hidden items-center gap-1 sm:inline-flex">
+              <span className="sr-only">Zoom der Vorschau</span>
+              <select
+                value={zoom}
+                onChange={(e) => setZoom(Number(e.target.value))}
+                className="rounded-md border border-input bg-background px-2 py-2 text-sm hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
+                title="Zoom der Vorschau"
+              >
+                {PREVIEW.ZOOM_STEPS.map((z) => (
+                  <option key={z} value={z}>
+                    {Math.round(z * 100)} %
+                  </option>
+                ))}
+              </select>
+            </label>
             <div className="relative" ref={menuRef}>
               <button
                 type="button"
@@ -790,13 +867,65 @@ function Index() {
                       }}
                     />
                   </label>
-                  <button
-                    type="button"
-                    onClick={loadDemo}
-                    className="w-full border-t px-3 py-2 text-left text-sm hover:bg-accent md:hidden"
-                  >
-                    Demo ausfüllen
-                  </button>
+                  {/* Demo überschreibt Eingaben und Positionen – darum die Rückfrage */}
+                  {confirmDemo ? (
+                    <div className="flex items-center gap-1 border-t bg-accent/40 px-3 py-2">
+                      <span className="mr-auto text-xs font-medium">Demo-Daten übernehmen?</span>
+                      <button
+                        type="button"
+                        onClick={loadDemo}
+                        className="rounded-md bg-primary px-2 py-1 text-xs font-medium text-primary-foreground hover:bg-primary/90"
+                      >
+                        Ja
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmDemo(false)}
+                        className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setConfirmDemo(true)}
+                      className="w-full border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                    >
+                      Demo ausfüllen
+                    </button>
+                  )}
+
+                  {/*
+                    Frühere Stände. Sie entstehen im Hintergrund und vor allem
+                    vor jedem Zurücksetzen – wer versehentlich leert, holt seine
+                    Eingaben hier zurück. Bilder sind darin nicht enthalten.
+                  */}
+                  {history.length > 0 && (
+                    <div className="border-t">
+                      <div className="flex items-center justify-between px-3 pb-1 pt-2">
+                        <span className="text-xs font-medium text-muted-foreground">
+                          Frühere Stände
+                        </span>
+                        <span className="text-xs text-muted-foreground">ohne Bilder</span>
+                      </div>
+                      <div className="max-h-48 overflow-y-auto">
+                        {history.map((snap) => (
+                          <button
+                            key={snap.id}
+                            type="button"
+                            onClick={() => restoreSnapshot(snap)}
+                            className="flex w-full items-baseline justify-between gap-2 px-3 py-1.5 text-left text-sm hover:bg-accent"
+                          >
+                            <span className="truncate">{describe(snap.payload)}</span>
+                            <span className="shrink-0 text-xs text-muted-foreground">
+                              {formatWhen(snap.at)}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <button
                     type="button"
@@ -832,10 +961,9 @@ function Index() {
                     <button
                       type="button"
                       onClick={() => setConfirmWipe(true)}
-                      className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm text-destructive hover:bg-destructive/10"
+                      className="w-full border-t px-3 py-2 text-left text-sm text-destructive hover:bg-destructive/10"
                     >
-                      <span>Alles zurücksetzen</span>
-                      <span className="text-xs opacity-70">Eingaben, Farben, Elemente</span>
+                      Alles zurücksetzen
                     </button>
                   )}
                 </div>
@@ -1070,7 +1198,7 @@ function Index() {
         <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <div className="min-h-0 flex-1 overflow-auto px-2 pt-3 lg:px-6 lg:pt-4">
             <div className="mx-auto w-full max-w-[900px]">
-              <ScaledPreview max={1} fitHeight={fitHeight}>
+              <ScaledPreview max={1} fitHeight={fitHeight} zoom={zoom}>
                 <CoverCanvas
                   template={template}
                   data={data}
