@@ -17,6 +17,13 @@ export type CoverData = {
   betriebAdresse: string;
   ort: string;
   datum: string;
+  /**
+   * Überschriften über Kontakt und Empfänger. Leer heisst "Wortlaut der
+   * Vorlage" – die Vorlagen schreiben teils "Kontakt", teils "So erreichen Sie
+   * mich", "An" oder "Für".
+   */
+  labelKontakt: string;
+  labelEmpfaenger: string;
   foto: string | null;
   /** PDF-Dokumentinfos. Leere Felder werden automatisch gefüllt. */
   meta: PdfMeta;
@@ -92,7 +99,7 @@ export type BlockStyle = {
   tracking: number; // em
   lineHeight: number;
   opacity: number;
-  font: "sans" | "serif";
+  font: FontKey;
   hidden: boolean;
   list: ListStyle;
   /** Hintergrund-"Badge": Slot-Key, Hex oder null (= keiner). */
@@ -143,6 +150,16 @@ export type BlockStyle = {
   fill?: string | null;
   /** Linienstärke einer Form in mm. */
   strokeWidth?: number;
+  /**
+   * Farbverlauf als Füllung einer Form. `gradFrom` gesetzt schaltet ihn ein und
+   * ersetzt `fill`. Die Stopps stehen in Prozent, der Winkel in Grad
+   * (0 = von unten nach oben, 90 = nach rechts, 135 = diagonal).
+   */
+  gradFrom?: string | null;
+  gradTo?: string;
+  gradStart?: number;
+  gradEnd?: number;
+  gradAngle?: number;
 };
 
 export type BlockKind = "text" | "photo" | "shape" | "image";
@@ -207,9 +224,45 @@ export function customKind(c: CustomField): CustomKind {
   return c.kind ?? (c.shape ? "shape" : "text");
 }
 
-export const FONT_STACKS: Record<BlockStyle["font"], string> = {
+/**
+ * Nur Systemschriften.
+ *
+ * Der PDF-Export fotografiert das, was der Browser zeichnet – eine
+ * nachzuladende Webschrift wäre beim Export womöglich noch nicht da und das
+ * Blatt käme in der Ersatzschrift heraus. Jeder Eintrag hat darum eine Kette
+ * von Alternativen für Windows, macOS und Linux.
+ */
+export const FONT_STACKS: Record<FontKey, string> = {
   sans: "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
-  serif: "Georgia, 'Times New Roman', serif",
+  serif: "Georgia, 'Times New Roman', Times, serif",
+  times: "'Times New Roman', Times, Georgia, serif",
+  humanist: "Verdana, Geneva, 'DejaVu Sans', sans-serif",
+  freundlich: "'Trebuchet MS', 'Segoe UI', Tahoma, sans-serif",
+  schmal: "'Arial Narrow', 'Liberation Sans Narrow', 'Helvetica Neue Condensed', Arial, sans-serif",
+  maschine: "'Courier New', Courier, 'DejaVu Sans Mono', monospace",
+  plakativ: "Impact, Haettenschweiler, 'Arial Black', 'Franklin Gothic Bold', sans-serif",
+};
+
+export type FontKey =
+  | "sans"
+  | "serif"
+  | "times"
+  | "humanist"
+  | "freundlich"
+  | "schmal"
+  | "maschine"
+  | "plakativ";
+
+/** Anzeigenamen für die Schriftwahl in der Werkzeugleiste. */
+export const FONT_LABELS: Record<FontKey, string> = {
+  sans: "Sans",
+  serif: "Serif",
+  times: "Times",
+  humanist: "Verdana",
+  freundlich: "Trebuchet",
+  schmal: "Schmal",
+  maschine: "Maschine",
+  plakativ: "Plakativ",
 };
 
 export const TEMPLATES: TemplateDefinition[] = [
@@ -460,5 +513,7 @@ export const DEMO_DATA: CoverData = {
   betriebAdresse: "Industriestrasse 8, 8005 Zürich",
   ort: "Zürich",
   datum: "15.11.2026",
+  labelKontakt: "",
+  labelEmpfaenger: "",
   foto: null,
 };

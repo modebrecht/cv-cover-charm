@@ -79,12 +79,18 @@ const emptyData: CoverData = {
   betriebAdresse: "",
   ort: "",
   datum: "",
+  labelKontakt: "",
+  labelEmpfaenger: "",
   foto: null,
 };
 
 const STORAGE_KEY = "titelblatt:v3";
-/** 5 = Bild-Elemente (`kind`/`src` an den eigenen Feldern). */
-const SAVE_VERSION = 5;
+/**
+ * 5 = Bild-Elemente (`kind`/`src` an den eigenen Feldern).
+ * 6 = eigene Titel (`labelKontakt`/`labelEmpfaenger`), acht Schriften,
+ *     Farbverläufe an Formen, Trennlinien als Blöcke.
+ */
+const SAVE_VERSION = 6;
 
 /** Ort und Datum vorbelegen, ohne Eingaben zu überschreiben. */
 const prefill = (d: CoverData): CoverData => ({
@@ -128,6 +134,22 @@ const SHAPE_LABEL: Record<ShapeKind, string> = {
 };
 
 const filled = (values: (string | null)[]) => values.filter((v) => v && v.trim()).length;
+
+/**
+ * Vorlagen-Titel, deren Wortlaut überschrieben werden darf.
+ * Die Vorlagen schreiben unterschiedlich ("Kontakt", "An", "Für", …) – der
+ * eigene Text gilt dann für alle.
+ */
+const TITLE_FIELDS: Record<string, "labelKontakt" | "labelEmpfaenger"> = {
+  kontaktTitel: "labelKontakt",
+  anTitel: "labelEmpfaenger",
+};
+
+/** Was die Vorlage an dieser Stelle schreiben würde – als Platzhalter im Feld. */
+function templateTitle(block: Block): string {
+  const first = block.lines[0];
+  return typeof first === "string" ? first : "";
+}
 
 /** "Eigenes Feld 1", "Eigenes Feld 2", … – fortlaufend je Art. */
 function nextLabel(existing: CustomField[], base: string): string {
@@ -185,6 +207,8 @@ function Index() {
   const [drawing, setDrawing] = useState(false);
   /** Zweiter Klick bestätigt das Leeren – das Formular ist sonst weg. */
   const [confirmReset, setConfirmReset] = useState(false);
+  /** Dasselbe für "Alles zurücksetzen" im Menü oben rechts. */
+  const [confirmWipe, setConfirmWipe] = useState(false);
   const [status, setStatus] = useState<{
     kind: "ok" | "error";
     text: string;
@@ -218,6 +242,7 @@ function Index() {
   );
   const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
   const selectedCustom = customs.find((c) => c.id === selected) ?? null;
+  const titleField = selectedBlock ? TITLE_FIELDS[selectedBlock.id] : undefined;
 
   const toggleSection = (key: SectionKey) => setOpen((o) => ({ ...o, [key]: !o[key] }));
 
@@ -244,6 +269,33 @@ function Index() {
   const resetLayout = () => {
     setLayoutByTemplate((l) => ({ ...l, [template]: {} }));
     setFontScale(FONT.DEFAULT_SCALE);
+  };
+
+  /**
+   * Alle Positionen zurück auf die Vorlage – über *alle* Vorlagen hinweg.
+   *
+   * Die Überschreibungen enthalten auch `hidden`; entfernte Elemente wie der
+   * Fotorahmen kommen damit von selbst zurück.
+   */
+  const resetAllLayouts = useCallback(() => {
+    setLayoutByTemplate(allEmptyLayouts());
+    setFontScale(FONT.DEFAULT_SCALE);
+    setSelected(null);
+  }, []);
+
+  /**
+   * Trennlinie über die ganze Textbreite. Technisch dieselbe Form wie "Linie",
+   * nur breit voreingestellt – als Trenner über Fussangaben der Normalfall.
+   */
+  const addRule = () => {
+    setAddOpen(false);
+    const id = `custom-${Date.now()}`;
+    setCustoms((c) => [
+      ...c,
+      { id, label: nextLabel(c, "Trennlinie"), text: "", kind: "shape", shape: "line" },
+    ]);
+    patchStyle(id, { x: 20, w: 170, strokeWidth: 0.3, opacity: 0.35 });
+    setSelected(id);
   };
 
   const addCustom = (shape?: ShapeKind, pill = false) => {
@@ -399,7 +451,10 @@ function Index() {
 
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+        setConfirmWipe(false);
+      }
       if (addRef.current && !addRef.current.contains(e.target as Node)) setAddOpen(false);
     };
     document.addEventListener("mousedown", onDown);
@@ -421,6 +476,7 @@ function Index() {
         setAddOpen(false);
         setDrawing(false);
         setConfirmReset(false);
+        setConfirmWipe(false);
       }
     };
     document.addEventListener("keydown", onKey);
@@ -485,15 +541,39 @@ function Index() {
     return () => clearTimeout(id);
   }, [template, colorsByTemplate, layoutByTemplate, customs, fontScale, data]);
 
+  /*
+   * Beide Knöpfe setzen auch das Layout zurück. Sonst wirkt ein frisch
+   * gefülltes Blatt kaputt: verschobene Elemente von vorher bleiben stehen und
+   * ein entfernter Fotorahmen fehlt weiter, obwohl "neu angefangen" wurde.
+   */
   const loadDemo = () => {
     setData(prefill({ ...DEMO_DATA, datum: "", ort: "", kicker: "" }));
-    setStatus({ kind: "ok", text: "Beispieldaten eingefügt" });
+    resetAllLayouts();
+    setMenuOpen(false);
+    setStatus({ kind: "ok", text: "Beispieldaten eingefügt, Positionen zurückgesetzt" });
   };
   const resetForm = () => {
     setData(prefill(emptyData));
-    setSelected(null);
+    resetAllLayouts();
     setConfirmReset(false);
-    setStatus({ kind: "ok", text: "Formular geleert" });
+    setStatus({ kind: "ok", text: "Formular geleert, Positionen zurückgesetzt" });
+  };
+
+  /** Werkseinstellung: Eingaben, Layout, Farben, eigene Elemente, Vorlage. */
+  const resetEverything = () => {
+    setData(prefill(emptyData));
+    setColorsByTemplate(allDefaultColors());
+    setCustoms([]);
+    setTemplate(DEFAULTS.TEMPLATE);
+    resetAllLayouts();
+    setMenuOpen(false);
+    setStatus({ kind: "ok", text: "Alles zurückgesetzt" });
+  };
+
+  const resetPositionsOnly = () => {
+    resetAllLayouts();
+    setMenuOpen(false);
+    setStatus({ kind: "ok", text: "Alle Positionen zurückgesetzt" });
   };
 
   const fileBase = () => {
@@ -712,14 +792,52 @@ function Index() {
                   </label>
                   <button
                     type="button"
-                    onClick={() => {
-                      loadDemo();
-                      setMenuOpen(false);
-                    }}
+                    onClick={loadDemo}
                     className="w-full border-t px-3 py-2 text-left text-sm hover:bg-accent md:hidden"
                   >
                     Demo ausfüllen
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={resetPositionsOnly}
+                    className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                  >
+                    <span>Nur Positionen zurücksetzen</span>
+                    <span className="text-xs text-muted-foreground">Layout</span>
+                  </button>
+
+                  {/* Werkseinstellung – zweistufig, weil dabei alles verloren geht */}
+                  {confirmWipe ? (
+                    <div className="flex items-center gap-1 border-t bg-destructive/5 px-3 py-2">
+                      <span className="mr-auto text-xs font-medium text-destructive">
+                        Wirklich alles?
+                      </span>
+                      <button
+                        type="button"
+                        onClick={resetEverything}
+                        className="rounded-md bg-destructive px-2 py-1 text-xs font-medium text-destructive-foreground hover:bg-destructive/90"
+                      >
+                        Ja
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmWipe(false)}
+                        className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setConfirmWipe(true)}
+                      className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm text-destructive hover:bg-destructive/10"
+                    >
+                      <span>Alles zurücksetzen</span>
+                      <span className="text-xs opacity-70">Eingaben, Farben, Elemente</span>
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -1009,6 +1127,9 @@ function Index() {
                       : undefined
                   }
                   onAddImage={addImage}
+                  title={titleField ? data[titleField] : undefined}
+                  titlePlaceholder={titleField ? templateTitle(selectedBlock) : undefined}
+                  onTitleChange={titleField ? (v) => patch({ [titleField]: v }) : undefined}
                 />
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-background px-4 py-2.5">
@@ -1084,6 +1205,17 @@ function Index() {
                           </span>
                           Bild
                           <span className="ml-auto text-xs text-muted-foreground">mehrfach</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={addRule}
+                          className="flex w-full items-center gap-3 border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                        >
+                          <span className="w-4 text-center" aria-hidden>
+                            ═
+                          </span>
+                          Trennlinie
+                          <span className="ml-auto text-xs text-muted-foreground">HR</span>
                         </button>
                         {(["circle", "rect", "line", "path"] as const).map((sh) => (
                           <button
