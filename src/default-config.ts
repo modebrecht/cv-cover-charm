@@ -72,6 +72,26 @@ export const PAGE = {
   HEIGHT: 1123,
 } as const;
 
+/** Vorschau-Zoom im Kopfbereich. 1 = das Blatt füllt die Fläche. */
+export const PREVIEW = {
+  ZOOM_STEPS: [0.8, 0.9, 1, 1.1, 1.25, 1.5],
+  ZOOM_DEFAULT: 1,
+} as const;
+
+/**
+ * Frühere Stände im Browser-Speicher.
+ *
+ * Der aktuelle Entwurf trägt die Bilder, die Historie nicht – ein Foto als
+ * Data-URL ist schnell ein halbes Megabyte, und der Browser gibt insgesamt nur
+ * rund 5 MB her. Ohne Bilder ist ein Stand wenige Kilobyte gross.
+ */
+export const HISTORY = {
+  /** So viele frühere Stände werden aufbewahrt. */
+  MAX: 30,
+  /** Frühestens nach dieser Zeit entsteht wieder ein Stand (ms). */
+  MIN_GAP_MS: 120_000,
+} as const;
+
 /** PDF-Export. */
 export const PDF = {
   /** Renderfaktor gegenüber 96 dpi – 3 entspricht 288 dpi. */
