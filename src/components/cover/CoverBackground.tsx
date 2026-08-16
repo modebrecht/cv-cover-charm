@@ -14,17 +14,6 @@ export function CoverBackground({
           className="absolute"
           style={{ inset: "10mm", border: `1px solid ${colors.ink}`, opacity: 0.15 }}
         />
-        <div
-          className="absolute"
-          style={{
-            left: "85mm",
-            width: "40mm",
-            top: "216mm",
-            height: "1px",
-            background: colors.accent,
-            opacity: 0.6,
-          }}
-        />
       </div>
     );
   }
@@ -53,17 +42,6 @@ export function CoverBackground({
             borderRadius: "9999px",
             background: colors.accent,
             opacity: 0.1,
-          }}
-        />
-        <div
-          className="absolute"
-          style={{
-            left: "20mm",
-            right: "20mm",
-            top: "238mm",
-            height: "1px",
-            background: colors.primary,
-            opacity: 0.18,
           }}
         />
         <div
@@ -172,17 +150,6 @@ export function CoverBackground({
             backgroundColor: colors.primary,
           }}
         />
-        <div
-          className="absolute"
-          style={{
-            left: "0mm",
-            top: "236mm",
-            width: "100%",
-            height: "1mm",
-            backgroundColor: colors.primary,
-            opacity: 0.25,
-          }}
-        />
       </div>
     );
   }
@@ -232,17 +199,6 @@ export function CoverBackground({
             backgroundColor: colors.primary,
           }}
         />
-        <div
-          className="absolute"
-          style={{
-            left: "0mm",
-            top: "232mm",
-            width: "100%",
-            height: "0.6px",
-            backgroundColor: colors.accent,
-            opacity: 0.7,
-          }}
-        />
       </div>
     );
   }
@@ -260,16 +216,6 @@ export function CoverBackground({
             left: "20mm",
             right: "20mm",
             top: "36mm",
-            height: "0.5px",
-            background: colors.accent,
-          }}
-        />
-        <div
-          className="absolute"
-          style={{
-            left: "20mm",
-            right: "20mm",
-            top: "246mm",
             height: "0.5px",
             background: colors.accent,
           }}
@@ -352,17 +298,6 @@ export function CoverBackground({
             borderTopRightRadius: "71mm",
             border: `0.4mm solid ${colors.secondary}`,
             opacity: 0.75,
-          }}
-        />
-        <div
-          className="absolute"
-          style={{
-            left: "28mm",
-            top: "252mm",
-            width: "154mm",
-            height: "0.3mm",
-            backgroundColor: colors.ink,
-            opacity: 0.25,
           }}
         />
       </div>
@@ -560,17 +495,6 @@ export function CoverBackground({
             opacity: 0.5,
           }}
         />
-        <div
-          className="absolute"
-          style={{
-            left: "20mm",
-            right: "20mm",
-            top: "236mm",
-            height: "0.4mm",
-            backgroundColor: colors.primary,
-            opacity: 0.6,
-          }}
-        />
       </div>
     );
   }
@@ -639,17 +563,6 @@ export function CoverBackground({
             borderRadius: "9999px",
             backgroundColor: colors.bg,
             opacity: 0.12,
-          }}
-        />
-        <div
-          className="absolute"
-          style={{
-            left: "20mm",
-            right: "20mm",
-            top: "238mm",
-            height: "0.4mm",
-            backgroundColor: colors.ink,
-            opacity: 0.4,
           }}
         />
       </div>
@@ -752,17 +665,6 @@ export function CoverBackground({
           }}
         />
       </div>
-      <div
-        className="absolute"
-        style={{
-          left: "20mm",
-          right: "20mm",
-          top: "242mm",
-          height: "1px",
-          background: colors.primary,
-          opacity: 0.2,
-        }}
-      />
     </div>
   );
 }

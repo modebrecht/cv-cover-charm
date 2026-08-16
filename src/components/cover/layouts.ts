@@ -5,6 +5,7 @@ import type {
   CustomField,
   Line,
   ColorSlot,
+  ShapeKind,
   TemplateId,
 } from "./types";
 import { customKind } from "./types";
@@ -50,7 +51,48 @@ function lift(st: BlockStyle): number {
   return Math.max(FONT.MIN_SIZE, Math.round((size + boost) * 2) / 2);
 }
 
-type Def = { id: string; label: string; kind?: "text" | "photo"; lines: Line[]; style: BlockStyle };
+type Def = {
+  id: string;
+  label: string;
+  kind?: "text" | "photo" | "shape";
+  /** nur für kind "shape" */
+  shape?: ShapeKind;
+  lines: Line[];
+  style: BlockStyle;
+};
+
+/**
+ * Trennlinie über den Fussangaben.
+ *
+ * Diese Striche steckten früher im Hintergrund und liessen sich deshalb weder
+ * anklicken noch verschieben. Als Block sind sie ganz normale Elemente.
+ * `1px` bei 96dpi sind 0.265mm – die Vorgabewerte bilden die bisherigen
+ * Hintergrund-Linien nach.
+ */
+function rule(o: {
+  y: number;
+  x?: number;
+  w?: number;
+  thickness?: number;
+  color?: string;
+  opacity?: number;
+}): Def {
+  return {
+    id: "trenner",
+    label: "Trennlinie",
+    kind: "shape",
+    shape: "line",
+    lines: [],
+    style: s({
+      x: o.x ?? 20,
+      y: o.y,
+      w: o.w ?? 170,
+      strokeWidth: o.thickness ?? 0.265,
+      color: o.color ?? "primary",
+      opacity: o.opacity ?? 0.2,
+    }),
+  };
+}
 
 function common(data: CoverData) {
   const kicker = data.kicker.trim();
@@ -172,7 +214,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 20,
           w: 80,
@@ -203,7 +245,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["An"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "An"] : [],
         style: s({
           x: 110,
           w: 80,
@@ -233,6 +275,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
           gap: 1.5,
         }),
       },
+      rule({ y: 216, x: 85, w: 40, color: "accent", opacity: 0.6 }),
     ];
   }
 
@@ -356,7 +399,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 20,
           w: 80,
@@ -388,7 +431,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 110,
           w: 80,
@@ -419,6 +462,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
           gap: 1.5,
         }),
       },
+      rule({ y: 238, color: "primary", opacity: 0.18 }),
     ];
   }
 
@@ -530,7 +574,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 25,
           w: 80,
@@ -561,7 +605,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["An"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "An"] : [],
         style: s({
           x: 105,
           w: 80,
@@ -691,7 +735,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 18,
           w: 80,
@@ -723,7 +767,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 112,
           w: 80,
@@ -866,7 +910,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 18,
           w: 80,
@@ -898,7 +942,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 112,
           w: 80,
@@ -929,6 +973,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
           gap: 1.5,
         }),
       },
+      rule({ y: 236, x: 0, w: 210, thickness: 1, color: "primary", opacity: 0.25 }),
     ];
   }
 
@@ -1018,7 +1063,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 22,
           w: 80,
@@ -1049,7 +1094,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["An"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "An"] : [],
         style: s({
           x: 108,
           w: 80,
@@ -1079,6 +1124,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
           gap: 1.5,
         }),
       },
+      rule({ y: 232, x: 0, w: 210, thickness: 0.16, color: "accent", opacity: 0.7 }),
     ];
   }
 
@@ -1190,7 +1236,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 25,
           w: 80,
@@ -1222,7 +1268,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 105,
           w: 80,
@@ -1253,6 +1299,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
           gap: 1.5,
         }),
       },
+      rule({ y: 246, thickness: 0.13, color: "accent", opacity: 1 }),
     ];
   }
 
@@ -1333,7 +1380,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["So erreichen Sie mich"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "So erreichen Sie mich"] : [],
         style: s({
           x: 20,
           w: 85,
@@ -1365,7 +1412,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Für"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Für"] : [],
         style: s({
           x: 110,
           w: 80,
@@ -1508,7 +1555,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 28,
           w: 70,
@@ -1539,7 +1586,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["An"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "An"] : [],
         style: s({
           x: 112,
           w: 70,
@@ -1569,6 +1616,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
           gap: 1.5,
         }),
       },
+      rule({ y: 252, x: 28, w: 154, thickness: 0.3, color: "ink", opacity: 0.25 }),
     ];
   }
 
@@ -1681,7 +1729,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 22,
           y: 196,
@@ -1703,7 +1751,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 82,
           y: 196,
@@ -1749,7 +1797,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 14,
           y: 72,
@@ -1780,7 +1828,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 14,
           y: 130,
@@ -2004,7 +2052,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 24,
           w: 70,
@@ -2035,7 +2083,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["An"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "An"] : [],
         style: s({
           x: 111,
           w: 75,
@@ -2065,6 +2113,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
           gap: 1.5,
         }),
       },
+      rule({ y: 242, color: "primary", opacity: 0.2 }),
     ];
   }
 
@@ -2180,7 +2229,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 20,
           w: 80,
@@ -2212,7 +2261,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 110,
           w: 80,
@@ -2365,7 +2414,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 12,
           y: 84,
@@ -2396,7 +2445,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 84,
           w: 100,
@@ -2549,7 +2598,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 22,
           w: 78,
@@ -2581,7 +2630,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 110,
           w: 78,
@@ -2612,6 +2661,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
           font: f,
         }),
       },
+      rule({ y: 236, thickness: 0.4, color: "primary", opacity: 0.6 }),
     ];
   }
 
@@ -2737,7 +2787,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 20,
           w: 80,
@@ -2769,7 +2819,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 110,
           w: 80,
@@ -2930,7 +2980,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 22,
           w: 80,
@@ -2954,7 +3004,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 108,
           w: 80,
@@ -2985,6 +3035,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
           font: f,
         }),
       },
+      rule({ y: 238, thickness: 0.4, color: "ink", opacity: 0.4 }),
     ];
   }
 
@@ -3115,7 +3166,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "kontaktTitel",
         label: "Titel Kontakt",
-        lines: kontakt.length ? ["Kontakt"] : [],
+        lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
         style: s({
           x: 28,
           w: 74,
@@ -3147,7 +3198,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
       {
         id: "anTitel",
         label: "Titel Empfänger",
-        lines: empfaenger.length ? ["Adressiert an"] : [],
+        lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
         style: s({
           x: 108,
           w: 74,
@@ -3280,7 +3331,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
     {
       id: "kontaktTitel",
       label: "Titel Kontakt",
-      lines: kontakt.length ? ["Kontakt"] : [],
+      lines: kontakt.length ? [data.labelKontakt || "Kontakt"] : [],
       style: s({
         x: 20,
         w: 80,
@@ -3312,7 +3363,7 @@ function defsFor(template: TemplateId, data: CoverData): Def[] {
     {
       id: "anTitel",
       label: "Titel Empfänger",
-      lines: empfaenger.length ? ["Adressiert an"] : [],
+      lines: empfaenger.length ? [data.labelEmpfaenger || "Adressiert an"] : [],
       style: s({
         x: 110,
         w: 80,
@@ -3409,6 +3460,7 @@ export function buildBlocks(
     id: d.id,
     label: d.label,
     kind: d.kind ?? "text",
+    shape: d.shape,
     lines: d.lines,
     style: {
       ...d.style,

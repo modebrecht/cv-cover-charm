@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Block, BlockStyle, ColorSlot, CustomField, ListStyle } from "./types";
-import { LIST_STYLES } from "./types";
+import type { Block, BlockStyle, ColorSlot, CustomField, FontKey, ListStyle } from "./types";
+import { FONT_LABELS, FONT_STACKS, LIST_STYLES } from "./types";
 import { FONT, FRAME } from "@/default-config";
 import { PhotoControls } from "./PhotoControls";
 
@@ -20,6 +20,13 @@ type Props = {
   onPickImage?: (file: File | null) => void;
   /** Ein weiteres, freies Bild-Element aufs Blatt legen. */
   onAddImage?: () => void;
+  /**
+   * Überschreibbarer Wortlaut eines Vorlagen-Titels (Kontakt/Empfänger).
+   * Leer heisst "Wortlaut der Vorlage", `titlePlaceholder` zeigt ihn an.
+   */
+  title?: string;
+  titlePlaceholder?: string;
+  onTitleChange?: (value: string) => void;
 };
 
 type Tab = "text" | "absatz" | "farbe" | "rahmen" | "bild" | "position" | "form";
@@ -36,6 +43,15 @@ const TAB_LABELS: Record<Tab, string> = {
 
 const inputCls =
   "rounded-md border border-input bg-background px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-ring";
+
+/** Häufige Verlaufsrichtungen als Knopf – schneller als der Gradregler. */
+const GRAD_ANGLES = [
+  { deg: 0, icon: "↑" },
+  { deg: 90, icon: "→" },
+  { deg: 135, icon: "↘" },
+  { deg: 180, icon: "↓" },
+  { deg: 225, icon: "↙" },
+] as const;
 
 const toggle = (on: boolean) =>
   `inline-flex h-8 min-w-8 items-center justify-center rounded-md border px-2 text-sm transition-colors ${
@@ -151,6 +167,9 @@ export function ElementBar({
   hasPhoto = false,
   onPickImage,
   onAddImage,
+  title,
+  titlePlaceholder,
+  onTitleChange,
 }: Props) {
   const st = block.style;
   const isText = block.kind === "text";
@@ -331,16 +350,25 @@ export function ElementBar({
             </Ctl>
 
             <Ctl label="Schriftart">
-              <button
-                type="button"
-                className={toggle(false)}
-                onClick={() => onChange({ font: st.font === "serif" ? "sans" : "serif" })}
+              <select
+                value={st.font}
+                onChange={(e) => onChange({ font: e.target.value as FontKey })}
+                className={inputCls}
+                style={{ fontFamily: FONT_STACKS[st.font] }}
               >
-                {st.font === "serif" ? "Serif" : "Sans"}
-              </button>
+                {(Object.keys(FONT_LABELS) as FontKey[]).map((f) => (
+                  <option key={f} value={f} style={{ fontFamily: FONT_STACKS[f] }}>
+                    {FONT_LABELS[f]}
+                  </option>
+                ))}
+              </select>
             </Ctl>
 
-            {custom && onCustomChange && (
+            {/*
+              Inhalt: bei eigenen Feldern der Text selbst, bei Titeln der
+              Vorlage ("Kontakt", "Adressiert an") der überschreibbare Wortlaut.
+            */}
+            {custom && onCustomChange ? (
               <Ctl label="Inhalt" grow>
                 <textarea
                   className={`${inputCls} h-9 w-full max-w-md resize-y`}
@@ -350,6 +378,27 @@ export function ElementBar({
                   placeholder="Text (Zeilenumbruch möglich)"
                 />
               </Ctl>
+            ) : (
+              onTitleChange && (
+                <Ctl label="Beschriftung" grow>
+                  <input
+                    className={`${inputCls} w-full max-w-xs`}
+                    value={title ?? ""}
+                    onChange={(e) => onTitleChange(e.target.value)}
+                    placeholder={titlePlaceholder}
+                  />
+                  {title ? (
+                    <button
+                      type="button"
+                      className="shrink-0 rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                      onClick={() => onTitleChange("")}
+                      title="Wortlaut der Vorlage verwenden"
+                    >
+                      Standard
+                    </button>
+                  ) : null}
+                </Ctl>
+              )
             )}
           </>
         )}
@@ -502,16 +551,105 @@ export function ElementBar({
             </Ctl>
 
             {isShape && (
-              <Ctl label="Füllung">
-                <button
-                  type="button"
-                  className={toggle(!!st.fill)}
-                  onClick={() => onChange({ fill: st.fill ? null : (slots[0]?.key ?? "accent") })}
-                >
-                  {st.fill ? "Gefüllt" : "Ohne"}
-                </button>
-                {st.fill && colorInput(colors[st.fill] ?? st.fill, (fill) => onChange({ fill }))}
-              </Ctl>
+              <>
+                <Ctl label="Füllung">
+                  <button
+                    type="button"
+                    className={toggle(!!st.fill)}
+                    onClick={() => onChange({ fill: st.fill ? null : (slots[0]?.key ?? "accent") })}
+                  >
+                    {st.fill ? "Gefüllt" : "Ohne"}
+                  </button>
+                  {st.fill && colorInput(colors[st.fill] ?? st.fill, (fill) => onChange({ fill }))}
+                </Ctl>
+
+                <Ctl label="Verlauf">
+                  <button
+                    type="button"
+                    className={toggle(!!st.gradFrom)}
+                    onClick={() =>
+                      onChange(
+                        st.gradFrom
+                          ? { gradFrom: null }
+                          : {
+                              // sichtbar starten: zwei verschiedene Slots, sonst
+                              // sieht der frisch eingeschaltete Verlauf einfarbig aus
+                              gradFrom: slots[0]?.key ?? "primary",
+                              gradTo: slots[1]?.key ?? slots[0]?.key ?? "accent",
+                              gradStart: 0,
+                              gradEnd: 100,
+                              gradAngle: 135,
+                            },
+                      )
+                    }
+                  >
+                    {st.gradFrom ? "An" : "Aus"}
+                  </button>
+                </Ctl>
+
+                {st.gradFrom && (
+                  <>
+                    <Ctl label="Von / Bis">
+                      {colorInput(colors[st.gradFrom] ?? st.gradFrom, (gradFrom) =>
+                        onChange({ gradFrom }),
+                      )}
+                      {colorInput(
+                        colors[st.gradTo ?? st.gradFrom] ?? st.gradTo ?? st.gradFrom,
+                        (gradTo) => onChange({ gradTo }),
+                      )}
+                    </Ctl>
+
+                    <Ctl label="Startpunkt" grow>
+                      <Slider
+                        value={st.gradStart ?? 0}
+                        min={0}
+                        max={100}
+                        step={1}
+                        onChange={(gradStart) => onChange({ gradStart })}
+                        suffix="%"
+                      />
+                    </Ctl>
+
+                    <Ctl label="Endpunkt" grow>
+                      <Slider
+                        value={st.gradEnd ?? 100}
+                        min={0}
+                        max={100}
+                        step={1}
+                        onChange={(gradEnd) => onChange({ gradEnd })}
+                        suffix="%"
+                      />
+                    </Ctl>
+
+                    <Ctl label="Richtung" grow>
+                      <Slider
+                        value={st.gradAngle ?? 135}
+                        min={0}
+                        max={360}
+                        step={5}
+                        onChange={(gradAngle) => onChange({ gradAngle })}
+                        suffix="°"
+                      />
+                    </Ctl>
+
+                    <Ctl label="Voreingestellt">
+                      <div className="flex flex-wrap gap-1">
+                        {GRAD_ANGLES.map((g) => (
+                          <button
+                            key={g.deg}
+                            type="button"
+                            title={`${g.deg}°`}
+                            className={toggle((st.gradAngle ?? 135) === g.deg)}
+                            onClick={() => onChange({ gradAngle: g.deg })}
+                          >
+                            {g.icon}
+                          </button>
+                        ))}
+                      </div>
+                    </Ctl>
+                  </>
+                )}
+              </>
             )}
 
             {isText && (
