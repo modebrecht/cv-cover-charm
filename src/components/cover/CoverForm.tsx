@@ -138,9 +138,12 @@ export function FormFoto({
   onError,
   photoStyle,
   onPhotoStyle,
+  onAddImage,
 }: Props & {
   photoStyle?: BlockStyle;
   onPhotoStyle?: (patch: Partial<BlockStyle>) => void;
+  /** Legt ein weiteres, frei platzierbares Bild aufs Blatt. */
+  onAddImage?: () => void;
 }) {
   const onFile = (file: File | undefined) => {
     if (!file) return;
@@ -183,6 +186,15 @@ export function FormFoto({
       </div>
       {photoStyle && onPhotoStyle && (
         <PhotoControls style={photoStyle} onChange={onPhotoStyle} hasPhoto={!!data.foto} compact />
+      )}
+      {data.foto && onAddImage && (
+        <button
+          type="button"
+          onClick={onAddImage}
+          className="self-start rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
+        >
+          + Weiteres Bild aufs Blatt
+        </button>
       )}
     </div>
   );

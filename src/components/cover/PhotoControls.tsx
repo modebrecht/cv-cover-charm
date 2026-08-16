@@ -6,6 +6,12 @@ type Props = {
   /** Zuschnitt nur zeigen, wenn überhaupt ein Foto da ist. */
   hasPhoto: boolean;
   compact?: boolean;
+  /**
+   * Nur den Zuschnitt zeigen. Die Rahmenformen setzen `radius`/`ratio` – bei
+   * einem Textfeld mit Hintergrundbild steuert aber `boxRadius` die Ecken,
+   * die Knöpfe blieben dort also wirkungslos.
+   */
+  cropOnly?: boolean;
 };
 
 /** Rahmenformen wie in Office: Kreis, Quadrat, Hochformat, abgerundet. */
@@ -36,25 +42,27 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 }
 
 /** Form und Bildausschnitt des Fotos – genutzt in der Leiste und im Formular. */
-export function PhotoControls({ style: st, onChange, hasPhoto, compact }: Props) {
+export function PhotoControls({ style: st, onChange, hasPhoto, compact, cropOnly }: Props) {
   const zoom = st.imgZoom ?? 1;
 
   return (
     <div className={`flex flex-col gap-3 ${compact ? "" : "min-w-56"}`}>
-      <Row label="Rahmenform">
-        <div className="flex flex-wrap gap-1">
-          {SHAPES.map((s) => (
-            <button
-              key={s.label}
-              type="button"
-              className={matches(st, s.patch) ? btnOn : btn}
-              onClick={() => onChange(s.patch)}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-      </Row>
+      {!cropOnly && (
+        <Row label="Rahmenform">
+          <div className="flex flex-wrap gap-1">
+            {SHAPES.map((s) => (
+              <button
+                key={s.label}
+                type="button"
+                className={matches(st, s.patch) ? btnOn : btn}
+                onClick={() => onChange(s.patch)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </Row>
+      )}
 
       {hasPhoto ? (
         <>

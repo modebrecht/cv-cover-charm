@@ -5,7 +5,7 @@ import { resolveColor } from "./layouts";
 import { CoverBackground } from "./CoverBackground";
 import { ShapeElement } from "./ShapeElement";
 import { resolveLayout } from "./resolve";
-import { PAGE } from "@/default-config";
+import { FRAME, PAGE } from "@/default-config";
 
 const MM = 96 / 25.4; // px pro mm bei 96dpi
 
@@ -57,6 +57,25 @@ function textStyle(
     fontFamily: FONT_STACKS[st.font],
     whiteSpace: "pre-wrap",
   };
+}
+
+/**
+ * Rahmen um Foto und Bilder.
+ *
+ * Bewusst als `box-shadow` und nicht als `border`: der Rahmen liegt damit
+ * ausserhalb der Box, die eingestellte Bildgrösse bleibt also exakt erhalten.
+ * `fallback` ist die Vorgabe, solange niemand am Regler war.
+ */
+function frameShadow(
+  st: BlockStyle,
+  colors: Record<string, string>,
+  fallback: number,
+): string | undefined {
+  const mm = st.borderWidth ?? fallback;
+  if (mm <= 0) return undefined;
+  const color = resolveColor(st.borderColor ?? st.color, colors);
+  const gap = FRAME.GAP_PX;
+  return `0 0 0 ${gap}px ${colors.bg}, 0 0 0 ${gap + mm * MM}px ${color}`;
 }
 
 /** Eckenradius des Fotorahmens: 999 = Kreis, sonst mm. */
@@ -245,12 +264,14 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
           const isImage = b.kind === "image";
           const empty = isPhoto
             ? !data.foto && !initials(data)
-            : !isShape && !isImage && b.lines.length === 0;
+            : // ein Textfeld mit Bild, aber ohne Text ist nicht leer
+              !isShape && !isImage && !b.src && b.lines.length === 0;
           if (empty) return null;
           const active = editable && selected === b.id;
           const st = b.style;
           const { size, y } = layout[b.id];
           const hasBadge = b.kind === "text" && !!st.bg;
+          const textBorder = st.borderWidth ?? 0;
 
           return (
             <div
@@ -282,6 +303,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
                     // ohne Bild bleibt ein gestrichelter Platzhalter stehen,
                     // sonst wäre das frisch eingefügte Element unsichtbar
                     border: b.src ? "none" : `1px dashed ${resolveColor(st.color, colors)}`,
+                    boxShadow: b.src ? frameShadow(st, colors, 0) : undefined,
                     opacity: st.opacity,
                   }}
                 >
@@ -311,7 +333,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
                       height: `${st.w * (st.ratio ?? 1)}mm`,
                       overflow: "hidden",
                       borderRadius: photoRadius(st),
-                      boxShadow: `0 0 0 3px ${colors.bg}, 0 0 0 4px ${resolveColor(st.color, colors)}`,
+                      boxShadow: frameShadow(st, colors, FRAME.PHOTO_WIDTH),
                     }}
                   >
                     <img src={data.foto} alt="Bewerbungsfoto" draggable={false} style={crop(st)} />
@@ -335,9 +357,30 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
                   </div>
                 )
               ) : (
-                <div style={textStyle(st, size, colors)}>
+                <div
+                  style={{
+                    ...textStyle(st, size, colors),
+                    // Rahmen und Bild bringen einen Innenabstand mit. Ohne
+                    // beides bleibt der Block unverändert, sonst würde sich
+                    // jeder bestehende Text verschieben.
+                    ...(textBorder > 0 || b.src
+                      ? {
+                          position: "relative",
+                          overflow: b.src ? "hidden" : undefined,
+                          borderRadius: `${st.boxRadius ?? 0}mm`,
+                          border:
+                            textBorder > 0
+                              ? `${textBorder}mm solid ${resolveColor(st.borderColor ?? st.color, colors)}`
+                              : undefined,
+                          padding: `${st.padY}mm ${st.padX}mm`,
+                          minHeight: b.src ? `${st.w * (st.ratio ?? 0.6)}mm` : undefined,
+                        }
+                      : {}),
+                  }}
+                >
+                  {b.src && <img src={b.src} alt="" draggable={false} style={crop(st)} />}
                   {b.lines.map((l, i) => (
-                    <div key={i}>
+                    <div key={i} style={b.src ? { position: "relative" } : undefined}>
                       {hasBadge ? (
                         <span
                           style={{

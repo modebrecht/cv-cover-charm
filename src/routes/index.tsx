@@ -21,6 +21,7 @@ import { readPhoto } from "@/lib/image";
 import { DEFAULTS, FONT, PAGE, PDF, SHAPE } from "@/default-config";
 
 import {
+  customKind,
   DEMO_DATA,
   EMPTY_META,
   TEMPLATES,
@@ -158,7 +159,7 @@ function sanitizeCustoms(raw: unknown): CustomField[] {
         // nur Data-URLs übernehmen: ein importierter http-Link würde beim
         // PDF-Export als leere Fläche enden
         src:
-          kind === "image" && typeof c.src === "string" && c.src.startsWith("data:")
+          typeof c.src === "string" && c.src.startsWith("data:")
             ? c.src
             : kind === "image"
               ? null
@@ -814,6 +815,7 @@ function Index() {
                 onError={(text) => setStatus({ kind: "error", text })}
                 photoStyle={photoBlock?.style}
                 onPhotoStyle={photoBlock ? (p) => patchStyle(photoBlock.id, p) : undefined}
+                onAddImage={addImage}
               />
             </Section>
 
@@ -998,11 +1000,15 @@ function Index() {
                   }
                   onDelete={() => removeBlock(selectedBlock)}
                   hasPhoto={!!data.foto}
+                  // eigene Elemente dürfen ein Bild tragen – beim Textfeld
+                  // liegt es hinter dem Text, beim Bild-Element ist es das
+                  // Element selbst
                   onPickImage={
-                    selectedBlock.kind === "image"
-                      ? (file) => pickImage(selectedBlock.id, file)
+                    selectedCustom && customKind(selectedCustom) !== "shape"
+                      ? (file) => pickImage(selectedCustom.id, file)
                       : undefined
                   }
+                  onAddImage={addImage}
                 />
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-background px-4 py-2.5">

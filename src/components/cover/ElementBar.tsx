@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Block, BlockStyle, ColorSlot, CustomField, ListStyle } from "./types";
 import { LIST_STYLES } from "./types";
-import { FONT } from "@/default-config";
+import { FONT, FRAME } from "@/default-config";
 import { PhotoControls } from "./PhotoControls";
 
 type Props = {
@@ -16,17 +16,21 @@ type Props = {
   onDelete?: () => void;
   /** Ist ein Foto hochgeladen? Steuert die Zuschnitt-Regler. */
   hasPhoto?: boolean;
-  /** Bild eines Bild-Elements setzen bzw. mit null entfernen. */
+  /** Bild des Elements setzen bzw. mit null entfernen. */
   onPickImage?: (file: File | null) => void;
+  /** Ein weiteres, freies Bild-Element aufs Blatt legen. */
+  onAddImage?: () => void;
 };
 
-type Tab = "text" | "absatz" | "farbe" | "position" | "form";
+type Tab = "text" | "absatz" | "farbe" | "rahmen" | "bild" | "position" | "form";
 
 const TAB_LABELS: Record<Tab, string> = {
   text: "Text",
   form: "Form",
   absatz: "Absatz",
   farbe: "Farbe",
+  rahmen: "Rahmen",
+  bild: "Bild",
   position: "Position",
 };
 
@@ -120,6 +124,16 @@ function AlignIcon({ dir }: { dir: "left" | "center" | "right" }) {
 }
 
 /**
+ * Register, mit dem ein Element aufgeht. Ein frisch eingefügtes Bild hat noch
+ * keine Datei – dort ist "Bild" der nächste Schritt, nicht "Form".
+ */
+function startTab(block: Block): Tab {
+  if (block.kind === "text") return "text";
+  if (block.kind === "image" && !block.src) return "bild";
+  return "form";
+}
+
+/**
  * Werkzeugleiste für das gewählte Element. Sie sitzt fest unter der Vorschau –
  * eine schwebende Leiste verdeckt genau das Element, das man gerade einstellt.
  * Die Optionen sind auf Register verteilt, damit eine Zeile reicht.
@@ -136,6 +150,7 @@ export function ElementBar({
   onDelete,
   hasPhoto = false,
   onPickImage,
+  onAddImage,
 }: Props) {
   const st = block.style;
   const isText = block.kind === "text";
@@ -143,19 +158,40 @@ export function ElementBar({
   const isPhoto = block.kind === "photo";
   const isImage = block.kind === "image";
   const isSlot = slots.some((s) => s.key === st.color);
+  // Ohne eigene Rahmenfarbe folgt der Rahmen der Elementfarbe.
+  const frameKey = st.borderColor ?? st.color;
+  const frameIsSlot = slots.some((s) => s.key === frameKey);
   // Zuschnitt braucht ein Bild – beim Foto steckt es in den Daten, beim
   // Bild-Element am Block selbst.
   const cropReady = isImage ? !!block.src : hasPhoto;
 
-  const tabs: Tab[] = isText
-    ? ["text", "absatz", "farbe", "position"]
-    : ["form", "farbe", "position"];
-  const [tab, setTab] = useState<Tab>(tabs[0]);
+  // Bilder kann nur tragen, wer auch eines annehmen darf – also eigene
+  // Elemente. Formen bringen ihre Linienstärke schon im Register "Form" mit.
+  const canImage = !!onPickImage;
+  const canFrame = isText || isPhoto || isImage;
+  const tabs: Tab[] = [
+    ...((isText ? ["text", "absatz"] : ["form"]) as Tab[]),
+    "farbe",
+    ...((canFrame ? ["rahmen"] : []) as Tab[]),
+    ...((canImage ? ["bild"] : []) as Tab[]),
+    "position",
+  ];
+  const [tab, setTab] = useState<Tab>(() => startTab(block));
 
-  // Beim Wechsel auf ein anderes Element auf ein gültiges Register springen
-  useEffect(() => {
-    setTab(block.kind === "text" ? "text" : "form");
-  }, [block.kind, block.id]);
+  /**
+   * Beim Wechsel auf ein anderes Element auf ein gültiges Register springen.
+   *
+   * Umstellung während des Renderns statt im Effekt: so gibt es kein
+   * Zwischenbild mit dem alten Register, und der Upload selbst schaltet das
+   * Register nicht wieder weg (er ändert `src`, nicht die Kennung). Der
+   * Startwert oben muss dieselbe Regel benutzen – die Leiste wird beim
+   * Auswählen neu aufgebaut, dann läuft dieser Zweig gar nicht.
+   */
+  const [tabFor, setTabFor] = useState(block.id);
+  if (tabFor !== block.id) {
+    setTabFor(block.id);
+    setTab(startTab(block));
+  }
 
   const colorInput = (value: string, onPick: (v: string) => void) => (
     <input
@@ -398,34 +434,20 @@ export function ElementBar({
               </Ctl>
             )}
 
-            {isImage && onPickImage && (
-              <Ctl label="Bild">
-                <label className="cursor-pointer rounded-md border border-input px-2 py-1 text-xs hover:bg-accent">
-                  {block.src ? "Ersetzen" : "Bild wählen"}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => {
-                      onPickImage(e.target.files?.[0] ?? null);
-                      e.target.value = "";
-                    }}
-                  />
-                </label>
-                {block.src && (
-                  <button
-                    type="button"
-                    className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
-                    onClick={() => onPickImage(null)}
-                  >
-                    Leeren
-                  </button>
-                )}
-              </Ctl>
-            )}
-
             {(isPhoto || isImage) && (
               <PhotoControls style={st} onChange={onChange} hasPhoto={cropReady} />
+            )}
+
+            {isPhoto && hasPhoto && onAddImage && (
+              <Ctl label="Weitere Bilder">
+                <button
+                  type="button"
+                  className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                  onClick={onAddImage}
+                >
+                  + Bild hinzufügen
+                </button>
+              </Ctl>
             )}
 
             {isShape && (
@@ -517,6 +539,111 @@ export function ElementBar({
                 suffix=""
               />
             </Ctl>
+          </>
+        )}
+
+        {tab === "rahmen" && (
+          <>
+            <Ctl label="Rahmenstärke" grow>
+              <Slider
+                value={st.borderWidth ?? (isPhoto ? FRAME.PHOTO_WIDTH : 0)}
+                min={0}
+                max={FRAME.MAX_WIDTH}
+                step={0.1}
+                onChange={(borderWidth) => onChange({ borderWidth })}
+                suffix="mm"
+              />
+            </Ctl>
+
+            <Ctl label="Rahmenfarbe">
+              <select
+                value={frameIsSlot ? frameKey : "custom"}
+                onChange={(e) =>
+                  onChange({
+                    borderColor:
+                      e.target.value === "custom" ? colors[slots[0].key] : e.target.value,
+                  })
+                }
+                className={inputCls}
+              >
+                {slots.map((s) => (
+                  <option key={s.key} value={s.key}>
+                    {s.label}
+                  </option>
+                ))}
+                <option value="custom">Eigene</option>
+              </select>
+              {colorInput(frameIsSlot ? colors[frameKey] : frameKey, (borderColor) =>
+                onChange({ borderColor }),
+              )}
+            </Ctl>
+
+            {/*
+              Nur beim Text: Foto und Bild bekommen ihre Ecken über die
+              Rahmenform im Register "Form". Ein zweiter Regler zeigte beim
+              Kreis (radius 999) einen falschen Wert an.
+            */}
+            {isText && (
+              <Ctl label="Eckenradius" grow>
+                <Slider
+                  value={st.boxRadius ?? 0}
+                  min={0}
+                  max={30}
+                  step={0.5}
+                  onChange={(boxRadius) => onChange({ boxRadius })}
+                  suffix="mm"
+                />
+              </Ctl>
+            )}
+          </>
+        )}
+
+        {tab === "bild" && onPickImage && (
+          <>
+            <Ctl label="Bilddatei">
+              <label className="cursor-pointer rounded-md border border-input px-2 py-1 text-xs hover:bg-accent">
+                {block.src ? "Ersetzen" : "Bild wählen"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    onPickImage(e.target.files?.[0] ?? null);
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+              {block.src && (
+                <button
+                  type="button"
+                  className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                  onClick={() => onPickImage(null)}
+                >
+                  Leeren
+                </button>
+              )}
+            </Ctl>
+
+            {isText && (
+              <Ctl label="Bildhöhe" grow>
+                <Slider
+                  value={st.ratio ?? 0.6}
+                  min={0.1}
+                  max={2}
+                  step={0.05}
+                  onChange={(ratio) => onChange({ ratio })}
+                  suffix="×"
+                />
+              </Ctl>
+            )}
+
+            <PhotoControls style={st} onChange={onChange} hasPhoto={cropReady} cropOnly={isText} />
+
+            {isText && (
+              <p className="text-xs text-muted-foreground">
+                Der Text liegt über dem Bild. Ohne Text ist es einfach ein Bild.
+              </p>
+            )}
           </>
         )}
 

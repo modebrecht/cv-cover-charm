@@ -127,6 +127,18 @@ export type BlockStyle = {
   imgZoom?: number;
   imgX?: number;
   imgY?: number;
+  /**
+   * Rahmen um das Element in mm (0 = keiner) und dessen Farbe. Beim Foto und
+   * bei Bildern liegt der Rahmen aussen an und verändert die Bildgrösse nicht.
+   */
+  borderWidth?: number;
+  borderColor?: string;
+  /**
+   * Eckenradius des Element-Rahmens in mm. Bewusst getrennt von `bgRadius`:
+   * das ist der Radius der Badge-Pille und steht auf 999 vorbelegt – als
+   * Rahmen um ein Textfeld ergäbe das ungefragt eine Pille.
+   */
+  boxRadius?: number;
   /** Füllfarbe: hinter den Initialen bzw. Flächenfarbe einer Form (null = keine). */
   fill?: string | null;
   /** Linienstärke einer Form in mm. */
