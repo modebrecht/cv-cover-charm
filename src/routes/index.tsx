@@ -219,6 +219,8 @@ function Index() {
   const [confirmWipe, setConfirmWipe] = useState(false);
   /** … und für die Demo-Daten, die alle Eingaben überschreiben. */
   const [confirmDemo, setConfirmDemo] = useState(false);
+  /** Die Liste der früheren Stände ist zugeklappt, bis man sie aufruft. */
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [zoom, setZoom] = useState<number>(PREVIEW.ZOOM_DEFAULT);
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [status, setStatus] = useState<{
@@ -467,12 +469,19 @@ function Index() {
         setMenuOpen(false);
         setConfirmWipe(false);
         setConfirmDemo(false);
+        setHistoryOpen(false);
       }
       if (addRef.current && !addRef.current.contains(e.target as Node)) setAddOpen(false);
     };
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
+
+  // Menü zu heisst: beim nächsten Öffnen wieder mit zugeklappter Liste
+  // starten. Deckt auch die Fälle ab, in denen sich das Menü selbst schliesst.
+  useEffect(() => {
+    if (!menuOpen) setHistoryOpen(false);
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!status) return;
@@ -491,6 +500,7 @@ function Index() {
         setConfirmReset(false);
         setConfirmWipe(false);
         setConfirmDemo(false);
+        setHistoryOpen(false);
       }
     };
     document.addEventListener("keydown", onKey);
@@ -896,37 +906,6 @@ function Index() {
                     </button>
                   )}
 
-                  {/*
-                    Frühere Stände. Sie entstehen im Hintergrund und vor allem
-                    vor jedem Zurücksetzen – wer versehentlich leert, holt seine
-                    Eingaben hier zurück. Bilder sind darin nicht enthalten.
-                  */}
-                  {history.length > 0 && (
-                    <div className="border-t">
-                      <div className="flex items-center justify-between px-3 pb-1 pt-2">
-                        <span className="text-xs font-medium text-muted-foreground">
-                          Frühere Stände
-                        </span>
-                        <span className="text-xs text-muted-foreground">ohne Bilder</span>
-                      </div>
-                      <div className="max-h-48 overflow-y-auto">
-                        {history.map((snap) => (
-                          <button
-                            key={snap.id}
-                            type="button"
-                            onClick={() => restoreSnapshot(snap)}
-                            className="flex w-full items-baseline justify-between gap-2 px-3 py-1.5 text-left text-sm hover:bg-accent"
-                          >
-                            <span className="truncate">{describe(snap.payload)}</span>
-                            <span className="shrink-0 text-xs text-muted-foreground">
-                              {formatWhen(snap.at)}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
                   <button
                     type="button"
                     onClick={resetPositionsOnly}
@@ -965,6 +944,69 @@ function Index() {
                     >
                       Alles zurücksetzen
                     </button>
+                  )}
+
+                  {/*
+                    Ganz unten und zunächst zugeklappt: die Liste kann lang
+                    werden und würde die eigentlichen Menüpunkte nach unten
+                    drücken. Stände entstehen nebenher und vor jedem
+                    Zurücksetzen – wer versehentlich leert, holt sie hier
+                    zurück. Bilder sind darin nicht enthalten.
+                  */}
+                  {history.length > 0 && (
+                    <div className="border-t">
+                      <button
+                        type="button"
+                        onClick={() => setHistoryOpen((v) => !v)}
+                        aria-expanded={historyOpen}
+                        className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm hover:bg-accent"
+                      >
+                        <span>Früheren Stand laden</span>
+                        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                          {history.length}
+                          <svg
+                            width="10"
+                            height="10"
+                            viewBox="0 0 12 12"
+                            aria-hidden="true"
+                            style={{
+                              transform: historyOpen ? "rotate(180deg)" : "none",
+                              transition: "transform 150ms",
+                            }}
+                          >
+                            <path
+                              d="M3 4.5l3 3 3-3"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+
+                      {historyOpen && (
+                        <div className="max-h-60 overflow-y-auto border-t bg-muted/30 pb-1">
+                          <p className="px-3 pb-1 pt-2 text-xs text-muted-foreground">
+                            Ohne Bilder – ein geladenes Foto bleibt erhalten.
+                          </p>
+                          {history.map((snap) => (
+                            <button
+                              key={snap.id}
+                              type="button"
+                              onClick={() => restoreSnapshot(snap)}
+                              className="flex w-full items-baseline justify-between gap-2 px-3 py-1.5 text-left text-sm hover:bg-accent"
+                            >
+                              <span className="truncate">{describe(snap.payload)}</span>
+                              <span className="shrink-0 text-xs text-muted-foreground">
+                                {formatWhen(snap.at)}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
               )}

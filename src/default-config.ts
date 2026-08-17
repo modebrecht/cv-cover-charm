@@ -74,7 +74,7 @@ export const PAGE = {
 
 /** Vorschau-Zoom im Kopfbereich. 1 = das Blatt füllt die Fläche. */
 export const PREVIEW = {
-  ZOOM_STEPS: [0.8, 0.9, 1, 1.1, 1.25, 1.5],
+  ZOOM_STEPS: [0.8, 0.9, 1, 1.25, 1.5, 1.75, 2, 3, 4],
   ZOOM_DEFAULT: 1,
 } as const;
 
