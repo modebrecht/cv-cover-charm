@@ -1,0 +1,342 @@
+import {
+  emptyEntry,
+  emptyReferenz,
+  emptySprache,
+  type CvData,
+  type CvEntry,
+  type CvPerson,
+  type CvReferenz,
+  type CvSprache,
+} from "./types";
+
+const inputCls =
+  "w-full rounded-md border border-input bg-background px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring";
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="flex flex-col gap-1">
+      <span className="text-xs text-muted-foreground">{label}</span>
+      {children}
+    </label>
+  );
+}
+
+const addBtn =
+  "self-start rounded-md border border-dashed border-input px-3 py-1.5 text-xs hover:bg-accent";
+const delBtn = "shrink-0 rounded-md px-2 py-1 text-xs text-destructive hover:bg-destructive/10";
+
+/** Rahmen um einen wiederholbaren Eintrag, mit Entfernen-Knopf. */
+function Item({ children, onRemove }: { children: React.ReactNode; onRemove: () => void }) {
+  return (
+    <div className="flex flex-col gap-2 rounded-md border bg-background/60 p-2">
+      <div className="flex flex-col gap-2">{children}</div>
+      <button type="button" onClick={onRemove} className={`${delBtn} self-end`}>
+        Entfernen
+      </button>
+    </div>
+  );
+}
+
+export function FormCvPerson({
+  person,
+  onChange,
+}: {
+  person: CvPerson;
+  onChange: (p: Partial<CvPerson>) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-2 gap-2">
+        <Field label="Vorname">
+          <input
+            className={inputCls}
+            value={person.vorname}
+            onChange={(e) => onChange({ vorname: e.target.value })}
+          />
+        </Field>
+        <Field label="Nachname">
+          <input
+            className={inputCls}
+            value={person.nachname}
+            onChange={(e) => onChange({ nachname: e.target.value })}
+          />
+        </Field>
+      </div>
+      <Field label="Zeile unter dem Namen">
+        <input
+          className={inputCls}
+          placeholder="z. B. Schülerin, 3. Sekundarklasse"
+          value={person.untertitel}
+          onChange={(e) => onChange({ untertitel: e.target.value })}
+        />
+      </Field>
+      <Field label="Adresse">
+        <input
+          className={inputCls}
+          value={person.adresse}
+          onChange={(e) => onChange({ adresse: e.target.value })}
+        />
+      </Field>
+      <Field label="PLZ und Ort">
+        <input
+          className={inputCls}
+          value={person.plzOrt}
+          onChange={(e) => onChange({ plzOrt: e.target.value })}
+        />
+      </Field>
+      <div className="grid grid-cols-2 gap-2">
+        <Field label="Telefon">
+          <input
+            className={inputCls}
+            value={person.telefon}
+            onChange={(e) => onChange({ telefon: e.target.value })}
+          />
+        </Field>
+        <Field label="E-Mail">
+          <input
+            className={inputCls}
+            value={person.email}
+            onChange={(e) => onChange({ email: e.target.value })}
+          />
+        </Field>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        <Field label="Geburtsdatum">
+          <input
+            className={inputCls}
+            value={person.geburtsdatum}
+            onChange={(e) => onChange({ geburtsdatum: e.target.value })}
+          />
+        </Field>
+        <Field label="Nationalität">
+          <input
+            className={inputCls}
+            value={person.nationalitaet}
+            onChange={(e) => onChange({ nationalitaet: e.target.value })}
+          />
+        </Field>
+      </div>
+    </div>
+  );
+}
+
+/** Schule und Praktika teilen sich denselben Aufbau. */
+export function FormCvEntries({
+  entries,
+  onChange,
+  titelLabel,
+  ortLabel,
+}: {
+  entries: CvEntry[];
+  onChange: (list: CvEntry[]) => void;
+  titelLabel: string;
+  ortLabel: string;
+}) {
+  const patch = (id: string, p: Partial<CvEntry>) =>
+    onChange(entries.map((e) => (e.id === id ? { ...e, ...p } : e)));
+
+  return (
+    <div className="flex flex-col gap-2">
+      {entries.map((e) => (
+        <Item key={e.id} onRemove={() => onChange(entries.filter((x) => x.id !== e.id))}>
+          <Field label="Zeitraum">
+            <input
+              className={inputCls}
+              placeholder="2023 – heute"
+              value={e.zeit}
+              onChange={(ev) => patch(e.id, { zeit: ev.target.value })}
+            />
+          </Field>
+          <Field label={titelLabel}>
+            <input
+              className={inputCls}
+              value={e.titel}
+              onChange={(ev) => patch(e.id, { titel: ev.target.value })}
+            />
+          </Field>
+          <Field label={ortLabel}>
+            <input
+              className={inputCls}
+              value={e.ort}
+              onChange={(ev) => patch(e.id, { ort: ev.target.value })}
+            />
+          </Field>
+          <Field label="Ergänzung (optional)">
+            <input
+              className={inputCls}
+              value={e.beschreibung}
+              onChange={(ev) => patch(e.id, { beschreibung: ev.target.value })}
+            />
+          </Field>
+        </Item>
+      ))}
+      <button type="button" className={addBtn} onClick={() => onChange([...entries, emptyEntry()])}>
+        + Eintrag
+      </button>
+    </div>
+  );
+}
+
+export function FormCvSprachen({
+  list,
+  onChange,
+}: {
+  list: CvSprache[];
+  onChange: (l: CvSprache[]) => void;
+}) {
+  const patch = (id: string, p: Partial<CvSprache>) =>
+    onChange(list.map((s) => (s.id === id ? { ...s, ...p } : s)));
+
+  return (
+    <div className="flex flex-col gap-2">
+      {list.map((s) => (
+        <div key={s.id} className="flex items-end gap-2">
+          <div className="grid flex-1 grid-cols-2 gap-2">
+            <Field label="Sprache">
+              <input
+                className={inputCls}
+                value={s.name}
+                onChange={(e) => patch(s.id, { name: e.target.value })}
+              />
+            </Field>
+            <Field label="Niveau">
+              <input
+                className={inputCls}
+                placeholder="Muttersprache, B1 …"
+                value={s.niveau}
+                onChange={(e) => patch(s.id, { niveau: e.target.value })}
+              />
+            </Field>
+          </div>
+          <button
+            type="button"
+            className={`${delBtn} mb-1.5`}
+            onClick={() => onChange(list.filter((x) => x.id !== s.id))}
+          >
+            ✕
+          </button>
+        </div>
+      ))}
+      <button type="button" className={addBtn} onClick={() => onChange([...list, emptySprache()])}>
+        + Sprache
+      </button>
+    </div>
+  );
+}
+
+/** Hobbys und Stärken sind schlichte Zeilenlisten. */
+export function FormCvLines({
+  list,
+  onChange,
+  placeholder,
+  addLabel,
+}: {
+  list: string[];
+  onChange: (l: string[]) => void;
+  placeholder: string;
+  addLabel: string;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      {list.map((v, i) => (
+        <div key={i} className="flex items-center gap-2">
+          <input
+            className={inputCls}
+            placeholder={placeholder}
+            value={v}
+            onChange={(e) => onChange(list.map((x, j) => (j === i ? e.target.value : x)))}
+          />
+          <button
+            type="button"
+            className={delBtn}
+            onClick={() => onChange(list.filter((_, j) => j !== i))}
+          >
+            ✕
+          </button>
+        </div>
+      ))}
+      <button type="button" className={addBtn} onClick={() => onChange([...list, ""])}>
+        {addLabel}
+      </button>
+    </div>
+  );
+}
+
+export function FormCvReferenzen({
+  list,
+  onChange,
+}: {
+  list: CvReferenz[];
+  onChange: (l: CvReferenz[]) => void;
+}) {
+  const patch = (id: string, p: Partial<CvReferenz>) =>
+    onChange(list.map((r) => (r.id === id ? { ...r, ...p } : r)));
+
+  return (
+    <div className="flex flex-col gap-2">
+      {list.map((r) => (
+        <Item key={r.id} onRemove={() => onChange(list.filter((x) => x.id !== r.id))}>
+          <Field label="Name">
+            <input
+              className={inputCls}
+              value={r.name}
+              onChange={(e) => patch(r.id, { name: e.target.value })}
+            />
+          </Field>
+          <Field label="Funktion">
+            <input
+              className={inputCls}
+              placeholder="Klassenlehrer, Schulhaus Feld"
+              value={r.funktion}
+              onChange={(e) => patch(r.id, { funktion: e.target.value })}
+            />
+          </Field>
+          <Field label="Kontakt">
+            <input
+              className={inputCls}
+              value={r.kontakt}
+              onChange={(e) => patch(r.id, { kontakt: e.target.value })}
+            />
+          </Field>
+        </Item>
+      ))}
+      <button type="button" className={addBtn} onClick={() => onChange([...list, emptyReferenz()])}>
+        + Referenz
+      </button>
+    </div>
+  );
+}
+
+/** Überschrift eines Abschnitts umbenennen bzw. Abschnitt ausblenden. */
+export function SectionOptions({
+  value,
+  placeholder,
+  hidden,
+  onLabel,
+  onHidden,
+}: {
+  value: string;
+  placeholder: string;
+  hidden: boolean;
+  onLabel: (v: string) => void;
+  onHidden: (v: boolean) => void;
+}) {
+  return (
+    <div className="mb-2 flex items-center gap-2 border-b pb-2">
+      <input
+        className={`${inputCls} flex-1`}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onLabel(e.target.value)}
+        aria-label="Überschrift"
+      />
+      <label className="flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
+        <input type="checkbox" checked={!hidden} onChange={(e) => onHidden(!e.target.checked)} />
+        zeigen
+      </label>
+    </div>
+  );
+}
+
+export const cvDataHelpers = { emptyEntry, emptySprache, emptyReferenz };
+export type { CvData };
