@@ -18,10 +18,12 @@ import { Section } from "@/components/cover/Section";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { readPhoto } from "@/lib/image";
+import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import {
   describe,
   formatWhen,
   hasContent,
+  HISTORY_KEYS,
   pushSnapshot,
   readHistory,
   type Snapshot,
@@ -241,6 +243,9 @@ function Titelblatt() {
     meta: false,
   });
   const [fitHeight, setFitHeight] = useState<number | undefined>(undefined);
+
+  const visible = usePageVisible();
+  const { markWritten, changedElsewhere } = useForeignWrite(STORAGE_KEY);
 
   const menuRef = useRef<HTMLDivElement>(null);
   const exportRef = useRef<HTMLDivElement>(null);
@@ -515,32 +520,53 @@ function Titelblatt() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // Entwurf laden (nach der Hydration, damit Server und Client übereinstimmen).
-  useEffect(() => {
-    restored.current = true;
-    setHistory(readHistory());
+  /** Gespeicherten Entwurf in den Zustand holen. Gibt zurück, ob es einen gab. */
+  const loadFromStorage = useCallback((): boolean => {
     let saved: string | null = null;
     try {
       saved = localStorage.getItem(STORAGE_KEY);
     } catch {
       saved = null;
     }
-    if (saved) {
-      try {
-        const p = JSON.parse(saved);
-        if (p.data) setData(prefill({ ...emptyData, ...p.data }));
-        if (p.template && TEMPLATES.some((t) => t.id === p.template)) setTemplate(p.template);
-        if (p.colors) setColorsByTemplate((c) => ({ ...c, ...p.colors }));
-        if (p.layout) setLayoutByTemplate((l) => ({ ...l, ...p.layout }));
-        setCustoms(sanitizeCustoms(p.customs));
-        if (typeof p.fontScale === "number") setFontScale(p.fontScale);
-        return;
-      } catch {
-        // beschädigter Entwurf – mit leerem Formular weitermachen
-      }
+    if (!saved) return false;
+    try {
+      const p = JSON.parse(saved);
+      if (p.data) setData(prefill({ ...emptyData, ...p.data }));
+      if (p.template && TEMPLATES.some((t) => t.id === p.template)) setTemplate(p.template);
+      if (p.colors) setColorsByTemplate((c) => ({ ...c, ...p.colors }));
+      if (p.layout) setLayoutByTemplate((l) => ({ ...l, ...p.layout }));
+      setCustoms(sanitizeCustoms(p.customs));
+      if (typeof p.fontScale === "number") setFontScale(p.fontScale);
+      markWritten(saved);
+      return true;
+    } catch {
+      // beschädigter Entwurf – mit leerem Formular weitermachen
+      return false;
     }
-    setData(prefill);
+  }, [markWritten]);
+
+  // Entwurf laden (nach der Hydration, damit Server und Client übereinstimmen).
+  useEffect(() => {
+    restored.current = true;
+    setHistory(readHistory(HISTORY_KEYS.cover));
+    if (!loadFromStorage()) setData(prefill);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  /*
+   * Zurück im Tab: hat inzwischen ein anderes Fenster geschrieben, gilt dessen
+   * Stand. Ein schlafender Tab hat nichts Neues beizutragen – sein alter
+   * Zustand würde die frischere Arbeit sonst überschreiben.
+   */
+  useEffect(() => {
+    if (!visible || !restored.current) return;
+    if (changedElsewhere()) {
+      loadFromStorage();
+      setHistory(readHistory(HISTORY_KEYS.cover));
+      setStatus({ kind: "ok", text: "Neuerer Stand aus einem anderen Fenster geladen" });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible]);
 
   /** Der laufende Entwurf, so wie er gespeichert bzw. exportiert wird. */
   const snapshotPayload = useCallback(
@@ -567,7 +593,7 @@ function Titelblatt() {
     (label: string, force = false) => {
       const payload = snapshotPayload();
       if (!hasContent(payload)) return;
-      setHistory(pushSnapshot(payload, label, force));
+      setHistory(pushSnapshot(HISTORY_KEYS.cover, payload, label, force));
     },
     [snapshotPayload],
   );
@@ -575,9 +601,14 @@ function Titelblatt() {
   // Entwurf sichern
   useEffect(() => {
     if (!restored.current) return;
+    // Im Hintergrund nicht speichern – sonst überschreibt ein schlafender Tab
+    // die Arbeit des aktiven Fensters.
+    if (!visible) return;
     const id = setTimeout(() => {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshotPayload()));
+        const text = JSON.stringify(snapshotPayload());
+        localStorage.setItem(STORAGE_KEY, text);
+        markWritten(text);
       } catch {
         // Speicher voll (z. B. sehr grosses Foto) – Bearbeiten geht trotzdem weiter
       }
@@ -586,7 +617,7 @@ function Titelblatt() {
       keepSnapshot("Automatisch");
     }, 400);
     return () => clearTimeout(id);
-  }, [snapshotPayload, keepSnapshot]);
+  }, [snapshotPayload, keepSnapshot, visible, markWritten]);
 
   /*
    * Beide Knöpfe setzen auch das Layout zurück. Sonst wirkt ein frisch

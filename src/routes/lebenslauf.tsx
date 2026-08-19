@@ -27,6 +27,15 @@ import { emptyCoverDraft, personFilled, readCoverDraft, type CoverDraft } from "
 import { TEMPLATES, type CustomField, type TemplateId } from "@/components/cover/types";
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { PDF, PREVIEW } from "@/default-config";
+import {
+  describe,
+  formatWhen,
+  HISTORY_KEYS,
+  pushSnapshot,
+  readHistory,
+  type Snapshot,
+} from "@/lib/history";
+import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 
 export const Route = createFileRoute("/lebenslauf")({
   head: () => ({
@@ -60,6 +69,21 @@ type Saved = {
   elements: CustomField[];
 };
 
+/** Trägt der Lebenslauf überhaupt Inhalt? Leere Stände sind nichts wert. */
+function cvHasContent(d: CvData): boolean {
+  if (!d) return false;
+  const p = d.person ?? {};
+  if (p.vorname?.trim() || p.nachname?.trim() || p.untertitel?.trim()) return true;
+  return !!(
+    d.schule?.length ||
+    d.erfahrung?.length ||
+    d.sprachen?.length ||
+    d.hobbys?.length ||
+    d.staerken?.length ||
+    d.referenzen?.length
+  );
+}
+
 function Lebenslauf() {
   const [data, setData] = useState<CvData>(emptyCv);
   const [design, setDesign] = useState<CvDesign>(() => {
@@ -89,8 +113,23 @@ function Lebenslauf() {
     referenzen: false,
   });
 
+  const [history, setHistory] = useState<Snapshot[]>([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const visible = usePageVisible();
+  const { markWritten, changedElsewhere } = useForeignWrite(STORAGE_KEY);
+
   const exportRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const restored = useRef(false);
+
+  /** Einen gespeicherten oder importierten Lebenslauf übernehmen. */
+  const applySaved = useCallback((p: Partial<Saved>) => {
+    if (p.data) setData({ ...emptyCv, ...p.data, person: { ...emptyCv.person, ...p.data.person } });
+    if (p.design) setDesign((d) => ({ ...d, ...p.design }));
+    if (Array.isArray(p.elements)) setElements(p.elements);
+  }, []);
 
   const toggle = (k: string) => setOpen((o) => ({ ...o, [k]: !o[k] }));
   const patchData = (p: Partial<CvData>) => setData((d) => ({ ...d, ...p }));
@@ -102,31 +141,33 @@ function Lebenslauf() {
     [design.template],
   );
 
-  /* ---------- Laden ---------- */
-  useEffect(() => {
-    restored.current = true;
-    const draft = readCoverDraft();
-    setCover(draft);
-
+  /** Gespeicherten Lebenslauf übernehmen. Gibt zurück, ob es einen gab. */
+  const loadFromStorage = useCallback((): boolean => {
     let saved: string | null = null;
     try {
       saved = localStorage.getItem(STORAGE_KEY);
     } catch {
       saved = null;
     }
-
-    if (saved) {
-      try {
-        const p = JSON.parse(saved) as Partial<Saved>;
-        if (p.data)
-          setData({ ...emptyCv, ...p.data, person: { ...emptyCv.person, ...p.data.person } });
-        if (p.design) setDesign((d) => ({ ...d, ...p.design }));
-        if (Array.isArray(p.elements)) setElements(p.elements);
-        return;
-      } catch {
-        // beschädigter Entwurf – mit leerem Formular weiter
-      }
+    if (!saved) return false;
+    try {
+      const p = JSON.parse(saved) as Partial<Saved>;
+      applySaved(p);
+      markWritten(saved);
+      return true;
+    } catch {
+      return false;
     }
+  }, [markWritten, applySaved]);
+
+  /* ---------- Laden ---------- */
+  useEffect(() => {
+    restored.current = true;
+    setHistory(readHistory(HISTORY_KEYS.cv));
+    const draft = readCoverDraft();
+    setCover(draft);
+
+    if (loadFromStorage()) return;
 
     // Erster Besuch: Gestaltung und Angaben vom Titelblatt übernehmen.
     if (draft) {
@@ -136,21 +177,75 @@ function Lebenslauf() {
         setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  /* Zurück im Tab: ein anderes Fenster hat womöglich neuer geschrieben. */
+  useEffect(() => {
+    if (!visible || !restored.current) return;
+    if (changedElsewhere()) {
+      loadFromStorage();
+      setHistory(readHistory(HISTORY_KEYS.cv));
+      setStatus({ kind: "ok", text: "Neuerer Stand aus einem anderen Fenster geladen" });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible]);
+
+  /** Der laufende Lebenslauf, so wie er gespeichert bzw. exportiert wird. */
+  const payload = useCallback(
+    (): Saved => ({ version: SAVE_VERSION, data, design, elements }),
+    [data, design, elements],
+  );
+
+  /** Stand in die eigene Historie legen – die des Titelblatts bleibt unberührt. */
+  const keepSnapshot = useCallback(
+    (label: string, force = false) => {
+      const p = payload();
+      if (!cvHasContent(p.data)) return;
+      setHistory(
+        pushSnapshot(HISTORY_KEYS.cv, p as unknown as Record<string, unknown>, label, force),
+      );
+    },
+    [payload],
+  );
 
   /* ---------- Sichern ---------- */
   useEffect(() => {
     if (!restored.current) return;
+    // Im Hintergrund nicht speichern – sonst überschreibt ein schlafender Tab
+    // die Arbeit des aktiven Fensters.
+    if (!visible) return;
     const id = setTimeout(() => {
       try {
-        const payload: Saved = { version: SAVE_VERSION, data, design, elements };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        const text = JSON.stringify(payload());
+        localStorage.setItem(STORAGE_KEY, text);
+        markWritten(text);
       } catch {
         // Speicher voll – Bearbeiten geht weiter
       }
+      keepSnapshot("Automatisch");
     }, 400);
     return () => clearTimeout(id);
-  }, [data, design, elements]);
+  }, [payload, keepSnapshot, visible, markWritten]);
+
+  useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) setHistoryOpen(false);
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!status) return;
@@ -186,6 +281,42 @@ function Lebenslauf() {
     }
     setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
     setStatus({ kind: "ok", text: "Angaben vom Titelblatt übernommen" });
+  };
+
+  const downloadJson = () => {
+    setMenuOpen(false);
+    downloadBlob(
+      new Blob([JSON.stringify(payload(), null, 2)], { type: "application/json" }),
+      `${fileBase()}.json`,
+    );
+    setStatus({ kind: "ok", text: "Entwurf gespeichert" });
+  };
+
+  const importJson = async (file?: File) => {
+    if (!file) return;
+    try {
+      const p = JSON.parse(await file.text()) as Partial<Saved>;
+      if (!p || typeof p !== "object" || !p.data) throw new Error("kein Lebenslauf");
+      keepSnapshot("Vor dem Laden", true);
+      applySaved(p);
+      setStatus({ kind: "ok", text: "Entwurf geladen" });
+    } catch {
+      setStatus({ kind: "error", text: "Datei konnte nicht gelesen werden." });
+    }
+  };
+
+  /**
+   * Früheren Stand laden. Der aktuelle wandert vorher in die Historie. Ein
+   * bereits gewähltes Foto bleibt – die Historie speichert keine Bilder.
+   */
+  const restoreSnapshot = (snap: Snapshot) => {
+    keepSnapshot("Vor dem Zurückholen", true);
+    const p = snap.payload as unknown as Partial<Saved>;
+    const foto = data.person.foto;
+    applySaved(p);
+    if (foto) setData((d) => ({ ...d, person: { ...d.person, foto } }));
+    setMenuOpen(false);
+    setStatus({ kind: "ok", text: `Stand von ${formatWhen(snap.at)} geladen` });
   };
 
   const fileBase = () => {
@@ -263,7 +394,7 @@ function Lebenslauf() {
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background">
-      <header className="shrink-0 border-b">
+      <header className="relative z-30 shrink-0 border-b">
         <div className="flex items-center gap-2 px-3 py-2 sm:px-4">
           <button
             type="button"
@@ -316,14 +447,122 @@ function Lebenslauf() {
                 </option>
               ))}
             </select>
-            <button
-              type="button"
-              onClick={downloadPdf}
-              disabled={downloading}
-              className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 sm:px-4"
-            >
-              {downloading ? "PDF…" : "Als PDF"}
-            </button>
+            <div className="relative" ref={menuRef}>
+              <button
+                type="button"
+                onClick={() => setMenuOpen((v) => !v)}
+                disabled={downloading}
+                className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 sm:px-4"
+              >
+                {downloading ? "PDF…" : "Download"}
+                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                  <path
+                    d="M3 4.5l3 3 3-3"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-64 overflow-hidden rounded-md border bg-popover shadow-lg">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      downloadPdf();
+                    }}
+                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
+                  >
+                    <span>Als PDF</span>
+                    <span className="text-xs text-muted-foreground">.pdf</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={downloadJson}
+                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
+                  >
+                    <span>Entwurf speichern</span>
+                    <span className="text-xs text-muted-foreground">.json</span>
+                  </button>
+                  <label className="block cursor-pointer border-t px-3 py-2 text-left text-sm hover:bg-accent">
+                    Entwurf laden
+                    <input
+                      type="file"
+                      accept="application/json"
+                      className="hidden"
+                      onChange={(e) => {
+                        importJson(e.target.files?.[0]);
+                        e.target.value = "";
+                        setMenuOpen(false);
+                      }}
+                    />
+                  </label>
+
+                  {/*
+                    Wie beim Titelblatt: zugeklappt und ganz unten, weil die
+                    Liste lang werden kann. Eigene Historie – die Stände des
+                    Titelblatts bleiben davon unberührt.
+                  */}
+                  {history.length > 0 && (
+                    <div className="border-t">
+                      <button
+                        type="button"
+                        onClick={() => setHistoryOpen((v) => !v)}
+                        aria-expanded={historyOpen}
+                        className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm hover:bg-accent"
+                      >
+                        <span>Früheren Stand laden</span>
+                        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                          {history.length}
+                          <svg
+                            width="10"
+                            height="10"
+                            viewBox="0 0 12 12"
+                            aria-hidden="true"
+                            style={{
+                              transform: historyOpen ? "rotate(180deg)" : "none",
+                              transition: "transform 150ms",
+                            }}
+                          >
+                            <path
+                              d="M3 4.5l3 3 3-3"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+                      {historyOpen && (
+                        <div className="max-h-60 overflow-y-auto border-t bg-muted/30 pb-1">
+                          <p className="px-3 pb-1 pt-2 text-xs text-muted-foreground">
+                            Ohne Bilder – ein gewähltes Foto bleibt erhalten.
+                          </p>
+                          {history.map((snap) => (
+                            <button
+                              key={snap.id}
+                              type="button"
+                              onClick={() => restoreSnapshot(snap)}
+                              className="flex w-full items-baseline justify-between gap-2 px-3 py-1.5 text-left text-sm hover:bg-accent"
+                            >
+                              <span className="truncate">{describe(snap.payload)}</span>
+                              <span className="shrink-0 text-xs text-muted-foreground">
+                                {formatWhen(snap.at)}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
