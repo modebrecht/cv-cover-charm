@@ -1,6 +1,17 @@
 import { DEFAULTS } from "@/default-config";
-import { TEMPLATES, type CustomField, type TemplateId } from "@/components/cover/types";
+import {
+  TEMPLATES,
+  type BlockStyle,
+  type CustomField,
+  type TemplateId,
+} from "@/components/cover/types";
 import type { CvPerson } from "@/components/cv/types";
+import {
+  DEFAULT_DOSSIER_PHOTO_STYLE,
+  dossierPhotoStyleFromBlockStyle,
+  normalizeDossierPhotoStyle,
+  type DossierPhotoStyle,
+} from "@/lib/dossier-photo";
 
 /**
  * Verbindung zwischen Titelblatt und Lebenslauf.
@@ -19,6 +30,8 @@ export type CoverDraft = {
   /** Selbst hinzugefügte Formen und Bilder – ohne die Textfelder. */
   elements: CustomField[];
   person: CvPerson;
+  /** Read-only transfer snapshot of the title-page applicant photo treatment. */
+  photoStyle: DossierPhotoStyle;
 };
 
 function defaultColors(template: TemplateId): Record<string, string> {
@@ -45,6 +58,7 @@ export function emptyCoverDraft(): CoverDraft {
       untertitel: "",
       foto: null,
     },
+    photoStyle: DEFAULT_DOSSIER_PHOTO_STYLE,
   };
 }
 
@@ -67,6 +81,8 @@ export function readCoverDraft(): CoverDraft | null {
     const p = JSON.parse(raw) as {
       template?: string;
       colors?: Record<string, Record<string, string>>;
+      layout?: Record<string, Record<string, Partial<BlockStyle>>>;
+      photoStyle?: Partial<DossierPhotoStyle>;
       customs?: unknown;
       data?: Record<string, unknown>;
     };
@@ -81,6 +97,12 @@ export function readCoverDraft(): CoverDraft | null {
           return kind === "shape" || kind === "image";
         })
       : [];
+
+    // New saves carry an explicit normalized snapshot. Old saves fall back to
+    // the photo block overrides, so M5.3 remains migration-safe.
+    const photoStyle = p.photoStyle
+      ? normalizeDossierPhotoStyle(p.photoStyle)
+      : dossierPhotoStyleFromBlockStyle(p.layout?.[template]?.foto);
 
     return {
       template,
@@ -98,6 +120,7 @@ export function readCoverDraft(): CoverDraft | null {
         untertitel: "",
         foto: typeof d.foto === "string" && d.foto.startsWith("data:") ? d.foto : null,
       },
+      photoStyle,
     };
   } catch {
     return null;
