@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { TEMPLATES, type TemplateId } from "./types";
 import { UI } from "@/default-config";
 import {
@@ -40,7 +40,13 @@ export function TemplatePicker({ value, onChange }: Props) {
   // Ohne Beschreibungen passen mehr Vorlagen ins Bild – dann engeres Raster.
   const dense = !UI.TEMPLATE_DESCRIPTIONS;
   const cvLayout = useSyncExternalStore(subscribeCvLayout, getCvLayout, () => "classic");
-  const onCvPage = typeof window !== "undefined" && window.location.pathname.includes("lebenslauf");
+  const [onCvPage, setOnCvPage] = useState(false);
+
+  // Erst nach dem Mount prüfen: so bleibt das serverseitige Markup identisch
+  // mit dem ersten Client-Render und die Layoutwahl verursacht keine Hydration-Warnung.
+  useEffect(() => {
+    setOnCvPage(window.location.pathname.includes("lebenslauf"));
+  }, []);
 
   return (
     <div>
