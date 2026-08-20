@@ -21,9 +21,9 @@ const MM = 96 / 25.4;
 const MARGIN_X = 18;
 const MARGIN_TOP = 14;
 const MARGIN_BOTTOM = 14;
-const MODERN_MAIN_LEFT = 61;
+const MODERN_MAIN_LEFT = 64;
 const MODERN_RIGHT = 16;
-const MODERN_SIDEBAR_W = 51;
+const MODERN_SIDEBAR_W = 55;
 
 const CLASSIC_CONTENT_W = 210 - MARGIN_X * 2;
 const MODERN_CONTENT_W = 210 - MODERN_MAIN_LEFT - MODERN_RIGHT;
@@ -72,13 +72,13 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     id: `h-${key}`,
     heading: true,
     node: (
-      <div style={{ marginTop: layout === "modern" ? "4.6mm" : "4mm", marginBottom: "1.8mm" }}>
+      <div style={{ marginTop: layout === "modern" ? "4.8mm" : "4mm", marginBottom: layout === "modern" ? "2mm" : "1.8mm" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "3mm" }}>
           <div
             style={{
-              fontSize: layout === "modern" ? "9.8pt" : "10.2pt",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
+              fontSize: layout === "modern" ? "10.3pt" : "10.2pt",
+              fontWeight: layout === "modern" ? 800 : 700,
+              letterSpacing: layout === "modern" ? "0.085em" : "0.1em",
               textTransform: "uppercase",
               color: pal.accent,
               lineHeight: 1.1,
@@ -88,12 +88,12 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           </div>
           <div
             style={{
-              width: layout === "modern" ? "13mm" : "18mm",
-              height: "0.55mm",
+              width: layout === "modern" ? "15mm" : "18mm",
+              height: layout === "modern" ? "0.65mm" : "0.55mm",
               flexShrink: 0,
               borderRadius: "999px",
               background: pal.accent,
-              opacity: 0.72,
+              opacity: layout === "modern" ? 0.9 : 0.72,
             }}
           />
         </div>
@@ -122,7 +122,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           {titel && (
             <div
               style={{
-                fontSize: layout === "modern" ? "11.2pt" : "11.5pt",
+                fontSize: layout === "modern" ? "11.4pt" : "11.5pt",
                 fontWeight: 700,
                 color: pal.ink,
                 lineHeight: 1.2,
@@ -346,10 +346,10 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     rows.push({
       id: "kopf-modern",
       node: (
-        <div style={{ marginBottom: "4.5mm" }}>
+        <div style={{ marginBottom: "4.8mm" }}>
           <div
             style={{
-              fontSize: "29pt",
+              fontSize: "30pt",
               fontWeight: 760,
               color: pal.ink,
               lineHeight: 1,
@@ -361,8 +361,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           {p.untertitel && (
             <div
               style={{
-                marginTop: "1.3mm",
-                fontSize: "11.3pt",
+                marginTop: "1.4mm",
+                fontSize: "11.5pt",
                 fontWeight: 600,
                 color: pal.accent,
                 lineHeight: 1.25,
@@ -373,9 +373,9 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           )}
           <div
             style={{
-              width: "22mm",
-              height: "0.8mm",
-              marginTop: "3mm",
+              width: "24mm",
+              height: "0.85mm",
+              marginTop: "3.2mm",
               borderRadius: "999px",
               background: pal.accent,
             }}
@@ -446,16 +446,6 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       <div style={{ position: "absolute", inset: 0, opacity: design.bgOpacity }}>
         <CoverBackground template={design.template} colors={softened} />
       </div>
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top: 0,
-          height: "2.2mm",
-          background: pal.accent,
-        }}
-      />
 
       {design.useElements &&
         elements.map((el, i) => {
@@ -469,7 +459,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 left: `${st.x}mm`,
                 top: `${st.y}mm`,
                 width: `${st.w}mm`,
-                opacity: design.bgOpacity * 0.25,
+                opacity: layout === "modern" ? design.bgOpacity * 0.08 : design.bgOpacity * 0.25,
               }}
             >
               <ShapeElement
@@ -481,19 +471,44 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             </div>
           );
         })}
+
+      {layout === "modern" && (
+        <div
+          style={{
+            position: "absolute",
+            left: `${MODERN_SIDEBAR_W}mm`,
+            right: 0,
+            top: "2.2mm",
+            bottom: 0,
+            background: "rgba(255,255,255,0.94)",
+          }}
+        />
+      )}
+
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          height: "2.2mm",
+          background: pal.accent,
+        }}
+      />
     </>
   );
 
   const sideHeading = (text: string) => (
     <div
       style={{
-        marginTop: "5mm",
-        marginBottom: "1.7mm",
-        fontSize: "8.8pt",
-        fontWeight: 750,
-        letterSpacing: "0.1em",
+        marginTop: "5.2mm",
+        marginBottom: "1.9mm",
+        fontSize: "9.2pt",
+        fontWeight: 800,
+        letterSpacing: "0.085em",
         textTransform: "uppercase",
         color: pal.accent,
+        lineHeight: 1.15,
       }}
     >
       {text}
@@ -508,102 +523,113 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         top: "2.2mm",
         bottom: 0,
         width: `${MODERN_SIDEBAR_W}mm`,
-        padding: "13mm 7mm 12mm 8mm",
+        padding: "12.5mm 7.5mm 12mm 8mm",
         boxSizing: "border-box",
-        background: `${pal.accent}10`,
-        borderRight: `0.3mm solid ${pal.accent}28`,
+        background: pal.paper,
+        borderRight: `0.35mm solid ${pal.accent}38`,
         fontFamily: SHEET_FONT,
         overflow: "hidden",
       }}
     >
-      {pageIndex === 0 ? (
-        <>
-          {p.foto && (
-            <div
-              style={{
-                width: "27mm",
-                height: "27mm",
-                overflow: "hidden",
-                borderRadius: "50%",
-                boxShadow: `0 0 0 0.55mm ${pal.accent}`,
-                marginBottom: "5mm",
-              }}
-            >
-              <img
-                src={p.foto}
-                alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-            </div>
-          )}
-
-          {(p.adresse || p.plzOrt || p.telefon || p.email || p.geburtsdatum || p.nationalitaet) && (
-            <>
-              {sideHeading("Kontakt")}
-              <div style={{ fontSize: "9.1pt", color: pal.ink, lineHeight: 1.42, overflowWrap: "anywhere" }}>
-                {p.adresse && <div>{p.adresse}</div>}
-                {p.plzOrt && <div>{p.plzOrt}</div>}
-                {p.telefon && <div style={{ marginTop: "1.5mm" }}>{p.telefon}</div>}
-                {p.email && <div>{p.email}</div>}
-                {p.geburtsdatum && (
-                  <div style={{ marginTop: "1.8mm", color: pal.muted }}>Geb. {p.geburtsdatum}</div>
-                )}
-                {p.nationalitaet && <div style={{ color: pal.muted }}>{p.nationalitaet}</div>}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `${pal.accent}12`,
+          pointerEvents: "none",
+        }}
+      />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {pageIndex === 0 ? (
+          <>
+            {p.foto && (
+              <div
+                style={{
+                  width: "28mm",
+                  height: "28mm",
+                  overflow: "hidden",
+                  borderRadius: "50%",
+                  boxShadow: `0 0 0 0.55mm ${pal.accent}`,
+                  marginBottom: "5.3mm",
+                }}
+              >
+                <img
+                  src={p.foto}
+                  alt=""
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                />
               </div>
-            </>
-          )}
+            )}
 
-          {!data.hidden.sprachen && data.sprachen.some((s) => s.name.trim() || s.niveau.trim()) && (
-            <>
-              {sideHeading(label(data, "sprachen"))}
-              {data.sprachen
-                .filter((s) => s.name.trim() || s.niveau.trim())
-                .map((s) => (
-                  <div key={s.id} style={{ marginBottom: "1.7mm", lineHeight: 1.28 }}>
-                    <div style={{ fontSize: "9.3pt", fontWeight: 700, color: pal.ink }}>{s.name}</div>
-                    {s.niveau && <div style={{ fontSize: "8.8pt", color: pal.muted }}>{s.niveau}</div>}
-                  </div>
-                ))}
-            </>
-          )}
+            {(p.adresse || p.plzOrt || p.telefon || p.email || p.geburtsdatum || p.nationalitaet) && (
+              <>
+                {sideHeading("Kontakt")}
+                <div style={{ fontSize: "9.5pt", color: pal.ink, lineHeight: 1.5, overflowWrap: "anywhere" }}>
+                  {p.adresse && <div>{p.adresse}</div>}
+                  {p.plzOrt && <div>{p.plzOrt}</div>}
+                  {p.telefon && <div style={{ marginTop: "1.7mm" }}>{p.telefon}</div>}
+                  {p.email && <div>{p.email}</div>}
+                  {p.geburtsdatum && (
+                    <div style={{ marginTop: "2mm", color: pal.muted }}>Geb. {p.geburtsdatum}</div>
+                  )}
+                  {p.nationalitaet && <div style={{ color: pal.muted }}>{p.nationalitaet}</div>}
+                </div>
+              </>
+            )}
 
-          {!data.hidden.staerken && data.staerken.some((v) => v.trim()) && (
-            <>
-              {sideHeading(label(data, "staerken"))}
-              {data.staerken
-                .filter((v) => v.trim())
-                .map((v, i) => (
-                  <div key={`side-strength-${i}`} style={{ display: "flex", gap: "1.6mm", marginBottom: "1.25mm" }}>
-                    <span style={{ color: pal.accent, fontWeight: 800 }}>•</span>
-                    <span style={{ fontSize: "9pt", lineHeight: 1.3, color: pal.ink }}>{v}</span>
-                  </div>
-                ))}
-            </>
-          )}
+            {!data.hidden.sprachen && data.sprachen.some((s) => s.name.trim() || s.niveau.trim()) && (
+              <>
+                {sideHeading(label(data, "sprachen"))}
+                {data.sprachen
+                  .filter((s) => s.name.trim() || s.niveau.trim())
+                  .map((s) => (
+                    <div key={s.id} style={{ marginBottom: "1.9mm", lineHeight: 1.32 }}>
+                      <div style={{ fontSize: "9.6pt", fontWeight: 700, color: pal.ink }}>{s.name}</div>
+                      {s.niveau && <div style={{ fontSize: "9.1pt", color: pal.muted, marginTop: "0.25mm" }}>{s.niveau}</div>}
+                    </div>
+                  ))}
+              </>
+            )}
 
-          {!data.hidden.hobbys && data.hobbys.some((v) => v.trim()) && (
-            <>
-              {sideHeading(label(data, "hobbys"))}
-              {data.hobbys
-                .filter((v) => v.trim())
-                .map((v, i) => (
-                  <div key={`side-hobby-${i}`} style={{ fontSize: "9pt", lineHeight: 1.32, color: pal.ink, marginBottom: "1.2mm" }}>
-                    {v}
-                  </div>
-                ))}
-            </>
-          )}
-        </>
-      ) : (
-        <div style={{ paddingTop: "5mm" }}>
-          <div style={{ fontSize: "12pt", fontWeight: 750, color: pal.ink, lineHeight: 1.15 }}>
-            {name || "Lebenslauf"}
+            {!data.hidden.staerken && data.staerken.some((v) => v.trim()) && (
+              <>
+                {sideHeading(label(data, "staerken"))}
+                {data.staerken
+                  .filter((v) => v.trim())
+                  .map((v, i) => (
+                    <div key={`side-strength-${i}`} style={{ display: "flex", gap: "1.7mm", marginBottom: "1.45mm" }}>
+                      <span style={{ color: pal.accent, fontWeight: 800 }}>•</span>
+                      <span style={{ fontSize: "9.3pt", lineHeight: 1.38, color: pal.ink }}>{v}</span>
+                    </div>
+                  ))}
+              </>
+            )}
+
+            {!data.hidden.hobbys && data.hobbys.some((v) => v.trim()) && (
+              <>
+                {sideHeading(label(data, "hobbys"))}
+                {data.hobbys
+                  .filter((v) => v.trim())
+                  .map((v, i) => (
+                    <div key={`side-hobby-${i}`} style={{ fontSize: "9.3pt", lineHeight: 1.4, color: pal.ink, marginBottom: "1.35mm" }}>
+                      {v}
+                    </div>
+                  ))}
+              </>
+            )}
+          </>
+        ) : (
+          <div style={{ paddingTop: "5mm" }}>
+            <div style={{ fontSize: "12.5pt", fontWeight: 750, color: pal.ink, lineHeight: 1.15 }}>
+              {name || "Lebenslauf"}
+            </div>
+            <div style={{ marginTop: "1.5mm", fontSize: "9pt", color: pal.muted }}>
+              Lebenslauf · Seite {pageIndex + 1}
+            </div>
           </div>
-          <div style={{ marginTop: "1.4mm", fontSize: "8.8pt", color: pal.muted }}>
-            Lebenslauf · Seite {pageIndex + 1}
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 
