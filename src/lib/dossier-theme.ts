@@ -131,6 +131,7 @@ export function applyDossierTheme(template: TemplateId): DossierTheme {
   if (typeof document === "undefined") return theme;
 
   const root = document.documentElement;
+  const density = theme.spacingDensity;
   root.dataset.dossierTemplate = template;
   root.style.setProperty("--dossier-font", theme.typography.fontStack);
   root.style.setProperty("--dossier-name-weight", String(theme.typography.nameWeight));
@@ -144,7 +145,10 @@ export function applyDossierTheme(template: TemplateId): DossierTheme {
   );
   root.style.setProperty("--dossier-line-thickness", `${theme.lineThicknessMm}mm`);
   root.style.setProperty("--dossier-corner-radius", `${theme.cornerRadiusMm}mm`);
-  root.style.setProperty("--dossier-spacing-density", String(theme.spacingDensity));
+  root.style.setProperty("--dossier-spacing-density", String(density));
+  root.style.setProperty("--dossier-section-gap", `${4 * density}mm`);
+  root.style.setProperty("--dossier-section-gap-small", `${1.8 * density}mm`);
+  root.style.setProperty("--dossier-cover-line-height", String(1.3 * density));
   root.style.setProperty("--dossier-photo-contrast", String(theme.photoTreatment.contrast));
   root.style.setProperty("--dossier-photo-saturation", String(theme.photoTreatment.saturation));
   root.style.setProperty("--dossier-background-intensity", String(theme.backgroundIntensity));
