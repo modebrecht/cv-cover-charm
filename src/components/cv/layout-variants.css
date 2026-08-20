@@ -4,6 +4,9 @@
  * Minimal, Timeline und Editorial verwenden absichtlich die bewährte
  * einspaltige Inhalts-/Pagination-Logik von Classic. Executive setzt auf den
  * echten Modern-Zweispalter und behält damit die Side/Main-Kontrolle.
+ *
+ * M5.1: Layoutregeln hängen an semantischen data-cv-* Hooks statt an
+ * zufälligen Inline-Styles wie width: 30mm oder border-radius: 50%.
  */
 
 /* -------------------------------------------------------------------------- */
@@ -16,13 +19,13 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page] {
 
 /* Covergrafik nur noch als beinahe unsichtbare Papiertönung. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:not(:last-child)[style*="opacity"] {
+  > [data-cv-background="motif"] {
   opacity: 0.008 !important;
 }
 
 /* Aus dem Vollbreiten-Balken wird nur eine kleine Signatur oben links. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div[style*="height: 2.2mm"] {
+  > [data-cv-accent="page"] {
   left: 24mm !important;
   right: auto !important;
   width: 22mm !important;
@@ -33,7 +36,7 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 
 /* Mehr Weissraum als Classic. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child {
+  > [data-cv-main] {
   left: 24mm !important;
   right: 24mm !important;
   top: 20mm !important;
@@ -42,19 +45,13 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 
 /* Header gross, ruhig, ohne "Template-Karte". */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:first-child
-  > div {
+  [data-cv-header] {
   margin-bottom: 7mm !important;
   gap: 9mm !important;
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:first-child
-  > div
-  > div:last-child
-  > div:first-child {
+  [data-cv-header] [data-cv-name] {
   font-size: 30pt !important;
   font-weight: 680 !important;
   letter-spacing: -0.035em !important;
@@ -62,30 +59,28 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 
 /* Abschnittstitel: keine lange Linie, nur kleiner Akzent. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:has([style*="text-transform: uppercase"]) {
+  > [data-cv-main]
+  > div:has([data-cv-section-title]) {
   margin-top: 6mm !important;
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="text-transform: uppercase"] {
+  [data-cv-section-title] {
   font-size: 9.4pt !important;
   letter-spacing: 0.12em !important;
   font-weight: 750 !important;
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 18mm"][style*="background"] {
+  [data-cv-accent="section"] {
   width: 8mm !important;
   height: 0.4mm !important;
   opacity: 0.55 !important;
 }
 
-/* Zeitangaben stehen bei zeitbasierten Zeilen rechts statt als breite Spalte. */
+/* Zeit-/Rail-Angaben stehen rechts statt als breite linke Spalte. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"]) {
+  [data-cv-entry]:has(> [data-cv-rail]) {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) auto !important;
   column-gap: 8mm !important;
@@ -93,10 +88,8 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"])
-  > div:first-child {
+  [data-cv-entry]
+  > [data-cv-rail] {
   grid-column: 2 !important;
   grid-row: 1 !important;
   width: auto !important;
@@ -106,10 +99,8 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"])
-  > div:nth-child(2) {
+  [data-cv-entry]:has(> [data-cv-rail])
+  > :not([data-cv-rail]) {
   grid-column: 1 !important;
   grid-row: 1 !important;
 }
@@ -119,17 +110,17 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 /* -------------------------------------------------------------------------- */
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:not(:last-child)[style*="opacity"] {
+  > [data-cv-background="motif"] {
   opacity: 0.018 !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div[style*="height: 2.2mm"] {
+  > [data-cv-accent="page"] {
   height: 1.2mm !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child {
+  > [data-cv-main] {
   left: 21mm !important;
   right: 19mm !important;
   top: 16mm !important;
@@ -137,7 +128,7 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 
 /* Die eigentliche Achse beginnt unter dem Kopf. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child::before {
+  > [data-cv-main]::before {
   content: "";
   position: absolute;
   left: 4mm;
@@ -150,16 +141,16 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:not(:first-child) {
+  > [data-cv-main]
+  > div:not(:has([data-cv-header])) {
   position: relative;
   padding-left: 12mm;
 }
 
 /* Punkt für echte Inhaltszeilen. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:not(:first-child):not(:has([style*="text-transform: uppercase"]))::before {
+  > [data-cv-main]
+  > div:has([data-cv-entry])::before {
   content: "";
   position: absolute;
   left: 1.9mm;
@@ -175,8 +166,8 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 
 /* Abschnittsüberschriften schneiden die Achse bewusst als Kapitelmarker. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:has([style*="text-transform: uppercase"])::before {
+  > [data-cv-main]
+  > div:has([data-cv-section-title])::before {
   content: "";
   position: absolute;
   left: 2.4mm;
@@ -190,33 +181,33 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="text-transform: uppercase"] {
+  [data-cv-section-title] {
   font-size: 9.8pt !important;
   letter-spacing: 0.095em !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 18mm"][style*="background"] {
+  [data-cv-accent="section"] {
   width: 12mm !important;
   height: 0.45mm !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 27mm"] {
+  [data-cv-rail] {
   width: 24mm !important;
 }
 
 /* Etwas mehr Luft zwischen chronologischen Stationen. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:not(:first-child):not(:has([style*="text-transform: uppercase"]))
-  > div {
+  > [data-cv-main]
+  > div:has([data-cv-entry])
+  > [data-cv-entry] {
   margin-bottom: 2.8mm !important;
 }
 
 /* Folgeseiten: Linie direkt oben beginnen lassen. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([data-cv-page="0"])
-  > div:last-child::before {
+  > [data-cv-main]::before {
   top: 6mm;
 }
 
@@ -230,37 +221,37 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page] {
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > div:not(:last-child)[style*="opacity"] {
+  > [data-cv-background="motif"] {
   opacity: 0.01 !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > div[style*="height: 2.2mm"] {
+  > [data-cv-accent="page"] {
   height: 0.9mm !important;
 }
 
 /* Sidebar etwas breiter und weniger "App-Template", dafür dossierartig. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > div[style*="width: 55mm"][style*="border-right"] {
+  > [data-cv-sidebar] {
   width: 61mm !important;
   padding: 15mm 8.5mm 13mm 9mm !important;
   border-right-width: 0.22mm !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > div[style*="width: 55mm"][style*="border-right"]
-  > div[aria-hidden] {
+  > [data-cv-sidebar]
+  > [data-cv-sidebar-tint] {
   background: color-mix(in srgb, currentColor 4%, #fff) !important;
 }
 
 /* Die weisse Hauptfläche beginnt am neuen Sidebar-Raster. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > div[style*="left: 55mm"] {
+  > [data-cv-main-wash] {
   left: 61mm !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > div:last-child {
+  > [data-cv-main] {
   left: 70mm !important;
   right: 18mm !important;
   top: 18mm !important;
@@ -269,19 +260,17 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
 
 /* Name/Headline: souverän statt verspielt. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > div:last-child
-  > div:first-child
-  > div
-  > div:first-child {
+  [data-cv-main]
+  [data-cv-header]
+  [data-cv-name] {
   font-size: 31pt !important;
   font-weight: 680 !important;
   letter-spacing: -0.035em !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > div:last-child
-  > div:first-child
-  [style*="width: 24mm"][style*="background"] {
+  [data-cv-main]
+  [data-cv-accent="header"] {
   width: 36mm !important;
   height: 0.48mm !important;
   margin-top: 4mm !important;
@@ -289,14 +278,14 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
 
 /* Kapitel mit langer, feiner Führungsline. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  [style*="text-transform: uppercase"] {
+  [data-cv-section-title] {
   font-size: 9.5pt !important;
   letter-spacing: 0.13em !important;
   font-weight: 780 !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  [style*="width: 15mm"][style*="background"] {
+  [data-cv-accent="section"] {
   width: auto !important;
   height: 0.32mm !important;
   flex: 1 1 auto !important;
@@ -305,7 +294,7 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
 
 /* Bewerbungsfoto: elegante Karte statt Social-Media-Kreis. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  [style*="border-radius: 50%"] {
+  [data-cv-photo] {
   width: 31mm !important;
   height: 35mm !important;
   border-radius: 2.2mm !important;
@@ -313,8 +302,8 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
 
 /* Sidebar-Titel bewusst kleiner und mit mehr Tracking. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > div[style*="width: 55mm"]
-  [style*="text-transform: uppercase"] {
+  > [data-cv-sidebar]
+  [data-cv-section-title] {
   font-size: 8.3pt !important;
   letter-spacing: 0.145em !important;
 }
@@ -328,13 +317,13 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page] {
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div:not(:last-child)[style*="opacity"] {
+  > [data-cv-background="motif"] {
   opacity: 0.006 !important;
 }
 
 /* Statt Balken oben: vertikale Signatur neben dem Namen. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div[style*="height: 2.2mm"] {
+  > [data-cv-accent="page"] {
   left: 21mm !important;
   right: auto !important;
   top: 19mm !important;
@@ -344,7 +333,7 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child {
+  > [data-cv-main] {
   left: 30mm !important;
   right: 22mm !important;
   top: 20mm !important;
@@ -368,9 +357,7 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page="0"]:
 
 /* Header wie eine Editorial-Opening-Spread: Serifentitel + feine Grundlinie. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:first-child
-  > div {
+  [data-cv-header] {
   margin-bottom: 8mm !important;
   padding-bottom: 6mm !important;
   gap: 9mm !important;
@@ -378,11 +365,8 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:first-child
-  > div
-  > div:last-child
-  > div:first-child {
+  [data-cv-header]
+  [data-cv-name] {
   font-family: Georgia, "Times New Roman", serif !important;
   font-size: 34pt !important;
   font-weight: 700 !important;
@@ -391,7 +375,7 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 30mm"][style*="height: 38mm"] {
+  [data-cv-photo] {
   width: 29mm !important;
   height: 38mm !important;
   border-radius: 0.9mm !important;
@@ -399,14 +383,14 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
 
 /* Kapitel wirken wie Magazin-Rubriken statt Formularüberschriften. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:has([style*="text-transform: uppercase"]) {
+  > [data-cv-main]
+  > div:has([data-cv-section-title]) {
   margin-top: 7mm !important;
   margin-bottom: 2.8mm !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="text-transform: uppercase"] {
+  [data-cv-section-title] {
   font-family: Georgia, "Times New Roman", serif !important;
   font-size: 13.2pt !important;
   font-weight: 700 !important;
@@ -415,7 +399,7 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 18mm"][style*="background"] {
+  [data-cv-accent="section"] {
   width: auto !important;
   height: 0.28mm !important;
   flex: 1 1 auto !important;
@@ -424,18 +408,14 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
 
 /* Chronologische Einträge bekommen eine schmale Datums-Randspalte. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"]) {
+  [data-cv-entry]:has(> [data-cv-rail]) {
   gap: 7mm !important;
   margin-bottom: 3.3mm !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"])
-  > div:first-child {
+  [data-cv-entry]
+  > [data-cv-rail] {
   width: 24mm !important;
   font-size: 8.7pt !important;
   letter-spacing: 0.035em !important;
@@ -459,9 +439,9 @@ html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page] {
 }
 
 html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
-  > div[style*="width: 55mm"][style*="border-right"],
+  > [data-cv-sidebar],
 html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
-  > div:last-child {
+  > [data-cv-main] {
   transform: scaleX(-1);
   transform-origin: center;
 }
