@@ -9,6 +9,11 @@ const PHOTO_SHAPES = ["rect", "square", "portrait", "circle"] as const;
 const PHOTO =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='320' viewBox='0 0 240 320'%3E%3Crect width='240' height='320' fill='%23dbeafe'/%3E%3Ccircle cx='120' cy='110' r='55' fill='%2394a3b8'/%3E%3Crect x='55' y='180' width='130' height='105' rx='42' fill='%2364748b'/%3E%3C/svg%3E";
 
+const previewRoot = (page: Page) =>
+  page.locator('[data-dossier-document="cv"][data-export-mode="false"]').first();
+const exportRoot = (page: Page) =>
+  page.locator('[data-dossier-document="cv"][data-export-mode="true"]').first();
+
 function entry(id: string, index: number) {
   return {
     id,
@@ -140,33 +145,35 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
   );
 
   await page.reload({ waitUntil: "domcontentloaded" });
-  await page.locator("[data-cv-page]").first().waitFor({ state: "visible" });
+  await previewRoot(page).locator("[data-cv-page]").first().waitFor({ state: "visible" });
 }
 
-async function assertNoMainClipping(page: Page) {
-  const errors = await page.locator("[data-cv-page]").evaluateAll((pages) => {
-    const failures: string[] = [];
-    pages.forEach((pageEl, pageIndex) => {
-      const main = pageEl.querySelector<HTMLElement>("[data-cv-main]");
-      if (!main) {
-        failures.push(`page ${pageIndex + 1}: missing main`);
-        return;
-      }
-      const mainRect = main.getBoundingClientRect();
-      Array.from(main.children).forEach((child, childIndex) => {
-        const rect = (child as HTMLElement).getBoundingClientRect();
-        if (rect.bottom > mainRect.bottom + 1.5) {
-          failures.push(`page ${pageIndex + 1} row ${childIndex + 1}: bottom clipped`);
+async function assertNoMainClipping(page: Page, label: string) {
+  const errors = await previewRoot(page)
+    .locator("[data-cv-page]")
+    .evaluateAll((pages) => {
+      const failures: string[] = [];
+      pages.forEach((pageEl, pageIndex) => {
+        const main = pageEl.querySelector<HTMLElement>("[data-cv-main]");
+        if (!main) {
+          failures.push(`page ${pageIndex + 1}: missing main`);
+          return;
         }
-        if (rect.left < mainRect.left - 1.5 || rect.right > mainRect.right + 1.5) {
-          failures.push(`page ${pageIndex + 1} row ${childIndex + 1}: horizontal overflow`);
-        }
+        const mainRect = main.getBoundingClientRect();
+        Array.from(main.children).forEach((child, childIndex) => {
+          const rect = (child as HTMLElement).getBoundingClientRect();
+          if (rect.bottom > mainRect.bottom + 1.5) {
+            failures.push(`page ${pageIndex + 1} row ${childIndex + 1}: bottom clipped`);
+          }
+          if (rect.left < mainRect.left - 1.5 || rect.right > mainRect.right + 1.5) {
+            failures.push(`page ${pageIndex + 1} row ${childIndex + 1}: horizontal overflow`);
+          }
+        });
       });
+      return failures;
     });
-    return failures;
-  });
 
-  expect(errors).toEqual([]);
+  expect(errors, `${label} preview geometry`).toEqual([]);
 }
 
 test.describe("M5.8 dossier regression", () => {
@@ -178,7 +185,7 @@ test.describe("M5.8 dossier regression", () => {
         await seedCv(page, { family, layout });
         await expect(page.locator("html")).toHaveAttribute("data-dossier-family", family);
         await expect(page.locator("html")).toHaveAttribute("data-cv-variant", layout);
-        await assertNoMainClipping(page);
+        await assertNoMainClipping(page, `${family}/${layout}`);
       }
     }
   });
@@ -187,8 +194,8 @@ test.describe("M5.8 dossier regression", () => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "executive", layout, mirrored: true, photo: true });
       await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
-      await expect(page.locator("[data-cv-photo]").first()).toBeVisible();
-      await assertNoMainClipping(page);
+      await expect(previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first()).toBeVisible();
+      await assertNoMainClipping(page, `mirrored executive/${layout}`);
     }
   });
 
@@ -203,7 +210,8 @@ test.describe("M5.8 dossier regression", () => {
     for (const shape of PHOTO_SHAPES) {
       await seedCv(page, { family: "modern", layout: "classic", photo: true, photoShape: shape });
       await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", shape);
-      const photo = page.locator("[data-cv-photo]").first();
+      const photo = previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first();
+      await expect(photo).toBeVisible();
       const box = await photo.boundingBox();
       expect(box).not.toBeNull();
       expect((box?.height ?? 0) / (box?.width ?? 1)).toBeCloseTo(expectedRatio[shape], 1);
@@ -221,12 +229,13 @@ test.describe("M5.8 dossier regression", () => {
   test("long names and long content paginate across every layout without clipping", async ({ page }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "editorial", layout, long: true });
-      const pageCount = await page.locator("[data-cv-page]").count();
+      const root = previewRoot(page);
+      const pageCount = await root.locator("[data-cv-page]").count();
       expect(pageCount).toBeGreaterThan(1);
-      await assertNoMainClipping(page);
+      await assertNoMainClipping(page, `long editorial/${layout}`);
 
-      const name = page.locator("[data-cv-page='0'] [data-cv-name]").first();
-      const main = page.locator("[data-cv-page='0'] [data-cv-main]").first();
+      const name = root.locator("[data-cv-page='0'] [data-cv-name]").first();
+      const main = root.locator("[data-cv-page='0'] [data-cv-main]").first();
       const nameBox = await name.boundingBox();
       const mainBox = await main.boundingBox();
       expect(nameBox).not.toBeNull();
@@ -269,11 +278,18 @@ test.describe("M5.8 dossier regression", () => {
 
     await seedCv(page, { coverRaw: cover });
     await page.getByRole("button", { name: "Vom Titelblatt", exact: true }).click();
-    await expect(page.getByText("Foto und Ausschnitt vom Titelblatt übernommen")).toBeVisible();
 
-    const copied = await page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"));
-    expect(copied.shape).toBe("circle");
+    await expect
+      .poll(() =>
+        page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}").shape),
+      )
+      .toBe("circle");
+    const copied = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"),
+    );
     expect(copied.zoom).toBe(1.8);
+    await expect(previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first()).toBeVisible();
+    expect(await page.evaluate(() => localStorage.getItem("titelblatt:v3"))).toBe(cover);
 
     await page.getByRole("button", { name: "Quadrat", exact: true }).click();
     await page.waitForTimeout(500);
@@ -286,11 +302,13 @@ test.describe("M5.8 dossier regression", () => {
     expect(JSON.parse(storage.cvPhoto ?? "{}").shape).toBe("square");
   });
 
-  test("PDF export downloads a non-empty PDF from the visible CV pages only", async ({ page }) => {
+  test("PDF export downloads a non-empty PDF from the export CV pages only", async ({ page }) => {
     await seedCv(page, { family: "executive", layout: "timeline", long: true, photo: true });
-    const visiblePages = await page.locator("[data-cv-page]").count();
-    expect(visiblePages).toBeGreaterThan(1);
-    expect(await page.locator("[data-cv-measure-page]").count()).toBe(1);
+    const previewPages = await previewRoot(page).locator("[data-cv-page]").count();
+    const exportPages = await exportRoot(page).locator("[data-cv-page]").count();
+    expect(previewPages).toBeGreaterThan(1);
+    expect(exportPages).toBe(previewPages);
+    expect(await page.locator("[data-cv-measure-page][data-cv-page]").count()).toBe(0);
 
     await page.getByRole("button", { name: "Download" }).click();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
