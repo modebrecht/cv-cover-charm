@@ -5,6 +5,7 @@ import {
   type CvData,
   type CvEntry,
   type CvPerson,
+  type CvPlacement,
   type CvReferenz,
   type CvSprache,
 } from "./types";
@@ -24,6 +25,36 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 const addBtn =
   "self-start rounded-md border border-dashed border-input px-3 py-1.5 text-xs hover:bg-accent";
 const delBtn = "shrink-0 rounded-md px-2 py-1 text-xs text-destructive hover:bg-destructive/10";
+
+/** Kompakter Zwei-Zustands-Schalter für das Modern-Layout. */
+export function PlacementToggle({
+  value,
+  onChange,
+}: {
+  value: CvPlacement;
+  onChange: (value: CvPlacement) => void;
+}) {
+  return (
+    <div className="inline-flex shrink-0 overflow-hidden rounded-md border border-input bg-background" aria-label="Position im Modern-Layout">
+      {(["side", "main"] as const).map((option) => {
+        const active = value === option;
+        return (
+          <button
+            key={option}
+            type="button"
+            onClick={() => onChange(option)}
+            aria-pressed={active}
+            className={`px-2.5 py-1.5 text-[11px] font-semibold transition ${
+              active ? "bg-foreground text-background" : "text-muted-foreground hover:bg-accent"
+            }`}
+          >
+            {option === "side" ? "Side" : "Main"}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 /** Rahmen um einen wiederholbaren Eintrag, mit Entfernen-Knopf. */
 function Item({ children, onRemove }: { children: React.ReactNode; onRemove: () => void }) {
@@ -314,22 +345,27 @@ export function SectionOptions({
   hidden,
   onLabel,
   onHidden,
+  placement,
+  onPlacement,
 }: {
   value: string;
   placeholder: string;
   hidden: boolean;
   onLabel: (v: string) => void;
   onHidden: (v: boolean) => void;
+  placement?: CvPlacement;
+  onPlacement?: (value: CvPlacement) => void;
 }) {
   return (
-    <div className="mb-2 flex items-center gap-2 border-b pb-2">
+    <div className="mb-2 flex flex-wrap items-center gap-2 border-b pb-2">
       <input
-        className={`${inputCls} flex-1`}
+        className={`${inputCls} min-w-[150px] flex-1`}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onLabel(e.target.value)}
         aria-label="Überschrift"
       />
+      {placement && onPlacement && <PlacementToggle value={placement} onChange={onPlacement} />}
       <label className="flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
         <input type="checkbox" checked={!hidden} onChange={(e) => onHidden(!e.target.checked)} />
         zeigen
