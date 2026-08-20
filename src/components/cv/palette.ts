@@ -60,15 +60,18 @@ function pick(colors: Record<string, string>, keys: string[]): string | null {
 }
 
 /**
- * Vorlagenfarben für den Hintergrund des Lebenslaufs aufhellen.
+ * Vorlagenfarben für den Hintergrund des Lebenslaufs anpassen.
  *
- * Manche Vorlagen sind fast schwarz. Sie einfach blass zu schalten macht aus
- * dem Blatt eine graue Fläche – schlecht zu lesen und im Drucker teuer. Statt
- * dessen wird jede Farbe so weit mit Weiss gemischt, dass Papierweiss erhalten
- * bleibt; Farbton und Charakter der Vorlage bleiben erkennbar.
+ * Nur so viel wie nötig: helle und mittlere Farben bleiben unangetastet, sonst
+ * sähe man vom Design nichts mehr. Aufgehellt werden allein die wirklich
+ * dunklen Vorlagen, die das Blatt sonst grau einfärben würden.
  */
 export function softColors(colors: Record<string, string>): Record<string, string> {
-  const MIN_LUM = 0.82;
+  // Feste Schwelle, bewusst unabhängig vom Regler: würde sie mitwandern, hellte
+  // ein kräftigerer Hintergrund die Farben im selben Mass wieder auf und der
+  // Regler hätte gar keine sichtbare Wirkung mehr.
+  const MIN_LUM = 0.45;
+
   const out: Record<string, string> = {};
   for (const [key, value] of Object.entries(colors)) {
     const c = parse(value);
@@ -77,11 +80,11 @@ export function softColors(colors: Record<string, string>): Record<string, strin
       continue;
     }
     let mixed = c;
-    for (let i = 0; i < 30 && luminance(mixed) < MIN_LUM; i++) {
+    for (let i = 0; i < 40 && luminance(mixed) < MIN_LUM; i++) {
       mixed = {
-        r: mixed.r + (255 - mixed.r) * 0.15,
-        g: mixed.g + (255 - mixed.g) * 0.15,
-        b: mixed.b + (255 - mixed.b) * 0.15,
+        r: mixed.r + (255 - mixed.r) * 0.12,
+        g: mixed.g + (255 - mixed.g) * 0.12,
+        b: mixed.b + (255 - mixed.b) * 0.12,
       };
     }
     out[key] = toHex(mixed);
