@@ -5,6 +5,7 @@ import { ShapeElement } from "@/components/cover/ShapeElement";
 import { customDefaultStyle } from "@/components/cover/layouts";
 import { customKind, TEMPLATES, type CustomField } from "@/components/cover/types";
 import { getCvLayout, subscribeCvLayout } from "./layout";
+import { getCvPlacements, subscribeCvPlacements } from "./placement";
 import {
   alphaHex,
   cvVisualPolicy,
@@ -16,6 +17,7 @@ import { cvPalette, softColors } from "./palette";
 import {
   CV_SECTION_LABELS,
   CV_SECTION_ORDER,
+  DEFAULT_CV_PLACEMENTS,
   entryFilled,
   type CvData,
   type CvDesign,
@@ -34,19 +36,15 @@ const MODERN_SIDEBAR_W = 55;
 
 const CLASSIC_CONTENT_W = 210 - MARGIN_X * 2;
 const MODERN_CONTENT_W = 210 - MODERN_MAIN_LEFT - MODERN_RIGHT;
-/** Schrift des Blattes – auch die Messfläche braucht sie, sonst stimmen die Höhen nicht. */
 const SHEET_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 const USABLE_H = (297 - MARGIN_TOP - MARGIN_BOTTOM) * MM;
 
-/** Eine Zeile des Lebenslaufs, die als Ganzes auf eine Seite gehört. */
 type Row = { id: string; node: React.ReactNode; heading?: boolean };
 
 type Props = {
   data: CvData;
   design: CvDesign;
-  /** Formen und Bilder vom Titelblatt. */
   elements: CustomField[];
-  /** Alle Seiten für den Export sichtbar ausgeben (statt nur die Vorschau). */
   exportMode?: boolean;
 };
 
@@ -57,14 +55,19 @@ function label(data: CvData, key: CvSectionKey): string {
 export function CvCanvas({ data, design, elements, exportMode = false }: Props) {
   const pal = useMemo(() => cvPalette(design.colors), [design.colors]);
   const layout = useSyncExternalStore(subscribeCvLayout, getCvLayout, () => "classic");
+  const placements = useSyncExternalStore(
+    subscribeCvPlacements,
+    getCvPlacements,
+    () => DEFAULT_CV_PLACEMENTS,
+  );
   const policy = useMemo(
     () => cvVisualPolicy(design.template, layout, design.bgOpacity),
     [design.template, design.bgOpacity, layout],
   );
+  // M4 behält die Verdichtungslogik, verschiebt aber nichts mehr automatisch:
+  // Side/Main ist ab jetzt eine bewusste Nutzerentscheidung.
   const sidePlan = useMemo(() => sidebarPlan(data), [data]);
 
-  // Der Hintergrund läuft mit aufgehellten Farben – sonst wird aus einer
-  // dunklen Vorlage ein graues Blatt.
   const softened = useMemo(() => softColors(design.colors), [design.colors]);
   const slots = useMemo(
     () => TEMPLATES.find((t) => t.id === design.template)?.slots ?? [],
@@ -82,8 +85,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   ].filter(Boolean) as string[];
   const nameSize = smartNameSize(name, layout);
 
-  const heading = (key: CvSectionKey): Row => ({
-    id: `h-${key}`,
+  const headingText = (id: string, text: string): Row => ({
+    id: `h-${id}`,
     heading: true,
     node: (
       <div
@@ -103,7 +106,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               lineHeight: 1.1,
             }}
           >
-            {label(data, key)}
+            {text}
           </div>
           <div
             style={{
@@ -120,7 +123,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     ),
   });
 
-  /** Eintrag mit Zeitspalte links. */
+  const heading = (key: CvSectionKey): Row => headingText(key, label(data, key));
+
   const entryRow = (id: string, zeit: string, titel: string, ort: string, text: string): Row => ({
     id,
     node: (
@@ -199,26 +203,12 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           node: (
             <div style={{ marginBottom: "2.1mm" }}>
               {r.name && (
-                <div
-                  style={{
-                    fontSize: "10.8pt",
-                    fontWeight: 700,
-                    color: pal.ink,
-                    lineHeight: 1.25,
-                  }}
-                >
+                <div style={{ fontSize: "10.8pt", fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}>
                   {r.name}
                 </div>
               )}
               {r.funktion && (
-                <div
-                  style={{
-                    fontSize: "9.7pt",
-                    color: pal.muted,
-                    marginTop: "0.3mm",
-                    lineHeight: 1.3,
-                  }}
-                >
+                <div style={{ fontSize: "9.7pt", color: pal.muted, marginTop: "0.3mm", lineHeight: 1.3 }}>
                   {r.funktion}
                 </div>
               )}
@@ -242,6 +232,38 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     ];
   };
 
+  const languageRows = (): Row[] => {
+    const list = data.sprachen.filter((s) => s.name.trim() || s.niveau.trim());
+    if (!list.length || data.hidden.sprachen) return [];
+    return [
+      heading("sprachen"),
+      ...list.map(
+        (s): Row => ({
+          id: `main-${s.id}`,
+          node: (
+            <div style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
+              <div
+                style={{
+                  width: layout === "modern" ? "23mm" : "27mm",
+                  flexShrink: 0,
+                  fontSize: "10.2pt",
+                  fontWeight: 650,
+                  color: pal.ink,
+                  lineHeight: 1.3,
+                }}
+              >
+                {s.name}
+              </div>
+              <div style={{ flex: 1, fontSize: "9.8pt", color: pal.muted, lineHeight: 1.3 }}>
+                {s.niveau}
+              </div>
+            </div>
+          ),
+        }),
+      ),
+    ];
+  };
+
   const simpleListRows = (key: "staerken" | "hobbys"): Row[] => {
     if (data.hidden[key]) return [];
     const list = data[key].filter((v) => v.trim());
@@ -250,7 +272,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       heading(key),
       ...list.map(
         (v, i): Row => ({
-          id: `modern-main-${key}-${i}`,
+          id: `main-${key}-${i}`,
           node: (
             <div
               style={{
@@ -271,11 +293,31 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     ];
   };
 
-  /* ---------- Inhalt als Liste von Zeilen ---------- */
+  const contactMainRows = (): Row[] => {
+    if (!kontaktZeilen.length && !angaben.length) return [];
+    return [
+      headingText("kontakt", "Kontakt"),
+      {
+        id: "kontakt-main",
+        node: (
+          <div style={{ marginBottom: "2.2mm", fontSize: "9.8pt", lineHeight: 1.4, color: pal.ink }}>
+            {kontaktZeilen.map((line) => (
+              <div key={line} style={{ overflowWrap: "anywhere" }}>
+                {line}
+              </div>
+            ))}
+            {angaben.length > 0 && (
+              <div style={{ marginTop: "1mm", color: pal.muted }}>{angaben.join(" · ")}</div>
+            )}
+          </div>
+        ),
+      },
+    ];
+  };
+
   const rows: Row[] = [];
 
   if (layout === "classic") {
-    // Kopf: Foto, Name, Untertitel und bewusst kompakte Kontaktdaten.
     rows.push({
       id: "kopf",
       node: (
@@ -291,11 +333,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 boxShadow: `0 0 0 0.4mm ${pal.accent}`,
               }}
             >
-              <img
-                src={p.foto}
-                alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
+              <img src={p.foto} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -312,43 +350,19 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               {name || "Dein Name"}
             </div>
             {p.untertitel && (
-              <div
-                style={{
-                  fontSize: "11.2pt",
-                  fontWeight: 600,
-                  color: pal.accent,
-                  marginTop: "1.15mm",
-                  lineHeight: 1.25,
-                }}
-              >
+              <div style={{ fontSize: "11.2pt", fontWeight: 600, color: pal.accent, marginTop: "1.15mm", lineHeight: 1.25 }}>
                 {p.untertitel}
               </div>
             )}
             {kontaktZeilen.length > 0 && (
-              <div
-                style={{
-                  marginTop: "2.5mm",
-                  fontSize: "9.7pt",
-                  color: pal.ink,
-                  lineHeight: 1.38,
-                }}
-              >
+              <div style={{ marginTop: "2.5mm", fontSize: "9.7pt", color: pal.ink, lineHeight: 1.38 }}>
                 {kontaktZeilen.map((k) => (
-                  <div key={k} style={{ overflowWrap: "anywhere" }}>
-                    {k}
-                  </div>
+                  <div key={k} style={{ overflowWrap: "anywhere" }}>{k}</div>
                 ))}
               </div>
             )}
             {angaben.length > 0 && (
-              <div
-                style={{
-                  marginTop: "1.35mm",
-                  fontSize: "9.2pt",
-                  color: pal.muted,
-                  lineHeight: 1.35,
-                }}
-              >
+              <div style={{ marginTop: "1.35mm", fontSize: "9.2pt", color: pal.muted, lineHeight: 1.35 }}>
                 {angaben.join(" · ")}
               </div>
             )}
@@ -359,75 +373,19 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
     for (const key of CV_SECTION_ORDER) {
       if (data.hidden[key]) continue;
-
       if (key === "schule" || key === "erfahrung") {
         const list = data[key].filter(entryFilled);
         if (!list.length) continue;
         rows.push(heading(key));
         list.forEach((e) => rows.push(entryRow(e.id, e.zeit, e.titel, e.ort, e.beschreibung)));
-      }
-
-      if (key === "sprachen") {
-        const list = data.sprachen.filter((s) => s.name.trim() || s.niveau.trim());
-        if (!list.length) continue;
-        rows.push(heading(key));
-        list.forEach((s) =>
-          rows.push({
-            id: s.id,
-            node: (
-              <div style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
-                <div
-                  style={{
-                    width: "27mm",
-                    flexShrink: 0,
-                    fontSize: "10.2pt",
-                    fontWeight: 650,
-                    color: pal.ink,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {s.name}
-                </div>
-                <div style={{ flex: 1, fontSize: "9.8pt", color: pal.muted, lineHeight: 1.3 }}>
-                  {s.niveau}
-                </div>
-              </div>
-            ),
-          }),
-        );
-      }
-
-      if (key === "hobbys" || key === "staerken") {
-        const list = data[key].filter((v) => v.trim());
-        if (!list.length) continue;
-        rows.push(heading(key));
-        list.forEach((v, i) =>
-          rows.push({
-            id: `${key}-${i}`,
-            node: (
-              <div
-                style={{
-                  display: "flex",
-                  gap: "2.6mm",
-                  marginBottom: "1.35mm",
-                  fontSize: "9.9pt",
-                  lineHeight: 1.35,
-                  color: pal.ink,
-                }}
-              >
-                <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
-                <span>{v}</span>
-              </div>
-            ),
-          }),
-        );
+      } else if (key === "sprachen") {
+        rows.push(...languageRows());
+      } else if (key === "hobbys" || key === "staerken") {
+        rows.push(...simpleListRows(key));
       }
     }
-    // Referenzen wurden oben im Loop absichtlich noch nicht behandelt.
-    if (!data.hidden.referenzen) rows.push(...referenceRows());
+    rows.push(...referenceRows());
   } else {
-    // Modern: persönliche Zusatzinfos wandern in die Sidebar; bei sehr viel
-    // Inhalt ziehen Stärken/Hobbys automatisch in die Hauptspalte um.
     rows.push({
       id: "kopf-modern",
       node: (
@@ -445,61 +403,45 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {name || "Dein Name"}
           </div>
           {p.untertitel && (
-            <div
-              style={{
-                marginTop: "1.4mm",
-                fontSize: "11.5pt",
-                fontWeight: 600,
-                color: pal.accent,
-                lineHeight: 1.25,
-              }}
-            >
+            <div style={{ marginTop: "1.4mm", fontSize: "11.5pt", fontWeight: 600, color: pal.accent, lineHeight: 1.25 }}>
               {p.untertitel}
             </div>
           )}
-          <div
-            style={{
-              width: "24mm",
-              height: "0.85mm",
-              marginTop: "3.2mm",
-              borderRadius: "999px",
-              background: pal.accent,
-            }}
-          />
+          <div style={{ width: "24mm", height: "0.85mm", marginTop: "3.2mm", borderRadius: "999px", background: pal.accent }} />
         </div>
       ),
     });
 
-    (["schule", "erfahrung"] as const).forEach((key) => {
-      if (data.hidden[key]) return;
-      const list = data[key].filter(entryFilled);
-      if (!list.length) return;
-      rows.push(heading(key));
-      list.forEach((e) => rows.push(entryRow(e.id, e.zeit, e.titel, e.ort, e.beschreibung)));
-    });
+    if (placements.kontakt === "main") rows.push(...contactMainRows());
 
-    if (sidePlan.moveOptionalToMain) {
-      rows.push(...simpleListRows("staerken"));
-      rows.push(...simpleListRows("hobbys"));
+    for (const key of CV_SECTION_ORDER) {
+      if (placements[key] !== "main" || data.hidden[key]) continue;
+      if (key === "schule" || key === "erfahrung") {
+        const list = data[key].filter(entryFilled);
+        if (!list.length) continue;
+        rows.push(heading(key));
+        list.forEach((e) => rows.push(entryRow(e.id, e.zeit, e.titel, e.ort, e.beschreibung)));
+      } else if (key === "sprachen") {
+        rows.push(...languageRows());
+      } else if (key === "hobbys" || key === "staerken") {
+        rows.push(...simpleListRows(key));
+      } else if (key === "referenzen") {
+        rows.push(...referenceRows());
+      }
     }
-    rows.push(...referenceRows());
   }
 
-  /* ---------- Seiten aufteilen ---------- */
   const measureRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<Row[][]>([rows]);
-  const shape = `${layout}|${sidePlan.moveOptionalToMain ? "overflow" : "side"}|${rows
-    .map((r) => r.id)
-    .join("|")}`;
+  const placementShape = Object.entries(placements)
+    .map(([key, value]) => `${key}:${value}`)
+    .join("|");
+  const shape = `${layout}|${placementShape}|${rows.map((r) => r.id).join("|")}`;
   const contentWidth = layout === "modern" ? MODERN_CONTENT_W : CLASSIC_CONTENT_W;
 
   useLayoutEffect(() => {
     const box = measureRef.current;
     if (!box) return;
-    // Die Vorschau skaliert das Blatt per transform – dort gibt
-    // getBoundingClientRect skalierte Werte zurück und die Seitenzahl hinge am
-    // Zoom. Der Massstab wird darum aus der Messfläche selbst bestimmt und
-    // herausgerechnet.
     const scale = box.getBoundingClientRect().width / (box.offsetWidth || 1) || 1;
     const kids = Array.from(box.children) as HTMLElement[];
     const heights = kids.map((k) => k.getBoundingClientRect().height / scale);
@@ -510,8 +452,6 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     rows.forEach((row, i) => {
       const h = heights[i] ?? 0;
       if (used + h > USABLE_H && current.length) {
-        // Eine Überschrift allein am Seitenende sieht aus wie ein Fehler –
-        // sie wandert mit auf die nächste Seite.
         const last = current[current.length - 1];
         if (last?.heading) {
           current.pop();
@@ -529,13 +469,9 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     });
     if (current.length) out.push(current);
     setPages(out.length ? out : [[]]);
-    // Farben und Vorlage gehören ebenfalls zur Zeilen-Darstellung. Ohne diese
-    // Abhängigkeiten blieben nach einem Template-Wechsel alte React-Nodes in
-    // `pages` hängen (z. B. goldene Sidebar, aber noch pinke Überschriften).
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shape, data, layout, design.template, pal.accent, pal.ink, pal.muted]);
 
-  /* ---------- Hintergrund ---------- */
   const background = (
     <>
       <div style={{ position: "absolute", inset: 0, background: pal.paper }} />
@@ -563,12 +499,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                   (layout === "modern" ? 0.45 : 1),
               }}
             >
-              <ShapeElement
-                shape={el.shape ?? "rect"}
-                path={el.path}
-                style={st}
-                colors={softened}
-              />
+              <ShapeElement shape={el.shape ?? "rect"} path={el.path} style={st} colors={softened} />
             </div>
           );
         })}
@@ -586,49 +517,55 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         />
       )}
 
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top: 0,
-          height: "2.2mm",
-          background: pal.accent,
-        }}
-      />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: "2.2mm", background: pal.accent }} />
     </>
   );
 
-  const hasContact = !!(
-    p.adresse ||
-    p.plzOrt ||
-    p.telefon ||
-    p.email ||
-    p.geburtsdatum ||
-    p.nationalitaet
-  );
+  const hasContact =
+    placements.kontakt === "side" &&
+    !!(p.adresse || p.plzOrt || p.telefon || p.email || p.geburtsdatum || p.nationalitaet);
+  const hasSchool =
+    placements.schule === "side" && !data.hidden.schule && data.schule.some(entryFilled);
+  const hasExperience =
+    placements.erfahrung === "side" && !data.hidden.erfahrung && data.erfahrung.some(entryFilled);
   const hasLanguages =
-    !data.hidden.sprachen && data.sprachen.some((s) => s.name.trim() || s.niveau.trim());
+    placements.sprachen === "side" &&
+    !data.hidden.sprachen &&
+    data.sprachen.some((s) => s.name.trim() || s.niveau.trim());
   const hasStrengths =
-    !sidePlan.moveOptionalToMain &&
-    !data.hidden.staerken &&
-    data.staerken.some((v) => v.trim());
+    placements.staerken === "side" && !data.hidden.staerken && data.staerken.some((v) => v.trim());
   const hasHobbies =
-    !sidePlan.moveOptionalToMain &&
-    !data.hidden.hobbys &&
-    data.hobbys.some((v) => v.trim());
+    placements.hobbys === "side" && !data.hidden.hobbys && data.hobbys.some((v) => v.trim());
+  const hasReferences =
+    placements.referenzen === "side" &&
+    !data.hidden.referenzen &&
+    data.referenzen.some((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim());
+
   const firstSide = hasContact
     ? "contact"
-    : hasLanguages
-      ? "languages"
-      : hasStrengths
-        ? "strengths"
-        : "hobbies";
+    : hasSchool
+      ? "school"
+      : hasExperience
+        ? "experience"
+        : hasLanguages
+          ? "languages"
+          : hasStrengths
+            ? "strengths"
+            : hasHobbies
+              ? "hobbies"
+              : "references";
 
   const sideHeading = (text: string, first = false) => (
     <div
       style={{
-        marginTop: first && !p.foto ? "0.8mm" : sidePlan.veryCompact ? "3.2mm" : sidePlan.compact ? "4.1mm" : "5.2mm",
+        marginTop:
+          first && !p.foto
+            ? "0.8mm"
+            : sidePlan.veryCompact
+              ? "3.2mm"
+              : sidePlan.compact
+                ? "4.1mm"
+                : "5.2mm",
         marginBottom: sidePlan.veryCompact ? "1.2mm" : sidePlan.compact ? "1.5mm" : "1.9mm",
         fontSize: sidePlan.veryCompact ? "8.4pt" : sidePlan.compact ? "8.8pt" : "9.2pt",
         fontWeight: 800,
@@ -645,6 +582,27 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const sideBody = sidePlan.veryCompact ? 8.7 : sidePlan.compact ? 9.1 : 9.5;
   const sideSmall = sidePlan.veryCompact ? 8.2 : sidePlan.compact ? 8.6 : 9.1;
   const sideLine = sidePlan.veryCompact ? 1.3 : sidePlan.compact ? 1.4 : 1.5;
+
+  const sideEntries = (key: "schule" | "erfahrung") => (
+    <>
+      {data[key].filter(entryFilled).map((e) => (
+        <div key={`side-${e.id}`} style={{ marginBottom: sidePlan.compact ? "1.7mm" : "2.2mm" }}>
+          {e.zeit && <div style={{ fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.25 }}>{e.zeit}</div>}
+          {e.titel && (
+            <div style={{ marginTop: "0.25mm", fontSize: `${sideBody}pt`, fontWeight: 700, color: pal.ink, lineHeight: 1.28 }}>
+              {e.titel}
+            </div>
+          )}
+          {e.ort && <div style={{ marginTop: "0.2mm", fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.28 }}>{e.ort}</div>}
+          {e.beschreibung && (
+            <div style={{ marginTop: "0.35mm", fontSize: `${sideSmall}pt`, color: pal.ink, lineHeight: 1.3 }}>
+              {e.beschreibung}
+            </div>
+          )}
+        </div>
+      ))}
+    </>
+  );
 
   const modernSidebar = (pageIndex: number) => (
     <div
@@ -685,36 +643,37 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                   marginBottom: sidePlan.compact ? "3.8mm" : "5.3mm",
                 }}
               >
-                <img
-                  src={p.foto}
-                  alt=""
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
+                <img src={p.foto} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
             )}
 
             {hasContact && (
               <>
                 {sideHeading("Kontakt", firstSide === "contact")}
-                <div
-                  style={{
-                    fontSize: `${sideBody}pt`,
-                    color: pal.ink,
-                    lineHeight: sideLine,
-                    overflowWrap: "anywhere",
-                  }}
-                >
+                <div style={{ fontSize: `${sideBody}pt`, color: pal.ink, lineHeight: sideLine, overflowWrap: "anywhere" }}>
                   {p.adresse && <div>{p.adresse}</div>}
                   {p.plzOrt && <div>{p.plzOrt}</div>}
                   {p.telefon && <div style={{ marginTop: sidePlan.compact ? "1mm" : "1.7mm" }}>{p.telefon}</div>}
                   {p.email && <div>{p.email}</div>}
                   {p.geburtsdatum && (
-                    <div style={{ marginTop: sidePlan.compact ? "1.2mm" : "2mm", color: pal.muted }}>
-                      Geb. {p.geburtsdatum}
-                    </div>
+                    <div style={{ marginTop: sidePlan.compact ? "1.2mm" : "2mm", color: pal.muted }}>Geb. {p.geburtsdatum}</div>
                   )}
                   {p.nationalitaet && <div style={{ color: pal.muted }}>{p.nationalitaet}</div>}
                 </div>
+              </>
+            )}
+
+            {hasSchool && (
+              <>
+                {sideHeading(label(data, "schule"), firstSide === "school")}
+                {sideEntries("schule")}
+              </>
+            )}
+
+            {hasExperience && (
+              <>
+                {sideHeading(label(data, "erfahrung"), firstSide === "experience")}
+                {sideEntries("erfahrung")}
               </>
             )}
 
@@ -731,14 +690,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                         lineHeight: 1.32,
                       }}
                     >
-                      <div style={{ fontSize: `${sideBody + 0.1}pt`, fontWeight: 700, color: pal.ink }}>
-                        {s.name}
-                      </div>
-                      {s.niveau && (
-                        <div style={{ fontSize: `${sideSmall}pt`, color: pal.muted, marginTop: "0.2mm" }}>
-                          {s.niveau}
-                        </div>
-                      )}
+                      <div style={{ fontSize: `${sideBody + 0.1}pt`, fontWeight: 700, color: pal.ink }}>{s.name}</div>
+                      {s.niveau && <div style={{ fontSize: `${sideSmall}pt`, color: pal.muted, marginTop: "0.2mm" }}>{s.niveau}</div>}
                     </div>
                   ))}
               </>
@@ -759,9 +712,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                       }}
                     >
                       <span style={{ color: pal.accent, fontWeight: 800 }}>•</span>
-                      <span style={{ fontSize: `${sideBody - 0.2}pt`, lineHeight: 1.34, color: pal.ink }}>
-                        {v}
-                      </span>
+                      <span style={{ fontSize: `${sideBody - 0.2}pt`, lineHeight: 1.34, color: pal.ink }}>{v}</span>
                     </div>
                   ))}
               </>
@@ -783,6 +734,21 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                       }}
                     >
                       {v}
+                    </div>
+                  ))}
+              </>
+            )}
+
+            {hasReferences && (
+              <>
+                {sideHeading(label(data, "referenzen"), firstSide === "references")}
+                {data.referenzen
+                  .filter((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim())
+                  .map((r) => (
+                    <div key={`side-${r.id}`} style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}>
+                      {r.name && <div style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: pal.ink }}>{r.name}</div>}
+                      {r.funktion && <div style={{ marginTop: "0.2mm", fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.28 }}>{r.funktion}</div>}
+                      {r.kontakt && <div style={{ marginTop: "0.25mm", fontSize: `${sideSmall}pt`, color: pal.ink, lineHeight: 1.28, overflowWrap: "anywhere" }}>{r.kontakt}</div>}
                     </div>
                   ))}
               </>
@@ -816,7 +782,6 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       data-cv-layout={layout}
       data-export-mode={exportMode ? "true" : "false"}
     >
-      {/* Messfläche: gleiche Breite wie der jeweilige Inhaltsbereich, aber unsichtbar. */}
       <div
         aria-hidden
         ref={measureRef}
@@ -831,9 +796,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         }}
       >
         {rows.map((r) => (
-          <div key={r.id} style={{ display: "flow-root" }}>
-            {r.node}
-          </div>
+          <div key={r.id} style={{ display: "flow-root" }}>{r.node}</div>
         ))}
       </div>
 
@@ -872,9 +835,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             }}
           >
             {page.map((r) => (
-              <div key={r.id} style={{ display: "flow-root" }}>
-                {r.node}
-              </div>
+              <div key={r.id} style={{ display: "flow-root" }}>{r.node}</div>
             ))}
           </div>
         </div>
