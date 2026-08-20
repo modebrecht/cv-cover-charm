@@ -282,17 +282,12 @@ test.describe("M5.8 dossier regression", () => {
     });
     await seedCv(page, { coverRaw: cover });
     expect(await page.evaluate(() => localStorage.getItem("titelblatt:v3"))).toBe(cover);
-    const copyButton = page.getByRole("button", { name: "Vom Titelblatt", exact: true });
-    await copyButton.click();
-    await page.waitForTimeout(150);
-    const diagnostic = await page.evaluate(() => ({
-      cvPhoto: localStorage.getItem("lebenslauf:photo:v2"),
-      cover: localStorage.getItem("titelblatt:v3"),
-    }));
-    const panelText = await copyButton.locator("xpath=../..").innerText();
-    console.log("PHOTO_COPY_DIAGNOSTIC", JSON.stringify({ diagnostic, panelText }));
+    await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", /.+/);
+    await page.getByRole("button", { name: "Vom Titelblatt", exact: true }).click();
     await expect
-      .poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}").shape))
+      .poll(() =>
+        page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}").shape),
+      )
       .toBe("circle");
     const copied = await page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"));
     expect(copied.zoom).toBe(1.8);
