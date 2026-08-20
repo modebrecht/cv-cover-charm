@@ -1,16 +1,16 @@
 /*
- * M5.6 — CV layout geometry only.
+ * CV layout geometry only.
  *
  * These selectors may change position, width, spacing and flow. They must not
  * define the dossier's visual identity. Typography, accent strength, paper
  * treatment, radii and background intensity live in dossier-theme.css.
  *
- * Minimal, Timeline and Editorial use the one-column renderer. Executive uses
+ * Luftig, Timeline and Magazin use the one-column renderer. Zweispaltig uses
  * the two-column renderer and therefore keeps Side/Main placement controls.
  */
 
 /* -------------------------------------------------------------------------- */
-/* Minimal                                                                    */
+/* Luftig                                                                     */
 /* -------------------------------------------------------------------------- */
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
@@ -31,14 +31,14 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-header] {
-  margin-bottom: 7mm !important;
-  gap: 9mm !important;
+  margin-bottom: 7.5mm !important;
+  gap: 8.5mm !important;
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-section-title]) {
-  margin-top: 6mm !important;
+  margin-top: 6.3mm !important;
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
@@ -51,7 +51,7 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-entry]:has(> [data-cv-rail]) {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) auto !important;
-  column-gap: 8mm !important;
+  column-gap: 7mm !important;
   align-items: start !important;
 }
 
@@ -61,9 +61,9 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   grid-column: 2 !important;
   grid-row: 1 !important;
   width: auto !important;
-  min-width: 24mm !important;
+  min-width: 23mm !important;
   text-align: right !important;
-  padding-top: 0.5mm !important;
+  padding-top: 0.45mm !important;
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
@@ -91,9 +91,9 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   left: 4mm;
   top: 43mm;
   bottom: 2mm;
-  width: 0.35mm;
+  width: 0.28mm;
   border-radius: 999px;
-  background: color-mix(in srgb, currentColor 15%, transparent);
+  background: color-mix(in srgb, currentColor 13%, transparent);
   pointer-events: none;
 }
 
@@ -101,7 +101,7 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:not(:has([data-cv-header])) {
   position: relative;
-  padding-left: 12mm;
+  padding-left: 11mm;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
@@ -109,15 +109,15 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > div:has([data-cv-entry])::before {
   content: "";
   position: absolute;
-  left: 1.9mm;
-  top: 2.2mm;
-  width: 4.4mm;
-  height: 4.4mm;
+  left: 2.05mm;
+  top: 2.35mm;
+  width: 3.9mm;
+  height: 3.9mm;
   box-sizing: border-box;
-  border: 1.1mm solid #fff;
+  border: 1mm solid #fff;
   border-radius: 50%;
-  background: color-mix(in srgb, currentColor 48%, transparent);
-  box-shadow: 0 0 0 0.3mm color-mix(in srgb, currentColor 18%, transparent);
+  background: color-mix(in srgb, currentColor 43%, transparent);
+  box-shadow: 0 0 0 0.25mm color-mix(in srgb, currentColor 16%, transparent);
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
@@ -125,14 +125,14 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > div:has([data-cv-section-title])::before {
   content: "";
   position: absolute;
-  left: 2.4mm;
-  top: 4.3mm;
-  width: 3.2mm;
-  height: 3.2mm;
+  left: 2.55mm;
+  top: 4.45mm;
+  width: 2.9mm;
+  height: 2.9mm;
   border-radius: 50%;
   background: #fff;
-  border: 0.65mm solid currentColor;
-  opacity: 0.55;
+  border: 0.55mm solid currentColor;
+  opacity: 0.5;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
@@ -143,14 +143,14 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-rail] {
-  width: 24mm !important;
+  width: 23.5mm !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-entry])
   > [data-cv-entry] {
-  margin-bottom: 2.8mm !important;
+  margin-bottom: 2.9mm !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([data-cv-page="0"])
@@ -159,34 +159,34 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([
 }
 
 /* -------------------------------------------------------------------------- */
-/* Executive                                                                  */
+/* Zweispaltig                                                                */
 /* -------------------------------------------------------------------------- */
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-sidebar] {
-  width: 61mm !important;
-  padding: 15mm 8.5mm 13mm 9mm !important;
+  width: 60mm !important;
+  padding: 14.5mm 8.5mm 13.5mm 9mm !important;
   border-right-width: var(--dossier-line-thickness) !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-main-wash] {
-  left: 61mm !important;
+  left: 60mm !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-main] {
-  left: 70mm !important;
-  right: 18mm !important;
-  top: 18mm !important;
-  bottom: 16mm !important;
+  left: 69mm !important;
+  right: 19mm !important;
+  top: 18.5mm !important;
+  bottom: 17mm !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   [data-cv-main]
   [data-cv-accent="header"] {
-  width: 36mm !important;
-  margin-top: 4mm !important;
+  width: 32mm !important;
+  margin-top: 3.6mm !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
@@ -195,8 +195,15 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   flex: 1 1 auto !important;
 }
 
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page="0"]
+  > [data-cv-sidebar]
+  [data-cv-photo] {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 /* -------------------------------------------------------------------------- */
-/* Editorial                                                                  */
+/* Magazin                                                                    */
 /* -------------------------------------------------------------------------- */
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
@@ -222,7 +229,7 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page="0"]:
   top: 11mm;
   right: 22mm;
   font-family: var(--dossier-font);
-  font-size: 6.8pt;
+  font-size: 6.6pt;
   font-weight: var(--dossier-heading-weight);
   letter-spacing: var(--dossier-heading-tracking);
   color: currentColor;
@@ -232,18 +239,18 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page="0"]:
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-header] {
-  margin-bottom: 8mm !important;
-  padding-bottom: 6mm !important;
-  gap: 9mm !important;
+  margin-bottom: 7.5mm !important;
+  padding-bottom: 5.5mm !important;
+  gap: 8.5mm !important;
   border-bottom: var(--dossier-line-thickness) solid
-    color-mix(in srgb, currentColor 14%, transparent) !important;
+    color-mix(in srgb, currentColor 12%, transparent) !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-section-title]) {
-  margin-top: 7mm !important;
-  margin-bottom: 2.8mm !important;
+  margin-top: 6.5mm !important;
+  margin-bottom: 2.5mm !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
@@ -254,18 +261,18 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-entry]:has(> [data-cv-rail]) {
-  gap: 7mm !important;
-  margin-bottom: 3.3mm !important;
+  gap: 6.5mm !important;
+  margin-bottom: 3.1mm !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-entry]
   > [data-cv-rail] {
-  width: 24mm !important;
+  width: 23.5mm !important;
 }
 
 /* -------------------------------------------------------------------------- */
-/* Zweispalten-Layouts spiegeln                                               */
+/* Zweispalten-Aufbauten spiegeln                                             */
 /* -------------------------------------------------------------------------- */
 
 html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page] {
