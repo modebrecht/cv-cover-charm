@@ -1,8 +1,28 @@
 /* -------------------------------------------------------------------------- */
-/* Fotoformen                                                                 */
+/* Fotoformen + gemeinsamer Bildausschnitt                                    */
 /* -------------------------------------------------------------------------- */
 
-/* Die Form greift jetzt direkt am semantischen Foto-Hook, unabhängig von mm. */
+/*
+ * Form remains layout-aware in physical size, while crop/zoom/position and
+ * border treatment come from the shared DossierPhotoStyle variables.
+ */
+[data-cv-photo] {
+  position: relative !important;
+  box-shadow: 0 0 0 var(--cv-photo-border-width, 0.3mm) currentColor !important;
+}
+
+[data-cv-photo] > img {
+  position: absolute !important;
+  width: var(--cv-photo-width, 100%) !important;
+  height: var(--cv-photo-height, 100%) !important;
+  max-width: none !important;
+  max-height: none !important;
+  left: var(--cv-photo-left, 0%) !important;
+  top: var(--cv-photo-top, 0%) !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
 html[data-cv-photo-shape="rect"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-photo] {
   width: 38mm !important;
@@ -20,7 +40,7 @@ html[data-cv-photo-shape="square"] [data-cv-layout="classic"] [data-cv-page]
 html[data-cv-photo-shape="portrait"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-photo] {
   width: 30mm !important;
-  height: 38mm !important;
+  height: 37.5mm !important;
   border-radius: 1.5mm !important;
 }
 
@@ -48,7 +68,7 @@ html[data-cv-photo-shape="square"] [data-cv-layout="modern"] [data-cv-page]
 html[data-cv-photo-shape="portrait"] [data-cv-layout="modern"] [data-cv-page]
   [data-cv-photo] {
   width: 27mm !important;
-  height: 34mm !important;
+  height: 33.75mm !important;
   border-radius: 1.5mm !important;
 }
 
