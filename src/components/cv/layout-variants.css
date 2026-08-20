@@ -5,59 +5,58 @@
  * define the dossier's visual identity. Typography, accent strength, paper
  * treatment, radii and background intensity live in dossier-theme.css.
  *
- * Luftig, Timeline and Magazin use the one-column renderer. Zweispaltig uses
- * the two-column renderer and therefore keeps Side/Main placement controls.
+ * `data-cv-measure-page` receives the same geometry as a real page so manual
+ * pagination measures exactly what the selected structure will render.
  */
 
 /* -------------------------------------------------------------------------- */
 /* Luftig                                                                     */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-accent="page"] {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-accent="page"] {
   left: 24mm !important;
   right: auto !important;
   width: 22mm !important;
   top: 10mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main] {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main] {
   left: 24mm !important;
   right: 24mm !important;
   top: 20mm !important;
   bottom: 18mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-header] {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-header] {
   margin-bottom: 7.5mm !important;
   gap: 8.5mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main]
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
   > div:has([data-cv-section-title]) {
   margin-top: 6.3mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-accent="section"] {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
   width: 8mm !important;
   flex: 0 0 auto !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-entry]:has(> [data-cv-rail]) {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry]:has(> [data-cv-rail]) {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) auto !important;
   column-gap: 7mm !important;
   align-items: start !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-entry]
-  > [data-cv-rail] {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry] > [data-cv-rail] {
   grid-column: 2 !important;
   grid-row: 1 !important;
   width: auto !important;
@@ -66,8 +65,8 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   padding-top: 0.45mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-entry]:has(> [data-cv-rail])
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry]:has(> [data-cv-rail])
   > :not([data-cv-rail]) {
   grid-column: 1 !important;
   grid-row: 1 !important;
@@ -77,15 +76,15 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 /* Timeline                                                                   */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main] {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main] {
   left: 21mm !important;
   right: 19mm !important;
   top: 16mm !important;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main]::before {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]::before {
   content: "";
   position: absolute;
   left: 4mm;
@@ -97,15 +96,15 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   pointer-events: none;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main]
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
   > div:not(:has([data-cv-header])) {
   position: relative;
   padding-left: 11mm;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main]
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
   > div:has([data-cv-entry])::before {
   content: "";
   position: absolute;
@@ -120,8 +119,8 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   box-shadow: 0 0 0 0.25mm color-mix(in srgb, currentColor 16%, transparent);
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main]
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
   > div:has([data-cv-section-title])::before {
   content: "";
   position: absolute;
@@ -135,21 +134,20 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   opacity: 0.5;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-accent="section"] {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
   width: 12mm !important;
   flex: 0 0 auto !important;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-rail] {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-rail] {
   width: 23.5mm !important;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main]
-  > div:has([data-cv-entry])
-  > [data-cv-entry] {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
+  > div:has([data-cv-entry]) > [data-cv-entry] {
   margin-bottom: 2.9mm !important;
 }
 
@@ -162,42 +160,41 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([
 /* Zweispaltig                                                                */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > [data-cv-sidebar] {
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-sidebar] {
   width: 60mm !important;
   padding: 14.5mm 8.5mm 13.5mm 9mm !important;
   border-right-width: var(--dossier-line-thickness) !important;
 }
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > [data-cv-main-wash] {
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main-wash] {
   left: 60mm !important;
 }
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > [data-cv-main] {
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main] {
   left: 69mm !important;
   right: 19mm !important;
   top: 18.5mm !important;
   bottom: 17mm !important;
 }
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  [data-cv-main]
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-main]
   [data-cv-accent="header"] {
   width: 32mm !important;
   margin-top: 3.6mm !important;
 }
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  [data-cv-accent="section"] {
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
   width: auto !important;
   flex: 1 1 auto !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page="0"]
-  > [data-cv-sidebar]
-  [data-cv-photo] {
+  > [data-cv-sidebar] [data-cv-photo] {
   margin-left: auto !important;
   margin-right: auto !important;
 }
@@ -206,8 +203,8 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page="0"]
 /* Magazin                                                                    */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-accent="page"] {
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-accent="page"] {
   left: 21mm !important;
   right: auto !important;
   top: 19mm !important;
@@ -215,8 +212,8 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   height: 34mm !important;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main] {
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main] {
   left: 30mm !important;
   right: 22mm !important;
   top: 20mm !important;
@@ -237,8 +234,8 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page="0"]:
   pointer-events: none;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-header] {
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-header] {
   margin-bottom: 7.5mm !important;
   padding-bottom: 5.5mm !important;
   gap: 8.5mm !important;
@@ -246,28 +243,27 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
     color-mix(in srgb, currentColor 12%, transparent) !important;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-main]
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
   > div:has([data-cv-section-title]) {
   margin-top: 6.5mm !important;
   margin-bottom: 2.5mm !important;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-accent="section"] {
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
   width: auto !important;
   flex: 1 1 auto !important;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-entry]:has(> [data-cv-rail]) {
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry]:has(> [data-cv-rail]) {
   gap: 6.5mm !important;
   margin-bottom: 3.1mm !important;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-entry]
-  > [data-cv-rail] {
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry] > [data-cv-rail] {
   width: 23.5mm !important;
 }
 
