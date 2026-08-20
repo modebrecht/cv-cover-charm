@@ -12,6 +12,7 @@ import {
   type CvLayoutId,
 } from "@/components/cv/layout";
 import "../cv/layout-variants.css";
+import "../cv/layout-options.css";
 
 type Props = {
   value: TemplateId;
