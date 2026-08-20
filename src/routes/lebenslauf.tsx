@@ -298,6 +298,13 @@ function Lebenslauf() {
     setStatus({ kind: "ok", text: "Angaben vom Titelblatt übernommen" });
   };
 
+  const loadDemo = () => {
+    keepSnapshot("Vor den Beispieldaten", true);
+    setData(DEMO_CV);
+    setMenuOpen(false);
+    setStatus({ kind: "ok", text: "Beispieldaten eingefügt" });
+  };
+
   const downloadJson = () => {
     setMenuOpen(false);
     downloadBlob(
@@ -515,6 +522,13 @@ function Lebenslauf() {
                       }}
                     />
                   </label>
+                  <button
+                    type="button"
+                    onClick={loadDemo}
+                    className="w-full border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                  >
+                    Beispiel ausfüllen
+                  </button>
 
                   {/*
                     Wie beim Titelblatt: zugeklappt und ganz unten, weil die
@@ -593,15 +607,8 @@ function Lebenslauf() {
           inert={!panelOpen}
         >
           <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 sm:w-full">
-            <div className="flex items-center justify-between gap-2 px-1">
+            <div className="px-1">
               <span className="text-xs text-muted-foreground">Alles ausfüllen, dann als PDF.</span>
-              <button
-                type="button"
-                onClick={() => setData(DEMO_CV)}
-                className="shrink-0 text-xs text-muted-foreground underline hover:text-foreground"
-              >
-                Beispiel
-              </button>
             </div>
 
             <Section
