@@ -52,10 +52,11 @@ export const Route = createFileRoute("/lebenslauf")({
 });
 
 const STORAGE_KEY = "lebenslauf:v1";
-const SAVE_VERSION = 1;
+const SAVE_VERSION = 2;
 
-/** Vorgabe: 88 % Transparenz, der Hintergrund also nur dezent sichtbar. */
-const DEFAULT_BG_OPACITY = 0.12;
+/** Vorgabe: 94 % Transparenz – das Titelblatt-Design bleibt nur als leiser Akzent sichtbar. */
+const DEFAULT_BG_OPACITY = 0.06;
+const LEGACY_DEFAULT_BG_OPACITIES = [0.25, 0.12];
 
 function defaultColors(template: TemplateId): Record<string, string> {
   const t = TEMPLATES.find((x) => x.id === template) ?? TEMPLATES[0];
@@ -68,6 +69,20 @@ type Saved = {
   design: CvDesign;
   elements: CustomField[];
 };
+
+/**
+ * Alte Entwürfe trugen noch den deutlich kräftigeren damaligen Standardwert.
+ * Nur diese bekannten Defaults werden migriert; bewusst gewählte Werte bleiben erhalten.
+ */
+function migratedDesign(current: CvDesign, incoming: CvDesign, version?: number): CvDesign {
+  const merged = { ...current, ...incoming };
+  const isOldSave = (version ?? 1) < SAVE_VERSION;
+  const usedOldDefault = LEGACY_DEFAULT_BG_OPACITIES.some(
+    (value) => Math.abs(merged.bgOpacity - value) < 0.001,
+  );
+  if (isOldSave && usedOldDefault) merged.bgOpacity = DEFAULT_BG_OPACITY;
+  return merged;
+}
 
 /** Trägt der Lebenslauf überhaupt Inhalt? Leere Stände sind nichts wert. */
 function cvHasContent(d: CvData): boolean {
@@ -127,7 +142,7 @@ function Lebenslauf() {
   /** Einen gespeicherten oder importierten Lebenslauf übernehmen. */
   const applySaved = useCallback((p: Partial<Saved>) => {
     if (p.data) setData({ ...emptyCv, ...p.data, person: { ...emptyCv.person, ...p.data.person } });
-    if (p.design) setDesign((d) => ({ ...d, ...p.design }));
+    if (p.design) setDesign((d) => migratedDesign(d, p.design!, p.version));
     if (Array.isArray(p.elements)) setElements(p.elements);
   }, []);
 
@@ -637,7 +652,7 @@ function Lebenslauf() {
                       onClick={() => setDesign((d) => ({ ...d, bgOpacity: DEFAULT_BG_OPACITY }))}
                       className="text-muted-foreground underline hover:text-foreground"
                     >
-                      88 %
+                      94 %
                     </button>
                   </span>
                   <input
