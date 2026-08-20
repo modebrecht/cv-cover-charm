@@ -3,6 +3,7 @@ import { PhotoStyleControls } from "@/components/photo/PhotoStyleControls";
 import {
   dossierPhotoPatchToBlockStyle,
   dossierPhotoStyleFromBlockStyle,
+  type DossierPhotoStyle,
 } from "@/lib/dossier-photo";
 
 type Props = {
@@ -22,13 +23,26 @@ type Props = {
  */
 export function PhotoControls({ style, onChange, hasPhoto, compact, cropOnly }: Props) {
   const value = dossierPhotoStyleFromBlockStyle(style);
+
+  const patchShared = (patch: Partial<DossierPhotoStyle>) => {
+    if (cropOnly) {
+      const next: Partial<BlockStyle> = {};
+      if (patch.zoom !== undefined) next.imgZoom = patch.zoom;
+      if (patch.x !== undefined) next.imgX = patch.x;
+      if (patch.y !== undefined) next.imgY = patch.y;
+      onChange(next);
+      return;
+    }
+    onChange(dossierPhotoPatchToBlockStyle(patch, value));
+  };
+
   return (
     <PhotoStyleControls
       value={value}
       hasPhoto={hasPhoto}
       compact={compact}
       cropOnly={cropOnly}
-      onChange={(patch) => onChange(dossierPhotoPatchToBlockStyle(patch, value))}
+      onChange={patchShared}
     />
   );
 }
