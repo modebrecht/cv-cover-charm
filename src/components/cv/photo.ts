@@ -11,6 +11,15 @@ const EVENT = "lebenslauf-photo-change";
 
 let cached: DossierPhotoStyle | null = null;
 
+export function hasStoredCvPhotoStyle(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return !!window.localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return false;
+  }
+}
+
 function read(): DossierPhotoStyle {
   if (typeof window === "undefined") return DEFAULT_DOSSIER_PHOTO_STYLE;
   try {
