@@ -1,0 +1,135 @@
+/*
+ * M5.2 — Shared dossier visual DNA.
+ *
+ * The variables are authored in lib/dossier-theme.ts. This layer is purposely
+ * geometry-light: title-page positioning and the six CV layouts stay intact,
+ * while typography, headings, accents, radii, spacing rhythm, photo treatment
+ * and background strength come from the same token source.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Typography                                                                 */
+/* -------------------------------------------------------------------------- */
+
+/* Built-in title-page blocks only; custom user-added text keeps its own style. */
+[data-block-id="name"] > div,
+[data-block-id="beruf"] > div,
+[data-block-id="kicker"] > div,
+[data-block-id="eyebrow"] > div,
+[data-block-id="lehrbeginn"] > div,
+[data-block-id="kontaktTitel"] > div,
+[data-block-id="kontakt"] > div,
+[data-block-id="anTitel"] > div,
+[data-block-id="empfaenger"] > div,
+[data-block-id="ortDatum"] > div {
+  font-family: var(--dossier-font) !important;
+}
+
+[data-block-id="name"] > div {
+  font-weight: var(--dossier-name-weight) !important;
+}
+
+[data-block-id="kontakt"] > div,
+[data-block-id="empfaenger"] > div,
+[data-block-id="ortDatum"] > div {
+  font-weight: var(--dossier-body-weight) !important;
+}
+
+[data-cv-main],
+[data-cv-sidebar],
+[data-cv-name],
+[data-cv-subtitle],
+[data-cv-section-title] {
+  font-family: var(--dossier-font) !important;
+}
+
+[data-cv-name] {
+  font-weight: var(--dossier-name-weight) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Heading + accent treatment                                                  */
+/* -------------------------------------------------------------------------- */
+
+[data-block-id="eyebrow"] > div,
+[data-block-id="kicker"] > div,
+[data-block-id="kontaktTitel"] > div,
+[data-block-id="anTitel"] > div,
+[data-cv-section-title] {
+  font-weight: var(--dossier-heading-weight) !important;
+  letter-spacing: var(--dossier-heading-tracking) !important;
+  text-transform: var(--dossier-heading-transform) !important;
+}
+
+/* filter multiplies existing opacity instead of destroying template nuance. */
+[data-block-id="eyebrow"] > div,
+[data-block-id="kicker"] > div,
+[data-block-id="kontaktTitel"] > div,
+[data-block-id="anTitel"] > div,
+[data-cv-accent] {
+  filter: opacity(var(--dossier-accent-opacity));
+}
+
+/* Shared rule weight: cover separator and CV accent rules speak one language. */
+[data-block-id="trenner"] svg line,
+[data-block-id="trenner"] svg path,
+[data-block-id="trenner"] svg polyline {
+  stroke-width: var(--dossier-line-thickness) !important;
+}
+
+[data-cv-accent="header"],
+[data-cv-accent="section"],
+[data-cv-accent="page"] {
+  height: var(--dossier-line-thickness) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Corner radius + spacing rhythm                                              */
+/* -------------------------------------------------------------------------- */
+
+/* Badges are the safest shared radius target; photo shape remains user-owned. */
+[data-block-id="lehrbeginn"] span,
+[data-cv-accent] {
+  border-radius: var(--dossier-corner-radius) !important;
+}
+
+[data-cv-section] {
+  margin-top: var(--dossier-section-gap) !important;
+  margin-bottom: var(--dossier-section-gap-small) !important;
+}
+
+/* Title-page absolute geometry stays untouched; line rhythm carries density. */
+[data-block-id="kontakt"] > div,
+[data-block-id="empfaenger"] > div,
+[data-block-id="beruf"] > div {
+  line-height: var(--dossier-cover-line-height) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Photo treatment                                                             */
+/* -------------------------------------------------------------------------- */
+
+[data-block-id="foto"] img,
+[data-cv-photo] img {
+  filter: contrast(var(--dossier-photo-contrast)) saturate(var(--dossier-photo-saturation));
+}
+
+/* -------------------------------------------------------------------------- */
+/* Background intensity                                                        */
+/* -------------------------------------------------------------------------- */
+
+/* CV has an explicit semantic motif hook from M5.1. */
+[data-cv-background="motif"] {
+  filter: opacity(var(--dossier-background-intensity));
+}
+
+/*
+ * CoverBackground renders before data-block-id elements. Apply an additional
+ * filter rather than replacing each template layer's own opacity. Drawing UI
+ * (.z-10) is deliberately excluded.
+ */
+.relative.overflow-hidden.shadow-2xl
+  > .absolute.inset-0:has(> [data-block-id])
+  > :not([data-block-id]):not(.z-10) {
+  filter: opacity(var(--dossier-background-intensity));
+}
