@@ -7,6 +7,10 @@ export type CvLayoutId =
   | "editorial";
 export type CvRenderLayoutId = "classic" | "modern";
 
+/**
+ * Internal IDs intentionally stay unchanged for localStorage/backwards compatibility.
+ * Visible names describe structure only, so they cannot be confused with dossier styles.
+ */
 export const CV_LAYOUTS: Array<{
   id: CvLayoutId;
   name: string;
@@ -14,32 +18,32 @@ export const CV_LAYOUTS: Array<{
 }> = [
   {
     id: "classic",
-    name: "Klassisch",
-    description: "Einspaltiges Grundraster",
+    name: "Standard",
+    description: "Klares einspaltiges Grundraster",
   },
   {
     id: "modern",
-    name: "Modern",
-    description: "Sidebar plus Hauptspalte",
+    name: "Sidebar",
+    description: "Schmale Seitenleiste plus Hauptspalte",
   },
   {
     id: "minimal",
-    name: "Minimal",
-    description: "Einspaltig mit viel Weissraum",
+    name: "Luftig",
+    description: "Einspaltig mit besonders viel Weissraum",
   },
   {
     id: "timeline",
     name: "Timeline",
-    description: "Chronologie mit vertikaler Achse",
+    description: "Chronologie entlang einer vertikalen Achse",
   },
   {
     id: "executive",
-    name: "Executive",
-    description: "Breiter Zweispalter mit Sidebar",
+    name: "Zweispaltig",
+    description: "Breiter Zweispalter mit Seitenleiste",
   },
   {
     id: "editorial",
-    name: "Editorial",
+    name: "Magazin",
     description: "Asymmetrisches Print-Raster",
   },
 ];
@@ -90,7 +94,7 @@ function applyVariant(choice: CvLayoutId) {
   document.documentElement.dataset.cvMirrored = readMirror() ? "true" : "false";
 }
 
-/** Tatsächlich ausgewählte Karte im Layout-Picker. */
+/** Tatsächlich ausgewählte Karte im Aufbau-Picker. */
 export function getCvLayoutChoice(): CvLayoutId {
   const choice = readChoice();
   applyVariant(choice);
@@ -104,7 +108,7 @@ export function getCvLayout(): CvRenderLayoutId {
   return rendererFor(choice);
 }
 
-/** Zweispalten-Layouts starten immer normal: Sidebar links, Main rechts. */
+/** Zweispalten-Aufbauten starten immer normal: Sidebar links, Main rechts. */
 export function getCvLayoutMirror(): boolean {
   return readMirror();
 }
@@ -114,7 +118,7 @@ export function setCvLayout(layout: CvLayoutId) {
   try {
     window.localStorage.setItem(STORAGE_KEY, layout);
   } catch {
-    // Layoutwahl funktioniert für die laufende Seite trotzdem über das Event.
+    // Aufbauwahl funktioniert für die laufende Seite trotzdem über das Event.
   }
   applyVariant(layout);
   window.dispatchEvent(new CustomEvent<CvLayoutId>(EVENT, { detail: layout }));
@@ -148,5 +152,5 @@ export function subscribeCvLayout(onChange: () => void) {
   };
 }
 
-/** Gleicher Event-Stream, aber mit dem rohen Layoutwert als Snapshot. */
+/** Gleicher Event-Stream, aber mit dem rohen Aufbauwert als Snapshot. */
 export const subscribeCvLayoutChoice = subscribeCvLayout;
