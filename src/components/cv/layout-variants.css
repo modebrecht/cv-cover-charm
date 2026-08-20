@@ -215,7 +215,7 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 /* Folgeseiten: Linie direkt oben beginnen lassen. */
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not(:first-child)
+html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([data-cv-page="0"])
   > div:last-child::before {
   top: 6mm;
 }
