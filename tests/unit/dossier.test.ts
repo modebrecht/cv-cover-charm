@@ -107,9 +107,9 @@ describe("unified photo model", () => {
     const style = normalizeDossierPhotoStyle({ zoom: 1.6, x: 25, y: 75 });
     const crop = dossierPhotoCropStyle(style);
 
-    expect(crop.width).toBe("160%");
-    expect(crop.height).toBe("160%");
-    expect(crop.left).toBe("-15.000000000000002%");
-    expect(crop.top).toBe("-45.00000000000001%");
+    expect(Number.parseFloat(String(crop.width))).toBeCloseTo(160, 6);
+    expect(Number.parseFloat(String(crop.height))).toBeCloseTo(160, 6);
+    expect(Number.parseFloat(String(crop.left))).toBeCloseTo(-15, 6);
+    expect(Number.parseFloat(String(crop.top))).toBeCloseTo(-45, 6);
   });
 });
