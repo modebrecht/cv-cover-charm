@@ -1,9 +1,9 @@
 /*
  * Zusätzliche CV-Layouts.
  *
- * Minimal und Timeline verwenden absichtlich die bewährte einspaltige
- * Inhalts-/Pagination-Logik von Classic. So bleiben PDF, Seitenumbrüche und
- * lange Inhalte stabil; diese Datei ändert nur die visuelle Komposition.
+ * Minimal, Timeline und Editorial verwenden absichtlich die bewährte
+ * einspaltige Inhalts-/Pagination-Logik von Classic. Executive setzt auf den
+ * echten Modern-Zweispalter und behält damit die Side/Main-Kontrolle.
  */
 
 /* -------------------------------------------------------------------------- */
@@ -218,4 +218,226 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([data-cv-page="0"])
   > div:last-child::before {
   top: 6mm;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Executive                                                                  */
+/* -------------------------------------------------------------------------- */
+
+/* Sehr ruhiger Untergrund: Premium entsteht hier über Raster und Typografie. */
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page] {
+  background: #fff !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  > div:not(:last-child)[style*="opacity"] {
+  opacity: 0.01 !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  > div[style*="height: 2.2mm"] {
+  height: 0.9mm !important;
+}
+
+/* Sidebar etwas breiter und weniger "App-Template", dafür dossierartig. */
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  > div[style*="width: 55mm"][style*="border-right"] {
+  width: 61mm !important;
+  padding: 15mm 8.5mm 13mm 9mm !important;
+  border-right-width: 0.22mm !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  > div[style*="width: 55mm"][style*="border-right"]
+  > div[aria-hidden] {
+  background: color-mix(in srgb, currentColor 4%, #fff) !important;
+}
+
+/* Die weisse Hauptfläche beginnt am neuen Sidebar-Raster. */
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  > div[style*="left: 55mm"] {
+  left: 61mm !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  > div:last-child {
+  left: 70mm !important;
+  right: 18mm !important;
+  top: 18mm !important;
+  bottom: 16mm !important;
+}
+
+/* Name/Headline: souverän statt verspielt. */
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  > div:last-child
+  > div:first-child
+  > div
+  > div:first-child {
+  font-size: 31pt !important;
+  font-weight: 680 !important;
+  letter-spacing: -0.035em !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  > div:last-child
+  > div:first-child
+  [style*="width: 24mm"][style*="background"] {
+  width: 36mm !important;
+  height: 0.48mm !important;
+  margin-top: 4mm !important;
+}
+
+/* Kapitel mit langer, feiner Führungsline. */
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  [style*="text-transform: uppercase"] {
+  font-size: 9.5pt !important;
+  letter-spacing: 0.13em !important;
+  font-weight: 780 !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  [style*="width: 15mm"][style*="background"] {
+  width: auto !important;
+  height: 0.32mm !important;
+  flex: 1 1 auto !important;
+  opacity: 0.35 !important;
+}
+
+/* Bewerbungsfoto: elegante Karte statt Social-Media-Kreis. */
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  [style*="border-radius: 50%"] {
+  width: 31mm !important;
+  height: 35mm !important;
+  border-radius: 2.2mm !important;
+}
+
+/* Sidebar-Titel bewusst kleiner und mit mehr Tracking. */
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
+  > div[style*="width: 55mm"]
+  [style*="text-transform: uppercase"] {
+  font-size: 8.3pt !important;
+  letter-spacing: 0.145em !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Editorial                                                                  */
+/* -------------------------------------------------------------------------- */
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page] {
+  background: #fff !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > div:not(:last-child)[style*="opacity"] {
+  opacity: 0.006 !important;
+}
+
+/* Statt Balken oben: vertikale Signatur neben dem Namen. */
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > div[style*="height: 2.2mm"] {
+  left: 21mm !important;
+  right: auto !important;
+  top: 19mm !important;
+  width: 1.25mm !important;
+  height: 34mm !important;
+  border-radius: 999px !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > div:last-child {
+  left: 30mm !important;
+  right: 22mm !important;
+  top: 20mm !important;
+  bottom: 18mm !important;
+}
+
+/* Kleine Magazinkennung nur auf der ersten Seite. */
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page="0"]::after {
+  content: "CURRICULUM VITAE";
+  position: absolute;
+  top: 11mm;
+  right: 22mm;
+  font-family: Arial, sans-serif;
+  font-size: 6.8pt;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: currentColor;
+  opacity: 0.24;
+  pointer-events: none;
+}
+
+/* Header wie eine Editorial-Opening-Spread: Serifentitel + feine Grundlinie. */
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > div:last-child
+  > div:first-child
+  > div {
+  margin-bottom: 8mm !important;
+  padding-bottom: 6mm !important;
+  gap: 9mm !important;
+  border-bottom: 0.3mm solid color-mix(in srgb, currentColor 14%, transparent) !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > div:last-child
+  > div:first-child
+  > div
+  > div:last-child
+  > div:first-child {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 34pt !important;
+  font-weight: 700 !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.045em !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  [style*="width: 30mm"][style*="height: 38mm"] {
+  width: 29mm !important;
+  height: 38mm !important;
+  border-radius: 0.9mm !important;
+}
+
+/* Kapitel wirken wie Magazin-Rubriken statt Formularüberschriften. */
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > div:last-child
+  > div:has([style*="text-transform: uppercase"]) {
+  margin-top: 7mm !important;
+  margin-bottom: 2.8mm !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  [style*="text-transform: uppercase"] {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 13.2pt !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+  text-transform: none !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  [style*="width: 18mm"][style*="background"] {
+  width: auto !important;
+  height: 0.28mm !important;
+  flex: 1 1 auto !important;
+  opacity: 0.32 !important;
+}
+
+/* Chronologische Einträge bekommen eine schmale Datums-Randspalte. */
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > div:last-child
+  > div
+  > div[style*="display: flex"]:has(> div[style*="width: 27mm"]) {
+  gap: 7mm !important;
+  margin-bottom: 3.3mm !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > div:last-child
+  > div
+  > div[style*="display: flex"]:has(> div[style*="width: 27mm"])
+  > div:first-child {
+  width: 24mm !important;
+  font-size: 8.7pt !important;
+  letter-spacing: 0.035em !important;
+  text-transform: uppercase !important;
 }
