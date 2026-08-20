@@ -1,4 +1,5 @@
 import type { ShapeKind, TemplateId } from "@/components/cover/types";
+import { dossierNameScale } from "@/lib/dossier-theme";
 import type { CvData } from "./types";
 import type { CvLayoutId } from "./layout";
 
@@ -77,19 +78,13 @@ export function shapeSizeFactor(widthMm: number, shape?: ShapeKind): number {
   return 1;
 }
 
-/** Lange Namen sollen nie den verfügbaren Kopf sprengen. */
+/**
+ * Lange Namen nutzen dieselbe Skalierung wie das Titelblatt. Nur die
+ * Ausgangsgrösse unterscheidet sich wegen des verfügbaren Layout-Rasters.
+ */
 export function smartNameSize(name: string, layout: CvLayoutId): number {
-  const length = name.trim().length;
-  if (layout === "modern") {
-    if (length > 32) return 23.5;
-    if (length > 26) return 25.5;
-    if (length > 20) return 28;
-    return 30;
-  }
-  if (length > 34) return 22;
-  if (length > 27) return 24;
-  if (length > 21) return 25.5;
-  return 27;
+  const base = layout === "modern" ? 30 : 27;
+  return Math.round(base * dossierNameScale(name) * 2) / 2;
 }
 
 export type SidebarPlan = {
