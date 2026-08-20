@@ -4,7 +4,8 @@
 
 /*
  * Form remains renderer-aware in physical size, while crop/zoom/position and
- * border treatment come from the shared DossierPhotoStyle variables.
+ * border treatment come from the shared DossierPhotoStyle variables. The
+ * hidden pagination page receives the same photo dimensions as the real page.
  */
 [data-cv-photo] {
   position: relative !important;
@@ -23,67 +24,67 @@
   display: block !important;
 }
 
-html[data-cv-photo-shape="rect"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-photo] {
+html[data-cv-photo-shape="rect"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
   width: 38mm !important;
   height: 28.5mm !important;
   border-radius: 1.5mm !important;
 }
 
-html[data-cv-photo-shape="square"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-photo] {
+html[data-cv-photo-shape="square"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
   width: 32mm !important;
   height: 32mm !important;
   border-radius: 1.5mm !important;
 }
 
-html[data-cv-photo-shape="portrait"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-photo] {
+html[data-cv-photo-shape="portrait"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
   width: 30mm !important;
   height: 37.5mm !important;
   border-radius: 1.5mm !important;
 }
 
-html[data-cv-photo-shape="circle"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-photo] {
+html[data-cv-photo-shape="circle"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
   width: 32mm !important;
   height: 32mm !important;
   border-radius: 50% !important;
 }
 
-html[data-cv-photo-shape="rect"] [data-cv-layout="modern"] [data-cv-page]
-  [data-cv-photo] {
+html[data-cv-photo-shape="rect"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
   width: 36mm !important;
   height: 27mm !important;
   border-radius: 1.5mm !important;
 }
 
-html[data-cv-photo-shape="square"] [data-cv-layout="modern"] [data-cv-page]
-  [data-cv-photo] {
+html[data-cv-photo-shape="square"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
   width: 29mm !important;
   height: 29mm !important;
   border-radius: 1.5mm !important;
 }
 
-html[data-cv-photo-shape="portrait"] [data-cv-layout="modern"] [data-cv-page]
-  [data-cv-photo] {
+html[data-cv-photo-shape="portrait"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
   width: 27mm !important;
   height: 33.75mm !important;
   border-radius: 1.5mm !important;
 }
 
-html[data-cv-photo-shape="circle"] [data-cv-layout="modern"] [data-cv-page]
-  [data-cv-photo] {
+html[data-cv-photo-shape="circle"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
   width: 29mm !important;
   height: 29mm !important;
   border-radius: 50% !important;
 }
 
 /* -------------------------------------------------------------------------- */
-/* Spiegelverkehrt – alle Layouts                                              */
+/* Spiegelverkehrt – alle Aufbauten                                           */
 /* -------------------------------------------------------------------------- */
 
-/* Classic-Familie: Foto sowie Datums-/Sprachspalten tauschen die Seite. */
+/* Standard-Familie: Foto sowie Datums-/Sprachspalten tauschen die Seite. */
 html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page="0"]
   [data-cv-header] {
   flex-direction: row-reverse !important;
@@ -106,7 +107,7 @@ html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page]
   left: 18mm !important;
 }
 
-/* Minimal: Signatur und die absichtlich rechts stehende Rail-Spalte tauschen. */
+/* Luftig: Signatur und die absichtlich rechts stehende Rail-Spalte tauschen. */
 html[data-cv-mirrored="true"][data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-accent="page"] {
   left: auto !important;
@@ -143,24 +144,24 @@ html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="class
   > [data-cv-main]
   > div:not(:has([data-cv-header])) {
   padding-left: 0 !important;
-  padding-right: 12mm !important;
+  padding-right: 11mm !important;
 }
 
 html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-entry])::before {
   left: auto !important;
-  right: 1.9mm !important;
+  right: 2.05mm !important;
 }
 
 html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-section-title])::before {
   left: auto !important;
-  right: 2.4mm !important;
+  right: 2.55mm !important;
 }
 
-/* Editorial: die komplette asymmetrische Print-Komposition tauscht die Seite. */
+/* Magazin: die komplette asymmetrische Print-Komposition tauscht die Seite. */
 html[data-cv-mirrored="true"][data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-accent="page"] {
   left: auto !important;
