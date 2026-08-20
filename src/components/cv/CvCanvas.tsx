@@ -529,8 +529,11 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     });
     if (current.length) out.push(current);
     setPages(out.length ? out : [[]]);
+    // Farben und Vorlage gehören ebenfalls zur Zeilen-Darstellung. Ohne diese
+    // Abhängigkeiten blieben nach einem Template-Wechsel alte React-Nodes in
+    // `pages` hängen (z. B. goldene Sidebar, aber noch pinke Überschriften).
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shape, data, layout]);
+  }, [shape, data, layout, design.template, pal.accent, pal.ink, pal.muted]);
 
   /* ---------- Hintergrund ---------- */
   const background = (
