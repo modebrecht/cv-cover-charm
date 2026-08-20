@@ -2,6 +2,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import type { TemplateId } from "./types";
 import { TEMPLATES } from "./types";
 import { UI } from "@/default-config";
+import { applyDossierTheme } from "@/lib/dossier-theme";
 import {
   CV_LAYOUTS,
   getCvLayoutChoice,
@@ -13,6 +14,7 @@ import {
 } from "@/components/cv/layout";
 import "../cv/layout-variants.css";
 import "../cv/layout-options.css";
+import "../dossier-theme.css";
 
 type Props = {
   value: TemplateId;
@@ -124,6 +126,10 @@ export function TemplatePicker({ value, onChange }: Props) {
   useEffect(() => {
     setOnCvPage(window.location.pathname.includes("lebenslauf"));
   }, []);
+
+  useEffect(() => {
+    applyDossierTheme(value);
+  }, [value]);
 
   return (
     <div>
