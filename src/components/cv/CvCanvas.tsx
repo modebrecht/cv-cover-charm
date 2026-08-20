@@ -90,6 +90,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     heading: true,
     node: (
       <div
+        data-cv-section={id}
         style={{
           marginTop: layout === "modern" ? "4.8mm" : "4mm",
           marginBottom: layout === "modern" ? "2mm" : "1.8mm",
@@ -97,6 +98,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       >
         <div style={{ display: "flex", alignItems: "center", gap: "3mm" }}>
           <div
+            data-cv-section-title
             style={{
               fontSize: layout === "modern" ? "10.3pt" : "10.2pt",
               fontWeight: layout === "modern" ? 800 : 700,
@@ -109,6 +111,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {text}
           </div>
           <div
+            data-cv-accent="section"
             style={{
               width: layout === "modern" ? "15mm" : "18mm",
               height: layout === "modern" ? "0.65mm" : "0.55mm",
@@ -129,6 +132,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     id,
     node: (
       <div
+        data-cv-entry
         style={{
           display: "flex",
           gap: layout === "modern" ? "4mm" : "5mm",
@@ -136,6 +140,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         }}
       >
         <div
+          data-cv-date
+          data-cv-rail
           style={{
             width: layout === "modern" ? "23mm" : "27mm",
             flexShrink: 0,
@@ -201,7 +207,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         (r): Row => ({
           id: r.id,
           node: (
-            <div style={{ marginBottom: "2.1mm" }}>
+            <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
               {r.name && (
                 <div style={{ fontSize: "10.8pt", fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}>
                   {r.name}
@@ -241,8 +247,9 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         (s): Row => ({
           id: `main-${s.id}`,
           node: (
-            <div style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
+            <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
               <div
+                data-cv-rail
                 style={{
                   width: layout === "modern" ? "23mm" : "27mm",
                   flexShrink: 0,
@@ -275,6 +282,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           id: `main-${key}-${i}`,
           node: (
             <div
+              data-cv-entry
               style={{
                 display: "flex",
                 gap: "2.6mm",
@@ -300,7 +308,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       {
         id: "kontakt-main",
         node: (
-          <div style={{ marginBottom: "2.2mm", fontSize: "9.8pt", lineHeight: 1.4, color: pal.ink }}>
+          <div data-cv-entry style={{ marginBottom: "2.2mm", fontSize: "9.8pt", lineHeight: 1.4, color: pal.ink }}>
             {kontaktZeilen.map((line) => (
               <div key={line} style={{ overflowWrap: "anywhere" }}>
                 {line}
@@ -321,9 +329,13 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     rows.push({
       id: "kopf",
       node: (
-        <div style={{ display: "flex", gap: "7mm", alignItems: "flex-start", marginBottom: "3.2mm" }}>
+        <div
+          data-cv-header
+          style={{ display: "flex", gap: "7mm", alignItems: "flex-start", marginBottom: "3.2mm" }}
+        >
           {p.foto && (
             <div
+              data-cv-photo
               style={{
                 width: "30mm",
                 height: "38mm",
@@ -338,6 +350,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
             <div
+              data-cv-name
               style={{
                 fontSize: `${nameSize}pt`,
                 fontWeight: 750,
@@ -350,7 +363,10 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               {name || "Dein Name"}
             </div>
             {p.untertitel && (
-              <div style={{ fontSize: "11.2pt", fontWeight: 600, color: pal.accent, marginTop: "1.15mm", lineHeight: 1.25 }}>
+              <div
+                data-cv-subtitle
+                style={{ fontSize: "11.2pt", fontWeight: 600, color: pal.accent, marginTop: "1.15mm", lineHeight: 1.25 }}
+              >
                 {p.untertitel}
               </div>
             )}
@@ -389,8 +405,9 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     rows.push({
       id: "kopf-modern",
       node: (
-        <div style={{ marginBottom: "4.8mm" }}>
+        <div data-cv-header style={{ marginBottom: "4.8mm" }}>
           <div
+            data-cv-name
             style={{
               fontSize: `${nameSize}pt`,
               fontWeight: 760,
@@ -403,11 +420,17 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {name || "Dein Name"}
           </div>
           {p.untertitel && (
-            <div style={{ marginTop: "1.4mm", fontSize: "11.5pt", fontWeight: 600, color: pal.accent, lineHeight: 1.25 }}>
+            <div
+              data-cv-subtitle
+              style={{ marginTop: "1.4mm", fontSize: "11.5pt", fontWeight: 600, color: pal.accent, lineHeight: 1.25 }}
+            >
               {p.untertitel}
             </div>
           )}
-          <div style={{ width: "24mm", height: "0.85mm", marginTop: "3.2mm", borderRadius: "999px", background: pal.accent }} />
+          <div
+            data-cv-accent="header"
+            style={{ width: "24mm", height: "0.85mm", marginTop: "3.2mm", borderRadius: "999px", background: pal.accent }}
+          />
         </div>
       ),
     });
@@ -474,8 +497,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   const background = (
     <>
-      <div style={{ position: "absolute", inset: 0, background: pal.paper }} />
-      <div style={{ position: "absolute", inset: 0, opacity: policy.backgroundOpacity }}>
+      <div data-cv-background="paper" style={{ position: "absolute", inset: 0, background: pal.paper }} />
+      <div data-cv-background="motif" style={{ position: "absolute", inset: 0, opacity: policy.backgroundOpacity }}>
         <CoverBackground template={design.template} colors={softened} />
       </div>
 
@@ -487,6 +510,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           return (
             <div
               key={el.id}
+              data-cv-decoration
               style={{
                 position: "absolute",
                 left: `${st.x}mm`,
@@ -506,6 +530,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
       {layout === "modern" && (
         <div
+          data-cv-main-wash
           style={{
             position: "absolute",
             left: `${MODERN_SIDEBAR_W}mm`,
@@ -517,7 +542,10 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         />
       )}
 
-      <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: "2.2mm", background: pal.accent }} />
+      <div
+        data-cv-accent="page"
+        style={{ position: "absolute", left: 0, right: 0, top: 0, height: "2.2mm", background: pal.accent }}
+      />
     </>
   );
 
@@ -557,6 +585,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   const sideHeading = (text: string, first = false) => (
     <div
+      data-cv-section="sidebar"
+      data-cv-section-title
       style={{
         marginTop:
           first && !p.foto
@@ -586,8 +616,12 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const sideEntries = (key: "schule" | "erfahrung") => (
     <>
       {data[key].filter(entryFilled).map((e) => (
-        <div key={`side-${e.id}`} style={{ marginBottom: sidePlan.compact ? "1.7mm" : "2.2mm" }}>
-          {e.zeit && <div style={{ fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.25 }}>{e.zeit}</div>}
+        <div data-cv-entry key={`side-${e.id}`} style={{ marginBottom: sidePlan.compact ? "1.7mm" : "2.2mm" }}>
+          {e.zeit && (
+            <div data-cv-date style={{ fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.25 }}>
+              {e.zeit}
+            </div>
+          )}
           {e.titel && (
             <div style={{ marginTop: "0.25mm", fontSize: `${sideBody}pt`, fontWeight: 700, color: pal.ink, lineHeight: 1.28 }}>
               {e.titel}
@@ -606,6 +640,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   const modernSidebar = (pageIndex: number) => (
     <div
+      data-cv-sidebar
       style={{
         position: "absolute",
         left: 0,
@@ -622,6 +657,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     >
       <div
         aria-hidden
+        data-cv-sidebar-tint
         style={{
           position: "absolute",
           inset: 0,
@@ -634,6 +670,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           <>
             {p.foto && (
               <div
+                data-cv-photo
                 style={{
                   width: sidePlan.veryCompact ? "25mm" : "28mm",
                   height: sidePlan.veryCompact ? "25mm" : "28mm",
@@ -650,13 +687,13 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {hasContact && (
               <>
                 {sideHeading("Kontakt", firstSide === "contact")}
-                <div style={{ fontSize: `${sideBody}pt`, color: pal.ink, lineHeight: sideLine, overflowWrap: "anywhere" }}>
+                <div data-cv-entry style={{ fontSize: `${sideBody}pt`, color: pal.ink, lineHeight: sideLine, overflowWrap: "anywhere" }}>
                   {p.adresse && <div>{p.adresse}</div>}
                   {p.plzOrt && <div>{p.plzOrt}</div>}
                   {p.telefon && <div style={{ marginTop: sidePlan.compact ? "1mm" : "1.7mm" }}>{p.telefon}</div>}
                   {p.email && <div>{p.email}</div>}
                   {p.geburtsdatum && (
-                    <div style={{ marginTop: sidePlan.compact ? "1.2mm" : "2mm", color: pal.muted }}>Geb. {p.geburtsdatum}</div>
+                    <div data-cv-date style={{ marginTop: sidePlan.compact ? "1.2mm" : "2mm", color: pal.muted }}>Geb. {p.geburtsdatum}</div>
                   )}
                   {p.nationalitaet && <div style={{ color: pal.muted }}>{p.nationalitaet}</div>}
                 </div>
@@ -684,6 +721,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                   .filter((s) => s.name.trim() || s.niveau.trim())
                   .map((s) => (
                     <div
+                      data-cv-entry
                       key={s.id}
                       style={{
                         marginBottom: sidePlan.veryCompact ? "1.1mm" : sidePlan.compact ? "1.5mm" : "1.9mm",
@@ -704,6 +742,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                   .filter((v) => v.trim())
                   .map((v, i) => (
                     <div
+                      data-cv-entry
                       key={`side-strength-${i}`}
                       style={{
                         display: "flex",
@@ -725,6 +764,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                   .filter((v) => v.trim())
                   .map((v, i) => (
                     <div
+                      data-cv-entry
                       key={`side-hobby-${i}`}
                       style={{
                         fontSize: `${sideBody - 0.2}pt`,
@@ -745,7 +785,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 {data.referenzen
                   .filter((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim())
                   .map((r) => (
-                    <div key={`side-${r.id}`} style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}>
+                    <div data-cv-entry key={`side-${r.id}`} style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}>
                       {r.name && <div style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: pal.ink }}>{r.name}</div>}
                       {r.funktion && <div style={{ marginTop: "0.2mm", fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.28 }}>{r.funktion}</div>}
                       {r.kontakt && <div style={{ marginTop: "0.25mm", fontSize: `${sideSmall}pt`, color: pal.ink, lineHeight: 1.28, overflowWrap: "anywhere" }}>{r.kontakt}</div>}
@@ -755,8 +795,9 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             )}
           </>
         ) : (
-          <div style={{ paddingTop: "5mm" }}>
+          <div data-cv-header style={{ paddingTop: "5mm" }}>
             <div
+              data-cv-name
               style={{
                 fontSize: `${Math.min(12.5, smartNameSize(name, "modern") * 0.44)}pt`,
                 fontWeight: 750,
@@ -811,6 +852,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           {layout === "modern" && modernSidebar(i)}
           {layout === "classic" && i > 0 && (
             <div
+              data-cv-page-label
               style={{
                 position: "absolute",
                 top: "6.5mm",
@@ -824,6 +866,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             </div>
           )}
           <div
+            data-cv-main
             style={{
               position: "absolute",
               left: `${layout === "modern" ? MODERN_MAIN_LEFT : MARGIN_X}mm`,
