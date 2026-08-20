@@ -54,11 +54,13 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   const p = data.person;
   const name = [p.vorname, p.nachname].filter(Boolean).join(" ");
-  const kontakt = [p.adresse, p.plzOrt, p.telefon, p.email].filter(Boolean);
+  const adresse = [p.adresse, p.plzOrt].filter(Boolean).join(" · ");
+  const kontakt = [p.telefon, p.email].filter(Boolean).join(" · ");
+  const kontaktZeilen = [adresse, kontakt].filter(Boolean);
   const angaben = [
-    p.geburtsdatum && ["Geburtsdatum", p.geburtsdatum],
-    p.nationalitaet && ["Nationalität", p.nationalitaet],
-  ].filter(Boolean) as [string, string][];
+    p.geburtsdatum && `Geburtsdatum ${p.geburtsdatum}`,
+    p.nationalitaet && `Nationalität ${p.nationalitaet}`,
+  ].filter(Boolean) as string[];
 
   /* ---------- Inhalt als Liste von Zeilen ---------- */
   const rows: Row[] = [];
@@ -67,21 +69,31 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     id: `h-${key}`,
     heading: true,
     node: (
-      <div style={{ marginTop: "3.1mm", marginBottom: "1.35mm" }}>
-        <div
-          style={{
-            fontSize: "10.5pt",
-            fontWeight: 700,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: pal.accent,
-          }}
-        >
-          {label(data, key)}
+      <div style={{ marginTop: "4mm", marginBottom: "1.8mm" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "3mm" }}>
+          <div
+            style={{
+              fontSize: "10.2pt",
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: pal.accent,
+              lineHeight: 1.1,
+            }}
+          >
+            {label(data, key)}
+          </div>
+          <div
+            style={{
+              width: "18mm",
+              height: "0.55mm",
+              flexShrink: 0,
+              borderRadius: "999px",
+              background: pal.accent,
+              opacity: 0.72,
+            }}
+          />
         </div>
-        <div
-          style={{ height: "0.3mm", background: pal.accent, opacity: 0.18, marginTop: "1.05mm" }}
-        />
       </div>
     ),
   });
@@ -90,36 +102,59 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const entryRow = (id: string, zeit: string, titel: string, ort: string, text: string): Row => ({
     id,
     node: (
-      <div style={{ display: "flex", gap: "5mm", marginBottom: "1.9mm" }}>
+      <div style={{ display: "flex", gap: "5mm", marginBottom: "2.4mm" }}>
         <div
           style={{
-            width: "28mm",
+            width: "27mm",
             flexShrink: 0,
-            fontSize: "9.5pt",
+            fontSize: "9.3pt",
             color: pal.muted,
-            paddingTop: "0.4mm",
+            paddingTop: "0.45mm",
+            lineHeight: 1.35,
           }}
         >
           {zeit}
         </div>
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
           {titel && (
-            <div style={{ fontSize: "11pt", fontWeight: 600, color: pal.ink }}>{titel}</div>
+            <div
+              style={{
+                fontSize: "11.5pt",
+                fontWeight: 700,
+                color: pal.ink,
+                lineHeight: 1.2,
+              }}
+            >
+              {titel}
+            </div>
           )}
-          {ort && <div style={{ fontSize: "10pt", color: pal.muted }}>{ort}</div>}
+          {ort && (
+            <div style={{ fontSize: "9.7pt", color: pal.muted, marginTop: "0.35mm", lineHeight: 1.3 }}>
+              {ort}
+            </div>
+          )}
           {text && (
-            <div style={{ fontSize: "10pt", color: pal.ink, marginTop: "0.7mm" }}>{text}</div>
+            <div
+              style={{
+                fontSize: "9.9pt",
+                color: pal.ink,
+                marginTop: "0.75mm",
+                lineHeight: 1.35,
+              }}
+            >
+              {text}
+            </div>
           )}
         </div>
       </div>
     ),
   });
 
-  // Kopf: Foto, Name, Untertitel, Kontakt
+  // Kopf: Foto, Name, Untertitel und bewusst kompakte Kontaktdaten.
   rows.push({
     id: "kopf",
     node: (
-      <div style={{ display: "flex", gap: "6mm", alignItems: "flex-start", marginBottom: "2.6mm" }}>
+      <div style={{ display: "flex", gap: "7mm", alignItems: "flex-start", marginBottom: "3.2mm" }}>
         {p.foto && (
           <div
             style={{
@@ -139,28 +174,56 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           </div>
         )}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: "23pt", fontWeight: 700, color: pal.ink, lineHeight: 1.08 }}>
+          <div
+            style={{
+              fontSize: "27pt",
+              fontWeight: 750,
+              color: pal.ink,
+              lineHeight: 1.02,
+              letterSpacing: "-0.02em",
+            }}
+          >
             {name || "Dein Name"}
           </div>
           {p.untertitel && (
-            <div style={{ fontSize: "11.5pt", color: pal.accent, marginTop: "1mm" }}>
+            <div
+              style={{
+                fontSize: "11.2pt",
+                fontWeight: 600,
+                color: pal.accent,
+                marginTop: "1.15mm",
+                lineHeight: 1.25,
+              }}
+            >
               {p.untertitel}
             </div>
           )}
-          <div style={{ marginTop: "2.3mm", fontSize: "10pt", color: pal.ink, lineHeight: 1.42 }}>
-            {kontakt.map((k) => (
-              <div key={k}>{k}</div>
-            ))}
-          </div>
-          {angaben.length > 0 && (
+          {kontaktZeilen.length > 0 && (
             <div
-              style={{ marginTop: "1.45mm", fontSize: "10pt", color: pal.muted, lineHeight: 1.42 }}
+              style={{
+                marginTop: "2.5mm",
+                fontSize: "9.7pt",
+                color: pal.ink,
+                lineHeight: 1.38,
+              }}
             >
-              {angaben.map(([k, v]) => (
-                <div key={k}>
-                  {k}: {v}
+              {kontaktZeilen.map((k) => (
+                <div key={k} style={{ overflowWrap: "anywhere" }}>
+                  {k}
                 </div>
               ))}
+            </div>
+          )}
+          {angaben.length > 0 && (
+            <div
+              style={{
+                marginTop: "1.35mm",
+                fontSize: "9.2pt",
+                color: pal.muted,
+                lineHeight: 1.35,
+              }}
+            >
+              {angaben.join(" · ")}
             </div>
           )}
         </div>
@@ -186,19 +249,22 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         rows.push({
           id: s.id,
           node: (
-            <div style={{ display: "flex", gap: "5mm", marginBottom: "1.2mm" }}>
+            <div style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
               <div
                 style={{
-                  width: "28mm",
+                  width: "27mm",
                   flexShrink: 0,
-                  fontSize: "10pt",
-                  fontWeight: 600,
+                  fontSize: "10.2pt",
+                  fontWeight: 650,
                   color: pal.ink,
+                  lineHeight: 1.3,
                 }}
               >
                 {s.name}
               </div>
-              <div style={{ flex: 1, fontSize: "10pt", color: pal.muted }}>{s.niveau}</div>
+              <div style={{ flex: 1, fontSize: "9.8pt", color: pal.muted, lineHeight: 1.3 }}>
+                {s.niveau}
+              </div>
             </div>
           ),
         }),
@@ -216,13 +282,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             <div
               style={{
                 display: "flex",
-                gap: "3mm",
-                marginBottom: "1.1mm",
-                fontSize: "10pt",
+                gap: "2.6mm",
+                marginBottom: "1.35mm",
+                fontSize: "9.9pt",
+                lineHeight: 1.35,
                 color: pal.ink,
               }}
             >
-              <span style={{ color: pal.accent }}>•</span>
+              <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
               <span>{v}</span>
             </div>
           ),
@@ -240,12 +307,22 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         rows.push({
           id: r.id,
           node: (
-            <div style={{ marginBottom: "1.8mm" }}>
+            <div style={{ marginBottom: "2.1mm" }}>
               {r.name && (
-                <div style={{ fontSize: "10.5pt", fontWeight: 600, color: pal.ink }}>{r.name}</div>
+                <div style={{ fontSize: "10.8pt", fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}>
+                  {r.name}
+                </div>
               )}
-              {r.funktion && <div style={{ fontSize: "10pt", color: pal.muted }}>{r.funktion}</div>}
-              {r.kontakt && <div style={{ fontSize: "10pt", color: pal.ink }}>{r.kontakt}</div>}
+              {r.funktion && (
+                <div style={{ fontSize: "9.7pt", color: pal.muted, marginTop: "0.3mm", lineHeight: 1.3 }}>
+                  {r.funktion}
+                </div>
+              )}
+              {r.kontakt && (
+                <div style={{ fontSize: "9.7pt", color: pal.ink, marginTop: "0.35mm", lineHeight: 1.3 }}>
+                  {r.kontakt}
+                </div>
+              )}
             </div>
           ),
         }),
