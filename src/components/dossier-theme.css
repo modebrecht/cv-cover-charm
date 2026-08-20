@@ -158,3 +158,62 @@
   > :not([data-block-id]):not(.z-10) {
   filter: opacity(var(--dossier-background-intensity));
 }
+
+/* -------------------------------------------------------------------------- */
+/* M5.5 — family signatures                                                   */
+/* -------------------------------------------------------------------------- */
+
+/* Classic: short, quiet rules and restrained labels. */
+html[data-dossier-family="classic"] [data-cv-accent="section"] {
+  width: 14mm !important;
+  opacity: 0.52 !important;
+  flex: 0 0 auto !important;
+}
+
+html[data-dossier-family="classic"] [data-dossier-accent="rule"] {
+  opacity: 0.58 !important;
+}
+
+/* Modern: geometric, assertive accents and the strongest visual hierarchy. */
+html[data-dossier-family="modern"] [data-cv-accent="section"] {
+  width: 20mm !important;
+  opacity: 0.9 !important;
+  flex: 0 0 auto !important;
+}
+
+html[data-dossier-family="modern"] [data-dossier-accent="rule"] {
+  opacity: 0.92 !important;
+}
+
+/* Executive: fine leader rules, generous rhythm, no decorative shouting. */
+html[data-dossier-family="executive"] [data-cv-accent="section"] {
+  width: auto !important;
+  max-width: 28mm;
+  flex: 1 1 18mm !important;
+  opacity: 0.36 !important;
+}
+
+html[data-dossier-family="executive"] [data-dossier-accent="rule"] {
+  opacity: 0.44 !important;
+}
+
+html[data-dossier-family="executive"] [data-dossier-role="name"] > div,
+html[data-dossier-family="executive"] [data-cv-name] {
+  font-variant-ligatures: common-ligatures;
+}
+
+/* Editorial: typographic first, with a long fine rule that behaves like print. */
+html[data-dossier-family="editorial"] [data-cv-accent="section"] {
+  width: auto !important;
+  flex: 1 1 auto !important;
+  opacity: 0.3 !important;
+}
+
+html[data-dossier-family="editorial"] [data-dossier-accent="rule"] {
+  opacity: 0.38 !important;
+}
+
+html[data-dossier-family="editorial"] [data-dossier-role="name"] > div,
+html[data-dossier-family="editorial"] [data-cv-name] {
+  font-variant-ligatures: common-ligatures;
+}
