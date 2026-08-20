@@ -64,8 +64,6 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     () => cvVisualPolicy(design.template, layout, design.bgOpacity),
     [design.template, design.bgOpacity, layout],
   );
-  // M4 behält die Verdichtungslogik, verschiebt aber nichts mehr automatisch:
-  // Side/Main ist ab jetzt eine bewusste Nutzerentscheidung.
   const sidePlan = useMemo(() => sidebarPlan(data), [data]);
 
   const softened = useMemo(() => softColors(design.colors), [design.colors]);
@@ -142,6 +140,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         <div
           data-cv-date
           data-cv-rail
+          data-cv-muted
           style={{
             width: layout === "modern" ? "23mm" : "27mm",
             flexShrink: 0,
@@ -156,6 +155,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         <div style={{ flex: 1, minWidth: 0 }}>
           {titel && (
             <div
+              data-cv-entry-title
               style={{
                 fontSize: layout === "modern" ? "11.4pt" : "11.5pt",
                 fontWeight: 700,
@@ -169,6 +169,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           )}
           {ort && (
             <div
+              data-cv-muted
               style={{
                 fontSize: "9.7pt",
                 color: pal.muted,
@@ -181,6 +182,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           )}
           {text && (
             <div
+              data-cv-body
               style={{
                 fontSize: "9.9pt",
                 color: pal.ink,
@@ -209,17 +211,18 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           node: (
             <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
               {r.name && (
-                <div style={{ fontSize: "10.8pt", fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}>
+                <div data-cv-entry-title style={{ fontSize: "10.8pt", fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}>
                   {r.name}
                 </div>
               )}
               {r.funktion && (
-                <div style={{ fontSize: "9.7pt", color: pal.muted, marginTop: "0.3mm", lineHeight: 1.3 }}>
+                <div data-cv-muted style={{ fontSize: "9.7pt", color: pal.muted, marginTop: "0.3mm", lineHeight: 1.3 }}>
                   {r.funktion}
                 </div>
               )}
               {r.kontakt && (
                 <div
+                  data-cv-body
                   style={{
                     fontSize: "9.7pt",
                     color: pal.ink,
@@ -250,6 +253,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
               <div
                 data-cv-rail
+                data-cv-entry-title
                 style={{
                   width: layout === "modern" ? "23mm" : "27mm",
                   flexShrink: 0,
@@ -261,7 +265,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               >
                 {s.name}
               </div>
-              <div style={{ flex: 1, fontSize: "9.8pt", color: pal.muted, lineHeight: 1.3 }}>
+              <div data-cv-muted style={{ flex: 1, fontSize: "9.8pt", color: pal.muted, lineHeight: 1.3 }}>
                 {s.niveau}
               </div>
             </div>
@@ -283,6 +287,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           node: (
             <div
               data-cv-entry
+              data-cv-body
               style={{
                 display: "flex",
                 gap: "2.6mm",
@@ -308,14 +313,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       {
         id: "kontakt-main",
         node: (
-          <div data-cv-entry style={{ marginBottom: "2.2mm", fontSize: "9.8pt", lineHeight: 1.4, color: pal.ink }}>
+          <div data-cv-entry data-cv-body style={{ marginBottom: "2.2mm", fontSize: "9.8pt", lineHeight: 1.4, color: pal.ink }}>
             {kontaktZeilen.map((line) => (
               <div key={line} style={{ overflowWrap: "anywhere" }}>
                 {line}
               </div>
             ))}
             {angaben.length > 0 && (
-              <div style={{ marginTop: "1mm", color: pal.muted }}>{angaben.join(" · ")}</div>
+              <div data-cv-muted style={{ marginTop: "1mm", color: pal.muted }}>{angaben.join(" · ")}</div>
             )}
           </div>
         ),
@@ -371,14 +376,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               </div>
             )}
             {kontaktZeilen.length > 0 && (
-              <div style={{ marginTop: "2.5mm", fontSize: "9.7pt", color: pal.ink, lineHeight: 1.38 }}>
+              <div data-cv-body style={{ marginTop: "2.5mm", fontSize: "9.7pt", color: pal.ink, lineHeight: 1.38 }}>
                 {kontaktZeilen.map((k) => (
                   <div key={k} style={{ overflowWrap: "anywhere" }}>{k}</div>
                 ))}
               </div>
             )}
             {angaben.length > 0 && (
-              <div style={{ marginTop: "1.35mm", fontSize: "9.2pt", color: pal.muted, lineHeight: 1.35 }}>
+              <div data-cv-muted style={{ marginTop: "1.35mm", fontSize: "9.2pt", color: pal.muted, lineHeight: 1.35 }}>
                 {angaben.join(" · ")}
               </div>
             )}
@@ -552,18 +557,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const hasContact =
     placements.kontakt === "side" &&
     !!(p.adresse || p.plzOrt || p.telefon || p.email || p.geburtsdatum || p.nationalitaet);
-  const hasSchool =
-    placements.schule === "side" && !data.hidden.schule && data.schule.some(entryFilled);
-  const hasExperience =
-    placements.erfahrung === "side" && !data.hidden.erfahrung && data.erfahrung.some(entryFilled);
+  const hasSchool = placements.schule === "side" && !data.hidden.schule && data.schule.some(entryFilled);
+  const hasExperience = placements.erfahrung === "side" && !data.hidden.erfahrung && data.erfahrung.some(entryFilled);
   const hasLanguages =
     placements.sprachen === "side" &&
     !data.hidden.sprachen &&
     data.sprachen.some((s) => s.name.trim() || s.niveau.trim());
-  const hasStrengths =
-    placements.staerken === "side" && !data.hidden.staerken && data.staerken.some((v) => v.trim());
-  const hasHobbies =
-    placements.hobbys === "side" && !data.hidden.hobbys && data.hobbys.some((v) => v.trim());
+  const hasStrengths = placements.staerken === "side" && !data.hidden.staerken && data.staerken.some((v) => v.trim());
+  const hasHobbies = placements.hobbys === "side" && !data.hidden.hobbys && data.hobbys.some((v) => v.trim());
   const hasReferences =
     placements.referenzen === "side" &&
     !data.hidden.referenzen &&
@@ -618,18 +619,18 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       {data[key].filter(entryFilled).map((e) => (
         <div data-cv-entry key={`side-${e.id}`} style={{ marginBottom: sidePlan.compact ? "1.7mm" : "2.2mm" }}>
           {e.zeit && (
-            <div data-cv-date style={{ fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.25 }}>
+            <div data-cv-date data-cv-muted style={{ fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.25 }}>
               {e.zeit}
             </div>
           )}
           {e.titel && (
-            <div style={{ marginTop: "0.25mm", fontSize: `${sideBody}pt`, fontWeight: 700, color: pal.ink, lineHeight: 1.28 }}>
+            <div data-cv-entry-title style={{ marginTop: "0.25mm", fontSize: `${sideBody}pt`, fontWeight: 700, color: pal.ink, lineHeight: 1.28 }}>
               {e.titel}
             </div>
           )}
-          {e.ort && <div style={{ marginTop: "0.2mm", fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.28 }}>{e.ort}</div>}
+          {e.ort && <div data-cv-muted style={{ marginTop: "0.2mm", fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.28 }}>{e.ort}</div>}
           {e.beschreibung && (
-            <div style={{ marginTop: "0.35mm", fontSize: `${sideSmall}pt`, color: pal.ink, lineHeight: 1.3 }}>
+            <div data-cv-body style={{ marginTop: "0.35mm", fontSize: `${sideSmall}pt`, color: pal.ink, lineHeight: 1.3 }}>
               {e.beschreibung}
             </div>
           )}
@@ -687,15 +688,15 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {hasContact && (
               <>
                 {sideHeading("Kontakt", firstSide === "contact")}
-                <div data-cv-entry style={{ fontSize: `${sideBody}pt`, color: pal.ink, lineHeight: sideLine, overflowWrap: "anywhere" }}>
+                <div data-cv-entry data-cv-body style={{ fontSize: `${sideBody}pt`, color: pal.ink, lineHeight: sideLine, overflowWrap: "anywhere" }}>
                   {p.adresse && <div>{p.adresse}</div>}
                   {p.plzOrt && <div>{p.plzOrt}</div>}
                   {p.telefon && <div style={{ marginTop: sidePlan.compact ? "1mm" : "1.7mm" }}>{p.telefon}</div>}
                   {p.email && <div>{p.email}</div>}
                   {p.geburtsdatum && (
-                    <div data-cv-date style={{ marginTop: sidePlan.compact ? "1.2mm" : "2mm", color: pal.muted }}>Geb. {p.geburtsdatum}</div>
+                    <div data-cv-date data-cv-muted style={{ marginTop: sidePlan.compact ? "1.2mm" : "2mm", color: pal.muted }}>Geb. {p.geburtsdatum}</div>
                   )}
-                  {p.nationalitaet && <div style={{ color: pal.muted }}>{p.nationalitaet}</div>}
+                  {p.nationalitaet && <div data-cv-muted style={{ color: pal.muted }}>{p.nationalitaet}</div>}
                 </div>
               </>
             )}
@@ -728,8 +729,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                         lineHeight: 1.32,
                       }}
                     >
-                      <div style={{ fontSize: `${sideBody + 0.1}pt`, fontWeight: 700, color: pal.ink }}>{s.name}</div>
-                      {s.niveau && <div style={{ fontSize: `${sideSmall}pt`, color: pal.muted, marginTop: "0.2mm" }}>{s.niveau}</div>}
+                      <div data-cv-entry-title style={{ fontSize: `${sideBody + 0.1}pt`, fontWeight: 700, color: pal.ink }}>{s.name}</div>
+                      {s.niveau && <div data-cv-muted style={{ fontSize: `${sideSmall}pt`, color: pal.muted, marginTop: "0.2mm" }}>{s.niveau}</div>}
                     </div>
                   ))}
               </>
@@ -743,6 +744,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                   .map((v, i) => (
                     <div
                       data-cv-entry
+                      data-cv-body
                       key={`side-strength-${i}`}
                       style={{
                         display: "flex",
@@ -765,6 +767,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                   .map((v, i) => (
                     <div
                       data-cv-entry
+                      data-cv-body
                       key={`side-hobby-${i}`}
                       style={{
                         fontSize: `${sideBody - 0.2}pt`,
@@ -786,9 +789,9 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                   .filter((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim())
                   .map((r) => (
                     <div data-cv-entry key={`side-${r.id}`} style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}>
-                      {r.name && <div style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: pal.ink }}>{r.name}</div>}
-                      {r.funktion && <div style={{ marginTop: "0.2mm", fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.28 }}>{r.funktion}</div>}
-                      {r.kontakt && <div style={{ marginTop: "0.25mm", fontSize: `${sideSmall}pt`, color: pal.ink, lineHeight: 1.28, overflowWrap: "anywhere" }}>{r.kontakt}</div>}
+                      {r.name && <div data-cv-entry-title style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: pal.ink }}>{r.name}</div>}
+                      {r.funktion && <div data-cv-muted style={{ marginTop: "0.2mm", fontSize: `${sideSmall}pt`, color: pal.muted, lineHeight: 1.28 }}>{r.funktion}</div>}
+                      {r.kontakt && <div data-cv-body style={{ marginTop: "0.25mm", fontSize: `${sideSmall}pt`, color: pal.ink, lineHeight: 1.28, overflowWrap: "anywhere" }}>{r.kontakt}</div>}
                     </div>
                   ))}
               </>
@@ -808,7 +811,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             >
               {name || "Lebenslauf"}
             </div>
-            <div style={{ marginTop: "1.5mm", fontSize: "9pt", color: pal.muted }}>
+            <div data-cv-muted style={{ marginTop: "1.5mm", fontSize: "9pt", color: pal.muted }}>
               Lebenslauf · Seite {pageIndex + 1}
             </div>
           </div>
@@ -820,6 +823,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   return (
     <div
       className="flex flex-col items-center gap-4"
+      data-dossier-document="cv"
       data-cv-layout={layout}
       data-export-mode={exportMode ? "true" : "false"}
     >
@@ -853,6 +857,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           {layout === "classic" && i > 0 && (
             <div
               data-cv-page-label
+              data-cv-muted
               style={{
                 position: "absolute",
                 top: "6.5mm",
