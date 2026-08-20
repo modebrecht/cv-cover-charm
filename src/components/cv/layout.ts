@@ -45,6 +45,7 @@ export const CV_LAYOUTS: Array<{
 ];
 
 const STORAGE_KEY = "lebenslauf:layout:v1";
+const MIRROR_STORAGE_KEY = "lebenslauf:layout-mirror:v1";
 const EVENT = "lebenslauf-layout-change";
 
 function valid(value: string | null): value is CvLayoutId {
@@ -68,6 +69,15 @@ function readChoice(): CvLayoutId {
   }
 }
 
+function readMirror(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(MIRROR_STORAGE_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
 function rendererFor(choice: CvLayoutId): CvRenderLayoutId {
   // Executive nutzt bewusst den Zweispalten-Renderer und damit dieselbe
   // Side/Main-Kontrolle wie Modern. Minimal, Timeline und Editorial verwenden
@@ -78,6 +88,7 @@ function rendererFor(choice: CvLayoutId): CvRenderLayoutId {
 function applyVariant(choice: CvLayoutId) {
   if (typeof document === "undefined") return;
   document.documentElement.dataset.cvVariant = choice;
+  document.documentElement.dataset.cvMirrored = readMirror() ? "true" : "false";
 }
 
 /** Tatsächlich ausgewählte Karte im Layout-Picker. */
@@ -94,6 +105,11 @@ export function getCvLayout(): CvRenderLayoutId {
   return rendererFor(choice);
 }
 
+/** Zweispalten-Layouts starten immer normal: Sidebar links, Main rechts. */
+export function getCvLayoutMirror(): boolean {
+  return readMirror();
+}
+
 export function setCvLayout(layout: CvLayoutId) {
   if (typeof window === "undefined") return;
   try {
@@ -105,11 +121,22 @@ export function setCvLayout(layout: CvLayoutId) {
   window.dispatchEvent(new CustomEvent<CvLayoutId>(EVENT, { detail: layout }));
 }
 
+export function setCvLayoutMirror(mirrored: boolean) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(MIRROR_STORAGE_KEY, mirrored ? "true" : "false");
+  } catch {
+    // Die laufende Seite reagiert trotzdem über das Event.
+  }
+  applyVariant(readChoice());
+  window.dispatchEvent(new CustomEvent(EVENT));
+}
+
 export function subscribeCvLayout(onChange: () => void) {
   if (typeof window === "undefined") return () => {};
   const local = () => onChange();
   const storage = (event: StorageEvent) => {
-    if (event.key === STORAGE_KEY) {
+    if (event.key === STORAGE_KEY || event.key === MIRROR_STORAGE_KEY) {
       applyVariant(readChoice());
       onChange();
     }
