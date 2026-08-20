@@ -11,17 +11,12 @@ type Resolved = { size: number; y: number; height: number };
 /**
  * Bestimmt für jeden Block die effektive Schriftgrösse (globale Skalierung +
  * Auto-Verkleinerung) und daraus die tatsächliche y-Position.
- *
- * Drei Bindungen verschieben einen Block gegenüber seinem `y`:
- * - `follows`: hängt unter einem anderen Block, damit ein mehrzeiliger Titel
- *   den Namen darunter verschiebt statt ihn zu überdecken.
- * - `above`: sitzt direkt über einem anderen Block (Label über Fliesstext).
- * - `anchorBottom`: `y` ist die Unterkante, der Block wächst nach oben. So
- *   läuft die Fusszeile auch bei grosser Schrift nicht aus dem Blatt.
- *
- * Die Auflösung folgt den Abhängigkeiten, nicht der Reihenfolge im Array.
  */
-export function resolveLayout(blocks: Block[], fontScale: number): Record<string, Resolved> {
+export function resolveLayout(
+  blocks: Block[],
+  fontScale: number,
+  spacingDensity = 1,
+): Record<string, Resolved> {
   const byId = new Map(blocks.map((b) => [b.id, b]));
   const metricsOf = new Map<string, { size: number; height: number }>();
 
@@ -72,13 +67,13 @@ export function resolveLayout(blocks: Block[], fontScale: number): Record<string
 
     let y = st.anchorBottom ? st.y - height : st.y;
 
-    // `visiting` bricht Ringschlüsse ab, etwa aus einem manipulierten Entwurf
     const link = st.follows || st.above || null;
     if (link && byId.has(link) && !visiting.has(link)) {
       visiting.add(id);
       const target = resolve(link);
       visiting.delete(id);
-      y = st.follows ? target.y + target.height + (st.gap ?? 4) : target.y - height - (st.gap ?? 2);
+      const gap = (st.gap ?? (st.follows ? 4 : 2)) * spacingDensity;
+      y = st.follows ? target.y + target.height + gap : target.y - height - gap;
     }
 
     out[id] = { size, y, height };
