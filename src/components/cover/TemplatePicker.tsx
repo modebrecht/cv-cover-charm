@@ -1,13 +1,15 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { TEMPLATES, type TemplateId } from "./types";
+import type { TemplateId } from "./types";
+import { TEMPLATES } from "./types";
 import { UI } from "@/default-config";
 import {
   CV_LAYOUTS,
-  getCvLayout,
+  getCvLayoutChoice,
   setCvLayout,
-  subscribeCvLayout,
+  subscribeCvLayoutChoice,
   type CvLayoutId,
 } from "@/components/cv/layout";
+import "../cv/layout-variants.css";
 
 type Props = {
   value: TemplateId;
@@ -17,7 +19,7 @@ type Props = {
 function LayoutPreview({ id }: { id: CvLayoutId }) {
   if (id === "modern") {
     return (
-      <span className="flex h-8 w-full overflow-hidden rounded border border-foreground/15 bg-background">
+      <span className="flex h-9 w-full overflow-hidden rounded border border-foreground/15 bg-background">
         <span className="w-[30%] bg-foreground/10" />
         <span className="flex flex-1 flex-col gap-1 p-1.5">
           <span className="h-1.5 w-2/3 rounded bg-foreground/55" />
@@ -27,8 +29,35 @@ function LayoutPreview({ id }: { id: CvLayoutId }) {
       </span>
     );
   }
+
+  if (id === "minimal") {
+    return (
+      <span className="flex h-9 w-full flex-col rounded border border-foreground/15 bg-background px-3 py-1.5">
+        <span className="h-1.5 w-2/5 rounded bg-foreground/60" />
+        <span className="mt-1 h-px w-1/5 bg-foreground/35" />
+        <span className="mt-1.5 h-1 w-4/5 rounded bg-foreground/12" />
+        <span className="mt-1 h-1 w-3/5 rounded bg-foreground/12" />
+      </span>
+    );
+  }
+
+  if (id === "timeline") {
+    return (
+      <span className="relative flex h-9 w-full overflow-hidden rounded border border-foreground/15 bg-background p-1.5 pl-4">
+        <span className="absolute bottom-1.5 left-2.5 top-1.5 w-px bg-foreground/25" />
+        <span className="absolute left-[7px] top-2 h-2 w-2 rounded-full border-2 border-background bg-foreground/55" />
+        <span className="absolute left-[7px] top-[22px] h-2 w-2 rounded-full border-2 border-background bg-foreground/35" />
+        <span className="flex flex-1 flex-col gap-1">
+          <span className="h-1.5 w-1/2 rounded bg-foreground/55" />
+          <span className="h-1 w-full rounded bg-foreground/15" />
+          <span className="mt-0.5 h-1 w-4/5 rounded bg-foreground/15" />
+        </span>
+      </span>
+    );
+  }
+
   return (
-    <span className="flex h-8 w-full flex-col gap-1 rounded border border-foreground/15 bg-background p-1.5">
+    <span className="flex h-9 w-full flex-col gap-1 rounded border border-foreground/15 bg-background p-1.5">
       <span className="h-1.5 w-1/2 rounded bg-foreground/55" />
       <span className="h-1 w-full rounded bg-foreground/15" />
       <span className="h-1 w-4/5 rounded bg-foreground/15" />
@@ -37,13 +66,14 @@ function LayoutPreview({ id }: { id: CvLayoutId }) {
 }
 
 export function TemplatePicker({ value, onChange }: Props) {
-  // Ohne Beschreibungen passen mehr Vorlagen ins Bild – dann engeres Raster.
   const dense = !UI.TEMPLATE_DESCRIPTIONS;
-  const cvLayout = useSyncExternalStore(subscribeCvLayout, getCvLayout, () => "classic");
+  const cvLayout = useSyncExternalStore(
+    subscribeCvLayoutChoice,
+    getCvLayoutChoice,
+    () => "classic",
+  );
   const [onCvPage, setOnCvPage] = useState(false);
 
-  // Erst nach dem Mount prüfen: so bleibt das serverseitige Markup identisch
-  // mit dem ersten Client-Render und die Layoutwahl verursacht keine Hydration-Warnung.
   useEffect(() => {
     setOnCvPage(window.location.pathname.includes("lebenslauf"));
   }, []);
