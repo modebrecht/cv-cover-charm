@@ -34,6 +34,10 @@ const SHAPE_GEOMETRY: Record<DossierPhotoShape, { ratio: number; radius: number 
 };
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+const numberOr = (value: unknown, fallback: number) => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
 
 export function normalizeDossierPhotoStyle(
   value?: Partial<DossierPhotoStyle> | null,
@@ -43,10 +47,10 @@ export function normalizeDossierPhotoStyle(
     : DEFAULT_DOSSIER_PHOTO_STYLE.shape;
   return {
     shape,
-    zoom: clamp(Number(value?.zoom ?? 1) || 1, 1, 3),
-    x: clamp(Number(value?.x ?? 50) || 50, 0, 100),
-    y: clamp(Number(value?.y ?? 50) || 50, 0, 100),
-    borderWidth: clamp(Number(value?.borderWidth ?? 0.3) || 0, 0, 6),
+    zoom: clamp(numberOr(value?.zoom, 1), 1, 3),
+    x: clamp(numberOr(value?.x, 50), 0, 100),
+    y: clamp(numberOr(value?.y, 50), 0, 100),
+    borderWidth: clamp(numberOr(value?.borderWidth, 0.3), 0, 6),
   };
 }
 
