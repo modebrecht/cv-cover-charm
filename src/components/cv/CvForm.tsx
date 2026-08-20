@@ -1,15 +1,17 @@
-import { useState, useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore, type CSSProperties } from "react";
 import { readPhoto } from "@/lib/image";
 import { readCoverDraft } from "@/lib/dossier";
+import {
+  DEFAULT_DOSSIER_PHOTO_STYLE,
+  dossierPhotoCropStyle,
+  dossierPhotoRadius,
+  dossierPhotoRatio,
+  type DossierPhotoStyle,
+} from "@/lib/dossier-photo";
+import { PhotoStyleControls } from "@/components/photo/PhotoStyleControls";
 import { getCvLayout, subscribeCvLayout } from "./layout";
 import { getCvPlacements, setCvPlacement, subscribeCvPlacements } from "./placement";
-import {
-  CV_PHOTO_SHAPES,
-  getCvPhotoShape,
-  setCvPhotoShape,
-  subscribeCvPhotoShape,
-  type CvPhotoShape,
-} from "./photo";
+import { getCvPhotoStyle, setCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
   DEFAULT_CV_PLACEMENTS,
   emptyEntry,
@@ -109,11 +111,19 @@ function Item({ children, onRemove }: { children: React.ReactNode; onRemove: () 
   );
 }
 
-function photoPreviewClass(shape: CvPhotoShape): string {
-  if (shape === "rect") return "h-14 w-20 rounded-md";
-  if (shape === "square") return "h-16 w-16 rounded-md";
-  if (shape === "circle") return "h-16 w-16 rounded-full";
-  return "h-20 w-16 rounded-md";
+function photoPreviewFrame(style: DossierPhotoStyle): CSSProperties {
+  const ratio = dossierPhotoRatio(style.shape);
+  const width = style.shape === "rect" ? 80 : 64;
+  return {
+    position: "relative",
+    width,
+    height: width * ratio,
+    flexShrink: 0,
+    overflow: "hidden",
+    borderRadius: dossierPhotoRadius(style.shape),
+    boxShadow:
+      style.borderWidth > 0 ? `0 0 0 ${Math.max(1, style.borderWidth * 2)}px currentColor` : undefined,
+  };
 }
 
 export function FormCvPerson({
@@ -123,10 +133,10 @@ export function FormCvPerson({
   person: CvPerson;
   onChange: (p: Partial<CvPerson>) => void;
 }) {
-  const photoShape = useSyncExternalStore(
-    subscribeCvPhotoShape,
-    getCvPhotoShape,
-    () => "portrait",
+  const photoStyle = useSyncExternalStore(
+    subscribeCvPhotoStyle,
+    getCvPhotoStyle,
+    () => DEFAULT_DOSSIER_PHOTO_STYLE,
   );
   const [photoMessage, setPhotoMessage] = useState<{ error: boolean; text: string } | null>(null);
 
@@ -146,8 +156,11 @@ export function FormCvPerson({
       setPhotoMessage({ error: true, text: "Im Titelblatt ist noch kein Foto gespeichert." });
       return;
     }
+    // Copy only. The CV receives its own photo bytes + normalized style and
+    // subsequently edits its own lebenslauf:* storage exclusively.
     onChange({ foto: draft.person.foto });
-    setPhotoMessage({ error: false, text: "Foto vom Titelblatt übernommen" });
+    setCvPhotoStyle(draft.photoStyle);
+    setPhotoMessage({ error: false, text: "Foto und Ausschnitt vom Titelblatt übernommen" });
   };
 
   return (
@@ -190,45 +203,28 @@ export function FormCvPerson({
         </div>
 
         <div className="flex items-start gap-3">
-          {person.foto ? (
-            <img
-              src={person.foto}
-              alt="Foto-Vorschau"
-              className={`${photoPreviewClass(photoShape)} shrink-0 border object-cover`}
-            />
-          ) : (
-            <div
-              className={`${photoPreviewClass(photoShape)} flex shrink-0 items-center justify-center border border-dashed bg-background text-[10px] text-muted-foreground`}
-            >
-              Foto
-            </div>
-          )}
+          <div
+            style={photoPreviewFrame(photoStyle)}
+            className="border bg-background text-primary"
+          >
+            {person.foto ? (
+              <img src={person.foto} alt="Foto-Vorschau" style={dossierPhotoCropStyle(photoStyle)} />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-[10px] text-muted-foreground">
+                Foto
+              </div>
+            )}
+          </div>
+
           <div className="min-w-0 flex-1">
-            <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-              Form
-            </span>
-            <div className="flex flex-wrap gap-1">
-              {CV_PHOTO_SHAPES.map((shape) => {
-                const active = photoShape === shape.id;
-                return (
-                  <button
-                    key={shape.id}
-                    type="button"
-                    onClick={() => setCvPhotoShape(shape.id)}
-                    aria-pressed={active}
-                    className={`rounded-md border px-2 py-1 text-xs transition ${
-                      active
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-input bg-background hover:bg-accent"
-                    }`}
-                  >
-                    {shape.label}
-                  </button>
-                );
-              })}
-            </div>
+            <PhotoStyleControls
+              value={photoStyle}
+              onChange={setCvPhotoStyle}
+              hasPhoto={!!person.foto}
+              compact
+            />
             <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground">
-              Die gewählte Form bleibt beim Wechsel des CV-Layouts erhalten.
+              Form, Rahmen und Ausschnitt bleiben beim Wechsel des CV-Layouts erhalten.
             </p>
             {photoMessage && (
               <p
