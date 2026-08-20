@@ -9,7 +9,16 @@ import { HISTORY } from "@/default-config";
  * Historie wächst nur und wirft erst am Limit den ältesten Stand weg.
  */
 
-const HISTORY_KEY = "titelblatt:history";
+/**
+ * Jedes Dokument hat seine eigene Historie. Am Lebenslauf zu arbeiten darf die
+ * Stände des Titelblatts nicht anfassen und umgekehrt.
+ */
+export const HISTORY_KEYS = {
+  cover: "titelblatt:history",
+  cv: "lebenslauf:history",
+} as const;
+
+export type HistoryKey = (typeof HISTORY_KEYS)[keyof typeof HISTORY_KEYS];
 
 export type Snapshot = {
   id: string;
@@ -25,9 +34,21 @@ export type Snapshot = {
 function stripImages(payload: Record<string, unknown>): Record<string, unknown> {
   const data = payload.data as Record<string, unknown> | undefined;
   const customs = payload.customs as Record<string, unknown>[] | undefined;
+  // Das Titelblatt legt das Foto direkt in `data`, der Lebenslauf unter
+  // `data.person`. Beide Formen müssen hier greifen, sonst landen Bilder in
+  // der Historie und sprengen den Speicher.
+  const person = data?.person as Record<string, unknown> | undefined;
   return {
     ...payload,
-    ...(data ? { data: { ...data, foto: null } } : {}),
+    ...(data
+      ? {
+          data: {
+            ...data,
+            foto: null,
+            ...(person ? { person: { ...person, foto: null } } : {}),
+          },
+        }
+      : {}),
     // Das Element bleibt erhalten, nur das Bild daran nicht.
     ...(Array.isArray(customs)
       ? { customs: customs.map((c) => (c.src ? { ...c, src: null } : c)) }
@@ -35,9 +56,9 @@ function stripImages(payload: Record<string, unknown>): Record<string, unknown> 
   };
 }
 
-export function readHistory(): Snapshot[] {
+export function readHistory(key: HistoryKey): Snapshot[] {
   try {
-    const raw = localStorage.getItem(HISTORY_KEY);
+    const raw = localStorage.getItem(key);
     if (!raw) return [];
     const list: unknown = JSON.parse(raw);
     if (!Array.isArray(list)) return [];
@@ -49,15 +70,15 @@ export function readHistory(): Snapshot[] {
   }
 }
 
-function write(list: Snapshot[]): Snapshot[] {
+function write(key: HistoryKey, list: Snapshot[]): Snapshot[] {
   let keep = list.slice(0, HISTORY.MAX);
   // Bei vollem Speicher lieber ältere Stände opfern als gar nichts sichern.
   for (;;) {
     try {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(keep));
+      localStorage.setItem(key, JSON.stringify(keep));
       return keep;
     } catch {
-      if (keep.length <= 1) return readHistory();
+      if (keep.length <= 1) return readHistory(key);
       keep = keep.slice(0, Math.floor(keep.length / 2));
     }
   }
@@ -72,11 +93,12 @@ function write(list: Snapshot[]): Snapshot[] {
  * entstanden ist.
  */
 export function pushSnapshot(
+  key: HistoryKey,
   payload: Record<string, unknown>,
   label: string,
   force = false,
 ): Snapshot[] {
-  const list = readHistory();
+  const list = readHistory(key);
   const stripped = stripImages(payload);
   const body = JSON.stringify(stripped);
 
@@ -91,15 +113,18 @@ export function pushSnapshot(
     label,
     payload: stripped,
   };
-  return write([snap, ...list]);
+  return write(key, [snap, ...list]);
 }
 
 /** Sprechender Name für einen Stand: der eingetragene Name, sonst die Vorlage. */
 export function describe(payload: Record<string, unknown>): string {
-  const data = payload.data as Record<string, string> | undefined;
-  const name = [data?.vorname, data?.nachname].filter(Boolean).join(" ").trim();
+  const data = payload.data as Record<string, unknown> | undefined;
+  // Titelblatt: Name direkt in `data`. Lebenslauf: unter `data.person`.
+  const src = ((data?.person as Record<string, unknown>) ?? data ?? {}) as Record<string, string>;
+  const name = [src.vorname, src.nachname].filter(Boolean).join(" ").trim();
   if (name) return name;
-  if (data?.beruf) return data.beruf;
+  if (typeof src.untertitel === "string" && src.untertitel) return src.untertitel;
+  if (typeof data?.beruf === "string" && data.beruf) return data.beruf;
   return "Ohne Namen";
 }
 
