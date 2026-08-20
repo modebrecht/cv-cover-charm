@@ -80,7 +80,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           {label(data, key)}
         </div>
         <div
-          style={{ height: "0.4mm", background: pal.accent, opacity: 0.32, marginTop: "1.05mm" }}
+          style={{ height: "0.3mm", background: pal.accent, opacity: 0.18, marginTop: "1.05mm" }}
         />
       </div>
     ),
@@ -139,7 +139,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           </div>
         )}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: "21pt", fontWeight: 700, color: pal.ink, lineHeight: 1.1 }}>
+          <div style={{ fontSize: "23pt", fontWeight: 700, color: pal.ink, lineHeight: 1.08 }}>
             {name || "Dein Name"}
           </div>
           {p.untertitel && (
@@ -333,7 +333,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 left: `${st.x}mm`,
                 top: `${st.y}mm`,
                 width: `${st.w}mm`,
-                opacity: design.bgOpacity * 0.5,
+                opacity: design.bgOpacity * 0.25,
               }}
             >
               <ShapeElement
