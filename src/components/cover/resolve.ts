@@ -1,6 +1,7 @@
 import type { Block } from "./types";
 import { FONT_STACKS, lineText } from "./types";
 import { fitFontSize, measureLines } from "@/lib/text-fit";
+import { dossierNameScale } from "@/lib/dossier-theme";
 
 const MM = 96 / 25.4; // px pro mm bei 96dpi
 const PT_TO_MM = 25.4 / 72;
@@ -26,8 +27,9 @@ export function resolveLayout(blocks: Block[], fontScale: number): Record<string
 
   for (const b of blocks) {
     const st = b.style;
+    const text = b.lines.map(lineText).join("\n");
     const metrics = {
-      text: b.lines.map(lineText).join("\n"),
+      text,
       widthPx: st.w * MM,
       fontFamily: FONT_STACKS[st.font],
       weight: st.weight,
@@ -36,7 +38,11 @@ export function resolveLayout(blocks: Block[], fontScale: number): Record<string
       uppercase: st.uppercase,
     };
 
-    const wanted = st.size * fontScale;
+    // M5.4: Titelblatt und CV reagieren zuerst mit derselben sanften
+    // Längen-Skalierung. Das exakte fitFontSize bleibt danach die zweite
+    // Sicherheitsstufe für die tatsächliche Breite der Titelblatt-Vorlage.
+    const nameScale = b.id === "name" ? dossierNameScale(text) : 1;
+    const wanted = st.size * fontScale * nameScale;
     const size =
       b.kind !== "text" || !st.maxLines || b.lines.length === 0
         ? wanted
