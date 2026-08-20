@@ -1,6 +1,15 @@
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
+import { readPhoto } from "@/lib/image";
+import { readCoverDraft } from "@/lib/dossier";
 import { getCvLayout, subscribeCvLayout } from "./layout";
 import { getCvPlacements, setCvPlacement, subscribeCvPlacements } from "./placement";
+import {
+  CV_PHOTO_SHAPES,
+  getCvPhotoShape,
+  setCvPhotoShape,
+  subscribeCvPhotoShape,
+  type CvPhotoShape,
+} from "./photo";
 import {
   DEFAULT_CV_PLACEMENTS,
   emptyEntry,
@@ -100,6 +109,13 @@ function Item({ children, onRemove }: { children: React.ReactNode; onRemove: () 
   );
 }
 
+function photoPreviewClass(shape: CvPhotoShape): string {
+  if (shape === "rect") return "h-14 w-20 rounded-md";
+  if (shape === "square") return "h-16 w-16 rounded-md";
+  if (shape === "circle") return "h-16 w-16 rounded-full";
+  return "h-20 w-16 rounded-md";
+}
+
 export function FormCvPerson({
   person,
   onChange,
@@ -107,9 +123,126 @@ export function FormCvPerson({
   person: CvPerson;
   onChange: (p: Partial<CvPerson>) => void;
 }) {
+  const photoShape = useSyncExternalStore(
+    subscribeCvPhotoShape,
+    getCvPhotoShape,
+    () => "portrait",
+  );
+  const [photoMessage, setPhotoMessage] = useState<{ error: boolean; text: string } | null>(null);
+
+  const onPhotoFile = (file?: File) => {
+    if (!file) return;
+    readPhoto(file)
+      .then((foto) => {
+        onChange({ foto });
+        setPhotoMessage({ error: false, text: "Foto übernommen" });
+      })
+      .catch((e: Error) => setPhotoMessage({ error: true, text: e.message }));
+  };
+
+  const takePhotoFromCover = () => {
+    const draft = readCoverDraft();
+    if (!draft?.person.foto) {
+      setPhotoMessage({ error: true, text: "Im Titelblatt ist noch kein Foto gespeichert." });
+      return;
+    }
+    onChange({ foto: draft.person.foto });
+    setPhotoMessage({ error: false, text: "Foto vom Titelblatt übernommen" });
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <BlockPlacementControl block="kontakt" label="Kontaktangaben" />
+
+      <div className="rounded-md border bg-muted/20 p-3">
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <label className="cursor-pointer rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-accent">
+            {person.foto ? "Foto ersetzen" : "Foto hochladen"}
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                onPhotoFile(e.target.files?.[0]);
+                e.target.value = "";
+              }}
+            />
+          </label>
+          <button
+            type="button"
+            onClick={takePhotoFromCover}
+            className="rounded-md border border-input bg-background px-3 py-1.5 text-xs hover:bg-accent"
+          >
+            Vom Titelblatt
+          </button>
+          {person.foto && (
+            <button
+              type="button"
+              onClick={() => {
+                onChange({ foto: null });
+                setPhotoMessage(null);
+              }}
+              className="text-xs text-muted-foreground underline hover:text-foreground"
+            >
+              Entfernen
+            </button>
+          )}
+        </div>
+
+        <div className="flex items-start gap-3">
+          {person.foto ? (
+            <img
+              src={person.foto}
+              alt="Foto-Vorschau"
+              className={`${photoPreviewClass(photoShape)} shrink-0 border object-cover`}
+            />
+          ) : (
+            <div
+              className={`${photoPreviewClass(photoShape)} flex shrink-0 items-center justify-center border border-dashed bg-background text-[10px] text-muted-foreground`}
+            >
+              Foto
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+              Form
+            </span>
+            <div className="flex flex-wrap gap-1">
+              {CV_PHOTO_SHAPES.map((shape) => {
+                const active = photoShape === shape.id;
+                return (
+                  <button
+                    key={shape.id}
+                    type="button"
+                    onClick={() => setCvPhotoShape(shape.id)}
+                    aria-pressed={active}
+                    className={`rounded-md border px-2 py-1 text-xs transition ${
+                      active
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-input bg-background hover:bg-accent"
+                    }`}
+                  >
+                    {shape.label}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground">
+              Die gewählte Form bleibt beim Wechsel des CV-Layouts erhalten.
+            </p>
+            {photoMessage && (
+              <p
+                className={`mt-1.5 text-[11px] ${
+                  photoMessage.error ? "text-destructive" : "text-primary"
+                }`}
+              >
+                {photoMessage.text}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-2 gap-2">
         <Field label="Vorname">
           <input
