@@ -35,7 +35,7 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
-            -d '{"state":"pending","context":"M5.8 Regression","description":"Dossier regression suite is running"}'
+            -d '{"state":"pending","context":"M5.8 Regression","description":"Dossier regression suite is running","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -109,7 +109,7 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
-            -d '{"state":"success","context":"M5.8 Regression","description":"Unit, lint, build, browser and PDF regressions passed"}'
+            -d '{"state":"success","context":"M5.8 Regression","description":"Unit, lint, build, browser and PDF regressions passed","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
 
       - name: Publish regression failure
         if: failure()
@@ -122,4 +122,4 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
-            -d '{"state":"failure","context":"M5.8 Regression","description":"One or more dossier regression checks failed"}'
+            -d '{"state":"failure","context":"M5.8 Regression","description":"One or more dossier regression checks failed","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
