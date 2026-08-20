@@ -251,13 +251,26 @@ test.describe("M5.8 dossier regression", () => {
   });
 
   test("copying and editing the CV photo never mutates title-page storage", async ({ page }) => {
+    // Match the actual titelblatt:v3 persistence format: photo treatment lives
+    // in the selected template's `foto` BlockStyle override.
     const cover = JSON.stringify({
       version: 6,
       template: "modern",
       colors: { modern: { primary: "#111827", accent: "#f43f5e", bg: "#fafafa" } },
-      layout: {},
+      layout: {
+        modern: {
+          foto: {
+            ratio: 1,
+            radius: 999,
+            imgZoom: 1.8,
+            imgX: 20,
+            imgY: 65,
+            borderWidth: 0.7,
+          },
+        },
+      },
       customs: [],
-      photoStyle: { shape: "circle", zoom: 1.8, x: 20, y: 65, borderWidth: 0.7 },
+      fontScale: 1,
       data: {
         vorname: "Lea",
         nachname: "Müller",
@@ -277,6 +290,9 @@ test.describe("M5.8 dossier regression", () => {
       .toBe("circle");
     const copied = await page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"));
     expect(copied.zoom).toBe(1.8);
+    expect(copied.x).toBe(20);
+    expect(copied.y).toBe(65);
+    expect(copied.borderWidth).toBe(0.7);
     await expect(previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first()).toBeVisible();
     expect(await page.evaluate(() => localStorage.getItem("titelblatt:v3"))).toBe(cover);
     await page.getByRole("button", { name: "Quadrat", exact: true }).click();
@@ -300,7 +316,7 @@ test.describe("M5.8 dossier regression", () => {
 
     await page.getByRole("button", { name: "Download" }).click();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-    await page.getByRole("button", { name: "Als PDF", exact: true }).click();
+    await page.getByRole("button", { name: /Als PDF/ }).click();
     const download = await downloadPromise;
     expect(download.suggestedFilename().toLowerCase()).toMatch(/\.pdf$/);
     const path = await download.path();
