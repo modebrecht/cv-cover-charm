@@ -26,6 +26,15 @@ import {
 
 const COVER_KEY = "titelblatt:v3";
 
+type StoredCover = {
+  template?: string;
+  colors?: Record<string, Record<string, string>>;
+  layout?: Record<string, Record<string, Partial<BlockStyle>>>;
+  photoStyle?: Partial<DossierPhotoStyle>;
+  customs?: unknown;
+  data?: Record<string, unknown>;
+};
+
 export type CoverDraft = {
   template: TemplateId;
   /** Farben der gewählten Vorlage, inklusive eigener Änderungen. */
@@ -34,6 +43,11 @@ export type CoverDraft = {
   elements: CustomField[];
   person: CvPerson;
   /** Read-only transfer snapshot of the title-page applicant photo treatment. */
+  photoStyle: DossierPhotoStyle;
+};
+
+export type CoverPhotoDraft = {
+  foto: string;
   photoStyle: DossierPhotoStyle;
 };
 
@@ -93,10 +107,7 @@ function coverDataFromRaw(d: Record<string, unknown>): CoverData {
 }
 
 function coverPhotoStyle(
-  p: {
-    layout?: Record<string, Record<string, Partial<BlockStyle>>>;
-    photoStyle?: Partial<DossierPhotoStyle>;
-  },
+  p: Pick<StoredCover, "layout" | "photoStyle">,
   template: TemplateId,
   templateDef: (typeof TEMPLATES)[number],
   coverData: CoverData,
@@ -136,28 +147,47 @@ function coverPhotoStyle(
   }
 }
 
+function readStoredCover(): StoredCover | null {
+  try {
+    const raw = window.localStorage.getItem(COVER_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw) as StoredCover;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Minimal read-only path used by the CV photo copy action. It intentionally
+ * ignores colours, custom elements and all other title-page state.
+ */
+export function readCoverPhoto(): CoverPhotoDraft | null {
+  if (typeof window === "undefined") return null;
+  const p = readStoredCover();
+  if (!p) return null;
+
+  const d = p.data ?? {};
+  const foto = typeof d.foto === "string" && d.foto.startsWith("data:") ? d.foto : null;
+  if (!foto) return null;
+
+  const templateDef = TEMPLATES.find((t) => t.id === p.template) ?? TEMPLATES[0];
+  const coverData = coverDataFromRaw(d);
+  return {
+    foto,
+    photoStyle: coverPhotoStyle(p, templateDef.id, templateDef, coverData),
+  };
+}
+
 /**
  * Den gespeicherten Titelblatt-Entwurf lesen. Gibt `null` zurück, wenn keiner
  * da oder er unlesbar ist – dann gibt es schlicht nichts zu übernehmen.
  */
 export function readCoverDraft(): CoverDraft | null {
-  let raw: string | null = null;
-  try {
-    raw = localStorage.getItem(COVER_KEY);
-  } catch {
-    return null;
-  }
-  if (!raw) return null;
+  if (typeof window === "undefined") return null;
+  const p = readStoredCover();
+  if (!p) return null;
 
   try {
-    const p = JSON.parse(raw) as {
-      template?: string;
-      colors?: Record<string, Record<string, string>>;
-      layout?: Record<string, Record<string, Partial<BlockStyle>>>;
-      photoStyle?: Partial<DossierPhotoStyle>;
-      customs?: unknown;
-      data?: Record<string, unknown>;
-    };
     const templateDef = TEMPLATES.find((t) => t.id === p.template) ?? TEMPLATES[0];
     const template = templateDef.id;
     const d = p.data ?? {};
