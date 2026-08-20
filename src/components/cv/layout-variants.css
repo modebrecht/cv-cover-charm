@@ -1,12 +1,11 @@
 /*
  * Zusätzliche CV-Layouts.
  *
- * Minimal, Timeline und Editorial verwenden absichtlich die bewährte
- * einspaltige Inhalts-/Pagination-Logik von Classic. Executive setzt auf den
- * echten Modern-Zweispalter und behält damit die Side/Main-Kontrolle.
- *
- * M5.1: Layoutregeln hängen an semantischen data-cv-* Hooks statt an
- * zufälligen Inline-Styles wie width: 30mm oder border-radius: 50%.
+ * Minimal, Timeline und Editorial verwenden die bewährte einspaltige
+ * Inhalts-/Pagination-Logik von Classic. Executive setzt auf den echten
+ * Modern-Zweispalter. Seit M5.4 besitzen Layouts nur noch Geometrie und
+ * Grössenakzente; Schriftfamilie, Gewicht, Laufweite und Linien-DNA kommen aus
+ * dem gemeinsamen DossierTheme.
  */
 
 /* -------------------------------------------------------------------------- */
@@ -17,24 +16,21 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page] {
   background: #fff !important;
 }
 
-/* Covergrafik nur noch als beinahe unsichtbare Papiertönung. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-background="motif"] {
   opacity: 0.008 !important;
 }
 
-/* Aus dem Vollbreiten-Balken wird nur eine kleine Signatur oben links. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-accent="page"] {
   left: 24mm !important;
   right: auto !important;
   width: 22mm !important;
-  height: 0.8mm !important;
+  height: var(--dossier-line-thickness) !important;
   top: 10mm !important;
   border-radius: 999px !important;
 }
 
-/* Mehr Weissraum als Classic. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main] {
   left: 24mm !important;
@@ -43,21 +39,12 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   bottom: 18mm !important;
 }
 
-/* Header gross, ruhig, ohne "Template-Karte". */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-header] {
   margin-bottom: 7mm !important;
   gap: 9mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-header] [data-cv-name] {
-  font-size: 30pt !important;
-  font-weight: 680 !important;
-  letter-spacing: -0.035em !important;
-}
-
-/* Abschnittstitel: keine lange Linie, nur kleiner Akzent. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-section-title]) {
@@ -67,18 +54,15 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-section-title] {
   font-size: 9.4pt !important;
-  letter-spacing: 0.12em !important;
-  font-weight: 750 !important;
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-accent="section"] {
   width: 8mm !important;
-  height: 0.4mm !important;
+  height: var(--dossier-line-thickness) !important;
   opacity: 0.55 !important;
 }
 
-/* Zeit-/Rail-Angaben stehen rechts statt als breite linke Spalte. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-entry]:has(> [data-cv-rail]) {
   display: grid !important;
@@ -116,7 +100,7 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-accent="page"] {
-  height: 1.2mm !important;
+  height: var(--dossier-line-thickness) !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
@@ -126,7 +110,6 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   top: 16mm !important;
 }
 
-/* Die eigentliche Achse beginnt unter dem Kopf. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]::before {
   content: "";
@@ -147,7 +130,6 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   padding-left: 12mm;
 }
 
-/* Punkt für echte Inhaltszeilen. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-entry])::before {
@@ -164,7 +146,6 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   box-shadow: 0 0 0 0.3mm color-mix(in srgb, currentColor 18%, transparent);
 }
 
-/* Abschnittsüberschriften schneiden die Achse bewusst als Kapitelmarker. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-section-title])::before {
@@ -183,13 +164,12 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-section-title] {
   font-size: 9.8pt !important;
-  letter-spacing: 0.095em !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-accent="section"] {
   width: 12mm !important;
-  height: 0.45mm !important;
+  height: var(--dossier-line-thickness) !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
@@ -197,7 +177,6 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   width: 24mm !important;
 }
 
-/* Etwas mehr Luft zwischen chronologischen Stationen. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-entry])
@@ -205,7 +184,6 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   margin-bottom: 2.8mm !important;
 }
 
-/* Folgeseiten: Linie direkt oben beginnen lassen. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([data-cv-page="0"])
   > [data-cv-main]::before {
   top: 6mm;
@@ -215,7 +193,6 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([
 /* Executive                                                                  */
 /* -------------------------------------------------------------------------- */
 
-/* Sehr ruhiger Untergrund: Premium entsteht hier über Raster und Typografie. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page] {
   background: #fff !important;
 }
@@ -227,10 +204,9 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-accent="page"] {
-  height: 0.9mm !important;
+  height: var(--dossier-line-thickness) !important;
 }
 
-/* Sidebar etwas breiter und weniger "App-Template", dafür dossierartig. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-sidebar] {
   width: 61mm !important;
@@ -244,7 +220,6 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   background: color-mix(in srgb, currentColor 4%, #fff) !important;
 }
 
-/* Die weisse Hauptfläche beginnt am neuen Sidebar-Raster. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-main-wash] {
   left: 61mm !important;
@@ -258,41 +233,27 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   bottom: 16mm !important;
 }
 
-/* Name/Headline: souverän statt verspielt. */
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  [data-cv-main]
-  [data-cv-header]
-  [data-cv-name] {
-  font-size: 31pt !important;
-  font-weight: 680 !important;
-  letter-spacing: -0.035em !important;
-}
-
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   [data-cv-main]
   [data-cv-accent="header"] {
   width: 36mm !important;
-  height: 0.48mm !important;
+  height: var(--dossier-line-thickness) !important;
   margin-top: 4mm !important;
 }
 
-/* Kapitel mit langer, feiner Führungsline. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   [data-cv-section-title] {
   font-size: 9.5pt !important;
-  letter-spacing: 0.13em !important;
-  font-weight: 780 !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   [data-cv-accent="section"] {
   width: auto !important;
-  height: 0.32mm !important;
+  height: var(--dossier-line-thickness) !important;
   flex: 1 1 auto !important;
   opacity: 0.35 !important;
 }
 
-/* Bewerbungsfoto: elegante Karte statt Social-Media-Kreis. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   [data-cv-photo] {
   width: 31mm !important;
@@ -300,12 +261,10 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   border-radius: 2.2mm !important;
 }
 
-/* Sidebar-Titel bewusst kleiner und mit mehr Tracking. */
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-sidebar]
   [data-cv-section-title] {
   font-size: 8.3pt !important;
-  letter-spacing: 0.145em !important;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -321,13 +280,12 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   opacity: 0.006 !important;
 }
 
-/* Statt Balken oben: vertikale Signatur neben dem Namen. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-accent="page"] {
   left: 21mm !important;
   right: auto !important;
   top: 19mm !important;
-  width: 1.25mm !important;
+  width: var(--dossier-line-thickness) !important;
   height: 34mm !important;
   border-radius: 999px !important;
 }
@@ -340,38 +298,26 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   bottom: 18mm !important;
 }
 
-/* Kleine Magazinkennung nur auf der ersten Seite. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page="0"]::after {
   content: "CURRICULUM VITAE";
   position: absolute;
   top: 11mm;
   right: 22mm;
-  font-family: Arial, sans-serif;
+  font-family: var(--dossier-font);
   font-size: 6.8pt;
-  font-weight: 700;
-  letter-spacing: 0.25em;
+  font-weight: var(--dossier-heading-weight);
+  letter-spacing: var(--dossier-heading-tracking);
   color: currentColor;
-  opacity: 0.24;
+  opacity: var(--dossier-muted-opacity);
   pointer-events: none;
 }
 
-/* Header wie eine Editorial-Opening-Spread: Serifentitel + feine Grundlinie. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-header] {
   margin-bottom: 8mm !important;
   padding-bottom: 6mm !important;
   gap: 9mm !important;
-  border-bottom: 0.3mm solid color-mix(in srgb, currentColor 14%, transparent) !important;
-}
-
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-header]
-  [data-cv-name] {
-  font-family: Georgia, "Times New Roman", serif !important;
-  font-size: 34pt !important;
-  font-weight: 700 !important;
-  line-height: 0.98 !important;
-  letter-spacing: -0.045em !important;
+  border-bottom: var(--dossier-line-thickness) solid color-mix(in srgb, currentColor 14%, transparent) !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
@@ -381,7 +327,6 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   border-radius: 0.9mm !important;
 }
 
-/* Kapitel wirken wie Magazin-Rubriken statt Formularüberschriften. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main]
   > div:has([data-cv-section-title]) {
@@ -391,22 +336,17 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-section-title] {
-  font-family: Georgia, "Times New Roman", serif !important;
   font-size: 13.2pt !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.015em !important;
-  text-transform: none !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-accent="section"] {
   width: auto !important;
-  height: 0.28mm !important;
+  height: var(--dossier-line-thickness) !important;
   flex: 1 1 auto !important;
   opacity: 0.32 !important;
 }
 
-/* Chronologische Einträge bekommen eine schmale Datums-Randspalte. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-entry]:has(> [data-cv-rail]) {
   gap: 7mm !important;
@@ -418,21 +358,12 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-rail] {
   width: 24mm !important;
   font-size: 8.7pt !important;
-  letter-spacing: 0.035em !important;
-  text-transform: uppercase !important;
 }
 
 /* -------------------------------------------------------------------------- */
-/* Zweispalten-Layouts spiegeln                                                */
+/* Zweispalten-Layouts spiegeln                                               */
 /* -------------------------------------------------------------------------- */
 
-/*
- * Modern und Executive teilen sich den echten Zweispalten-Renderer. Die ganze
- * Seite wird horizontal gespiegelt; Sidebar und Main werden danach einzeln
- * zurückgespiegelt. Dadurch tauschen die Spalten inklusive Hintergrund und
- * dynamischer Akzent-Border sauber die Seite, während Text und Foto lesbar
- * bleiben. Ohne gespeicherte Einstellung bleibt der Default unverändert.
- */
 html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page] {
   transform: scaleX(-1);
   transform-origin: center;
