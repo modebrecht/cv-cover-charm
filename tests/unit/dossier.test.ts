@@ -17,6 +17,7 @@ import {
   normalizeDossierPhotoStyle,
   shapeFromBlockStyle,
 } from "../../src/lib/dossier-photo";
+import { readCoverPhoto } from "../../src/lib/dossier";
 
 describe("dossier families", () => {
   test("every cover template belongs to exactly one premium family", () => {
@@ -111,5 +112,54 @@ describe("unified photo model", () => {
     expect(Number.parseFloat(String(crop.height))).toBeCloseTo(160, 6);
     expect(Number.parseFloat(String(crop.left))).toBeCloseTo(-15, 6);
     expect(Number.parseFloat(String(crop.top))).toBeCloseTo(-45, 6);
+  });
+
+  test("cover photo reader restores current title-page crop and shape", () => {
+    const cover = JSON.stringify({
+      version: 6,
+      template: "modern",
+      layout: {
+        modern: {
+          foto: {
+            ratio: 1,
+            radius: 999,
+            imgZoom: 1.8,
+            imgX: 20,
+            imgY: 65,
+            borderWidth: 0.7,
+          },
+        },
+      },
+      data: {
+        foto: "data:image/svg+xml,%3Csvg%3E%3C/svg%3E",
+      },
+    });
+    const previousWindow = globalThis.window;
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      value: {
+        localStorage: {
+          getItem: (key: string) => (key === "titelblatt:v3" ? cover : null),
+        },
+      },
+    });
+
+    try {
+      expect(readCoverPhoto()).toEqual({
+        foto: "data:image/svg+xml,%3Csvg%3E%3C/svg%3E",
+        photoStyle: {
+          shape: "circle",
+          zoom: 1.8,
+          x: 20,
+          y: 65,
+          borderWidth: 0.7,
+        },
+      });
+    } finally {
+      Object.defineProperty(globalThis, "window", {
+        configurable: true,
+        value: previousWindow,
+      });
+    }
   });
 });
