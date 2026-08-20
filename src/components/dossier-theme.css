@@ -24,7 +24,6 @@
   text-rendering: optimizeLegibility;
 }
 
-/* Name: same family, weight, tracking and line rhythm in both documents. */
 [data-dossier-role="name"] > div,
 [data-cv-name] {
   font-family: var(--dossier-font) !important;
@@ -35,7 +34,6 @@
   overflow-wrap: anywhere;
 }
 
-/* Beruf/title-page subtitle and CV subtitle share the same secondary voice. */
 [data-dossier-role="subtitle"] > div,
 [data-cv-subtitle] {
   font-family: var(--dossier-font) !important;
@@ -49,7 +47,6 @@
   margin-top: var(--dossier-subtitle-gap) !important;
 }
 
-/* Small structural headings use one hierarchy across title page and CV. */
 [data-dossier-role="heading"] > div,
 [data-cv-section-title] {
   font-family: var(--dossier-font) !important;
@@ -60,7 +57,6 @@
   text-wrap: balance;
 }
 
-/* Entry titles are the bridge between headings and body copy. */
 [data-cv-entry-title] {
   font-weight: var(--dossier-subtitle-weight) !important;
   line-height: var(--dossier-subtitle-line-height) !important;
@@ -68,7 +64,6 @@
   overflow-wrap: anywhere;
 }
 
-/* Body copy carries the same density without forcing identical point sizes. */
 [data-dossier-role="body"] > div,
 [data-cv-body] {
   font-family: var(--dossier-font) !important;
@@ -77,7 +72,6 @@
   text-wrap: pretty;
 }
 
-/* Muted information keeps its palette color; only hierarchy strength is shared. */
 [data-dossier-role="muted"] > div,
 [data-cv-muted] {
   font-family: var(--dossier-font) !important;
@@ -90,13 +84,11 @@
 /* Accent language                                                            */
 /* -------------------------------------------------------------------------- */
 
-/* Multiply existing template nuance rather than replacing its actual color. */
 [data-dossier-role="heading"] > div,
 [data-cv-accent] {
   filter: opacity(var(--dossier-accent-opacity));
 }
 
-/* Cover separator and CV accent rules use exactly the same line weight. */
 [data-dossier-accent="rule"] svg line,
 [data-dossier-accent="rule"] svg path,
 [data-dossier-accent="rule"] svg polyline {
@@ -127,7 +119,6 @@
   margin-bottom: var(--dossier-section-gap-small) !important;
 }
 
-/* Chronological/content entries get one repeatable vertical rhythm. */
 [data-cv-main] [data-cv-entry]:not([data-cv-body]) {
   margin-bottom: var(--dossier-entry-gap) !important;
 }
@@ -136,13 +127,11 @@
   margin-bottom: var(--dossier-entry-gap-small) !important;
 }
 
-/* Base headers align to the same rhythm; special layout geometry may override. */
 [data-cv-layout="classic"] [data-cv-header],
 [data-cv-layout="modern"] [data-cv-main] [data-cv-header] {
   margin-bottom: var(--dossier-header-gap) !important;
 }
 
-/* Title-page absolute geometry stays intact; its text rhythm uses the same body token. */
 [data-dossier-role="body"] > div,
 [data-dossier-role="subtitle"] > div,
 [data-dossier-role="muted"] > div {
@@ -185,7 +174,6 @@
 /* Family signatures                                                          */
 /* -------------------------------------------------------------------------- */
 
-/* Classic: short, quiet rules and restrained labels. */
 html[data-dossier-family="classic"] [data-cv-accent="section"] {
   width: 14mm !important;
   opacity: 0.52 !important;
@@ -196,7 +184,6 @@ html[data-dossier-family="classic"] [data-dossier-accent="rule"] {
   opacity: 0.58 !important;
 }
 
-/* Modern: geometric, assertive accents and the strongest visual hierarchy. */
 html[data-dossier-family="modern"] [data-cv-accent="section"] {
   width: 20mm !important;
   opacity: 0.9 !important;
@@ -207,7 +194,6 @@ html[data-dossier-family="modern"] [data-dossier-accent="rule"] {
   opacity: 0.92 !important;
 }
 
-/* Executive: fine leader rules, generous rhythm, no decorative shouting. */
 html[data-dossier-family="executive"] [data-cv-accent="section"] {
   width: auto !important;
   max-width: 28mm;
@@ -224,7 +210,6 @@ html[data-dossier-family="executive"] [data-cv-name] {
   font-variant-ligatures: common-ligatures;
 }
 
-/* Editorial: typographic first, with a long fine rule that behaves like print. */
 html[data-dossier-family="editorial"] [data-cv-accent="section"] {
   width: auto !important;
   flex: 1 1 auto !important;
@@ -244,39 +229,29 @@ html[data-dossier-family="editorial"] [data-cv-name] {
 /* M5.7 — premium polish                                                      */
 /* -------------------------------------------------------------------------- */
 
-/* Continuation pages should feel like the same document, not a new template. */
 [data-cv-page-label] {
   font-family: var(--dossier-font) !important;
   font-size: 7.6pt !important;
   font-weight: var(--dossier-body-weight) !important;
   letter-spacing: 0.065em;
   text-transform: uppercase;
-  opacity: calc(var(--dossier-muted-opacity) * 0.82) !important;
+  opacity: var(--dossier-muted-opacity) !important;
+  filter: opacity(0.82);
 }
 
-[data-cv-page]:not([data-cv-page="0"]) [data-cv-main] {
-  padding-top: 0.5mm;
-}
-
+/* Continuation pages keep exactly the same main-column capacity as measured. */
 [data-cv-page]:not([data-cv-page="0"]) [data-cv-sidebar] [data-cv-header] {
   opacity: 0.82;
 }
 
-/* Slightly calmer divider rhythm prevents a generated-form appearance. */
 [data-cv-section] > div {
   gap: 2.7mm !important;
 }
 
-[data-cv-entry] + [data-cv-entry] {
-  scroll-margin-top: 0;
-}
-
-/* Keep dates/supporting information visually subordinate even in bold families. */
 [data-cv-date] {
   font-variant-numeric: tabular-nums;
 }
 
-/* Print-like optical finishing shared by both dossier documents. */
 [data-dossier-document="cover"],
 [data-dossier-document="cv"] {
   -webkit-font-smoothing: antialiased;
