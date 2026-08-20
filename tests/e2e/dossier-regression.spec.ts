@@ -26,7 +26,7 @@ function entry(id: string, index: number) {
 }
 
 function cvData({ long = false, photo = false } = {}) {
-  const count = long ? 13 : 2;
+  const schoolCount = long ? 13 : 2;
   return {
     person: {
       vorname: long ? "Lea Sophie Alexandra" : "Lea",
@@ -40,7 +40,7 @@ function cvData({ long = false, photo = false } = {}) {
       untertitel: "Schülerin, 3. Sekundarklasse",
       foto: photo ? PHOTO : null,
     },
-    schule: Array.from({ length: count }, (_, i) => entry(`school-${i}`, i)),
+    schule: Array.from({ length: schoolCount }, (_, i) => entry(`school-${i}`, i)),
     erfahrung: Array.from({ length: long ? 11 : 2 }, (_, i) => entry(`work-${i}`, i + 2)),
     sprachen: long
       ? []
@@ -76,11 +76,7 @@ function cvPayload(options?: { long?: boolean; photo?: boolean }) {
     data: cvData(options),
     design: {
       template: "modern",
-      colors: {
-        primary: "#111827",
-        accent: "#f43f5e",
-        bg: "#fafafa",
-      },
+      colors: { primary: "#111827", accent: "#f43f5e", bg: "#fafafa" },
       bgOpacity: 0.06,
       useElements: false,
     },
@@ -99,9 +95,17 @@ type SeedOptions = {
   legacyPhotoShape?: (typeof PHOTO_SHAPES)[number];
 };
 
+async function settlePagination(page: Page) {
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      }),
+  );
+}
+
 async function seedCv(page: Page, options: SeedOptions = {}) {
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
-
   await page.evaluate(
     ({ payload, family, layout, mirrored, photoShape, coverRaw, legacyPhotoShape }) => {
       localStorage.clear();
@@ -143,13 +147,13 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
       legacyPhotoShape: options.legacyPhotoShape,
     },
   );
-
   await page.reload({ waitUntil: "domcontentloaded" });
   await previewRoot(page).locator("[data-cv-page]").first().waitFor({ state: "visible" });
+  await settlePagination(page);
 }
 
-async function assertNoMainClipping(page: Page, label: string) {
-  const errors = await previewRoot(page)
+async function clippingErrors(page: Page) {
+  return previewRoot(page)
     .locator("[data-cv-page]")
     .evaluateAll((pages) => {
       const failures: string[] = [];
@@ -172,8 +176,10 @@ async function assertNoMainClipping(page: Page, label: string) {
       });
       return failures;
     });
+}
 
-  expect(errors, `${label} preview geometry`).toEqual([]);
+async function assertNoMainClipping(page: Page, label: string) {
+  await expect.poll(() => clippingErrors(page), { message: `${label} preview geometry` }).toEqual([]);
 }
 
 test.describe("M5.8 dossier regression", () => {
@@ -200,13 +206,7 @@ test.describe("M5.8 dossier regression", () => {
   });
 
   test("all four photo shapes preserve shared crop and border treatment", async ({ page }) => {
-    const expectedRatio: Record<(typeof PHOTO_SHAPES)[number], number> = {
-      rect: 0.75,
-      square: 1,
-      portrait: 1.25,
-      circle: 1,
-    };
-
+    const expectedRatio = { rect: 0.75, square: 1, portrait: 1.25, circle: 1 } as const;
     for (const shape of PHOTO_SHAPES) {
       await seedCv(page, { family: "modern", layout: "classic", photo: true, photoShape: shape });
       await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", shape);
@@ -215,7 +215,6 @@ test.describe("M5.8 dossier regression", () => {
       const box = await photo.boundingBox();
       expect(box).not.toBeNull();
       expect((box?.height ?? 0) / (box?.width ?? 1)).toBeCloseTo(expectedRatio[shape], 1);
-
       const crop = await photo.locator("img").evaluate((img) => {
         const style = getComputedStyle(img);
         return { width: style.width, left: style.left, top: style.top };
@@ -230,26 +229,21 @@ test.describe("M5.8 dossier regression", () => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "editorial", layout, long: true });
       const root = previewRoot(page);
-      const pageCount = await root.locator("[data-cv-page]").count();
-      expect(pageCount).toBeGreaterThan(1);
+      await expect.poll(() => root.locator("[data-cv-page]").count()).toBeGreaterThan(1);
       await assertNoMainClipping(page, `long editorial/${layout}`);
-
-      const name = root.locator("[data-cv-page='0'] [data-cv-name]").first();
-      const main = root.locator("[data-cv-page='0'] [data-cv-main]").first();
-      const nameBox = await name.boundingBox();
-      const mainBox = await main.boundingBox();
+      const nameBox = await root.locator("[data-cv-page='0'] [data-cv-name]").first().boundingBox();
+      const mainBox = await root.locator("[data-cv-page='0'] [data-cv-main]").first().boundingBox();
       expect(nameBox).not.toBeNull();
       expect(mainBox).not.toBeNull();
-      const nameRight = (nameBox?.x ?? 0) + (nameBox?.width ?? 0);
-      const mainRight = (mainBox?.x ?? 0) + (mainBox?.width ?? 0);
-      expect(nameRight).toBeLessThanOrEqual(mainRight + 1.5);
+      expect((nameBox?.x ?? 0) + (nameBox?.width ?? 0)).toBeLessThanOrEqual(
+        (mainBox?.x ?? 0) + (mainBox?.width ?? 0) + 1.5,
+      );
     }
   });
 
   test("legacy CV photo-shape preference migrates safely", async ({ page }) => {
     await seedCv(page, { photo: true, legacyPhotoShape: "circle" });
     await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", "circle");
-
     await page.getByRole("button", { name: "Quadrat", exact: true }).click();
     const migrated = await page.evaluate(() => localStorage.getItem("lebenslauf:photo:v2"));
     expect(migrated).not.toBeNull();
@@ -275,25 +269,18 @@ test.describe("M5.8 dossier regression", () => {
         foto: PHOTO,
       },
     });
-
     await seedCv(page, { coverRaw: cover });
+    expect(await page.evaluate(() => localStorage.getItem("titelblatt:v3"))).toBe(cover);
     await page.getByRole("button", { name: "Vom Titelblatt", exact: true }).click();
-
     await expect
-      .poll(() =>
-        page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}").shape),
-      )
+      .poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}").shape))
       .toBe("circle");
-    const copied = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"),
-    );
+    const copied = await page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"));
     expect(copied.zoom).toBe(1.8);
     await expect(previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first()).toBeVisible();
     expect(await page.evaluate(() => localStorage.getItem("titelblatt:v3"))).toBe(cover);
-
     await page.getByRole("button", { name: "Quadrat", exact: true }).click();
     await page.waitForTimeout(500);
-
     const storage = await page.evaluate(() => ({
       cover: localStorage.getItem("titelblatt:v3"),
       cvPhoto: localStorage.getItem("lebenslauf:photo:v2"),
@@ -304,10 +291,11 @@ test.describe("M5.8 dossier regression", () => {
 
   test("PDF export downloads a non-empty PDF from the export CV pages only", async ({ page }) => {
     await seedCv(page, { family: "executive", layout: "timeline", long: true, photo: true });
-    const previewPages = await previewRoot(page).locator("[data-cv-page]").count();
-    const exportPages = await exportRoot(page).locator("[data-cv-page]").count();
-    expect(previewPages).toBeGreaterThan(1);
-    expect(exportPages).toBe(previewPages);
+    const preview = previewRoot(page);
+    const exported = exportRoot(page);
+    await expect.poll(() => preview.locator("[data-cv-page]").count()).toBeGreaterThan(1);
+    const previewPages = await preview.locator("[data-cv-page]").count();
+    await expect.poll(() => exported.locator("[data-cv-page]").count()).toBe(previewPages);
     expect(await page.locator("[data-cv-measure-page][data-cv-page]").count()).toBe(0);
 
     await page.getByRole("button", { name: "Download" }).click();
@@ -317,7 +305,6 @@ test.describe("M5.8 dossier regression", () => {
     expect(download.suggestedFilename().toLowerCase()).toMatch(/\.pdf$/);
     const path = await download.path();
     expect(path).not.toBeNull();
-    const file = await stat(path ?? "");
-    expect(file.size).toBeGreaterThan(10_000);
+    expect((await stat(path ?? "")).size).toBeGreaterThan(10_000);
   });
 });
