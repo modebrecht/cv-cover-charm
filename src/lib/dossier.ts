@@ -170,12 +170,15 @@ export function readCoverPhoto(): CoverPhotoDraft | null {
   const foto = typeof d.foto === "string" && d.foto.startsWith("data:") ? d.foto : null;
   if (!foto) return null;
 
-  const templateDef = TEMPLATES.find((t) => t.id === p.template) ?? TEMPLATES[0];
-  const coverData = coverDataFromRaw(d);
-  return {
-    foto,
-    photoStyle: coverPhotoStyle(p, templateDef.id, templateDef, coverData),
-  };
+  const template = typeof p.template === "string" ? p.template : DEFAULTS.TEMPLATE;
+  const photoOverride = p.layout?.[template]?.foto;
+  const photoStyle = p.photoStyle
+    ? normalizeDossierPhotoStyle(p.photoStyle)
+    : photoOverride
+      ? dossierPhotoStyleFromBlockStyle(photoOverride)
+      : DEFAULT_DOSSIER_PHOTO_STYLE;
+
+  return { foto, photoStyle };
 }
 
 /**
