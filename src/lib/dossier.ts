@@ -127,19 +127,21 @@ export function readCoverDraft(): CoverDraft | null {
         })
       : [];
 
-    // New saves may carry an explicit normalized snapshot. Existing saves are
-    // reconstructed from the actual template photo block + its overrides, so
-    // a circle/portrait default is transferred correctly even when untouched.
-    const renderedPhoto = buildBlocks(
-      template,
-      coverData,
-      [],
-      p.layout?.[template] ?? {},
-      templateDef.slots,
-    ).find((block) => block.kind === "photo");
+    // New saves already contain the normalized photo snapshot. Do not rebuild
+    // the complete title-page geometry in that case: a partially migrated or
+    // otherwise incomplete legacy layout must never make an otherwise valid
+    // applicant/photo transfer unreadable.
     const photoStyle = p.photoStyle
       ? normalizeDossierPhotoStyle(p.photoStyle)
-      : dossierPhotoStyleFromBlockStyle(renderedPhoto?.style);
+      : dossierPhotoStyleFromBlockStyle(
+          buildBlocks(
+            template,
+            coverData,
+            [],
+            p.layout?.[template] ?? {},
+            templateDef.slots,
+          ).find((block) => block.kind === "photo")?.style,
+        );
 
     return {
       template,
