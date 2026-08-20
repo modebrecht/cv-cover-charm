@@ -56,6 +56,37 @@ function LayoutPreview({ id }: { id: CvLayoutId }) {
     );
   }
 
+  if (id === "executive") {
+    return (
+      <span className="flex h-9 w-full overflow-hidden rounded border border-foreground/15 bg-background">
+        <span className="flex w-[34%] flex-col gap-1 border-r border-foreground/15 bg-foreground/[0.06] px-1.5 py-2">
+          <span className="h-2 w-2 rounded-sm border border-foreground/30" />
+          <span className="mt-0.5 h-1 w-4/5 rounded bg-foreground/20" />
+          <span className="h-1 w-3/5 rounded bg-foreground/15" />
+        </span>
+        <span className="flex flex-1 flex-col p-2">
+          <span className="h-2 w-3/5 rounded bg-foreground/65" />
+          <span className="mt-1 h-px w-full bg-foreground/25" />
+          <span className="mt-1.5 h-1 w-4/5 rounded bg-foreground/15" />
+        </span>
+      </span>
+    );
+  }
+
+  if (id === "editorial") {
+    return (
+      <span className="relative flex h-9 w-full flex-col overflow-hidden rounded border border-foreground/15 bg-background px-3 py-1.5">
+        <span className="absolute bottom-1.5 left-1.5 top-1.5 w-1 rounded-full bg-foreground/50" />
+        <span className="ml-1.5 text-[5px] font-semibold tracking-[0.22em] text-foreground/35">
+          CURRICULUM
+        </span>
+        <span className="ml-1.5 mt-0.5 h-2 w-1/2 rounded bg-foreground/65" />
+        <span className="ml-1.5 mt-1 h-px w-full bg-foreground/20" />
+        <span className="ml-1.5 mt-1 h-1 w-2/3 rounded bg-foreground/15" />
+      </span>
+    );
+  }
+
   return (
     <span className="flex h-9 w-full flex-col gap-1 rounded border border-foreground/15 bg-background p-1.5">
       <span className="h-1.5 w-1/2 rounded bg-foreground/55" />
