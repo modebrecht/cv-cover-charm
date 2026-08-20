@@ -92,6 +92,50 @@ function coverDataFromRaw(d: Record<string, unknown>): CoverData {
   };
 }
 
+function coverPhotoStyle(
+  p: {
+    layout?: Record<string, Record<string, Partial<BlockStyle>>>;
+    photoStyle?: Partial<DossierPhotoStyle>;
+  },
+  template: TemplateId,
+  templateDef: (typeof TEMPLATES)[number],
+  coverData: CoverData,
+): DossierPhotoStyle {
+  // Transitional saves may already carry a normalized snapshot.
+  if (p.photoStyle) return normalizeDossierPhotoStyle(p.photoStyle);
+
+  const photoOverride = p.layout?.[template]?.foto;
+
+  // M5.3 writes the complete shared photo geometry whenever form/radius is
+  // changed. Read that current storage representation directly instead of
+  // rebuilding unrelated title-page geometry just to transfer the photo.
+  if (
+    photoOverride &&
+    (typeof photoOverride.ratio === "number" || typeof photoOverride.radius === "number")
+  ) {
+    return dossierPhotoStyleFromBlockStyle(photoOverride);
+  }
+
+  // Older saves can contain crop-only overrides. Merge those with the actual
+  // template default through the renderer so the original photo shape survives.
+  try {
+    const renderedPhoto = buildBlocks(
+      template,
+      coverData,
+      [],
+      p.layout?.[template] ?? {},
+      templateDef.slots,
+    ).find((block) => block.kind === "photo");
+    return dossierPhotoStyleFromBlockStyle(renderedPhoto?.style);
+  } catch {
+    // A damaged/partial legacy layout must not make otherwise valid applicant
+    // data unreadable. Preserve whatever photo treatment can still be recovered.
+    return photoOverride
+      ? dossierPhotoStyleFromBlockStyle(photoOverride)
+      : DEFAULT_DOSSIER_PHOTO_STYLE;
+  }
+}
+
 /**
  * Den gespeicherten Titelblatt-Entwurf lesen. Gibt `null` zurück, wenn keiner
  * da oder er unlesbar ist – dann gibt es schlicht nichts zu übernehmen.
@@ -127,22 +171,6 @@ export function readCoverDraft(): CoverDraft | null {
         })
       : [];
 
-    // New saves already contain the normalized photo snapshot. Do not rebuild
-    // the complete title-page geometry in that case: a partially migrated or
-    // otherwise incomplete legacy layout must never make an otherwise valid
-    // applicant/photo transfer unreadable.
-    const photoStyle = p.photoStyle
-      ? normalizeDossierPhotoStyle(p.photoStyle)
-      : dossierPhotoStyleFromBlockStyle(
-          buildBlocks(
-            template,
-            coverData,
-            [],
-            p.layout?.[template] ?? {},
-            templateDef.slots,
-          ).find((block) => block.kind === "photo")?.style,
-        );
-
     return {
       template,
       colors: { ...defaultColors(template), ...(p.colors?.[template] ?? {}) },
@@ -159,7 +187,7 @@ export function readCoverDraft(): CoverDraft | null {
         untertitel: "",
         foto: coverData.foto,
       },
-      photoStyle,
+      photoStyle: coverPhotoStyle(p, template, templateDef, coverData),
     };
   } catch {
     return null;
