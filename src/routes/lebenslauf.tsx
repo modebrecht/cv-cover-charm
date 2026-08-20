@@ -227,8 +227,6 @@ function Lebenslauf() {
   /* ---------- Sichern ---------- */
   useEffect(() => {
     if (!restored.current) return;
-    // Im Hintergrund nicht speichern – sonst überschreibt ein schlafender Tab
-    // die Arbeit des aktiven Fensters.
     if (!visible) return;
     const id = setTimeout(() => {
       try {
@@ -275,7 +273,6 @@ function Lebenslauf() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  /** Gestaltung erneut vom Titelblatt holen. */
   const syncFromCover = useCallback(() => {
     const draft = readCoverDraft();
     setCover(draft);
@@ -327,10 +324,6 @@ function Lebenslauf() {
     }
   };
 
-  /**
-   * Früheren Stand laden. Der aktuelle wandert vorher in die Historie. Ein
-   * bereits gewähltes Foto bleibt – die Historie speichert keine Bilder.
-   */
   const restoreSnapshot = (snap: Snapshot) => {
     keepSnapshot("Vor dem Zurückholen", true);
     const p = snap.payload as unknown as Partial<Saved>;
@@ -346,7 +339,6 @@ function Lebenslauf() {
     return safeFileName(n ? `Lebenslauf-${n}` : "Lebenslauf");
   };
 
-  /** Jede Blattseite einzeln rendern und in ein PDF legen. */
   const downloadPdf = async () => {
     if (!exportRef.current || downloading) return;
     setDownloading(true);
@@ -365,7 +357,7 @@ function Lebenslauf() {
         title: name ? `Lebenslauf – ${name}` : "Lebenslauf",
         author: name,
         subject: "Lebenslauf",
-        creator: "Lehrstellen-Titelblatt",
+        creator: name,
       });
 
       for (let i = 0; i < pages.length; i++) {
@@ -530,11 +522,6 @@ function Lebenslauf() {
                     Beispiel ausfüllen
                   </button>
 
-                  {/*
-                    Wie beim Titelblatt: zugeklappt und ganz unten, weil die
-                    Liste lang werden kann. Eigene Historie – die Stände des
-                    Titelblatts bleiben davon unberührt.
-                  */}
                   {history.length > 0 && (
                     <div className="border-t">
                       <button
@@ -839,7 +826,6 @@ function Lebenslauf() {
         </main>
       </div>
 
-      {/* Unskalierte 1:1-Kopie für den PDF-Export */}
       <div
         aria-hidden
         ref={exportRef}
