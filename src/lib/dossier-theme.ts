@@ -1,4 +1,9 @@
 import type { TemplateId } from "@/components/cover/types";
+import {
+  familyForTemplate,
+  getDossierFamily,
+  type DossierFamilyId,
+} from "@/lib/dossier-family";
 
 export type DossierTheme = {
   typography: {
@@ -33,144 +38,112 @@ export type DossierTheme = {
 };
 
 const SANS = "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif";
-const SERIF = "Georgia, 'Times New Roman', Times, serif";
+const EXECUTIVE_SERIF = "'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif";
+const EDITORIAL_SERIF = "Georgia, 'Times New Roman', Times, serif";
 
-const BASE: DossierTheme = {
+const CLASSIC: DossierTheme = {
   typography: {
     fontStack: SANS,
-    nameWeight: 750,
-    nameTrackingEm: -0.025,
-    nameLineHeight: 1.02,
+    nameWeight: 700,
+    nameTrackingEm: -0.015,
+    nameLineHeight: 1.03,
     subtitleWeight: 600,
     subtitleTrackingEm: 0.005,
-    subtitleLineHeight: 1.25,
+    subtitleLineHeight: 1.26,
     bodyWeight: 400,
-    bodyLineHeight: 1.35,
+    bodyLineHeight: 1.38,
     mutedOpacity: 0.72,
   },
-  accentTreatment: {
-    opacity: 0.9,
-  },
-  headingStyle: {
-    weight: 750,
-    trackingEm: 0.1,
-    uppercase: true,
-    lineHeight: 1.1,
-  },
-  lineThicknessMm: 0.5,
-  cornerRadiusMm: 1.5,
-  spacingDensity: 1,
-  photoTreatment: {
-    contrast: 1,
-    saturation: 1,
-  },
-  backgroundIntensity: 1,
+  accentTreatment: { opacity: 0.76 },
+  headingStyle: { weight: 700, trackingEm: 0.085, uppercase: true, lineHeight: 1.12 },
+  lineThicknessMm: 0.34,
+  cornerRadiusMm: 0.7,
+  spacingDensity: 1.02,
+  photoTreatment: { contrast: 1.01, saturation: 0.94 },
+  backgroundIntensity: 0.9,
 };
 
-const SERIF_TEMPLATES = new Set<TemplateId>(["klassisch", "edel", "edelBlockig"]);
-const SOFT_TEMPLATES = new Set<TemplateId>([
-  "freundlich",
-  "human",
-  "sonnig",
-  "welle",
-  "terracotta",
-  "pastell",
-  "sonne",
-]);
-const STRONG_TEMPLATES = new Set<TemplateId>([
-  "modern",
-  "colorful",
-  "blockig",
-  "studio",
-  "neon",
-  "aurora",
-  "verlauf",
-  "citrus",
-]);
+const MODERN: DossierTheme = {
+  typography: {
+    fontStack: SANS,
+    nameWeight: 800,
+    nameTrackingEm: -0.035,
+    nameLineHeight: 0.99,
+    subtitleWeight: 650,
+    subtitleTrackingEm: 0.015,
+    subtitleLineHeight: 1.22,
+    bodyWeight: 400,
+    bodyLineHeight: 1.33,
+    mutedOpacity: 0.68,
+  },
+  accentTreatment: { opacity: 0.96 },
+  headingStyle: { weight: 800, trackingEm: 0.11, uppercase: true, lineHeight: 1.07 },
+  lineThicknessMm: 0.62,
+  cornerRadiusMm: 1.25,
+  spacingDensity: 0.97,
+  photoTreatment: { contrast: 1.03, saturation: 1 },
+  backgroundIntensity: 0.96,
+};
 
-/**
- * One visual contract for the complete application dossier.
- *
- * Template geometry remains independent. These tokens define the shared
- * typographic hierarchy and visual rhythm that both title page and CV consume.
- */
+const EXECUTIVE: DossierTheme = {
+  typography: {
+    fontStack: EXECUTIVE_SERIF,
+    nameWeight: 700,
+    nameTrackingEm: -0.025,
+    nameLineHeight: 1,
+    subtitleWeight: 600,
+    subtitleTrackingEm: 0.01,
+    subtitleLineHeight: 1.25,
+    bodyWeight: 400,
+    bodyLineHeight: 1.41,
+    mutedOpacity: 0.66,
+  },
+  accentTreatment: { opacity: 0.72 },
+  headingStyle: { weight: 700, trackingEm: 0.055, uppercase: false, lineHeight: 1.13 },
+  lineThicknessMm: 0.3,
+  cornerRadiusMm: 0.65,
+  spacingDensity: 1.08,
+  photoTreatment: { contrast: 1.02, saturation: 0.88 },
+  backgroundIntensity: 0.86,
+};
+
+const EDITORIAL: DossierTheme = {
+  typography: {
+    fontStack: EDITORIAL_SERIF,
+    nameWeight: 700,
+    nameTrackingEm: -0.04,
+    nameLineHeight: 0.98,
+    subtitleWeight: 600,
+    subtitleTrackingEm: 0,
+    subtitleLineHeight: 1.24,
+    bodyWeight: 400,
+    bodyLineHeight: 1.42,
+    mutedOpacity: 0.7,
+  },
+  accentTreatment: { opacity: 0.8 },
+  headingStyle: { weight: 700, trackingEm: -0.005, uppercase: false, lineHeight: 1.08 },
+  lineThicknessMm: 0.28,
+  cornerRadiusMm: 0.45,
+  spacingDensity: 1.1,
+  photoTreatment: { contrast: 1.02, saturation: 0.9 },
+  backgroundIntensity: 0.88,
+};
+
+const THEMES: Record<DossierFamilyId, DossierTheme> = {
+  classic: CLASSIC,
+  modern: MODERN,
+  executive: EXECUTIVE,
+  editorial: EDITORIAL,
+};
+
+/** One visual contract per premium dossier family. */
+export function dossierThemeForFamily(family: DossierFamilyId): DossierTheme {
+  return THEMES[family];
+}
+
+/** Compatibility helper for code that only knows the title-page template. */
 export function dossierThemeFor(template: TemplateId): DossierTheme {
-  if (SERIF_TEMPLATES.has(template)) {
-    return {
-      ...BASE,
-      typography: {
-        fontStack: SERIF,
-        nameWeight: 700,
-        nameTrackingEm: -0.03,
-        nameLineHeight: 1,
-        subtitleWeight: 600,
-        subtitleTrackingEm: 0,
-        subtitleLineHeight: 1.24,
-        bodyWeight: 400,
-        bodyLineHeight: 1.38,
-        mutedOpacity: 0.7,
-      },
-      accentTreatment: { opacity: 0.82 },
-      headingStyle: { weight: 700, trackingEm: 0.11, uppercase: true, lineHeight: 1.08 },
-      lineThicknessMm: 0.38,
-      cornerRadiusMm: 0.8,
-      spacingDensity: 1.04,
-      photoTreatment: { contrast: 1.02, saturation: 0.92 },
-      backgroundIntensity: 0.94,
-    };
-  }
-
-  if (SOFT_TEMPLATES.has(template)) {
-    return {
-      ...BASE,
-      typography: {
-        fontStack: SANS,
-        nameWeight: 700,
-        nameTrackingEm: -0.018,
-        nameLineHeight: 1.04,
-        subtitleWeight: 600,
-        subtitleTrackingEm: 0.01,
-        subtitleLineHeight: 1.28,
-        bodyWeight: 400,
-        bodyLineHeight: 1.4,
-        mutedOpacity: 0.74,
-      },
-      accentTreatment: { opacity: 0.78 },
-      headingStyle: { weight: 700, trackingEm: 0.075, uppercase: false, lineHeight: 1.15 },
-      lineThicknessMm: 0.46,
-      cornerRadiusMm: 2.4,
-      spacingDensity: 1.06,
-      photoTreatment: { contrast: 0.98, saturation: 0.96 },
-      backgroundIntensity: 0.9,
-    };
-  }
-
-  if (STRONG_TEMPLATES.has(template)) {
-    return {
-      ...BASE,
-      typography: {
-        fontStack: SANS,
-        nameWeight: 780,
-        nameTrackingEm: -0.03,
-        nameLineHeight: 0.99,
-        subtitleWeight: 620,
-        subtitleTrackingEm: 0.015,
-        subtitleLineHeight: 1.22,
-        bodyWeight: 400,
-        bodyLineHeight: 1.34,
-        mutedOpacity: 0.68,
-      },
-      accentTreatment: { opacity: 0.94 },
-      headingStyle: { weight: 780, trackingEm: 0.105, uppercase: true, lineHeight: 1.08 },
-      lineThicknessMm: 0.58,
-      cornerRadiusMm: 1.4,
-      spacingDensity: 0.98,
-      photoTreatment: { contrast: 1.03, saturation: 1 },
-      backgroundIntensity: 0.96,
-    };
-  }
-
-  return BASE;
+  return dossierThemeForFamily(familyForTemplate(template));
 }
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
@@ -193,14 +166,19 @@ export function dossierNameScale(name: string): number {
   return clamp(scale, 0.7, 1);
 }
 
-/** Apply the shared contract as CSS custom properties used by both documents. */
-export function applyDossierTheme(template: TemplateId): DossierTheme {
-  const theme = dossierThemeFor(template);
+/** Apply the shared family contract as CSS custom properties used by both documents. */
+export function applyDossierTheme(
+  template: TemplateId,
+  familyOverride?: DossierFamilyId,
+): DossierTheme {
+  const family = familyOverride ?? getDossierFamily(template);
+  const theme = dossierThemeForFamily(family);
   if (typeof document === "undefined") return theme;
 
   const root = document.documentElement;
   const density = theme.spacingDensity;
   root.dataset.dossierTemplate = template;
+  root.dataset.dossierFamily = family;
   root.style.setProperty("--dossier-font", theme.typography.fontStack);
   root.style.setProperty("--dossier-name-weight", String(theme.typography.nameWeight));
   root.style.setProperty("--dossier-name-tracking", `${theme.typography.nameTrackingEm}em`);
