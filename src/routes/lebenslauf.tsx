@@ -54,8 +54,8 @@ export const Route = createFileRoute("/lebenslauf")({
 const STORAGE_KEY = "lebenslauf:v1";
 const SAVE_VERSION = 1;
 
-/** Vorgabe: 75 % Transparenz, der Hintergrund also zu einem Viertel sichtbar. */
-const DEFAULT_BG_OPACITY = 0.25;
+/** Vorgabe: 88 % Transparenz, der Hintergrund also nur dezent sichtbar. */
+const DEFAULT_BG_OPACITY = 0.12;
 
 function defaultColors(template: TemplateId): Record<string, string> {
   const t = TEMPLATES.find((x) => x.id === template) ?? TEMPLATES[0];
@@ -637,14 +637,14 @@ function Lebenslauf() {
                       onClick={() => setDesign((d) => ({ ...d, bgOpacity: DEFAULT_BG_OPACITY }))}
                       className="text-muted-foreground underline hover:text-foreground"
                     >
-                      75 %
+                      88 %
                     </button>
                   </span>
                   <input
                     type="range"
                     min={0}
                     max={100}
-                    step={5}
+                    step={1}
                     value={Math.round((1 - design.bgOpacity) * 100)}
                     onChange={(e) =>
                       setDesign((d) => ({ ...d, bgOpacity: 1 - Number(e.target.value) / 100 }))
