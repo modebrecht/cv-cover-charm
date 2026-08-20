@@ -1,8 +1,17 @@
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import type { TemplateId } from "./types";
 import { TEMPLATES } from "./types";
 import { UI } from "@/default-config";
 import { applyDossierTheme } from "@/lib/dossier-theme";
+import {
+  DOSSIER_FAMILIES,
+  familyForTemplate,
+  getDossierFamily,
+  setDossierFamily,
+  subscribeDossierFamily,
+  templatesForFamily,
+  type DossierFamilyId,
+} from "@/lib/dossier-family";
 import {
   CV_LAYOUTS,
   getCvLayoutChoice,
@@ -20,6 +29,47 @@ type Props = {
   value: TemplateId;
   onChange: (id: TemplateId) => void;
 };
+
+function FamilyPreview({ id }: { id: DossierFamilyId }) {
+  if (id === "modern") {
+    return (
+      <span className="flex h-9 w-full flex-col justify-center gap-1 overflow-hidden rounded border border-foreground/15 bg-background px-2">
+        <span className="h-2 w-2/3 rounded-sm bg-foreground/70" />
+        <span className="h-1 w-full rounded-sm bg-foreground/18" />
+        <span className="h-1.5 w-1/4 rounded-sm bg-foreground/45" />
+      </span>
+    );
+  }
+  if (id === "executive") {
+    return (
+      <span className="flex h-9 w-full items-center overflow-hidden rounded border border-foreground/15 bg-background px-2">
+        <span className="mr-2 h-6 w-px bg-foreground/30" />
+        <span className="flex flex-1 flex-col gap-1">
+          <span className="h-2 w-3/5 bg-foreground/65" />
+          <span className="h-px w-full bg-foreground/25" />
+          <span className="h-1 w-2/3 rounded bg-foreground/12" />
+        </span>
+      </span>
+    );
+  }
+  if (id === "editorial") {
+    return (
+      <span className="relative flex h-9 w-full flex-col justify-center overflow-hidden rounded border border-foreground/15 bg-background px-3">
+        <span className="absolute bottom-1.5 left-1.5 top-1.5 w-0.5 bg-foreground/45" />
+        <span className="ml-1 h-2.5 w-3/5 bg-foreground/70" />
+        <span className="ml-1 mt-1 h-px w-full bg-foreground/20" />
+        <span className="ml-1 mt-1 h-1 w-2/5 rounded bg-foreground/14" />
+      </span>
+    );
+  }
+  return (
+    <span className="flex h-9 w-full flex-col justify-center gap-1 rounded border border-foreground/15 bg-background px-2">
+      <span className="h-2 w-1/2 rounded-sm bg-foreground/60" />
+      <span className="h-px w-full bg-foreground/25" />
+      <span className="h-1 w-4/5 rounded bg-foreground/14" />
+    </span>
+  );
+}
 
 function LayoutPreview({ id }: { id: CvLayoutId }) {
   if (id === "modern") {
@@ -111,6 +161,11 @@ function mirrorHint(layout: CvLayoutId): string {
 
 export function TemplatePicker({ value, onChange }: Props) {
   const dense = !UI.TEMPLATE_DESCRIPTIONS;
+  const dossierFamily = useSyncExternalStore(
+    subscribeDossierFamily,
+    () => getDossierFamily(value),
+    () => familyForTemplate(value),
+  );
   const cvLayout = useSyncExternalStore(
     subscribeCvLayoutChoice,
     getCvLayoutChoice,
@@ -123,46 +178,104 @@ export function TemplatePicker({ value, onChange }: Props) {
   );
   const [onCvPage, setOnCvPage] = useState(false);
 
+  const familyTemplateIds = useMemo(() => new Set(templatesForFamily(dossierFamily)), [dossierFamily]);
+  const familyTemplates = useMemo(
+    () => TEMPLATES.filter((template) => familyTemplateIds.has(template.id)),
+    [familyTemplateIds],
+  );
+
   useEffect(() => {
     setOnCvPage(window.location.pathname.includes("lebenslauf"));
   }, []);
 
   useEffect(() => {
-    applyDossierTheme(value);
-  }, [value]);
+    applyDossierTheme(value, dossierFamily);
+  }, [value, dossierFamily]);
+
+  const chooseFamily = (family: DossierFamilyId) => {
+    const definition = DOSSIER_FAMILIES.find((item) => item.id === family);
+    if (!definition) return;
+    setDossierFamily(family);
+    onChange(definition.coverTemplate);
+  };
+
+  const chooseTemplate = (template: TemplateId) => {
+    const family = familyForTemplate(template);
+    if (family !== dossierFamily) setDossierFamily(family);
+    onChange(template);
+  };
 
   return (
     <div>
-      <div className={dense ? "grid grid-cols-2 gap-2" : "grid grid-cols-3 gap-3"}>
-        {TEMPLATES.map((t) => {
-          const active = t.id === value;
-          const base = active
-            ? "border-foreground bg-accent"
-            : "border-input hover:border-foreground/40";
+      <div className="mb-2">
+        <span className="block text-xs font-medium">Designfamilie</span>
+        <span className="text-[11px] leading-snug text-muted-foreground">
+          Gemeinsame Typografie, Hierarchie und Design-DNA für Titelblatt und Lebenslauf.
+        </span>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {DOSSIER_FAMILIES.map((family) => {
+          const active = family.id === dossierFamily;
           return (
             <button
-              key={t.id}
+              key={family.id}
               type="button"
-              onClick={() => onChange(t.id)}
+              onClick={() => chooseFamily(family.id)}
               aria-pressed={active}
-              title={t.description}
-              className={
-                dense
-                  ? `truncate rounded-md border px-2.5 py-2 text-left text-sm font-medium transition ${base}`
-                  : `flex flex-col items-start gap-1 rounded-lg border p-3 text-left transition ${base}`
-              }
+              className={`flex flex-col gap-2 rounded-md border p-2 text-left transition ${
+                active ? "border-foreground bg-accent" : "border-input hover:border-foreground/40"
+              }`}
             >
-              {dense ? (
-                t.name
-              ) : (
-                <>
-                  <span className="text-sm font-semibold">{t.name}</span>
-                  <span className="text-xs text-muted-foreground">{t.description}</span>
-                </>
-              )}
+              <FamilyPreview id={family.id} />
+              <span>
+                <span className="block text-xs font-semibold">{family.name}</span>
+                <span className="block text-[11px] leading-tight text-muted-foreground">
+                  {family.description}
+                </span>
+              </span>
             </button>
           );
         })}
+      </div>
+
+      <div className="mt-4 border-t pt-4">
+        <div className="mb-2">
+          <span className="block text-xs font-medium">Titelblatt-Variation</span>
+          <span className="text-[11px] leading-snug text-muted-foreground">
+            Gleiche Familie, andere Komposition. Die gemeinsame Design-DNA bleibt erhalten.
+          </span>
+        </div>
+        <div className={dense ? "grid grid-cols-2 gap-2" : "grid grid-cols-3 gap-3"}>
+          {familyTemplates.map((t) => {
+            const active = t.id === value;
+            const base = active
+              ? "border-foreground bg-accent"
+              : "border-input hover:border-foreground/40";
+            return (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => chooseTemplate(t.id)}
+                aria-pressed={active}
+                title={t.description}
+                className={
+                  dense
+                    ? `truncate rounded-md border px-2.5 py-2 text-left text-sm font-medium transition ${base}`
+                    : `flex flex-col items-start gap-1 rounded-lg border p-3 text-left transition ${base}`
+                }
+              >
+                {dense ? (
+                  t.name
+                ) : (
+                  <>
+                    <span className="text-sm font-semibold">{t.name}</span>
+                    <span className="text-xs text-muted-foreground">{t.description}</span>
+                  </>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {onCvPage && (
