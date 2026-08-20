@@ -109,8 +109,6 @@ export type CvDesign = {
   bgOpacity: number;
   /** Formen und Bilder vom Titelblatt mitnehmen (ohne dessen Texte). */
   useElements: boolean;
-  /** Side/Main-Zuordnung der Inhaltsblöcke im Modern-Layout. */
-  placements: CvPlacements;
 };
 
 export const emptyPerson: CvPerson = {
