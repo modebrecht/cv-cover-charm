@@ -1,61 +1,68 @@
-export type CvPhotoShape = "rect" | "square" | "portrait" | "circle";
+import {
+  DEFAULT_DOSSIER_PHOTO_STYLE,
+  normalizeDossierPhotoStyle,
+  type DossierPhotoShape,
+  type DossierPhotoStyle,
+} from "@/lib/dossier-photo";
 
-export const CV_PHOTO_SHAPES: Array<{ id: CvPhotoShape; label: string }> = [
-  { id: "rect", label: "Rechteck" },
-  { id: "square", label: "Quadrat" },
-  { id: "portrait", label: "Hochportrait" },
-  { id: "circle", label: "Kreis" },
-];
+const STORAGE_KEY = "lebenslauf:photo:v2";
+const LEGACY_SHAPE_KEY = "lebenslauf:photo-shape:v1";
+const EVENT = "lebenslauf-photo-change";
 
-const STORAGE_KEY = "lebenslauf:photo-shape:v1";
-const EVENT = "lebenslauf-photo-shape-change";
+let cached: DossierPhotoStyle | null = null;
 
-let cached: CvPhotoShape | null = null;
-
-function valid(value: string | null): value is CvPhotoShape {
-  return value === "rect" || value === "square" || value === "portrait" || value === "circle";
-}
-
-function read(): CvPhotoShape {
-  if (typeof window === "undefined") return "portrait";
+function read(): DossierPhotoStyle {
+  if (typeof window === "undefined") return DEFAULT_DOSSIER_PHOTO_STYLE;
   try {
-    const value = window.localStorage.getItem(STORAGE_KEY);
-    return valid(value) ? value : "portrait";
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (raw) return normalizeDossierPhotoStyle(JSON.parse(raw) as Partial<DossierPhotoStyle>);
+
+    // M5.3 migration: retain the shape selected in the old shape-only setting.
+    const legacy = window.localStorage.getItem(LEGACY_SHAPE_KEY) as DossierPhotoShape | null;
+    return normalizeDossierPhotoStyle({ shape: legacy ?? undefined });
   } catch {
-    return "portrait";
+    return DEFAULT_DOSSIER_PHOTO_STYLE;
   }
 }
 
-function apply(shape: CvPhotoShape) {
+function apply(style: DossierPhotoStyle) {
   if (typeof document === "undefined") return;
-  document.documentElement.dataset.cvPhotoShape = shape;
+  const root = document.documentElement;
+  root.dataset.cvPhotoShape = style.shape;
+  root.style.setProperty("--cv-photo-zoom", String(style.zoom));
+  root.style.setProperty("--cv-photo-width", `${style.zoom * 100}%`);
+  root.style.setProperty("--cv-photo-height", `${style.zoom * 100}%`);
+  root.style.setProperty("--cv-photo-left", `${-(style.zoom - 1) * style.x}%`);
+  root.style.setProperty("--cv-photo-top", `${-(style.zoom - 1) * style.y}%`);
+  root.style.setProperty("--cv-photo-border-width", `${style.borderWidth}mm`);
 }
 
-export function getCvPhotoShape(): CvPhotoShape {
+export function getCvPhotoStyle(): DossierPhotoStyle {
   if (!cached) cached = read();
   apply(cached);
   return cached;
 }
 
-export function setCvPhotoShape(shape: CvPhotoShape) {
-  cached = shape;
+export function setCvPhotoStyle(patch: Partial<DossierPhotoStyle>) {
+  const next = normalizeDossierPhotoStyle({ ...getCvPhotoStyle(), ...patch });
+  cached = next;
   if (typeof window !== "undefined") {
     try {
-      window.localStorage.setItem(STORAGE_KEY, shape);
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     } catch {
       // Die laufende Seite reagiert trotzdem über das Event.
     }
-    apply(shape);
-    window.dispatchEvent(new CustomEvent<CvPhotoShape>(EVENT, { detail: shape }));
+    apply(next);
+    window.dispatchEvent(new CustomEvent<DossierPhotoStyle>(EVENT, { detail: next }));
   }
 }
 
-export function subscribeCvPhotoShape(onChange: () => void) {
+export function subscribeCvPhotoStyle(onChange: () => void) {
   if (typeof window === "undefined") return () => {};
 
   const local = () => onChange();
   const storage = (event: StorageEvent) => {
-    if (event.key !== STORAGE_KEY) return;
+    if (event.key !== STORAGE_KEY && event.key !== LEGACY_SHAPE_KEY) return;
     cached = read();
     apply(cached);
     onChange();
@@ -68,3 +75,9 @@ export function subscribeCvPhotoShape(onChange: () => void) {
     window.removeEventListener("storage", storage);
   };
 }
+
+// Compatibility helpers for code outside M5.3.
+export type CvPhotoShape = DossierPhotoShape;
+export const getCvPhotoShape = () => getCvPhotoStyle().shape;
+export const setCvPhotoShape = (shape: DossierPhotoShape) => setCvPhotoStyle({ shape });
+export const subscribeCvPhotoShape = subscribeCvPhotoStyle;
