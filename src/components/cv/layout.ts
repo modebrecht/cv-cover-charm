@@ -1,4 +1,10 @@
-export type CvLayoutId = "classic" | "modern" | "minimal" | "timeline";
+export type CvLayoutId =
+  | "classic"
+  | "modern"
+  | "minimal"
+  | "timeline"
+  | "executive"
+  | "editorial";
 export type CvRenderLayoutId = "classic" | "modern";
 
 export const CV_LAYOUTS: Array<{
@@ -26,13 +32,30 @@ export const CV_LAYOUTS: Array<{
     name: "Timeline",
     description: "Vertikale Linie mit klarer Chronologie",
   },
+  {
+    id: "executive",
+    name: "Executive",
+    description: "Premium-Zweispalter, ruhig und souverän",
+  },
+  {
+    id: "editorial",
+    name: "Editorial",
+    description: "Typografisch, markant und hochwertig",
+  },
 ];
 
 const STORAGE_KEY = "lebenslauf:layout:v1";
 const EVENT = "lebenslauf-layout-change";
 
 function valid(value: string | null): value is CvLayoutId {
-  return value === "classic" || value === "modern" || value === "minimal" || value === "timeline";
+  return (
+    value === "classic" ||
+    value === "modern" ||
+    value === "minimal" ||
+    value === "timeline" ||
+    value === "executive" ||
+    value === "editorial"
+  );
 }
 
 function readChoice(): CvLayoutId {
@@ -46,9 +69,10 @@ function readChoice(): CvLayoutId {
 }
 
 function rendererFor(choice: CvLayoutId): CvRenderLayoutId {
-  // Minimal und Timeline verwenden bewusst die robuste einspaltige
-  // Inhaltslogik von Classic. Die visuelle Variante wird per CSS gestaltet.
-  return choice === "modern" ? "modern" : "classic";
+  // Executive nutzt bewusst den Zweispalten-Renderer und damit dieselbe
+  // Side/Main-Kontrolle wie Modern. Minimal, Timeline und Editorial verwenden
+  // die robuste einspaltige Inhalts-/Pagination-Logik von Classic.
+  return choice === "modern" || choice === "executive" ? "modern" : "classic";
 }
 
 function applyVariant(choice: CvLayoutId) {
@@ -63,7 +87,7 @@ export function getCvLayoutChoice(): CvLayoutId {
   return choice;
 }
 
-/** Renderer-Modus für Canvas/Formular. Minimal + Timeline bleiben einspaltig. */
+/** Renderer-Modus für Canvas/Formular. */
 export function getCvLayout(): CvRenderLayoutId {
   const choice = readChoice();
   applyVariant(choice);
@@ -98,5 +122,5 @@ export function subscribeCvLayout(onChange: () => void) {
   };
 }
 
-/** Gleicher Event-Stream, aber mit dem rohen Vierer-Layoutwert als Snapshot. */
+/** Gleicher Event-Stream, aber mit dem rohen Layoutwert als Snapshot. */
 export const subscribeCvLayoutChoice = subscribeCvLayout;
