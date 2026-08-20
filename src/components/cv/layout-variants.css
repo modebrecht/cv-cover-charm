@@ -1,34 +1,24 @@
 /*
- * Zusätzliche CV-Layouts.
+ * M5.6 — CV layout geometry only.
  *
- * Minimal, Timeline und Editorial verwenden die bewährte einspaltige
- * Inhalts-/Pagination-Logik von Classic. Executive setzt auf den echten
- * Modern-Zweispalter. Seit M5.4 besitzen Layouts nur noch Geometrie und
- * Grössenakzente; Schriftfamilie, Gewicht, Laufweite und Linien-DNA kommen aus
- * dem gemeinsamen DossierTheme.
+ * These selectors may change position, width, spacing and flow. They must not
+ * define the dossier's visual identity. Typography, accent strength, paper
+ * treatment, radii and background intensity live in dossier-theme.css.
+ *
+ * Minimal, Timeline and Editorial use the one-column renderer. Executive uses
+ * the two-column renderer and therefore keeps Side/Main placement controls.
  */
 
 /* -------------------------------------------------------------------------- */
 /* Minimal                                                                    */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page] {
-  background: #fff !important;
-}
-
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-background="motif"] {
-  opacity: 0.008 !important;
-}
-
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-accent="page"] {
   left: 24mm !important;
   right: auto !important;
   width: 22mm !important;
-  height: var(--dossier-line-thickness) !important;
   top: 10mm !important;
-  border-radius: 999px !important;
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
@@ -52,15 +42,9 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-section-title] {
-  font-size: 9.4pt !important;
-}
-
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-accent="section"] {
   width: 8mm !important;
-  height: var(--dossier-line-thickness) !important;
-  opacity: 0.55 !important;
+  flex: 0 0 auto !important;
 }
 
 html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
@@ -92,16 +76,6 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 /* -------------------------------------------------------------------------- */
 /* Timeline                                                                   */
 /* -------------------------------------------------------------------------- */
-
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-background="motif"] {
-  opacity: 0.018 !important;
-}
-
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-accent="page"] {
-  height: var(--dossier-line-thickness) !important;
-}
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-main] {
@@ -162,14 +136,9 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-section-title] {
-  font-size: 9.8pt !important;
-}
-
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-accent="section"] {
   width: 12mm !important;
-  height: var(--dossier-line-thickness) !important;
+  flex: 0 0 auto !important;
 }
 
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
@@ -193,31 +162,11 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([
 /* Executive                                                                  */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page] {
-  background: #fff !important;
-}
-
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > [data-cv-background="motif"] {
-  opacity: 0.01 !important;
-}
-
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > [data-cv-accent="page"] {
-  height: var(--dossier-line-thickness) !important;
-}
-
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-sidebar] {
   width: 61mm !important;
   padding: 15mm 8.5mm 13mm 9mm !important;
-  border-right-width: 0.22mm !important;
-}
-
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > [data-cv-sidebar]
-  > [data-cv-sidebar-tint] {
-  background: color-mix(in srgb, currentColor 4%, #fff) !important;
+  border-right-width: var(--dossier-line-thickness) !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
@@ -237,48 +186,18 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   [data-cv-main]
   [data-cv-accent="header"] {
   width: 36mm !important;
-  height: var(--dossier-line-thickness) !important;
   margin-top: 4mm !important;
-}
-
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  [data-cv-section-title] {
-  font-size: 9.5pt !important;
 }
 
 html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
   [data-cv-accent="section"] {
   width: auto !important;
-  height: var(--dossier-line-thickness) !important;
   flex: 1 1 auto !important;
-  opacity: 0.35 !important;
-}
-
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  [data-cv-photo] {
-  width: 31mm !important;
-  height: 35mm !important;
-  border-radius: 2.2mm !important;
-}
-
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page]
-  > [data-cv-sidebar]
-  [data-cv-section-title] {
-  font-size: 8.3pt !important;
 }
 
 /* -------------------------------------------------------------------------- */
 /* Editorial                                                                  */
 /* -------------------------------------------------------------------------- */
-
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page] {
-  background: #fff !important;
-}
-
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > [data-cv-background="motif"] {
-  opacity: 0.006 !important;
-}
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-accent="page"] {
@@ -287,7 +206,6 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   top: 19mm !important;
   width: var(--dossier-line-thickness) !important;
   height: 34mm !important;
-  border-radius: 999px !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
@@ -317,14 +235,8 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   margin-bottom: 8mm !important;
   padding-bottom: 6mm !important;
   gap: 9mm !important;
-  border-bottom: var(--dossier-line-thickness) solid color-mix(in srgb, currentColor 14%, transparent) !important;
-}
-
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-photo] {
-  width: 29mm !important;
-  height: 38mm !important;
-  border-radius: 0.9mm !important;
+  border-bottom: var(--dossier-line-thickness) solid
+    color-mix(in srgb, currentColor 14%, transparent) !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
@@ -335,16 +247,9 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  [data-cv-section-title] {
-  font-size: 13.2pt !important;
-}
-
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-accent="section"] {
   width: auto !important;
-  height: var(--dossier-line-thickness) !important;
   flex: 1 1 auto !important;
-  opacity: 0.32 !important;
 }
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
@@ -357,7 +262,6 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   [data-cv-entry]
   > [data-cv-rail] {
   width: 24mm !important;
-  font-size: 8.7pt !important;
 }
 
 /* -------------------------------------------------------------------------- */
