@@ -3,7 +3,7 @@
 /* -------------------------------------------------------------------------- */
 
 /*
- * Form remains layout-aware in physical size, while crop/zoom/position and
+ * Form remains renderer-aware in physical size, while crop/zoom/position and
  * border treatment come from the shared DossierPhotoStyle variables.
  */
 [data-cv-photo] {
@@ -160,7 +160,7 @@ html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="class
   right: 2.4mm !important;
 }
 
-/* Editorial: die komplette asymmetrische Magazinkomposition tauscht die Seite. */
+/* Editorial: die komplette asymmetrische Print-Komposition tauscht die Seite. */
 html[data-cv-mirrored="true"][data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   > [data-cv-accent="page"] {
   left: auto !important;
@@ -178,24 +178,5 @@ html[data-cv-mirrored="true"][data-cv-variant="editorial"] [data-cv-layout="clas
   left: 22mm !important;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Varianten-Dekorationen                                                     */
-/* -------------------------------------------------------------------------- */
-
-/* Vor M5.1 wurden diese Shapes zusammen mit dem Motiv über einen opacity-Style
- * erkannt. Explizite Hooks halten exakt dieselbe visuelle Zurückhaltung. */
-html[data-cv-variant="minimal"] [data-cv-page] > [data-cv-decoration] {
-  opacity: 0.008 !important;
-}
-
-html[data-cv-variant="timeline"] [data-cv-page] > [data-cv-decoration] {
-  opacity: 0.018 !important;
-}
-
-html[data-cv-variant="executive"] [data-cv-page] > [data-cv-decoration] {
-  opacity: 0.01 !important;
-}
-
-html[data-cv-variant="editorial"] [data-cv-page] > [data-cv-decoration] {
-  opacity: 0.006 !important;
-}
+/* Decorative intensity deliberately has no layout-specific rule here. M5.6
+ * leaves it to the shared dossier family / cvVisualPolicy. */
