@@ -441,3 +441,27 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
   letter-spacing: 0.035em !important;
   text-transform: uppercase !important;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Zweispalten-Layouts spiegeln                                                */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Modern und Executive teilen sich den echten Zweispalten-Renderer. Die ganze
+ * Seite wird horizontal gespiegelt; Sidebar und Main werden danach einzeln
+ * zurückgespiegelt. Dadurch tauschen die Spalten inklusive Hintergrund und
+ * dynamischer Akzent-Border sauber die Seite, während Text und Foto lesbar
+ * bleiben. Ohne gespeicherte Einstellung bleibt der Default unverändert.
+ */
+html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page] {
+  transform: scaleX(-1);
+  transform-origin: center;
+}
+
+html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
+  > div[style*="width: 55mm"][style*="border-right"],
+html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
+  > div:last-child {
+  transform: scaleX(-1);
+  transform-origin: center;
+}
