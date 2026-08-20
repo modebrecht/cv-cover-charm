@@ -5,7 +5,9 @@ import { UI } from "@/default-config";
 import {
   CV_LAYOUTS,
   getCvLayoutChoice,
+  getCvLayoutMirror,
   setCvLayout,
+  setCvLayoutMirror,
   subscribeCvLayoutChoice,
   type CvLayoutId,
 } from "@/components/cv/layout";
@@ -103,7 +105,13 @@ export function TemplatePicker({ value, onChange }: Props) {
     getCvLayoutChoice,
     () => "classic",
   );
+  const mirrored = useSyncExternalStore(
+    subscribeCvLayoutChoice,
+    getCvLayoutMirror,
+    () => false,
+  );
   const [onCvPage, setOnCvPage] = useState(false);
+  const columnLayout = cvLayout === "modern" || cvLayout === "executive";
 
   useEffect(() => {
     setOnCvPage(window.location.pathname.includes("lebenslauf"));
@@ -177,6 +185,20 @@ export function TemplatePicker({ value, onChange }: Props) {
               );
             })}
           </div>
+
+          {columnLayout && (
+            <label className="mt-3 flex cursor-pointer items-center gap-2 rounded-md border bg-muted/30 px-3 py-2.5 text-xs">
+              <input
+                type="checkbox"
+                checked={mirrored}
+                onChange={(e) => setCvLayoutMirror(e.target.checked)}
+              />
+              <span>
+                <span className="font-medium">Spalten spiegeln</span>
+                <span className="ml-1 text-muted-foreground">Sidebar rechts, Main links</span>
+              </span>
+            </label>
+          )}
         </div>
       )}
     </div>
