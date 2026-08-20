@@ -1,6 +1,6 @@
 import { useState, useSyncExternalStore, type CSSProperties } from "react";
 import { readPhoto } from "@/lib/image";
-import { readCoverDraft } from "@/lib/dossier";
+import { readCoverPhoto } from "@/lib/dossier";
 import {
   DEFAULT_DOSSIER_PHOTO_STYLE,
   dossierPhotoCropStyle,
@@ -151,14 +151,14 @@ export function FormCvPerson({
   };
 
   const takePhotoFromCover = () => {
-    const draft = readCoverDraft();
-    if (!draft?.person.foto) {
+    const draft = readCoverPhoto();
+    if (!draft) {
       setPhotoMessage({ error: true, text: "Im Titelblatt ist noch kein Foto gespeichert." });
       return;
     }
     // Copy only. The CV receives its own photo bytes + normalized style and
     // subsequently edits its own lebenslauf:* storage exclusively.
-    onChange({ foto: draft.person.foto });
+    onChange({ foto: draft.foto });
     setCvPhotoStyle(draft.photoStyle);
     setPhotoMessage({ error: false, text: "Foto und Ausschnitt vom Titelblatt übernommen" });
   };
