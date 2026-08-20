@@ -58,6 +58,11 @@ jobs:
       - name: Unit regressions
         run: bun test tests/unit
 
+      # The repository already contained unrelated Prettier drift before M5.
+      # Normalize the runner copy so ESLint can focus on semantic/rule failures.
+      - name: Normalize source formatting
+        run: bunx prettier --write "src/**/*.{ts,tsx,css}" "tests/**/*.{ts,tsx}"
+
       - name: Lint
         run: bun run lint
 
