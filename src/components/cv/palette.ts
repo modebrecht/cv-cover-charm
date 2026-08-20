@@ -67,9 +67,6 @@ function pick(colors: Record<string, string>, keys: string[]): string | null {
  * dunklen Vorlagen, die das Blatt sonst grau einfärben würden.
  */
 export function softColors(colors: Record<string, string>): Record<string, string> {
-  // Feste Schwelle, bewusst unabhängig vom Regler: würde sie mitwandern, hellte
-  // ein kräftigerer Hintergrund die Farben im selben Mass wieder auf und der
-  // Regler hätte gar keine sichtbare Wirkung mehr.
   const MIN_LUM = 0.45;
 
   const out: Record<string, string> = {};
@@ -97,7 +94,7 @@ export type CvPalette = {
   ink: string;
   /** Gedämpfter Text: Zeitangaben, Orte. */
   muted: string;
-  /** Abschnittsüberschriften und Linien. */
+  /** Abschnittsüberschriften und Linien – auch bei sehr hellen Vorlagen lesbar. */
   accent: string;
   /** Grundfarbe des Blattes – immer hell. */
   paper: string;
@@ -105,8 +102,9 @@ export type CvPalette = {
 
 /**
  * Aus den Slots der Vorlage eine Palette bauen, die auf hellem Papier
- * funktioniert. `accent` behält den Charakter der Vorlage, wird aber
- * abgedunkelt, wenn er auf Weiss zu blass wäre.
+ * funktioniert. Accent-Text wird auf mindestens 4.5:1 gebracht, weil er im CV
+ * nicht nur dekorativ ist, sondern auch für kleine Abschnittsüberschriften
+ * verwendet wird.
  */
 export function cvPalette(colors: Record<string, string>): CvPalette {
   const accentRaw = parse(pick(colors, ["accent", "primary", "secondary", "ink"]) ?? "#1f2937");
@@ -114,11 +112,9 @@ export function cvPalette(colors: Record<string, string>): CvPalette {
 
   // Eine für dunklen Grund gedachte helle Textfarbe ist hier unbrauchbar.
   const ink = inkRaw && contrastOnWhite(inkRaw) >= 7 ? inkRaw : { r: 26, g: 26, b: 30 };
-  const accent = accentRaw ? darken(accentRaw, 3.2) : { r: 31, g: 41, b: 55 };
+  const accent = accentRaw ? darken(accentRaw, 4.5) : { r: 31, g: 41, b: 55 };
 
-  // Sekundärtext soll zurücktreten, aber nicht "weggewaschen" wirken. Zuerst
-  // mischen wir Richtung Weiss und ziehen die Farbe danach nötigenfalls wieder
-  // so weit herunter, dass sie auf weissem Papier mindestens 4.5:1 erreicht.
+  // Sekundärtext soll zurücktreten, aber nicht "weggewaschen" wirken.
   const mutedBase = {
     r: ink.r * 0.58 + 255 * 0.42,
     g: ink.g * 0.58 + 255 * 0.42,
