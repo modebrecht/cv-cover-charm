@@ -35,9 +35,10 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"]
   gap: 8.5mm !important;
 }
 
+/* Keep layout spacing inside the measured row wrapper. Margins on the direct
+ * pagination wrappers are not part of getBoundingClientRect().height. */
 html[data-cv-variant="minimal"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
-  > div:has([data-cv-section-title]) {
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-section] {
   margin-top: 6.3mm !important;
 }
 
@@ -243,9 +244,10 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"]
     color-mix(in srgb, currentColor 12%, transparent) !important;
 }
 
+/* Keep these margins on the semantic section itself so the hidden pagination
+ * row includes them in its measured height. */
 html[data-cv-variant="editorial"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
-  > div:has([data-cv-section-title]) {
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-section] {
   margin-top: 6.5mm !important;
   margin-bottom: 2.5mm !important;
 }
