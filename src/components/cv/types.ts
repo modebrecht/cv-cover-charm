@@ -66,6 +66,22 @@ export const CV_SECTION_ORDER: CvSectionKey[] = [
   "referenzen",
 ];
 
+/** Im Modern-Layout kann jeder Inhaltsblock bewusst links oder im Hauptteil liegen. */
+export type CvPlacement = "side" | "main";
+export type CvPlacementKey = "kontakt" | CvSectionKey;
+export type CvPlacements = Record<CvPlacementKey, CvPlacement>;
+
+/** Sinnvolle Startwerte; danach entscheidet die Schülerin / der Schüler selbst. */
+export const DEFAULT_CV_PLACEMENTS: CvPlacements = {
+  kontakt: "side",
+  schule: "main",
+  erfahrung: "main",
+  sprachen: "side",
+  hobbys: "side",
+  staerken: "side",
+  referenzen: "main",
+};
+
 export type CvData = {
   person: CvPerson;
   schule: CvEntry[];
@@ -93,6 +109,8 @@ export type CvDesign = {
   bgOpacity: number;
   /** Formen und Bilder vom Titelblatt mitnehmen (ohne dessen Texte). */
   useElements: boolean;
+  /** Side/Main-Zuordnung der Inhaltsblöcke im Modern-Layout. */
+  placements: CvPlacements;
 };
 
 export const emptyPerson: CvPerson = {
