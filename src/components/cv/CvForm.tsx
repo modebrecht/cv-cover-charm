@@ -1,4 +1,8 @@
+import { useSyncExternalStore } from "react";
+import { getCvLayout, subscribeCvLayout } from "./layout";
+import { getCvPlacements, setCvPlacement, subscribeCvPlacements } from "./placement";
 import {
+  DEFAULT_CV_PLACEMENTS,
   emptyEntry,
   emptyReferenz,
   emptySprache,
@@ -6,6 +10,7 @@ import {
   type CvEntry,
   type CvPerson,
   type CvPlacement,
+  type CvPlacementKey,
   type CvReferenz,
   type CvSprache,
 } from "./types";
@@ -35,7 +40,10 @@ export function PlacementToggle({
   onChange: (value: CvPlacement) => void;
 }) {
   return (
-    <div className="inline-flex shrink-0 overflow-hidden rounded-md border border-input bg-background" aria-label="Position im Modern-Layout">
+    <div
+      className="inline-flex shrink-0 overflow-hidden rounded-md border border-input bg-background"
+      aria-label="Position im Modern-Layout"
+    >
       {(["side", "main"] as const).map((option) => {
         const active = value === option;
         return (
@@ -52,6 +60,30 @@ export function PlacementToggle({
           </button>
         );
       })}
+    </div>
+  );
+}
+
+function BlockPlacementControl({
+  block,
+  label = "Position",
+}: {
+  block: CvPlacementKey;
+  label?: string;
+}) {
+  const layout = useSyncExternalStore(subscribeCvLayout, getCvLayout, () => "classic");
+  const placements = useSyncExternalStore(
+    subscribeCvPlacements,
+    getCvPlacements,
+    () => DEFAULT_CV_PLACEMENTS,
+  );
+
+  if (layout !== "modern") return null;
+
+  return (
+    <div className="flex items-center justify-between gap-2 rounded-md border bg-muted/30 px-2.5 py-2">
+      <span className="text-xs text-muted-foreground">{label}</span>
+      <PlacementToggle value={placements[block]} onChange={(value) => setCvPlacement(block, value)} />
     </div>
   );
 }
@@ -77,6 +109,7 @@ export function FormCvPerson({
 }) {
   return (
     <div className="flex flex-col gap-3">
+      <BlockPlacementControl block="kontakt" label="Kontaktangaben" />
       <div className="grid grid-cols-2 gap-2">
         <Field label="Vorname">
           <input
@@ -165,9 +198,11 @@ export function FormCvEntries({
 }) {
   const patch = (id: string, p: Partial<CvEntry>) =>
     onChange(entries.map((e) => (e.id === id ? { ...e, ...p } : e)));
+  const block: CvPlacementKey = titelLabel === "Schule / Stufe" ? "schule" : "erfahrung";
 
   return (
     <div className="flex flex-col gap-2">
+      <BlockPlacementControl block={block} />
       {entries.map((e) => (
         <Item key={e.id} onRemove={() => onChange(entries.filter((x) => x.id !== e.id))}>
           <Field label="Zeitraum">
@@ -220,6 +255,7 @@ export function FormCvSprachen({
 
   return (
     <div className="flex flex-col gap-2">
+      <BlockPlacementControl block="sprachen" />
       {list.map((s) => (
         <div key={s.id} className="flex items-end gap-2">
           <div className="grid flex-1 grid-cols-2 gap-2">
@@ -267,8 +303,11 @@ export function FormCvLines({
   placeholder: string;
   addLabel: string;
 }) {
+  const block: CvPlacementKey = addLabel.includes("Hobby") ? "hobbys" : "staerken";
+
   return (
     <div className="flex flex-col gap-2">
+      <BlockPlacementControl block={block} />
       {list.map((v, i) => (
         <div key={i} className="flex items-center gap-2">
           <input
@@ -305,6 +344,7 @@ export function FormCvReferenzen({
 
   return (
     <div className="flex flex-col gap-2">
+      <BlockPlacementControl block="referenzen" />
       {list.map((r) => (
         <Item key={r.id} onRemove={() => onChange(list.filter((x) => x.id !== r.id))}>
           <Field label="Name">
@@ -345,27 +385,22 @@ export function SectionOptions({
   hidden,
   onLabel,
   onHidden,
-  placement,
-  onPlacement,
 }: {
   value: string;
   placeholder: string;
   hidden: boolean;
   onLabel: (v: string) => void;
   onHidden: (v: boolean) => void;
-  placement?: CvPlacement;
-  onPlacement?: (value: CvPlacement) => void;
 }) {
   return (
-    <div className="mb-2 flex flex-wrap items-center gap-2 border-b pb-2">
+    <div className="mb-2 flex items-center gap-2 border-b pb-2">
       <input
-        className={`${inputCls} min-w-[150px] flex-1`}
+        className={`${inputCls} flex-1`}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onLabel(e.target.value)}
         aria-label="Überschrift"
       />
-      {placement && onPlacement && <PlacementToggle value={placement} onChange={onPlacement} />}
       <label className="flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
         <input type="checkbox" checked={!hidden} onChange={(e) => onHidden(!e.target.checked)} />
         zeigen
