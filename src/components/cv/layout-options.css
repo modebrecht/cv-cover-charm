@@ -2,59 +2,58 @@
 /* Fotoformen                                                                 */
 /* -------------------------------------------------------------------------- */
 
-/* Classic-basierte Layouts: das Foto sitzt im Kopf und startet als 30 × 38 mm. */
+/* Die Form greift jetzt direkt am semantischen Foto-Hook, unabhängig von mm. */
 html[data-cv-photo-shape="rect"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 30mm"][style*="height: 38mm"] {
+  [data-cv-photo] {
   width: 38mm !important;
   height: 28.5mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="square"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 30mm"][style*="height: 38mm"] {
+  [data-cv-photo] {
   width: 32mm !important;
   height: 32mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="portrait"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 30mm"][style*="height: 38mm"] {
+  [data-cv-photo] {
   width: 30mm !important;
   height: 38mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="circle"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 30mm"][style*="height: 38mm"] {
+  [data-cv-photo] {
   width: 32mm !important;
   height: 32mm !important;
   border-radius: 50% !important;
 }
 
-/* Modern/Executive: der bestehende runde Rahmen ist unser stabiler Foto-Hook. */
 html[data-cv-photo-shape="rect"] [data-cv-layout="modern"] [data-cv-page]
-  [style*="border-radius: 50%"] {
+  [data-cv-photo] {
   width: 36mm !important;
   height: 27mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="square"] [data-cv-layout="modern"] [data-cv-page]
-  [style*="border-radius: 50%"] {
+  [data-cv-photo] {
   width: 29mm !important;
   height: 29mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="portrait"] [data-cv-layout="modern"] [data-cv-page]
-  [style*="border-radius: 50%"] {
+  [data-cv-photo] {
   width: 27mm !important;
   height: 34mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="circle"] [data-cv-layout="modern"] [data-cv-page]
-  [style*="border-radius: 50%"] {
+  [data-cv-photo] {
   width: 29mm !important;
   height: 29mm !important;
   border-radius: 50% !important;
@@ -66,100 +65,90 @@ html[data-cv-photo-shape="circle"] [data-cv-layout="modern"] [data-cv-page]
 
 /* Classic-Familie: Foto sowie Datums-/Sprachspalten tauschen die Seite. */
 html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page="0"]
-  > div:last-child
-  > div:first-child
-  > div {
+  [data-cv-header] {
   flex-direction: row-reverse !important;
 }
 
 html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"]) {
+  [data-cv-entry]:has(> [data-cv-rail]) {
   flex-direction: row-reverse !important;
 }
 
 html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"])
-  > div:first-child {
+  [data-cv-entry]
+  > [data-cv-rail] {
   text-align: right !important;
 }
 
 html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page]
-  > div[style*="top: 6.5mm"][style*="right: 18mm"] {
+  > [data-cv-page-label] {
   right: auto !important;
   left: 18mm !important;
 }
 
-/* Minimal: Signatur und die absichtlich rechts stehende Datumsspalte tauschen. */
+/* Minimal: Signatur und die absichtlich rechts stehende Rail-Spalte tauschen. */
 html[data-cv-mirrored="true"][data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div[style*="height: 2.2mm"] {
+  > [data-cv-accent="page"] {
   left: auto !important;
   right: 24mm !important;
 }
 
 html[data-cv-mirrored="true"][data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"])
-  > div:first-child {
+  [data-cv-entry]
+  > [data-cv-rail] {
   grid-column: 1 !important;
   text-align: left !important;
 }
 
 html[data-cv-mirrored="true"][data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"])
-  > div:nth-child(2) {
+  [data-cv-entry]:has(> [data-cv-rail])
+  > :not([data-cv-rail]) {
   grid-column: 2 !important;
 }
 
 /* Timeline: Achse, Marker und Einrückung wandern vollständig nach rechts. */
 html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child {
+  > [data-cv-main] {
   left: 19mm !important;
   right: 21mm !important;
 }
 
 html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child::before {
+  > [data-cv-main]::before {
   left: auto !important;
   right: 4mm !important;
 }
 
 html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:not(:first-child) {
+  > [data-cv-main]
+  > div:not(:has([data-cv-header])) {
   padding-left: 0 !important;
   padding-right: 12mm !important;
 }
 
 html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:not(:first-child):not(:has([style*="text-transform: uppercase"]))::before {
+  > [data-cv-main]
+  > div:has([data-cv-entry])::before {
   left: auto !important;
   right: 1.9mm !important;
 }
 
 html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:has([style*="text-transform: uppercase"])::before {
+  > [data-cv-main]
+  > div:has([data-cv-section-title])::before {
   left: auto !important;
   right: 2.4mm !important;
 }
 
 /* Editorial: die komplette asymmetrische Magazinkomposition tauscht die Seite. */
 html[data-cv-mirrored="true"][data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div[style*="height: 2.2mm"] {
+  > [data-cv-accent="page"] {
   left: auto !important;
   right: 21mm !important;
 }
 
 html[data-cv-mirrored="true"][data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child {
+  > [data-cv-main] {
   left: 22mm !important;
   right: 30mm !important;
 }
