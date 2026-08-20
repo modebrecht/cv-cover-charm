@@ -251,8 +251,6 @@ test.describe("M5.8 dossier regression", () => {
   });
 
   test("copying and editing the CV photo never mutates title-page storage", async ({ page }) => {
-    // Match the actual titelblatt:v3 persistence format: photo treatment lives
-    // in the selected template's `foto` BlockStyle override.
     const cover = JSON.stringify({
       version: 6,
       template: "modern",
@@ -284,7 +282,15 @@ test.describe("M5.8 dossier regression", () => {
     });
     await seedCv(page, { coverRaw: cover });
     expect(await page.evaluate(() => localStorage.getItem("titelblatt:v3"))).toBe(cover);
-    await page.getByRole("button", { name: "Vom Titelblatt", exact: true }).click();
+    const copyButton = page.getByRole("button", { name: "Vom Titelblatt", exact: true });
+    await copyButton.click();
+    await page.waitForTimeout(150);
+    const diagnostic = await page.evaluate(() => ({
+      cvPhoto: localStorage.getItem("lebenslauf:photo:v2"),
+      cover: localStorage.getItem("titelblatt:v3"),
+    }));
+    const panelText = await copyButton.locator("xpath=../..").innerText();
+    console.log("PHOTO_COPY_DIAGNOSTIC", JSON.stringify({ diagnostic, panelText }));
     await expect
       .poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}").shape))
       .toBe("circle");
