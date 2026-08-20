@@ -98,6 +98,14 @@ function LayoutPreview({ id }: { id: CvLayoutId }) {
   );
 }
 
+function mirrorHint(layout: CvLayoutId): string {
+  if (layout === "modern" || layout === "executive") return "Sidebar rechts, Main links";
+  if (layout === "timeline") return "Zeitachse und Datumsseite nach rechts";
+  if (layout === "editorial") return "Akzent, Foto und Datumsrand tauschen die Seite";
+  if (layout === "minimal") return "Foto, Signatur und Datumsseite tauschen die Seite";
+  return "Foto und Datumsseite tauschen die Seite";
+}
+
 export function TemplatePicker({ value, onChange }: Props) {
   const dense = !UI.TEMPLATE_DESCRIPTIONS;
   const cvLayout = useSyncExternalStore(
@@ -111,7 +119,6 @@ export function TemplatePicker({ value, onChange }: Props) {
     () => false,
   );
   const [onCvPage, setOnCvPage] = useState(false);
-  const columnLayout = cvLayout === "modern" || cvLayout === "executive";
 
   useEffect(() => {
     setOnCvPage(window.location.pathname.includes("lebenslauf"));
@@ -186,19 +193,17 @@ export function TemplatePicker({ value, onChange }: Props) {
             })}
           </div>
 
-          {columnLayout && (
-            <label className="mt-3 flex cursor-pointer items-center gap-2 rounded-md border bg-muted/30 px-3 py-2.5 text-xs">
-              <input
-                type="checkbox"
-                checked={mirrored}
-                onChange={(e) => setCvLayoutMirror(e.target.checked)}
-              />
-              <span>
-                <span className="font-medium">Spalten spiegeln</span>
-                <span className="ml-1 text-muted-foreground">Sidebar rechts, Main links</span>
-              </span>
-            </label>
-          )}
+          <label className="mt-3 flex cursor-pointer items-center gap-2 rounded-md border bg-muted/30 px-3 py-2.5 text-xs">
+            <input
+              type="checkbox"
+              checked={mirrored}
+              onChange={(e) => setCvLayoutMirror(e.target.checked)}
+            />
+            <span>
+              <span className="font-medium">Spiegelverkehrt</span>
+              <span className="ml-1 text-muted-foreground">{mirrorHint(cvLayout)}</span>
+            </span>
+          </label>
         </div>
       )}
     </div>
