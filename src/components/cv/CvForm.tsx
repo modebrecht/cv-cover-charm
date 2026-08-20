@@ -156,10 +156,10 @@ export function FormCvPerson({
       setPhotoMessage({ error: true, text: "Im Titelblatt ist noch kein Foto gespeichert." });
       return;
     }
-    // Copy only. The CV receives its own photo bytes + normalized style and
-    // subsequently edits its own lebenslauf:* storage exclusively.
-    onChange({ foto: draft.foto });
+    // Persist the independent CV treatment first. The following React state
+    // update can then never interrupt or roll back the one-way style copy.
     setCvPhotoStyle(draft.photoStyle);
+    onChange({ foto: draft.foto });
     setPhotoMessage({ error: false, text: "Foto und Ausschnitt vom Titelblatt übernommen" });
   };
 
