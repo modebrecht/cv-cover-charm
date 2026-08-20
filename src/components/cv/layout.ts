@@ -15,32 +15,32 @@ export const CV_LAYOUTS: Array<{
   {
     id: "classic",
     name: "Klassisch",
-    description: "Klare einspaltige Bewerbung",
+    description: "Einspaltiges Grundraster",
   },
   {
     id: "modern",
     name: "Modern",
-    description: "Sidebar mit kompakter Hauptspalte",
+    description: "Sidebar plus Hauptspalte",
   },
   {
     id: "minimal",
     name: "Minimal",
-    description: "Viel Weissraum, ruhig und elegant",
+    description: "Einspaltig mit viel Weissraum",
   },
   {
     id: "timeline",
     name: "Timeline",
-    description: "Vertikale Linie mit klarer Chronologie",
+    description: "Chronologie mit vertikaler Achse",
   },
   {
     id: "executive",
     name: "Executive",
-    description: "Premium-Zweispalter, ruhig und souverän",
+    description: "Breiter Zweispalter mit Sidebar",
   },
   {
     id: "editorial",
     name: "Editorial",
-    description: "Typografisch, markant und hochwertig",
+    description: "Asymmetrisches Print-Raster",
   },
 ];
 
@@ -79,9 +79,8 @@ function readMirror(): boolean {
 }
 
 function rendererFor(choice: CvLayoutId): CvRenderLayoutId {
-  // Executive nutzt bewusst den Zweispalten-Renderer und damit dieselbe
-  // Side/Main-Kontrolle wie Modern. Minimal, Timeline und Editorial verwenden
-  // die robuste einspaltige Inhalts-/Pagination-Logik von Classic.
+  // M5.6: diese Zuordnung entscheidet nur die Inhaltsgeometrie. Die visuelle
+  // DNA (Typografie, Linien, Intensität, Radien) kommt aus DossierTheme.
   return choice === "modern" || choice === "executive" ? "modern" : "classic";
 }
 
