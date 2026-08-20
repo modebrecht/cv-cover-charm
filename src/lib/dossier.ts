@@ -1,7 +1,10 @@
 import { DEFAULTS } from "@/default-config";
+import { buildBlocks } from "@/components/cover/layouts";
 import {
+  EMPTY_META,
   TEMPLATES,
   type BlockStyle,
+  type CoverData,
   type CustomField,
   type TemplateId,
 } from "@/components/cover/types";
@@ -64,6 +67,31 @@ export function emptyCoverDraft(): CoverDraft {
 
 const str = (v: unknown): string => (typeof v === "string" ? v : "");
 
+function coverDataFromRaw(d: Record<string, unknown>): CoverData {
+  return {
+    meta: { ...EMPTY_META },
+    kicker: str(d.kicker),
+    eyebrow: str(d.eyebrow),
+    beruf: str(d.beruf),
+    lehrbeginn: str(d.lehrbeginn),
+    vorname: str(d.vorname),
+    nachname: str(d.nachname),
+    adresse: str(d.adresse),
+    plzOrt: str(d.plzOrt),
+    telefon: str(d.telefon),
+    email: str(d.email),
+    geburtsdatum: str(d.geburtsdatum),
+    lehrbetrieb: str(d.lehrbetrieb),
+    ansprechperson: str(d.ansprechperson),
+    betriebAdresse: str(d.betriebAdresse),
+    ort: str(d.ort),
+    datum: str(d.datum),
+    labelKontakt: str(d.labelKontakt),
+    labelEmpfaenger: str(d.labelEmpfaenger),
+    foto: typeof d.foto === "string" && d.foto.startsWith("data:") ? d.foto : null,
+  };
+}
+
 /**
  * Den gespeicherten Titelblatt-Entwurf lesen. Gibt `null` zurück, wenn keiner
  * da oder er unlesbar ist – dann gibt es schlicht nichts zu übernehmen.
@@ -86,9 +114,10 @@ export function readCoverDraft(): CoverDraft | null {
       customs?: unknown;
       data?: Record<string, unknown>;
     };
-    const template = (TEMPLATES.find((t) => t.id === p.template)?.id ??
-      DEFAULTS.TEMPLATE) as TemplateId;
+    const templateDef = TEMPLATES.find((t) => t.id === p.template) ?? TEMPLATES[0];
+    const template = templateDef.id;
     const d = p.data ?? {};
+    const coverData = coverDataFromRaw(d);
 
     // Nur Formen und Bilder – Textfelder gehören zum Titelblatt, nicht hierher.
     const elements = Array.isArray(p.customs)
@@ -98,27 +127,35 @@ export function readCoverDraft(): CoverDraft | null {
         })
       : [];
 
-    // New saves carry an explicit normalized snapshot. Old saves fall back to
-    // the photo block overrides, so M5.3 remains migration-safe.
+    // New saves may carry an explicit normalized snapshot. Existing saves are
+    // reconstructed from the actual template photo block + its overrides, so
+    // a circle/portrait default is transferred correctly even when untouched.
+    const renderedPhoto = buildBlocks(
+      template,
+      coverData,
+      [],
+      p.layout?.[template] ?? {},
+      templateDef.slots,
+    ).find((block) => block.kind === "photo");
     const photoStyle = p.photoStyle
       ? normalizeDossierPhotoStyle(p.photoStyle)
-      : dossierPhotoStyleFromBlockStyle(p.layout?.[template]?.foto);
+      : dossierPhotoStyleFromBlockStyle(renderedPhoto?.style);
 
     return {
       template,
       colors: { ...defaultColors(template), ...(p.colors?.[template] ?? {}) },
       elements: elements as CustomField[],
       person: {
-        vorname: str(d.vorname),
-        nachname: str(d.nachname),
-        adresse: str(d.adresse),
-        plzOrt: str(d.plzOrt),
-        telefon: str(d.telefon),
-        email: str(d.email),
-        geburtsdatum: str(d.geburtsdatum),
+        vorname: coverData.vorname,
+        nachname: coverData.nachname,
+        adresse: coverData.adresse,
+        plzOrt: coverData.plzOrt,
+        telefon: coverData.telefon,
+        email: coverData.email,
+        geburtsdatum: coverData.geburtsdatum,
         nationalitaet: "",
         untertitel: "",
-        foto: typeof d.foto === "string" && d.foto.startsWith("data:") ? d.foto : null,
+        foto: coverData.foto,
       },
       photoStyle,
     };
