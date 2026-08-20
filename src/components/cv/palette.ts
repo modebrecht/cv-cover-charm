@@ -116,9 +116,19 @@ export function cvPalette(colors: Record<string, string>): CvPalette {
   const ink = inkRaw && contrastOnWhite(inkRaw) >= 7 ? inkRaw : { r: 26, g: 26, b: 30 };
   const accent = accentRaw ? darken(accentRaw, 3.2) : { r: 31, g: 41, b: 55 };
 
+  // Sekundärtext soll zurücktreten, aber nicht "weggewaschen" wirken. Zuerst
+  // mischen wir Richtung Weiss und ziehen die Farbe danach nötigenfalls wieder
+  // so weit herunter, dass sie auf weissem Papier mindestens 4.5:1 erreicht.
+  const mutedBase = {
+    r: ink.r * 0.58 + 255 * 0.42,
+    g: ink.g * 0.58 + 255 * 0.42,
+    b: ink.b * 0.58 + 255 * 0.42,
+  };
+  const muted = darken(mutedBase, 4.5);
+
   return {
     ink: toHex(ink),
-    muted: toHex({ r: ink.r * 0.35 + 150, g: ink.g * 0.35 + 150, b: ink.b * 0.35 + 150 }),
+    muted: toHex(muted),
     accent: toHex(accent),
     paper: "#ffffff",
   };
