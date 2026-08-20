@@ -208,9 +208,9 @@ export function TemplatePicker({ value, onChange }: Props) {
   return (
     <div>
       <div className="mb-2">
-        <span className="block text-xs font-medium">Designfamilie</span>
+        <span className="block text-xs font-medium">Dossier-Stil</span>
         <span className="text-[11px] leading-snug text-muted-foreground">
-          Gemeinsame Typografie, Hierarchie und Design-DNA für Titelblatt und Lebenslauf.
+          Bestimmt die gemeinsame Optik von Titelblatt und Lebenslauf: Typografie, Hierarchie und Akzente.
         </span>
       </div>
       <div className="grid grid-cols-2 gap-2">
@@ -240,9 +240,9 @@ export function TemplatePicker({ value, onChange }: Props) {
 
       <div className="mt-4 border-t pt-4">
         <div className="mb-2">
-          <span className="block text-xs font-medium">Titelblatt-Variation</span>
+          <span className="block text-xs font-medium">Titelblatt-Variante</span>
           <span className="text-[11px] leading-snug text-muted-foreground">
-            Gleiche Familie, andere Komposition. Die gemeinsame Design-DNA bleibt erhalten.
+            Gleicher Stil, andere Titelblatt-Komposition.
           </span>
         </div>
         <div className={dense ? "grid grid-cols-2 gap-2" : "grid grid-cols-3 gap-3"}>
@@ -281,9 +281,9 @@ export function TemplatePicker({ value, onChange }: Props) {
       {onCvPage && (
         <div className="mt-4 border-t pt-4">
           <div className="mb-2">
-            <span className="block text-xs font-medium">CV-Layout</span>
+            <span className="block text-xs font-medium">CV-Aufbau</span>
             <span className="text-xs text-muted-foreground">
-              Inhalt bleibt gleich – nur die Anordnung ändert sich.
+              Bestimmt nur die Anordnung des Inhalts. Der Dossier-Stil bleibt unverändert.
             </span>
           </div>
           <div className="grid grid-cols-2 gap-2">
