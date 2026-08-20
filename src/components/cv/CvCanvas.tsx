@@ -4,7 +4,12 @@ import { CoverBackground } from "@/components/cover/CoverBackground";
 import { ShapeElement } from "@/components/cover/ShapeElement";
 import { customDefaultStyle } from "@/components/cover/layouts";
 import { customKind, TEMPLATES, type CustomField } from "@/components/cover/types";
-import { getCvLayout, subscribeCvLayout } from "./layout";
+import {
+  getCvLayout,
+  getCvLayoutChoice,
+  subscribeCvLayout,
+  subscribeCvLayoutChoice,
+} from "./layout";
 import { getCvPlacements, subscribeCvPlacements } from "./placement";
 import {
   alphaHex,
@@ -24,8 +29,6 @@ import {
   type CvSectionKey,
 } from "./types";
 
-const MM = 96 / 25.4;
-
 /** Seitenränder in mm. */
 const MARGIN_X = 18;
 const MARGIN_TOP = 14;
@@ -34,10 +37,7 @@ const MODERN_MAIN_LEFT = 64;
 const MODERN_RIGHT = 16;
 const MODERN_SIDEBAR_W = 55;
 
-const CLASSIC_CONTENT_W = 210 - MARGIN_X * 2;
-const MODERN_CONTENT_W = 210 - MODERN_MAIN_LEFT - MODERN_RIGHT;
 const SHEET_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-const USABLE_H = (297 - MARGIN_TOP - MARGIN_BOTTOM) * MM;
 
 type Row = { id: string; node: React.ReactNode; heading?: boolean };
 
@@ -55,6 +55,13 @@ function label(data: CvData, key: CvSectionKey): string {
 export function CvCanvas({ data, design, elements, exportMode = false }: Props) {
   const pal = useMemo(() => cvPalette(design.colors), [design.colors]);
   const layout = useSyncExternalStore(subscribeCvLayout, getCvLayout, () => "classic");
+  // Raw choice is separate from renderer mode. Classic/Luftig/Timeline/Magazin
+  // share the same renderer but have different real content geometry.
+  const layoutChoice = useSyncExternalStore(
+    subscribeCvLayoutChoice,
+    getCvLayoutChoice,
+    () => "classic",
+  );
   const placements = useSyncExternalStore(
     subscribeCvPlacements,
     getCvPlacements,
@@ -464,13 +471,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const placementShape = Object.entries(placements)
     .map(([key, value]) => `${key}:${value}`)
     .join("|");
-  const shape = `${layout}|${placementShape}|${rows.map((r) => r.id).join("|")}`;
-  const contentWidth = layout === "modern" ? MODERN_CONTENT_W : CLASSIC_CONTENT_W;
+  const shape = `${layoutChoice}|${layout}|${placementShape}|${rows.map((r) => r.id).join("|")}`;
 
   useLayoutEffect(() => {
     const box = measureRef.current;
     if (!box) return;
-    const scale = box.getBoundingClientRect().width / (box.offsetWidth || 1) || 1;
+    const rect = box.getBoundingClientRect();
+    const scale = rect.width / (box.offsetWidth || 1) || 1;
+    const availableHeight = rect.height / scale;
     const kids = Array.from(box.children) as HTMLElement[];
     const heights = kids.map((k) => k.getBoundingClientRect().height / scale);
 
@@ -479,7 +487,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     let used = 0;
     rows.forEach((row, i) => {
       const h = heights[i] ?? 0;
-      if (used + h > USABLE_H && current.length) {
+      if (used + h > availableHeight && current.length) {
         const last = current[current.length - 1];
         if (last?.heading) {
           current.pop();
@@ -498,7 +506,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     if (current.length) out.push(current);
     setPages(out.length ? out : [[]]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shape, data, layout, design.template, pal.accent, pal.ink, pal.muted]);
+  }, [shape, data, layout, layoutChoice, design.template, pal.accent, pal.ink, pal.muted]);
 
   const background = (
     <>
@@ -827,22 +835,42 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       data-cv-layout={layout}
       data-export-mode={exportMode ? "true" : "false"}
     >
+      {/*
+        Hidden A4 measurement page. It deliberately uses a separate semantic
+        hook instead of data-cv-page so PDF export never mistakes it for a real
+        page. Variant CSS mirrors the real main-column geometry onto this box.
+      */}
       <div
         aria-hidden
-        ref={measureRef}
+        data-cv-measure-page
         style={{
           position: "absolute",
           left: "-10000px",
           top: 0,
-          width: `${contentWidth}mm`,
+          width: `${PAGE.WIDTH}px`,
+          height: `${PAGE.HEIGHT}px`,
           visibility: "hidden",
           pointerEvents: "none",
-          fontFamily: SHEET_FONT,
+          overflow: "hidden",
         }}
       >
-        {rows.map((r) => (
-          <div key={r.id} style={{ display: "flow-root" }}>{r.node}</div>
-        ))}
+        <div
+          ref={measureRef}
+          data-cv-main
+          style={{
+            position: "absolute",
+            left: `${layout === "modern" ? MODERN_MAIN_LEFT : MARGIN_X}mm`,
+            right: `${layout === "modern" ? MODERN_RIGHT : MARGIN_X}mm`,
+            top: `${MARGIN_TOP}mm`,
+            bottom: `${MARGIN_BOTTOM}mm`,
+            overflow: "visible",
+            fontFamily: SHEET_FONT,
+          }}
+        >
+          {rows.map((r) => (
+            <div key={r.id} style={{ display: "flow-root" }}>{r.node}</div>
+          ))}
+        </div>
       </div>
 
       {pages.map((page, i) => (
