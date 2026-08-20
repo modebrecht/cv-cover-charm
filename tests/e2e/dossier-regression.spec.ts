@@ -231,7 +231,9 @@ test.describe("M5.8 dossier regression", () => {
       const mainBox = await main.boundingBox();
       expect(nameBox).not.toBeNull();
       expect(mainBox).not.toBeNull();
-      expect((nameBox?.right ?? 0) <= (mainBox?.right ?? 0) + 1.5).toBe(true);
+      const nameRight = (nameBox?.x ?? 0) + (nameBox?.width ?? 0);
+      const mainRight = (mainBox?.x ?? 0) + (mainBox?.width ?? 0);
+      expect(nameRight).toBeLessThanOrEqual(mainRight + 1.5);
     }
   });
 
