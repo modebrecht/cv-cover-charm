@@ -88,7 +88,7 @@ export type CvDesign = {
   /**
    * Deckkraft des Hintergrunds, 0–1. Auf dem Lebenslauf zählt der Text mehr als
    * die Fläche, darum steht der Regler in der Bedienung auf "Transparenz" und
-   * startet bei 88 % – der Hintergrund ist also nur dezent sichtbar.
+   * startet bei 94 % – der Hintergrund bleibt nur als leiser Farbakzent sichtbar.
    */
   bgOpacity: number;
   /** Formen und Bilder vom Titelblatt mitnehmen (ohne dessen Texte). */
