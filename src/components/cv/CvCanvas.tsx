@@ -305,6 +305,23 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       <div style={{ position: "absolute", inset: 0, opacity: design.bgOpacity }}>
         <CoverBackground template={design.template} colors={softened} />
       </div>
+      {/*
+        Ein schmales Band in der Vorlagenfarbe. Der Vollflächen-Hintergrund ist
+        auf dem Lebenslauf bewusst blass; ohne diesen festen Akzent sähe das
+        Blatt bei zurückhaltenden Vorlagen schlicht weiss aus und die
+        Zugehörigkeit zum Titelblatt ginge verloren.
+      */}
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          height: "5mm",
+          background: pal.accent,
+        }}
+      />
+
       {design.useElements &&
         elements.map((el, i) => {
           if (customKind(el) !== "shape") return null;
