@@ -24,8 +24,13 @@ import {
   cvContentBox,
   cvFrameFor,
   forcedRenderLayout,
+  FOOTER_MM,
   headerSitsInBand,
+  pageMarker,
 } from "./archetype";
+import { dossierThemeFor } from "@/lib/dossier-theme";
+import { dossierPhotoCropStyle, dossierPhotoRadius, dossierPhotoRatio } from "@/lib/dossier-photo";
+import { getCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
   CV_SECTION_LABELS,
   CV_SECTION_ORDER,
@@ -36,9 +41,11 @@ import {
   type CvSectionKey,
 } from "./types";
 
-/** Seitenrand in mm, wo keine Bauform etwas anderes vorgibt. */
-const MARGIN_X = 18;
+/** Seitenrand in mm – derselbe wie auf dem Titelblatt (siehe `archetype.ts`). */
+const MARGIN_X = 20;
 const MODERN_SIDEBAR_W = 55;
+/** Fotobreite im einspaltigen Kopf; die Höhe folgt der gewählten Rahmenform. */
+const PHOTO_MAIN_MM = 30;
 /** Umrechnung als Rückfall, falls die Messung nichts hergibt. */
 const PX_PER_MM = 96 / 25.4;
 
@@ -83,6 +90,19 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     [design.template, design.bgOpacity, layout],
   );
   const sidePlan = useMemo(() => sidebarPlan(data), [data]);
+
+  /**
+   * Schriftbild der Dossier-Familie. Titelblatt und Lebenslauf lesen dieselbe
+   * Quelle, damit Editorials Serifen-Überschriften nicht wie Moderns
+   * Versalien aussehen.
+   */
+  const theme = useMemo(() => dossierThemeFor(design.template), [design.template]);
+  const headingStyle = theme.headingStyle;
+
+  /** Rahmenform des Fotos – dieselbe Einstellung wie im Titelblatt. */
+  const photoStyle = useSyncExternalStore(subscribeCvPhotoStyle, getCvPhotoStyle, () =>
+    getCvPhotoStyle(),
+  );
 
   /** Farbe der tragenden Fläche – dieselbe, die das Titelblatt dort verwendet. */
   const areaColor = design.colors.primary || design.colors.accent || pal.accent;
@@ -137,12 +157,15 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           <div
             data-cv-section-title
             style={{
-              fontSize: layout === "modern" ? "10.3pt" : "10.2pt",
-              fontWeight: layout === "modern" ? 800 : 700,
-              letterSpacing: layout === "modern" ? "0.085em" : "0.1em",
-              textTransform: "uppercase",
+              // Versalien laufen breiter als Gemischtschrift; darum je nach
+              // Familie ein anderer Grundwert.
+              fontSize: headingStyle.uppercase ? "10.2pt" : "11.4pt",
+              fontWeight: headingStyle.weight,
+              letterSpacing: `${headingStyle.trackingEm}em`,
+              textTransform: headingStyle.uppercase ? "uppercase" : "none",
+              fontFamily: theme.typography.fontStack,
               color: pal.accent,
-              lineHeight: 1.1,
+              lineHeight: headingStyle.lineHeight,
             }}
           >
             {text}
@@ -404,19 +427,18 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             <div
               data-cv-photo
               style={{
-                width: "30mm",
-                height: "38mm",
+                position: "relative",
+                width: `${PHOTO_MAIN_MM}mm`,
+                height: `${PHOTO_MAIN_MM * dossierPhotoRatio(photoStyle.shape)}mm`,
                 flexShrink: 0,
                 overflow: "hidden",
-                borderRadius: "2mm",
-                boxShadow: `0 0 0 0.4mm ${pal.accent}`,
+                borderRadius: dossierPhotoRadius(photoStyle.shape),
+                boxShadow: photoStyle.borderWidth
+                  ? `0 0 0 ${photoStyle.borderWidth}mm ${pal.accent}`
+                  : undefined,
               }}
             >
-              <img
-                src={p.foto}
-                alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
+              <img src={p.foto} alt="" style={dossierPhotoCropStyle(photoStyle)} />
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -904,12 +926,23 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 ? "4.1mm"
                 : "5.2mm",
         marginBottom: sidePlan.veryCompact ? "1.2mm" : sidePlan.compact ? "1.5mm" : "1.9mm",
-        fontSize: sidePlan.veryCompact ? "8.4pt" : sidePlan.compact ? "8.8pt" : "9.2pt",
-        fontWeight: 800,
-        letterSpacing: "0.085em",
-        textTransform: "uppercase",
+        fontSize: headingStyle.uppercase
+          ? sidePlan.veryCompact
+            ? "8.4pt"
+            : sidePlan.compact
+              ? "8.8pt"
+              : "9.2pt"
+          : sidePlan.veryCompact
+            ? "9.4pt"
+            : sidePlan.compact
+              ? "9.8pt"
+              : "10.2pt",
+        fontWeight: headingStyle.weight,
+        letterSpacing: `${headingStyle.trackingEm}em`,
+        textTransform: headingStyle.uppercase ? "uppercase" : "none",
+        fontFamily: theme.typography.fontStack,
         color: side.accent,
-        lineHeight: 1.15,
+        lineHeight: headingStyle.lineHeight,
       }}
     >
       {text}
@@ -985,6 +1018,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   /** Bei "column" ist die Spalte die Fläche der Vorlage – sonst getönte Papierspalte. */
   const onColumn = frame.id === "column";
   const sidebarWidth = onColumn ? frame.columnMm : MODERN_SIDEBAR_W;
+  /**
+   * Fotobreite in der Seitenspalte. Ein Hochportrait wird hoch, darum bleibt
+   * die Breite unter dem, was die Spalte abzüglich ihrer Ränder hergibt.
+   */
+  const sidePhotoMm = Math.min(
+    sidePlan.veryCompact ? 25 : 28,
+    sidebarWidth - (onColumn ? 19 : 15.5),
+  );
 
   const modernSidebar = (pageIndex: number) => (
     <div
@@ -1027,19 +1068,18 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               <div
                 data-cv-photo
                 style={{
-                  width: sidePlan.veryCompact ? "25mm" : "28mm",
-                  height: sidePlan.veryCompact ? "25mm" : "28mm",
+                  position: "relative",
+                  width: `${sidePhotoMm}mm`,
+                  height: `${sidePhotoMm * dossierPhotoRatio(photoStyle.shape)}mm`,
                   overflow: "hidden",
-                  borderRadius: "50%",
-                  boxShadow: `0 0 0 0.55mm ${side.accent}`,
+                  borderRadius: dossierPhotoRadius(photoStyle.shape),
+                  boxShadow: photoStyle.borderWidth
+                    ? `0 0 0 ${photoStyle.borderWidth}mm ${side.accent}`
+                    : undefined,
                   marginBottom: sidePlan.compact ? "3.8mm" : "5.3mm",
                 }}
               >
-                <img
-                  src={p.foto}
-                  alt=""
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
+                <img src={p.foto} alt="" style={dossierPhotoCropStyle(photoStyle)} />
               </div>
             )}
 
@@ -1252,7 +1292,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               </>
             )}
           </>
-        ) : nameInBand ? null : ( // Das Kopfband trägt auf Folgeseiten bereits Name und Seitenzahl.
+        ) : pageMarker(frame) !== "sidebar" ? null : ( // Band oder Fusszeile tragen die Angabe schon – hier wäre sie doppelt.
           <div data-cv-header style={{ paddingTop: "5mm" }}>
             <div
               data-cv-name
@@ -1338,6 +1378,44 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     );
   };
 
+  /**
+   * Dezente Fusszeile ab Seite 2 – aber nur, wo nicht schon ein Kopfband oder
+   * eine Seitenspalte die Angabe trägt. Auf einem Blatt steht sie genau einmal.
+   */
+  const footer = (pageIndex: number) => {
+    if (pageIndex === 0 || pageMarker(frame) !== "footer") return null;
+    const box = cvContentBox(frame, pageIndex);
+    return (
+      <div
+        data-cv-page-label
+        data-cv-footer
+        data-cv-muted
+        style={{
+          position: "absolute",
+          left: `${box.left}mm`,
+          right: `${box.right}mm`,
+          bottom: `${box.bottom - FOOTER_MM}mm`,
+          height: `${FOOTER_MM}mm`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "6mm",
+          borderTop: `0.25mm solid ${pal.accent}${alphaHex(0.3)}`,
+          paddingTop: "1.6mm",
+          boxSizing: "border-box",
+          fontFamily: theme.typography.fontStack,
+          fontSize: "8.5pt",
+          color: pal.muted,
+        }}
+      >
+        <span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+          {name || "Lebenslauf"}
+        </span>
+        <span style={{ flexShrink: 0 }}>Seite {pageIndex + 1}</span>
+      </div>
+    );
+  };
+
   const firstBox = cvContentBox(frame, 0);
 
   return (
@@ -1400,22 +1478,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {chrome(i)}
             {layout === "modern" && modernSidebar(i)}
             {bandHeader(i)}
-            {!nameInBand && layout === "classic" && i > 0 && (
-              <div
-                data-cv-page-label
-                data-cv-muted
-                style={{
-                  position: "absolute",
-                  top: "6.5mm",
-                  right: `${MARGIN_X}mm`,
-                  fontFamily: SHEET_FONT,
-                  fontSize: "8.5pt",
-                  color: pal.muted,
-                }}
-              >
-                {name || "Lebenslauf"} · Seite {i + 1}
-              </div>
-            )}
+            {footer(i)}
             <div
               data-cv-main
               style={{

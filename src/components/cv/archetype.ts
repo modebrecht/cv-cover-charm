@@ -142,11 +142,21 @@ export function templatesForArchetype(id: CvArchetypeId): TemplateId[] {
 /** Ränder des Textbereichs in mm. */
 export type CvContentBox = { left: number; right: number; top: number; bottom: number };
 
-const MARGIN_X = 18;
+/**
+ * Seitenrand in mm.
+ *
+ * Derselbe Wert wie auf dem Titelblatt: dessen Textblöcke stehen in
+ * `layouts.ts` durchgehend auf `x: 20`. Legt man beide Blätter übereinander,
+ * beginnt die Schrift an derselben Stelle – daran erkennt man ein Dossier eher
+ * als an jeder Farbe.
+ */
+const MARGIN_X = 20;
 const MARGIN_TOP = 14;
 const MARGIN_BOTTOM = 14;
 /** Luft zwischen einer farbigen Fläche und dem Text daneben/darunter. */
 const GAP = 8;
+/** Höhe der Fusszeile ab Seite 2, in mm. */
+export const FOOTER_MM = 9;
 
 /**
  * Textbereich einer Seite.
@@ -159,7 +169,9 @@ const GAP = 8;
 export function cvContentBox(frame: CvFrame, pageIndex: number): CvContentBox {
   const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
   const top = head > 0 ? head + GAP : MARGIN_TOP;
-  const bottom = Math.max(MARGIN_BOTTOM, frame.footMm + GAP);
+  // Ab Seite 2 hält die Fusszeile ihren Platz frei, sonst liefe Text hinein.
+  const footer = pageIndex > 0 && pageMarker(frame) === "footer" ? FOOTER_MM : 0;
+  const bottom = Math.max(MARGIN_BOTTOM, frame.footMm + GAP) + footer;
 
   if (frame.id === "column") {
     return { left: frame.columnMm + GAP, right: MARGIN_X, top, bottom };
@@ -192,6 +204,19 @@ export function cvContentBox(frame: CvFrame, pageIndex: number): CvContentBox {
  */
 export function headerSitsInBand(frame: CvFrame): boolean {
   return frame.headFirstMm >= 26;
+}
+
+/**
+ * Wo steht ab Seite 2 „Name · Seite N"?
+ *
+ * Genau **eine** Stelle je Bauform – zwei Seitenangaben auf einem Blatt sind
+ * ein Fehler, keine Redundanz. Wo schon ein Band oder eine Spalte da ist,
+ * gehört die Angabe dorthin; sonst in eine eigene Fusszeile.
+ */
+export function pageMarker(frame: CvFrame): "band" | "sidebar" | "footer" {
+  if (headerSitsInBand(frame)) return "band";
+  if (frame.id === "column") return "sidebar";
+  return "footer";
 }
 
 /** Ein Kopfband beginnt rechts der Spalte, wo die Bauform eine hat. */

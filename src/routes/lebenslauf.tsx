@@ -36,6 +36,7 @@ import {
   type Snapshot,
 } from "@/lib/history";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
+import { applyDossierTheme } from "@/lib/dossier-theme";
 
 export const Route = createFileRoute("/lebenslauf")({
   head: () => ({
@@ -266,6 +267,20 @@ function Lebenslauf() {
   useEffect(() => {
     if (!menuOpen) setHistoryOpen(false);
   }, [menuOpen]);
+
+  /**
+   * Schriftbild der Vorlage auf das Dokument legen.
+   *
+   * `dossier-theme.css` gestaltet den Lebenslauf über `--dossier-*` und
+   * `html[data-dossier-family]`. Gesetzt wurden diese Werte bisher nur beim
+   * Wechsel der Vorlage im Titelblatt – auf dieser Seite blieben sie deshalb
+   * auf der Familie "modern" stehen, egal welche Vorlage gewählt war. Jede
+   * Regel mit `!important` hat damit Moderns Typografie erzwungen, also genau
+   * das, was hier eigentlich von der Vorlage kommen soll.
+   */
+  useEffect(() => {
+    applyDossierTheme(design.template);
+  }, [design.template]);
 
   useEffect(() => {
     if (!status) return;
