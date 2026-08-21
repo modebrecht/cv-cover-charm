@@ -16,9 +16,6 @@ export type CvVisualPolicy = {
 };
 
 type FamilyPolicy = {
-  backgroundFactor: number;
-  classicMax: number;
-  modernMax: number;
   shapeFactor: number;
   modernMainWash: number;
   sidebarTint: number;
@@ -29,60 +26,34 @@ type FamilyPolicy = {
  * to an individual title-page variation. Layout only decides available space.
  */
 const FAMILY_POLICY: Record<DossierFamilyId, FamilyPolicy> = {
-  classic: {
-    backgroundFactor: 0.92,
-    classicMax: 0.06,
-    modernMax: 0.032,
-    shapeFactor: 0.56,
-    modernMainWash: 0.96,
-    sidebarTint: 0.075,
-  },
-  modern: {
-    backgroundFactor: 0.58,
-    classicMax: 0.045,
-    modernMax: 0.022,
-    shapeFactor: 0.34,
-    modernMainWash: 0.975,
-    sidebarTint: 0.055,
-  },
-  executive: {
-    backgroundFactor: 0.76,
-    classicMax: 0.052,
-    modernMax: 0.026,
-    shapeFactor: 0.42,
-    modernMainWash: 0.97,
-    sidebarTint: 0.06,
-  },
-  editorial: {
-    backgroundFactor: 0.7,
-    classicMax: 0.05,
-    modernMax: 0.025,
-    shapeFactor: 0.4,
-    modernMainWash: 0.97,
-    sidebarTint: 0.062,
-  },
+  classic: { shapeFactor: 0.56, modernMainWash: 0.96, sidebarTint: 0.075 },
+  modern: { shapeFactor: 0.34, modernMainWash: 0.975, sidebarTint: 0.055 },
+  executive: { shapeFactor: 0.42, modernMainWash: 0.97, sidebarTint: 0.06 },
+  editorial: { shapeFactor: 0.4, modernMainWash: 0.97, sidebarTint: 0.062 },
 };
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.max(min, Math.min(max, value));
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 /**
- * Der Transparenzregler bleibt die Nutzerabsicht. Die Dossier-Familie bestimmt
- * nur, wie kräftig Motive/Shapes im Lebenslauf auftreten dürfen. `template`
- * dient ausschliesslich als Fallback für ältere Dossiers ohne Familienwahl.
+ * Der Regler steuert die **Zierde** – Motive, Formen, Verläufe. Die tragenden
+ * Flächen einer Bauform (Spalte, Band, Kartengrund) gehören nicht dazu: sie
+ * bleiben voll deckend, sonst wäre die Vorlage nicht wiederzuerkennen.
+ *
+ * Früher wurde der eingestellte Wert erst mit einem Familienfaktor
+ * multipliziert und dann noch gekappt. Beides zusammen ergab eine Obergrenze
+ * von rund 2–3 % Deckkraft, die schon *unterhalb* der Voreinstellung lag – der
+ * Regler hat damit über seinen ganzen Weg nichts mehr verändert und das Blatt
+ * blieb weiss. Der eingestellte Wert wird darum jetzt unverändert verwendet.
  */
 export function cvVisualPolicy(
   template: TemplateId,
-  layout: CvLayoutId,
+  _layout: CvLayoutId,
   requestedOpacity: number,
 ): CvVisualPolicy {
-  const family = getDossierFamily(template);
-  const policy = FAMILY_POLICY[family];
-  const max = layout === "modern" ? policy.modernMax : policy.classicMax;
-  const backgroundOpacity = clamp(requestedOpacity * policy.backgroundFactor, 0, max);
+  const policy = FAMILY_POLICY[getDossierFamily(template)];
 
   return {
-    backgroundOpacity,
+    backgroundOpacity: clamp(requestedOpacity, 0, 1),
     shapeFactor: policy.shapeFactor,
     modernMainWash: policy.modernMainWash,
     sidebarTint: policy.sidebarTint,
@@ -129,7 +100,8 @@ export function sidebarPlan(data: CvData): SidebarPlan {
   const contactScore =
     [data.person.adresse, data.person.plzOrt, data.person.telefon, data.person.email]
       .filter(Boolean)
-      .join("").length / 32 +
+      .join("").length /
+      32 +
     (data.person.geburtsdatum ? 0.8 : 0) +
     (data.person.nationalitaet ? 0.6 : 0) +
     (data.person.foto ? 3.2 : 0);

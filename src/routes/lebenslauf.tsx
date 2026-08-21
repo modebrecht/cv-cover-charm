@@ -52,11 +52,18 @@ export const Route = createFileRoute("/lebenslauf")({
 });
 
 const STORAGE_KEY = "lebenslauf:v1";
-const SAVE_VERSION = 2;
+const SAVE_VERSION = 3;
 
-/** Vorgabe: 94 % Transparenz – das Titelblatt-Design bleibt nur als leiser Akzent sichtbar. */
-const DEFAULT_BG_OPACITY = 0.06;
-const LEGACY_DEFAULT_BG_OPACITIES = [0.25, 0.12];
+/**
+ * Vorgabe: 75 % Transparenz.
+ *
+ * Der Regler steuert nur noch die Zierde – Spalte, Band und Kartengrund einer
+ * Bauform bleiben unabhängig davon voll deckend. Darum darf die Zierde wieder
+ * sichtbar sein. Der frühere Wert von 6 % stammt aus der Zeit, als der
+ * Hintergrund die Vorlage allein tragen musste und dabei unsichtbar wurde.
+ */
+const DEFAULT_BG_OPACITY = 0.25;
+const LEGACY_DEFAULT_BG_OPACITIES = [0.06, 0.12];
 
 function defaultColors(template: TemplateId): Record<string, string> {
   const t = TEMPLATES.find((x) => x.id === template) ?? TEMPLATES[0];

@@ -105,10 +105,16 @@ was die grossen Flächen tun – abgelesen aus `CoverBackground.tsx`:
 
 | Bauform | Vorlagen | Lebenslauf übernimmt |
 | --- | --- | --- |
-| **Seitenspalte** | Studio, Kolumne, Blockig | Farbige Spalte links (Breite wie auf dem Titelblatt): Foto, Kontakt, Sprachen, Hobbys. Hauptspalte: Schule, Praktika, Referenzen. |
-| **Kopf- und Fussband** | Edel blockig, Sonne, Aurora, Colorful, Horizont, Modern, Seriös | Farbband oben mit Name und Zeile darunter, Höhe aus der Vorlage abgeleitet; Fussstreifen, wo die Vorlage einen hat. Inhalt einspaltig. |
-| **Karte auf Fläche** | Citrus, Verlauf, Neon | Farbige Grundfläche voll deckend, weisse Textkarte darauf. Folgeseiten behalten die Fläche. |
-| **Ruhig: Rahmen und Linien** | Editorial, Edel, Rahmen, Warm, Human, Bogen | Helles Papier, Rahmen und Linien der Vorlage, grosse Formen verkleinert als Deko. Im Kern das heutige Layout – für diese Vorlagen ist es richtig. |
+| **Seitenspalte** (3) | Studio, Kolumne, Blockig | Farbige Spalte links (Breite wie auf dem Titelblatt): Foto, Kontakt, Sprachen, Hobbys, Stärken. Hauptspalte: Schule, Praktika, Referenzen. |
+| **Kopf- und Fussband** (8) | Sonne, Warm, Aurora, Edel blockig, Colorful, Horizont, Seriös, Modern | Farbband oben mit Name und Zeile darunter, Höhe aus der Vorlage abgeleitet; Fussstreifen, wo die Vorlage einen hat. Inhalt einspaltig. |
+| **Karte auf Fläche** (3) | Citrus, Verlauf, Neon | Farbige Grundfläche voll deckend, weisse Textkarte darauf. Folgeseiten behalten die Fläche. |
+| **Ruhig: Rahmen und Linien** (5) | Editorial, Edel, Rahmen, Human, Bogen | Helles Papier, Rahmen und Linien der Vorlage, grosse Formen als Zierde. Im Kern das heutige Layout – für diese Vorlagen ist es richtig. |
+
+Zwei Vorlagen sitzen anders, als eine Namensliste vermuten lässt, darum je ein
+Wort dazu: **Warm** hat kein feines Raster, sondern eine 115 mm hohe
+Kopffläche – es gehört zum Band. **Modern** und **Seriös** haben nur schmale
+Streifen von 4 bzw. 6 mm; sie sind formal Bänder, sehen aber ruhig aus, und
+genau so übernimmt es der Lebenslauf.
 
 Die Bandhöhen und Spaltenbreiten werden aus derselben Quelle abgeleitet wie das
 Titelblatt, nicht neu erfunden: Studio 72 mm, Kolumne 70 mm, Sonne 118 mm,
@@ -178,3 +184,25 @@ Vorlagen, bei denen der Unterschied am meisten auffällt.
 
 Unabhängig von der Wahl wird die Reglerkappung repariert. Sie ist ein Fehler,
 keine Gestaltungsfrage.
+
+## Stand
+
+**Entschieden: A.** Stufe 1 und Stufe 2 sind umgesetzt:
+
+- `cv/archetype.ts` hält die Bauformen und die Zuordnungstabelle aller 19
+  Vorlagen samt Massen; `cvContentBox()` gibt den Textbereich je Seite.
+- Die Seitenumbruch-Maschine rechnet jetzt mit **einer Höhe pro Seite** – nötig,
+  weil Seite 1 das volle Kopfband trägt und die Folgeseiten nur dessen Streifen.
+- `onColorRoles()` in `cv/palette.ts` liefert Schrift **auf** farbigem Grund.
+  Das pauschale Aufhellen entfällt, die Flächen bleiben voll deckend.
+- Die doppelte Dämpfung in `cv/intelligence.ts` ist weg; die Voreinstellung
+  steht wieder auf 75 % Transparenz.
+
+Nachgemessen über alle 19 Vorlagen: kein Seitenüberlauf, Kontrast im Textbereich
+13,6–18,9:1, in Spalte und Band 4,7–16,5:1 (Mindestwert 4,5), PDF-Seitenzahl
+gleich der Vorschau, und der Regler verändert das Blatt bei **jeder** Vorlage
+messbar – auch bei Citrus, Verlauf und Neon, wo der Grund die tragende Fläche
+ist und der Regler stattdessen bestimmt, wie viel Farbe in die Textkarte
+durchscheint.
+
+Stufe 3 (Feinschliff) steht noch aus.
