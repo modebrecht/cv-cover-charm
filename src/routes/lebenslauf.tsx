@@ -37,6 +37,7 @@ import {
 } from "@/lib/history";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import { applyDossierTheme } from "@/lib/dossier-theme";
+import { setCvPhotoStyle } from "@/components/cv/photo";
 
 export const Route = createFileRoute("/lebenslauf")({
   head: () => ({
@@ -192,10 +193,17 @@ function Lebenslauf() {
 
     if (loadFromStorage()) return;
 
-    // Erster Besuch: Gestaltung und Angaben vom Titelblatt übernehmen.
+    // Erster Besuch: alles vom Titelblatt übernehmen – dieselbe Wirkung wie
+    // der Knopf mit allen Haken, damit beide Wege dasselbe Ergebnis liefern.
     if (draft) {
-      setDesign((d) => ({ ...d, template: draft.template, colors: draft.colors }));
+      setDesign((d) => ({
+        ...d,
+        template: draft.template,
+        colors: draft.colors,
+        useElements: draft.elements.length > 0,
+      }));
       setElements(draft.elements);
+      if (draft.person.foto) setCvPhotoStyle(draft.photoStyle);
       if (personFilled(draft.person)) {
         setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
       }
@@ -295,6 +303,31 @@ function Lebenslauf() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  /**
+   * Was vom Titelblatt übernommen wird.
+   *
+   * Vorher setzte der Knopf nur Vorlage und Farben. Die Formen wurden zwar
+   * kopiert, aber nicht eingeschaltet – sie blieben also unsichtbar –, und Foto
+   * und Angaben zur Person lagen hinter zwei weiteren Knöpfen an anderer
+   * Stelle. Ein Dossier wird davon nicht einheitlich; darum steht hier alles
+   * beisammen und ist einzeln abwählbar.
+   */
+  const [takeover, setTakeover] = useState({
+    template: true,
+    colors: true,
+    elements: true,
+    photo: true,
+    person: true,
+  });
+
+  const TAKEOVER_LABELS: Array<{ key: keyof typeof takeover; label: string; hint: string }> = [
+    { key: "template", label: "Vorlage und Hintergrund", hint: "Bauform, Spalte, Band, Karte" },
+    { key: "colors", label: "Farben", hint: "auch deine eigenen Änderungen" },
+    { key: "elements", label: "Eigene Felder und Formen", hint: "Formen und Linien, ohne Texte" },
+    { key: "photo", label: "Foto", hint: "samt Rahmenform und Ausschnitt" },
+    { key: "person", label: "Angaben zur Person", hint: "Name, Adresse, Kontakt" },
+  ];
+
   const syncFromCover = useCallback(() => {
     const draft = readCoverDraft();
     setCover(draft);
@@ -302,10 +335,45 @@ function Lebenslauf() {
       setStatus({ kind: "error", text: "Es gibt noch kein gespeichertes Titelblatt." });
       return;
     }
-    setDesign((d) => ({ ...d, template: draft.template, colors: draft.colors }));
-    setElements(draft.elements);
-    setStatus({ kind: "ok", text: "Vorlage und Farben vom Titelblatt übernommen" });
-  }, []);
+
+    const done: string[] = [];
+
+    if (takeover.template || takeover.colors) {
+      setDesign((d) => ({
+        ...d,
+        ...(takeover.template ? { template: draft.template } : {}),
+        ...(takeover.colors ? { colors: draft.colors } : {}),
+      }));
+      if (takeover.template) done.push("Vorlage");
+      if (takeover.colors) done.push("Farben");
+    }
+
+    if (takeover.elements) {
+      setElements(draft.elements);
+      // Kopieren allein genügt nicht: ohne diesen Schalter werden die Formen
+      // nicht gezeichnet, und es sieht aus, als hätte der Knopf nichts getan.
+      setDesign((d) => ({ ...d, useElements: draft.elements.length > 0 }));
+      done.push(`Formen (${draft.elements.length})`);
+    }
+
+    if (takeover.photo && draft.person.foto) {
+      setData((d) => ({ ...d, person: { ...d.person, foto: draft.person.foto } }));
+      setCvPhotoStyle(draft.photoStyle);
+      done.push("Foto");
+    }
+
+    if (takeover.person && personFilled(draft.person)) {
+      const { foto: _foto, ...fields } = draft.person;
+      setData((d) => ({ ...d, person: { ...d.person, ...fields } }));
+      done.push("Angaben");
+    }
+
+    setStatus(
+      done.length
+        ? { kind: "ok", text: `Vom Titelblatt übernommen: ${done.join(", ")}` }
+        : { kind: "error", text: "Nichts ausgewählt – oder im Titelblatt steht dazu nichts." },
+    );
+  }, [takeover]);
 
   const takePerson = () => {
     const draft = readCoverDraft();
@@ -628,20 +696,46 @@ function Lebenslauf() {
             >
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2 rounded-md border border-dashed p-2">
+                  <span className="text-xs font-medium">Vom Titelblatt übernehmen</span>
                   <span className="text-xs text-muted-foreground">
                     {cover
-                      ? "Der Lebenslauf übernimmt Vorlage und Farben vom Titelblatt."
+                      ? "Wähle, was mitkommen soll. Alles zusammen ergibt den roten Faden durchs Dossier."
                       : "Noch kein Titelblatt gespeichert – du kannst hier frei wählen."}
                   </span>
+
+                  <div className="flex flex-col gap-1.5">
+                    {TAKEOVER_LABELS.map(({ key, label, hint }) => (
+                      <label key={key} className="flex items-start gap-2 text-xs">
+                        <input
+                          type="checkbox"
+                          className="mt-0.5"
+                          checked={takeover[key]}
+                          disabled={!cover}
+                          onChange={(e) => setTakeover((t) => ({ ...t, [key]: e.target.checked }))}
+                        />
+                        <span>
+                          {label}
+                          <span className="block text-muted-foreground">
+                            {hint}
+                            {key === "elements" &&
+                              cover &&
+                              ` · ${cover.elements.length} im Titelblatt`}
+                          </span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+
                   <button
                     type="button"
                     onClick={syncFromCover}
-                    className="self-start rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
+                    disabled={!cover}
+                    className="self-start rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent disabled:opacity-50"
                   >
-                    Vom Titelblatt übernehmen
+                    Übernehmen
                   </button>
 
-                  <label className="mt-1 flex items-start gap-2 text-xs">
+                  <label className="mt-1 flex items-start gap-2 border-t pt-2 text-xs">
                     <input
                       type="checkbox"
                       className="mt-0.5"
@@ -649,10 +743,11 @@ function Lebenslauf() {
                       onChange={(e) => setDesign((d) => ({ ...d, useElements: e.target.checked }))}
                     />
                     <span>
-                      Elemente vom Titelblatt übernehmen
+                      Übernommene Formen anzeigen
                       <span className="block text-muted-foreground">
-                        Formen und Linien – ohne die Texte.
-                        {elements.length > 0 && ` ${elements.length} vorhanden.`}
+                        {elements.length > 0
+                          ? `${elements.length} übernommen.`
+                          : "Noch keine übernommen."}
                       </span>
                     </span>
                   </label>
