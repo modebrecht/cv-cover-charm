@@ -1,10 +1,4 @@
-export type CvLayoutId =
-  | "classic"
-  | "modern"
-  | "minimal"
-  | "timeline"
-  | "executive"
-  | "editorial";
+export type CvLayoutId = "classic" | "modern" | "minimal" | "timeline" | "executive" | "editorial";
 export type CvRenderLayoutId = "classic" | "modern";
 
 /**

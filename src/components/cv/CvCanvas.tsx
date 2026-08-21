@@ -9,6 +9,7 @@ import {
   getCvLayoutChoice,
   subscribeCvLayout,
   subscribeCvLayoutChoice,
+  type CvLayoutId,
 } from "./layout";
 import { getCvPlacements, subscribeCvPlacements } from "./placement";
 import {
@@ -21,12 +22,15 @@ import {
 import { cvPalette, onColorRoles, type CvOnColor } from "./palette";
 import {
   bandLeftMm,
+  columnIsStripe,
   cvContentBox,
   cvFrameFor,
-  forcedRenderLayout,
   FOOTER_MM,
   headerSitsInBand,
   pageMarker,
+  sidebarWidthMm,
+  STRIPE_MM,
+  type CvRenderLayout,
 } from "./archetype";
 import { dossierThemeFor } from "@/lib/dossier-theme";
 import { dossierPhotoCropStyle, dossierPhotoRadius, dossierPhotoRatio } from "@/lib/dossier-photo";
@@ -43,7 +47,6 @@ import {
 
 /** Seitenrand in mm – derselbe wie auf dem Titelblatt (siehe `archetype.ts`). */
 const MARGIN_X = 20;
-const MODERN_SIDEBAR_W = 55;
 /** Fotobreite im einspaltigen Kopf; die Höhe folgt der gewählten Rahmenform. */
 const PHOTO_MAIN_MM = 30;
 /** Umrechnung als Rückfall, falls die Messung nichts hergibt. */
@@ -69,13 +72,16 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   // Die Bauform der Vorlage entscheidet über Flächen und Textbereich. Sie ist
   // der eigentliche Träger der Verwandtschaft zum Titelblatt.
   const frame = useMemo(() => cvFrameFor(design.template), [design.template]);
-  const chosenLayout = useSyncExternalStore(subscribeCvLayout, getCvLayout, () => "classic");
-  // Eine farbige Spalte will gefüllt sein, eine Karte hat für zwei Spalten zu
-  // wenig Platz. Wo die Bauform das vorgibt, geht sie der Auswahl vor.
-  const layout = forcedRenderLayout(frame) ?? chosenLayout;
+  // Die Auswahl im Aufbau-Picker gilt. Sie wurde früher bei Spalten- und
+  // Karten-Vorlagen überschrieben, was wie ein toter Knopf wirkte.
+  const layout = useSyncExternalStore<CvRenderLayout>(
+    subscribeCvLayout,
+    getCvLayout,
+    () => "classic",
+  );
   // Raw choice is separate from renderer mode. Classic/Luftig/Timeline/Magazin
   // share the same renderer but have different real content geometry.
-  const layoutChoice = useSyncExternalStore(
+  const layoutChoice = useSyncExternalStore<CvLayoutId>(
     subscribeCvLayoutChoice,
     getCvLayoutChoice,
     () => "classic",
@@ -106,6 +112,11 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   /** Farbe der tragenden Fläche – dieselbe, die das Titelblatt dort verwendet. */
   const areaColor = design.colors.primary || design.colors.accent || pal.accent;
+  /**
+   * Breite der farbigen Spalte. Trägt sie Inhalt, ist sie so breit wie auf dem
+   * Titelblatt; im Einspalter bleibt nur der Zierstreifen.
+   */
+  const columnWidth = columnIsStripe(frame, layout) ? STRIPE_MM : frame.columnMm;
   /**
    * Schrift **auf** der farbigen Fläche. Die Fläche wird nicht aufgehellt,
    * sondern bekommt eine Schrift, die darauf lesbar ist.
@@ -416,7 +427,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const nameInBand = headerSitsInBand(frame);
 
   if (layout === "classic") {
-    const classicHeader: Row = {
+    /**
+     * Kopfblock: Foto, Name und die Angaben zur Person.
+     *
+     * Trägt ein Kopfband bereits Name und Zeile darunter, werden nur diese
+     * beiden weggelassen – Foto und Angaben bleiben, sonst fielen sie
+     * ersatzlos weg.
+     */
+    const classicHeader = (withName: boolean): Row => ({
       id: "kopf",
       node: (
         <div
@@ -442,20 +460,22 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div
-              data-cv-name
-              style={{
-                fontSize: `${nameSize}pt`,
-                fontWeight: 750,
-                color: pal.ink,
-                lineHeight: 1.02,
-                letterSpacing: "-0.02em",
-                overflowWrap: "anywhere",
-              }}
-            >
-              {name || "Dein Name"}
-            </div>
-            {p.untertitel && (
+            {withName && (
+              <div
+                data-cv-name
+                style={{
+                  fontSize: `${nameSize}pt`,
+                  fontWeight: 750,
+                  color: pal.ink,
+                  lineHeight: 1.02,
+                  letterSpacing: "-0.02em",
+                  overflowWrap: "anywhere",
+                }}
+              >
+                {name || "Dein Name"}
+              </div>
+            )}
+            {withName && p.untertitel && (
               <div
                 data-cv-subtitle
                 style={{
@@ -472,7 +492,12 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {kontaktZeilen.length > 0 && (
               <div
                 data-cv-body
-                style={{ marginTop: "2.5mm", fontSize: "9.7pt", color: pal.ink, lineHeight: 1.38 }}
+                style={{
+                  marginTop: withName ? "2.5mm" : 0,
+                  fontSize: "9.7pt",
+                  color: pal.ink,
+                  lineHeight: 1.38,
+                }}
               >
                 {kontaktZeilen.map((k) => (
                   <div key={k} style={{ overflowWrap: "anywhere" }}>
@@ -497,8 +522,11 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           </div>
         </div>
       ),
-    };
-    if (!nameInBand) rows.push(classicHeader);
+    });
+    // Nur Name und Zeile darunter wandern ins Band; Foto und Angaben bleiben
+    // im Kopfblock.
+    const hasHeaderContent = p.foto || kontaktZeilen.length > 0 || angaben.length > 0;
+    if (!nameInBand || hasHeaderContent) rows.push(classicHeader(!nameInBand));
 
     for (const key of CV_SECTION_ORDER) {
       if (data.hidden[key]) continue;
@@ -582,6 +610,25 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   const measureRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<Row[][]>([rows]);
+
+  /**
+   * Der Messkasten steckt in der verkleinerten Vorschau. Wird er gemessen,
+   * bevor die Verkleinerung steht, kommen zu kleine Zeilenhöhen heraus – und
+   * weil sich am Inhalt nichts geändert hat, wird nie neu gerechnet. Der Text
+   * lief dann unten aus der Seite, ohne dass eine zweite entstand.
+   *
+   * Diese Beobachtung stösst die Rechnung an, sobald sich die tatsächliche
+   * Grösse ändert; nebenbei stimmt die Seitenzahl damit auch nach einem
+   * Zoomwechsel.
+   */
+  const [measuredAt, setMeasuredAt] = useState(0);
+  useLayoutEffect(() => {
+    const box = measureRef.current;
+    if (!box || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => setMeasuredAt((n) => n + 1));
+    observer.observe(box);
+    return () => observer.disconnect();
+  }, []);
   const placementShape = Object.entries(placements)
     .map(([key, value]) => `${key}:${value}`)
     .join("|");
@@ -597,11 +644,11 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     // Der Messkasten trägt die Ränder von Seite 1. Daraus ergibt sich, wie
     // viele Pixel ein Millimeter hier tatsächlich hat – und damit die Höhe
     // jeder weiteren Seite, ohne einen zweiten Kasten messen zu müssen.
-    const first = cvContentBox(frame, 0);
+    const first = cvContentBox(frame, 0, layout);
     const marginMm = first.top + first.bottom;
     const pxPerMm = marginMm > 0 ? (PAGE.HEIGHT - measured) / marginMm : PX_PER_MM;
     const heightFor = (pageIndex: number) => {
-      const b = cvContentBox(frame, pageIndex);
+      const b = cvContentBox(frame, pageIndex, layout);
       return PAGE.HEIGHT - (b.top + b.bottom) * pxPerMm;
     };
 
@@ -632,7 +679,17 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     if (current.length) out.push(current);
     setPages(out.length ? out : [[]]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shape, data, layout, layoutChoice, design.template, pal.accent, pal.ink, pal.muted]);
+  }, [
+    shape,
+    data,
+    layout,
+    layoutChoice,
+    design.template,
+    pal.accent,
+    pal.ink,
+    pal.muted,
+    measuredAt,
+  ]);
 
   /**
    * Papierfarbe für die Zierde.
@@ -786,7 +843,9 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               left: 0,
               top: 0,
               bottom: 0,
-              width: `${frame.columnMm}mm`,
+              // Im Einspalter trägt die Spalte keinen Inhalt mehr; dann bleibt
+              // ein schmaler Streifen, an dem die Vorlage erkennbar bleibt.
+              width: `${columnWidth}mm`,
               background: areaColor,
             }}
           />
@@ -800,7 +859,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               data-cv-band="head"
               style={{
                 position: "absolute",
-                left: `${bandLeftMm(frame)}mm`,
+                left: `${bandLeftMm(frame, layout)}mm`,
                 right: 0,
                 top: 0,
                 height: `${head}mm`,
@@ -829,7 +888,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             style={{
               position: "absolute",
               // Studio setzt sein Fussband erst rechts der Spalte an.
-              left: frame.id === "column" ? `${frame.columnMm}mm` : 0,
+              left: frame.id === "column" ? `${columnWidth}mm` : 0,
               right: 0,
               bottom: 0,
               height: `${frame.footMm}mm`,
@@ -866,7 +925,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             data-cv-main-wash
             style={{
               position: "absolute",
-              left: `${MODERN_SIDEBAR_W}mm`,
+              left: `${sidebarWidthMm(frame, layout)}mm`,
               right: 0,
               top: 0,
               bottom: 0,
@@ -1017,7 +1076,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   /** Bei "column" ist die Spalte die Fläche der Vorlage – sonst getönte Papierspalte. */
   const onColumn = frame.id === "column";
-  const sidebarWidth = onColumn ? frame.columnMm : MODERN_SIDEBAR_W;
+  const sidebarWidth = sidebarWidthMm(frame, layout);
   /**
    * Fotobreite in der Seitenspalte. Ein Hochportrait wird hoch, darum bleibt
    * die Breite unter dem, was die Spalte abzüglich ihrer Ränder hergibt.
@@ -1323,7 +1382,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
     if (!nameInBand || head <= 0) return null;
     const roles = frame.bandMotif ? onArea : onBand;
-    const left = bandLeftMm(frame) + (frame.id === "column" ? 10 : MARGIN_X);
+    const left = bandLeftMm(frame, layout) + (frame.id === "column" ? 10 : MARGIN_X);
     return (
       <div
         data-cv-band-header
@@ -1384,7 +1443,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
    */
   const footer = (pageIndex: number) => {
     if (pageIndex === 0 || pageMarker(frame) !== "footer") return null;
-    const box = cvContentBox(frame, pageIndex);
+    const box = cvContentBox(frame, pageIndex, layout);
     return (
       <div
         data-cv-page-label
@@ -1416,7 +1475,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     );
   };
 
-  const firstBox = cvContentBox(frame, 0);
+  const firstBox = cvContentBox(frame, 0, layout);
 
   return (
     <div
@@ -1424,6 +1483,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       data-dossier-document="cv"
       data-cv-layout={layout}
       data-cv-archetype={frame.id}
+      data-cv-band-head={frame.headFirstMm > 0 ? "true" : "false"}
       data-export-mode={exportMode ? "true" : "false"}
     >
       {/*
@@ -1454,6 +1514,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             right: `${firstBox.right}mm`,
             top: `${firstBox.top}mm`,
             bottom: `${firstBox.bottom}mm`,
+            ["--cv-main-top" as string]: `${firstBox.top}mm`,
+            ["--cv-main-bottom" as string]: `${firstBox.bottom}mm`,
             overflow: "visible",
             fontFamily: SHEET_FONT,
           }}
@@ -1467,7 +1529,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       </div>
 
       {pages.map((page, i) => {
-        const box = cvContentBox(frame, i);
+        const box = cvContentBox(frame, i, layout);
         return (
           <div
             key={i}
@@ -1487,6 +1549,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 right: `${box.right}mm`,
                 top: `${box.top}mm`,
                 bottom: `${box.bottom}mm`,
+                ["--cv-main-top" as string]: `${box.top}mm`,
+                ["--cv-main-bottom" as string]: `${box.bottom}mm`,
                 overflow: "hidden",
                 fontFamily: SHEET_FONT,
               }}

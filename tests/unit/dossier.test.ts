@@ -5,10 +5,7 @@ import {
   familyForTemplate,
   templatesForFamily,
 } from "../../src/lib/dossier-family";
-import {
-  dossierNameScale,
-  dossierThemeForFamily,
-} from "../../src/lib/dossier-theme";
+import { dossierNameScale, dossierThemeForFamily } from "../../src/lib/dossier-theme";
 import {
   DOSSIER_PHOTO_SHAPES,
   dossierPhotoCropStyle,
