@@ -94,7 +94,10 @@ function BlockPlacementControl({
   return (
     <div className="flex items-center justify-between gap-2 rounded-md border bg-muted/30 px-2.5 py-2">
       <span className="text-xs text-muted-foreground">{label}</span>
-      <PlacementToggle value={placements[block]} onChange={(value) => setCvPlacement(block, value)} />
+      <PlacementToggle
+        value={placements[block]}
+        onChange={(value) => setCvPlacement(block, value)}
+      />
     </div>
   );
 }
@@ -122,7 +125,9 @@ function photoPreviewFrame(style: DossierPhotoStyle): CSSProperties {
     overflow: "hidden",
     borderRadius: dossierPhotoRadius(style.shape),
     boxShadow:
-      style.borderWidth > 0 ? `0 0 0 ${Math.max(1, style.borderWidth * 2)}px currentColor` : undefined,
+      style.borderWidth > 0
+        ? `0 0 0 ${Math.max(1, style.borderWidth * 2)}px currentColor`
+        : undefined,
   };
 }
 
@@ -203,12 +208,13 @@ export function FormCvPerson({
         </div>
 
         <div className="flex items-start gap-3">
-          <div
-            style={photoPreviewFrame(photoStyle)}
-            className="border bg-background text-primary"
-          >
+          <div style={photoPreviewFrame(photoStyle)} className="border bg-background text-primary">
             {person.foto ? (
-              <img src={person.foto} alt="Foto-Vorschau" style={dossierPhotoCropStyle(photoStyle)} />
+              <img
+                src={person.foto}
+                alt="Foto-Vorschau"
+                style={dossierPhotoCropStyle(photoStyle)}
+              />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-[10px] text-muted-foreground">
                 Foto

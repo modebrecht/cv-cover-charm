@@ -661,14 +661,14 @@ function Lebenslauf() {
                 <label className="flex flex-col gap-2 text-xs">
                   <span className="flex items-center justify-between">
                     <span className="text-muted-foreground">
-                      Transparenz {Math.round((1 - design.bgOpacity) * 100)} %
+                      Hintergrund-Motiv {Math.round(design.bgOpacity * 100)} % sichtbar
                     </span>
                     <button
                       type="button"
                       onClick={() => setDesign((d) => ({ ...d, bgOpacity: DEFAULT_BG_OPACITY }))}
                       className="text-muted-foreground underline hover:text-foreground"
                     >
-                      94 %
+                      {Math.round(DEFAULT_BG_OPACITY * 100)} %
                     </button>
                   </span>
                   <input
@@ -676,15 +676,16 @@ function Lebenslauf() {
                     min={0}
                     max={100}
                     step={1}
-                    value={Math.round((1 - design.bgOpacity) * 100)}
+                    value={Math.round(design.bgOpacity * 100)}
                     onChange={(e) =>
-                      setDesign((d) => ({ ...d, bgOpacity: 1 - Number(e.target.value) / 100 }))
+                      setDesign((d) => ({ ...d, bgOpacity: Number(e.target.value) / 100 }))
                     }
                     className="w-full accent-primary"
                   />
                   <span className="text-muted-foreground/80">
-                    Je höher, desto blasser der Hintergrund. Auf dem Lebenslauf zählt der Text mehr
-                    als die Fläche.
+                    Gilt für die Zierde – Kreise, Verläufe, Formen. Was die Vorlage ausmacht
+                    (Spalte, Farbband, Karte), bleibt immer sichtbar, sonst wäre sie nicht
+                    wiederzuerkennen.
                   </span>
                 </label>
 

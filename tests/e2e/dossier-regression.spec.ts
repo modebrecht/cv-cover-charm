@@ -6,6 +6,21 @@ const FAMILY_IDS = ["classic", "modern", "executive", "editorial"] as const;
 const LAYOUT_IDS = ["classic", "modern", "minimal", "timeline", "executive", "editorial"] as const;
 const PHOTO_SHAPES = ["rect", "square", "portrait", "circle"] as const;
 
+/**
+ * One title-page template per structural archetype.
+ *
+ * The suite used to seed template "modern" for every case, so only one of the
+ * four archetypes was ever rendered. A side column running underneath the text
+ * column therefore went unnoticed.
+ */
+const ARCHETYPE_TEMPLATES = [
+  { template: "studio", archetype: "column" },
+  { template: "terracotta", archetype: "column" },
+  { template: "sonne", archetype: "band" },
+  { template: "citrus", archetype: "card" },
+  { template: "klassisch", archetype: "quiet" },
+] as const;
+
 const PHOTO =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='320' viewBox='0 0 240 320'%3E%3Crect width='240' height='320' fill='%23dbeafe'/%3E%3Ccircle cx='120' cy='110' r='55' fill='%2394a3b8'/%3E%3Crect x='55' y='180' width='130' height='105' rx='42' fill='%2364748b'/%3E%3C/svg%3E";
 
@@ -70,12 +85,12 @@ function cvData({ long = false, photo = false } = {}) {
   };
 }
 
-function cvPayload(options?: { long?: boolean; photo?: boolean }) {
+function cvPayload(options?: { long?: boolean; photo?: boolean; template?: string }) {
   return {
     version: 2,
     data: cvData(options),
     design: {
-      template: "modern",
+      template: options?.template ?? "modern",
       colors: { primary: "#111827", accent: "#f43f5e", bg: "#fafafa" },
       bgOpacity: 0.06,
       useElements: false,
@@ -93,6 +108,8 @@ type SeedOptions = {
   photoShape?: (typeof PHOTO_SHAPES)[number];
   coverRaw?: string;
   legacyPhotoShape?: (typeof PHOTO_SHAPES)[number];
+  /** Title-page template, which decides the CV's structural archetype. */
+  template?: (typeof ARCHETYPE_TEMPLATES)[number]["template"];
 };
 
 async function settlePagination(page: Page) {
@@ -138,7 +155,11 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
       if (coverRaw) localStorage.setItem("titelblatt:v3", coverRaw);
     },
     {
-      payload: cvPayload({ long: options.long, photo: options.photo }),
+      payload: cvPayload({
+        long: options.long,
+        photo: options.photo,
+        template: options.template,
+      }),
       family: options.family ?? "classic",
       layout: options.layout ?? "classic",
       mirrored: options.mirrored ?? false,
@@ -179,7 +200,58 @@ async function clippingErrors(page: Page) {
 }
 
 async function assertNoMainClipping(page: Page, label: string) {
-  await expect.poll(() => clippingErrors(page), { message: `${label} preview geometry` }).toEqual([]);
+  await expect
+    .poll(() => clippingErrors(page), { message: `${label} preview geometry` })
+    .toEqual([]);
+}
+
+/**
+ * Do the coloured areas of the frame run underneath the text?
+ *
+ * Clipping checks compare each row against its own container, so they stay
+ * silent when the container itself is placed wrongly. This compares the frame
+ * against the text column: side column and stripe sideways, head band and foot
+ * band vertically.
+ */
+async function frameOverlaps(page: Page) {
+  return previewRoot(page)
+    .locator("[data-cv-page]")
+    .evaluateAll((pages) => {
+      const failures: string[] = [];
+      const say = (page: number, what: string, by: number) =>
+        failures.push(`page ${page}: ${what} overlaps the text column by ${Math.round(by)}px`);
+
+      pages.forEach((pageEl, index) => {
+        const main = pageEl.querySelector<HTMLElement>("[data-cv-main]");
+        if (!main) return;
+        const box = main.getBoundingClientRect();
+
+        for (const [name, selector] of [
+          ["side column", "[data-cv-sidebar]"],
+          ["colour column", "[data-cv-column]"],
+        ] as const) {
+          const el = pageEl.querySelector<HTMLElement>(selector);
+          if (!el) continue;
+          const rect = el.getBoundingClientRect();
+          const across = Math.min(rect.right, box.right) - Math.max(rect.left, box.left);
+          const down = Math.min(rect.bottom, box.bottom) - Math.max(rect.top, box.top);
+          if (across > 1 && down > 1) say(index + 1, name, across);
+        }
+
+        for (const [name, selector] of [
+          ["head band", '[data-cv-band="head"]'],
+          ["foot band", '[data-cv-band="foot"]'],
+        ] as const) {
+          const el = pageEl.querySelector<HTMLElement>(selector);
+          if (!el) continue;
+          const rect = el.getBoundingClientRect();
+          const across = Math.min(rect.right, box.right) - Math.max(rect.left, box.left);
+          const down = Math.min(rect.bottom, box.bottom) - Math.max(rect.top, box.top);
+          if (across > 1 && down > 1) say(index + 1, name, down);
+        }
+      });
+      return failures;
+    });
 }
 
 test.describe("M5.8 dossier regression", () => {
@@ -196,11 +268,42 @@ test.describe("M5.8 dossier regression", () => {
     }
   });
 
+  test("every archetype works with every layout, without the columns overlapping", async ({
+    page,
+  }) => {
+    for (const { template, archetype } of ARCHETYPE_TEMPLATES) {
+      for (const layout of LAYOUT_IDS) {
+        const label = `${template}/${archetype}/${layout}`;
+        await seedCv(page, { template, layout });
+        await expect(previewRoot(page)).toHaveAttribute("data-cv-archetype", archetype);
+        await expect
+          .poll(() => frameOverlaps(page), { message: `${label} column geometry` })
+          .toEqual([]);
+        await assertNoMainClipping(page, label);
+      }
+    }
+  });
+
+  test("the layout choice is never silently overridden", async ({ page }) => {
+    // Column and card templates used to force their own renderer, so picking a
+    // layout did nothing for twelve of nineteen templates.
+    for (const { template } of ARCHETYPE_TEMPLATES) {
+      for (const layout of LAYOUT_IDS) {
+        await seedCv(page, { template, layout });
+        await expect(page.locator("html")).toHaveAttribute("data-cv-variant", layout);
+        const expected = layout === "modern" || layout === "executive" ? "modern" : "classic";
+        await expect(previewRoot(page)).toHaveAttribute("data-cv-layout", expected);
+      }
+    }
+  });
+
   test("all six layouts remain valid when mirrored", async ({ page }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "executive", layout, mirrored: true, photo: true });
       await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
-      await expect(previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first()).toBeVisible();
+      await expect(
+        previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first(),
+      ).toBeVisible();
       await assertNoMainClipping(page, `mirrored executive/${layout}`);
     }
   });
@@ -225,7 +328,9 @@ test.describe("M5.8 dossier regression", () => {
     }
   });
 
-  test("long names and long content paginate across every layout without clipping", async ({ page }) => {
+  test("long names and long content paginate across every layout without clipping", async ({
+    page,
+  }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "editorial", layout, long: true });
       const root = previewRoot(page);
@@ -289,7 +394,9 @@ test.describe("M5.8 dossier regression", () => {
         page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}").shape),
       )
       .toBe("circle");
-    const copied = await page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"));
+    const copied = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"),
+    );
     expect(copied.zoom).toBe(1.8);
     expect(copied.x).toBe(20);
     expect(copied.y).toBe(65);

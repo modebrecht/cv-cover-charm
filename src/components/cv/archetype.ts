@@ -142,6 +142,9 @@ export function templatesForArchetype(id: CvArchetypeId): TemplateId[] {
 /** Ränder des Textbereichs in mm. */
 export type CvContentBox = { left: number; right: number; top: number; bottom: number };
 
+/** Die beiden Inhaltsraster: einspaltig oder mit Seitenspalte. */
+export type CvRenderLayout = "classic" | "modern";
+
 /**
  * Seitenrand in mm.
  *
@@ -158,6 +161,33 @@ const GAP = 8;
 /** Höhe der Fusszeile ab Seite 2, in mm. */
 export const FOOTER_MM = 9;
 
+/** Breite der getönten Papierspalte im zweispaltigen Aufbau, in mm. */
+export const SIDEBAR_MM = 55;
+
+/**
+ * Breite der Seitenspalte für Bauform und gewählten Aufbau – 0, wenn keine da
+ * ist. Eine einzige Quelle für die Spaltenbreite: was hier herauskommt, hält
+ * der Textbereich frei und genau so breit zeichnet der Renderer die Spalte.
+ */
+export function sidebarWidthMm(frame: CvFrame, layout: CvRenderLayout): number {
+  if (frame.id === "column") return layout === "modern" ? frame.columnMm : 0;
+  return layout === "modern" ? SIDEBAR_MM : 0;
+}
+
+/**
+ * Ist die Spalte einer "column"-Vorlage nur noch Zierde?
+ *
+ * Wer bei Studio den einspaltigen Aufbau wählt, bekommt keine leere Farbfläche,
+ * sondern einen schmalen Streifen: die Vorlage bleibt erkennbar, der Text
+ * bekommt die ganze Breite.
+ */
+export function columnIsStripe(frame: CvFrame, layout: CvRenderLayout): boolean {
+  return frame.id === "column" && layout === "classic";
+}
+
+/** Breite des Zierstreifens, wenn die Spalte keinen Inhalt mehr trägt. */
+export const STRIPE_MM = 16;
+
 /**
  * Textbereich einer Seite.
  *
@@ -165,35 +195,53 @@ export const FOOTER_MM = 9;
  * Seitenumbruch-Maschine dieselben Zeilenhöhen, die später gedruckt werden.
  * Unterschiedlich ist allein der obere Rand: Seite 1 trägt das volle Kopfband,
  * die Folgeseiten nur dessen Streifen.
+ *
+ * `layout` muss mit angegeben werden, weil im zweispaltigen Aufbau die
+ * Seitenspalte Platz belegt. Fehlte diese Angabe, liefe der Text unter die
+ * Spalte – genau das ist einmal passiert.
  */
-export function cvContentBox(frame: CvFrame, pageIndex: number): CvContentBox {
+export function cvContentBox(
+  frame: CvFrame,
+  pageIndex: number,
+  layout: CvRenderLayout,
+): CvContentBox {
   const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
   const top = head > 0 ? head + GAP : MARGIN_TOP;
   // Ab Seite 2 hält die Fusszeile ihren Platz frei, sonst liefe Text hinein.
   const footer = pageIndex > 0 && pageMarker(frame) === "footer" ? FOOTER_MM : 0;
   const bottom = Math.max(MARGIN_BOTTOM, frame.footMm + GAP) + footer;
 
-  if (frame.id === "column") {
-    return { left: frame.columnMm + GAP, right: MARGIN_X, top, bottom };
-  }
-
   if (frame.id === "card") {
     // Innenrand der Karte, damit der Text nicht an deren Kante klebt.
     const inset = frame.cardInsetMm + 11;
-    return { left: inset, right: inset, top: inset, bottom: inset };
+    const side = sidebarWidthMm(frame, layout);
+    return {
+      left: side > 0 ? frame.cardInsetMm + side + GAP : inset,
+      right: inset,
+      top: inset,
+      bottom: inset,
+    };
   }
+
+  const side = sidebarWidthMm(frame, layout);
+  if (side > 0) {
+    return { left: side + GAP, right: MARGIN_X, top, bottom };
+  }
+
+  // Einspaltig auf einer Spalten-Vorlage: der Streifen bleibt als Zierde stehen.
+  const stripe = columnIsStripe(frame, layout) ? STRIPE_MM + GAP : 0;
 
   if (frame.id === "quiet" && frame.borderInsetMm > 0) {
     const inset = frame.borderInsetMm + 7;
     return {
-      left: inset,
+      left: Math.max(inset, stripe),
       right: inset,
       top: Math.max(top, inset),
       bottom: Math.max(bottom, inset),
     };
   }
 
-  return { left: MARGIN_X, right: MARGIN_X, top, bottom };
+  return { left: Math.max(MARGIN_X, stripe), right: MARGIN_X, top, bottom };
 }
 
 /**
@@ -219,17 +267,22 @@ export function pageMarker(frame: CvFrame): "band" | "sidebar" | "footer" {
   return "footer";
 }
 
-/** Ein Kopfband beginnt rechts der Spalte, wo die Bauform eine hat. */
-export function bandLeftMm(frame: CvFrame): number {
-  return frame.id === "column" ? frame.columnMm : 0;
+/**
+ * Ein Kopfband beginnt rechts der Spalte, wo die Bauform eine hat – und rechts
+ * des Zierstreifens, wenn die Spalte im Einspalter zu einem solchen wird.
+ */
+export function bandLeftMm(frame: CvFrame, layout: CvRenderLayout): number {
+  if (frame.id !== "column") return 0;
+  return columnIsStripe(frame, layout) ? STRIPE_MM : frame.columnMm;
 }
 
-/**
- * Bauformen mit farbiger Spalte brauchen den Zweispalter – die Spalte will
- * gefüllt sein. Bei "card" ist der Platz für eine zusätzliche Spalte zu knapp.
+/*
+ * Kein Aufbau wird mehr erzwungen.
+ *
+ * Vorher setzten Spalten-Vorlagen den Zweispalter und Karten-Vorlagen den
+ * Einspalter durch. Die Auswahl im Aufbau-Picker blieb damit bei zwölf von
+ * neunzehn Vorlagen wirkungslos – man klickte und nichts geschah. Jede der
+ * sechs Aufbauten funktioniert jetzt mit jeder Vorlage; wo eine Bauform ihre
+ * Spalte im Einspalter nicht füllen kann, wird sie zum Zierstreifen
+ * (`columnIsStripe`).
  */
-export function forcedRenderLayout(frame: CvFrame): "classic" | "modern" | null {
-  if (frame.id === "column") return "modern";
-  if (frame.id === "card") return "classic";
-  return null;
-}
