@@ -3,7 +3,7 @@
   "git": {
     "deploymentEnabled": {
       "dev": false,
-      "onrender": false
+      "render": false
     }
   }
 }
