@@ -1,0 +1,183 @@
+/* -------------------------------------------------------------------------- */
+/* Fotoformen + gemeinsamer Bildausschnitt                                    */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Form remains renderer-aware in physical size, while crop/zoom/position and
+ * border treatment come from the shared DossierPhotoStyle variables. The
+ * hidden pagination page receives the same photo dimensions as the real page.
+ */
+[data-cv-photo] {
+  position: relative !important;
+  box-shadow: 0 0 0 var(--cv-photo-border-width, 0.3mm) currentColor !important;
+}
+
+[data-cv-photo] > img {
+  position: absolute !important;
+  width: var(--cv-photo-width, 100%) !important;
+  height: var(--cv-photo-height, 100%) !important;
+  max-width: none !important;
+  max-height: none !important;
+  left: var(--cv-photo-left, 0%) !important;
+  top: var(--cv-photo-top, 0%) !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+html[data-cv-photo-shape="rect"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  width: 38mm !important;
+  height: 28.5mm !important;
+  border-radius: 1.5mm !important;
+}
+
+html[data-cv-photo-shape="square"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  width: 32mm !important;
+  height: 32mm !important;
+  border-radius: 1.5mm !important;
+}
+
+html[data-cv-photo-shape="portrait"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  width: 30mm !important;
+  height: 37.5mm !important;
+  border-radius: 1.5mm !important;
+}
+
+html[data-cv-photo-shape="circle"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  width: 32mm !important;
+  height: 32mm !important;
+  border-radius: 50% !important;
+}
+
+html[data-cv-photo-shape="rect"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  width: 36mm !important;
+  height: 27mm !important;
+  border-radius: 1.5mm !important;
+}
+
+html[data-cv-photo-shape="square"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  width: 29mm !important;
+  height: 29mm !important;
+  border-radius: 1.5mm !important;
+}
+
+html[data-cv-photo-shape="portrait"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  width: 27mm !important;
+  height: 33.75mm !important;
+  border-radius: 1.5mm !important;
+}
+
+html[data-cv-photo-shape="circle"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  width: 29mm !important;
+  height: 29mm !important;
+  border-radius: 50% !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Spiegelverkehrt – alle Aufbauten                                           */
+/* -------------------------------------------------------------------------- */
+
+/* Standard-Familie: Foto sowie Datums-/Sprachspalten tauschen die Seite. */
+html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page="0"]
+  [data-cv-header] {
+  flex-direction: row-reverse !important;
+}
+
+html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page]
+  [data-cv-entry]:has(> [data-cv-rail]) {
+  flex-direction: row-reverse !important;
+}
+
+html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page]
+  [data-cv-entry]
+  > [data-cv-rail] {
+  text-align: right !important;
+}
+
+html[data-cv-mirrored="true"] [data-cv-layout="classic"] [data-cv-page]
+  > [data-cv-page-label] {
+  right: auto !important;
+  left: 18mm !important;
+}
+
+/* Luftig: Signatur und die absichtlich rechts stehende Rail-Spalte tauschen. */
+html[data-cv-mirrored="true"][data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
+  > [data-cv-accent="page"] {
+  left: auto !important;
+  right: 24mm !important;
+}
+
+html[data-cv-mirrored="true"][data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
+  [data-cv-entry]
+  > [data-cv-rail] {
+  grid-column: 1 !important;
+  text-align: left !important;
+}
+
+html[data-cv-mirrored="true"][data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
+  [data-cv-entry]:has(> [data-cv-rail])
+  > :not([data-cv-rail]) {
+  grid-column: 2 !important;
+}
+
+/* Timeline: Achse, Marker und Einrückung wandern vollständig nach rechts. */
+html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
+  > [data-cv-main] {
+  left: 19mm !important;
+  right: 21mm !important;
+}
+
+html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
+  > [data-cv-main]::before {
+  left: auto !important;
+  right: 4mm !important;
+}
+
+html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
+  > [data-cv-main]
+  > div:not(:has([data-cv-header])) {
+  padding-left: 0 !important;
+  padding-right: 11mm !important;
+}
+
+html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
+  > [data-cv-main]
+  > div:has([data-cv-entry])::before {
+  left: auto !important;
+  right: 2.05mm !important;
+}
+
+html[data-cv-mirrored="true"][data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
+  > [data-cv-main]
+  > div:has([data-cv-section-title])::before {
+  left: auto !important;
+  right: 2.55mm !important;
+}
+
+/* Magazin: die komplette asymmetrische Print-Komposition tauscht die Seite. */
+html[data-cv-mirrored="true"][data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > [data-cv-accent="page"] {
+  left: auto !important;
+  right: 21mm !important;
+}
+
+html[data-cv-mirrored="true"][data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page]
+  > [data-cv-main] {
+  left: 22mm !important;
+  right: 30mm !important;
+}
+
+html[data-cv-mirrored="true"][data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page="0"]::after {
+  right: auto !important;
+  left: 22mm !important;
+}
+
+/* Decorative intensity deliberately has no layout-specific rule here. M5.6
+ * leaves it to the shared dossier family / cvVisualPolicy. */

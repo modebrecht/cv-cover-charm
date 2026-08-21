@@ -1,6 +1,17 @@
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore, type CSSProperties } from "react";
+import { readPhoto } from "@/lib/image";
+import { readCoverPhoto } from "@/lib/dossier";
+import {
+  DEFAULT_DOSSIER_PHOTO_STYLE,
+  dossierPhotoCropStyle,
+  dossierPhotoRadius,
+  dossierPhotoRatio,
+  type DossierPhotoStyle,
+} from "@/lib/dossier-photo";
+import { PhotoStyleControls } from "@/components/photo/PhotoStyleControls";
 import { getCvLayout, subscribeCvLayout } from "./layout";
 import { getCvPlacements, setCvPlacement, subscribeCvPlacements } from "./placement";
+import { getCvPhotoStyle, setCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
   DEFAULT_CV_PLACEMENTS,
   emptyEntry,
@@ -100,6 +111,21 @@ function Item({ children, onRemove }: { children: React.ReactNode; onRemove: () 
   );
 }
 
+function photoPreviewFrame(style: DossierPhotoStyle): CSSProperties {
+  const ratio = dossierPhotoRatio(style.shape);
+  const width = style.shape === "rect" ? 80 : 64;
+  return {
+    position: "relative",
+    width,
+    height: width * ratio,
+    flexShrink: 0,
+    overflow: "hidden",
+    borderRadius: dossierPhotoRadius(style.shape),
+    boxShadow:
+      style.borderWidth > 0 ? `0 0 0 ${Math.max(1, style.borderWidth * 2)}px currentColor` : undefined,
+  };
+}
+
 export function FormCvPerson({
   person,
   onChange,
@@ -107,9 +133,112 @@ export function FormCvPerson({
   person: CvPerson;
   onChange: (p: Partial<CvPerson>) => void;
 }) {
+  const photoStyle = useSyncExternalStore(
+    subscribeCvPhotoStyle,
+    getCvPhotoStyle,
+    () => DEFAULT_DOSSIER_PHOTO_STYLE,
+  );
+  const [photoMessage, setPhotoMessage] = useState<{ error: boolean; text: string } | null>(null);
+
+  const onPhotoFile = (file?: File) => {
+    if (!file) return;
+    readPhoto(file)
+      .then((foto) => {
+        onChange({ foto });
+        setPhotoMessage({ error: false, text: "Foto übernommen" });
+      })
+      .catch((e: Error) => setPhotoMessage({ error: true, text: e.message }));
+  };
+
+  const takePhotoFromCover = () => {
+    const draft = readCoverPhoto();
+    if (!draft) {
+      setPhotoMessage({ error: true, text: "Im Titelblatt ist noch kein Foto gespeichert." });
+      return;
+    }
+    // Persist the independent CV treatment first. The following React state
+    // update can then never interrupt or roll back the one-way style copy.
+    setCvPhotoStyle(draft.photoStyle);
+    onChange({ foto: draft.foto });
+    setPhotoMessage({ error: false, text: "Foto und Ausschnitt vom Titelblatt übernommen" });
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <BlockPlacementControl block="kontakt" label="Kontaktangaben" />
+
+      <div className="rounded-md border bg-muted/20 p-3">
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <label className="cursor-pointer rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-accent">
+            {person.foto ? "Foto ersetzen" : "Foto hochladen"}
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                onPhotoFile(e.target.files?.[0]);
+                e.target.value = "";
+              }}
+            />
+          </label>
+          <button
+            type="button"
+            onClick={takePhotoFromCover}
+            className="rounded-md border border-input bg-background px-3 py-1.5 text-xs hover:bg-accent"
+          >
+            Vom Titelblatt
+          </button>
+          {person.foto && (
+            <button
+              type="button"
+              onClick={() => {
+                onChange({ foto: null });
+                setPhotoMessage(null);
+              }}
+              className="text-xs text-muted-foreground underline hover:text-foreground"
+            >
+              Entfernen
+            </button>
+          )}
+        </div>
+
+        <div className="flex items-start gap-3">
+          <div
+            style={photoPreviewFrame(photoStyle)}
+            className="border bg-background text-primary"
+          >
+            {person.foto ? (
+              <img src={person.foto} alt="Foto-Vorschau" style={dossierPhotoCropStyle(photoStyle)} />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-[10px] text-muted-foreground">
+                Foto
+              </div>
+            )}
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <PhotoStyleControls
+              value={photoStyle}
+              onChange={setCvPhotoStyle}
+              hasPhoto={!!person.foto}
+              compact
+            />
+            <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground">
+              Form, Rahmen und Ausschnitt bleiben beim Wechsel des CV-Layouts erhalten.
+            </p>
+            {photoMessage && (
+              <p
+                className={`mt-1.5 text-[11px] ${
+                  photoMessage.error ? "text-destructive" : "text-primary"
+                }`}
+              >
+                {photoMessage.text}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-2 gap-2">
         <Field label="Vorname">
           <input

@@ -30,6 +30,19 @@ type Props = {
   onDrawn?: (points: Point[]) => void;
 };
 
+type DossierTextRole = "name" | "subtitle" | "heading" | "body" | "muted";
+
+/** Gemeinsame semantische Hierarchie für Titelblatt und Lebenslauf. */
+function dossierRole(block: Block): DossierTextRole | undefined {
+  if (block.kind !== "text") return undefined;
+  if (block.id === "name") return "name";
+  if (block.id === "beruf") return "subtitle";
+  if (["eyebrow", "kicker", "kontaktTitel", "anTitel"].includes(block.id)) return "heading";
+  if (["ortDatum", "lehrbeginn"].includes(block.id)) return "muted";
+  if (["kontakt", "empfaenger"].includes(block.id)) return "body";
+  return undefined;
+}
+
 function initials(data: CoverData) {
   return [data.vorname, data.nachname]
     .map((s) => s?.[0])
@@ -97,8 +110,6 @@ export function crop(st: BlockStyle): React.CSSProperties {
     position: "absolute",
     width: `${zoom * 100}%`,
     height: `${zoom * 100}%`,
-    // ohne das begrenzt die Basis-Regel `img { max-width: 100% }` die Breite,
-    // und beim Zoomen entsteht ein unbedeckter Streifen im Rahmen
     maxWidth: "none",
     maxHeight: "none",
     left: `${-(zoom - 1) * x}%`,
@@ -176,7 +187,6 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     const move = (ev: PointerEvent) => {
       const p = toMm(ev);
       const last = points[points.length - 1];
-      // Punkte ausdünnen, sonst wird der Pfad unnötig lang
       if (Math.hypot(p.x - last.x, p.y - last.y) < 0.6) return;
       points.push(p);
       setStroke([...points]);
@@ -215,8 +225,6 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
       onMove(block.id, {
         x: Math.round(Math.max(-20, Math.min(210, ox + dx)) * 10) / 10,
         y: Math.round(Math.max(-20, Math.min(297, oy + dy)) * 10) / 10,
-        // von Hand verschoben ⇒ Verkettung und Verankerung lösen, sonst
-        // springt der Block beim nächsten Rendern zurück
         ...(block.style.follows ? { follows: null } : {}),
         ...(block.style.above ? { above: null } : {}),
         ...(block.style.anchorBottom ? { anchorBottom: false } : {}),
@@ -236,19 +244,15 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
   return (
     <div
       ref={ref}
+      data-dossier-document="cover"
       className="relative overflow-hidden shadow-2xl"
       style={{
         width: `${PAGE_W}px`,
         height: `${PAGE_H}px`,
-        // Grundton des Blattes statt Weiss: sollte ein Hintergrund-Layer je um
-        // einen Bruchteil eines Pixels danebenliegen, blitzt die Vorlagenfarbe
-        // durch und nicht ein weisser Haarstrich.
         backgroundColor: colors.bg ?? "#ffffff",
       }}
       onPointerDown={(e) => {
         if (drawing) return;
-        // Klick auf freie Fläche hebt die Auswahl auf. Der Vergleich mit
-        // currentTarget reicht nicht, weil Hintergrund-Layer darüber liegen.
         if (editable && !(e.target as HTMLElement).closest("[data-block-id]")) {
           onSelect(null);
         }
@@ -264,19 +268,22 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
           const isImage = b.kind === "image";
           const empty = isPhoto
             ? !data.foto && !initials(data)
-            : // ein Textfeld mit Bild, aber ohne Text ist nicht leer
-              !isShape && !isImage && !b.src && b.lines.length === 0;
+            : !isShape && !isImage && !b.src && b.lines.length === 0;
           if (empty) return null;
           const active = editable && selected === b.id;
           const st = b.style;
           const { size, y } = layout[b.id];
           const hasBadge = b.kind === "text" && !!st.bg;
           const textBorder = st.borderWidth ?? 0;
+          const role = dossierRole(b);
 
           return (
             <div
               key={b.id}
               data-block-id={b.id}
+              data-dossier-role={role}
+              data-dossier-accent={b.id === "trenner" ? "rule" : undefined}
+              data-dossier-photo={isPhoto ? "applicant" : undefined}
               onPointerDown={(e) => startDrag(e, b)}
               className="absolute"
               style={{
@@ -300,8 +307,6 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
                     height: `${st.w * (st.ratio ?? 1)}mm`,
                     overflow: "hidden",
                     borderRadius: photoRadius(st),
-                    // ohne Bild bleibt ein gestrichelter Platzhalter stehen,
-                    // sonst wäre das frisch eingefügte Element unsichtbar
                     border: b.src ? "none" : `1px dashed ${resolveColor(st.color, colors)}`,
                     boxShadow: b.src ? frameShadow(st, colors, 0) : undefined,
                     opacity: st.opacity,
@@ -360,9 +365,6 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
                 <div
                   style={{
                     ...textStyle(st, size, colors),
-                    // Rahmen und Bild bringen einen Innenabstand mit. Ohne
-                    // beides bleibt der Block unverändert, sonst würde sich
-                    // jeder bestehende Text verschieben.
                     ...(textBorder > 0 || b.src
                       ? {
                           position: "relative",

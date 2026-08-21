@@ -1,115 +1,74 @@
 /*
- * Zusätzliche CV-Layouts.
+ * CV layout geometry only.
  *
- * Minimal und Timeline verwenden absichtlich die bewährte einspaltige
- * Inhalts-/Pagination-Logik von Classic. So bleiben PDF, Seitenumbrüche und
- * lange Inhalte stabil; diese Datei ändert nur die visuelle Komposition.
+ * These selectors may change position, width, spacing and flow. They must not
+ * define the dossier's visual identity. Typography, accent strength, paper
+ * treatment, radii and background intensity live in dossier-theme.css.
+ *
+ * `data-cv-measure-page` receives the same geometry as a real page so manual
+ * pagination measures exactly what the selected structure will render.
  */
 
 /* -------------------------------------------------------------------------- */
-/* Minimal                                                                    */
+/* Luftig                                                                     */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page] {
-  background: #fff !important;
-}
-
-/* Covergrafik nur noch als beinahe unsichtbare Papiertönung. */
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:not(:last-child)[style*="opacity"] {
-  opacity: 0.008 !important;
-}
-
-/* Aus dem Vollbreiten-Balken wird nur eine kleine Signatur oben links. */
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div[style*="height: 2.2mm"] {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-accent="page"] {
   left: 24mm !important;
   right: auto !important;
   width: 22mm !important;
-  height: 0.8mm !important;
   top: 10mm !important;
-  border-radius: 999px !important;
 }
 
-/* Mehr Weissraum als Classic. */
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main] {
   left: 24mm !important;
   right: 24mm !important;
   top: 20mm !important;
   bottom: 18mm !important;
 }
 
-/* Header gross, ruhig, ohne "Template-Karte". */
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:first-child
-  > div {
-  margin-bottom: 7mm !important;
-  gap: 9mm !important;
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-header] {
+  margin-bottom: 7.5mm !important;
+  gap: 8.5mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:first-child
-  > div
-  > div:last-child
-  > div:first-child {
-  font-size: 30pt !important;
-  font-weight: 680 !important;
-  letter-spacing: -0.035em !important;
+/* Keep layout spacing inside the measured row wrapper. Margins on the direct
+ * pagination wrappers are not part of getBoundingClientRect().height. */
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-section] {
+  margin-top: 6.3mm !important;
 }
 
-/* Abschnittstitel: keine lange Linie, nur kleiner Akzent. */
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:has([style*="text-transform: uppercase"]) {
-  margin-top: 6mm !important;
-}
-
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="text-transform: uppercase"] {
-  font-size: 9.4pt !important;
-  letter-spacing: 0.12em !important;
-  font-weight: 750 !important;
-}
-
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 18mm"][style*="background"] {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
   width: 8mm !important;
-  height: 0.4mm !important;
-  opacity: 0.55 !important;
+  flex: 0 0 auto !important;
 }
 
-/* Zeitangaben stehen bei zeitbasierten Zeilen rechts statt als breite Spalte. */
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"]) {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry]:has(> [data-cv-rail]) {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) auto !important;
-  column-gap: 8mm !important;
+  column-gap: 7mm !important;
   align-items: start !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"])
-  > div:first-child {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry] > [data-cv-rail] {
   grid-column: 2 !important;
   grid-row: 1 !important;
   width: auto !important;
-  min-width: 24mm !important;
+  min-width: 23mm !important;
   text-align: right !important;
-  padding-top: 0.5mm !important;
+  padding-top: 0.45mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div
-  > div[style*="display: flex"]:has(> div[style*="width: 27mm"])
-  > div:nth-child(2) {
+html[data-cv-variant="minimal"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry]:has(> [data-cv-rail])
+  > :not([data-cv-rail]) {
   grid-column: 1 !important;
   grid-row: 1 !important;
 }
@@ -118,104 +77,211 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"] [data-cv-page]
 /* Timeline                                                                   */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:not(:last-child)[style*="opacity"] {
-  opacity: 0.018 !important;
-}
-
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div[style*="height: 2.2mm"] {
-  height: 1.2mm !important;
-}
-
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main] {
   left: 21mm !important;
   right: 19mm !important;
   top: 16mm !important;
 }
 
-/* Die eigentliche Achse beginnt unter dem Kopf. */
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child::before {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]::before {
   content: "";
   position: absolute;
   left: 4mm;
   top: 43mm;
   bottom: 2mm;
-  width: 0.35mm;
+  width: 0.28mm;
   border-radius: 999px;
-  background: color-mix(in srgb, currentColor 15%, transparent);
+  background: color-mix(in srgb, currentColor 13%, transparent);
   pointer-events: none;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:not(:first-child) {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
+  > div:not(:has([data-cv-header])) {
   position: relative;
-  padding-left: 12mm;
+  padding-left: 11mm;
 }
 
-/* Punkt für echte Inhaltszeilen. */
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:not(:first-child):not(:has([style*="text-transform: uppercase"]))::before {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
+  > div:has([data-cv-entry])::before {
   content: "";
   position: absolute;
-  left: 1.9mm;
-  top: 2.2mm;
-  width: 4.4mm;
-  height: 4.4mm;
+  left: 2.05mm;
+  top: 2.35mm;
+  width: 3.9mm;
+  height: 3.9mm;
   box-sizing: border-box;
-  border: 1.1mm solid #fff;
+  border: 1mm solid #fff;
   border-radius: 50%;
-  background: color-mix(in srgb, currentColor 48%, transparent);
-  box-shadow: 0 0 0 0.3mm color-mix(in srgb, currentColor 18%, transparent);
+  background: color-mix(in srgb, currentColor 43%, transparent);
+  box-shadow: 0 0 0 0.25mm color-mix(in srgb, currentColor 16%, transparent);
 }
 
-/* Abschnittsüberschriften schneiden die Achse bewusst als Kapitelmarker. */
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:has([style*="text-transform: uppercase"])::before {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
+  > div:has([data-cv-section-title])::before {
   content: "";
   position: absolute;
-  left: 2.4mm;
-  top: 4.3mm;
-  width: 3.2mm;
-  height: 3.2mm;
+  left: 2.55mm;
+  top: 4.45mm;
+  width: 2.9mm;
+  height: 2.9mm;
   border-radius: 50%;
   background: #fff;
-  border: 0.65mm solid currentColor;
-  opacity: 0.55;
+  border: 0.55mm solid currentColor;
+  opacity: 0.5;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="text-transform: uppercase"] {
-  font-size: 9.8pt !important;
-  letter-spacing: 0.095em !important;
-}
-
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 18mm"][style*="background"] {
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
   width: 12mm !important;
-  height: 0.45mm !important;
+  flex: 0 0 auto !important;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  [style*="width: 27mm"] {
-  width: 24mm !important;
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-rail] {
+  width: 23.5mm !important;
 }
 
-/* Etwas mehr Luft zwischen chronologischen Stationen. */
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]
-  > div:last-child
-  > div:not(:first-child):not(:has([style*="text-transform: uppercase"]))
-  > div {
-  margin-bottom: 2.8mm !important;
+html[data-cv-variant="timeline"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
+  > div:has([data-cv-entry]) > [data-cv-entry] {
+  margin-bottom: 2.9mm !important;
 }
 
-/* Folgeseiten: Linie direkt oben beginnen lassen. */
 html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([data-cv-page="0"])
-  > div:last-child::before {
+  > [data-cv-main]::before {
   top: 6mm;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Zweispaltig                                                                */
+/* -------------------------------------------------------------------------- */
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-sidebar] {
+  width: 60mm !important;
+  padding: 14.5mm 8.5mm 13.5mm 9mm !important;
+  border-right-width: var(--dossier-line-thickness) !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main-wash] {
+  left: 60mm !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main] {
+  left: 69mm !important;
+  right: 19mm !important;
+  top: 18.5mm !important;
+  bottom: 17mm !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-main]
+  [data-cv-accent="header"] {
+  width: 32mm !important;
+  margin-top: 3.6mm !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
+  width: auto !important;
+  flex: 1 1 auto !important;
+}
+
+html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page="0"]
+  > [data-cv-sidebar] [data-cv-photo] {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Magazin                                                                    */
+/* -------------------------------------------------------------------------- */
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-accent="page"] {
+  left: 21mm !important;
+  right: auto !important;
+  top: 19mm !important;
+  width: var(--dossier-line-thickness) !important;
+  height: 34mm !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main] {
+  left: 30mm !important;
+  right: 22mm !important;
+  top: 20mm !important;
+  bottom: 18mm !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page="0"]::after {
+  content: "CURRICULUM VITAE";
+  position: absolute;
+  top: 11mm;
+  right: 22mm;
+  font-family: var(--dossier-font);
+  font-size: 6.6pt;
+  font-weight: var(--dossier-heading-weight);
+  letter-spacing: var(--dossier-heading-tracking);
+  color: currentColor;
+  opacity: var(--dossier-muted-opacity);
+  pointer-events: none;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-header] {
+  margin-bottom: 7.5mm !important;
+  padding-bottom: 5.5mm !important;
+  gap: 8.5mm !important;
+  border-bottom: var(--dossier-line-thickness) solid
+    color-mix(in srgb, currentColor 12%, transparent) !important;
+}
+
+/* Keep these margins on the semantic section itself so the hidden pagination
+ * row includes them in its measured height. */
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-section] {
+  margin-top: 6.5mm !important;
+  margin-bottom: 2.5mm !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
+  width: auto !important;
+  flex: 1 1 auto !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry]:has(> [data-cv-rail]) {
+  gap: 6.5mm !important;
+  margin-bottom: 3.1mm !important;
+}
+
+html[data-cv-variant="editorial"] [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry] > [data-cv-rail] {
+  width: 23.5mm !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Zweispalten-Aufbauten spiegeln                                             */
+/* -------------------------------------------------------------------------- */
+
+html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page] {
+  transform: scaleX(-1);
+  transform-origin: center;
+}
+
+html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
+  > [data-cv-sidebar],
+html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
+  > [data-cv-main] {
+  transform: scaleX(-1);
+  transform-origin: center;
 }

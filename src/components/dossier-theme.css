@@ -1,0 +1,258 @@
+/*
+ * Shared dossier design layer.
+ *
+ * Typography is expressed as semantic roles: name, subtitle, heading, body and
+ * muted text speak the same visual language on title page and CV. Geometry is
+ * owned by each document/layout; family identity is owned here.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Shared typography                                                          */
+/* -------------------------------------------------------------------------- */
+
+[data-dossier-role] > div,
+[data-cv-main],
+[data-cv-sidebar],
+[data-cv-name],
+[data-cv-subtitle],
+[data-cv-section-title],
+[data-cv-entry-title],
+[data-cv-body],
+[data-cv-muted] {
+  font-family: var(--dossier-font) !important;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+}
+
+[data-dossier-role="name"] > div,
+[data-cv-name] {
+  font-family: var(--dossier-font) !important;
+  font-weight: var(--dossier-name-weight) !important;
+  letter-spacing: var(--dossier-name-tracking) !important;
+  line-height: var(--dossier-name-line-height) !important;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+[data-dossier-role="subtitle"] > div,
+[data-cv-subtitle] {
+  font-family: var(--dossier-font) !important;
+  font-weight: var(--dossier-subtitle-weight) !important;
+  letter-spacing: var(--dossier-subtitle-tracking) !important;
+  line-height: var(--dossier-subtitle-line-height) !important;
+  text-wrap: balance;
+}
+
+[data-cv-subtitle] {
+  margin-top: var(--dossier-subtitle-gap) !important;
+}
+
+[data-dossier-role="heading"] > div,
+[data-cv-section-title] {
+  font-family: var(--dossier-font) !important;
+  font-weight: var(--dossier-heading-weight) !important;
+  letter-spacing: var(--dossier-heading-tracking) !important;
+  text-transform: var(--dossier-heading-transform) !important;
+  line-height: var(--dossier-heading-line-height) !important;
+  text-wrap: balance;
+}
+
+[data-cv-entry-title] {
+  font-weight: var(--dossier-subtitle-weight) !important;
+  line-height: var(--dossier-subtitle-line-height) !important;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+[data-dossier-role="body"] > div,
+[data-cv-body] {
+  font-family: var(--dossier-font) !important;
+  font-weight: var(--dossier-body-weight) !important;
+  line-height: var(--dossier-body-line-height) !important;
+  text-wrap: pretty;
+}
+
+[data-dossier-role="muted"] > div,
+[data-cv-muted] {
+  font-family: var(--dossier-font) !important;
+  font-weight: var(--dossier-body-weight) !important;
+  line-height: var(--dossier-body-line-height) !important;
+  opacity: var(--dossier-muted-opacity) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Accent language                                                            */
+/* -------------------------------------------------------------------------- */
+
+[data-dossier-role="heading"] > div,
+[data-cv-accent] {
+  filter: opacity(var(--dossier-accent-opacity));
+}
+
+[data-dossier-accent="rule"] svg line,
+[data-dossier-accent="rule"] svg path,
+[data-dossier-accent="rule"] svg polyline {
+  stroke-width: var(--dossier-line-thickness) !important;
+}
+
+[data-cv-accent="header"],
+[data-cv-accent="section"],
+[data-cv-accent="page"] {
+  height: var(--dossier-line-thickness) !important;
+}
+
+[data-cv-section] > div {
+  min-width: 0;
+}
+
+[data-cv-section-title] {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Spacing rhythm                                                             */
+/* -------------------------------------------------------------------------- */
+
+[data-cv-section] {
+  margin-top: var(--dossier-section-gap) !important;
+  margin-bottom: var(--dossier-section-gap-small) !important;
+}
+
+[data-cv-main] [data-cv-entry]:not([data-cv-body]) {
+  margin-bottom: var(--dossier-entry-gap) !important;
+}
+
+[data-cv-main] [data-cv-entry][data-cv-body] {
+  margin-bottom: var(--dossier-entry-gap-small) !important;
+}
+
+[data-cv-layout="classic"] [data-cv-header],
+[data-cv-layout="modern"] [data-cv-main] [data-cv-header] {
+  margin-bottom: var(--dossier-header-gap) !important;
+}
+
+[data-dossier-role="body"] > div,
+[data-dossier-role="subtitle"] > div,
+[data-dossier-role="muted"] > div {
+  line-height: var(--dossier-body-line-height);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Corner radius + photo treatment                                            */
+/* -------------------------------------------------------------------------- */
+
+[data-block-id="lehrbeginn"] span,
+[data-cv-accent] {
+  border-radius: var(--dossier-corner-radius) !important;
+}
+
+[data-dossier-photo="applicant"] img,
+[data-cv-photo] img {
+  filter: contrast(var(--dossier-photo-contrast)) saturate(var(--dossier-photo-saturation));
+}
+
+[data-cv-photo] {
+  align-self: flex-start;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Background intensity                                                       */
+/* -------------------------------------------------------------------------- */
+
+[data-cv-background="motif"] {
+  filter: opacity(var(--dossier-background-intensity));
+}
+
+[data-dossier-document="cover"]
+  > .absolute.inset-0
+  > :not([data-block-id]):not(.z-10) {
+  filter: opacity(var(--dossier-background-intensity));
+}
+
+/* -------------------------------------------------------------------------- */
+/* Family signatures                                                          */
+/* -------------------------------------------------------------------------- */
+
+html[data-dossier-family="classic"] [data-cv-accent="section"] {
+  width: 14mm !important;
+  opacity: 0.52 !important;
+  flex: 0 0 auto !important;
+}
+
+html[data-dossier-family="classic"] [data-dossier-accent="rule"] {
+  opacity: 0.58 !important;
+}
+
+html[data-dossier-family="modern"] [data-cv-accent="section"] {
+  width: 20mm !important;
+  opacity: 0.9 !important;
+  flex: 0 0 auto !important;
+}
+
+html[data-dossier-family="modern"] [data-dossier-accent="rule"] {
+  opacity: 0.92 !important;
+}
+
+html[data-dossier-family="executive"] [data-cv-accent="section"] {
+  width: auto !important;
+  max-width: 28mm;
+  flex: 1 1 18mm !important;
+  opacity: 0.36 !important;
+}
+
+html[data-dossier-family="executive"] [data-dossier-accent="rule"] {
+  opacity: 0.44 !important;
+}
+
+html[data-dossier-family="executive"] [data-dossier-role="name"] > div,
+html[data-dossier-family="executive"] [data-cv-name] {
+  font-variant-ligatures: common-ligatures;
+}
+
+html[data-dossier-family="editorial"] [data-cv-accent="section"] {
+  width: auto !important;
+  flex: 1 1 auto !important;
+  opacity: 0.3 !important;
+}
+
+html[data-dossier-family="editorial"] [data-dossier-accent="rule"] {
+  opacity: 0.38 !important;
+}
+
+html[data-dossier-family="editorial"] [data-dossier-role="name"] > div,
+html[data-dossier-family="editorial"] [data-cv-name] {
+  font-variant-ligatures: common-ligatures;
+}
+
+/* -------------------------------------------------------------------------- */
+/* M5.7 — premium polish                                                      */
+/* -------------------------------------------------------------------------- */
+
+[data-cv-page-label] {
+  font-family: var(--dossier-font) !important;
+  font-size: 7.6pt !important;
+  font-weight: var(--dossier-body-weight) !important;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+  opacity: var(--dossier-muted-opacity) !important;
+  filter: opacity(0.82);
+}
+
+/* Continuation pages keep exactly the same main-column capacity as measured. */
+[data-cv-page]:not([data-cv-page="0"]) [data-cv-sidebar] [data-cv-header] {
+  opacity: 0.82;
+}
+
+[data-cv-section] > div {
+  gap: 2.7mm !important;
+}
+
+[data-cv-date] {
+  font-variant-numeric: tabular-nums;
+}
+
+[data-dossier-document="cover"],
+[data-dossier-document="cv"] {
+  -webkit-font-smoothing: antialiased;
+}
