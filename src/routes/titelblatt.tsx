@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   FormBetrieb,
@@ -842,6 +842,12 @@ function Titelblatt() {
           )}
 
           <div className="flex shrink-0 items-center gap-2">
+            <Link
+              to="/lebenslauf"
+              className="hidden rounded-md border border-input px-3 py-2 text-sm hover:bg-accent sm:inline-flex"
+            >
+              Lebenslauf
+            </Link>
             <ThemeToggle />
             <label className="hidden items-center gap-1 sm:inline-flex">
               <span className="sr-only">Zoom der Vorschau</span>
