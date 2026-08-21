@@ -44,6 +44,13 @@ function contrastOnWhite(c: Rgb): number {
   return 1.05 / (luminance(c) + 0.05);
 }
 
+/** Kontrast zweier Farben nach WCAG. */
+function contrast(a: Rgb, b: Rgb): number {
+  const la = luminance(a);
+  const lb = luminance(b);
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+
 /** So weit abdunkeln, bis der Kontrast auf Weiss reicht. */
 function darken(c: Rgb, target: number): Rgb {
   let out = c;
@@ -128,4 +135,70 @@ export function cvPalette(colors: Record<string, string>): CvPalette {
     accent: toHex(accent),
     paper: "#ffffff",
   };
+}
+
+export type CvOnColor = {
+  /** Grundfarbe der Fläche – unverändert, voll deckend. */
+  bg: string;
+  /** Schrift darauf: hell auf dunklem Grund, dunkel auf hellem. */
+  ink: string;
+  /** Zurückgenommene Schrift auf derselben Fläche. */
+  muted: string;
+  /** Linien und Überschriften auf derselben Fläche. */
+  accent: string;
+  /** Trennlinien und Rahmen auf derselben Fläche. */
+  hairline: string;
+};
+
+const WHITE: Rgb = { r: 255, g: 255, b: 255 };
+const NEAR_BLACK: Rgb = { r: 24, g: 24, b: 27 };
+
+/** Richtung Weiss bzw. Schwarz mischen. */
+function mix(c: Rgb, target: Rgb, amount: number): Rgb {
+  return {
+    r: c.r + (target.r - c.r) * amount,
+    g: c.g + (target.g - c.g) * amount,
+    b: c.b + (target.b - c.b) * amount,
+  };
+}
+
+/**
+ * Schriftfarben **auf** einer farbigen Fläche – Seitenspalte, Kopfband,
+ * Kartengrund.
+ *
+ * Anders als `cvPalette` wird die Fläche hier nicht aufgehellt: sie behält den
+ * Charakter des Titelblatts und bekommt stattdessen eine Schrift, die darauf
+ * lesbar ist. Genau dieser Rollenwechsel ersetzt das frühere pauschale
+ * Aufhellen, das aus jeder Vorlage dasselbe Pastell gemacht hat.
+ */
+export function onColorRoles(background: string, accentHint?: string): CvOnColor {
+  const bg = parse(background) ?? NEAR_BLACK;
+  const dark = contrast(bg, WHITE) >= contrast(bg, NEAR_BLACK);
+
+  const ink = dark ? WHITE : NEAR_BLACK;
+  // 4.5:1 ist für Fliesstext gefordert; darunter wird weiter Richtung Ink
+  // gemischt, statt die Fläche zu verwässern.
+  let muted = mix(ink, bg, 0.32);
+  for (let i = 0; i < 12 && contrast(muted, bg) < 4.5; i++) muted = mix(muted, ink, 0.2);
+
+  // Ein Akzent auf farbigem Grund funktioniert nur, wenn er sich vom Grund
+  // absetzt. Tut die Wunschfarbe das nicht, gewinnt die Lesbarkeit.
+  const hint = accentHint ? parse(accentHint) : null;
+  const accent = hint && contrast(hint, bg) >= 4.5 ? hint : ink;
+
+  return {
+    bg: background,
+    ink: toHex(ink),
+    muted: toHex(muted),
+    accent: toHex(accent),
+    hairline: toHex(mix(ink, bg, 0.62)),
+  };
+}
+
+/** Reicht der Kontrast zweier Farben für Fliesstext? Für die Prüfungen. */
+export function readable(foreground: string, background: string, target = 4.5): boolean {
+  const f = parse(foreground);
+  const b = parse(background);
+  if (!f || !b) return false;
+  return contrast(f, b) >= target;
 }

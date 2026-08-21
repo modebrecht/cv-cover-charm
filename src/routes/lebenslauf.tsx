@@ -36,6 +36,7 @@ import {
   type Snapshot,
 } from "@/lib/history";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
+import { applyDossierTheme } from "@/lib/dossier-theme";
 
 export const Route = createFileRoute("/lebenslauf")({
   head: () => ({
@@ -52,11 +53,18 @@ export const Route = createFileRoute("/lebenslauf")({
 });
 
 const STORAGE_KEY = "lebenslauf:v1";
-const SAVE_VERSION = 2;
+const SAVE_VERSION = 3;
 
-/** Vorgabe: 94 % Transparenz – das Titelblatt-Design bleibt nur als leiser Akzent sichtbar. */
-const DEFAULT_BG_OPACITY = 0.06;
-const LEGACY_DEFAULT_BG_OPACITIES = [0.25, 0.12];
+/**
+ * Vorgabe: 75 % Transparenz.
+ *
+ * Der Regler steuert nur noch die Zierde – Spalte, Band und Kartengrund einer
+ * Bauform bleiben unabhängig davon voll deckend. Darum darf die Zierde wieder
+ * sichtbar sein. Der frühere Wert von 6 % stammt aus der Zeit, als der
+ * Hintergrund die Vorlage allein tragen musste und dabei unsichtbar wurde.
+ */
+const DEFAULT_BG_OPACITY = 0.25;
+const LEGACY_DEFAULT_BG_OPACITIES = [0.06, 0.12];
 
 function defaultColors(template: TemplateId): Record<string, string> {
   const t = TEMPLATES.find((x) => x.id === template) ?? TEMPLATES[0];
@@ -259,6 +267,20 @@ function Lebenslauf() {
   useEffect(() => {
     if (!menuOpen) setHistoryOpen(false);
   }, [menuOpen]);
+
+  /**
+   * Schriftbild der Vorlage auf das Dokument legen.
+   *
+   * `dossier-theme.css` gestaltet den Lebenslauf über `--dossier-*` und
+   * `html[data-dossier-family]`. Gesetzt wurden diese Werte bisher nur beim
+   * Wechsel der Vorlage im Titelblatt – auf dieser Seite blieben sie deshalb
+   * auf der Familie "modern" stehen, egal welche Vorlage gewählt war. Jede
+   * Regel mit `!important` hat damit Moderns Typografie erzwungen, also genau
+   * das, was hier eigentlich von der Vorlage kommen soll.
+   */
+  useEffect(() => {
+    applyDossierTheme(design.template);
+  }, [design.template]);
 
   useEffect(() => {
     if (!status) return;
