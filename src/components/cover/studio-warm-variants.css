@@ -1,0 +1,397 @@
+/* -------------------------------------------------------------------------- */
+/* Studio + Warm alternatives                                                  */
+/* -------------------------------------------------------------------------- */
+/*
+ * These four variants deliberately inherit the proven Warm text schema and
+ * reinterpret only its composition. Studio 2/3 keep Studio's strong split
+ * between a dark structural area and a bright signal field; Warm 2/3 keep
+ * Warm's soft, optimistic geometry. Cover pages are expressive, CV pages use
+ * the same motif at lower visual weight with a calm paper reading surface.
+ * No isolated decorative rules are introduced.
+ */
+
+html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child,
+html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child,
+html[data-dossier-template="warm2"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child,
+html[data-dossier-template="warm3"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* -------------------------------------------------------------------------- */
+/* STUDIO 2 — slim dark rail + broad yellow signal field                      */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 64mm !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.055), transparent 42%, rgb(0 0 0 / 0.12)) !important;
+}
+
+html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 64mm !important;
+  right: auto !important;
+  top: 28mm !important;
+  bottom: auto !important;
+  width: 146mm !important;
+  height: 46mm !important;
+  border-radius: 0 0 0 23mm !important;
+  opacity: 1 !important;
+  filter: none !important;
+  background-image: linear-gradient(115deg, rgb(255 255 255 / 0.16), transparent 62%) !important;
+}
+
+html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: 118mm !important;
+  right: auto !important;
+  top: 176mm !important;
+  bottom: auto !important;
+  width: 118mm !important;
+  height: 118mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.18 !important;
+  filter: blur(12mm);
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(-62mm, -58mm) scale(0.84);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cover"] [data-block-id="name"] {
+  width: 116mm !important;
+  transform: translate(55mm, -104mm);
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cover"] [data-block-id="beruf"] {
+  width: 112mm !important;
+  transform: translate(55mm, -38mm);
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  width: 112mm !important;
+  transform: translate(55mm, -35mm);
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"]) {
+  transform: translate(55mm, 0);
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 64mm !important;
+  right: 8mm !important;
+  top: 10mm !important;
+  bottom: 10mm !important;
+  border-radius: 0 6mm 6mm 0 !important;
+  box-shadow: 0 3mm 14mm rgb(32 42 59 / 0.055);
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-main] {
+  left: 73mm !important;
+  right: 20mm !important;
+  top: 18mm !important;
+  bottom: 16mm !important;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* STUDIO 3 — narrower teal rail + curved mint split                          */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 54mm !important;
+  height: 100% !important;
+  border-radius: 0 27mm 27mm 0 !important;
+  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.05), transparent 50%, rgb(0 0 0 / 0.1)) !important;
+}
+
+html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 44mm !important;
+  right: auto !important;
+  top: 22mm !important;
+  bottom: auto !important;
+  width: 166mm !important;
+  height: 70mm !important;
+  border-radius: 0 0 0 38mm !important;
+  opacity: 0.96 !important;
+  filter: none !important;
+  background-image: linear-gradient(125deg, rgb(255 255 255 / 0.2), transparent 64%) !important;
+}
+
+html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: 120mm !important;
+  right: auto !important;
+  top: 178mm !important;
+  bottom: auto !important;
+  width: 128mm !important;
+  height: 128mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.2 !important;
+  filter: blur(13mm);
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(-55mm, -52mm) scale(0.8);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cover"] [data-block-id="name"] {
+  width: 124mm !important;
+  transform: translate(50mm, -96mm);
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cover"] [data-block-id="beruf"] {
+  width: 118mm !important;
+  transform: translate(50mm, -31mm);
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  width: 118mm !important;
+  transform: translate(50mm, -28mm);
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"]) {
+  transform: translate(47mm, 0);
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 54mm !important;
+  right: 9mm !important;
+  top: 11mm !important;
+  bottom: 11mm !important;
+  border-radius: 0 10mm 10mm 0 !important;
+  box-shadow: 0 3mm 15mm rgb(23 61 58 / 0.055);
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-main] {
+  left: 65mm !important;
+  right: 20mm !important;
+  top: 19mm !important;
+  bottom: 16mm !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* WARM 2 — coral/apricot cloud, softer and brighter than Warm                */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="warm2"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: -24mm !important;
+  right: auto !important;
+  top: -36mm !important;
+  width: 198mm !important;
+  height: 146mm !important;
+  border-radius: 0 0 104mm 0 !important;
+  background-image: linear-gradient(125deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0.14), transparent) !important;
+}
+
+html[data-dossier-template="warm2"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 92mm !important;
+  right: auto !important;
+  top: 8mm !important;
+  bottom: auto !important;
+  width: 142mm !important;
+  height: 142mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.68 !important;
+  filter: blur(11mm);
+}
+
+html[data-dossier-template="warm2"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: -14mm !important;
+  right: auto !important;
+  top: 202mm !important;
+  bottom: auto !important;
+  width: 106mm !important;
+  height: 106mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.24 !important;
+  filter: blur(9mm);
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(50mm, -22mm) scale(0.82);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(0, -14mm);
+}
+
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: translate(0, -11mm);
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 10mm !important;
+  right: 10mm !important;
+  top: 12mm !important;
+  bottom: 12mm !important;
+  border-radius: 11mm !important;
+  box-shadow: 0 4mm 17mm rgb(99 55 42 / 0.055);
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-main] {
+  left: 21mm !important;
+  right: 21mm !important;
+  top: 21mm !important;
+  bottom: 19mm !important;
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-section-title] {
+  padding: 0.8mm 2.4mm;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 11%, transparent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* WARM 3 — mature teal/amber warmth with one broad organic edge              */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="warm3"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: -8mm !important;
+  right: -8mm !important;
+  top: -12mm !important;
+  width: calc(100% + 16mm) !important;
+  height: 100mm !important;
+  border-radius: 0 0 78mm 22mm !important;
+  background-image: linear-gradient(118deg, rgb(255 255 255 / 0.03), rgb(255 255 255 / 0.12), transparent) !important;
+}
+
+html[data-dossier-template="warm3"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 118mm !important;
+  right: auto !important;
+  top: -28mm !important;
+  bottom: auto !important;
+  width: 126mm !important;
+  height: 126mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.72 !important;
+  filter: blur(10mm);
+}
+
+html[data-dossier-template="warm3"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: -16mm !important;
+  right: auto !important;
+  top: 60mm !important;
+  bottom: auto !important;
+  width: 94mm !important;
+  height: 94mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.3 !important;
+  filter: blur(9mm);
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(50mm, -17mm) scale(0.8);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(0, -11mm);
+}
+
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: translate(0, -8mm);
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 11mm !important;
+  right: 11mm !important;
+  top: 12mm !important;
+  bottom: 12mm !important;
+  border-radius: 4mm 11mm 11mm 11mm !important;
+  box-shadow: 0 4mm 16mm rgb(30 111 104 / 0.05);
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-main] {
+  left: 21mm !important;
+  right: 21mm !important;
+  top: 21mm !important;
+  bottom: 19mm !important;
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-section-title] {
+  padding: 0.8mm 2.4mm;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
