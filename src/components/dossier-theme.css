@@ -31,7 +31,9 @@
   letter-spacing: var(--dossier-name-tracking) !important;
   line-height: var(--dossier-name-line-height) !important;
   text-wrap: balance;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 [data-dossier-role="subtitle"] > div,
@@ -61,7 +63,9 @@
   font-weight: var(--dossier-subtitle-weight) !important;
   line-height: var(--dossier-subtitle-line-height) !important;
   text-wrap: pretty;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 [data-dossier-role="body"] > div,
@@ -78,6 +82,39 @@
   font-weight: var(--dossier-body-weight) !important;
   line-height: var(--dossier-body-line-height) !important;
   opacity: var(--dossier-muted-opacity) !important;
+}
+
+/*
+ * CV wrapping policy:
+ * - normal CV text may wrap only at real word boundaries
+ * - never split ordinary words just to fill a narrow column
+ * - compact semantic units (dates, language/date rails, document/page labels)
+ *   stay together as a single visual token
+ *
+ * Some renderer nodes still carry an inline overflowWrap fallback for legacy
+ * narrow layouts. The !important rule here deliberately overrides that old
+ * emergency behaviour for normal CV text.
+ */
+[data-dossier-document="cv"]
+  :is(
+    [data-cv-name],
+    [data-cv-subtitle],
+    [data-cv-section-title],
+    [data-cv-entry-title],
+    [data-cv-body],
+    [data-cv-muted]
+  ) {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
+}
+
+[data-dossier-document="cv"]
+  :is([data-cv-date], [data-cv-rail], [data-cv-doc-title], [data-cv-page-label]) {
+  white-space: nowrap;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
 }
 
 /* -------------------------------------------------------------------------- */
