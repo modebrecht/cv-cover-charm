@@ -51,29 +51,64 @@ function isNeutral({ s, l }: Hsl): boolean {
 
 export type Palette = { name: string; colors: Record<string, string> };
 
+type PaperMood = {
+  hue: number;
+  saturation: number;
+  /** Noticeably tinted but still calm/printable on light templates. */
+  lightness: number;
+  /** Dark templates stay dark so their contrast logic is not inverted. */
+  darkLightness: number;
+};
+
 type Variant = {
   name: string;
   hue: number;
-  /** A tinted paper makes the second row visually different while staying printable. */
-  paper?: { hue: number; saturation: number; lightness: number };
+  paper?: PaperMood;
 };
 
 /**
  * Eight useful choices on every template:
- * - row one keeps the template's original paper/background and changes its character colours;
- * - row two also introduces a coordinated, still print-safe paper tint.
+ * - the first four keep the template background EXACTLY unchanged;
+ * - the second four use genuinely different, coordinated background colours.
  *
- * Names are retained for accessibility/tooltips but the chooser presents the palettes visually.
+ * Dark templates receive dark versions of those four paper moods instead of
+ * being flipped onto a light page. That preserves the template's contrast and
+ * keeps the variants usable for real applications.
  */
 const VARIANTS: Variant[] = [
   { name: "Kühl", hue: 214 },
   { name: "Türkis", hue: 176 },
   { name: "Grün", hue: 148 },
-  { name: "Nebel", hue: 218, paper: { hue: 218, saturation: 0.28, lightness: 0.91 } },
-  { name: "Salbei", hue: 154, paper: { hue: 150, saturation: 0.22, lightness: 0.9 } },
-  { name: "Sand", hue: 31, paper: { hue: 38, saturation: 0.32, lightness: 0.9 } },
-  { name: "Rosé", hue: 344, paper: { hue: 350, saturation: 0.3, lightness: 0.91 } },
+  {
+    name: "Blaugrau",
+    hue: 218,
+    paper: { hue: 216, saturation: 0.34, lightness: 0.85, darkLightness: 0.17 },
+  },
+  {
+    name: "Salbei",
+    hue: 154,
+    paper: { hue: 148, saturation: 0.27, lightness: 0.85, darkLightness: 0.18 },
+  },
+  {
+    name: "Sand",
+    hue: 27,
+    paper: { hue: 38, saturation: 0.38, lightness: 0.85, darkLightness: 0.19 },
+  },
+  {
+    name: "Rosé",
+    hue: 336,
+    paper: { hue: 348, saturation: 0.32, lightness: 0.85, darkLightness: 0.18 },
+  },
 ];
+
+function paperColor(originalBackground: Hsl, mood: PaperMood): Hsl {
+  const darkTemplate = originalBackground.l < 0.45;
+  return {
+    h: mood.hue,
+    s: mood.saturation,
+    l: darkTemplate ? mood.darkLightness : mood.lightness,
+  };
+}
 
 function variantColors(
   parsed: { key: string; hsl: Hsl }[],
@@ -81,15 +116,26 @@ function variantColors(
   variant: Variant,
 ): Record<string, string> {
   const delta = lead ? variant.hue - lead.hsl.h : 0;
+  const originalBg = parsed.find((entry) => entry.key === "bg")?.hsl ?? { h: 0, s: 0, l: 1 };
+  const paper = variant.paper ? paperColor(originalBg, variant.paper) : null;
 
   return Object.fromEntries(
     parsed.map(({ key, hsl }) => {
-      if (key === "bg" && variant.paper) return [key, hslToHex({ h: variant.paper.hue, s: variant.paper.saturation, l: variant.paper.lightness })];
+      if (key === "bg" && paper) return [key, hslToHex(paper)];
 
-      // On tinted paper, give the normal body ink a very subtle relation to the paper.
-      // It stays dark enough for applications/printing and does not invert the design.
-      if (key === "ink" && variant.paper && hsl.l < 0.5) {
-        return [key, hslToHex({ h: variant.paper.hue, s: Math.max(0.12, Math.min(hsl.s, 0.28)), l: Math.min(hsl.l, 0.18) })];
+      // When the page/background changes, body text follows its brightness.
+      // This matters especially for dark dossier templates: a new dark blue,
+      // sage, sand or berry background still needs reliably light typography.
+      if (key === "ink" && paper) {
+        const darkInk = paper.l >= 0.55;
+        return [
+          key,
+          hslToHex({
+            h: paper.h,
+            s: darkInk ? 0.2 : 0.08,
+            l: darkInk ? 0.14 : 0.94,
+          }),
+        ];
       }
 
       if (isNeutral(hsl)) return [key, hslToHex(hsl)];
@@ -101,7 +147,9 @@ function variantColors(
 export function palettesFor(slots: ColorSlot[]): Palette[] {
   const original = Object.fromEntries(slots.map((s) => [s.key, s.default]));
   const parsed = slots.map((s) => ({ key: s.key, hsl: hexToHsl(s.default) }));
-  const lead = parsed.find((p) => p.key !== "bg" && p.key !== "ink" && !isNeutral(p.hsl)) ?? parsed.find((p) => !isNeutral(p.hsl));
+  const lead =
+    parsed.find((p) => p.key !== "bg" && p.key !== "ink" && !isNeutral(p.hsl)) ??
+    parsed.find((p) => !isNeutral(p.hsl));
   const variants = VARIANTS.map((variant) => ({
     name: variant.name,
     colors: variantColors(parsed, lead, variant),
