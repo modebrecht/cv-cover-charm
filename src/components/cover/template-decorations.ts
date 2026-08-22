@@ -75,37 +75,21 @@ const line = (
   opacity = 1,
 ): DecorSpec => ({ id, label, shape: "line", x, y, w, h: 0, color, fill: null, strokeWidth: thickness, opacity });
 
-const frame = (
-  id: string,
-  label: string,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  color: string,
-  thickness: number,
-  opacity = 1,
-): DecorSpec => ({ id, label, shape: "rect", x, y, w, h, color, fill: null, strokeWidth: thickness, opacity });
-
 /**
  * Simple visual primitives that belong to a template but should behave like
- * normal editor elements. Full-page backgrounds, clipped hero masks and other
- * complex structural artwork deliberately stay in CoverBackground.
+ * normal editor elements. Full-page backgrounds, frames, clipped hero masks
+ * and other complex structural artwork deliberately stay in CoverBackground.
  */
 const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
-  klassisch: [frame("decor-frame", "Rahmen", 10, 10, 190, 277, "ink", 0.265, 0.15)],
-
   modern: [
-    line("decor-accent-line", "Akzentstrich", 20, 21, 10, 2, "accent"),
-    circle("decor-accent-circle", "Kreisfläche", 112, 24, 86, 86, "accent", 0.1),
-    rect("decor-bottom-band", "Unteres Farbband", 0, 293, 210, 4, "primary"),
+    // Keep the ids introduced by the first Kreis edit so existing saved
+    // overrides continue to apply after this catalogue-wide refactor.
+    line("modernAccentLine", "Akzentstrich", 20, 21, 10, 2, "accent"),
+    circle("modernAccentCircle", "Kreisfläche", 112, 24, 86, 86, "accent", 0.1),
+    rect("modernBottomBand", "Unteres Farbband", 0, 293, 210, 4, "primary"),
   ],
 
-  edel: [
-    frame("decor-frame-outer", "Äusserer Rahmen", 12, 12, 186, 273, "accent", 0.159, 0.5),
-    frame("decor-frame-inner", "Innerer Rahmen", 15, 15, 180, 267, "accent", 0.106, 0.25),
-    line("decor-center-line", "Akzentstrich", 85, 196, 40, 0.159, "accent", 0.7),
-  ],
+  edel: [line("decor-center-line", "Akzentstrich", 85, 196, 40, 0.159, "accent", 0.7)],
 
   colorful: [
     rect("decor-top-band", "Kopfband", 0, 0, 210, 28, "primary"),
@@ -183,7 +167,6 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
   ],
 
   pastell: [
-    frame("decor-frame", "Rahmen", 12, 12, 186, 273, "primary", 0.4, 0.35),
     rect("decor-top-band", "Kopfband", 0, 0, 210, 8, "primary"),
     line("decor-middle-rule", "Mittlere Linie", 12, 150, 186, 0.3, "primary", 0.3),
     circle("decor-bottom-ellipse", "Untere Kreisfläche", -30, 237, 160, 120, "secondary", 0.5),
@@ -198,6 +181,7 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
 
 function blockFromSpec(spec: DecorSpec, overrides: StyleOverrides): Block {
   const ratio = spec.h === undefined || spec.shape === "line" ? 0 : spec.h / Math.max(spec.w, 0.01);
+  const fill = spec.fill !== undefined ? spec.fill : spec.shape === "line" ? null : spec.color;
   return {
     id: spec.id,
     label: spec.label,
@@ -211,7 +195,7 @@ function blockFromSpec(spec: DecorSpec, overrides: StyleOverrides): Block {
       w: spec.w,
       ratio,
       color: spec.color,
-      fill: spec.fill ?? (spec.shape === "line" ? null : spec.color),
+      fill,
       opacity: spec.opacity ?? 1,
       strokeWidth: spec.strokeWidth ?? (spec.shape === "line" ? 0.4 : 0),
       bgRadius: spec.radius ?? 0,
