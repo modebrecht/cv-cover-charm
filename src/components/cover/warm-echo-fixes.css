@@ -1,10 +1,9 @@
-/* Warm 2 / Warm 3 cover balance
+/* Warm 2 / Warm 3 / Glow cover balance
  *
- * Both covers concentrate their colour language in the upper hero. Re-use the
- * existing secondary-colour shape as a soft lower-page echo instead of adding
- * a new hard-coded colour. The outer CoverBackground still clips to A4, so the
- * visible shape can safely extend beyond the hero plane without page-edge
- * artefacts.
+ * The warm variants re-use their existing colour language to give the lower
+ * page some weight. Glow also needs a deliberate footer field: its expressive
+ * hero is strong, but the original lower half leaves the contact blocks
+ * floating on a large empty paper surface.
  */
 
 /* Warm 2: let the existing apricot secondary blob escape the upper hero and
@@ -55,4 +54,55 @@ html[data-dossier-template="warm3"]
   border-radius: 9999px !important;
   opacity: 0.18 !important;
   filter: blur(7mm) !important;
+}
+
+/* Glow: turn the former almost-invisible lower glow into one large intentional
+ * footer field. It inherits the hero's primary colour so palette edits keep
+ * working, while the broad elliptical top edge echoes the cover's upper curve.
+ * The field overscans the A4 bounds so PDF export cannot expose white seams. */
+html[data-dossier-template="glow"]
+  body
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  overflow: visible !important;
+}
+
+html[data-dossier-template="glow"]
+  body
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  left: 8mm !important;
+  right: auto !important;
+  top: 252mm !important;
+  bottom: auto !important;
+  width: 250mm !important;
+  height: 110mm !important;
+  border-radius: 50% 50% 0 0 / 26mm 26mm 0 0 !important;
+  background-color: inherit !important;
+  background-image: none !important;
+  opacity: 0.96 !important;
+  filter: none !important;
+}
+
+/* Contact information now belongs to the footer instead of looking abandoned
+ * at the bottom of the page. Keep the hierarchy subtle but print-safe. */
+html[data-dossier-template="glow"]
+  body
+  [data-dossier-document="cover"]
+  :is([data-block-id="kontaktTitel"], [data-block-id="anTitel"])
+  > div {
+  color: #fff !important;
+  opacity: 0.96 !important;
+}
+
+html[data-dossier-template="glow"]
+  body
+  [data-dossier-document="cover"]
+  :is([data-block-id="kontakt"], [data-block-id="empfaenger"])
+  > div {
+  color: #fff !important;
+  opacity: 0.88 !important;
 }
