@@ -74,6 +74,7 @@
   font-weight: var(--dossier-body-weight) !important;
   line-height: var(--dossier-body-line-height) !important;
   text-wrap: pretty;
+  white-space: pre-line;
 }
 
 [data-dossier-role="muted"] > div,
