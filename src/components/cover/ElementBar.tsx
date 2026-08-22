@@ -30,6 +30,7 @@ type Props = {
 };
 
 type Tab = "text" | "absatz" | "farbe" | "rahmen" | "bild" | "position" | "form";
+type LayeredStyle = BlockStyle & { layer?: "back" | "front" };
 
 const TAB_LABELS: Record<Tab, string> = {
   text: "Text",
@@ -43,6 +44,10 @@ const TAB_LABELS: Record<Tab, string> = {
 
 const inputCls =
   "rounded-md border border-input bg-background px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-ring";
+
+/** Die Form-Regler dürfen die komplette A4-Seite ausfüllen. */
+const A4_WIDTH_MM = 210;
+const A4_HEIGHT_MM = 297;
 
 /** Häufige Verlaufsrichtungen als Knopf – schneller als der Gradregler. */
 const GRAD_ANGLES = [
@@ -200,7 +205,7 @@ export function ElementBar({
   titlePlaceholder,
   onTitleChange,
 }: Props) {
-  const st = block.style;
+  const st = block.style as LayeredStyle;
   const isText = block.kind === "text";
   const isShape = block.kind === "shape";
   const isPhoto = block.kind === "photo";
@@ -492,7 +497,7 @@ export function ElementBar({
               <Slider
                 value={st.w}
                 min={5}
-                max={200}
+                max={A4_WIDTH_MM}
                 step={1}
                 onChange={(w) => onChange({ w, ...keepHeight(block, w) })}
                 suffix="mm"
@@ -504,7 +509,7 @@ export function ElementBar({
                 <Slider
                   value={heightMm(block)}
                   min={5}
-                  max={200}
+                  max={A4_HEIGHT_MM}
                   step={1}
                   onChange={(mm) => onChange({ ratio: mm / Math.max(1, st.w) })}
                   suffix="mm"
@@ -846,12 +851,31 @@ export function ElementBar({
               <Slider
                 value={st.w}
                 min={5}
-                max={200}
+                max={A4_WIDTH_MM}
                 step={1}
                 onChange={(w) => onChange({ w, ...keepHeight(block, w) })}
                 suffix="mm"
               />
             </Ctl>
+
+            {custom && (
+              <Ctl label="Ebene">
+                <button
+                  type="button"
+                  className={toggle((st.layer ?? "front") === "back")}
+                  onClick={() => onChange({ layer: "back" } as Partial<LayeredStyle>)}
+                >
+                  Hinter Text
+                </button>
+                <button
+                  type="button"
+                  className={toggle((st.layer ?? "front") === "front")}
+                  onClick={() => onChange({ layer: "front" } as Partial<LayeredStyle>)}
+                >
+                  Vor Text
+                </button>
+              </Ctl>
+            )}
 
             {(st.follows || st.above || st.anchorBottom) && (
               <Ctl label="Verkettung">
