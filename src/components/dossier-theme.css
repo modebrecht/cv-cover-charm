@@ -226,6 +226,23 @@ html[data-dossier-family="editorial"] [data-cv-name] {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Template cleanup                                                           */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Blockig lives from large rectangular color fields. Small standalone strokes
+ * fight that language and read like accidental leftovers, so the short bar in
+ * the background and the old footer divider are deliberately suppressed. The
+ * same background cleanup applies to the CV to keep both dossier pages paired.
+ */
+html[data-dossier-template="blockig"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:nth-child(3),
+html[data-dossier-template="blockig"] [data-dossier-document="cover"] [data-block-id="trenner"] {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
 /* M5.7 — premium polish                                                      */
 /* -------------------------------------------------------------------------- */
 
