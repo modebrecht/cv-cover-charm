@@ -266,17 +266,24 @@ function edgeLeak(image: DecodedPng) {
   };
 }
 
+async function expectNoLeak(sheet: Locator, label: string) {
+  const leak = edgeLeak(decodePng(await sheet.screenshot({ animations: "disabled" })));
+  expect(leak.bottomRatio, `${label} bottom edge`).toBeLessThanOrEqual(0.18);
+  expect(leak.rightRatio, `${label} right edge`).toBeLessThanOrEqual(0.18);
+}
+
 test.describe("Gradient dossier page-edge smoke", () => {
   test.setTimeout(120_000);
 
   for (const template of GRADIENTS) {
     test(`${template.id} cover and CV have no white 1px seam`, async ({ page }) => {
       await page.setViewportSize({ width: 1137, height: 913 });
-      for (const sheet of [await seedCover(page, template), await seedCv(page, template)]) {
-        const leak = edgeLeak(decodePng(await sheet.screenshot({ animations: "disabled" })));
-        expect(leak.bottomRatio, `${template.id} bottom edge`).toBeLessThanOrEqual(0.18);
-        expect(leak.rightRatio, `${template.id} right edge`).toBeLessThanOrEqual(0.18);
-      }
+
+      const cover = await seedCover(page, template);
+      await expectNoLeak(cover, `${template.id} cover`);
+
+      const cv = await seedCv(page, template);
+      await expectNoLeak(cv, `${template.id} CV`);
     });
   }
 });
