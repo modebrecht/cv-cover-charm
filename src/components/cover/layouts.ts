@@ -3472,9 +3472,26 @@ export function buildBlocks(
     },
   }));
 
-  customs.forEach((c, i) => {
+  blocks.push(...buildCustomBlocks(template, customs, overrides, slots));
+
+  return blocks;
+}
+
+/**
+ * Nur die selbst eingefügten Elemente als Blöcke.
+ *
+ * Der Lebenslauf hat keine Vorlagen-Blöcke, trägt aber dieselben eigenen
+ * Felder – und soll sie exakt gleich aufbauen wie das Titelblatt.
+ */
+export function buildCustomBlocks(
+  template: TemplateId,
+  customs: CustomField[],
+  overrides: StyleOverrides,
+  slots: ColorSlot[],
+): Block[] {
+  return customs.map((c, i) => {
     const kind = customKind(c);
-    blocks.push({
+    return {
       id: c.id,
       label: c.label || (kind === "shape" ? "Form" : kind === "image" ? "Bild" : "Eigenes Feld"),
       kind,
@@ -3483,10 +3500,8 @@ export function buildBlocks(
       src: c.src,
       lines: kind === "text" && c.text ? c.text.split("\n") : [],
       style: { ...customDefaultStyle(template, i, slots, c), ...(overrides[c.id] ?? {}) },
-    });
+    };
   });
-
-  return blocks;
 }
 
 export function resolveColor(value: string, colors: Record<string, string>) {

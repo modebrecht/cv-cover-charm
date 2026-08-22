@@ -1,9 +1,9 @@
 import { useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { PAGE } from "@/default-config";
 import { CoverBackground } from "@/components/cover/CoverBackground";
-import { ShapeElement } from "@/components/cover/ShapeElement";
-import { customDefaultStyle } from "@/components/cover/layouts";
-import { customKind, TEMPLATES, type CustomField } from "@/components/cover/types";
+import { BlockLayer, type Point } from "@/components/cover/BlockLayer";
+import { buildCustomBlocks, type StyleOverrides } from "@/components/cover/layouts";
+import { TEMPLATES, type BlockStyle, type CustomField } from "@/components/cover/types";
 import {
   getCvLayout,
   getCvLayoutChoice,
@@ -12,13 +12,7 @@ import {
   type CvLayoutId,
 } from "./layout";
 import { getCvPlacements, subscribeCvPlacements } from "./placement";
-import {
-  alphaHex,
-  cvVisualPolicy,
-  shapeSizeFactor,
-  sidebarPlan,
-  smartNameSize,
-} from "./intelligence";
+import { alphaHex, cvVisualPolicy, sidebarPlan, smartNameSize } from "./intelligence";
 import { cvPalette, onColorRoles, type CvOnColor } from "./palette";
 import {
   bandLeftMm,
@@ -36,12 +30,21 @@ import { dossierThemeFor } from "@/lib/dossier-theme";
 import { dossierPhotoCropStyle, dossierPhotoRadius, dossierPhotoRatio } from "@/lib/dossier-photo";
 import { getCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
-  CV_SECTION_LABELS,
+  DEFAULT_CV_PHOTO_PLACEMENT,
+  getCvPhotoPlacement,
+  normalizeCvPhotoPlacement,
+  setCvPhotoPlacement,
+  subscribeCvPhotoPlacement,
+} from "./photo-place";
+import {
+  CV_BLOCK_LABELS,
   CV_SECTION_ORDER,
+  CV_TYPE_DEFAULTS,
   DEFAULT_CV_PLACEMENTS,
   entryFilled,
   type CvData,
   type CvDesign,
+  type CvPlacementKey,
   type CvSectionKey,
 } from "./types";
 
@@ -51,6 +54,8 @@ const MARGIN_X = 20;
 const PHOTO_MAIN_MM = 30;
 /** Umrechnung als Rückfall, falls die Messung nichts hergibt. */
 const PX_PER_MM = 96 / 25.4;
+/** Blattbreite in mm – Bezug, um Bildschirmpixel in Millimeter umzurechnen. */
+const SHEET_W_MM = 210;
 
 const SHEET_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
@@ -61,13 +66,32 @@ type Props = {
   design: CvDesign;
   elements: CustomField[];
   exportMode?: boolean;
+  /** Abweichungen vom Vorgabestil je Element – Position, Farbe, Grösse. */
+  elementStyles?: StyleOverrides;
+  /** Bedienung der Elemente. Fehlt sie, wird nur gezeichnet. */
+  selected?: string | null;
+  onSelect?: (id: string | null) => void;
+  onMoveElement?: (id: string, patch: Partial<BlockStyle>) => void;
+  drawing?: boolean;
+  onDrawn?: (points: Point[]) => void;
 };
 
-function label(data: CvData, key: CvSectionKey): string {
-  return data.labels[key]?.trim() || CV_SECTION_LABELS[key];
+function label(data: CvData, key: CvPlacementKey): string {
+  return data.labels[key]?.trim() || CV_BLOCK_LABELS[key];
 }
 
-export function CvCanvas({ data, design, elements, exportMode = false }: Props) {
+export function CvCanvas({
+  data,
+  design,
+  elements,
+  exportMode = false,
+  elementStyles = {},
+  selected = null,
+  onSelect,
+  onMoveElement,
+  drawing = false,
+  onDrawn,
+}: Props) {
   const pal = useMemo(() => cvPalette(design.colors), [design.colors]);
   // Die Bauform der Vorlage entscheidet über Flächen und Textbereich. Sie ist
   // der eigentliche Träger der Verwandtschaft zum Titelblatt.
@@ -97,6 +121,28 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   );
   const sidePlan = useMemo(() => sidebarPlan(data), [data]);
 
+  /** Vom Nutzer einstellbare Typografie und Spaltenbreite. */
+  const headingRule = design.headingRule ?? CV_TYPE_DEFAULTS.headingRule;
+  const titleScale = design.titleScale ?? CV_TYPE_DEFAULTS.titleScale;
+  const headingScale = design.headingScale ?? CV_TYPE_DEFAULTS.headingScale;
+  const bodyScale = design.bodyScale ?? CV_TYPE_DEFAULTS.bodyScale;
+  const sidebarPct = design.sidebarPct ?? CV_TYPE_DEFAULTS.sidebarPct;
+  /**
+   * Drei Regler, drei Rollen – und jeder Text auf dem Blatt gehört zu einer:
+   *
+   *   ptTitle  Name und Dokumenttitel
+   *   ptHead   Untertitel und Rubriken
+   *   pt       alles andere
+   *
+   * Fest eingetragene Grade gab es früher in der Seitenspalte und bei den
+   * Eintragstiteln; die Regler liessen sie unberührt und wirkten darum halb
+   * kaputt. TYPE_BASE hebt alle Grundwerte an: das frühere "120 %" ist der
+   * neue Normalzustand, die Regler stehen wieder auf 100 %.
+   */
+  const TYPE_BASE = 1.2;
+  const pt = (size: number) => `${(size * TYPE_BASE * bodyScale).toFixed(2)}pt`;
+  const ptHead = (size: number) => `${(size * TYPE_BASE * headingScale).toFixed(2)}pt`;
+
   /**
    * Schriftbild der Dossier-Familie. Titelblatt und Lebenslauf lesen dieselbe
    * Quelle, damit Editorials Serifen-Überschriften nicht wie Moderns
@@ -109,6 +155,22 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const photoStyle = useSyncExternalStore(subscribeCvPhotoStyle, getCvPhotoStyle, () =>
     getCvPhotoStyle(),
   );
+  /** Platz auf dem Blatt, Grösse und Rahmen – nur für den Lebenslauf. */
+  const place = useSyncExternalStore(
+    subscribeCvPhotoPlacement,
+    getCvPhotoPlacement,
+    () => DEFAULT_CV_PHOTO_PLACEMENT,
+  );
+  /**
+   * Während des Ziehens liegen die Werte hier, damit nicht bei jedem
+   * Mausschritt in den Speicher geschrieben wird. Losgelassen wird übernommen.
+   */
+  const [liveBox, setLiveBox] = useState<{
+    xMm: number;
+    yMm: number;
+    widthMm: number;
+  } | null>(null);
+  const photoBox = liveBox ?? { xMm: place.xMm, yMm: place.yMm, widthMm: place.widthMm };
 
   /** Farbe der tragenden Fläche – dieselbe, die das Titelblatt dort verwendet. */
   const areaColor = design.colors.primary || design.colors.accent || pal.accent;
@@ -146,7 +208,80 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     p.geburtsdatum && `Geburtsdatum ${p.geburtsdatum}`,
     p.nationalitaet && `Nationalität ${p.nationalitaet}`,
   ].filter(Boolean) as string[];
-  const nameSize = smartNameSize(name, layout);
+  const nameSize = smartNameSize(name, layout) * TYPE_BASE * titleScale;
+
+  /**
+   * Sitzt das Foto frei auf dem Blatt, gehört es nicht mehr in den Kopf oder in
+   * die Seitenspalte – sonst stünde es zweimal da.
+   */
+  const autoPhoto = !!p.foto && place.mode === "auto";
+  const freePhotoOn = !!p.foto && place.mode === "frei";
+  /*
+   * Der Rahmen selbst steht in `layout-options.css`: Stärke und Farbe kommen
+   * dort als CSS-Variablen an und tragen `!important`. Ein Inline-Ring hier
+   * käme nie zum Zug, darum steht keiner mehr im Renderer.
+   */
+
+  /**
+   * Foto mit der Maus verschieben und an der Ecke grösser ziehen.
+   *
+   * Die Vorschau ist gezoomt, darum wird nicht mit einem festen Faktor
+   * gerechnet: die gemessene Blattbreite auf dem Bildschirm entspricht 210 mm,
+   * daraus ergibt sich der Umrechnungsfaktor für diese Geste.
+   */
+  const startPhotoGesture = (kind: "move" | "size") => (event: React.PointerEvent<HTMLElement>) => {
+    if (exportMode || event.button !== 0) return;
+    const pageEl = event.currentTarget.closest("[data-cv-page]") as HTMLElement | null;
+    if (!pageEl) return;
+    const sheetPx = pageEl.getBoundingClientRect().width;
+    if (!sheetPx) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    const mmPerPx = SHEET_W_MM / sheetPx;
+    const startX = event.clientX;
+    const startY = event.clientY;
+    const from = { xMm: place.xMm, yMm: place.yMm, widthMm: place.widthMm };
+    let latest = from;
+
+    const step = (moveEvent: PointerEvent) => {
+      const dx = (moveEvent.clientX - startX) * mmPerPx;
+      const dy = (moveEvent.clientY - startY) * mmPerPx;
+      const next = normalizeCvPhotoPlacement(
+        kind === "move"
+          ? { ...place, xMm: from.xMm + dx, yMm: from.yMm + dy }
+          : { ...place, widthMm: from.widthMm + dx },
+      );
+      latest = { xMm: next.xMm, yMm: next.yMm, widthMm: next.widthMm };
+      setLiveBox(latest);
+    };
+    const stop = () => {
+      window.removeEventListener("pointermove", step);
+      window.removeEventListener("pointerup", stop);
+      window.removeEventListener("pointercancel", stop);
+      setLiveBox(null);
+      setCvPhotoPlacement(latest);
+    };
+
+    window.addEventListener("pointermove", step);
+    window.addEventListener("pointerup", stop);
+    window.addEventListener("pointercancel", stop);
+  };
+
+  /** Pfeiltasten für das letzte Millimeterchen; mit Shift feiner. */
+  const nudgePhoto = (event: React.KeyboardEvent<HTMLElement>) => {
+    const stepMm = event.shiftKey ? 0.5 : 2;
+    const by: Record<string, [number, number]> = {
+      ArrowLeft: [-stepMm, 0],
+      ArrowRight: [stepMm, 0],
+      ArrowUp: [0, -stepMm],
+      ArrowDown: [0, stepMm],
+    };
+    const delta = by[event.key];
+    if (!delta) return;
+    event.preventDefault();
+    setCvPhotoPlacement({ xMm: place.xMm + delta[0], yMm: place.yMm + delta[1] });
+  };
 
   const headingText = (id: string, text: string): Row => ({
     id: `h-${id}`,
@@ -165,7 +300,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             style={{
               // Versalien laufen breiter als Gemischtschrift; darum je nach
               // Familie ein anderer Grundwert.
-              fontSize: headingStyle.uppercase ? "10.2pt" : "11.4pt",
+              fontSize: ptHead(headingStyle.uppercase ? 10.2 : 11.4),
               fontWeight: headingStyle.weight,
               letterSpacing: `${headingStyle.trackingEm}em`,
               textTransform: headingStyle.uppercase ? "uppercase" : "none",
@@ -176,23 +311,53 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           >
             {text}
           </div>
-          <div
-            data-cv-accent="section"
-            style={{
-              width: layout === "modern" ? "15mm" : "18mm",
-              height: layout === "modern" ? "0.65mm" : "0.55mm",
-              flexShrink: 0,
-              borderRadius: "999px",
-              background: pal.accent,
-              opacity: layout === "modern" ? 0.9 : 0.72,
-            }}
-          />
+          {headingRule !== "none" && (
+            <div
+              data-cv-accent="section"
+              style={{
+                width: headingRule === "full" ? "auto" : layout === "modern" ? "15mm" : "18mm",
+                flex: headingRule === "full" ? "1 1 auto" : undefined,
+                height: layout === "modern" ? "0.65mm" : "0.55mm",
+                flexShrink: headingRule === "full" ? 1 : 0,
+                borderRadius: "999px",
+                background: pal.accent,
+                opacity: layout === "modern" ? 0.9 : 0.72,
+              }}
+            />
+          )}
         </div>
       </div>
     ),
   });
 
   const heading = (key: CvSectionKey): Row => headingText(key, label(data, key));
+
+  /**
+   * Titel des Dokuments – auf jeder Vorlage, im Formular änderbar, leer
+   * ausblendbar. Er nimmt den Ton der Familie auf, wie der Kicker auf dem
+   * Titelblatt.
+   */
+  const docTitle = (color: string) => {
+    const text = data.titel?.trim();
+    if (!text) return null;
+    return (
+      <div
+        data-cv-doc-title
+        style={{
+          fontSize: `${(8.2 * TYPE_BASE * titleScale).toFixed(2)}pt`,
+          fontWeight: headingStyle.weight,
+          letterSpacing: "0.16em",
+          textTransform: "uppercase",
+          fontFamily: theme.typography.fontStack,
+          color,
+          opacity: 0.85,
+          marginBottom: "1.8mm",
+        }}
+      >
+        {text}
+      </div>
+    );
+  };
 
   const entryRow = (id: string, zeit: string, titel: string, ort: string, text: string): Row => ({
     id,
@@ -212,7 +377,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           style={{
             width: layout === "modern" ? "23mm" : "27mm",
             flexShrink: 0,
-            fontSize: "9.3pt",
+            fontSize: pt(9.3),
             color: pal.muted,
             paddingTop: "0.45mm",
             lineHeight: 1.35,
@@ -225,7 +390,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             <div
               data-cv-entry-title
               style={{
-                fontSize: layout === "modern" ? "11.4pt" : "11.5pt",
+                fontSize: pt(layout === "modern" ? 11.4 : 11.5),
                 fontWeight: 700,
                 color: pal.ink,
                 lineHeight: 1.2,
@@ -239,7 +404,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             <div
               data-cv-muted
               style={{
-                fontSize: "9.7pt",
+                fontSize: pt(9.7),
                 color: pal.muted,
                 marginTop: "0.35mm",
                 lineHeight: 1.3,
@@ -252,7 +417,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             <div
               data-cv-body
               style={{
-                fontSize: "9.9pt",
+                fontSize: pt(9.9),
                 color: pal.ink,
                 marginTop: "0.75mm",
                 lineHeight: 1.35,
@@ -281,7 +446,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               {r.name && (
                 <div
                   data-cv-entry-title
-                  style={{ fontSize: "10.8pt", fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
+                  style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
                 >
                   {r.name}
                 </div>
@@ -290,7 +455,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 <div
                   data-cv-muted
                   style={{
-                    fontSize: "9.7pt",
+                    fontSize: pt(9.7),
                     color: pal.muted,
                     marginTop: "0.3mm",
                     lineHeight: 1.3,
@@ -303,7 +468,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 <div
                   data-cv-body
                   style={{
-                    fontSize: "9.7pt",
+                    fontSize: pt(9.7),
                     color: pal.ink,
                     marginTop: "0.35mm",
                     lineHeight: 1.3,
@@ -336,7 +501,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 style={{
                   width: layout === "modern" ? "23mm" : "27mm",
                   flexShrink: 0,
-                  fontSize: "10.2pt",
+                  fontSize: pt(10.2),
                   fontWeight: 650,
                   color: pal.ink,
                   lineHeight: 1.3,
@@ -346,7 +511,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               </div>
               <div
                 data-cv-muted
-                style={{ flex: 1, fontSize: "9.8pt", color: pal.muted, lineHeight: 1.3 }}
+                style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
               >
                 {s.niveau}
               </div>
@@ -374,7 +539,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 display: "flex",
                 gap: "2.6mm",
                 marginBottom: "1.35mm",
-                fontSize: "9.9pt",
+                fontSize: pt(9.9),
                 lineHeight: 1.35,
                 color: pal.ink,
               }}
@@ -391,14 +556,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const contactMainRows = (): Row[] => {
     if (!kontaktZeilen.length && !angaben.length) return [];
     return [
-      headingText("kontakt", "Kontakt"),
+      headingText("kontakt", label(data, "kontakt")),
       {
         id: "kontakt-main",
         node: (
           <div
             data-cv-entry
             data-cv-body
-            style={{ marginBottom: "2.2mm", fontSize: "9.8pt", lineHeight: 1.4, color: pal.ink }}
+            style={{ marginBottom: "2.2mm", fontSize: pt(9.8), lineHeight: 1.4, color: pal.ink }}
           >
             {kontaktZeilen.map((line) => (
               <div key={line} style={{ overflowWrap: "anywhere" }}>
@@ -436,7 +601,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           data-cv-header
           style={{ display: "flex", gap: "7mm", alignItems: "flex-start", marginBottom: "3.2mm" }}
         >
-          {p.foto && (
+          {autoPhoto && (
             <div
               data-cv-photo
               style={{
@@ -446,15 +611,13 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 flexShrink: 0,
                 overflow: "hidden",
                 borderRadius: dossierPhotoRadius(photoStyle.shape),
-                boxShadow: photoStyle.borderWidth
-                  ? `0 0 0 ${photoStyle.borderWidth}mm ${pal.accent}`
-                  : undefined,
               }}
             >
-              <img src={p.foto} alt="" style={dossierPhotoCropStyle(photoStyle)} />
+              <img src={p.foto ?? undefined} alt="" style={dossierPhotoCropStyle(photoStyle)} />
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
+            {withName && docTitle(pal.muted)}
             {withName && (
               <div
                 data-cv-name
@@ -474,7 +637,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               <div
                 data-cv-subtitle
                 style={{
-                  fontSize: "11.2pt",
+                  fontSize: ptHead(11.2),
                   fontWeight: 600,
                   color: pal.accent,
                   marginTop: "1.15mm",
@@ -489,7 +652,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 data-cv-body
                 style={{
                   marginTop: withName ? "2.5mm" : 0,
-                  fontSize: "9.7pt",
+                  fontSize: pt(9.7),
                   color: pal.ink,
                   lineHeight: 1.38,
                 }}
@@ -506,7 +669,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 data-cv-muted
                 style={{
                   marginTop: "1.35mm",
-                  fontSize: "9.2pt",
+                  fontSize: pt(9.2),
                   color: pal.muted,
                   lineHeight: 1.35,
                 }}
@@ -520,7 +683,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     });
     // Nur Name und Zeile darunter wandern ins Band; Foto und Angaben bleiben
     // im Kopfblock.
-    const hasHeaderContent = p.foto || kontaktZeilen.length > 0 || angaben.length > 0;
+    const hasHeaderContent = autoPhoto || kontaktZeilen.length > 0 || angaben.length > 0;
     if (!nameInBand || hasHeaderContent) rows.push(classicHeader(!nameInBand));
 
     for (const key of CV_SECTION_ORDER) {
@@ -542,6 +705,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       id: "kopf-modern",
       node: (
         <div data-cv-header style={{ marginBottom: "4.8mm" }}>
+          {docTitle(pal.muted)}
           <div
             data-cv-name
             style={{
@@ -560,7 +724,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               data-cv-subtitle
               style={{
                 marginTop: "1.4mm",
-                fontSize: "11.5pt",
+                fontSize: ptHead(11.5),
                 fontWeight: 600,
                 color: pal.accent,
                 lineHeight: 1.25,
@@ -672,10 +836,10 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
      * unterscheiden sich davon nur um das, was die Bauform selbst pro Seite
      * ändert: das kürzere Kopfband und die Fusszeile.
      */
-    const first = cvContentBox(frame, 0, layout);
+    const first = cvContentBox(frame, 0, layout, sidebarPct);
     const heightFor = (pageIndex: number) => {
       if (pageIndex === 0) return measured;
-      const b = cvContentBox(frame, pageIndex, layout);
+      const b = cvContentBox(frame, pageIndex, layout, sidebarPct);
       const deltaMm = b.top - first.top + (b.bottom - first.bottom);
       return measured - deltaMm * PX_PER_MM;
     };
@@ -746,41 +910,60 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     </div>
   );
 
-  /** Selbst hinzugefügte Formen vom Titelblatt – reine Zierde, dem Regler unterstellt. */
-  const decoration = (
-    <>
-      {design.useElements &&
-        elements.map((el, i) => {
-          if (customKind(el) !== "shape") return null;
-          const st = customDefaultStyle(design.template, i, slots, el);
-          const sizeFactor = shapeSizeFactor(st.w, el.shape);
-          return (
-            <div
-              key={el.id}
-              data-cv-decoration
-              style={{
-                position: "absolute",
-                left: `${st.x}mm`,
-                top: `${st.y}mm`,
-                width: `${st.w}mm`,
-                opacity:
-                  policy.backgroundOpacity *
-                  policy.shapeFactor *
-                  sizeFactor *
-                  (layout === "modern" ? 0.45 : 1),
-              }}
-            >
-              <ShapeElement
-                shape={el.shape ?? "rect"}
-                path={el.path}
-                style={st}
-                colors={design.colors}
-              />
-            </div>
-          );
-        })}
-    </>
+  /**
+   * Eigene Felder und Formen – dieselben wie auf dem Titelblatt.
+   *
+   * Sie lagen früher als blasse Zierde im Hintergrund und liessen sich hier
+   * nicht anfassen; Textfelder und Bilder fielen sogar ganz weg. Jetzt tragen
+   * sie dieselbe Ebene wie auf dem Titelblatt: volle Deckkraft, anklickbar,
+   * mit der Maus verschiebbar. Sie stehen auf Seite 1 – frei gesetzte Elemente
+   * gehören an eine Stelle und nicht auf jedes Blatt.
+   */
+  const elementBlocks = useMemo(
+    () => buildCustomBlocks(design.template, elements, elementStyles, slots),
+    [design.template, elements, elementStyles, slots],
   );
+
+  const elementLayer = (pageIndex: number) => {
+    if (pageIndex !== 0) return null;
+    const shown = design.useElements ? elementBlocks : [];
+    // Im Zeichenmodus muss die Ebene auch dann da sein, wenn noch kein Element
+    // existiert – sonst gäbe es keine Fläche, auf der man ziehen kann.
+    if (shown.length === 0 && !drawing) return null;
+    const editable = !exportMode && !!onMoveElement;
+    return (
+      <div
+        data-cv-elements
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 5,
+          // Im Export darf die Ebene nichts abfangen; in der Vorschau nimmt ein
+          // Klick daneben die Auswahl zurück, genau wie auf dem Titelblatt.
+          pointerEvents: editable ? undefined : "none",
+        }}
+        onPointerDown={
+          editable
+            ? (e) => {
+                if (drawing) return;
+                if (!(e.target as HTMLElement).closest("[data-block-id]")) onSelect?.(null);
+              }
+            : undefined
+        }
+      >
+        <BlockLayer
+          blocks={shown}
+          colors={design.colors}
+          selected={exportMode ? null : selected}
+          onSelect={onSelect ?? (() => {})}
+          onMove={onMoveElement ?? (() => {})}
+          editable={!exportMode && !!onMoveElement}
+          drawing={!exportMode && drawing}
+          onDrawn={onDrawn}
+        />
+      </div>
+    );
+  };
 
   /** Ausschnitt des echten Titelblatt-Hintergrunds, oben bündig. */
   const bandMotif = (heightMm: number) => (
@@ -822,7 +1005,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
    * Titelblatt – und hier kommt nur noch die Schreibfläche darüber.
    */
   const chrome = (pageIndex: number) => {
-    const surface = cvSurface(frame, pageIndex, layout);
+    const surface = cvSurface(frame, pageIndex, layout, sidebarPct);
     return (
       <>
         <div
@@ -830,7 +1013,6 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           style={{ position: "absolute", inset: 0, background: pal.paper }}
         />
         {ground}
-        {decoration}
 
         <div
           data-cv-surface
@@ -893,7 +1075,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       data-cv-section-title
       style={{
         marginTop:
-          first && !p.foto
+          first && !autoPhoto
             ? "0.8mm"
             : sidePlan.veryCompact
               ? "3.2mm"
@@ -901,17 +1083,19 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 ? "4.1mm"
                 : "5.2mm",
         marginBottom: sidePlan.veryCompact ? "1.2mm" : sidePlan.compact ? "1.5mm" : "1.9mm",
-        fontSize: headingStyle.uppercase
-          ? sidePlan.veryCompact
-            ? "8.4pt"
-            : sidePlan.compact
-              ? "8.8pt"
-              : "9.2pt"
-          : sidePlan.veryCompact
-            ? "9.4pt"
-            : sidePlan.compact
-              ? "9.8pt"
-              : "10.2pt",
+        fontSize: ptHead(
+          headingStyle.uppercase
+            ? sidePlan.veryCompact
+              ? 8.4
+              : sidePlan.compact
+                ? 8.8
+                : 9.2
+            : sidePlan.veryCompact
+              ? 9.4
+              : sidePlan.compact
+                ? 9.8
+                : 10.2,
+        ),
         fontWeight: headingStyle.weight,
         letterSpacing: `${headingStyle.trackingEm}em`,
         textTransform: headingStyle.uppercase ? "uppercase" : "none",
@@ -924,8 +1108,10 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     </div>
   );
 
-  const sideBody = sidePlan.veryCompact ? 8.7 : sidePlan.compact ? 9.1 : 9.5;
-  const sideSmall = sidePlan.veryCompact ? 8.2 : sidePlan.compact ? 8.6 : 9.1;
+  const sideBody =
+    (sidePlan.veryCompact ? 8.7 : sidePlan.compact ? 9.1 : 9.5) * TYPE_BASE * bodyScale;
+  const sideSmall =
+    (sidePlan.veryCompact ? 8.2 : sidePlan.compact ? 8.6 : 9.1) * TYPE_BASE * bodyScale;
   const sideLine = sidePlan.veryCompact ? 1.3 : sidePlan.compact ? 1.4 : 1.5;
 
   const sideEntries = (key: "schule" | "erfahrung") => (
@@ -992,7 +1178,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   /** Bei "column" ist die Spalte die Fläche der Vorlage – sonst getönte Papierspalte. */
   const onColumn = frame.id === "column";
-  const sidebarWidth = sidebarWidthMm(frame, layout);
+  const sidebarWidth = sidebarWidthMm(frame, layout, sidebarPct);
   /**
    * Fotobreite in der Seitenspalte. Ein Hochportrait wird hoch, darum bleibt
    * die Breite unter dem, was die Spalte abzüglich ihrer Ränder hergibt.
@@ -1002,11 +1188,80 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     sidebarWidth - (onColumn ? 19 : 15.5),
   );
 
+  /**
+   * Frei gesetztes Foto. Es liegt über dem Satzspiegel, gehört keiner Spalte an
+   * und steht nur auf der ersten Seite. In der Vorschau lässt es sich ziehen,
+   * im Export ist es ein stilles Bild ohne Griffe.
+   */
+  const freePhoto = (pageIndex: number) => {
+    if (pageIndex !== 0 || !freePhotoOn) return null;
+    const heightMm = photoBox.widthMm * dossierPhotoRatio(photoStyle.shape);
+    return (
+      <div
+        data-cv-photo
+        data-cv-photo-free
+        role={exportMode ? undefined : "button"}
+        tabIndex={exportMode ? undefined : 0}
+        aria-label={exportMode ? undefined : "Foto verschieben – mit der Maus ziehen"}
+        onPointerDown={exportMode ? undefined : startPhotoGesture("move")}
+        onKeyDown={exportMode ? undefined : nudgePhoto}
+        style={{
+          position: "absolute",
+          left: `${photoBox.xMm}mm`,
+          top: `${photoBox.yMm}mm`,
+          width: `${photoBox.widthMm}mm`,
+          height: `${heightMm}mm`,
+          zIndex: 6,
+          borderRadius: dossierPhotoRadius(photoStyle.shape),
+          cursor: exportMode ? undefined : "grab",
+          touchAction: "none",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            overflow: "hidden",
+            borderRadius: dossierPhotoRadius(photoStyle.shape),
+          }}
+        >
+          <img
+            src={p.foto ?? undefined}
+            alt=""
+            style={dossierPhotoCropStyle(photoStyle)}
+            draggable={false}
+          />
+        </div>
+        {!exportMode && (
+          <div
+            data-cv-photo-handle
+            aria-hidden
+            onPointerDown={startPhotoGesture("size")}
+            title="Grösse ziehen"
+            style={{
+              position: "absolute",
+              right: "-2.4mm",
+              bottom: "-2.4mm",
+              width: "4.8mm",
+              height: "4.8mm",
+              borderRadius: "9999px",
+              background: "#ffffff",
+              border: `0.4mm solid ${pal.accent}`,
+              boxShadow: "0 1px 3px rgba(0,0,0,0.35)",
+              cursor: "nwse-resize",
+              touchAction: "none",
+            }}
+          />
+        )}
+      </div>
+    );
+  };
+
   const modernSidebar = (pageIndex: number) => {
     // Eine farbige Spalte läuft über die volle Höhe, wie auf dem Titelblatt.
     // Die getönte Papierspalte beginnt erst unter dem Kopfband, damit dieses
     // über die ganze Breite sichtbar bleibt.
-    const surface = cvSurface(frame, pageIndex, layout);
+    const surface = cvSurface(frame, pageIndex, layout, sidebarPct);
     return (
       <div
         data-cv-sidebar
@@ -1017,13 +1272,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           bottom: onColumn ? 0 : `${surface.bottom}mm`,
           width: `${sidebarWidth}mm`,
           padding: onColumn
-            ? `${p.foto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
-            : `${p.foto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
+            ? `${autoPhoto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
+            : `${autoPhoto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
           boxSizing: "border-box",
           // Die Spalte selbst liegt schon im Seitengrund; hier nur bei der
           // getönten Papierspalte einen eigenen Grund zeichnen.
           background: onColumn ? "transparent" : side.bg,
-          borderRight: onColumn ? undefined : `0.35mm solid ${side.accent}${alphaHex(0.22)}`,
+          // Kein Trennstrich: Die getönte Spalte setzt sich schon von selbst
+          // vom Papier ab, die Linie darüber lag als grüner Strich dazwischen.
           fontFamily: SHEET_FONT,
           overflow: "hidden",
         }}
@@ -1043,7 +1299,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         <div style={{ position: "relative", zIndex: 1 }}>
           {pageIndex === 0 ? (
             <>
-              {p.foto && (
+              {autoPhoto && (
                 <div
                   data-cv-photo
                   style={{
@@ -1052,19 +1308,16 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                     height: `${sidePhotoMm * dossierPhotoRatio(photoStyle.shape)}mm`,
                     overflow: "hidden",
                     borderRadius: dossierPhotoRadius(photoStyle.shape),
-                    boxShadow: photoStyle.borderWidth
-                      ? `0 0 0 ${photoStyle.borderWidth}mm ${side.accent}`
-                      : undefined,
                     marginBottom: sidePlan.compact ? "3.8mm" : "5.3mm",
                   }}
                 >
-                  <img src={p.foto} alt="" style={dossierPhotoCropStyle(photoStyle)} />
+                  <img src={p.foto ?? undefined} alt="" style={dossierPhotoCropStyle(photoStyle)} />
                 </div>
               )}
 
               {hasContact && (
                 <>
-                  {sideHeading("Kontakt", firstSide === "contact")}
+                  {sideHeading(label(data, "kontakt"), firstSide === "contact")}
                   <div
                     data-cv-entry
                     data-cv-body
@@ -1278,7 +1531,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               <div
                 data-cv-name
                 style={{
-                  fontSize: `${Math.min(12.5, smartNameSize(name, "modern") * 0.44)}pt`,
+                  fontSize: `${Math.min(12.5, smartNameSize(name, "modern") * 0.44) * TYPE_BASE * titleScale}pt`,
                   fontWeight: 750,
                   color: side.ink,
                   lineHeight: 1.15,
@@ -1287,7 +1540,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               >
                 {name || "Lebenslauf"}
               </div>
-              <div data-cv-muted style={{ marginTop: "1.5mm", fontSize: "9pt", color: side.muted }}>
+              <div data-cv-muted style={{ marginTop: "1.5mm", fontSize: pt(9), color: side.muted }}>
                 Lebenslauf · Seite {pageIndex + 1}
               </div>
             </div>
@@ -1307,7 +1560,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     const roles = frame.bandMotif ? onArea : onBand;
     // Rechts der Seitenspalte beginnen, sonst verschwindet der Vorname
     // dahinter – gemessen fehlten so die ersten 117 px des Namens.
-    const clear = Math.max(bandLeftMm(frame, layout), sidebarWidthMm(frame, layout));
+    const clear = Math.max(bandLeftMm(frame, layout), sidebarWidthMm(frame, layout, sidebarPct));
     const left = clear + (clear > 0 ? 10 : MARGIN_X);
     return (
       <div
@@ -1327,6 +1580,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       >
         {pageIndex === 0 ? (
           <>
+            {docTitle(roles.muted)}
             <div
               data-cv-name
               style={{
@@ -1345,7 +1599,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 data-cv-subtitle
                 style={{
                   marginTop: "1.6mm",
-                  fontSize: "11.2pt",
+                  fontSize: ptHead(11.2),
                   fontWeight: 600,
                   color: roles.muted,
                 }}
@@ -1355,7 +1609,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             )}
           </>
         ) : (
-          <div data-cv-muted style={{ fontSize: "9pt", color: roles.muted }}>
+          <div data-cv-muted style={{ fontSize: pt(9), color: roles.muted }}>
             {name || "Lebenslauf"} · Seite {pageIndex + 1}
           </div>
         )}
@@ -1369,7 +1623,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
    */
   const footer = (pageIndex: number) => {
     if (pageIndex === 0 || pageMarker(frame) !== "footer") return null;
-    const box = cvContentBox(frame, pageIndex, layout);
+    const box = cvContentBox(frame, pageIndex, layout, sidebarPct);
     return (
       <div
         data-cv-page-label
@@ -1389,7 +1643,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           paddingTop: "1.6mm",
           boxSizing: "border-box",
           fontFamily: theme.typography.fontStack,
-          fontSize: "8.5pt",
+          fontSize: pt(8.5),
           color: pal.muted,
         }}
       >
@@ -1401,7 +1655,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     );
   };
 
-  const firstBox = cvContentBox(frame, 0, layout);
+  const firstBox = cvContentBox(frame, 0, layout, sidebarPct);
 
   return (
     <div
@@ -1455,7 +1709,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       </div>
 
       {pages.map((page, i) => {
-        const box = cvContentBox(frame, i, layout);
+        const box = cvContentBox(frame, i, layout, sidebarPct);
         return (
           <div
             key={i}
@@ -1467,6 +1721,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {layout === "modern" && modernSidebar(i)}
             {bandHeader(i)}
             {footer(i)}
+            {elementLayer(i)}
+            {freePhoto(i)}
             <div
               data-cv-main
               style={{

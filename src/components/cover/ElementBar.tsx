@@ -112,6 +112,35 @@ function Slider({
   );
 }
 
+/**
+ * Welches Höhenverhältnis gilt, wenn keines gespeichert ist?
+ *
+ * Der Renderer setzt je nach Element einen anderen Rückfall ein. `null` heisst:
+ * die Höhe kommt aus dem Inhalt und hat mit der Breite nichts zu tun.
+ */
+function impliedRatio(block: Block): number | null {
+  if (block.kind === "photo" || block.kind === "image" || block.kind === "shape") return 1;
+  return block.src ? 0.6 : null;
+}
+
+/**
+ * Höhe eines Elements in mm.
+ *
+ * Gespeichert ist sie als Verhältnis zur Breite (`ratio`), damit ältere Stände
+ * und alle Vorlagen weiter passen. Für die Bedienung ist das aber die falsche
+ * Grösse: wer die Breite zieht, will nicht, dass das Element mitwächst.
+ */
+function heightMm(block: Block): number {
+  return Math.round(block.style.w * (block.style.ratio ?? impliedRatio(block) ?? 1));
+}
+
+/** Beim Ändern der Breite das Verhältnis so nachziehen, dass die Höhe bleibt. */
+function keepHeight(block: Block, nextW: number): Partial<BlockStyle> {
+  const ratio = block.style.ratio ?? impliedRatio(block);
+  if (ratio === null || nextW <= 0) return {};
+  return { ratio: (block.style.w * ratio) / nextW };
+}
+
 function AlignIcon({ dir }: { dir: "left" | "center" | "right" }) {
   const lines: Record<typeof dir, number[][]> = {
     left: [
@@ -459,13 +488,13 @@ export function ElementBar({
 
         {tab === "form" && (
           <>
-            <Ctl label={isPhoto || isImage ? "Grösse" : "Breite"} grow>
+            <Ctl label="Breite" grow>
               <Slider
                 value={st.w}
                 min={5}
                 max={200}
                 step={1}
-                onChange={(w) => onChange({ w })}
+                onChange={(w) => onChange({ w, ...keepHeight(block, w) })}
                 suffix="mm"
               />
             </Ctl>
@@ -473,12 +502,12 @@ export function ElementBar({
             {block.shape !== "line" && (
               <Ctl label="Höhe" grow>
                 <Slider
-                  value={st.ratio ?? 1}
-                  min={0.1}
-                  max={2}
-                  step={0.05}
-                  onChange={(ratio) => onChange({ ratio })}
-                  suffix="×"
+                  value={heightMm(block)}
+                  min={5}
+                  max={200}
+                  step={1}
+                  onChange={(mm) => onChange({ ratio: mm / Math.max(1, st.w) })}
+                  suffix="mm"
                 />
               </Ctl>
             )}
@@ -819,7 +848,7 @@ export function ElementBar({
                 min={5}
                 max={200}
                 step={1}
-                onChange={(w) => onChange({ w })}
+                onChange={(w) => onChange({ w, ...keepHeight(block, w) })}
                 suffix="mm"
               />
             </Ctl>

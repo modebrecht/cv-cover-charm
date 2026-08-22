@@ -1,0 +1,315 @@
+/* -------------------------------------------------------------------------- */
+/* Gradient dossier systems: Horizon · Sunrise · Forest Flow · Violet Pulse   */
+/* -------------------------------------------------------------------------- */
+/*
+ * These templates deliberately use broad fields, not isolated decorative
+ * strokes. Cover pages carry the expressive color field; CVs keep the same
+ * motif at the page edge and use a quiet paper surface for long-form reading.
+ * The colored nodes come from CoverBackground, so user-edited primary and
+ * secondary colors continue to flow through the composition.
+ */
+
+/* Shared: soften the secondary nodes into a continuous two-color field. */
+html[data-dossier-template="horizon"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child,
+html[data-dossier-template="sunrise"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child,
+html[data-dossier-template="forestFlow"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child,
+html[data-dossier-template="violetPulse"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* -------------------------------------------------------------------------- */
+/* HORIZON — navy -> blue, calm horizontal movement                           */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="horizon"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 108mm !important;
+  border-radius: 0 0 72mm 0 !important;
+  background-image: linear-gradient(120deg, rgb(255 255 255 / 0.02), rgb(255 255 255 / 0.16), transparent) !important;
+}
+
+html[data-dossier-template="horizon"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  width: 132mm !important;
+  height: 132mm !important;
+  right: -22mm !important;
+  left: auto !important;
+  top: -24mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.82 !important;
+  filter: blur(9mm);
+}
+
+html[data-dossier-template="horizon"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  width: 86mm !important;
+  height: 86mm !important;
+  left: 74mm !important;
+  right: auto !important;
+  bottom: -34mm !important;
+  top: auto !important;
+  border-radius: 9999px !important;
+  opacity: 0.38 !important;
+  filter: blur(8mm);
+}
+
+html[data-dossier-template="horizon"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(48mm, -18mm) scale(0.82);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="horizon"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(0, -10mm);
+}
+
+html[data-dossier-template="horizon"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: translate(0, -8mm);
+}
+
+html[data-dossier-template="horizon"] [data-dossier-document="cv"] [data-cv-surface] {
+  border-radius: 0 0 7mm 7mm !important;
+  box-shadow: 0 3mm 12mm rgb(17 35 63 / 0.06);
+}
+
+html[data-dossier-template="horizon"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  opacity: 0.82 !important;
+  border-radius: 999px !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SUNRISE — coral -> peach, broad soft warm field                            */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="sunrise"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: -12mm !important;
+  right: -12mm !important;
+  top: -14mm !important;
+  width: calc(100% + 24mm) !important;
+  height: 101mm !important;
+  border-radius: 0 0 54% 38% !important;
+  background-image: linear-gradient(115deg, rgb(255 255 255 / 0.03), rgb(255 255 255 / 0.24)) !important;
+}
+
+html[data-dossier-template="sunrise"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  width: 145mm !important;
+  height: 112mm !important;
+  right: -20mm !important;
+  left: auto !important;
+  top: -18mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.7 !important;
+  filter: blur(11mm);
+}
+
+html[data-dossier-template="sunrise"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  width: 98mm !important;
+  height: 98mm !important;
+  left: -16mm !important;
+  right: auto !important;
+  bottom: -40mm !important;
+  top: auto !important;
+  border-radius: 9999px !important;
+  opacity: 0.42 !important;
+  filter: blur(9mm);
+}
+
+html[data-dossier-template="sunrise"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(52mm, -20mm) scale(0.8);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="sunrise"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(0, -13mm);
+}
+
+html[data-dossier-template="sunrise"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: translate(0, -10mm);
+}
+
+html[data-dossier-template="sunrise"] [data-dossier-document="cv"] [data-cv-surface] {
+  border-radius: 8mm !important;
+  box-shadow: 0 4mm 16mm rgb(110 63 42 / 0.055);
+}
+
+html[data-dossier-template="sunrise"] [data-dossier-document="cv"] [data-cv-accent] {
+  border-radius: 999px !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* FOREST FLOW — vertical green -> teal flow                                  */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="forestFlow"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 48mm !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.02), rgb(255 255 255 / 0.12), transparent) !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  width: 70mm !important;
+  height: 142mm !important;
+  left: -11mm !important;
+  right: auto !important;
+  top: 72mm !important;
+  border-radius: 36mm !important;
+  opacity: 0.82 !important;
+  filter: blur(12mm);
+}
+
+html[data-dossier-template="forestFlow"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  width: 64mm !important;
+  height: 100mm !important;
+  left: -8mm !important;
+  right: auto !important;
+  bottom: -18mm !important;
+  top: auto !important;
+  border-radius: 32mm !important;
+  opacity: 0.54 !important;
+  filter: blur(10mm);
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  transform: translate(-92mm, 15mm);
+  width: 38mm !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(54mm, -31mm) scale(0.78);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(18mm, -18mm);
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: translate(18mm, -15mm);
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 13mm !important;
+  border-radius: 0 6mm 6mm 0 !important;
+  box-shadow: 0 3mm 14mm rgb(31 77 67 / 0.055);
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-section-title] {
+  letter-spacing: 0.04em !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* VIOLET PULSE — indigo -> violet energy, diagonal rather than noisy         */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="violetPulse"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: -20mm !important;
+  right: -20mm !important;
+  top: -8mm !important;
+  width: calc(100% + 40mm) !important;
+  height: 118mm !important;
+  border-radius: 0 0 64% 16% !important;
+  transform: rotate(-3deg);
+  transform-origin: center top;
+  background-image: linear-gradient(135deg, rgb(255 255 255 / 0.02), rgb(255 255 255 / 0.18), transparent) !important;
+}
+
+html[data-dossier-template="violetPulse"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  width: 138mm !important;
+  height: 138mm !important;
+  right: -12mm !important;
+  left: auto !important;
+  top: -24mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.8 !important;
+  filter: blur(10mm);
+}
+
+html[data-dossier-template="violetPulse"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  width: 92mm !important;
+  height: 92mm !important;
+  left: 50mm !important;
+  right: auto !important;
+  bottom: -36mm !important;
+  top: auto !important;
+  border-radius: 9999px !important;
+  opacity: 0.38 !important;
+  filter: blur(10mm);
+}
+
+html[data-dossier-template="violetPulse"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(50mm, -20mm) scale(0.8);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="violetPulse"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(0, -12mm);
+}
+
+html[data-dossier-template="violetPulse"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: translate(0, -9mm);
+}
+
+html[data-dossier-template="violetPulse"] [data-dossier-document="cv"] [data-cv-surface] {
+  border-radius: 7mm !important;
+  box-shadow: 0 4mm 18mm rgb(67 56 202 / 0.06);
+}
+
+html[data-dossier-template="violetPulse"] [data-dossier-document="cv"] [data-cv-accent] {
+  border-radius: 999px !important;
+}

@@ -6,6 +6,17 @@ import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { CvCanvas } from "@/components/cv/CvCanvas";
+import { ElementBar } from "@/components/cover/ElementBar";
+import { AddElementMenu } from "@/components/cover/AddElementMenu";
+import {
+  newDrawnElement,
+  newImageElement,
+  newRuleElement,
+  newShapeElement,
+  newTextElement,
+  type NewElement,
+} from "@/components/cover/new-element";
+import { buildCustomBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import {
   FormCvEntries,
   FormCvLines,
@@ -16,17 +27,29 @@ import {
 } from "@/components/cv/CvForm";
 import {
   CV_SECTION_LABELS,
+  CV_SCALE_MAX,
+  CV_SCALE_MIN,
+  CV_TYPE_DEFAULTS,
+  DEFAULT_CV_TITLE,
   DEMO_CV,
   emptyCv,
   type CvData,
   type CvDesign,
   type CvPerson,
+  type CvPlacementKey,
   type CvSectionKey,
 } from "@/components/cv/types";
 import { emptyCoverDraft, personFilled, readCoverDraft, type CoverDraft } from "@/lib/dossier";
-import { TEMPLATES, type CustomField, type TemplateId } from "@/components/cover/types";
+import {
+  customKind,
+  TEMPLATES,
+  type BlockStyle,
+  type CustomField,
+  type ShapeKind,
+  type TemplateId,
+} from "@/components/cover/types";
 import { downloadBlob, safeFileName } from "@/lib/download";
-import { PDF, PREVIEW } from "@/default-config";
+import { PDF, PREVIEW, SHAPE } from "@/default-config";
 import {
   describe,
   formatWhen,
@@ -35,9 +58,11 @@ import {
   readHistory,
   type Snapshot,
 } from "@/lib/history";
+import { readPhoto } from "@/lib/image";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import { applyDossierTheme } from "@/lib/dossier-theme";
 import { setCvPhotoStyle } from "@/components/cv/photo";
+import { SIDEBAR_PCT_MAX, SIDEBAR_PCT_MIN } from "@/components/cv/archetype";
 
 export const Route = createFileRoute("/lebenslauf")({
   head: () => ({
@@ -77,6 +102,14 @@ type Saved = {
   data: CvData;
   design: CvDesign;
   elements: CustomField[];
+  /**
+   * Abweichungen vom Vorgabestil je eigenem Element.
+   *
+   * Das Titelblatt führt eine solche Ablage je Vorlage, weil dort jede Vorlage
+   * ein anderes Raster hat. Der Lebenslauf hat nur eines, darum reicht hier
+   * eine einzige.
+   */
+  elementStyles?: StyleOverrides;
 };
 
 /**
@@ -120,12 +153,20 @@ function Lebenslauf() {
     };
   });
   const [elements, setElements] = useState<CustomField[]>([]);
+  const [elementStyles, setElementStyles] = useState<StyleOverrides>({});
+  const [selected, setSelected] = useState<string | null>(null);
+  const [drawing, setDrawing] = useState(false);
   const [cover, setCover] = useState<CoverDraft | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
   const [zoom, setZoom] = useState<number>(PREVIEW.ZOOM_DEFAULT);
   const [downloading, setDownloading] = useState(false);
   const [fitHeight, setFitHeight] = useState<number | undefined>(undefined);
-  const [status, setStatus] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  const [status, setStatus] = useState<{
+    kind: "ok" | "error";
+    text: string;
+    /** Rücknahme, z. B. nach dem Löschen eines Elements. */
+    undo?: () => void;
+  } | null>(null);
   const [open, setOpen] = useState<Record<string, boolean>>({
     design: true,
     person: true,
@@ -140,6 +181,8 @@ function Lebenslauf() {
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  /** Zweiter Klick bestätigt "Alles zurücksetzen" – sonst wäre alles weg. */
+  const [confirmWipe, setConfirmWipe] = useState(false);
 
   const visible = usePageVisible();
   const { markWritten, changedElsewhere } = useForeignWrite(STORAGE_KEY);
@@ -153,6 +196,7 @@ function Lebenslauf() {
     if (p.data) setData({ ...emptyCv, ...p.data, person: { ...emptyCv.person, ...p.data.person } });
     if (p.design) setDesign((d) => migratedDesign(d, p.design!, p.version));
     if (Array.isArray(p.elements)) setElements(p.elements);
+    if (p.elementStyles) setElementStyles(p.elementStyles);
   }, []);
 
   const toggle = (k: string) => setOpen((o) => ({ ...o, [k]: !o[k] }));
@@ -164,6 +208,97 @@ function Lebenslauf() {
     () => TEMPLATES.find((t) => t.id === design.template) ?? TEMPLATES[0],
     [design.template],
   );
+
+  /* ---------------------------------------------------------------------- */
+  /* Eigene Elemente – dieselbe Bedienung wie auf dem Titelblatt            */
+  /* ---------------------------------------------------------------------- */
+
+  const blocks = useMemo(
+    () => buildCustomBlocks(design.template, elements, elementStyles, activeTemplate.slots),
+    [design.template, elements, elementStyles, activeTemplate],
+  );
+  const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
+  const selectedCustom = elements.find((c) => c.id === selected) ?? null;
+
+  const patchStyle = useCallback(
+    (id: string, p: Partial<BlockStyle>) =>
+      setElementStyles((s) => ({ ...s, [id]: { ...(s[id] ?? {}), ...p } })),
+    [],
+  );
+  const patchCustom = (id: string, p: Partial<CustomField>) =>
+    setElements((c) => c.map((f) => (f.id === id ? { ...f, ...p } : f)));
+
+  /** Ein fertig gebautes Element einhängen: Inhalt speichern, Stil anlegen. */
+  const place = ({ field, style }: NewElement) => {
+    setElements((c) => [...c, field]);
+    if (style) patchStyle(field.id, style);
+    // Eigene Elemente sind nur sichtbar, wenn sie eingeschaltet sind. Ein neu
+    // eingefügtes Feld, das unsichtbar bleibt, wäre ein toter Knopf.
+    setDesign((d) => (d.useElements ? d : { ...d, useElements: true }));
+    setSelected(field.id);
+  };
+
+  const addCustom = (shape?: ShapeKind, pill = false) => {
+    if (shape === "path") {
+      setDrawing(true);
+      setSelected(null);
+      setStatus({ kind: "ok", text: "Form aufs Blatt zeichnen – Esc bricht ab." });
+      return;
+    }
+    place(
+      shape
+        ? newShapeElement(elements, shape)
+        : newTextElement(
+            elements,
+            pill
+              ? (activeTemplate.slots[activeTemplate.slots.length - 1]?.key ?? "accent")
+              : undefined,
+          ),
+    );
+  };
+
+  const addImage = () => {
+    place(newImageElement(elements));
+    setStatus({ kind: "ok", text: "Bild-Element eingefügt – unten „Bild wählen“." });
+  };
+
+  const addRule = () => place(newRuleElement(elements));
+
+  const pickImage = async (id: string, file: File | null) => {
+    if (!file) {
+      patchCustom(id, { src: null });
+      return;
+    }
+    try {
+      patchCustom(id, { src: await readPhoto(file) });
+    } catch (e) {
+      setStatus({ kind: "error", text: e instanceof Error ? e.message : "Bild nicht lesbar" });
+    }
+  };
+
+  const removeElement = (id: string) => {
+    const gone = elements.find((c) => c.id === id);
+    setSelected(null);
+    setElements((c) => c.filter((f) => f.id !== id));
+    if (gone) {
+      setStatus({
+        kind: "ok",
+        text: `${gone.label} gelöscht`,
+        undo: () => {
+          setElements((c) => (c.some((f) => f.id === gone.id) ? c : [...c, gone]));
+          setStatus(null);
+        },
+      });
+    }
+  };
+
+  /** Ein Element auf den Vorgabestil der Vorlage zurücksetzen. */
+  const resetElement = (id: string) =>
+    setElementStyles((s) => {
+      const next = { ...s };
+      delete next[id];
+      return next;
+    });
 
   /** Gespeicherten Lebenslauf übernehmen. Gibt zurück, ob es einen gab. */
   const loadFromStorage = useCallback((): boolean => {
@@ -203,6 +338,7 @@ function Lebenslauf() {
         useElements: draft.elements.length > 0,
       }));
       setElements(draft.elements);
+      setElementStyles({});
       if (draft.person.foto) setCvPhotoStyle(draft.photoStyle);
       if (personFilled(draft.person)) {
         setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
@@ -224,8 +360,8 @@ function Lebenslauf() {
 
   /** Der laufende Lebenslauf, so wie er gespeichert bzw. exportiert wird. */
   const payload = useCallback(
-    (): Saved => ({ version: SAVE_VERSION, data, design, elements }),
-    [data, design, elements],
+    (): Saved => ({ version: SAVE_VERSION, data, design, elements, elementStyles }),
+    [data, design, elements, elementStyles],
   );
 
   /** Stand in die eigene Historie legen – die des Titelblatts bleibt unberührt. */
@@ -262,7 +398,10 @@ function Lebenslauf() {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key !== "Escape") return;
+      setMenuOpen(false);
+      setSelected(null);
+      setDrawing(false);
     };
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -273,7 +412,10 @@ function Lebenslauf() {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) setHistoryOpen(false);
+    if (!menuOpen) {
+      setHistoryOpen(false);
+      setConfirmWipe(false);
+    }
   }, [menuOpen]);
 
   /**
@@ -350,6 +492,7 @@ function Lebenslauf() {
 
     if (takeover.elements) {
       setElements(draft.elements);
+      setElementStyles({});
       // Kopieren allein genügt nicht: ohne diesen Schalter werden die Formen
       // nicht gezeichnet, und es sieht aus, als hätte der Knopf nichts getan.
       setDesign((d) => ({ ...d, useElements: draft.elements.length > 0 }));
@@ -375,14 +518,37 @@ function Lebenslauf() {
     );
   }, [takeover]);
 
+  /**
+   * Rückmeldung direkt beim Knopf.
+   *
+   * Die Statuszeile steht oben in der Kopfzeile und ist auf schmalen Fenstern
+   * ausgeblendet – wer hier im Seitenteil klickte, sah gar nichts und hielt
+   * den Knopf für kaputt.
+   */
+  const [personNote, setPersonNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  useEffect(() => {
+    if (!personNote) return;
+    const t = setTimeout(() => setPersonNote(null), 4000);
+    return () => clearTimeout(t);
+  }, [personNote]);
+
   const takePerson = () => {
     const draft = readCoverDraft();
     if (!draft || !personFilled(draft.person)) {
-      setStatus({ kind: "error", text: "Im Titelblatt stehen noch keine Angaben." });
+      const note = { kind: "error" as const, text: "Im Titelblatt stehen noch keine Angaben." };
+      setStatus(note);
+      setPersonNote(note);
       return;
     }
     setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
-    setStatus({ kind: "ok", text: "Angaben vom Titelblatt übernommen" });
+    const taken = [
+      draft.person.vorname || draft.person.nachname ? "Name" : null,
+      draft.person.adresse || draft.person.plzOrt ? "Adresse" : null,
+      draft.person.telefon || draft.person.email ? "Kontakt" : null,
+    ].filter(Boolean);
+    const note = { kind: "ok" as const, text: `Übernommen: ${taken.join(", ")}` };
+    setStatus(note);
+    setPersonNote(note);
   };
 
   const loadDemo = () => {
@@ -390,6 +556,31 @@ function Lebenslauf() {
     setData(DEMO_CV);
     setMenuOpen(false);
     setStatus({ kind: "ok", text: "Beispieldaten eingefügt" });
+  };
+
+  /**
+   * Ganzes Formular leeren – wie im Titelblatt.
+   *
+   * Der Stand wandert vorher in die Historie, damit ein Fehlgriff nicht
+   * endgültig ist. Die Gestaltung kommt wieder vom Titelblatt, sofern es eines
+   * gibt; sonst bleibt die aktuelle Vorlage stehen.
+   */
+  const resetEverything = () => {
+    keepSnapshot("Vor dem Zurücksetzen", true);
+    const draft = readCoverDraft();
+    setData({ ...emptyCv, person: { ...emptyCv.person } });
+    setElements(draft?.elements ?? []);
+    setElementStyles({});
+    setSelected(null);
+    setDesign((d) => ({
+      template: draft?.template ?? d.template,
+      colors: draft?.colors ?? d.colors,
+      bgOpacity: DEFAULT_BG_OPACITY,
+      useElements: (draft?.elements.length ?? 0) > 0,
+    }));
+    setConfirmWipe(false);
+    setMenuOpen(false);
+    setStatus({ kind: "ok", text: "Lebenslauf zurückgesetzt" });
   };
 
   const downloadJson = () => {
@@ -479,7 +670,7 @@ function Lebenslauf() {
   };
 
   const sectionLabel = (key: CvSectionKey) => data.labels[key]?.trim() || CV_SECTION_LABELS[key];
-  const setLabel = (key: CvSectionKey, v: string) =>
+  const setLabel = (key: CvPlacementKey, v: string) =>
     patchData({ labels: { ...data.labels, [key]: v } });
   const setHidden = (key: CvSectionKey, v: boolean) =>
     patchData({ hidden: { ...data.hidden, [key]: v } });
@@ -494,7 +685,22 @@ function Lebenslauf() {
     />
   );
 
-  const canvas = <CvCanvas data={data} design={design} elements={elements} />;
+  const canvas = (
+    <CvCanvas
+      data={data}
+      design={design}
+      elements={elements}
+      elementStyles={elementStyles}
+      selected={selected}
+      onSelect={setSelected}
+      onMoveElement={patchStyle}
+      drawing={drawing}
+      onDrawn={(points) => {
+        setDrawing(false);
+        place(newDrawnElement(elements, points, SHAPE.MIN_DRAW));
+      }}
+    />
+  );
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background">
@@ -611,6 +817,37 @@ function Lebenslauf() {
                   >
                     Beispiel ausfüllen
                   </button>
+
+                  {/* Wie im Titelblatt: zweistufig, weil dabei alles verloren geht. */}
+                  {confirmWipe ? (
+                    <div className="flex items-center gap-1 border-t bg-destructive/5 px-3 py-2">
+                      <span className="mr-auto text-xs font-medium text-destructive">
+                        Wirklich alles?
+                      </span>
+                      <button
+                        type="button"
+                        onClick={resetEverything}
+                        className="rounded-md bg-destructive px-2 py-1 text-xs font-medium text-destructive-foreground hover:bg-destructive/90"
+                      >
+                        Ja
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmWipe(false)}
+                        className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setConfirmWipe(true)}
+                      className="w-full border-t px-3 py-2 text-left text-sm text-destructive hover:bg-destructive/10"
+                    >
+                      Alles zurücksetzen
+                    </button>
+                  )}
 
                   {history.length > 0 && (
                     <div className="border-t">
@@ -794,6 +1031,95 @@ function Lebenslauf() {
                   />
                 </div>
 
+                <div className="flex flex-col gap-3 rounded-md border border-dashed p-2">
+                  <span className="text-xs font-medium">Schrift und Raster</span>
+
+                  <label className="flex flex-col gap-1 text-xs">
+                    <span className="text-muted-foreground">Linie neben der Überschrift</span>
+                    <div className="flex gap-1">
+                      {(
+                        [
+                          ["short", "Kurz"],
+                          ["full", "Ganze Breite"],
+                          ["none", "Keine"],
+                        ] as const
+                      ).map(([id, label]) => (
+                        <button
+                          key={id}
+                          type="button"
+                          aria-pressed={(design.headingRule ?? CV_TYPE_DEFAULTS.headingRule) === id}
+                          onClick={() => setDesign((d) => ({ ...d, headingRule: id }))}
+                          className={`flex-1 rounded-md border px-2 py-1.5 text-xs transition ${
+                            (design.headingRule ?? CV_TYPE_DEFAULTS.headingRule) === id
+                              ? "border-foreground bg-accent"
+                              : "border-input hover:border-foreground/40"
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </label>
+
+                  {(
+                    [
+                      ["titleScale", "Name und Titel", "Der Name oben und der Dokumenttitel."],
+                      [
+                        "headingScale",
+                        "Untertitel und Rubriken",
+                        "Untertitel unter dem Namen sowie alle Rubriktitel, auch in der Seitenspalte.",
+                      ],
+                      [
+                        "bodyScale",
+                        "Fliesstext",
+                        "Alles Übrige. Mehr Text passt bei kleinerer Schrift auf eine Seite.",
+                      ],
+                    ] as const
+                  ).map(([key, label, hint]) => (
+                    <label key={key} className="flex flex-col gap-1 text-xs">
+                      <span className="text-muted-foreground">
+                        {label} {Math.round((design[key] ?? CV_TYPE_DEFAULTS[key]) * 100)} %
+                      </span>
+                      <input
+                        type="range"
+                        min={Math.round(CV_SCALE_MIN * 100)}
+                        max={Math.round(CV_SCALE_MAX * 100)}
+                        step={5}
+                        value={Math.round((design[key] ?? CV_TYPE_DEFAULTS[key]) * 100)}
+                        onChange={(e) =>
+                          setDesign((d) => ({ ...d, [key]: Number(e.target.value) / 100 }))
+                        }
+                        className="w-full accent-primary"
+                      />
+                      <span className="text-muted-foreground/80">{hint}</span>
+                    </label>
+                  ))}
+
+                  <label className="flex flex-col gap-1 text-xs">
+                    <span className="text-muted-foreground">
+                      Seitenspalte{" "}
+                      {Math.round((design.sidebarPct ?? CV_TYPE_DEFAULTS.sidebarPct) * 100)}
+                      {" / "}
+                      {100 - Math.round((design.sidebarPct ?? CV_TYPE_DEFAULTS.sidebarPct) * 100)}
+                    </span>
+                    <input
+                      type="range"
+                      min={Math.round(SIDEBAR_PCT_MIN * 100)}
+                      max={Math.round(SIDEBAR_PCT_MAX * 100)}
+                      step={1}
+                      value={Math.round((design.sidebarPct ?? CV_TYPE_DEFAULTS.sidebarPct) * 100)}
+                      onChange={(e) =>
+                        setDesign((d) => ({ ...d, sidebarPct: Number(e.target.value) / 100 }))
+                      }
+                      className="w-full accent-primary"
+                    />
+                    <span className="text-muted-foreground/80">
+                      Gilt für den Aufbau „Sidebar". Vorlagen mit eigener Farbspalte behalten deren
+                      Breite vom Titelblatt.
+                    </span>
+                  </label>
+                </div>
+
                 <div>
                   <span className="mb-2 block text-xs text-muted-foreground">Farben</span>
                   <ColorChooser
@@ -816,14 +1142,48 @@ function Lebenslauf() {
               hint={data.person.vorname || data.person.nachname ? "gesetzt" : "leer"}
             >
               <div className="flex flex-col gap-3">
-                <button
-                  type="button"
-                  onClick={takePerson}
-                  className="self-start rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
-                >
-                  Angaben vom Titelblatt holen
-                </button>
-                <FormCvPerson person={data.person} onChange={patchPerson} />
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={takePerson}
+                    className="rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
+                  >
+                    Angaben vom Titelblatt holen
+                  </button>
+                  {personNote && (
+                    <span
+                      role="status"
+                      className={`rounded-md px-2 py-1 text-xs ${
+                        personNote.kind === "error"
+                          ? "bg-destructive/10 text-destructive"
+                          : "bg-primary/10 text-primary"
+                      }`}
+                    >
+                      {personNote.text}
+                    </span>
+                  )}
+                </div>
+
+                <label className="flex flex-col gap-1 text-xs">
+                  <span className="text-muted-foreground">Titel des Dokuments</span>
+                  <input
+                    type="text"
+                    value={data.titel ?? ""}
+                    placeholder={DEFAULT_CV_TITLE}
+                    onChange={(e) => patchData({ titel: e.target.value })}
+                    className="rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  />
+                  <span className="text-muted-foreground/80">
+                    Steht über dem Namen. Leer lassen blendet ihn aus.
+                  </span>
+                </label>
+
+                <FormCvPerson
+                  person={data.person}
+                  onChange={patchPerson}
+                  contactLabel={data.labels.kontakt ?? ""}
+                  onContactLabel={(v) => setLabel("kontakt", v)}
+                />
               </div>
             </Section>
 
@@ -931,16 +1291,79 @@ function Lebenslauf() {
               </ScaledPreview>
             </div>
           </div>
-          {status && (
-            <p
-              role="status"
-              className={`shrink-0 pb-2 text-center text-xs md:hidden ${
-                status.kind === "error" ? "text-destructive" : "text-primary"
-              }`}
-            >
-              {status.text}
-            </p>
-          )}
+
+          {/* Werkzeugleiste unter dem Blatt – wie auf dem Titelblatt. */}
+          <div className="shrink-0 px-2 pb-3 pt-2 lg:px-6">
+            <div className="mx-auto w-full max-w-[900px]">
+              {drawing ? (
+                <div className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed bg-background px-4 py-3 text-sm">
+                  <span className="font-medium">Freihand zeichnen</span>
+                  <span className="text-muted-foreground">
+                    Mit gedrückter Maustaste eine Form aufs Blatt ziehen.
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setDrawing(false)}
+                    className="ml-auto rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
+                  >
+                    Abbrechen
+                  </button>
+                </div>
+              ) : selectedBlock ? (
+                <ElementBar
+                  block={selectedBlock}
+                  slots={activeTemplate.slots}
+                  colors={design.colors}
+                  onChange={(p) => patchStyle(selectedBlock.id, p)}
+                  onReset={() => resetElement(selectedBlock.id)}
+                  onClose={() => setSelected(null)}
+                  custom={selectedCustom ?? undefined}
+                  onCustomChange={
+                    selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
+                  }
+                  onDelete={() => removeElement(selectedBlock.id)}
+                  onPickImage={
+                    selectedCustom && customKind(selectedCustom) !== "shape"
+                      ? (file) => pickImage(selectedCustom.id, file)
+                      : undefined
+                  }
+                  onAddImage={addImage}
+                />
+              ) : (
+                <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-background px-4 py-2.5">
+                  <span className="text-sm text-muted-foreground">
+                    Eigenes Element antippen zum Anpassen, ziehen zum Verschieben.
+                  </span>
+                  <AddElementMenu
+                    onText={() => addCustom()}
+                    onPill={() => addCustom(undefined, true)}
+                    onImage={addImage}
+                    onRule={addRule}
+                    onShape={(sh) => addCustom(sh)}
+                  />
+                </div>
+              )}
+              {status && (
+                <p
+                  role="status"
+                  className={`mt-2 flex flex-wrap items-center justify-center gap-2 text-center text-xs md:hidden ${
+                    status.kind === "error" ? "text-destructive" : "text-primary"
+                  }`}
+                >
+                  {status.text}
+                  {status.undo && (
+                    <button
+                      type="button"
+                      onClick={status.undo}
+                      className="underline underline-offset-2"
+                    >
+                      Rückgängig
+                    </button>
+                  )}
+                </p>
+              )}
+            </div>
+          </div>
         </main>
       </div>
 
@@ -955,7 +1378,13 @@ function Lebenslauf() {
           zIndex: -1,
         }}
       >
-        <CvCanvas data={data} design={design} elements={elements} exportMode />
+        <CvCanvas
+          data={data}
+          design={design}
+          elements={elements}
+          elementStyles={elementStyles}
+          exportMode
+        />
       </div>
     </div>
   );

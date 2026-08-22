@@ -1,6 +1,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { TemplateId } from "./types";
 import { TEMPLATES } from "./types";
+import { freshFamilyForTemplate } from "./fresh-templates";
 import { UI } from "@/default-config";
 import { applyDossierTheme } from "@/lib/dossier-theme";
 import { familyForTemplate } from "@/lib/dossier-family";
@@ -16,6 +17,9 @@ import {
 import "../cv/layout-variants.css";
 import "../cv/layout-options.css";
 import "../dossier-theme.css";
+import "./fresh-templates.css";
+
+const SELECTABLE_TEMPLATES = TEMPLATES.filter((template) => template.id !== "colorful");
 
 type Props = {
   value: TemplateId;
@@ -124,11 +128,16 @@ export function TemplatePicker({ value, onChange }: Props) {
     setOnCvPage(window.location.pathname.includes("lebenslauf"));
   }, []);
 
-  // Das Schriftbild folgt der Vorlage. Es gibt keine zweite Wahl daneben, die
-  // sie überstimmen könnte.
+  // Colorful is retired. Old saved drafts still deserialize because the legacy
+  // id remains part of TemplateId, but the first render migrates them to Blockig.
+  // New drafts can no longer select Colorful.
   useEffect(() => {
-    applyDossierTheme(value, familyForTemplate(value));
-  }, [value]);
+    if (value === "colorful") {
+      onChange("blockig");
+      return;
+    }
+    applyDossierTheme(value, freshFamilyForTemplate(value) ?? familyForTemplate(value));
+  }, [onChange, value]);
 
   return (
     <div>
@@ -137,11 +146,11 @@ export function TemplatePicker({ value, onChange }: Props) {
           <span className="block text-xs font-medium">Vorlage</span>
           <span className="text-[11px] leading-snug text-muted-foreground">
             Bestimmt Aufbau, Farben und Schrift – für Titelblatt und Lebenslauf zusammen. Alle{" "}
-            {TEMPLATES.length} stehen immer zur Wahl.
+            {SELECTABLE_TEMPLATES.length} stehen immer zur Wahl.
           </span>
         </div>
         <div className={dense ? "grid grid-cols-2 gap-2" : "grid grid-cols-3 gap-3"}>
-          {TEMPLATES.map((t) => {
+          {SELECTABLE_TEMPLATES.map((t) => {
             const active = t.id === value;
             const base = active
               ? "border-foreground bg-accent"

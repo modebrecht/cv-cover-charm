@@ -161,17 +161,25 @@ const GAP = 8;
 /** Höhe der Fusszeile ab Seite 2, in mm. */
 export const FOOTER_MM = 9;
 
-/** Breite der getönten Papierspalte im zweispaltigen Aufbau, in mm. */
-export const SIDEBAR_MM = 55;
+/** Blattbreite in mm – Bezug für die Spaltenbreite in Prozent. */
+const SHEET_MM = 210;
+/** Grenzen der einstellbaren Spaltenbreite. Enger wird unlesbar, breiter erdrückt den Text. */
+export const SIDEBAR_PCT_MIN = 0.22;
+export const SIDEBAR_PCT_MAX = 0.42;
 
 /**
  * Breite der Seitenspalte für Bauform und gewählten Aufbau – 0, wenn keine da
  * ist. Eine einzige Quelle für die Spaltenbreite: was hier herauskommt, hält
  * der Textbereich frei und genau so breit zeichnet der Renderer die Spalte.
+ *
+ * Bei einer Vorlage mit eigener Farbspalte gibt die Vorlage die Breite vor –
+ * dort wäre eine abweichende Einstellung ein Widerspruch zum Titelblatt.
  */
-export function sidebarWidthMm(frame: CvFrame, layout: CvRenderLayout): number {
+export function sidebarWidthMm(frame: CvFrame, layout: CvRenderLayout, sidebarPct = 0.3): number {
   if (frame.id === "column") return frame.columnMm;
-  return layout === "modern" ? SIDEBAR_MM : 0;
+  if (layout !== "modern") return 0;
+  const pct = Math.min(SIDEBAR_PCT_MAX, Math.max(SIDEBAR_PCT_MIN, sidebarPct));
+  return Math.round(SHEET_MM * pct);
 }
 
 /** Luft zwischen dem Rand der Schreibfläche und dem Text darauf. */
@@ -185,14 +193,19 @@ const SURFACE_PAD = 5;
  * darüber, nicht dadurch, dass die Vorlage verblasst. Es beginnt rechts einer
  * farbigen Spalte und unter einem Kopfband, damit beide sichtbar bleiben.
  */
-export function cvSurface(frame: CvFrame, pageIndex: number, layout: CvRenderLayout): CvContentBox {
+export function cvSurface(
+  frame: CvFrame,
+  pageIndex: number,
+  layout: CvRenderLayout,
+  sidebarPct?: number,
+): CvContentBox {
   // Karte: genau die Karte, die auch das Titelblatt zeigt.
   if (frame.id === "card") {
     const i = frame.cardInsetMm;
     return { left: i, right: i, top: i, bottom: i };
   }
 
-  const box = cvContentBox(frame, pageIndex, layout);
+  const box = cvContentBox(frame, pageIndex, layout, sidebarPct);
 
   // Ruhige Vorlagen sind schon helles Papier mit feinen Linien. Die Fläche
   // bleibt darum eingerückt, damit Zierrahmen sichtbar bleiben, deckt aber
@@ -213,7 +226,7 @@ export function cvSurface(frame: CvFrame, pageIndex: number, layout: CvRenderLay
   const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
 
   return {
-    left: sidebarWidthMm(frame, layout),
+    left: sidebarWidthMm(frame, layout, sidebarPct),
     right: 0,
     top: headTopMm(frame, pageIndex) + head,
     bottom: frame.footMm,
@@ -245,6 +258,7 @@ export function cvContentBox(
   frame: CvFrame,
   pageIndex: number,
   layout: CvRenderLayout,
+  sidebarPct?: number,
 ): CvContentBox {
   const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
   const top = head > 0 ? headTopMm(frame, pageIndex) + head + GAP : MARGIN_TOP;
@@ -255,7 +269,7 @@ export function cvContentBox(
   if (frame.id === "card") {
     // Innenrand der Karte, damit der Text nicht an deren Kante klebt.
     const inset = frame.cardInsetMm + 11;
-    const side = sidebarWidthMm(frame, layout);
+    const side = sidebarWidthMm(frame, layout, sidebarPct);
     return {
       left: side > 0 ? frame.cardInsetMm + side + GAP : inset,
       right: inset,
@@ -264,7 +278,7 @@ export function cvContentBox(
     };
   }
 
-  const side = sidebarWidthMm(frame, layout);
+  const side = sidebarWidthMm(frame, layout, sidebarPct);
   if (side > 0) {
     return { left: side + GAP, right: MARGIN_X, top, bottom };
   }

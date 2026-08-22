@@ -46,16 +46,44 @@ export function PhotoStyleControls({ value, onChange, hasPhoto, compact, cropOnl
       )}
 
       {!cropOnly && (
-        <Row label={`Rahmen ${Math.round(value.borderWidth * 10) / 10} mm`}>
-          <input
-            type="range"
-            min={0}
-            max={2}
-            step={0.1}
-            value={value.borderWidth}
-            onChange={(e) => onChange({ borderWidth: Number(e.target.value) })}
-            className="w-full accent-primary"
-          />
+        // Stärke 0 heisst "kein Rahmen". Das stand vorher nur im Regler und war
+        // schwer zu treffen, darum zwei klare Knöpfe davor.
+        <Row
+          label={
+            value.borderWidth > 0
+              ? `Rahmen ${Math.round(value.borderWidth * 10) / 10} mm`
+              : "Rahmen"
+          }
+        >
+          <div className="flex shrink-0 gap-1">
+            <button
+              type="button"
+              className={value.borderWidth > 0 ? btn : btnOn}
+              aria-pressed={value.borderWidth === 0}
+              onClick={() => onChange({ borderWidth: 0 })}
+            >
+              Ohne
+            </button>
+            <button
+              type="button"
+              className={value.borderWidth > 0 ? btnOn : btn}
+              aria-pressed={value.borderWidth > 0}
+              onClick={() => value.borderWidth === 0 && onChange({ borderWidth: 0.3 })}
+            >
+              Mit
+            </button>
+          </div>
+          {value.borderWidth > 0 && (
+            <input
+              type="range"
+              min={0.1}
+              max={2}
+              step={0.1}
+              value={value.borderWidth}
+              onChange={(e) => onChange({ borderWidth: Number(e.target.value) })}
+              className="w-full accent-primary"
+            />
+          )}
         </Row>
       )}
 

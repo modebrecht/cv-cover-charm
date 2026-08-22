@@ -1,0 +1,323 @@
+/* -------------------------------------------------------------------------- */
+/* Fresh dossier systems: Edge · Glow · Frame · Mono Luxe                     */
+/* -------------------------------------------------------------------------- */
+/*
+ * The four fresh templates use the proven responsive text schema but give it
+ * four genuinely different compositions. Default offsets are transforms on the
+ * draggable wrappers: user x/y edits keep working because they still move the
+ * wrapper while the template-specific composition remains its local baseline.
+ *
+ * CoverBackground's color-aware fallback gives us one primary plane and two
+ * secondary shapes. They are reshaped here, so every palette variant and every
+ * manually edited color keeps working on title page and CV alike.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* EDGE — precise navy rail + electric signal                                 */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="edge"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 10mm !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="edge"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 10mm !important;
+  right: auto !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 1.1mm !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  opacity: 0.95 !important;
+}
+
+html[data-dossier-template="edge"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: 160mm !important;
+  right: auto !important;
+  top: 12mm !important;
+  bottom: auto !important;
+  width: 38mm !important;
+  height: 11mm !important;
+  border-radius: 5.5mm 0 0 5.5mm !important;
+  opacity: 1 !important;
+}
+
+/* Warm's light eyebrow becomes a vertical label on the dark rail. */
+html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
+  transform: translate(-12mm, 70mm) rotate(90deg);
+  transform-origin: left top;
+}
+
+/* The light date text lands inside the blue signal capsule. */
+html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  transform: translate(0, 1mm);
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(57mm, -44mm) scale(0.84);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(4mm, -30mm);
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="beruf"],
+html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  transform: translate(4mm, -26mm);
+}
+
+html[data-dossier-template="edge"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 12.5mm !important;
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  border-radius: 0 !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* GLOW — soft color field + floating paper                                   */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="glow"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: -28mm !important;
+  right: auto !important;
+  top: -34mm !important;
+  width: 176mm !important;
+  height: 146mm !important;
+  border-radius: 0 0 92mm 0 !important;
+  opacity: 0.94 !important;
+}
+
+html[data-dossier-template="glow"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 95mm !important;
+  right: auto !important;
+  top: 62mm !important;
+  bottom: auto !important;
+  width: 116mm !important;
+  height: 116mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.72 !important;
+  filter: blur(7mm);
+}
+
+html[data-dossier-template="glow"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: 16mm !important;
+  right: auto !important;
+  top: 192mm !important;
+  bottom: auto !important;
+  width: 62mm !important;
+  height: 62mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.22 !important;
+  filter: blur(5mm);
+}
+
+html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  transform: translate(-50mm, 5mm);
+}
+
+html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(50mm, -24mm) scale(0.82);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(0, -16mm);
+}
+
+html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="beruf"],
+html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  transform: translate(0, -14mm);
+}
+
+html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-surface] {
+  border-radius: 7mm !important;
+  box-shadow: 0 4mm 16mm rgb(23 32 51 / 0.08);
+}
+
+html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-accent] {
+  border-radius: 999px !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* FRAME — architectural bars, warm contrast                                  */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="frame"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 32mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="frame"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 32mm !important;
+  bottom: auto !important;
+  width: 15mm !important;
+  height: 265mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="frame"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: 15mm !important;
+  right: auto !important;
+  top: 258mm !important;
+  bottom: auto !important;
+  width: 195mm !important;
+  height: 7mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(60mm, -38mm) scale(0.8);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(8mm, -30mm);
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="beruf"],
+html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  transform: translate(8mm, -26mm);
+}
+
+html[data-dossier-template="frame"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 15mm !important;
+  top: 14mm !important;
+  bottom: 12mm !important;
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-section-title] {
+  font-variant-caps: small-caps;
+}
+
+/* -------------------------------------------------------------------------- */
+/* MONO LUXE — black header, cream paper, tiny metallic details                */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="monoLuxe"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 28mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="monoLuxe"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 72mm !important;
+  right: auto !important;
+  top: 27.2mm !important;
+  bottom: auto !important;
+  width: 66mm !important;
+  height: 0.8mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="monoLuxe"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: 168mm !important;
+  right: auto !important;
+  top: 18mm !important;
+  bottom: auto !important;
+  width: 16mm !important;
+  height: 2.2mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(59mm, -38mm) scale(0.74);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(8mm, -32mm);
+}
+
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="beruf"],
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  transform: translate(8mm, -28mm);
+}
+
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-surface] {
+  top: 13mm !important;
+  border-radius: 0 !important;
+  box-shadow: inset 0 0.25mm 0 rgb(142 111 66 / 0.38);
+}
+
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  height: 0.25mm !important;
+  opacity: 0.46 !important;
+  border-radius: 0 !important;
+}
+
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-page-label] {
+  text-transform: none;
+  letter-spacing: 0.03em;
+}

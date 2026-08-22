@@ -69,6 +69,17 @@ export const CV_SECTION_ORDER: CvSectionKey[] = [
 /** Im Modern-Layout kann jeder Inhaltsblock bewusst links oder im Hauptteil liegen. */
 export type CvPlacement = "side" | "main";
 export type CvPlacementKey = "kontakt" | CvSectionKey;
+
+/**
+ * Überschriften aller Blöcke, Kontakt eingeschlossen.
+ *
+ * Kontakt war der einzige Block ohne änderbaren Titel – dabei will vielleicht
+ * jemand dort den eigenen Namen stehen haben statt des Worts "Kontakt".
+ */
+export const CV_BLOCK_LABELS: Record<CvPlacementKey, string> = {
+  kontakt: "Kontakt",
+  ...CV_SECTION_LABELS,
+};
 export type CvPlacements = Record<CvPlacementKey, CvPlacement>;
 
 /** Sinnvolle Startwerte; danach entscheidet die Schülerin / der Schüler selbst. */
@@ -91,8 +102,13 @@ export type CvData = {
   hobbys: string[];
   staerken: string[];
   referenzen: CvReferenz[];
-  /** Eigene Überschriften. Leer = Vorgabe aus CV_SECTION_LABELS. */
-  labels: Partial<Record<CvSectionKey, string>>;
+  /**
+   * Titel des Dokuments, z. B. "Lebenslauf". Leer lassen blendet ihn aus.
+   * Vorher stand hier nichts und ein Aufbau druckte fest "CURRICULUM VITAE".
+   */
+  titel?: string;
+  /** Eigene Überschriften. Leer = Vorgabe aus CV_BLOCK_LABELS. */
+  labels: Partial<Record<CvPlacementKey, string>>;
   /** Ausgeblendete Abschnitte. */
   hidden: Partial<Record<CvSectionKey, boolean>>;
 };
@@ -109,7 +125,34 @@ export type CvDesign = {
   bgOpacity: number;
   /** Formen und Bilder vom Titelblatt mitnehmen (ohne dessen Texte). */
   useElements: boolean;
+
+  /** Linie neben der Abschnittsüberschrift. */
+  headingRule?: CvHeadingRule;
+  /** Grösse von Name und Dokumenttitel, 1 = Vorgabe. */
+  titleScale?: number;
+  /** Grösse von Untertitel und Rubriken, 1 = Vorgabe. */
+  headingScale?: number;
+  /** Grösse des Fliesstexts, 1 = Vorgabe. */
+  bodyScale?: number;
+  /** Breite der Seitenspalte als Anteil der Blattbreite. */
+  sidebarPct?: number;
 };
+
+/** „keine" blendet die Linie aus, „kurz" ist der feste Strich, „ganz" füllt die Zeile. */
+export type CvHeadingRule = "none" | "short" | "full";
+
+export const CV_TYPE_DEFAULTS = {
+  headingRule: "short" as CvHeadingRule,
+  titleScale: 1,
+  headingScale: 1,
+  bodyScale: 1,
+  /** 30/70 – die Aufteilung, die sich beim Ausprobieren als brauchbar zeigte. */
+  sidebarPct: 0.3,
+} as const;
+
+/** Regler laufen von der Hälfte bis zum Doppelten der Vorgabe. */
+export const CV_SCALE_MIN = 0.5;
+export const CV_SCALE_MAX = 2;
 
 export const emptyPerson: CvPerson = {
   vorname: "",
@@ -124,8 +167,12 @@ export const emptyPerson: CvPerson = {
   foto: null,
 };
 
+/** Vorgabe für den Dokumenttitel. */
+export const DEFAULT_CV_TITLE = "Lebenslauf";
+
 export const emptyCv: CvData = {
   person: { ...emptyPerson },
+  titel: DEFAULT_CV_TITLE,
   schule: [],
   erfahrung: [],
   sprachen: [],
@@ -165,6 +212,7 @@ export const entryFilled = (e: CvEntry) =>
   !!(e.zeit.trim() || e.titel.trim() || e.ort.trim() || e.beschreibung.trim());
 
 export const DEMO_CV: CvData = {
+  titel: DEFAULT_CV_TITLE,
   person: {
     vorname: "Lea",
     nachname: "Müller",

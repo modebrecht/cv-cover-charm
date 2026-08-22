@@ -1,4 +1,4 @@
-import { useState, useSyncExternalStore, type CSSProperties } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { readPhoto } from "@/lib/image";
 import { readCoverPhoto } from "@/lib/dossier";
 import {
@@ -13,6 +13,16 @@ import { getCvLayout, subscribeCvLayout } from "./layout";
 import { getCvPlacements, setCvPlacement, subscribeCvPlacements } from "./placement";
 import { getCvPhotoStyle, setCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
+  CV_PHOTO_MAX_MM,
+  CV_PHOTO_MIN_MM,
+  DEFAULT_CV_PHOTO_PLACEMENT,
+  getCvPhotoPlacement,
+  resetCvPhotoPlacement,
+  setCvPhotoPlacement,
+  subscribeCvPhotoPlacement,
+} from "./photo-place";
+import {
+  CV_BLOCK_LABELS,
   DEFAULT_CV_PLACEMENTS,
   emptyEntry,
   emptyReferenz,
@@ -41,6 +51,111 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 const addBtn =
   "self-start rounded-md border border-dashed border-input px-3 py-1.5 text-xs hover:bg-accent";
 const delBtn = "shrink-0 rounded-md px-2 py-1 text-xs text-destructive hover:bg-destructive/10";
+
+const AUTO_SORT_EXPERIENCE_KEY = "lebenslauf:auto-sort:erfahrung";
+const DRAG_PREFIX = "cv-sort:";
+
+function readAutoSortExperience(): boolean {
+  if (typeof window === "undefined") return true;
+  try {
+    return window.localStorage.getItem(AUTO_SORT_EXPERIENCE_KEY) !== "false";
+  } catch {
+    return true;
+  }
+}
+
+function writeAutoSortExperience(value: boolean) {
+  try {
+    window.localStorage.setItem(AUTO_SORT_EXPERIENCE_KEY, String(value));
+  } catch {
+    // Private mode / blocked storage: the checkbox still works for this visit.
+  }
+}
+
+/**
+ * Freie Datumsangaben wie „Sept. 2026", „2023 – heute" oder „2017 – 2023"
+ * bleiben erlaubt. Für die Sortierung reicht ein robuster Best-Effort-Key;
+ * nicht erkennbare Angaben bleiben stabil hinter den datierbaren Einträgen.
+ */
+function experienceDateKey(text: string): number | null {
+  const value = text.trim().toLowerCase();
+  if (!value) return null;
+  if (/\b(heute|aktuell|gegenwart)\b/.test(value)) return Number.MAX_SAFE_INTEGER;
+
+  const years = Array.from(value.matchAll(/\b(?:19|20)\d{2}\b/g), (m) => Number(m[0]));
+  if (!years.length) return null;
+  const year = Math.max(...years);
+
+  const months: Array<[RegExp, number]> = [
+    [/jan/, 1],
+    [/feb/, 2],
+    [/mär|mae|mar/, 3],
+    [/apr/, 4],
+    [/mai|may/, 5],
+    [/jun/, 6],
+    [/jul/, 7],
+    [/aug/, 8],
+    [/sep/, 9],
+    [/okt|oct/, 10],
+    [/nov/, 11],
+    [/dez|dec/, 12],
+  ];
+  let month = 0;
+  for (const [pattern, number] of months) {
+    if (pattern.test(value)) month = Math.max(month, number);
+  }
+  return year * 12 + month;
+}
+
+function sortExperienceNewestFirst(entries: CvEntry[]): CvEntry[] {
+  return entries
+    .map((entry, index) => ({ entry, index, key: experienceDateKey(entry.zeit) }))
+    .sort((a, b) => {
+      if (a.key == null && b.key == null) return a.index - b.index;
+      if (a.key == null) return 1;
+      if (b.key == null) return -1;
+      return b.key - a.key || a.index - b.index;
+    })
+    .map(({ entry }) => entry);
+}
+
+function DragHandle({ scope, index }: { scope: string; index: number }) {
+  return (
+    <span
+      draggable
+      role="button"
+      tabIndex={0}
+      title="Ziehen zum Sortieren"
+      aria-label="Eintrag ziehen zum Sortieren"
+      onDragStart={(e) => {
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/plain", `${DRAG_PREFIX}${scope}:${index}`);
+      }}
+      className="mt-0.5 shrink-0 cursor-grab select-none rounded px-1.5 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground active:cursor-grabbing"
+    >
+      ⋮⋮
+    </span>
+  );
+}
+
+function dropReorder<T>(
+  e: React.DragEvent,
+  scope: string,
+  targetIndex: number,
+  list: T[],
+  onChange: (next: T[]) => void,
+) {
+  e.preventDefault();
+  const prefix = `${DRAG_PREFIX}${scope}:`;
+  const raw = e.dataTransfer.getData("text/plain");
+  if (!raw.startsWith(prefix)) return;
+  const from = Number(raw.slice(prefix.length));
+  if (!Number.isInteger(from) || from < 0 || from >= list.length || from === targetIndex) return;
+  const next = [...list];
+  const [moved] = next.splice(from, 1);
+  next.splice(targetIndex, 0, moved);
+  onChange(next);
+}
 
 /** Kompakter Zwei-Zustands-Schalter für das Modern-Layout. */
 export function PlacementToggle({
@@ -131,12 +246,120 @@ function photoPreviewFrame(style: DossierPhotoStyle): CSSProperties {
   };
 }
 
+const placeBtn =
+  "flex-1 rounded-md border px-2 py-1 text-xs transition-colors border-input hover:bg-accent";
+const placeBtnOn =
+  "flex-1 rounded-md border px-2 py-1 text-xs border-primary bg-primary text-primary-foreground";
+
+/**
+ * Wo das Foto auf dem Blatt sitzt und welche Farbe sein Rahmen hat.
+ *
+ * Stärke und Form des Rahmens stehen bewusst weiter oben in den geteilten
+ * Foto-Reglern – dieselbe Einstellung wie auf dem Titelblatt. Hier steht nur,
+ * was den Lebenslauf allein betrifft.
+ */
+function CvPhotoPlaceControls({ borderWidth }: { borderWidth: number }) {
+  const place = useSyncExternalStore(
+    subscribeCvPhotoPlacement,
+    getCvPhotoPlacement,
+    () => DEFAULT_CV_PHOTO_PLACEMENT,
+  );
+  const free = place.mode === "frei";
+
+  return (
+    <div className="mt-3 flex flex-col gap-2 border-t pt-3">
+      <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+        Platz auf dem Blatt
+      </span>
+      <div className="flex gap-1">
+        <button
+          type="button"
+          className={free ? placeBtn : placeBtnOn}
+          aria-pressed={!free}
+          onClick={() => setCvPhotoPlacement({ mode: "auto" })}
+        >
+          Im Aufbau
+        </button>
+        <button
+          type="button"
+          className={free ? placeBtnOn : placeBtn}
+          aria-pressed={free}
+          onClick={() => setCvPhotoPlacement({ mode: "frei" })}
+        >
+          Frei platziert
+        </button>
+      </div>
+
+      {free ? (
+        <>
+          <label className="flex flex-col gap-1">
+            <span className="text-[11px] text-muted-foreground">
+              Breite {Math.round(place.widthMm)} mm
+            </span>
+            <input
+              type="range"
+              min={CV_PHOTO_MIN_MM}
+              max={CV_PHOTO_MAX_MM}
+              step={1}
+              value={place.widthMm}
+              onChange={(e) => setCvPhotoPlacement({ widthMm: Number(e.target.value) })}
+              className="w-full accent-primary"
+            />
+          </label>
+          <p className="text-[11px] leading-snug text-muted-foreground">
+            In der Vorschau lässt sich das Foto mit der Maus ziehen; am Punkt unten rechts wird es
+            grösser oder kleiner. Mit den Pfeiltasten geht es millimeterweise.
+          </p>
+          <button
+            type="button"
+            className="self-start text-[11px] text-muted-foreground underline hover:text-foreground"
+            onClick={resetCvPhotoPlacement}
+          >
+            Platz zurücksetzen
+          </button>
+        </>
+      ) : (
+        <p className="text-[11px] leading-snug text-muted-foreground">
+          Das Foto sitzt im Kopf bzw. in der Seitenspalte – je nach Aufbau.
+        </p>
+      )}
+
+      {borderWidth > 0 && (
+        <label className="flex items-center gap-2">
+          <span className="text-[11px] text-muted-foreground">Rahmenfarbe</span>
+          <input
+            type="color"
+            value={place.frameColor ?? "#000000"}
+            onChange={(e) => setCvPhotoPlacement({ frameColor: e.target.value })}
+            className="h-6 w-10 cursor-pointer rounded border border-input bg-background"
+            aria-label="Rahmenfarbe"
+          />
+          {place.frameColor && (
+            <button
+              type="button"
+              className="text-[11px] text-muted-foreground underline hover:text-foreground"
+              onClick={() => setCvPhotoPlacement({ frameColor: null })}
+            >
+              wie Vorlage
+            </button>
+          )}
+        </label>
+      )}
+    </div>
+  );
+}
+
 export function FormCvPerson({
   person,
   onChange,
+  contactLabel,
+  onContactLabel,
 }: {
   person: CvPerson;
   onChange: (p: Partial<CvPerson>) => void;
+  /** Eigene Überschrift über den Kontaktangaben; leer heisst „Kontakt". */
+  contactLabel: string;
+  onContactLabel: (value: string) => void;
 }) {
   const photoStyle = useSyncExternalStore(
     subscribeCvPhotoStyle,
@@ -161,8 +384,6 @@ export function FormCvPerson({
       setPhotoMessage({ error: true, text: "Im Titelblatt ist noch kein Foto gespeichert." });
       return;
     }
-    // Persist the independent CV treatment first. The following React state
-    // update can then never interrupt or roll back the one-way style copy.
     setCvPhotoStyle(draft.photoStyle);
     onChange({ foto: draft.foto });
     setPhotoMessage({ error: false, text: "Foto und Ausschnitt vom Titelblatt übernommen" });
@@ -171,7 +392,15 @@ export function FormCvPerson({
   return (
     <div className="flex flex-col gap-3">
       <BlockPlacementControl block="kontakt" label="Kontaktangaben" />
-
+      <label className="flex flex-col gap-1">
+        <span className="text-xs text-muted-foreground">Überschrift über den Kontaktangaben</span>
+        <input
+          className={inputCls}
+          placeholder={CV_BLOCK_LABELS.kontakt}
+          value={contactLabel}
+          onChange={(e) => onContactLabel(e.target.value)}
+        />
+      </label>
       <div className="rounded-md border bg-muted/20 p-3">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <label className="cursor-pointer rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-accent">
@@ -206,7 +435,6 @@ export function FormCvPerson({
             </button>
           )}
         </div>
-
         <div className="flex items-start gap-3">
           <div style={photoPreviewFrame(photoStyle)} className="border bg-background text-primary">
             {person.foto ? (
@@ -221,7 +449,6 @@ export function FormCvPerson({
               </div>
             )}
           </div>
-
           <div className="min-w-0 flex-1">
             <PhotoStyleControls
               value={photoStyle}
@@ -232,6 +459,7 @@ export function FormCvPerson({
             <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground">
               Form, Rahmen und Ausschnitt bleiben beim Wechsel des CV-Layouts erhalten.
             </p>
+            <CvPhotoPlaceControls borderWidth={photoStyle.borderWidth} />
             {photoMessage && (
               <p
                 className={`mt-1.5 text-[11px] ${
@@ -244,7 +472,6 @@ export function FormCvPerson({
           </div>
         </div>
       </div>
-
       <div className="grid grid-cols-2 gap-2">
         <Field label="Vorname">
           <input
@@ -334,42 +561,97 @@ export function FormCvEntries({
   const patch = (id: string, p: Partial<CvEntry>) =>
     onChange(entries.map((e) => (e.id === id ? { ...e, ...p } : e)));
   const block: CvPlacementKey = titelLabel === "Schule / Stufe" ? "schule" : "erfahrung";
+  const isExperience = block === "erfahrung";
+  const [autoSort, setAutoSort] = useState(readAutoSortExperience);
+  const sortedOnce = useRef(false);
+
+  const sortNow = () => {
+    const sorted = sortExperienceNewestFirst(entries);
+    if (sorted.some((entry, index) => entry.id !== entries[index]?.id)) onChange(sorted);
+  };
+
+  useEffect(() => {
+    if (!isExperience || !autoSort || sortedOnce.current) return;
+    sortedOnce.current = true;
+    sortNow();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isExperience, autoSort]);
 
   return (
     <div className="flex flex-col gap-2">
       <BlockPlacementControl block={block} />
-      {entries.map((e) => (
-        <Item key={e.id} onRemove={() => onChange(entries.filter((x) => x.id !== e.id))}>
-          <Field label="Zeitraum">
-            <input
-              className={inputCls}
-              placeholder="2023 – heute"
-              value={e.zeit}
-              onChange={(ev) => patch(e.id, { zeit: ev.target.value })}
-            />
-          </Field>
-          <Field label={titelLabel}>
-            <input
-              className={inputCls}
-              value={e.titel}
-              onChange={(ev) => patch(e.id, { titel: ev.target.value })}
-            />
-          </Field>
-          <Field label={ortLabel}>
-            <input
-              className={inputCls}
-              value={e.ort}
-              onChange={(ev) => patch(e.id, { ort: ev.target.value })}
-            />
-          </Field>
-          <Field label="Ergänzung (optional)">
-            <input
-              className={inputCls}
-              value={e.beschreibung}
-              onChange={(ev) => patch(e.id, { beschreibung: ev.target.value })}
-            />
-          </Field>
-        </Item>
+      {isExperience && (
+        <label className="flex items-center gap-2 rounded-md border bg-muted/20 px-2.5 py-2 text-xs">
+          <input
+            type="checkbox"
+            checked={autoSort}
+            onChange={(e) => {
+              const checked = e.target.checked;
+              setAutoSort(checked);
+              writeAutoSortExperience(checked);
+              if (checked) {
+                const sorted = sortExperienceNewestFirst(entries);
+                if (sorted.some((entry, index) => entry.id !== entries[index]?.id)) onChange(sorted);
+              }
+            }}
+          />
+          <span>
+            Automatisch nach Datum sortieren
+            <span className="ml-1 text-muted-foreground">
+              {autoSort ? "(neueste zuerst)" : "(manuell per Drag & Drop)"}
+            </span>
+          </span>
+        </label>
+      )}
+      {entries.map((e, i) => (
+        <div
+          key={e.id}
+          className={isExperience && !autoSort ? "flex items-start gap-1" : undefined}
+          onDragOver={isExperience && !autoSort ? (event) => event.preventDefault() : undefined}
+          onDrop={
+            isExperience && !autoSort
+              ? (event) => dropReorder(event, "erfahrung", i, entries, onChange)
+              : undefined
+          }
+        >
+          {isExperience && !autoSort && <DragHandle scope="erfahrung" index={i} />}
+          <div className={isExperience && !autoSort ? "min-w-0 flex-1" : undefined}>
+            <Item onRemove={() => onChange(entries.filter((x) => x.id !== e.id))}>
+              <Field label="Zeitraum">
+                <input
+                  className={inputCls}
+                  placeholder="2023 – heute"
+                  value={e.zeit}
+                  onChange={(ev) => patch(e.id, { zeit: ev.target.value })}
+                  onBlur={() => {
+                    if (isExperience && autoSort) sortNow();
+                  }}
+                />
+              </Field>
+              <Field label={titelLabel}>
+                <input
+                  className={inputCls}
+                  value={e.titel}
+                  onChange={(ev) => patch(e.id, { titel: ev.target.value })}
+                />
+              </Field>
+              <Field label={ortLabel}>
+                <input
+                  className={inputCls}
+                  value={e.ort}
+                  onChange={(ev) => patch(e.id, { ort: ev.target.value })}
+                />
+              </Field>
+              <Field label="Ergänzung (optional)">
+                <input
+                  className={inputCls}
+                  value={e.beschreibung}
+                  onChange={(ev) => patch(e.id, { beschreibung: ev.target.value })}
+                />
+              </Field>
+            </Item>
+          </div>
+        </div>
       ))}
       <button type="button" className={addBtn} onClick={() => onChange([...entries, emptyEntry()])}>
         + Eintrag
@@ -391,9 +673,15 @@ export function FormCvSprachen({
   return (
     <div className="flex flex-col gap-2">
       <BlockPlacementControl block="sprachen" />
-      {list.map((s) => (
-        <div key={s.id} className="flex items-end gap-2">
-          <div className="grid flex-1 grid-cols-2 gap-2">
+      {list.map((s, i) => (
+        <div
+          key={s.id}
+          className="flex items-end gap-1"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => dropReorder(e, "sprachen", i, list, onChange)}
+        >
+          <DragHandle scope="sprachen" index={i} />
+          <div className="grid min-w-0 flex-1 grid-cols-2 gap-2">
             <Field label="Sprache">
               <input
                 className={inputCls}
@@ -444,7 +732,13 @@ export function FormCvLines({
     <div className="flex flex-col gap-2">
       <BlockPlacementControl block={block} />
       {list.map((v, i) => (
-        <div key={i} className="flex items-center gap-2">
+        <div
+          key={i}
+          className="flex items-center gap-1"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => dropReorder(e, block, i, list, onChange)}
+        >
+          <DragHandle scope={block} index={i} />
           <input
             className={inputCls}
             placeholder={placeholder}
@@ -480,31 +774,41 @@ export function FormCvReferenzen({
   return (
     <div className="flex flex-col gap-2">
       <BlockPlacementControl block="referenzen" />
-      {list.map((r) => (
-        <Item key={r.id} onRemove={() => onChange(list.filter((x) => x.id !== r.id))}>
-          <Field label="Name">
-            <input
-              className={inputCls}
-              value={r.name}
-              onChange={(e) => patch(r.id, { name: e.target.value })}
-            />
-          </Field>
-          <Field label="Funktion">
-            <input
-              className={inputCls}
-              placeholder="Klassenlehrer, Schulhaus Feld"
-              value={r.funktion}
-              onChange={(e) => patch(r.id, { funktion: e.target.value })}
-            />
-          </Field>
-          <Field label="Kontakt">
-            <input
-              className={inputCls}
-              value={r.kontakt}
-              onChange={(e) => patch(r.id, { kontakt: e.target.value })}
-            />
-          </Field>
-        </Item>
+      {list.map((r, i) => (
+        <div
+          key={r.id}
+          className="flex items-start gap-1"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => dropReorder(e, "referenzen", i, list, onChange)}
+        >
+          <DragHandle scope="referenzen" index={i} />
+          <div className="min-w-0 flex-1">
+            <Item onRemove={() => onChange(list.filter((x) => x.id !== r.id))}>
+              <Field label="Name">
+                <input
+                  className={inputCls}
+                  value={r.name}
+                  onChange={(e) => patch(r.id, { name: e.target.value })}
+                />
+              </Field>
+              <Field label="Funktion">
+                <input
+                  className={inputCls}
+                  placeholder="Klassenlehrer, Schulhaus Feld"
+                  value={r.funktion}
+                  onChange={(e) => patch(r.id, { funktion: e.target.value })}
+                />
+              </Field>
+              <Field label="Kontakt">
+                <input
+                  className={inputCls}
+                  value={r.kontakt}
+                  onChange={(e) => patch(r.id, { kontakt: e.target.value })}
+                />
+              </Field>
+            </Item>
+          </div>
+        </div>
       ))}
       <button type="button" className={addBtn} onClick={() => onChange([...list, emptyReferenz()])}>
         + Referenz

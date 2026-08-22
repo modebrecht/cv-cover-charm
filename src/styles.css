@@ -142,3 +142,46 @@
     color: var(--color-foreground);
   }
 }
+
+/*
+ * CV background overscan.
+ *
+ * The A4 preview is transformed by fractional scale factors. Chromium can
+ * rasterize two exactly coincident layer edges on opposite sides of a device
+ * pixel and expose a hairline of the page fallback underneath (most visible
+ * on dark templates such as Neon). Let the real template background extend
+ * one source pixel past the page; the page itself clips it, so layout and PDF
+ * geometry stay unchanged while the rasterizer never sees an uncovered edge.
+ */
+[data-cv-page] > [data-cv-background="motif"] {
+  inset: -1px !important;
+}
+
+/*
+ * Blockig on the CV: keep the title-page geometry, but turn the visible
+ * 66 mm left rail into a deliberate two-colour composition. The first dark
+ * block becomes the rail background for the full page and the existing orange
+ * block sits on top of it. This removes the pale/white remainder below the
+ * orange block without changing the Blockig title page itself.
+ */
+[data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div:has(> div[style*="width: 105mm"][style*="height: 30mm"])
+  > div:first-child {
+  width: 66mm !important;
+  height: 100% !important;
+}
+
+[data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div:has(> div[style*="width: 105mm"][style*="height: 30mm"])
+  > div:nth-child(2) {
+  width: 66mm !important;
+}
+
+[data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div:has(> div[style*="width: 105mm"][style*="height: 30mm"])
+  > div:nth-child(3) {
+  display: none !important;
+}
