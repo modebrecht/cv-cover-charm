@@ -44,6 +44,46 @@ const GRADIENTS = [
       ink: "#1f1733",
     },
   },
+  {
+    id: "studio2",
+    colors: {
+      bg: "#fbfbf8",
+      primary: "#202a3b",
+      secondary: "#f2c84b",
+      accent: "#e78a2f",
+      ink: "#1b2430",
+    },
+  },
+  {
+    id: "studio3",
+    colors: {
+      bg: "#f7fbfa",
+      primary: "#173d3a",
+      secondary: "#5ec6b6",
+      accent: "#e2a94b",
+      ink: "#18302d",
+    },
+  },
+  {
+    id: "warm2",
+    colors: {
+      bg: "#fff7f0",
+      primary: "#d95f4c",
+      secondary: "#f6b26b",
+      accent: "#7f9b76",
+      ink: "#3a2521",
+    },
+  },
+  {
+    id: "warm3",
+    colors: {
+      bg: "#fbf7ef",
+      primary: "#1e6f68",
+      secondary: "#e5a84f",
+      accent: "#c86648",
+      ink: "#24312e",
+    },
+  },
 ] as const;
 
 const coverData = {
@@ -273,7 +313,7 @@ async function expectNoLeak(sheet: Locator, label: string) {
 }
 
 test.describe("Gradient dossier page-edge smoke", () => {
-  test.setTimeout(120_000);
+  test.setTimeout(180_000);
 
   for (const template of GRADIENTS) {
     test(`${template.id} cover and CV have no white 1px seam`, async ({ page }) => {
