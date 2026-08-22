@@ -237,19 +237,12 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"]
   bottom: 18mm !important;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"] [data-cv-page="0"]::after {
-  content: "CURRICULUM VITAE";
-  position: absolute;
-  top: 11mm;
-  right: 22mm;
-  font-family: var(--dossier-font);
-  font-size: 6.6pt;
-  font-weight: var(--dossier-heading-weight);
-  letter-spacing: var(--dossier-heading-tracking);
-  color: currentColor;
-  opacity: var(--dossier-muted-opacity);
-  pointer-events: none;
-}
+/*
+ * Hier stand ein fest eingebautes "CURRICULUM VITAE" – nur in diesem einen
+ * Aufbau, auf Englisch und nicht änderbar. Den Titel trägt jetzt der Renderer
+ * als echten Text (`data-cv-doc-title`), auf jeder Vorlage und im Formular
+ * anpassbar.
+ */
 
 html[data-cv-variant="editorial"] [data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page]) [data-cv-header] {
@@ -294,10 +287,21 @@ html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page] {
   transform-origin: center;
 }
 
+/*
+ * Die Seite wird gespiegelt, damit Spalte und Hauptteil die Seite tauschen –
+ * und jedes Kind, das Text trägt, wird zurückgespiegelt, sonst stünde die
+ * Schrift verkehrt herum. Wer hier ein neues Textelement einhängt, muss es in
+ * diese Liste aufnehmen: Kopfband und Fusszeile fehlten und der Name stand
+ * seitenverkehrt auf dem Blatt.
+ */
 html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-sidebar],
 html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
-  > [data-cv-main] {
+  > [data-cv-main],
+html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
+  > [data-cv-band-header],
+html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
+  > [data-cv-page-label] {
   transform: scaleX(-1);
   transform-origin: center;
 }

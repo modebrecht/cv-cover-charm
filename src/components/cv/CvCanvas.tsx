@@ -194,6 +194,33 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   const heading = (key: CvSectionKey): Row => headingText(key, label(data, key));
 
+  /**
+   * Titel des Dokuments – auf jeder Vorlage, im Formular änderbar, leer
+   * ausblendbar. Er nimmt den Ton der Familie auf, wie der Kicker auf dem
+   * Titelblatt.
+   */
+  const docTitle = (color: string) => {
+    const text = data.titel?.trim();
+    if (!text) return null;
+    return (
+      <div
+        data-cv-doc-title
+        style={{
+          fontSize: "8.2pt",
+          fontWeight: headingStyle.weight,
+          letterSpacing: "0.16em",
+          textTransform: "uppercase",
+          fontFamily: theme.typography.fontStack,
+          color,
+          opacity: 0.85,
+          marginBottom: "1.8mm",
+        }}
+      >
+        {text}
+      </div>
+    );
+  };
+
   const entryRow = (id: string, zeit: string, titel: string, ort: string, text: string): Row => ({
     id,
     node: (
@@ -455,6 +482,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
+            {withName && docTitle(pal.muted)}
             {withName && (
               <div
                 data-cv-name
@@ -542,6 +570,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       id: "kopf-modern",
       node: (
         <div data-cv-header style={{ marginBottom: "4.8mm" }}>
+          {docTitle(pal.muted)}
           <div
             data-cv-name
             style={{
@@ -1327,6 +1356,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       >
         {pageIndex === 0 ? (
           <>
+            {docTitle(roles.muted)}
             <div
               data-cv-name
               style={{

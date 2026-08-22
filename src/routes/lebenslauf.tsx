@@ -16,6 +16,7 @@ import {
 } from "@/components/cv/CvForm";
 import {
   CV_SECTION_LABELS,
+  DEFAULT_CV_TITLE,
   DEMO_CV,
   emptyCv,
   type CvData,
@@ -140,6 +141,8 @@ function Lebenslauf() {
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  /** Zweiter Klick bestätigt "Alles zurücksetzen" – sonst wäre alles weg. */
+  const [confirmWipe, setConfirmWipe] = useState(false);
 
   const visible = usePageVisible();
   const { markWritten, changedElsewhere } = useForeignWrite(STORAGE_KEY);
@@ -273,7 +276,10 @@ function Lebenslauf() {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) setHistoryOpen(false);
+    if (!menuOpen) {
+      setHistoryOpen(false);
+      setConfirmWipe(false);
+    }
   }, [menuOpen]);
 
   /**
@@ -390,6 +396,29 @@ function Lebenslauf() {
     setData(DEMO_CV);
     setMenuOpen(false);
     setStatus({ kind: "ok", text: "Beispieldaten eingefügt" });
+  };
+
+  /**
+   * Ganzes Formular leeren – wie im Titelblatt.
+   *
+   * Der Stand wandert vorher in die Historie, damit ein Fehlgriff nicht
+   * endgültig ist. Die Gestaltung kommt wieder vom Titelblatt, sofern es eines
+   * gibt; sonst bleibt die aktuelle Vorlage stehen.
+   */
+  const resetEverything = () => {
+    keepSnapshot("Vor dem Zurücksetzen", true);
+    const draft = readCoverDraft();
+    setData({ ...emptyCv, person: { ...emptyCv.person } });
+    setElements(draft?.elements ?? []);
+    setDesign((d) => ({
+      template: draft?.template ?? d.template,
+      colors: draft?.colors ?? d.colors,
+      bgOpacity: DEFAULT_BG_OPACITY,
+      useElements: (draft?.elements.length ?? 0) > 0,
+    }));
+    setConfirmWipe(false);
+    setMenuOpen(false);
+    setStatus({ kind: "ok", text: "Lebenslauf zurückgesetzt" });
   };
 
   const downloadJson = () => {
@@ -612,6 +641,37 @@ function Lebenslauf() {
                     Beispiel ausfüllen
                   </button>
 
+                  {/* Wie im Titelblatt: zweistufig, weil dabei alles verloren geht. */}
+                  {confirmWipe ? (
+                    <div className="flex items-center gap-1 border-t bg-destructive/5 px-3 py-2">
+                      <span className="mr-auto text-xs font-medium text-destructive">
+                        Wirklich alles?
+                      </span>
+                      <button
+                        type="button"
+                        onClick={resetEverything}
+                        className="rounded-md bg-destructive px-2 py-1 text-xs font-medium text-destructive-foreground hover:bg-destructive/90"
+                      >
+                        Ja
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmWipe(false)}
+                        className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setConfirmWipe(true)}
+                      className="w-full border-t px-3 py-2 text-left text-sm text-destructive hover:bg-destructive/10"
+                    >
+                      Alles zurücksetzen
+                    </button>
+                  )}
+
                   {history.length > 0 && (
                     <div className="border-t">
                       <button
@@ -823,6 +883,21 @@ function Lebenslauf() {
                 >
                   Angaben vom Titelblatt holen
                 </button>
+
+                <label className="flex flex-col gap-1 text-xs">
+                  <span className="text-muted-foreground">Titel des Dokuments</span>
+                  <input
+                    type="text"
+                    value={data.titel ?? ""}
+                    placeholder={DEFAULT_CV_TITLE}
+                    onChange={(e) => patchData({ titel: e.target.value })}
+                    className="rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  />
+                  <span className="text-muted-foreground/80">
+                    Steht über dem Namen. Leer lassen blendet ihn aus.
+                  </span>
+                </label>
+
                 <FormCvPerson person={data.person} onChange={patchPerson} />
               </div>
             </Section>

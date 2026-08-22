@@ -91,6 +91,11 @@ export type CvData = {
   hobbys: string[];
   staerken: string[];
   referenzen: CvReferenz[];
+  /**
+   * Titel des Dokuments, z. B. "Lebenslauf". Leer lassen blendet ihn aus.
+   * Vorher stand hier nichts und ein Aufbau druckte fest "CURRICULUM VITAE".
+   */
+  titel?: string;
   /** Eigene Überschriften. Leer = Vorgabe aus CV_SECTION_LABELS. */
   labels: Partial<Record<CvSectionKey, string>>;
   /** Ausgeblendete Abschnitte. */
@@ -124,8 +129,12 @@ export const emptyPerson: CvPerson = {
   foto: null,
 };
 
+/** Vorgabe für den Dokumenttitel. */
+export const DEFAULT_CV_TITLE = "Lebenslauf";
+
 export const emptyCv: CvData = {
   person: { ...emptyPerson },
+  titel: DEFAULT_CV_TITLE,
   schule: [],
   erfahrung: [],
   sprachen: [],
@@ -165,6 +174,7 @@ export const entryFilled = (e: CvEntry) =>
   !!(e.zeit.trim() || e.titel.trim() || e.ort.trim() || e.beschreibung.trim());
 
 export const DEMO_CV: CvData = {
+  titel: DEFAULT_CV_TITLE,
   person: {
     vorname: "Lea",
     nachname: "Müller",

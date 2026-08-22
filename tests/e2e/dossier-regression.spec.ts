@@ -43,6 +43,7 @@ function entry(id: string, index: number) {
 function cvData({ long = false, photo = false } = {}) {
   const schoolCount = long ? 13 : 2;
   return {
+    titel: "Lebenslauf",
     person: {
       vorname: long ? "Lea Sophie Alexandra" : "Lea",
       nachname: long ? "Müller-Winterberger-Schneider" : "Müller",
@@ -368,6 +369,46 @@ test.describe("M5.8 dossier regression", () => {
         archetype: "card",
         shapesDrawn: 1,
       });
+  });
+
+  test("mirroring never leaves text back to front", async ({ page }) => {
+    // Mirroring flips the whole page and flips each text-carrying child back.
+    // A new element that is not on that list renders its text reversed -- the
+    // name did, in the band. Compare every such child against the main column.
+    for (const { template } of ARCHETYPE_TEMPLATES) {
+      await seedCv(page, { template, layout: "modern", mirrored: true });
+      const reversed = await previewRoot(page)
+        .locator("[data-cv-page]")
+        .evaluateAll((pages) =>
+          pages.flatMap((pageEl, index) => {
+            const main = pageEl.querySelector<HTMLElement>("[data-cv-main]");
+            if (!main) return [];
+            const upright = getComputedStyle(main).transform;
+            return Array.from(pageEl.children)
+              .filter(
+                (child) =>
+                  child instanceof HTMLElement &&
+                  (child.textContent ?? "").trim().length > 0 &&
+                  getComputedStyle(child).transform !== upright,
+              )
+              .map(
+                (child) =>
+                  `page ${index + 1}: ${(child as HTMLElement).getAttributeNames().join(",")}`,
+              );
+          }),
+        );
+      expect(reversed, `${template} mirrored`).toEqual([]);
+    }
+  });
+
+  test("the document title is shown, editable and never English", async ({ page }) => {
+    for (const { template } of ARCHETYPE_TEMPLATES) {
+      await seedCv(page, { template });
+      await expect(previewRoot(page).locator("[data-cv-doc-title]").first()).toHaveText(
+        "Lebenslauf",
+      );
+      expect(await page.content()).not.toContain("CURRICULUM VITAE");
+    }
   });
 
   test("all six layouts remain valid when mirrored", async ({ page }) => {
