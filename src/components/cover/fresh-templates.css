@@ -2,16 +2,15 @@
 /* Fresh dossier systems: Edge · Glow · Frame · Mono Luxe                     */
 /* -------------------------------------------------------------------------- */
 /*
- * New templates deliberately reuse the resilient Warm block schema for text
- * flow (long names, contact data, draggable elements) and give it four new
- * compositions through transforms plus a redesigned background geometry.
- * Transforms live on the draggable wrapper, so dragging still works normally:
- * the stored x/y moves while the template's visual offset remains constant.
+ * The four fresh templates use the proven responsive text schema but give it
+ * four genuinely different compositions. Default offsets are transforms on the
+ * draggable wrappers: user x/y edits keep working because they still move the
+ * wrapper while the template-specific composition remains its local baseline.
+ *
+ * CoverBackground's color-aware fallback gives us one primary plane and two
+ * secondary shapes. They are reshaped here, so every palette variant and every
+ * manually edited color keeps working on title page and CV alike.
  */
-
-/* CoverBackground falls back to Warm for runtime-registered template ids.
- * Its first child uses primary, its two children use secondary. Re-shaping
- * those existing colored nodes keeps the full palette editor working. */
 
 /* -------------------------------------------------------------------------- */
 /* EDGE — precise navy rail + electric signal                                 */
@@ -56,22 +55,36 @@ html[data-dossier-template="edge"]
   opacity: 1 !important;
 }
 
+/* Warm's light eyebrow becomes a vertical label on the dark rail. */
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
-  transform: translate(-10.5mm, 102mm) rotate(-90deg);
+  transform: translate(-12mm, 70mm) rotate(90deg);
   transform-origin: left top;
 }
 
+/* The light date text lands inside the blue signal capsule. */
+html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  transform: translate(0, 1mm);
+}
+
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(43mm, -52mm);
+  transform: translate(57mm, -44mm) scale(0.84);
+  transform-origin: top left;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(-13mm, -48mm);
+  transform: translate(4mm, -30mm);
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="beruf"],
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
-  transform: translate(-13mm, -45mm);
+  transform: translate(4mm, -26mm);
+}
+
+html[data-dossier-template="edge"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-surface] {
@@ -127,17 +140,22 @@ html[data-dossier-template="glow"]
   filter: blur(5mm);
 }
 
+html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  transform: translate(-50mm, 5mm);
+}
+
 html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(34mm, -16mm);
+  transform: translate(50mm, -24mm) scale(0.82);
+  transform-origin: top left;
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(0, -10mm);
+  transform: translate(0, -16mm);
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="beruf"],
 html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
-  transform: translate(0, -8mm);
+  transform: translate(0, -14mm);
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-surface] {
@@ -193,16 +211,24 @@ html[data-dossier-template="frame"]
 }
 
 html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(43mm, -29mm);
+  transform: translate(60mm, -38mm) scale(0.8);
+  transform-origin: top left;
 }
 
 html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(-24mm, -45mm);
+  transform: translate(8mm, -30mm);
 }
 
 html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="beruf"],
 html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
-  transform: translate(-24mm, -41mm);
+  transform: translate(8mm, -26mm);
+}
+
+html[data-dossier-template="frame"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
 }
 
 html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-surface] {
@@ -259,17 +285,24 @@ html[data-dossier-template="monoLuxe"]
 }
 
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(45mm, -34mm) scale(0.82);
+  transform: translate(59mm, -38mm) scale(0.74);
   transform-origin: top left;
 }
 
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(-18mm, -42mm);
+  transform: translate(8mm, -32mm);
 }
 
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="beruf"],
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
-  transform: translate(-18mm, -38mm);
+  transform: translate(8mm, -28mm);
+}
+
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
 }
 
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-surface] {
@@ -287,11 +320,4 @@ html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-acc
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-page-label] {
   text-transform: none;
   letter-spacing: 0.03em;
-}
-
-/* Keep the hidden pagination page geometrically aligned with visual main-page
- * tweaks. Only geometry that changes available text width/height is mirrored. */
-html[data-dossier-template="frame"] [data-cv-measure-page] > [data-cv-main] {
-  left: 20mm !important;
-  top: 17mm !important;
 }
