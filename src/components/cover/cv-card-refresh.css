@@ -29,18 +29,51 @@ html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-accen
   display: none !important;
 }
 
-/* Keep measurement geometry aligned with the redesigned first page. */
-html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main],
-html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+/*
+ * Keep measurement geometry aligned with the redesigned first page.
+ * Horizontal margins are only fixed in Classic. Sidebar owns its own left
+ * offset, so Modern must keep the renderer's computed column clearance.
+ */
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-measure-page]
+  [data-cv-main],
+html[data-dossier-template="verlauf"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-measure-page]
+  [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
   top: 15mm !important;
   bottom: 14mm !important;
 }
 
-html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+html[data-dossier-template="citrus"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-measure-page]
+  [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
+  top: 14mm !important;
+  bottom: 15mm !important;
+}
+
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-measure-page]
+  [data-cv-main],
+html[data-dossier-template="verlauf"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-measure-page]
+  [data-cv-main] {
+  top: 15mm !important;
+  bottom: 14mm !important;
+}
+
+html[data-dossier-template="citrus"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-measure-page]
+  [data-cv-main] {
   top: 14mm !important;
   bottom: 15mm !important;
 }
@@ -58,9 +91,20 @@ html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0
   box-shadow: none !important;
 }
 
-html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-main] {
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-page="0"]
+  [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
+  top: 15mm !important;
+  bottom: 14mm !important;
+}
+
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-page="0"]
+  [data-cv-main] {
   top: 15mm !important;
   bottom: 14mm !important;
 }
@@ -148,9 +192,20 @@ html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page
   box-shadow: none !important;
 }
 
-html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-main] {
+html[data-dossier-template="verlauf"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-page="0"]
+  [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
+  top: 15mm !important;
+  bottom: 14mm !important;
+}
+
+html[data-dossier-template="verlauf"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-page="0"]
+  [data-cv-main] {
   top: 15mm !important;
   bottom: 14mm !important;
 }
@@ -220,9 +275,20 @@ html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page=
     #fffdf9 !important;
 }
 
-html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-main] {
+html[data-dossier-template="citrus"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-page="0"]
+  [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
+  top: 14mm !important;
+  bottom: 15mm !important;
+}
+
+html[data-dossier-template="citrus"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-page="0"]
+  [data-cv-main] {
   top: 14mm !important;
   bottom: 15mm !important;
 }
