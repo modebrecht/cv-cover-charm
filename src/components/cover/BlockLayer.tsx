@@ -223,10 +223,49 @@ export function BlockLayer({
     const oy = layout[block.id]?.y ?? block.style.y;
     const el = e.currentTarget as HTMLElement;
     el.setPointerCapture(e.pointerId);
+    let detachedDependents = false;
+
+    /**
+     * Vorlagen dürfen Textblöcke über `follows`/`above` automatisch aneinander
+     * hängen. Das ist für den initialen Satz praktisch, fühlt sich beim freien
+     * Verschieben aber falsch an: zieht man z. B. den Namen, wandern Beruf und
+     * Lehrbeginn scheinbar ungefragt mit. Sobald wirklich gezogen wird, frieren
+     * wir deshalb alle abhängigen Blöcke an ihrer aktuell sichtbaren Position
+     * ein. Nur das angefasste Element bewegt sich danach.
+     */
+    const detachBlocksDependingOn = (targetId: string) => {
+      const byId = new Map(blocks.map((candidate) => [candidate.id, candidate]));
+
+      const dependsOnTarget = (candidate: Block): boolean => {
+        let link = candidate.style.follows || candidate.style.above || null;
+        const seen = new Set<string>();
+        while (link && !seen.has(link)) {
+          if (link === targetId) return true;
+          seen.add(link);
+          const parent = byId.get(link);
+          link = parent ? parent.style.follows || parent.style.above || null : null;
+        }
+        return false;
+      };
+
+      for (const candidate of blocks) {
+        if (candidate.id === targetId || !dependsOnTarget(candidate)) continue;
+        onMove(candidate.id, {
+          y: layout[candidate.id]?.y ?? candidate.style.y,
+          follows: null,
+          above: null,
+          anchorBottom: false,
+        });
+      }
+    };
 
     const move = (ev: PointerEvent) => {
       const dx = (ev.clientX - startX) / scale / MM;
       const dy = (ev.clientY - startY) / scale / MM;
+      if (!detachedDependents && Math.hypot(dx, dy) >= 0.05) {
+        detachBlocksDependingOn(block.id);
+        detachedDependents = true;
+      }
       onMove(block.id, {
         x: Math.round(Math.max(-20, Math.min(210, ox + dx)) * 10) / 10,
         y: Math.round(Math.max(-20, Math.min(297, oy + dy)) * 10) / 10,
