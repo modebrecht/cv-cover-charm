@@ -21,17 +21,8 @@ export function CoverBackground({
   if (template === "modern") {
     return (
       <div className="absolute inset-0" style={{ backgroundColor: colors.bg }}>
-        <div
-          className="absolute"
-          style={{
-            left: "20mm",
-            top: "21mm",
-            width: "10mm",
-            height: "2mm",
-            background: colors.accent,
-          }}
-        />
-        {/* weiche Fläche, damit die obere Seitenhälfte nicht leer wirkt */}
+        {/* Die editierbaren Akzentlinien/Farbbänder liegen jetzt als echte Blöcke
+            in layouts.ts. Im Hintergrund bleibt nur die grosse Kreisfläche. */}
         <div
           className="absolute"
           style={{
@@ -43,10 +34,6 @@ export function CoverBackground({
             background: colors.accent,
             opacity: 0.1,
           }}
-        />
-        <div
-          className="absolute left-0 bottom-0"
-          style={{ width: "100%", height: "4mm", background: colors.primary }}
         />
       </div>
     );
