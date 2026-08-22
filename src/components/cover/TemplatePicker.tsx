@@ -1,6 +1,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { TemplateId } from "./types";
 import { TEMPLATES } from "./types";
+import { freshFamilyForTemplate } from "./fresh-templates";
 import { UI } from "@/default-config";
 import { applyDossierTheme } from "@/lib/dossier-theme";
 import { familyForTemplate } from "@/lib/dossier-family";
@@ -16,6 +17,7 @@ import {
 import "../cv/layout-variants.css";
 import "../cv/layout-options.css";
 import "../dossier-theme.css";
+import "./fresh-templates.css";
 
 const SELECTABLE_TEMPLATES = TEMPLATES.filter((template) => template.id !== "colorful");
 
@@ -134,7 +136,7 @@ export function TemplatePicker({ value, onChange }: Props) {
       onChange("blockig");
       return;
     }
-    applyDossierTheme(value, familyForTemplate(value));
+    applyDossierTheme(value, freshFamilyForTemplate(value) ?? familyForTemplate(value));
   }, [onChange, value]);
 
   return (
