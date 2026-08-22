@@ -133,8 +133,24 @@ export function cvPalette(colors: Record<string, string>): CvPalette {
     ink: toHex(ink),
     muted: toHex(muted),
     accent: toHex(accent),
-    paper: "#ffffff",
+    paper: paperFor(colors, ink),
   };
+}
+
+/**
+ * Papierfarbe des Blattes – **aus der Vorlage**, nicht immer Weiss.
+ *
+ * Warm steht auf Creme (#fff9ef), Horizont auf gebrochenem Weiss. Zwang man
+ * den Lebenslauf auf reines Weiss, unterschieden sich die beiden Blätter schon
+ * vor dem ersten Strich. Übernommen wird die Farbe nur, solange sie hell genug
+ * für dunkle Schrift bleibt; eine dunkle Vorlage bekommt weiterhin helles
+ * Papier, weil ein Lebenslauf gelesen und gedruckt wird.
+ */
+function paperFor(colors: Record<string, string>, ink: Rgb): string {
+  const bg = parse(colors.bg ?? "");
+  if (!bg) return "#ffffff";
+  if (luminance(bg) < 0.72) return "#ffffff";
+  return contrast(ink, bg) >= 7 ? toHex(bg) : "#ffffff";
 }
 
 export type CvOnColor = {

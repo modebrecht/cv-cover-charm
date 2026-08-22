@@ -22,14 +22,14 @@ import {
 import { cvPalette, onColorRoles, type CvOnColor } from "./palette";
 import {
   bandLeftMm,
-  columnIsStripe,
   cvContentBox,
   cvFrameFor,
+  cvSurface,
   FOOTER_MM,
+  headTopMm,
   headerSitsInBand,
   pageMarker,
   sidebarWidthMm,
-  STRIPE_MM,
   type CvRenderLayout,
 } from "./archetype";
 import { dossierThemeFor } from "@/lib/dossier-theme";
@@ -112,11 +112,6 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   /** Farbe der tragenden Fläche – dieselbe, die das Titelblatt dort verwendet. */
   const areaColor = design.colors.primary || design.colors.accent || pal.accent;
-  /**
-   * Breite der farbigen Spalte. Trägt sie Inhalt, ist sie so breit wie auf dem
-   * Titelblatt; im Einspalter bleibt nur der Zierstreifen.
-   */
-  const columnWidth = columnIsStripe(frame, layout) ? STRIPE_MM : frame.columnMm;
   /**
    * Schrift **auf** der farbigen Fläche. Die Fläche wird nicht aufgehellt,
    * sondern bekommt eine Schrift, die darauf lesbar ist.
@@ -733,32 +728,21 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
    * ihr Blattgrund. Bei "card" ist der Grund dagegen die tragende Fläche und
    * bleibt, wie er ist.
    */
-  const groundColors = frame.id === "card" ? design.colors : { ...design.colors, bg: pal.paper };
-
   /**
-   * Der Grund der Seite.
+   * Der Grund der Seite: der **echte Hintergrund des Titelblatts**, voll deckend.
    *
-   * Bei "card" ist die Fläche die tragende Fläche der Vorlage – sie bleibt
-   * voll deckend, sonst wäre Citrus nicht Citrus. Sonst liegt der Hintergrund
-   * nur als Zierde darunter und gehorcht dem Regler.
+   * Vorher wurde er auf 11 % heruntergeblendet und die Vorlage stattdessen mit
+   * eigenen Bändern und Spalten nachgebaut. Das Ergebnis sah nie nach dem
+   * Titelblatt aus – wer dort Warm mit zwei grossen Kreisen auf Creme gewählt
+   * hatte, fand im Lebenslauf ein weisses Blatt mit einem Schleier.
+   *
+   * Jetzt steht dieselbe Fläche auf beiden Blättern. Lesbar wird der Text
+   * durch die Schreibfläche darüber, nicht dadurch, dass die Vorlage
+   * verschwindet.
    */
   const ground = (
-    <div
-      data-cv-background="motif"
-      style={{
-        position: "absolute",
-        inset: 0,
-        opacity:
-          frame.id === "card"
-            ? 1
-            : frame.id === "quiet"
-              ? policy.backgroundOpacity
-              : // Wo Spalte oder Band die Vorlage schon tragen, tritt das
-                // Motiv zurück, statt mit ihnen zu konkurrieren.
-                policy.backgroundOpacity * 0.45,
-      }}
-    >
-      <CoverBackground template={design.template} colors={groundColors} />
+    <div data-cv-background="motif" style={{ position: "absolute", inset: 0 }}>
+      <CoverBackground template={design.template} colors={design.colors} />
     </div>
   );
 
@@ -828,8 +812,17 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const bandColor = frame.id === "column" ? design.colors.accent || areaColor : areaColor;
   const onBand = onColorRoles(bandColor, design.colors.primary);
 
+  /**
+   * Alles, was hinter dem Text liegt.
+   *
+   * Früher hat diese Funktion Spalte, Kopfband, Fussband und Zierrahmen selbst
+   * nachgezeichnet, während der echte Hintergrund auf 11 % gedimmt war. Das
+   * waren zwei Darstellungen derselben Vorlage, die nie ganz zusammenpassten.
+   * Jetzt zeichnet der Hintergrund sie – er ist ja derselbe wie auf dem
+   * Titelblatt – und hier kommt nur noch die Schreibfläche darüber.
+   */
   const chrome = (pageIndex: number) => {
-    const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
+    const surface = cvSurface(frame, pageIndex, layout);
     return (
       <>
         <div
@@ -837,135 +830,25 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           style={{ position: "absolute", inset: 0, background: pal.paper }}
         />
         {ground}
-
-        {frame.id === "card" && (
-          <>
-            <div
-              data-cv-card
-              style={{
-                position: "absolute",
-                inset: `${frame.cardInsetMm}mm`,
-                borderRadius: `${frame.cardRadiusMm}mm`,
-                background: pal.paper,
-              }}
-            />
-            {/*
-              Bei dieser Bauform ist der Grund die tragende Fläche und darf
-              nicht verblassen. Damit der Regler trotzdem etwas tut, bestimmt
-              er hier, wie viel Vorlagenfarbe in die Textkarte durchscheint.
-              Der Anteil ist klein genug, dass der Kontrast erhalten bleibt.
-            */}
-            <div
-              data-cv-card-tint
-              style={{
-                position: "absolute",
-                inset: `${frame.cardInsetMm}mm`,
-                borderRadius: `${frame.cardRadiusMm}mm`,
-                background: areaColor,
-                opacity: policy.backgroundOpacity * 0.09,
-              }}
-            />
-          </>
-        )}
-
-        {frame.id === "column" && (
-          <div
-            data-cv-column
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 0,
-              bottom: 0,
-              // Im Einspalter trägt die Spalte keinen Inhalt mehr; dann bleibt
-              // ein schmaler Streifen, an dem die Vorlage erkennbar bleibt.
-              width: `${columnWidth}mm`,
-              background: areaColor,
-            }}
-          />
-        )}
-
-        {head > 0 &&
-          (frame.bandMotif ? (
-            bandMotif(head)
-          ) : (
-            <div
-              data-cv-band="head"
-              style={{
-                position: "absolute",
-                left: `${bandLeftMm(frame, layout)}mm`,
-                right: 0,
-                top: 0,
-                height: `${head}mm`,
-                background: bandColor,
-              }}
-            />
-          ))}
-
-        {frame.footRule && frame.footMm > 0 && (
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              bottom: `${frame.footMm}mm`,
-              height: "0.4mm",
-              background: onArea.hairline,
-              opacity: 0.7,
-            }}
-          />
-        )}
-
-        {frame.footMm > 0 && (
-          <div
-            data-cv-band="foot"
-            style={{
-              position: "absolute",
-              // Studio setzt sein Fussband erst rechts der Spalte an.
-              left: frame.id === "column" ? `${columnWidth}mm` : 0,
-              right: 0,
-              bottom: 0,
-              height: `${frame.footMm}mm`,
-              background: areaColor,
-            }}
-          />
-        )}
-
-        {frame.borderInsetMm > 0 && (
-          <div
-            data-cv-border
-            style={{
-              position: "absolute",
-              inset: `${frame.borderInsetMm}mm`,
-              border: `0.35mm solid ${pal.accent}`,
-              opacity: 0.3,
-            }}
-          />
-        )}
-        {frame.borderDouble && (
-          <div
-            style={{
-              position: "absolute",
-              inset: `${frame.borderInsetMm + 3}mm`,
-              border: `0.25mm solid ${pal.accent}`,
-              opacity: 0.18,
-            }}
-          />
-        )}
-
         {decoration}
-        {layout === "modern" && frame.id !== "column" && (
-          <div
-            data-cv-main-wash
-            style={{
-              position: "absolute",
-              left: `${sidebarWidthMm(frame, layout)}mm`,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              background: `rgba(255,255,255,${policy.modernMainWash})`,
-            }}
-          />
-        )}
+
+        <div
+          data-cv-surface
+          data-cv-card={frame.id === "card" ? "" : undefined}
+          style={{
+            position: "absolute",
+            left: `${surface.left}mm`,
+            right: `${surface.right}mm`,
+            top: `${surface.top}mm`,
+            bottom: `${surface.bottom}mm`,
+            background: pal.paper,
+            borderRadius: frame.id === "card" ? `${frame.cardRadiusMm}mm` : undefined,
+            // Der Regler bestimmt, wie viel Vorlage durch die Schreibfläche
+            // scheint. Der Bereich ist eng gehalten, damit der Text auf jeder
+            // Einstellung lesbar bleibt.
+            opacity: 1 - policy.backgroundOpacity * 0.14,
+          }}
+        />
       </>
     );
   };
@@ -1119,293 +1002,300 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     sidebarWidth - (onColumn ? 19 : 15.5),
   );
 
-  const modernSidebar = (pageIndex: number) => (
-    <div
-      data-cv-sidebar
-      style={{
-        position: "absolute",
-        left: 0,
-        top: 0,
-        bottom: onColumn ? 0 : undefined,
-        height: onColumn ? undefined : "100%",
-        width: `${sidebarWidth}mm`,
-        padding: onColumn
-          ? `${p.foto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
-          : `${p.foto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
-        boxSizing: "border-box",
-        // Die Spalte selbst liegt schon im Seitengrund; hier nur bei der
-        // getönten Papierspalte einen eigenen Grund zeichnen.
-        background: onColumn ? "transparent" : side.bg,
-        borderRight: onColumn ? undefined : `0.35mm solid ${side.accent}${alphaHex(0.22)}`,
-        fontFamily: SHEET_FONT,
-        overflow: "hidden",
-      }}
-    >
-      {!onColumn && (
-        <div
-          aria-hidden
-          data-cv-sidebar-tint
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: `${side.accent}${alphaHex(policy.sidebarTint)}`,
-            pointerEvents: "none",
-          }}
-        />
-      )}
-      <div style={{ position: "relative", zIndex: 1 }}>
-        {pageIndex === 0 ? (
-          <>
-            {p.foto && (
-              <div
-                data-cv-photo
-                style={{
-                  position: "relative",
-                  width: `${sidePhotoMm}mm`,
-                  height: `${sidePhotoMm * dossierPhotoRatio(photoStyle.shape)}mm`,
-                  overflow: "hidden",
-                  borderRadius: dossierPhotoRadius(photoStyle.shape),
-                  boxShadow: photoStyle.borderWidth
-                    ? `0 0 0 ${photoStyle.borderWidth}mm ${side.accent}`
-                    : undefined,
-                  marginBottom: sidePlan.compact ? "3.8mm" : "5.3mm",
-                }}
-              >
-                <img src={p.foto} alt="" style={dossierPhotoCropStyle(photoStyle)} />
-              </div>
-            )}
-
-            {hasContact && (
-              <>
-                {sideHeading("Kontakt", firstSide === "contact")}
+  const modernSidebar = (pageIndex: number) => {
+    // Eine farbige Spalte läuft über die volle Höhe, wie auf dem Titelblatt.
+    // Die getönte Papierspalte beginnt erst unter dem Kopfband, damit dieses
+    // über die ganze Breite sichtbar bleibt.
+    const surface = cvSurface(frame, pageIndex, layout);
+    return (
+      <div
+        data-cv-sidebar
+        style={{
+          position: "absolute",
+          left: 0,
+          top: onColumn ? 0 : `${surface.top}mm`,
+          bottom: onColumn ? 0 : `${surface.bottom}mm`,
+          width: `${sidebarWidth}mm`,
+          padding: onColumn
+            ? `${p.foto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
+            : `${p.foto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
+          boxSizing: "border-box",
+          // Die Spalte selbst liegt schon im Seitengrund; hier nur bei der
+          // getönten Papierspalte einen eigenen Grund zeichnen.
+          background: onColumn ? "transparent" : side.bg,
+          borderRight: onColumn ? undefined : `0.35mm solid ${side.accent}${alphaHex(0.22)}`,
+          fontFamily: SHEET_FONT,
+          overflow: "hidden",
+        }}
+      >
+        {!onColumn && (
+          <div
+            aria-hidden
+            data-cv-sidebar-tint
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: `${side.accent}${alphaHex(policy.sidebarTint)}`,
+              pointerEvents: "none",
+            }}
+          />
+        )}
+        <div style={{ position: "relative", zIndex: 1 }}>
+          {pageIndex === 0 ? (
+            <>
+              {p.foto && (
                 <div
-                  data-cv-entry
-                  data-cv-body
+                  data-cv-photo
                   style={{
-                    fontSize: `${sideBody}pt`,
-                    color: side.ink,
-                    lineHeight: sideLine,
-                    overflowWrap: "anywhere",
+                    position: "relative",
+                    width: `${sidePhotoMm}mm`,
+                    height: `${sidePhotoMm * dossierPhotoRatio(photoStyle.shape)}mm`,
+                    overflow: "hidden",
+                    borderRadius: dossierPhotoRadius(photoStyle.shape),
+                    boxShadow: photoStyle.borderWidth
+                      ? `0 0 0 ${photoStyle.borderWidth}mm ${side.accent}`
+                      : undefined,
+                    marginBottom: sidePlan.compact ? "3.8mm" : "5.3mm",
                   }}
                 >
-                  {p.adresse && <div>{p.adresse}</div>}
-                  {p.plzOrt && <div>{p.plzOrt}</div>}
-                  {p.telefon && (
-                    <div style={{ marginTop: sidePlan.compact ? "1mm" : "1.7mm" }}>{p.telefon}</div>
-                  )}
-                  {p.email && <div>{p.email}</div>}
-                  {p.geburtsdatum && (
-                    <div
-                      data-cv-date
-                      data-cv-muted
-                      style={{ marginTop: sidePlan.compact ? "1.2mm" : "2mm", color: side.muted }}
-                    >
-                      Geb. {p.geburtsdatum}
-                    </div>
-                  )}
-                  {p.nationalitaet && (
-                    <div data-cv-muted style={{ color: side.muted }}>
-                      {p.nationalitaet}
-                    </div>
-                  )}
+                  <img src={p.foto} alt="" style={dossierPhotoCropStyle(photoStyle)} />
                 </div>
-              </>
-            )}
+              )}
 
-            {hasSchool && (
-              <>
-                {sideHeading(label(data, "schule"), firstSide === "school")}
-                {sideEntries("schule")}
-              </>
-            )}
-
-            {hasExperience && (
-              <>
-                {sideHeading(label(data, "erfahrung"), firstSide === "experience")}
-                {sideEntries("erfahrung")}
-              </>
-            )}
-
-            {hasLanguages && (
-              <>
-                {sideHeading(label(data, "sprachen"), firstSide === "languages")}
-                {data.sprachen
-                  .filter((s) => s.name.trim() || s.niveau.trim())
-                  .map((s) => (
-                    <div
-                      data-cv-entry
-                      key={s.id}
-                      style={{
-                        marginBottom: sidePlan.veryCompact
-                          ? "1.1mm"
-                          : sidePlan.compact
-                            ? "1.5mm"
-                            : "1.9mm",
-                        lineHeight: 1.32,
-                      }}
-                    >
+              {hasContact && (
+                <>
+                  {sideHeading("Kontakt", firstSide === "contact")}
+                  <div
+                    data-cv-entry
+                    data-cv-body
+                    style={{
+                      fontSize: `${sideBody}pt`,
+                      color: side.ink,
+                      lineHeight: sideLine,
+                      overflowWrap: "anywhere",
+                    }}
+                  >
+                    {p.adresse && <div>{p.adresse}</div>}
+                    {p.plzOrt && <div>{p.plzOrt}</div>}
+                    {p.telefon && (
+                      <div style={{ marginTop: sidePlan.compact ? "1mm" : "1.7mm" }}>
+                        {p.telefon}
+                      </div>
+                    )}
+                    {p.email && <div>{p.email}</div>}
+                    {p.geburtsdatum && (
                       <div
-                        data-cv-entry-title
+                        data-cv-date
+                        data-cv-muted
+                        style={{ marginTop: sidePlan.compact ? "1.2mm" : "2mm", color: side.muted }}
+                      >
+                        Geb. {p.geburtsdatum}
+                      </div>
+                    )}
+                    {p.nationalitaet && (
+                      <div data-cv-muted style={{ color: side.muted }}>
+                        {p.nationalitaet}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {hasSchool && (
+                <>
+                  {sideHeading(label(data, "schule"), firstSide === "school")}
+                  {sideEntries("schule")}
+                </>
+              )}
+
+              {hasExperience && (
+                <>
+                  {sideHeading(label(data, "erfahrung"), firstSide === "experience")}
+                  {sideEntries("erfahrung")}
+                </>
+              )}
+
+              {hasLanguages && (
+                <>
+                  {sideHeading(label(data, "sprachen"), firstSide === "languages")}
+                  {data.sprachen
+                    .filter((s) => s.name.trim() || s.niveau.trim())
+                    .map((s) => (
+                      <div
+                        data-cv-entry
+                        key={s.id}
                         style={{
-                          fontSize: `${sideBody + 0.1}pt`,
-                          fontWeight: 700,
-                          color: side.ink,
+                          marginBottom: sidePlan.veryCompact
+                            ? "1.1mm"
+                            : sidePlan.compact
+                              ? "1.5mm"
+                              : "1.9mm",
+                          lineHeight: 1.32,
                         }}
                       >
-                        {s.name}
-                      </div>
-                      {s.niveau && (
                         <div
-                          data-cv-muted
+                          data-cv-entry-title
                           style={{
-                            fontSize: `${sideSmall}pt`,
-                            color: side.muted,
-                            marginTop: "0.2mm",
+                            fontSize: `${sideBody + 0.1}pt`,
+                            fontWeight: 700,
+                            color: side.ink,
                           }}
                         >
-                          {s.niveau}
+                          {s.name}
                         </div>
-                      )}
-                    </div>
-                  ))}
-              </>
-            )}
+                        {s.niveau && (
+                          <div
+                            data-cv-muted
+                            style={{
+                              fontSize: `${sideSmall}pt`,
+                              color: side.muted,
+                              marginTop: "0.2mm",
+                            }}
+                          >
+                            {s.niveau}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </>
+              )}
 
-            {hasStrengths && (
-              <>
-                {sideHeading(label(data, "staerken"), firstSide === "strengths")}
-                {data.staerken
-                  .filter((v) => v.trim())
-                  .map((v, i) => (
-                    <div
-                      data-cv-entry
-                      data-cv-body
-                      key={`side-strength-${i}`}
-                      style={{
-                        display: "flex",
-                        gap: "1.7mm",
-                        marginBottom: sidePlan.veryCompact
-                          ? "0.9mm"
-                          : sidePlan.compact
-                            ? "1.15mm"
-                            : "1.45mm",
-                      }}
-                    >
-                      <span style={{ color: side.accent, fontWeight: 800 }}>•</span>
-                      <span
+              {hasStrengths && (
+                <>
+                  {sideHeading(label(data, "staerken"), firstSide === "strengths")}
+                  {data.staerken
+                    .filter((v) => v.trim())
+                    .map((v, i) => (
+                      <div
+                        data-cv-entry
+                        data-cv-body
+                        key={`side-strength-${i}`}
+                        style={{
+                          display: "flex",
+                          gap: "1.7mm",
+                          marginBottom: sidePlan.veryCompact
+                            ? "0.9mm"
+                            : sidePlan.compact
+                              ? "1.15mm"
+                              : "1.45mm",
+                        }}
+                      >
+                        <span style={{ color: side.accent, fontWeight: 800 }}>•</span>
+                        <span
+                          style={{
+                            fontSize: `${sideBody - 0.2}pt`,
+                            lineHeight: 1.34,
+                            color: side.ink,
+                          }}
+                        >
+                          {v}
+                        </span>
+                      </div>
+                    ))}
+                </>
+              )}
+
+              {hasHobbies && (
+                <>
+                  {sideHeading(label(data, "hobbys"), firstSide === "hobbies")}
+                  {data.hobbys
+                    .filter((v) => v.trim())
+                    .map((v, i) => (
+                      <div
+                        data-cv-entry
+                        data-cv-body
+                        key={`side-hobby-${i}`}
                         style={{
                           fontSize: `${sideBody - 0.2}pt`,
-                          lineHeight: 1.34,
+                          lineHeight: 1.36,
                           color: side.ink,
+                          marginBottom: sidePlan.veryCompact
+                            ? "0.8mm"
+                            : sidePlan.compact
+                              ? "1.05mm"
+                              : "1.35mm",
                         }}
                       >
                         {v}
-                      </span>
-                    </div>
-                  ))}
-              </>
-            )}
+                      </div>
+                    ))}
+                </>
+              )}
 
-            {hasHobbies && (
-              <>
-                {sideHeading(label(data, "hobbys"), firstSide === "hobbies")}
-                {data.hobbys
-                  .filter((v) => v.trim())
-                  .map((v, i) => (
-                    <div
-                      data-cv-entry
-                      data-cv-body
-                      key={`side-hobby-${i}`}
-                      style={{
-                        fontSize: `${sideBody - 0.2}pt`,
-                        lineHeight: 1.36,
-                        color: side.ink,
-                        marginBottom: sidePlan.veryCompact
-                          ? "0.8mm"
-                          : sidePlan.compact
-                            ? "1.05mm"
-                            : "1.35mm",
-                      }}
-                    >
-                      {v}
-                    </div>
-                  ))}
-              </>
-            )}
-
-            {hasReferences && (
-              <>
-                {sideHeading(label(data, "referenzen"), firstSide === "references")}
-                {data.referenzen
-                  .filter((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim())
-                  .map((r) => (
-                    <div
-                      data-cv-entry
-                      key={`side-${r.id}`}
-                      style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}
-                    >
-                      {r.name && (
-                        <div
-                          data-cv-entry-title
-                          style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: side.ink }}
-                        >
-                          {r.name}
-                        </div>
-                      )}
-                      {r.funktion && (
-                        <div
-                          data-cv-muted
-                          style={{
-                            marginTop: "0.2mm",
-                            fontSize: `${sideSmall}pt`,
-                            color: side.muted,
-                            lineHeight: 1.28,
-                          }}
-                        >
-                          {r.funktion}
-                        </div>
-                      )}
-                      {r.kontakt && (
-                        <div
-                          data-cv-body
-                          style={{
-                            marginTop: "0.25mm",
-                            fontSize: `${sideSmall}pt`,
-                            color: side.ink,
-                            lineHeight: 1.28,
-                            overflowWrap: "anywhere",
-                          }}
-                        >
-                          {r.kontakt}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-              </>
-            )}
-          </>
-        ) : pageMarker(frame) !== "sidebar" ? null : ( // Band oder Fusszeile tragen die Angabe schon – hier wäre sie doppelt.
-          <div data-cv-header style={{ paddingTop: "5mm" }}>
-            <div
-              data-cv-name
-              style={{
-                fontSize: `${Math.min(12.5, smartNameSize(name, "modern") * 0.44)}pt`,
-                fontWeight: 750,
-                color: side.ink,
-                lineHeight: 1.15,
-                overflowWrap: "anywhere",
-              }}
-            >
-              {name || "Lebenslauf"}
+              {hasReferences && (
+                <>
+                  {sideHeading(label(data, "referenzen"), firstSide === "references")}
+                  {data.referenzen
+                    .filter((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim())
+                    .map((r) => (
+                      <div
+                        data-cv-entry
+                        key={`side-${r.id}`}
+                        style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}
+                      >
+                        {r.name && (
+                          <div
+                            data-cv-entry-title
+                            style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: side.ink }}
+                          >
+                            {r.name}
+                          </div>
+                        )}
+                        {r.funktion && (
+                          <div
+                            data-cv-muted
+                            style={{
+                              marginTop: "0.2mm",
+                              fontSize: `${sideSmall}pt`,
+                              color: side.muted,
+                              lineHeight: 1.28,
+                            }}
+                          >
+                            {r.funktion}
+                          </div>
+                        )}
+                        {r.kontakt && (
+                          <div
+                            data-cv-body
+                            style={{
+                              marginTop: "0.25mm",
+                              fontSize: `${sideSmall}pt`,
+                              color: side.ink,
+                              lineHeight: 1.28,
+                              overflowWrap: "anywhere",
+                            }}
+                          >
+                            {r.kontakt}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </>
+              )}
+            </>
+          ) : pageMarker(frame) !== "sidebar" ? null : ( // Band oder Fusszeile tragen die Angabe schon – hier wäre sie doppelt.
+            <div data-cv-header style={{ paddingTop: "5mm" }}>
+              <div
+                data-cv-name
+                style={{
+                  fontSize: `${Math.min(12.5, smartNameSize(name, "modern") * 0.44)}pt`,
+                  fontWeight: 750,
+                  color: side.ink,
+                  lineHeight: 1.15,
+                  overflowWrap: "anywhere",
+                }}
+              >
+                {name || "Lebenslauf"}
+              </div>
+              <div data-cv-muted style={{ marginTop: "1.5mm", fontSize: "9pt", color: side.muted }}>
+                Lebenslauf · Seite {pageIndex + 1}
+              </div>
             </div>
-            <div data-cv-muted style={{ marginTop: "1.5mm", fontSize: "9pt", color: side.muted }}>
-              Lebenslauf · Seite {pageIndex + 1}
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   /**
    * Name und Zeile darunter im Kopfband – dort, wo sie auf dem Titelblatt
@@ -1415,7 +1305,10 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
     if (!nameInBand || head <= 0) return null;
     const roles = frame.bandMotif ? onArea : onBand;
-    const left = bandLeftMm(frame, layout) + (frame.id === "column" ? 10 : MARGIN_X);
+    // Rechts der Seitenspalte beginnen, sonst verschwindet der Vorname
+    // dahinter – gemessen fehlten so die ersten 117 px des Namens.
+    const clear = Math.max(bandLeftMm(frame, layout), sidebarWidthMm(frame, layout));
+    const left = clear + (clear > 0 ? 10 : MARGIN_X);
     return (
       <div
         data-cv-band-header
@@ -1423,7 +1316,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           position: "absolute",
           left: `${left}mm`,
           right: `${MARGIN_X}mm`,
-          top: 0,
+          top: `${headTopMm(frame, pageIndex)}mm`,
           height: `${head}mm`,
           display: "flex",
           flexDirection: "column",
