@@ -1,6 +1,7 @@
 import type { DossierFamilyId } from "@/lib/dossier-family";
 import { TEMPLATES, type TemplateDefinition, type TemplateId } from "./types";
 import "./gradient-templates.css";
+import "./studio-warm-variants.css";
 
 /**
  * Fresh dossier templates introduced after the original template union.
@@ -20,6 +21,10 @@ export const FRESH_TEMPLATE_IDS = [
   "sunrise",
   "forestFlow",
   "violetPulse",
+  "studio2",
+  "studio3",
+  "warm2",
+  "warm3",
 ] as const;
 export type FreshTemplateId = (typeof FRESH_TEMPLATE_IDS)[number];
 
@@ -120,6 +125,54 @@ const freshDefinitions: TemplateDefinition[] = [
       { key: "ink", label: "Text", default: "#1f1733" },
     ],
   },
+  {
+    id: "studio2" as TemplateId,
+    name: "Studio 2",
+    description: "Studio neu gedacht: schmale Spalte, breites Signalband",
+    slots: [
+      { key: "bg", label: "Papier", default: "#fbfbf8" },
+      { key: "primary", label: "Spalte", default: "#202a3b" },
+      { key: "secondary", label: "Signalband", default: "#f2c84b" },
+      { key: "accent", label: "Akzent", default: "#e78a2f" },
+      { key: "ink", label: "Text", default: "#1b2430" },
+    ],
+  },
+  {
+    id: "studio3" as TemplateId,
+    name: "Studio 3",
+    description: "Studio als frischer Split mit Teal und weicher Akzentfläche",
+    slots: [
+      { key: "bg", label: "Papier", default: "#f7fbfa" },
+      { key: "primary", label: "Spalte", default: "#173d3a" },
+      { key: "secondary", label: "Farbfläche", default: "#5ec6b6" },
+      { key: "accent", label: "Akzent", default: "#e2a94b" },
+      { key: "ink", label: "Text", default: "#18302d" },
+    ],
+  },
+  {
+    id: "warm2" as TemplateId,
+    name: "Warm 2",
+    description: "Peach und Apricot in grossen, weichen Farbräumen",
+    slots: [
+      { key: "bg", label: "Papier", default: "#fff7f0" },
+      { key: "primary", label: "Coral", default: "#d95f4c" },
+      { key: "secondary", label: "Apricot", default: "#f6b26b" },
+      { key: "accent", label: "Sage", default: "#7f9b76" },
+      { key: "ink", label: "Text", default: "#3a2521" },
+    ],
+  },
+  {
+    id: "warm3" as TemplateId,
+    name: "Warm 3",
+    description: "Erwachsener Warm-Look mit Teal, Amber und organischer Kante",
+    slots: [
+      { key: "bg", label: "Papier", default: "#fbf7ef" },
+      { key: "primary", label: "Teal", default: "#1e6f68" },
+      { key: "secondary", label: "Amber", default: "#e5a84f" },
+      { key: "accent", label: "Terracotta", default: "#c86648" },
+      { key: "ink", label: "Text", default: "#24312e" },
+    ],
+  },
 ];
 
 // Module evaluation happens before the route modules initialise their color
@@ -140,6 +193,10 @@ export function freshFamilyForTemplate(template: TemplateId): DossierFamilyId | 
     case "horizon":
     case "sunrise":
     case "violetPulse":
+    case "studio2":
+    case "studio3":
+    case "warm2":
+    case "warm3":
       return "modern";
     case "frame":
     case "forestFlow":
