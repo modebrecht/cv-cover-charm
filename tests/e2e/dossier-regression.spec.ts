@@ -45,7 +45,7 @@ function entry(id: string, index: number) {
   };
 }
 
-function cvData({ long = false, photo = false } = {}) {
+function cvData({ long = false, photo = false, contactLabel = "" } = {}) {
   const schoolCount = long ? 13 : 2;
   return {
     titel: "Lebenslauf",
@@ -86,7 +86,7 @@ function cvData({ long = false, photo = false } = {}) {
             kontakt: "+41 44 123 45 67",
           },
         ],
-    labels: {},
+    labels: contactLabel ? { kontakt: contactLabel } : {},
     hidden: {},
   };
 }
@@ -96,6 +96,8 @@ function cvPayload(options?: {
   photo?: boolean;
   template?: string;
   sidebarPct?: number;
+  contactLabel?: string;
+  scales?: Record<string, number>;
 }) {
   return {
     version: 2,
@@ -106,6 +108,7 @@ function cvPayload(options?: {
       bgOpacity: 0.06,
       useElements: false,
       ...(options?.sidebarPct === undefined ? {} : { sidebarPct: options.sidebarPct }),
+      ...(options?.scales ?? {}),
     },
     elements: [],
   };
@@ -124,6 +127,12 @@ type SeedOptions = {
   template?: (typeof ARCHETYPE_TEMPLATES)[number]["template"];
   /** Side column width as a share of the sheet. */
   sidebarPct?: number;
+  /** Own wording above the contact details. */
+  contactLabel?: string;
+  /** Where the contact block goes in the Sidebar layout. */
+  kontakt?: "side" | "main";
+  /** titleScale / headingScale / bodyScale overrides. */
+  scales?: Record<string, number>;
   /** Free CV photo placement, size and frame colour. */
   photoPlace?: {
     mode: "auto" | "frei";
@@ -146,7 +155,17 @@ async function settlePagination(page: Page) {
 async function seedCv(page: Page, options: SeedOptions = {}) {
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
   await page.evaluate(
-    ({ payload, family, layout, mirrored, photoShape, coverRaw, legacyPhotoShape, photoPlace }) => {
+    ({
+      payload,
+      family,
+      layout,
+      mirrored,
+      photoShape,
+      coverRaw,
+      legacyPhotoShape,
+      photoPlace,
+      kontakt,
+    }) => {
       localStorage.clear();
       localStorage.setItem("lebenslauf:v1", JSON.stringify(payload));
       localStorage.setItem("dossier:family:v1", family);
@@ -155,7 +174,7 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
       localStorage.setItem(
         "lebenslauf:placement:v1",
         JSON.stringify({
-          kontakt: "side",
+          kontakt,
           schule: "main",
           erfahrung: "main",
           sprachen: "side",
@@ -183,7 +202,10 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
         photo: options.photo,
         template: options.template,
         sidebarPct: options.sidebarPct,
+        contactLabel: options.contactLabel,
+        scales: options.scales,
       }),
+      kontakt: options.kontakt ?? "side",
       family: options.family ?? "classic",
       layout: options.layout ?? "classic",
       mirrored: options.mirrored ?? false,
@@ -385,7 +407,11 @@ test.describe("M5.8 dossier regression", () => {
             hasPhoto: !!saved.data?.person?.foto,
             vorname: saved.data?.person?.vorname ?? "",
             archetype: root?.getAttribute("data-cv-archetype"),
-            shapesDrawn: root?.querySelectorAll("[data-cv-decoration]").length ?? 0,
+            // Per page: the decoration repeats on every sheet, so counting
+            // across the whole document would only measure the page count.
+            shapesDrawn:
+              root?.querySelector("[data-cv-page]")?.querySelectorAll("[data-cv-decoration]")
+                .length ?? 0,
           };
         }),
       )
@@ -450,15 +476,85 @@ test.describe("M5.8 dossier regression", () => {
   test("the side column width follows the setting", async ({ page }) => {
     for (const pct of [0.22, 0.3, 0.42]) {
       await seedCv(page, { layout: "modern", sidebarPct: pct });
-      const share = await previewRoot(page)
-        .locator("[data-cv-page]")
-        .first()
-        .evaluate((pageEl) => {
-          const bar = pageEl.querySelector("[data-cv-sidebar]");
-          if (!bar) return null;
-          return bar.getBoundingClientRect().width / pageEl.getBoundingClientRect().width;
-        });
-      expect(share, `sidebar at ${pct}`).toBeCloseTo(pct, 2);
+      // The layout store stamps data-cv-variant on the first client render, but
+      // the saved design arrives a tick later, so a single reading can still
+      // catch the default width. Poll instead of measuring once.
+      const share = () =>
+        previewRoot(page)
+          .locator("[data-cv-page]")
+          .first()
+          .evaluate((pageEl) => {
+            const bar = pageEl.querySelector("[data-cv-sidebar]");
+            if (!bar) return null;
+            return bar.getBoundingClientRect().width / pageEl.getBoundingClientRect().width;
+          });
+      await expect.poll(share, { message: `sidebar at ${pct}` }).toBeCloseTo(pct, 2);
+    }
+  });
+
+  test("each type slider moves its own texts and leaves the others alone", async ({ page }) => {
+    /**
+     * The distinct type sizes on the sheet, grouped by which slider owns them.
+     *
+     * Distinct and sorted rather than one entry per element: doubling a size
+     * reflows the text over the pages, so the number of elements is not stable
+     * — the set of sizes in use is.
+     */
+    const sizes = () =>
+      previewRoot(page).evaluate((root) => {
+        const of = (...selectors: string[]) =>
+          [
+            ...new Set(
+              selectors.flatMap((selector) =>
+                Array.from(root.querySelectorAll<HTMLElement>(selector)).map((el) =>
+                  Number(parseFloat(getComputedStyle(el).fontSize).toFixed(1)),
+                ),
+              ),
+            ),
+          ].sort((a, b) => a - b);
+        return {
+          title: of("[data-cv-name]", "[data-cv-doc-title]"),
+          heading: of("[data-cv-subtitle]", "[data-cv-section-title]"),
+          body: of("[data-cv-entry-title]", "[data-cv-date]"),
+        };
+      });
+
+    const KEY = { title: "titleScale", heading: "headingScale", body: "bodyScale" } as const;
+    const ROLES = ["title", "heading", "body"] as const;
+
+    await seedCv(page, { layout: "modern" });
+    await expect.poll(async () => (await sizes()).heading.length).toBeGreaterThan(0);
+    const base = await sizes();
+    // A slider that reaches nothing is the fault being guarded against here.
+    for (const role of ROLES) expect(base[role].length, `${role} texts found`).toBeGreaterThan(0);
+
+    for (const role of ROLES) {
+      await seedCv(page, { layout: "modern", scales: { [KEY[role]]: 2 } });
+      // Rounded to one decimal, so doubled values can land a tenth apart.
+      await expect
+        .poll(async () =>
+          (await sizes())[role].map((v, i) => Math.abs(v - base[role][i] * 2) < 0.25),
+        )
+        .toEqual(base[role].map(() => true));
+      const now = await sizes();
+      for (const other of ROLES) {
+        if (other === role) continue;
+        expect(now[other], `${KEY[role]} must not touch ${other}`).toEqual(base[other]);
+      }
+    }
+  });
+
+  test("the Kontakt heading can be renamed like every other one", async ({ page }) => {
+    for (const kontakt of ["side", "main"] as const) {
+      await seedCv(page, { layout: "modern", contactLabel: "Lea Müller", kontakt });
+      await expect
+        .poll(() =>
+          previewRoot(page).locator("[data-cv-page] [data-cv-section-title]").allTextContents(),
+        )
+        .toContain("Lea Müller");
+      expect(await page.content(), `default label still shown (${kontakt})`).not.toContain(
+        ">Kontakt<",
+      );
     }
   });
 
@@ -469,6 +565,9 @@ test.describe("M5.8 dossier regression", () => {
         photo: true,
         photoPlace: { mode: "frei", xMm: 140, yMm: 30, widthMm: 42, frameColor: null },
       });
+      // The saved CV arrives a tick after hydration, so wait for the photo
+      // itself rather than measuring whatever is on screen right now.
+      await previewRoot(page).locator("[data-cv-photo-free]").first().waitFor({ state: "visible" });
       const box = await previewRoot(page)
         .locator("[data-cv-page]")
         .first()

@@ -22,6 +22,7 @@ import {
   subscribeCvPhotoPlacement,
 } from "./photo-place";
 import {
+  CV_BLOCK_LABELS,
   DEFAULT_CV_PLACEMENTS,
   emptyEntry,
   emptyReferenz,
@@ -246,9 +247,14 @@ function CvPhotoPlaceControls({ borderWidth }: { borderWidth: number }) {
 export function FormCvPerson({
   person,
   onChange,
+  contactLabel,
+  onContactLabel,
 }: {
   person: CvPerson;
   onChange: (p: Partial<CvPerson>) => void;
+  /** Eigene Überschrift über den Kontaktangaben; leer heisst „Kontakt". */
+  contactLabel: string;
+  onContactLabel: (value: string) => void;
 }) {
   const photoStyle = useSyncExternalStore(
     subscribeCvPhotoStyle,
@@ -283,6 +289,17 @@ export function FormCvPerson({
   return (
     <div className="flex flex-col gap-3">
       <BlockPlacementControl block="kontakt" label="Kontaktangaben" />
+
+      {/* Wie bei jedem anderen Block: die Überschrift lässt sich frei benennen. */}
+      <label className="flex flex-col gap-1">
+        <span className="text-xs text-muted-foreground">Überschrift über den Kontaktangaben</span>
+        <input
+          className={inputCls}
+          placeholder={CV_BLOCK_LABELS.kontakt}
+          value={contactLabel}
+          onChange={(e) => onContactLabel(e.target.value)}
+        />
+      </label>
 
       <div className="rounded-md border bg-muted/20 p-3">
         <div className="mb-3 flex flex-wrap items-center gap-2">

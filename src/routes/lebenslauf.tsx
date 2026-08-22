@@ -16,6 +16,8 @@ import {
 } from "@/components/cv/CvForm";
 import {
   CV_SECTION_LABELS,
+  CV_SCALE_MAX,
+  CV_SCALE_MIN,
   CV_TYPE_DEFAULTS,
   DEFAULT_CV_TITLE,
   DEMO_CV,
@@ -23,6 +25,7 @@ import {
   type CvData,
   type CvDesign,
   type CvPerson,
+  type CvPlacementKey,
   type CvSectionKey,
 } from "@/components/cv/types";
 import { emptyCoverDraft, personFilled, readCoverDraft, type CoverDraft } from "@/lib/dossier";
@@ -533,7 +536,7 @@ function Lebenslauf() {
   };
 
   const sectionLabel = (key: CvSectionKey) => data.labels[key]?.trim() || CV_SECTION_LABELS[key];
-  const setLabel = (key: CvSectionKey, v: string) =>
+  const setLabel = (key: CvPlacementKey, v: string) =>
     patchData({ labels: { ...data.labels, [key]: v } });
   const setHidden = (key: CvSectionKey, v: boolean) =>
     patchData({ hidden: { ...data.hidden, [key]: v } });
@@ -909,44 +912,39 @@ function Lebenslauf() {
                     </div>
                   </label>
 
-                  <label className="flex flex-col gap-1 text-xs">
-                    <span className="text-muted-foreground">
-                      Titelgrösse{" "}
-                      {Math.round((design.titleScale ?? CV_TYPE_DEFAULTS.titleScale) * 100)} %
-                    </span>
-                    <input
-                      type="range"
-                      min={70}
-                      max={140}
-                      step={5}
-                      value={Math.round((design.titleScale ?? CV_TYPE_DEFAULTS.titleScale) * 100)}
-                      onChange={(e) =>
-                        setDesign((d) => ({ ...d, titleScale: Number(e.target.value) / 100 }))
-                      }
-                      className="w-full accent-primary"
-                    />
-                  </label>
-
-                  <label className="flex flex-col gap-1 text-xs">
-                    <span className="text-muted-foreground">
-                      Textgrösse{" "}
-                      {Math.round((design.bodyScale ?? CV_TYPE_DEFAULTS.bodyScale) * 100)} %
-                    </span>
-                    <input
-                      type="range"
-                      min={85}
-                      max={120}
-                      step={5}
-                      value={Math.round((design.bodyScale ?? CV_TYPE_DEFAULTS.bodyScale) * 100)}
-                      onChange={(e) =>
-                        setDesign((d) => ({ ...d, bodyScale: Number(e.target.value) / 100 }))
-                      }
-                      className="w-full accent-primary"
-                    />
-                    <span className="text-muted-foreground/80">
-                      Mehr Text passt bei kleinerer Schrift auf eine Seite.
-                    </span>
-                  </label>
+                  {(
+                    [
+                      ["titleScale", "Name und Titel", "Der Name oben und der Dokumenttitel."],
+                      [
+                        "headingScale",
+                        "Untertitel und Rubriken",
+                        "Untertitel unter dem Namen sowie alle Rubriktitel, auch in der Seitenspalte.",
+                      ],
+                      [
+                        "bodyScale",
+                        "Fliesstext",
+                        "Alles Übrige. Mehr Text passt bei kleinerer Schrift auf eine Seite.",
+                      ],
+                    ] as const
+                  ).map(([key, label, hint]) => (
+                    <label key={key} className="flex flex-col gap-1 text-xs">
+                      <span className="text-muted-foreground">
+                        {label} {Math.round((design[key] ?? CV_TYPE_DEFAULTS[key]) * 100)} %
+                      </span>
+                      <input
+                        type="range"
+                        min={Math.round(CV_SCALE_MIN * 100)}
+                        max={Math.round(CV_SCALE_MAX * 100)}
+                        step={5}
+                        value={Math.round((design[key] ?? CV_TYPE_DEFAULTS[key]) * 100)}
+                        onChange={(e) =>
+                          setDesign((d) => ({ ...d, [key]: Number(e.target.value) / 100 }))
+                        }
+                        className="w-full accent-primary"
+                      />
+                      <span className="text-muted-foreground/80">{hint}</span>
+                    </label>
+                  ))}
 
                   <label className="flex flex-col gap-1 text-xs">
                     <span className="text-muted-foreground">
@@ -1031,7 +1029,12 @@ function Lebenslauf() {
                   </span>
                 </label>
 
-                <FormCvPerson person={data.person} onChange={patchPerson} />
+                <FormCvPerson
+                  person={data.person}
+                  onChange={patchPerson}
+                  contactLabel={data.labels.kontakt ?? ""}
+                  onContactLabel={(v) => setLabel("kontakt", v)}
+                />
               </div>
             </Section>
 

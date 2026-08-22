@@ -43,13 +43,14 @@ import {
   subscribeCvPhotoPlacement,
 } from "./photo-place";
 import {
-  CV_SECTION_LABELS,
+  CV_BLOCK_LABELS,
   CV_SECTION_ORDER,
   CV_TYPE_DEFAULTS,
   DEFAULT_CV_PLACEMENTS,
   entryFilled,
   type CvData,
   type CvDesign,
+  type CvPlacementKey,
   type CvSectionKey,
 } from "./types";
 
@@ -73,8 +74,8 @@ type Props = {
   exportMode?: boolean;
 };
 
-function label(data: CvData, key: CvSectionKey): string {
-  return data.labels[key]?.trim() || CV_SECTION_LABELS[key];
+function label(data: CvData, key: CvPlacementKey): string {
+  return data.labels[key]?.trim() || CV_BLOCK_LABELS[key];
 }
 
 export function CvCanvas({ data, design, elements, exportMode = false }: Props) {
@@ -110,10 +111,24 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   /** Vom Nutzer einstellbare Typografie und Spaltenbreite. */
   const headingRule = design.headingRule ?? CV_TYPE_DEFAULTS.headingRule;
   const titleScale = design.titleScale ?? CV_TYPE_DEFAULTS.titleScale;
+  const headingScale = design.headingScale ?? CV_TYPE_DEFAULTS.headingScale;
   const bodyScale = design.bodyScale ?? CV_TYPE_DEFAULTS.bodyScale;
   const sidebarPct = design.sidebarPct ?? CV_TYPE_DEFAULTS.sidebarPct;
-  /** Schriftgrad des Fliesstexts in pt, mit der Einstellung skaliert. */
-  const pt = (size: number) => `${(size * bodyScale).toFixed(2)}pt`;
+  /**
+   * Drei Regler, drei Rollen – und jeder Text auf dem Blatt gehört zu einer:
+   *
+   *   ptTitle  Name und Dokumenttitel
+   *   ptHead   Untertitel und Rubriken
+   *   pt       alles andere
+   *
+   * Fest eingetragene Grade gab es früher in der Seitenspalte und bei den
+   * Eintragstiteln; die Regler liessen sie unberührt und wirkten darum halb
+   * kaputt. TYPE_BASE hebt alle Grundwerte an: das frühere "120 %" ist der
+   * neue Normalzustand, die Regler stehen wieder auf 100 %.
+   */
+  const TYPE_BASE = 1.2;
+  const pt = (size: number) => `${(size * TYPE_BASE * bodyScale).toFixed(2)}pt`;
+  const ptHead = (size: number) => `${(size * TYPE_BASE * headingScale).toFixed(2)}pt`;
 
   /**
    * Schriftbild der Dossier-Familie. Titelblatt und Lebenslauf lesen dieselbe
@@ -180,7 +195,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     p.geburtsdatum && `Geburtsdatum ${p.geburtsdatum}`,
     p.nationalitaet && `Nationalität ${p.nationalitaet}`,
   ].filter(Boolean) as string[];
-  const nameSize = smartNameSize(name, layout) * titleScale;
+  const nameSize = smartNameSize(name, layout) * TYPE_BASE * titleScale;
 
   /**
    * Sitzt das Foto frei auf dem Blatt, gehört es nicht mehr in den Kopf oder in
@@ -272,7 +287,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             style={{
               // Versalien laufen breiter als Gemischtschrift; darum je nach
               // Familie ein anderer Grundwert.
-              fontSize: pt(headingStyle.uppercase ? 10.2 : 11.4),
+              fontSize: ptHead(headingStyle.uppercase ? 10.2 : 11.4),
               fontWeight: headingStyle.weight,
               letterSpacing: `${headingStyle.trackingEm}em`,
               textTransform: headingStyle.uppercase ? "uppercase" : "none",
@@ -316,7 +331,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       <div
         data-cv-doc-title
         style={{
-          fontSize: `${(8.2 * titleScale).toFixed(2)}pt`,
+          fontSize: `${(8.2 * TYPE_BASE * titleScale).toFixed(2)}pt`,
           fontWeight: headingStyle.weight,
           letterSpacing: "0.16em",
           textTransform: "uppercase",
@@ -362,7 +377,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             <div
               data-cv-entry-title
               style={{
-                fontSize: layout === "modern" ? "11.4pt" : "11.5pt",
+                fontSize: pt(layout === "modern" ? 11.4 : 11.5),
                 fontWeight: 700,
                 color: pal.ink,
                 lineHeight: 1.2,
@@ -528,7 +543,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const contactMainRows = (): Row[] => {
     if (!kontaktZeilen.length && !angaben.length) return [];
     return [
-      headingText("kontakt", "Kontakt"),
+      headingText("kontakt", label(data, "kontakt")),
       {
         id: "kontakt-main",
         node: (
@@ -609,7 +624,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               <div
                 data-cv-subtitle
                 style={{
-                  fontSize: pt(11.2),
+                  fontSize: ptHead(11.2),
                   fontWeight: 600,
                   color: pal.accent,
                   marginTop: "1.15mm",
@@ -696,7 +711,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               data-cv-subtitle
               style={{
                 marginTop: "1.4mm",
-                fontSize: pt(11.5),
+                fontSize: ptHead(11.5),
                 fontWeight: 600,
                 color: pal.accent,
                 lineHeight: 1.25,
@@ -1037,17 +1052,19 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 ? "4.1mm"
                 : "5.2mm",
         marginBottom: sidePlan.veryCompact ? "1.2mm" : sidePlan.compact ? "1.5mm" : "1.9mm",
-        fontSize: headingStyle.uppercase
-          ? sidePlan.veryCompact
-            ? "8.4pt"
-            : sidePlan.compact
-              ? "8.8pt"
-              : "9.2pt"
-          : sidePlan.veryCompact
-            ? "9.4pt"
-            : sidePlan.compact
-              ? "9.8pt"
-              : "10.2pt",
+        fontSize: ptHead(
+          headingStyle.uppercase
+            ? sidePlan.veryCompact
+              ? 8.4
+              : sidePlan.compact
+                ? 8.8
+                : 9.2
+            : sidePlan.veryCompact
+              ? 9.4
+              : sidePlan.compact
+                ? 9.8
+                : 10.2,
+        ),
         fontWeight: headingStyle.weight,
         letterSpacing: `${headingStyle.trackingEm}em`,
         textTransform: headingStyle.uppercase ? "uppercase" : "none",
@@ -1060,8 +1077,10 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     </div>
   );
 
-  const sideBody = (sidePlan.veryCompact ? 8.7 : sidePlan.compact ? 9.1 : 9.5) * bodyScale;
-  const sideSmall = (sidePlan.veryCompact ? 8.2 : sidePlan.compact ? 8.6 : 9.1) * bodyScale;
+  const sideBody =
+    (sidePlan.veryCompact ? 8.7 : sidePlan.compact ? 9.1 : 9.5) * TYPE_BASE * bodyScale;
+  const sideSmall =
+    (sidePlan.veryCompact ? 8.2 : sidePlan.compact ? 8.6 : 9.1) * TYPE_BASE * bodyScale;
   const sideLine = sidePlan.veryCompact ? 1.3 : sidePlan.compact ? 1.4 : 1.5;
 
   const sideEntries = (key: "schule" | "erfahrung") => (
@@ -1266,7 +1285,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
               {hasContact && (
                 <>
-                  {sideHeading("Kontakt", firstSide === "contact")}
+                  {sideHeading(label(data, "kontakt"), firstSide === "contact")}
                   <div
                     data-cv-entry
                     data-cv-body
@@ -1480,7 +1499,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               <div
                 data-cv-name
                 style={{
-                  fontSize: `${Math.min(12.5, smartNameSize(name, "modern") * 0.44)}pt`,
+                  fontSize: `${Math.min(12.5, smartNameSize(name, "modern") * 0.44) * TYPE_BASE * titleScale}pt`,
                   fontWeight: 750,
                   color: side.ink,
                   lineHeight: 1.15,
@@ -1548,7 +1567,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 data-cv-subtitle
                 style={{
                   marginTop: "1.6mm",
-                  fontSize: pt(11.2),
+                  fontSize: ptHead(11.2),
                   fontWeight: 600,
                   color: roles.muted,
                 }}
