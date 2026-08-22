@@ -1,0 +1,350 @@
+/* -------------------------------------------------------------------------- */
+/* Studio 2 + Studio 3 — CV redesign                                           */
+/* -------------------------------------------------------------------------- */
+/*
+ * These overrides deliberately remove the "white card on the cover" treatment.
+ * Studio 2 becomes a true vertical editorial split. Studio 3 becomes a broad
+ * architectural header with a calm full-width reading field below it.
+ *
+ * The title-page backgrounds remain untouched in this pass; the CVs reuse the
+ * same palette and motif nodes at a lower visual intensity without inventing
+ * decorative rules or duplicate template ids.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* STUDIO 2 — full-height navy rail + yellow signal header                    */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 58mm !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.04), transparent 46%, rgb(0 0 0 / 0.1)) !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: 58mm !important;
+  right: auto !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 152mm !important;
+  height: 34mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  background-image: linear-gradient(108deg, rgb(255 255 255 / 0.16), transparent 66%) !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 58mm !important;
+  right: 0 !important;
+  top: 34mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 69mm !important;
+  right: 18mm !important;
+  top: 9mm !important;
+  bottom: 16mm !important;
+}
+
+/* If the renderer places the name in its structural band, align it with the
+ * right-hand editorial column. */
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-band-header] {
+  left: 69mm !important;
+  right: 18mm !important;
+  top: 6mm !important;
+  height: 24mm !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"]
+  :is([data-cv-header], [data-cv-band-header]) {
+  min-height: 25mm;
+  box-sizing: border-box;
+  margin-bottom: 9mm !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"]
+  :is([data-cv-header], [data-cv-band-header]) [data-cv-doc-title] {
+  font-size: 9pt !important;
+  letter-spacing: 0.12em !important;
+  color: #202a3b !important;
+  opacity: 0.72 !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"]
+  :is([data-cv-header], [data-cv-band-header]) [data-cv-name] {
+  color: #202a3b !important;
+  font-size: 24pt !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.025em !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"]
+  :is([data-cv-header], [data-cv-band-header]) :is([data-cv-subtitle], [data-cv-body], [data-cv-muted]) {
+  color: #2f3948 !important;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-accent="header"],
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-section-title] {
+  color: #202a3b !important;
+  font-size: 10.6pt !important;
+  font-weight: 780 !important;
+  letter-spacing: 0.075em !important;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-section] {
+  margin-top: 5.2mm !important;
+  margin-bottom: 2.1mm !important;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-entry-title] {
+  font-size: 10.5pt !important;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-body] {
+  font-size: 9.9pt !important;
+  line-height: 1.4 !important;
+}
+
+html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-muted] {
+  font-size: 9.2pt !important;
+}
+
+/* Modern/two-column mode: the sidebar belongs to the navy rail rather than
+ * becoming a second pale card. */
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-sidebar] {
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 58mm !important;
+  background: transparent !important;
+  padding: 14mm 8mm 14mm 9mm !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-sidebar-tint] {
+  display: none !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-sidebar]
+  [data-cv-section-title] {
+  color: #f2c84b !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-sidebar]
+  :is([data-cv-entry-title], [data-cv-body]) {
+  color: #ffffff !important;
+}
+
+html[data-dossier-template="studio2"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-sidebar]
+  [data-cv-muted] {
+  color: rgb(255 255 255 / 0.72) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* STUDIO 3 — architectural teal header + calm paper body                     */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 60mm !important;
+  border-radius: 0 !important;
+  background-image: linear-gradient(116deg, rgb(255 255 255 / 0.03), transparent 62%, rgb(0 0 0 / 0.06)) !important;
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 82mm !important;
+  height: 60mm !important;
+  border-radius: 0 0 0 34mm !important;
+  opacity: 0.98 !important;
+  filter: none !important;
+  background-image: linear-gradient(130deg, rgb(255 255 255 / 0.2), transparent 70%) !important;
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 60mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 12mm !important;
+  bottom: 16mm !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-band-header] {
+  left: 20mm !important;
+  right: 88mm !important;
+  top: 8mm !important;
+  height: 39mm !important;
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"]
+  :is([data-cv-header], [data-cv-band-header]) {
+  min-height: 42mm;
+  max-width: 126mm;
+  box-sizing: border-box;
+  margin-bottom: 9mm !important;
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"]
+  :is([data-cv-header], [data-cv-band-header]) [data-cv-doc-title] {
+  font-size: 9pt !important;
+  letter-spacing: 0.115em !important;
+  color: rgb(255 255 255 / 0.68) !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"]
+  :is([data-cv-header], [data-cv-band-header]) [data-cv-name] {
+  color: #ffffff !important;
+  font-size: 25pt !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.025em !important;
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"]
+  :is([data-cv-header], [data-cv-band-header]) :is([data-cv-subtitle], [data-cv-body], [data-cv-muted]) {
+  color: rgb(255 255 255 / 0.82) !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-accent="header"],
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-section-title] {
+  color: #1f625c !important;
+  font-size: 10.7pt !important;
+  font-weight: 760 !important;
+  letter-spacing: 0.065em !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-section] {
+  margin-top: 5mm !important;
+  margin-bottom: 2.2mm !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-entry-title] {
+  font-size: 10.6pt !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-body] {
+  font-size: 9.9pt !important;
+  line-height: 1.42 !important;
+}
+
+html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-muted] {
+  font-size: 9.2pt !important;
+}
+
+/* In the optional two-column layout the sidebar starts below the architectural
+ * header and reads as a quiet secondary column, not another card. */
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-sidebar] {
+  left: 0 !important;
+  top: 60mm !important;
+  bottom: 0 !important;
+  width: 58mm !important;
+  padding: 11mm 8mm 14mm 10mm !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-main],
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-measure-page]
+  [data-cv-main] {
+  left: 70mm !important;
+  right: 18mm !important;
+}
+
+html[data-dossier-template="studio3"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-sidebar]
+  [data-cv-section-title] {
+  color: #1f625c !important;
+  font-size: 9.7pt !important;
+}
