@@ -6,6 +6,7 @@ import "./studio-rework.css";
 import "./cv-card-refresh.css";
 import "./studio-cv-redesign.css";
 import "./signature-templates.css";
+import "./next-signature-templates.css";
 
 /**
  * Fresh dossier templates introduced after the original template union.
@@ -32,6 +33,9 @@ export const FRESH_TEMPLATE_IDS = [
   "ledger",
   "prism",
   "gallery",
+  "orbit",
+  "ribbon",
+  "cove",
 ] as const;
 export type FreshTemplateId = (typeof FRESH_TEMPLATE_IDS)[number];
 
@@ -216,6 +220,42 @@ const freshDefinitions: TemplateDefinition[] = [
       { key: "ink", label: "Text", default: "#2c2530" },
     ],
   },
+  {
+    id: "orbit" as TemplateId,
+    name: "Orbit",
+    description: "Versetzte Kreisflächen mit klarer, moderner Hierarchie",
+    slots: [
+      { key: "bg", label: "Papier", default: "#f7f8fc" },
+      { key: "primary", label: "Midnight", default: "#1e1b4b" },
+      { key: "secondary", label: "Indigo", default: "#6366f1" },
+      { key: "accent", label: "Cyan", default: "#22d3ee" },
+      { key: "ink", label: "Text", default: "#17172b" },
+    ],
+  },
+  {
+    id: "ribbon" as TemplateId,
+    name: "Ribbon",
+    description: "Tiefe Seitenfläche mit breitem, weich gerundetem Farbbanner",
+    slots: [
+      { key: "bg", label: "Papier", default: "#f8fbf8" },
+      { key: "primary", label: "Forest", default: "#164e3f" },
+      { key: "secondary", label: "Gold", default: "#d7a449" },
+      { key: "accent", label: "Mint", default: "#7fc8b8" },
+      { key: "ink", label: "Text", default: "#17312b" },
+    ],
+  },
+  {
+    id: "cove" as TemplateId,
+    name: "Cove",
+    description: "Breiter Rundkopf mit markanter Portrait-Bucht",
+    slots: [
+      { key: "bg", label: "Papier", default: "#fff8f3" },
+      { key: "primary", label: "Plum", default: "#5b214e" },
+      { key: "secondary", label: "Coral", default: "#e76f51" },
+      { key: "accent", label: "Gold", default: "#f4b942" },
+      { key: "ink", label: "Text", default: "#2d1f2a" },
+    ],
+  },
 ];
 
 // Module evaluation happens before the route modules initialise their color
@@ -243,6 +283,9 @@ export function freshFamilyForTemplate(template: TemplateId): DossierFamilyId | 
     case "ledger":
     case "prism":
     case "gallery":
+    case "orbit":
+    case "ribbon":
+    case "cove":
       return "modern";
     case "frame":
     case "forestFlow":
