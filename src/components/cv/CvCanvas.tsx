@@ -611,6 +611,11 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const measureRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<Row[][]>([rows]);
 
+  const placementShape = Object.entries(placements)
+    .map(([key, value]) => `${key}:${value}`)
+    .join("|");
+  const shape = `${layoutChoice}|${layout}|${frame.id}|${placementShape}|${rows.map((r) => r.id).join("|")}`;
+
   /**
    * Der Messkasten steckt in der verkleinerten Vorschau. Wird er gemessen,
    * bevor die Verkleinerung steht, kommen zu kleine Zeilenhöhen heraus – und
@@ -622,17 +627,36 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
    * Zoomwechsel.
    */
   const [measuredAt, setMeasuredAt] = useState(0);
+  const lastTotal = useRef(-1);
   useLayoutEffect(() => {
     const box = measureRef.current;
     if (!box || typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver(() => setMeasuredAt((n) => n + 1));
+
+    const total = () =>
+      Array.from(box.children).reduce(
+        (sum, child) => sum + (child as HTMLElement).getBoundingClientRect().height,
+        0,
+      );
+
+    // Nur bei einer echten Änderung neu rechnen, sonst löst schon das
+    // Anmelden der Beobachtung die nächste Runde aus.
+    const check = () => {
+      const now = total();
+      if (Math.abs(now - lastTotal.current) < 0.5) return;
+      lastTotal.current = now;
+      setMeasuredAt((n) => n + 1);
+    };
+
+    // Die Zeilen selbst beobachten, nicht nur ihren Kasten: dessen Höhe steht
+    // durch die Seitenränder fest und ändert sich nie, auch wenn der Text
+    // höher wird. Genau dann fehlte die zweite Seite.
+    const observer = new ResizeObserver(check);
     observer.observe(box);
+    for (const child of Array.from(box.children)) observer.observe(child);
+    // Mit der endgültigen Schrift fällt der Text anders um als mit der Ersatzschrift.
+    document.fonts?.ready.then(check).catch(() => {});
     return () => observer.disconnect();
-  }, []);
-  const placementShape = Object.entries(placements)
-    .map(([key, value]) => `${key}:${value}`)
-    .join("|");
-  const shape = `${layoutChoice}|${layout}|${frame.id}|${placementShape}|${rows.map((r) => r.id).join("|")}`;
+  }, [shape]);
 
   useLayoutEffect(() => {
     const box = measureRef.current;
@@ -641,15 +665,24 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     const scale = rect.width / (box.offsetWidth || 1) || 1;
     const measured = rect.height / scale;
 
-    // Der Messkasten trägt die Ränder von Seite 1. Daraus ergibt sich, wie
-    // viele Pixel ein Millimeter hier tatsächlich hat – und damit die Höhe
-    // jeder weiteren Seite, ohne einen zweiten Kasten messen zu müssen.
+    /*
+     * Höhe je Seite.
+     *
+     * Gerechnet wird von der **gemessenen** Höhe aus, nicht aus den Rändern
+     * der Bauform: Die Aufbau-Stile setzen eigene Ränder mit `!important`, und
+     * eine Rechnung, die davon nichts weiss, kommt auf eine falsche Seitenhöhe
+     * – bei "Luftig" fiel damit die letzte Zeile unter den Rand.
+     *
+     * Der Messkasten zeigt also, was Seite 1 wirklich hergibt. Die Folgeseiten
+     * unterscheiden sich davon nur um das, was die Bauform selbst pro Seite
+     * ändert: das kürzere Kopfband und die Fusszeile.
+     */
     const first = cvContentBox(frame, 0, layout);
-    const marginMm = first.top + first.bottom;
-    const pxPerMm = marginMm > 0 ? (PAGE.HEIGHT - measured) / marginMm : PX_PER_MM;
     const heightFor = (pageIndex: number) => {
+      if (pageIndex === 0) return measured;
       const b = cvContentBox(frame, pageIndex, layout);
-      return PAGE.HEIGHT - (b.top + b.bottom) * pxPerMm;
+      const deltaMm = b.top - first.top + (b.bottom - first.bottom);
+      return measured - deltaMm * PX_PER_MM;
     };
 
     const kids = Array.from(box.children) as HTMLElement[];

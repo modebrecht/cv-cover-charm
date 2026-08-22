@@ -257,13 +257,26 @@ async function frameOverlaps(page: Page) {
 test.describe("M5.8 dossier regression", () => {
   test.setTimeout(120_000);
 
-  test("all 24 design-style × CV-layout combinations render without clipping", async ({ page }) => {
-    for (const family of FAMILY_IDS) {
+  test("the design style follows the template, not a stored preference", async ({ page }) => {
+    // The style used to be a second, saved choice that could contradict the
+    // template. A stale value must no longer win.
+    for (const [template, family] of [
+      ["klassisch", "editorial"],
+      ["edel", "executive"],
+      ["serioes", "classic"],
+      ["studio", "modern"],
+    ] as const) {
+      await seedCv(page, { template, family: "classic" });
+      await expect(page.locator("html")).toHaveAttribute("data-dossier-family", family);
+    }
+  });
+
+  test("every template renders in every layout without clipping", async ({ page }) => {
+    for (const { template } of ARCHETYPE_TEMPLATES) {
       for (const layout of LAYOUT_IDS) {
-        await seedCv(page, { family, layout });
-        await expect(page.locator("html")).toHaveAttribute("data-dossier-family", family);
+        await seedCv(page, { template, layout });
         await expect(page.locator("html")).toHaveAttribute("data-cv-variant", layout);
-        await assertNoMainClipping(page, `${family}/${layout}`);
+        await assertNoMainClipping(page, `${template}/${layout}`);
       }
     }
   });

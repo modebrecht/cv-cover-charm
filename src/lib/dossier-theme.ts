@@ -1,9 +1,5 @@
 import type { TemplateId } from "@/components/cover/types";
-import {
-  familyForTemplate,
-  getDossierFamily,
-  type DossierFamilyId,
-} from "@/lib/dossier-family";
+import { familyForTemplate, getDossierFamily, type DossierFamilyId } from "@/lib/dossier-family";
 
 export type DossierTheme = {
   typography: {
@@ -160,8 +156,7 @@ export function dossierNameScale(name: string): number {
   const length = normalized.length;
   const longestWord = normalized.split(" ").reduce((max, word) => Math.max(max, word.length), 0);
 
-  let scale =
-    length > 38 ? 0.74 : length > 32 ? 0.8 : length > 27 ? 0.86 : length > 22 ? 0.93 : 1;
+  let scale = length > 38 ? 0.74 : length > 32 ? 0.8 : length > 27 ? 0.86 : length > 22 ? 0.93 : 1;
   if (longestWord > 17) scale *= 0.95;
   return clamp(scale, 0.7, 1);
 }
@@ -185,7 +180,10 @@ export function applyDossierTheme(
   root.style.setProperty("--dossier-name-line-height", String(theme.typography.nameLineHeight));
   root.style.setProperty("--dossier-subtitle-weight", String(theme.typography.subtitleWeight));
   root.style.setProperty("--dossier-subtitle-tracking", `${theme.typography.subtitleTrackingEm}em`);
-  root.style.setProperty("--dossier-subtitle-line-height", String(theme.typography.subtitleLineHeight));
+  root.style.setProperty(
+    "--dossier-subtitle-line-height",
+    String(theme.typography.subtitleLineHeight),
+  );
   root.style.setProperty("--dossier-body-weight", String(theme.typography.bodyWeight));
   root.style.setProperty("--dossier-body-line-height", String(theme.typography.bodyLineHeight));
   root.style.setProperty("--dossier-muted-opacity", String(theme.typography.mutedOpacity));
