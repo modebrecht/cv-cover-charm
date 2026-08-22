@@ -7,6 +7,7 @@ import "./cv-card-refresh.css";
 import "./studio-cv-redesign.css";
 import "./signature-templates.css";
 import "./next-signature-templates.css";
+import "./verlauf-pill-fix.css";
 
 /**
  * Fresh dossier templates introduced after the original template union.
