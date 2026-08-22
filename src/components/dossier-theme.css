@@ -189,7 +189,13 @@
 /* Corner radius + photo treatment                                            */
 /* -------------------------------------------------------------------------- */
 
-[data-block-id="lehrbeginn"] span,
+/* Lehrbeginn is a deliberate compact pill, independent of the template's
+ * general corner language. A shared family-radius override had flattened it
+ * into an ordinary rounded rectangle. */
+[data-block-id="lehrbeginn"] span {
+  border-radius: 9999px !important;
+}
+
 [data-cv-accent] {
   border-radius: var(--dossier-corner-radius) !important;
 }
