@@ -8,12 +8,18 @@
  * reading surface begin underneath it. Section language differs per template.
  */
 
-/* The document type must read as a title, not as microscopic metadata. */
-[data-dossier-document="cv"] [data-cv-doc-title] {
-  font-size: 12pt !important;
+/*
+ * Make the document type visibly intentional without overriding the user's
+ * title-size control. `zoom` enlarges the rendered label while the underlying
+ * font-size still follows titleScale normally.
+ */
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-doc-title],
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-doc-title],
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-doc-title] {
+  zoom: 1.22;
   letter-spacing: 0.12em !important;
   opacity: 0.94 !important;
-  margin-bottom: 2.2mm !important;
+  margin-bottom: 2.8mm !important;
 }
 
 /* These CVs no longer use the detached little rule after every heading. */
@@ -25,12 +31,18 @@ html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-accen
 
 /* Keep measurement geometry aligned with the redesigned first page. */
 html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main],
-html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main],
-html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
   top: 15mm !important;
   bottom: 14mm !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 14mm !important;
+  bottom: 15mm !important;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -100,7 +112,6 @@ html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0
 }
 
 html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-name] {
-  font-size: 27pt !important;
   letter-spacing: -0.025em !important;
 }
 
@@ -158,7 +169,6 @@ html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page
 }
 
 html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-name] {
-  font-size: 28pt !important;
   font-weight: 720 !important;
   letter-spacing: -0.03em !important;
 }
@@ -232,7 +242,6 @@ html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page=
 }
 
 html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-name] {
-  font-size: 27pt !important;
   color: #3f1d2b !important;
   letter-spacing: -0.025em !important;
 }
