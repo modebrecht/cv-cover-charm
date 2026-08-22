@@ -1,13 +1,14 @@
 /* Warm 2 / Warm 3 / Glow cover balance
  *
- * The warm variants re-use their existing colour language to give the lower
- * page some weight. Glow also needs a deliberate footer field: its expressive
- * hero is strong, but the original lower half leaves the contact blocks
- * floating on a large empty paper surface.
+ * Warm 2 and Warm 3 deliberately avoid blurred colour splashes. Their large
+ * fields now have crisp edges and repeat on the CV at lower intensity, so both
+ * pages read as one professional dossier system. Glow keeps its own footer
+ * treatment below.
  */
 
-/* Warm 2: let the existing apricot secondary blob escape the upper hero and
- * land as a broad, quiet lower-left echo behind the footer area. */
+/* -------------------------------------------------------------------------- */
+/* WARM 2 — coral hero, apricot panel, quiet footer field                     */
+/* -------------------------------------------------------------------------- */
 html[data-dossier-template="warm2"]
   [data-dossier-document="cover"]
   > div:first-child
@@ -15,24 +16,121 @@ html[data-dossier-template="warm2"]
   overflow: visible !important;
 }
 
+/* Replace the blurred apricot cloud with one intentional upper-right panel. */
 html[data-dossier-template="warm2"]
   [data-dossier-document="cover"]
   > div:first-child
   > div:first-child
-  > div:nth-child(2) {
-  left: -22mm !important;
-  right: auto !important;
-  top: 240mm !important;
+  > div:first-child {
+  left: 112mm !important;
+  right: -2mm !important;
+  top: 0 !important;
   bottom: auto !important;
-  width: 132mm !important;
-  height: 132mm !important;
-  border-radius: 9999px !important;
-  opacity: 0.2 !important;
-  filter: blur(8mm) !important;
+  width: 100mm !important;
+  height: 103mm !important;
+  border-radius: 0 0 0 46mm !important;
+  opacity: 0.42 !important;
+  filter: none !important;
+  background-image: linear-gradient(145deg, rgb(255 255 255 / 0.14), transparent 62%) !important;
 }
 
-/* Warm 3: the amber secondary colour returns at the lower-right, balancing the
- * teal/amber hero without mirroring it or competing with the main text. */
+/* Ground the contact area with a broad, clean field instead of a glow blob. */
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  left: -8mm !important;
+  right: -8mm !important;
+  top: 236mm !important;
+  bottom: auto !important;
+  width: calc(100% + 16mm) !important;
+  height: 66mm !important;
+  border-radius: 26mm 26mm 0 0 !important;
+  opacity: 0.24 !important;
+  filter: none !important;
+  transform: rotate(-0.8deg);
+  transform-origin: center top;
+  background-image: linear-gradient(110deg, rgb(255 255 255 / 0.08), transparent 58%) !important;
+}
+
+/* CV: same geometry, compressed into a restrained header/footer system. */
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 24mm !important;
+  border-radius: 0 0 20mm 0 !important;
+  overflow: visible !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 68mm !important;
+  height: 24mm !important;
+  border-radius: 0 0 0 17mm !important;
+  opacity: 0.38 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  left: -4mm !important;
+  right: -4mm !important;
+  top: 283mm !important;
+  width: calc(100% + 8mm) !important;
+  height: 18mm !important;
+  border-radius: 10mm 10mm 0 0 !important;
+  opacity: 0.16 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 19mm !important;
+  bottom: 14mm !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 31mm !important;
+  bottom: 25mm !important;
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-section-title] {
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  letter-spacing: 0.07em !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* WARM 3 — teal architectural field with an amber counter-shape              */
+/* -------------------------------------------------------------------------- */
 html[data-dossier-template="warm3"]
   [data-dossier-document="cover"]
   > div:first-child
@@ -40,26 +138,120 @@ html[data-dossier-template="warm3"]
   overflow: visible !important;
 }
 
+/* Amber becomes a clean counter-field instead of a blurred orb. */
 html[data-dossier-template="warm3"]
   [data-dossier-document="cover"]
   > div:first-child
   > div:first-child
-  > div:nth-child(2) {
+  > div:first-child {
   left: 126mm !important;
-  right: auto !important;
-  top: 226mm !important;
+  right: -8mm !important;
+  top: -12mm !important;
   bottom: auto !important;
-  width: 112mm !important;
-  height: 112mm !important;
-  border-radius: 9999px !important;
-  opacity: 0.18 !important;
-  filter: blur(7mm) !important;
+  width: 92mm !important;
+  height: 94mm !important;
+  border-radius: 0 0 0 42mm !important;
+  opacity: 0.88 !important;
+  filter: none !important;
+  background-image: linear-gradient(138deg, rgb(255 255 255 / 0.16), transparent 66%) !important;
 }
 
-/* Glow: turn the former almost-invisible lower glow into one large intentional
- * footer field. It inherits the hero's primary colour so palette edits keep
- * working, while the broad elliptical top edge echoes the cover's upper curve.
- * The field overscans the A4 bounds so PDF export cannot expose white seams. */
+/* Lower echo is a broad, subtle amber landing zone, not a glow. */
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  left: 72mm !important;
+  right: -8mm !important;
+  top: 242mm !important;
+  bottom: auto !important;
+  width: 146mm !important;
+  height: 58mm !important;
+  border-radius: 30mm 0 0 0 !important;
+  opacity: 0.22 !important;
+  filter: none !important;
+  transform: none !important;
+  background-image: linear-gradient(120deg, rgb(255 255 255 / 0.08), transparent 64%) !important;
+}
+
+/* CV: restrained teal cap with the same amber counter-shape. */
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 28mm !important;
+  border-radius: 0 0 24mm 0 !important;
+  overflow: visible !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 64mm !important;
+  height: 28mm !important;
+  border-radius: 0 0 0 20mm !important;
+  opacity: 0.82 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  left: auto !important;
+  right: 0 !important;
+  top: 282mm !important;
+  width: 88mm !important;
+  height: 15mm !important;
+  border-radius: 14mm 0 0 0 !important;
+  opacity: 0.18 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 22mm !important;
+  bottom: 12mm !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 34mm !important;
+  bottom: 24mm !important;
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-section-title] {
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  letter-spacing: 0.045em !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* GLOW — existing deliberate footer field                                    */
+/* -------------------------------------------------------------------------- */
 html[data-dossier-template="glow"]
   body
   [data-dossier-document="cover"]
@@ -87,8 +279,6 @@ html[data-dossier-template="glow"]
   filter: none !important;
 }
 
-/* Contact information now belongs to the footer instead of looking abandoned
- * at the bottom of the page. Keep the hierarchy subtle but print-safe. */
 html[data-dossier-template="glow"]
   body
   [data-dossier-document="cover"]
