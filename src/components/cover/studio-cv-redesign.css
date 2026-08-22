@@ -12,6 +12,29 @@
  */
 
 /* -------------------------------------------------------------------------- */
+/* Shared custom-element stacking                                              */
+/* -------------------------------------------------------------------------- */
+/*
+ * `CvCanvas` used to put the entire custom-element layer at z-index 5. That
+ * made every rectangle/image sit above the CV, regardless of its own z-index.
+ * Remove that parent stacking context so BlockLayer can place a custom element
+ * either behind the document text or deliberately in front of it.
+ *
+ * CV text itself stays in the middle layer. It has no interactive controls, so
+ * pointer-events are disabled there; this keeps a background shape selectable
+ * even when it runs underneath text.
+ */
+[data-dossier-document="cv"] [data-cv-elements] {
+  z-index: auto !important;
+}
+
+[data-dossier-document="cv"]
+  :is([data-cv-main], [data-cv-sidebar], [data-cv-band-header], [data-cv-footer]) {
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------- */
 /* STUDIO 2 — full-height navy rail + yellow signal header                    */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="studio2"]
