@@ -384,8 +384,6 @@ export function FormCvPerson({
       setPhotoMessage({ error: true, text: "Im Titelblatt ist noch kein Foto gespeichert." });
       return;
     }
-    // Persist the independent CV treatment first. The following React state
-    // update can then never interrupt or roll back the one-way style copy.
     setCvPhotoStyle(draft.photoStyle);
     onChange({ foto: draft.foto });
     setPhotoMessage({ error: false, text: "Foto und Ausschnitt vom Titelblatt übernommen" });
@@ -394,8 +392,6 @@ export function FormCvPerson({
   return (
     <div className="flex flex-col gap-3">
       <BlockPlacementControl block="kontakt" label="Kontaktangaben" />
-
-      {/* Wie bei jedem anderen Block: die Überschrift lässt sich frei benennen. */}
       <label className="flex flex-col gap-1">
         <span className="text-xs text-muted-foreground">Überschrift über den Kontaktangaben</span>
         <input
@@ -405,7 +401,6 @@ export function FormCvPerson({
           onChange={(e) => onContactLabel(e.target.value)}
         />
       </label>
-
       <div className="rounded-md border bg-muted/20 p-3">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <label className="cursor-pointer rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-accent">
@@ -440,7 +435,6 @@ export function FormCvPerson({
             </button>
           )}
         </div>
-
         <div className="flex items-start gap-3">
           <div style={photoPreviewFrame(photoStyle)} className="border bg-background text-primary">
             {person.foto ? (
@@ -455,7 +449,6 @@ export function FormCvPerson({
               </div>
             )}
           </div>
-
           <div className="min-w-0 flex-1">
             <PhotoStyleControls
               value={photoStyle}
@@ -479,7 +472,6 @@ export function FormCvPerson({
           </div>
         </div>
       </div>
-
       <div className="grid grid-cols-2 gap-2">
         <Field label="Vorname">
           <input
@@ -578,14 +570,10 @@ export function FormCvEntries({
     if (sorted.some((entry, index) => entry.id !== entries[index]?.id)) onChange(sorted);
   };
 
-  // Existing CVs may already contain entries in arbitrary order. Sort once when
-  // the Praktika section is first mounted; later edits sort on blur so a field
-  // does not jump away while the user is still typing its date.
   useEffect(() => {
     if (!isExperience || !autoSort || sortedOnce.current) return;
     sortedOnce.current = true;
     sortNow();
-    // We intentionally only perform this migration-style sort once per mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isExperience, autoSort]);
 
@@ -609,45 +597,61 @@ export function FormCvEntries({
           />
           <span>
             Automatisch nach Datum sortieren
-            <span className="ml-1 text-muted-foreground">(neueste zuerst)</span>
+            <span className="ml-1 text-muted-foreground">
+              {autoSort ? "(neueste zuerst)" : "(manuell per Drag & Drop)"}
+            </span>
           </span>
         </label>
       )}
-      {entries.map((e) => (
-        <Item key={e.id} onRemove={() => onChange(entries.filter((x) => x.id !== e.id))}>
-          <Field label="Zeitraum">
-            <input
-              className={inputCls}
-              placeholder="2023 – heute"
-              value={e.zeit}
-              onChange={(ev) => patch(e.id, { zeit: ev.target.value })}
-              onBlur={() => {
-                if (isExperience && autoSort) sortNow();
-              }}
-            />
-          </Field>
-          <Field label={titelLabel}>
-            <input
-              className={inputCls}
-              value={e.titel}
-              onChange={(ev) => patch(e.id, { titel: ev.target.value })}
-            />
-          </Field>
-          <Field label={ortLabel}>
-            <input
-              className={inputCls}
-              value={e.ort}
-              onChange={(ev) => patch(e.id, { ort: ev.target.value })}
-            />
-          </Field>
-          <Field label="Ergänzung (optional)">
-            <input
-              className={inputCls}
-              value={e.beschreibung}
-              onChange={(ev) => patch(e.id, { beschreibung: ev.target.value })}
-            />
-          </Field>
-        </Item>
+      {entries.map((e, i) => (
+        <div
+          key={e.id}
+          className={isExperience && !autoSort ? "flex items-start gap-1" : undefined}
+          onDragOver={isExperience && !autoSort ? (event) => event.preventDefault() : undefined}
+          onDrop={
+            isExperience && !autoSort
+              ? (event) => dropReorder(event, "erfahrung", i, entries, onChange)
+              : undefined
+          }
+        >
+          {isExperience && !autoSort && <DragHandle scope="erfahrung" index={i} />}
+          <div className={isExperience && !autoSort ? "min-w-0 flex-1" : undefined}>
+            <Item onRemove={() => onChange(entries.filter((x) => x.id !== e.id))}>
+              <Field label="Zeitraum">
+                <input
+                  className={inputCls}
+                  placeholder="2023 – heute"
+                  value={e.zeit}
+                  onChange={(ev) => patch(e.id, { zeit: ev.target.value })}
+                  onBlur={() => {
+                    if (isExperience && autoSort) sortNow();
+                  }}
+                />
+              </Field>
+              <Field label={titelLabel}>
+                <input
+                  className={inputCls}
+                  value={e.titel}
+                  onChange={(ev) => patch(e.id, { titel: ev.target.value })}
+                />
+              </Field>
+              <Field label={ortLabel}>
+                <input
+                  className={inputCls}
+                  value={e.ort}
+                  onChange={(ev) => patch(e.id, { ort: ev.target.value })}
+                />
+              </Field>
+              <Field label="Ergänzung (optional)">
+                <input
+                  className={inputCls}
+                  value={e.beschreibung}
+                  onChange={(ev) => patch(e.id, { beschreibung: ev.target.value })}
+                />
+              </Field>
+            </Item>
+          </div>
+        </div>
       ))}
       <button type="button" className={addBtn} onClick={() => onChange([...entries, emptyEntry()])}>
         + Eintrag
@@ -779,7 +783,7 @@ export function FormCvReferenzen({
         >
           <DragHandle scope="referenzen" index={i} />
           <div className="min-w-0 flex-1">
-            <Item key={r.id} onRemove={() => onChange(list.filter((x) => x.id !== r.id))}>
+            <Item onRemove={() => onChange(list.filter((x) => x.id !== r.id))}>
               <Field label="Name">
                 <input
                   className={inputCls}
