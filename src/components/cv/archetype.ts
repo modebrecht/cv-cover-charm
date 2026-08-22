@@ -170,23 +170,64 @@ export const SIDEBAR_MM = 55;
  * der Textbereich frei und genau so breit zeichnet der Renderer die Spalte.
  */
 export function sidebarWidthMm(frame: CvFrame, layout: CvRenderLayout): number {
-  if (frame.id === "column") return layout === "modern" ? frame.columnMm : 0;
+  if (frame.id === "column") return frame.columnMm;
   return layout === "modern" ? SIDEBAR_MM : 0;
 }
 
+/** Luft zwischen dem Rand der Schreibfläche und dem Text darauf. */
+const SURFACE_PAD = 5;
+
 /**
- * Ist die Spalte einer "column"-Vorlage nur noch Zierde?
+ * Die Schreibfläche: das helle Feld, auf dem der Text steht.
  *
- * Wer bei Studio den einspaltigen Aufbau wählt, bekommt keine leere Farbfläche,
- * sondern einen schmalen Streifen: die Vorlage bleibt erkennbar, der Text
- * bekommt die ganze Breite.
+ * Der Hintergrund des Titelblatts liegt auf dem Lebenslauf in voller Stärke –
+ * sonst sähe er nicht danach aus. Lesbar wird der Text durch dieses Feld
+ * darüber, nicht dadurch, dass die Vorlage verblasst. Es beginnt rechts einer
+ * farbigen Spalte und unter einem Kopfband, damit beide sichtbar bleiben.
  */
-export function columnIsStripe(frame: CvFrame, layout: CvRenderLayout): boolean {
-  return frame.id === "column" && layout === "classic";
+export function cvSurface(frame: CvFrame, pageIndex: number, layout: CvRenderLayout): CvContentBox {
+  // Karte: genau die Karte, die auch das Titelblatt zeigt.
+  if (frame.id === "card") {
+    const i = frame.cardInsetMm;
+    return { left: i, right: i, top: i, bottom: i };
+  }
+
+  const box = cvContentBox(frame, pageIndex, layout);
+
+  // Ruhige Vorlagen sind schon helles Papier mit feinen Linien. Die Fläche
+  // bleibt darum eingerückt, damit Zierrahmen sichtbar bleiben, deckt aber
+  // grosse Formen ab, über denen Text nicht stünde.
+  if (frame.id === "quiet") {
+    return {
+      left: Math.max(0, box.left - SURFACE_PAD),
+      right: Math.max(0, box.right - SURFACE_PAD),
+      top: Math.max(0, box.top - SURFACE_PAD),
+      bottom: Math.max(0, box.bottom - SURFACE_PAD),
+    };
+  }
+
+  // Spalte und Band: die Fläche schliesst bündig an sie an und reicht bis zum
+  // Blattrand. Sichtbar bleibt vom Titelblatt genau das, was es ausmacht – die
+  // Spalte, das Kopfband, der Fussstreifen – ohne Spalt und ohne Schleier
+  // quer über den Text.
+  const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
+
+  return {
+    left: sidebarWidthMm(frame, layout),
+    right: 0,
+    top: headTopMm(frame, pageIndex) + head,
+    bottom: frame.footMm,
+  };
 }
 
-/** Breite des Zierstreifens, wenn die Spalte keinen Inhalt mehr trägt. */
-export const STRIPE_MM = 16;
+/**
+ * Wo das Kopfband beginnt. Meist oben; Studio setzt seines auf dem Titelblatt
+ * erst bei 24 mm an, und dort gehört auch im Lebenslauf der Name hin.
+ */
+export function headTopMm(frame: CvFrame, pageIndex: number): number {
+  if (pageIndex > 0) return 0;
+  return frame.id === "column" && frame.headFirstMm > 0 ? 24 : 0;
+}
 
 /**
  * Textbereich einer Seite.
@@ -206,7 +247,7 @@ export function cvContentBox(
   layout: CvRenderLayout,
 ): CvContentBox {
   const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
-  const top = head > 0 ? head + GAP : MARGIN_TOP;
+  const top = head > 0 ? headTopMm(frame, pageIndex) + head + GAP : MARGIN_TOP;
   // Ab Seite 2 hält die Fusszeile ihren Platz frei, sonst liefe Text hinein.
   const footer = pageIndex > 0 && pageMarker(frame) === "footer" ? FOOTER_MM : 0;
   const bottom = Math.max(MARGIN_BOTTOM, frame.footMm + GAP) + footer;
@@ -228,20 +269,17 @@ export function cvContentBox(
     return { left: side + GAP, right: MARGIN_X, top, bottom };
   }
 
-  // Einspaltig auf einer Spalten-Vorlage: der Streifen bleibt als Zierde stehen.
-  const stripe = columnIsStripe(frame, layout) ? STRIPE_MM + GAP : 0;
-
   if (frame.id === "quiet" && frame.borderInsetMm > 0) {
     const inset = frame.borderInsetMm + 7;
     return {
-      left: Math.max(inset, stripe),
+      left: inset,
       right: inset,
       top: Math.max(top, inset),
       bottom: Math.max(bottom, inset),
     };
   }
 
-  return { left: Math.max(MARGIN_X, stripe), right: MARGIN_X, top, bottom };
+  return { left: MARGIN_X, right: MARGIN_X, top, bottom };
 }
 
 /**
@@ -272,8 +310,8 @@ export function pageMarker(frame: CvFrame): "band" | "sidebar" | "footer" {
  * des Zierstreifens, wenn die Spalte im Einspalter zu einem solchen wird.
  */
 export function bandLeftMm(frame: CvFrame, layout: CvRenderLayout): number {
-  if (frame.id !== "column") return 0;
-  return columnIsStripe(frame, layout) ? STRIPE_MM : frame.columnMm;
+  void layout;
+  return frame.id === "column" ? frame.columnMm : 0;
 }
 
 /*
@@ -282,7 +320,7 @@ export function bandLeftMm(frame: CvFrame, layout: CvRenderLayout): number {
  * Vorher setzten Spalten-Vorlagen den Zweispalter und Karten-Vorlagen den
  * Einspalter durch. Die Auswahl im Aufbau-Picker blieb damit bei zwölf von
  * neunzehn Vorlagen wirkungslos – man klickte und nichts geschah. Jede der
- * sechs Aufbauten funktioniert jetzt mit jeder Vorlage; wo eine Bauform ihre
- * Spalte im Einspalter nicht füllen kann, wird sie zum Zierstreifen
- * (`columnIsStripe`).
+ * sechs Aufbauten funktioniert jetzt mit jeder Vorlage. Die farbige Spalte
+ * einer Vorlage bleibt dabei so breit wie auf dem Titelblatt – sie kommt aus
+ * dem Seitengrund und ist keine Nachbildung, die man verschmälern könnte.
  */
