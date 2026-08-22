@@ -1,0 +1,58 @@
+/* Warm 2 / Warm 3 cover balance
+ *
+ * Both covers concentrate their colour language in the upper hero. Re-use the
+ * existing secondary-colour shape as a soft lower-page echo instead of adding
+ * a new hard-coded colour. The outer CoverBackground still clips to A4, so the
+ * visible shape can safely extend beyond the hero plane without page-edge
+ * artefacts.
+ */
+
+/* Warm 2: let the existing apricot secondary blob escape the upper hero and
+ * land as a broad, quiet lower-left echo behind the footer area. */
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  overflow: visible !important;
+}
+
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  left: -22mm !important;
+  right: auto !important;
+  top: 240mm !important;
+  bottom: auto !important;
+  width: 132mm !important;
+  height: 132mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.2 !important;
+  filter: blur(8mm) !important;
+}
+
+/* Warm 3: the amber secondary colour returns at the lower-right, balancing the
+ * teal/amber hero without mirroring it or competing with the main text. */
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  overflow: visible !important;
+}
+
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  left: 126mm !important;
+  right: auto !important;
+  top: 226mm !important;
+  bottom: auto !important;
+  width: 112mm !important;
+  height: 112mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.18 !important;
+  filter: blur(7mm) !important;
+}
