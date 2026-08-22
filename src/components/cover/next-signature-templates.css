@@ -1,0 +1,445 @@
+/* -------------------------------------------------------------------------- */
+/* Next signature dossier systems: Orbit · Ribbon · Cove                      */
+/* -------------------------------------------------------------------------- */
+/*
+ * Three new title-page/CV pairs. The cover is deliberately expressive; the CV
+ * keeps the same large-scale geometry but compresses it into a calmer reading
+ * frame. All three reuse CoverBackground's live palette-aware primary plane
+ * and secondary shapes, so user colour edits stay coherent on both pages.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* ORBIT — offset circular field, crisp modern typography                     */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="orbit"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 94mm !important;
+  right: auto !important;
+  top: -42mm !important;
+  width: 158mm !important;
+  height: 158mm !important;
+  border-radius: 9999px !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="orbit"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: -22mm !important;
+  right: auto !important;
+  top: 104mm !important;
+  bottom: auto !important;
+  width: 96mm !important;
+  height: 96mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.92 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="orbit"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: 82mm !important;
+  right: auto !important;
+  top: 178mm !important;
+  bottom: auto !important;
+  width: 72mm !important;
+  height: 72mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.14 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="orbit"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
+  width: 68mm !important;
+  transform: translate(102mm, 0);
+}
+
+html[data-dossier-template="orbit"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  width: 68mm !important;
+  transform: translate(-2mm, 0);
+}
+
+html[data-dossier-template="orbit"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(57mm, -54mm) scale(0.82);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="orbit"] [data-dossier-document="cover"] [data-block-id="name"] {
+  width: 150mm !important;
+  transform: translate(0, -25mm);
+}
+
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  width: 150mm !important;
+  transform: translate(0, -22mm);
+}
+
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+/* CV: the orbit becomes a restrained curved cap instead of a giant hero. */
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 142mm !important;
+  top: -54mm !important;
+  width: 112mm !important;
+  height: 112mm !important;
+}
+
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: -28mm !important;
+  top: 76mm !important;
+  width: 62mm !important;
+  height: 62mm !important;
+  opacity: 0.82 !important;
+}
+
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  left: 44mm !important;
+  top: 270mm !important;
+  width: 52mm !important;
+  height: 52mm !important;
+  opacity: 0.06 !important;
+}
+
+html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 22mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 31mm !important;
+  bottom: 16mm !important;
+}
+
+html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  width: 10mm !important;
+  opacity: 0.8 !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RIBBON — deep vertical rail with a broad rounded signal ribbon             */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="ribbon"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 56mm !important;
+  height: 100% !important;
+  border-radius: 0 0 28mm 0 !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="ribbon"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 44mm !important;
+  right: auto !important;
+  top: 28mm !important;
+  bottom: auto !important;
+  width: 166mm !important;
+  height: 58mm !important;
+  border-radius: 0 29mm 29mm 0 !important;
+  opacity: 0.96 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="ribbon"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: -18mm !important;
+  right: auto !important;
+  top: 205mm !important;
+  bottom: auto !important;
+  width: 92mm !important;
+  height: 92mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.2 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(-57mm, -60mm) scale(0.82);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  width: 68mm !important;
+  transform: translate(-45mm, 26mm);
+}
+
+html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="name"] {
+  width: 118mm !important;
+  transform: translate(49mm, -99mm);
+}
+
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  width: 116mm !important;
+  transform: translate(49mm, -95mm);
+}
+
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"]) {
+  width: 54mm !important;
+  transform: translate(48mm, 0);
+}
+
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="anTitel"], [data-block-id="empfaenger"]) {
+  width: 58mm !important;
+  transform: translate(22mm, 0);
+}
+
+/* CV: same rail/ribbon relationship, reduced to a practical reading frame. */
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  width: 36mm !important;
+  border-radius: 0 0 18mm 0 !important;
+}
+
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: 28mm !important;
+  top: 0 !important;
+  width: 182mm !important;
+  height: 22mm !important;
+  border-radius: 0 0 0 11mm !important;
+  opacity: 0.9 !important;
+}
+
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  left: -12mm !important;
+  top: 258mm !important;
+  width: 58mm !important;
+  height: 58mm !important;
+  opacity: 0.12 !important;
+}
+
+html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 36mm !important;
+  right: 0 !important;
+  top: 22mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 47mm !important;
+  right: 20mm !important;
+  top: 32mm !important;
+  bottom: 16mm !important;
+}
+
+html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-sidebar] {
+  left: 0 !important;
+  top: 22mm !important;
+  bottom: 0 !important;
+  width: 36mm !important;
+  padding-left: 7mm !important;
+  padding-right: 6mm !important;
+  background: transparent !important;
+}
+
+html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
+  display: none !important;
+}
+
+html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* COVE — broad rounded header with a portrait bay                            */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="cove"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 82mm !important;
+  border-radius: 0 0 58mm 0 !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="cove"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 132mm !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 78mm !important;
+  height: 126mm !important;
+  border-radius: 0 0 0 63mm !important;
+  opacity: 0.95 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="cove"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: -10mm !important;
+  right: auto !important;
+  top: 214mm !important;
+  bottom: auto !important;
+  width: 118mm !important;
+  height: 118mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.14 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="cove"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(57mm, -59mm) scale(0.82);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="cove"] [data-dossier-document="cover"] [data-block-id="name"] {
+  width: 148mm !important;
+  transform: translate(0, -38mm);
+}
+
+html[data-dossier-template="cove"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  width: 148mm !important;
+  transform: translate(0, -35mm);
+}
+
+html[data-dossier-template="cove"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+/* CV: the cove becomes a short rounded masthead with the portrait bay hinted
+ * at on the right. The content starts below it on clean paper. */
+html[data-dossier-template="cove"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  height: 28mm !important;
+  border-radius: 0 0 22mm 0 !important;
+}
+
+html[data-dossier-template="cove"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: 166mm !important;
+  width: 44mm !important;
+  height: 46mm !important;
+  border-radius: 0 0 0 23mm !important;
+  opacity: 0.9 !important;
+}
+
+html[data-dossier-template="cove"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  left: -18mm !important;
+  top: 264mm !important;
+  width: 70mm !important;
+  height: 70mm !important;
+  opacity: 0.07 !important;
+}
+
+html[data-dossier-template="cove"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 24mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="cove"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="cove"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 34mm !important;
+  bottom: 16mm !important;
+}
+
+html[data-dossier-template="cove"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  width: 16mm !important;
+  opacity: 0.68 !important;
+}
