@@ -109,25 +109,35 @@ export type CvPalette = {
 
 /**
  * Aus den Slots der Vorlage eine Palette bauen, die auf hellem Papier
- * funktioniert. Accent-Text wird auf mindestens 4.5:1 gebracht, weil er im CV
- * nicht nur dekorativ ist, sondern auch für kleine Abschnittsüberschriften
- * verwendet wird.
+ * funktioniert.
+ *
+ * Für automatisch erzeugte CV-Farben nehmen wir bewusst mehr Reserve als das
+ * nackte WCAG-Minimum: kleine Zeitangaben und Orte werden sonst auf getöntem
+ * Papier sowie im Ausdruck sichtbar zu blass. Wer im CV-Farbwähler eigene
+ * Werte setzt, bekommt diese dagegen unverändert – eine bewusste Wahl soll
+ * nicht heimlich umgefärbt werden.
  */
 export function cvPalette(colors: Record<string, string>): CvPalette {
+  const customInk = parse(colors.cvInk ?? "");
+  const customMuted = parse(colors.cvMuted ?? "");
+  const customAccent = parse(colors.cvHeading ?? "");
+
   const accentRaw = parse(pick(colors, ["accent", "primary", "secondary", "ink"]) ?? "#1f2937");
   const inkRaw = parse(pick(colors, ["ink", "primary", "accent"]) ?? "#111111");
 
   // Eine für dunklen Grund gedachte helle Textfarbe ist hier unbrauchbar.
-  const ink = inkRaw && contrastOnWhite(inkRaw) >= 7 ? inkRaw : { r: 26, g: 26, b: 30 };
-  const accent = accentRaw ? darken(accentRaw, 4.5) : { r: 31, g: 41, b: 55 };
+  const automaticInk = inkRaw && contrastOnWhite(inkRaw) >= 8 ? inkRaw : { r: 26, g: 26, b: 30 };
+  const ink = customInk ?? automaticInk;
+  const accent =
+    customAccent ?? (accentRaw ? darken(accentRaw, 5.5) : { r: 31, g: 41, b: 55 });
 
-  // Sekundärtext soll zurücktreten, aber nicht "weggewaschen" wirken.
+  // Sekundärtext soll zurücktreten, aber noch klar lesbar und druckfest sein.
   const mutedBase = {
-    r: ink.r * 0.58 + 255 * 0.42,
-    g: ink.g * 0.58 + 255 * 0.42,
-    b: ink.b * 0.58 + 255 * 0.42,
+    r: ink.r * 0.68 + 255 * 0.32,
+    g: ink.g * 0.68 + 255 * 0.32,
+    b: ink.b * 0.68 + 255 * 0.32,
   };
-  const muted = darken(mutedBase, 4.5);
+  const muted = customMuted ?? darken(mutedBase, 5.5);
 
   return {
     ink: toHex(ink),
