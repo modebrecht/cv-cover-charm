@@ -14,6 +14,15 @@ import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
 import { ElementBar } from "@/components/cover/ElementBar";
+import { AddElementMenu } from "@/components/cover/AddElementMenu";
+import {
+  newDrawnElement,
+  newImageElement,
+  newRuleElement,
+  newShapeElement,
+  newTextElement,
+  type NewElement,
+} from "@/components/cover/new-element";
 import { Section } from "@/components/cover/Section";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
@@ -136,13 +145,6 @@ type SectionKey =
   | "ortDatum"
   | "meta";
 
-const SHAPE_LABEL: Record<ShapeKind, string> = {
-  circle: "Kreis",
-  rect: "Rechteck",
-  line: "Linie",
-  path: "Freihand",
-};
-
 const filled = (values: (string | null)[]) => values.filter((v) => v && v.trim()).length;
 
 /**
@@ -159,15 +161,6 @@ const TITLE_FIELDS: Record<string, "labelKontakt" | "labelEmpfaenger"> = {
 function templateTitle(block: Block): string {
   const first = block.lines[0];
   return typeof first === "string" ? first : "";
-}
-
-/** "Eigenes Feld 1", "Eigenes Feld 2", … – fortlaufend je Art. */
-function nextLabel(existing: CustomField[], base: string): string {
-  const used = existing
-    .map((c) => new RegExp(`^${base} (\\d+)$`).exec(c.label)?.[1])
-    .filter(Boolean)
-    .map(Number);
-  return `${base} ${(used.length ? Math.max(...used) : 0) + 1}`;
 }
 
 /** Importierte Elemente auf die erwartete Form bringen. */
@@ -213,7 +206,6 @@ function Titelblatt() {
   const [downloading, setDownloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(true);
-  const [addOpen, setAddOpen] = useState(false);
   const [drawing, setDrawing] = useState(false);
   /** Zweiter Klick bestätigt das Leeren – das Formular ist sonst weg. */
   const [confirmReset, setConfirmReset] = useState(false);
@@ -249,7 +241,6 @@ function Titelblatt() {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const exportRef = useRef<HTMLDivElement>(null);
-  const addRef = useRef<HTMLDivElement>(null);
   const restored = useRef(false);
 
   const activeTemplate = useMemo(() => TEMPLATES.find((t) => t.id === template)!, [template]);
@@ -306,51 +297,35 @@ function Titelblatt() {
    * Trennlinie über die ganze Textbreite. Technisch dieselbe Form wie "Linie",
    * nur breit voreingestellt – als Trenner über Fussangaben der Normalfall.
    */
+  /** Ein fertig gebautes Element einhängen: Inhalt speichern, Stil anlegen. */
+  const place = ({ field, style }: NewElement) => {
+    setCustoms((c) => [...c, field]);
+    if (style) patchStyle(field.id, style);
+    setSelected(field.id);
+    return field.id;
+  };
+
   const addRule = () => {
-    setAddOpen(false);
-    const id = `custom-${Date.now()}`;
-    setCustoms((c) => [
-      ...c,
-      { id, label: nextLabel(c, "Trennlinie"), text: "", kind: "shape", shape: "line" },
-    ]);
-    patchStyle(id, { x: 20, w: 170, strokeWidth: 0.3, opacity: 0.35 });
-    setSelected(id);
+    place(newRuleElement(customs));
   };
 
   const addCustom = (shape?: ShapeKind, pill = false) => {
-    setAddOpen(false);
     if (shape === "path") {
       setDrawing(true);
       setSelected(null);
       setStatus({ kind: "ok", text: "Form aufs Blatt zeichnen – Esc bricht ab." });
       return;
     }
-    const id = `custom-${Date.now()}`;
-    const base = shape ? SHAPE_LABEL[shape] : pill ? "Pille" : "Eigenes Feld";
-    setCustoms((c) => [
-      ...c,
+    place(
       shape
-        ? { id, label: nextLabel(c, base), text: "", kind: "shape", shape }
-        : {
-            id,
-            label: nextLabel(c, base),
-            text: pill ? "Neue Pille" : "Neuer Text",
-            kind: "text",
-          },
-    ]);
-    if (pill) {
-      // Textfeld mit Hintergrund: schrumpft auf die Textbreite, runde Ecken
-      patchStyle(id, {
-        bg: activeTemplate.slots[activeTemplate.slots.length - 1]?.key ?? "accent",
-        color: "bg",
-        weight: 700,
-        align: "center",
-        padX: 5,
-        padY: 1.8,
-        bgRadius: 999,
-      });
-    }
-    setSelected(id);
+        ? newShapeElement(customs, shape)
+        : newTextElement(
+            customs,
+            pill
+              ? (activeTemplate.slots[activeTemplate.slots.length - 1]?.key ?? "accent")
+              : undefined,
+          ),
+    );
   };
 
   /**
@@ -358,13 +333,7 @@ function Titelblatt() {
    * Vorlage; hierüber lassen sich beliebig viele weitere Bilder platzieren.
    */
   const addImage = () => {
-    setAddOpen(false);
-    const id = `custom-${Date.now()}`;
-    setCustoms((c) => [
-      ...c,
-      { id, label: nextLabel(c, "Bild"), text: "", kind: "image", src: null },
-    ]);
-    setSelected(id);
+    place(newImageElement(customs));
     setStatus({ kind: "ok", text: "Bild-Element eingefügt – unten „Bild wählen“." });
   };
 
@@ -382,36 +351,9 @@ function Titelblatt() {
     }
   };
 
-  /** Freihand-Zug in eine Form umrechnen (Pfad normiert auf 0–100). */
   const addDrawnShape = (points: Point[]) => {
     setDrawing(false);
-    const xs = points.map((p) => p.x);
-    const ys = points.map((p) => p.y);
-    const minX = Math.min(...xs);
-    const minY = Math.min(...ys);
-    const w = Math.max(Math.max(...xs) - minX, SHAPE.MIN_DRAW);
-    const h = Math.max(Math.max(...ys) - minY, SHAPE.MIN_DRAW);
-    const d = points
-      .map((p, i) => {
-        const nx = ((p.x - minX) / w) * 100;
-        const ny = ((p.y - minY) / h) * 100;
-        return `${i === 0 ? "M" : "L"}${nx.toFixed(2)} ${ny.toFixed(2)}`;
-      })
-      .join(" ");
-
-    const id = `custom-${Date.now()}`;
-    setCustoms((c) => [
-      ...c,
-      { id, label: nextLabel(c, "Freihand"), text: "", kind: "shape", shape: "path", path: d },
-    ]);
-    setLayoutByTemplate((l) => ({
-      ...l,
-      [template]: {
-        ...l[template],
-        [id]: { x: Math.round(minX * 10) / 10, y: Math.round(minY * 10) / 10, w, ratio: h / w },
-      },
-    }));
-    setSelected(id);
+    place(newDrawnElement(customs, points, SHAPE.MIN_DRAW));
   };
   const patchCustom = (id: string, p: Partial<CustomField>) =>
     setCustoms((c) => c.map((f) => (f.id === id ? { ...f, ...p } : f)));
@@ -476,7 +418,6 @@ function Titelblatt() {
         setConfirmDemo(false);
         setHistoryOpen(false);
       }
-      if (addRef.current && !addRef.current.contains(e.target as Node)) setAddOpen(false);
     };
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);
@@ -500,7 +441,6 @@ function Titelblatt() {
       if (e.key === "Escape") {
         setSelected(null);
         setMenuOpen(false);
-        setAddOpen(false);
         setDrawing(false);
         setConfirmReset(false);
         setConfirmWipe(false);
@@ -1364,93 +1304,13 @@ function Titelblatt() {
                       ))}
                     </div>
                   )}
-                  <div className="relative ml-auto" ref={addRef}>
-                    <button
-                      type="button"
-                      onClick={() => setAddOpen((v) => !v)}
-                      aria-expanded={addOpen}
-                      className="inline-flex items-center gap-2 rounded-md border border-input px-3 py-1.5 text-sm font-medium hover:bg-accent"
-                    >
-                      + Element
-                      <svg width="10" height="10" viewBox="0 0 12 12" aria-hidden="true">
-                        <path
-                          d="M3 4.5l3 3 3-3"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </button>
-                    {addOpen && (
-                      <div className="absolute bottom-full right-0 mb-2 w-52 overflow-hidden rounded-md border bg-popover shadow-lg">
-                        <button
-                          type="button"
-                          onClick={() => addCustom()}
-                          className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm hover:bg-accent"
-                        >
-                          <span className="w-4 text-center">T</span> Textfeld
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => addCustom(undefined, true)}
-                          className="flex w-full items-center gap-3 border-t px-3 py-2 text-left text-sm hover:bg-accent"
-                        >
-                          <span className="w-4 text-center" aria-hidden>
-                            ⬭
-                          </span>
-                          Pille (Text)
-                        </button>
-                        <button
-                          type="button"
-                          onClick={addImage}
-                          className="flex w-full items-center gap-3 border-t px-3 py-2 text-left text-sm hover:bg-accent"
-                        >
-                          <span className="w-4 text-center" aria-hidden>
-                            ▣
-                          </span>
-                          Bild
-                          <span className="ml-auto text-xs text-muted-foreground">mehrfach</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={addRule}
-                          className="flex w-full items-center gap-3 border-t px-3 py-2 text-left text-sm hover:bg-accent"
-                        >
-                          <span className="w-4 text-center" aria-hidden>
-                            ═
-                          </span>
-                          Trennlinie
-                          <span className="ml-auto text-xs text-muted-foreground">HR</span>
-                        </button>
-                        {(["circle", "rect", "line", "path"] as const).map((sh) => (
-                          <button
-                            key={sh}
-                            type="button"
-                            onClick={() => addCustom(sh)}
-                            className="flex w-full items-center gap-3 border-t px-3 py-2 text-left text-sm hover:bg-accent"
-                          >
-                            <span className="w-4 text-center" aria-hidden>
-                              {sh === "circle"
-                                ? "○"
-                                : sh === "rect"
-                                  ? "▭"
-                                  : sh === "line"
-                                    ? "—"
-                                    : "✎"}
-                            </span>
-                            {SHAPE_LABEL[sh]}
-                            {sh === "path" && (
-                              <span className="ml-auto text-xs text-muted-foreground">
-                                zeichnen
-                              </span>
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  <AddElementMenu
+                    onText={() => addCustom()}
+                    onPill={() => addCustom(undefined, true)}
+                    onImage={addImage}
+                    onRule={addRule}
+                    onShape={(sh) => addCustom(sh)}
+                  />
                 </div>
               )}
               {status && (

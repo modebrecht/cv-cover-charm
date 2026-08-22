@@ -1,9 +1,9 @@
 import { useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { PAGE } from "@/default-config";
 import { CoverBackground } from "@/components/cover/CoverBackground";
-import { ShapeElement } from "@/components/cover/ShapeElement";
-import { customDefaultStyle } from "@/components/cover/layouts";
-import { customKind, TEMPLATES, type CustomField } from "@/components/cover/types";
+import { BlockLayer, type Point } from "@/components/cover/BlockLayer";
+import { buildCustomBlocks, type StyleOverrides } from "@/components/cover/layouts";
+import { TEMPLATES, type BlockStyle, type CustomField } from "@/components/cover/types";
 import {
   getCvLayout,
   getCvLayoutChoice,
@@ -12,13 +12,7 @@ import {
   type CvLayoutId,
 } from "./layout";
 import { getCvPlacements, subscribeCvPlacements } from "./placement";
-import {
-  alphaHex,
-  cvVisualPolicy,
-  shapeSizeFactor,
-  sidebarPlan,
-  smartNameSize,
-} from "./intelligence";
+import { alphaHex, cvVisualPolicy, sidebarPlan, smartNameSize } from "./intelligence";
 import { cvPalette, onColorRoles, type CvOnColor } from "./palette";
 import {
   bandLeftMm,
@@ -72,13 +66,32 @@ type Props = {
   design: CvDesign;
   elements: CustomField[];
   exportMode?: boolean;
+  /** Abweichungen vom Vorgabestil je Element – Position, Farbe, Grösse. */
+  elementStyles?: StyleOverrides;
+  /** Bedienung der Elemente. Fehlt sie, wird nur gezeichnet. */
+  selected?: string | null;
+  onSelect?: (id: string | null) => void;
+  onMoveElement?: (id: string, patch: Partial<BlockStyle>) => void;
+  drawing?: boolean;
+  onDrawn?: (points: Point[]) => void;
 };
 
 function label(data: CvData, key: CvPlacementKey): string {
   return data.labels[key]?.trim() || CV_BLOCK_LABELS[key];
 }
 
-export function CvCanvas({ data, design, elements, exportMode = false }: Props) {
+export function CvCanvas({
+  data,
+  design,
+  elements,
+  exportMode = false,
+  elementStyles = {},
+  selected = null,
+  onSelect,
+  onMoveElement,
+  drawing = false,
+  onDrawn,
+}: Props) {
   const pal = useMemo(() => cvPalette(design.colors), [design.colors]);
   // Die Bauform der Vorlage entscheidet über Flächen und Textbereich. Sie ist
   // der eigentliche Träger der Verwandtschaft zum Titelblatt.
@@ -897,41 +910,60 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     </div>
   );
 
-  /** Selbst hinzugefügte Formen vom Titelblatt – reine Zierde, dem Regler unterstellt. */
-  const decoration = (
-    <>
-      {design.useElements &&
-        elements.map((el, i) => {
-          if (customKind(el) !== "shape") return null;
-          const st = customDefaultStyle(design.template, i, slots, el);
-          const sizeFactor = shapeSizeFactor(st.w, el.shape);
-          return (
-            <div
-              key={el.id}
-              data-cv-decoration
-              style={{
-                position: "absolute",
-                left: `${st.x}mm`,
-                top: `${st.y}mm`,
-                width: `${st.w}mm`,
-                opacity:
-                  policy.backgroundOpacity *
-                  policy.shapeFactor *
-                  sizeFactor *
-                  (layout === "modern" ? 0.45 : 1),
-              }}
-            >
-              <ShapeElement
-                shape={el.shape ?? "rect"}
-                path={el.path}
-                style={st}
-                colors={design.colors}
-              />
-            </div>
-          );
-        })}
-    </>
+  /**
+   * Eigene Felder und Formen – dieselben wie auf dem Titelblatt.
+   *
+   * Sie lagen früher als blasse Zierde im Hintergrund und liessen sich hier
+   * nicht anfassen; Textfelder und Bilder fielen sogar ganz weg. Jetzt tragen
+   * sie dieselbe Ebene wie auf dem Titelblatt: volle Deckkraft, anklickbar,
+   * mit der Maus verschiebbar. Sie stehen auf Seite 1 – frei gesetzte Elemente
+   * gehören an eine Stelle und nicht auf jedes Blatt.
+   */
+  const elementBlocks = useMemo(
+    () => buildCustomBlocks(design.template, elements, elementStyles, slots),
+    [design.template, elements, elementStyles, slots],
   );
+
+  const elementLayer = (pageIndex: number) => {
+    if (pageIndex !== 0) return null;
+    const shown = design.useElements ? elementBlocks : [];
+    // Im Zeichenmodus muss die Ebene auch dann da sein, wenn noch kein Element
+    // existiert – sonst gäbe es keine Fläche, auf der man ziehen kann.
+    if (shown.length === 0 && !drawing) return null;
+    const editable = !exportMode && !!onMoveElement;
+    return (
+      <div
+        data-cv-elements
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 5,
+          // Im Export darf die Ebene nichts abfangen; in der Vorschau nimmt ein
+          // Klick daneben die Auswahl zurück, genau wie auf dem Titelblatt.
+          pointerEvents: editable ? undefined : "none",
+        }}
+        onPointerDown={
+          editable
+            ? (e) => {
+                if (drawing) return;
+                if (!(e.target as HTMLElement).closest("[data-block-id]")) onSelect?.(null);
+              }
+            : undefined
+        }
+      >
+        <BlockLayer
+          blocks={shown}
+          colors={design.colors}
+          selected={exportMode ? null : selected}
+          onSelect={onSelect ?? (() => {})}
+          onMove={onMoveElement ?? (() => {})}
+          editable={!exportMode && !!onMoveElement}
+          drawing={!exportMode && drawing}
+          onDrawn={onDrawn}
+        />
+      </div>
+    );
+  };
 
   /** Ausschnitt des echten Titelblatt-Hintergrunds, oben bündig. */
   const bandMotif = (heightMm: number) => (
@@ -981,7 +1013,6 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           style={{ position: "absolute", inset: 0, background: pal.paper }}
         />
         {ground}
-        {decoration}
 
         <div
           data-cv-surface
@@ -1247,7 +1278,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           // Die Spalte selbst liegt schon im Seitengrund; hier nur bei der
           // getönten Papierspalte einen eigenen Grund zeichnen.
           background: onColumn ? "transparent" : side.bg,
-          borderRight: onColumn ? undefined : `0.35mm solid ${side.accent}${alphaHex(0.22)}`,
+          // Kein Trennstrich: Die getönte Spalte setzt sich schon von selbst
+          // vom Papier ab, die Linie darüber lag als grüner Strich dazwischen.
           fontFamily: SHEET_FONT,
           overflow: "hidden",
         }}
@@ -1689,6 +1721,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {layout === "modern" && modernSidebar(i)}
             {bandHeader(i)}
             {footer(i)}
+            {elementLayer(i)}
             {freePhoto(i)}
             <div
               data-cv-main

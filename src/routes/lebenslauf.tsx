@@ -6,6 +6,17 @@ import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { CvCanvas } from "@/components/cv/CvCanvas";
+import { ElementBar } from "@/components/cover/ElementBar";
+import { AddElementMenu } from "@/components/cover/AddElementMenu";
+import {
+  newDrawnElement,
+  newImageElement,
+  newRuleElement,
+  newShapeElement,
+  newTextElement,
+  type NewElement,
+} from "@/components/cover/new-element";
+import { buildCustomBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import {
   FormCvEntries,
   FormCvLines,
@@ -29,9 +40,16 @@ import {
   type CvSectionKey,
 } from "@/components/cv/types";
 import { emptyCoverDraft, personFilled, readCoverDraft, type CoverDraft } from "@/lib/dossier";
-import { TEMPLATES, type CustomField, type TemplateId } from "@/components/cover/types";
+import {
+  customKind,
+  TEMPLATES,
+  type BlockStyle,
+  type CustomField,
+  type ShapeKind,
+  type TemplateId,
+} from "@/components/cover/types";
 import { downloadBlob, safeFileName } from "@/lib/download";
-import { PDF, PREVIEW } from "@/default-config";
+import { PDF, PREVIEW, SHAPE } from "@/default-config";
 import {
   describe,
   formatWhen,
@@ -40,6 +58,7 @@ import {
   readHistory,
   type Snapshot,
 } from "@/lib/history";
+import { readPhoto } from "@/lib/image";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import { applyDossierTheme } from "@/lib/dossier-theme";
 import { setCvPhotoStyle } from "@/components/cv/photo";
@@ -83,6 +102,14 @@ type Saved = {
   data: CvData;
   design: CvDesign;
   elements: CustomField[];
+  /**
+   * Abweichungen vom Vorgabestil je eigenem Element.
+   *
+   * Das Titelblatt führt eine solche Ablage je Vorlage, weil dort jede Vorlage
+   * ein anderes Raster hat. Der Lebenslauf hat nur eines, darum reicht hier
+   * eine einzige.
+   */
+  elementStyles?: StyleOverrides;
 };
 
 /**
@@ -126,12 +153,20 @@ function Lebenslauf() {
     };
   });
   const [elements, setElements] = useState<CustomField[]>([]);
+  const [elementStyles, setElementStyles] = useState<StyleOverrides>({});
+  const [selected, setSelected] = useState<string | null>(null);
+  const [drawing, setDrawing] = useState(false);
   const [cover, setCover] = useState<CoverDraft | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
   const [zoom, setZoom] = useState<number>(PREVIEW.ZOOM_DEFAULT);
   const [downloading, setDownloading] = useState(false);
   const [fitHeight, setFitHeight] = useState<number | undefined>(undefined);
-  const [status, setStatus] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  const [status, setStatus] = useState<{
+    kind: "ok" | "error";
+    text: string;
+    /** Rücknahme, z. B. nach dem Löschen eines Elements. */
+    undo?: () => void;
+  } | null>(null);
   const [open, setOpen] = useState<Record<string, boolean>>({
     design: true,
     person: true,
@@ -161,6 +196,7 @@ function Lebenslauf() {
     if (p.data) setData({ ...emptyCv, ...p.data, person: { ...emptyCv.person, ...p.data.person } });
     if (p.design) setDesign((d) => migratedDesign(d, p.design!, p.version));
     if (Array.isArray(p.elements)) setElements(p.elements);
+    if (p.elementStyles) setElementStyles(p.elementStyles);
   }, []);
 
   const toggle = (k: string) => setOpen((o) => ({ ...o, [k]: !o[k] }));
@@ -172,6 +208,97 @@ function Lebenslauf() {
     () => TEMPLATES.find((t) => t.id === design.template) ?? TEMPLATES[0],
     [design.template],
   );
+
+  /* ---------------------------------------------------------------------- */
+  /* Eigene Elemente – dieselbe Bedienung wie auf dem Titelblatt            */
+  /* ---------------------------------------------------------------------- */
+
+  const blocks = useMemo(
+    () => buildCustomBlocks(design.template, elements, elementStyles, activeTemplate.slots),
+    [design.template, elements, elementStyles, activeTemplate],
+  );
+  const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
+  const selectedCustom = elements.find((c) => c.id === selected) ?? null;
+
+  const patchStyle = useCallback(
+    (id: string, p: Partial<BlockStyle>) =>
+      setElementStyles((s) => ({ ...s, [id]: { ...(s[id] ?? {}), ...p } })),
+    [],
+  );
+  const patchCustom = (id: string, p: Partial<CustomField>) =>
+    setElements((c) => c.map((f) => (f.id === id ? { ...f, ...p } : f)));
+
+  /** Ein fertig gebautes Element einhängen: Inhalt speichern, Stil anlegen. */
+  const place = ({ field, style }: NewElement) => {
+    setElements((c) => [...c, field]);
+    if (style) patchStyle(field.id, style);
+    // Eigene Elemente sind nur sichtbar, wenn sie eingeschaltet sind. Ein neu
+    // eingefügtes Feld, das unsichtbar bleibt, wäre ein toter Knopf.
+    setDesign((d) => (d.useElements ? d : { ...d, useElements: true }));
+    setSelected(field.id);
+  };
+
+  const addCustom = (shape?: ShapeKind, pill = false) => {
+    if (shape === "path") {
+      setDrawing(true);
+      setSelected(null);
+      setStatus({ kind: "ok", text: "Form aufs Blatt zeichnen – Esc bricht ab." });
+      return;
+    }
+    place(
+      shape
+        ? newShapeElement(elements, shape)
+        : newTextElement(
+            elements,
+            pill
+              ? (activeTemplate.slots[activeTemplate.slots.length - 1]?.key ?? "accent")
+              : undefined,
+          ),
+    );
+  };
+
+  const addImage = () => {
+    place(newImageElement(elements));
+    setStatus({ kind: "ok", text: "Bild-Element eingefügt – unten „Bild wählen“." });
+  };
+
+  const addRule = () => place(newRuleElement(elements));
+
+  const pickImage = async (id: string, file: File | null) => {
+    if (!file) {
+      patchCustom(id, { src: null });
+      return;
+    }
+    try {
+      patchCustom(id, { src: await readPhoto(file) });
+    } catch (e) {
+      setStatus({ kind: "error", text: e instanceof Error ? e.message : "Bild nicht lesbar" });
+    }
+  };
+
+  const removeElement = (id: string) => {
+    const gone = elements.find((c) => c.id === id);
+    setSelected(null);
+    setElements((c) => c.filter((f) => f.id !== id));
+    if (gone) {
+      setStatus({
+        kind: "ok",
+        text: `${gone.label} gelöscht`,
+        undo: () => {
+          setElements((c) => (c.some((f) => f.id === gone.id) ? c : [...c, gone]));
+          setStatus(null);
+        },
+      });
+    }
+  };
+
+  /** Ein Element auf den Vorgabestil der Vorlage zurücksetzen. */
+  const resetElement = (id: string) =>
+    setElementStyles((s) => {
+      const next = { ...s };
+      delete next[id];
+      return next;
+    });
 
   /** Gespeicherten Lebenslauf übernehmen. Gibt zurück, ob es einen gab. */
   const loadFromStorage = useCallback((): boolean => {
@@ -211,6 +338,7 @@ function Lebenslauf() {
         useElements: draft.elements.length > 0,
       }));
       setElements(draft.elements);
+      setElementStyles({});
       if (draft.person.foto) setCvPhotoStyle(draft.photoStyle);
       if (personFilled(draft.person)) {
         setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
@@ -232,8 +360,8 @@ function Lebenslauf() {
 
   /** Der laufende Lebenslauf, so wie er gespeichert bzw. exportiert wird. */
   const payload = useCallback(
-    (): Saved => ({ version: SAVE_VERSION, data, design, elements }),
-    [data, design, elements],
+    (): Saved => ({ version: SAVE_VERSION, data, design, elements, elementStyles }),
+    [data, design, elements, elementStyles],
   );
 
   /** Stand in die eigene Historie legen – die des Titelblatts bleibt unberührt. */
@@ -270,7 +398,10 @@ function Lebenslauf() {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key !== "Escape") return;
+      setMenuOpen(false);
+      setSelected(null);
+      setDrawing(false);
     };
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -361,6 +492,7 @@ function Lebenslauf() {
 
     if (takeover.elements) {
       setElements(draft.elements);
+      setElementStyles({});
       // Kopieren allein genügt nicht: ohne diesen Schalter werden die Formen
       // nicht gezeichnet, und es sieht aus, als hätte der Knopf nichts getan.
       setDesign((d) => ({ ...d, useElements: draft.elements.length > 0 }));
@@ -438,6 +570,8 @@ function Lebenslauf() {
     const draft = readCoverDraft();
     setData({ ...emptyCv, person: { ...emptyCv.person } });
     setElements(draft?.elements ?? []);
+    setElementStyles({});
+    setSelected(null);
     setDesign((d) => ({
       template: draft?.template ?? d.template,
       colors: draft?.colors ?? d.colors,
@@ -551,7 +685,22 @@ function Lebenslauf() {
     />
   );
 
-  const canvas = <CvCanvas data={data} design={design} elements={elements} />;
+  const canvas = (
+    <CvCanvas
+      data={data}
+      design={design}
+      elements={elements}
+      elementStyles={elementStyles}
+      selected={selected}
+      onSelect={setSelected}
+      onMoveElement={patchStyle}
+      drawing={drawing}
+      onDrawn={(points) => {
+        setDrawing(false);
+        place(newDrawnElement(elements, points, SHAPE.MIN_DRAW));
+      }}
+    />
+  );
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background">
@@ -1142,16 +1291,79 @@ function Lebenslauf() {
               </ScaledPreview>
             </div>
           </div>
-          {status && (
-            <p
-              role="status"
-              className={`shrink-0 pb-2 text-center text-xs md:hidden ${
-                status.kind === "error" ? "text-destructive" : "text-primary"
-              }`}
-            >
-              {status.text}
-            </p>
-          )}
+
+          {/* Werkzeugleiste unter dem Blatt – wie auf dem Titelblatt. */}
+          <div className="shrink-0 px-2 pb-3 pt-2 lg:px-6">
+            <div className="mx-auto w-full max-w-[900px]">
+              {drawing ? (
+                <div className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed bg-background px-4 py-3 text-sm">
+                  <span className="font-medium">Freihand zeichnen</span>
+                  <span className="text-muted-foreground">
+                    Mit gedrückter Maustaste eine Form aufs Blatt ziehen.
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setDrawing(false)}
+                    className="ml-auto rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
+                  >
+                    Abbrechen
+                  </button>
+                </div>
+              ) : selectedBlock ? (
+                <ElementBar
+                  block={selectedBlock}
+                  slots={activeTemplate.slots}
+                  colors={design.colors}
+                  onChange={(p) => patchStyle(selectedBlock.id, p)}
+                  onReset={() => resetElement(selectedBlock.id)}
+                  onClose={() => setSelected(null)}
+                  custom={selectedCustom ?? undefined}
+                  onCustomChange={
+                    selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
+                  }
+                  onDelete={() => removeElement(selectedBlock.id)}
+                  onPickImage={
+                    selectedCustom && customKind(selectedCustom) !== "shape"
+                      ? (file) => pickImage(selectedCustom.id, file)
+                      : undefined
+                  }
+                  onAddImage={addImage}
+                />
+              ) : (
+                <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-background px-4 py-2.5">
+                  <span className="text-sm text-muted-foreground">
+                    Eigenes Element antippen zum Anpassen, ziehen zum Verschieben.
+                  </span>
+                  <AddElementMenu
+                    onText={() => addCustom()}
+                    onPill={() => addCustom(undefined, true)}
+                    onImage={addImage}
+                    onRule={addRule}
+                    onShape={(sh) => addCustom(sh)}
+                  />
+                </div>
+              )}
+              {status && (
+                <p
+                  role="status"
+                  className={`mt-2 flex flex-wrap items-center justify-center gap-2 text-center text-xs md:hidden ${
+                    status.kind === "error" ? "text-destructive" : "text-primary"
+                  }`}
+                >
+                  {status.text}
+                  {status.undo && (
+                    <button
+                      type="button"
+                      onClick={status.undo}
+                      className="underline underline-offset-2"
+                    >
+                      Rückgängig
+                    </button>
+                  )}
+                </p>
+              )}
+            </div>
+          </div>
         </main>
       </div>
 
@@ -1166,7 +1378,13 @@ function Lebenslauf() {
           zIndex: -1,
         }}
       >
-        <CvCanvas data={data} design={design} elements={elements} exportMode />
+        <CvCanvas
+          data={data}
+          design={design}
+          elements={elements}
+          elementStyles={elementStyles}
+          exportMode
+        />
       </div>
     </div>
   );

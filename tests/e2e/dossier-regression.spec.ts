@@ -407,11 +407,11 @@ test.describe("M5.8 dossier regression", () => {
             hasPhoto: !!saved.data?.person?.foto,
             vorname: saved.data?.person?.vorname ?? "",
             archetype: root?.getAttribute("data-cv-archetype"),
-            // Per page: the decoration repeats on every sheet, so counting
-            // across the whole document would only measure the page count.
+            // The shapes are real elements now, on the same layer the title
+            // page uses, and they sit on the first sheet.
             shapesDrawn:
-              root?.querySelector("[data-cv-page]")?.querySelectorAll("[data-cv-decoration]")
-                .length ?? 0,
+              root?.querySelector("[data-cv-page]")?.querySelectorAll("[data-block-id]").length ??
+              0,
           };
         }),
       )
@@ -556,6 +556,62 @@ test.describe("M5.8 dossier regression", () => {
         ">Kontakt<",
       );
     }
+  });
+
+  test("the CV builds, styles and moves its own elements like the title page", async ({ page }) => {
+    await seedCv(page, { layout: "modern" });
+    const addMenu = page.getByRole("button", { name: "+ Element" }).first();
+    // The picker labels also appear in the photo-shape controls, so scope the
+    // clicks to the popover or the wrong button gets pressed.
+    const pick = async (label: string) => {
+      await addMenu.click();
+      await page.locator(".bg-popover").getByRole("button", { name: label }).click();
+      await page.waitForTimeout(150);
+    };
+    const onSheet = () => previewRoot(page).locator("[data-cv-page] [data-block-id]");
+
+    for (const [i, label] of ["Textfeld", "Kreis", "Trennlinie"].entries()) {
+      await pick(label);
+      await expect(onSheet(), `after ${label}`).toHaveCount(i + 1);
+      await page.keyboard.press("Escape");
+    }
+
+    // Selecting opens the same toolbar the title page uses.
+    await onSheet().first().click();
+    await expect(page.getByRole("button", { name: "Entfernen" })).toBeVisible();
+
+    // Dragging follows the pointer and is written to storage.
+    const before = await onSheet().first().boundingBox();
+    await page.mouse.move(before!.x + before!.width / 2, before!.y + before!.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(before!.x + before!.width / 2 - 50, before!.y + before!.height / 2 - 40, {
+      steps: 6,
+    });
+    await page.mouse.up();
+    const after = await onSheet().first().boundingBox();
+    expect(after!.x - before!.x).toBeCloseTo(-50, 0);
+    expect(after!.y - before!.y).toBeCloseTo(-40, 0);
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const saved = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "{}");
+          return Object.keys(saved.elementStyles ?? {}).length;
+        }),
+      )
+      .toBeGreaterThan(0);
+
+    // The exported sheet carries the elements but none of the editing chrome.
+    await expect(exportRoot(page).locator("[data-cv-page] [data-block-id]")).toHaveCount(3);
+    const outlined = await exportRoot(page)
+      .locator("[data-cv-page] [data-block-id]")
+      .evaluateAll(
+        (els) => els.filter((e) => getComputedStyle(e).outlineStyle === "dashed").length,
+      );
+    expect(outlined, "selection outline in the export").toBe(0);
+
+    // Removing is undoable, exactly as on the title page.
+    await page.getByRole("button", { name: "Entfernen" }).click();
+    await expect(onSheet()).toHaveCount(2);
   });
 
   test("a freely placed photo sits where it was put, in every layout", async ({ page }) => {
