@@ -91,12 +91,18 @@ export type SidebarPlan = {
  * genug für jeden Tastendruck. Lange Texte zählen stärker als kurze Einträge.
  */
 export function sidebarPlan(data: CvData): SidebarPlan {
-  const languageScore = data.sprachen.reduce(
-    (sum, s) => sum + 1.5 + (s.name.length + s.niveau.length) / 38,
+  // Ein Stand aus einer älteren Fassung kann einzelne Felder gar nicht haben.
+  // Das ist nur eine Schätzung der Dichte – dafür darf die Seite nicht
+  // abstürzen, also wird hier fehlender Inhalt als leer gelesen.
+  const len = (value: unknown) => (typeof value === "string" ? value.length : 0);
+  const list = <T>(value: T[] | undefined): T[] => (Array.isArray(value) ? value : []);
+
+  const languageScore = list(data.sprachen).reduce(
+    (sum, s) => sum + 1.5 + (len(s?.name) + len(s?.niveau)) / 38,
     0,
   );
-  const strengthScore = data.staerken.reduce((sum, v) => sum + 1 + v.length / 34, 0);
-  const hobbyScore = data.hobbys.reduce((sum, v) => sum + 0.9 + v.length / 38, 0);
+  const strengthScore = list(data.staerken).reduce((sum, v) => sum + 1 + len(v) / 34, 0);
+  const hobbyScore = list(data.hobbys).reduce((sum, v) => sum + 0.9 + len(v) / 38, 0);
   const contactScore =
     [data.person.adresse, data.person.plzOrt, data.person.telefon, data.person.email]
       .filter(Boolean)

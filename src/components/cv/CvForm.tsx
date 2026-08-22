@@ -13,6 +13,15 @@ import { getCvLayout, subscribeCvLayout } from "./layout";
 import { getCvPlacements, setCvPlacement, subscribeCvPlacements } from "./placement";
 import { getCvPhotoStyle, setCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
+  CV_PHOTO_MAX_MM,
+  CV_PHOTO_MIN_MM,
+  DEFAULT_CV_PHOTO_PLACEMENT,
+  getCvPhotoPlacement,
+  resetCvPhotoPlacement,
+  setCvPhotoPlacement,
+  subscribeCvPhotoPlacement,
+} from "./photo-place";
+import {
   DEFAULT_CV_PLACEMENTS,
   emptyEntry,
   emptyReferenz,
@@ -131,6 +140,109 @@ function photoPreviewFrame(style: DossierPhotoStyle): CSSProperties {
   };
 }
 
+const placeBtn =
+  "flex-1 rounded-md border px-2 py-1 text-xs transition-colors border-input hover:bg-accent";
+const placeBtnOn =
+  "flex-1 rounded-md border px-2 py-1 text-xs border-primary bg-primary text-primary-foreground";
+
+/**
+ * Wo das Foto auf dem Blatt sitzt und welche Farbe sein Rahmen hat.
+ *
+ * Stärke und Form des Rahmens stehen bewusst weiter oben in den geteilten
+ * Foto-Reglern – dieselbe Einstellung wie auf dem Titelblatt. Hier steht nur,
+ * was den Lebenslauf allein betrifft.
+ */
+function CvPhotoPlaceControls({ borderWidth }: { borderWidth: number }) {
+  const place = useSyncExternalStore(
+    subscribeCvPhotoPlacement,
+    getCvPhotoPlacement,
+    () => DEFAULT_CV_PHOTO_PLACEMENT,
+  );
+  const free = place.mode === "frei";
+
+  return (
+    <div className="mt-3 flex flex-col gap-2 border-t pt-3">
+      <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+        Platz auf dem Blatt
+      </span>
+      <div className="flex gap-1">
+        <button
+          type="button"
+          className={free ? placeBtn : placeBtnOn}
+          aria-pressed={!free}
+          onClick={() => setCvPhotoPlacement({ mode: "auto" })}
+        >
+          Im Aufbau
+        </button>
+        <button
+          type="button"
+          className={free ? placeBtnOn : placeBtn}
+          aria-pressed={free}
+          onClick={() => setCvPhotoPlacement({ mode: "frei" })}
+        >
+          Frei platziert
+        </button>
+      </div>
+
+      {free ? (
+        <>
+          <label className="flex flex-col gap-1">
+            <span className="text-[11px] text-muted-foreground">
+              Breite {Math.round(place.widthMm)} mm
+            </span>
+            <input
+              type="range"
+              min={CV_PHOTO_MIN_MM}
+              max={CV_PHOTO_MAX_MM}
+              step={1}
+              value={place.widthMm}
+              onChange={(e) => setCvPhotoPlacement({ widthMm: Number(e.target.value) })}
+              className="w-full accent-primary"
+            />
+          </label>
+          <p className="text-[11px] leading-snug text-muted-foreground">
+            In der Vorschau lässt sich das Foto mit der Maus ziehen; am Punkt unten rechts wird es
+            grösser oder kleiner. Mit den Pfeiltasten geht es millimeterweise.
+          </p>
+          <button
+            type="button"
+            className="self-start text-[11px] text-muted-foreground underline hover:text-foreground"
+            onClick={resetCvPhotoPlacement}
+          >
+            Platz zurücksetzen
+          </button>
+        </>
+      ) : (
+        <p className="text-[11px] leading-snug text-muted-foreground">
+          Das Foto sitzt im Kopf bzw. in der Seitenspalte – je nach Aufbau.
+        </p>
+      )}
+
+      {borderWidth > 0 && (
+        <label className="flex items-center gap-2">
+          <span className="text-[11px] text-muted-foreground">Rahmenfarbe</span>
+          <input
+            type="color"
+            value={place.frameColor ?? "#000000"}
+            onChange={(e) => setCvPhotoPlacement({ frameColor: e.target.value })}
+            className="h-6 w-10 cursor-pointer rounded border border-input bg-background"
+            aria-label="Rahmenfarbe"
+          />
+          {place.frameColor && (
+            <button
+              type="button"
+              className="text-[11px] text-muted-foreground underline hover:text-foreground"
+              onClick={() => setCvPhotoPlacement({ frameColor: null })}
+            >
+              wie Vorlage
+            </button>
+          )}
+        </label>
+      )}
+    </div>
+  );
+}
+
 export function FormCvPerson({
   person,
   onChange,
@@ -232,6 +344,7 @@ export function FormCvPerson({
             <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground">
               Form, Rahmen und Ausschnitt bleiben beim Wechsel des CV-Layouts erhalten.
             </p>
+            <CvPhotoPlaceControls borderWidth={photoStyle.borderWidth} />
             {photoMessage && (
               <p
                 className={`mt-1.5 text-[11px] ${

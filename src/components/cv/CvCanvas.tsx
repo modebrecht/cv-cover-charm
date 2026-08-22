@@ -36,6 +36,13 @@ import { dossierThemeFor } from "@/lib/dossier-theme";
 import { dossierPhotoCropStyle, dossierPhotoRadius, dossierPhotoRatio } from "@/lib/dossier-photo";
 import { getCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
+  DEFAULT_CV_PHOTO_PLACEMENT,
+  getCvPhotoPlacement,
+  normalizeCvPhotoPlacement,
+  setCvPhotoPlacement,
+  subscribeCvPhotoPlacement,
+} from "./photo-place";
+import {
   CV_SECTION_LABELS,
   CV_SECTION_ORDER,
   CV_TYPE_DEFAULTS,
@@ -52,6 +59,8 @@ const MARGIN_X = 20;
 const PHOTO_MAIN_MM = 30;
 /** Umrechnung als Rückfall, falls die Messung nichts hergibt. */
 const PX_PER_MM = 96 / 25.4;
+/** Blattbreite in mm – Bezug, um Bildschirmpixel in Millimeter umzurechnen. */
+const SHEET_W_MM = 210;
 
 const SHEET_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
@@ -118,6 +127,22 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   const photoStyle = useSyncExternalStore(subscribeCvPhotoStyle, getCvPhotoStyle, () =>
     getCvPhotoStyle(),
   );
+  /** Platz auf dem Blatt, Grösse und Rahmen – nur für den Lebenslauf. */
+  const place = useSyncExternalStore(
+    subscribeCvPhotoPlacement,
+    getCvPhotoPlacement,
+    () => DEFAULT_CV_PHOTO_PLACEMENT,
+  );
+  /**
+   * Während des Ziehens liegen die Werte hier, damit nicht bei jedem
+   * Mausschritt in den Speicher geschrieben wird. Losgelassen wird übernommen.
+   */
+  const [liveBox, setLiveBox] = useState<{
+    xMm: number;
+    yMm: number;
+    widthMm: number;
+  } | null>(null);
+  const photoBox = liveBox ?? { xMm: place.xMm, yMm: place.yMm, widthMm: place.widthMm };
 
   /** Farbe der tragenden Fläche – dieselbe, die das Titelblatt dort verwendet. */
   const areaColor = design.colors.primary || design.colors.accent || pal.accent;
@@ -156,6 +181,79 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     p.nationalitaet && `Nationalität ${p.nationalitaet}`,
   ].filter(Boolean) as string[];
   const nameSize = smartNameSize(name, layout) * titleScale;
+
+  /**
+   * Sitzt das Foto frei auf dem Blatt, gehört es nicht mehr in den Kopf oder in
+   * die Seitenspalte – sonst stünde es zweimal da.
+   */
+  const autoPhoto = !!p.foto && place.mode === "auto";
+  const freePhotoOn = !!p.foto && place.mode === "frei";
+  /*
+   * Der Rahmen selbst steht in `layout-options.css`: Stärke und Farbe kommen
+   * dort als CSS-Variablen an und tragen `!important`. Ein Inline-Ring hier
+   * käme nie zum Zug, darum steht keiner mehr im Renderer.
+   */
+
+  /**
+   * Foto mit der Maus verschieben und an der Ecke grösser ziehen.
+   *
+   * Die Vorschau ist gezoomt, darum wird nicht mit einem festen Faktor
+   * gerechnet: die gemessene Blattbreite auf dem Bildschirm entspricht 210 mm,
+   * daraus ergibt sich der Umrechnungsfaktor für diese Geste.
+   */
+  const startPhotoGesture = (kind: "move" | "size") => (event: React.PointerEvent<HTMLElement>) => {
+    if (exportMode || event.button !== 0) return;
+    const pageEl = event.currentTarget.closest("[data-cv-page]") as HTMLElement | null;
+    if (!pageEl) return;
+    const sheetPx = pageEl.getBoundingClientRect().width;
+    if (!sheetPx) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    const mmPerPx = SHEET_W_MM / sheetPx;
+    const startX = event.clientX;
+    const startY = event.clientY;
+    const from = { xMm: place.xMm, yMm: place.yMm, widthMm: place.widthMm };
+    let latest = from;
+
+    const step = (moveEvent: PointerEvent) => {
+      const dx = (moveEvent.clientX - startX) * mmPerPx;
+      const dy = (moveEvent.clientY - startY) * mmPerPx;
+      const next = normalizeCvPhotoPlacement(
+        kind === "move"
+          ? { ...place, xMm: from.xMm + dx, yMm: from.yMm + dy }
+          : { ...place, widthMm: from.widthMm + dx },
+      );
+      latest = { xMm: next.xMm, yMm: next.yMm, widthMm: next.widthMm };
+      setLiveBox(latest);
+    };
+    const stop = () => {
+      window.removeEventListener("pointermove", step);
+      window.removeEventListener("pointerup", stop);
+      window.removeEventListener("pointercancel", stop);
+      setLiveBox(null);
+      setCvPhotoPlacement(latest);
+    };
+
+    window.addEventListener("pointermove", step);
+    window.addEventListener("pointerup", stop);
+    window.addEventListener("pointercancel", stop);
+  };
+
+  /** Pfeiltasten für das letzte Millimeterchen; mit Shift feiner. */
+  const nudgePhoto = (event: React.KeyboardEvent<HTMLElement>) => {
+    const stepMm = event.shiftKey ? 0.5 : 2;
+    const by: Record<string, [number, number]> = {
+      ArrowLeft: [-stepMm, 0],
+      ArrowRight: [stepMm, 0],
+      ArrowUp: [0, -stepMm],
+      ArrowDown: [0, stepMm],
+    };
+    const delta = by[event.key];
+    if (!delta) return;
+    event.preventDefault();
+    setCvPhotoPlacement({ xMm: place.xMm + delta[0], yMm: place.yMm + delta[1] });
+  };
 
   const headingText = (id: string, text: string): Row => ({
     id: `h-${id}`,
@@ -475,7 +573,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           data-cv-header
           style={{ display: "flex", gap: "7mm", alignItems: "flex-start", marginBottom: "3.2mm" }}
         >
-          {p.foto && (
+          {autoPhoto && (
             <div
               data-cv-photo
               style={{
@@ -485,12 +583,9 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 flexShrink: 0,
                 overflow: "hidden",
                 borderRadius: dossierPhotoRadius(photoStyle.shape),
-                boxShadow: photoStyle.borderWidth
-                  ? `0 0 0 ${photoStyle.borderWidth}mm ${pal.accent}`
-                  : undefined,
               }}
             >
-              <img src={p.foto} alt="" style={dossierPhotoCropStyle(photoStyle)} />
+              <img src={p.foto ?? undefined} alt="" style={dossierPhotoCropStyle(photoStyle)} />
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -560,7 +655,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     });
     // Nur Name und Zeile darunter wandern ins Band; Foto und Angaben bleiben
     // im Kopfblock.
-    const hasHeaderContent = p.foto || kontaktZeilen.length > 0 || angaben.length > 0;
+    const hasHeaderContent = autoPhoto || kontaktZeilen.length > 0 || angaben.length > 0;
     if (!nameInBand || hasHeaderContent) rows.push(classicHeader(!nameInBand));
 
     for (const key of CV_SECTION_ORDER) {
@@ -934,7 +1029,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       data-cv-section-title
       style={{
         marginTop:
-          first && !p.foto
+          first && !autoPhoto
             ? "0.8mm"
             : sidePlan.veryCompact
               ? "3.2mm"
@@ -1043,6 +1138,75 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     sidebarWidth - (onColumn ? 19 : 15.5),
   );
 
+  /**
+   * Frei gesetztes Foto. Es liegt über dem Satzspiegel, gehört keiner Spalte an
+   * und steht nur auf der ersten Seite. In der Vorschau lässt es sich ziehen,
+   * im Export ist es ein stilles Bild ohne Griffe.
+   */
+  const freePhoto = (pageIndex: number) => {
+    if (pageIndex !== 0 || !freePhotoOn) return null;
+    const heightMm = photoBox.widthMm * dossierPhotoRatio(photoStyle.shape);
+    return (
+      <div
+        data-cv-photo
+        data-cv-photo-free
+        role={exportMode ? undefined : "button"}
+        tabIndex={exportMode ? undefined : 0}
+        aria-label={exportMode ? undefined : "Foto verschieben – mit der Maus ziehen"}
+        onPointerDown={exportMode ? undefined : startPhotoGesture("move")}
+        onKeyDown={exportMode ? undefined : nudgePhoto}
+        style={{
+          position: "absolute",
+          left: `${photoBox.xMm}mm`,
+          top: `${photoBox.yMm}mm`,
+          width: `${photoBox.widthMm}mm`,
+          height: `${heightMm}mm`,
+          zIndex: 6,
+          borderRadius: dossierPhotoRadius(photoStyle.shape),
+          cursor: exportMode ? undefined : "grab",
+          touchAction: "none",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            overflow: "hidden",
+            borderRadius: dossierPhotoRadius(photoStyle.shape),
+          }}
+        >
+          <img
+            src={p.foto ?? undefined}
+            alt=""
+            style={dossierPhotoCropStyle(photoStyle)}
+            draggable={false}
+          />
+        </div>
+        {!exportMode && (
+          <div
+            data-cv-photo-handle
+            aria-hidden
+            onPointerDown={startPhotoGesture("size")}
+            title="Grösse ziehen"
+            style={{
+              position: "absolute",
+              right: "-2.4mm",
+              bottom: "-2.4mm",
+              width: "4.8mm",
+              height: "4.8mm",
+              borderRadius: "9999px",
+              background: "#ffffff",
+              border: `0.4mm solid ${pal.accent}`,
+              boxShadow: "0 1px 3px rgba(0,0,0,0.35)",
+              cursor: "nwse-resize",
+              touchAction: "none",
+            }}
+          />
+        )}
+      </div>
+    );
+  };
+
   const modernSidebar = (pageIndex: number) => {
     // Eine farbige Spalte läuft über die volle Höhe, wie auf dem Titelblatt.
     // Die getönte Papierspalte beginnt erst unter dem Kopfband, damit dieses
@@ -1058,8 +1222,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           bottom: onColumn ? 0 : `${surface.bottom}mm`,
           width: `${sidebarWidth}mm`,
           padding: onColumn
-            ? `${p.foto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
-            : `${p.foto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
+            ? `${autoPhoto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
+            : `${autoPhoto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
           boxSizing: "border-box",
           // Die Spalte selbst liegt schon im Seitengrund; hier nur bei der
           // getönten Papierspalte einen eigenen Grund zeichnen.
@@ -1084,7 +1248,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
         <div style={{ position: "relative", zIndex: 1 }}>
           {pageIndex === 0 ? (
             <>
-              {p.foto && (
+              {autoPhoto && (
                 <div
                   data-cv-photo
                   style={{
@@ -1093,13 +1257,10 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                     height: `${sidePhotoMm * dossierPhotoRatio(photoStyle.shape)}mm`,
                     overflow: "hidden",
                     borderRadius: dossierPhotoRadius(photoStyle.shape),
-                    boxShadow: photoStyle.borderWidth
-                      ? `0 0 0 ${photoStyle.borderWidth}mm ${side.accent}`
-                      : undefined,
                     marginBottom: sidePlan.compact ? "3.8mm" : "5.3mm",
                   }}
                 >
-                  <img src={p.foto} alt="" style={dossierPhotoCropStyle(photoStyle)} />
+                  <img src={p.foto ?? undefined} alt="" style={dossierPhotoCropStyle(photoStyle)} />
                 </div>
               )}
 
@@ -1509,6 +1670,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             {layout === "modern" && modernSidebar(i)}
             {bandHeader(i)}
             {footer(i)}
+            {freePhoto(i)}
             <div
               data-cv-main
               style={{

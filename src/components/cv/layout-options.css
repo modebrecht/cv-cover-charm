@@ -9,10 +9,20 @@
  */
 [data-cv-photo] {
   position: relative !important;
-  box-shadow: 0 0 0 var(--cv-photo-border-width, 0.3mm) currentColor !important;
+  /*
+   * Rahmenfarbe: ohne eigene Wahl die Schriftfarbe der Umgebung, sonst die im
+   * Lebenslauf gewählte. Die Regel gewinnt gegen Inline-Stile, darum läuft auch
+   * die Farbe über eine Variable statt über den Renderer.
+   */
+  box-shadow: 0 0 0 var(--cv-photo-border-width, 0.3mm)
+    var(--cv-photo-border-color, currentColor) !important;
 }
 
-[data-cv-photo] > img {
+/*
+ * Nachfahre statt Kind: das frei gesetzte Foto trägt seinen Beschnitt in einer
+ * inneren Fläche, damit der Griff für die Grösse daneben stehen bleiben kann.
+ */
+[data-cv-photo] img {
   position: absolute !important;
   width: var(--cv-photo-width, 100%) !important;
   height: var(--cv-photo-height, 100%) !important;
@@ -25,56 +35,64 @@
 }
 
 html[data-cv-photo-shape="rect"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-photo]:not([data-cv-photo-free]) {
   width: 38mm !important;
   height: 28.5mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="square"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-photo]:not([data-cv-photo-free]) {
   width: 32mm !important;
   height: 32mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="portrait"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-photo]:not([data-cv-photo-free]) {
   width: 30mm !important;
   height: 37.5mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="circle"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-photo]:not([data-cv-photo-free]) {
   width: 32mm !important;
   height: 32mm !important;
   border-radius: 50% !important;
 }
 
 html[data-cv-photo-shape="rect"] [data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-photo]:not([data-cv-photo-free]) {
   width: 36mm !important;
   height: 27mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="square"] [data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-photo]:not([data-cv-photo-free]) {
   width: 29mm !important;
   height: 29mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="portrait"] [data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-photo]:not([data-cv-photo-free]) {
   width: 27mm !important;
   height: 33.75mm !important;
   border-radius: 1.5mm !important;
 }
 
 html[data-cv-photo-shape="circle"] [data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-photo] {
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-photo]:not([data-cv-photo-free]) {
   width: 29mm !important;
   height: 29mm !important;
   border-radius: 50% !important;

@@ -301,7 +301,9 @@ html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
 html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
   > [data-cv-band-header],
 html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
-  > [data-cv-page-label] {
+  > [data-cv-page-label],
+html[data-cv-mirrored="true"] [data-cv-layout="modern"] [data-cv-page]
+  > [data-cv-photo-free] {
   transform: scaleX(-1);
   transform-origin: center;
 }

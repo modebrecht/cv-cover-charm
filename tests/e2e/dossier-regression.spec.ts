@@ -124,6 +124,14 @@ type SeedOptions = {
   template?: (typeof ARCHETYPE_TEMPLATES)[number]["template"];
   /** Side column width as a share of the sheet. */
   sidebarPct?: number;
+  /** Free CV photo placement, size and frame colour. */
+  photoPlace?: {
+    mode: "auto" | "frei";
+    xMm: number;
+    yMm: number;
+    widthMm: number;
+    frameColor: string | null;
+  };
 };
 
 async function settlePagination(page: Page) {
@@ -138,7 +146,7 @@ async function settlePagination(page: Page) {
 async function seedCv(page: Page, options: SeedOptions = {}) {
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
   await page.evaluate(
-    ({ payload, family, layout, mirrored, photoShape, coverRaw, legacyPhotoShape }) => {
+    ({ payload, family, layout, mirrored, photoShape, coverRaw, legacyPhotoShape, photoPlace }) => {
       localStorage.clear();
       localStorage.setItem("lebenslauf:v1", JSON.stringify(payload));
       localStorage.setItem("dossier:family:v1", family);
@@ -166,6 +174,7 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
         localStorage.removeItem("lebenslauf:photo:v2");
         localStorage.setItem("lebenslauf:photo-shape:v1", legacyPhotoShape);
       }
+      if (photoPlace) localStorage.setItem("lebenslauf:photo-place:v1", JSON.stringify(photoPlace));
       if (coverRaw) localStorage.setItem("titelblatt:v3", coverRaw);
     },
     {
@@ -181,6 +190,7 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
       photoShape: options.photoShape,
       coverRaw: options.coverRaw,
       legacyPhotoShape: options.legacyPhotoShape,
+      photoPlace: options.photoPlace,
     },
   );
   await page.reload({ waitUntil: "domcontentloaded" });
@@ -450,6 +460,104 @@ test.describe("M5.8 dossier regression", () => {
         });
       expect(share, `sidebar at ${pct}`).toBeCloseTo(pct, 2);
     }
+  });
+
+  test("a freely placed photo sits where it was put, in every layout", async ({ page }) => {
+    for (const layout of ["classic", "modern"] as const) {
+      await seedCv(page, {
+        layout,
+        photo: true,
+        photoPlace: { mode: "frei", xMm: 140, yMm: 30, widthMm: 42, frameColor: null },
+      });
+      const box = await previewRoot(page)
+        .locator("[data-cv-page]")
+        .first()
+        .evaluate((pageEl) => {
+          const free = pageEl.querySelector("[data-cv-photo-free]");
+          if (!free) return null;
+          const sheet = pageEl.getBoundingClientRect();
+          const rect = free.getBoundingClientRect();
+          const mm = (px: number) => (px / sheet.width) * 210;
+          return {
+            xMm: mm(rect.left - sheet.left),
+            yMm: mm(rect.top - sheet.top),
+            widthMm: mm(rect.width),
+            // Fixed per-shape sizes must not win over the chosen width.
+            others: pageEl.querySelectorAll("[data-cv-photo]:not([data-cv-photo-free])").length,
+          };
+        });
+      expect(box, `free photo in ${layout}`).not.toBeNull();
+      expect(box!.xMm).toBeCloseTo(140, 0);
+      expect(box!.yMm).toBeCloseTo(30, 0);
+      expect(box!.widthMm).toBeCloseTo(42, 0);
+      // The photo belongs in one place only, never in the head as well.
+      expect(box!.others, `duplicate photo in ${layout}`).toBe(0);
+    }
+  });
+
+  test("dragging the photo moves it and keeps the new spot", async ({ page }) => {
+    await seedCv(page, {
+      photo: true,
+      photoPlace: { mode: "frei", xMm: 140, yMm: 30, widthMm: 40, frameColor: null },
+    });
+    const photo = previewRoot(page).locator("[data-cv-photo-free]").first();
+    const before = await photo.boundingBox();
+    expect(before).not.toBeNull();
+
+    // The preview is scaled, so the promise is not a millimetre count but that
+    // the photo stays under the pointer: it moves by exactly the pixels dragged.
+    const dx = -60;
+    const dy = 45;
+    await page.mouse.move(before!.x + before!.width / 2, before!.y + before!.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(before!.x + before!.width / 2 + dx, before!.y + before!.height / 2 + dy, {
+      steps: 8,
+    });
+    await page.mouse.up();
+
+    const after = await photo.boundingBox();
+    expect(after!.x - before!.x, "horizontal travel").toBeCloseTo(dx, 0);
+    expect(after!.y - before!.y, "vertical travel").toBeCloseTo(dy, 0);
+
+    // Letting go writes the new spot, so it survives a reload.
+    const stored = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("lebenslauf:photo-place:v1") ?? "null"),
+    );
+    expect(stored.mode).toBe("frei");
+    expect(stored.xMm).toBeLessThan(140);
+    expect(stored.yMm).toBeGreaterThan(30);
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await photo.waitFor({ state: "visible" });
+    const reloaded = await photo.boundingBox();
+    expect(reloaded!.x, "spot after reload").toBeCloseTo(after!.x, 0);
+  });
+
+  test("the photo frame follows colour and thickness, and the export has no handles", async ({
+    page,
+  }) => {
+    await seedCv(page, {
+      photo: true,
+      photoShape: "portrait",
+      photoPlace: { mode: "frei", xMm: 140, yMm: 30, widthMm: 40, frameColor: "#00aa55" },
+    });
+    const ring = () =>
+      previewRoot(page)
+        .locator("[data-cv-photo-free]")
+        .first()
+        .evaluate((el) => getComputedStyle(el).boxShadow);
+    expect(await ring()).toContain("rgb(0, 170, 85)");
+
+    // Thickness 0 is the "no frame" setting and must remove the ring entirely.
+    await page.evaluate(() => {
+      const raw = JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}");
+      localStorage.setItem("lebenslauf:photo:v2", JSON.stringify({ ...raw, borderWidth: 0 }));
+    });
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await previewRoot(page).locator("[data-cv-photo-free]").first().waitFor({ state: "visible" });
+    expect(await ring()).toContain("0px 0px 0px 0px");
+
+    // Drag handles are an editing aid; the exported sheet must not carry them.
+    await expect(exportRoot(page).locator("[data-cv-photo-handle]")).toHaveCount(0);
   });
 
   test("all layouts remain valid when mirrored", async ({ page }) => {
