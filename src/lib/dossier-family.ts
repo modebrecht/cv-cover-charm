@@ -64,13 +64,6 @@ const TEMPLATE_FAMILY: Record<TemplateId, DossierFamilyId> = {
   citrus: "modern",
 };
 
-const STORAGE_KEY = "dossier:family:v1";
-const EVENT = "dossier-family-change";
-
-function valid(value: string | null): value is DossierFamilyId {
-  return value === "classic" || value === "modern" || value === "executive" || value === "editorial";
-}
-
 export function familyForTemplate(template: TemplateId): DossierFamilyId {
   return TEMPLATE_FAMILY[template] ?? "modern";
 }
@@ -81,60 +74,24 @@ export function templatesForFamily(family: DossierFamilyId): TemplateId[] {
     .map(([template]) => template);
 }
 
-function readStored(): DossierFamilyId | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const value = window.localStorage.getItem(STORAGE_KEY);
-    return valid(value) ? value : null;
-  } catch {
-    return null;
-  }
-}
-
 function apply(family: DossierFamilyId) {
   if (typeof document === "undefined") return;
   document.documentElement.dataset.dossierFamily = family;
 }
 
 /**
- * Global design-family preference shared by title page and CV.
+ * Schriftbild-Familie eines Dossiers – **abgeleitet aus der Vorlage**.
  *
- * If an older dossier has no family preference yet, its current title-page
- * template decides the initial family so existing work keeps a sensible look.
+ * Früher war die Familie eine eigene, gespeicherte Wahl. Sie filterte im
+ * Vorlagen-Picker die Liste, sodass nur ein Teil der Vorlagen erreichbar war,
+ * und ein Wechsel der Familie tauschte die gewählte Vorlage stillschweigend
+ * aus. Zwei Regler für dieselbe Sache, die sich gegenseitig überschrieben.
+ *
+ * Jetzt gibt es eine Quelle: die Vorlage. Ein früher gespeicherter Wert wird
+ * absichtlich nicht mehr gelesen, sonst überstimmte er die Vorlage weiterhin.
  */
-export function getDossierFamily(fallbackTemplate: TemplateId = "modern"): DossierFamilyId {
-  const family = readStored() ?? familyForTemplate(fallbackTemplate);
+export function getDossierFamily(template: TemplateId = "modern"): DossierFamilyId {
+  const family = familyForTemplate(template);
   apply(family);
   return family;
-}
-
-export function setDossierFamily(family: DossierFamilyId) {
-  if (typeof window !== "undefined") {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, family);
-    } catch {
-      // The running page still updates through the event and data attribute.
-    }
-  }
-  apply(family);
-  if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent<DossierFamilyId>(EVENT, { detail: family }));
-  }
-}
-
-export function subscribeDossierFamily(onChange: () => void) {
-  if (typeof window === "undefined") return () => {};
-  const local = () => onChange();
-  const storage = (event: StorageEvent) => {
-    if (event.key !== STORAGE_KEY) return;
-    const family = readStored();
-    if (family) apply(family);
-    onChange();
-  };
-  window.addEventListener(EVENT, local);
-  window.addEventListener("storage", storage);
-  return () => {
-    window.removeEventListener(EVENT, local);
-    window.removeEventListener("storage", storage);
-  };
 }

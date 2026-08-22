@@ -1,7 +1,4 @@
-import {
-  DOSSIER_PHOTO_SHAPES,
-  type DossierPhotoStyle,
-} from "@/lib/dossier-photo";
+import { DOSSIER_PHOTO_SHAPES, type DossierPhotoStyle } from "@/lib/dossier-photo";
 
 const btn = "rounded-md border px-2 py-1 text-xs transition-colors border-input hover:bg-accent";
 const btnOn =
