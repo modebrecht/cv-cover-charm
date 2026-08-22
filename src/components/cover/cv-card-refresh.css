@@ -1,0 +1,280 @@
+/* -------------------------------------------------------------------------- */
+/* CV refresh: Neon · Verlauf · Citrus                                        */
+/* -------------------------------------------------------------------------- */
+/*
+ * The three covers stay untouched. Only their CV presentation changes.
+ * Previously all three used almost the same floating light card. Page one now
+ * uses the expressive cover background as a real hero/header and lets a calm
+ * reading surface begin underneath it. Section language differs per template.
+ */
+
+/* The document type must read as a title, not as microscopic metadata. */
+[data-dossier-document="cv"] [data-cv-doc-title] {
+  font-size: 12pt !important;
+  letter-spacing: 0.12em !important;
+  opacity: 0.94 !important;
+  margin-bottom: 2.2mm !important;
+}
+
+/* These CVs no longer use the detached little rule after every heading. */
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-accent="section"],
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-accent="section"],
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+/* Keep measurement geometry aligned with the redesigned first page. */
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main],
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main],
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 15mm !important;
+  bottom: 14mm !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* NEON — dark digital hero + clean reading plane + live neon edge             */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 43mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 15mm !important;
+  bottom: 14mm !important;
+}
+
+/* Stretch the existing user-color gradient blob into a proper hero field. */
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"]
+  [data-cv-page="0"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: -5mm !important;
+  top: -16mm !important;
+  width: 156mm !important;
+  height: 64mm !important;
+  border-radius: 0 0 42mm 0 !important;
+  opacity: 1 !important;
+}
+
+/* The third native neon blob becomes a slim full-height signal rail. */
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"]
+  [data-cv-page="0"]
+  [data-cv-background="motif"]
+  > div
+  > div:nth-child(3) {
+  left: auto !important;
+  right: 0 !important;
+  top: 43mm !important;
+  bottom: 0 !important;
+  width: 3.2mm !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  opacity: 0.95 !important;
+  z-index: 3;
+}
+
+/* Header sits directly on the expressive hero. */
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-header] {
+  max-width: 146mm;
+  margin-bottom: 8mm !important;
+}
+
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-doc-title],
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-name],
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-subtitle] {
+  color: #ffffff !important;
+  text-shadow: 0 0.5mm 2mm rgb(0 0 0 / 0.24);
+}
+
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-name] {
+  font-size: 27pt !important;
+  letter-spacing: -0.025em !important;
+}
+
+/* Tech labels: the heading itself is the object; no orphan rule beside it. */
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-section] > div {
+  gap: 0 !important;
+}
+
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-section-title] {
+  display: inline-block;
+  width: fit-content;
+  padding: 1.1mm 2.8mm !important;
+  border: 0.28mm solid color-mix(in srgb, currentColor 52%, transparent);
+  border-radius: 2mm !important;
+  background: color-mix(in srgb, currentColor 9%, transparent);
+  letter-spacing: 0.12em !important;
+}
+
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-date] {
+  font-variant-numeric: tabular-nums;
+  font-weight: 650 !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* VERLAUF — full gradient editorial hero, not a generic floating card        */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 46mm !important;
+  bottom: 0 !important;
+  border-radius: 14mm 0 0 0 !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 15mm !important;
+  bottom: 14mm !important;
+}
+
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-header] {
+  max-width: 150mm;
+  margin-bottom: 9mm !important;
+}
+
+/* The title block lives over the purple side of the native gradient. */
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-doc-title],
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-name],
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-subtitle] {
+  color: #ffffff !important;
+  text-shadow: 0 0.4mm 1.6mm rgb(30 20 70 / 0.18);
+}
+
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-name] {
+  font-size: 28pt !important;
+  font-weight: 720 !important;
+  letter-spacing: -0.03em !important;
+}
+
+/* Editorial section treatment: a soft color wash grows from the heading. */
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-section] > div {
+  gap: 0 !important;
+}
+
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-section-title] {
+  display: inline-block;
+  width: min(100%, 105mm);
+  padding: 1.2mm 3.4mm !important;
+  border-radius: 4mm 0 0 4mm !important;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, currentColor 14%, transparent),
+    color-mix(in srgb, currentColor 4%, transparent) 62%,
+    transparent
+  );
+  letter-spacing: 0.08em !important;
+}
+
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-entry] {
+  column-gap: 6mm !important;
+}
+
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-date] {
+  padding: 0.65mm 1.5mm;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 7%, transparent);
+  font-weight: 600 !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CITRUS — warm open hero + airy body + soft friendly section capsules        */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 39mm !important;
+  bottom: 0 !important;
+  border-radius: 16mm 0 0 0 !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+  background:
+    radial-gradient(circle at 94% 8%, rgb(251 113 133 / 0.10), transparent 31mm),
+    radial-gradient(circle at 9% 98%, rgb(251 191 36 / 0.08), transparent 38mm),
+    #fffdf9 !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 14mm !important;
+  bottom: 15mm !important;
+}
+
+/* Hide the title-page card inside the CV motif; the CV now has its own open plane. */
+html[data-dossier-template="citrus"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  display: none !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-header] {
+  max-width: 152mm;
+  margin-bottom: 8mm !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-name] {
+  font-size: 27pt !important;
+  color: #3f1d2b !important;
+  letter-spacing: -0.025em !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-doc-title] {
+  color: #6f3540 !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-subtitle] {
+  color: #7b3c45 !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-section] > div {
+  gap: 0 !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-section-title] {
+  display: inline-block;
+  width: fit-content;
+  padding: 1mm 3mm !important;
+  border-radius: 999px !important;
+  background: color-mix(in srgb, currentColor 10%, #fffdf9);
+  letter-spacing: 0.09em !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-entry] {
+  margin-bottom: 2.9mm !important;
+}
+
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-date] {
+  font-weight: 650 !important;
+  color: color-mix(in srgb, currentColor 78%, #6f3540) !important;
+}
+
+/* Follow-up pages stay calm and readable, but lose the old floating-card look. */
+html[data-dossier-template="neon"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-surface],
+html[data-dossier-template="verlauf"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-surface],
+html[data-dossier-template="citrus"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 10mm !important;
+  bottom: 10mm !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
