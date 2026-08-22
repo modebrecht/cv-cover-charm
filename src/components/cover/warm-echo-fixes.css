@@ -40,11 +40,11 @@ html[data-dossier-template="warm2"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
-  left: -8mm !important;
-  right: -8mm !important;
+  left: 20mm !important;
+  right: auto !important;
   top: 236mm !important;
   bottom: auto !important;
-  width: calc(100% + 16mm) !important;
+  width: 218mm !important;
   height: 66mm !important;
   border-radius: 26mm 26mm 0 0 !important;
   opacity: 0.24 !important;
