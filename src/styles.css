@@ -142,3 +142,17 @@
     color: var(--color-foreground);
   }
 }
+
+/*
+ * CV background overscan.
+ *
+ * The A4 preview is transformed by fractional scale factors. Chromium can
+ * rasterize two exactly coincident layer edges on opposite sides of a device
+ * pixel and expose a hairline of the page fallback underneath (most visible
+ * on dark templates such as Neon). Let the real template background extend
+ * one source pixel past the page; the page itself clips it, so layout and PDF
+ * geometry stay unchanged while the rasterizer never sees an uncovered edge.
+ */
+[data-cv-page] > [data-cv-background="motif"] {
+  inset: -1px !important;
+}
