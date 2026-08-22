@@ -124,8 +124,17 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
 
       const title = sheet.locator("[data-cv-doc-title]").first();
       await expect(title).toHaveText("Lebenslauf");
-      const titleSize = await title.evaluate((el) => Number.parseFloat(getComputedStyle(el).fontSize));
-      expect(titleSize, `${template.id} document title should be clearly readable`).toBeGreaterThanOrEqual(15);
+      const titleMetrics = await title.evaluate((el) => {
+        const style = getComputedStyle(el);
+        return {
+          fontSize: Number.parseFloat(style.fontSize),
+          zoom: Number.parseFloat(style.zoom || "1") || 1,
+        };
+      });
+      expect(
+        titleMetrics.fontSize * titleMetrics.zoom,
+        `${template.id} document title should be clearly readable`,
+      ).toBeGreaterThanOrEqual(15);
 
       const surface = sheet.locator("[data-cv-surface]").first();
       const surfaceBox = await surface.boundingBox();
