@@ -18,7 +18,17 @@ export type CvEntry = {
 export type CvSprache = { id: string; name: string; niveau: string };
 
 /** Eine Referenzperson. */
-export type CvReferenz = { id: string; name: string; funktion: string; kontakt: string };
+export type CvReferenz = {
+  id: string;
+  name: string;
+  funktion: string;
+  /** Sichtbare Kontaktzeile; enthält für neue Einträge Telefon, E-Mail und Zusatz je auf eigener Zeile. */
+  kontakt: string;
+  /** Optionale E-Mail-Adresse der Referenzperson. */
+  email?: string;
+  /** Optionale freie Zusatzzeile; wird im CV ohne Feldbezeichnung ausgegeben. */
+  zusatz?: string;
+};
 
 /**
  * Angaben zur Person. Dieselben Felder wie im Titelblatt, damit der Lebenslauf
@@ -205,6 +215,8 @@ export const emptyReferenz = (): CvReferenz => ({
   name: "",
   funktion: "",
   kontakt: "",
+  email: "",
+  zusatz: "",
 });
 
 /** Trägt ein Eintrag überhaupt etwas? Leere werden nicht gedruckt. */
@@ -270,6 +282,8 @@ export const DEMO_CV: CvData = {
       name: "Herr Thomas Weber",
       funktion: "Klassenlehrer, Schulhaus Feld",
       kontakt: "+41 44 123 45 67",
+      email: "",
+      zusatz: "",
     },
   ],
   labels: {},
