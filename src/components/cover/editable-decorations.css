@@ -1,0 +1,36 @@
+/*
+ * Simple decorative primitives are rendered by template-decorations.ts so they
+ * can be selected, moved, resized, recoloured, reset and removed. The original
+ * background copies are hidden only on the editable title page. Complex masks,
+ * clipped hero fields and full-page gradients deliberately remain structural.
+ */
+
+[data-dossier-document="cover"][data-cover-template="klassisch"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="modern"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="edel"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="colorful"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="blockig"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="edelBlockig"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="serioes"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="human"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="welle"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="terracotta"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="sonne"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="studio"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="neon"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="verlauf"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="pastell"] > div:first-child > *,
+[data-dossier-document="cover"][data-cover-template="freundlich"] > div:first-child > * {
+  display: none !important;
+}
+
+/* Aurora keeps its large clipped/rounded gradient hero as structural artwork;
+   only the small accent strip and bottom band become editable blocks. */
+[data-dossier-document="cover"][data-cover-template="aurora"]
+  > div:first-child
+  > div:nth-child(2),
+[data-dossier-document="cover"][data-cover-template="aurora"]
+  > div:first-child
+  > div:nth-child(3) {
+  display: none !important;
+}
