@@ -4,6 +4,7 @@ import "./gradient-templates.css";
 import "./studio-warm-variants.css";
 import "./studio-rework.css";
 import "./cv-card-refresh.css";
+import "./studio-cv-redesign.css";
 
 /**
  * Fresh dossier templates introduced after the original template union.
