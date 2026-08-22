@@ -67,13 +67,12 @@ type Variant = {
 };
 
 /**
- * Eight useful choices on every template:
+ * Twelve useful choices on every template:
  * - the first four keep the template background EXACTLY unchanged;
- * - the second four use genuinely different, coordinated background colours.
+ * - the remaining eight use genuinely different, coordinated backgrounds.
  *
- * Dark templates receive dark versions of those four paper moods instead of
- * being flipped onto a light page. That preserves the template's contrast and
- * keeps the variants usable for real applications.
+ * Dark templates receive dark versions of the paper moods instead of being
+ * flipped onto a light page. This preserves the original contrast concept.
  */
 const VARIANTS: Variant[] = [
   { name: "Kühl", hue: 214 },
@@ -99,6 +98,26 @@ const VARIANTS: Variant[] = [
     hue: 336,
     paper: { hue: 348, saturation: 0.32, lightness: 0.85, darkLightness: 0.18 },
   },
+  {
+    name: "Lavendel",
+    hue: 267,
+    paper: { hue: 264, saturation: 0.3, lightness: 0.85, darkLightness: 0.18 },
+  },
+  {
+    name: "Eis",
+    hue: 193,
+    paper: { hue: 194, saturation: 0.36, lightness: 0.85, darkLightness: 0.17 },
+  },
+  {
+    name: "Pfirsich",
+    hue: 15,
+    paper: { hue: 19, saturation: 0.42, lightness: 0.85, darkLightness: 0.19 },
+  },
+  {
+    name: "Olive",
+    hue: 92,
+    paper: { hue: 82, saturation: 0.27, lightness: 0.84, darkLightness: 0.18 },
+  },
 ];
 
 function paperColor(originalBackground: Hsl, mood: PaperMood): Hsl {
@@ -123,9 +142,6 @@ function variantColors(
     parsed.map(({ key, hsl }) => {
       if (key === "bg" && paper) return [key, hslToHex(paper)];
 
-      // When the page/background changes, body text follows its brightness.
-      // This matters especially for dark dossier templates: a new dark blue,
-      // sage, sand or berry background still needs reliably light typography.
       if (key === "ink" && paper) {
         const darkInk = paper.l >= 0.55;
         return [
