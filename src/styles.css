@@ -185,3 +185,21 @@
   > div:nth-child(3) {
   display: none !important;
 }
+
+/*
+ * Modern title page: keep the soft accent circle, but remove decorative bars
+ * that do not carry information. The first background child is the short
+ * accent dash before "Bewerbung"; the third is the full-width footer bar.
+ * The movable legacy divider is hidden as well.
+ */
+html[data-dossier-template="modern"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child,
+html[data-dossier-template="modern"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:nth-child(3),
+html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block-id="trenner"] {
+  display: none !important;
+}
