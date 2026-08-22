@@ -114,7 +114,27 @@ export type CvDesign = {
   bgOpacity: number;
   /** Formen und Bilder vom Titelblatt mitnehmen (ohne dessen Texte). */
   useElements: boolean;
+
+  /** Linie neben der Abschnittsüberschrift. */
+  headingRule?: CvHeadingRule;
+  /** Grösse von Name und Titel, 1 = Vorgabe. */
+  titleScale?: number;
+  /** Grösse des Fliesstexts, 1 = Vorgabe. */
+  bodyScale?: number;
+  /** Breite der Seitenspalte als Anteil der Blattbreite. */
+  sidebarPct?: number;
 };
+
+/** „keine" blendet die Linie aus, „kurz" ist der feste Strich, „ganz" füllt die Zeile. */
+export type CvHeadingRule = "none" | "short" | "full";
+
+export const CV_TYPE_DEFAULTS = {
+  headingRule: "short" as CvHeadingRule,
+  titleScale: 1,
+  bodyScale: 1,
+  /** 30/70 – die Aufteilung, die sich beim Ausprobieren als brauchbar zeigte. */
+  sidebarPct: 0.3,
+} as const;
 
 export const emptyPerson: CvPerson = {
   vorname: "",

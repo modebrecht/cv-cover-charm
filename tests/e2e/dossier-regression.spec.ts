@@ -3,7 +3,12 @@ import { stat } from "node:fs/promises";
 
 const BASE_URL = "http://127.0.0.1:4173";
 const FAMILY_IDS = ["classic", "modern", "executive", "editorial"] as const;
-const LAYOUT_IDS = ["classic", "modern", "minimal", "timeline", "executive", "editorial"] as const;
+/**
+ * "executive" (Zweispaltig) was the same grid as "modern" with different
+ * padding, so it is gone from the picker; a saved value still reads as
+ * "modern". The migration has its own test below.
+ */
+const LAYOUT_IDS = ["classic", "modern", "minimal", "timeline", "editorial"] as const;
 const PHOTO_SHAPES = ["rect", "square", "portrait", "circle"] as const;
 
 /**
@@ -86,7 +91,12 @@ function cvData({ long = false, photo = false } = {}) {
   };
 }
 
-function cvPayload(options?: { long?: boolean; photo?: boolean; template?: string }) {
+function cvPayload(options?: {
+  long?: boolean;
+  photo?: boolean;
+  template?: string;
+  sidebarPct?: number;
+}) {
   return {
     version: 2,
     data: cvData(options),
@@ -95,6 +105,7 @@ function cvPayload(options?: { long?: boolean; photo?: boolean; template?: strin
       colors: { primary: "#111827", accent: "#f43f5e", bg: "#fafafa" },
       bgOpacity: 0.06,
       useElements: false,
+      ...(options?.sidebarPct === undefined ? {} : { sidebarPct: options.sidebarPct }),
     },
     elements: [],
   };
@@ -111,6 +122,8 @@ type SeedOptions = {
   legacyPhotoShape?: (typeof PHOTO_SHAPES)[number];
   /** Title-page template, which decides the CV's structural archetype. */
   template?: (typeof ARCHETYPE_TEMPLATES)[number]["template"];
+  /** Side column width as a share of the sheet. */
+  sidebarPct?: number;
 };
 
 async function settlePagination(page: Page) {
@@ -160,6 +173,7 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
         long: options.long,
         photo: options.photo,
         template: options.template,
+        sidebarPct: options.sidebarPct,
       }),
       family: options.family ?? "classic",
       layout: options.layout ?? "classic",
@@ -171,6 +185,11 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
   );
   await page.reload({ waitUntil: "domcontentloaded" });
   await previewRoot(page).locator("[data-cv-page]").first().waitFor({ state: "visible" });
+  // The server-rendered sheet is visible before hydration, and it always shows
+  // the default layout. The layout stores stamp data-cv-variant on the first
+  // client render, so that attribute marks the point from which a one-shot
+  // measurement sees the seeded state instead of the default one.
+  await page.waitForFunction(() => document.documentElement.dataset.cvVariant !== undefined);
   await settlePagination(page);
 }
 
@@ -411,7 +430,29 @@ test.describe("M5.8 dossier regression", () => {
     }
   });
 
-  test("all six layouts remain valid when mirrored", async ({ page }) => {
+  test("a saved Zweispaltig layout reads as Sidebar", async ({ page }) => {
+    await seedCv(page, { layout: "executive" as never });
+    await expect(page.locator("html")).toHaveAttribute("data-cv-variant", "modern");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-layout", "modern");
+    await assertNoMainClipping(page, "migrated executive");
+  });
+
+  test("the side column width follows the setting", async ({ page }) => {
+    for (const pct of [0.22, 0.3, 0.42]) {
+      await seedCv(page, { layout: "modern", sidebarPct: pct });
+      const share = await previewRoot(page)
+        .locator("[data-cv-page]")
+        .first()
+        .evaluate((pageEl) => {
+          const bar = pageEl.querySelector("[data-cv-sidebar]");
+          if (!bar) return null;
+          return bar.getBoundingClientRect().width / pageEl.getBoundingClientRect().width;
+        });
+      expect(share, `sidebar at ${pct}`).toBeCloseTo(pct, 2);
+    }
+  });
+
+  test("all layouts remain valid when mirrored", async ({ page }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "executive", layout, mirrored: true, photo: true });
       await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");

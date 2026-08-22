@@ -18,7 +18,7 @@ export const CV_LAYOUTS: Array<{
   {
     id: "modern",
     name: "Sidebar",
-    description: "Schmale Seitenleiste plus Hauptspalte",
+    description: "Seitenspalte plus Hauptspalte, Breite einstellbar",
   },
   {
     id: "minimal",
@@ -29,11 +29,6 @@ export const CV_LAYOUTS: Array<{
     id: "timeline",
     name: "Timeline",
     description: "Chronologie entlang einer vertikalen Achse",
-  },
-  {
-    id: "executive",
-    name: "Zweispaltig",
-    description: "Breiter Zweispalter mit Seitenleiste",
   },
   {
     id: "editorial",
@@ -82,22 +77,32 @@ function rendererFor(choice: CvLayoutId): CvRenderLayoutId {
   return choice === "modern" || choice === "executive" ? "modern" : "classic";
 }
 
+/**
+ * "Zweispaltig" war dasselbe Raster wie "Sidebar" und unterschied sich nur in
+ * Polsterung und Spaltenbreite – zwei Karten für einen Aufbau. Geblieben ist
+ * "Sidebar", dessen Breite jetzt einstellbar ist. Ältere Stände, die noch
+ * "executive" gespeichert haben, lesen sich als "Sidebar".
+ */
+function canonical(choice: CvLayoutId): CvLayoutId {
+  return choice === "executive" ? "modern" : choice;
+}
+
 function applyVariant(choice: CvLayoutId) {
   if (typeof document === "undefined") return;
-  document.documentElement.dataset.cvVariant = choice;
+  document.documentElement.dataset.cvVariant = canonical(choice);
   document.documentElement.dataset.cvMirrored = readMirror() ? "true" : "false";
 }
 
 /** Tatsächlich ausgewählte Karte im Aufbau-Picker. */
 export function getCvLayoutChoice(): CvLayoutId {
-  const choice = readChoice();
+  const choice = canonical(readChoice());
   applyVariant(choice);
   return choice;
 }
 
 /** Renderer-Modus für Canvas/Formular. */
 export function getCvLayout(): CvRenderLayoutId {
-  const choice = readChoice();
+  const choice = canonical(readChoice());
   applyVariant(choice);
   return rendererFor(choice);
 }

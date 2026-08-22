@@ -16,6 +16,7 @@ import {
 } from "@/components/cv/CvForm";
 import {
   CV_SECTION_LABELS,
+  CV_TYPE_DEFAULTS,
   DEFAULT_CV_TITLE,
   DEMO_CV,
   emptyCv,
@@ -39,6 +40,7 @@ import {
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import { applyDossierTheme } from "@/lib/dossier-theme";
 import { setCvPhotoStyle } from "@/components/cv/photo";
+import { SIDEBAR_PCT_MAX, SIDEBAR_PCT_MIN } from "@/components/cv/archetype";
 
 export const Route = createFileRoute("/lebenslauf")({
   head: () => ({
@@ -381,14 +383,37 @@ function Lebenslauf() {
     );
   }, [takeover]);
 
+  /**
+   * Rückmeldung direkt beim Knopf.
+   *
+   * Die Statuszeile steht oben in der Kopfzeile und ist auf schmalen Fenstern
+   * ausgeblendet – wer hier im Seitenteil klickte, sah gar nichts und hielt
+   * den Knopf für kaputt.
+   */
+  const [personNote, setPersonNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  useEffect(() => {
+    if (!personNote) return;
+    const t = setTimeout(() => setPersonNote(null), 4000);
+    return () => clearTimeout(t);
+  }, [personNote]);
+
   const takePerson = () => {
     const draft = readCoverDraft();
     if (!draft || !personFilled(draft.person)) {
-      setStatus({ kind: "error", text: "Im Titelblatt stehen noch keine Angaben." });
+      const note = { kind: "error" as const, text: "Im Titelblatt stehen noch keine Angaben." };
+      setStatus(note);
+      setPersonNote(note);
       return;
     }
     setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
-    setStatus({ kind: "ok", text: "Angaben vom Titelblatt übernommen" });
+    const taken = [
+      draft.person.vorname || draft.person.nachname ? "Name" : null,
+      draft.person.adresse || draft.person.plzOrt ? "Adresse" : null,
+      draft.person.telefon || draft.person.email ? "Kontakt" : null,
+    ].filter(Boolean);
+    const note = { kind: "ok" as const, text: `Übernommen: ${taken.join(", ")}` };
+    setStatus(note);
+    setPersonNote(note);
   };
 
   const loadDemo = () => {
@@ -854,6 +879,100 @@ function Lebenslauf() {
                   />
                 </div>
 
+                <div className="flex flex-col gap-3 rounded-md border border-dashed p-2">
+                  <span className="text-xs font-medium">Schrift und Raster</span>
+
+                  <label className="flex flex-col gap-1 text-xs">
+                    <span className="text-muted-foreground">Linie neben der Überschrift</span>
+                    <div className="flex gap-1">
+                      {(
+                        [
+                          ["short", "Kurz"],
+                          ["full", "Ganze Breite"],
+                          ["none", "Keine"],
+                        ] as const
+                      ).map(([id, label]) => (
+                        <button
+                          key={id}
+                          type="button"
+                          aria-pressed={(design.headingRule ?? CV_TYPE_DEFAULTS.headingRule) === id}
+                          onClick={() => setDesign((d) => ({ ...d, headingRule: id }))}
+                          className={`flex-1 rounded-md border px-2 py-1.5 text-xs transition ${
+                            (design.headingRule ?? CV_TYPE_DEFAULTS.headingRule) === id
+                              ? "border-foreground bg-accent"
+                              : "border-input hover:border-foreground/40"
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </label>
+
+                  <label className="flex flex-col gap-1 text-xs">
+                    <span className="text-muted-foreground">
+                      Titelgrösse{" "}
+                      {Math.round((design.titleScale ?? CV_TYPE_DEFAULTS.titleScale) * 100)} %
+                    </span>
+                    <input
+                      type="range"
+                      min={70}
+                      max={140}
+                      step={5}
+                      value={Math.round((design.titleScale ?? CV_TYPE_DEFAULTS.titleScale) * 100)}
+                      onChange={(e) =>
+                        setDesign((d) => ({ ...d, titleScale: Number(e.target.value) / 100 }))
+                      }
+                      className="w-full accent-primary"
+                    />
+                  </label>
+
+                  <label className="flex flex-col gap-1 text-xs">
+                    <span className="text-muted-foreground">
+                      Textgrösse{" "}
+                      {Math.round((design.bodyScale ?? CV_TYPE_DEFAULTS.bodyScale) * 100)} %
+                    </span>
+                    <input
+                      type="range"
+                      min={85}
+                      max={120}
+                      step={5}
+                      value={Math.round((design.bodyScale ?? CV_TYPE_DEFAULTS.bodyScale) * 100)}
+                      onChange={(e) =>
+                        setDesign((d) => ({ ...d, bodyScale: Number(e.target.value) / 100 }))
+                      }
+                      className="w-full accent-primary"
+                    />
+                    <span className="text-muted-foreground/80">
+                      Mehr Text passt bei kleinerer Schrift auf eine Seite.
+                    </span>
+                  </label>
+
+                  <label className="flex flex-col gap-1 text-xs">
+                    <span className="text-muted-foreground">
+                      Seitenspalte{" "}
+                      {Math.round((design.sidebarPct ?? CV_TYPE_DEFAULTS.sidebarPct) * 100)}
+                      {" / "}
+                      {100 - Math.round((design.sidebarPct ?? CV_TYPE_DEFAULTS.sidebarPct) * 100)}
+                    </span>
+                    <input
+                      type="range"
+                      min={Math.round(SIDEBAR_PCT_MIN * 100)}
+                      max={Math.round(SIDEBAR_PCT_MAX * 100)}
+                      step={1}
+                      value={Math.round((design.sidebarPct ?? CV_TYPE_DEFAULTS.sidebarPct) * 100)}
+                      onChange={(e) =>
+                        setDesign((d) => ({ ...d, sidebarPct: Number(e.target.value) / 100 }))
+                      }
+                      className="w-full accent-primary"
+                    />
+                    <span className="text-muted-foreground/80">
+                      Gilt für den Aufbau „Sidebar". Vorlagen mit eigener Farbspalte behalten deren
+                      Breite vom Titelblatt.
+                    </span>
+                  </label>
+                </div>
+
                 <div>
                   <span className="mb-2 block text-xs text-muted-foreground">Farben</span>
                   <ColorChooser
@@ -876,13 +995,27 @@ function Lebenslauf() {
               hint={data.person.vorname || data.person.nachname ? "gesetzt" : "leer"}
             >
               <div className="flex flex-col gap-3">
-                <button
-                  type="button"
-                  onClick={takePerson}
-                  className="self-start rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
-                >
-                  Angaben vom Titelblatt holen
-                </button>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={takePerson}
+                    className="rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
+                  >
+                    Angaben vom Titelblatt holen
+                  </button>
+                  {personNote && (
+                    <span
+                      role="status"
+                      className={`rounded-md px-2 py-1 text-xs ${
+                        personNote.kind === "error"
+                          ? "bg-destructive/10 text-destructive"
+                          : "bg-primary/10 text-primary"
+                      }`}
+                    >
+                      {personNote.text}
+                    </span>
+                  )}
+                </div>
 
                 <label className="flex flex-col gap-1 text-xs">
                   <span className="text-muted-foreground">Titel des Dokuments</span>

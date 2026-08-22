@@ -38,6 +38,7 @@ import { getCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
   CV_SECTION_LABELS,
   CV_SECTION_ORDER,
+  CV_TYPE_DEFAULTS,
   DEFAULT_CV_PLACEMENTS,
   entryFilled,
   type CvData,
@@ -97,6 +98,14 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
   );
   const sidePlan = useMemo(() => sidebarPlan(data), [data]);
 
+  /** Vom Nutzer einstellbare Typografie und Spaltenbreite. */
+  const headingRule = design.headingRule ?? CV_TYPE_DEFAULTS.headingRule;
+  const titleScale = design.titleScale ?? CV_TYPE_DEFAULTS.titleScale;
+  const bodyScale = design.bodyScale ?? CV_TYPE_DEFAULTS.bodyScale;
+  const sidebarPct = design.sidebarPct ?? CV_TYPE_DEFAULTS.sidebarPct;
+  /** Schriftgrad des Fliesstexts in pt, mit der Einstellung skaliert. */
+  const pt = (size: number) => `${(size * bodyScale).toFixed(2)}pt`;
+
   /**
    * Schriftbild der Dossier-Familie. Titelblatt und Lebenslauf lesen dieselbe
    * Quelle, damit Editorials Serifen-Überschriften nicht wie Moderns
@@ -146,7 +155,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     p.geburtsdatum && `Geburtsdatum ${p.geburtsdatum}`,
     p.nationalitaet && `Nationalität ${p.nationalitaet}`,
   ].filter(Boolean) as string[];
-  const nameSize = smartNameSize(name, layout);
+  const nameSize = smartNameSize(name, layout) * titleScale;
 
   const headingText = (id: string, text: string): Row => ({
     id: `h-${id}`,
@@ -165,7 +174,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             style={{
               // Versalien laufen breiter als Gemischtschrift; darum je nach
               // Familie ein anderer Grundwert.
-              fontSize: headingStyle.uppercase ? "10.2pt" : "11.4pt",
+              fontSize: pt(headingStyle.uppercase ? 10.2 : 11.4),
               fontWeight: headingStyle.weight,
               letterSpacing: `${headingStyle.trackingEm}em`,
               textTransform: headingStyle.uppercase ? "uppercase" : "none",
@@ -176,17 +185,20 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           >
             {text}
           </div>
-          <div
-            data-cv-accent="section"
-            style={{
-              width: layout === "modern" ? "15mm" : "18mm",
-              height: layout === "modern" ? "0.65mm" : "0.55mm",
-              flexShrink: 0,
-              borderRadius: "999px",
-              background: pal.accent,
-              opacity: layout === "modern" ? 0.9 : 0.72,
-            }}
-          />
+          {headingRule !== "none" && (
+            <div
+              data-cv-accent="section"
+              style={{
+                width: headingRule === "full" ? "auto" : layout === "modern" ? "15mm" : "18mm",
+                flex: headingRule === "full" ? "1 1 auto" : undefined,
+                height: layout === "modern" ? "0.65mm" : "0.55mm",
+                flexShrink: headingRule === "full" ? 1 : 0,
+                borderRadius: "999px",
+                background: pal.accent,
+                opacity: layout === "modern" ? 0.9 : 0.72,
+              }}
+            />
+          )}
         </div>
       </div>
     ),
@@ -206,7 +218,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       <div
         data-cv-doc-title
         style={{
-          fontSize: "8.2pt",
+          fontSize: `${(8.2 * titleScale).toFixed(2)}pt`,
           fontWeight: headingStyle.weight,
           letterSpacing: "0.16em",
           textTransform: "uppercase",
@@ -239,7 +251,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           style={{
             width: layout === "modern" ? "23mm" : "27mm",
             flexShrink: 0,
-            fontSize: "9.3pt",
+            fontSize: pt(9.3),
             color: pal.muted,
             paddingTop: "0.45mm",
             lineHeight: 1.35,
@@ -266,7 +278,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             <div
               data-cv-muted
               style={{
-                fontSize: "9.7pt",
+                fontSize: pt(9.7),
                 color: pal.muted,
                 marginTop: "0.35mm",
                 lineHeight: 1.3,
@@ -279,7 +291,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             <div
               data-cv-body
               style={{
-                fontSize: "9.9pt",
+                fontSize: pt(9.9),
                 color: pal.ink,
                 marginTop: "0.75mm",
                 lineHeight: 1.35,
@@ -308,7 +320,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               {r.name && (
                 <div
                   data-cv-entry-title
-                  style={{ fontSize: "10.8pt", fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
+                  style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
                 >
                   {r.name}
                 </div>
@@ -317,7 +329,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 <div
                   data-cv-muted
                   style={{
-                    fontSize: "9.7pt",
+                    fontSize: pt(9.7),
                     color: pal.muted,
                     marginTop: "0.3mm",
                     lineHeight: 1.3,
@@ -330,7 +342,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 <div
                   data-cv-body
                   style={{
-                    fontSize: "9.7pt",
+                    fontSize: pt(9.7),
                     color: pal.ink,
                     marginTop: "0.35mm",
                     lineHeight: 1.3,
@@ -363,7 +375,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 style={{
                   width: layout === "modern" ? "23mm" : "27mm",
                   flexShrink: 0,
-                  fontSize: "10.2pt",
+                  fontSize: pt(10.2),
                   fontWeight: 650,
                   color: pal.ink,
                   lineHeight: 1.3,
@@ -373,7 +385,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               </div>
               <div
                 data-cv-muted
-                style={{ flex: 1, fontSize: "9.8pt", color: pal.muted, lineHeight: 1.3 }}
+                style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
               >
                 {s.niveau}
               </div>
@@ -401,7 +413,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 display: "flex",
                 gap: "2.6mm",
                 marginBottom: "1.35mm",
-                fontSize: "9.9pt",
+                fontSize: pt(9.9),
                 lineHeight: 1.35,
                 color: pal.ink,
               }}
@@ -425,7 +437,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           <div
             data-cv-entry
             data-cv-body
-            style={{ marginBottom: "2.2mm", fontSize: "9.8pt", lineHeight: 1.4, color: pal.ink }}
+            style={{ marginBottom: "2.2mm", fontSize: pt(9.8), lineHeight: 1.4, color: pal.ink }}
           >
             {kontaktZeilen.map((line) => (
               <div key={line} style={{ overflowWrap: "anywhere" }}>
@@ -502,7 +514,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               <div
                 data-cv-subtitle
                 style={{
-                  fontSize: "11.2pt",
+                  fontSize: pt(11.2),
                   fontWeight: 600,
                   color: pal.accent,
                   marginTop: "1.15mm",
@@ -517,7 +529,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 data-cv-body
                 style={{
                   marginTop: withName ? "2.5mm" : 0,
-                  fontSize: "9.7pt",
+                  fontSize: pt(9.7),
                   color: pal.ink,
                   lineHeight: 1.38,
                 }}
@@ -534,7 +546,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 data-cv-muted
                 style={{
                   marginTop: "1.35mm",
-                  fontSize: "9.2pt",
+                  fontSize: pt(9.2),
                   color: pal.muted,
                   lineHeight: 1.35,
                 }}
@@ -589,7 +601,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               data-cv-subtitle
               style={{
                 marginTop: "1.4mm",
-                fontSize: "11.5pt",
+                fontSize: pt(11.5),
                 fontWeight: 600,
                 color: pal.accent,
                 lineHeight: 1.25,
@@ -701,10 +713,10 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
      * unterscheiden sich davon nur um das, was die Bauform selbst pro Seite
      * ändert: das kürzere Kopfband und die Fusszeile.
      */
-    const first = cvContentBox(frame, 0, layout);
+    const first = cvContentBox(frame, 0, layout, sidebarPct);
     const heightFor = (pageIndex: number) => {
       if (pageIndex === 0) return measured;
-      const b = cvContentBox(frame, pageIndex, layout);
+      const b = cvContentBox(frame, pageIndex, layout, sidebarPct);
       const deltaMm = b.top - first.top + (b.bottom - first.bottom);
       return measured - deltaMm * PX_PER_MM;
     };
@@ -851,7 +863,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
    * Titelblatt – und hier kommt nur noch die Schreibfläche darüber.
    */
   const chrome = (pageIndex: number) => {
-    const surface = cvSurface(frame, pageIndex, layout);
+    const surface = cvSurface(frame, pageIndex, layout, sidebarPct);
     return (
       <>
         <div
@@ -953,8 +965,8 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     </div>
   );
 
-  const sideBody = sidePlan.veryCompact ? 8.7 : sidePlan.compact ? 9.1 : 9.5;
-  const sideSmall = sidePlan.veryCompact ? 8.2 : sidePlan.compact ? 8.6 : 9.1;
+  const sideBody = (sidePlan.veryCompact ? 8.7 : sidePlan.compact ? 9.1 : 9.5) * bodyScale;
+  const sideSmall = (sidePlan.veryCompact ? 8.2 : sidePlan.compact ? 8.6 : 9.1) * bodyScale;
   const sideLine = sidePlan.veryCompact ? 1.3 : sidePlan.compact ? 1.4 : 1.5;
 
   const sideEntries = (key: "schule" | "erfahrung") => (
@@ -1021,7 +1033,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
 
   /** Bei "column" ist die Spalte die Fläche der Vorlage – sonst getönte Papierspalte. */
   const onColumn = frame.id === "column";
-  const sidebarWidth = sidebarWidthMm(frame, layout);
+  const sidebarWidth = sidebarWidthMm(frame, layout, sidebarPct);
   /**
    * Fotobreite in der Seitenspalte. Ein Hochportrait wird hoch, darum bleibt
    * die Breite unter dem, was die Spalte abzüglich ihrer Ränder hergibt.
@@ -1035,7 +1047,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     // Eine farbige Spalte läuft über die volle Höhe, wie auf dem Titelblatt.
     // Die getönte Papierspalte beginnt erst unter dem Kopfband, damit dieses
     // über die ganze Breite sichtbar bleibt.
-    const surface = cvSurface(frame, pageIndex, layout);
+    const surface = cvSurface(frame, pageIndex, layout, sidebarPct);
     return (
       <div
         data-cv-sidebar
@@ -1316,7 +1328,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
               >
                 {name || "Lebenslauf"}
               </div>
-              <div data-cv-muted style={{ marginTop: "1.5mm", fontSize: "9pt", color: side.muted }}>
+              <div data-cv-muted style={{ marginTop: "1.5mm", fontSize: pt(9), color: side.muted }}>
                 Lebenslauf · Seite {pageIndex + 1}
               </div>
             </div>
@@ -1336,7 +1348,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     const roles = frame.bandMotif ? onArea : onBand;
     // Rechts der Seitenspalte beginnen, sonst verschwindet der Vorname
     // dahinter – gemessen fehlten so die ersten 117 px des Namens.
-    const clear = Math.max(bandLeftMm(frame, layout), sidebarWidthMm(frame, layout));
+    const clear = Math.max(bandLeftMm(frame, layout), sidebarWidthMm(frame, layout, sidebarPct));
     const left = clear + (clear > 0 ? 10 : MARGIN_X);
     return (
       <div
@@ -1375,7 +1387,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
                 data-cv-subtitle
                 style={{
                   marginTop: "1.6mm",
-                  fontSize: "11.2pt",
+                  fontSize: pt(11.2),
                   fontWeight: 600,
                   color: roles.muted,
                 }}
@@ -1385,7 +1397,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
             )}
           </>
         ) : (
-          <div data-cv-muted style={{ fontSize: "9pt", color: roles.muted }}>
+          <div data-cv-muted style={{ fontSize: pt(9), color: roles.muted }}>
             {name || "Lebenslauf"} · Seite {pageIndex + 1}
           </div>
         )}
@@ -1399,7 +1411,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
    */
   const footer = (pageIndex: number) => {
     if (pageIndex === 0 || pageMarker(frame) !== "footer") return null;
-    const box = cvContentBox(frame, pageIndex, layout);
+    const box = cvContentBox(frame, pageIndex, layout, sidebarPct);
     return (
       <div
         data-cv-page-label
@@ -1419,7 +1431,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
           paddingTop: "1.6mm",
           boxSizing: "border-box",
           fontFamily: theme.typography.fontStack,
-          fontSize: "8.5pt",
+          fontSize: pt(8.5),
           color: pal.muted,
         }}
       >
@@ -1431,7 +1443,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
     );
   };
 
-  const firstBox = cvContentBox(frame, 0, layout);
+  const firstBox = cvContentBox(frame, 0, layout, sidebarPct);
 
   return (
     <div
@@ -1485,7 +1497,7 @@ export function CvCanvas({ data, design, elements, exportMode = false }: Props) 
       </div>
 
       {pages.map((page, i) => {
-        const box = cvContentBox(frame, i, layout);
+        const box = cvContentBox(frame, i, layout, sidebarPct);
         return (
           <div
             key={i}
