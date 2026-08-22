@@ -297,6 +297,66 @@ test.describe("M5.8 dossier regression", () => {
     }
   });
 
+  test("taking over from the title page carries design, shapes, photo and person", async ({
+    page,
+  }) => {
+    // A finished title page: own template, own colours, a shape and a photo.
+    const cover = JSON.stringify({
+      template: "verlauf",
+      colors: {
+        verlauf: { primary: "#7f5af0", secondary: "#2cb67d", ink: "#ffffff", bg: "#ffffff" },
+      },
+      layout: {},
+      customs: [{ id: "shape-1", kind: "shape", shape: "circle", label: "Kreis" }],
+      data: {
+        vorname: "Lea",
+        nachname: "Müller",
+        adresse: "Bahnhofstrasse 42",
+        plzOrt: "8000 Zürich",
+        telefon: "+41 79 123 45 67",
+        email: "lea@example.ch",
+        geburtsdatum: "14.03.2010",
+        foto: PHOTO,
+      },
+    });
+
+    // A CV that starts on a different template with nothing of its own.
+    await seedCv(page, { coverRaw: cover, template: "klassisch" });
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-archetype", "quiet");
+
+    await page.getByRole("button", { name: "Übernehmen", exact: true }).click();
+
+    // Copying is not enough: the shapes have to be switched on, or the button
+    // looks as if it did nothing.
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const saved = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "{}");
+          const root = document.querySelector(
+            '[data-dossier-document="cv"][data-export-mode="false"]',
+          );
+          return {
+            template: saved.design?.template,
+            useElements: saved.design?.useElements,
+            elements: (saved.elements ?? []).length,
+            hasPhoto: !!saved.data?.person?.foto,
+            vorname: saved.data?.person?.vorname ?? "",
+            archetype: root?.getAttribute("data-cv-archetype"),
+            shapesDrawn: root?.querySelectorAll("[data-cv-decoration]").length ?? 0,
+          };
+        }),
+      )
+      .toEqual({
+        template: "verlauf",
+        useElements: true,
+        elements: 1,
+        hasPhoto: true,
+        vorname: "Lea",
+        archetype: "card",
+        shapesDrawn: 1,
+      });
+  });
+
   test("all six layouts remain valid when mirrored", async ({ page }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "executive", layout, mirrored: true, photo: true });
