@@ -34,7 +34,7 @@ export function ColorChooser({ slots, colors, onChange, onApplyPalette, onReset 
         <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
           Farbsets
         </span>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-4 gap-2">
           {palettes.map((p) => {
             const active = isActive(colors, p);
             return (
@@ -42,25 +42,31 @@ export function ColorChooser({ slots, colors, onChange, onApplyPalette, onReset 
                 key={p.name}
                 type="button"
                 onClick={() => onApplyPalette(p.colors)}
+                aria-label={`Farbset ${p.name}`}
+                title={p.name}
                 aria-pressed={active}
-                className={`flex items-center gap-2 rounded-md border p-2 text-left text-xs transition-colors ${
-                  active ? "border-foreground bg-accent" : "border-input hover:bg-accent/60"
+                className={`group relative h-12 overflow-hidden rounded-lg border p-1.5 transition-all ${
+                  active
+                    ? "border-foreground ring-2 ring-foreground/80 ring-offset-2 ring-offset-background"
+                    : "border-input hover:border-foreground/50 hover:scale-[1.02]"
                 }`}
               >
-                <span className="flex shrink-0 overflow-hidden rounded" aria-hidden>
+                <span className="flex h-full w-full overflow-hidden rounded-md" aria-hidden>
                   {slots.map((s) => (
                     <span
                       key={s.key}
-                      className="h-5 w-2.5"
+                      className="h-full min-w-0 flex-1"
                       style={{ backgroundColor: p.colors[s.key] }}
                     />
                   ))}
                 </span>
-                <span className="truncate">{p.name}</span>
               </button>
             );
           })}
         </div>
+        <span className="text-[10px] leading-snug text-muted-foreground">
+          Oben klassisches Papier, unten abgestimmte farbige Papierflächen.
+        </span>
       </div>
 
       <div className="flex flex-col gap-2">
