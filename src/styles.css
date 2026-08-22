@@ -156,3 +156,32 @@
 [data-cv-page] > [data-cv-background="motif"] {
   inset: -1px !important;
 }
+
+/*
+ * Blockig on the CV: keep the title-page geometry, but turn the visible
+ * 66 mm left rail into a deliberate two-colour composition. The first dark
+ * block becomes the rail background for the full page and the existing orange
+ * block sits on top of it. This removes the pale/white remainder below the
+ * orange block without changing the Blockig title page itself.
+ */
+[data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div:has(> div[style*="width: 105mm"][style*="height: 30mm"])
+  > div:first-child {
+  width: 66mm !important;
+  height: 100% !important;
+}
+
+[data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div:has(> div[style*="width: 105mm"][style*="height: 30mm"])
+  > div:nth-child(2) {
+  width: 66mm !important;
+}
+
+[data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div:has(> div[style*="width: 105mm"][style*="height: 30mm"])
+  > div:nth-child(3) {
+  display: none !important;
+}
