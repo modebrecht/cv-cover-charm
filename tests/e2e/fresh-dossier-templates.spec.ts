@@ -92,6 +92,50 @@ const FRESH = [
       ink: "#1f1733",
     },
   },
+  {
+    id: "studio2",
+    name: "Studio 2",
+    colors: {
+      bg: "#fbfbf8",
+      primary: "#202a3b",
+      secondary: "#f2c84b",
+      accent: "#e78a2f",
+      ink: "#1b2430",
+    },
+  },
+  {
+    id: "studio3",
+    name: "Studio 3",
+    colors: {
+      bg: "#f7fbfa",
+      primary: "#173d3a",
+      secondary: "#5ec6b6",
+      accent: "#e2a94b",
+      ink: "#18302d",
+    },
+  },
+  {
+    id: "warm2",
+    name: "Warm 2",
+    colors: {
+      bg: "#fff7f0",
+      primary: "#d95f4c",
+      secondary: "#f6b26b",
+      accent: "#7f9b76",
+      ink: "#3a2521",
+    },
+  },
+  {
+    id: "warm3",
+    name: "Warm 3",
+    colors: {
+      bg: "#fbf7ef",
+      primary: "#1e6f68",
+      secondary: "#e5a84f",
+      accent: "#c86648",
+      ink: "#24312e",
+    },
+  },
 ] as const;
 
 const coverData = {
@@ -200,19 +244,19 @@ async function settle(page: Page, template: string) {
 const hash = (buffer: Buffer) => createHash("sha256").update(buffer).digest("hex");
 
 test.describe("Fresh dossier templates", () => {
-  test.setTimeout(180_000);
+  test.setTimeout(240_000);
 
-  test("all eight templates are selectable", async ({ page }) => {
+  test("all twelve templates are selectable", async ({ page }) => {
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
 
     for (const template of FRESH) {
       await expect(page.getByRole("button", { name: template.name, exact: true })).toBeVisible();
     }
 
-    await expect(page.getByText(/Alle 26 stehen immer zur Wahl/)).toBeVisible();
+    await expect(page.getByText(/Alle 30 stehen immer zur Wahl/)).toBeVisible();
   });
 
-  test("all eight title pages render as distinct full dossiers", async ({ page }) => {
+  test("all twelve title pages render as distinct full dossiers", async ({ page }) => {
     await page.setViewportSize({ width: 1137, height: 913 });
     const hashes = new Set<string>();
 
@@ -238,7 +282,7 @@ test.describe("Fresh dossier templates", () => {
     expect(hashes.size).toBe(FRESH.length);
   });
 
-  test("all eight CVs render and stay visually paired with their template", async ({ page }) => {
+  test("all twelve CVs render and stay visually paired with their template", async ({ page }) => {
     await page.setViewportSize({ width: 1137, height: 913 });
     const hashes = new Set<string>();
 
