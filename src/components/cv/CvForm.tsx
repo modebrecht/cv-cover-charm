@@ -1,4 +1,4 @@
-import { useState, useSyncExternalStore, type CSSProperties } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { readPhoto } from "@/lib/image";
 import { readCoverPhoto } from "@/lib/dossier";
 import {
@@ -51,6 +51,111 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 const addBtn =
   "self-start rounded-md border border-dashed border-input px-3 py-1.5 text-xs hover:bg-accent";
 const delBtn = "shrink-0 rounded-md px-2 py-1 text-xs text-destructive hover:bg-destructive/10";
+
+const AUTO_SORT_EXPERIENCE_KEY = "lebenslauf:auto-sort:erfahrung";
+const DRAG_PREFIX = "cv-sort:";
+
+function readAutoSortExperience(): boolean {
+  if (typeof window === "undefined") return true;
+  try {
+    return window.localStorage.getItem(AUTO_SORT_EXPERIENCE_KEY) !== "false";
+  } catch {
+    return true;
+  }
+}
+
+function writeAutoSortExperience(value: boolean) {
+  try {
+    window.localStorage.setItem(AUTO_SORT_EXPERIENCE_KEY, String(value));
+  } catch {
+    // Private mode / blocked storage: the checkbox still works for this visit.
+  }
+}
+
+/**
+ * Freie Datumsangaben wie „Sept. 2026", „2023 – heute" oder „2017 – 2023"
+ * bleiben erlaubt. Für die Sortierung reicht ein robuster Best-Effort-Key;
+ * nicht erkennbare Angaben bleiben stabil hinter den datierbaren Einträgen.
+ */
+function experienceDateKey(text: string): number | null {
+  const value = text.trim().toLowerCase();
+  if (!value) return null;
+  if (/\b(heute|aktuell|gegenwart)\b/.test(value)) return Number.MAX_SAFE_INTEGER;
+
+  const years = Array.from(value.matchAll(/\b(?:19|20)\d{2}\b/g), (m) => Number(m[0]));
+  if (!years.length) return null;
+  const year = Math.max(...years);
+
+  const months: Array<[RegExp, number]> = [
+    [/jan/, 1],
+    [/feb/, 2],
+    [/mär|mae|mar/, 3],
+    [/apr/, 4],
+    [/mai|may/, 5],
+    [/jun/, 6],
+    [/jul/, 7],
+    [/aug/, 8],
+    [/sep/, 9],
+    [/okt|oct/, 10],
+    [/nov/, 11],
+    [/dez|dec/, 12],
+  ];
+  let month = 0;
+  for (const [pattern, number] of months) {
+    if (pattern.test(value)) month = Math.max(month, number);
+  }
+  return year * 12 + month;
+}
+
+function sortExperienceNewestFirst(entries: CvEntry[]): CvEntry[] {
+  return entries
+    .map((entry, index) => ({ entry, index, key: experienceDateKey(entry.zeit) }))
+    .sort((a, b) => {
+      if (a.key == null && b.key == null) return a.index - b.index;
+      if (a.key == null) return 1;
+      if (b.key == null) return -1;
+      return b.key - a.key || a.index - b.index;
+    })
+    .map(({ entry }) => entry);
+}
+
+function DragHandle({ scope, index }: { scope: string; index: number }) {
+  return (
+    <span
+      draggable
+      role="button"
+      tabIndex={0}
+      title="Ziehen zum Sortieren"
+      aria-label="Eintrag ziehen zum Sortieren"
+      onDragStart={(e) => {
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/plain", `${DRAG_PREFIX}${scope}:${index}`);
+      }}
+      className="mt-0.5 shrink-0 cursor-grab select-none rounded px-1.5 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground active:cursor-grabbing"
+    >
+      ⋮⋮
+    </span>
+  );
+}
+
+function dropReorder<T>(
+  e: React.DragEvent,
+  scope: string,
+  targetIndex: number,
+  list: T[],
+  onChange: (next: T[]) => void,
+) {
+  e.preventDefault();
+  const prefix = `${DRAG_PREFIX}${scope}:`;
+  const raw = e.dataTransfer.getData("text/plain");
+  if (!raw.startsWith(prefix)) return;
+  const from = Number(raw.slice(prefix.length));
+  if (!Number.isInteger(from) || from < 0 || from >= list.length || from === targetIndex) return;
+  const next = [...list];
+  const [moved] = next.splice(from, 1);
+  next.splice(targetIndex, 0, moved);
+  onChange(next);
+}
 
 /** Kompakter Zwei-Zustands-Schalter für das Modern-Layout. */
 export function PlacementToggle({
@@ -464,10 +569,50 @@ export function FormCvEntries({
   const patch = (id: string, p: Partial<CvEntry>) =>
     onChange(entries.map((e) => (e.id === id ? { ...e, ...p } : e)));
   const block: CvPlacementKey = titelLabel === "Schule / Stufe" ? "schule" : "erfahrung";
+  const isExperience = block === "erfahrung";
+  const [autoSort, setAutoSort] = useState(readAutoSortExperience);
+  const sortedOnce = useRef(false);
+
+  const sortNow = () => {
+    const sorted = sortExperienceNewestFirst(entries);
+    if (sorted.some((entry, index) => entry.id !== entries[index]?.id)) onChange(sorted);
+  };
+
+  // Existing CVs may already contain entries in arbitrary order. Sort once when
+  // the Praktika section is first mounted; later edits sort on blur so a field
+  // does not jump away while the user is still typing its date.
+  useEffect(() => {
+    if (!isExperience || !autoSort || sortedOnce.current) return;
+    sortedOnce.current = true;
+    sortNow();
+    // We intentionally only perform this migration-style sort once per mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isExperience, autoSort]);
 
   return (
     <div className="flex flex-col gap-2">
       <BlockPlacementControl block={block} />
+      {isExperience && (
+        <label className="flex items-center gap-2 rounded-md border bg-muted/20 px-2.5 py-2 text-xs">
+          <input
+            type="checkbox"
+            checked={autoSort}
+            onChange={(e) => {
+              const checked = e.target.checked;
+              setAutoSort(checked);
+              writeAutoSortExperience(checked);
+              if (checked) {
+                const sorted = sortExperienceNewestFirst(entries);
+                if (sorted.some((entry, index) => entry.id !== entries[index]?.id)) onChange(sorted);
+              }
+            }}
+          />
+          <span>
+            Automatisch nach Datum sortieren
+            <span className="ml-1 text-muted-foreground">(neueste zuerst)</span>
+          </span>
+        </label>
+      )}
       {entries.map((e) => (
         <Item key={e.id} onRemove={() => onChange(entries.filter((x) => x.id !== e.id))}>
           <Field label="Zeitraum">
@@ -476,6 +621,9 @@ export function FormCvEntries({
               placeholder="2023 – heute"
               value={e.zeit}
               onChange={(ev) => patch(e.id, { zeit: ev.target.value })}
+              onBlur={() => {
+                if (isExperience && autoSort) sortNow();
+              }}
             />
           </Field>
           <Field label={titelLabel}>
@@ -521,9 +669,15 @@ export function FormCvSprachen({
   return (
     <div className="flex flex-col gap-2">
       <BlockPlacementControl block="sprachen" />
-      {list.map((s) => (
-        <div key={s.id} className="flex items-end gap-2">
-          <div className="grid flex-1 grid-cols-2 gap-2">
+      {list.map((s, i) => (
+        <div
+          key={s.id}
+          className="flex items-end gap-1"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => dropReorder(e, "sprachen", i, list, onChange)}
+        >
+          <DragHandle scope="sprachen" index={i} />
+          <div className="grid min-w-0 flex-1 grid-cols-2 gap-2">
             <Field label="Sprache">
               <input
                 className={inputCls}
@@ -574,7 +728,13 @@ export function FormCvLines({
     <div className="flex flex-col gap-2">
       <BlockPlacementControl block={block} />
       {list.map((v, i) => (
-        <div key={i} className="flex items-center gap-2">
+        <div
+          key={i}
+          className="flex items-center gap-1"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => dropReorder(e, block, i, list, onChange)}
+        >
+          <DragHandle scope={block} index={i} />
           <input
             className={inputCls}
             placeholder={placeholder}
@@ -610,31 +770,41 @@ export function FormCvReferenzen({
   return (
     <div className="flex flex-col gap-2">
       <BlockPlacementControl block="referenzen" />
-      {list.map((r) => (
-        <Item key={r.id} onRemove={() => onChange(list.filter((x) => x.id !== r.id))}>
-          <Field label="Name">
-            <input
-              className={inputCls}
-              value={r.name}
-              onChange={(e) => patch(r.id, { name: e.target.value })}
-            />
-          </Field>
-          <Field label="Funktion">
-            <input
-              className={inputCls}
-              placeholder="Klassenlehrer, Schulhaus Feld"
-              value={r.funktion}
-              onChange={(e) => patch(r.id, { funktion: e.target.value })}
-            />
-          </Field>
-          <Field label="Kontakt">
-            <input
-              className={inputCls}
-              value={r.kontakt}
-              onChange={(e) => patch(r.id, { kontakt: e.target.value })}
-            />
-          </Field>
-        </Item>
+      {list.map((r, i) => (
+        <div
+          key={r.id}
+          className="flex items-start gap-1"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => dropReorder(e, "referenzen", i, list, onChange)}
+        >
+          <DragHandle scope="referenzen" index={i} />
+          <div className="min-w-0 flex-1">
+            <Item key={r.id} onRemove={() => onChange(list.filter((x) => x.id !== r.id))}>
+              <Field label="Name">
+                <input
+                  className={inputCls}
+                  value={r.name}
+                  onChange={(e) => patch(r.id, { name: e.target.value })}
+                />
+              </Field>
+              <Field label="Funktion">
+                <input
+                  className={inputCls}
+                  placeholder="Klassenlehrer, Schulhaus Feld"
+                  value={r.funktion}
+                  onChange={(e) => patch(r.id, { funktion: e.target.value })}
+                />
+              </Field>
+              <Field label="Kontakt">
+                <input
+                  className={inputCls}
+                  value={r.kontakt}
+                  onChange={(e) => patch(r.id, { kontakt: e.target.value })}
+                />
+              </Field>
+            </Item>
+          </div>
+        </div>
       ))}
       <button type="button" className={addBtn} onClick={() => onChange([...list, emptyReferenz()])}>
         + Referenz
