@@ -41,6 +41,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     <div
       ref={ref}
       data-dossier-document="cover"
+      data-cover-template={template}
       className="relative overflow-hidden shadow-2xl"
       style={{
         width: `${PAGE_W}px`,
