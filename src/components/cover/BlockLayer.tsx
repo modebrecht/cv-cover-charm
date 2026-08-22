@@ -12,6 +12,7 @@ const { WIDTH: PAGE_W } = PAGE;
 export type Point = { x: number; y: number };
 
 type DossierTextRole = "name" | "subtitle" | "heading" | "body" | "muted";
+type LayeredStyle = BlockStyle & { layer?: "back" | "front" };
 
 /** Gemeinsame semantische Hierarchie für Titelblatt und Lebenslauf. */
 function dossierRole(block: Block): DossierTextRole | undefined {
@@ -263,11 +264,16 @@ export function BlockLayer({
         const hasBadge = b.kind === "text" && !!st.bg;
         const textBorder = st.borderWidth ?? 0;
         const role = dossierRole(b);
+        const customLayer = b.id.startsWith("custom-")
+          ? ((st as LayeredStyle).layer ?? "front")
+          : "content";
+        const zIndex = customLayer === "back" ? 1 : customLayer === "front" ? 7 : 5;
 
         return (
           <div
             key={b.id}
             data-block-id={b.id}
+            data-element-layer={customLayer}
             data-dossier-role={role}
             data-dossier-accent={b.id === "trenner" ? "rule" : undefined}
             data-dossier-photo={isPhoto ? "applicant" : undefined}
@@ -277,6 +283,7 @@ export function BlockLayer({
               left: `${st.x}mm`,
               top: `${y}mm`,
               width: `${st.w}mm`,
+              zIndex,
               cursor: editable && !drawing ? "move" : "default",
               touchAction: "none",
               outline: active ? "1px dashed rgba(59,130,246,0.9)" : "none",
