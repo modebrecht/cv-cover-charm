@@ -1,5 +1,6 @@
 import type { DossierFamilyId } from "@/lib/dossier-family";
 import { TEMPLATES, type TemplateDefinition, type TemplateId } from "./types";
+import "./gradient-templates.css";
 
 /**
  * Fresh dossier templates introduced after the original template union.
@@ -10,7 +11,16 @@ import { TEMPLATES, type TemplateDefinition, type TemplateId } from "./types";
  * makes colors, import/export and both document editors understand them without
  * invalidating older drafts.
  */
-export const FRESH_TEMPLATE_IDS = ["edge", "glow", "frame", "monoLuxe"] as const;
+export const FRESH_TEMPLATE_IDS = [
+  "edge",
+  "glow",
+  "frame",
+  "monoLuxe",
+  "horizon",
+  "sunrise",
+  "forestFlow",
+  "violetPulse",
+] as const;
 export type FreshTemplateId = (typeof FRESH_TEMPLATE_IDS)[number];
 
 const freshDefinitions: TemplateDefinition[] = [
@@ -62,6 +72,54 @@ const freshDefinitions: TemplateDefinition[] = [
       { key: "ink", label: "Text", default: "#171717" },
     ],
   },
+  {
+    id: "horizon" as TemplateId,
+    name: "Horizon",
+    description: "Ruhiger Blauverlauf, klar und professionell",
+    slots: [
+      { key: "bg", label: "Papier", default: "#f6f9ff" },
+      { key: "primary", label: "Navy", default: "#11233f" },
+      { key: "secondary", label: "Royal Blue", default: "#2f6dff" },
+      { key: "accent", label: "Sky Blue", default: "#6fc3ff" },
+      { key: "ink", label: "Text", default: "#152033" },
+    ],
+  },
+  {
+    id: "sunrise" as TemplateId,
+    name: "Sunrise",
+    description: "Warmer Verlauf, freundlich und optimistisch",
+    slots: [
+      { key: "bg", label: "Papier", default: "#fff8f2" },
+      { key: "primary", label: "Coral", default: "#ff7a59" },
+      { key: "secondary", label: "Peach", default: "#ffb27a" },
+      { key: "accent", label: "Soft Gold", default: "#f4c76a" },
+      { key: "ink", label: "Text", default: "#3a2a24" },
+    ],
+  },
+  {
+    id: "forestFlow" as TemplateId,
+    name: "Forest Flow",
+    description: "Tiefe Grüntöne, ruhig und elegant",
+    slots: [
+      { key: "bg", label: "Papier", default: "#f5f8f4" },
+      { key: "primary", label: "Deep Green", default: "#1f4d43" },
+      { key: "secondary", label: "Teal", default: "#2e8b7f" },
+      { key: "accent", label: "Sage", default: "#9abf9c" },
+      { key: "ink", label: "Text", default: "#1d2b27" },
+    ],
+  },
+  {
+    id: "violetPulse" as TemplateId,
+    name: "Violet Pulse",
+    description: "Digitaler Violettverlauf, frisch und markant",
+    slots: [
+      { key: "bg", label: "Papier", default: "#faf7ff" },
+      { key: "primary", label: "Indigo", default: "#4338ca" },
+      { key: "secondary", label: "Violet", default: "#7c3aed" },
+      { key: "accent", label: "Magenta", default: "#d946ef" },
+      { key: "ink", label: "Text", default: "#1f1733" },
+    ],
+  },
 ];
 
 // Module evaluation happens before the route modules initialise their color
@@ -78,10 +136,13 @@ export function isFreshTemplate(template: TemplateId): template is TemplateId & 
 export function freshFamilyForTemplate(template: TemplateId): DossierFamilyId | null {
   switch (template as string) {
     case "edge":
-      return "modern";
     case "glow":
+    case "horizon":
+    case "sunrise":
+    case "violetPulse":
       return "modern";
     case "frame":
+    case "forestFlow":
       return "executive";
     case "monoLuxe":
       return "editorial";
