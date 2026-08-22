@@ -1,0 +1,393 @@
+/* -------------------------------------------------------------------------- */
+/* Signature dossier systems: Ledger · Prism · Gallery                        */
+/* -------------------------------------------------------------------------- */
+/*
+ * Three deliberately different compositions built from broad, purposeful
+ * fields rather than micro-decoration. The cover is the expressive page; the
+ * CV repeats the same geometry with quieter proportions and a calm paper area.
+ * All shapes still come from CoverBackground, so palette edits remain live.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* LEDGER — dark masthead + warm index column                                 */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="ledger"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 36mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="ledger"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 36mm !important;
+  bottom: auto !important;
+  width: 64mm !important;
+  height: 261mm !important;
+  border-radius: 0 !important;
+  opacity: 0.72 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="ledger"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(-57mm, -31mm) scale(0.78);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cover"] [data-block-id="name"],
+html[data-dossier-template="ledger"] [data-dossier-document="cover"] [data-block-id="beruf"],
+html[data-dossier-template="ledger"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  width: 112mm !important;
+  transform: translate(57mm, -45mm);
+}
+
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cover"] [data-block-id="kontaktTitel"],
+html[data-dossier-template="ledger"] [data-dossier-document="cover"] [data-block-id="kontakt"] {
+  width: 42mm !important;
+  transform: translate(-3mm, 0);
+}
+
+/* CV: the masthead shrinks to a calm cap; the broad index column remains. */
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  height: 18mm !important;
+}
+
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  top: 18mm !important;
+  width: 46mm !important;
+  height: 279mm !important;
+  opacity: 0.58 !important;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 46mm !important;
+  right: 0 !important;
+  top: 18mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 56mm !important;
+  right: 18mm !important;
+  top: 29mm !important;
+  bottom: 16mm !important;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-sidebar] {
+  left: 0 !important;
+  top: 18mm !important;
+  bottom: 0 !important;
+  width: 46mm !important;
+  padding-left: 8mm !important;
+  padding-right: 7mm !important;
+  background: transparent !important;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
+  display: none !important;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-section-title] {
+  border-left: 1.1mm solid currentColor;
+  padding-left: 2.4mm;
+  letter-spacing: 0.075em !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* PRISM — crisp two-tone diagonal hero                                       */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="prism"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: -2mm !important;
+  right: -2mm !important;
+  top: -2mm !important;
+  width: calc(100% + 4mm) !important;
+  height: 111mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  filter: none !important;
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 0 100%);
+}
+
+html[data-dossier-template="prism"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: 108mm !important;
+  right: -2mm !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 104mm !important;
+  height: 111mm !important;
+  border-radius: 0 !important;
+  opacity: 0.94 !important;
+  filter: none !important;
+  clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 78%);
+}
+
+html[data-dossier-template="prism"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  left: auto !important;
+  right: -12mm !important;
+  top: 231mm !important;
+  bottom: auto !important;
+  width: 116mm !important;
+  height: 68mm !important;
+  border-radius: 34mm 0 0 0 !important;
+  opacity: 0.11 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="prism"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(49mm, -34mm) scale(0.82);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="prism"] [data-dossier-document="cover"] [data-block-id="name"],
+html[data-dossier-template="prism"] [data-dossier-document="cover"] [data-block-id="beruf"],
+html[data-dossier-template="prism"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  width: 150mm !important;
+  transform: translate(-3mm, -11mm);
+}
+
+html[data-dossier-template="prism"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+/* CV: same diagonal language, compressed to a restrained header signature. */
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  height: 24mm !important;
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 0 100%);
+}
+
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: 142mm !important;
+  width: 70mm !important;
+  height: 24mm !important;
+  clip-path: polygon(25% 0, 100% 0, 100% 100%, 0 72%);
+}
+
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  right: -10mm !important;
+  top: 244mm !important;
+  width: 82mm !important;
+  height: 53mm !important;
+  opacity: 0.055 !important;
+}
+
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 20mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 31mm !important;
+  bottom: 16mm !important;
+}
+
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-accent] {
+  border-radius: 0 !important;
+}
+
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-section-title] {
+  letter-spacing: 0.105em !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* GALLERY — portrait tower + grounded information field                      */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="gallery"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child {
+  left: 132mm !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 78mm !important;
+  height: 174mm !important;
+  border-radius: 0 0 0 28mm !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="gallery"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:first-child {
+  left: -132mm !important;
+  right: auto !important;
+  top: 224mm !important;
+  bottom: auto !important;
+  width: 210mm !important;
+  height: 73mm !important;
+  border-radius: 24mm 0 0 0 !important;
+  opacity: 0.78 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="gallery"]
+  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="gallery"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
+  width: 54mm !important;
+  transform: translate(124mm, 8mm);
+}
+
+html[data-dossier-template="gallery"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  width: 58mm !important;
+  transform: translate(18mm, 22mm);
+}
+
+html[data-dossier-template="gallery"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(62mm, -39mm) scale(0.78);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="gallery"] [data-dossier-document="cover"] [data-block-id="name"],
+html[data-dossier-template="gallery"] [data-dossier-document="cover"] [data-block-id="beruf"],
+html[data-dossier-template="gallery"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  width: 102mm !important;
+  transform: translate(-2mm, -72mm);
+}
+
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"], [data-block-id="anTitel"], [data-block-id="empfaenger"]) {
+  transform: translateY(-1mm);
+}
+
+/* CV: the portrait tower becomes a substantial right frame, with a quiet
+ * grounding field at the foot. It is structure, not an isolated stripe. */
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 184mm !important;
+  width: 26mm !important;
+  height: 297mm !important;
+  border-radius: 0 !important;
+}
+
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: -184mm !important;
+  top: 279mm !important;
+  width: 210mm !important;
+  height: 18mm !important;
+  border-radius: 12mm 0 0 0 !important;
+  opacity: 0.64 !important;
+}
+
+html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 26mm !important;
+  top: 0 !important;
+  bottom: 18mm !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+  left: 20mm !important;
+  right: 36mm !important;
+  top: 17mm !important;
+  bottom: 27mm !important;
+}
+
+html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-section-title] {
+  letter-spacing: 0.035em !important;
+  text-transform: none !important;
+}

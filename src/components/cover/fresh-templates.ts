@@ -5,6 +5,7 @@ import "./studio-warm-variants.css";
 import "./studio-rework.css";
 import "./cv-card-refresh.css";
 import "./studio-cv-redesign.css";
+import "./signature-templates.css";
 
 /**
  * Fresh dossier templates introduced after the original template union.
@@ -28,6 +29,9 @@ export const FRESH_TEMPLATE_IDS = [
   "studio3",
   "warm2",
   "warm3",
+  "ledger",
+  "prism",
+  "gallery",
 ] as const;
 export type FreshTemplateId = (typeof FRESH_TEMPLATE_IDS)[number];
 
@@ -176,6 +180,42 @@ const freshDefinitions: TemplateDefinition[] = [
       { key: "ink", label: "Text", default: "#24312e" },
     ],
   },
+  {
+    id: "ledger" as TemplateId,
+    name: "Ledger",
+    description: "Editoriales Raster mit Masthead und ruhiger Indexspalte",
+    slots: [
+      { key: "bg", label: "Papier", default: "#f7f4ee" },
+      { key: "primary", label: "Masthead", default: "#1f2933" },
+      { key: "secondary", label: "Indexfläche", default: "#d8c9b2" },
+      { key: "accent", label: "Kupfer", default: "#b56a43" },
+      { key: "ink", label: "Text", default: "#20262c" },
+    ],
+  },
+  {
+    id: "prism" as TemplateId,
+    name: "Prism",
+    description: "Klarer diagonaler Two-Tone-Look mit starker Hierarchie",
+    slots: [
+      { key: "bg", label: "Papier", default: "#f7f9fc" },
+      { key: "primary", label: "Navy", default: "#172554" },
+      { key: "secondary", label: "Royal", default: "#2563eb" },
+      { key: "accent", label: "Sky", default: "#38bdf8" },
+      { key: "ink", label: "Text", default: "#172033" },
+    ],
+  },
+  {
+    id: "gallery" as TemplateId,
+    name: "Gallery",
+    description: "Markanter Portrait-Turm mit geerdeter Informationsfläche",
+    slots: [
+      { key: "bg", label: "Papier", default: "#faf7f2" },
+      { key: "primary", label: "Plum", default: "#4b2e3f" },
+      { key: "secondary", label: "Sand", default: "#d7b9a5" },
+      { key: "accent", label: "Terracotta", default: "#b96852" },
+      { key: "ink", label: "Text", default: "#2c2530" },
+    ],
+  },
 ];
 
 // Module evaluation happens before the route modules initialise their color
@@ -200,6 +240,9 @@ export function freshFamilyForTemplate(template: TemplateId): DossierFamilyId | 
     case "studio3":
     case "warm2":
     case "warm3":
+    case "ledger":
+    case "prism":
+    case "gallery":
       return "modern";
     case "frame":
     case "forestFlow":
