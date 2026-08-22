@@ -86,6 +86,15 @@
 }
 
 /*
+ * CV muted colours are already calculated as a deliberately softer readable
+ * colour. Applying the family opacity on top washed small dates and locations
+ * out a second time, especially on tinted paper and in print.
+ */
+[data-dossier-document="cv"] [data-cv-muted] {
+  opacity: 1 !important;
+}
+
+/*
  * CV wrapping policy:
  * - normal CV text may wrap only at real word boundaries
  * - never split ordinary words just to fill a narrow column
