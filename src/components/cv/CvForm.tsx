@@ -119,6 +119,32 @@ function sortExperienceNewestFirst(entries: CvEntry[]): CvEntry[] {
     .map(({ entry }) => entry);
 }
 
+/**
+ * `kontakt` bleibt die bereits vom Renderer verwendete sichtbare Kontaktzeile.
+ * E-Mail und Zusatz werden als eigene Datenfelder gepflegt, für den bestehenden
+ * Renderer aber als zusätzliche Zeilen hineinkomponiert. So bleiben alte
+ * gespeicherte Referenzen kompatibel und neue Felder erscheinen sofort in allen
+ * CV-Layouts, ohne eine zweite Darstellung der Referenzdaten einzuführen.
+ */
+function referencePrimaryContact(reference: CvReferenz): string {
+  const lines = reference.kontakt.split("\n");
+  let end = lines.length;
+  const extra = reference.zusatz?.trim();
+  const email = reference.email?.trim();
+
+  if (extra && lines[end - 1]?.trim() === extra) end -= 1;
+  if (email && lines[end - 1]?.trim() === email) end -= 1;
+
+  return lines.slice(0, end).join("\n").trim();
+}
+
+function referenceVisibleContact(primary: string, email?: string, extra?: string): string {
+  return [primary, email ?? "", extra ?? ""]
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
 function DragHandle({ scope, index }: { scope: string; index: number }) {
   return (
     <span
@@ -769,7 +795,21 @@ export function FormCvReferenzen({
   onChange: (l: CvReferenz[]) => void;
 }) {
   const patch = (id: string, p: Partial<CvReferenz>) =>
-    onChange(list.map((r) => (r.id === id ? { ...r, ...p } : r)));
+    onChange(
+      list.map((reference) => {
+        if (reference.id !== id) return reference;
+        const primary = p.kontakt !== undefined ? p.kontakt : referencePrimaryContact(reference);
+        const email = p.email !== undefined ? p.email : reference.email ?? "";
+        const extra = p.zusatz !== undefined ? p.zusatz : reference.zusatz ?? "";
+        return {
+          ...reference,
+          ...p,
+          email,
+          zusatz: extra,
+          kontakt: referenceVisibleContact(primary, email, extra),
+        };
+      }),
+    );
 
   return (
     <div className="flex flex-col gap-2">
@@ -799,11 +839,27 @@ export function FormCvReferenzen({
                   onChange={(e) => patch(r.id, { funktion: e.target.value })}
                 />
               </Field>
-              <Field label="Kontakt">
+              <Field label="Telefon / Kontakt (optional)">
                 <input
                   className={inputCls}
-                  value={r.kontakt}
+                  value={referencePrimaryContact(r)}
                   onChange={(e) => patch(r.id, { kontakt: e.target.value })}
+                />
+              </Field>
+              <Field label="E-Mail (optional)">
+                <input
+                  type="email"
+                  className={inputCls}
+                  value={r.email ?? ""}
+                  onChange={(e) => patch(r.id, { email: e.target.value })}
+                />
+              </Field>
+              <Field label="Zusatz (optional)">
+                <input
+                  className={inputCls}
+                  placeholder="z. B. Betreuung im Berufswahlprozess"
+                  value={r.zusatz ?? ""}
+                  onChange={(e) => patch(r.id, { zusatz: e.target.value })}
                 />
               </Field>
             </Item>
