@@ -2,6 +2,7 @@ import type { DossierFamilyId } from "@/lib/dossier-family";
 import { TEMPLATES, type TemplateDefinition, type TemplateId } from "./types";
 import "./gradient-templates.css";
 import "./studio-warm-variants.css";
+import "./cv-card-refresh.css";
 
 /**
  * Fresh dossier templates introduced after the original template union.
