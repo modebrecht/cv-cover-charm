@@ -13,6 +13,11 @@ type Props = {
 
 export function ColorChooser({ slots, colors, onChange, onApplyPalette, onReset }: Props) {
   const palettes = useMemo(() => palettesFor(slots), [slots]);
+  const previewSlots = useMemo(() => {
+    const background = slots.find((slot) => slot.key === "bg");
+    const rest = slots.filter((slot) => slot.key !== "bg");
+    return background ? [background, ...rest] : slots;
+  }, [slots]);
   const cvText = useMemo(() => cvPalette(colors), [colors]);
   const [showCvText, setShowCvText] = useState(false);
 
@@ -52,11 +57,16 @@ export function ColorChooser({ slots, colors, onChange, onApplyPalette, onReset 
                 }`}
               >
                 <span className="flex h-full w-full overflow-hidden rounded-md" aria-hidden>
-                  {slots.map((s) => (
+                  {previewSlots.map((s) => (
                     <span
                       key={s.key}
-                      className="h-full min-w-0 flex-1"
-                      style={{ backgroundColor: p.colors[s.key] }}
+                      className="h-full min-w-0"
+                      style={{
+                        backgroundColor: p.colors[s.key],
+                        // The page/background is the most important distinction
+                        // between the bottom four presets, so show it larger.
+                        flex: s.key === "bg" ? 1.75 : 1,
+                      }}
                     />
                   ))}
                 </span>
@@ -65,7 +75,7 @@ export function ColorChooser({ slots, colors, onChange, onApplyPalette, onReset 
           })}
         </div>
         <span className="text-[10px] leading-snug text-muted-foreground">
-          Oben klassisches Papier, unten abgestimmte farbige Papierflächen.
+          Oben 4× gleicher Vorlagen-Hintergrund. Unten 4× deutlich andere, abgestimmte Hintergründe.
         </span>
       </div>
 
