@@ -409,6 +409,10 @@ function Titelblatt() {
   }, [data.vorname, data.nachname, data.beruf, data.kicker, data.lehrbetrieb, data.ort]);
 
   const hiddenBlocks = blocks.filter((b) => b.style.hidden);
+  // Intern bleibt 1.2 der bewährte Vorlagen-Standard. Für Nutzende ist dieser
+  // Wert aber schlicht 100 %, damit der Regler wie ein normaler Zoom/Skalierungsregler funktioniert.
+  const fontScaleUi = fontScale / FONT.DEFAULT_SCALE;
+  const fontScalePercent = Math.round(fontScaleUi * 100);
 
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
@@ -1145,13 +1149,13 @@ function Titelblatt() {
               title="Text & Layout"
               open={open.typo}
               onToggle={() => toggleSection("typo")}
-              hint={`${Math.round(fontScale * 100)} %`}
+              hint={`${fontScalePercent} %`}
             >
               <div className="flex flex-col gap-4">
                 <label className="flex flex-col gap-2 text-xs">
                   <span className="flex items-center justify-between">
                     <span className="text-muted-foreground">
-                      Schriftgrösse gesamt {Math.round(fontScale * 100)} %
+                      Schriftgrösse gesamt {fontScalePercent} %
                     </span>
                     <button
                       type="button"
@@ -1163,11 +1167,11 @@ function Titelblatt() {
                   </span>
                   <input
                     type="range"
-                    min={FONT.SCALE_MIN}
-                    max={FONT.SCALE_MAX}
+                    min={Math.min(FONT.SCALE_MIN, fontScaleUi)}
+                    max={Math.max(FONT.SCALE_MAX, fontScaleUi)}
                     step={0.05}
-                    value={fontScale}
-                    onChange={(e) => setFontScale(Number(e.target.value))}
+                    value={fontScaleUi}
+                    onChange={(e) => setFontScale(Number(e.target.value) * FONT.DEFAULT_SCALE)}
                     className="w-full accent-primary"
                   />
                   <span className="text-muted-foreground/80">
