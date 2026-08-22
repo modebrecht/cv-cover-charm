@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import type { Block, BlockStyle, ColorSlot, CustomField, FontKey, ListStyle } from "./types";
 import { FONT_LABELS, FONT_STACKS, LIST_STYLES } from "./types";
+import { resolveLayout } from "./resolve";
 import { FONT, FRAME } from "@/default-config";
 import { PhotoControls } from "./PhotoControls";
 
@@ -218,6 +219,43 @@ export function ElementBar({
   // Bild-Element am Block selbst.
   const cropReady = isImage ? !!block.src : hasPhoto;
 
+  // Der globale Schriftregler skaliert die gerenderte Schrift, ohne die rohe
+  // Elementgrösse zu verändern. Die Elementleiste soll trotzdem die für den
+  // Nutzer wirksame Grösse zeigen. Dafür lesen wir die tatsächlich gerenderte
+  // Grösse und vergleichen sie mit genau diesem Block beim UI-Standard 100 %.
+  const [renderedTextSize, setRenderedTextSize] = useState<number | null>(null);
+  const standardTextSize = isText
+    ? (resolveLayout([block], FONT.DEFAULT_SCALE)[block.id]?.size ?? st.size)
+    : st.size;
+
+  useLayoutEffect(() => {
+    if (!isText || typeof document === "undefined") {
+      setRenderedTextSize(null);
+      return;
+    }
+    const node = Array.from(document.querySelectorAll<HTMLElement>("[data-block-id]")).find(
+      (element) => element.dataset.blockId === block.id,
+    );
+    const textNode = node?.firstElementChild as HTMLElement | null;
+    if (!textNode) return;
+    const px = Number.parseFloat(window.getComputedStyle(textNode).fontSize);
+    if (!Number.isFinite(px)) return;
+    const pt = px * 0.75;
+    setRenderedTextSize((current) =>
+      current !== null && Math.abs(current - pt) < 0.01 ? current : pt,
+    );
+  });
+
+  const textUiScale =
+    isText && renderedTextSize !== null && standardTextSize > 0
+      ? renderedTextSize / standardTextSize
+      : 1;
+  const effectiveTextSize = st.size * textUiScale;
+  const setEffectiveTextSize = (size: number) =>
+    onChange({
+      size: Math.max(FONT.SLIDER_MIN, Math.min(FONT.SLIDER_MAX, size / textUiScale)),
+    });
+
   // Bilder kann nur tragen, wer auch eines annehmen darf – also eigene
   // Elemente. Formen bringen ihre Linienstärke schon im Register "Form" mit.
   const canImage = !!onPickImage;
@@ -323,17 +361,17 @@ export function ElementBar({
                 aria-label="Kleiner"
                 className={toggle(false)}
                 onClick={() =>
-                  onChange({ size: Math.max(FONT.SLIDER_MIN, Math.round((st.size - 1) * 2) / 2) })
+                  setEffectiveTextSize(Math.max(FONT.SLIDER_MIN * textUiScale, Math.round((effectiveTextSize - 1) * 2) / 2))
                 }
               >
                 A−
               </button>
               <Slider
-                value={st.size}
-                min={FONT.SLIDER_MIN}
-                max={FONT.SLIDER_MAX}
+                value={effectiveTextSize}
+                min={FONT.SLIDER_MIN * textUiScale}
+                max={FONT.SLIDER_MAX * textUiScale}
                 step={0.5}
-                onChange={(size) => onChange({ size })}
+                onChange={setEffectiveTextSize}
                 suffix="pt"
               />
               <button
@@ -341,7 +379,7 @@ export function ElementBar({
                 aria-label="Grösser"
                 className={toggle(false)}
                 onClick={() =>
-                  onChange({ size: Math.min(FONT.SLIDER_MAX, Math.round((st.size + 1) * 2) / 2) })
+                  setEffectiveTextSize(Math.min(FONT.SLIDER_MAX * textUiScale, Math.round((effectiveTextSize + 1) * 2) / 2))
                 }
               >
                 A+
