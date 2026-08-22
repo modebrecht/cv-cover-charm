@@ -31,9 +31,9 @@ export const FONT = {
    * Startwert des globalen Reglers (1 = Vorlagen-Standard).
    * Der schnellste Weg, das ganze Blatt grösser zu machen.
    */
-  DEFAULT_SCALE: 1.05,
+  DEFAULT_SCALE: 1.2,
   SCALE_MIN: 0.8,
-  SCALE_MAX: 1.8,
+  SCALE_MAX: 3,
 } as const;
 
 /** Vorbelegung des Formulars. */
