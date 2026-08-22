@@ -44,10 +44,6 @@ export function CoverBackground({
             opacity: 0.1,
           }}
         />
-        <div
-          className="absolute left-0 bottom-0"
-          style={{ width: "100%", height: "4mm", background: colors.primary }}
-        />
       </div>
     );
   }

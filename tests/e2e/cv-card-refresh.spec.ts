@@ -147,7 +147,8 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
 
       const nameBox = await sheet.locator("[data-cv-name]").first().boundingBox();
       expect(nameBox).not.toBeNull();
-      if (nameBox) expect(nameBox.y, `${template.id} name belongs in the hero`).toBeLessThan(surfaceBox.y);
+      if (nameBox)
+        expect(nameBox.y, `${template.id} name belongs in the hero`).toBeLessThan(surfaceBox.y);
 
       const oldRule = sheet.locator('[data-cv-accent="section"]').first();
       if ((await oldRule.count()) > 0) await expect(oldRule).toBeHidden();

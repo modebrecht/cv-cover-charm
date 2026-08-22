@@ -128,6 +128,14 @@ export type BlockStyle = {
   anchorBottom?: boolean;
   /** Foto und Formen: Höhe = w * ratio */
   ratio?: number;
+  /**
+   * Beim Ziehen der Breite die Proportion behalten – die Höhe wächst mit.
+   *
+   * Beim Foto ist das die Vorgabe: ein breitgezogenes Portrait will niemand.
+   * Bei Formen und Bildern nicht, dort sind Breite und Höhe zwei eigene Masse.
+   * Ohne Wert entscheidet die Art des Elements.
+   */
+  lockRatio?: boolean;
   /** Eckenradius in mm; 999 = Kreis, 0 = eckig. */
   radius?: number;
   /** Bildzuschnitt: Vergrösserung (1 = ganzes Bild) und Bildausschnitt in %. */

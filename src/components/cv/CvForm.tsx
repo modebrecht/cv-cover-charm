@@ -591,7 +591,8 @@ export function FormCvEntries({
               writeAutoSortExperience(checked);
               if (checked) {
                 const sorted = sortExperienceNewestFirst(entries);
-                if (sorted.some((entry, index) => entry.id !== entries[index]?.id)) onChange(sorted);
+                if (sorted.some((entry, index) => entry.id !== entries[index]?.id))
+                  onChange(sorted);
               }
             }}
           />

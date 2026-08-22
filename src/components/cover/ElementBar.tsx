@@ -205,6 +205,13 @@ export function ElementBar({
   const isShape = block.kind === "shape";
   const isPhoto = block.kind === "photo";
   const isImage = block.kind === "image";
+  /**
+   * Ziehen an der Breite: Proportion behalten oder nicht?
+   *
+   * Beim Foto ja – sonst wird das Gesicht breitgezogen. Bei allem anderen
+   * nein, dort sind Breite und Höhe zwei Masse, die man einzeln setzen will.
+   */
+  const lockRatio = st.lockRatio ?? isPhoto;
   const isSlot = slots.some((s) => s.key === st.color);
   // Ohne eigene Rahmenfarbe folgt der Rahmen der Elementfarbe.
   const frameKey = st.borderColor ?? st.color;
@@ -494,22 +501,35 @@ export function ElementBar({
                 min={5}
                 max={200}
                 step={1}
-                onChange={(w) => onChange({ w, ...keepHeight(block, w) })}
+                onChange={(w) => onChange({ w, ...(lockRatio ? {} : keepHeight(block, w)) })}
                 suffix="mm"
               />
             </Ctl>
 
             {block.shape !== "line" && (
-              <Ctl label="Höhe" grow>
-                <Slider
-                  value={heightMm(block)}
-                  min={5}
-                  max={200}
-                  step={1}
-                  onChange={(mm) => onChange({ ratio: mm / Math.max(1, st.w) })}
-                  suffix="mm"
-                />
-              </Ctl>
+              <>
+                <Ctl label="Höhe" grow>
+                  <Slider
+                    value={heightMm(block)}
+                    min={5}
+                    max={200}
+                    step={1}
+                    onChange={(mm) => onChange({ ratio: mm / Math.max(1, st.w) })}
+                    suffix="mm"
+                  />
+                </Ctl>
+
+                <Ctl label="Proportion">
+                  <label className="flex cursor-pointer items-center gap-1.5 text-xs">
+                    <input
+                      type="checkbox"
+                      checked={lockRatio}
+                      onChange={(e) => onChange({ lockRatio: e.target.checked })}
+                    />
+                    behalten
+                  </label>
+                </Ctl>
+              </>
             )}
 
             {(isPhoto || isImage) && (
@@ -848,7 +868,7 @@ export function ElementBar({
                 min={5}
                 max={200}
                 step={1}
-                onChange={(w) => onChange({ w, ...keepHeight(block, w) })}
+                onChange={(w) => onChange({ w, ...(lockRatio ? {} : keepHeight(block, w)) })}
                 suffix="mm"
               />
             </Ctl>

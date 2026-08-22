@@ -84,18 +84,15 @@ async function seedTemplate(page: Page, template: string): Promise<Locator> {
 
   const sheet = page.locator('[data-dossier-document="cover"]').first();
   await sheet.waitFor({ state: "visible" });
-  await page.waitForFunction(
-    (expected) => {
-      const saved = localStorage.getItem("titelblatt:v3");
-      if (!saved) return false;
-      try {
-        return JSON.parse(saved).template === expected;
-      } catch {
-        return false;
-      }
-    },
-    template,
-  );
+  await page.waitForFunction((expected) => {
+    const saved = localStorage.getItem("titelblatt:v3");
+    if (!saved) return false;
+    try {
+      return JSON.parse(saved).template === expected;
+    } catch {
+      return false;
+    }
+  }, template);
   await page.evaluate(
     () =>
       new Promise<void>((resolve) => {
