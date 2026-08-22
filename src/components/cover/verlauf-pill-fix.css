@@ -1,0 +1,8 @@
+/* Verlauf: the editable Kreisfläche belongs only to the decorative circle.
+ * Lehrbeginn keeps its own neutral pill instead of inheriting that slot. */
+html[data-dossier-template="verlauf"]
+  [data-dossier-document="cover"]
+  [data-block-id="lehrbeginn"]
+  span {
+  background-color: #ffffff !important;
+}
