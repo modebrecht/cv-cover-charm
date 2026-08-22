@@ -13,71 +13,75 @@
  */
 
 /* -------------------------------------------------------------------------- */
-/* EDGE — precise navy rail + electric signal                                 */
+/* EDGE — clean professional header, strong edge accent                       */
 /* -------------------------------------------------------------------------- */
+/*
+ * Edge used to be a very narrow full-height rail with a rotated BEWERBUNG
+ * label. That made the cover feel empty and awkward. The cover now uses a
+ * compact hero/header field: still precise and asymmetric, but useful as an
+ * actual dossier cover.
+ */
+html[data-dossier-template="edge"] [data-dossier-document="cover"] > div:first-child > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 72mm !important;
+  border-radius: 0 0 30mm 0 !important;
+  opacity: 1 !important;
+}
+
 html[data-dossier-template="edge"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
   > div:first-child {
   left: 0 !important;
   right: auto !important;
   top: 0 !important;
-  width: 10mm !important;
-  height: 100% !important;
+  bottom: auto !important;
+  width: 5mm !important;
+  height: 72mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
 }
 
 html[data-dossier-template="edge"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
   > div:first-child
-  > div:first-child {
-  left: 10mm !important;
-  right: auto !important;
-  top: 0 !important;
-  bottom: auto !important;
-  width: 1.1mm !important;
-  height: 100% !important;
-  border-radius: 0 !important;
-  opacity: 0.95 !important;
-}
-
-html[data-dossier-template="edge"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
-  left: 160mm !important;
-  right: auto !important;
-  top: 12mm !important;
+  left: auto !important;
+  right: -18mm !important;
+  top: -26mm !important;
   bottom: auto !important;
-  width: 38mm !important;
-  height: 11mm !important;
-  border-radius: 5.5mm 0 0 5.5mm !important;
-  opacity: 1 !important;
+  width: 92mm !important;
+  height: 92mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.16 !important;
 }
 
-/* Warm's light eyebrow becomes a vertical label on the dark rail. */
+/* BEWERBUNG is a normal horizontal eyebrow again. */
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
-  transform: translate(-12mm, 70mm) rotate(90deg);
-  transform-origin: left top;
+  transform: none !important;
 }
 
-/* The light date text lands inside the blue signal capsule. */
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
-  transform: translate(0, 1mm);
+  transform: none !important;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(57mm, -44mm) scale(0.84);
+  transform: translate(48mm, -28mm) scale(0.8);
   transform-origin: top left;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(4mm, -30mm);
+  transform: translate(4mm, -22mm);
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="beruf"],
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
-  transform: translate(4mm, -26mm);
+  transform: translate(4mm, -18mm);
 }
 
 html[data-dossier-template="edge"]
@@ -87,8 +91,45 @@ html[data-dossier-template="edge"]
   text-align: left !important;
 }
 
+/* CV echoes the cover with a compact top field instead of a permanent rail. */
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-background="motif"] > div > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 12mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="edge"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 34mm !important;
+  height: 12mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="edge"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-surface] {
-  left: 12.5mm !important;
+  left: 12mm !important;
+  right: 12mm !important;
+  top: 14mm !important;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-accent="section"] {
@@ -96,7 +137,7 @@ html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-accent=
 }
 
 /* -------------------------------------------------------------------------- */
-/* GLOW — soft color field + floating paper                                   */
+/* GLOW — soft color field, restrained rather than luminous                   */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="glow"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
@@ -107,37 +148,39 @@ html[data-dossier-template="glow"]
   width: 176mm !important;
   height: 146mm !important;
   border-radius: 0 0 92mm 0 !important;
-  opacity: 0.94 !important;
+  opacity: 0.82 !important;
 }
 
+/* Former huge cyan glow: now only a very soft atmospheric tint. */
 html[data-dossier-template="glow"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
-  left: 95mm !important;
+  left: 108mm !important;
   right: auto !important;
-  top: 62mm !important;
+  top: 70mm !important;
   bottom: auto !important;
-  width: 116mm !important;
-  height: 116mm !important;
+  width: 82mm !important;
+  height: 82mm !important;
   border-radius: 9999px !important;
-  opacity: 0.72 !important;
-  filter: blur(7mm);
+  opacity: 0.10 !important;
+  filter: blur(12mm);
 }
 
+/* Lower glow is nearly imperceptible; it only keeps the page from feeling flat. */
 html[data-dossier-template="glow"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
-  left: 16mm !important;
+  left: 20mm !important;
   right: auto !important;
-  top: 192mm !important;
+  top: 204mm !important;
   bottom: auto !important;
-  width: 62mm !important;
-  height: 62mm !important;
+  width: 48mm !important;
+  height: 48mm !important;
   border-radius: 9999px !important;
-  opacity: 0.22 !important;
-  filter: blur(5mm);
+  opacity: 0.06 !important;
+  filter: blur(11mm);
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
@@ -160,7 +203,7 @@ html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-i
 
 html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-surface] {
   border-radius: 7mm !important;
-  box-shadow: 0 4mm 16mm rgb(23 32 51 / 0.08);
+  box-shadow: 0 2mm 9mm rgb(23 32 51 / 0.035);
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-accent] {
