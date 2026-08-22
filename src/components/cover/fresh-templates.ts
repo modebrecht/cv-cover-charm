@@ -2,6 +2,7 @@ import type { DossierFamilyId } from "@/lib/dossier-family";
 import { TEMPLATES, type TemplateDefinition, type TemplateId } from "./types";
 import "./gradient-templates.css";
 import "./studio-warm-variants.css";
+import "./studio-rework.css";
 import "./cv-card-refresh.css";
 
 /**
@@ -129,7 +130,7 @@ const freshDefinitions: TemplateDefinition[] = [
   {
     id: "studio2" as TemplateId,
     name: "Studio 2",
-    description: "Studio neu gedacht: schmale Spalte, breites Signalband",
+    description: "Klarer Studio-Split mit starkem Signal-Farbblock",
     slots: [
       { key: "bg", label: "Papier", default: "#fbfbf8" },
       { key: "primary", label: "Spalte", default: "#202a3b" },
@@ -141,7 +142,7 @@ const freshDefinitions: TemplateDefinition[] = [
   {
     id: "studio3" as TemplateId,
     name: "Studio 3",
-    description: "Studio als frischer Split mit Teal und weicher Akzentfläche",
+    description: "Asymmetrischer Editorial-Look mit Teal-Flächen",
     slots: [
       { key: "bg", label: "Papier", default: "#f7fbfa" },
       { key: "primary", label: "Spalte", default: "#173d3a" },
