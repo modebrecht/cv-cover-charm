@@ -1,15 +1,5 @@
 import type { ColorSlot } from "./types";
 
-/**
- * Farbvarianten je Vorlage.
- *
- * Statt für jede der Vorlagen vier Paletten von Hand zu pflegen, wird der
- * Farbton aller *bunten* Slots gemeinsam gedreht. Neutrale Slots (Papierweiss,
- * fast schwarzer Text, dunkle Flächen) bleiben unverändert – dadurch behält
- * jede Vorlage ihren Hell-Dunkel-Aufbau und damit die Lesbarkeit, egal welche
- * Variante gewählt ist.
- */
-
 type Hsl = { h: number; s: number; l: number };
 
 function hexToHsl(hex: string): Hsl {
@@ -54,46 +44,72 @@ function hslToHex({ h, s, l }: Hsl): string {
   return `#${to(r)}${to(g)}${to(b)}`;
 }
 
-/** Fast graue oder sehr helle/dunkle Farben sind Struktur, nicht Charakter. */
+/** Very pale, very dark and low-saturation slots are structural by default. */
 function isNeutral({ s, l }: Hsl): boolean {
   return s < 0.18 || l > 0.93 || l < 0.12;
 }
 
 export type Palette = { name: string; colors: Record<string, string> };
 
-/** Zielfarbtöne der Varianten – der Name beschreibt, wo die Hauptfarbe landet. */
-const VARIANTS: { name: string; hue: number }[] = [
-  { name: "Blau", hue: 214 },
+type Variant = {
+  name: string;
+  hue: number;
+  /** A tinted paper makes the second row visually different while staying printable. */
+  paper?: { hue: number; saturation: number; lightness: number };
+};
+
+/**
+ * Eight useful choices on every template:
+ * - row one keeps the template's original paper/background and changes its character colours;
+ * - row two also introduces a coordinated, still print-safe paper tint.
+ *
+ * Names are retained for accessibility/tooltips but the chooser presents the palettes visually.
+ */
+const VARIANTS: Variant[] = [
+  { name: "Kühl", hue: 214 },
   { name: "Türkis", hue: 176 },
   { name: "Grün", hue: 148 },
-  { name: "Limette", hue: 92 },
-  { name: "Orange", hue: 30 },
-  { name: "Rot", hue: 356 },
-  { name: "Beere", hue: 322 },
+  { name: "Nebel", hue: 218, paper: { hue: 218, saturation: 0.28, lightness: 0.91 } },
+  { name: "Salbei", hue: 154, paper: { hue: 150, saturation: 0.22, lightness: 0.9 } },
+  { name: "Sand", hue: 31, paper: { hue: 38, saturation: 0.32, lightness: 0.9 } },
+  { name: "Rosé", hue: 344, paper: { hue: 350, saturation: 0.3, lightness: 0.91 } },
 ];
 
-/** Acht Paletten: das Original der Vorlage plus sieben Farbton-Varianten. */
+function variantColors(
+  parsed: { key: string; hsl: Hsl }[],
+  lead: { key: string; hsl: Hsl } | undefined,
+  variant: Variant,
+): Record<string, string> {
+  const delta = lead ? variant.hue - lead.hsl.h : 0;
+
+  return Object.fromEntries(
+    parsed.map(({ key, hsl }) => {
+      if (key === "bg" && variant.paper) return [key, hslToHex({ h: variant.paper.hue, s: variant.paper.saturation, l: variant.paper.lightness })];
+
+      // On tinted paper, give the normal body ink a very subtle relation to the paper.
+      // It stays dark enough for applications/printing and does not invert the design.
+      if (key === "ink" && variant.paper && hsl.l < 0.5) {
+        return [key, hslToHex({ h: variant.paper.hue, s: Math.max(0.12, Math.min(hsl.s, 0.28)), l: Math.min(hsl.l, 0.18) })];
+      }
+
+      if (isNeutral(hsl)) return [key, hslToHex(hsl)];
+      return [key, hslToHex({ ...hsl, h: (hsl.h + delta + 360) % 360 })];
+    }),
+  );
+}
+
 export function palettesFor(slots: ColorSlot[]): Palette[] {
   const original = Object.fromEntries(slots.map((s) => [s.key, s.default]));
   const parsed = slots.map((s) => ({ key: s.key, hsl: hexToHsl(s.default) }));
-  const lead = parsed.find((p) => !isNeutral(p.hsl));
-
-  const variants = VARIANTS.map(({ name, hue }) => {
-    // ohne bunten Slot gibt es nichts zu drehen – Original zurückgeben
-    const delta = lead ? hue - lead.hsl.h : 0;
-    const colors = Object.fromEntries(
-      parsed.map(({ key, hsl }) => [
-        key,
-        isNeutral(hsl) ? hslToHex(hsl) : hslToHex({ ...hsl, h: (hsl.h + delta + 360) % 360 }),
-      ]),
-    );
-    return { name, colors };
-  });
+  const lead = parsed.find((p) => p.key !== "bg" && p.key !== "ink" && !isNeutral(p.hsl)) ?? parsed.find((p) => !isNeutral(p.hsl));
+  const variants = VARIANTS.map((variant) => ({
+    name: variant.name,
+    colors: variantColors(parsed, lead, variant),
+  }));
 
   return [{ name: "Original", colors: original }, ...variants];
 }
 
-/** Passt die aktuelle Farbwahl zu einer Palette? */
 export function isActive(colors: Record<string, string>, palette: Palette): boolean {
   return Object.entries(palette.colors).every(
     ([k, v]) => (colors[k] ?? "").toLowerCase() === v.toLowerCase(),
