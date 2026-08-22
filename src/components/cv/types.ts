@@ -160,9 +160,16 @@ export const CV_TYPE_DEFAULTS = {
   sidebarPct: 0.3,
 } as const;
 
-/** Regler laufen von der Hälfte bis zum Doppelten der Vorgabe. */
-export const CV_SCALE_MIN = 0.5;
-export const CV_SCALE_MAX = 2;
+/**
+ * Typografie-Regler sind bewusst enger als früher begrenzt.
+ * 50–200 % war für einen Bewerbungs-CV kein sinnvoller Gestaltungsraum:
+ * bei sehr kleinen Werten wurde Text unlesbar, bei sehr grossen Werten brach
+ * die Hierarchie zusammen (Datum, Ort, Beschreibung und Eintragstitel wurden
+ * gleichzeitig riesig). 75–135 % lässt weiterhin klare Varianten zu, hält die
+ * Dokumente aber in einem realistisch druck- und bewerbungstauglichen Bereich.
+ */
+export const CV_SCALE_MIN = 0.75;
+export const CV_SCALE_MAX = 1.35;
 
 export const emptyPerson: CvPerson = {
   vorname: "",
