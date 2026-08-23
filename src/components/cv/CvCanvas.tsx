@@ -3,7 +3,12 @@ import { PAGE } from "@/default-config";
 import { CoverBackground } from "@/components/cover/CoverBackground";
 import { BlockLayer, type Point } from "@/components/cover/BlockLayer";
 import { buildCustomBlocks, type StyleOverrides } from "@/components/cover/layouts";
-import { TEMPLATES, type BlockStyle, type CustomField } from "@/components/cover/types";
+import {
+  FONT_STACKS,
+  TEMPLATES,
+  type BlockStyle,
+  type CustomField,
+} from "@/components/cover/types";
 import {
   getCvLayout,
   getCvLayoutChoice,
@@ -1046,7 +1051,7 @@ export function CvCanvas({
     const value = cvSectionLayout(data, key);
     return `${key}:${value.page}:${value.width}:${value.positioning}:${value.x}:${value.y}:${value.widthMm}:${value.heightMm}`;
   }).join("|");
-  const shape = `${layoutChoice}|${layout}|${frame.id}|${placementShape}|${sectionLayoutShape}|${rows
+  const shape = `${layoutChoice}|${layout}|${frame.id}|${design.font ?? "template"}|${placementShape}|${sectionLayoutShape}|${rows
     .map((row) => `${row.id}:${row.minPage ?? "auto"}`)
     .join("|")}`;
 
@@ -1248,10 +1253,18 @@ export function CvCanvas({
    * mit der Maus verschiebbar. Jedes Element gehört genau zu seiner gewählten
    * CV-Seite und wird deshalb nicht auf jedem Blatt wiederholt.
    */
-  const elementBlocks = useMemo(
-    () => buildCustomBlocks(design.template, elements, elementStyles, slots),
-    [design.template, elements, elementStyles, slots],
-  );
+  const elementBlocks = useMemo(() => {
+    const built = buildCustomBlocks(design.template, elements, elementStyles, slots);
+    if (!design.font) return built;
+    return built.map((block) =>
+      elementStyles[block.id]?.font
+        ? block
+        : {
+            ...block,
+            style: { ...block.style, font: design.font as NonNullable<CvDesign["font"]> },
+          },
+    );
+  }, [design.template, design.font, elements, elementStyles, slots]);
 
   const elementLayer = (pageIndex: number) => {
     const idsOnPage = new Set(
@@ -2341,6 +2354,11 @@ export function CvCanvas({
       data-cv-archetype={frame.id}
       data-cv-band-head={frame.headFirstMm > 0 ? "true" : "false"}
       data-export-mode={exportMode ? "true" : "false"}
+      style={{
+        ["--dossier-font" as string]: design.font
+          ? FONT_STACKS[design.font]
+          : theme.typography.fontStack,
+      }}
       onPointerDown={
         exportMode
           ? undefined

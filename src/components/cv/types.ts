@@ -1,4 +1,4 @@
-import type { TemplateId } from "@/components/cover/types";
+import type { FontKey, TemplateId } from "@/components/cover/types";
 
 /**
  * Ein Eintrag mit Zeitraum – Schule, Praktikum, Kurs. Alle Felder dürfen leer
@@ -194,6 +194,8 @@ export type CvData = {
 export type CvDesign = {
   template: TemplateId;
   colors: Record<string, string>;
+  /** Einheitliche Dossier-Schrift; leer verwendet die passende Vorlagenschrift. */
+  font?: FontKey;
   /**
    * Deckkraft des Hintergrunds, 0–1. Auf dem Lebenslauf zählt der Text mehr als
    * die Fläche, darum steht der Regler in der Bedienung auf "Transparenz" und

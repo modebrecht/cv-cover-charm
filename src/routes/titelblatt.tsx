@@ -43,12 +43,14 @@ import {
   customKind,
   DEMO_DATA,
   EMPTY_META,
+  FONT_LABELS,
   TEMPLATES,
   withoutBlockGeometry,
   type Block,
   type BlockStyle,
   type CoverData,
   type CustomField,
+  type FontKey,
   type PdfMeta,
   type ShapeKind,
   type TemplateId,
@@ -109,8 +111,12 @@ const STORAGE_KEY = "titelblatt:v3";
  * 5 = Bild-Elemente (`kind`/`src` an den eigenen Feldern).
  * 6 = eigene Titel (`labelKontakt`/`labelEmpfaenger`), acht Schriften,
  *     Farbverläufe an Formen, Trennlinien als Blöcke.
+ * 7 = gemeinsame Dossier-Schrift für Titelblatt und Lebenslauf.
  */
-const SAVE_VERSION = 6;
+const SAVE_VERSION = 7;
+
+const validFont = (value: unknown): FontKey | null =>
+  typeof value === "string" && value in FONT_LABELS ? (value as FontKey) : null;
 
 /** Ort und Datum vorbelegen, ohne Eingaben zu überschreiben. */
 const prefill = (d: CoverData): CoverData => ({
@@ -196,6 +202,7 @@ function Titelblatt() {
     useState<Record<TemplateId, StyleOverrides>>(allEmptyLayouts);
   const [customs, setCustoms] = useState<CustomField[]>([]);
   const [fontScale, setFontScale] = useState<number>(FONT.DEFAULT_SCALE);
+  const [documentFont, setDocumentFont] = useState<FontKey | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -240,10 +247,15 @@ function Titelblatt() {
   const activeTemplate = useMemo(() => TEMPLATES.find((t) => t.id === template)!, [template]);
   const colors = colorsByTemplate[template];
   const overrides = layoutByTemplate[template];
-  const blocks = useMemo(
-    () => buildBlocks(template, data, customs, overrides, activeTemplate.slots),
-    [template, data, customs, overrides, activeTemplate],
-  );
+  const blocks = useMemo(() => {
+    const built = buildBlocks(template, data, customs, overrides, activeTemplate.slots);
+    if (!documentFont) return built;
+    return built.map((block) =>
+      overrides[block.id]?.font
+        ? block
+        : { ...block, style: { ...block.style, font: documentFont } },
+    );
+  }, [template, data, customs, overrides, activeTemplate, documentFont]);
   const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
   const selectedCustom = customs.find((c) => c.id === selected) ?? null;
   const titleField = selectedBlock ? TITLE_FIELDS[selectedBlock.id] : undefined;
@@ -273,6 +285,7 @@ function Titelblatt() {
   const resetLayout = () => {
     setLayoutByTemplate((l) => ({ ...l, [template]: {} }));
     setFontScale(FONT.DEFAULT_SCALE);
+    setDocumentFont(null);
   };
 
   /**
@@ -284,6 +297,7 @@ function Titelblatt() {
   const resetAllLayouts = useCallback(() => {
     setLayoutByTemplate(allEmptyLayouts());
     setFontScale(FONT.DEFAULT_SCALE);
+    setDocumentFont(null);
     setSelected(null);
   }, []);
 
@@ -475,6 +489,7 @@ function Titelblatt() {
       if (p.layout) setLayoutByTemplate((l) => ({ ...l, ...p.layout }));
       setCustoms(sanitizeCustoms(p.customs));
       if (typeof p.fontScale === "number") setFontScale(p.fontScale);
+      setDocumentFont(validFont(p.font));
       markWritten(saved);
       return true;
     } catch {
@@ -515,9 +530,10 @@ function Titelblatt() {
       layout: layoutByTemplate,
       customs,
       fontScale,
+      font: documentFont,
       data,
     }),
-    [template, colorsByTemplate, layoutByTemplate, customs, fontScale, data],
+    [template, colorsByTemplate, layoutByTemplate, customs, fontScale, documentFont, data],
   );
 
   /**
@@ -606,6 +622,7 @@ function Titelblatt() {
       layout?: Partial<Record<TemplateId, StyleOverrides>>;
       customs?: unknown;
       fontScale?: number;
+      font?: FontKey | null;
     };
     if (p.data) setData(prefill({ ...emptyData, ...p.data, foto: data.foto }));
     if (p.template && TEMPLATES.some((t) => t.id === p.template)) setTemplate(p.template);
@@ -613,6 +630,7 @@ function Titelblatt() {
     setLayoutByTemplate({ ...allEmptyLayouts(), ...(p.layout ?? {}) });
     setCustoms(sanitizeCustoms(p.customs));
     if (typeof p.fontScale === "number") setFontScale(p.fontScale);
+    setDocumentFont(validFont(p.font));
     setSelected(null);
     setMenuOpen(false);
     setStatus({ kind: "ok", text: `Stand von ${formatWhen(snap.at)} geladen` });
@@ -695,6 +713,7 @@ function Titelblatt() {
       layout: layoutByTemplate,
       customs,
       fontScale,
+      font: documentFont,
       data,
     };
     downloadBlob(
@@ -722,6 +741,7 @@ function Titelblatt() {
         if (parsed.layout) setLayoutByTemplate((l) => ({ ...l, ...parsed.layout }));
         setCustoms(sanitizeCustoms(parsed.customs));
         if (typeof parsed.fontScale === "number") setFontScale(parsed.fontScale);
+        setDocumentFont(validFont(parsed.font));
         setStatus({ kind: "ok", text: "Entwurf geladen" });
       } catch {
         setStatus({ kind: "error", text: "Diese JSON-Datei ist kein gültiger Entwurf." });
@@ -1160,6 +1180,28 @@ function Titelblatt() {
               hint={`${fontScalePercent} %`}
             >
               <div className="flex flex-col gap-4">
+                <label className="flex flex-col gap-1.5 text-xs">
+                  <span className="text-muted-foreground">Schriftart gesamtes Dossier</span>
+                  <select
+                    value={documentFont ?? "template"}
+                    onChange={(event) => setDocumentFont(validFont(event.target.value))}
+                    className="rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  >
+                    <option value="template">Passend zur Vorlage</option>
+                    {(Object.entries(FONT_LABELS) as Array<[FontKey, string]>).map(
+                      ([font, label]) => (
+                        <option key={font} value={font}>
+                          {label}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                  <span className="text-muted-foreground/80">
+                    Wird beim Übernehmen auch im Lebenslauf verwendet. Einzelne freie Textfelder
+                    dürfen weiterhin abweichen.
+                  </span>
+                </label>
+
                 <label className="flex flex-col gap-2 text-xs">
                   <span className="flex items-center justify-between">
                     <span className="text-muted-foreground">

@@ -47,10 +47,12 @@ import {
 import { emptyCoverDraft, personFilled, readCoverDraft, type CoverDraft } from "@/lib/dossier";
 import {
   customKind,
+  FONT_LABELS,
   TEMPLATES,
   withoutBlockGeometry,
   type BlockStyle,
   type CustomField,
+  type FontKey,
   type ShapeKind,
   type TemplateId,
 } from "@/components/cover/types";
@@ -124,6 +126,7 @@ type Saved = {
  */
 function migratedDesign(current: CvDesign, incoming: CvDesign, version?: number): CvDesign {
   const merged = { ...current, ...incoming };
+  if (!merged.font || !(merged.font in FONT_LABELS)) delete merged.font;
   const isOldSave = (version ?? 1) < SAVE_VERSION;
   const usedOldDefault = LEGACY_DEFAULT_BG_OPACITIES.some(
     (value) => Math.abs(merged.bgOpacity - value) < 0.001,
@@ -219,10 +222,15 @@ function Lebenslauf() {
   /* Eigene Elemente – dieselbe Bedienung wie auf dem Titelblatt            */
   /* ---------------------------------------------------------------------- */
 
-  const blocks = useMemo(
-    () => buildCustomBlocks(design.template, elements, elementStyles, activeTemplate.slots),
-    [design.template, elements, elementStyles, activeTemplate],
-  );
+  const blocks = useMemo(() => {
+    const built = buildCustomBlocks(design.template, elements, elementStyles, activeTemplate.slots);
+    if (!design.font) return built;
+    return built.map((block) =>
+      elementStyles[block.id]?.font
+        ? block
+        : { ...block, style: { ...block.style, font: design.font as FontKey } },
+    );
+  }, [design.template, design.font, elements, elementStyles, activeTemplate]);
   const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
   const selectedCustom = elements.find((c) => c.id === selected) ?? null;
 
@@ -341,6 +349,10 @@ function Lebenslauf() {
         ...d,
         template: draft.template,
         colors: draft.colors,
+        font: draft.font ?? undefined,
+        titleScale: draft.fontScale,
+        headingScale: draft.fontScale,
+        bodyScale: draft.fontScale,
         useElements: draft.elements.length > 0,
       }));
       setElements(draft.elements);
@@ -463,6 +475,7 @@ function Lebenslauf() {
   const [takeover, setTakeover] = useState({
     template: true,
     colors: true,
+    typography: true,
     elements: true,
     photo: true,
     person: true,
@@ -471,6 +484,11 @@ function Lebenslauf() {
   const TAKEOVER_LABELS: Array<{ key: keyof typeof takeover; label: string; hint: string }> = [
     { key: "template", label: "Vorlage und Hintergrund", hint: "Bauform, Spalte, Band, Karte" },
     { key: "colors", label: "Farben", hint: "auch deine eigenen Änderungen" },
+    {
+      key: "typography",
+      label: "Schrift und Grösse",
+      hint: "globale Schrift sowie die Gesamtgrösse",
+    },
     { key: "elements", label: "Eigene Felder und Formen", hint: "Formen und Linien, ohne Texte" },
     { key: "photo", label: "Foto", hint: "samt Rahmenform und Ausschnitt" },
     { key: "person", label: "Angaben zur Person", hint: "Name, Adresse, Kontakt" },
@@ -486,14 +504,23 @@ function Lebenslauf() {
 
     const done: string[] = [];
 
-    if (takeover.template || takeover.colors) {
+    if (takeover.template || takeover.colors || takeover.typography) {
       setDesign((d) => ({
         ...d,
         ...(takeover.template ? { template: draft.template } : {}),
         ...(takeover.colors ? { colors: draft.colors } : {}),
+        ...(takeover.typography
+          ? {
+              font: draft.font ?? undefined,
+              titleScale: draft.fontScale,
+              headingScale: draft.fontScale,
+              bodyScale: draft.fontScale,
+            }
+          : {}),
       }));
       if (takeover.template) done.push("Vorlage");
       if (takeover.colors) done.push("Farben");
+      if (takeover.typography) done.push("Schrift");
     }
 
     if (takeover.elements) {
@@ -612,8 +639,12 @@ function Lebenslauf() {
     setDesign((d) => ({
       template: draft?.template ?? d.template,
       colors: draft?.colors ?? d.colors,
+      font: draft?.font ?? undefined,
       bgOpacity: DEFAULT_BG_OPACITY,
       useElements: (draft?.elements.length ?? 0) > 0,
+      titleScale: draft?.fontScale ?? CV_TYPE_DEFAULTS.titleScale,
+      headingScale: draft?.fontScale ?? CV_TYPE_DEFAULTS.headingScale,
+      bodyScale: draft?.fontScale ?? CV_TYPE_DEFAULTS.bodyScale,
     }));
     setConfirmWipe(false);
     setMenuOpen(false);
@@ -1089,6 +1120,36 @@ function Lebenslauf() {
 
                 <div className="flex flex-col gap-3 rounded-md border border-dashed p-2">
                   <span className="text-xs font-medium">Schrift und Raster</span>
+
+                  <label className="flex flex-col gap-1 text-xs">
+                    <span className="text-muted-foreground">Schriftart gesamtes Dossier</span>
+                    <select
+                      value={design.font ?? "template"}
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        setDesign((current) => ({
+                          ...current,
+                          font:
+                            value !== "template" && value in FONT_LABELS
+                              ? (value as FontKey)
+                              : undefined,
+                        }));
+                      }}
+                      className="rounded-md border border-input bg-background px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                    >
+                      <option value="template">Passend zur Vorlage</option>
+                      {(Object.entries(FONT_LABELS) as Array<[FontKey, string]>).map(
+                        ([font, label]) => (
+                          <option key={font} value={font}>
+                            {label}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                    <span className="text-muted-foreground/80">
+                      Dieselbe Auswahl wie im Titelblatt. Freie Textfelder können einzeln abweichen.
+                    </span>
+                  </label>
 
                   <label className="flex flex-col gap-1 text-xs">
                     <span className="text-muted-foreground">Linie neben der Überschrift</span>

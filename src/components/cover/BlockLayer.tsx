@@ -426,6 +426,7 @@ export function BlockLayer({
               left: `${st.x}mm`,
               top: `${y}mm`,
               width: `${st.w}mm`,
+              ["--dossier-font" as string]: FONT_STACKS[st.font],
               zIndex,
               cursor: editable && !drawing ? "move" : "default",
               touchAction: "none",

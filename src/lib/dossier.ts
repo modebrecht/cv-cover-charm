@@ -1,11 +1,13 @@
-import { DEFAULTS } from "@/default-config";
+import { DEFAULTS, FONT } from "@/default-config";
 import { buildBlocks } from "@/components/cover/layouts";
 import {
   EMPTY_META,
+  FONT_LABELS,
   TEMPLATES,
   type BlockStyle,
   type CoverData,
   type CustomField,
+  type FontKey,
   type TemplateId,
 } from "@/components/cover/types";
 import type { CvPerson } from "@/components/cv/types";
@@ -30,6 +32,8 @@ type StoredCover = {
   template?: string;
   colors?: Record<string, Record<string, string>>;
   layout?: Record<string, Record<string, Partial<BlockStyle>>>;
+  font?: unknown;
+  fontScale?: unknown;
   photoStyle?: Partial<DossierPhotoStyle>;
   customs?: unknown;
   data?: Record<string, unknown>;
@@ -39,6 +43,10 @@ export type CoverDraft = {
   template: TemplateId;
   /** Farben der gewählten Vorlage, inklusive eigener Änderungen. */
   colors: Record<string, string>;
+  /** Globale Dossier-Schrift; null lässt die Vorlage entscheiden. */
+  font: FontKey | null;
+  /** Sichtbare Gesamtskalierung, 1 = 100 %. */
+  fontScale: number;
   /** Selbst hinzugefügte Formen und Bilder – ohne die Textfelder. */
   elements: CustomField[];
   person: CvPerson;
@@ -62,6 +70,8 @@ export function emptyCoverDraft(): CoverDraft {
   return {
     template,
     colors: defaultColors(template),
+    font: null,
+    fontScale: 1,
     elements: [],
     person: {
       vorname: "",
@@ -195,6 +205,11 @@ export function readCoverDraft(): CoverDraft | null {
     const template = templateDef.id;
     const d = p.data ?? {};
     const coverData = coverDataFromRaw(d);
+    const font = typeof p.font === "string" && p.font in FONT_LABELS ? (p.font as FontKey) : null;
+    const fontScale =
+      typeof p.fontScale === "number" && Number.isFinite(p.fontScale)
+        ? p.fontScale / FONT.DEFAULT_SCALE
+        : 1;
 
     // Nur Formen und Bilder – Textfelder gehören zum Titelblatt, nicht hierher.
     const elements = Array.isArray(p.customs)
@@ -207,6 +222,8 @@ export function readCoverDraft(): CoverDraft | null {
     return {
       template,
       colors: { ...defaultColors(template), ...(p.colors?.[template] ?? {}) },
+      font,
+      fontScale,
       elements: elements as CustomField[],
       person: {
         vorname: coverData.vorname,
