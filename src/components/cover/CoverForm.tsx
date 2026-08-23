@@ -99,7 +99,7 @@ export function FormPerson({ data, onChange }: Props) {
           className={inputCls}
           value={data.plzOrt}
           onChange={(e) => onChange({ plzOrt: e.target.value })}
-          placeholder="8000 Zürich"
+          placeholder="4535 Hubersdorf"
         />
       </Field>
       <div className="grid grid-cols-2 gap-3">
