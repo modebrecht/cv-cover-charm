@@ -29,10 +29,12 @@ import {
   emptySprache,
   type CvData,
   type CvEntry,
+  type CvLayoutSectionKey,
   type CvPerson,
   type CvPlacement,
   type CvPlacementKey,
   type CvReferenz,
+  type CvSectionLayout,
   type CvSprache,
 } from "./types";
 
@@ -617,7 +619,8 @@ export function FormCvEntries({
               writeAutoSortExperience(checked);
               if (checked) {
                 const sorted = sortExperienceNewestFirst(entries);
-                if (sorted.some((entry, index) => entry.id !== entries[index]?.id)) onChange(sorted);
+                if (sorted.some((entry, index) => entry.id !== entries[index]?.id))
+                  onChange(sorted);
               }
             }}
           />
@@ -799,8 +802,8 @@ export function FormCvReferenzen({
       list.map((reference) => {
         if (reference.id !== id) return reference;
         const primary = p.kontakt !== undefined ? p.kontakt : referencePrimaryContact(reference);
-        const email = p.email !== undefined ? p.email : reference.email ?? "";
-        const extra = p.zusatz !== undefined ? p.zusatz : reference.zusatz ?? "";
+        const email = p.email !== undefined ? p.email : (reference.email ?? "");
+        const extra = p.zusatz !== undefined ? p.zusatz : (reference.zusatz ?? "");
         return {
           ...reference,
           ...p,
@@ -873,33 +876,119 @@ export function FormCvReferenzen({
   );
 }
 
-/** Überschrift eines Abschnitts umbenennen bzw. Abschnitt ausblenden. */
+const layoutSelectCls =
+  "w-full rounded-md border border-input bg-background px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-ring";
+
+/** Kompakte, verständliche Layoutwahl für eine komplette Rubrik. */
+export function SectionLayoutControls({
+  section,
+  layout,
+  onLayout,
+}: {
+  section: CvLayoutSectionKey;
+  layout: CvSectionLayout;
+  onLayout: (patch: Partial<CvSectionLayout>) => void;
+}) {
+  return (
+    <details className="group rounded-md border bg-muted/20">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-2.5 py-2 text-xs font-semibold hover:bg-accent/60">
+        <span>⚙ Layout</span>
+        <span className="font-normal text-muted-foreground group-open:hidden">
+          Seite {layout.page} · {layout.width === "half" ? "Halbe Breite" : "Volle Breite"}
+        </span>
+        <span className="hidden font-normal text-muted-foreground group-open:inline">
+          schliessen
+        </span>
+      </summary>
+      <div className="grid gap-2 border-t p-2.5 sm:grid-cols-3">
+        <label className="flex min-w-0 flex-col gap-1">
+          <span className="text-[11px] font-medium">Seite</span>
+          <select
+            className={layoutSelectCls}
+            value={layout.page}
+            onChange={(event) => onLayout({ page: Number(event.target.value) === 2 ? 2 : 1 })}
+            aria-label={`${section}: Seite`}
+          >
+            <option value={1}>Seite 1</option>
+            <option value={2}>Seite 2</option>
+          </select>
+        </label>
+        <label className="flex min-w-0 flex-col gap-1">
+          <span className="text-[11px] font-medium">Breite</span>
+          <select
+            className={layoutSelectCls}
+            value={layout.width}
+            onChange={(event) =>
+              onLayout({ width: event.target.value === "half" ? "half" : "full" })
+            }
+            aria-label={`${section}: Breite`}
+          >
+            <option value="full">Volle Breite</option>
+            <option value="half">Halbe Breite</option>
+          </select>
+        </label>
+        <label className="flex min-w-0 flex-col gap-1">
+          <span className="text-[11px] font-medium">Positionierung</span>
+          <select
+            className={layoutSelectCls}
+            value={layout.positioning}
+            onChange={(event) =>
+              onLayout({ positioning: event.target.value === "free" ? "free" : "flow" })
+            }
+            aria-label={`${section}: Positionierung`}
+          >
+            <option value="flow">Automatisch</option>
+            <option value="free">Frei platzieren</option>
+          </select>
+        </label>
+        <p className="text-[11px] leading-relaxed text-muted-foreground sm:col-span-3">
+          {layout.positioning === "free"
+            ? "Diese Rubrik kannst du direkt auf der Seite verschieben."
+            : layout.width === "half"
+              ? "Zwei Rubriken mit halber Breite können nebeneinander stehen."
+              : "Die Rubrik bleibt sicher im automatischen Dokumentfluss."}
+        </p>
+      </div>
+    </details>
+  );
+}
+
+/** Überschrift eines Abschnitts umbenennen, ausblenden und Layout wählen. */
 export function SectionOptions({
+  section,
   value,
   placeholder,
   hidden,
+  layout,
   onLabel,
   onHidden,
+  onLayout,
 }: {
+  section: CvLayoutSectionKey;
   value: string;
   placeholder: string;
   hidden: boolean;
+  layout: CvSectionLayout;
   onLabel: (v: string) => void;
   onHidden: (v: boolean) => void;
+  onLayout: (patch: Partial<CvSectionLayout>) => void;
 }) {
   return (
-    <div className="mb-2 flex items-center gap-2 border-b pb-2">
-      <input
-        className={`${inputCls} flex-1`}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onLabel(e.target.value)}
-        aria-label="Überschrift"
-      />
-      <label className="flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
-        <input type="checkbox" checked={!hidden} onChange={(e) => onHidden(!e.target.checked)} />
-        zeigen
-      </label>
+    <div className="mb-2 flex flex-col gap-2 border-b pb-2">
+      <div className="flex items-center gap-2">
+        <input
+          className={`${inputCls} flex-1`}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onLabel(e.target.value)}
+          aria-label="Überschrift"
+        />
+        <label className="flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
+          <input type="checkbox" checked={!hidden} onChange={(e) => onHidden(!e.target.checked)} />
+          zeigen
+        </label>
+      </div>
+      <SectionLayoutControls section={section} layout={layout} onLayout={onLayout} />
     </div>
   );
 }

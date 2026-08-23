@@ -38,13 +38,18 @@ import {
 } from "./photo-place";
 import {
   CV_BLOCK_LABELS,
+  CV_LAYOUT_SECTION_ORDER,
   CV_SECTION_ORDER,
   CV_TYPE_DEFAULTS,
   DEFAULT_CV_PLACEMENTS,
+  cvSectionLayout,
   entryFilled,
+  hasCustomizedCvSectionLayout,
   type CvData,
   type CvDesign,
+  type CvLayoutSectionKey,
   type CvPlacementKey,
+  type CvSectionLayout,
   type CvSectionKey,
 } from "./types";
 
@@ -59,7 +64,13 @@ const SHEET_W_MM = 210;
 
 const SHEET_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-type Row = { id: string; node: React.ReactNode; heading?: boolean };
+type Row = {
+  id: string;
+  node: React.ReactNode;
+  heading?: boolean;
+  /** Früheste Seite für bewusst zugewiesene Rubriken, null = normale Paginierung. */
+  minPage?: 0 | 1;
+};
 
 type Props = {
   data: CvData;
@@ -72,6 +83,7 @@ type Props = {
   selected?: string | null;
   onSelect?: (id: string | null) => void;
   onMoveElement?: (id: string, patch: Partial<BlockStyle>) => void;
+  onSectionLayout?: (key: CvLayoutSectionKey, patch: Partial<CvSectionLayout>) => void;
   drawing?: boolean;
   onDrawn?: (points: Point[]) => void;
 };
@@ -89,6 +101,7 @@ export function CvCanvas({
   selected = null,
   onSelect,
   onMoveElement,
+  onSectionLayout,
   drawing = false,
   onDrawn,
 }: Props) {
@@ -120,6 +133,17 @@ export function CvCanvas({
     [design.template, design.bgOpacity, layout],
   );
   const sidePlan = useMemo(() => sidebarPlan(data), [data]);
+  const customSectionLayout = hasCustomizedCvSectionLayout(data);
+  const personLayoutCustomized = (() => {
+    const value = cvSectionLayout(data, "person");
+    return value.page !== 1 || value.width !== "full" || value.positioning !== "flow";
+  })();
+  const [selectedSection, setSelectedSection] = useState<CvLayoutSectionKey | null>(null);
+  const [freeHeights, setFreeHeights] = useState<Partial<Record<CvLayoutSectionKey, number>>>({});
+  const [liveSectionPositions, setLiveSectionPositions] = useState<
+    Partial<Record<CvLayoutSectionKey, { x: number; y: number }>>
+  >({});
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   /** Vom Nutzer einstellbare Typografie und Spaltenbreite. */
   const headingRule = design.headingRule ?? CV_TYPE_DEFAULTS.headingRule;
@@ -438,50 +462,48 @@ export function CvCanvas({
     if (!list.length || data.hidden.referenzen) return [];
     return [
       heading("referenzen"),
-      ...list.map(
-        (r): Row => ({
-          id: r.id,
-          node: (
-            <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
-              {r.name && (
-                <div
-                  data-cv-entry-title
-                  style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
-                >
-                  {r.name}
-                </div>
-              )}
-              {r.funktion && (
-                <div
-                  data-cv-muted
-                  style={{
-                    fontSize: pt(9.7),
-                    color: pal.muted,
-                    marginTop: "0.3mm",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {r.funktion}
-                </div>
-              )}
-              {r.kontakt && (
-                <div
-                  data-cv-body
-                  style={{
-                    fontSize: pt(9.7),
-                    color: pal.ink,
-                    marginTop: "0.35mm",
-                    lineHeight: 1.3,
-                    overflowWrap: "anywhere",
-                  }}
-                >
-                  {r.kontakt}
-                </div>
-              )}
-            </div>
-          ),
-        }),
-      ),
+      ...list.map((r): Row => ({
+        id: r.id,
+        node: (
+          <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
+            {r.name && (
+              <div
+                data-cv-entry-title
+                style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
+              >
+                {r.name}
+              </div>
+            )}
+            {r.funktion && (
+              <div
+                data-cv-muted
+                style={{
+                  fontSize: pt(9.7),
+                  color: pal.muted,
+                  marginTop: "0.3mm",
+                  lineHeight: 1.3,
+                }}
+              >
+                {r.funktion}
+              </div>
+            )}
+            {r.kontakt && (
+              <div
+                data-cv-body
+                style={{
+                  fontSize: pt(9.7),
+                  color: pal.ink,
+                  marginTop: "0.35mm",
+                  lineHeight: 1.3,
+                  overflowWrap: "anywhere",
+                }}
+              >
+                {r.kontakt}
+              </div>
+            )}
+          </div>
+        ),
+      })),
     ];
   };
 
@@ -490,35 +512,33 @@ export function CvCanvas({
     if (!list.length || data.hidden.sprachen) return [];
     return [
       heading("sprachen"),
-      ...list.map(
-        (s): Row => ({
-          id: `main-${s.id}`,
-          node: (
-            <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
-              <div
-                data-cv-rail
-                data-cv-entry-title
-                style={{
-                  width: layout === "modern" ? "23mm" : "27mm",
-                  flexShrink: 0,
-                  fontSize: pt(10.2),
-                  fontWeight: 650,
-                  color: pal.ink,
-                  lineHeight: 1.3,
-                }}
-              >
-                {s.name}
-              </div>
-              <div
-                data-cv-muted
-                style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
-              >
-                {s.niveau}
-              </div>
+      ...list.map((s): Row => ({
+        id: `main-${s.id}`,
+        node: (
+          <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
+            <div
+              data-cv-rail
+              data-cv-entry-title
+              style={{
+                width: layout === "modern" ? "23mm" : "27mm",
+                flexShrink: 0,
+                fontSize: pt(10.2),
+                fontWeight: 650,
+                color: pal.ink,
+                lineHeight: 1.3,
+              }}
+            >
+              {s.name}
             </div>
-          ),
-        }),
-      ),
+            <div
+              data-cv-muted
+              style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
+            >
+              {s.niveau}
+            </div>
+          </div>
+        ),
+      })),
     ];
   };
 
@@ -528,28 +548,26 @@ export function CvCanvas({
     if (!list.length) return [];
     return [
       heading(key),
-      ...list.map(
-        (v, i): Row => ({
-          id: `main-${key}-${i}`,
-          node: (
-            <div
-              data-cv-entry
-              data-cv-body
-              style={{
-                display: "flex",
-                gap: "2.6mm",
-                marginBottom: "1.35mm",
-                fontSize: pt(9.9),
-                lineHeight: 1.35,
-                color: pal.ink,
-              }}
-            >
-              <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
-              <span>{v}</span>
-            </div>
-          ),
-        }),
-      ),
+      ...list.map((v, i): Row => ({
+        id: `main-${key}-${i}`,
+        node: (
+          <div
+            data-cv-entry
+            data-cv-body
+            style={{
+              display: "flex",
+              gap: "2.6mm",
+              marginBottom: "1.35mm",
+              fontSize: pt(9.9),
+              lineHeight: 1.35,
+              color: pal.ink,
+            }}
+          >
+            <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
+            <span>{v}</span>
+          </div>
+        ),
+      })),
     ];
   };
 
@@ -581,7 +599,182 @@ export function CvCanvas({
     ];
   };
 
-  const rows: Row[] = [];
+  /** Inhalt einer Rubrik als unteilbarer Block für Grid und freie Platzierung. */
+  const sectionRows = (key: CvSectionKey): Row[] => {
+    if (data.hidden[key]) return [];
+    if (key === "schule" || key === "erfahrung") {
+      const list = data[key].filter(entryFilled);
+      if (!list.length) return [];
+      return [
+        heading(key),
+        ...list.map((entry) =>
+          entryRow(entry.id, entry.zeit, entry.titel, entry.ort, entry.beschreibung),
+        ),
+      ];
+    }
+    if (key === "sprachen") return languageRows();
+    if (key === "hobbys" || key === "staerken") return simpleListRows(key);
+    return referenceRows();
+  };
+
+  /**
+   * Wird nur benutzt, wenn die persönlichen Angaben selbst ein abweichendes
+   * Layout erhalten. So bleibt der historische Kopf aller Vorlagen ohne
+   * Layoutänderung pixelgleich.
+   */
+  const personalSectionRows = (): Row[] => [
+    {
+      id: "person-layout",
+      node: (
+        <div
+          data-cv-header
+          style={{ display: "flex", gap: "7mm", alignItems: "flex-start", marginBottom: "3.2mm" }}
+        >
+          {autoPhoto && (
+            <div
+              data-cv-photo
+              style={{
+                position: "relative",
+                width: `${PHOTO_MAIN_MM}mm`,
+                height: `${PHOTO_MAIN_MM * dossierPhotoRatio(photoStyle.shape)}mm`,
+                flexShrink: 0,
+                overflow: "hidden",
+                borderRadius: dossierPhotoRadius(photoStyle.shape),
+              }}
+            >
+              <img src={p.foto ?? undefined} alt="" style={dossierPhotoCropStyle(photoStyle)} />
+            </div>
+          )}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {docTitle(pal.muted)}
+            <div
+              data-cv-name
+              style={{
+                fontSize: `${nameSize}pt`,
+                fontWeight: 750,
+                color: pal.ink,
+                lineHeight: 1.02,
+                letterSpacing: "-0.02em",
+                overflowWrap: "anywhere",
+              }}
+            >
+              {name || "Dein Name"}
+            </div>
+            {p.untertitel && (
+              <div
+                data-cv-subtitle
+                style={{
+                  fontSize: ptHead(11.2),
+                  fontWeight: 600,
+                  color: pal.accent,
+                  marginTop: "1.15mm",
+                  lineHeight: 1.25,
+                }}
+              >
+                {p.untertitel}
+              </div>
+            )}
+            {kontaktZeilen.length > 0 && (
+              <div
+                data-cv-body
+                style={{ marginTop: "2.5mm", fontSize: pt(9.7), color: pal.ink, lineHeight: 1.38 }}
+              >
+                {kontaktZeilen.map((line) => (
+                  <div key={line} style={{ overflowWrap: "anywhere" }}>
+                    {line}
+                  </div>
+                ))}
+              </div>
+            )}
+            {angaben.length > 0 && (
+              <div
+                data-cv-muted
+                style={{
+                  marginTop: "1.35mm",
+                  fontSize: pt(9.2),
+                  color: pal.muted,
+                  lineHeight: 1.35,
+                }}
+              >
+                {angaben.join(" · ")}
+              </div>
+            )}
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  type SectionUnit = {
+    key: CvLayoutSectionKey;
+    width: "full" | "half";
+    minPage: 0 | 1;
+    rows: Row[];
+  };
+
+  const sectionNode = (unit: SectionUnit) => (
+    <div
+      data-cv-rubric={unit.key}
+      data-cv-section-width={unit.width}
+      style={{ minWidth: 0, overflowWrap: "anywhere" }}
+    >
+      {unit.rows.map((row) => (
+        <div key={row.id} style={{ display: "flow-root" }}>
+          {row.node}
+        </div>
+      ))}
+    </div>
+  );
+
+  /** CSS Grid-Regeln als echte Zeilen packen – ohne absolute Positionierung. */
+  const packSectionUnits = (units: SectionUnit[]): Row[] => {
+    const packed: Row[] = [];
+    let waiting: SectionUnit | null = null;
+    const add = (items: SectionUnit[]) => {
+      const id = `layout-${items.map((item) => item.key).join("-")}`;
+      packed.push({
+        id,
+        minPage: items[0].minPage,
+        node: (
+          <div
+            data-cv-section-row
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              columnGap: "6mm",
+              alignItems: "start",
+            }}
+          >
+            {items.map((item) => (
+              <div
+                key={item.key}
+                style={{ gridColumn: item.width === "full" ? "1 / -1" : "span 1", minWidth: 0 }}
+              >
+                {sectionNode(item)}
+              </div>
+            ))}
+          </div>
+        ),
+      });
+    };
+
+    for (const unit of units) {
+      if (unit.width === "full") {
+        if (waiting) add([waiting]);
+        waiting = null;
+        add([unit]);
+      } else if (waiting) {
+        add([waiting, unit]);
+        waiting = null;
+      } else {
+        waiting = unit;
+      }
+    }
+    if (waiting) add([waiting]);
+    return packed;
+  };
+
+  let rows: Row[] = [];
   // Trägt ein Kopfband den Namen, gehört er nicht in den Textfluss – sonst
   // stünde er zweimal auf der Seite.
   const nameInBand = headerSitsInBand(frame);
@@ -767,13 +960,99 @@ export function CvCanvas({
     }
   }
 
+  if (customSectionLayout) {
+    const preservedHeaderRows = personLayoutCustomized
+      ? []
+      : rows
+          .filter((row) => ["kopf", "kopf-modern", "h-kontakt", "kontakt-main"].includes(row.id))
+          .map((row) => ({ ...row, minPage: 0 as const }));
+
+    const units: SectionUnit[] = [];
+    if (personLayoutCustomized) {
+      const personLayout = cvSectionLayout(data, "person");
+      if (personLayout.positioning === "flow") {
+        units.push({
+          key: "person",
+          width: personLayout.width,
+          minPage: (personLayout.page - 1) as 0 | 1,
+          rows: personalSectionRows(),
+        });
+      }
+    }
+
+    for (const key of CV_SECTION_ORDER) {
+      const sectionLayout = cvSectionLayout(data, key);
+      const content = sectionRows(key);
+      if (!content.length || sectionLayout.positioning !== "flow") continue;
+      if (layout === "modern" && placements[key] !== "main") continue;
+      units.push({
+        key,
+        width: sectionLayout.width,
+        minPage: (sectionLayout.page - 1) as 0 | 1,
+        rows: content,
+      });
+    }
+
+    rows = [
+      ...preservedHeaderRows,
+      ...packSectionUnits(units.filter((unit) => unit.minPage === 0)),
+      ...packSectionUnits(units.filter((unit) => unit.minPage === 1)),
+    ];
+  }
+
   const measureRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<Row[][]>([rows]);
 
   const placementShape = Object.entries(placements)
     .map(([key, value]) => `${key}:${value}`)
     .join("|");
-  const shape = `${layoutChoice}|${layout}|${frame.id}|${placementShape}|${rows.map((r) => r.id).join("|")}`;
+  const sectionLayoutShape = CV_LAYOUT_SECTION_ORDER.map((key) => {
+    const value = cvSectionLayout(data, key);
+    return `${key}:${value.page}:${value.width}:${value.positioning}:${value.x}:${value.y}`;
+  }).join("|");
+  const shape = `${layoutChoice}|${layout}|${frame.id}|${placementShape}|${sectionLayoutShape}|${rows
+    .map((row) => `${row.id}:${row.minPage ?? "auto"}`)
+    .join("|")}`;
+
+  useLayoutEffect(() => {
+    const root = canvasRef.current;
+    if (!root || typeof ResizeObserver === "undefined") return;
+    const blocks = Array.from(root.querySelectorAll<HTMLElement>("[data-cv-free-section]"));
+    if (!blocks.length) {
+      setFreeHeights((current) => (Object.keys(current).length ? {} : current));
+      return;
+    }
+
+    const measure = () => {
+      const next: Partial<Record<CvLayoutSectionKey, number>> = {};
+      for (const block of blocks) {
+        const key = block.dataset.cvFreeSection as CvLayoutSectionKey | undefined;
+        const page = block.closest<HTMLElement>("[data-cv-page]");
+        if (!key || !page) continue;
+        const pageWidth = page.getBoundingClientRect().width;
+        if (!pageWidth) continue;
+        next[key] = (block.getBoundingClientRect().height / pageWidth) * SHEET_W_MM;
+      }
+      setFreeHeights((current) => {
+        const keys = new Set([...Object.keys(current), ...Object.keys(next)]);
+        for (const key of keys) {
+          if (
+            Math.abs(
+              (current[key as CvLayoutSectionKey] ?? 0) - (next[key as CvLayoutSectionKey] ?? 0),
+            ) > 0.2
+          ) {
+            return next;
+          }
+        }
+        return current;
+      });
+    };
+
+    const observer = new ResizeObserver(measure);
+    blocks.forEach((block) => observer.observe(block));
+    measure();
+    return () => observer.disconnect();
+  }, [shape, pages.length]);
 
   /**
    * Der Messkasten steckt in der verkleinerten Vorschau. Wird er gemessen,
@@ -850,25 +1129,37 @@ export function CvCanvas({
     const out: Row[][] = [];
     let current: Row[] = [];
     let used = 0;
+    let pageIndex = 0;
+    const finishPage = () => {
+      out[pageIndex] = current;
+      pageIndex += 1;
+      current = [];
+      used = 0;
+    };
     rows.forEach((row, i) => {
+      while (pageIndex < (row.minPage ?? 0)) finishPage();
       const h = heights[i] ?? 0;
-      if (used + h > heightFor(out.length) && current.length) {
+      if (used + h > heightFor(pageIndex) && current.length) {
         const last = current[current.length - 1];
         if (last?.heading) {
           current.pop();
-          out.push(current);
+          finishPage();
           current = [last];
           used = heights[i - 1] ?? 0;
         } else {
-          out.push(current);
-          current = [];
-          used = 0;
+          finishPage();
         }
       }
       current.push(row);
       used += h;
     });
-    if (current.length) out.push(current);
+    out[pageIndex] = current;
+    const requiredPages = CV_LAYOUT_SECTION_ORDER.some(
+      (key) => cvSectionLayout(data, key).page === 2,
+    )
+      ? 2
+      : 1;
+    while (out.length < requiredPages) out.push([]);
     setPages(out.length ? out : [[]]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -1035,39 +1326,63 @@ export function CvCanvas({
     );
   };
 
-  const hasContact =
-    placements.kontakt === "side" &&
-    !!(p.adresse || p.plzOrt || p.telefon || p.email || p.geburtsdatum || p.nationalitaet);
-  const hasSchool =
-    placements.schule === "side" && !data.hidden.schule && data.schule.some(entryFilled);
-  const hasExperience =
-    placements.erfahrung === "side" && !data.hidden.erfahrung && data.erfahrung.some(entryFilled);
-  const hasLanguages =
-    placements.sprachen === "side" &&
-    !data.hidden.sprachen &&
-    data.sprachen.some((s) => s.name.trim() || s.niveau.trim());
-  const hasStrengths =
-    placements.staerken === "side" && !data.hidden.staerken && data.staerken.some((v) => v.trim());
-  const hasHobbies =
-    placements.hobbys === "side" && !data.hidden.hobbys && data.hobbys.some((v) => v.trim());
-  const hasReferences =
-    placements.referenzen === "side" &&
-    !data.hidden.referenzen &&
-    data.referenzen.some((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim());
+  const sidePresence = (pageIndex: number) => {
+    const onPage = (key: CvSectionKey) => {
+      const sectionLayout = cvSectionLayout(data, key);
+      return (
+        placements[key] === "side" &&
+        sectionLayout.positioning === "flow" &&
+        sectionLayout.page - 1 === pageIndex &&
+        !data.hidden[key]
+      );
+    };
+    const hasContact =
+      !personLayoutCustomized &&
+      pageIndex === 0 &&
+      placements.kontakt === "side" &&
+      !!(p.adresse || p.plzOrt || p.telefon || p.email || p.geburtsdatum || p.nationalitaet);
+    const hasSchool = onPage("schule") && data.schule.some(entryFilled);
+    const hasExperience = onPage("erfahrung") && data.erfahrung.some(entryFilled);
+    const hasLanguages =
+      onPage("sprachen") && data.sprachen.some((s) => s.name.trim() || s.niveau.trim());
+    const hasStrengths = onPage("staerken") && data.staerken.some((value) => value.trim());
+    const hasHobbies = onPage("hobbys") && data.hobbys.some((value) => value.trim());
+    const hasReferences =
+      onPage("referenzen") &&
+      data.referenzen.some((reference) =>
+        [reference.name, reference.funktion, reference.kontakt].some((value) => value.trim()),
+      );
+    const firstSide = hasContact
+      ? "contact"
+      : hasSchool
+        ? "school"
+        : hasExperience
+          ? "experience"
+          : hasLanguages
+            ? "languages"
+            : hasStrengths
+              ? "strengths"
+              : hasHobbies
+                ? "hobbies"
+                : "references";
+    return {
+      hasContact,
+      hasSchool,
+      hasExperience,
+      hasLanguages,
+      hasStrengths,
+      hasHobbies,
+      hasReferences,
+      firstSide,
+    };
+  };
 
-  const firstSide = hasContact
-    ? "contact"
-    : hasSchool
-      ? "school"
-      : hasExperience
-        ? "experience"
-        : hasLanguages
-          ? "languages"
-          : hasStrengths
-            ? "strengths"
-            : hasHobbies
-              ? "hobbies"
-              : "references";
+  const sideSectionStyle = (key: CvSectionKey): React.CSSProperties => ({
+    gridColumn: cvSectionLayout(data, key).width === "half" ? "span 1" : "1 / -1",
+    display: customSectionLayout ? undefined : "contents",
+    minWidth: 0,
+    overflowWrap: "anywhere",
+  });
 
   const sideHeading = (text: string, first = false) => (
     <div
@@ -1188,6 +1503,165 @@ export function CvCanvas({
     sidebarWidth - (onColumn ? 19 : 15.5),
   );
 
+  const freeSectionKeys = CV_LAYOUT_SECTION_ORDER.filter((key) => {
+    if (cvSectionLayout(data, key).positioning !== "free") return false;
+    return key === "person" ? personalSectionRows().length > 0 : sectionRows(key).length > 0;
+  });
+
+  const freeSectionBox = (key: CvLayoutSectionKey, pageIndex: number) => {
+    const sectionLayout = cvSectionLayout(data, key);
+    const box = cvContentBox(frame, pageIndex, layout, sidebarPct);
+    const available = SHEET_W_MM - box.left - box.right;
+    const widthMm = sectionLayout.width === "half" ? Math.max(20, (available - 6) / 2) : available;
+    const heightMm = freeHeights[key] ?? 0;
+    const fallbackY = box.top + Math.max(0, freeSectionKeys.indexOf(key)) * 18;
+    const minX = box.left;
+    const maxX = Math.max(minX, SHEET_W_MM - box.right - widthMm);
+    const minY = box.top;
+    const maxY = Math.max(minY, 297 - box.bottom - heightMm);
+    const live = liveSectionPositions[key];
+    return {
+      widthMm,
+      x: Math.max(minX, Math.min(maxX, live?.x ?? sectionLayout.x ?? minX)),
+      y: Math.max(minY, Math.min(maxY, live?.y ?? sectionLayout.y ?? fallbackY)),
+      minX,
+      maxX,
+      minY,
+      maxY,
+    };
+  };
+
+  const startSectionGesture =
+    (key: CvLayoutSectionKey, pageIndex: number) => (event: React.PointerEvent<HTMLElement>) => {
+      if (exportMode || !onSectionLayout || event.button !== 0) return;
+      const pageEl = event.currentTarget.closest("[data-cv-page]") as HTMLElement | null;
+      if (!pageEl) return;
+      const sheetPx = pageEl.getBoundingClientRect().width;
+      if (!sheetPx) return;
+      event.preventDefault();
+      event.stopPropagation();
+      setSelectedSection(key);
+
+      const mmPerPx = SHEET_W_MM / sheetPx;
+      const startX = event.clientX;
+      const startY = event.clientY;
+      const from = freeSectionBox(key, pageIndex);
+      let latest = { x: from.x, y: from.y };
+
+      const step = (moveEvent: PointerEvent) => {
+        const rawX = from.x + (moveEvent.clientX - startX) * mmPerPx;
+        const rawY = from.y + (moveEvent.clientY - startY) * mmPerPx;
+        // Zwei-Millimeter-Raster: hilfreich, aber fein genug, um nicht zu stören.
+        latest = {
+          x: Math.max(from.minX, Math.min(from.maxX, Math.round(rawX / 2) * 2)),
+          y: Math.max(from.minY, Math.min(from.maxY, Math.round(rawY / 2) * 2)),
+        };
+        setLiveSectionPositions((current) => ({ ...current, [key]: latest }));
+      };
+      const stop = () => {
+        window.removeEventListener("pointermove", step);
+        window.removeEventListener("pointerup", stop);
+        window.removeEventListener("pointercancel", stop);
+        setLiveSectionPositions((current) => {
+          const next = { ...current };
+          delete next[key];
+          return next;
+        });
+        onSectionLayout(key, latest);
+      };
+      window.addEventListener("pointermove", step);
+      window.addEventListener("pointerup", stop);
+      window.addEventListener("pointercancel", stop);
+    };
+
+  const nudgeSection =
+    (key: CvLayoutSectionKey, pageIndex: number) => (event: React.KeyboardEvent<HTMLElement>) => {
+      if (!onSectionLayout) return;
+      const delta: Record<string, [number, number]> = {
+        ArrowLeft: [-1, 0],
+        ArrowRight: [1, 0],
+        ArrowUp: [0, -1],
+        ArrowDown: [0, 1],
+      };
+      const move = delta[event.key];
+      if (!move) return;
+      event.preventDefault();
+      const box = freeSectionBox(key, pageIndex);
+      onSectionLayout(key, {
+        x: Math.max(box.minX, Math.min(box.maxX, box.x + move[0])),
+        y: Math.max(box.minY, Math.min(box.maxY, box.y + move[1])),
+      });
+    };
+
+  const freeSections = (pageIndex: number) =>
+    freeSectionKeys.map((key) => {
+      const sectionLayout = cvSectionLayout(data, key);
+      if (sectionLayout.page - 1 !== pageIndex) return null;
+      const content = key === "person" ? personalSectionRows() : sectionRows(key);
+      const unit: SectionUnit = {
+        key,
+        width: sectionLayout.width,
+        minPage: pageIndex as 0 | 1,
+        rows: content,
+      };
+      const box = freeSectionBox(key, pageIndex);
+      const active = selectedSection === key;
+      return (
+        <div
+          key={key}
+          data-cv-free-section={key}
+          role={exportMode ? undefined : "button"}
+          tabIndex={exportMode ? undefined : 0}
+          aria-label={
+            exportMode
+              ? undefined
+              : `${label(data, key === "person" ? "kontakt" : key)} verschieben`
+          }
+          onPointerDown={exportMode ? undefined : startSectionGesture(key, pageIndex)}
+          onKeyDown={exportMode ? undefined : nudgeSection(key, pageIndex)}
+          style={{
+            position: "absolute",
+            left: `${box.x}mm`,
+            top: `${box.y}mm`,
+            width: `${box.widthMm}mm`,
+            minWidth: 0,
+            zIndex: 8,
+            cursor: exportMode ? undefined : "grab",
+            touchAction: "none",
+            boxSizing: "border-box",
+            borderRadius: "1.5mm",
+            outline: !exportMode && active ? `0.55mm solid ${pal.accent}` : undefined,
+            outlineOffset: !exportMode && active ? "1.2mm" : undefined,
+          }}
+        >
+          {sectionNode(unit)}
+          {!exportMode && (
+            <span
+              data-cv-section-handle
+              aria-hidden
+              style={{
+                position: "absolute",
+                right: 0,
+                top: "-5.2mm",
+                borderRadius: "999px",
+                padding: "0.8mm 2mm",
+                background: pal.paper,
+                color: pal.accent,
+                border: `0.3mm solid ${pal.accent}`,
+                boxShadow: "0 1px 3px rgba(0,0,0,0.16)",
+                fontFamily: SHEET_FONT,
+                fontSize: "7.5pt",
+                lineHeight: 1,
+                whiteSpace: "nowrap",
+              }}
+            >
+              ↕ Verschieben
+            </span>
+          )}
+        </div>
+      );
+    });
+
   /**
    * Frei gesetztes Foto. Es liegt über dem Satzspiegel, gehört keiner Spalte an
    * und steht nur auf der ersten Seite. In der Vorschau lässt es sich ziehen,
@@ -1262,6 +1736,25 @@ export function CvCanvas({
     // Die getönte Papierspalte beginnt erst unter dem Kopfband, damit dieses
     // über die ganze Breite sichtbar bleibt.
     const surface = cvSurface(frame, pageIndex, layout, sidebarPct);
+    const {
+      hasContact,
+      hasSchool,
+      hasExperience,
+      hasLanguages,
+      hasStrengths,
+      hasHobbies,
+      hasReferences,
+      firstSide,
+    } = sidePresence(pageIndex);
+    const hasSideSections =
+      hasContact ||
+      hasSchool ||
+      hasExperience ||
+      hasLanguages ||
+      hasStrengths ||
+      hasHobbies ||
+      hasReferences;
+    const sidebarPhoto = pageIndex === 0 && autoPhoto && !personLayoutCustomized;
     return (
       <div
         data-cv-sidebar
@@ -1272,8 +1765,8 @@ export function CvCanvas({
           bottom: onColumn ? 0 : `${surface.bottom}mm`,
           width: `${sidebarWidth}mm`,
           padding: onColumn
-            ? `${autoPhoto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
-            : `${autoPhoto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
+            ? `${sidebarPhoto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
+            : `${sidebarPhoto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
           boxSizing: "border-box",
           // Die Spalte selbst liegt schon im Seitengrund; hier nur bei der
           // getönten Papierspalte einen eigenen Grund zeichnen.
@@ -1296,13 +1789,23 @@ export function CvCanvas({
             }}
           />
         )}
-        <div style={{ position: "relative", zIndex: 1 }}>
-          {pageIndex === 0 ? (
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            display: customSectionLayout ? "grid" : undefined,
+            gridTemplateColumns: customSectionLayout ? "repeat(2, minmax(0, 1fr))" : undefined,
+            columnGap: customSectionLayout ? "2.2mm" : undefined,
+            alignItems: "start",
+          }}
+        >
+          {pageIndex === 0 || hasSideSections ? (
             <>
-              {autoPhoto && (
+              {sidebarPhoto && (
                 <div
                   data-cv-photo
                   style={{
+                    gridColumn: customSectionLayout ? "1 / -1" : undefined,
                     position: "relative",
                     width: `${sidePhotoMm}mm`,
                     height: `${sidePhotoMm * dossierPhotoRatio(photoStyle.shape)}mm`,
@@ -1316,7 +1819,12 @@ export function CvCanvas({
               )}
 
               {hasContact && (
-                <>
+                <div
+                  style={{
+                    gridColumn: customSectionLayout ? "1 / -1" : undefined,
+                    display: customSectionLayout ? undefined : "contents",
+                  }}
+                >
                   {sideHeading(label(data, "kontakt"), firstSide === "contact")}
                   <div
                     data-cv-entry
@@ -1351,25 +1859,25 @@ export function CvCanvas({
                       </div>
                     )}
                   </div>
-                </>
+                </div>
               )}
 
               {hasSchool && (
-                <>
+                <div style={sideSectionStyle("schule")}>
                   {sideHeading(label(data, "schule"), firstSide === "school")}
                   {sideEntries("schule")}
-                </>
+                </div>
               )}
 
               {hasExperience && (
-                <>
+                <div style={sideSectionStyle("erfahrung")}>
                   {sideHeading(label(data, "erfahrung"), firstSide === "experience")}
                   {sideEntries("erfahrung")}
-                </>
+                </div>
               )}
 
               {hasLanguages && (
-                <>
+                <div style={sideSectionStyle("sprachen")}>
                   {sideHeading(label(data, "sprachen"), firstSide === "languages")}
                   {data.sprachen
                     .filter((s) => s.name.trim() || s.niveau.trim())
@@ -1410,11 +1918,11 @@ export function CvCanvas({
                         )}
                       </div>
                     ))}
-                </>
+                </div>
               )}
 
               {hasStrengths && (
-                <>
+                <div style={sideSectionStyle("staerken")}>
                   {sideHeading(label(data, "staerken"), firstSide === "strengths")}
                   {data.staerken
                     .filter((v) => v.trim())
@@ -1445,11 +1953,11 @@ export function CvCanvas({
                         </span>
                       </div>
                     ))}
-                </>
+                </div>
               )}
 
               {hasHobbies && (
-                <>
+                <div style={sideSectionStyle("hobbys")}>
                   {sideHeading(label(data, "hobbys"), firstSide === "hobbies")}
                   {data.hobbys
                     .filter((v) => v.trim())
@@ -1472,11 +1980,11 @@ export function CvCanvas({
                         {v}
                       </div>
                     ))}
-                </>
+                </div>
               )}
 
               {hasReferences && (
-                <>
+                <div style={sideSectionStyle("referenzen")}>
                   {sideHeading(label(data, "referenzen"), firstSide === "references")}
                   {data.referenzen
                     .filter((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim())
@@ -1523,11 +2031,17 @@ export function CvCanvas({
                         )}
                       </div>
                     ))}
-                </>
+                </div>
               )}
             </>
           ) : pageMarker(frame) !== "sidebar" ? null : ( // Band oder Fusszeile tragen die Angabe schon – hier wäre sie doppelt.
-            <div data-cv-header style={{ paddingTop: "5mm" }}>
+            <div
+              data-cv-header
+              style={{
+                paddingTop: "5mm",
+                gridColumn: customSectionLayout ? "1 / -1" : undefined,
+              }}
+            >
               <div
                 data-cv-name
                 style={{
@@ -1556,7 +2070,7 @@ export function CvCanvas({
    */
   const bandHeader = (pageIndex: number) => {
     const head = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
-    if (!nameInBand || head <= 0) return null;
+    if (!nameInBand || personLayoutCustomized || head <= 0) return null;
     const roles = frame.bandMotif ? onArea : onBand;
     // Rechts der Seitenspalte beginnen, sonst verschwindet der Vorname
     // dahinter – gemessen fehlten so die ersten 117 px des Namens.
@@ -1659,12 +2173,22 @@ export function CvCanvas({
 
   return (
     <div
+      ref={canvasRef}
       className="flex flex-col items-center gap-4"
       data-dossier-document="cv"
       data-cv-layout={layout}
       data-cv-archetype={frame.id}
       data-cv-band-head={frame.headFirstMm > 0 ? "true" : "false"}
       data-export-mode={exportMode ? "true" : "false"}
+      onPointerDown={
+        exportMode
+          ? undefined
+          : (event) => {
+              if (!(event.target as HTMLElement).closest("[data-cv-free-section]")) {
+                setSelectedSection(null);
+              }
+            }
+      }
     >
       {/*
         Hidden A4 measurement page. It deliberately uses a separate semantic
@@ -1723,6 +2247,7 @@ export function CvCanvas({
             {footer(i)}
             {elementLayer(i)}
             {freePhoto(i)}
+            {freeSections(i)}
             <div
               data-cv-main
               style={{

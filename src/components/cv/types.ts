@@ -50,12 +50,7 @@ export type CvPerson = {
 
 /** Welche Abschnitte gibt es und wie heissen sie in der Vorgabe? */
 export type CvSectionKey =
-  | "schule"
-  | "erfahrung"
-  | "sprachen"
-  | "hobbys"
-  | "staerken"
-  | "referenzen";
+  "schule" | "erfahrung" | "sprachen" | "hobbys" | "staerken" | "referenzen";
 
 export const CV_SECTION_LABELS: Record<CvSectionKey, string> = {
   schule: "Schulbildung",
@@ -75,6 +70,64 @@ export const CV_SECTION_ORDER: CvSectionKey[] = [
   "staerken",
   "referenzen",
 ];
+
+/**
+ * Rubriken, deren komplette Anordnung die Schülerin / der Schüler bestimmen
+ * kann. Die persönlichen Angaben sind bewusst ein eigener Layout-Block; die
+ * einzelnen Felder darin bleiben weiterhin zusammen.
+ */
+export type CvLayoutSectionKey = "person" | CvSectionKey;
+export const CV_LAYOUT_SECTION_ORDER: CvLayoutSectionKey[] = ["person", ...CV_SECTION_ORDER];
+
+export type CvSectionPage = 1 | 2;
+export type CvSectionWidth = "full" | "half";
+export type CvSectionPositioning = "flow" | "free";
+
+/** Eine einzige, persistente Quelle für Seite, Breite und freie Position. */
+export type CvSectionLayout = {
+  page: CvSectionPage;
+  width: CvSectionWidth;
+  positioning: CvSectionPositioning;
+  /** Absolute Position auf dem A4-Blatt in Millimetern; nur bei `free` benutzt. */
+  x: number | null;
+  y: number | null;
+};
+
+export type CvSectionLayouts = Partial<Record<CvLayoutSectionKey, Partial<CvSectionLayout>>>;
+
+export const DEFAULT_CV_SECTION_LAYOUT: CvSectionLayout = {
+  page: 1,
+  width: "full",
+  positioning: "flow",
+  x: null,
+  y: null,
+};
+
+const finiteCoordinate = (value: unknown): number | null =>
+  typeof value === "number" && Number.isFinite(value) ? value : null;
+
+/** Alte und teilweise beschädigte Entwürfe sicher auf die neuen Vorgaben ziehen. */
+export function normalizeCvSectionLayout(value?: Partial<CvSectionLayout> | null): CvSectionLayout {
+  return {
+    page: value?.page === 2 ? 2 : 1,
+    width: value?.width === "half" ? "half" : "full",
+    positioning: value?.positioning === "free" ? "free" : "flow",
+    x: finiteCoordinate(value?.x),
+    y: finiteCoordinate(value?.y),
+  };
+}
+
+export function cvSectionLayout(data: Pick<CvData, "sectionLayouts">, key: CvLayoutSectionKey) {
+  return normalizeCvSectionLayout(data.sectionLayouts?.[key]);
+}
+
+/** Koordinaten allein ändern den normalen Dokumentfluss nicht. */
+export function hasCustomizedCvSectionLayout(data: Pick<CvData, "sectionLayouts">): boolean {
+  return CV_LAYOUT_SECTION_ORDER.some((key) => {
+    const value = cvSectionLayout(data, key);
+    return value.page !== 1 || value.width !== "full" || value.positioning !== "flow";
+  });
+}
 
 /** Im Modern-Layout kann jeder Inhaltsblock bewusst links oder im Hauptteil liegen. */
 export type CvPlacement = "side" | "main";
@@ -121,6 +174,8 @@ export type CvData = {
   labels: Partial<Record<CvPlacementKey, string>>;
   /** Ausgeblendete Abschnitte. */
   hidden: Partial<Record<CvSectionKey, boolean>>;
+  /** Unabhängige Layouteinstellungen pro kompletter Rubrik. */
+  sectionLayouts?: CvSectionLayouts;
 };
 
 /** Gestaltung des Lebenslaufs – kommt in der Regel vom Titelblatt. */
@@ -232,6 +287,7 @@ export const emptyCv: CvData = {
   referenzen: [],
   labels: {},
   hidden: {},
+  sectionLayouts: {},
 };
 
 let counter = 0;
@@ -329,4 +385,5 @@ export const DEMO_CV: CvData = {
   ],
   labels: {},
   hidden: {},
+  sectionLayouts: {},
 };

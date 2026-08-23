@@ -199,3 +199,38 @@ html[data-cv-mirrored="true"][data-cv-variant="editorial"] [data-cv-layout="clas
 
 /* Decorative intensity deliberately has no layout-specific rule here. M5.6
  * leaves it to the shared dossier family / cvVisualPolicy. */
+
+
+/* -------------------------------------------------------------------------- */
+/* Rubriken-Layout: robuste Halbbreite und editor-only freie Griffe            */
+/* -------------------------------------------------------------------------- */
+
+[data-cv-rubric],
+[data-cv-rubric] [data-cv-entry],
+[data-cv-rubric] [data-cv-entry] > * {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* In der halben Hauptspalte braucht die Datums-/Sprachrail etwas weniger Raum. */
+[data-cv-section-width="half"] [data-cv-rail] {
+  width: 20mm !important;
+}
+
+/* Lange Wörter und Adressen dürfen nie aus einer halben Rubrik hinausragen. */
+[data-cv-section-width="half"] :is([data-cv-entry-title], [data-cv-body], [data-cv-muted]) {
+  overflow-wrap: anywhere !important;
+  word-break: break-word;
+}
+
+@media print {
+  [data-cv-section-handle] {
+    display: none !important;
+  }
+
+  [data-cv-free-section] {
+    outline: none !important;
+  }
+}
+

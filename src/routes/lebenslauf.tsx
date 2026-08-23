@@ -23,6 +23,7 @@ import {
   FormCvPerson,
   FormCvReferenzen,
   FormCvSprachen,
+  SectionLayoutControls,
   SectionOptions,
 } from "@/components/cv/CvForm";
 import {
@@ -32,11 +33,15 @@ import {
   CV_TYPE_DEFAULTS,
   DEFAULT_CV_TITLE,
   DEMO_CV,
+  cvSectionLayout,
   emptyCv,
+  normalizeCvSectionLayout,
   type CvData,
   type CvDesign,
+  type CvLayoutSectionKey,
   type CvPerson,
   type CvPlacementKey,
+  type CvSectionLayout,
   type CvSectionKey,
 } from "@/components/cv/types";
 import { emptyCoverDraft, personFilled, readCoverDraft, type CoverDraft } from "@/lib/dossier";
@@ -79,7 +84,7 @@ export const Route = createFileRoute("/lebenslauf")({
 });
 
 const STORAGE_KEY = "lebenslauf:v1";
-const SAVE_VERSION = 3;
+const SAVE_VERSION = 4;
 
 /**
  * Vorgabe: 75 % Transparenz.
@@ -675,13 +680,21 @@ function Lebenslauf() {
   const setHidden = (key: CvSectionKey, v: boolean) =>
     patchData({ hidden: { ...data.hidden, [key]: v } });
 
+  const setSectionLayout = (key: CvLayoutSectionKey, patch: Partial<CvSectionLayout>) => {
+    const next = normalizeCvSectionLayout({ ...cvSectionLayout(data, key), ...patch });
+    patchData({ sectionLayouts: { ...data.sectionLayouts, [key]: next } });
+  };
+
   const opts = (key: CvSectionKey) => (
     <SectionOptions
+      section={key}
       value={data.labels[key] ?? ""}
       placeholder={CV_SECTION_LABELS[key]}
       hidden={!!data.hidden[key]}
+      layout={cvSectionLayout(data, key)}
       onLabel={(v) => setLabel(key, v)}
       onHidden={(v) => setHidden(key, v)}
+      onLayout={(patch) => setSectionLayout(key, patch)}
     />
   );
 
@@ -694,6 +707,7 @@ function Lebenslauf() {
       selected={selected}
       onSelect={setSelected}
       onMoveElement={patchStyle}
+      onSectionLayout={setSectionLayout}
       drawing={drawing}
       onDrawn={(points) => {
         setDrawing(false);
@@ -1142,6 +1156,11 @@ function Lebenslauf() {
               hint={data.person.vorname || data.person.nachname ? "gesetzt" : "leer"}
             >
               <div className="flex flex-col gap-3">
+                <SectionLayoutControls
+                  section="person"
+                  layout={cvSectionLayout(data, "person")}
+                  onLayout={(patch) => setSectionLayout("person", patch)}
+                />
                 <div className="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
