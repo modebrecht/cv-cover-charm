@@ -16,6 +16,13 @@ import {
 } from "../../src/lib/dossier-photo";
 import { coverDraftFingerprint, emptyCoverDraft, readCoverPhoto } from "../../src/lib/dossier";
 import {
+  coverPdfDocumentFromSaved,
+  coverPdfHasContent,
+  cvPdfDocumentFromSaved,
+  cvPdfHasContent,
+} from "../../src/lib/dossier-pdf-document";
+import { emptyCv } from "../../src/components/cv/types";
+import {
   DOSSIER_PROJECT_KIND,
   createDossierProject,
   parseDossierProject,
@@ -211,5 +218,31 @@ describe("combined dossier project", () => {
         cover: { version: 7 },
       }),
     ).toBeNull();
+  });
+});
+
+describe("combined dossier PDF availability", () => {
+  test("requires meaningful content in both document parts", () => {
+    const emptyCover = coverPdfDocumentFromSaved({
+      template: "modern",
+      data: { datum: "23.08.2026", ort: "Hubersdorf" },
+    });
+    const filledCover = coverPdfDocumentFromSaved({
+      template: "modern",
+      data: { vorname: "Lea", nachname: "Müller" },
+    });
+    const filledCv = cvPdfDocumentFromSaved({
+      data: {
+        ...emptyCv,
+        schule: [
+          { id: "schule-1", zeit: "2023 – heute", titel: "Sek B", ort: "Olten", beschreibung: "" },
+        ],
+      },
+    });
+
+    expect(emptyCover && coverPdfHasContent(emptyCover.data)).toBe(false);
+    expect(filledCover && coverPdfHasContent(filledCover.data)).toBe(true);
+    expect(cvPdfHasContent(emptyCv)).toBe(false);
+    expect(filledCv && cvPdfHasContent(filledCv.data)).toBe(true);
   });
 });

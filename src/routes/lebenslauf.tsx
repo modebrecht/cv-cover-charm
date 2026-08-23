@@ -8,6 +8,14 @@ import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { ElementBar } from "@/components/cover/ElementBar";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
+import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import {
+  coverPdfDocumentFromSaved,
+  coverPdfHasContent,
+  cvPdfHasContent,
+  type CoverPdfDocument,
+  type CvPdfDocument,
+} from "@/lib/dossier-pdf-document";
 import { SaveStatus, type SaveState } from "@/components/dossier/SaveStatus";
 import {
   newDrawnElement,
@@ -70,6 +78,7 @@ import {
   type TemplateId,
 } from "@/components/cover/types";
 import { downloadBlob, safeFileName } from "@/lib/download";
+import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
 import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
@@ -197,6 +206,7 @@ function Lebenslauf() {
   const [lastCoverFingerprint, setLastCoverFingerprint] = useState<string | null>(null);
   const [drawing, setDrawing] = useState(false);
   const [cover, setCover] = useState<CoverDraft | null>(null);
+  const [storedCoverDocument, setStoredCoverDocument] = useState<CoverPdfDocument | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
   const [zoom, setZoom] = useState<number>(PREVIEW.ZOOM_DEFAULT);
   const [downloading, setDownloading] = useState(false);
@@ -235,6 +245,7 @@ function Lebenslauf() {
   const { markWritten, changedElsewhere } = useForeignWrite(STORAGE_KEY);
 
   const exportRef = useRef<HTMLDivElement>(null);
+  const dossierExportRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const restored = useRef(false);
 
@@ -276,6 +287,19 @@ function Lebenslauf() {
   }, [design.template, design.font, elements, elementStyles, activeTemplate]);
   const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
   const selectedCustom = elements.find((c) => c.id === selected) ?? null;
+  const currentCvDocument = useMemo<CvPdfDocument>(
+    () => ({ data, design, elements, elementStyles }),
+    [data, design, elements, elementStyles],
+  );
+  const coverReadyForDossier =
+    !!storedCoverDocument && coverPdfHasContent(storedCoverDocument.data);
+  const cvReadyForDossier = cvPdfHasContent(data);
+  const canDownloadDossierPdf = coverReadyForDossier && cvReadyForDossier;
+  const dossierPdfHint = !coverReadyForDossier
+    ? cvReadyForDossier
+      ? "Zuerst das Titelblatt bearbeiten."
+      : "Zuerst Titelblatt und Lebenslauf bearbeiten."
+    : "Zuerst den Lebenslauf bearbeiten.";
 
   const patchStyle = useCallback(
     (id: string, p: Partial<BlockStyle>) =>
@@ -426,12 +450,16 @@ function Lebenslauf() {
    * und bei Änderungen aus einem zweiten Fenster den aktuellen Stand lesen.
    */
   useEffect(() => {
-    const refreshCover = () => setCover(readCoverDraft());
+    const refreshCover = () => {
+      setCover(readCoverDraft());
+      setStoredCoverDocument(coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY)));
+    };
     const onStorage = (event: StorageEvent) => {
       if (event.key === "titelblatt:v3") refreshCover();
     };
     window.addEventListener("focus", refreshCover);
     window.addEventListener("storage", onStorage);
+    refreshCover();
     return () => {
       window.removeEventListener("focus", refreshCover);
       window.removeEventListener("storage", onStorage);
@@ -755,6 +783,7 @@ function Lebenslauf() {
         const loaded = storeDossierProject(project);
         if (loaded.cv) loadFromStorage();
         setCover(readCoverDraft());
+        if (loaded.cover) setStoredCoverDocument(coverPdfDocumentFromSaved(project.cover));
         setSaveState("saved");
         setStatus({
           kind: "ok",
@@ -841,6 +870,27 @@ function Lebenslauf() {
     } catch (e) {
       console.error(e);
       setStatus({ kind: "error", text: "PDF konnte nicht erstellt werden." });
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const downloadDossierPdf = async () => {
+    if (!dossierExportRef.current || !canDownloadDossierPdf || downloading) return;
+    setMenuOpen(false);
+    setSelected(null);
+    setSelectedSection(null);
+    setDownloading(true);
+    const name = [data.person.vorname, data.person.nachname].filter(Boolean).join(" ");
+    try {
+      await downloadCombinedDossierPdf(dossierExportRef.current, `${dossierFileBase()}.pdf`, {
+        title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
+        author: name,
+      });
+      setStatus({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
+    } catch (error) {
+      console.error(error);
+      setStatus({ kind: "error", text: "Dossier-PDF konnte nicht erstellt werden." });
     } finally {
       setDownloading(false);
     }
@@ -1131,13 +1181,32 @@ function Lebenslauf() {
                 <div className="absolute right-0 mt-2 w-64 overflow-hidden rounded-md border bg-popover shadow-lg">
                   <button
                     type="button"
+                    onClick={downloadDossierPdf}
+                    disabled={!canDownloadDossierPdf}
+                    title={
+                      canDownloadDossierPdf
+                        ? "Titelblatt und alle CV-Seiten gemeinsam herunterladen"
+                        : dossierPdfHint
+                    }
+                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
+                  >
+                    <span>Ganzes Dossier als PDF</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
+                  </button>
+                  {!canDownloadDossierPdf ? (
+                    <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
+                      {dossierPdfHint}
+                    </p>
+                  ) : null}
+                  <button
+                    type="button"
                     onClick={() => {
                       setMenuOpen(false);
                       downloadPdf();
                     }}
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
+                    className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
                   >
-                    <span>Als PDF</span>
+                    <span>Nur Lebenslauf als PDF</span>
                     <span className="text-xs text-muted-foreground">.pdf</span>
                   </button>
                   <button
@@ -2110,6 +2179,25 @@ function Lebenslauf() {
           exportMode
         />
       </div>
+
+      {canDownloadDossierPdf && (menuOpen || downloading) ? (
+        <div
+          aria-hidden
+          style={{
+            position: "fixed",
+            left: "-20000px",
+            top: 0,
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        >
+          <DossierPdfCanvas
+            ref={dossierExportRef}
+            cover={storedCoverDocument}
+            cv={currentCvDocument}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

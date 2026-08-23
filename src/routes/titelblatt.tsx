@@ -15,6 +15,14 @@ import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
 import { ElementBar } from "@/components/cover/ElementBar";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
+import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import {
+  coverPdfHasContent,
+  cvPdfDocumentFromSaved,
+  cvPdfHasContent,
+  type CoverPdfDocument,
+  type CvPdfDocument,
+} from "@/lib/dossier-pdf-document";
 import { SaveStatus, type SaveState } from "@/components/dossier/SaveStatus";
 import {
   newDrawnElement,
@@ -27,6 +35,7 @@ import {
 import { Section } from "@/components/cover/Section";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
+import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
 import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
@@ -227,6 +236,7 @@ function Titelblatt() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [zoom, setZoom] = useState<number>(PREVIEW.ZOOM_DEFAULT);
   const [history, setHistory] = useState<Snapshot[]>([]);
+  const [storedCvDocument, setStoredCvDocument] = useState<CvPdfDocument | null>(null);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [status, setStatus] = useState<{
     kind: "ok" | "error";
@@ -252,6 +262,7 @@ function Titelblatt() {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const exportRef = useRef<HTMLDivElement>(null);
+  const dossierExportRef = useRef<HTMLDivElement>(null);
   const restored = useRef(false);
 
   const activeTemplate = useMemo(() => TEMPLATES.find((t) => t.id === template)!, [template]);
@@ -269,6 +280,18 @@ function Titelblatt() {
   const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
   const selectedCustom = customs.find((c) => c.id === selected) ?? null;
   const titleField = selectedBlock ? TITLE_FIELDS[selectedBlock.id] : undefined;
+  const currentCoverDocument = useMemo<CoverPdfDocument>(
+    () => ({ template, data, colors, blocks, fontScale }),
+    [template, data, colors, blocks, fontScale],
+  );
+  const coverReadyForDossier = coverPdfHasContent(data, customs);
+  const cvReadyForDossier = !!storedCvDocument && cvPdfHasContent(storedCvDocument.data);
+  const canDownloadDossierPdf = coverReadyForDossier && cvReadyForDossier;
+  const dossierPdfHint = !coverReadyForDossier
+    ? cvReadyForDossier
+      ? "Zuerst das Titelblatt bearbeiten."
+      : "Zuerst Titelblatt und Lebenslauf bearbeiten."
+    : "Zuerst den Lebenslauf bearbeiten.";
 
   const toggleSection = (key: SectionKey) => setOpen((o) => ({ ...o, [key]: !o[key] }));
 
@@ -517,6 +540,22 @@ function Titelblatt() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /** Den gespeicherten CV für Vorschau und gemeinsamen PDF-Export aktuell halten. */
+  useEffect(() => {
+    const refresh = () =>
+      setStoredCvDocument(cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY)));
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === CV_STORAGE_KEY) refresh();
+    };
+    refresh();
+    window.addEventListener("focus", refresh);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
+
   /*
    * Zurück im Tab: hat inzwischen ein anderes Fenster geschrieben, gilt dessen
    * Stand. Ein schlafender Tab hat nichts Neues beizutragen – sein alter
@@ -723,6 +762,26 @@ function Titelblatt() {
     }
   };
 
+  const downloadDossierPdf = async () => {
+    if (!dossierExportRef.current || !canDownloadDossierPdf || downloading) return;
+    setMenuOpen(false);
+    setSelected(null);
+    setDownloading(true);
+    const name = [data.vorname, data.nachname].filter(Boolean).join(" ");
+    try {
+      await downloadCombinedDossierPdf(dossierExportRef.current, `${dossierFileBase()}.pdf`, {
+        title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
+        author: name,
+      });
+      setStatus({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
+    } catch (error) {
+      console.error(error);
+      setStatus({ kind: "error", text: "Dossier-PDF konnte nicht erstellt werden." });
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   const downloadDossier = () => {
     setMenuOpen(false);
     const project = createDossierProject({
@@ -748,6 +807,7 @@ function Titelblatt() {
           keepSnapshot("Vor dem Laden", true);
           const loaded = storeDossierProject(project);
           if (loaded.cover) loadFromStorage();
+          if (loaded.cv) setStoredCvDocument(cvPdfDocumentFromSaved(project.cv));
           setSaveState("saved");
           setStatus({
             kind: "ok",
@@ -908,10 +968,29 @@ function Titelblatt() {
                 <div className="absolute right-0 mt-2 w-64 overflow-hidden rounded-md border bg-popover shadow-lg">
                   <button
                     type="button"
-                    onClick={downloadPdf}
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
+                    onClick={downloadDossierPdf}
+                    disabled={!canDownloadDossierPdf}
+                    title={
+                      canDownloadDossierPdf
+                        ? "Titelblatt und alle CV-Seiten gemeinsam herunterladen"
+                        : dossierPdfHint
+                    }
+                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
                   >
-                    <span>Als PDF</span>
+                    <span>Ganzes Dossier als PDF</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
+                  </button>
+                  {!canDownloadDossierPdf ? (
+                    <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
+                      {dossierPdfHint}
+                    </p>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={downloadPdf}
+                    className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                  >
+                    <span>Nur Titelblatt als PDF</span>
                     <span className="text-xs text-muted-foreground">.pdf</span>
                   </button>
                   <button
@@ -1467,6 +1546,25 @@ function Titelblatt() {
           editable={false}
         />
       </div>
+
+      {canDownloadDossierPdf && (menuOpen || downloading) ? (
+        <div
+          aria-hidden
+          style={{
+            position: "fixed",
+            left: "-20000px",
+            top: 0,
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        >
+          <DossierPdfCanvas
+            ref={dossierExportRef}
+            cover={currentCoverDocument}
+            cv={storedCvDocument}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
