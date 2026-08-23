@@ -178,7 +178,10 @@ function Lebenslauf() {
     undo?: () => void;
   } | null>(null);
   const [open, setOpen] = useState<Record<string, boolean>>({
-    design: true,
+    uebernehmen: true,
+    vorlage: false,
+    farben: false,
+    typo: false,
     person: true,
     schule: false,
     erfahrung: false,
@@ -462,7 +465,7 @@ function Lebenslauf() {
   }, [status]);
 
   useEffect(() => {
-    const update = () => setFitHeight(window.innerHeight - 200);
+    const update = () => setFitHeight(window.innerHeight - 230);
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
@@ -800,15 +803,24 @@ function Lebenslauf() {
   );
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-background">
-      <header className="relative z-30 shrink-0 border-b">
-        <div className="flex items-center gap-2 px-3 py-2 sm:px-4">
+    <div className="flex h-screen flex-col overflow-hidden bg-muted/30">
+      <header className="z-30 shrink-0 border-b bg-background/95 backdrop-blur">
+        <div className="flex items-center gap-3 px-3 py-2.5 sm:px-4">
           <button
             type="button"
             onClick={() => setPanelOpen((v) => !v)}
-            className="inline-flex items-center gap-2 rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-accent"
+            aria-expanded={panelOpen}
+            className="inline-flex shrink-0 items-center gap-2 rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-accent"
           >
-            <span className="sm:hidden">Formular</span>
+            <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                d="M2 3.5h12M2 8h12M2 12.5h7"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
             <span className="hidden sm:inline">
               {panelOpen ? "Formular schliessen" : "Formular"}
             </span>
@@ -851,24 +863,27 @@ function Lebenslauf() {
               Titelblatt
             </Link>
             <ThemeToggle />
-            <select
-              value={zoom}
-              onChange={(e) => setZoom(Number(e.target.value))}
-              title="Zoom der Vorschau"
-              className="hidden rounded-md border border-input bg-background px-2 py-2 text-sm hover:bg-accent sm:inline-flex"
-            >
-              {PREVIEW.ZOOM_STEPS.map((z) => (
-                <option key={z} value={z}>
-                  {Math.round(z * 100)} %
-                </option>
-              ))}
-            </select>
+            <label className="hidden items-center gap-1 sm:inline-flex">
+              <span className="sr-only">Zoom der Vorschau</span>
+              <select
+                value={zoom}
+                onChange={(e) => setZoom(Number(e.target.value))}
+                title="Zoom der Vorschau"
+                className="rounded-md border border-input bg-background px-2 py-2 text-sm hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
+              >
+                {PREVIEW.ZOOM_STEPS.map((z) => (
+                  <option key={z} value={z}>
+                    {Math.round(z * 100)} %
+                  </option>
+                ))}
+              </select>
+            </label>
             <div className="relative" ref={menuRef}>
               <button
                 type="button"
                 onClick={() => setMenuOpen((v) => !v)}
                 disabled={downloading}
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 sm:px-4"
+                className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60 sm:px-4"
               >
                 {downloading ? "PDF…" : "Download"}
                 <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
@@ -1049,7 +1064,7 @@ function Lebenslauf() {
         <aside
           className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 overflow-y-auto overflow-x-hidden border-r bg-muted/40 transition-transform duration-300 ease-out sm:static sm:transition-[width,transform] ${
             panelOpen
-              ? "translate-x-0 sm:w-[280px] md:w-[340px] lg:w-[400px]"
+              ? "translate-x-0 sm:w-[260px] md:w-[320px] lg:w-[380px] xl:w-[420px]"
               : "-translate-x-full sm:w-0 sm:overflow-hidden sm:border-r-0"
           }`}
           aria-hidden={!panelOpen}
@@ -1060,15 +1075,16 @@ function Lebenslauf() {
               <span className="text-xs text-muted-foreground">Alles ausfüllen, dann als PDF.</span>
             </div>
 
-            <Section
-              title="Design"
-              open={open.design}
-              onToggle={() => toggle("design")}
-              hint={activeTemplate.name}
-            >
-              <div className="flex flex-col gap-4">
+            <div className="order-last flex flex-col gap-3">
+              <div className="mt-2 h-px bg-border" />
+
+              <Section
+                title="Vom Titelblatt übernehmen"
+                open={open.uebernehmen}
+                onToggle={() => toggle("uebernehmen")}
+                hint={cover ? "bereit" : "nicht vorhanden"}
+              >
                 <div className="flex flex-col gap-2 rounded-md border border-dashed p-2">
-                  <span className="text-xs font-medium">Vom Titelblatt übernehmen</span>
                   <span className="text-xs text-muted-foreground">
                     {cover
                       ? "Wähle, was mitkommen soll. Alles zusammen ergibt den roten Faden durchs Dossier."
@@ -1124,51 +1140,81 @@ function Lebenslauf() {
                     </span>
                   </label>
                 </div>
+              </Section>
 
-                <label className="flex flex-col gap-2 text-xs">
-                  <span className="flex items-center justify-between">
-                    <span className="text-muted-foreground">
-                      Hintergrund-Motiv {Math.round(design.bgOpacity * 100)} % sichtbar
+              <Section
+                title="Vorlage"
+                open={open.vorlage}
+                onToggle={() => toggle("vorlage")}
+                hint={activeTemplate.name}
+              >
+                <div className="flex flex-col gap-4">
+                  <label className="flex flex-col gap-2 text-xs">
+                    <span className="flex items-center justify-between">
+                      <span className="text-muted-foreground">
+                        Hintergrund-Motiv {Math.round(design.bgOpacity * 100)} % sichtbar
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setDesign((d) => ({ ...d, bgOpacity: DEFAULT_BG_OPACITY }))}
+                        className="text-muted-foreground underline hover:text-foreground"
+                      >
+                        {Math.round(DEFAULT_BG_OPACITY * 100)} %
+                      </button>
                     </span>
-                    <button
-                      type="button"
-                      onClick={() => setDesign((d) => ({ ...d, bgOpacity: DEFAULT_BG_OPACITY }))}
-                      className="text-muted-foreground underline hover:text-foreground"
-                    >
-                      {Math.round(DEFAULT_BG_OPACITY * 100)} %
-                    </button>
-                  </span>
-                  <input
-                    type="range"
-                    min={0}
-                    max={100}
-                    step={1}
-                    value={Math.round(design.bgOpacity * 100)}
-                    onChange={(e) =>
-                      setDesign((d) => ({ ...d, bgOpacity: Number(e.target.value) / 100 }))
-                    }
-                    className="w-full accent-primary"
-                  />
-                  <span className="text-muted-foreground/80">
-                    Gilt für die Zierde – Kreise, Verläufe, Formen. Was die Vorlage ausmacht
-                    (Spalte, Farbband, Karte), bleibt immer sichtbar, sonst wäre sie nicht
-                    wiederzuerkennen.
-                  </span>
-                </label>
+                    <input
+                      type="range"
+                      min={0}
+                      max={100}
+                      step={1}
+                      value={Math.round(design.bgOpacity * 100)}
+                      onChange={(e) =>
+                        setDesign((d) => ({ ...d, bgOpacity: Number(e.target.value) / 100 }))
+                      }
+                      className="w-full accent-primary"
+                    />
+                    <span className="text-muted-foreground/80">
+                      Gilt für die Zierde – Kreise, Verläufe, Formen. Was die Vorlage ausmacht
+                      (Spalte, Farbband, Karte), bleibt immer sichtbar, sonst wäre sie nicht
+                      wiederzuerkennen.
+                    </span>
+                  </label>
 
-                <div>
-                  <span className="mb-2 block text-xs text-muted-foreground">Vorlage</span>
-                  <TemplatePicker
-                    value={design.template}
-                    onChange={(template) =>
-                      setDesign((d) => ({ ...d, template, colors: defaultColors(template) }))
-                    }
-                  />
+                  <div>
+                    <TemplatePicker
+                      value={design.template}
+                      onChange={(template) =>
+                        setDesign((d) => ({ ...d, template, colors: defaultColors(template) }))
+                      }
+                    />
+                  </div>
                 </div>
+              </Section>
 
-                <div className="flex flex-col gap-3 rounded-md border border-dashed p-2">
-                  <span className="text-xs font-medium">Schrift und Layout</span>
+              <Section
+                title="Farben"
+                open={open.farben}
+                onToggle={() => toggle("farben")}
+                hint={`${activeTemplate.slots.length}`}
+              >
+                <ColorChooser
+                  slots={activeTemplate.slots}
+                  colors={design.colors}
+                  onChange={(key, value) =>
+                    setDesign((d) => ({ ...d, colors: { ...d.colors, [key]: value } }))
+                  }
+                  onApplyPalette={(next) => setDesign((d) => ({ ...d, colors: next }))}
+                  onReset={() => setDesign((d) => ({ ...d, colors: defaultColors(d.template) }))}
+                />
+              </Section>
 
+              <Section
+                title="Schrift und Layout"
+                open={open.typo}
+                onToggle={() => toggle("typo")}
+                hint={`${Math.round((design.bodyScale ?? CV_TYPE_DEFAULTS.bodyScale) * 100)} %`}
+              >
+                <div className="flex flex-col gap-3">
                   <label className="flex flex-col gap-1 text-xs">
                     <span className="text-muted-foreground">Schriftart gesamtes Dossier</span>
                     <select
@@ -1284,21 +1330,8 @@ function Lebenslauf() {
                     </span>
                   </label>
                 </div>
-
-                <div>
-                  <span className="mb-2 block text-xs text-muted-foreground">Farben</span>
-                  <ColorChooser
-                    slots={activeTemplate.slots}
-                    colors={design.colors}
-                    onChange={(key, value) =>
-                      setDesign((d) => ({ ...d, colors: { ...d.colors, [key]: value } }))
-                    }
-                    onApplyPalette={(next) => setDesign((d) => ({ ...d, colors: next }))}
-                    onReset={() => setDesign((d) => ({ ...d, colors: defaultColors(d.template) }))}
-                  />
-                </div>
-              </div>
-            </Section>
+              </Section>
+            </div>
 
             <Section
               title="Persönliche Angaben"
@@ -1454,7 +1487,7 @@ function Lebenslauf() {
         )}
 
         <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          <div className="min-h-0 flex-1 overflow-auto px-2 py-3 lg:px-6">
+          <div className="min-h-0 flex-1 overflow-auto px-2 pt-3 lg:px-6 lg:pt-4">
             <div className="mx-auto w-full max-w-[900px]">
               <ScaledPreview max={1} fitHeight={fitHeight} zoom={zoom}>
                 {canvas}
@@ -1612,7 +1645,7 @@ function Lebenslauf() {
                     <button
                       type="button"
                       onClick={status.undo}
-                      className="underline underline-offset-2"
+                      className="font-medium underline underline-offset-2"
                     >
                       Rückgängig
                     </button>

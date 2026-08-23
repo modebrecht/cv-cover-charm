@@ -856,7 +856,7 @@ function Titelblatt() {
                 </svg>
               </button>
               {menuOpen && (
-                <div className="absolute right-0 mt-2 w-56 overflow-hidden rounded-md border bg-popover shadow-lg">
+                <div className="absolute right-0 mt-2 w-64 overflow-hidden rounded-md border bg-popover shadow-lg">
                   <button
                     type="button"
                     onClick={downloadPdf}
