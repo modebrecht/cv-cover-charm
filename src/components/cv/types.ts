@@ -71,12 +71,25 @@ export const CV_SECTION_ORDER: CvSectionKey[] = [
   "referenzen",
 ];
 
+/** Eine frei benannte Rubrik mit denselben strukturierten Einträgen wie Schule und Praktika. */
+export type CvCustomSection = {
+  id: string;
+  title: string;
+  entries: CvEntry[];
+};
+
+export type CvCustomSectionKey = `custom:${string}`;
+
+export const customSectionKey = (id: string): CvCustomSectionKey => `custom:${id}`;
+export const isCustomSectionKey = (key: string): key is CvCustomSectionKey =>
+  key.startsWith("custom:");
+
 /**
  * Rubriken, deren komplette Anordnung die Schülerin / der Schüler bestimmen
  * kann. Die persönlichen Angaben sind bewusst ein eigener Layout-Block; die
  * einzelnen Felder darin bleiben weiterhin zusammen.
  */
-export type CvLayoutSectionKey = "person" | CvSectionKey;
+export type CvLayoutSectionKey = "person" | CvSectionKey | CvCustomSectionKey;
 export const CV_LAYOUT_SECTION_ORDER: CvLayoutSectionKey[] = ["person", ...CV_SECTION_ORDER];
 
 export type CvSectionPage = 1 | 2;
@@ -134,8 +147,41 @@ export function cvSectionLayout(data: Pick<CvData, "sectionLayouts">, key: CvLay
 }
 
 /** Koordinaten allein ändern den normalen Dokumentfluss nicht. */
-export function hasCustomizedCvSectionLayout(data: Pick<CvData, "sectionLayouts">): boolean {
-  return CV_LAYOUT_SECTION_ORDER.some((key) => {
+export function cvSectionOrder(
+  data: Pick<CvData, "customSections" | "sectionOrder">,
+): CvLayoutSectionKey[] {
+  const customKeys = (data.customSections ?? []).map((section) => customSectionKey(section.id));
+  const available = new Set<CvLayoutSectionKey>([...CV_LAYOUT_SECTION_ORDER, ...customKeys]);
+  const result: CvLayoutSectionKey[] = [];
+
+  for (const key of data.sectionOrder ?? []) {
+    if (available.has(key) && !result.includes(key)) result.push(key);
+  }
+  for (const key of [...CV_LAYOUT_SECTION_ORDER, ...customKeys]) {
+    if (!result.includes(key)) result.push(key);
+  }
+  return result;
+}
+
+export function customSectionForKey(
+  data: Pick<CvData, "customSections">,
+  key: CvLayoutSectionKey,
+): CvCustomSection | null {
+  if (!isCustomSectionKey(key)) return null;
+  const id = key.slice("custom:".length);
+  return (data.customSections ?? []).find((section) => section.id === id) ?? null;
+}
+
+export function hasCustomizedCvSectionLayout(
+  data: Pick<CvData, "customSections" | "sectionOrder" | "sectionLayouts">,
+): boolean {
+  const canonicalOrder: CvLayoutSectionKey[] = [
+    ...CV_LAYOUT_SECTION_ORDER,
+    ...(data.customSections ?? []).map((section) => customSectionKey(section.id)),
+  ];
+  const order = cvSectionOrder(data);
+  if (order.some((key, index) => key !== canonicalOrder[index])) return true;
+  return order.some((key) => {
     const value = cvSectionLayout(data, key);
     return value.page !== 1 || value.width !== "full" || value.positioning !== "flow";
   });
@@ -177,6 +223,10 @@ export type CvData = {
   hobbys: string[];
   staerken: string[];
   referenzen: CvReferenz[];
+  /** Frei benannte Rubriken wie Kurse, Projekte oder Auszeichnungen. */
+  customSections?: CvCustomSection[];
+  /** Reihenfolge aller kompletten Rubriken; fehlende Schlüssel werden sicher ergänzt. */
+  sectionOrder?: CvLayoutSectionKey[];
   /**
    * Titel des Dokuments, z. B. "Lebenslauf". Leer lassen blendet ihn aus.
    * Vorher stand hier nichts und ein Aufbau druckte fest "CURRICULUM VITAE".
@@ -299,6 +349,8 @@ export const emptyCv: CvData = {
   hobbys: [],
   staerken: [],
   referenzen: [],
+  customSections: [],
+  sectionOrder: [...CV_LAYOUT_SECTION_ORDER],
   labels: {},
   hidden: {},
   sectionLayouts: {},
@@ -397,6 +449,8 @@ export const DEMO_CV: CvData = {
       zusatz: "",
     },
   ],
+  customSections: [],
+  sectionOrder: [...CV_LAYOUT_SECTION_ORDER],
   labels: {},
   hidden: {},
   sectionLayouts: {},

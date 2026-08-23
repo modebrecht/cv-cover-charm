@@ -27,7 +27,6 @@ import {
   emptyEntry,
   emptyReferenz,
   emptySprache,
-  type CvData,
   type CvEntry,
   type CvLayoutSectionKey,
   type CvPerson,
@@ -580,15 +579,23 @@ export function FormCvEntries({
   onChange,
   titelLabel,
   ortLabel,
+  placement,
 }: {
   entries: CvEntry[];
   onChange: (list: CvEntry[]) => void;
   titelLabel: string;
   ortLabel: string;
+  /** `null` bei eigenen Rubriken; dort gibt es bewusst kein Side/Main. */
+  placement?: CvPlacementKey | null;
 }) {
   const patch = (id: string, p: Partial<CvEntry>) =>
     onChange(entries.map((e) => (e.id === id ? { ...e, ...p } : e)));
-  const block: CvPlacementKey = titelLabel === "Schule / Stufe" ? "schule" : "erfahrung";
+  const block =
+    placement === undefined
+      ? titelLabel === "Schule / Stufe"
+        ? "schule"
+        : "erfahrung"
+      : placement;
   const isExperience = block === "erfahrung";
   const [autoSort, setAutoSort] = useState(readAutoSortExperience);
   const sortedOnce = useRef(false);
@@ -607,7 +614,7 @@ export function FormCvEntries({
 
   return (
     <div className="flex flex-col gap-2">
-      <BlockPlacementControl block={block} />
+      {block && <BlockPlacementControl block={block} />}
       {isExperience && (
         <label className="flex items-center gap-2 rounded-md border bg-muted/20 px-2.5 py-2 text-xs">
           <input
@@ -1004,6 +1011,3 @@ export function SectionOptions({
     </div>
   );
 }
-
-export const cvDataHelpers = { emptyEntry, emptySprache, emptyReferenz };
-export type { CvData };

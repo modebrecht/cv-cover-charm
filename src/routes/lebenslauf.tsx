@@ -33,8 +33,14 @@ import {
   CV_TYPE_DEFAULTS,
   DEFAULT_CV_TITLE,
   DEMO_CV,
+  customSectionKey,
   cvSectionLayout,
+  cvSectionOrder,
+  emptyEntry,
   emptyCv,
+  entryFilled,
+  isCustomSectionKey,
+  newId,
   normalizeCvSectionLayout,
   type CvData,
   type CvDesign,
@@ -87,7 +93,7 @@ export const Route = createFileRoute("/lebenslauf")({
 });
 
 const STORAGE_KEY = "lebenslauf:v1";
-const SAVE_VERSION = 4;
+const SAVE_VERSION = 5;
 
 /**
  * Vorgabe: 75 % Transparenz.
@@ -146,7 +152,10 @@ function cvHasContent(d: CvData): boolean {
     d.sprachen?.length ||
     d.hobbys?.length ||
     d.staerken?.length ||
-    d.referenzen?.length
+    d.referenzen?.length ||
+    d.customSections?.some(
+      (section) => section.title.trim() || section.entries.some((entry) => entryFilled(entry)),
+    )
   );
 }
 
@@ -165,6 +174,7 @@ function Lebenslauf() {
   const [elementStyles, setElementStyles] = useState<StyleOverrides>({});
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<CvLayoutSectionKey | null>(null);
+  const [draggedSection, setDraggedSection] = useState<CvLayoutSectionKey | null>(null);
   const [drawing, setDrawing] = useState(false);
   const [cover, setCover] = useState<CoverDraft | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
@@ -182,6 +192,7 @@ function Lebenslauf() {
     vorlage: false,
     farben: false,
     typo: false,
+    rubriken: true,
     person: true,
     schule: false,
     erfahrung: false,
@@ -756,9 +767,132 @@ function Lebenslauf() {
     patchData({ hidden: { ...data.hidden, [key]: v } });
 
   const setSectionLayout = (key: CvLayoutSectionKey, patch: Partial<CvSectionLayout>) => {
-    const next = normalizeCvSectionLayout({ ...cvSectionLayout(data, key), ...patch });
-    patchData({ sectionLayouts: { ...data.sectionLayouts, [key]: next } });
-    if (key === selectedSection && next.positioning !== "free") setSelectedSection(null);
+    const currentLayout = cvSectionLayout(data, key);
+    const nextPositioning = patch.positioning ?? currentLayout.positioning;
+    setData((current) => {
+      const previous = cvSectionLayout(current, key);
+      const next = normalizeCvSectionLayout({ ...previous, ...patch });
+      let order = cvSectionOrder(current);
+
+      // Beim Seitenwechsel landet die Rubrik bewusst am Ende der Zielseite.
+      // Innerhalb der Zielseite kann sie anschliessend fein sortiert werden.
+      if (patch.page && patch.page !== previous.page) {
+        order = order.filter((candidate) => candidate !== key);
+        const lastOnTarget = [...order]
+          .reverse()
+          .find((candidate) => cvSectionLayout(current, candidate).page === next.page);
+        const insertAt = lastOnTarget ? order.indexOf(lastOnTarget) + 1 : order.length;
+        order.splice(insertAt, 0, key);
+      }
+
+      return {
+        ...current,
+        sectionOrder: order,
+        sectionLayouts: { ...current.sectionLayouts, [key]: next },
+      };
+    });
+    if (key === selectedSection && nextPositioning !== "free") setSelectedSection(null);
+  };
+
+  const sectionDisplayLabel = (key: CvLayoutSectionKey) => {
+    if (key === "person") return "Persönliche Angaben";
+    if (isCustomSectionKey(key)) {
+      const id = key.slice("custom:".length);
+      return (
+        data.customSections?.find((section) => section.id === id)?.title.trim() || "Eigene Rubrik"
+      );
+    }
+    return sectionLabel(key);
+  };
+
+  const reorderSection = (key: CvLayoutSectionKey, direction: -1 | 1) => {
+    setData((current) => {
+      const order = cvSectionOrder(current);
+      const page = cvSectionLayout(current, key).page;
+      const pageKeys = order.filter(
+        (candidate) => cvSectionLayout(current, candidate).page === page,
+      );
+      const pageIndex = pageKeys.indexOf(key);
+      const swapWith = pageKeys[pageIndex + direction];
+      if (!swapWith) return current;
+      const keyIndex = order.indexOf(key);
+      const swapIndex = order.indexOf(swapWith);
+      [order[keyIndex], order[swapIndex]] = [order[swapIndex], order[keyIndex]];
+      return { ...current, sectionOrder: order };
+    });
+  };
+
+  const dropSection = (key: CvLayoutSectionKey, page: 1 | 2, before: CvLayoutSectionKey | null) => {
+    setData((current) => {
+      const order = cvSectionOrder(current).filter((candidate) => candidate !== key);
+      const beforeIndex = before ? order.indexOf(before) : -1;
+      if (beforeIndex >= 0) {
+        order.splice(beforeIndex, 0, key);
+      } else {
+        const lastOnPage = [...order]
+          .reverse()
+          .find((candidate) => cvSectionLayout(current, candidate).page === page);
+        const insertAt = lastOnPage ? order.indexOf(lastOnPage) + 1 : order.length;
+        order.splice(insertAt, 0, key);
+      }
+      const layout = normalizeCvSectionLayout({ ...cvSectionLayout(current, key), page });
+      return {
+        ...current,
+        sectionOrder: order,
+        sectionLayouts: { ...current.sectionLayouts, [key]: layout },
+      };
+    });
+    setDraggedSection(null);
+  };
+
+  const addCustomSection = () => {
+    const id = newId("rubrik");
+    const key = customSectionKey(id);
+    setData((current) => ({
+      ...current,
+      customSections: [
+        ...(current.customSections ?? []),
+        { id, title: "Eigene Rubrik", entries: [emptyEntry()] },
+      ],
+      sectionOrder: [...cvSectionOrder(current), key],
+      sectionLayouts: {
+        ...current.sectionLayouts,
+        [key]: normalizeCvSectionLayout({ page: 1 }),
+      },
+    }));
+    setOpen((current) => ({ ...current, [`custom:${id}`]: true }));
+    setStatus({ kind: "ok", text: "Eigene Rubrik hinzugefügt" });
+  };
+
+  const patchCustomSection = (
+    id: string,
+    patch: Partial<NonNullable<CvData["customSections"]>[number]>,
+  ) =>
+    setData((current) => ({
+      ...current,
+      customSections: (current.customSections ?? []).map((section) =>
+        section.id === id ? { ...section, ...patch } : section,
+      ),
+    }));
+
+  const removeCustomSection = (id: string) => {
+    const section = data.customSections?.find((candidate) => candidate.id === id);
+    if (!section || !window.confirm(`Rubrik „${section.title || "Eigene Rubrik"}“ löschen?`))
+      return;
+    keepSnapshot("Vor dem Löschen einer Rubrik", true);
+    const key = customSectionKey(id);
+    setData((current) => {
+      const sectionLayouts = { ...current.sectionLayouts };
+      delete sectionLayouts[key];
+      return {
+        ...current,
+        customSections: (current.customSections ?? []).filter((candidate) => candidate.id !== id),
+        sectionOrder: cvSectionOrder(current).filter((candidate) => candidate !== key),
+        sectionLayouts,
+      };
+    });
+    if (selectedSection === key) setSelectedSection(null);
+    setStatus({ kind: "ok", text: "Eigene Rubrik gelöscht" });
   };
 
   const opts = (key: CvSectionKey) => (
@@ -775,11 +909,7 @@ function Lebenslauf() {
   );
 
   const selectedSectionLayout = selectedSection ? cvSectionLayout(data, selectedSection) : null;
-  const selectedSectionLabel = selectedSection
-    ? selectedSection === "person"
-      ? "Persönliche Angaben"
-      : sectionLabel(selectedSection)
-    : "";
+  const selectedSectionLabel = selectedSection ? sectionDisplayLabel(selectedSection) : "";
 
   const canvas = (
     <CvCanvas
@@ -1334,6 +1464,123 @@ function Lebenslauf() {
             </div>
 
             <Section
+              title="Rubriken anordnen"
+              open={open.rubriken}
+              onToggle={() => toggle("rubriken")}
+              hint={`${cvSectionOrder(data).length}`}
+            >
+              <div className="flex flex-col gap-3">
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Ziehe ganze Rubriken in die gewünschte Reihenfolge oder verschiebe sie auf die
+                  andere Seite.
+                </p>
+                {([1, 2] as const).map((page) => {
+                  const pageKeys = cvSectionOrder(data).filter(
+                    (key) => cvSectionLayout(data, key).page === page,
+                  );
+                  return (
+                    <div key={page} className="rounded-md border bg-muted/20 p-2">
+                      <div className="mb-2 text-xs font-semibold">Seite {page}</div>
+                      <div
+                        className="flex min-h-10 flex-col gap-1"
+                        onDragOver={(event) => event.preventDefault()}
+                        onDrop={(event) => {
+                          event.preventDefault();
+                          const key =
+                            draggedSection ||
+                            (event.dataTransfer.getData("text/plain") as CvLayoutSectionKey);
+                          if (cvSectionOrder(data).includes(key)) dropSection(key, page, null);
+                        }}
+                      >
+                        {pageKeys.map((key, index) => (
+                          <div
+                            key={key}
+                            onDragOver={(event) => event.preventDefault()}
+                            onDrop={(event) => {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              const dropped =
+                                draggedSection ||
+                                (event.dataTransfer.getData("text/plain") as CvLayoutSectionKey);
+                              if (cvSectionOrder(data).includes(dropped) && dropped !== key) {
+                                dropSection(dropped, page, key);
+                              }
+                            }}
+                            className={`flex items-center gap-1.5 rounded border bg-background px-2 py-1.5 text-xs ${
+                              draggedSection === key ? "opacity-50" : ""
+                            }`}
+                          >
+                            <span
+                              draggable
+                              onDragStart={(event) => {
+                                setDraggedSection(key);
+                                event.dataTransfer.effectAllowed = "move";
+                                event.dataTransfer.setData("text/plain", key);
+                              }}
+                              onDragEnd={() => setDraggedSection(null)}
+                              aria-hidden="true"
+                              className="cursor-grab select-none text-base leading-none text-muted-foreground"
+                              title="Rubrik ziehen"
+                            >
+                              ⋮⋮
+                            </span>
+                            <span className="min-w-0 flex-1 truncate font-medium">
+                              {sectionDisplayLabel(key)}
+                            </span>
+                            <button
+                              type="button"
+                              disabled={index === 0}
+                              onClick={() => reorderSection(key, -1)}
+                              className="rounded px-1.5 py-1 hover:bg-accent disabled:opacity-30"
+                              aria-label={`${sectionDisplayLabel(key)} nach oben`}
+                            >
+                              ↑
+                            </button>
+                            <button
+                              type="button"
+                              disabled={index === pageKeys.length - 1}
+                              onClick={() => reorderSection(key, 1)}
+                              className="rounded px-1.5 py-1 hover:bg-accent disabled:opacity-30"
+                              aria-label={`${sectionDisplayLabel(key)} nach unten`}
+                            >
+                              ↓
+                            </button>
+                            <select
+                              value={page}
+                              onChange={(event) =>
+                                setSectionLayout(key, {
+                                  page: Number(event.target.value) === 2 ? 2 : 1,
+                                })
+                              }
+                              onPointerDown={(event) => event.stopPropagation()}
+                              className="rounded border border-input bg-background px-1 py-1 text-[11px]"
+                              aria-label={`${sectionDisplayLabel(key)}: Seite`}
+                            >
+                              <option value={1}>S. 1</option>
+                              <option value={2}>S. 2</option>
+                            </select>
+                          </div>
+                        ))}
+                        {!pageKeys.length && (
+                          <div className="rounded border border-dashed px-2 py-3 text-center text-[11px] text-muted-foreground">
+                            Rubrik hier ablegen
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+                <button
+                  type="button"
+                  onClick={addCustomSection}
+                  className="rounded-md border border-input bg-background px-3 py-2 text-xs font-medium hover:bg-accent"
+                >
+                  + Eigene Rubrik
+                </button>
+              </div>
+            </Section>
+
+            <Section
               title="Persönliche Angaben"
               open={open.person}
               onToggle={() => toggle("person")}
@@ -1475,6 +1722,56 @@ function Lebenslauf() {
                 onChange={(referenzen) => patchData({ referenzen })}
               />
             </Section>
+
+            {(data.customSections ?? []).map((section) => {
+              const key = customSectionKey(section.id);
+              return (
+                <Section
+                  key={section.id}
+                  title={section.title.trim() || "Eigene Rubrik"}
+                  open={!!open[key]}
+                  onToggle={() => toggle(key)}
+                  hint={`${section.entries.length}`}
+                  action={
+                    <button
+                      type="button"
+                      onClick={() => removeCustomSection(section.id)}
+                      className="rounded px-2 py-1 text-xs text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                      aria-label={`${section.title || "Eigene Rubrik"} löschen`}
+                      title="Rubrik löschen"
+                    >
+                      Löschen
+                    </button>
+                  }
+                >
+                  <div className="mb-2 flex flex-col gap-2 border-b pb-2">
+                    <label className="flex flex-col gap-1 text-xs">
+                      <span className="text-muted-foreground">Rubriktitel</span>
+                      <input
+                        value={section.title}
+                        onChange={(event) =>
+                          patchCustomSection(section.id, { title: event.target.value })
+                        }
+                        placeholder="z. B. Projekte oder Kurse"
+                        className="rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                      />
+                    </label>
+                    <SectionLayoutControls
+                      section={key}
+                      layout={cvSectionLayout(data, key)}
+                      onLayout={(patch) => setSectionLayout(key, patch)}
+                    />
+                  </div>
+                  <FormCvEntries
+                    entries={section.entries}
+                    onChange={(entries) => patchCustomSection(section.id, { entries })}
+                    titelLabel="Titel"
+                    ortLabel="Ort / Organisation"
+                    placement={null}
+                  />
+                </Section>
+              );
+            })}
           </div>
         </aside>
 

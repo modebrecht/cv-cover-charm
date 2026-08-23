@@ -1,0 +1,77 @@
+import { describe, expect, test } from "bun:test";
+import {
+  CV_LAYOUT_SECTION_ORDER,
+  customSectionKey,
+  cvSectionOrder,
+  emptyCv,
+  hasCustomizedCvSectionLayout,
+  normalizeCvSectionLayout,
+  type CvData,
+} from "../../src/components/cv/types";
+
+describe("CV rubric layout", () => {
+  test("legacy documents receive the historic rubric order", () => {
+    const legacy = {
+      ...emptyCv,
+      customSections: undefined,
+      sectionOrder: undefined,
+    } satisfies CvData;
+
+    expect(cvSectionOrder(legacy)).toEqual(CV_LAYOUT_SECTION_ORDER);
+    expect(hasCustomizedCvSectionLayout(legacy)).toBe(false);
+  });
+
+  test("custom rubrics are appended once and stale persisted keys are ignored", () => {
+    const custom = { id: "projects", title: "Projekte", entries: [] };
+    const key = customSectionKey(custom.id);
+    const data: CvData = {
+      ...emptyCv,
+      customSections: [custom],
+      sectionOrder: ["person", key, key, "custom:deleted", "schule"],
+    };
+
+    const order = cvSectionOrder(data);
+    expect(order.filter((candidate) => candidate === key)).toHaveLength(1);
+    expect(order).not.toContain("custom:deleted");
+    expect(order).toContain("referenzen");
+  });
+
+  test("reordering is recognized without changing page, width or positioning", () => {
+    const data: CvData = {
+      ...emptyCv,
+      sectionOrder: [
+        "person",
+        "erfahrung",
+        "schule",
+        "sprachen",
+        "hobbys",
+        "staerken",
+        "referenzen",
+      ],
+    };
+
+    expect(hasCustomizedCvSectionLayout(data)).toBe(true);
+  });
+
+  test("unsafe saved geometry is clamped while independent choices survive", () => {
+    expect(
+      normalizeCvSectionLayout({
+        page: 2,
+        width: "half",
+        positioning: "free",
+        x: 21,
+        y: 35,
+        widthMm: 999,
+        heightMm: -5,
+      }),
+    ).toEqual({
+      page: 2,
+      width: "half",
+      positioning: "free",
+      x: 21,
+      y: 35,
+      widthMm: 190,
+      heightMm: 10,
+    });
+  });
+});
