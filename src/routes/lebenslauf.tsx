@@ -5,9 +5,10 @@ import { Section } from "@/components/cover/Section";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
-import { CvCanvas } from "@/components/cv/CvCanvas";
+import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { ElementBar } from "@/components/cover/ElementBar";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
+import { SaveStatus, type SaveState } from "@/components/dossier/SaveStatus";
 import {
   newDrawnElement,
   newImageElement,
@@ -50,7 +51,13 @@ import {
   type CvSectionLayout,
   type CvSectionKey,
 } from "@/components/cv/types";
-import { emptyCoverDraft, personFilled, readCoverDraft, type CoverDraft } from "@/lib/dossier";
+import {
+  coverDraftFingerprint,
+  emptyCoverDraft,
+  personFilled,
+  readCoverDraft,
+  type CoverDraft,
+} from "@/lib/dossier";
 import {
   customKind,
   FONT_LABELS,
@@ -63,6 +70,14 @@ import {
   type TemplateId,
 } from "@/components/cover/types";
 import { downloadBlob, safeFileName } from "@/lib/download";
+import {
+  COVER_STORAGE_KEY,
+  CV_STORAGE_KEY,
+  createDossierProject,
+  parseDossierProject,
+  readStoredDossierPart,
+  storeDossierProject,
+} from "@/lib/dossier-project";
 import { PDF, PREVIEW, SHAPE } from "@/default-config";
 import {
   describe,
@@ -92,8 +107,9 @@ export const Route = createFileRoute("/lebenslauf")({
   component: Lebenslauf,
 });
 
-const STORAGE_KEY = "lebenslauf:v1";
-const SAVE_VERSION = 5;
+const STORAGE_KEY = CV_STORAGE_KEY;
+const SAVE_VERSION = 6;
+const DESIGN_MIGRATION_VERSION = 5;
 
 /**
  * Vorgabe: 75 % Transparenz.
@@ -124,6 +140,8 @@ type Saved = {
    * eine einzige.
    */
   elementStyles?: StyleOverrides;
+  /** Titelblatt-Stand der letzten bewussten Übernahme. */
+  coverFingerprint?: string | null;
 };
 
 /**
@@ -133,7 +151,7 @@ type Saved = {
 function migratedDesign(current: CvDesign, incoming: CvDesign, version?: number): CvDesign {
   const merged = { ...current, ...incoming };
   if (!merged.font || !(merged.font in FONT_LABELS)) delete merged.font;
-  const isOldSave = (version ?? 1) < SAVE_VERSION;
+  const isOldSave = (version ?? 1) < DESIGN_MIGRATION_VERSION;
   const usedOldDefault = LEGACY_DEFAULT_BG_OPACITIES.some(
     (value) => Math.abs(merged.bgOpacity - value) < 0.001,
   );
@@ -175,6 +193,8 @@ function Lebenslauf() {
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<CvLayoutSectionKey | null>(null);
   const [draggedSection, setDraggedSection] = useState<CvLayoutSectionKey | null>(null);
+  const [layoutWarnings, setLayoutWarnings] = useState<CvLayoutWarning[]>([]);
+  const [lastCoverFingerprint, setLastCoverFingerprint] = useState<string | null>(null);
   const [drawing, setDrawing] = useState(false);
   const [cover, setCover] = useState<CoverDraft | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
@@ -187,6 +207,7 @@ function Lebenslauf() {
     /** Rücknahme, z. B. nach dem Löschen eines Elements. */
     undo?: () => void;
   } | null>(null);
+  const [saveState, setSaveState] = useState<SaveState>("idle");
   const [open, setOpen] = useState<Record<string, boolean>>({
     uebernehmen: true,
     vorlage: false,
@@ -223,6 +244,11 @@ function Lebenslauf() {
     if (p.design) setDesign((d) => migratedDesign(d, p.design!, p.version));
     if (Array.isArray(p.elements)) setElements(p.elements);
     if (p.elementStyles) setElementStyles(p.elementStyles);
+    setLastCoverFingerprint(
+      typeof p.coverFingerprint === "string"
+        ? p.coverFingerprint
+        : coverDraftFingerprint(readCoverDraft()),
+    );
   }, []);
 
   const toggle = (k: string) => setOpen((o) => ({ ...o, [k]: !o[k] }));
@@ -344,6 +370,7 @@ function Lebenslauf() {
       const p = JSON.parse(saved) as Partial<Saved>;
       applySaved(p);
       markWritten(saved);
+      setSaveState("saved");
       return true;
     } catch {
       return false;
@@ -378,6 +405,7 @@ function Lebenslauf() {
       if (personFilled(draft.person)) {
         setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
       }
+      setLastCoverFingerprint(coverDraftFingerprint(draft));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -393,10 +421,34 @@ function Lebenslauf() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
+  /**
+   * Das Titelblatt hat einen eigenen Speicher. Beim Zurückkehren in den Tab
+   * und bei Änderungen aus einem zweiten Fenster den aktuellen Stand lesen.
+   */
+  useEffect(() => {
+    const refreshCover = () => setCover(readCoverDraft());
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === "titelblatt:v3") refreshCover();
+    };
+    window.addEventListener("focus", refreshCover);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("focus", refreshCover);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
+
   /** Der laufende Lebenslauf, so wie er gespeichert bzw. exportiert wird. */
   const payload = useCallback(
-    (): Saved => ({ version: SAVE_VERSION, data, design, elements, elementStyles }),
-    [data, design, elements, elementStyles],
+    (): Saved => ({
+      version: SAVE_VERSION,
+      data,
+      design,
+      elements,
+      elementStyles,
+      coverFingerprint: lastCoverFingerprint,
+    }),
+    [data, design, elements, elementStyles, lastCoverFingerprint],
   );
 
   /** Stand in die eigene Historie legen – die des Titelblatts bleibt unberührt. */
@@ -415,13 +467,16 @@ function Lebenslauf() {
   useEffect(() => {
     if (!restored.current) return;
     if (!visible) return;
+    setSaveState("saving");
     const id = setTimeout(() => {
       try {
         const text = JSON.stringify(payload());
         localStorage.setItem(STORAGE_KEY, text);
         markWritten(text);
+        setSaveState("saved");
       } catch {
         // Speicher voll – Bearbeiten geht weiter
+        setSaveState("error");
       }
       keepSnapshot("Automatisch");
     }, 400);
@@ -563,6 +618,8 @@ function Lebenslauf() {
       done.push("Angaben");
     }
 
+    if (done.length) setLastCoverFingerprint(coverDraftFingerprint(draft));
+
     setStatus(
       done.length
         ? { kind: "ok", text: `Vom Titelblatt übernommen: ${done.join(", ")}` }
@@ -669,28 +726,52 @@ function Lebenslauf() {
       headingScale: draft?.fontScale ?? CV_TYPE_DEFAULTS.headingScale,
       bodyScale: draft?.fontScale ?? CV_TYPE_DEFAULTS.bodyScale,
     }));
+    setLastCoverFingerprint(coverDraftFingerprint(draft));
     setConfirmWipe(false);
     setMenuOpen(false);
     setStatus({ kind: "ok", text: "Lebenslauf zurückgesetzt" });
   };
 
-  const downloadJson = () => {
+  const downloadDossier = () => {
     setMenuOpen(false);
+    const project = createDossierProject({
+      cover: readStoredDossierPart(COVER_STORAGE_KEY),
+      cv: payload() as unknown as Record<string, unknown>,
+    });
     downloadBlob(
-      new Blob([JSON.stringify(payload(), null, 2)], { type: "application/json" }),
-      `${fileBase()}.json`,
+      new Blob([JSON.stringify(project, null, 2)], { type: "application/json" }),
+      `${dossierFileBase()}.json`,
     );
-    setStatus({ kind: "ok", text: "Entwurf gespeichert" });
+    setStatus({ kind: "ok", text: "Bewerbungsdossier gespeichert" });
   };
 
   const importJson = async (file?: File) => {
     if (!file) return;
     try {
-      const p = JSON.parse(await file.text()) as Partial<Saved>;
+      const parsed: unknown = JSON.parse(await file.text());
+      const project = parseDossierProject(parsed);
+      if (project) {
+        keepSnapshot("Vor dem Laden", true);
+        const loaded = storeDossierProject(project);
+        if (loaded.cv) loadFromStorage();
+        setCover(readCoverDraft());
+        setSaveState("saved");
+        setStatus({
+          kind: "ok",
+          text:
+            loaded.cover && loaded.cv
+              ? "Dossier geladen: Titelblatt und Lebenslauf"
+              : loaded.cv
+                ? "Lebenslauf aus dem Dossier geladen"
+                : "Titelblatt gespeichert – öffne es über die Kopfzeile",
+        });
+        return;
+      }
+      const p = parsed as Partial<Saved>;
       if (!p || typeof p !== "object" || !p.data) throw new Error("kein Lebenslauf");
       keepSnapshot("Vor dem Laden", true);
       applySaved(p);
-      setStatus({ kind: "ok", text: "Entwurf geladen" });
+      setStatus({ kind: "ok", text: "Älteren Lebenslauf-Entwurf geladen" });
     } catch {
       setStatus({ kind: "error", text: "Datei konnte nicht gelesen werden." });
     }
@@ -709,6 +790,11 @@ function Lebenslauf() {
   const fileBase = () => {
     const n = [data.person.vorname, data.person.nachname].filter(Boolean).join("-");
     return safeFileName(n ? `Lebenslauf-${n}` : "Lebenslauf");
+  };
+
+  const dossierFileBase = () => {
+    const n = [data.person.vorname, data.person.nachname].filter(Boolean).join("-");
+    return safeFileName(n ? `Bewerbungsdossier-${n}` : "Bewerbungsdossier");
   };
 
   const downloadPdf = async () => {
@@ -910,6 +996,16 @@ function Lebenslauf() {
 
   const selectedSectionLayout = selectedSection ? cvSectionLayout(data, selectedSection) : null;
   const selectedSectionLabel = selectedSection ? sectionDisplayLabel(selectedSection) : "";
+  const currentCoverFingerprint = useMemo(() => coverDraftFingerprint(cover), [cover]);
+  const coverChanged =
+    !!currentCoverFingerprint && currentCoverFingerprint !== lastCoverFingerprint;
+  const receiveLayoutWarnings = useCallback((next: CvLayoutWarning[]) => {
+    setLayoutWarnings((current) => {
+      const currentShape = current.map((warning) => `${warning.id}:${warning.message}`).join("|");
+      const nextShape = next.map((warning) => `${warning.id}:${warning.message}`).join("|");
+      return currentShape === nextShape ? current : next;
+    });
+  }, []);
 
   const canvas = (
     <CvCanvas
@@ -923,6 +1019,7 @@ function Lebenslauf() {
       onSelectSection={setSelectedSection}
       onMoveElement={patchStyle}
       onSectionLayout={setSectionLayout}
+      onLayoutWarnings={receiveLayoutWarnings}
       drawing={drawing}
       onDrawn={(points, page) => {
         setDrawing(false);
@@ -958,9 +1055,12 @@ function Lebenslauf() {
 
           <div className="min-w-0 flex-1">
             <h1 className="truncate text-sm font-semibold sm:text-base">Lebenslauf</h1>
-            <p className="hidden truncate text-xs text-muted-foreground sm:block">
-              Teil deines Bewerbungsdossiers
-            </p>
+            <div className="flex min-w-0 items-center gap-2">
+              <p className="hidden truncate text-xs text-muted-foreground sm:block">
+                Teil deines Bewerbungsdossiers
+              </p>
+              <SaveStatus state={saveState} />
+            </div>
           </div>
 
           {status && (
@@ -1042,14 +1142,15 @@ function Lebenslauf() {
                   </button>
                   <button
                     type="button"
-                    onClick={downloadJson}
+                    onClick={downloadDossier}
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
                   >
-                    <span>Entwurf speichern</span>
-                    <span className="text-xs text-muted-foreground">.json</span>
+                    <span>Dossier speichern</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
                   </button>
-                  <label className="block cursor-pointer border-t px-3 py-2 text-left text-sm hover:bg-accent">
-                    Entwurf laden
+                  <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
+                    <span>Dossier laden</span>
+                    <span className="text-xs text-muted-foreground">.json</span>
                     <input
                       type="file"
                       accept="application/json"
@@ -1204,6 +1305,42 @@ function Lebenslauf() {
             <div className="px-1">
               <span className="text-xs text-muted-foreground">Alles ausfüllen, dann als PDF.</span>
             </div>
+
+            {coverChanged ? (
+              <div
+                role="status"
+                className="rounded-lg border border-sky-300/70 bg-sky-50 p-3 text-sky-950 dark:border-sky-800 dark:bg-sky-950/40 dark:text-sky-100"
+              >
+                <div className="text-xs font-semibold">Titelblatt wurde geändert</div>
+                <p className="mt-1 text-[11px] leading-relaxed opacity-80">
+                  Übernimm die ausgewählten Änderungen, damit dein Dossier zusammenpasst.
+                </p>
+                <button
+                  type="button"
+                  onClick={syncFromCover}
+                  className="mt-2 rounded-md border border-current/25 bg-background/80 px-2.5 py-1.5 text-xs font-medium hover:bg-background"
+                >
+                  Änderungen übernehmen
+                </button>
+              </div>
+            ) : null}
+
+            {layoutWarnings.length ? (
+              <div
+                aria-live="polite"
+                className="rounded-lg border border-amber-300/80 bg-amber-50 p-3 text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100"
+              >
+                <div className="text-xs font-semibold">Layout prüfen</div>
+                <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[11px] leading-relaxed">
+                  {layoutWarnings.map((warning) => (
+                    <li key={warning.id}>{warning.message}</li>
+                  ))}
+                </ul>
+                <p className="mt-2 text-[10px] opacity-70">
+                  Diese Hinweise erscheinen nicht im PDF.
+                </p>
+              </div>
+            ) : null}
 
             <div className="order-last flex flex-col gap-3">
               <div className="mt-2 h-px bg-border" />

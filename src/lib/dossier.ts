@@ -59,6 +59,33 @@ export type CoverPhotoDraft = {
   photoStyle: DossierPhotoStyle;
 };
 
+/**
+ * Kleiner, persistierbarer Fingerabdruck aller Titelblatt-Werte, die der CV
+ * tatsächlich übernehmen kann. Änderungen an rein titelblattspezifischen
+ * Texten lösen dadurch keinen nutzlosen Hinweis im Lebenslauf aus.
+ */
+export function coverDraftFingerprint(draft: CoverDraft | null): string | null {
+  if (!draft) return null;
+  const serialized = JSON.stringify({
+    template: draft.template,
+    colors: draft.colors,
+    font: draft.font,
+    fontScale: draft.fontScale,
+    elements: draft.elements,
+    person: draft.person,
+    photoStyle: draft.photoStyle,
+  });
+
+  // FNV-1a: kein Sicherheits-Hash, sondern eine schnelle, stabile
+  // Änderungskennung, die auch für ältere Browser verfügbar ist.
+  let hash = 0x811c9dc5;
+  for (let index = 0; index < serialized.length; index += 1) {
+    hash ^= serialized.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0).toString(36);
+}
+
 function defaultColors(template: TemplateId): Record<string, string> {
   const t = TEMPLATES.find((x) => x.id === template) ?? TEMPLATES[0];
   return Object.fromEntries(t.slots.map((s) => [s.key, s.default]));

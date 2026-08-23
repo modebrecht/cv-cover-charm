@@ -114,6 +114,11 @@ type Row = {
   minPage?: 0 | 1;
 };
 
+export type CvLayoutWarning = {
+  id: string;
+  message: string;
+};
+
 type Props = {
   data: CvData;
   design: CvDesign;
@@ -129,6 +134,8 @@ type Props = {
   onSelectSection?: (key: CvLayoutSectionKey | null) => void;
   onMoveElement?: (id: string, patch: Partial<BlockStyle>) => void;
   onSectionLayout?: (key: CvLayoutSectionKey, patch: Partial<CvSectionLayout>) => void;
+  /** Editor-only Hinweise; Export-Canvas meldet bewusst nichts. */
+  onLayoutWarnings?: (warnings: CvLayoutWarning[]) => void;
   drawing?: boolean;
   onDrawn?: (points: Point[], page: 1 | 2) => void;
 };
@@ -149,6 +156,7 @@ export function CvCanvas({
   onSelectSection,
   onMoveElement,
   onSectionLayout,
+  onLayoutWarnings,
   drawing = false,
   onDrawn,
 }: Props) {
@@ -1771,6 +1779,7 @@ export function CvCanvas({
         <div
           key={key}
           data-cv-free-section={key}
+          data-cv-section-label={sectionTitle(key)}
           role={exportMode ? undefined : "button"}
           tabIndex={exportMode ? undefined : 0}
           aria-label={exportMode ? undefined : `${sectionTitle(key)} verschieben`}
@@ -1915,6 +1924,149 @@ export function CvCanvas({
       </div>
     );
   };
+
+  /**
+   * Warnungen aus der tatsächlich gezeichneten Vorschau ableiten. Dadurch
+   * stimmen sie mit Schriftumbruch, Vorlagengeometrie und PDF-Canvas überein,
+   * statt dieselben Masse ein zweites Mal grob nachzurechnen.
+   */
+  useLayoutEffect(() => {
+    if (exportMode || !onLayoutWarnings || !canvasRef.current) return;
+    const root = canvasRef.current;
+    let animationFrame = 0;
+
+    const report = () => {
+      const warnings: CvLayoutWarning[] = [];
+      const warningIds = new Set<string>();
+      const add = (warning: CvLayoutWarning) => {
+        if (warningIds.has(warning.id)) return;
+        warningIds.add(warning.id);
+        warnings.push(warning);
+      };
+      const pageNodes = Array.from(root.querySelectorAll<HTMLElement>("[data-cv-page]"));
+
+      if (pageNodes.length > 2) {
+        add({
+          id: "more-than-two-pages",
+          message: `Dein CV belegt aktuell ${pageNodes.length} Seiten. Inhalte nach Seite 2 bitte kürzen oder neu verteilen.`,
+        });
+      }
+
+      for (const [pageIndex, page] of pageNodes.entries()) {
+        const main = Array.from(page.children).find(
+          (child): child is HTMLElement =>
+            child instanceof HTMLElement && child.hasAttribute("data-cv-main"),
+        );
+        if (main && main.scrollHeight > main.clientHeight + 3) {
+          add({
+            id: `main-clipped:${pageIndex}`,
+            message: `Auf Seite ${pageIndex + 1} ragt Inhalt aus dem druckbaren Bereich und könnte im PDF abgeschnitten werden.`,
+          });
+        }
+      }
+
+      const freeSections = Array.from(
+        root.querySelectorAll<HTMLElement>("[data-cv-free-section]"),
+      ).map((node) => ({
+        node,
+        key: node.dataset.cvFreeSection ?? "rubrik",
+        label: node.dataset.cvSectionLabel || "Eine frei platzierte Rubrik",
+        page: node.closest<HTMLElement>("[data-cv-page]"),
+        rect: node.getBoundingClientRect(),
+      }));
+
+      for (const section of freeSections) {
+        if (!section.page) continue;
+        const pageRect = section.page.getBoundingClientRect();
+        const outside =
+          section.rect.left < pageRect.left - 1 ||
+          section.rect.top < pageRect.top - 1 ||
+          section.rect.right > pageRect.right + 1 ||
+          section.rect.bottom > pageRect.bottom + 1;
+        if (outside) {
+          add({
+            id: `free-clipped:${section.key}`,
+            message: `„${section.label}“ ragt über den Seitenrand und könnte im PDF abgeschnitten werden.`,
+          });
+        }
+      }
+
+      for (let firstIndex = 0; firstIndex < freeSections.length; firstIndex += 1) {
+        const first = freeSections[firstIndex];
+        for (
+          let secondIndex = firstIndex + 1;
+          secondIndex < freeSections.length;
+          secondIndex += 1
+        ) {
+          const second = freeSections[secondIndex];
+          if (!first.page || first.page !== second.page) continue;
+          const overlapWidth = Math.max(
+            0,
+            Math.min(first.rect.right, second.rect.right) -
+              Math.max(first.rect.left, second.rect.left),
+          );
+          const overlapHeight = Math.max(
+            0,
+            Math.min(first.rect.bottom, second.rect.bottom) -
+              Math.max(first.rect.top, second.rect.top),
+          );
+          const smallerArea = Math.min(
+            first.rect.width * first.rect.height,
+            second.rect.width * second.rect.height,
+          );
+          const overlapRatio = smallerArea > 0 ? (overlapWidth * overlapHeight) / smallerArea : 0;
+          if (overlapRatio >= 0.25) {
+            add({
+              id: `free-overlap:${[first.key, second.key].sort().join(":")}`,
+              message: `„${first.label}“ und „${second.label}“ überlappen sich deutlich.`,
+            });
+          }
+        }
+      }
+
+      const elementLabels = new Map(elements.map((element) => [element.id, element.label]));
+      for (const node of root.querySelectorAll<HTMLElement>("[data-cv-elements] [data-block-id]")) {
+        const page = node.closest<HTMLElement>("[data-cv-page]");
+        if (!page) continue;
+        const pageRect = page.getBoundingClientRect();
+        const rect = node.getBoundingClientRect();
+        const outside =
+          rect.left < pageRect.left - 1 ||
+          rect.top < pageRect.top - 1 ||
+          rect.right > pageRect.right + 1 ||
+          rect.bottom > pageRect.bottom + 1;
+        if (!outside) continue;
+        const id = node.dataset.blockId ?? "element";
+        add({
+          id: `element-clipped:${id}`,
+          message: `Das freie Element „${elementLabels.get(id) ?? "Element"}“ ragt über den Seitenrand und könnte im PDF abgeschnitten werden.`,
+        });
+      }
+
+      onLayoutWarnings(warnings);
+    };
+
+    const scheduleReport = () => {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = window.requestAnimationFrame(report);
+    };
+    scheduleReport();
+
+    if (typeof ResizeObserver === "undefined") {
+      return () => window.cancelAnimationFrame(animationFrame);
+    }
+    const observer = new ResizeObserver(scheduleReport);
+    observer.observe(root);
+    for (const node of root.querySelectorAll<HTMLElement>(
+      "[data-cv-page], [data-cv-main], [data-cv-free-section], [data-block-id]",
+    )) {
+      observer.observe(node);
+    }
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      observer.disconnect();
+    };
+  }, [elementBlocks, elements, exportMode, onLayoutWarnings, pages, shape]);
 
   const modernSidebar = (pageIndex: number) => {
     // Eine farbige Spalte läuft über die volle Höhe, wie auf dem Titelblatt.

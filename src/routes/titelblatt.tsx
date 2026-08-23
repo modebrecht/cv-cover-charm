@@ -15,6 +15,7 @@ import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
 import { ElementBar } from "@/components/cover/ElementBar";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
+import { SaveStatus, type SaveState } from "@/components/dossier/SaveStatus";
 import {
   newDrawnElement,
   newImageElement,
@@ -26,6 +27,14 @@ import {
 import { Section } from "@/components/cover/Section";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
+import {
+  COVER_STORAGE_KEY,
+  CV_STORAGE_KEY,
+  createDossierProject,
+  parseDossierProject,
+  readStoredDossierPart,
+  storeDossierProject,
+} from "@/lib/dossier-project";
 import { readPhoto } from "@/lib/image";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import {
@@ -106,7 +115,7 @@ const emptyData: CoverData = {
   foto: null,
 };
 
-const STORAGE_KEY = "titelblatt:v3";
+const STORAGE_KEY = COVER_STORAGE_KEY;
 /**
  * 5 = Bild-Elemente (`kind`/`src` an den eigenen Feldern).
  * 6 = eigene Titel (`labelKontakt`/`labelEmpfaenger`), acht Schriften,
@@ -218,6 +227,7 @@ function Titelblatt() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [zoom, setZoom] = useState<number>(PREVIEW.ZOOM_DEFAULT);
   const [history, setHistory] = useState<Snapshot[]>([]);
+  const [saveState, setSaveState] = useState<SaveState>("idle");
   const [status, setStatus] = useState<{
     kind: "ok" | "error";
     text: string;
@@ -491,6 +501,7 @@ function Titelblatt() {
       if (typeof p.fontScale === "number") setFontScale(p.fontScale);
       setDocumentFont(validFont(p.font));
       markWritten(saved);
+      setSaveState("saved");
       return true;
     } catch {
       // beschädigter Entwurf – mit leerem Formular weitermachen
@@ -558,13 +569,16 @@ function Titelblatt() {
     // Im Hintergrund nicht speichern – sonst überschreibt ein schlafender Tab
     // die Arbeit des aktiven Fensters.
     if (!visible) return;
+    setSaveState("saving");
     const id = setTimeout(() => {
       try {
         const text = JSON.stringify(snapshotPayload());
         localStorage.setItem(STORAGE_KEY, text);
         markWritten(text);
+        setSaveState("saved");
       } catch {
         // Speicher voll (z. B. sehr grosses Foto) – Bearbeiten geht trotzdem weiter
+        setSaveState("error");
       }
       // Nebenher einen Stand ohne Bilder ablegen. `pushSnapshot` bremst selbst,
       // sonst entstünde bei jedem Tastendruck ein Eintrag.
@@ -661,6 +675,11 @@ function Titelblatt() {
     return safeFileName(n ? `Titelblatt-${n}` : "Titelblatt");
   };
 
+  const dossierFileBase = () => {
+    const n = [data.vorname, data.nachname].filter(Boolean).join("-");
+    return safeFileName(n ? `Bewerbungsdossier-${n}` : "Bewerbungsdossier");
+  };
+
   const downloadPdf = async () => {
     if (!exportRef.current || downloading) return;
     setMenuOpen(false);
@@ -704,23 +723,17 @@ function Titelblatt() {
     }
   };
 
-  const downloadJson = () => {
+  const downloadDossier = () => {
     setMenuOpen(false);
-    const payload = {
-      version: SAVE_VERSION,
-      template,
-      colors: colorsByTemplate,
-      layout: layoutByTemplate,
-      customs,
-      fontScale,
-      font: documentFont,
-      data,
-    };
+    const project = createDossierProject({
+      cover: snapshotPayload(),
+      cv: readStoredDossierPart(CV_STORAGE_KEY),
+    });
     downloadBlob(
-      new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }),
-      `${fileBase()}.json`,
+      new Blob([JSON.stringify(project, null, 2)], { type: "application/json" }),
+      `${dossierFileBase()}.json`,
     );
-    setStatus({ kind: "ok", text: "Entwurf als JSON gespeichert" });
+    setStatus({ kind: "ok", text: "Bewerbungsdossier gespeichert" });
   };
 
   const importJson = (file: File | undefined) => {
@@ -729,20 +742,53 @@ function Titelblatt() {
     reader.onerror = () => setStatus({ kind: "error", text: "Datei konnte nicht gelesen werden." });
     reader.onload = () => {
       try {
-        const parsed = JSON.parse(String(reader.result));
-        if (!parsed || typeof parsed !== "object" || !parsed.data) {
+        const parsed: unknown = JSON.parse(String(reader.result));
+        const project = parseDossierProject(parsed);
+        if (project) {
+          keepSnapshot("Vor dem Laden", true);
+          const loaded = storeDossierProject(project);
+          if (loaded.cover) loadFromStorage();
+          setSaveState("saved");
+          setStatus({
+            kind: "ok",
+            text:
+              loaded.cover && loaded.cv
+                ? "Dossier geladen: Titelblatt und Lebenslauf"
+                : loaded.cover
+                  ? "Titelblatt aus dem Dossier geladen"
+                  : "Lebenslauf gespeichert – öffne ihn über die Kopfzeile",
+          });
+          return;
+        }
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
           throw new Error("kein Titelblatt-Entwurf");
         }
-        setData(prefill({ ...emptyData, ...parsed.data }));
-        if (parsed.template && TEMPLATES.some((t) => t.id === parsed.template)) {
-          setTemplate(parsed.template);
+        const legacy = parsed as Record<string, unknown>;
+        if (!legacy.data || typeof legacy.data !== "object") {
+          throw new Error("kein Titelblatt-Entwurf");
         }
-        if (parsed.colors) setColorsByTemplate((c) => ({ ...c, ...parsed.colors }));
-        if (parsed.layout) setLayoutByTemplate((l) => ({ ...l, ...parsed.layout }));
-        setCustoms(sanitizeCustoms(parsed.customs));
-        if (typeof parsed.fontScale === "number") setFontScale(parsed.fontScale);
-        setDocumentFont(validFont(parsed.font));
-        setStatus({ kind: "ok", text: "Entwurf geladen" });
+        keepSnapshot("Vor dem Laden", true);
+        setData(prefill({ ...emptyData, ...(legacy.data as Partial<CoverData>) }));
+        if (
+          typeof legacy.template === "string" &&
+          TEMPLATES.some((t) => t.id === legacy.template)
+        ) {
+          setTemplate(legacy.template as TemplateId);
+        }
+        if (legacy.colors)
+          setColorsByTemplate((c) => ({
+            ...c,
+            ...(legacy.colors as Partial<Record<TemplateId, Record<string, string>>>),
+          }));
+        if (legacy.layout)
+          setLayoutByTemplate((l) => ({
+            ...l,
+            ...(legacy.layout as Partial<Record<TemplateId, StyleOverrides>>),
+          }));
+        setCustoms(sanitizeCustoms(legacy.customs));
+        if (typeof legacy.fontScale === "number") setFontScale(legacy.fontScale);
+        setDocumentFont(validFont(legacy.font));
+        setStatus({ kind: "ok", text: "Älteren Titelblatt-Entwurf geladen" });
       } catch {
         setStatus({ kind: "error", text: "Diese JSON-Datei ist kein gültiger Entwurf." });
       }
@@ -786,9 +832,12 @@ function Titelblatt() {
 
           <div className="min-w-0 flex-1">
             <h1 className="truncate text-sm font-semibold sm:text-base">Lehrstellen-Titelblatt</h1>
-            <p className="hidden truncate text-xs text-muted-foreground sm:block">
-              Deckblatt für deine Bewerbung – Schweiz
-            </p>
+            <div className="flex min-w-0 items-center gap-2">
+              <p className="hidden truncate text-xs text-muted-foreground sm:block">
+                Deckblatt für deine Bewerbung – Schweiz
+              </p>
+              <SaveStatus state={saveState} />
+            </div>
           </div>
 
           {status && (
@@ -867,14 +916,15 @@ function Titelblatt() {
                   </button>
                   <button
                     type="button"
-                    onClick={downloadJson}
+                    onClick={downloadDossier}
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
                   >
-                    <span>Entwurf speichern</span>
-                    <span className="text-xs text-muted-foreground">.json</span>
+                    <span>Dossier speichern</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
                   </button>
-                  <label className="block cursor-pointer border-t px-3 py-2 text-left text-sm hover:bg-accent">
-                    Entwurf laden
+                  <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
+                    <span>Dossier laden</span>
+                    <span className="text-xs text-muted-foreground">.json</span>
                     <input
                       type="file"
                       accept="application/json"

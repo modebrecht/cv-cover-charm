@@ -14,7 +14,12 @@ import {
   normalizeDossierPhotoStyle,
   shapeFromBlockStyle,
 } from "../../src/lib/dossier-photo";
-import { readCoverPhoto } from "../../src/lib/dossier";
+import { coverDraftFingerprint, emptyCoverDraft, readCoverPhoto } from "../../src/lib/dossier";
+import {
+  DOSSIER_PROJECT_KIND,
+  createDossierProject,
+  parseDossierProject,
+} from "../../src/lib/dossier-project";
 
 describe("dossier families", () => {
   test("every cover template belongs to exactly one premium family", () => {
@@ -158,5 +163,53 @@ describe("unified photo model", () => {
         value: previousWindow,
       });
     }
+  });
+});
+
+describe("title-page change detection", () => {
+  test("transferable changes produce a new stable fingerprint", () => {
+    const draft = emptyCoverDraft();
+    const original = coverDraftFingerprint(draft);
+
+    expect(coverDraftFingerprint({ ...draft })).toBe(original);
+    expect(
+      coverDraftFingerprint({
+        ...draft,
+        person: { ...draft.person, vorname: "Lea" },
+      }),
+    ).not.toBe(original);
+    expect(
+      coverDraftFingerprint({
+        ...draft,
+        colors: { ...draft.colors, accent: "#123456" },
+      }),
+    ).not.toBe(original);
+  });
+});
+
+describe("combined dossier project", () => {
+  test("keeps title page and CV in one versioned file", () => {
+    const project = createDossierProject({
+      cover: { version: 7, data: { vorname: "Lea" } },
+      cv: { version: 6, data: { title: "Lebenslauf" } },
+    });
+
+    expect(project.kind).toBe(DOSSIER_PROJECT_KIND);
+    expect(parseDossierProject(JSON.parse(JSON.stringify(project)))).toEqual(project);
+  });
+
+  test("rejects unrelated JSON and empty project envelopes", () => {
+    expect(parseDossierProject({ data: {} })).toBeNull();
+    expect(
+      parseDossierProject({ kind: DOSSIER_PROJECT_KIND, version: 1, savedAt: "now" }),
+    ).toBeNull();
+    expect(
+      parseDossierProject({
+        kind: DOSSIER_PROJECT_KIND,
+        version: 1,
+        savedAt: "now",
+        cover: { version: 7 },
+      }),
+    ).toBeNull();
   });
 });

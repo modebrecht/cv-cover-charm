@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
  * Automatisches Sichern nur, solange das Fenster wirklich benutzt wird.
@@ -40,22 +40,22 @@ export function useForeignWrite(storageKey: string) {
   const lastWritten = useRef<string | null>(null);
 
   /** Nach jedem eigenen Schreibvorgang aufrufen. */
-  const markWritten = (text: string) => {
+  const markWritten = useCallback((text: string) => {
     lastWritten.current = text;
-  };
+  }, []);
 
   /**
    * Hat ein anderer Tab den Schlüssel verändert? Vor dem ersten eigenen
    * Schreiben gibt es nichts zu vergleichen – dann `false`.
    */
-  const changedElsewhere = (): boolean => {
+  const changedElsewhere = useCallback((): boolean => {
     if (lastWritten.current === null) return false;
     try {
       return localStorage.getItem(storageKey) !== lastWritten.current;
     } catch {
       return false;
     }
-  };
+  }, [storageKey]);
 
   return { markWritten, changedElsewhere };
 }
