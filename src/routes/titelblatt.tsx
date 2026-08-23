@@ -889,7 +889,7 @@ function Titelblatt() {
                   {/* Demo überschreibt Eingaben und Positionen – darum die Rückfrage */}
                   {confirmDemo ? (
                     <div className="flex items-center gap-1 border-t bg-accent/40 px-3 py-2">
-                      <span className="mr-auto text-xs font-medium">Demo-Daten übernehmen?</span>
+                      <span className="mr-auto text-xs font-medium">Beispieldaten übernehmen?</span>
                       <button
                         type="button"
                         onClick={loadDemo}
@@ -911,7 +911,7 @@ function Titelblatt() {
                       onClick={() => setConfirmDemo(true)}
                       className="w-full border-t px-3 py-2 text-left text-sm hover:bg-accent"
                     >
-                      Demo ausfüllen
+                      Beispieldaten
                     </button>
                   )}
 
@@ -1085,7 +1085,7 @@ function Titelblatt() {
             </Section>
 
             <Section
-              title="Persönliche Daten"
+              title="Persönliche Angaben"
               open={open.person}
               onToggle={() => toggleSection("person")}
               hint={`${personCount} / 7`}
@@ -1174,7 +1174,7 @@ function Titelblatt() {
             </Section>
 
             <Section
-              title="Text & Layout"
+              title="Schrift und Layout"
               open={open.typo}
               onToggle={() => toggleSection("typo")}
               hint={`${fontScalePercent} %`}

@@ -164,6 +164,7 @@ function Lebenslauf() {
   const [elements, setElements] = useState<CustomField[]>([]);
   const [elementStyles, setElementStyles] = useState<StyleOverrides>({});
   const [selected, setSelected] = useState<string | null>(null);
+  const [selectedSection, setSelectedSection] = useState<CvLayoutSectionKey | null>(null);
   const [drawing, setDrawing] = useState(false);
   const [cover, setCover] = useState<CoverDraft | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
@@ -192,6 +193,8 @@ function Lebenslauf() {
   const [menuOpen, setMenuOpen] = useState(false);
   /** Zweiter Klick bestätigt "Alles zurücksetzen" – sonst wäre alles weg. */
   const [confirmWipe, setConfirmWipe] = useState(false);
+  /** Beispieldaten überschreiben den aktuellen Inhalt und brauchen eine Rückfrage. */
+  const [confirmDemo, setConfirmDemo] = useState(false);
 
   const visible = usePageVisible();
   const { markWritten, changedElsewhere } = useForeignWrite(STORAGE_KEY);
@@ -419,6 +422,7 @@ function Lebenslauf() {
       if (e.key !== "Escape") return;
       setMenuOpen(false);
       setSelected(null);
+      setSelectedSection(null);
       setDrawing(false);
     };
     document.addEventListener("mousedown", onDown);
@@ -433,6 +437,7 @@ function Lebenslauf() {
     if (!menuOpen) {
       setHistoryOpen(false);
       setConfirmWipe(false);
+      setConfirmDemo(false);
     }
   }, [menuOpen]);
 
@@ -452,7 +457,7 @@ function Lebenslauf() {
 
   useEffect(() => {
     if (!status) return;
-    const t = setTimeout(() => setStatus(null), 4000);
+    const t = setTimeout(() => setStatus(null), status.undo ? 9000 : 4000);
     return () => clearTimeout(t);
   }, [status]);
 
@@ -491,7 +496,7 @@ function Lebenslauf() {
     },
     { key: "elements", label: "Eigene Felder und Formen", hint: "Formen und Linien, ohne Texte" },
     { key: "photo", label: "Foto", hint: "samt Rahmenform und Ausschnitt" },
-    { key: "person", label: "Angaben zur Person", hint: "Name, Adresse, Kontakt" },
+    { key: "person", label: "Persönliche Angaben", hint: "Name, Adresse, Kontakt" },
   ];
 
   const syncFromCover = useCallback(() => {
@@ -588,6 +593,8 @@ function Lebenslauf() {
     keepSnapshot("Vor den Beispieldaten", true);
     setData(DEMO_CV);
     setMenuOpen(false);
+    setConfirmDemo(false);
+    setSelectedSection(null);
     setStatus({ kind: "ok", text: "Beispieldaten eingefügt" });
   };
 
@@ -618,6 +625,7 @@ function Lebenslauf() {
       ),
     }));
     setSelected(null);
+    setSelectedSection(null);
     setMenuOpen(false);
     setStatus({ kind: "ok", text: "Positionen und Grössen zurückgesetzt" });
   };
@@ -636,6 +644,7 @@ function Lebenslauf() {
     setElements(draft?.elements ?? []);
     setElementStyles({});
     setSelected(null);
+    setSelectedSection(null);
     setDesign((d) => ({
       template: draft?.template ?? d.template,
       colors: draft?.colors ?? d.colors,
@@ -746,6 +755,7 @@ function Lebenslauf() {
   const setSectionLayout = (key: CvLayoutSectionKey, patch: Partial<CvSectionLayout>) => {
     const next = normalizeCvSectionLayout({ ...cvSectionLayout(data, key), ...patch });
     patchData({ sectionLayouts: { ...data.sectionLayouts, [key]: next } });
+    if (key === selectedSection && next.positioning !== "free") setSelectedSection(null);
   };
 
   const opts = (key: CvSectionKey) => (
@@ -761,6 +771,13 @@ function Lebenslauf() {
     />
   );
 
+  const selectedSectionLayout = selectedSection ? cvSectionLayout(data, selectedSection) : null;
+  const selectedSectionLabel = selectedSection
+    ? selectedSection === "person"
+      ? "Persönliche Angaben"
+      : sectionLabel(selectedSection)
+    : "";
+
   const canvas = (
     <CvCanvas
       data={data}
@@ -769,6 +786,8 @@ function Lebenslauf() {
       elementStyles={elementStyles}
       selected={selected}
       onSelect={setSelected}
+      selectedSection={selectedSection}
+      onSelectSection={setSelectedSection}
       onMoveElement={patchStyle}
       onSectionLayout={setSectionLayout}
       drawing={drawing}
@@ -805,13 +824,22 @@ function Lebenslauf() {
           {status && (
             <span
               role="status"
-              className={`hidden truncate rounded-md px-3 py-1.5 text-xs md:inline-block ${
+              className={`hidden min-w-0 items-center gap-2 rounded-md px-3 py-1.5 text-xs md:inline-flex ${
                 status.kind === "error"
                   ? "bg-destructive/10 text-destructive"
                   : "bg-primary/10 text-primary"
               }`}
             >
-              {status.text}
+              <span className="truncate">{status.text}</span>
+              {status.undo && (
+                <button
+                  type="button"
+                  onClick={status.undo}
+                  className="shrink-0 font-medium underline underline-offset-2 hover:no-underline"
+                >
+                  Rückgängig
+                </button>
+              )}
             </span>
           )}
 
@@ -888,13 +916,33 @@ function Lebenslauf() {
                       }}
                     />
                   </label>
-                  <button
-                    type="button"
-                    onClick={loadDemo}
-                    className="w-full border-t px-3 py-2 text-left text-sm hover:bg-accent"
-                  >
-                    Beispiel ausfüllen
-                  </button>
+                  {confirmDemo ? (
+                    <div className="flex items-center gap-1 border-t bg-accent/40 px-3 py-2">
+                      <span className="mr-auto text-xs font-medium">Beispieldaten übernehmen?</span>
+                      <button
+                        type="button"
+                        onClick={loadDemo}
+                        className="rounded-md bg-primary px-2 py-1 text-xs font-medium text-primary-foreground hover:bg-primary/90"
+                      >
+                        Ja
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmDemo(false)}
+                        className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setConfirmDemo(true)}
+                      className="w-full border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                    >
+                      Beispieldaten
+                    </button>
+                  )}
 
                   <button
                     type="button"
@@ -1119,7 +1167,7 @@ function Lebenslauf() {
                 </div>
 
                 <div className="flex flex-col gap-3 rounded-md border border-dashed p-2">
-                  <span className="text-xs font-medium">Schrift und Raster</span>
+                  <span className="text-xs font-medium">Schrift und Layout</span>
 
                   <label className="flex flex-col gap-1 text-xs">
                     <span className="text-muted-foreground">Schriftart gesamtes Dossier</span>
@@ -1253,7 +1301,7 @@ function Lebenslauf() {
             </Section>
 
             <Section
-              title="Angaben zur Person"
+              title="Persönliche Angaben"
               open={open.person}
               onToggle={() => toggle("person")}
               hint={data.person.vorname || data.person.nachname ? "gesetzt" : "leer"}
@@ -1452,6 +1500,92 @@ function Lebenslauf() {
                   }
                   onAddImage={addImage}
                 />
+              ) : selectedSection && selectedSectionLayout ? (
+                <div className="flex flex-wrap items-end gap-3 rounded-xl border bg-background px-4 py-2.5 shadow-lg">
+                  <div className="mr-auto flex min-w-32 flex-col gap-0.5">
+                    <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                      Rubrik
+                    </span>
+                    <span className="truncate text-sm font-semibold">{selectedSectionLabel}</span>
+                  </div>
+
+                  <label className="flex min-w-24 flex-col gap-1">
+                    <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                      Seite
+                    </span>
+                    <select
+                      value={selectedSectionLayout.page}
+                      onChange={(event) =>
+                        setSectionLayout(selectedSection, {
+                          page: Number(event.target.value) === 2 ? 2 : 1,
+                        })
+                      }
+                      className="rounded-md border border-input bg-background px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+                    >
+                      <option value={1}>Seite 1</option>
+                      <option value={2}>Seite 2</option>
+                    </select>
+                  </label>
+
+                  <label className="flex min-w-32 flex-col gap-1">
+                    <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                      Breite
+                    </span>
+                    <select
+                      value={selectedSectionLayout.width}
+                      onChange={(event) =>
+                        setSectionLayout(selectedSection, {
+                          width: event.target.value === "half" ? "half" : "full",
+                        })
+                      }
+                      className="rounded-md border border-input bg-background px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+                    >
+                      <option value="full">Volle Breite</option>
+                      <option value="half">Halbe Breite</option>
+                    </select>
+                  </label>
+
+                  <label className="flex min-w-36 flex-col gap-1">
+                    <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                      Positionierung
+                    </span>
+                    <select
+                      value={selectedSectionLayout.positioning}
+                      onChange={(event) =>
+                        setSectionLayout(selectedSection, {
+                          positioning: event.target.value === "free" ? "free" : "flow",
+                        })
+                      }
+                      className="rounded-md border border-input bg-background px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+                    >
+                      <option value="flow">Automatisch</option>
+                      <option value="free">Frei platzieren</option>
+                    </select>
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSectionLayout(selectedSection, {
+                        x: null,
+                        y: null,
+                        widthMm: null,
+                        heightMm: null,
+                      })
+                    }
+                    className="rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
+                  >
+                    Position &amp; Grösse zurücksetzen
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedSection(null)}
+                    aria-label="Rubrik-Auswahl schliessen"
+                    className="rounded-md border border-input px-2.5 py-1.5 text-sm hover:bg-accent"
+                  >
+                    ×
+                  </button>
+                </div>
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-background px-4 py-2.5">
                   <span className="text-sm text-muted-foreground">

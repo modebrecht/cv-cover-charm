@@ -123,6 +123,9 @@ type Props = {
   /** Bedienung der Elemente. Fehlt sie, wird nur gezeichnet. */
   selected?: string | null;
   onSelect?: (id: string | null) => void;
+  /** Ausgewählte frei platzierte Rubrik für Rahmen und Werkzeugleiste. */
+  selectedSection?: CvLayoutSectionKey | null;
+  onSelectSection?: (key: CvLayoutSectionKey | null) => void;
   onMoveElement?: (id: string, patch: Partial<BlockStyle>) => void;
   onSectionLayout?: (key: CvLayoutSectionKey, patch: Partial<CvSectionLayout>) => void;
   drawing?: boolean;
@@ -141,6 +144,8 @@ export function CvCanvas({
   elementStyles = {},
   selected = null,
   onSelect,
+  selectedSection = null,
+  onSelectSection,
   onMoveElement,
   onSectionLayout,
   drawing = false,
@@ -179,7 +184,6 @@ export function CvCanvas({
     const value = cvSectionLayout(data, "person");
     return value.page !== 1 || value.width !== "full" || value.positioning !== "flow";
   })();
-  const [selectedSection, setSelectedSection] = useState<CvLayoutSectionKey | null>(null);
   const [freeHeights, setFreeHeights] = useState<Partial<Record<CvLayoutSectionKey, number>>>({});
   const [liveSectionBoxes, setLiveSectionBoxes] = useState<
     Partial<Record<CvLayoutSectionKey, FreeSectionLiveBox>>
@@ -1610,7 +1614,8 @@ export function CvCanvas({
       if (!sheetPx) return;
       event.preventDefault();
       event.stopPropagation();
-      setSelectedSection(key);
+      onSelectSection?.(key);
+      onSelect?.(null);
 
       const mmPerPx = SHEET_W_MM / sheetPx;
       const startX = event.clientX;
@@ -1660,7 +1665,8 @@ export function CvCanvas({
       if (!sheetPx) return;
       event.preventDefault();
       event.stopPropagation();
-      setSelectedSection(key);
+      onSelectSection?.(key);
+      onSelect?.(null);
 
       const mmPerPx = SHEET_W_MM / sheetPx;
       const startX = event.clientX;
@@ -2364,7 +2370,7 @@ export function CvCanvas({
           ? undefined
           : (event) => {
               if (!(event.target as HTMLElement).closest("[data-cv-free-section]")) {
-                setSelectedSection(null);
+                onSelectSection?.(null);
               }
             }
       }

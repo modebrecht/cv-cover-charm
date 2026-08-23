@@ -297,7 +297,7 @@ function CvPhotoPlaceControls({ borderWidth }: { borderWidth: number }) {
   return (
     <div className="mt-3 flex flex-col gap-2 border-t pt-3">
       <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-        Platz auf dem Blatt
+        Positionierung
       </span>
       <div className="flex gap-1">
         <button
@@ -306,7 +306,7 @@ function CvPhotoPlaceControls({ borderWidth }: { borderWidth: number }) {
           aria-pressed={!free}
           onClick={() => setCvPhotoPlacement({ mode: "auto" })}
         >
-          Im Aufbau
+          Automatisch
         </button>
         <button
           type="button"
@@ -314,7 +314,7 @@ function CvPhotoPlaceControls({ borderWidth }: { borderWidth: number }) {
           aria-pressed={free}
           onClick={() => setCvPhotoPlacement({ mode: "frei" })}
         >
-          Frei platziert
+          Frei platzieren
         </button>
       </div>
 
