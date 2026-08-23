@@ -88,6 +88,8 @@ export type BlockStyle = {
   x: number;
   y: number;
   w: number;
+  /** Optionale Mindesthöhe für frei skalierte Textfelder. */
+  h?: number;
   size: number;
   /** Farbe: entweder ein Slot-Key ("accent") oder ein Hex-Wert. */
   color: string;
@@ -244,14 +246,7 @@ export const FONT_STACKS: Record<FontKey, string> = {
 };
 
 export type FontKey =
-  | "sans"
-  | "serif"
-  | "times"
-  | "humanist"
-  | "freundlich"
-  | "schmal"
-  | "maschine"
-  | "plakativ";
+  "sans" | "serif" | "times" | "humanist" | "freundlich" | "schmal" | "maschine" | "plakativ";
 
 /** Anzeigenamen für die Schriftwahl in der Werkzeugleiste. */
 export const FONT_LABELS: Record<FontKey, string> = {

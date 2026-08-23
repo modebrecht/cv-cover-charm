@@ -61,6 +61,42 @@ const PHOTO_MAIN_MM = 30;
 const PX_PER_MM = 96 / 25.4;
 /** Blattbreite in mm – Bezug, um Bildschirmpixel in Millimeter umzurechnen. */
 const SHEET_W_MM = 210;
+const SHEET_H_MM = 297;
+
+type SectionResizeDirection = "n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw";
+type FreeSectionLiveBox = {
+  x: number;
+  y: number;
+  widthMm: number;
+  heightMm: number;
+};
+
+const SECTION_RESIZE_HANDLES: Array<{
+  direction: SectionResizeDirection;
+  left: string;
+  top: string;
+  cursor: string;
+}> = [
+  { direction: "nw", left: "0%", top: "0%", cursor: "nwse-resize" },
+  { direction: "n", left: "50%", top: "0%", cursor: "ns-resize" },
+  { direction: "ne", left: "100%", top: "0%", cursor: "nesw-resize" },
+  { direction: "e", left: "100%", top: "50%", cursor: "ew-resize" },
+  { direction: "se", left: "100%", top: "100%", cursor: "nwse-resize" },
+  { direction: "s", left: "50%", top: "100%", cursor: "ns-resize" },
+  { direction: "sw", left: "0%", top: "100%", cursor: "nesw-resize" },
+  { direction: "w", left: "0%", top: "50%", cursor: "ew-resize" },
+];
+
+const SECTION_RESIZE_DIRECTION_LABEL: Record<SectionResizeDirection, string> = {
+  n: "oben",
+  ne: "oben rechts",
+  e: "rechts",
+  se: "unten rechts",
+  s: "unten",
+  sw: "unten links",
+  w: "links",
+  nw: "oben links",
+};
 
 const SHEET_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
@@ -140,8 +176,8 @@ export function CvCanvas({
   })();
   const [selectedSection, setSelectedSection] = useState<CvLayoutSectionKey | null>(null);
   const [freeHeights, setFreeHeights] = useState<Partial<Record<CvLayoutSectionKey, number>>>({});
-  const [liveSectionPositions, setLiveSectionPositions] = useState<
-    Partial<Record<CvLayoutSectionKey, { x: number; y: number }>>
+  const [liveSectionBoxes, setLiveSectionBoxes] = useState<
+    Partial<Record<CvLayoutSectionKey, FreeSectionLiveBox>>
   >({});
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -1008,7 +1044,7 @@ export function CvCanvas({
     .join("|");
   const sectionLayoutShape = CV_LAYOUT_SECTION_ORDER.map((key) => {
     const value = cvSectionLayout(data, key);
-    return `${key}:${value.page}:${value.width}:${value.positioning}:${value.x}:${value.y}`;
+    return `${key}:${value.page}:${value.width}:${value.positioning}:${value.x}:${value.y}:${value.widthMm}:${value.heightMm}`;
   }).join("|");
   const shape = `${layoutChoice}|${layout}|${frame.id}|${placementShape}|${sectionLayoutShape}|${rows
     .map((row) => `${row.id}:${row.minPage ?? "auto"}`)
@@ -1512,22 +1548,31 @@ export function CvCanvas({
     const sectionLayout = cvSectionLayout(data, key);
     const box = cvContentBox(frame, pageIndex, layout, sidebarPct);
     const available = SHEET_W_MM - box.left - box.right;
-    const widthMm = sectionLayout.width === "half" ? Math.max(20, (available - 6) / 2) : available;
-    const heightMm = freeHeights[key] ?? 0;
+    const presetWidth =
+      sectionLayout.width === "half" ? Math.max(20, (available - 6) / 2) : available;
+    const live = liveSectionBoxes[key];
+    const widthMm = Math.max(
+      20,
+      Math.min(available, live?.widthMm ?? sectionLayout.widthMm ?? presetWidth),
+    );
+    const requestedHeight = live?.heightMm ?? sectionLayout.heightMm ?? 0;
+    const heightMm = Math.max(10, requestedHeight, freeHeights[key] ?? 0);
     const fallbackY = box.top + Math.max(0, freeSectionKeys.indexOf(key)) * 18;
     const minX = box.left;
     const maxX = Math.max(minX, SHEET_W_MM - box.right - widthMm);
     const minY = box.top;
-    const maxY = Math.max(minY, 297 - box.bottom - heightMm);
-    const live = liveSectionPositions[key];
+    const maxY = Math.max(minY, SHEET_H_MM - box.bottom - heightMm);
     return {
       widthMm,
+      heightMm,
       x: Math.max(minX, Math.min(maxX, live?.x ?? sectionLayout.x ?? minX)),
       y: Math.max(minY, Math.min(maxY, live?.y ?? sectionLayout.y ?? fallbackY)),
       minX,
       maxX,
       minY,
       maxY,
+      pageRight: SHEET_W_MM - box.right,
+      pageBottom: SHEET_H_MM - box.bottom,
     };
   };
 
@@ -1546,23 +1591,99 @@ export function CvCanvas({
       const startX = event.clientX;
       const startY = event.clientY;
       const from = freeSectionBox(key, pageIndex);
-      let latest = { x: from.x, y: from.y };
+      let latest: FreeSectionLiveBox = {
+        x: from.x,
+        y: from.y,
+        widthMm: from.widthMm,
+        heightMm: from.heightMm,
+      };
 
       const step = (moveEvent: PointerEvent) => {
         const rawX = from.x + (moveEvent.clientX - startX) * mmPerPx;
         const rawY = from.y + (moveEvent.clientY - startY) * mmPerPx;
         // Zwei-Millimeter-Raster: hilfreich, aber fein genug, um nicht zu stören.
         latest = {
+          ...latest,
           x: Math.max(from.minX, Math.min(from.maxX, Math.round(rawX / 2) * 2)),
           y: Math.max(from.minY, Math.min(from.maxY, Math.round(rawY / 2) * 2)),
         };
-        setLiveSectionPositions((current) => ({ ...current, [key]: latest }));
+        setLiveSectionBoxes((current) => ({ ...current, [key]: latest }));
       };
       const stop = () => {
         window.removeEventListener("pointermove", step);
         window.removeEventListener("pointerup", stop);
         window.removeEventListener("pointercancel", stop);
-        setLiveSectionPositions((current) => {
+        setLiveSectionBoxes((current) => {
+          const next = { ...current };
+          delete next[key];
+          return next;
+        });
+        onSectionLayout(key, { x: latest.x, y: latest.y });
+      };
+      window.addEventListener("pointermove", step);
+      window.addEventListener("pointerup", stop);
+      window.addEventListener("pointercancel", stop);
+    };
+
+  const startSectionResize =
+    (key: CvLayoutSectionKey, pageIndex: number, direction: SectionResizeDirection) =>
+    (event: React.PointerEvent<HTMLElement>) => {
+      if (exportMode || !onSectionLayout || event.button !== 0) return;
+      const pageEl = event.currentTarget.closest("[data-cv-page]") as HTMLElement | null;
+      if (!pageEl) return;
+      const sheetPx = pageEl.getBoundingClientRect().width;
+      if (!sheetPx) return;
+      event.preventDefault();
+      event.stopPropagation();
+      setSelectedSection(key);
+
+      const mmPerPx = SHEET_W_MM / sheetPx;
+      const startX = event.clientX;
+      const startY = event.clientY;
+      const from = freeSectionBox(key, pageIndex);
+      const originalRight = from.x + from.widthMm;
+      const originalBottom = from.y + from.heightMm;
+      let latest: FreeSectionLiveBox = {
+        x: from.x,
+        y: from.y,
+        widthMm: from.widthMm,
+        heightMm: from.heightMm,
+      };
+
+      const step = (moveEvent: PointerEvent) => {
+        const dx = (moveEvent.clientX - startX) * mmPerPx;
+        const dy = (moveEvent.clientY - startY) * mmPerPx;
+        let left = from.x;
+        let top = from.y;
+        let right = originalRight;
+        let bottom = originalBottom;
+
+        if (direction.includes("e")) {
+          right = Math.max(left + 20, Math.min(from.pageRight, originalRight + dx));
+        }
+        if (direction.includes("w")) {
+          left = Math.max(from.minX, Math.min(right - 20, from.x + dx));
+        }
+        if (direction.includes("s")) {
+          bottom = Math.max(top + 10, Math.min(from.pageBottom, originalBottom + dy));
+        }
+        if (direction.includes("n")) {
+          top = Math.max(from.minY, Math.min(bottom - 10, from.y + dy));
+        }
+
+        latest = {
+          x: Math.round(left * 10) / 10,
+          y: Math.round(top * 10) / 10,
+          widthMm: Math.round((right - left) * 10) / 10,
+          heightMm: Math.round((bottom - top) * 10) / 10,
+        };
+        setLiveSectionBoxes((current) => ({ ...current, [key]: latest }));
+      };
+      const stop = () => {
+        window.removeEventListener("pointermove", step);
+        window.removeEventListener("pointerup", stop);
+        window.removeEventListener("pointercancel", stop);
+        setLiveSectionBoxes((current) => {
           const next = { ...current };
           delete next[key];
           return next;
@@ -1624,6 +1745,7 @@ export function CvCanvas({
             left: `${box.x}mm`,
             top: `${box.y}mm`,
             width: `${box.widthMm}mm`,
+            minHeight: `${box.heightMm}mm`,
             minWidth: 0,
             zIndex: 8,
             cursor: exportMode ? undefined : "grab",
@@ -1635,7 +1757,7 @@ export function CvCanvas({
           }}
         >
           {sectionNode(unit)}
-          {!exportMode && (
+          {!exportMode && active && (
             <span
               data-cv-section-handle
               aria-hidden
@@ -1655,9 +1777,36 @@ export function CvCanvas({
                 whiteSpace: "nowrap",
               }}
             >
-              ↕ Verschieben
+              Ziehen zum Verschieben
             </span>
           )}
+          {!exportMode && active
+            ? SECTION_RESIZE_HANDLES.map((handle) => (
+                <span
+                  key={handle.direction}
+                  data-cv-section-resize-handle={handle.direction}
+                  role="button"
+                  tabIndex={-1}
+                  aria-label={`${label(data, key === "person" ? "kontakt" : key)}: Grösse ${SECTION_RESIZE_DIRECTION_LABEL[handle.direction]} ändern`}
+                  onPointerDown={startSectionResize(key, pageIndex, handle.direction)}
+                  style={{
+                    position: "absolute",
+                    left: handle.left,
+                    top: handle.top,
+                    width: "3.2mm",
+                    height: "3.2mm",
+                    transform: "translate(-50%, -50%)",
+                    borderRadius: "0.55mm",
+                    border: `0.45mm solid ${pal.accent}`,
+                    background: pal.paper,
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.18)",
+                    cursor: handle.cursor,
+                    touchAction: "none",
+                    zIndex: 2,
+                  }}
+                />
+              ))
+            : null}
         </div>
       );
     });

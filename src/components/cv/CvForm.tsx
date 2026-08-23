@@ -895,6 +895,9 @@ export function SectionLayoutControls({
         <span>⚙ Layout</span>
         <span className="font-normal text-muted-foreground group-open:hidden">
           Seite {layout.page} · {layout.width === "half" ? "Halbe Breite" : "Volle Breite"}
+          {layout.positioning === "free" && (layout.widthMm || layout.heightMm)
+            ? " · Eigene Grösse"
+            : ""}
         </span>
         <span className="hidden font-normal text-muted-foreground group-open:inline">
           schliessen
@@ -943,11 +946,20 @@ export function SectionLayoutControls({
         </label>
         <p className="text-[11px] leading-relaxed text-muted-foreground sm:col-span-3">
           {layout.positioning === "free"
-            ? "Diese Rubrik kannst du direkt auf der Seite verschieben."
+            ? "Diese Rubrik kannst du direkt auf der Seite verschieben und am Rahmen vergrössern."
             : layout.width === "half"
               ? "Zwei Rubriken mit halber Breite können nebeneinander stehen."
               : "Die Rubrik bleibt sicher im automatischen Dokumentfluss."}
         </p>
+        {layout.positioning === "free" && (layout.widthMm || layout.heightMm) ? (
+          <button
+            type="button"
+            className="justify-self-start rounded-md border bg-background px-2 py-1 text-[11px] font-medium hover:bg-accent sm:col-span-3"
+            onClick={() => onLayout({ widthMm: null, heightMm: null })}
+          >
+            Grösse zurücksetzen
+          </button>
+        ) : null}
       </div>
     </details>
   );

@@ -91,6 +91,9 @@ export type CvSectionLayout = {
   /** Absolute Position auf dem A4-Blatt in Millimetern; nur bei `free` benutzt. */
   x: number | null;
   y: number | null;
+  /** Durch Ziehpunkte gesetzte freie Grösse; null verwendet die Breiten-Vorgabe bzw. Inhaltshöhe. */
+  widthMm: number | null;
+  heightMm: number | null;
 };
 
 export type CvSectionLayouts = Partial<Record<CvLayoutSectionKey, Partial<CvSectionLayout>>>;
@@ -101,10 +104,17 @@ export const DEFAULT_CV_SECTION_LAYOUT: CvSectionLayout = {
   positioning: "flow",
   x: null,
   y: null,
+  widthMm: null,
+  heightMm: null,
 };
 
 const finiteCoordinate = (value: unknown): number | null =>
   typeof value === "number" && Number.isFinite(value) ? value : null;
+
+const finiteSize = (value: unknown, min: number, max: number): number | null => {
+  const number = finiteCoordinate(value);
+  return number === null ? null : Math.max(min, Math.min(max, number));
+};
 
 /** Alte und teilweise beschädigte Entwürfe sicher auf die neuen Vorgaben ziehen. */
 export function normalizeCvSectionLayout(value?: Partial<CvSectionLayout> | null): CvSectionLayout {
@@ -114,6 +124,8 @@ export function normalizeCvSectionLayout(value?: Partial<CvSectionLayout> | null
     positioning: value?.positioning === "free" ? "free" : "flow",
     x: finiteCoordinate(value?.x),
     y: finiteCoordinate(value?.y),
+    widthMm: finiteSize(value?.widthMm, 20, 190),
+    heightMm: finiteSize(value?.heightMm, 10, 277),
   };
 }
 

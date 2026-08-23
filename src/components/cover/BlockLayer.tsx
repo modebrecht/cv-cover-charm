@@ -8,6 +8,37 @@ import { FRAME, PAGE } from "@/default-config";
 
 const MM = 96 / 25.4; // px pro mm bei 96dpi
 const { WIDTH: PAGE_W } = PAGE;
+const PAGE_W_MM = 210;
+const PAGE_H_MM = 297;
+
+type ResizeDirection = "n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw";
+
+const RESIZE_HANDLES: Array<{
+  direction: ResizeDirection;
+  left: string;
+  top: string;
+  cursor: string;
+}> = [
+  { direction: "nw", left: "0%", top: "0%", cursor: "nwse-resize" },
+  { direction: "n", left: "50%", top: "0%", cursor: "ns-resize" },
+  { direction: "ne", left: "100%", top: "0%", cursor: "nesw-resize" },
+  { direction: "e", left: "100%", top: "50%", cursor: "ew-resize" },
+  { direction: "se", left: "100%", top: "100%", cursor: "nwse-resize" },
+  { direction: "s", left: "50%", top: "100%", cursor: "ns-resize" },
+  { direction: "sw", left: "0%", top: "100%", cursor: "nesw-resize" },
+  { direction: "w", left: "0%", top: "50%", cursor: "ew-resize" },
+];
+
+const RESIZE_DIRECTION_LABEL: Record<ResizeDirection, string> = {
+  n: "oben",
+  ne: "oben rechts",
+  e: "rechts",
+  se: "unten rechts",
+  s: "unten",
+  sw: "unten links",
+  w: "links",
+  nw: "oben links",
+};
 
 export type Point = { x: number; y: number };
 
@@ -209,6 +240,36 @@ export function BlockLayer({
     el.addEventListener("pointercancel", up);
   };
 
+  /**
+   * Verkettete Vorlagenblöcke an ihrer sichtbaren Position einfrieren. So
+   * verändert das freie Ziehen oder Skalieren nur das bewusst gewählte Feld.
+   */
+  const detachBlocksDependingOn = (targetId: string) => {
+    const byId = new Map(blocks.map((candidate) => [candidate.id, candidate]));
+
+    const dependsOnTarget = (candidate: Block): boolean => {
+      let link = candidate.style.follows || candidate.style.above || null;
+      const seen = new Set<string>();
+      while (link && !seen.has(link)) {
+        if (link === targetId) return true;
+        seen.add(link);
+        const parent = byId.get(link);
+        link = parent ? parent.style.follows || parent.style.above || null : null;
+      }
+      return false;
+    };
+
+    for (const candidate of blocks) {
+      if (candidate.id === targetId || !dependsOnTarget(candidate)) continue;
+      onMove(candidate.id, {
+        y: layout[candidate.id]?.y ?? candidate.style.y,
+        follows: null,
+        above: null,
+        anchorBottom: false,
+      });
+    }
+  };
+
   const startDrag = (e: React.PointerEvent, block: Block) => {
     if (!editable || drawing) return;
     e.preventDefault();
@@ -222,42 +283,10 @@ export function BlockLayer({
     const ox = block.style.x;
     const oy = layout[block.id]?.y ?? block.style.y;
     const el = e.currentTarget as HTMLElement;
+    const elementRect = el.getBoundingClientRect();
+    const heightMm = elementRect.height / scale / MM;
     el.setPointerCapture(e.pointerId);
     let detachedDependents = false;
-
-    /**
-     * Vorlagen dürfen Textblöcke über `follows`/`above` automatisch aneinander
-     * hängen. Das ist für den initialen Satz praktisch, fühlt sich beim freien
-     * Verschieben aber falsch an: zieht man z. B. den Namen, wandern Beruf und
-     * Lehrbeginn scheinbar ungefragt mit. Sobald wirklich gezogen wird, frieren
-     * wir deshalb alle abhängigen Blöcke an ihrer aktuell sichtbaren Position
-     * ein. Nur das angefasste Element bewegt sich danach.
-     */
-    const detachBlocksDependingOn = (targetId: string) => {
-      const byId = new Map(blocks.map((candidate) => [candidate.id, candidate]));
-
-      const dependsOnTarget = (candidate: Block): boolean => {
-        let link = candidate.style.follows || candidate.style.above || null;
-        const seen = new Set<string>();
-        while (link && !seen.has(link)) {
-          if (link === targetId) return true;
-          seen.add(link);
-          const parent = byId.get(link);
-          link = parent ? parent.style.follows || parent.style.above || null : null;
-        }
-        return false;
-      };
-
-      for (const candidate of blocks) {
-        if (candidate.id === targetId || !dependsOnTarget(candidate)) continue;
-        onMove(candidate.id, {
-          y: layout[candidate.id]?.y ?? candidate.style.y,
-          follows: null,
-          above: null,
-          anchorBottom: false,
-        });
-      }
-    };
 
     const move = (ev: PointerEvent) => {
       const dx = (ev.clientX - startX) / scale / MM;
@@ -267,8 +296,8 @@ export function BlockLayer({
         detachedDependents = true;
       }
       onMove(block.id, {
-        x: Math.round(Math.max(-20, Math.min(210, ox + dx)) * 10) / 10,
-        y: Math.round(Math.max(-20, Math.min(297, oy + dy)) * 10) / 10,
+        x: Math.round(Math.max(0, Math.min(PAGE_W_MM - block.style.w, ox + dx)) * 10) / 10,
+        y: Math.round(Math.max(0, Math.min(PAGE_H_MM - heightMm, oy + dy)) * 10) / 10,
         ...(block.style.follows ? { follows: null } : {}),
         ...(block.style.above ? { above: null } : {}),
         ...(block.style.anchorBottom ? { anchorBottom: false } : {}),
@@ -285,6 +314,79 @@ export function BlockLayer({
     el.addEventListener("pointercancel", up);
   };
 
+  const startResize = (e: React.PointerEvent, block: Block, direction: ResizeDirection) => {
+    if (!editable || drawing || e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    onSelect(block.id);
+    const page = pageRef.current;
+    const element = (e.currentTarget as HTMLElement).closest<HTMLElement>("[data-block-id]");
+    if (!page || !element) return;
+    const pageRect = page.getBoundingClientRect();
+    const scale = pageRect.width / PAGE_W;
+    const elementRect = element.getBoundingClientRect();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const fromX = block.style.x;
+    const fromY = layout[block.id]?.y ?? block.style.y;
+    const fromWidth = block.style.w;
+    const fromHeight = elementRect.height / scale / MM;
+    const originalRight = fromX + fromWidth;
+    const originalBottom = fromY + fromHeight;
+    const minWidth = 5;
+    const minHeight = block.kind === "text" ? 6 : 5;
+    let detachedDependents = false;
+
+    const move = (ev: PointerEvent) => {
+      const dx = (ev.clientX - startX) / scale / MM;
+      const dy = (ev.clientY - startY) / scale / MM;
+      if (!detachedDependents && Math.hypot(dx, dy) >= 0.05) {
+        detachBlocksDependingOn(block.id);
+        detachedDependents = true;
+      }
+
+      let left = fromX;
+      let top = fromY;
+      let right = originalRight;
+      let bottom = originalBottom;
+      if (direction.includes("e")) {
+        right = Math.max(left + minWidth, Math.min(PAGE_W_MM, originalRight + dx));
+      }
+      if (direction.includes("w")) {
+        left = Math.max(0, Math.min(right - minWidth, fromX + dx));
+      }
+      if (direction.includes("s")) {
+        bottom = Math.max(top + minHeight, Math.min(PAGE_H_MM, originalBottom + dy));
+      }
+      if (direction.includes("n")) {
+        top = Math.max(0, Math.min(bottom - minHeight, fromY + dy));
+      }
+
+      const width = Math.round((right - left) * 10) / 10;
+      const height = Math.round((bottom - top) * 10) / 10;
+      const patch: Partial<BlockStyle> = {
+        x: Math.round(left * 10) / 10,
+        y: Math.round(top * 10) / 10,
+        w: width,
+        ...(block.style.follows ? { follows: null } : {}),
+        ...(block.style.above ? { above: null } : {}),
+        ...(block.style.anchorBottom ? { anchorBottom: false } : {}),
+      };
+      if (block.kind === "text") patch.h = height;
+      else patch.ratio = height / Math.max(width, 0.1);
+      onMove(block.id, patch);
+    };
+
+    const stop = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", stop);
+      window.removeEventListener("pointercancel", stop);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", stop);
+    window.addEventListener("pointercancel", stop);
+  };
+
   return (
     <div ref={pageRef} className="absolute inset-0">
       {blocks.map((b) => {
@@ -292,6 +394,7 @@ export function BlockLayer({
         const isPhoto = b.kind === "photo";
         const isShape = b.kind === "shape";
         const isImage = b.kind === "image";
+        const isLine = isShape && b.shape === "line";
         if (isPhoto && !data) return null;
         const empty = isPhoto
           ? !data!.foto && !initials(data!)
@@ -312,6 +415,7 @@ export function BlockLayer({
           <div
             key={b.id}
             data-block-id={b.id}
+            data-element-selected={active ? "true" : undefined}
             data-element-layer={customLayer}
             data-dossier-role={role}
             data-dossier-accent={b.id === "trenner" ? "rule" : undefined}
@@ -398,6 +502,11 @@ export function BlockLayer({
               <div
                 style={{
                   ...textStyle(st, size, colors),
+                  boxSizing: "border-box",
+                  minHeight:
+                    Math.max(st.h ?? 0, b.src ? st.w * (st.ratio ?? 0.6) : 0) > 0
+                      ? `${Math.max(st.h ?? 0, b.src ? st.w * (st.ratio ?? 0.6) : 0)}mm`
+                      : undefined,
                   ...(textBorder > 0 || b.src
                     ? {
                         position: "relative",
@@ -408,7 +517,6 @@ export function BlockLayer({
                             ? `${textBorder}mm solid ${resolveColor(st.borderColor ?? st.color, colors)}`
                             : undefined,
                         padding: `${st.padY}mm ${st.padX}mm`,
-                        minHeight: b.src ? `${st.w * (st.ratio ?? 0.6)}mm` : undefined,
                       }
                     : {}),
                 }}
@@ -438,6 +546,35 @@ export function BlockLayer({
                 ))}
               </div>
             )}
+            {active
+              ? RESIZE_HANDLES.filter(
+                  (handle) => !isLine || ["e", "w"].includes(handle.direction),
+                ).map((handle) => (
+                  <span
+                    key={handle.direction}
+                    data-element-resize-handle={handle.direction}
+                    role="button"
+                    tabIndex={-1}
+                    aria-label={`${b.label}: Grösse ${RESIZE_DIRECTION_LABEL[handle.direction]} ändern`}
+                    onPointerDown={(event) => startResize(event, b, handle.direction)}
+                    style={{
+                      position: "absolute",
+                      left: handle.left,
+                      top: handle.top,
+                      width: "9px",
+                      height: "9px",
+                      transform: "translate(-50%, -50%)",
+                      border: "1.5px solid rgb(37,99,235)",
+                      borderRadius: "2px",
+                      background: "white",
+                      boxShadow: "0 1px 3px rgba(15,23,42,0.28)",
+                      cursor: handle.cursor,
+                      touchAction: "none",
+                      zIndex: 20,
+                    }}
+                  />
+                ))
+              : null}
           </div>
         );
       })}
