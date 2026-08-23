@@ -14,6 +14,8 @@ type Props = {
   onClose: () => void;
   custom?: CustomField;
   onCustomChange?: (patch: Partial<CustomField>) => void;
+  /** Im Lebenslauf dürfen freie Elemente unabhängig Seite 1 oder 2 zugewiesen werden. */
+  allowPagePlacement?: boolean;
   onDelete?: () => void;
   /** Ist ein Foto hochgeladen? Steuert die Zuschnitt-Regler. */
   hasPhoto?: boolean;
@@ -40,7 +42,7 @@ const TAB_LABELS: Record<Tab, string> = {
   farbe: "Farbe",
   rahmen: "Rahmen",
   bild: "Bild",
-  position: "Position",
+  position: "Platzierung",
 };
 
 const inputCls =
@@ -198,6 +200,7 @@ export function ElementBar({
   onClose,
   custom,
   onCustomChange,
+  allowPagePlacement = false,
   onDelete,
   hasPhoto = false,
   onPickImage,
@@ -361,7 +364,12 @@ export function ElementBar({
                 aria-label="Kleiner"
                 className={toggle(false)}
                 onClick={() =>
-                  setEffectiveTextSize(Math.max(FONT.SLIDER_MIN * textUiScale, Math.round((effectiveTextSize - 1) * 2) / 2))
+                  setEffectiveTextSize(
+                    Math.max(
+                      FONT.SLIDER_MIN * textUiScale,
+                      Math.round((effectiveTextSize - 1) * 2) / 2,
+                    ),
+                  )
                 }
               >
                 A−
@@ -379,7 +387,12 @@ export function ElementBar({
                 aria-label="Grösser"
                 className={toggle(false)}
                 onClick={() =>
-                  setEffectiveTextSize(Math.min(FONT.SLIDER_MAX * textUiScale, Math.round((effectiveTextSize + 1) * 2) / 2))
+                  setEffectiveTextSize(
+                    Math.min(
+                      FONT.SLIDER_MAX * textUiScale,
+                      Math.round((effectiveTextSize + 1) * 2) / 2,
+                    ),
+                  )
                 }
               >
                 A+
@@ -859,6 +872,22 @@ export function ElementBar({
 
         {tab === "position" && (
           <>
+            {custom && allowPagePlacement && onCustomChange ? (
+              <Ctl label="Seite">
+                <select
+                  value={custom.page === 2 ? 2 : 1}
+                  onChange={(event) =>
+                    onCustomChange({ page: Number(event.target.value) === 2 ? 2 : 1 })
+                  }
+                  className={inputCls}
+                  aria-label={`${block.label}: Seite`}
+                >
+                  <option value={1}>Seite 1</option>
+                  <option value={2}>Seite 2</option>
+                </select>
+              </Ctl>
+            ) : null}
+
             <Ctl label="Position X / Y">
               <input
                 type="number"

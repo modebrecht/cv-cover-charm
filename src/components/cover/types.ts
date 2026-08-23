@@ -164,6 +164,26 @@ export type BlockStyle = {
   gradAngle?: number;
 };
 
+/**
+ * Nur die frei veränderbare Geometrie entfernen, ohne Farbe, Schrift,
+ * Rahmen, Sichtbarkeit oder Ebenenwahl anzutasten.
+ */
+export function withoutBlockGeometry(style: Partial<BlockStyle>): Partial<BlockStyle> {
+  const {
+    x: _x,
+    y: _y,
+    w: _w,
+    h: _h,
+    ratio: _ratio,
+    follows: _follows,
+    above: _above,
+    gap: _gap,
+    anchorBottom: _anchorBottom,
+    ...visualStyle
+  } = style;
+  return visualStyle;
+}
+
 export type BlockKind = "text" | "photo" | "shape" | "image";
 
 /** Ein Textabschnitt mit eigener Farbe/Gewichtung – für zweifarbige Zeilen. */
@@ -210,6 +230,8 @@ export type CustomField = {
   id: string;
   label: string;
   text: string;
+  /** CV-Seite des freien Elements; alte Entwürfe ohne Wert bleiben auf Seite 1. */
+  page?: 1 | 2;
   kind?: CustomKind;
   shape?: ShapeKind;
   /** Nur für "path": SVG-Pfad in einem 0–100-Koordinatensystem. */

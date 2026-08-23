@@ -121,7 +121,7 @@ type Props = {
   onMoveElement?: (id: string, patch: Partial<BlockStyle>) => void;
   onSectionLayout?: (key: CvLayoutSectionKey, patch: Partial<CvSectionLayout>) => void;
   drawing?: boolean;
-  onDrawn?: (points: Point[]) => void;
+  onDrawn?: (points: Point[], page: 1 | 2) => void;
 };
 
 function label(data: CvData, key: CvPlacementKey): string {
@@ -1190,11 +1190,11 @@ export function CvCanvas({
       used += h;
     });
     out[pageIndex] = current;
-    const requiredPages = CV_LAYOUT_SECTION_ORDER.some(
-      (key) => cvSectionLayout(data, key).page === 2,
-    )
-      ? 2
-      : 1;
+    const requiredPages =
+      CV_LAYOUT_SECTION_ORDER.some((key) => cvSectionLayout(data, key).page === 2) ||
+      (design.useElements && elements.some((element) => element.page === 2))
+        ? 2
+        : 1;
     while (out.length < requiredPages) out.push([]);
     setPages(out.length ? out : [[]]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1204,6 +1204,8 @@ export function CvCanvas({
     layout,
     layoutChoice,
     design.template,
+    design.useElements,
+    elements,
     pal.accent,
     pal.ink,
     pal.muted,
@@ -1243,8 +1245,8 @@ export function CvCanvas({
    * Sie lagen früher als blasse Zierde im Hintergrund und liessen sich hier
    * nicht anfassen; Textfelder und Bilder fielen sogar ganz weg. Jetzt tragen
    * sie dieselbe Ebene wie auf dem Titelblatt: volle Deckkraft, anklickbar,
-   * mit der Maus verschiebbar. Sie stehen auf Seite 1 – frei gesetzte Elemente
-   * gehören an eine Stelle und nicht auf jedes Blatt.
+   * mit der Maus verschiebbar. Jedes Element gehört genau zu seiner gewählten
+   * CV-Seite und wird deshalb nicht auf jedem Blatt wiederholt.
    */
   const elementBlocks = useMemo(
     () => buildCustomBlocks(design.template, elements, elementStyles, slots),
@@ -1252,8 +1254,14 @@ export function CvCanvas({
   );
 
   const elementLayer = (pageIndex: number) => {
-    if (pageIndex !== 0) return null;
-    const shown = design.useElements ? elementBlocks : [];
+    const idsOnPage = new Set(
+      elements
+        .filter((element) => (element.page === 2 ? 1 : 0) === pageIndex)
+        .map((element) => element.id),
+    );
+    const shown = design.useElements
+      ? elementBlocks.filter((block) => idsOnPage.has(block.id))
+      : [];
     // Im Zeichenmodus muss die Ebene auch dann da sein, wenn noch kein Element
     // existiert – sonst gäbe es keine Fläche, auf der man ziehen kann.
     if (shown.length === 0 && !drawing) return null;
@@ -1286,7 +1294,11 @@ export function CvCanvas({
           onMove={onMoveElement ?? (() => {})}
           editable={!exportMode && !!onMoveElement}
           drawing={!exportMode && drawing}
-          onDrawn={onDrawn}
+          onDrawn={
+            onDrawn && pageIndex < 2
+              ? (points) => onDrawn(points, (pageIndex + 1) as 1 | 2)
+              : undefined
+          }
         />
       </div>
     );

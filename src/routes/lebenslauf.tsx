@@ -48,6 +48,7 @@ import { emptyCoverDraft, personFilled, readCoverDraft, type CoverDraft } from "
 import {
   customKind,
   TEMPLATES,
+  withoutBlockGeometry,
   type BlockStyle,
   type CustomField,
   type ShapeKind,
@@ -564,6 +565,37 @@ function Lebenslauf() {
   };
 
   /**
+   * Nur die frei veränderte Geometrie zurücknehmen. Seitenwahl, Rubrikenmodus,
+   * Farben, Texte, Rahmen und Ebenen bleiben bewusst erhalten.
+   */
+  const resetPositionsOnly = () => {
+    keepSnapshot("Vor dem Zurücksetzen der Positionen", true);
+    setElementStyles((current) =>
+      Object.fromEntries(
+        Object.entries(current).map(([id, style]) => [id, withoutBlockGeometry(style)]),
+      ),
+    );
+    setData((current) => ({
+      ...current,
+      sectionLayouts: Object.fromEntries(
+        Object.entries(current.sectionLayouts ?? {}).map(([key, value]) => [
+          key,
+          normalizeCvSectionLayout({
+            ...value,
+            x: null,
+            y: null,
+            widthMm: null,
+            heightMm: null,
+          }),
+        ]),
+      ),
+    }));
+    setSelected(null);
+    setMenuOpen(false);
+    setStatus({ kind: "ok", text: "Positionen und Grössen zurückgesetzt" });
+  };
+
+  /**
    * Ganzes Formular leeren – wie im Titelblatt.
    *
    * Der Stand wandert vorher in die Historie, damit ein Fehlgriff nicht
@@ -709,9 +741,10 @@ function Lebenslauf() {
       onMoveElement={patchStyle}
       onSectionLayout={setSectionLayout}
       drawing={drawing}
-      onDrawn={(points) => {
+      onDrawn={(points, page) => {
         setDrawing(false);
-        place(newDrawnElement(elements, points, SHAPE.MIN_DRAW));
+        const drawn = newDrawnElement(elements, points, SHAPE.MIN_DRAW);
+        place({ ...drawn, field: { ...drawn.field, page } });
       }}
     />
   );
@@ -830,6 +863,15 @@ function Lebenslauf() {
                     className="w-full border-t px-3 py-2 text-left text-sm hover:bg-accent"
                   >
                     Beispiel ausfüllen
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={resetPositionsOnly}
+                    className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                  >
+                    <span>Positionen &amp; Grössen zurücksetzen</span>
+                    <span className="text-xs text-muted-foreground">Layout</span>
                   </button>
 
                   {/* Wie im Titelblatt: zweistufig, weil dabei alles verloren geht. */}
@@ -1340,6 +1382,7 @@ function Lebenslauf() {
                   onCustomChange={
                     selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
                   }
+                  allowPagePlacement
                   onDelete={() => removeElement(selectedBlock.id)}
                   onPickImage={
                     selectedCustom && customKind(selectedCustom) !== "shape"

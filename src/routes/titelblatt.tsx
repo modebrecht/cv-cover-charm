@@ -44,6 +44,7 @@ import {
   DEMO_DATA,
   EMPTY_META,
   TEMPLATES,
+  withoutBlockGeometry,
   type Block,
   type BlockStyle,
   type CoverData,
@@ -135,15 +136,7 @@ const allEmptyLayouts = () =>
   Object.fromEntries(TEMPLATES.map((t) => [t.id, {}])) as Record<TemplateId, StyleOverrides>;
 
 type SectionKey =
-  | "vorlage"
-  | "farben"
-  | "typo"
-  | "bewerbung"
-  | "person"
-  | "foto"
-  | "betrieb"
-  | "ortDatum"
-  | "meta";
+  "vorlage" | "farben" | "typo" | "bewerbung" | "person" | "foto" | "betrieb" | "ortDatum" | "meta";
 
 const filled = (values: (string | null)[]) => values.filter((v) => v && v.trim()).length;
 
@@ -178,6 +171,7 @@ function sanitizeCustoms(raw: unknown): CustomField[] {
         id: typeof c.id === "string" ? c.id : `custom-import-${i}`,
         label: typeof c.label === "string" ? c.label : "Eigenes Feld",
         text: typeof c.text === "string" ? c.text : "",
+        page: c.page === 2 ? 2 : c.page === 1 ? 1 : undefined,
         kind,
         shape,
         path: typeof c.path === "string" ? c.path : undefined,
@@ -625,9 +619,23 @@ function Titelblatt() {
   };
 
   const resetPositionsOnly = () => {
-    resetAllLayouts();
+    setLayoutByTemplate(
+      (current) =>
+        Object.fromEntries(
+          Object.entries(current).map(([templateId, overrides]) => [
+            templateId,
+            Object.fromEntries(
+              Object.entries(overrides).map(([blockId, style]) => [
+                blockId,
+                withoutBlockGeometry(style),
+              ]),
+            ),
+          ]),
+        ) as Record<TemplateId, StyleOverrides>,
+    );
+    setSelected(null);
     setMenuOpen(false);
-    setStatus({ kind: "ok", text: "Alle Positionen zurückgesetzt" });
+    setStatus({ kind: "ok", text: "Alle Positionen und Grössen zurückgesetzt" });
   };
 
   const fileBase = () => {
@@ -892,7 +900,7 @@ function Titelblatt() {
                     onClick={resetPositionsOnly}
                     className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
                   >
-                    <span>Nur Positionen zurücksetzen</span>
+                    <span>Positionen &amp; Grössen zurücksetzen</span>
                     <span className="text-xs text-muted-foreground">Layout</span>
                   </button>
 
