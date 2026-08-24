@@ -182,8 +182,99 @@ async function assertNoMainClipping(page: Page, label: string) {
   await expect.poll(() => clippingErrors(page), { message: `${label} preview geometry` }).toEqual([]);
 }
 
+async function seedCoverTemplate(page: Page, template: string) {
+  await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+  await page.evaluate(
+    ({ selectedTemplate }) => {
+      localStorage.clear();
+      localStorage.setItem(
+        "titelblatt:v3",
+        JSON.stringify({
+          version: 6,
+          template: selectedTemplate,
+          colors: {
+            [selectedTemplate]: {
+              bg: "#faf7f2",
+              primary: "#24364b",
+              secondary: "#c9895d",
+              tertiary: "#d8c3aa",
+              accent: "#d6a47d",
+              ink: "#1f2937",
+            },
+          },
+          layout: { [selectedTemplate]: {} },
+          customs: [],
+          fontScale: 1,
+          data: {
+            meta: { title: "", author: "", subject: "", keywords: "" },
+            kicker: "Bewerbung um eine Lehrstelle als",
+            eyebrow: "Bewerbung",
+            beruf: "Informatiker/in EFZ",
+            lehrbeginn: "Lehrbeginn August 2027",
+            vorname: "Lea",
+            nachname: "Müller",
+            adresse: "Bahnhofstrasse 42",
+            plzOrt: "8000 Zürich",
+            telefon: "+41 79 123 45 67",
+            email: "lea.mueller@example.ch",
+            geburtsdatum: "14.03.2010",
+            lehrbetrieb: "Beispiel AG",
+            ansprechperson: "Herr Thomas Weber",
+            betriebAdresse: "Industriestrasse 8, 8005 Zürich",
+            ort: "Hubersdorf",
+            datum: "22.08.2026",
+            labelKontakt: "",
+            labelEmpfaenger: "",
+            foto: null,
+          },
+        }),
+      );
+    },
+    { selectedTemplate: template },
+  );
+  await page.reload({ waitUntil: "domcontentloaded" });
+
+  const sheet = page.locator('[data-dossier-document="cover"]').first();
+  await sheet.waitFor({ state: "visible" });
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      }),
+  );
+  return sheet;
+}
+
 test.describe("M5.8 dossier regression", () => {
   test.setTimeout(120_000);
+
+  test("Horizont-Farbfläche schliesst ohne weisse Naht bis zum unteren Blattrand", async ({
+    page,
+  }) => {
+    const sheet = await seedCoverTemplate(page, "welle");
+    const geometry = await sheet.evaluate((documentElement) => {
+      const band = documentElement.querySelector<HTMLElement>(
+        '[data-cover-background="welle-band"]',
+      );
+      const rule = documentElement.querySelector<HTMLElement>(
+        '[data-cover-background="welle-rule"]',
+      );
+      if (!band || !rule) throw new Error("Horizont-Hintergrund fehlt");
+
+      const sheetRect = documentElement.getBoundingClientRect();
+      const bandRect = band.getBoundingClientRect();
+      const ruleRect = rule.getBoundingClientRect();
+      return {
+        sheetBottom: sheetRect.bottom,
+        bandTop: bandRect.top,
+        bandBottom: bandRect.bottom,
+        ruleTop: ruleRect.top,
+      };
+    });
+
+    expect(Math.abs(geometry.bandTop - geometry.ruleTop)).toBeLessThanOrEqual(0.5);
+    expect(geometry.bandBottom).toBeGreaterThan(geometry.sheetBottom);
+  });
 
   test("all 24 design-style × CV-layout combinations render without clipping", async ({ page }) => {
     for (const family of FAMILY_IDS) {
