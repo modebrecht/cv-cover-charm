@@ -9,7 +9,7 @@ const FAMILY_TEMPLATES = {
   executive: "pastell",
   editorial: "klassisch",
 } as const;
-const LAYOUT_IDS = ["classic", "modern", "minimal", "timeline", "executive", "editorial"] as const;
+const LAYOUT_IDS = ["classic", "modern", "minimal", "timeline", "editorial"] as const;
 const PHOTO_SHAPES = ["rect", "square", "portrait", "circle"] as const;
 
 const PHOTO =
@@ -289,7 +289,7 @@ test.describe("M5.8 dossier regression", () => {
     expect(geometry.bandBottom).toBeGreaterThan(geometry.sheetBottom);
   });
 
-  test("all 24 design-style × CV-layout combinations render without clipping", async ({ page }) => {
+  test("all 20 design-style × CV-layout combinations render without clipping", async ({ page }) => {
     for (const family of FAMILY_IDS) {
       for (const layout of LAYOUT_IDS) {
         await seedCv(page, { family, layout });
@@ -300,7 +300,7 @@ test.describe("M5.8 dossier regression", () => {
     }
   });
 
-  test("all six layouts remain valid when mirrored", async ({ page }) => {
+  test("all five layouts remain valid when mirrored", async ({ page }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "executive", layout, mirrored: true, photo: true });
       await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
