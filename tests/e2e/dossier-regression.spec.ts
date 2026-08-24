@@ -183,8 +183,7 @@ async function assertNoMainClipping(page: Page, label: string) {
 }
 
 async function seedCoverTemplate(page: Page, template: string) {
-  await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
-  await page.evaluate(
+  await page.addInitScript(
     ({ selectedTemplate }) => {
       localStorage.clear();
       localStorage.setItem(
@@ -232,7 +231,7 @@ async function seedCoverTemplate(page: Page, template: string) {
     },
     { selectedTemplate: template },
   );
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
 
   const sheet = page.locator('[data-dossier-document="cover"]').first();
   await sheet.waitFor({ state: "visible" });
