@@ -8,6 +8,7 @@ import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { ElementBar } from "@/components/cover/ElementBar";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
+import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
 import {
   coverPdfDocumentFromSaved,
@@ -203,6 +204,9 @@ function Lebenslauf() {
   const [selectedSection, setSelectedSection] = useState<CvLayoutSectionKey | null>(null);
   const [draggedSection, setDraggedSection] = useState<CvLayoutSectionKey | null>(null);
   const [layoutWarnings, setLayoutWarnings] = useState<CvLayoutWarning[]>([]);
+  const [dossierWarnings, setDossierWarnings] = useState<CvLayoutWarning[] | null>(null);
+  const [dossierCvPageCount, setDossierCvPageCount] = useState(0);
+  const [dossierReviewOpen, setDossierReviewOpen] = useState(false);
   const [lastCoverFingerprint, setLastCoverFingerprint] = useState<string | null>(null);
   const [drawing, setDrawing] = useState(false);
   const [cover, setCover] = useState<CoverDraft | null>(null);
@@ -288,8 +292,8 @@ function Lebenslauf() {
   const selectedBlock = blocks.find((b) => b.id === selected) ?? null;
   const selectedCustom = elements.find((c) => c.id === selected) ?? null;
   const currentCvDocument = useMemo<CvPdfDocument>(
-    () => ({ data, design, elements, elementStyles }),
-    [data, design, elements, elementStyles],
+    () => ({ data, design, elements, elementStyles, coverFingerprint: lastCoverFingerprint }),
+    [data, design, elements, elementStyles, lastCoverFingerprint],
   );
   const coverReadyForDossier =
     !!storedCoverDocument && coverPdfHasContent(storedCoverDocument.data);
@@ -888,9 +892,11 @@ function Lebenslauf() {
         author: name,
       });
       setStatus({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
+      setDossierReviewOpen(false);
     } catch (error) {
       console.error(error);
       setStatus({ kind: "error", text: "Dossier-PDF konnte nicht erstellt werden." });
+      setDossierReviewOpen(false);
     } finally {
       setDownloading(false);
     }
@@ -1056,6 +1062,14 @@ function Lebenslauf() {
       return currentShape === nextShape ? current : next;
     });
   }, []);
+  const receiveDossierWarnings = useCallback((next: CvLayoutWarning[]) => {
+    setDossierWarnings((current) => {
+      const currentShape = current?.map((warning) => `${warning.id}:${warning.message}`).join("|");
+      const nextShape = next.map((warning) => `${warning.id}:${warning.message}`).join("|");
+      return currentShape === nextShape ? current : next;
+    });
+  }, []);
+  const closeDossierReview = useCallback(() => setDossierReviewOpen(false), []);
 
   const canvas = (
     <CvCanvas
@@ -1181,7 +1195,11 @@ function Lebenslauf() {
                 <div className="absolute right-0 mt-2 w-64 overflow-hidden rounded-md border bg-popover shadow-lg">
                   <button
                     type="button"
-                    onClick={downloadDossierPdf}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setDossierWarnings(null);
+                      setDossierReviewOpen(true);
+                    }}
                     disabled={!canDownloadDossierPdf}
                     title={
                       canDownloadDossierPdf
@@ -2180,7 +2198,17 @@ function Lebenslauf() {
         />
       </div>
 
-      {canDownloadDossierPdf && (menuOpen || downloading) ? (
+      <DossierExportDialog
+        open={dossierReviewOpen}
+        cvPageCount={dossierCvPageCount}
+        warnings={dossierWarnings}
+        coverChanged={coverChanged}
+        downloading={downloading}
+        onClose={closeDossierReview}
+        onDownload={downloadDossierPdf}
+      />
+
+      {canDownloadDossierPdf && (dossierReviewOpen || downloading) ? (
         <div
           aria-hidden
           style={{
@@ -2195,6 +2223,8 @@ function Lebenslauf() {
             ref={dossierExportRef}
             cover={storedCoverDocument}
             cv={currentCvDocument}
+            onCvLayoutWarnings={receiveDossierWarnings}
+            onCvPageCount={setDossierCvPageCount}
           />
         </div>
       ) : null}

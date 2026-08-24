@@ -25,6 +25,7 @@ export type CvPdfDocument = {
   design: CvDesign;
   elements: CustomField[];
   elementStyles: StyleOverrides;
+  coverFingerprint?: string | null;
 };
 
 const EMPTY_COVER_DATA: CoverData = {
@@ -201,5 +202,6 @@ export function cvPdfDocumentFromSaved(raw: unknown): CvPdfDocument | null {
     design,
     elements: Array.isArray(raw.elements) ? (raw.elements as CustomField[]) : [],
     elementStyles: isRecord(raw.elementStyles) ? (raw.elementStyles as StyleOverrides) : {},
+    coverFingerprint: typeof raw.coverFingerprint === "string" ? raw.coverFingerprint : null,
   };
 }

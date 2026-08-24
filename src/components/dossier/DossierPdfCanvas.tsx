@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { CoverCanvas } from "@/components/cover/CoverCanvas";
 import { CvCanvas } from "@/components/cv/CvCanvas";
+import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
 import type { CoverPdfDocument, CvPdfDocument } from "@/lib/dossier-pdf-document";
 
 const ignoreSelection = () => {};
@@ -9,8 +10,13 @@ const ignoreMove = () => {};
 /** Unsichtbarer 1:1-Drucksatz: zuerst Titelblatt, danach sämtliche CV-Seiten. */
 export const DossierPdfCanvas = forwardRef<
   HTMLDivElement,
-  { cover: CoverPdfDocument | null; cv: CvPdfDocument | null }
->(function DossierPdfCanvas({ cover, cv }, ref) {
+  {
+    cover: CoverPdfDocument | null;
+    cv: CvPdfDocument | null;
+    onCvLayoutWarnings?: (warnings: CvLayoutWarning[]) => void;
+    onCvPageCount?: (count: number) => void;
+  }
+>(function DossierPdfCanvas({ cover, cv, onCvLayoutWarnings, onCvPageCount }, ref) {
   return (
     <div ref={ref}>
       {cover ? (
@@ -33,6 +39,8 @@ export const DossierPdfCanvas = forwardRef<
           elements={cv.elements}
           elementStyles={cv.elementStyles}
           exportMode
+          onLayoutWarnings={onCvLayoutWarnings}
+          onPageCount={onCvPageCount}
         />
       ) : null}
     </div>

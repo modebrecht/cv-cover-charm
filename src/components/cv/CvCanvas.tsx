@@ -134,8 +134,9 @@ type Props = {
   onSelectSection?: (key: CvLayoutSectionKey | null) => void;
   onMoveElement?: (id: string, patch: Partial<BlockStyle>) => void;
   onSectionLayout?: (key: CvLayoutSectionKey, patch: Partial<CvSectionLayout>) => void;
-  /** Editor-only Hinweise; Export-Canvas meldet bewusst nichts. */
+  /** Hinweise aus der tatsächlich gerenderten Vorschau oder Exportansicht. */
   onLayoutWarnings?: (warnings: CvLayoutWarning[]) => void;
+  onPageCount?: (count: number) => void;
   drawing?: boolean;
   onDrawn?: (points: Point[], page: 1 | 2) => void;
 };
@@ -157,6 +158,7 @@ export function CvCanvas({
   onMoveElement,
   onSectionLayout,
   onLayoutWarnings,
+  onPageCount,
   drawing = false,
   onDrawn,
 }: Props) {
@@ -1058,6 +1060,9 @@ export function CvCanvas({
 
   const measureRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<Row[][]>([rows]);
+  useLayoutEffect(() => {
+    onPageCount?.(pages.length);
+  }, [onPageCount, pages.length]);
 
   const placementShape = Object.entries(placements)
     .map(([key, value]) => `${key}:${value}`)
@@ -1931,7 +1936,7 @@ export function CvCanvas({
    * statt dieselben Masse ein zweites Mal grob nachzurechnen.
    */
   useLayoutEffect(() => {
-    if (exportMode || !onLayoutWarnings || !canvasRef.current) return;
+    if (!onLayoutWarnings || !canvasRef.current) return;
     const root = canvasRef.current;
     let animationFrame = 0;
 

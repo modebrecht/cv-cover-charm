@@ -15,6 +15,8 @@ import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
 import { ElementBar } from "@/components/cover/ElementBar";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
+import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
+import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
 import {
   coverPdfHasContent,
@@ -45,6 +47,8 @@ import {
   storeDossierProject,
 } from "@/lib/dossier-project";
 import { readPhoto } from "@/lib/image";
+import { coverDraftFingerprint } from "@/lib/dossier";
+import { dossierPhotoStyleFromBlockStyle } from "@/lib/dossier-photo";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import {
   describe,
@@ -237,6 +241,9 @@ function Titelblatt() {
   const [zoom, setZoom] = useState<number>(PREVIEW.ZOOM_DEFAULT);
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [storedCvDocument, setStoredCvDocument] = useState<CvPdfDocument | null>(null);
+  const [dossierReviewOpen, setDossierReviewOpen] = useState(false);
+  const [dossierWarnings, setDossierWarnings] = useState<CvLayoutWarning[] | null>(null);
+  const [dossierCvPageCount, setDossierCvPageCount] = useState(0);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [status, setStatus] = useState<{
     kind: "ok" | "error";
@@ -433,6 +440,41 @@ function Titelblatt() {
   };
 
   const photoBlock = blocks.find((b) => b.kind === "photo") ?? null;
+  const currentCoverTransferFingerprint = useMemo(
+    () =>
+      coverDraftFingerprint({
+        template,
+        colors,
+        font: documentFont,
+        fontScale: fontScale / FONT.DEFAULT_SCALE,
+        elements: customs.filter((item) => customKind(item) !== "text"),
+        person: {
+          vorname: data.vorname,
+          nachname: data.nachname,
+          adresse: data.adresse,
+          plzOrt: data.plzOrt,
+          telefon: data.telefon,
+          email: data.email,
+          geburtsdatum: data.geburtsdatum,
+          nationalitaet: "",
+          untertitel: "",
+          foto: data.foto,
+        },
+        photoStyle: dossierPhotoStyleFromBlockStyle(photoBlock?.style),
+      }),
+    [colors, customs, data, documentFont, fontScale, photoBlock?.style, template],
+  );
+  const titleCoverChanged =
+    !!storedCvDocument?.coverFingerprint &&
+    currentCoverTransferFingerprint !== storedCvDocument.coverFingerprint;
+  const receiveDossierWarnings = useCallback((next: CvLayoutWarning[]) => {
+    setDossierWarnings((current) => {
+      const currentShape = current?.map((warning) => `${warning.id}:${warning.message}`).join("|");
+      const nextShape = next.map((warning) => `${warning.id}:${warning.message}`).join("|");
+      return currentShape === nextShape ? current : next;
+    });
+  }, []);
+  const closeDossierReview = useCallback(() => setDossierReviewOpen(false), []);
 
   /** Dokumentinfos, die im PDF landen, wenn das Feld leer bleibt. */
   const autoMeta: PdfMeta = useMemo(() => {
@@ -774,9 +816,11 @@ function Titelblatt() {
         author: name,
       });
       setStatus({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
+      setDossierReviewOpen(false);
     } catch (error) {
       console.error(error);
       setStatus({ kind: "error", text: "Dossier-PDF konnte nicht erstellt werden." });
+      setDossierReviewOpen(false);
     } finally {
       setDownloading(false);
     }
@@ -968,7 +1012,11 @@ function Titelblatt() {
                 <div className="absolute right-0 mt-2 w-64 overflow-hidden rounded-md border bg-popover shadow-lg">
                   <button
                     type="button"
-                    onClick={downloadDossierPdf}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setDossierWarnings(null);
+                      setDossierReviewOpen(true);
+                    }}
                     disabled={!canDownloadDossierPdf}
                     title={
                       canDownloadDossierPdf
@@ -1547,7 +1595,17 @@ function Titelblatt() {
         />
       </div>
 
-      {canDownloadDossierPdf && (menuOpen || downloading) ? (
+      <DossierExportDialog
+        open={dossierReviewOpen}
+        cvPageCount={dossierCvPageCount}
+        warnings={dossierWarnings}
+        coverChanged={titleCoverChanged}
+        downloading={downloading}
+        onClose={closeDossierReview}
+        onDownload={downloadDossierPdf}
+      />
+
+      {canDownloadDossierPdf && (dossierReviewOpen || downloading) ? (
         <div
           aria-hidden
           style={{
@@ -1562,6 +1620,8 @@ function Titelblatt() {
             ref={dossierExportRef}
             cover={currentCoverDocument}
             cv={storedCvDocument}
+            onCvLayoutWarnings={receiveDossierWarnings}
+            onCvPageCount={setDossierCvPageCount}
           />
         </div>
       ) : null}
