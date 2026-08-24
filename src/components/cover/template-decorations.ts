@@ -125,7 +125,8 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
   ],
 
   welle: [
-    rect("decor-bottom-field", "Unteres Farbfeld", 0, 180, 210, 117, "primary"),
+    // Linie und Farbfeld teilen sich dieselbe Kante; das Farbfeld reicht bis A4 unten.
+    rect("decor-bottom-field", "Unteres Farbfeld", 0, 176, 210, 121, "primary"),
     line("decor-horizon-rule", "Horizontlinie", 0, 176, 210, 0.6, "secondary"),
     line("decor-accent-line", "Akzentstrich", 22, 22, 24, 0.8, "secondary"),
   ],
