@@ -235,12 +235,9 @@ async function seedCoverTemplate(page: Page, template: string) {
 
   const sheet = page.locator('[data-dossier-document="cover"]').first();
   await sheet.waitFor({ state: "visible" });
-  await page.evaluate(
-    () =>
-      new Promise<void>((resolve) => {
-        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
-      }),
-  );
+  await sheet
+    .locator('[data-cover-background="welle-band"]')
+    .waitFor({ state: "attached" });
   return sheet;
 }
 
