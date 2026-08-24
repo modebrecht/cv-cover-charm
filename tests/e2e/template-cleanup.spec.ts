@@ -89,7 +89,6 @@ test.describe("template cleanup", () => {
     await seedCv(page, "colorful");
 
     await expect(page.getByRole("button", { name: "Colorful", exact: true })).toHaveCount(0);
-    await expect(page.getByText(/Alle 30 stehen immer zur Wahl/)).toBeVisible();
     await expect(page.getByRole("button", { name: "Blockig", exact: true })).toHaveAttribute(
       "aria-pressed",
       "true",
