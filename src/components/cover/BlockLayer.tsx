@@ -10,6 +10,8 @@ const MM = 96 / 25.4; // px pro mm bei 96dpi
 const { WIDTH: PAGE_W } = PAGE;
 const PAGE_W_MM = 210;
 const PAGE_H_MM = 297;
+const EDGE_EPSILON_MM = 0.05;
+const EDGE_BLEED_PX = 1;
 
 type ResizeDirection = "n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw";
 
@@ -411,6 +413,27 @@ export function BlockLayer({
           : "content";
         const zIndex = customLayer === "back" ? 1 : customLayer === "front" ? 7 : 5;
 
+        /*
+         * A4 uses integer source pixels (794 × 1123), while millimetres resolve
+         * to fractional CSS pixels. Edge-aligned editable decorations can
+         * therefore stop a fraction of a pixel before the clipped page edge
+         * and expose a visible hairline after preview scaling. Keep the stored
+         * millimetre geometry exact and add one render-only source pixel.
+         */
+        const shapeHeightMm = isShape && !isLine ? st.w * (st.ratio ?? 1) : 0;
+        const isDecoration = b.id.startsWith("decor-");
+        const bleedRight =
+          isDecoration && Math.abs(st.x + st.w - PAGE_W_MM) <= EDGE_EPSILON_MM;
+        const bleedBottom =
+          isDecoration &&
+          isShape &&
+          !isLine &&
+          Math.abs(y + shapeHeightMm - PAGE_H_MM) <= EDGE_EPSILON_MM;
+        const renderedShapeStyle =
+          bleedBottom && st.w > 0
+            ? { ...st, ratio: (shapeHeightMm + EDGE_BLEED_PX / MM) / st.w }
+            : st;
+
         return (
           <div
             key={b.id}
@@ -425,7 +448,7 @@ export function BlockLayer({
             style={{
               left: `${st.x}mm`,
               top: `${y}mm`,
-              width: `${st.w}mm`,
+              width: bleedRight ? `calc(${st.w}mm + ${EDGE_BLEED_PX}px)` : `${st.w}mm`,
               ["--dossier-font" as string]: FONT_STACKS[st.font],
               zIndex,
               cursor: editable && !drawing ? "move" : "default",
@@ -436,7 +459,12 @@ export function BlockLayer({
             }}
           >
             {isShape ? (
-              <ShapeElement shape={b.shape ?? "rect"} path={b.path} style={st} colors={colors} />
+              <ShapeElement
+                shape={b.shape ?? "rect"}
+                path={b.path}
+                style={renderedShapeStyle}
+                colors={colors}
+              />
             ) : isImage ? (
               <div
                 style={{
