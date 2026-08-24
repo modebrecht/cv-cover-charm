@@ -2,6 +2,7 @@ name: Dossier Regression
 
 on:
   push:
+    # Keep the render branch under the same visual regression guard before promotion.
     branches:
       - dev
       - render
