@@ -236,8 +236,8 @@ async function seedCoverTemplate(page: Page, template: string) {
   const sheet = page.locator('[data-dossier-document="cover"]').first();
   await sheet.waitFor({ state: "visible" });
   await sheet
-    .locator('[data-cover-background="welle-band"]')
-    .waitFor({ state: "attached" });
+    .locator('[data-block-id="decor-bottom-field"]')
+    .waitFor({ state: "visible" });
   return sheet;
 }
 
@@ -250,25 +250,28 @@ test.describe("M5.8 dossier regression", () => {
     const sheet = await seedCoverTemplate(page, "welle");
     const geometry = await sheet.evaluate((documentElement) => {
       const band = documentElement.querySelector<HTMLElement>(
-        '[data-cover-background="welle-band"]',
+        '[data-block-id="decor-bottom-field"]',
       );
       const rule = documentElement.querySelector<HTMLElement>(
-        '[data-cover-background="welle-rule"]',
+        '[data-block-id="decor-horizon-rule"]',
       );
-      if (!band || !rule) throw new Error("Horizont-Hintergrund fehlt");
+      if (!band || !rule) throw new Error("Sichtbarer Horizont-Hintergrund fehlt");
 
       const sheetRect = documentElement.getBoundingClientRect();
       const bandRect = band.getBoundingClientRect();
       const ruleRect = rule.getBoundingClientRect();
       return {
+        sheetRight: sheetRect.right,
         sheetBottom: sheetRect.bottom,
         bandTop: bandRect.top,
+        bandRight: bandRect.right,
         bandBottom: bandRect.bottom,
         ruleTop: ruleRect.top,
       };
     });
 
     expect(Math.abs(geometry.bandTop - geometry.ruleTop)).toBeLessThanOrEqual(0.5);
+    expect(geometry.bandRight).toBeGreaterThan(geometry.sheetRight);
     expect(geometry.bandBottom).toBeGreaterThan(geometry.sheetBottom);
   });
 
