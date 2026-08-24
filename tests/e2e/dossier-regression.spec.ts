@@ -146,6 +146,7 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
         localStorage.setItem("lebenslauf:photo-shape:v1", legacyPhotoShape);
       }
       if (coverRaw) localStorage.setItem("titelblatt:v3", coverRaw);
+      window.location.reload();
     },
     {
       payload: cvPayload({
@@ -160,7 +161,7 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
       legacyPhotoShape: options.legacyPhotoShape,
     },
   );
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("domcontentloaded");
   await previewRoot(page).locator("[data-cv-page]").first().waitFor({ state: "visible" });
   await settlePagination(page);
 }
