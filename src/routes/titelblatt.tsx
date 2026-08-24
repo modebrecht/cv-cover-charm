@@ -18,6 +18,7 @@ import { AddElementMenu } from "@/components/cover/AddElementMenu";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import {
   coverPdfHasContent,
   cvPdfDocumentFromSaved,
@@ -1203,15 +1204,7 @@ function Titelblatt() {
 
       <div className="relative flex min-h-0 flex-1">
         {/* Formular-Panel: schiebt sich nach links raus, die Vorschau wächst nach */}
-        <aside
-          className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 overflow-y-auto overflow-x-hidden border-r bg-muted/40 transition-transform duration-300 ease-out sm:static sm:transition-[width,transform] ${
-            panelOpen
-              ? "translate-x-0 sm:w-[260px] md:w-[320px] lg:w-[380px] xl:w-[420px]"
-              : "-translate-x-full sm:w-0 sm:overflow-hidden sm:border-r-0"
-          }`}
-          aria-hidden={!panelOpen}
-          inert={!panelOpen}
-        >
+        <ResizableEditorPanel open={panelOpen}>
           <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 sm:w-full">
             <div className="flex items-center justify-between gap-2 px-1">
               {confirmReset ? (
@@ -1434,7 +1427,7 @@ function Titelblatt() {
               </div>
             </Section>
           </div>
-        </aside>
+        </ResizableEditorPanel>
 
         {/* Backdrop auf kleinen Screens – bedienbar ist auch der Button oben */}
         {panelOpen && (

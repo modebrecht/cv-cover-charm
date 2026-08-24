@@ -10,6 +10,7 @@ import { ElementBar } from "@/components/cover/ElementBar";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
 import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import {
   coverPdfDocumentFromSaved,
   coverPdfHasContent,
@@ -184,6 +185,38 @@ function cvHasContent(d: CvData): boolean {
     d.customSections?.some(
       (section) => section.title.trim() || section.entries.some((entry) => entryFilled(entry)),
     )
+  );
+}
+
+/**
+ * Im schmalen Rubriken-Formular bleibt nur die Kurzform sichtbar. Der native
+ * Auswahldialog verwendet trotzdem die verständlichen, ausgeschriebenen Namen.
+ */
+function CompactPageSelect({
+  page,
+  label,
+  onChange,
+}: {
+  page: 1 | 2;
+  label: string;
+  onChange: (page: 1 | 2) => void;
+}) {
+  return (
+    <span
+      className="relative inline-flex shrink-0 items-center rounded border border-input bg-background px-1.5 py-1 text-[11px] focus-within:ring-2 focus-within:ring-ring"
+      onPointerDown={(event) => event.stopPropagation()}
+    >
+      <span aria-hidden="true">S. {page} ▾</span>
+      <select
+        value={page}
+        onChange={(event) => onChange(Number(event.target.value) === 2 ? 2 : 1)}
+        className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+        aria-label={`${label}: Seite`}
+      >
+        <option value={1}>Seite 1</option>
+        <option value={2}>Seite 2</option>
+      </select>
+    </span>
   );
 }
 
@@ -1379,15 +1412,7 @@ function Lebenslauf() {
       </header>
 
       <div className="relative flex min-h-0 flex-1">
-        <aside
-          className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 overflow-y-auto overflow-x-hidden border-r bg-muted/40 transition-transform duration-300 ease-out sm:static sm:transition-[width,transform] ${
-            panelOpen
-              ? "translate-x-0 sm:w-[260px] md:w-[320px] lg:w-[380px] xl:w-[420px]"
-              : "-translate-x-full sm:w-0 sm:overflow-hidden sm:border-r-0"
-          }`}
-          aria-hidden={!panelOpen}
-          inert={!panelOpen}
-        >
+        <ResizableEditorPanel open={panelOpen}>
           <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 sm:w-full">
             <div className="px-1">
               <span className="text-xs text-muted-foreground">Alles ausfüllen, dann als PDF.</span>
@@ -1769,20 +1794,11 @@ function Lebenslauf() {
                             >
                               ↓
                             </button>
-                            <select
-                              value={page}
-                              onChange={(event) =>
-                                setSectionLayout(key, {
-                                  page: Number(event.target.value) === 2 ? 2 : 1,
-                                })
-                              }
-                              onPointerDown={(event) => event.stopPropagation()}
-                              className="rounded border border-input bg-background px-1 py-1 text-[11px]"
-                              aria-label={`${sectionDisplayLabel(key)}: Seite`}
-                            >
-                              <option value={1}>S. 1</option>
-                              <option value={2}>S. 2</option>
-                            </select>
+                            <CompactPageSelect
+                              page={page}
+                              label={sectionDisplayLabel(key)}
+                              onChange={(nextPage) => setSectionLayout(key, { page: nextPage })}
+                            />
                           </div>
                         ))}
                         {!pageKeys.length && (
@@ -1997,7 +2013,7 @@ function Lebenslauf() {
               );
             })}
           </div>
-        </aside>
+        </ResizableEditorPanel>
 
         {panelOpen && (
           <div
