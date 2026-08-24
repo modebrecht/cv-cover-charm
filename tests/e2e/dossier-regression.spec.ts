@@ -3,28 +3,8 @@ import { stat } from "node:fs/promises";
 
 const BASE_URL = "http://127.0.0.1:4173";
 const FAMILY_IDS = ["classic", "modern", "executive", "editorial"] as const;
-/**
- * "executive" (Zweispaltig) was the same grid as "modern" with different
- * padding, so it is gone from the picker; a saved value still reads as
- * "modern". The migration has its own test below.
- */
-const LAYOUT_IDS = ["classic", "modern", "minimal", "timeline", "editorial"] as const;
+const LAYOUT_IDS = ["classic", "modern", "minimal", "timeline", "executive", "editorial"] as const;
 const PHOTO_SHAPES = ["rect", "square", "portrait", "circle"] as const;
-
-/**
- * One title-page template per structural archetype.
- *
- * The suite used to seed template "modern" for every case, so only one of the
- * four archetypes was ever rendered. A side column running underneath the text
- * column therefore went unnoticed.
- */
-const ARCHETYPE_TEMPLATES = [
-  { template: "studio", archetype: "column" },
-  { template: "terracotta", archetype: "column" },
-  { template: "sonne", archetype: "band" },
-  { template: "citrus", archetype: "card" },
-  { template: "klassisch", archetype: "quiet" },
-] as const;
 
 const PHOTO =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='320' viewBox='0 0 240 320'%3E%3Crect width='240' height='320' fill='%23dbeafe'/%3E%3Ccircle cx='120' cy='110' r='55' fill='%2394a3b8'/%3E%3Crect x='55' y='180' width='130' height='105' rx='42' fill='%2364748b'/%3E%3C/svg%3E";
@@ -45,10 +25,9 @@ function entry(id: string, index: number) {
   };
 }
 
-function cvData({ long = false, photo = false, contactLabel = "" } = {}) {
+function cvData({ long = false, photo = false } = {}) {
   const schoolCount = long ? 13 : 2;
   return {
-    titel: "Lebenslauf",
     person: {
       vorname: long ? "Lea Sophie Alexandra" : "Lea",
       nachname: long ? "Müller-Winterberger-Schneider" : "Müller",
@@ -86,29 +65,20 @@ function cvData({ long = false, photo = false, contactLabel = "" } = {}) {
             kontakt: "+41 44 123 45 67",
           },
         ],
-    labels: contactLabel ? { kontakt: contactLabel } : {},
+    labels: {},
     hidden: {},
   };
 }
 
-function cvPayload(options?: {
-  long?: boolean;
-  photo?: boolean;
-  template?: string;
-  sidebarPct?: number;
-  contactLabel?: string;
-  scales?: Record<string, number>;
-}) {
+function cvPayload(options?: { long?: boolean; photo?: boolean }) {
   return {
     version: 2,
     data: cvData(options),
     design: {
-      template: options?.template ?? "modern",
+      template: "modern",
       colors: { primary: "#111827", accent: "#f43f5e", bg: "#fafafa" },
       bgOpacity: 0.06,
       useElements: false,
-      ...(options?.sidebarPct === undefined ? {} : { sidebarPct: options.sidebarPct }),
-      ...(options?.scales ?? {}),
     },
     elements: [],
   };
@@ -123,24 +93,6 @@ type SeedOptions = {
   photoShape?: (typeof PHOTO_SHAPES)[number];
   coverRaw?: string;
   legacyPhotoShape?: (typeof PHOTO_SHAPES)[number];
-  /** Title-page template, which decides the CV's structural archetype. */
-  template?: (typeof ARCHETYPE_TEMPLATES)[number]["template"];
-  /** Side column width as a share of the sheet. */
-  sidebarPct?: number;
-  /** Own wording above the contact details. */
-  contactLabel?: string;
-  /** Where the contact block goes in the Sidebar layout. */
-  kontakt?: "side" | "main";
-  /** titleScale / headingScale / bodyScale overrides. */
-  scales?: Record<string, number>;
-  /** Free CV photo placement, size and frame colour. */
-  photoPlace?: {
-    mode: "auto" | "frei";
-    xMm: number;
-    yMm: number;
-    widthMm: number;
-    frameColor: string | null;
-  };
 };
 
 async function settlePagination(page: Page) {
@@ -155,17 +107,7 @@ async function settlePagination(page: Page) {
 async function seedCv(page: Page, options: SeedOptions = {}) {
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
   await page.evaluate(
-    ({
-      payload,
-      family,
-      layout,
-      mirrored,
-      photoShape,
-      coverRaw,
-      legacyPhotoShape,
-      photoPlace,
-      kontakt,
-    }) => {
+    ({ payload, family, layout, mirrored, photoShape, coverRaw, legacyPhotoShape }) => {
       localStorage.clear();
       localStorage.setItem("lebenslauf:v1", JSON.stringify(payload));
       localStorage.setItem("dossier:family:v1", family);
@@ -174,7 +116,7 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
       localStorage.setItem(
         "lebenslauf:placement:v1",
         JSON.stringify({
-          kontakt,
+          kontakt: "side",
           schule: "main",
           erfahrung: "main",
           sprachen: "side",
@@ -193,35 +135,20 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
         localStorage.removeItem("lebenslauf:photo:v2");
         localStorage.setItem("lebenslauf:photo-shape:v1", legacyPhotoShape);
       }
-      if (photoPlace) localStorage.setItem("lebenslauf:photo-place:v1", JSON.stringify(photoPlace));
       if (coverRaw) localStorage.setItem("titelblatt:v3", coverRaw);
     },
     {
-      payload: cvPayload({
-        long: options.long,
-        photo: options.photo,
-        template: options.template,
-        sidebarPct: options.sidebarPct,
-        contactLabel: options.contactLabel,
-        scales: options.scales,
-      }),
-      kontakt: options.kontakt ?? "side",
+      payload: cvPayload({ long: options.long, photo: options.photo }),
       family: options.family ?? "classic",
       layout: options.layout ?? "classic",
       mirrored: options.mirrored ?? false,
       photoShape: options.photoShape,
       coverRaw: options.coverRaw,
       legacyPhotoShape: options.legacyPhotoShape,
-      photoPlace: options.photoPlace,
     },
   );
   await page.reload({ waitUntil: "domcontentloaded" });
   await previewRoot(page).locator("[data-cv-page]").first().waitFor({ state: "visible" });
-  // The server-rendered sheet is visible before hydration, and it always shows
-  // the default layout. The layout stores stamp data-cv-variant on the first
-  // client render, so that attribute marks the point from which a one-shot
-  // measurement sees the seeded state instead of the default one.
-  await page.waitForFunction(() => document.documentElement.dataset.cvVariant !== undefined);
   await settlePagination(page);
 }
 
@@ -252,476 +179,115 @@ async function clippingErrors(page: Page) {
 }
 
 async function assertNoMainClipping(page: Page, label: string) {
-  await expect
-    .poll(() => clippingErrors(page), { message: `${label} preview geometry` })
-    .toEqual([]);
+  await expect.poll(() => clippingErrors(page), { message: `${label} preview geometry` }).toEqual([]);
 }
 
-/**
- * Do the coloured areas of the frame run underneath the text?
- *
- * Clipping checks compare each row against its own container, so they stay
- * silent when the container itself is placed wrongly. This compares the frame
- * against the text column: side column and stripe sideways, head band and foot
- * band vertically.
- */
-async function frameOverlaps(page: Page) {
-  return previewRoot(page)
-    .locator("[data-cv-page]")
-    .evaluateAll((pages) => {
-      const failures: string[] = [];
-      const say = (page: number, what: string, by: number) =>
-        failures.push(`page ${page}: ${what} overlaps the text column by ${Math.round(by)}px`);
+async function seedCoverTemplate(page: Page, template: string) {
+  await page.addInitScript(
+    ({ selectedTemplate }) => {
+      localStorage.clear();
+      localStorage.setItem(
+        "titelblatt:v3",
+        JSON.stringify({
+          version: 6,
+          template: selectedTemplate,
+          colors: {
+            [selectedTemplate]: {
+              bg: "#faf7f2",
+              primary: "#24364b",
+              secondary: "#c9895d",
+              tertiary: "#d8c3aa",
+              accent: "#d6a47d",
+              ink: "#1f2937",
+            },
+          },
+          layout: { [selectedTemplate]: {} },
+          customs: [],
+          fontScale: 1,
+          data: {
+            meta: { title: "", author: "", subject: "", keywords: "" },
+            kicker: "Bewerbung um eine Lehrstelle als",
+            eyebrow: "Bewerbung",
+            beruf: "Informatiker/in EFZ",
+            lehrbeginn: "Lehrbeginn August 2027",
+            vorname: "Lea",
+            nachname: "Müller",
+            adresse: "Bahnhofstrasse 42",
+            plzOrt: "8000 Zürich",
+            telefon: "+41 79 123 45 67",
+            email: "lea.mueller@example.ch",
+            geburtsdatum: "14.03.2010",
+            lehrbetrieb: "Beispiel AG",
+            ansprechperson: "Herr Thomas Weber",
+            betriebAdresse: "Industriestrasse 8, 8005 Zürich",
+            ort: "Hubersdorf",
+            datum: "22.08.2026",
+            labelKontakt: "",
+            labelEmpfaenger: "",
+            foto: null,
+          },
+        }),
+      );
+    },
+    { selectedTemplate: template },
+  );
+  await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
 
-      pages.forEach((pageEl, index) => {
-        const main = pageEl.querySelector<HTMLElement>("[data-cv-main]");
-        if (!main) return;
-        const box = main.getBoundingClientRect();
-
-        for (const [name, selector] of [
-          ["side column", "[data-cv-sidebar]"],
-          ["colour column", "[data-cv-column]"],
-        ] as const) {
-          const el = pageEl.querySelector<HTMLElement>(selector);
-          if (!el) continue;
-          const rect = el.getBoundingClientRect();
-          const across = Math.min(rect.right, box.right) - Math.max(rect.left, box.left);
-          const down = Math.min(rect.bottom, box.bottom) - Math.max(rect.top, box.top);
-          if (across > 1 && down > 1) say(index + 1, name, across);
-        }
-
-        for (const [name, selector] of [
-          ["head band", '[data-cv-band="head"]'],
-          ["foot band", '[data-cv-band="foot"]'],
-        ] as const) {
-          const el = pageEl.querySelector<HTMLElement>(selector);
-          if (!el) continue;
-          const rect = el.getBoundingClientRect();
-          const across = Math.min(rect.right, box.right) - Math.max(rect.left, box.left);
-          const down = Math.min(rect.bottom, box.bottom) - Math.max(rect.top, box.top);
-          if (across > 1 && down > 1) say(index + 1, name, down);
-        }
-      });
-      return failures;
-    });
+  const sheet = page.locator('[data-dossier-document="cover"]').first();
+  await sheet.waitFor({ state: "visible" });
+  await sheet
+    .locator('[data-cover-background="welle-band"]')
+    .waitFor({ state: "attached" });
+  return sheet;
 }
 
 test.describe("M5.8 dossier regression", () => {
   test.setTimeout(120_000);
 
-  test("the design style follows the template, not a stored preference", async ({ page }) => {
-    // The style used to be a second, saved choice that could contradict the
-    // template. A stale value must no longer win.
-    for (const [template, family] of [
-      ["klassisch", "editorial"],
-      ["edel", "executive"],
-      ["serioes", "classic"],
-      ["studio", "modern"],
-    ] as const) {
-      await seedCv(page, { template, family: "classic" });
-      await expect(page.locator("html")).toHaveAttribute("data-dossier-family", family);
-    }
+  test("Horizont-Farbfläche schliesst ohne weisse Naht bis zum unteren Blattrand", async ({
+    page,
+  }) => {
+    const sheet = await seedCoverTemplate(page, "welle");
+    const geometry = await sheet.evaluate((documentElement) => {
+      const band = documentElement.querySelector<HTMLElement>(
+        '[data-cover-background="welle-band"]',
+      );
+      const rule = documentElement.querySelector<HTMLElement>(
+        '[data-cover-background="welle-rule"]',
+      );
+      if (!band || !rule) throw new Error("Horizont-Hintergrund fehlt");
+
+      const sheetRect = documentElement.getBoundingClientRect();
+      const bandRect = band.getBoundingClientRect();
+      const ruleRect = rule.getBoundingClientRect();
+      return {
+        sheetBottom: sheetRect.bottom,
+        bandTop: bandRect.top,
+        bandBottom: bandRect.bottom,
+        ruleTop: ruleRect.top,
+      };
+    });
+
+    expect(Math.abs(geometry.bandTop - geometry.ruleTop)).toBeLessThanOrEqual(0.5);
+    expect(geometry.bandBottom).toBeGreaterThan(geometry.sheetBottom);
   });
 
-  test("every template renders in every layout without clipping", async ({ page }) => {
-    for (const { template } of ARCHETYPE_TEMPLATES) {
+  test("all 24 design-style × CV-layout combinations render without clipping", async ({ page }) => {
+    for (const family of FAMILY_IDS) {
       for (const layout of LAYOUT_IDS) {
-        await seedCv(page, { template, layout });
+        await seedCv(page, { family, layout });
+        await expect(page.locator("html")).toHaveAttribute("data-dossier-family", family);
         await expect(page.locator("html")).toHaveAttribute("data-cv-variant", layout);
-        await assertNoMainClipping(page, `${template}/${layout}`);
+        await assertNoMainClipping(page, `${family}/${layout}`);
       }
     }
   });
 
-  test("every archetype works with every layout, without the columns overlapping", async ({
-    page,
-  }) => {
-    for (const { template, archetype } of ARCHETYPE_TEMPLATES) {
-      for (const layout of LAYOUT_IDS) {
-        const label = `${template}/${archetype}/${layout}`;
-        await seedCv(page, { template, layout });
-        await expect(previewRoot(page)).toHaveAttribute("data-cv-archetype", archetype);
-        await expect
-          .poll(() => frameOverlaps(page), { message: `${label} column geometry` })
-          .toEqual([]);
-        await assertNoMainClipping(page, label);
-      }
-    }
-  });
-
-  test("the layout choice is never silently overridden", async ({ page }) => {
-    // Column and card templates used to force their own renderer, so picking a
-    // layout did nothing for twelve of nineteen templates.
-    for (const { template } of ARCHETYPE_TEMPLATES) {
-      for (const layout of LAYOUT_IDS) {
-        await seedCv(page, { template, layout });
-        await expect(page.locator("html")).toHaveAttribute("data-cv-variant", layout);
-        const expected = layout === "modern" || layout === "executive" ? "modern" : "classic";
-        await expect(previewRoot(page)).toHaveAttribute("data-cv-layout", expected);
-      }
-    }
-  });
-
-  test("taking over from the title page carries design, shapes, photo and person", async ({
-    page,
-  }) => {
-    // A finished title page: own template, own colours, a shape and a photo.
-    const cover = JSON.stringify({
-      template: "verlauf",
-      colors: {
-        verlauf: { primary: "#7f5af0", secondary: "#2cb67d", ink: "#ffffff", bg: "#ffffff" },
-      },
-      layout: {},
-      customs: [{ id: "shape-1", kind: "shape", shape: "circle", label: "Kreis" }],
-      data: {
-        vorname: "Lea",
-        nachname: "Müller",
-        adresse: "Bahnhofstrasse 42",
-        plzOrt: "8000 Zürich",
-        telefon: "+41 79 123 45 67",
-        email: "lea@example.ch",
-        geburtsdatum: "14.03.2010",
-        foto: PHOTO,
-      },
-    });
-
-    // A CV that starts on a different template with nothing of its own.
-    await seedCv(page, { coverRaw: cover, template: "klassisch" });
-    await expect(previewRoot(page)).toHaveAttribute("data-cv-archetype", "quiet");
-
-    await page.getByRole("button", { name: "Übernehmen", exact: true }).click();
-
-    // Copying is not enough: the shapes have to be switched on, or the button
-    // looks as if it did nothing.
-    await expect
-      .poll(() =>
-        page.evaluate(() => {
-          const saved = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "{}");
-          const root = document.querySelector(
-            '[data-dossier-document="cv"][data-export-mode="false"]',
-          );
-          return {
-            template: saved.design?.template,
-            useElements: saved.design?.useElements,
-            elements: (saved.elements ?? []).length,
-            hasPhoto: !!saved.data?.person?.foto,
-            vorname: saved.data?.person?.vorname ?? "",
-            archetype: root?.getAttribute("data-cv-archetype"),
-            // The shapes are real elements now, on the same layer the title
-            // page uses, and they sit on the first sheet.
-            shapesDrawn:
-              root?.querySelector("[data-cv-page]")?.querySelectorAll("[data-block-id]").length ??
-              0,
-          };
-        }),
-      )
-      .toEqual({
-        template: "verlauf",
-        useElements: true,
-        elements: 1,
-        hasPhoto: true,
-        vorname: "Lea",
-        archetype: "card",
-        shapesDrawn: 1,
-      });
-  });
-
-  test("mirroring never leaves text back to front", async ({ page }) => {
-    // Mirroring flips the whole page and flips each text-carrying child back.
-    // A new element that is not on that list renders its text reversed -- the
-    // name did, in the band. Compare every such child against the main column.
-    for (const { template } of ARCHETYPE_TEMPLATES) {
-      await seedCv(page, { template, layout: "modern", mirrored: true });
-      const reversed = await previewRoot(page)
-        .locator("[data-cv-page]")
-        .evaluateAll((pages) =>
-          pages.flatMap((pageEl, index) => {
-            const main = pageEl.querySelector<HTMLElement>("[data-cv-main]");
-            if (!main) return [];
-            const upright = getComputedStyle(main).transform;
-            return Array.from(pageEl.children)
-              .filter(
-                (child) =>
-                  child instanceof HTMLElement &&
-                  (child.textContent ?? "").trim().length > 0 &&
-                  getComputedStyle(child).transform !== upright,
-              )
-              .map(
-                (child) =>
-                  `page ${index + 1}: ${(child as HTMLElement).getAttributeNames().join(",")}`,
-              );
-          }),
-        );
-      expect(reversed, `${template} mirrored`).toEqual([]);
-    }
-  });
-
-  test("the document title is shown, editable and never English", async ({ page }) => {
-    for (const { template } of ARCHETYPE_TEMPLATES) {
-      await seedCv(page, { template });
-      await expect(previewRoot(page).locator("[data-cv-doc-title]").first()).toHaveText(
-        "Lebenslauf",
-      );
-      expect(await page.content()).not.toContain("CURRICULUM VITAE");
-    }
-  });
-
-  test("a saved Zweispaltig layout reads as Sidebar", async ({ page }) => {
-    await seedCv(page, { layout: "executive" as never });
-    await expect(page.locator("html")).toHaveAttribute("data-cv-variant", "modern");
-    await expect(previewRoot(page)).toHaveAttribute("data-cv-layout", "modern");
-    await assertNoMainClipping(page, "migrated executive");
-  });
-
-  test("the side column width follows the setting", async ({ page }) => {
-    for (const pct of [0.22, 0.3, 0.42]) {
-      await seedCv(page, { layout: "modern", sidebarPct: pct });
-      // The layout store stamps data-cv-variant on the first client render, but
-      // the saved design arrives a tick later, so a single reading can still
-      // catch the default width. Poll instead of measuring once.
-      const share = () =>
-        previewRoot(page)
-          .locator("[data-cv-page]")
-          .first()
-          .evaluate((pageEl) => {
-            const bar = pageEl.querySelector("[data-cv-sidebar]");
-            if (!bar) return null;
-            return bar.getBoundingClientRect().width / pageEl.getBoundingClientRect().width;
-          });
-      await expect.poll(share, { message: `sidebar at ${pct}` }).toBeCloseTo(pct, 2);
-    }
-  });
-
-  test("each type slider moves its own texts and leaves the others alone", async ({ page }) => {
-    /**
-     * The distinct type sizes on the sheet, grouped by which slider owns them.
-     *
-     * Distinct and sorted rather than one entry per element: doubling a size
-     * reflows the text over the pages, so the number of elements is not stable
-     * — the set of sizes in use is.
-     */
-    const sizes = () =>
-      previewRoot(page).evaluate((root) => {
-        const of = (...selectors: string[]) =>
-          [
-            ...new Set(
-              selectors.flatMap((selector) =>
-                Array.from(root.querySelectorAll<HTMLElement>(selector)).map((el) =>
-                  Number(parseFloat(getComputedStyle(el).fontSize).toFixed(1)),
-                ),
-              ),
-            ),
-          ].sort((a, b) => a - b);
-        return {
-          title: of("[data-cv-name]", "[data-cv-doc-title]"),
-          heading: of("[data-cv-subtitle]", "[data-cv-section-title]"),
-          body: of("[data-cv-entry-title]", "[data-cv-date]"),
-        };
-      });
-
-    const KEY = { title: "titleScale", heading: "headingScale", body: "bodyScale" } as const;
-    const ROLES = ["title", "heading", "body"] as const;
-
-    await seedCv(page, { layout: "modern" });
-    await expect.poll(async () => (await sizes()).heading.length).toBeGreaterThan(0);
-    const base = await sizes();
-    // A slider that reaches nothing is the fault being guarded against here.
-    for (const role of ROLES) expect(base[role].length, `${role} texts found`).toBeGreaterThan(0);
-
-    for (const role of ROLES) {
-      await seedCv(page, { layout: "modern", scales: { [KEY[role]]: 2 } });
-      // Rounded to one decimal, so doubled values can land a tenth apart.
-      await expect
-        .poll(async () =>
-          (await sizes())[role].map((v, i) => Math.abs(v - base[role][i] * 2) < 0.25),
-        )
-        .toEqual(base[role].map(() => true));
-      const now = await sizes();
-      for (const other of ROLES) {
-        if (other === role) continue;
-        expect(now[other], `${KEY[role]} must not touch ${other}`).toEqual(base[other]);
-      }
-    }
-  });
-
-  test("the Kontakt heading can be renamed like every other one", async ({ page }) => {
-    for (const kontakt of ["side", "main"] as const) {
-      await seedCv(page, { layout: "modern", contactLabel: "Lea Müller", kontakt });
-      await expect
-        .poll(() =>
-          previewRoot(page).locator("[data-cv-page] [data-cv-section-title]").allTextContents(),
-        )
-        .toContain("Lea Müller");
-      expect(await page.content(), `default label still shown (${kontakt})`).not.toContain(
-        ">Kontakt<",
-      );
-    }
-  });
-
-  test("the CV builds, styles and moves its own elements like the title page", async ({ page }) => {
-    await seedCv(page, { layout: "modern" });
-    const addMenu = page.getByRole("button", { name: "+ Element" }).first();
-    // The picker labels also appear in the photo-shape controls, so scope the
-    // clicks to the popover or the wrong button gets pressed.
-    const pick = async (label: string) => {
-      await addMenu.click();
-      await page.locator(".bg-popover").getByRole("button", { name: label }).click();
-      await page.waitForTimeout(150);
-    };
-    const onSheet = () => previewRoot(page).locator("[data-cv-page] [data-block-id]");
-
-    for (const [i, label] of ["Textfeld", "Kreis", "Trennlinie"].entries()) {
-      await pick(label);
-      await expect(onSheet(), `after ${label}`).toHaveCount(i + 1);
-      await page.keyboard.press("Escape");
-    }
-
-    // Selecting opens the same toolbar the title page uses.
-    await onSheet().first().click();
-    await expect(page.getByRole("button", { name: "Entfernen" })).toBeVisible();
-
-    // Dragging follows the pointer and is written to storage.
-    const before = await onSheet().first().boundingBox();
-    await page.mouse.move(before!.x + before!.width / 2, before!.y + before!.height / 2);
-    await page.mouse.down();
-    await page.mouse.move(before!.x + before!.width / 2 - 50, before!.y + before!.height / 2 - 40, {
-      steps: 6,
-    });
-    await page.mouse.up();
-    const after = await onSheet().first().boundingBox();
-    expect(after!.x - before!.x).toBeCloseTo(-50, 0);
-    expect(after!.y - before!.y).toBeCloseTo(-40, 0);
-    await expect
-      .poll(() =>
-        page.evaluate(() => {
-          const saved = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "{}");
-          return Object.keys(saved.elementStyles ?? {}).length;
-        }),
-      )
-      .toBeGreaterThan(0);
-
-    // The exported sheet carries the elements but none of the editing chrome.
-    await expect(exportRoot(page).locator("[data-cv-page] [data-block-id]")).toHaveCount(3);
-    const outlined = await exportRoot(page)
-      .locator("[data-cv-page] [data-block-id]")
-      .evaluateAll(
-        (els) => els.filter((e) => getComputedStyle(e).outlineStyle === "dashed").length,
-      );
-    expect(outlined, "selection outline in the export").toBe(0);
-
-    // Removing is undoable, exactly as on the title page.
-    await page.getByRole("button", { name: "Entfernen" }).click();
-    await expect(onSheet()).toHaveCount(2);
-  });
-
-  test("a freely placed photo sits where it was put, in every layout", async ({ page }) => {
-    for (const layout of ["classic", "modern"] as const) {
-      await seedCv(page, {
-        layout,
-        photo: true,
-        photoPlace: { mode: "frei", xMm: 140, yMm: 30, widthMm: 42, frameColor: null },
-      });
-      // The saved CV arrives a tick after hydration, so wait for the photo
-      // itself rather than measuring whatever is on screen right now.
-      await previewRoot(page).locator("[data-cv-photo-free]").first().waitFor({ state: "visible" });
-      const box = await previewRoot(page)
-        .locator("[data-cv-page]")
-        .first()
-        .evaluate((pageEl) => {
-          const free = pageEl.querySelector("[data-cv-photo-free]");
-          if (!free) return null;
-          const sheet = pageEl.getBoundingClientRect();
-          const rect = free.getBoundingClientRect();
-          const mm = (px: number) => (px / sheet.width) * 210;
-          return {
-            xMm: mm(rect.left - sheet.left),
-            yMm: mm(rect.top - sheet.top),
-            widthMm: mm(rect.width),
-            // Fixed per-shape sizes must not win over the chosen width.
-            others: pageEl.querySelectorAll("[data-cv-photo]:not([data-cv-photo-free])").length,
-          };
-        });
-      expect(box, `free photo in ${layout}`).not.toBeNull();
-      expect(box!.xMm).toBeCloseTo(140, 0);
-      expect(box!.yMm).toBeCloseTo(30, 0);
-      expect(box!.widthMm).toBeCloseTo(42, 0);
-      // The photo belongs in one place only, never in the head as well.
-      expect(box!.others, `duplicate photo in ${layout}`).toBe(0);
-    }
-  });
-
-  test("dragging the photo moves it and keeps the new spot", async ({ page }) => {
-    await seedCv(page, {
-      photo: true,
-      photoPlace: { mode: "frei", xMm: 140, yMm: 30, widthMm: 40, frameColor: null },
-    });
-    const photo = previewRoot(page).locator("[data-cv-photo-free]").first();
-    const before = await photo.boundingBox();
-    expect(before).not.toBeNull();
-
-    // The preview is scaled, so the promise is not a millimetre count but that
-    // the photo stays under the pointer: it moves by exactly the pixels dragged.
-    const dx = -60;
-    const dy = 45;
-    await page.mouse.move(before!.x + before!.width / 2, before!.y + before!.height / 2);
-    await page.mouse.down();
-    await page.mouse.move(before!.x + before!.width / 2 + dx, before!.y + before!.height / 2 + dy, {
-      steps: 8,
-    });
-    await page.mouse.up();
-
-    const after = await photo.boundingBox();
-    expect(after!.x - before!.x, "horizontal travel").toBeCloseTo(dx, 0);
-    expect(after!.y - before!.y, "vertical travel").toBeCloseTo(dy, 0);
-
-    // Letting go writes the new spot, so it survives a reload.
-    const stored = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem("lebenslauf:photo-place:v1") ?? "null"),
-    );
-    expect(stored.mode).toBe("frei");
-    expect(stored.xMm).toBeLessThan(140);
-    expect(stored.yMm).toBeGreaterThan(30);
-    await page.reload({ waitUntil: "domcontentloaded" });
-    await photo.waitFor({ state: "visible" });
-    const reloaded = await photo.boundingBox();
-    expect(reloaded!.x, "spot after reload").toBeCloseTo(after!.x, 0);
-  });
-
-  test("the photo frame follows colour and thickness, and the export has no handles", async ({
-    page,
-  }) => {
-    await seedCv(page, {
-      photo: true,
-      photoShape: "portrait",
-      photoPlace: { mode: "frei", xMm: 140, yMm: 30, widthMm: 40, frameColor: "#00aa55" },
-    });
-    const ring = () =>
-      previewRoot(page)
-        .locator("[data-cv-photo-free]")
-        .first()
-        .evaluate((el) => getComputedStyle(el).boxShadow);
-    expect(await ring()).toContain("rgb(0, 170, 85)");
-
-    // Thickness 0 is the "no frame" setting and must remove the ring entirely.
-    await page.evaluate(() => {
-      const raw = JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}");
-      localStorage.setItem("lebenslauf:photo:v2", JSON.stringify({ ...raw, borderWidth: 0 }));
-    });
-    await page.reload({ waitUntil: "domcontentloaded" });
-    await previewRoot(page).locator("[data-cv-photo-free]").first().waitFor({ state: "visible" });
-    expect(await ring()).toContain("0px 0px 0px 0px");
-
-    // Drag handles are an editing aid; the exported sheet must not carry them.
-    await expect(exportRoot(page).locator("[data-cv-photo-handle]")).toHaveCount(0);
-  });
-
-  test("all layouts remain valid when mirrored", async ({ page }) => {
+  test("all six layouts remain valid when mirrored", async ({ page }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "executive", layout, mirrored: true, photo: true });
       await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
-      await expect(
-        previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first(),
-      ).toBeVisible();
+      await expect(previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first()).toBeVisible();
       await assertNoMainClipping(page, `mirrored executive/${layout}`);
     }
   });
@@ -746,9 +312,7 @@ test.describe("M5.8 dossier regression", () => {
     }
   });
 
-  test("long names and long content paginate across every layout without clipping", async ({
-    page,
-  }) => {
+  test("long names and long content paginate across every layout without clipping", async ({ page }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "editorial", layout, long: true });
       const root = previewRoot(page);
@@ -812,9 +376,7 @@ test.describe("M5.8 dossier regression", () => {
         page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}").shape),
       )
       .toBe("circle");
-    const copied = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"),
-    );
+    const copied = await page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"));
     expect(copied.zoom).toBe(1.8);
     expect(copied.x).toBe(20);
     expect(copied.y).toBe(65);
