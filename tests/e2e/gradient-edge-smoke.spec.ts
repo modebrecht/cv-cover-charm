@@ -3,7 +3,47 @@ import { inflateSync } from "node:zlib";
 
 const BASE_URL = "http://127.0.0.1:4173";
 
-const GRADIENTS = [
+const TEMPLATES = [
+  {
+    id: "edge",
+    colors: {
+      bg: "#f7f7f4",
+      primary: "#182433",
+      secondary: "#4da3ff",
+      accent: "#2f7de1",
+      ink: "#18202a",
+    },
+  },
+  {
+    id: "glow",
+    colors: {
+      bg: "#f7f9ff",
+      primary: "#6d5dfb",
+      secondary: "#7dd3fc",
+      accent: "#14b8a6",
+      ink: "#172033",
+    },
+  },
+  {
+    id: "frame",
+    colors: {
+      bg: "#f6f3ed",
+      primary: "#26352f",
+      secondary: "#d8894a",
+      accent: "#b96b32",
+      ink: "#1e2722",
+    },
+  },
+  {
+    id: "monoLuxe",
+    colors: {
+      bg: "#f8f6f1",
+      primary: "#171717",
+      secondary: "#b08d57",
+      accent: "#8e6f42",
+      ink: "#171717",
+    },
+  },
   {
     id: "horizon",
     colors: {
@@ -151,7 +191,7 @@ function cvData() {
   };
 }
 
-async function seedCover(page: Page, template: (typeof GRADIENTS)[number]): Promise<Locator> {
+async function seedCover(page: Page, template: (typeof TEMPLATES)[number]): Promise<Locator> {
   await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
   await page.evaluate(
     ({ payload }) => {
@@ -180,7 +220,7 @@ async function seedCover(page: Page, template: (typeof GRADIENTS)[number]): Prom
   return sheet;
 }
 
-async function seedCv(page: Page, template: (typeof GRADIENTS)[number]): Promise<Locator> {
+async function seedCv(page: Page, template: (typeof TEMPLATES)[number]): Promise<Locator> {
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
   await page.evaluate(
     ({ payload }) => {
@@ -287,35 +327,56 @@ const distance = (a: readonly number[], b: readonly number[]) =>
   Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]);
 
 function edgeLeak(image: DecodedPng) {
+  let top = 0;
   let bottom = 0;
+  let left = 0;
   let right = 0;
   const inset = 2;
+
   for (let x = inset; x < image.width - inset; x += 1) {
-    const edge = rgbAt(image, x, image.height - 1);
-    const inner = rgbAt(image, x, image.height - 3);
-    if (isWhite(edge) && !isWhite(inner) && distance(edge, inner) > 45) bottom += 1;
+    const topEdge = rgbAt(image, x, 0);
+    const topInner = rgbAt(image, x, Math.min(image.height - 1, 2));
+    if (isWhite(topEdge) && !isWhite(topInner) && distance(topEdge, topInner) > 45) top += 1;
+
+    const bottomEdge = rgbAt(image, x, image.height - 1);
+    const bottomInner = rgbAt(image, x, Math.max(0, image.height - 3));
+    if (isWhite(bottomEdge) && !isWhite(bottomInner) && distance(bottomEdge, bottomInner) > 45) {
+      bottom += 1;
+    }
   }
+
   for (let y = inset; y < image.height - inset; y += 1) {
-    const edge = rgbAt(image, image.width - 1, y);
-    const inner = rgbAt(image, image.width - 3, y);
-    if (isWhite(edge) && !isWhite(inner) && distance(edge, inner) > 45) right += 1;
+    const leftEdge = rgbAt(image, 0, y);
+    const leftInner = rgbAt(image, Math.min(image.width - 1, 2), y);
+    if (isWhite(leftEdge) && !isWhite(leftInner) && distance(leftEdge, leftInner) > 45) left += 1;
+
+    const rightEdge = rgbAt(image, image.width - 1, y);
+    const rightInner = rgbAt(image, Math.max(0, image.width - 3), y);
+    if (isWhite(rightEdge) && !isWhite(rightInner) && distance(rightEdge, rightInner) > 45) {
+      right += 1;
+    }
   }
+
   return {
+    topRatio: top / Math.max(1, image.width - inset * 2),
     bottomRatio: bottom / Math.max(1, image.width - inset * 2),
+    leftRatio: left / Math.max(1, image.height - inset * 2),
     rightRatio: right / Math.max(1, image.height - inset * 2),
   };
 }
 
 async function expectNoLeak(sheet: Locator, label: string) {
   const leak = edgeLeak(decodePng(await sheet.screenshot({ animations: "disabled" })));
+  expect(leak.topRatio, `${label} top edge`).toBeLessThanOrEqual(0.18);
   expect(leak.bottomRatio, `${label} bottom edge`).toBeLessThanOrEqual(0.18);
+  expect(leak.leftRatio, `${label} left edge`).toBeLessThanOrEqual(0.18);
   expect(leak.rightRatio, `${label} right edge`).toBeLessThanOrEqual(0.18);
 }
 
-test.describe("Gradient dossier page-edge smoke", () => {
+test.describe("Fresh dossier page-edge smoke", () => {
   test.setTimeout(180_000);
 
-  for (const template of GRADIENTS) {
+  for (const template of TEMPLATES) {
     test(`${template.id} cover and CV have no white 1px seam`, async ({ page }) => {
       await page.setViewportSize({ width: 1137, height: 913 });
 
