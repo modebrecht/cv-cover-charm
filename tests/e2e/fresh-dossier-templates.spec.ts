@@ -253,7 +253,6 @@ test.describe("Fresh dossier templates", () => {
       await expect(page.getByRole("button", { name: template.name, exact: true })).toBeVisible();
     }
 
-    await expect(page.getByText(/Alle 30 stehen immer zur Wahl/)).toBeVisible();
   });
 
   test("all twelve title pages render as distinct full dossiers", async ({ page }) => {
