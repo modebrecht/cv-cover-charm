@@ -308,16 +308,30 @@ export function CoverBackground({
   if (template === "welle") {
     return (
       <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>
+        {/*
+          Die Akzentlinie und die dunkle Fläche teilen sich exakt dieselbe
+          Kante. Ein Abstand zwischen 176 mm und 180 mm erzeugte zuvor den
+          sichtbaren weissen Streifen. Der kleine Overscan verhindert zudem
+          Subpixel-Haarlinien bei skalierten Vorschauen und im PDF.
+        */}
         <div
-          className="absolute left-0 right-0"
-          style={{ top: "180mm", bottom: 0, backgroundColor: colors.primary }}
-        />
-        <div
+          data-cover-background="welle-band"
           className="absolute"
           style={{
-            left: "0mm",
+            left: "-1px",
+            right: "-1px",
             top: "176mm",
-            width: "100%",
+            bottom: "-1px",
+            backgroundColor: colors.primary,
+          }}
+        />
+        <div
+          data-cover-background="welle-rule"
+          className="absolute"
+          style={{
+            left: "-1px",
+            right: "-1px",
+            top: "176mm",
             height: "0.6mm",
             backgroundColor: colors.secondary,
           }}
