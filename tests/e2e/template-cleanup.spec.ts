@@ -67,10 +67,11 @@ async function seedCv(page: Page, template: "blockig" | "colorful") {
       localStorage.setItem("lebenslauf:v1", JSON.stringify(payload));
       localStorage.setItem("lebenslauf:layout:v1", "classic");
       localStorage.setItem("lebenslauf:layout-mirror:v1", "false");
+      window.location.reload();
     },
     { payload: cvPayload(template) },
   );
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("domcontentloaded");
   await page
     .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page]')
     .first()
@@ -88,6 +89,8 @@ test.describe("template cleanup", () => {
   test("Colorful is retired and old drafts migrate to Blockig", async ({ page }) => {
     await seedCv(page, "colorful");
 
+    await expect(page.locator("html")).toHaveAttribute("data-dossier-template", "blockig");
+    await page.getByRole("button", { name: /Vorlage\s+Blockig/ }).click();
     await expect(page.getByRole("button", { name: "Colorful", exact: true })).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Blockig", exact: true })).toHaveAttribute(
       "aria-pressed",
