@@ -3,6 +3,12 @@ import { stat } from "node:fs/promises";
 
 const BASE_URL = "http://127.0.0.1:4173";
 const FAMILY_IDS = ["classic", "modern", "executive", "editorial"] as const;
+const FAMILY_TEMPLATES = {
+  classic: "serioes",
+  modern: "modern",
+  executive: "pastell",
+  editorial: "klassisch",
+} as const;
 const LAYOUT_IDS = ["classic", "modern", "minimal", "timeline", "executive", "editorial"] as const;
 const PHOTO_SHAPES = ["rect", "square", "portrait", "circle"] as const;
 
@@ -70,12 +76,16 @@ function cvData({ long = false, photo = false } = {}) {
   };
 }
 
-function cvPayload(options?: { long?: boolean; photo?: boolean }) {
+function cvPayload(options?: {
+  long?: boolean;
+  photo?: boolean;
+  template?: (typeof FAMILY_TEMPLATES)[keyof typeof FAMILY_TEMPLATES];
+}) {
   return {
     version: 2,
     data: cvData(options),
     design: {
-      template: "modern",
+      template: options?.template ?? "modern",
       colors: { primary: "#111827", accent: "#f43f5e", bg: "#fafafa" },
       bgOpacity: 0.06,
       useElements: false,
@@ -105,12 +115,12 @@ async function settlePagination(page: Page) {
 }
 
 async function seedCv(page: Page, options: SeedOptions = {}) {
+  const family = options.family ?? "classic";
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
   await page.evaluate(
-    ({ payload, family, layout, mirrored, photoShape, coverRaw, legacyPhotoShape }) => {
+    ({ payload, layout, mirrored, photoShape, coverRaw, legacyPhotoShape }) => {
       localStorage.clear();
       localStorage.setItem("lebenslauf:v1", JSON.stringify(payload));
-      localStorage.setItem("dossier:family:v1", family);
       localStorage.setItem("lebenslauf:layout:v1", layout);
       localStorage.setItem("lebenslauf:layout-mirror:v1", mirrored ? "true" : "false");
       localStorage.setItem(
@@ -138,8 +148,11 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
       if (coverRaw) localStorage.setItem("titelblatt:v3", coverRaw);
     },
     {
-      payload: cvPayload({ long: options.long, photo: options.photo }),
-      family: options.family ?? "classic",
+      payload: cvPayload({
+        long: options.long,
+        photo: options.photo,
+        template: FAMILY_TEMPLATES[family],
+      }),
       layout: options.layout ?? "classic",
       mirrored: options.mirrored ?? false,
       photoShape: options.photoShape,
@@ -407,7 +420,7 @@ test.describe("M5.8 dossier regression", () => {
 
     await page.getByRole("button", { name: "Download" }).click();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-    await page.getByRole("button", { name: /Als PDF/ }).click();
+    await page.getByRole("button", { name: /Nur Lebenslauf als PDF/i }).click();
     const download = await downloadPromise;
     expect(download.suggestedFilename().toLowerCase()).toMatch(/\.pdf$/);
     const path = await download.path();
