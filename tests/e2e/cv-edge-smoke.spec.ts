@@ -195,24 +195,44 @@ function distance(a: readonly number[], b: readonly number[]) {
 }
 
 function edgeLeak(image: DecodedPng) {
+  let topSuspicious = 0;
   let bottomSuspicious = 0;
+  let leftSuspicious = 0;
   let rightSuspicious = 0;
   const inset = 2;
 
   for (let x = inset; x < image.width - inset; x += 1) {
-    const edge = rgbAt(image, x, image.height - 1);
-    const inner = rgbAt(image, x, Math.max(0, image.height - 3));
-    if (isWhite(edge) && !isWhite(inner) && distance(edge, inner) > 45) bottomSuspicious += 1;
+    const topEdge = rgbAt(image, x, 0);
+    const topInner = rgbAt(image, x, Math.min(image.height - 1, 2));
+    if (isWhite(topEdge) && !isWhite(topInner) && distance(topEdge, topInner) > 45) {
+      topSuspicious += 1;
+    }
+
+    const bottomEdge = rgbAt(image, x, image.height - 1);
+    const bottomInner = rgbAt(image, x, Math.max(0, image.height - 3));
+    if (isWhite(bottomEdge) && !isWhite(bottomInner) && distance(bottomEdge, bottomInner) > 45) {
+      bottomSuspicious += 1;
+    }
   }
 
   for (let y = inset; y < image.height - inset; y += 1) {
-    const edge = rgbAt(image, image.width - 1, y);
-    const inner = rgbAt(image, Math.max(0, image.width - 3), y);
-    if (isWhite(edge) && !isWhite(inner) && distance(edge, inner) > 45) rightSuspicious += 1;
+    const leftEdge = rgbAt(image, 0, y);
+    const leftInner = rgbAt(image, Math.min(image.width - 1, 2), y);
+    if (isWhite(leftEdge) && !isWhite(leftInner) && distance(leftEdge, leftInner) > 45) {
+      leftSuspicious += 1;
+    }
+
+    const rightEdge = rgbAt(image, image.width - 1, y);
+    const rightInner = rgbAt(image, Math.max(0, image.width - 3), y);
+    if (isWhite(rightEdge) && !isWhite(rightInner) && distance(rightEdge, rightInner) > 45) {
+      rightSuspicious += 1;
+    }
   }
 
   return {
+    topRatio: topSuspicious / Math.max(1, image.width - inset * 2),
     bottomRatio: bottomSuspicious / Math.max(1, image.width - inset * 2),
+    leftRatio: leftSuspicious / Math.max(1, image.height - inset * 2),
     rightRatio: rightSuspicious / Math.max(1, image.height - inset * 2),
   };
 }
@@ -230,9 +250,14 @@ test.describe("CV page-edge smoke test", () => {
       const screenshot = await sheet.screenshot({ animations: "disabled" });
       const leak = edgeLeak(decodePng(screenshot));
 
-      if (leak.bottomRatio > 0.18 || leak.rightRatio > 0.18) {
+      if (
+        leak.topRatio > 0.18 ||
+        leak.bottomRatio > 0.18 ||
+        leak.leftRatio > 0.18 ||
+        leak.rightRatio > 0.18
+      ) {
         failures.push(
-          `${template}: bottom ${(leak.bottomRatio * 100).toFixed(1)}%, right ${(leak.rightRatio * 100).toFixed(1)}% suspicious white edge`,
+          `${template}: top ${(leak.topRatio * 100).toFixed(1)}%, bottom ${(leak.bottomRatio * 100).toFixed(1)}%, left ${(leak.leftRatio * 100).toFixed(1)}%, right ${(leak.rightRatio * 100).toFixed(1)}% suspicious white edge`,
         );
       }
     }
