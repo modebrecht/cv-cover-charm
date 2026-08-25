@@ -21,7 +21,13 @@ jobs:
         with:
           node-version: 22
       - name: Apply Word-like formatting migration
-        run: python scripts/one-time-letter-block-formatting.py
+        run: |
+          python scripts/one-time-letter-block-formatting.py
+          sed -i 's/{ name: "Bullet" })/{ name: "Bullet", exact: true })/g' tests/e2e/dossier-regression.spec.ts
+          sed -i 's/{ name: "Strich" })/{ name: "Strich", exact: true })/g' tests/e2e/dossier-regression.spec.ts
+          sed -i 's/{ name: "Plus" })/{ name: "Plus", exact: true })/g' tests/e2e/dossier-regression.spec.ts
+          sed -i 's/{ name: "Punkt zentriert" })/{ name: "Punkt zentriert", exact: true })/g' tests/e2e/dossier-regression.spec.ts
+          sed -i 's/{ name: "Kein Zeichen" })/{ name: "Kein Zeichen", exact: true })/g' tests/e2e/dossier-regression.spec.ts
       - name: Format touched files
         run: |
           bunx prettier --write \
