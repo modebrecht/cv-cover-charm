@@ -4,11 +4,11 @@ import { ThemeToggle } from "@/components/cover/ThemeToggle";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bewerbungsdossier – Titelblatt und Lebenslauf" },
+      { title: "Bewerbungsdossier – Titelblatt, Anschreiben und Lebenslauf" },
       {
         name: "description",
         content:
-          "Titelblatt und Lebenslauf für deine Lehrstellenbewerbung in der Schweiz – im gleichen Design, als PDF zum Herunterladen.",
+          "Titelblatt, Anschreiben und Lebenslauf für deine Lehrstellenbewerbung in der Schweiz – im gleichen Design.",
       },
     ],
   }),
@@ -79,51 +79,11 @@ function CoverArt() {
       <circle cx="52" cy="24" r="9" fill="var(--color-primary)" opacity="0.55" />
       <rect x="10" y="52" width="12" height="2.4" rx="1.2" fill="var(--color-primary)" />
       <rect x="10" y="59" width="44" height="6" rx="1" fill="var(--color-foreground)" />
-      <rect
-        x="10"
-        y="69"
-        width="26"
-        height="3"
-        rx="1"
-        fill="var(--color-foreground)"
-        opacity="0.6"
-      />
-      <rect
-        x="10"
-        y="88"
-        width="22"
-        height="2"
-        rx="1"
-        fill="var(--color-foreground)"
-        opacity="0.3"
-      />
-      <rect
-        x="10"
-        y="92"
-        width="18"
-        height="2"
-        rx="1"
-        fill="var(--color-foreground)"
-        opacity="0.3"
-      />
-      <rect
-        x="44"
-        y="88"
-        width="20"
-        height="2"
-        rx="1"
-        fill="var(--color-foreground)"
-        opacity="0.3"
-      />
-      <rect
-        x="44"
-        y="92"
-        width="16"
-        height="2"
-        rx="1"
-        fill="var(--color-foreground)"
-        opacity="0.3"
-      />
+      <rect x="10" y="69" width="26" height="3" rx="1" fill="var(--color-foreground)" opacity="0.6" />
+      <rect x="10" y="88" width="22" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
+      <rect x="10" y="92" width="18" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
+      <rect x="44" y="88" width="20" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
+      <rect x="44" y="92" width="16" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
     </svg>
   );
 }
@@ -136,15 +96,7 @@ function CvArt() {
       <circle cx="60" cy="16" r="10" fill="var(--color-primary)" opacity="0.12" />
       <circle cx="13" cy="15" r="7" fill="var(--color-primary)" opacity="0.5" />
       <rect x="24" y="11" width="26" height="4" rx="1" fill="var(--color-foreground)" />
-      <rect
-        x="24"
-        y="18"
-        width="18"
-        height="2.4"
-        rx="1"
-        fill="var(--color-foreground)"
-        opacity="0.5"
-      />
+      <rect x="24" y="18" width="18" height="2.4" rx="1" fill="var(--color-foreground)" opacity="0.5" />
       {[30, 50, 70].map((y) => (
         <g key={y}>
           <rect x="10" y={y} width="14" height="2.4" rx="1.2" fill="var(--color-primary)" />
@@ -265,16 +217,16 @@ function Start() {
             art={<CvArt />}
           />
           <Card
+            to="/anschreiben"
             title="Anschreiben"
             text="Dein persönlicher Bewerbungsbrief – passend zu Titelblatt und Lebenslauf."
-            hint="Als Nächstes verfügbar"
+            hint="Anschreiben verfassen →"
             art={<LetterArt />}
-            disabled
           />
           <Card
             title="Gesamtdossier herunterladen"
             text="Alle fertigen Seiten prüfen und gemeinsam als PDF herunterladen."
-            hint="Wird mit dem Anschreiben aktiviert"
+            hint="Wird nach der Dossier-Erweiterung aktiviert"
             art={<DossierArt />}
             disabled
           />
