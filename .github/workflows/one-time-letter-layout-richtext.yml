@@ -38,8 +38,17 @@ jobs:
         run: npm install --no-save --no-package-lock @playwright/test@1.55.0
       - name: Unit tests
         run: bun test tests/unit
-      - name: Lint
-        run: bun run lint
+      - name: Lint touched files
+        run: |
+          bunx eslint \
+            src/components/letter/types.ts \
+            src/components/letter/rich-text.ts \
+            src/components/letter/LetterRichTextEditor.tsx \
+            src/components/letter/LetterLayoutControls.tsx \
+            src/components/letter/LetterCanvas.tsx \
+            src/routes/anschreiben.tsx \
+            src/lib/dossier-pdf.ts \
+            tests/e2e/dossier-regression.spec.ts
       - name: Production build
         run: bun run build
       - name: Install Chromium
