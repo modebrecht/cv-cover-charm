@@ -1,5 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
+import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
+import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
+import {
+  coverPdfDocumentFromSaved,
+  coverPdfHasContent,
+  cvPdfDocumentFromSaved,
+  cvPdfHasContent,
+  letterPdfDocumentFromSaved,
+  letterPdfHasContent,
+  type CoverPdfDocument,
+  type CvPdfDocument,
+  type LetterPdfDocument,
+} from "@/lib/dossier-pdf-document";
+import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
+import {
+  COVER_STORAGE_KEY,
+  CV_STORAGE_KEY,
+  LETTER_STORAGE_KEY,
+  readStoredDossierPart,
+} from "@/lib/dossier-project";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -15,9 +37,24 @@ export const Route = createFileRoute("/")({
   component: Start,
 });
 
+type DossierDocuments = {
+  cover: CoverPdfDocument | null;
+  letter: LetterPdfDocument | null;
+  cv: CvPdfDocument | null;
+};
+
+function readDossierDocuments(): DossierDocuments {
+  return {
+    cover: coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY)),
+    letter: letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY)),
+    cv: cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY)),
+  };
+}
+
 /** Eine Kachel des Startbildschirms. */
 function Card({
   to,
+  onClick,
   title,
   text,
   hint,
@@ -25,10 +62,11 @@ function Card({
   disabled = false,
 }: {
   to?: string;
+  onClick?: () => void;
   title: string;
   text: string;
   hint: string;
-  art: React.ReactNode;
+  art: ReactNode;
   disabled?: boolean;
 }) {
   const content = (
@@ -49,7 +87,10 @@ function Card({
     </>
   );
 
-  if (disabled || !to) {
+  const className =
+    "group flex min-w-0 flex-col overflow-hidden rounded-2xl border bg-card text-left shadow-sm transition-shadow hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+
+  if (disabled || (!to && !onClick)) {
     return (
       <div
         className="flex min-w-0 flex-col overflow-hidden rounded-2xl border bg-card text-left opacity-75 shadow-sm"
@@ -60,11 +101,16 @@ function Card({
     );
   }
 
+  if (onClick) {
+    return (
+      <button type="button" onClick={onClick} className={className}>
+        {content}
+      </button>
+    );
+  }
+
   return (
-    <Link
-      to={to}
-      className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border bg-card text-left shadow-sm transition-shadow hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-    >
+    <Link to={to!} className={className}>
       {content}
     </Link>
   );
@@ -180,6 +226,115 @@ function DossierArt() {
 }
 
 function Start() {
+  const [documents, setDocuments] = useState<DossierDocuments>({
+    cover: null,
+    letter: null,
+    cv: null,
+  });
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [warnings, setWarnings] = useState<CvLayoutWarning[] | null>(null);
+  const [cvPageCount, setCvPageCount] = useState(0);
+  const [downloading, setDownloading] = useState(false);
+  const [dossierNote, setDossierNote] = useState<string | null>(null);
+  const dossierExportRef = useRef<HTMLDivElement>(null);
+
+  const refreshDocuments = useCallback(() => {
+    setDocuments(readDossierDocuments());
+  }, []);
+
+  useEffect(() => {
+    refreshDocuments();
+    const onStorage = (event: StorageEvent) => {
+      if (
+        event.key === COVER_STORAGE_KEY ||
+        event.key === LETTER_STORAGE_KEY ||
+        event.key === CV_STORAGE_KEY
+      ) {
+        refreshDocuments();
+      }
+    };
+    window.addEventListener("focus", refreshDocuments);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("focus", refreshDocuments);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, [refreshDocuments]);
+
+  const readiness = useMemo(() => {
+    const cover = !!documents.cover && coverPdfHasContent(documents.cover.data);
+    const letter = !!documents.letter && letterPdfHasContent(documents.letter.data);
+    const cv = !!documents.cv && cvPdfHasContent(documents.cv.data);
+    return { cover, letter, cv, complete: cover && letter && cv };
+  }, [documents]);
+
+  const missingParts = useMemo(() => {
+    const parts: string[] = [];
+    if (!readiness.cover) parts.push("Titelblatt");
+    if (!readiness.letter) parts.push("Anschreiben");
+    if (!readiness.cv) parts.push("Lebenslauf");
+    return parts;
+  }, [readiness]);
+
+  const openDossierReview = () => {
+    refreshDocuments();
+    if (!readiness.complete) {
+      setDossierNote(`Noch nicht vollständig: ${missingParts.join(", ")}.`);
+      return;
+    }
+    setDossierNote(null);
+    setWarnings(null);
+    setCvPageCount(0);
+    setReviewOpen(true);
+  };
+
+  const closeDossierReview = useCallback(() => {
+    if (!downloading) setReviewOpen(false);
+  }, [downloading]);
+
+  const receiveWarnings = useCallback((next: CvLayoutWarning[]) => {
+    setWarnings((current) => {
+      const before = current?.map((warning) => `${warning.id}:${warning.message}`).join("|");
+      const after = next.map((warning) => `${warning.id}:${warning.message}`).join("|");
+      return before === after ? current : next;
+    });
+  }, []);
+
+  const downloadDossier = async () => {
+    const root = dossierExportRef.current;
+    if (!root || !readiness.complete) {
+      setDossierNote("Das Dossier ist noch nicht vollständig.");
+      return;
+    }
+
+    const coverName = documents.cover
+      ? [documents.cover.data.vorname, documents.cover.data.nachname].filter(Boolean).join(" ")
+      : "";
+    const cvName = documents.cv
+      ? [documents.cv.data.person.vorname, documents.cv.data.person.nachname].filter(Boolean).join(" ")
+      : "";
+    const author = coverName || cvName || "Bewerbungsdossier";
+    const fileName = author === "Bewerbungsdossier" ? "Bewerbungsdossier.pdf" : `Bewerbungsdossier-${author}.pdf`;
+
+    setDownloading(true);
+    try {
+      await downloadCombinedDossierPdf(root, fileName, {
+        title: `Bewerbungsdossier – ${author}`,
+        author,
+        subject: "Lehrstellenbewerbung",
+        keywords: "Bewerbung, Titelblatt, Anschreiben, Lebenslauf",
+      });
+      setReviewOpen(false);
+      setDossierNote("Gesamtdossier wurde als PDF erstellt.");
+    } catch (error) {
+      setDossierNote(
+        error instanceof Error ? error.message : "Das Gesamtdossier konnte nicht erstellt werden.",
+      );
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <header className="flex items-center gap-3 border-b px-4 py-3 sm:px-6">
@@ -224,18 +379,68 @@ function Start() {
             art={<LetterArt />}
           />
           <Card
+            onClick={openDossierReview}
             title="Gesamtdossier herunterladen"
-            text="Alle fertigen Seiten prüfen und gemeinsam als PDF herunterladen."
-            hint="Wird nach der Dossier-Erweiterung aktiviert"
+            text="Titelblatt, Anschreiben und alle CV-Seiten gemeinsam prüfen und als PDF herunterladen."
+            hint={readiness.complete ? "Dossier prüfen & herunterladen →" : "Noch nicht vollständig"}
             art={<DossierArt />}
-            disabled
           />
         </div>
+
+        {dossierNote ? (
+          <p
+            role="status"
+            className={`rounded-lg border px-3 py-2 text-xs leading-relaxed ${
+              readiness.complete
+                ? "bg-muted/30 text-muted-foreground"
+                : "border-amber-300/70 bg-amber-50 text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100"
+            }`}
+          >
+            {dossierNote}
+          </p>
+        ) : !readiness.complete ? (
+          <p className="text-xs text-muted-foreground">
+            Gesamtdossier verfügbar, sobald {missingParts.join(", ")} ausgefüllt
+            {missingParts.length === 1 ? " ist" : " sind"}.
+          </p>
+        ) : null}
 
         <p className="text-xs text-muted-foreground">
           Deine Eingaben bleiben im Browser. Zum Sichern lädst du den Entwurf als Datei herunter.
         </p>
       </main>
+
+      <DossierExportDialog
+        open={reviewOpen}
+        cvPageCount={cvPageCount}
+        warnings={warnings}
+        coverChanged={false}
+        downloading={downloading}
+        onClose={closeDossierReview}
+        onDownload={downloadDossier}
+      />
+
+      {readiness.complete && (reviewOpen || downloading) ? (
+        <div
+          aria-hidden
+          style={{
+            position: "fixed",
+            left: "-20000px",
+            top: 0,
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        >
+          <DossierPdfCanvas
+            ref={dossierExportRef}
+            cover={documents.cover}
+            letter={documents.letter}
+            cv={documents.cv}
+            onCvLayoutWarnings={receiveWarnings}
+            onCvPageCount={setCvPageCount}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
