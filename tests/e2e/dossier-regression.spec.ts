@@ -598,6 +598,11 @@ test.describe("M5.8 dossier regression", () => {
     await page.getByRole("button", { name: "Fett" }).click();
     await page.getByRole("button", { name: "Kursiv" }).click();
     await page.getByRole("button", { name: "Unterstrichen" }).click();
+    await page.getByRole("button", { name: "3 Spalten" }).click();
+    await expect(page.getByRole("button", { name: "3 Spalten" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
     await body.click();
     await body.press("End");
     await page.getByRole("button", { name: "Trennlinie einfügen" }).click();
@@ -612,6 +617,10 @@ test.describe("M5.8 dossier regression", () => {
       "Formatiert",
     );
     await expect(preview.locator('[data-letter-pdf-richtext="body"] hr')).toHaveCount(1);
+    await expect(preview.locator('[data-letter-pdf-richtext="body"]')).toHaveCSS(
+      "column-count",
+      "3",
+    );
     await expect(page.getByRole("button", { name: "Formatierung entfernen" })).toBeVisible();
 
     await expect
@@ -623,6 +632,7 @@ test.describe("M5.8 dossier regression", () => {
           dateAlign: "right",
           ruleAfterSender: true,
           ruleAfterRecipient: true,
+          bodyColumns: 3,
         },
         data: { text: "Formatiert" },
       });

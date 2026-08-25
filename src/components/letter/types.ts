@@ -2,6 +2,7 @@ import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/compone
 import { LETTER_STORAGE_KEY } from "@/lib/dossier-project";
 
 export type LetterAlignment = "left" | "right";
+export type LetterBodyColumns = 1 | 2 | 3;
 
 export type LetterData = {
   absenderName: string;
@@ -28,6 +29,7 @@ export type LetterDesign = {
   template: TemplateId;
   colors: Record<string, string>;
   font: FontKey;
+  bodyColumns?: LetterBodyColumns;
   /** Briefspezifische Optionen sind optional, damit alte gespeicherte Designs kompatibel bleiben. */
   senderAlign?: LetterAlignment;
   recipientAlign?: LetterAlignment;
@@ -75,6 +77,7 @@ export function emptyLetterDesign(): LetterDesign {
     template,
     colors: defaultLetterColors(template),
     font: "sans",
+    bodyColumns: 1,
     senderAlign: "left",
     recipientAlign: "left",
     dateAlign: "left",
@@ -105,6 +108,8 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     template,
     colors,
     font,
+    bodyColumns:
+      incoming.bodyColumns === 2 || incoming.bodyColumns === 3 ? incoming.bodyColumns : 1,
     senderAlign: incoming.senderAlign === "right" ? "right" : "left",
     recipientAlign: incoming.recipientAlign === "right" ? "right" : "left",
     dateAlign: incoming.dateAlign === "right" ? "right" : "left",

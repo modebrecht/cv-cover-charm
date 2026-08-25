@@ -440,6 +440,7 @@ export function LetterCanvas({
   const senderAlign = design.senderAlign ?? "left";
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
+  const bodyColumns = design.bodyColumns ?? 1;
   const placeholder =
     "Hier entsteht dein persönliches Anschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.";
   const bodyHtml = data.richTextHtml?.trim()
@@ -541,7 +542,9 @@ export function LetterCanvas({
 
           <div
             data-letter-pdf-richtext="body"
+            data-letter-columns={bodyColumns}
             className="text-[10.5pt] leading-[1.55] [&_div]:min-h-[1.55em] [&_p]:min-h-[1.55em] [&_hr]:my-[5mm] [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-current [&_hr]:opacity-50"
+            style={{ columnCount: bodyColumns, columnGap: bodyColumns > 1 ? "6mm" : undefined }}
             dangerouslySetInnerHTML={{ __html: bodyHtml }}
           />
 

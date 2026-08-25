@@ -4,6 +4,7 @@ import {
   richHtmlToPlainText,
   sanitizeLetterRichHtml,
 } from "@/components/letter/rich-text";
+import type { LetterBodyColumns } from "@/components/letter/types";
 
 const toolClass =
   "rounded-md border bg-background px-2.5 py-1.5 text-xs font-medium hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-ring";
@@ -11,10 +12,14 @@ const toolClass =
 export function LetterRichTextEditor({
   text,
   richTextHtml,
+  columns,
+  onColumnsChange,
   onChange,
 }: {
   text: string;
   richTextHtml?: string;
+  columns: LetterBodyColumns;
+  onColumnsChange: (columns: LetterBodyColumns) => void;
   onChange: (value: { text: string; richTextHtml: string }) => void;
 }) {
   const editorRef = useRef<HTMLDivElement>(null);
@@ -97,6 +102,21 @@ export function LetterRichTextEditor({
         >
           U
         </button>
+        {([1, 2, 3] as const).map((count) => (
+          <button
+            key={count}
+            type="button"
+            className={`${toolClass} min-w-8 ${
+              columns === count ? "bg-primary text-primary-foreground hover:bg-primary/90" : ""
+            }`}
+            aria-label={`${count} ${count === 1 ? "Spalte" : "Spalten"}`}
+            aria-pressed={columns === count}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => onColumnsChange(count)}
+          >
+            {count}
+          </button>
+        ))}
         <button
           type="button"
           className={toolClass}
@@ -122,6 +142,7 @@ export function LetterRichTextEditor({
           contentEditable
           suppressContentEditableWarning
           onInput={emit}
+          style={{ columnCount: columns, columnGap: columns > 1 ? "1.25rem" : undefined }}
           onBlur={() => {
             const editor = editorRef.current;
             if (!editor) return;
@@ -132,8 +153,8 @@ export function LetterRichTextEditor({
         />
       </div>
       <p className="text-[11px] leading-relaxed text-muted-foreground">
-        Markiere Text und wähle Fett, Kursiv oder Unterstrichen. Mit ─ fügst du an der
-        Cursorposition eine Trennlinie ein.
+        Markiere Text und wähle Fett, Kursiv oder Unterstrichen. Mit 1, 2 oder 3 stellst du die
+        Spaltenzahl des Brieftexts ein. Mit ─ fügst du an der Cursorposition eine Trennlinie ein.
       </p>
     </div>
   );
