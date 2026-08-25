@@ -8,7 +8,7 @@ export type DossierPdfMeta = {
   keywords?: string;
 };
 
-/** Erstellt eine PDF mit Titelblatt als Seite 1 und allen CV-Seiten dahinter. */
+/** Erstellt eine PDF mit Titelblatt, Anschreiben und allen CV-Seiten dahinter. */
 export async function downloadCombinedDossierPdf(
   root: HTMLElement,
   fileName: string,
@@ -18,20 +18,23 @@ export async function downloadCombinedDossierPdf(
   await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
   const cover = root.querySelector<HTMLElement>("[data-dossier-document='cover']");
+  const letter = root.querySelector<HTMLElement>("[data-dossier-document='letter']");
   const cvPages = Array.from(root.querySelectorAll<HTMLElement>("[data-cv-page]"));
-  if (!cover || !cvPages.length) throw new Error("Dossier ist noch nicht vollständig");
+  if (!cover || !letter || !cvPages.length) {
+    throw new Error("Dossier ist noch nicht vollständig: Titelblatt, Anschreiben und Lebenslauf werden benötigt");
+  }
 
   const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
     import("html2canvas-pro"),
     import("jspdf"),
   ]);
-  const pages = [cover, ...cvPages];
+  const pages = [cover, letter, ...cvPages];
   const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
   pdf.setProperties({
     title: meta.title,
     author: meta.author,
     subject: meta.subject ?? "Bewerbungsdossier",
-    keywords: meta.keywords ?? "Bewerbung, Lebenslauf, Titelblatt",
+    keywords: meta.keywords ?? "Bewerbung, Anschreiben, Lebenslauf, Titelblatt",
     creator: meta.author || "Bewerbungsdossier",
   });
 
