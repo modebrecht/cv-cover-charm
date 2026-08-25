@@ -1240,13 +1240,13 @@ function Lebenslauf() {
                     disabled={!canDownloadDossierPdf}
                     title={
                       canDownloadDossierPdf
-                        ? "Titelblatt und alle CV-Seiten gemeinsam herunterladen"
+                        ? "Titelblatt, Anschreiben und alle CV-Seiten gemeinsam herunterladen"
                         : dossierPdfHint
                     }
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
                   >
                     <span>Ganzes Dossier als PDF</span>
-                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + Anschreiben + CV</span>
                   </button>
                   {!canDownloadDossierPdf ? (
                     <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
@@ -1270,7 +1270,7 @@ function Lebenslauf() {
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
                   >
                     <span>Dossier speichern</span>
-                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + Anschreiben + CV</span>
                   </button>
                   <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
                     <span>Dossier laden</span>
