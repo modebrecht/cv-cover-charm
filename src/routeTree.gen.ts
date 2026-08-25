@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TitelblattRouteImport } from './routes/titelblatt'
 import { Route as LebenslaufRouteImport } from './routes/lebenslauf'
+import { Route as AnschreibenRouteImport } from './routes/anschreiben'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TitelblattRoute = TitelblattRouteImport.update({
@@ -23,6 +24,11 @@ const LebenslaufRoute = LebenslaufRouteImport.update({
   path: '/lebenslauf',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnschreibenRoute = AnschreibenRouteImport.update({
+  id: '/anschreiben',
+  path: '/anschreiben',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/anschreiben': typeof AnschreibenRoute
   '/lebenslauf': typeof LebenslaufRoute
   '/titelblatt': typeof TitelblattRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/anschreiben': typeof AnschreibenRoute
   '/lebenslauf': typeof LebenslaufRoute
   '/titelblatt': typeof TitelblattRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/anschreiben': typeof AnschreibenRoute
   '/lebenslauf': typeof LebenslaufRoute
   '/titelblatt': typeof TitelblattRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/lebenslauf' | '/titelblatt'
+  fullPaths: '/' | '/anschreiben' | '/lebenslauf' | '/titelblatt'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/lebenslauf' | '/titelblatt'
-  id: '__root__' | '/' | '/lebenslauf' | '/titelblatt'
+  to: '/' | '/anschreiben' | '/lebenslauf' | '/titelblatt'
+  id: '__root__' | '/' | '/anschreiben' | '/lebenslauf' | '/titelblatt'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnschreibenRoute: typeof AnschreibenRoute
   LebenslaufRoute: typeof LebenslaufRoute
   TitelblattRoute: typeof TitelblattRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LebenslaufRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/anschreiben': {
+      id: '/anschreiben'
+      path: '/anschreiben'
+      fullPath: '/anschreiben'
+      preLoaderRoute: typeof AnschreibenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnschreibenRoute: AnschreibenRoute,
   LebenslaufRoute: LebenslaufRoute,
   TitelblattRoute: TitelblattRoute,
 }
