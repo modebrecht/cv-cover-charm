@@ -140,7 +140,7 @@ jobs:
               await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
               await expect(page.getByLabel("Lehrbetrieb")).toHaveValue("Beispiel AG");
               await expect(page.getByLabel("PLZ und Ort").nth(1)).toHaveValue("4500 Solothurn");
-              await expect(page.getByLabel("Betreff")).toHaveValue(
+              await expect(page.getByRole("textbox", { name: "Betreff", exact: true })).toHaveValue(
                 "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
               );
               await expect(page.getByLabel("Vorschau Anschreiben")).toBeVisible();
@@ -179,9 +179,10 @@ jobs:
               await seedCoreDossier(page);
               await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
 
+              await expect(page.getByText(/Gesamtdossier verfügbar, sobald .*Anschreiben/)).toBeVisible();
               const dossierCard = page.getByRole("button", { name: /Gesamtdossier herunterladen/ });
               await dossierCard.click();
-              await expect(page.getByText(/Noch nicht vollständig: Anschreiben/)).toBeVisible();
+              await expect(page.getByRole("dialog", { name: "Dossier herunterladen" })).toHaveCount(0);
 
               await page.evaluate((letter) => {
                 localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
