@@ -614,4 +614,45 @@ test.describe("M5.8 dossier regression", () => {
     expect(path).not.toBeNull();
     expect((await stat(path ?? "")).size).toBeGreaterThan(10_000);
   });
+
+  test("card-template sidebar clears the header and stays inside the card", async ({ page }) => {
+    await seedCv(page, { layout: "modern" });
+    await page.evaluate(() => {
+      const saved = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "{}");
+      saved.data = { ...saved.data, titel: "Lebenslauf" };
+      saved.design = {
+        ...saved.design,
+        template: "neon",
+        colors: { bg: "#09071f", primary: "#7c3aed", accent: "#ec4899" },
+      };
+      localStorage.setItem("lebenslauf:v1", JSON.stringify(saved));
+      window.location.reload();
+    });
+    await page.waitForLoadState("domcontentloaded");
+
+    const sheet = previewRoot(page).locator('[data-cv-page="0"]');
+    await sheet.waitFor({ state: "visible" });
+    const sidebar = sheet.locator("[data-cv-sidebar]");
+    const header = sheet.locator("[data-cv-main] [data-cv-header]").first();
+    const main = sheet.locator("[data-cv-main]");
+    await expect(sidebar).toBeVisible();
+    await expect(header).toBeVisible();
+
+    const geometry = await Promise.all([
+      sheet.boundingBox(),
+      sidebar.boundingBox(),
+      header.boundingBox(),
+      main.boundingBox(),
+    ]);
+    const [sheetBox, sidebarBox, headerBox, mainBox] = geometry;
+    expect(sheetBox).not.toBeNull();
+    expect(sidebarBox).not.toBeNull();
+    expect(headerBox).not.toBeNull();
+    expect(mainBox).not.toBeNull();
+
+    expect(sidebarBox!.x).toBeGreaterThan(sheetBox!.x + 1);
+    expect(sidebarBox!.y).toBeGreaterThanOrEqual(headerBox!.y + headerBox!.height - 1.5);
+    expect(sidebarBox!.x + sidebarBox!.width).toBeLessThanOrEqual(mainBox!.x + 1.5);
+    await expect(sheet.getByText("Lebenslauf", { exact: true })).toBeVisible();
+  });
 });

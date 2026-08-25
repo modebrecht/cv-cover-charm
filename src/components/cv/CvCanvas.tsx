@@ -2078,6 +2078,16 @@ export function CvCanvas({
     // Die getönte Papierspalte beginnt erst unter dem Kopfband, damit dieses
     // über die ganze Breite sichtbar bleibt.
     const surface = cvSurface(frame, pageIndex, layout, sidebarPct);
+    const contentBox = cvContentBox(frame, pageIndex, layout, sidebarPct);
+    // Card-Vorlagen tragen den Kopf bewusst auf der farbigen Oberzone. Die
+    // Sidebar darf diese Komposition auf Seite 1 weder links anschneiden noch
+    // vertikal hineinragen. Ab Seite 2 gilt wieder die normale Kartenfläche.
+    const cardHeaderClearanceMm =
+      frame.id === "card" && pageIndex === 0 && !personLayoutCustomized
+        ? contentBox.top + 32
+        : surface.top;
+    const sidebarTopMm = onColumn ? 0 : Math.max(surface.top, cardHeaderClearanceMm);
+    const sidebarLeftMm = onColumn ? 0 : frame.id === "card" ? surface.left : 0;
     const {
       hasContact,
       hasSchool,
@@ -2102,8 +2112,8 @@ export function CvCanvas({
         data-cv-sidebar
         style={{
           position: "absolute",
-          left: 0,
-          top: onColumn ? 0 : `${surface.top}mm`,
+          left: `${sidebarLeftMm}mm`,
+          top: `${sidebarTopMm}mm`,
           bottom: onColumn ? 0 : `${surface.bottom}mm`,
           width: `${sidebarWidth}mm`,
           padding: onColumn
