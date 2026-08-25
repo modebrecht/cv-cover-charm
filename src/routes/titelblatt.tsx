@@ -192,6 +192,7 @@ function sanitizeCustoms(raw: unknown): CustomField[] {
     .filter((c): c is Record<string, unknown> => !!c && typeof c === "object")
     .map((c, i) => {
       const shape = (["circle", "rect", "line", "path"] as const).find((k) => k === c.shape);
+      // Ältere Entwürfe kennen `kind` noch nicht – dort entscheidet `shape`.
       const kind =
         (["text", "shape", "image"] as const).find((k) => k === c.kind) ??
         (shape ? "shape" : "text");
@@ -203,6 +204,8 @@ function sanitizeCustoms(raw: unknown): CustomField[] {
         kind,
         shape,
         path: typeof c.path === "string" ? c.path : undefined,
+        // nur Data-URLs übernehmen: ein importierter http-Link würde beim
+        // PDF-Export als leere Fläche enden
         src:
           typeof c.src === "string" && c.src.startsWith("data:")
             ? c.src
@@ -228,9 +231,13 @@ function Titelblatt() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(true);
   const [drawing, setDrawing] = useState(false);
+  /** Zweiter Klick bestätigt das Leeren – das Formular ist sonst weg. */
   const [confirmReset, setConfirmReset] = useState(false);
+  /** Dasselbe für "Alles zurücksetzen" im Menü oben rechts. */
   const [confirmWipe, setConfirmWipe] = useState(false);
+  /** … und für die Demo-Daten, die alle Eingaben überschreiben. */
   const [confirmDemo, setConfirmDemo] = useState(false);
+  /** Die Liste der früheren Stände ist zugeklappt, bis man sie aufruft. */
   const [historyOpen, setHistoryOpen] = useState(false);
   const [zoom, setZoom] = useState<number>(PREVIEW.ZOOM_DEFAULT);
   const [history, setHistory] = useState<Snapshot[]>([]);
@@ -242,6 +249,7 @@ function Titelblatt() {
   const [status, setStatus] = useState<{
     kind: "ok" | "error";
     text: string;
+    /** Optionale Sofort-Rücknahme, z. B. nach dem Entfernen eines Elements. */
     undo?: () => void;
   } | null>(null);
   const [open, setOpen] = useState<Record<SectionKey, boolean>>({
@@ -294,6 +302,7 @@ function Titelblatt() {
     : "Zuerst den Lebenslauf bearbeiten.";
 
   const toggleSection = (key: SectionKey) => setOpen((o) => ({ ...o, [key]: !o[key] }));
+
   const patch = (p: Partial<CoverData>) => setData((d) => ({ ...d, ...p }));
   const setColor = (key: string, value: string) =>
     setColorsByTemplate((c) => ({ ...c, [template]: { ...c[template], [key]: value } }));
@@ -320,6 +329,12 @@ function Titelblatt() {
     setDocumentFont(null);
   };
 
+  /**
+   * Alle Positionen zurück auf die Vorlage – über *alle* Vorlagen hinweg.
+   *
+   * Die Überschreibungen enthalten auch `hidden`; entfernte Elemente wie der
+   * Fotorahmen kommen damit von selbst zurück.
+   */
   const resetAllLayouts = useCallback(() => {
     setLayoutByTemplate(allEmptyLayouts());
     setFontScale(FONT.DEFAULT_SCALE);
@@ -327,6 +342,11 @@ function Titelblatt() {
     setSelected(null);
   }, []);
 
+  /**
+   * Trennlinie über die ganze Textbreite. Technisch dieselbe Form wie "Linie",
+   * nur breit voreingestellt – als Trenner über Fussangaben der Normalfall.
+   */
+  /** Ein fertig gebautes Element einhängen: Inhalt speichern, Stil anlegen. */
   const place = ({ field, style }: NewElement) => {
     setCustoms((c) => [...c, field]);
     if (style) patchStyle(field.id, style);
@@ -357,11 +377,16 @@ function Titelblatt() {
     );
   };
 
+  /**
+   * Bild-Element einfügen. Das Bewerbungsfoto bleibt ein eigener Block der
+   * Vorlage; hierüber lassen sich beliebig viele weitere Bilder platzieren.
+   */
   const addImage = () => {
     place(newImageElement(customs));
     setStatus({ kind: "ok", text: "Bild-Element eingefügt – unten „Bild wählen“." });
   };
 
+  /** Datei in ein Bild-Element laden (null leert es wieder). */
   const pickImage = async (id: string, file: File | null) => {
     if (!file) {
       patchCustom(id, { src: null });
@@ -382,6 +407,13 @@ function Titelblatt() {
   const patchCustom = (id: string, p: Partial<CustomField>) =>
     setCustoms((c) => c.map((f) => (f.id === id ? { ...f, ...p } : f)));
 
+  /**
+   * Element entfernen – mit Rücknahme.
+   *
+   * Selbst eingefügte Elemente verschwinden ganz, Elemente der Vorlage werden
+   * nur ausgeblendet und lassen sich jederzeit wieder einblenden. Damit das
+   * niemand raten muss, sagt die Meldung es und bietet den Weg zurück an.
+   */
   const removeBlock = (block: Block) => {
     setSelected(null);
     const own = customs.find((c) => c.id === block.id);
@@ -445,6 +477,7 @@ function Titelblatt() {
   }, []);
   const closeDossierReview = useCallback(() => setDossierReviewOpen(false), []);
 
+  /** Dokumentinfos, die im PDF landen, wenn das Feld leer bleibt. */
   const autoMeta: PdfMeta = useMemo(() => {
     const name = [data.vorname, data.nachname].filter(Boolean).join(" ");
     const titel = ["Titelblatt", name].filter(Boolean).join(" – ");
@@ -460,6 +493,8 @@ function Titelblatt() {
   }, [data.vorname, data.nachname, data.beruf, data.kicker, data.lehrbetrieb, data.ort]);
 
   const hiddenBlocks = blocks.filter((b) => b.style.hidden);
+  // Intern bleibt 1.2 der bewährte Vorlagen-Standard. Für Nutzende ist dieser
+  // Wert aber schlicht 100 %, damit der Regler wie ein normaler Zoom/Skalierungsregler funktioniert.
   const fontScaleUi = fontScale / FONT.DEFAULT_SCALE;
   const fontScalePercent = Math.round(fontScaleUi * 100);
 
@@ -476,12 +511,15 @@ function Titelblatt() {
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
+  // Menü zu heisst: beim nächsten Öffnen wieder mit zugeklappter Liste
+  // starten. Deckt auch die Fälle ab, in denen sich das Menü selbst schliesst.
   useEffect(() => {
     if (!menuOpen) setHistoryOpen(false);
   }, [menuOpen]);
 
   useEffect(() => {
     if (!status) return;
+    // Rücknahme braucht Lesezeit, blosse Bestätigungen nicht
     const t = setTimeout(() => setStatus(null), status.undo ? 9000 : 4000);
     return () => clearTimeout(t);
   }, [status]);
@@ -502,6 +540,7 @@ function Titelblatt() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  // Vorschau soll ohne Scrollen ganz sichtbar sein.
   useEffect(() => {
     const update = () => setFitHeight(window.innerHeight - 230);
     update();
@@ -509,6 +548,7 @@ function Titelblatt() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  /** Gespeicherten Entwurf in den Zustand holen. Gibt zurück, ob es einen gab. */
   const loadFromStorage = useCallback((): boolean => {
     let saved: string | null = null;
     try {
@@ -530,16 +570,20 @@ function Titelblatt() {
       setSaveState("saved");
       return true;
     } catch {
+      // beschädigter Entwurf – mit leerem Formular weitermachen
       return false;
     }
   }, [markWritten]);
 
+  // Entwurf laden (nach der Hydration, damit Server und Client übereinstimmen).
   useEffect(() => {
     restored.current = true;
     setHistory(readHistory(HISTORY_KEYS.cover));
     if (!loadFromStorage()) setData(prefill);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /** Den gespeicherten CV für Vorschau und gemeinsamen PDF-Export aktuell halten. */
   useEffect(() => {
     const refresh = () =>
       setStoredCvDocument(cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY)));
@@ -555,6 +599,11 @@ function Titelblatt() {
     };
   }, []);
 
+  /*
+   * Zurück im Tab: hat inzwischen ein anderes Fenster geschrieben, gilt dessen
+   * Stand. Ein schlafender Tab hat nichts Neues beizutragen – sein alter
+   * Zustand würde die frischere Arbeit sonst überschreiben.
+   */
   useEffect(() => {
     if (!visible || !restored.current) return;
     if (changedElsewhere()) {
@@ -562,8 +611,10 @@ function Titelblatt() {
       setHistory(readHistory(HISTORY_KEYS.cover));
       setStatus({ kind: "ok", text: "Neuerer Stand aus einem anderen Fenster geladen" });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
+  /** Der laufende Entwurf, so wie er gespeichert bzw. exportiert wird. */
   const snapshotPayload = useCallback(
     () => ({
       version: SAVE_VERSION,
@@ -578,6 +629,13 @@ function Titelblatt() {
     [template, colorsByTemplate, layoutByTemplate, customs, fontScale, documentFont, data],
   );
 
+  /**
+   * Aktuellen Stand in die Historie legen.
+   *
+   * `force` vor jedem Zurücksetzen: dort zählt jeder Stand, auch wenn eben
+   * erst einer entstanden ist. Ein leeres Formular ist nichts wert und wird
+   * übersprungen.
+   */
   const keepSnapshot = useCallback(
     (label: string, force = false) => {
       const payload = snapshotPayload();
@@ -587,8 +645,11 @@ function Titelblatt() {
     [snapshotPayload],
   );
 
+  // Entwurf sichern
   useEffect(() => {
     if (!restored.current) return;
+    // Im Hintergrund nicht speichern – sonst überschreibt ein schlafender Tab
+    // die Arbeit des aktiven Fensters.
     if (!visible) return;
     setSaveState("saving");
     const id = setTimeout(() => {
@@ -598,13 +659,21 @@ function Titelblatt() {
         markWritten(text);
         setSaveState("saved");
       } catch {
+        // Speicher voll (z. B. sehr grosses Foto) – Bearbeiten geht trotzdem weiter
         setSaveState("error");
       }
+      // Nebenher einen Stand ohne Bilder ablegen. `pushSnapshot` bremst selbst,
+      // sonst entstünde bei jedem Tastendruck ein Eintrag.
       keepSnapshot("Automatisch");
     }, 400);
     return () => clearTimeout(id);
   }, [snapshotPayload, keepSnapshot, visible, markWritten]);
 
+  /*
+   * Beide Knöpfe setzen auch das Layout zurück. Sonst wirkt ein frisch
+   * gefülltes Blatt kaputt: verschobene Elemente von vorher bleiben stehen und
+   * ein entfernter Fotorahmen fehlt weiter, obwohl "neu angefangen" wurde.
+   */
   const loadDemo = () => {
     keepSnapshot("Vor den Demo-Daten", true);
     setData(prefill({ ...DEMO_DATA, datum: "", ort: "", kicker: "" }));
@@ -621,6 +690,7 @@ function Titelblatt() {
     setStatus({ kind: "ok", text: "Formular geleert – frühere Stände im Menü oben rechts" });
   };
 
+  /** Werkseinstellung: Eingaben, Layout, Farben, eigene Elemente, Vorlage. */
   const resetEverything = () => {
     keepSnapshot("Vor dem Zurücksetzen", true);
     setData(prefill(emptyData));
@@ -633,6 +703,12 @@ function Titelblatt() {
     setStatus({ kind: "ok", text: "Alles zurückgesetzt – frühere Stände im Menü oben rechts" });
   };
 
+  /**
+   * Früheren Stand laden. Der aktuelle wandert vorher in die Historie, damit
+   * das Zurückholen selbst nicht das Einzige ist, was man nicht rückgängig
+   * machen kann. Bilder fehlen in der Historie und bleiben deshalb, wie sie
+   * sind – sonst wäre ein hochgeladenes Foto beim Zurückholen plötzlich weg.
+   */
   const restoreSnapshot = (snap: Snapshot) => {
     keepSnapshot("Vor dem Zurückholen", true);
     const p = snap.payload as {
@@ -945,13 +1021,13 @@ function Titelblatt() {
                     disabled={!canDownloadDossierPdf}
                     title={
                       canDownloadDossierPdf
-                        ? "Titelblatt, Anschreiben und alle CV-Seiten gemeinsam herunterladen"
+                        ? "Titelblatt und alle CV-Seiten gemeinsam herunterladen"
                         : dossierPdfHint
                     }
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
                   >
                     <span>Ganzes Dossier als PDF</span>
-                    <span className="text-xs text-muted-foreground">Titelblatt + Anschreiben + CV</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
                   </button>
                   {!canDownloadDossierPdf ? (
                     <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
@@ -972,7 +1048,7 @@ function Titelblatt() {
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
                   >
                     <span>Dossier speichern</span>
-                    <span className="text-xs text-muted-foreground">Titelblatt + Anschreiben + CV</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
                   </button>
                   <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
                     <span>Dossier laden</span>
@@ -988,6 +1064,7 @@ function Titelblatt() {
                       }}
                     />
                   </label>
+                  {/* Demo überschreibt Eingaben und Positionen – darum die Rückfrage */}
                   {confirmDemo ? (
                     <div className="flex items-center gap-1 border-t bg-accent/40 px-3 py-2">
                       <span className="mr-auto text-xs font-medium">Beispieldaten übernehmen?</span>
@@ -1025,6 +1102,7 @@ function Titelblatt() {
                     <span className="text-xs text-muted-foreground">Layout</span>
                   </button>
 
+                  {/* Werkseinstellung – zweistufig, weil dabei alles verloren geht */}
                   {confirmWipe ? (
                     <div className="flex items-center gap-1 border-t bg-destructive/5 px-3 py-2">
                       <span className="mr-auto text-xs font-medium text-destructive">
@@ -1055,6 +1133,13 @@ function Titelblatt() {
                     </button>
                   )}
 
+                  {/*
+                    Ganz unten und zunächst zugeklappt: die Liste kann lang
+                    werden und würde die eigentlichen Menüpunkte nach unten
+                    drücken. Stände entstehen nebenher und vor jedem
+                    Zurücksetzen – wer versehentlich leert, holt sie hier
+                    zurück. Bilder sind darin nicht enthalten.
+                  */}
                   {history.length > 0 && (
                     <div className="border-t">
                       <button
@@ -1118,6 +1203,7 @@ function Titelblatt() {
       </header>
 
       <div className="relative flex min-h-0 flex-1">
+        {/* Formular-Panel: schiebt sich nach links raus, die Vorschau wächst nach */}
         <ResizableEditorPanel open={panelOpen}>
           <div className="flex w-[min(92vw,420px)] max-w-full flex-col gap-3 p-3 sm:w-full">
             <div className="flex items-center justify-between gap-2 px-1">
@@ -1187,6 +1273,8 @@ function Titelblatt() {
                 data={data}
                 onChange={(p) => {
                   patch(p);
+                  // Wer ein Foto hochlädt, will es auch sehen – ein zuvor
+                  // ausgeblendeter Fotorahmen kommt dafür zurück.
                   if (p.foto && photoBlock?.style.hidden) {
                     patchStyle(photoBlock.id, { hidden: false });
                   }
@@ -1341,6 +1429,7 @@ function Titelblatt() {
           </div>
         </ResizableEditorPanel>
 
+        {/* Backdrop auf kleinen Screens – bedienbar ist auch der Button oben */}
         {panelOpen && (
           <div
             aria-hidden
@@ -1369,6 +1458,7 @@ function Titelblatt() {
             </div>
           </div>
 
+          {/* Werkzeugleiste unter dem Blatt – verdeckt nie das Element selbst */}
           <div className="shrink-0 px-2 pb-3 pt-2 lg:px-6">
             <div className="mx-auto w-full max-w-[900px]">
               {drawing ? (
@@ -1399,6 +1489,9 @@ function Titelblatt() {
                   }
                   onDelete={() => removeBlock(selectedBlock)}
                   hasPhoto={!!data.foto}
+                  // eigene Elemente dürfen ein Bild tragen – beim Textfeld
+                  // liegt es hinter dem Text, beim Bild-Element ist es das
+                  // Element selbst
                   onPickImage={
                     selectedCustom && customKind(selectedCustom) !== "shape"
                       ? (file) => pickImage(selectedCustom.id, file)
@@ -1414,6 +1507,12 @@ function Titelblatt() {
                   <span className="text-sm text-muted-foreground">
                     Element antippen zum Anpassen, ziehen zum Verschieben.
                   </span>
+
+                  {/*
+                    Ausgeblendetes direkt hier anbieten und nicht nur tief im
+                    Formular: Wer ein Element entfernt, sucht den Weg zurück
+                    genau an dieser Stelle.
+                  */}
                   {hiddenBlocks.length > 0 && (
                     <div className="flex flex-wrap items-center gap-1">
                       {hiddenBlocks.map((b) => (
@@ -1462,6 +1561,7 @@ function Titelblatt() {
         </main>
       </div>
 
+      {/* Unskalierte 1:1-Kopie für den PDF-Export */}
       <div
         aria-hidden
         style={{
