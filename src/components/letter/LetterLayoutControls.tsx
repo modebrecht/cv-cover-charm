@@ -51,7 +51,8 @@ export function LetterLayoutControls({
   return (
     <div className="grid gap-2.5">
       <p className="text-xs leading-relaxed text-muted-foreground">
-        Standardmässig bleibt alles links. Einzelne Kopfbereiche kannst du bewusst nach rechts setzen.
+        Standardmässig bleibt alles links. Einzelne Kopfbereiche kannst du bewusst nach rechts
+        setzen.
       </p>
 
       <AlignmentRow

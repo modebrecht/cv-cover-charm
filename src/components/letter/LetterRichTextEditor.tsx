@@ -110,7 +110,8 @@ export function LetterRichTextEditor({
       <div className="relative">
         {empty ? (
           <div className="pointer-events-none absolute left-3 top-2.5 max-w-[90%] text-sm leading-relaxed text-muted-foreground/70">
-            Warum möchtest du diesen Beruf lernen? Warum passt dieser Betrieb zu dir? Was bringst du mit?
+            Warum möchtest du diesen Beruf lernen? Warum passt dieser Betrieb zu dir? Was bringst du
+            mit?
           </div>
         ) : null}
         <div
@@ -131,7 +132,8 @@ export function LetterRichTextEditor({
         />
       </div>
       <p className="text-[11px] leading-relaxed text-muted-foreground">
-        Markiere Text und wähle Fett, Kursiv oder Unterstrichen. Mit ─ fügst du an der Cursorposition eine Trennlinie ein.
+        Markiere Text und wähle Fett, Kursiv oder Unterstrichen. Mit ─ fügst du an der
+        Cursorposition eine Trennlinie ein.
       </p>
     </div>
   );

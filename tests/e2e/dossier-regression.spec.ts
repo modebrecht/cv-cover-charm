@@ -557,7 +557,7 @@ test.describe("M5.8 dossier regression", () => {
 
     await page.getByRole("button", { name: "Aus Dossier übernehmen" }).click();
     await expect(page.getByLabel("Lehrbetrieb")).toHaveValue("Neue Beispiel AG");
-    await expect(body).toHaveValue(preservedBody);
+    await expect(body).toHaveText(preservedBody);
     await expect
       .poll(() =>
         page.evaluate(
@@ -565,6 +565,75 @@ test.describe("M5.8 dossier regression", () => {
         ),
       )
       .toBe(preservedBody);
+  });
+
+  test("letter layout controls and rich text formatting persist", async ({ page }) => {
+    await seedCoreDossier(page);
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    // Das Feld wird erst clientseitig aus dem Dossier befüllt und ist damit unser Hydration-Signal.
+    await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
+
+    await page.getByRole("button", { name: "Absender Rechts" }).click();
+    await page.getByRole("button", { name: "Empfänger Rechts" }).click();
+    await page.getByRole("button", { name: "Ort & Datum Rechts" }).click();
+    await page.getByLabel("Trennlinie nach Absender").check();
+    await page.getByLabel("Trennlinie nach Empfänger").check();
+
+    const preview = page.getByLabel("Vorschau Anschreiben");
+    await expect(preview.locator('[data-letter-section="sender"]')).toHaveCSS(
+      "text-align",
+      "right",
+    );
+    await expect(preview.locator('[data-letter-section="recipient"]')).toHaveCSS(
+      "text-align",
+      "right",
+    );
+    await expect(preview.locator('[data-letter-section="date"]')).toHaveCSS("text-align", "right");
+    await expect(preview.locator('[data-letter-pdf-rule="sender"]')).toBeVisible();
+    await expect(preview.locator('[data-letter-pdf-rule="recipient"]')).toBeVisible();
+
+    const body = page.getByRole("textbox", { name: "Brieftext" });
+    await body.fill("Formatiert");
+    await body.press("Control+A");
+    await page.getByRole("button", { name: "Fett" }).click();
+    await page.getByRole("button", { name: "Kursiv" }).click();
+    await page.getByRole("button", { name: "Unterstrichen" }).click();
+    await body.click();
+    await body.press("End");
+    await page.getByRole("button", { name: "Trennlinie einfügen" }).click();
+
+    await expect(preview.locator('[data-letter-pdf-richtext="body"] strong')).toContainText(
+      "Formatiert",
+    );
+    await expect(preview.locator('[data-letter-pdf-richtext="body"] em')).toContainText(
+      "Formatiert",
+    );
+    await expect(preview.locator('[data-letter-pdf-richtext="body"] u')).toContainText(
+      "Formatiert",
+    );
+    await expect(preview.locator('[data-letter-pdf-richtext="body"] hr')).toHaveCount(1);
+    await expect(page.getByRole("button", { name: "Formatierung entfernen" })).toBeVisible();
+
+    await expect
+      .poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}")))
+      .toMatchObject({
+        design: {
+          senderAlign: "right",
+          recipientAlign: "right",
+          dateAlign: "right",
+          ruleAfterSender: true,
+          ruleAfterRecipient: true,
+        },
+        data: { text: "Formatiert" },
+      });
+
+    const saved = await page.evaluate(
+      () => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}").data?.richTextHtml ?? "",
+    );
+    expect(saved).toContain("<strong>");
+    expect(saved).toContain("<em>");
+    expect(saved).toContain("<u>");
+    expect(saved).toContain("<hr>");
   });
 
   test("start screen requires the letter, reads fresh storage and downloads cover-letter-CV in order", async ({

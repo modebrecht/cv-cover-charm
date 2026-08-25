@@ -1,6 +1,7 @@
 import { FONT_STACKS, type TemplateId } from "@/components/cover/types";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import type { LetterData, LetterDesign } from "./types";
+import { letterRichHtml, plainTextToRichHtml } from "./rich-text";
 
 type LetterLayout = {
   left: number;
@@ -414,6 +415,16 @@ function Lines({
   );
 }
 
+function Separator({ color, marker }: { color: string; marker: string }) {
+  return (
+    <hr
+      data-letter-pdf-rule={marker}
+      className="my-[4mm] border-0 border-t"
+      style={{ borderColor: color, opacity: 0.72 }}
+    />
+  );
+}
+
 export function LetterCanvas({
   data,
   design,
@@ -426,6 +437,18 @@ export function LetterCanvas({
   const layout = layoutFor(design.template);
   const palette = cvPalette(design.colors);
   const fontFamily = FONT_STACKS[design.font];
+  const senderAlign = design.senderAlign ?? "left";
+  const recipientAlign = design.recipientAlign ?? "left";
+  const dateAlign = design.dateAlign ?? "left";
+  const placeholder =
+    "Hier entsteht dein persönliches Anschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.";
+  const bodyHtml = data.richTextHtml?.trim()
+    ? letterRichHtml(data.richTextHtml, data.text)
+    : data.text
+      ? plainTextToRichHtml(data.text)
+      : exportMode
+        ? ""
+        : plainTextToRichHtml(placeholder);
 
   return (
     <article
@@ -448,7 +471,11 @@ export function LetterCanvas({
           lineHeight: 1.48,
         }}
       >
-        <div className="flex min-h-[26mm] justify-between gap-8 text-[9.5pt] leading-[1.45]">
+        <div
+          data-letter-section="sender"
+          className="text-[9.5pt] leading-[1.45]"
+          style={{ textAlign: senderAlign }}
+        >
           <div data-letter-pdf-text="sender">
             <Lines
               values={[
@@ -458,23 +485,18 @@ export function LetterCanvas({
                 data.absenderTelefon,
                 data.absenderEmail,
               ]}
-            />
-          </div>
-          <div
-            data-letter-pdf-text="date"
-            className="min-w-[45mm] text-right"
-            style={{ color: palette.muted }}
-          >
-            <Lines
-              values={[
-                data.ort && data.datum ? `${data.ort}, ${data.datum}` : data.ort || data.datum,
-              ]}
-              align="right"
+              align={senderAlign}
             />
           </div>
         </div>
 
-        <div className="mt-[7mm] min-h-[29mm] text-[10pt] leading-[1.45]">
+        {design.ruleAfterSender ? <Separator color={palette.accent} marker="sender" /> : null}
+
+        <div
+          data-letter-section="recipient"
+          className="mt-[6mm] min-h-[24mm] text-[10pt] leading-[1.45]"
+          style={{ textAlign: recipientAlign }}
+        >
           <div data-letter-pdf-text="recipient">
             <Lines
               values={[
@@ -483,8 +505,25 @@ export function LetterCanvas({
                 data.empfaengerAdresse,
                 data.empfaengerPlzOrt,
               ]}
+              align={recipientAlign}
             />
           </div>
+        </div>
+
+        {design.ruleAfterRecipient ? <Separator color={palette.accent} marker="recipient" /> : null}
+
+        <div
+          data-letter-section="date"
+          data-letter-pdf-text="date"
+          className="mt-[4mm] text-[9.5pt] leading-[1.45]"
+          style={{ color: palette.muted, textAlign: dateAlign }}
+        >
+          <Lines
+            values={[
+              data.ort && data.datum ? `${data.ort}, ${data.datum}` : data.ort || data.datum,
+            ]}
+            align={dateAlign}
+          />
         </div>
 
         <div className="mt-[7mm]">
@@ -501,14 +540,10 @@ export function LetterCanvas({
           </p>
 
           <div
-            data-letter-pdf-text="body"
-            className="whitespace-pre-line text-[10.5pt] leading-[1.55]"
-          >
-            {data.text ||
-              (exportMode
-                ? ""
-                : "Hier entsteht dein persönliches Anschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.")}
-          </div>
+            data-letter-pdf-richtext="body"
+            className="text-[10.5pt] leading-[1.55] [&_div]:min-h-[1.55em] [&_p]:min-h-[1.55em] [&_hr]:my-[5mm] [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-current [&_hr]:opacity-50"
+            dangerouslySetInnerHTML={{ __html: bodyHtml }}
+          />
 
           <div className="mt-[9mm]">
             <div data-letter-pdf-text="closing">

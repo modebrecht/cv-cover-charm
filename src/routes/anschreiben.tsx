@@ -9,6 +9,8 @@ import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/compone
 import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import { SaveStatus, type SaveState } from "@/components/dossier/SaveStatus";
 import { LetterCanvas } from "@/components/letter/LetterCanvas";
+import { LetterLayoutControls } from "@/components/letter/LetterLayoutControls";
+import { LetterRichTextEditor } from "@/components/letter/LetterRichTextEditor";
 import {
   mergeNonEmptyLetterData,
   readLetterDossierSource,
@@ -89,6 +91,7 @@ function Anschreiben() {
     uebernehmen: true,
     absender: true,
     empfaenger: true,
+    layout: true,
     brief: true,
     vorlage: false,
     farben: false,
@@ -130,7 +133,7 @@ function Anschreiben() {
       if (dossier.hasApplication) {
         setData((current) => mergeNonEmptyLetterData(current, dossier.applicationData));
       }
-      if (dossier.design) setDesign(dossier.design);
+      if (dossier.design) setDesign((current) => ({ ...current, ...dossier.design }));
 
       const automatic = [
         dossier.hasPersonal ? "persönliche Angaben" : null,
@@ -353,43 +356,106 @@ function Anschreiben() {
 
             <Section title="Absender" open={open.absender} onToggle={() => toggle("absender")}>
               <div className="grid gap-3">
-                <Field label="Vorname und Nachname" value={data.absenderName} onChange={(value) => patch({ absenderName: value })} />
-                <Field label="Adresse" value={data.absenderAdresse} onChange={(value) => patch({ absenderAdresse: value })} />
-                <Field label="PLZ und Ort" value={data.absenderPlzOrt} onChange={(value) => patch({ absenderPlzOrt: value })} />
-                <Field label="Telefon" value={data.absenderTelefon} onChange={(value) => patch({ absenderTelefon: value })} type="tel" />
-                <Field label="E-Mail" value={data.absenderEmail} onChange={(value) => patch({ absenderEmail: value })} type="email" />
+                <Field
+                  label="Vorname und Nachname"
+                  value={data.absenderName}
+                  onChange={(value) => patch({ absenderName: value })}
+                />
+                <Field
+                  label="Adresse"
+                  value={data.absenderAdresse}
+                  onChange={(value) => patch({ absenderAdresse: value })}
+                />
+                <Field
+                  label="PLZ und Ort"
+                  value={data.absenderPlzOrt}
+                  onChange={(value) => patch({ absenderPlzOrt: value })}
+                />
+                <Field
+                  label="Telefon"
+                  value={data.absenderTelefon}
+                  onChange={(value) => patch({ absenderTelefon: value })}
+                  type="tel"
+                />
+                <Field
+                  label="E-Mail"
+                  value={data.absenderEmail}
+                  onChange={(value) => patch({ absenderEmail: value })}
+                  type="email"
+                />
               </div>
             </Section>
 
             <Section title="Empfänger" open={open.empfaenger} onToggle={() => toggle("empfaenger")}>
               <div className="grid gap-3">
-                <Field label="Lehrbetrieb" value={data.empfaengerFirma} onChange={(value) => patch({ empfaengerFirma: value })} />
-                <Field label="Ansprechperson" value={data.empfaengerName} onChange={(value) => patch({ empfaengerName: value })} placeholder="z. B. Frau Anna Muster" />
-                <Field label="Adresse" value={data.empfaengerAdresse} onChange={(value) => patch({ empfaengerAdresse: value })} />
-                <Field label="PLZ und Ort" value={data.empfaengerPlzOrt} onChange={(value) => patch({ empfaengerPlzOrt: value })} />
+                <Field
+                  label="Lehrbetrieb"
+                  value={data.empfaengerFirma}
+                  onChange={(value) => patch({ empfaengerFirma: value })}
+                />
+                <Field
+                  label="Ansprechperson"
+                  value={data.empfaengerName}
+                  onChange={(value) => patch({ empfaengerName: value })}
+                  placeholder="z. B. Frau Anna Muster"
+                />
+                <Field
+                  label="Adresse"
+                  value={data.empfaengerAdresse}
+                  onChange={(value) => patch({ empfaengerAdresse: value })}
+                />
+                <Field
+                  label="PLZ und Ort"
+                  value={data.empfaengerPlzOrt}
+                  onChange={(value) => patch({ empfaengerPlzOrt: value })}
+                />
               </div>
+            </Section>
+
+            <Section title="Layout" open={open.layout} onToggle={() => toggle("layout")}>
+              <LetterLayoutControls
+                design={design}
+                onChange={(value) => setDesign((current) => ({ ...current, ...value }))}
+              />
             </Section>
 
             <Section title="Brief" open={open.brief} onToggle={() => toggle("brief")}>
               <div className="grid gap-3">
                 <div className="grid grid-cols-2 gap-2">
                   <Field label="Ort" value={data.ort} onChange={(value) => patch({ ort: value })} />
-                  <Field label="Datum" value={data.datum} onChange={(value) => patch({ datum: value })} placeholder="25.08.2026" />
-                </div>
-                <Field label="Betreff" value={data.betreff} onChange={(value) => patch({ betreff: value })} placeholder="Bewerbung um eine Lehrstelle als …" />
-                <Field label="Anrede" value={data.anrede} onChange={(value) => patch({ anrede: value })} />
-                <label className="block text-xs font-medium text-foreground">
-                  Brieftext
-                  <textarea
-                    value={data.text}
-                    onChange={(event) => patch({ text: event.target.value })}
-                    rows={14}
-                    placeholder="Warum möchtest du diesen Beruf lernen? Warum passt dieser Betrieb zu dir? Was bringst du mit?"
-                    className={`${inputClass} resize-y leading-relaxed`}
+                  <Field
+                    label="Datum"
+                    value={data.datum}
+                    onChange={(value) => patch({ datum: value })}
+                    placeholder="25.08.2026"
                   />
-                </label>
-                <Field label="Grussformel" value={data.gruss} onChange={(value) => patch({ gruss: value })} />
-                <Field label="Name unter der Unterschrift" value={data.unterschrift} onChange={(value) => patch({ unterschrift: value })} />
+                </div>
+                <Field
+                  label="Betreff"
+                  value={data.betreff}
+                  onChange={(value) => patch({ betreff: value })}
+                  placeholder="Bewerbung um eine Lehrstelle als …"
+                />
+                <Field
+                  label="Anrede"
+                  value={data.anrede}
+                  onChange={(value) => patch({ anrede: value })}
+                />
+                <LetterRichTextEditor
+                  text={data.text}
+                  richTextHtml={data.richTextHtml}
+                  onChange={({ text, richTextHtml }) => patch({ text, richTextHtml })}
+                />
+                <Field
+                  label="Grussformel"
+                  value={data.gruss}
+                  onChange={(value) => patch({ gruss: value })}
+                />
+                <Field
+                  label="Name unter der Unterschrift"
+                  value={data.unterschrift}
+                  onChange={(value) => patch({ unterschrift: value })}
+                />
               </div>
             </Section>
 
@@ -402,11 +468,17 @@ function Anschreiben() {
                 slots={template.slots}
                 colors={design.colors}
                 onChange={(key, value) =>
-                  setDesign((current) => ({ ...current, colors: { ...current.colors, [key]: value } }))
+                  setDesign((current) => ({
+                    ...current,
+                    colors: { ...current.colors, [key]: value },
+                  }))
                 }
                 onApplyPalette={(colors) => setDesign((current) => ({ ...current, colors }))}
                 onReset={() =>
-                  setDesign((current) => ({ ...current, colors: defaultLetterColors(current.template) }))
+                  setDesign((current) => ({
+                    ...current,
+                    colors: defaultLetterColors(current.template),
+                  }))
                 }
               />
             </Section>
