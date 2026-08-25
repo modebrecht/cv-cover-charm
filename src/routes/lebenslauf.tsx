@@ -121,15 +121,6 @@ export const Route = createFileRoute("/lebenslauf")({
 const STORAGE_KEY = CV_STORAGE_KEY;
 const SAVE_VERSION = 6;
 const DESIGN_MIGRATION_VERSION = 5;
-
-/**
- * Vorgabe: 75 % Transparenz.
- *
- * Der Regler steuert nur noch die Zierde – Spalte, Band und Kartengrund einer
- * Bauform bleiben unabhängig davon voll deckend. Darum darf die Zierde wieder
- * sichtbar sein. Der frühere Wert von 6 % stammt aus der Zeit, als der
- * Hintergrund die Vorlage allein tragen musste und dabei unsichtbar wurde.
- */
 const DEFAULT_BG_OPACITY = 0.25;
 const LEGACY_DEFAULT_BG_OPACITIES = [0.06, 0.12];
 
@@ -143,22 +134,10 @@ type Saved = {
   data: CvData;
   design: CvDesign;
   elements: CustomField[];
-  /**
-   * Abweichungen vom Vorgabestil je eigenem Element.
-   *
-   * Das Titelblatt führt eine solche Ablage je Vorlage, weil dort jede Vorlage
-   * ein anderes Raster hat. Der Lebenslauf hat nur eines, darum reicht hier
-   * eine einzige.
-   */
   elementStyles?: StyleOverrides;
-  /** Titelblatt-Stand der letzten bewussten Übernahme. */
   coverFingerprint?: string | null;
 };
 
-/**
- * Alte Entwürfe trugen noch den deutlich kräftigeren damaligen Standardwert.
- * Nur diese bekannten Defaults werden migriert; bewusst gewählte Werte bleiben erhalten.
- */
 function migratedDesign(current: CvDesign, incoming: CvDesign, version?: number): CvDesign {
   const merged = { ...current, ...incoming };
   if (!merged.font || !(merged.font in FONT_LABELS)) delete merged.font;
@@ -174,7 +153,6 @@ function migratedDesign(current: CvDesign, incoming: CvDesign, version?: number)
   return merged;
 }
 
-/** Trägt der Lebenslauf überhaupt Inhalt? Leere Stände sind nichts wert. */
 function cvHasContent(d: CvData): boolean {
   if (!d) return false;
   const p = d.person ?? {};
@@ -192,10 +170,6 @@ function cvHasContent(d: CvData): boolean {
   );
 }
 
-/**
- * Im schmalen Rubriken-Formular bleibt nur die Kurzform sichtbar. Der native
- * Auswahldialog verwendet trotzdem die verständlichen, ausgeschriebenen Namen.
- */
 function CompactPageSelect({
   page,
   label,
@@ -255,7 +229,6 @@ function Lebenslauf() {
   const [status, setStatus] = useState<{
     kind: "ok" | "error";
     text: string;
-    /** Rücknahme, z. B. nach dem Löschen eines Elements. */
     undo?: () => void;
   } | null>(null);
   const [saveState, setSaveState] = useState<SaveState>("idle");
@@ -277,9 +250,7 @@ function Lebenslauf() {
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  /** Zweiter Klick bestätigt "Alles zurücksetzen" – sonst wäre alles weg. */
   const [confirmWipe, setConfirmWipe] = useState(false);
-  /** Beispieldaten überschreiben den aktuellen Inhalt und brauchen eine Rückfrage. */
   const [confirmDemo, setConfirmDemo] = useState(false);
 
   const visible = usePageVisible();
@@ -290,7 +261,6 @@ function Lebenslauf() {
   const menuRef = useRef<HTMLDivElement>(null);
   const restored = useRef(false);
 
-  /** Einen gespeicherten oder importierten Lebenslauf übernehmen. */
   const applySaved = useCallback((p: Partial<Saved>) => {
     if (p.data) setData({ ...emptyCv, ...p.data, person: { ...emptyCv.person, ...p.data.person } });
     if (p.design) setDesign((d) => migratedDesign(d, p.design!, p.version));
@@ -312,10 +282,6 @@ function Lebenslauf() {
     () => TEMPLATES.find((t) => t.id === design.template) ?? TEMPLATES[0],
     [design.template],
   );
-
-  /* ---------------------------------------------------------------------- */
-  /* Eigene Elemente – dieselbe Bedienung wie auf dem Titelblatt            */
-  /* ---------------------------------------------------------------------- */
 
   const blocks = useMemo(() => {
     const built = buildCustomBlocks(design.template, elements, elementStyles, activeTemplate.slots);
@@ -350,12 +316,9 @@ function Lebenslauf() {
   const patchCustom = (id: string, p: Partial<CustomField>) =>
     setElements((c) => c.map((f) => (f.id === id ? { ...f, ...p } : f)));
 
-  /** Ein fertig gebautes Element einhängen: Inhalt speichern, Stil anlegen. */
   const place = ({ field, style }: NewElement) => {
     setElements((c) => [...c, field]);
     if (style) patchStyle(field.id, style);
-    // Eigene Elemente sind nur sichtbar, wenn sie eingeschaltet sind. Ein neu
-    // eingefügtes Feld, das unsichtbar bleibt, wäre ein toter Knopf.
     setDesign((d) => (d.useElements ? d : { ...d, useElements: true }));
     setSelected(field.id);
   };
@@ -414,7 +377,6 @@ function Lebenslauf() {
     }
   };
 
-  /** Ein Element auf den Vorgabestil der Vorlage zurücksetzen. */
   const resetElement = (id: string) =>
     setElementStyles((s) => {
       const next = { ...s };
@@ -422,7 +384,6 @@ function Lebenslauf() {
       return next;
     });
 
-  /** Gespeicherten Lebenslauf übernehmen. Gibt zurück, ob es einen gab. */
   const loadFromStorage = useCallback((): boolean => {
     let saved: string | null = null;
     try {
@@ -442,7 +403,6 @@ function Lebenslauf() {
     }
   }, [markWritten, applySaved]);
 
-  /* ---------- Laden ---------- */
   useEffect(() => {
     restored.current = true;
     setHistory(readHistory(HISTORY_KEYS.cv));
@@ -451,8 +411,6 @@ function Lebenslauf() {
 
     if (loadFromStorage()) return;
 
-    // Erster Besuch: alles vom Titelblatt übernehmen – dieselbe Wirkung wie
-    // der Knopf mit allen Haken, damit beide Wege dasselbe Ergebnis liefern.
     if (draft) {
       setDesign((d) => ({
         ...d,
@@ -472,10 +430,8 @@ function Lebenslauf() {
       }
       setLastCoverFingerprint(coverDraftFingerprint(draft));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /* Zurück im Tab: ein anderes Fenster hat womöglich neuer geschrieben. */
   useEffect(() => {
     if (!visible || !restored.current) return;
     if (changedElsewhere()) {
@@ -483,13 +439,8 @@ function Lebenslauf() {
       setHistory(readHistory(HISTORY_KEYS.cv));
       setStatus({ kind: "ok", text: "Neuerer Stand aus einem anderen Fenster geladen" });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
-  /**
-   * Das Titelblatt hat einen eigenen Speicher. Beim Zurückkehren in den Tab
-   * und bei Änderungen aus einem zweiten Fenster den aktuellen Stand lesen.
-   */
   useEffect(() => {
     const refreshCover = () => {
       setCover(readCoverDraft());
@@ -507,7 +458,6 @@ function Lebenslauf() {
     };
   }, []);
 
-  /** Der laufende Lebenslauf, so wie er gespeichert bzw. exportiert wird. */
   const payload = useCallback(
     (): Saved => ({
       version: SAVE_VERSION,
@@ -520,7 +470,6 @@ function Lebenslauf() {
     [data, design, elements, elementStyles, lastCoverFingerprint],
   );
 
-  /** Stand in die eigene Historie legen – die des Titelblatts bleibt unberührt. */
   const keepSnapshot = useCallback(
     (label: string, force = false) => {
       const p = payload();
@@ -532,7 +481,6 @@ function Lebenslauf() {
     [payload],
   );
 
-  /* ---------- Sichern ---------- */
   useEffect(() => {
     if (!restored.current) return;
     if (!visible) return;
@@ -544,7 +492,6 @@ function Lebenslauf() {
         markWritten(text);
         setSaveState("saved");
       } catch {
-        // Speicher voll – Bearbeiten geht weiter
         setSaveState("error");
       }
       keepSnapshot("Automatisch");
@@ -579,16 +526,6 @@ function Lebenslauf() {
     }
   }, [menuOpen]);
 
-  /**
-   * Schriftbild der Vorlage auf das Dokument legen.
-   *
-   * `dossier-theme.css` gestaltet den Lebenslauf über `--dossier-*` und
-   * `html[data-dossier-family]`. Gesetzt wurden diese Werte bisher nur beim
-   * Wechsel der Vorlage im Titelblatt – auf dieser Seite blieben sie deshalb
-   * auf der Familie "modern" stehen, egal welche Vorlage gewählt war. Jede
-   * Regel mit `!important` hat damit Moderns Typografie erzwungen, also genau
-   * das, was hier eigentlich von der Vorlage kommen soll.
-   */
   useEffect(() => {
     applyDossierTheme(design.template);
   }, [design.template]);
@@ -606,15 +543,6 @@ function Lebenslauf() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  /**
-   * Was vom Titelblatt übernommen wird.
-   *
-   * Vorher setzte der Knopf nur Vorlage und Farben. Die Formen wurden zwar
-   * kopiert, aber nicht eingeschaltet – sie blieben also unsichtbar –, und Foto
-   * und Angaben zur Person lagen hinter zwei weiteren Knöpfen an anderer
-   * Stelle. Ein Dossier wird davon nicht einheitlich; darum steht hier alles
-   * beisammen und ist einzeln abwählbar.
-   */
   const [takeover, setTakeover] = useState({
     template: true,
     colors: true,
@@ -669,8 +597,6 @@ function Lebenslauf() {
     if (takeover.elements) {
       setElements(draft.elements);
       setElementStyles({});
-      // Kopieren allein genügt nicht: ohne diesen Schalter werden die Formen
-      // nicht gezeichnet, und es sieht aus, als hätte der Knopf nichts getan.
       setDesign((d) => ({ ...d, useElements: draft.elements.length > 0 }));
       done.push(`Formen (${draft.elements.length})`);
     }
@@ -696,13 +622,6 @@ function Lebenslauf() {
     );
   }, [takeover]);
 
-  /**
-   * Rückmeldung direkt beim Knopf.
-   *
-   * Die Statuszeile steht oben in der Kopfzeile und ist auf schmalen Fenstern
-   * ausgeblendet – wer hier im Seitenteil klickte, sah gar nichts und hielt
-   * den Knopf für kaputt.
-   */
   const [personNote, setPersonNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
   useEffect(() => {
     if (!personNote) return;
@@ -738,10 +657,6 @@ function Lebenslauf() {
     setStatus({ kind: "ok", text: "Beispieldaten eingefügt" });
   };
 
-  /**
-   * Nur die frei veränderte Geometrie zurücknehmen. Seitenwahl, Rubrikenmodus,
-   * Farben, Texte, Rahmen und Ebenen bleiben bewusst erhalten.
-   */
   const resetPositionsOnly = () => {
     keepSnapshot("Vor dem Zurücksetzen der Positionen", true);
     setElementStyles((current) =>
@@ -770,13 +685,6 @@ function Lebenslauf() {
     setStatus({ kind: "ok", text: "Positionen und Grössen zurückgesetzt" });
   };
 
-  /**
-   * Ganzes Formular leeren – wie im Titelblatt.
-   *
-   * Der Stand wandert vorher in die Historie, damit ein Fehlgriff nicht
-   * endgültig ist. Die Gestaltung kommt wieder vom Titelblatt, sofern es eines
-   * gibt; sonst bleibt die aktuelle Vorlage stehen.
-   */
   const resetEverything = () => {
     keepSnapshot("Vor dem Zurücksetzen", true);
     const draft = readCoverDraft();
@@ -953,8 +861,6 @@ function Lebenslauf() {
       const next = normalizeCvSectionLayout({ ...previous, ...patch });
       let order = cvSectionOrder(current);
 
-      // Beim Seitenwechsel landet die Rubrik bewusst am Ende der Zielseite.
-      // Innerhalb der Zielseite kann sie anschliessend fein sortiert werden.
       if (patch.page && patch.page !== previous.page) {
         order = order.filter((candidate) => candidate !== key);
         const lastOnTarget = [...order]
@@ -1240,13 +1146,13 @@ function Lebenslauf() {
                     disabled={!canDownloadDossierPdf}
                     title={
                       canDownloadDossierPdf
-                        ? "Titelblatt und alle CV-Seiten gemeinsam herunterladen"
+                        ? "Titelblatt, Anschreiben und alle CV-Seiten gemeinsam herunterladen"
                         : dossierPdfHint
                     }
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
                   >
                     <span>Ganzes Dossier als PDF</span>
-                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + Anschreiben + CV</span>
                   </button>
                   {!canDownloadDossierPdf ? (
                     <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
@@ -1270,7 +1176,7 @@ function Lebenslauf() {
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
                   >
                     <span>Dossier speichern</span>
-                    <span className="text-xs text-muted-foreground">Titelblatt + CV</span>
+                    <span className="text-xs text-muted-foreground">Titelblatt + Anschreiben + CV</span>
                   </button>
                   <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
                     <span>Dossier laden</span>
@@ -1323,7 +1229,6 @@ function Lebenslauf() {
                     <span className="text-xs text-muted-foreground">Layout</span>
                   </button>
 
-                  {/* Wie im Titelblatt: zweistufig, weil dabei alles verloren geht. */}
                   {confirmWipe ? (
                     <div className="flex items-center gap-1 border-t bg-destructive/5 px-3 py-2">
                       <span className="mr-auto text-xs font-medium text-destructive">
@@ -2036,7 +1941,6 @@ function Lebenslauf() {
             </div>
           </div>
 
-          {/* Werkzeugleiste unter dem Blatt – wie auf dem Titelblatt. */}
           <div className="shrink-0 px-2 pb-3 pt-2 lg:px-6">
             <div className="mx-auto w-full max-w-[900px]">
               {drawing ? (
