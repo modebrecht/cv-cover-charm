@@ -33,8 +33,55 @@ function serializeNode(node: Node): string {
     const canonical = tag === "b" ? "strong" : tag === "i" ? "em" : tag;
     return `<${canonical}>${children}</${canonical}>`;
   }
-  if (ALLOWED_BLOCK.has(tag)) return `<div>${children || "<br>"}</div>`;
+  if (ALLOWED_BLOCK.has(tag)) {
+    const columns =
+      element.dataset.columns === "2" || element.dataset.columns === "3"
+        ? ` data-columns="${element.dataset.columns}"`
+        : "";
+    return `<div${columns}>${children || "<br>"}</div>`;
+  }
   return children;
+}
+
+function serializeTopLevelNodes(nodes: Node[]): string {
+  let output = "";
+  let inlineBuffer = "";
+
+  const flushInline = () => {
+    if (!inlineBuffer) return;
+    output += `<div>${inlineBuffer}</div>`;
+    inlineBuffer = "";
+  };
+
+  for (const node of nodes) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const raw = node.textContent ?? "";
+      if (raw.includes("\n")) {
+        flushInline();
+        for (const line of raw.replace(/\r/g, "").split("\n")) {
+          output += `<div>${line ? escapeHtml(line) : "<br>"}</div>`;
+        }
+        continue;
+      }
+      if (!raw.trim() && !inlineBuffer) continue;
+      inlineBuffer += serializeNode(node);
+      continue;
+    }
+
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const tag = (node as HTMLElement).tagName.toLowerCase();
+      if (ALLOWED_BLOCK.has(tag) || tag === "hr") {
+        flushInline();
+        output += serializeNode(node);
+        continue;
+      }
+    }
+
+    inlineBuffer += serializeNode(node);
+  }
+
+  flushInline();
+  return output;
 }
 
 /**
@@ -53,7 +100,7 @@ export function sanitizeLetterRichHtml(html: string): string {
 
   const template = document.createElement("template");
   template.innerHTML = html;
-  return Array.from(template.content.childNodes).map(serializeNode).join("");
+  return serializeTopLevelNodes(Array.from(template.content.childNodes));
 }
 
 function textFromNode(node: Node): string {

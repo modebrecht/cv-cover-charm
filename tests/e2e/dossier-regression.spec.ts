@@ -593,34 +593,45 @@ test.describe("M5.8 dossier regression", () => {
     await expect(preview.locator('[data-letter-pdf-rule="recipient"]')).toBeVisible();
 
     const body = page.getByRole("textbox", { name: "Brieftext" });
-    await body.fill("Formatiert");
-    await body.press("Control+A");
+    await body.fill("Erster Absatz");
+    await body.press("End");
+    await body.press("Enter");
+    await body.type("Formatiert zweiter Absatz");
+
+    await body.evaluate((editor) => {
+      const blocks = Array.from(editor.children).filter((element) =>
+        ["DIV", "P"].includes(element.tagName),
+      );
+      const target = blocks.at(-1) ?? editor;
+      const range = document.createRange();
+      range.selectNodeContents(target);
+      const selection = window.getSelection();
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+    });
     await page.getByRole("button", { name: "Fett" }).click();
     await page.getByRole("button", { name: "Kursiv" }).click();
     await page.getByRole("button", { name: "Unterstrichen" }).click();
-    await page.getByRole("button", { name: "3 Spalten" }).click();
-    await expect(page.getByRole("button", { name: "3 Spalten" })).toHaveAttribute(
+    await page.getByRole("button", { name: "2 Spalten" }).click();
+    await expect(page.getByRole("button", { name: "2 Spalten" })).toHaveAttribute(
       "aria-pressed",
       "true",
     );
+
+    const previewBody = preview.locator('[data-letter-pdf-richtext="body"]');
+    const previewBlocks = previewBody.locator(":scope > div");
+    await expect(previewBlocks).toHaveCount(2);
+    await expect(previewBlocks.nth(0)).not.toHaveAttribute("data-columns", /.+/);
+    await expect(previewBlocks.nth(1)).toHaveAttribute("data-columns", "2");
+    await expect(previewBlocks.nth(1)).toHaveCSS("column-count", "2");
+    await expect(previewBlocks.nth(1).locator("strong")).toContainText("Formatiert");
+    await expect(previewBlocks.nth(1).locator("em")).toContainText("Formatiert");
+    await expect(previewBlocks.nth(1).locator("u")).toContainText("Formatiert");
+
     await body.click();
     await body.press("End");
     await page.getByRole("button", { name: "Trennlinie einfügen" }).click();
-
-    await expect(preview.locator('[data-letter-pdf-richtext="body"] strong')).toContainText(
-      "Formatiert",
-    );
-    await expect(preview.locator('[data-letter-pdf-richtext="body"] em')).toContainText(
-      "Formatiert",
-    );
-    await expect(preview.locator('[data-letter-pdf-richtext="body"] u')).toContainText(
-      "Formatiert",
-    );
-    await expect(preview.locator('[data-letter-pdf-richtext="body"] hr')).toHaveCount(1);
-    await expect(preview.locator('[data-letter-pdf-richtext="body"]')).toHaveCSS(
-      "column-count",
-      "3",
-    );
+    await expect(previewBody.locator("hr")).toHaveCount(1);
     await expect(page.getByRole("button", { name: "Formatierung entfernen" })).toBeVisible();
 
     await expect
@@ -632,14 +643,14 @@ test.describe("M5.8 dossier regression", () => {
           dateAlign: "right",
           ruleAfterSender: true,
           ruleAfterRecipient: true,
-          bodyColumns: 3,
         },
-        data: { text: "Formatiert" },
+        data: { text: "Erster Absatz\nFormatiert zweiter Absatz" },
       });
 
     const saved = await page.evaluate(
       () => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}").data?.richTextHtml ?? "",
     );
+    expect(saved).toContain('data-columns="2"');
     expect(saved).toContain("<strong>");
     expect(saved).toContain("<em>");
     expect(saved).toContain("<u>");

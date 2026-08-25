@@ -29,7 +29,6 @@ export type LetterDesign = {
   template: TemplateId;
   colors: Record<string, string>;
   font: FontKey;
-  bodyColumns?: LetterBodyColumns;
   /** Briefspezifische Optionen sind optional, damit alte gespeicherte Designs kompatibel bleiben. */
   senderAlign?: LetterAlignment;
   recipientAlign?: LetterAlignment;
@@ -77,7 +76,6 @@ export function emptyLetterDesign(): LetterDesign {
     template,
     colors: defaultLetterColors(template),
     font: "sans",
-    bodyColumns: 1,
     senderAlign: "left",
     recipientAlign: "left",
     dateAlign: "left",
@@ -108,8 +106,6 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     template,
     colors,
     font,
-    bodyColumns:
-      incoming.bodyColumns === 2 || incoming.bodyColumns === 3 ? incoming.bodyColumns : 1,
     senderAlign: incoming.senderAlign === "right" ? "right" : "left",
     recipientAlign: incoming.recipientAlign === "right" ? "right" : "left",
     dateAlign: incoming.dateAlign === "right" ? "right" : "left",

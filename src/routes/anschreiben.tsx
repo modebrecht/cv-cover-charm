@@ -444,10 +444,6 @@ function Anschreiben() {
                 <LetterRichTextEditor
                   text={data.text}
                   richTextHtml={data.richTextHtml}
-                  columns={design.bodyColumns ?? 1}
-                  onColumnsChange={(bodyColumns) =>
-                    setDesign((current) => ({ ...current, bodyColumns }))
-                  }
                   onChange={({ text, richTextHtml }) => patch({ text, richTextHtml })}
                 />
                 <Field
