@@ -1,0 +1,53 @@
+name: One-time dossier copy cleanup
+
+on:
+  push:
+    branches:
+      - feature/anschreiben-dossier
+    paths:
+      - .github/workflows/one-time-dossier-copy-cleanup.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch-copy:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/anschreiben-dossier
+
+      - name: Replace only dossier copy
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          files = [Path('src/routes/titelblatt.tsx'), Path('src/routes/lebenslauf.tsx')]
+          old_tip = 'Titelblatt und alle CV-Seiten gemeinsam herunterladen'
+          new_tip = 'Titelblatt, Anschreiben und alle CV-Seiten gemeinsam herunterladen'
+          old_label = 'Titelblatt + CV'
+          new_label = 'Titelblatt + Anschreiben + CV'
+
+          for path in files:
+              text = path.read_text()
+              if text.count(old_tip) != 1:
+                  raise SystemExit(f'{path}: expected exactly 1 old tooltip, found {text.count(old_tip)}')
+              if text.count(old_label) != 2:
+                  raise SystemExit(f'{path}: expected exactly 2 old labels, found {text.count(old_label)}')
+              text = text.replace(old_tip, new_tip, 1).replace(old_label, new_label)
+              path.write_text(text)
+
+          Path('.github/workflows/one-time-dossier-copy-cleanup.yml').unlink()
+          PY
+
+          git diff --check
+
+      - name: Commit precise cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Update dossier menu copy for letter"
+          git push origin HEAD:feature/anschreiben-dossier
