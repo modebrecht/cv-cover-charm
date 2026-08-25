@@ -43,7 +43,7 @@ replace_once(
 replace_once(
     "src/components/letter/LetterRichTextEditor.tsx",
     '''        <button\n          type="button"\n          className={`${toolClass} underline`}\n          aria-label="Unterstrichen"\n          onMouseDown={(event) => event.preventDefault()}\n          onClick={() => command("underline")}\n        >\n          U\n        </button>\n        <button\n          type="button"\n          className={toolClass}\n          aria-label="Trennlinie einfügen"''',
-    '''        <button\n          type="button"\n          className={`${toolClass} underline`}\n          aria-label="Unterstrichen"\n          onMouseDown={(event) => event.preventDefault()}\n          onClick={() => command("underline")}\n        >\n          U\n        </button>\n        {([1, 2, 3] as const).map((count) => (\n          <button\n            key={count}\n            type="button"\n            className={`${toolClass} min-w-8 ${\n              columns === count ? "bg-primary text-primary-foreground hover:bg-primary/90" : ""\n            }`}\n            aria-label={`Brieftext ${count} ${count === 1 ? "Spalte" : "Spalten"}`}\n            aria-pressed={columns === count}\n            onMouseDown={(event) => event.preventDefault()}\n            onClick={() => onColumnsChange(count)}\n          >\n            {count}\n          </button>\n        ))}\n        <button\n          type="button"\n          className={toolClass}\n          aria-label="Trennlinie einfügen"''',
+    '''        <button\n          type="button"\n          className={`${toolClass} underline`}\n          aria-label="Unterstrichen"\n          onMouseDown={(event) => event.preventDefault()}\n          onClick={() => command("underline")}\n        >\n          U\n        </button>\n        {([1, 2, 3] as const).map((count) => (\n          <button\n            key={count}\n            type="button"\n            className={`${toolClass} min-w-8 ${\n              columns === count ? "bg-primary text-primary-foreground hover:bg-primary/90" : ""\n            }`}\n            aria-label={`${count} ${count === 1 ? "Spalte" : "Spalten"}`}\n            aria-pressed={columns === count}\n            onMouseDown={(event) => event.preventDefault()}\n            onClick={() => onColumnsChange(count)}\n          >\n            {count}\n          </button>\n        ))}\n        <button\n          type="button"\n          className={toolClass}\n          aria-label="Trennlinie einfügen"''',
 )
 replace_once(
     "src/components/letter/LetterRichTextEditor.tsx",
@@ -76,7 +76,7 @@ replace_once(
 replace_once(
     "tests/e2e/dossier-regression.spec.ts",
     '''    await page.getByRole("button", { name: "Unterstrichen" }).click();\n    await body.click();''',
-    '''    await page.getByRole("button", { name: "Unterstrichen" }).click();\n    await page.getByRole("button", { name: "Brieftext 3 Spalten" }).click();\n    await expect(page.getByRole("button", { name: "Brieftext 3 Spalten" })).toHaveAttribute(\n      "aria-pressed",\n      "true",\n    );\n    await body.click();''',
+    '''    await page.getByRole("button", { name: "Unterstrichen" }).click();\n    await page.getByRole("button", { name: "3 Spalten" }).click();\n    await expect(page.getByRole("button", { name: "3 Spalten" })).toHaveAttribute(\n      "aria-pressed",\n      "true",\n    );\n    await body.click();''',
 )
 replace_once(
     "tests/e2e/dossier-regression.spec.ts",
