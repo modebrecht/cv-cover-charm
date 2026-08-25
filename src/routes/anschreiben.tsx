@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { Section } from "@/components/cover/Section";
@@ -9,6 +9,11 @@ import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/compone
 import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import { SaveStatus, type SaveState } from "@/components/dossier/SaveStatus";
 import { LetterCanvas } from "@/components/letter/LetterCanvas";
+import {
+  mergeNonEmptyLetterData,
+  readLetterDossierSource,
+  type LetterDossierSource,
+} from "@/components/letter/dossier-transfer";
 import {
   EMPTY_LETTER,
   LETTER_STORAGE_KEY,
@@ -70,7 +75,18 @@ function Anschreiben() {
   const [hydrated, setHydrated] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
+  const [source, setSource] = useState<LetterDossierSource | null>(null);
+  const [transferNote, setTransferNote] = useState<{
+    kind: "ok" | "error";
+    text: string;
+  } | null>(null);
+  const [takeover, setTakeover] = useState({
+    personal: true,
+    application: true,
+    design: true,
+  });
   const [open, setOpen] = useState<Record<string, boolean>>({
+    uebernehmen: true,
     absender: true,
     empfaenger: true,
     brief: true,
@@ -79,23 +95,72 @@ function Anschreiben() {
     typo: false,
   });
 
+  const refreshSource = useCallback(() => {
+    const next = readLetterDossierSource();
+    setSource(next);
+    return next;
+  }, []);
+
   useEffect(() => {
+    const dossier = refreshSource();
+    let loadedLetter = false;
+
     try {
       const raw = window.localStorage.getItem(LETTER_STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as Partial<SavedLetter>;
         if (parsed.data && typeof parsed.data === "object") {
           setData({ ...EMPTY_LETTER, ...parsed.data });
+          loadedLetter = true;
         }
         if (parsed.design) setDesign(normalizeLetterDesign(parsed.design));
         setSaveState("saved");
       }
     } catch {
       setSaveState("error");
-    } finally {
-      setHydrated(true);
     }
-  }, []);
+
+    // Wie beim Lebenslauf: erster Besuch startet aus dem bereits vorhandenen
+    // Dossier. Ein später erneut geöffnetes Anschreiben bleibt dagegen exakt so,
+    // wie der Schüler es zuletzt gespeichert hat.
+    if (!loadedLetter) {
+      if (dossier.hasPersonal) {
+        setData((current) => mergeNonEmptyLetterData(current, dossier.personalData));
+      }
+      if (dossier.hasApplication) {
+        setData((current) => mergeNonEmptyLetterData(current, dossier.applicationData));
+      }
+      if (dossier.design) setDesign(dossier.design);
+
+      const automatic = [
+        dossier.hasPersonal ? "persönliche Angaben" : null,
+        dossier.hasApplication ? "Betriebsdaten" : null,
+        dossier.hasDesign ? "Design" : null,
+      ].filter(Boolean);
+      if (automatic.length) {
+        setTransferNote({
+          kind: "ok",
+          text: `Beim ersten Öffnen übernommen: ${automatic.join(", ")}.`,
+        });
+      }
+    }
+
+    setHydrated(true);
+  }, [refreshSource]);
+
+  useEffect(() => {
+    const refresh = () => refreshSource();
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === LETTER_STORAGE_KEY) return;
+      refresh();
+    };
+    window.addEventListener("focus", refresh);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, [refreshSource]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -112,6 +177,12 @@ function Anschreiben() {
     return () => window.clearTimeout(timer);
   }, [data, design, hydrated]);
 
+  useEffect(() => {
+    if (!transferNote) return;
+    const timer = window.setTimeout(() => setTransferNote(null), 6000);
+    return () => window.clearTimeout(timer);
+  }, [transferNote]);
+
   const template = useMemo(
     () => TEMPLATES.find((candidate) => candidate.id === design.template) ?? TEMPLATES[0],
     [design.template],
@@ -127,6 +198,35 @@ function Anschreiben() {
       colors: defaultLetterColors(next),
     }));
   };
+
+  const syncFromDossier = () => {
+    const dossier = refreshSource();
+    const done: string[] = [];
+
+    if (takeover.personal && dossier.hasPersonal) {
+      setData((current) => mergeNonEmptyLetterData(current, dossier.personalData));
+      done.push("persönliche Angaben");
+    }
+    if (takeover.application && dossier.hasApplication) {
+      setData((current) => mergeNonEmptyLetterData(current, dossier.applicationData));
+      done.push("Betriebsdaten");
+    }
+    if (takeover.design && dossier.design) {
+      setDesign(dossier.design);
+      done.push("Design");
+    }
+
+    setTransferNote(
+      done.length
+        ? { kind: "ok", text: `Übernommen: ${done.join(", ")}. Dein Brieftext bleibt erhalten.` }
+        : {
+            kind: "error",
+            text: "Für die Auswahl gibt es noch keine gespeicherten Angaben im Dossier.",
+          },
+    );
+  };
+
+  const anySource = !!source && (source.hasPersonal || source.hasApplication || source.hasDesign);
 
   return (
     <div className="flex h-screen min-h-0 flex-col overflow-hidden bg-background">
@@ -156,6 +256,100 @@ function Anschreiben() {
               Schreibe deinen Bewerbungsbrief hier. Das Layout bleibt bewusst ruhiger als beim
               Lebenslauf, damit längerer Text gut lesbar bleibt.
             </div>
+
+            <Section
+              title="Vom Dossier übernehmen"
+              open={open.uebernehmen}
+              onToggle={() => toggle("uebernehmen")}
+            >
+              <div className="grid gap-2.5">
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Aktualisiere Angaben aus Titelblatt oder Lebenslauf. Leere Quellfelder und dein
+                  eigentlicher Brieftext werden dabei nie gelöscht.
+                </p>
+
+                <label className="flex items-start gap-2 rounded-md border p-2.5 text-xs">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5"
+                    checked={takeover.personal}
+                    disabled={!source?.hasPersonal}
+                    onChange={(event) =>
+                      setTakeover((current) => ({ ...current, personal: event.target.checked }))
+                    }
+                  />
+                  <span>
+                    <span className="block font-medium">Persönliche Angaben</span>
+                    <span className="text-muted-foreground">
+                      Name, Adresse und Kontakt
+                      {source?.personalSource ? ` · aus ${source.personalSource}` : " · noch leer"}
+                    </span>
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-2 rounded-md border p-2.5 text-xs">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5"
+                    checked={takeover.application}
+                    disabled={!source?.hasApplication}
+                    onChange={(event) =>
+                      setTakeover((current) => ({ ...current, application: event.target.checked }))
+                    }
+                  />
+                  <span>
+                    <span className="block font-medium">Betrieb und Bewerbung</span>
+                    <span className="text-muted-foreground">
+                      Empfänger, Ort, Datum und Betreff
+                      {source?.applicationSource
+                        ? ` · aus ${source.applicationSource}`
+                        : " · noch leer"}
+                    </span>
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-2 rounded-md border p-2.5 text-xs">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5"
+                    checked={takeover.design}
+                    disabled={!source?.hasDesign}
+                    onChange={(event) =>
+                      setTakeover((current) => ({ ...current, design: event.target.checked }))
+                    }
+                  />
+                  <span>
+                    <span className="block font-medium">Design</span>
+                    <span className="text-muted-foreground">
+                      Vorlage, Farben und Schrift
+                      {source?.designSource ? ` · aus ${source.designSource}` : " · noch leer"}
+                    </span>
+                  </span>
+                </label>
+
+                <button
+                  type="button"
+                  onClick={syncFromDossier}
+                  disabled={!anySource}
+                  className="mt-1 rounded-md bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Aus Dossier übernehmen
+                </button>
+
+                {transferNote && (
+                  <div
+                    role="status"
+                    className={`rounded-md border px-3 py-2 text-xs ${
+                      transferNote.kind === "error"
+                        ? "border-destructive/40 text-destructive"
+                        : "border-border bg-muted/40 text-muted-foreground"
+                    }`}
+                  >
+                    {transferNote.text}
+                  </div>
+                )}
+              </div>
+            </Section>
 
             <Section title="Absender" open={open.absender} onToggle={() => toggle("absender")}>
               <div className="grid gap-3">
