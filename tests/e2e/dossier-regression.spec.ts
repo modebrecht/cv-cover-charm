@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { stat } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 
 const BASE_URL = "http://127.0.0.1:4173";
 const FAMILY_IDS = ["classic", "modern", "executive", "editorial"] as const;
@@ -613,6 +613,12 @@ test.describe("M5.8 dossier regression", () => {
     const path = await download.path();
     expect(path).not.toBeNull();
     expect((await stat(path ?? "")).size).toBeGreaterThan(10_000);
+
+    // Der Brief muss als echter PDF-Text vorliegen. Im alten Screenshot-Export
+    // kamen diese Inhalte nur als Bildpixel vor und tauchten im PDF-Quelltext nicht auf.
+    const pdfSource = (await readFile(path ?? "")).toString("latin1");
+    expect(pdfSource).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
+    expect(pdfSource).toContain("Guten Tag Herr Weber");
   });
 
   test("card-template sidebar clears the header and stays inside the card", async ({ page }) => {

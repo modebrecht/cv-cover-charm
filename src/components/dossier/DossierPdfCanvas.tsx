@@ -9,10 +9,7 @@ import {
   type CvPdfDocument,
   type LetterPdfDocument,
 } from "@/lib/dossier-pdf-document";
-import {
-  LETTER_STORAGE_KEY,
-  readStoredDossierPart,
-} from "@/lib/dossier-project";
+import { LETTER_STORAGE_KEY, readStoredDossierPart } from "@/lib/dossier-project";
 
 const ignoreSelection = () => {};
 const ignoreMove = () => {};
@@ -51,7 +48,7 @@ export const DossierPdfCanvas = forwardRef<
       ) : null}
       {storedLetter ? (
         <div data-dossier-document="letter">
-          <LetterCanvas data={storedLetter.data} design={storedLetter.design} />
+          <LetterCanvas data={storedLetter.data} design={storedLetter.design} exportMode />
         </div>
       ) : null}
       {cv ? (

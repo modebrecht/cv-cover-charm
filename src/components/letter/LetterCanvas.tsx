@@ -272,7 +272,10 @@ function LetterBackground({ design }: { design: LetterDesign }) {
       {(layout.footMm ?? 0) > 0 && (
         <div
           className="absolute inset-x-0 bottom-0"
-          style={{ height: `${layout.footMm}mm`, backgroundColor: template === "sonne" ? primary : accent }}
+          style={{
+            height: `${layout.footMm}mm`,
+            backgroundColor: template === "sonne" ? primary : accent,
+          }}
         />
       )}
 
@@ -411,19 +414,30 @@ function Lines({
   );
 }
 
-export function LetterCanvas({ data, design }: { data: LetterData; design: LetterDesign }) {
+export function LetterCanvas({
+  data,
+  design,
+  exportMode = false,
+}: {
+  data: LetterData;
+  design: LetterDesign;
+  exportMode?: boolean;
+}) {
   const layout = layoutFor(design.template);
   const palette = cvPalette(design.colors);
   const fontFamily = FONT_STACKS[design.font];
 
   return (
     <article
+      data-letter-page
+      data-letter-font={design.font}
       className="relative h-[1123px] w-[794px] overflow-hidden shadow-xl"
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
       aria-label="Vorschau Anschreiben"
     >
       <LetterBackground design={design} />
       <div
+        data-letter-text-layer
         className="absolute flex flex-col"
         style={{
           left: `${layout.left}mm`,
@@ -435,16 +449,22 @@ export function LetterCanvas({ data, design }: { data: LetterData; design: Lette
         }}
       >
         <div className="flex min-h-[26mm] justify-between gap-8 text-[9.5pt] leading-[1.45]">
-          <Lines
-            values={[
-              data.absenderName,
-              data.absenderAdresse,
-              data.absenderPlzOrt,
-              data.absenderTelefon,
-              data.absenderEmail,
-            ]}
-          />
-          <div className="min-w-[45mm] text-right" style={{ color: palette.muted }}>
+          <div data-letter-pdf-text="sender">
+            <Lines
+              values={[
+                data.absenderName,
+                data.absenderAdresse,
+                data.absenderPlzOrt,
+                data.absenderTelefon,
+                data.absenderEmail,
+              ]}
+            />
+          </div>
+          <div
+            data-letter-pdf-text="date"
+            className="min-w-[45mm] text-right"
+            style={{ color: palette.muted }}
+          >
             <Lines
               values={[
                 data.ort && data.datum ? `${data.ort}, ${data.datum}` : data.ort || data.datum,
@@ -455,34 +475,48 @@ export function LetterCanvas({ data, design }: { data: LetterData; design: Lette
         </div>
 
         <div className="mt-[7mm] min-h-[29mm] text-[10pt] leading-[1.45]">
-          <Lines
-            values={[
-              data.empfaengerFirma,
-              data.empfaengerName,
-              data.empfaengerAdresse,
-              data.empfaengerPlzOrt,
-            ]}
-          />
+          <div data-letter-pdf-text="recipient">
+            <Lines
+              values={[
+                data.empfaengerFirma,
+                data.empfaengerName,
+                data.empfaengerAdresse,
+                data.empfaengerPlzOrt,
+              ]}
+            />
+          </div>
         </div>
 
         <div className="mt-[7mm]">
           <div
+            data-letter-pdf-text="subject"
             className="mb-[8mm] border-b pb-[2.5mm] text-[12pt] font-semibold leading-tight"
             style={{ borderColor: palette.accent }}
           >
-            {data.betreff || "Bewerbung um eine Lehrstelle als …"}
+            {data.betreff || (exportMode ? "" : "Bewerbung um eine Lehrstelle als …")}
           </div>
 
-          <p className="mb-[5mm]">{data.anrede || "Guten Tag"}</p>
+          <p data-letter-pdf-text="salutation" className="mb-[5mm]">
+            {data.anrede || (exportMode ? "" : "Guten Tag")}
+          </p>
 
-          <div className="whitespace-pre-line text-[10.5pt] leading-[1.55]">
+          <div
+            data-letter-pdf-text="body"
+            className="whitespace-pre-line text-[10.5pt] leading-[1.55]"
+          >
             {data.text ||
-              "Hier entsteht dein persönliches Anschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst."}
+              (exportMode
+                ? ""
+                : "Hier entsteht dein persönliches Anschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.")}
           </div>
 
           <div className="mt-[9mm]">
-            <div>{data.gruss || "Freundliche Grüsse"}</div>
-            <div className="mt-[9mm] font-medium">{data.unterschrift || data.absenderName}</div>
+            <div data-letter-pdf-text="closing">
+              {data.gruss || (exportMode ? "" : "Freundliche Grüsse")}
+            </div>
+            <div data-letter-pdf-text="signature" className="mt-[9mm] font-medium">
+              {data.unterschrift || data.absenderName}
+            </div>
           </div>
         </div>
       </div>
