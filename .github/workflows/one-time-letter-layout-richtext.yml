@@ -22,23 +22,7 @@ jobs:
       - name: Apply migration
         run: python scripts/one-time-letter-layout-richtext.py
       - name: Wait for client hydration in new E2E
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          path = Path('tests/e2e/dossier-regression.spec.ts')
-          text = path.read_text()
-          old = '''    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
-
-    await page.getByRole("button", { name: "Absender Rechts" }).click();'''
-          new = '''    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
-    // Das Feld wird erst clientseitig aus dem Dossier befüllt und ist damit unser Hydration-Signal.
-    await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
-
-    await page.getByRole("button", { name: "Absender Rechts" }).click();'''
-          assert old in text
-          path.write_text(text.replace(old, new, 1))
-          PY
+        run: python scripts/one-time-letter-hydration-test.py
       - name: Format touched files
         run: |
           bunx prettier --write \
@@ -92,7 +76,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm .github/workflows/one-time-letter-layout-richtext.yml scripts/one-time-letter-layout-richtext.py
+          git rm .github/workflows/one-time-letter-layout-richtext.yml scripts/one-time-letter-layout-richtext.py scripts/one-time-letter-hydration-test.py
           git add src/components/letter src/routes/anschreiben.tsx src/lib/dossier-pdf.ts tests/e2e/dossier-regression.spec.ts
           git diff --cached --check
           git commit -m "Add flexible letter layout and rich text"
