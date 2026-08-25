@@ -13,7 +13,8 @@ import {
 type RecordLike = Record<string, unknown>;
 
 export type LetterDossierSource = {
-  data: Partial<LetterData>;
+  personalData: Partial<LetterData>;
+  applicationData: Partial<LetterData>;
   design: LetterDesign | null;
   hasPersonal: boolean;
   hasApplication: boolean;
@@ -109,7 +110,7 @@ export function readLetterDossierSource(): LetterDossierSource {
 
   const recipient = splitRecipientAddress(text(coverData, "betriebAdresse"));
   const beruf = text(coverData, "beruf");
-  const applicationFields: Partial<LetterData> = {
+  const applicationData: Partial<LetterData> = {
     empfaengerFirma: text(coverData, "lehrbetrieb"),
     empfaengerName: text(coverData, "ansprechperson"),
     empfaengerAdresse: recipient.address,
@@ -119,7 +120,7 @@ export function readLetterDossierSource(): LetterDossierSource {
     betreff: beruf ? `Bewerbung um eine Lehrstelle als ${beruf}` : "",
   };
 
-  const personalFields: Partial<LetterData> = {
+  const personalData: Partial<LetterData> = {
     absenderName: personalName,
     absenderAdresse: text(personalRecord, "adresse"),
     absenderPlzOrt: text(personalRecord, "plzOrt"),
@@ -128,14 +129,15 @@ export function readLetterDossierSource(): LetterDossierSource {
     unterschrift: personalName,
   };
 
-  const hasPersonal = Object.values(personalFields).some((value) => !!value);
-  const hasApplication = Object.values(applicationFields).some((value) => !!value);
+  const hasPersonal = Object.values(personalData).some((value) => !!value);
+  const hasApplication = Object.values(applicationData).some((value) => !!value);
   const fromCover = coverDesign(cover);
   const fromCv = cvDesign(cv);
   const design = fromCover ?? fromCv;
 
   return {
-    data: { ...personalFields, ...applicationFields },
+    personalData,
+    applicationData,
     design,
     hasPersonal,
     hasApplication,
