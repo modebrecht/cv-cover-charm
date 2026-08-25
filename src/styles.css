@@ -215,7 +215,7 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
   display: none !important;
 }
 
-/* Letter rich-text block columns */
+/* Letter rich-text Word-like blocks */
 [data-letter-rich-editor] > [data-columns="2"] {
   column-count: 2;
   column-gap: 1.25rem;
@@ -234,4 +234,56 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
 [data-letter-pdf-richtext] > [data-columns="3"] {
   column-count: 3;
   column-gap: 6mm;
+}
+
+[data-letter-rich-editor] > [data-list],
+[data-letter-pdf-richtext] > [data-list] {
+  position: relative;
+  padding-left: 1.35em;
+}
+
+[data-letter-rich-editor] > [data-list]::before,
+[data-letter-pdf-richtext] > [data-list]::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1em;
+  text-align: center;
+}
+
+[data-letter-rich-editor] > [data-list="bullet"]::before,
+[data-letter-pdf-richtext] > [data-list="bullet"]::before {
+  content: "•";
+}
+
+[data-letter-rich-editor] > [data-list="dash"]::before,
+[data-letter-pdf-richtext] > [data-list="dash"]::before {
+  content: "–";
+}
+
+[data-letter-rich-editor] > [data-list="plus"]::before,
+[data-letter-pdf-richtext] > [data-list="plus"]::before {
+  content: "+";
+}
+
+[data-letter-rich-editor] > [data-list="dot"]::before,
+[data-letter-pdf-richtext] > [data-list="dot"]::before {
+  content: "·";
+}
+
+[data-letter-rich-editor] table[data-letter-table],
+[data-letter-pdf-richtext] table[data-letter-table] {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 0.75em 0;
+}
+
+[data-letter-rich-editor] table[data-letter-table] td,
+[data-letter-pdf-richtext] table[data-letter-table] td {
+  min-width: 2em;
+  height: 2em;
+  padding: 0.28em 0.42em;
+  vertical-align: top;
+  border: 1px solid color-mix(in srgb, currentColor 38%, transparent);
 }

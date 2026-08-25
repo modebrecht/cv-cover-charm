@@ -1,5 +1,6 @@
 const ALLOWED_INLINE = new Set(["strong", "b", "em", "i", "u"]);
 const ALLOWED_BLOCK = new Set(["div", "p"]);
+const ALLOWED_LISTS = new Set(["bullet", "dash", "plus", "dot"]);
 
 function escapeHtml(value: string): string {
   return value
@@ -19,6 +20,17 @@ export function plainTextToRichHtml(text: string): string {
     .join("");
 }
 
+function blockAttributes(element: HTMLElement): string {
+  const attributes: string[] = [];
+  if (element.dataset.columns === "2" || element.dataset.columns === "3") {
+    attributes.push(`data-columns="${element.dataset.columns}"`);
+  }
+  if (element.dataset.list && ALLOWED_LISTS.has(element.dataset.list)) {
+    attributes.push(`data-list="${element.dataset.list}"`);
+  }
+  return attributes.length ? ` ${attributes.join(" ")}` : "";
+}
+
 function serializeNode(node: Node): string {
   if (node.nodeType === Node.TEXT_NODE) return escapeHtml(node.textContent ?? "");
   if (node.nodeType !== Node.ELEMENT_NODE) return "";
@@ -34,12 +46,12 @@ function serializeNode(node: Node): string {
     return `<${canonical}>${children}</${canonical}>`;
   }
   if (ALLOWED_BLOCK.has(tag)) {
-    const columns =
-      element.dataset.columns === "2" || element.dataset.columns === "3"
-        ? ` data-columns="${element.dataset.columns}"`
-        : "";
-    return `<div${columns}>${children || "<br>"}</div>`;
+    return `<div${blockAttributes(element)}>${children || "<br>"}</div>`;
   }
+  if (tag === "table") return `<table data-letter-table>${children}</table>`;
+  if (tag === "tbody") return `<tbody>${children}</tbody>`;
+  if (tag === "tr") return `<tr>${children}</tr>`;
+  if (tag === "td") return `<td>${children || "<br>"}</td>`;
   return children;
 }
 
@@ -70,7 +82,7 @@ function serializeTopLevelNodes(nodes: Node[]): string {
 
     if (node.nodeType === Node.ELEMENT_NODE) {
       const tag = (node as HTMLElement).tagName.toLowerCase();
-      if (ALLOWED_BLOCK.has(tag) || tag === "hr") {
+      if (ALLOWED_BLOCK.has(tag) || tag === "hr" || tag === "table") {
         flushInline();
         output += serializeNode(node);
         continue;
@@ -85,8 +97,8 @@ function serializeTopLevelNodes(nodes: Node[]): string {
 }
 
 /**
- * Nur die wenigen Formatierungen behalten, die das Anschreiben anbietet.
- * Attribute, Styles, Links, Bilder, Scripts usw. werden vollständig entfernt.
+ * Nur die Formatierungen behalten, die der Anschreiben-Editor anbietet.
+ * Fremde Attribute, Styles, Links, Bilder, Scripts usw. werden entfernt.
  */
 export function sanitizeLetterRichHtml(html: string): string {
   if (!html.trim()) return "";
@@ -94,6 +106,8 @@ export function sanitizeLetterRichHtml(html: string): string {
     const plain = html
       .replace(/<br\s*\/?\s*>/gi, "\n")
       .replace(/<hr\s*\/?\s*>/gi, "\n")
+      .replace(/<\/td\s*>/gi, "\t")
+      .replace(/<\/tr\s*>/gi, "\n")
       .replace(/<[^>]+>/g, "");
     return plainTextToRichHtml(plain);
   }
@@ -111,7 +125,11 @@ function textFromNode(node: Node): string {
   if (tag === "br") return "\n";
   if (tag === "hr") return "\n";
   const children = Array.from(element.childNodes).map(textFromNode).join("");
-  return ALLOWED_BLOCK.has(tag) ? `${children}\n` : children;
+  if (ALLOWED_BLOCK.has(tag)) return `${children}\n`;
+  if (tag === "td") return `${children}\t`;
+  if (tag === "tr") return `${children.replace(/\t+$/g, "")}\n`;
+  if (tag === "table") return `${children}\n`;
+  return children;
 }
 
 export function richHtmlToPlainText(html: string): string {
@@ -120,6 +138,8 @@ export function richHtmlToPlainText(html: string): string {
     return html
       .replace(/<br\s*\/?\s*>/gi, "\n")
       .replace(/<hr\s*\/?\s*>/gi, "\n")
+      .replace(/<\/td\s*>/gi, "\t")
+      .replace(/<\/tr\s*>/gi, "\n")
       .replace(/<[^>]+>/g, "")
       .replace(/\n{3,}/g, "\n\n")
       .trim();

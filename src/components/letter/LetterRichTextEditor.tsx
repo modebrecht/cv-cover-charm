@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { List, Table2 } from "lucide-react";
 import {
   letterRichHtml,
   richHtmlToPlainText,
@@ -10,18 +11,36 @@ const toolClass =
   "rounded-md border bg-background px-2.5 py-1.5 text-xs font-medium hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 const activeToolClass = "bg-primary text-primary-foreground hover:bg-primary/90";
 
+type LetterListStyle = "bullet" | "dash" | "plus" | "dot";
+
 type ToolbarState = {
   bold: boolean;
   italic: boolean;
   underline: boolean;
   columns: LetterBodyColumns | null;
+  list: LetterListStyle | null;
 };
 
-function topLevelBlock(editor: HTMLElement, node: Node | null): HTMLElement | null {
+const LIST_OPTIONS: Array<{ value: LetterListStyle | "none"; marker: string; label: string }> = [
+  { value: "bullet", marker: "•", label: "Bullet" },
+  { value: "dash", marker: "–", label: "Strich" },
+  { value: "plus", marker: "+", label: "Plus" },
+  { value: "dot", marker: "·", label: "Punkt zentriert" },
+  { value: "none", marker: "", label: "Kein Zeichen" },
+];
+
+const TABLE_GRID_SIZE = 8;
+
+function topLevelChild(editor: HTMLElement, node: Node | null): HTMLElement | null {
   if (!node) return null;
   let current: Node | null = node;
   while (current?.parentNode && current.parentNode !== editor) current = current.parentNode;
-  if (!(current instanceof HTMLElement) || current.parentElement !== editor) return null;
+  return current instanceof HTMLElement && current.parentElement === editor ? current : null;
+}
+
+function topLevelBlock(editor: HTMLElement, node: Node | null): HTMLElement | null {
+  const current = topLevelChild(editor, node);
+  if (!current) return null;
   const tag = current.tagName.toLowerCase();
   return tag === "div" || tag === "p" ? current : null;
 }
@@ -50,7 +69,8 @@ function ensureSelectedBlocks(editor: HTMLElement, range: Range): HTMLElement[] 
   const wrappers: HTMLElement[] = [];
   for (const node of Array.from(editor.childNodes)) {
     if (!rangeIntersects(range, node)) continue;
-    if (node instanceof HTMLHRElement) continue;
+    if (node instanceof HTMLHRElement || (node instanceof HTMLElement && node.tagName === "TABLE"))
+      continue;
     if (node instanceof HTMLElement && ["div", "p"].includes(node.tagName.toLowerCase())) {
       wrappers.push(node);
       continue;
@@ -72,6 +92,30 @@ function columnsForBlock(block: HTMLElement | null): LetterBodyColumns {
   return 1;
 }
 
+function listForBlock(block: HTMLElement | null): LetterListStyle | null {
+  const value = block?.dataset.list;
+  return value === "bullet" || value === "dash" || value === "plus" || value === "dot"
+    ? value
+    : null;
+}
+
+function makeTable(rows: number, columns: number): HTMLTableElement {
+  const table = document.createElement("table");
+  table.dataset.letterTable = "true";
+  const body = document.createElement("tbody");
+  for (let rowIndex = 0; rowIndex < rows; rowIndex += 1) {
+    const row = document.createElement("tr");
+    for (let columnIndex = 0; columnIndex < columns; columnIndex += 1) {
+      const cell = document.createElement("td");
+      cell.innerHTML = "<br>";
+      row.appendChild(cell);
+    }
+    body.appendChild(row);
+  }
+  table.appendChild(body);
+  return table;
+}
+
 export function LetterRichTextEditor({
   text,
   richTextHtml,
@@ -83,12 +127,17 @@ export function LetterRichTextEditor({
 }) {
   const editorRef = useRef<HTMLDivElement>(null);
   const lastEmitted = useRef("");
+  const savedRangeRef = useRef<Range | null>(null);
   const [empty, setEmpty] = useState(!text.trim() && !richTextHtml?.trim());
+  const [listOpen, setListOpen] = useState(false);
+  const [tableOpen, setTableOpen] = useState(false);
+  const [tableHover, setTableHover] = useState<{ rows: number; columns: number } | null>(null);
   const [toolbar, setToolbar] = useState<ToolbarState>({
     bold: false,
     italic: false,
     underline: false,
     columns: 1,
+    list: null,
   });
 
   useEffect(() => {
@@ -100,7 +149,7 @@ export function LetterRichTextEditor({
     setEmpty(!richHtmlToPlainText(next));
   }, [richTextHtml, text]);
 
-  const readToolbarState = () => {
+  const rememberRange = () => {
     const editor = editorRef.current;
     const selection = window.getSelection();
     if (
@@ -109,9 +158,40 @@ export function LetterRichTextEditor({
       !selection.anchorNode ||
       !editor.contains(selection.anchorNode)
     )
-      return;
+      return null;
+    const range = selection.getRangeAt(0).cloneRange();
+    savedRangeRef.current = range;
+    return range;
+  };
 
-    const range = selection.getRangeAt(0);
+  const restoreRange = () => {
+    const editor = editorRef.current;
+    if (!editor) return null;
+    const selection = window.getSelection();
+    if (!selection) return null;
+    const stored = savedRangeRef.current?.cloneRange();
+    if (stored) {
+      editor.focus();
+      selection.removeAllRanges();
+      selection.addRange(stored);
+      return stored;
+    }
+    const fallback = document.createRange();
+    fallback.selectNodeContents(editor);
+    fallback.collapse(false);
+    editor.focus();
+    selection.removeAllRanges();
+    selection.addRange(fallback);
+    savedRangeRef.current = fallback.cloneRange();
+    return fallback;
+  };
+
+  const readToolbarState = () => {
+    const editor = editorRef.current;
+    const range = rememberRange();
+    const selection = window.getSelection();
+    if (!editor || !range || !selection?.anchorNode) return;
+
     const blocks = existingSelectedBlocks(editor, range);
     const fallback = topLevelBlock(editor, selection.anchorNode);
     const selected = blocks.length ? blocks : fallback ? [fallback] : [];
@@ -121,12 +201,18 @@ export function LetterRichTextEditor({
     const columns = columnValues.every((value) => value === columnValues[0])
       ? columnValues[0]
       : null;
+    const listValues = selected.map(listForBlock);
+    const list =
+      listValues.length && listValues.every((value) => value === listValues[0])
+        ? listValues[0]
+        : null;
 
     setToolbar({
       bold: document.queryCommandState("bold"),
       italic: document.queryCommandState("italic"),
       underline: document.queryCommandState("underline"),
       columns,
+      list,
     });
   };
 
@@ -149,7 +235,7 @@ export function LetterRichTextEditor({
   const command = (name: string) => {
     const editor = editorRef.current;
     if (!editor) return;
-    editor.focus();
+    restoreRange();
     document.execCommand("styleWithCSS", false, "false");
     document.execCommand(name, false);
     emit();
@@ -158,10 +244,8 @@ export function LetterRichTextEditor({
 
   const setColumns = (columns: LetterBodyColumns) => {
     const editor = editorRef.current;
-    const selection = window.getSelection();
-    if (!editor || !selection?.rangeCount) return;
-    editor.focus();
-    const range = selection.getRangeAt(0);
+    const range = restoreRange();
+    if (!editor || !range) return;
     const blocks = ensureSelectedBlocks(editor, range);
     for (const block of blocks) {
       if (columns === 1) delete block.dataset.columns;
@@ -171,19 +255,67 @@ export function LetterRichTextEditor({
     setToolbar((current) => ({ ...current, columns }));
   };
 
+  const setListStyle = (style: LetterListStyle | "none") => {
+    const editor = editorRef.current;
+    const range = restoreRange();
+    if (!editor || !range) return;
+    const blocks = ensureSelectedBlocks(editor, range);
+    for (const block of blocks) {
+      if (style === "none") delete block.dataset.list;
+      else block.dataset.list = style;
+    }
+    emit();
+    setToolbar((current) => ({ ...current, list: style === "none" ? null : style }));
+    setListOpen(false);
+  };
+
   const insertRule = () => {
     const editor = editorRef.current;
     if (!editor) return;
-    editor.focus();
+    restoreRange();
     document.execCommand("insertHorizontalRule", false);
     emit();
+    readToolbarState();
+  };
+
+  const insertTable = (rows: number, columns: number) => {
+    const editor = editorRef.current;
+    const range = restoreRange();
+    if (!editor || !range) return;
+
+    const table = makeTable(rows, columns);
+    const topLevel = topLevelChild(editor, range.startContainer);
+    if (topLevel) topLevel.insertAdjacentElement("afterend", table);
+    else range.insertNode(table);
+
+    const next = table.nextElementSibling;
+    if (!(next instanceof HTMLElement) || !["DIV", "P"].includes(next.tagName)) {
+      const paragraph = document.createElement("div");
+      paragraph.innerHTML = "<br>";
+      table.insertAdjacentElement("afterend", paragraph);
+    }
+
+    const firstCell = table.querySelector("td");
+    if (firstCell) {
+      const selection = window.getSelection();
+      const caret = document.createRange();
+      caret.selectNodeContents(firstCell);
+      caret.collapse(true);
+      selection?.removeAllRanges();
+      selection?.addRange(caret);
+      savedRangeRef.current = caret.cloneRange();
+    }
+
+    emit();
+    setTableOpen(false);
+    setTableHover(null);
     readToolbarState();
   };
 
   return (
     <div className="grid gap-1.5">
       <span className="text-xs font-medium text-foreground">Brieftext</span>
-      <div className="flex flex-wrap gap-1.5 rounded-t-md border border-b-0 bg-muted/30 p-2">
+      <div className="relative flex flex-wrap gap-1.5 rounded-t-md border border-b-0 bg-muted/30 p-2">
         <button
           type="button"
           className={toolClass}
@@ -236,6 +368,98 @@ export function LetterRichTextEditor({
             {count}
           </button>
         ))}
+
+        <div className="relative">
+          <button
+            type="button"
+            className={`${toolClass} flex items-center justify-center px-2 ${toolbar.list ? activeToolClass : ""}`}
+            aria-label="Liste"
+            aria-expanded={listOpen}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => {
+              setListOpen((current) => !current);
+              setTableOpen(false);
+            }}
+          >
+            <List className="h-4 w-4" />
+          </button>
+          {listOpen ? (
+            <div className="absolute left-0 top-full z-30 mt-1 min-w-44 rounded-md border bg-popover p-1 shadow-lg">
+              {LIST_OPTIONS.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  className="flex w-full items-center gap-3 rounded px-2 py-1.5 text-left text-xs hover:bg-muted"
+                  aria-label={option.label}
+                  aria-pressed={
+                    option.value === "none" ? toolbar.list === null : toolbar.list === option.value
+                  }
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => setListStyle(option.value)}
+                >
+                  <span className="w-4 text-center text-sm">{option.marker}</span>
+                  <span>{option.label}</span>
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </div>
+
+        <div className="relative">
+          <button
+            type="button"
+            className={`${toolClass} flex items-center justify-center px-2`}
+            aria-label="Tabelle"
+            aria-expanded={tableOpen}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => {
+              setTableOpen((current) => !current);
+              setListOpen(false);
+            }}
+          >
+            <Table2 className="h-4 w-4" />
+          </button>
+          {tableOpen ? (
+            <div className="absolute left-0 top-full z-30 mt-1 rounded-md border bg-popover p-2 shadow-lg">
+              <div className="mb-2 whitespace-nowrap text-center text-[11px] font-medium text-foreground">
+                {tableHover
+                  ? `${tableHover.rows} × ${tableHover.columns} Tabelle`
+                  : "Tabellengrösse"}
+              </div>
+              <div
+                role="grid"
+                aria-label="Tabellengrösse auswählen"
+                className="grid grid-cols-8 gap-1"
+                onMouseLeave={() => setTableHover(null)}
+              >
+                {Array.from({ length: TABLE_GRID_SIZE * TABLE_GRID_SIZE }, (_, index) => {
+                  const row = Math.floor(index / TABLE_GRID_SIZE) + 1;
+                  const column = (index % TABLE_GRID_SIZE) + 1;
+                  const highlighted =
+                    !!tableHover && row <= tableHover.rows && column <= tableHover.columns;
+                  return (
+                    <button
+                      key={`${row}-${column}`}
+                      type="button"
+                      role="gridcell"
+                      aria-label={`Tabelle ${row} × ${column} einfügen`}
+                      className={`h-4 w-4 rounded-[2px] border ${
+                        highlighted
+                          ? "border-primary bg-primary/25"
+                          : "bg-background hover:bg-muted"
+                      }`}
+                      onMouseDown={(event) => event.preventDefault()}
+                      onMouseEnter={() => setTableHover({ rows: row, columns: column })}
+                      onFocus={() => setTableHover({ rows: row, columns: column })}
+                      onClick={() => insertTable(row, column)}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
+        </div>
+
         <button
           type="button"
           className={toolClass}
@@ -275,9 +499,8 @@ export function LetterRichTextEditor({
         />
       </div>
       <p className="text-[11px] leading-relaxed text-muted-foreground">
-        Markiere Text für Fett, Kursiv oder Unterstrichen. 1, 2 und 3 gelten für den aktuellen oder
-        markierten Absatz – verschiedene Absätze können unterschiedliche Spalten haben. Mit ─ fügst
-        du an der Cursorposition eine Trennlinie ein.
+        Wie in Word: Fett, Kursiv, Unterstrichen, Spalten und Listen gelten nur für die aktuelle
+        Auswahl oder den aktuellen Absatz. Tabellen werden beim aktuellen Absatz eingefügt.
       </p>
     </div>
   );

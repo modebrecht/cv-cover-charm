@@ -567,7 +567,7 @@ test.describe("M5.8 dossier regression", () => {
       .toBe(preservedBody);
   });
 
-  test("letter layout controls and rich text formatting persist", async ({ page }) => {
+  test("letter layout controls and Word-like formatting persist", async ({ page }) => {
     await seedCoreDossier(page);
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     // Das Feld wird erst clientseitig aus dem Dossier befüllt und ist damit unser Hydration-Signal.
@@ -593,46 +593,70 @@ test.describe("M5.8 dossier regression", () => {
     await expect(preview.locator('[data-letter-pdf-rule="recipient"]')).toBeVisible();
 
     const body = page.getByRole("textbox", { name: "Brieftext" });
-    await body.fill("Erster Absatz");
-    await body.press("End");
-    await body.press("Enter");
-    await body.type("Formatiert zweiter Absatz");
-
-    await body.evaluate((editor) => {
-      const blocks = Array.from(editor.children).filter((element) =>
-        ["DIV", "P"].includes(element.tagName),
-      );
-      const target = blocks.at(-1) ?? editor;
-      const range = document.createRange();
-      range.selectNodeContents(target);
-      const selection = window.getSelection();
-      selection?.removeAllRanges();
-      selection?.addRange(range);
+    await body.evaluate((element) => {
+      element.innerHTML = "<div>Absatz eins formatiert</div><div>Absatz zwei bleibt separat</div>";
+      element.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText" }));
     });
+
+    const selectBlock = async (index: number) => {
+      await body.evaluate((element, blockIndex) => {
+        const block = element.children.item(blockIndex);
+        if (!block) throw new Error(`Brieftext-Block ${blockIndex} fehlt`);
+        const range = document.createRange();
+        range.selectNodeContents(block);
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        element.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
+      }, index);
+    };
+
+    await selectBlock(0);
     await page.getByRole("button", { name: "Fett" }).click();
     await page.getByRole("button", { name: "Kursiv" }).click();
     await page.getByRole("button", { name: "Unterstrichen" }).click();
+
+    await page.getByRole("button", { name: "Liste" }).click();
+    await expect(page.getByRole("button", { name: "Bullet", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Strich", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Plus", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Punkt zentriert", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Kein Zeichen", exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Bullet", exact: true }).click();
+
+    await selectBlock(1);
     await page.getByRole("button", { name: "2 Spalten" }).click();
     await expect(page.getByRole("button", { name: "2 Spalten" })).toHaveAttribute(
       "aria-pressed",
       "true",
     );
 
+    await page.getByRole("button", { name: "Tabelle" }).click();
+    await expect(page.getByRole("grid", { name: "Tabellengrösse auswählen" })).toBeVisible();
+    await page.getByRole("gridcell", { name: "Tabelle 2 × 3 einfügen" }).hover();
+    await expect(page.getByText("2 × 3 Tabelle")).toBeVisible();
+    await page.getByRole("gridcell", { name: "Tabelle 2 × 3 einfügen" }).click();
+
     const previewBody = preview.locator('[data-letter-pdf-richtext="body"]');
     const previewBlocks = previewBody.locator(":scope > div");
-    await expect(previewBlocks).toHaveCount(2);
+    await expect(previewBlocks).toHaveCount(3);
     await expect(previewBlocks.nth(0)).not.toHaveAttribute("data-columns", /.+/);
+    await expect(previewBlocks.nth(0)).toHaveAttribute("data-list", "bullet");
     await expect(previewBlocks.nth(1)).toHaveAttribute("data-columns", "2");
     await expect(previewBlocks.nth(1)).toHaveCSS("column-count", "2");
-    await expect(previewBlocks.nth(1).locator("strong")).toContainText("Formatiert");
-    await expect(previewBlocks.nth(1).locator("em")).toContainText("Formatiert");
-    await expect(previewBlocks.nth(1).locator("u")).toContainText("Formatiert");
+    await expect(previewBlocks.nth(0).locator("strong")).toContainText("Absatz eins formatiert");
+    await expect(previewBlocks.nth(0).locator("em")).toContainText("Absatz eins formatiert");
+    await expect(previewBlocks.nth(0).locator("u")).toContainText("Absatz eins formatiert");
+    expect(
+      await previewBlocks
+        .nth(0)
+        .evaluate((element) => getComputedStyle(element, "::before").content),
+    ).toContain("•");
 
-    await body.click();
-    await body.press("End");
-    await page.getByRole("button", { name: "Trennlinie einfügen" }).click();
-    await expect(previewBody.locator("hr")).toHaveCount(1);
-    await expect(page.getByRole("button", { name: "Formatierung entfernen" })).toBeVisible();
+    const table = previewBody.locator("table[data-letter-table]");
+    await expect(table).toHaveCount(1);
+    await expect(table.locator("tr")).toHaveCount(2);
+    await expect(table.locator("td")).toHaveCount(6);
 
     await expect
       .poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}")))
@@ -644,17 +668,19 @@ test.describe("M5.8 dossier regression", () => {
           ruleAfterSender: true,
           ruleAfterRecipient: true,
         },
-        data: { text: "Erster Absatz\nFormatiert zweiter Absatz" },
+        data: { text: "Absatz eins formatiert\nAbsatz zwei bleibt separat" },
       });
 
     const saved = await page.evaluate(
       () => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}").data?.richTextHtml ?? "",
     );
-    expect(saved).toContain('data-columns="2"');
     expect(saved).toContain("<strong>");
     expect(saved).toContain("<em>");
     expect(saved).toContain("<u>");
-    expect(saved).toContain("<hr>");
+    expect(saved).toContain('data-list="bullet"');
+    expect(saved).toContain('data-columns="2"');
+    expect(saved).toContain("<table data-letter-table>");
+    expect(saved).toContain("<td>");
   });
 
   test("start screen requires the letter, reads fresh storage and downloads cover-letter-CV in order", async ({

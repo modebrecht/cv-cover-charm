@@ -117,6 +117,66 @@ function addRichLetterText(
   }
 }
 
+const LETTER_LIST_MARKERS: Record<string, string> = {
+  bullet: "•",
+  dash: "–",
+  plus: "+",
+  dot: "·",
+};
+
+function addLetterListMarkers(
+  pdf: JsPdf,
+  page: HTMLElement,
+  root: HTMLElement,
+  font: PdfFont,
+  mmX: number,
+  mmY: number,
+) {
+  const pageRect = page.getBoundingClientRect();
+  for (const block of root.querySelectorAll<HTMLElement>(":scope > [data-list]")) {
+    const marker = LETTER_LIST_MARKERS[block.dataset.list ?? ""];
+    if (!marker) continue;
+    const rect = block.getBoundingClientRect();
+    const style = window.getComputedStyle(block);
+    const fontSizePx = Number.parseFloat(style.fontSize) || 14;
+    const fontSizePt = fontSizePx * (72 / 96);
+    const [red, green, blue] = rgb(style.color);
+    const x = (rect.left - pageRect.left + 2) * mmX;
+    const top = (rect.top - pageRect.top) * mmY;
+    const baseline = top + fontSizePt * MM_PER_PT * 0.82;
+    pdf.setFont(font, "normal");
+    pdf.setFontSize(fontSizePt);
+    pdf.setTextColor(red, green, blue);
+    pdf.text(marker, x, baseline);
+  }
+}
+
+function addLetterTableBorders(
+  pdf: JsPdf,
+  page: HTMLElement,
+  root: HTMLElement,
+  mmX: number,
+  mmY: number,
+) {
+  const pageRect = page.getBoundingClientRect();
+  for (const cell of root.querySelectorAll<HTMLElement>("table[data-letter-table] td")) {
+    const rect = cell.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) continue;
+    const style = window.getComputedStyle(cell);
+    const [red, green, blue] = rgb(style.color);
+    const left = (rect.left - pageRect.left) * mmX;
+    const right = (rect.right - pageRect.left) * mmX;
+    const top = (rect.top - pageRect.top) * mmY;
+    const bottom = (rect.bottom - pageRect.top) * mmY;
+    pdf.setDrawColor(red, green, blue);
+    pdf.setLineWidth(0.16);
+    pdf.line(left, top, right, top);
+    pdf.line(right, top, right, bottom);
+    pdf.line(right, bottom, left, bottom);
+    pdf.line(left, bottom, left, top);
+  }
+}
+
 function addLetterRules(pdf: JsPdf, page: HTMLElement, mmX: number, mmY: number) {
   const pageRect = page.getBoundingClientRect();
   const rules = page.querySelectorAll<HTMLElement>(
@@ -173,7 +233,11 @@ function addLetterTextLayer(pdf: JsPdf, page: HTMLElement) {
   }
 
   const richBody = page.querySelector<HTMLElement>("[data-letter-pdf-richtext]");
-  if (richBody) addRichLetterText(pdf, page, richBody, font, mmX, mmY);
+  if (richBody) {
+    addRichLetterText(pdf, page, richBody, font, mmX, mmY);
+    addLetterListMarkers(pdf, page, richBody, font, mmX, mmY);
+    addLetterTableBorders(pdf, page, richBody, mmX, mmY);
+  }
   addLetterRules(pdf, page, mmX, mmY);
 }
 
@@ -208,6 +272,11 @@ async function addRasterPage(
           )) {
             rule.style.setProperty("border-color", "transparent", "important");
             rule.style.setProperty("background", "transparent", "important");
+          }
+          for (const cell of clonedDocument.querySelectorAll<HTMLElement>(
+            "[data-letter-pdf-richtext] table[data-letter-table] td",
+          )) {
+            cell.style.setProperty("border-color", "transparent", "important");
           }
         }
       : undefined,
