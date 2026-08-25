@@ -1,4 +1,5 @@
 import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/components/cover/types";
+import { LETTER_STORAGE_KEY } from "@/lib/dossier-project";
 
 export type LetterData = {
   absenderName: string;
@@ -31,7 +32,7 @@ export type SavedLetter = {
   design: LetterDesign;
 };
 
-export const LETTER_STORAGE_KEY = "anschreiben:v1";
+export { LETTER_STORAGE_KEY };
 
 export const EMPTY_LETTER: LetterData = {
   absenderName: "",
