@@ -1,6 +1,7 @@
 import { FONT_STACKS, type TemplateId } from "@/components/cover/types";
 import { cvFrameFor } from "@/components/cv/archetype";
 import { cvPalette } from "@/components/cv/palette";
+import { PAGE } from "@/default-config";
 import type { LetterData, LetterDesign } from "./types";
 
 function color(colors: Record<string, string>, ...keys: string[]): string {
@@ -141,8 +142,14 @@ export function LetterCanvas({ data, design }: { data: LetterData; design: Lette
 
   return (
     <article
-      className="relative h-[297mm] w-[210mm] overflow-hidden bg-white shadow-xl"
-      style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
+      className="relative overflow-hidden bg-white shadow-xl"
+      style={{
+        width: PAGE.WIDTH,
+        height: PAGE.HEIGHT,
+        color: palette.ink,
+        fontFamily,
+        backgroundColor: palette.paper,
+      }}
       aria-label="Vorschau Anschreiben"
     >
       <LetterBackground design={design} />
