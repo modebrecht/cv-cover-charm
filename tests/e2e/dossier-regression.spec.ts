@@ -193,7 +193,9 @@ async function clippingErrors(page: Page) {
 }
 
 async function assertNoMainClipping(page: Page, label: string) {
-  await expect.poll(() => clippingErrors(page), { message: `${label} preview geometry` }).toEqual([]);
+  await expect
+    .poll(() => clippingErrors(page), { message: `${label} preview geometry` })
+    .toEqual([]);
 }
 
 async function seedCoverTemplate(page: Page, template: string) {
@@ -249,10 +251,95 @@ async function seedCoverTemplate(page: Page, template: string) {
 
   const sheet = page.locator('[data-dossier-document="cover"]').first();
   await sheet.waitFor({ state: "visible" });
-  await sheet
-    .locator('[data-block-id="decor-bottom-field"]')
-    .waitFor({ state: "visible" });
+  await sheet.locator('[data-block-id="decor-bottom-field"]').waitFor({ state: "visible" });
   return sheet;
+}
+
+function coverPayload() {
+  return {
+    version: 7,
+    template: "modern",
+    colors: {
+      modern: {
+        bg: "#ffffff",
+        primary: "#24364b",
+        accent: "#d6a47d",
+      },
+    },
+    layout: { modern: {} },
+    customs: [],
+    fontScale: 1.2,
+    font: "sans",
+    data: {
+      meta: { title: "", author: "", subject: "", keywords: "" },
+      kicker: "Bewerbung um eine Lehrstelle als",
+      eyebrow: "Bewerbung",
+      beruf: "Informatiker/in EFZ",
+      lehrbeginn: "Lehrbeginn August 2027",
+      vorname: "Lea",
+      nachname: "Müller",
+      adresse: "Dorfstrasse 12",
+      plzOrt: "4535 Hubersdorf",
+      telefon: "+41 79 123 45 67",
+      email: "lea.mueller@example.ch",
+      geburtsdatum: "14.03.2010",
+      lehrbetrieb: "Beispiel AG",
+      ansprechperson: "Herr Thomas Weber",
+      betriebAdresse: "Industriestrasse 8, 4500 Solothurn",
+      ort: "Hubersdorf",
+      datum: "25.08.2026",
+      labelKontakt: "",
+      labelEmpfaenger: "",
+      foto: null,
+    },
+  };
+}
+
+function letterPayload() {
+  return {
+    version: 1,
+    data: {
+      absenderName: "Lea Müller",
+      absenderAdresse: "Dorfstrasse 12",
+      absenderPlzOrt: "4535 Hubersdorf",
+      absenderTelefon: "+41 79 123 45 67",
+      absenderEmail: "lea.mueller@example.ch",
+      empfaengerFirma: "Beispiel AG",
+      empfaengerName: "Herr Thomas Weber",
+      empfaengerAdresse: "Industriestrasse 8",
+      empfaengerPlzOrt: "4500 Solothurn",
+      ort: "Hubersdorf",
+      datum: "25.08.2026",
+      betreff: "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+      anrede: "Guten Tag Herr Weber",
+      text: "Der Beruf Informatiker/in EFZ interessiert mich sehr. Ich arbeite gerne sorgfältig, lerne Neues und möchte Ihr Team in einer Schnupperlehre kennenlernen.",
+      gruss: "Freundliche Grüsse",
+      unterschrift: "Lea Müller",
+    },
+    design: {
+      template: "modern",
+      colors: { bg: "#ffffff", primary: "#24364b", accent: "#d6a47d" },
+      font: "sans",
+    },
+  };
+}
+
+async function seedCoreDossier(page: Page, withLetter = false) {
+  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+  await page.evaluate(
+    ({ cover, cv, letter }) => {
+      localStorage.clear();
+      localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
+      localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
+      if (letter) localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
+    },
+    {
+      cover: coverPayload(),
+      cv: cvPayload({ template: "modern" }),
+      letter: withLetter ? letterPayload() : null,
+    },
+  );
+  await page.reload({ waitUntil: "domcontentloaded" });
 }
 
 test.describe("M5.8 dossier regression", () => {
@@ -304,7 +391,9 @@ test.describe("M5.8 dossier regression", () => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "executive", layout, mirrored: true, photo: true });
       await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
-      await expect(previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first()).toBeVisible();
+      await expect(
+        previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first(),
+      ).toBeVisible();
       await assertNoMainClipping(page, `mirrored executive/${layout}`);
     }
   });
@@ -329,7 +418,9 @@ test.describe("M5.8 dossier regression", () => {
     }
   });
 
-  test("long names and long content paginate across every layout without clipping", async ({ page }) => {
+  test("long names and long content paginate across every layout without clipping", async ({
+    page,
+  }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "editorial", layout, long: true });
       const root = previewRoot(page);
@@ -393,7 +484,9 @@ test.describe("M5.8 dossier regression", () => {
         page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}").shape),
       )
       .toBe("circle");
-    const copied = await page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"));
+    const copied = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("lebenslauf:photo:v2") ?? "{}"),
+    );
     expect(copied.zoom).toBe(1.8);
     expect(copied.x).toBe(20);
     expect(copied.y).toBe(65);
@@ -422,6 +515,99 @@ test.describe("M5.8 dossier regression", () => {
     await page.getByRole("button", { name: "Download" }).click();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
     await page.getByRole("button", { name: /Nur Lebenslauf als PDF/i }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename().toLowerCase()).toMatch(/\.pdf$/);
+    const path = await download.path();
+    expect(path).not.toBeNull();
+    expect((await stat(path ?? "")).size).toBeGreaterThan(10_000);
+  });
+
+  test("letter first-open transfer autosaves and later transfer preserves the body", async ({
+    page,
+  }) => {
+    await seedCoreDossier(page);
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.getByRole("heading", { name: "Anschreiben" })).toBeVisible();
+    await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
+    await expect(page.getByLabel("Lehrbetrieb")).toHaveValue("Beispiel AG");
+    await expect(page.getByLabel("PLZ und Ort").nth(1)).toHaveValue("4500 Solothurn");
+    await expect(page.getByRole("textbox", { name: "Betreff", exact: true })).toHaveValue(
+      "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+    );
+    await expect(page.getByLabel("Vorschau Anschreiben")).toBeVisible();
+
+    const body = page.getByLabel("Brieftext");
+    const preservedBody = "Mein individuell geschriebener Brieftext bleibt erhalten.";
+    await body.fill(preservedBody);
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}").data?.text ?? "",
+        ),
+      )
+      .toBe(preservedBody);
+
+    await page.evaluate(() => {
+      const cover = JSON.parse(localStorage.getItem("titelblatt:v3") ?? "{}");
+      cover.data.lehrbetrieb = "Neue Beispiel AG";
+      cover.data.ansprechperson = "Frau Anna Neu";
+      localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
+    });
+
+    await page.getByRole("button", { name: "Aus Dossier übernehmen" }).click();
+    await expect(page.getByLabel("Lehrbetrieb")).toHaveValue("Neue Beispiel AG");
+    await expect(body).toHaveValue(preservedBody);
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}").data?.text ?? "",
+        ),
+      )
+      .toBe(preservedBody);
+  });
+
+  test("start screen requires the letter, reads fresh storage and downloads cover-letter-CV in order", async ({
+    page,
+  }) => {
+    await seedCoreDossier(page);
+
+    // Dieser Text entsteht erst nach dem clientseitigen Storage-Read und ist damit
+    // zugleich unser Hydration-Signal: Titelblatt und CV sind bereit, nur der Brief fehlt.
+    await expect(
+      page.getByText("Gesamtdossier verfügbar, sobald Anschreiben ausgefüllt ist."),
+    ).toBeVisible();
+
+    const dossierCard = page.getByRole("button", { name: /Gesamtdossier herunterladen/ });
+    await dossierCard.click();
+    await expect(page.getByRole("dialog", { name: "Dossier herunterladen" })).toHaveCount(0);
+    await expect(page.getByText("Noch nicht vollständig: Anschreiben.")).toBeVisible();
+
+    await page.evaluate((letter) => {
+      localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
+    }, letterPayload());
+
+    // Kein Reload: dieser zweite Klick schützt gezielt gegen stale React state.
+    await dossierCard.click();
+    const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText(/Reihenfolge: Titelblatt, Anschreiben und/);
+
+    await expect
+      .poll(() =>
+        page.locator("[data-dossier-document]").evaluateAll((nodes) => {
+          const order = nodes
+            .map((node) => node.getAttribute("data-dossier-document"))
+            .filter((value): value is string => !!value);
+          return order.filter((value, index) => order.indexOf(value) === index).slice(0, 3);
+        }),
+      )
+      .toEqual(["cover", "letter", "cv"]);
+
+    const downloadButton = dialog.getByRole("button", { name: "Dossier herunterladen" });
+    await expect(downloadButton).toBeEnabled();
+    const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
+    await downloadButton.click();
     const download = await downloadPromise;
     expect(download.suggestedFilename().toLowerCase()).toMatch(/\.pdf$/);
     const path = await download.path();
