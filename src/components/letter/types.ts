@@ -1,6 +1,8 @@
 import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/components/cover/types";
 import { LETTER_STORAGE_KEY } from "@/lib/dossier-project";
 
+export type LetterAlignment = "left" | "right";
+
 export type LetterData = {
   absenderName: string;
   absenderAdresse: string;
@@ -16,6 +18,8 @@ export type LetterData = {
   betreff: string;
   anrede: string;
   text: string;
+  /** Optionaler Rich-Text-Stand. `text` bleibt für alte Dateien und Suche erhalten. */
+  richTextHtml?: string;
   gruss: string;
   unterschrift: string;
 };
@@ -24,6 +28,12 @@ export type LetterDesign = {
   template: TemplateId;
   colors: Record<string, string>;
   font: FontKey;
+  /** Briefspezifische Optionen sind optional, damit alte gespeicherte Designs kompatibel bleiben. */
+  senderAlign?: LetterAlignment;
+  recipientAlign?: LetterAlignment;
+  dateAlign?: LetterAlignment;
+  ruleAfterSender?: boolean;
+  ruleAfterRecipient?: boolean;
 };
 
 export type SavedLetter = {
@@ -49,6 +59,7 @@ export const EMPTY_LETTER: LetterData = {
   betreff: "",
   anrede: "Guten Tag",
   text: "",
+  richTextHtml: "",
   gruss: "Freundliche Grüsse",
   unterschrift: "",
 };
@@ -64,6 +75,11 @@ export function emptyLetterDesign(): LetterDesign {
     template,
     colors: defaultLetterColors(template),
     font: "sans",
+    senderAlign: "left",
+    recipientAlign: "left",
+    dateAlign: "left",
+    ruleAfterSender: false,
+    ruleAfterRecipient: false,
   };
 }
 
@@ -85,5 +101,14 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     incoming.colors && typeof incoming.colors === "object"
       ? { ...defaultLetterColors(template), ...incoming.colors }
       : defaultLetterColors(template);
-  return { template, colors, font };
+  return {
+    template,
+    colors,
+    font,
+    senderAlign: incoming.senderAlign === "right" ? "right" : "left",
+    recipientAlign: incoming.recipientAlign === "right" ? "right" : "left",
+    dateAlign: incoming.dateAlign === "right" ? "right" : "left",
+    ruleAfterSender: incoming.ruleAfterSender === true,
+    ruleAfterRecipient: incoming.ruleAfterRecipient === true,
+  };
 }
