@@ -22,25 +22,50 @@ function Card({
   text,
   hint,
   art,
+  disabled = false,
 }: {
-  to: string;
+  to?: string;
   title: string;
   text: string;
   hint: string;
   art: React.ReactNode;
+  disabled?: boolean;
 }) {
-  return (
-    <Link
-      to={to}
-      className="group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-card text-left shadow-sm transition-shadow hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-    >
+  const content = (
+    <>
       {/* Kleine Vorschau statt eines Symbols – man sieht, was einen erwartet. */}
       <div className="flex h-44 items-center justify-center border-b bg-muted/40 p-4">{art}</div>
       <div className="flex flex-1 flex-col gap-1 p-5">
         <span className="text-lg font-semibold">{title}</span>
         <span className="text-sm text-muted-foreground">{text}</span>
-        <span className="mt-3 text-sm font-medium text-primary group-hover:underline">{hint}</span>
+        <span
+          className={`mt-3 text-sm font-medium ${
+            disabled ? "text-muted-foreground" : "text-primary group-hover:underline"
+          }`}
+        >
+          {hint}
+        </span>
       </div>
+    </>
+  );
+
+  if (disabled || !to) {
+    return (
+      <div
+        className="flex min-w-0 flex-col overflow-hidden rounded-2xl border bg-card text-left opacity-75 shadow-sm"
+        aria-disabled="true"
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      to={to}
+      className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border bg-card text-left shadow-sm transition-shadow hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      {content}
     </Link>
   );
 }
@@ -141,6 +166,67 @@ function CvArt() {
   );
 }
 
+/** Miniatur eines Anschreibens: klare Briefstruktur und viel Fliesstext. */
+function LetterArt() {
+  return (
+    <svg viewBox="0 0 74 105" className="h-full w-auto drop-shadow" aria-hidden="true">
+      <rect width="74" height="105" rx="2" fill="var(--color-background)" />
+      <rect x="8" y="8" width="58" height="6" rx="1" fill="var(--color-primary)" opacity="0.18" />
+      <rect x="10" y="10" width="22" height="2" rx="1" fill="var(--color-primary)" />
+      <rect x="10" y="23" width="24" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
+      <rect x="10" y="27" width="20" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
+      <rect x="44" y="34" width="20" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
+      <rect x="10" y="43" width="42" height="3" rx="1" fill="var(--color-foreground)" opacity="0.75" />
+      {[53, 58, 63, 71, 76, 81].map((y, index) => (
+        <rect
+          key={y}
+          x="10"
+          y={y}
+          width={index === 2 || index === 5 ? 42 : 54}
+          height="2"
+          rx="1"
+          fill="var(--color-foreground)"
+          opacity="0.32"
+        />
+      ))}
+      <rect x="10" y="92" width="18" height="2" rx="1" fill="var(--color-primary)" opacity="0.7" />
+    </svg>
+  );
+}
+
+/** Miniatur des Gesamtdossiers: mehrere zusammengehörige A4-Seiten. */
+function DossierArt() {
+  return (
+    <svg viewBox="0 0 92 105" className="h-full w-auto drop-shadow" aria-hidden="true">
+      <rect x="28" y="7" width="56" height="88" rx="2" fill="var(--color-muted)" />
+      <rect x="18" y="11" width="56" height="88" rx="2" fill="var(--color-background)" />
+      <rect x="8" y="15" width="56" height="88" rx="2" fill="var(--color-background)" stroke="var(--color-border)" />
+      <rect x="15" y="25" width="10" height="2.5" rx="1" fill="var(--color-primary)" />
+      <rect x="15" y="32" width="34" height="5" rx="1" fill="var(--color-foreground)" />
+      {[48, 54, 60, 70, 76, 82].map((y, index) => (
+        <rect
+          key={y}
+          x="15"
+          y={y}
+          width={index === 2 || index === 5 ? 30 : 40}
+          height="2"
+          rx="1"
+          fill="var(--color-foreground)"
+          opacity="0.28"
+        />
+      ))}
+      <path
+        d="M67 68v17m0 0-6-6m6 6 6-6"
+        fill="none"
+        stroke="var(--color-primary)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function Start() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -154,16 +240,16 @@ function Start() {
         <ThemeToggle />
       </header>
 
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center gap-6 px-4 py-10 sm:px-6">
+      <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center gap-6 px-4 py-10 sm:px-6">
         <div>
-          <h2 className="text-2xl font-semibold sm:text-3xl">Was möchtest du gestalten?</h2>
+          <h2 className="text-2xl font-semibold sm:text-3xl">Was möchtest du machen?</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Beides passt zusammen: der Lebenslauf übernimmt Vorlage, Farben und deine Angaben vom
-            Titelblatt.
+            Titelblatt, Anschreiben und Lebenslauf gehören zusammen und verwenden dieselbe
+            Designsprache.
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 sm:flex-row">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Card
             to="/titelblatt"
             title="Titelblatt"
@@ -177,6 +263,20 @@ function Start() {
             text="Schule, Praktika, Sprachen und Hobbys – im gleichen Design."
             hint="Lebenslauf gestalten →"
             art={<CvArt />}
+          />
+          <Card
+            title="Anschreiben"
+            text="Dein persönlicher Bewerbungsbrief – passend zu Titelblatt und Lebenslauf."
+            hint="Als Nächstes verfügbar"
+            art={<LetterArt />}
+            disabled
+          />
+          <Card
+            title="Gesamtdossier herunterladen"
+            text="Alle fertigen Seiten prüfen und gemeinsam als PDF herunterladen."
+            hint="Wird mit dem Anschreiben aktiviert"
+            art={<DossierArt />}
+            disabled
           />
         </div>
 
