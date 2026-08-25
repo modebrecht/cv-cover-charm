@@ -1,5 +1,13 @@
 import { useEffect, useRef } from "react";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
+import {
+  letterPdfDocumentFromSaved,
+  letterPdfHasContent,
+} from "@/lib/dossier-pdf-document";
+import {
+  LETTER_STORAGE_KEY,
+  readStoredDossierPart,
+} from "@/lib/dossier-project";
 
 type Props = {
   open: boolean;
@@ -22,6 +30,8 @@ export function DossierExportDialog({
   onDownload,
 }: Props) {
   const downloadRef = useRef<HTMLButtonElement>(null);
+  const letter = letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY));
+  const letterReady = !!letter && letterPdfHasContent(letter.data);
 
   useEffect(() => {
     if (!open) return;
@@ -52,11 +62,18 @@ export function DossierExportDialog({
           Dossier herunterladen
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Enthalten sind ein Titelblatt und {cvPageCount || "alle"} CV-Seite
+          Reihenfolge: Titelblatt, Anschreiben und {cvPageCount || "alle"} CV-Seite
           {cvPageCount === 1 ? "" : "n"}.
         </p>
 
         <div className="mt-4 flex flex-col gap-2">
+          {!letterReady ? (
+            <div className="rounded-md border border-amber-300/70 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+              Das Anschreiben fehlt noch. Öffne „Anschreiben“ im Dossier und ergänze mindestens die
+              Bewerbungsangaben oder den Brieftext.
+            </div>
+          ) : null}
+
           {coverChanged ? (
             <div className="rounded-md border border-sky-300/70 bg-sky-50 px-3 py-2 text-xs leading-relaxed text-sky-950 dark:border-sky-800 dark:bg-sky-950/30 dark:text-sky-100">
               Das Titelblatt wurde seit der letzten Übernahme in den Lebenslauf verändert.
@@ -96,7 +113,7 @@ export function DossierExportDialog({
             ref={downloadRef}
             type="button"
             onClick={onDownload}
-            disabled={downloading || warnings === null}
+            disabled={downloading || warnings === null || !letterReady}
             className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
           >
             {downloading ? "PDF wird erstellt…" : "Dossier herunterladen"}
