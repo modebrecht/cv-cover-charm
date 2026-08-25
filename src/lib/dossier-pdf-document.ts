@@ -10,6 +10,12 @@ import {
   type TemplateId,
 } from "@/components/cover/types";
 import { emptyCv, entryFilled, type CvData, type CvDesign } from "@/components/cv/types";
+import {
+  EMPTY_LETTER,
+  normalizeLetterDesign,
+  type LetterData,
+  type LetterDesign,
+} from "@/components/letter/types";
 import { emptyCoverDraft } from "@/lib/dossier";
 
 export type CoverPdfDocument = {
@@ -18,6 +24,11 @@ export type CoverPdfDocument = {
   colors: Record<string, string>;
   blocks: Block[];
   fontScale: number;
+};
+
+export type LetterPdfDocument = {
+  data: LetterData;
+  design: LetterDesign;
 };
 
 export type CvPdfDocument = {
@@ -79,6 +90,18 @@ export function coverPdfHasContent(data: CoverData, customs: CustomField[] = [])
     !!data.foto ||
     customs.some((field) => !!field.text.trim() || !!field.src)
   );
+}
+
+/** Default-Anrede und -Gruss zählen bewusst nicht: ein unangetasteter Brief ist noch kein Inhalt. */
+export function letterPdfHasContent(data: LetterData): boolean {
+  return [
+    data.absenderName,
+    data.empfaengerFirma,
+    data.empfaengerName,
+    data.betreff,
+    data.text,
+    data.unterschrift,
+  ].some((value) => value.trim().length > 0);
 }
 
 export function cvPdfHasContent(data: CvData): boolean {
@@ -155,6 +178,14 @@ export function coverPdfDocumentFromSaved(raw: unknown): CoverPdfDocument | null
     : built;
 
   return { template, data, colors, blocks, fontScale };
+}
+
+/** Baut die druckbare Anschreibenansicht aus dem gespeicherten Projektteil. */
+export function letterPdfDocumentFromSaved(raw: unknown): LetterPdfDocument | null {
+  if (!isRecord(raw) || !isRecord(raw.data)) return null;
+  const data: LetterData = { ...EMPTY_LETTER, ...(raw.data as Partial<LetterData>) };
+  const design = normalizeLetterDesign(raw.design);
+  return { data, design };
 }
 
 /** Baut die druckbare CV-Ansicht aus dem gespeicherten Projektteil. */
