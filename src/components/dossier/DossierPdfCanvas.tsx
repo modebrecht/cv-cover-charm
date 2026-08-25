@@ -2,21 +2,38 @@ import { forwardRef } from "react";
 import { CoverCanvas } from "@/components/cover/CoverCanvas";
 import { CvCanvas } from "@/components/cv/CvCanvas";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
-import type { CoverPdfDocument, CvPdfDocument } from "@/lib/dossier-pdf-document";
+import { LetterCanvas } from "@/components/letter/LetterCanvas";
+import {
+  letterPdfDocumentFromSaved,
+  type CoverPdfDocument,
+  type CvPdfDocument,
+  type LetterPdfDocument,
+} from "@/lib/dossier-pdf-document";
+import {
+  LETTER_STORAGE_KEY,
+  readStoredDossierPart,
+} from "@/lib/dossier-project";
 
 const ignoreSelection = () => {};
 const ignoreMove = () => {};
 
-/** Unsichtbarer 1:1-Drucksatz: zuerst Titelblatt, danach sämtliche CV-Seiten. */
+/** Unsichtbarer 1:1-Drucksatz: Titelblatt, Anschreiben, danach sämtliche CV-Seiten. */
 export const DossierPdfCanvas = forwardRef<
   HTMLDivElement,
   {
     cover: CoverPdfDocument | null;
+    /** Optional explizit übergeben; bestehende Editoren lesen sonst den gespeicherten Brief. */
+    letter?: LetterPdfDocument | null;
     cv: CvPdfDocument | null;
     onCvLayoutWarnings?: (warnings: CvLayoutWarning[]) => void;
     onCvPageCount?: (count: number) => void;
   }
->(function DossierPdfCanvas({ cover, cv, onCvLayoutWarnings, onCvPageCount }, ref) {
+>(function DossierPdfCanvas({ cover, letter, cv, onCvLayoutWarnings, onCvPageCount }, ref) {
+  const storedLetter =
+    letter === undefined
+      ? letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY))
+      : letter;
+
   return (
     <div ref={ref}>
       {cover ? (
@@ -31,6 +48,11 @@ export const DossierPdfCanvas = forwardRef<
           fontScale={cover.fontScale}
           editable={false}
         />
+      ) : null}
+      {storedLetter ? (
+        <div data-dossier-document="letter">
+          <LetterCanvas data={storedLetter.data} design={storedLetter.design} />
+        </div>
       ) : null}
       {cv ? (
         <CvCanvas
