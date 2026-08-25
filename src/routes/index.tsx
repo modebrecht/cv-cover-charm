@@ -43,12 +43,34 @@ type DossierDocuments = {
   cv: CvPdfDocument | null;
 };
 
+type DossierReadiness = {
+  cover: boolean;
+  letter: boolean;
+  cv: boolean;
+  complete: boolean;
+};
+
 function readDossierDocuments(): DossierDocuments {
   return {
     cover: coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY)),
     letter: letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY)),
     cv: cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY)),
   };
+}
+
+function dossierReadiness(documents: DossierDocuments): DossierReadiness {
+  const cover = !!documents.cover && coverPdfHasContent(documents.cover.data);
+  const letter = !!documents.letter && letterPdfHasContent(documents.letter.data);
+  const cv = !!documents.cv && cvPdfHasContent(documents.cv.data);
+  return { cover, letter, cv, complete: cover && letter && cv };
+}
+
+function missingDossierParts(readiness: DossierReadiness): string[] {
+  const parts: string[] = [];
+  if (!readiness.cover) parts.push("Titelblatt");
+  if (!readiness.letter) parts.push("Anschreiben");
+  if (!readiness.cv) parts.push("Lebenslauf");
+  return parts;
 }
 
 /** Eine Kachel des Startbildschirms. */
@@ -261,25 +283,19 @@ function Start() {
     };
   }, [refreshDocuments]);
 
-  const readiness = useMemo(() => {
-    const cover = !!documents.cover && coverPdfHasContent(documents.cover.data);
-    const letter = !!documents.letter && letterPdfHasContent(documents.letter.data);
-    const cv = !!documents.cv && cvPdfHasContent(documents.cv.data);
-    return { cover, letter, cv, complete: cover && letter && cv };
-  }, [documents]);
-
-  const missingParts = useMemo(() => {
-    const parts: string[] = [];
-    if (!readiness.cover) parts.push("Titelblatt");
-    if (!readiness.letter) parts.push("Anschreiben");
-    if (!readiness.cv) parts.push("Lebenslauf");
-    return parts;
-  }, [readiness]);
+  const readiness = useMemo(() => dossierReadiness(documents), [documents]);
+  const missingParts = useMemo(() => missingDossierParts(readiness), [readiness]);
 
   const openDossierReview = () => {
-    refreshDocuments();
-    if (!readiness.complete) {
-      setDossierNote(`Noch nicht vollständig: ${missingParts.join(", ")}.`);
+    // Direkt den aktuellen Browser-Speicher prüfen. setState ist asynchron und
+    // darf hier nicht darüber entscheiden, ob ein gerade gespeicherter Teil fehlt.
+    const freshDocuments = readDossierDocuments();
+    const freshReadiness = dossierReadiness(freshDocuments);
+    const freshMissingParts = missingDossierParts(freshReadiness);
+    setDocuments(freshDocuments);
+
+    if (!freshReadiness.complete) {
+      setDossierNote(`Noch nicht vollständig: ${freshMissingParts.join(", ")}.`);
       return;
     }
     setDossierNote(null);
@@ -314,7 +330,10 @@ function Start() {
       ? [documents.cv.data.person.vorname, documents.cv.data.person.nachname].filter(Boolean).join(" ")
       : "";
     const author = coverName || cvName || "Bewerbungsdossier";
-    const fileName = author === "Bewerbungsdossier" ? "Bewerbungsdossier.pdf" : `Bewerbungsdossier-${author}.pdf`;
+    const fileName =
+      author === "Bewerbungsdossier"
+        ? "Bewerbungsdossier.pdf"
+        : `Bewerbungsdossier-${author}.pdf`;
 
     setDownloading(true);
     try {
