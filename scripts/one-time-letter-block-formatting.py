@@ -1,14 +1,6 @@
 from pathlib import Path
 
 
-def replace_once(path: str, old: str, new: str) -> None:
-    file = Path(path)
-    text = file.read_text()
-    if old not in text:
-        raise SystemExit(f"Expected text not found in {path}: {old[:160]!r}")
-    file.write_text(text.replace(old, new, 1))
-
-
 def replace_between(path: str, start_marker: str, end_marker: str, replacement: str) -> None:
     file = Path(path)
     text = file.read_text()
@@ -175,7 +167,12 @@ export function LetterRichTextEditor({
   const rememberRange = () => {
     const editor = editorRef.current;
     const selection = window.getSelection();
-    if (!editor || !selection?.rangeCount || !selection.anchorNode || !editor.contains(selection.anchorNode))
+    if (
+      !editor ||
+      !selection?.rangeCount ||
+      !selection.anchorNode ||
+      !editor.contains(selection.anchorNode)
+    )
       return null;
     const range = selection.getRangeAt(0).cloneRange();
     savedRangeRef.current = range;
@@ -306,12 +303,11 @@ export function LetterRichTextEditor({
     if (topLevel) topLevel.insertAdjacentElement("afterend", table);
     else range.insertNode(table);
 
-    let trailing = table.nextElementSibling;
-    if (!(trailing instanceof HTMLElement) || !["DIV", "P"].includes(trailing.tagName)) {
+    const next = table.nextElementSibling;
+    if (!(next instanceof HTMLElement) || !["DIV", "P"].includes(next.tagName)) {
       const paragraph = document.createElement("div");
       paragraph.innerHTML = "<br>";
       table.insertAdjacentElement("afterend", paragraph);
-      trailing = paragraph;
     }
 
     const firstCell = table.querySelector("td");
@@ -515,7 +511,7 @@ export function LetterRichTextEditor({
       </div>
       <p className="text-[11px] leading-relaxed text-muted-foreground">
         Wie in Word: Fett, Kursiv, Unterstrichen, Spalten und Listen gelten nur für die aktuelle
-        Auswahl oder den aktuellen Absatz. Tabellen werden an der Cursorposition eingefügt.
+        Auswahl oder den aktuellen Absatz. Tabellen werden beim aktuellen Absatz eingefügt.
       </p>
     </div>
   );
@@ -688,68 +684,11 @@ export function letterRichHtml(html: string | undefined, plainText: string): str
 Path("src/components/letter/LetterRichTextEditor.tsx").write_text(EDITOR)
 Path("src/components/letter/rich-text.ts").write_text(RICH_TEXT)
 
-replace_once(
-    "src/components/letter/types.ts",
-    '  bodyColumns?: LetterBodyColumns;\n',
-    '',
-)
-replace_once(
-    "src/components/letter/types.ts",
-    '    bodyColumns: 1,\n',
-    '',
-)
-replace_once(
-    "src/components/letter/types.ts",
-    '    bodyColumns:\n      incoming.bodyColumns === 2 || incoming.bodyColumns === 3 ? incoming.bodyColumns : 1,\n',
-    '',
-)
-
-replace_once(
-    "src/routes/anschreiben.tsx",
-    '''                <LetterRichTextEditor
-                  text={data.text}
-                  richTextHtml={data.richTextHtml}
-                  columns={design.bodyColumns ?? 1}
-                  onColumnsChange={(bodyColumns) =>
-                    setDesign((current) => ({ ...current, bodyColumns }))
-                  }
-                  onChange={({ text, richTextHtml }) => patch({ text, richTextHtml })}
-                />''',
-    '''                <LetterRichTextEditor
-                  text={data.text}
-                  richTextHtml={data.richTextHtml}
-                  onChange={({ text, richTextHtml }) => patch({ text, richTextHtml })}
-                />''',
-)
-
-replace_once(
-    "src/components/letter/LetterCanvas.tsx",
-    '  const bodyColumns = design.bodyColumns ?? 1;\n',
-    '',
-)
-replace_once(
-    "src/components/letter/LetterCanvas.tsx",
-    '''          <div
-            data-letter-pdf-richtext="body"
-            data-letter-columns={bodyColumns}
-            className="text-[10.5pt] leading-[1.55] [&_div]:min-h-[1.55em] [&_p]:min-h-[1.55em] [&_hr]:my-[5mm] [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-current [&_hr]:opacity-50"
-            style={{ columnCount: bodyColumns, columnGap: bodyColumns > 1 ? "6mm" : undefined }}
-            dangerouslySetInnerHTML={{ __html: bodyHtml }}
-          />''',
-    '''          <div
-            data-letter-pdf-richtext="body"
-            className="text-[10.5pt] leading-[1.55] [&_div]:min-h-[1.55em] [&_p]:min-h-[1.55em] [&_hr]:my-[5mm] [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-current [&_hr]:opacity-50"
-            dangerouslySetInnerHTML={{ __html: bodyHtml }}
-          />''',
-)
-
 styles = Path("src/styles.css")
 css = styles.read_text()
-marker = "/* Letter rich-text Word-like blocks */"
-if marker not in css:
-    css += r'''
-
-/* Letter rich-text Word-like blocks */
+old_marker = "/* Letter rich-text block columns */"
+new_marker = "/* Letter rich-text Word-like blocks */"
+word_css = r'''/* Letter rich-text Word-like blocks */
 [data-letter-rich-editor] > [data-columns="2"] {
   column-count: 2;
   column-gap: 1.25rem;
@@ -822,12 +761,19 @@ if marker not in css:
   border: 1px solid color-mix(in srgb, currentColor 38%, transparent);
 }
 '''
-    styles.write_text(css)
+if new_marker in css:
+    css = css[: css.index(new_marker)] + word_css
+elif old_marker in css:
+    css = css[: css.index(old_marker)] + word_css
+else:
+    css = css.rstrip() + "\n\n" + word_css
+styles.write_text(css)
 
 pdf_path = Path("src/lib/dossier-pdf.ts")
 pdf_text = pdf_path.read_text()
-needle = '''function addLetterRules(pdf: JsPdf, page: HTMLElement, mmX: number, mmY: number) {'''
-helpers = r'''const LETTER_LIST_MARKERS: Record<string, string> = {
+if "const LETTER_LIST_MARKERS" not in pdf_text:
+    needle = '''function addLetterRules(pdf: JsPdf, page: HTMLElement, mmX: number, mmY: number) {'''
+    helpers = r'''const LETTER_LIST_MARKERS: Record<string, string> = {
   bullet: "•",
   dash: "–",
   plus: "+",
@@ -888,30 +834,31 @@ function addLetterTableBorders(
 }
 
 function addLetterRules(pdf: JsPdf, page: HTMLElement, mmX: number, mmY: number) {'''
-if needle not in pdf_text:
-    raise SystemExit("PDF helper insertion point not found")
-pdf_text = pdf_text.replace(needle, helpers, 1)
-pdf_text = pdf_text.replace(
-    '''  const richBody = page.querySelector<HTMLElement>("[data-letter-pdf-richtext]");
+    if needle not in pdf_text:
+        raise SystemExit("PDF helper insertion point not found")
+    pdf_text = pdf_text.replace(needle, helpers, 1)
+
+    old_layer = '''  const richBody = page.querySelector<HTMLElement>("[data-letter-pdf-richtext]");
   if (richBody) addRichLetterText(pdf, page, richBody, font, mmX, mmY);
-  addLetterRules(pdf, page, mmX, mmY);''',
-    '''  const richBody = page.querySelector<HTMLElement>("[data-letter-pdf-richtext]");
+  addLetterRules(pdf, page, mmX, mmY);'''
+    new_layer = '''  const richBody = page.querySelector<HTMLElement>("[data-letter-pdf-richtext]");
   if (richBody) {
     addRichLetterText(pdf, page, richBody, font, mmX, mmY);
     addLetterListMarkers(pdf, page, richBody, font, mmX, mmY);
     addLetterTableBorders(pdf, page, richBody, mmX, mmY);
   }
-  addLetterRules(pdf, page, mmX, mmY);''',
-    1,
-)
-pdf_text = pdf_text.replace(
-    '''          for (const rule of clonedDocument.querySelectorAll<HTMLElement>(
+  addLetterRules(pdf, page, mmX, mmY);'''
+    if old_layer not in pdf_text:
+        raise SystemExit("PDF rich layer insertion point not found")
+    pdf_text = pdf_text.replace(old_layer, new_layer, 1)
+
+    old_clone = '''          for (const rule of clonedDocument.querySelectorAll<HTMLElement>(
             "[data-letter-pdf-rule], [data-letter-pdf-richtext] hr",
           )) {
             rule.style.setProperty("border-color", "transparent", "important");
             rule.style.setProperty("background", "transparent", "important");
-          }''',
-    '''          for (const rule of clonedDocument.querySelectorAll<HTMLElement>(
+          }'''
+    new_clone = '''          for (const rule of clonedDocument.querySelectorAll<HTMLElement>(
             "[data-letter-pdf-rule], [data-letter-pdf-richtext] hr",
           )) {
             rule.style.setProperty("border-color", "transparent", "important");
@@ -921,9 +868,11 @@ pdf_text = pdf_text.replace(
             "[data-letter-pdf-richtext] table[data-letter-table] td",
           )) {
             cell.style.setProperty("border-color", "transparent", "important");
-          }''',
-    1,
-)
+          }'''
+    if old_clone not in pdf_text:
+        raise SystemExit("PDF clone insertion point not found")
+    pdf_text = pdf_text.replace(old_clone, new_clone, 1)
+
 pdf_path.write_text(pdf_text)
 
 NEW_TEST = r'''  test("letter layout controls and Word-like formatting persist", async ({ page }) => {
@@ -998,7 +947,7 @@ NEW_TEST = r'''  test("letter layout controls and Word-like formatting persist",
 
     const previewBody = preview.locator('[data-letter-pdf-richtext="body"]');
     const previewBlocks = previewBody.locator(":scope > div");
-    await expect(previewBlocks).toHaveCount(2);
+    await expect(previewBlocks).toHaveCount(3);
     await expect(previewBlocks.nth(0)).not.toHaveAttribute("data-columns", /.+/);
     await expect(previewBlocks.nth(0)).toHaveAttribute("data-list", "bullet");
     await expect(previewBlocks.nth(1)).toHaveAttribute("data-columns", "2");
@@ -1025,7 +974,7 @@ NEW_TEST = r'''  test("letter layout controls and Word-like formatting persist",
           ruleAfterSender: true,
           ruleAfterRecipient: true,
         },
-        data: { text: expect.stringContaining("Absatz eins formatiert") },
+        data: { text: "Absatz eins formatiert\nAbsatz zwei bleibt separat" },
       });
 
     const saved = await page.evaluate(
