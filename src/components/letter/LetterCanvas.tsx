@@ -1,5 +1,6 @@
 import { FONT_STACKS, type TemplateId } from "@/components/cover/types";
 import { cvFrameFor } from "@/components/cv/archetype";
+import { cvPalette } from "@/components/cv/palette";
 import type { LetterData, LetterDesign } from "./types";
 
 function color(colors: Record<string, string>, ...keys: string[]): string {
@@ -28,30 +29,58 @@ function letterGeometry(template: TemplateId) {
 function LetterBackground({ design }: { design: LetterDesign }) {
   const { template, colors } = design;
   const geo = letterGeometry(template);
-  const bg = color(colors, "bg");
+  const palette = cvPalette(colors);
   const primary = color(colors, "primary", "accent", "ink");
   const accent = color(colors, "accent", "secondary", "primary", "ink");
 
   return (
-    <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: bg }} aria-hidden="true">
+    <div
+      className="absolute inset-0 overflow-hidden"
+      style={{ backgroundColor: palette.paper }}
+      aria-hidden="true"
+    >
       {geo.column > 0 && (
         <>
-          <div className="absolute inset-y-0 left-0" style={{ width: `${geo.column}mm`, backgroundColor: primary }} />
-          <div className="absolute left-0 top-[32mm]" style={{ width: `${geo.column}mm`, height: "7mm", backgroundColor: accent, opacity: 0.9 }} />
+          <div
+            className="absolute inset-y-0 left-0"
+            style={{ width: `${geo.column}mm`, backgroundColor: primary }}
+          />
+          <div
+            className="absolute left-0 top-[32mm]"
+            style={{
+              width: `${geo.column}mm`,
+              height: "7mm",
+              backgroundColor: accent,
+              opacity: 0.9,
+            }}
+          />
         </>
       )}
       {geo.band > 0 && (
         <>
-          <div className="absolute inset-x-0 top-0" style={{ height: `${geo.band}mm`, backgroundColor: primary }} />
-          <div className="absolute inset-x-0 bottom-0 h-[3mm]" style={{ backgroundColor: accent }} />
+          <div
+            className="absolute inset-x-0 top-0"
+            style={{ height: `${geo.band}mm`, backgroundColor: primary }}
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 h-[3mm]"
+            style={{ backgroundColor: accent }}
+          />
         </>
       )}
       {geo.card > 0 && (
         <>
-          <div className="absolute inset-0" style={{ backgroundColor: primary, opacity: 0.92 }} />
           <div
-            className="absolute bg-white/95"
-            style={{ inset: `${geo.card}mm`, borderRadius: "5mm" }}
+            className="absolute inset-0"
+            style={{ backgroundColor: primary, opacity: 0.92 }}
+          />
+          <div
+            className="absolute"
+            style={{
+              inset: `${geo.card}mm`,
+              borderRadius: "5mm",
+              backgroundColor: palette.paper,
+            }}
           />
         </>
       )}
@@ -59,24 +88,41 @@ function LetterBackground({ design }: { design: LetterDesign }) {
         <>
           <div
             className="absolute"
-            style={{ inset: `${geo.border}mm`, border: `0.5px solid ${accent}`, opacity: 0.45 }}
+            style={{
+              inset: `${geo.border}mm`,
+              border: `0.5px solid ${accent}`,
+              opacity: 0.45,
+            }}
           />
           {template === "edel" && (
             <div
               className="absolute"
-              style={{ inset: `${geo.border + 3}mm`, border: `0.35px solid ${accent}`, opacity: 0.25 }}
+              style={{
+                inset: `${geo.border + 3}mm`,
+                border: `0.35px solid ${accent}`,
+                opacity: 0.25,
+              }}
             />
           )}
         </>
       )}
       {geo.column === 0 && geo.band === 0 && geo.card === 0 && geo.border === 0 && (
-        <div className="absolute bottom-0 left-0 h-[3mm] w-full" style={{ backgroundColor: accent, opacity: 0.7 }} />
+        <div
+          className="absolute bottom-0 left-0 h-[3mm] w-full"
+          style={{ backgroundColor: accent, opacity: 0.7 }}
+        />
       )}
     </div>
   );
 }
 
-function Lines({ values, align = "left" }: { values: Array<string | undefined>; align?: "left" | "right" }) {
+function Lines({
+  values,
+  align = "left",
+}: {
+  values: Array<string | undefined>;
+  align?: "left" | "right";
+}) {
   const visible = values.filter((value): value is string => !!value?.trim());
   if (!visible.length) return null;
   return (
@@ -90,16 +136,13 @@ function Lines({ values, align = "left" }: { values: Array<string | undefined>; 
 
 export function LetterCanvas({ data, design }: { data: LetterData; design: LetterDesign }) {
   const geo = letterGeometry(design.template);
-  const ink = color(design.colors, "ink", "primary");
-  const muted = color(design.colors, "ink", "primary");
-  const accent = color(design.colors, "accent", "secondary", "primary", "ink");
+  const palette = cvPalette(design.colors);
   const fontFamily = FONT_STACKS[design.font];
-  const pageBackground = design.template === "edel" ? color(design.colors, "bg") : undefined;
 
   return (
     <article
       className="relative h-[297mm] w-[210mm] overflow-hidden bg-white shadow-xl"
-      style={{ color: ink, fontFamily, backgroundColor: pageBackground }}
+      style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
       aria-label="Vorschau Anschreiben"
     >
       <LetterBackground design={design} />
@@ -115,20 +158,40 @@ export function LetterCanvas({ data, design }: { data: LetterData; design: Lette
         }}
       >
         <div className="flex min-h-[26mm] justify-between gap-8 text-[9.5pt] leading-[1.45]">
-          <Lines values={[data.absenderName, data.absenderAdresse, data.absenderPlzOrt, data.absenderTelefon, data.absenderEmail]} />
-          <div className="min-w-[45mm] text-right" style={{ color: muted, opacity: 0.82 }}>
-            <Lines values={[data.ort && data.datum ? `${data.ort}, ${data.datum}` : data.ort || data.datum]} align="right" />
+          <Lines
+            values={[
+              data.absenderName,
+              data.absenderAdresse,
+              data.absenderPlzOrt,
+              data.absenderTelefon,
+              data.absenderEmail,
+            ]}
+          />
+          <div className="min-w-[45mm] text-right" style={{ color: palette.muted }}>
+            <Lines
+              values={[
+                data.ort && data.datum ? `${data.ort}, ${data.datum}` : data.ort || data.datum,
+              ]}
+              align="right"
+            />
           </div>
         </div>
 
         <div className="mt-[7mm] min-h-[29mm] text-[10pt] leading-[1.45]">
-          <Lines values={[data.empfaengerFirma, data.empfaengerName, data.empfaengerAdresse, data.empfaengerPlzOrt]} />
+          <Lines
+            values={[
+              data.empfaengerFirma,
+              data.empfaengerName,
+              data.empfaengerAdresse,
+              data.empfaengerPlzOrt,
+            ]}
+          />
         </div>
 
         <div className="mt-[7mm]">
           <div
             className="mb-[8mm] border-b pb-[2.5mm] text-[12pt] font-semibold leading-tight"
-            style={{ borderColor: accent }}
+            style={{ borderColor: palette.accent }}
           >
             {data.betreff || "Bewerbung um eine Lehrstelle als …"}
           </div>
