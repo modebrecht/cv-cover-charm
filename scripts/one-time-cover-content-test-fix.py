@@ -6,9 +6,9 @@ old = '''    const companyToggle = companySection.getByLabel("Auf Titelblatt anz
     const contentToggle = contentSection.getByLabel("Auf Titelblatt anzeigen");
 
     await expect(companyToggle).not.toBeChecked();'''
-new = '''    await companySection.getByRole("button", { name: /Firma \/ Lehrbetrieb/ }).click();
-    const companyToggle = companySection.getByLabel("Auf Titelblatt anzeigen");
-    const contentToggle = contentSection.getByLabel("Auf Titelblatt anzeigen");
+new = '''    await companySection.getByRole("button").first().click();
+    const companyToggle = companySection.locator('input[type="checkbox"]').first();
+    const contentToggle = contentSection.locator('input[type="checkbox"]').first();
 
     await expect(companyToggle).not.toBeChecked();'''
 if old not in text:
