@@ -54,6 +54,17 @@ jobs:
       - name: Unit tests
         run: bun test tests/unit
 
+      - name: Normalize lint formatting
+        run: >-
+          bunx eslint --fix
+          src/routes/anschreiben.tsx
+          src/components/letter/LetterCanvas.tsx
+          src/routes/index.tsx
+          src/components/dossier/DossierExportDialog.tsx
+          src/routes/titelblatt.tsx
+          src/routes/lebenslauf.tsx
+          tests/e2e/dossier-regression.spec.ts
+
       - name: Lint touched files
         run: >-
           bunx eslint
