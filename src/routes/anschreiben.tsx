@@ -31,11 +31,11 @@ import {
 export const Route = createFileRoute("/anschreiben")({
   head: () => ({
     meta: [
-      { title: "Bewerbungsbrief für die Lehrstellenbewerbung" },
+      { title: "Motivationsschreiben für die Lehrstellenbewerbung" },
       {
         name: "description",
         content:
-          "Persönlicher Bewerbungsbrief für deine Lehrstellenbewerbung – passend zu Titelblatt und Lebenslauf.",
+          "Persönliches Motivationsschreiben für deine Lehrstellenbewerbung – passend zu Titelblatt und Lebenslauf.",
       },
     ],
   }),
@@ -173,7 +173,7 @@ function Anschreiben() {
 
     // Ein technisch vorhandener, aber inhaltlich leerer Autosave zählt wie ein
     // erster Besuch. Sobald das Titelblatt echte Angaben enthält, startet der
-    // Bewerbungsbrief mit denselben Daten und derselben Designsprache.
+    // Motivationsschreiben mit denselben Daten und derselben Designsprache.
     if (
       (!savedDataLoaded || !letterHasStarted(nextData)) &&
       titlePageHasMeaningfulSource(dossier)
@@ -354,7 +354,7 @@ function Anschreiben() {
           Formular
         </button>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-sm font-semibold sm:text-base">Bewerbungsbrief</h1>
+          <h1 className="truncate text-sm font-semibold sm:text-base">Motivationsschreiben</h1>
         </div>
         <SaveStatus state={saveState} />
         <ThemeToggle />
@@ -364,7 +364,7 @@ function Anschreiben() {
         <ResizableEditorPanel open={panelOpen}>
           <div className="flex flex-col gap-3 p-3 pb-12 sm:p-4">
             <div className="rounded-lg border bg-background p-3 text-xs leading-relaxed text-muted-foreground">
-              Schreibe deinen Bewerbungsbrief hier. Das Layout bleibt bewusst ruhiger als beim
+              Schreibe dein Motivationsschreiben hier. Das Layout bleibt bewusst ruhiger als beim
               Lebenslauf, damit längerer Text gut lesbar bleibt.
             </div>
 

@@ -611,7 +611,7 @@ test.describe("M5.8 dossier regression", () => {
     expect((await stat(path ?? "")).size).toBeGreaterThan(10_000);
   });
 
-  test("empty saved Bewerbungsbrief inherits title-page data and design and can re-sync all", async ({
+  test("empty saved Motivationsschreiben inherits title-page data and design and can re-sync all", async ({
     page,
   }) => {
     await seedCoreDossier(page);
@@ -649,7 +649,7 @@ test.describe("M5.8 dossier regression", () => {
     });
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
 
-    await expect(page.getByRole("heading", { name: "Bewerbungsbrief" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Motivationsschreiben" })).toBeVisible();
     await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
     await expect(page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })).toHaveValue(
       "Beispiel AG",
@@ -658,7 +658,7 @@ test.describe("M5.8 dossier regression", () => {
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
     );
-    const preview = page.getByLabel("Vorschau Bewerbungsbrief");
+    const preview = page.getByLabel("Vorschau Motivationsschreiben");
     await expect(preview).toBeVisible();
     await expect(preview).toHaveAttribute("data-letter-template", "modern");
     await expect(page.getByRole("button", { name: "Farben", exact: true })).toBeVisible();
@@ -732,7 +732,7 @@ test.describe("M5.8 dossier regression", () => {
     await page.getByLabel("Trennlinie nach Firma / Lehrbetrieb").check();
     await page.getByLabel("Trennlinie nach Titel / Betreff").check();
 
-    const preview = page.getByLabel("Vorschau Bewerbungsbrief");
+    const preview = page.getByLabel("Vorschau Motivationsschreiben");
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCSS(
       "text-align",
       "right",
@@ -859,13 +859,13 @@ test.describe("M5.8 dossier regression", () => {
     // Dieser Text entsteht erst nach dem clientseitigen Storage-Read und ist damit
     // zugleich unser Hydration-Signal: Titelblatt und CV sind bereit, nur der Brief fehlt.
     await expect(
-      page.getByText("Gesamtdossier verfügbar, sobald Bewerbungsbrief ausgefüllt ist."),
+      page.getByText("Gesamtdossier verfügbar, sobald Motivationsschreiben ausgefüllt ist."),
     ).toBeVisible();
 
     const dossierCard = page.getByRole("button", { name: /Gesamtdossier herunterladen/ });
     await dossierCard.click();
     await expect(page.getByRole("dialog", { name: "Dossier herunterladen" })).toHaveCount(0);
-    await expect(page.getByText("Noch nicht vollständig: Bewerbungsbrief.")).toBeVisible();
+    await expect(page.getByText("Noch nicht vollständig: Motivationsschreiben.")).toBeVisible();
 
     await page.evaluate((letter) => {
       localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
@@ -875,7 +875,7 @@ test.describe("M5.8 dossier regression", () => {
     await dossierCard.click();
     const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
     await expect(dialog).toBeVisible();
-    await expect(dialog).toContainText(/Reihenfolge: Titelblatt, Bewerbungsbrief und/);
+    await expect(dialog).toContainText(/Reihenfolge: Titelblatt, Motivationsschreiben und/);
 
     await expect
       .poll(() =>

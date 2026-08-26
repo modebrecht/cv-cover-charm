@@ -26,11 +26,11 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bewerbungsdossier – Titelblatt, Bewerbungsbrief und Lebenslauf" },
+      { title: "Bewerbungsdossier – Titelblatt, Motivationsschreiben und Lebenslauf" },
       {
         name: "description",
         content:
-          "Titelblatt, Bewerbungsbrief und Lebenslauf für deine Lehrstellenbewerbung in der Schweiz – im gleichen Design.",
+          "Titelblatt, Motivationsschreiben und Lebenslauf für deine Lehrstellenbewerbung in der Schweiz – im gleichen Design.",
       },
     ],
   }),
@@ -68,7 +68,7 @@ function dossierReadiness(documents: DossierDocuments): DossierReadiness {
 function missingDossierParts(readiness: DossierReadiness): string[] {
   const parts: string[] = [];
   if (!readiness.cover) parts.push("Titelblatt");
-  if (!readiness.letter) parts.push("Bewerbungsbrief");
+  if (!readiness.letter) parts.push("Motivationsschreiben");
   if (!readiness.cv) parts.push("Lebenslauf");
   return parts;
 }
@@ -234,7 +234,7 @@ function CvArt() {
   );
 }
 
-/** Miniatur eines Bewerbungsbriefs: klare Briefstruktur und viel Fliesstext. */
+/** Miniatur eines Motivationsschreibens: klare Briefstruktur und viel Fliesstext. */
 function LetterArt() {
   return (
     <svg viewBox="0 0 74 105" className="h-full w-auto drop-shadow" aria-hidden="true">
@@ -429,7 +429,7 @@ function Start() {
         title: `Bewerbungsdossier – ${author}`,
         author,
         subject: "Lehrstellenbewerbung",
-        keywords: "Bewerbung, Titelblatt, Bewerbungsbrief, Lebenslauf",
+        keywords: "Bewerbung, Titelblatt, Motivationsschreiben, Lebenslauf",
       });
       setReviewOpen(false);
       setDossierNote("Gesamtdossier wurde als PDF erstellt.");
@@ -458,7 +458,7 @@ function Start() {
         <div>
           <h2 className="text-2xl font-semibold sm:text-3xl">Was möchtest du machen?</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Titelblatt, Bewerbungsbrief und Lebenslauf gehören zusammen und verwenden dieselbe
+            Titelblatt, Motivationsschreiben und Lebenslauf gehören zusammen und verwenden dieselbe
             Designsprache.
           </p>
         </div>
@@ -480,15 +480,15 @@ function Start() {
           />
           <Card
             to="/anschreiben"
-            title="Bewerbungsbrief"
-            text="Dein persönlicher Bewerbungsbrief – passend zu Titelblatt und Lebenslauf."
-            hint="Bewerbungsbrief verfassen →"
+            title="Motivationsschreiben"
+            text="Dein persönliches Motivationsschreiben – passend zu Titelblatt und Lebenslauf."
+            hint="Motivationsschreiben verfassen →"
             art={<LetterArt />}
           />
           <Card
             onClick={openDossierReview}
             title="Gesamtdossier herunterladen"
-            text="Titelblatt, Bewerbungsbrief und alle CV-Seiten gemeinsam prüfen und als PDF herunterladen."
+            text="Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam prüfen und als PDF herunterladen."
             hint={
               readiness.complete ? "Dossier prüfen & herunterladen →" : "Noch nicht vollständig"
             }

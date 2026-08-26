@@ -1040,14 +1040,14 @@ function Titelblatt() {
                     disabled={!canDownloadDossierPdf}
                     title={
                       canDownloadDossierPdf
-                        ? "Titelblatt, Bewerbungsbrief und alle CV-Seiten gemeinsam herunterladen"
+                        ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen"
                         : dossierPdfHint
                     }
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
                   >
                     <span>Ganzes Dossier als PDF</span>
                     <span className="text-xs text-muted-foreground">
-                      Titelblatt + Bewerbungsbrief + CV
+                      Titelblatt + Motivationsschreiben + CV
                     </span>
                   </button>
                   {!canDownloadDossierPdf ? (
@@ -1070,7 +1070,7 @@ function Titelblatt() {
                   >
                     <span>Dossier speichern</span>
                     <span className="text-xs text-muted-foreground">
-                      Titelblatt + Bewerbungsbrief + CV
+                      Titelblatt + Motivationsschreiben + CV
                     </span>
                   </button>
                   <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">

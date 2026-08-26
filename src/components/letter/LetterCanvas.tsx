@@ -457,7 +457,7 @@ export function LetterCanvas({
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
   const placeholder =
-    "Hier entsteht dein persönlicher Bewerbungsbrief. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.";
+    "Hier entsteht dein persönliches Motivationsschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.";
   const bodyHtml = data.richTextHtml?.trim()
     ? letterRichHtml(data.richTextHtml, data.text)
     : data.text
@@ -473,7 +473,7 @@ export function LetterCanvas({
       data-letter-font={design.font}
       className="relative h-[1123px] w-[794px] overflow-hidden shadow-xl"
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
-      aria-label="Vorschau Bewerbungsbrief"
+      aria-label="Vorschau Motivationsschreiben"
     >
       <LetterBackground design={design} />
       <div
