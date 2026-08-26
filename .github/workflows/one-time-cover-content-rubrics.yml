@@ -1,6 +1,6 @@
 name: One-time cover content rubrics
 
-# Temporary self-removing validation runner; exact rubric panels.
+# Temporary self-removing validation runner; exact rubric panels + hydration guard.
 on:
   push:
     branches:
@@ -28,11 +28,8 @@ jobs:
       - name: Apply title-page rubric migration
         run: python scripts/one-time-cover-content-rubrics.py
 
-      - name: Fix title-page rubric test setup
+      - name: Refine Beilagen rubric and tests
         run: python scripts/one-time-cover-content-test-fix.py
-
-      - name: Refine rubric as Beilagen
-        run: python scripts/one-time-cover-attachments-rubric.py
 
       - name: Format touched files
         run: >-
@@ -106,8 +103,7 @@ jobs:
           git rm -f \
             .github/workflows/one-time-cover-content-rubrics.yml \
             scripts/one-time-cover-content-rubrics.py \
-            scripts/one-time-cover-content-test-fix.py \
-            scripts/one-time-cover-attachments-rubric.py
+            scripts/one-time-cover-content-test-fix.py
           git add \
             src/components/cover/types.ts \
             src/components/cover/CoverForm.tsx \
