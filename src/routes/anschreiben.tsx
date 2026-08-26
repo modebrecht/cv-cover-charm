@@ -31,11 +31,11 @@ import {
 export const Route = createFileRoute("/anschreiben")({
   head: () => ({
     meta: [
-      { title: "Anschreiben für die Lehrstellenbewerbung" },
+      { title: "Bewerbungsbrief für die Lehrstellenbewerbung" },
       {
         name: "description",
         content:
-          "Persönliches Anschreiben für deine Lehrstellenbewerbung – passend zu Titelblatt und Lebenslauf.",
+          "Persönlicher Bewerbungsbrief für deine Lehrstellenbewerbung – passend zu Titelblatt und Lebenslauf.",
       },
     ],
   }),
@@ -44,6 +44,51 @@ export const Route = createFileRoute("/anschreiben")({
 
 const inputClass =
   "mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring";
+
+/** Standard-Anrede und -Gruss allein bedeuten noch nicht, dass der Brief begonnen wurde. */
+function letterHasStarted(data: LetterData): boolean {
+  return [
+    data.absenderName,
+    data.absenderAdresse,
+    data.absenderPlzOrt,
+    data.absenderTelefon,
+    data.absenderEmail,
+    data.empfaengerFirma,
+    data.empfaengerName,
+    data.empfaengerAdresse,
+    data.empfaengerPlzOrt,
+    data.ort,
+    data.datum,
+    data.betreff,
+    data.text,
+    data.richTextHtml,
+    data.unterschrift,
+  ].some((value) => !!value?.trim());
+}
+
+/** Ort/Datum werden im Titelblatt vorbelegt und reichen allein nicht für einen echten Entwurf. */
+function titlePageHasMeaningfulSource(source: LetterDossierSource | null): boolean {
+  if (!source) return false;
+  const personal =
+    source.personalSource === "Titelblatt" &&
+    [
+      source.personalData.absenderName,
+      source.personalData.absenderAdresse,
+      source.personalData.absenderPlzOrt,
+      source.personalData.absenderTelefon,
+      source.personalData.absenderEmail,
+    ].some((value) => !!value?.trim());
+  const application =
+    source.applicationSource === "Titelblatt" &&
+    [
+      source.applicationData.empfaengerFirma,
+      source.applicationData.empfaengerName,
+      source.applicationData.empfaengerAdresse,
+      source.applicationData.empfaengerPlzOrt,
+      source.applicationData.betreff,
+    ].some((value) => !!value?.trim());
+  return personal || application;
+}
 
 function Field({
   label,
@@ -107,45 +152,55 @@ function Anschreiben() {
 
   useEffect(() => {
     const dossier = refreshSource();
-    let loadedLetter = false;
+    let nextData: LetterData = { ...EMPTY_LETTER };
+    let nextDesign: LetterDesign = emptyLetterDesign();
+    let savedDataLoaded = false;
 
     try {
       const raw = window.localStorage.getItem(LETTER_STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as Partial<SavedLetter>;
         if (parsed.data && typeof parsed.data === "object") {
-          setData({ ...EMPTY_LETTER, ...parsed.data });
-          loadedLetter = true;
+          nextData = { ...EMPTY_LETTER, ...parsed.data };
+          savedDataLoaded = true;
         }
-        if (parsed.design) setDesign(normalizeLetterDesign(parsed.design));
+        if (parsed.design) nextDesign = normalizeLetterDesign(parsed.design);
         setSaveState("saved");
       }
     } catch {
       setSaveState("error");
     }
 
-    // Wie beim Lebenslauf: erster Besuch startet aus dem bereits vorhandenen
-    // Dossier. Das Brief-Design startet bewusst neutral und kann später manuell
-    // übernommen werden. Ein erneut geöffnetes Anschreiben bleibt exakt gespeichert.
-    if (!loadedLetter) {
-      if (dossier.hasPersonal) {
-        setData((current) => mergeNonEmptyLetterData(current, dossier.personalData));
+    // Ein technisch vorhandener, aber inhaltlich leerer Autosave zählt wie ein
+    // erster Besuch. Sobald das Titelblatt echte Angaben enthält, startet der
+    // Bewerbungsbrief mit denselben Daten und derselben Designsprache.
+    if (
+      (!savedDataLoaded || !letterHasStarted(nextData)) &&
+      titlePageHasMeaningfulSource(dossier)
+    ) {
+      const automatic: string[] = [];
+      if (dossier.personalSource === "Titelblatt" && dossier.hasPersonal) {
+        nextData = mergeNonEmptyLetterData(nextData, dossier.personalData);
+        automatic.push("persönliche Angaben");
       }
-      if (dossier.hasApplication) {
-        setData((current) => mergeNonEmptyLetterData(current, dossier.applicationData));
+      if (dossier.applicationSource === "Titelblatt" && dossier.hasApplication) {
+        nextData = mergeNonEmptyLetterData(nextData, dossier.applicationData);
+        automatic.push("Betriebsdaten");
       }
-      const automatic = [
-        dossier.hasPersonal ? "persönliche Angaben" : null,
-        dossier.hasApplication ? "Betriebsdaten" : null,
-      ].filter(Boolean);
+      if (dossier.designSource === "Titelblatt" && dossier.design) {
+        nextDesign = { ...nextDesign, ...dossier.design };
+        automatic.push("Design");
+      }
       if (automatic.length) {
         setTransferNote({
           kind: "ok",
-          text: `Beim ersten Öffnen übernommen: ${automatic.join(", ")}.`,
+          text: `Automatisch vom Titelblatt übernommen: ${automatic.join(", ")}.`,
         });
       }
     }
 
+    setData(nextData);
+    setDesign(nextDesign);
     setHydrated(true);
   }, [refreshSource]);
 
@@ -191,6 +246,14 @@ function Anschreiben() {
         : (TEMPLATES.find((candidate) => candidate.id === design.template) ?? TEMPLATES[0]),
     [design.template],
   );
+  const titlePageReady = titlePageHasMeaningfulSource(source);
+  const titlePageTemplateName = useMemo(() => {
+    if (source?.designSource !== "Titelblatt" || !source.design) return null;
+    return (
+      TEMPLATES.find((candidate) => candidate.id === source.design?.template)?.name ??
+      source.design.template
+    );
+  }, [source]);
 
   const patch = (value: Partial<LetterData>) => setData((current) => ({ ...current, ...value }));
   const toggle = (key: string) => setOpen((current) => ({ ...current, [key]: !current[key] }));
@@ -201,6 +264,36 @@ function Anschreiben() {
       template: next,
       colors: defaultLetterColors(next),
     }));
+  };
+
+  const syncAllFromTitlePage = () => {
+    const dossier = refreshSource();
+    if (!titlePageHasMeaningfulSource(dossier)) {
+      setTransferNote({
+        kind: "error",
+        text: "Fülle zuerst dein Titelblatt aus.",
+      });
+      return;
+    }
+
+    const done: string[] = [];
+    if (dossier.personalSource === "Titelblatt" && dossier.hasPersonal) {
+      setData((current) => mergeNonEmptyLetterData(current, dossier.personalData));
+      done.push("persönliche Angaben");
+    }
+    if (dossier.applicationSource === "Titelblatt" && dossier.hasApplication) {
+      setData((current) => mergeNonEmptyLetterData(current, dossier.applicationData));
+      done.push("Betriebsdaten");
+    }
+    if (dossier.designSource === "Titelblatt" && dossier.design) {
+      setDesign((current) => ({ ...current, ...dossier.design! }));
+      done.push("Design");
+    }
+
+    setTransferNote({
+      kind: "ok",
+      text: `Alles vom Titelblatt übernommen: ${done.join(", ")}. Dein Brieftext bleibt erhalten.`,
+    });
   };
 
   const syncFromDossier = () => {
@@ -216,7 +309,7 @@ function Anschreiben() {
       done.push("Betriebsdaten");
     }
     if (takeover.design && dossier.design) {
-      setDesign(dossier.design);
+      setDesign((current) => ({ ...current, ...dossier.design! }));
       done.push("Design");
     }
 
@@ -261,7 +354,7 @@ function Anschreiben() {
           Formular
         </button>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-sm font-semibold sm:text-base">Anschreiben</h1>
+          <h1 className="truncate text-sm font-semibold sm:text-base">Bewerbungsbrief</h1>
         </div>
         <SaveStatus state={saveState} />
         <ThemeToggle />
@@ -275,8 +368,33 @@ function Anschreiben() {
               Lebenslauf, damit längerer Text gut lesbar bleibt.
             </div>
 
+            <div className="rounded-lg border border-primary/25 bg-primary/5 p-3">
+              <div className="text-sm font-semibold text-foreground">
+                Mit dem Titelblatt abgleichen
+              </div>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                Übernimmt Kontaktdaten, Lehrbetrieb, Ort, Datum und Betreff sowie Vorlage, Farben
+                und Schrift. Dein eigener Brieftext bleibt erhalten.
+              </p>
+              <button
+                type="button"
+                onClick={syncAllFromTitlePage}
+                disabled={!titlePageReady}
+                className="mt-3 w-full rounded-md bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Alles vom Titelblatt übernehmen
+              </button>
+              <p className="mt-2 text-[11px] text-muted-foreground">
+                {titlePageReady
+                  ? titlePageTemplateName
+                    ? `Titelblatt-Vorlage: ${titlePageTemplateName}`
+                    : "Titelblatt-Daten gefunden."
+                  : "Fülle zuerst dein Titelblatt aus."}
+              </p>
+            </div>
+
             <Section
-              title="Vom Dossier übernehmen"
+              title="Einzeln übernehmen"
               open={open.uebernehmen}
               onToggle={() => toggle("uebernehmen")}
             >
@@ -351,7 +469,7 @@ function Anschreiben() {
                   disabled={!anySource}
                   className="mt-1 rounded-md bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  Aus Dossier übernehmen
+                  Auswahl übernehmen
                 </button>
 
                 {transferNote && (

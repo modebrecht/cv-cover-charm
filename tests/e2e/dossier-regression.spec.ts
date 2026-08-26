@@ -611,13 +611,45 @@ test.describe("M5.8 dossier regression", () => {
     expect((await stat(path ?? "")).size).toBeGreaterThan(10_000);
   });
 
-  test("letter first-open transfer autosaves and later transfer preserves the body", async ({
+  test("empty saved Bewerbungsbrief inherits title-page data and design and can re-sync all", async ({
     page,
   }) => {
     await seedCoreDossier(page);
+    await page.evaluate(() => {
+      localStorage.setItem(
+        "anschreiben:v1",
+        JSON.stringify({
+          version: 1,
+          data: {
+            absenderName: "",
+            absenderAdresse: "",
+            absenderPlzOrt: "",
+            absenderTelefon: "",
+            absenderEmail: "",
+            empfaengerFirma: "",
+            empfaengerName: "",
+            empfaengerAdresse: "",
+            empfaengerPlzOrt: "",
+            ort: "",
+            datum: "",
+            betreff: "",
+            anrede: "Guten Tag",
+            text: "",
+            richTextHtml: "",
+            gruss: "Freundliche Grüsse",
+            unterschrift: "",
+          },
+          design: {
+            template: "brief",
+            colors: { bg: "#ffffff", primary: "#111111", accent: "#111111" },
+            font: "sans",
+          },
+        }),
+      );
+    });
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
 
-    await expect(page.getByRole("heading", { name: "Anschreiben" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Bewerbungsbrief" })).toBeVisible();
     await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
     await expect(page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })).toHaveValue(
       "Beispiel AG",
@@ -626,21 +658,26 @@ test.describe("M5.8 dossier regression", () => {
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
     );
-    const preview = page.getByLabel("Vorschau Anschreiben");
+    const preview = page.getByLabel("Vorschau Bewerbungsbrief");
     await expect(preview).toBeVisible();
-    await expect(preview).toHaveAttribute("data-letter-template", "brief");
-    await expect(preview.locator('[data-letter-background="brief"]')).toHaveCSS(
-      "background-color",
-      "rgb(255, 255, 255)",
-    );
+    await expect(preview).toHaveAttribute("data-letter-template", "modern");
+    await expect(page.getByRole("button", { name: "Farben", exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Alles vom Titelblatt übernehmen", exact: true }),
+    ).toBeVisible();
     await expect
       .poll(() =>
-        page.evaluate(
-          () => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}").design?.template ?? "",
-        ),
+        page.evaluate(() => {
+          const saved = JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}");
+          return {
+            template: saved.design?.template,
+            accent: saved.design?.colors?.accent,
+            font: saved.design?.font,
+            name: saved.data?.absenderName,
+          };
+        }),
       )
-      .toBe("brief");
-    await expect(page.getByRole("button", { name: "Farben", exact: true })).toHaveCount(0);
+      .toEqual({ template: "modern", accent: "#d6a47d", font: "sans", name: "Lea Müller" });
 
     const body = page.getByLabel("Brieftext");
     const preservedBody = "Mein individuell geschriebener Brieftext bleibt erhalten.";
@@ -657,21 +694,29 @@ test.describe("M5.8 dossier regression", () => {
       const cover = JSON.parse(localStorage.getItem("titelblatt:v3") ?? "{}");
       cover.data.lehrbetrieb = "Neue Beispiel AG";
       cover.data.ansprechperson = "Frau Anna Neu";
+      cover.colors.modern.accent = "#38bdf8";
+      cover.font = "serif";
       localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
     });
 
-    await page.getByRole("button", { name: "Aus Dossier übernehmen" }).click();
+    await page.getByRole("button", { name: "Alles vom Titelblatt übernehmen" }).click();
     await expect(page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })).toHaveValue(
       "Neue Beispiel AG",
     );
+    await expect(preview).toHaveAttribute("data-letter-font", "serif");
     await expect(body).toHaveText(preservedBody);
     await expect
       .poll(() =>
-        page.evaluate(
-          () => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}").data?.text ?? "",
-        ),
+        page.evaluate(() => {
+          const saved = JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}");
+          return {
+            accent: saved.design?.colors?.accent,
+            font: saved.design?.font,
+            text: saved.data?.text,
+          };
+        }),
       )
-      .toBe(preservedBody);
+      .toEqual({ accent: "#38bdf8", font: "serif", text: preservedBody });
   });
 
   test("letter layout controls and Word-like formatting persist", async ({ page }) => {
@@ -687,7 +732,7 @@ test.describe("M5.8 dossier regression", () => {
     await page.getByLabel("Trennlinie nach Firma / Lehrbetrieb").check();
     await page.getByLabel("Trennlinie nach Titel / Betreff").check();
 
-    const preview = page.getByLabel("Vorschau Anschreiben");
+    const preview = page.getByLabel("Vorschau Bewerbungsbrief");
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCSS(
       "text-align",
       "right",
@@ -703,10 +748,13 @@ test.describe("M5.8 dossier regression", () => {
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toBeVisible();
 
     await page.getByRole("button", { name: "Vorlage", exact: true }).click();
-    await expect(page.getByRole("button", { name: "Brief", exact: true })).toHaveAttribute(
+    await expect(page.getByRole("button", { name: "Modern", exact: true })).toHaveAttribute(
       "aria-pressed",
       "true",
     );
+    await page.getByRole("button", { name: "Brief", exact: true }).click();
+    await expect(preview).toHaveAttribute("data-letter-template", "brief");
+    await expect(page.getByRole("button", { name: "Farben", exact: true })).toHaveCount(0);
     await page.getByRole("button", { name: "Editorial", exact: true }).click();
     await expect(preview).toHaveAttribute("data-letter-template", "klassisch");
     await expect(page.getByRole("button", { name: "Farben", exact: true })).toBeVisible();
@@ -811,13 +859,13 @@ test.describe("M5.8 dossier regression", () => {
     // Dieser Text entsteht erst nach dem clientseitigen Storage-Read und ist damit
     // zugleich unser Hydration-Signal: Titelblatt und CV sind bereit, nur der Brief fehlt.
     await expect(
-      page.getByText("Gesamtdossier verfügbar, sobald Anschreiben ausgefüllt ist."),
+      page.getByText("Gesamtdossier verfügbar, sobald Bewerbungsbrief ausgefüllt ist."),
     ).toBeVisible();
 
     const dossierCard = page.getByRole("button", { name: /Gesamtdossier herunterladen/ });
     await dossierCard.click();
     await expect(page.getByRole("dialog", { name: "Dossier herunterladen" })).toHaveCount(0);
-    await expect(page.getByText("Noch nicht vollständig: Anschreiben.")).toBeVisible();
+    await expect(page.getByText("Noch nicht vollständig: Bewerbungsbrief.")).toBeVisible();
 
     await page.evaluate((letter) => {
       localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
@@ -827,7 +875,7 @@ test.describe("M5.8 dossier regression", () => {
     await dossierCard.click();
     const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
     await expect(dialog).toBeVisible();
-    await expect(dialog).toContainText(/Reihenfolge: Titelblatt, Anschreiben und/);
+    await expect(dialog).toContainText(/Reihenfolge: Titelblatt, Bewerbungsbrief und/);
 
     await expect
       .poll(() =>

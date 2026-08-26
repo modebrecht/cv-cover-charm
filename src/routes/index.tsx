@@ -26,11 +26,11 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bewerbungsdossier – Titelblatt, Anschreiben und Lebenslauf" },
+      { title: "Bewerbungsdossier – Titelblatt, Bewerbungsbrief und Lebenslauf" },
       {
         name: "description",
         content:
-          "Titelblatt, Anschreiben und Lebenslauf für deine Lehrstellenbewerbung in der Schweiz – im gleichen Design.",
+          "Titelblatt, Bewerbungsbrief und Lebenslauf für deine Lehrstellenbewerbung in der Schweiz – im gleichen Design.",
       },
     ],
   }),
@@ -68,7 +68,7 @@ function dossierReadiness(documents: DossierDocuments): DossierReadiness {
 function missingDossierParts(readiness: DossierReadiness): string[] {
   const parts: string[] = [];
   if (!readiness.cover) parts.push("Titelblatt");
-  if (!readiness.letter) parts.push("Anschreiben");
+  if (!readiness.letter) parts.push("Bewerbungsbrief");
   if (!readiness.cv) parts.push("Lebenslauf");
   return parts;
 }
@@ -147,11 +147,51 @@ function CoverArt() {
       <circle cx="52" cy="24" r="9" fill="var(--color-primary)" opacity="0.55" />
       <rect x="10" y="52" width="12" height="2.4" rx="1.2" fill="var(--color-primary)" />
       <rect x="10" y="59" width="44" height="6" rx="1" fill="var(--color-foreground)" />
-      <rect x="10" y="69" width="26" height="3" rx="1" fill="var(--color-foreground)" opacity="0.6" />
-      <rect x="10" y="88" width="22" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
-      <rect x="10" y="92" width="18" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
-      <rect x="44" y="88" width="20" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
-      <rect x="44" y="92" width="16" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
+      <rect
+        x="10"
+        y="69"
+        width="26"
+        height="3"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.6"
+      />
+      <rect
+        x="10"
+        y="88"
+        width="22"
+        height="2"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.3"
+      />
+      <rect
+        x="10"
+        y="92"
+        width="18"
+        height="2"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.3"
+      />
+      <rect
+        x="44"
+        y="88"
+        width="20"
+        height="2"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.3"
+      />
+      <rect
+        x="44"
+        y="92"
+        width="16"
+        height="2"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.3"
+      />
     </svg>
   );
 }
@@ -164,7 +204,15 @@ function CvArt() {
       <circle cx="60" cy="16" r="10" fill="var(--color-primary)" opacity="0.12" />
       <circle cx="13" cy="15" r="7" fill="var(--color-primary)" opacity="0.5" />
       <rect x="24" y="11" width="26" height="4" rx="1" fill="var(--color-foreground)" />
-      <rect x="24" y="18" width="18" height="2.4" rx="1" fill="var(--color-foreground)" opacity="0.5" />
+      <rect
+        x="24"
+        y="18"
+        width="18"
+        height="2.4"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.5"
+      />
       {[30, 50, 70].map((y) => (
         <g key={y}>
           <rect x="10" y={y} width="14" height="2.4" rx="1.2" fill="var(--color-primary)" />
@@ -186,17 +234,49 @@ function CvArt() {
   );
 }
 
-/** Miniatur eines Anschreibens: klare Briefstruktur und viel Fliesstext. */
+/** Miniatur eines Bewerbungsbriefs: klare Briefstruktur und viel Fliesstext. */
 function LetterArt() {
   return (
     <svg viewBox="0 0 74 105" className="h-full w-auto drop-shadow" aria-hidden="true">
       <rect width="74" height="105" rx="2" fill="var(--color-background)" />
       <rect x="8" y="8" width="58" height="6" rx="1" fill="var(--color-primary)" opacity="0.18" />
       <rect x="10" y="10" width="22" height="2" rx="1" fill="var(--color-primary)" />
-      <rect x="10" y="23" width="24" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
-      <rect x="10" y="27" width="20" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
-      <rect x="44" y="34" width="20" height="2" rx="1" fill="var(--color-foreground)" opacity="0.3" />
-      <rect x="10" y="43" width="42" height="3" rx="1" fill="var(--color-foreground)" opacity="0.75" />
+      <rect
+        x="10"
+        y="23"
+        width="24"
+        height="2"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.3"
+      />
+      <rect
+        x="10"
+        y="27"
+        width="20"
+        height="2"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.3"
+      />
+      <rect
+        x="44"
+        y="34"
+        width="20"
+        height="2"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.3"
+      />
+      <rect
+        x="10"
+        y="43"
+        width="42"
+        height="3"
+        rx="1"
+        fill="var(--color-foreground)"
+        opacity="0.75"
+      />
       {[53, 58, 63, 71, 76, 81].map((y, index) => (
         <rect
           key={y}
@@ -220,7 +300,15 @@ function DossierArt() {
     <svg viewBox="0 0 92 105" className="h-full w-auto drop-shadow" aria-hidden="true">
       <rect x="28" y="7" width="56" height="88" rx="2" fill="var(--color-muted)" />
       <rect x="18" y="11" width="56" height="88" rx="2" fill="var(--color-background)" />
-      <rect x="8" y="15" width="56" height="88" rx="2" fill="var(--color-background)" stroke="var(--color-border)" />
+      <rect
+        x="8"
+        y="15"
+        width="56"
+        height="88"
+        rx="2"
+        fill="var(--color-background)"
+        stroke="var(--color-border)"
+      />
       <rect x="15" y="25" width="10" height="2.5" rx="1" fill="var(--color-primary)" />
       <rect x="15" y="32" width="34" height="5" rx="1" fill="var(--color-foreground)" />
       {[48, 54, 60, 70, 76, 82].map((y, index) => (
@@ -327,13 +415,13 @@ function Start() {
       ? [documents.cover.data.vorname, documents.cover.data.nachname].filter(Boolean).join(" ")
       : "";
     const cvName = documents.cv
-      ? [documents.cv.data.person.vorname, documents.cv.data.person.nachname].filter(Boolean).join(" ")
+      ? [documents.cv.data.person.vorname, documents.cv.data.person.nachname]
+          .filter(Boolean)
+          .join(" ")
       : "";
     const author = coverName || cvName || "Bewerbungsdossier";
     const fileName =
-      author === "Bewerbungsdossier"
-        ? "Bewerbungsdossier.pdf"
-        : `Bewerbungsdossier-${author}.pdf`;
+      author === "Bewerbungsdossier" ? "Bewerbungsdossier.pdf" : `Bewerbungsdossier-${author}.pdf`;
 
     setDownloading(true);
     try {
@@ -341,7 +429,7 @@ function Start() {
         title: `Bewerbungsdossier – ${author}`,
         author,
         subject: "Lehrstellenbewerbung",
-        keywords: "Bewerbung, Titelblatt, Anschreiben, Lebenslauf",
+        keywords: "Bewerbung, Titelblatt, Bewerbungsbrief, Lebenslauf",
       });
       setReviewOpen(false);
       setDossierNote("Gesamtdossier wurde als PDF erstellt.");
@@ -370,7 +458,7 @@ function Start() {
         <div>
           <h2 className="text-2xl font-semibold sm:text-3xl">Was möchtest du machen?</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Titelblatt, Anschreiben und Lebenslauf gehören zusammen und verwenden dieselbe
+            Titelblatt, Bewerbungsbrief und Lebenslauf gehören zusammen und verwenden dieselbe
             Designsprache.
           </p>
         </div>
@@ -392,16 +480,18 @@ function Start() {
           />
           <Card
             to="/anschreiben"
-            title="Anschreiben"
+            title="Bewerbungsbrief"
             text="Dein persönlicher Bewerbungsbrief – passend zu Titelblatt und Lebenslauf."
-            hint="Anschreiben verfassen →"
+            hint="Bewerbungsbrief verfassen →"
             art={<LetterArt />}
           />
           <Card
             onClick={openDossierReview}
             title="Gesamtdossier herunterladen"
-            text="Titelblatt, Anschreiben und alle CV-Seiten gemeinsam prüfen und als PDF herunterladen."
-            hint={readiness.complete ? "Dossier prüfen & herunterladen →" : "Noch nicht vollständig"}
+            text="Titelblatt, Bewerbungsbrief und alle CV-Seiten gemeinsam prüfen und als PDF herunterladen."
+            hint={
+              readiness.complete ? "Dossier prüfen & herunterladen →" : "Noch nicht vollständig"
+            }
             art={<DossierArt />}
           />
         </div>
