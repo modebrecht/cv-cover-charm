@@ -503,6 +503,95 @@ test.describe("M5.8 dossier regression", () => {
     expect(JSON.parse(storage.cvPhoto ?? "{}").shape).toBe("square");
   });
 
+  test("empty saved CV inherits the full title page and can re-sync everything", async ({
+    page,
+  }) => {
+    const cover = coverPayload();
+    cover.template = "pastell";
+    cover.colors = {
+      pastell: { bg: "#fff7ed", primary: "#7c2d12", accent: "#fb923c" },
+    };
+    cover.font = "serif";
+    cover.fontScale = 1.15;
+
+    const emptyStoredCv = cvPayload({ template: "modern" });
+    emptyStoredCv.data = {
+      person: {
+        vorname: "",
+        nachname: "",
+        adresse: "",
+        plzOrt: "",
+        telefon: "",
+        email: "",
+        geburtsdatum: "",
+        nationalitaet: "",
+        untertitel: "",
+        foto: null,
+      },
+      schule: [],
+      erfahrung: [],
+      sprachen: [],
+      hobbys: [],
+      staerken: [],
+      referenzen: [],
+      labels: {},
+      hidden: {},
+    };
+
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+    await page.evaluate(
+      ({ titlePage, cv }) => {
+        localStorage.clear();
+        localStorage.setItem("titelblatt:v3", JSON.stringify(titlePage));
+        localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
+      },
+      { titlePage: cover, cv: emptyStoredCv },
+    );
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+
+    const takeAll = page.getByRole("button", { name: "Alles vom Titelblatt übernehmen" });
+    await expect(takeAll).toBeVisible();
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const saved = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "{}");
+          return {
+            template: saved.design?.template,
+            font: saved.design?.font,
+            vorname: saved.data?.person?.vorname,
+          };
+        }),
+      )
+      .toEqual({ template: "pastell", font: "serif", vorname: "Lea" });
+
+    await page.evaluate(() => {
+      const titlePage = JSON.parse(localStorage.getItem("titelblatt:v3") ?? "{}");
+      titlePage.template = "modern";
+      titlePage.colors = {
+        ...(titlePage.colors ?? {}),
+        modern: { bg: "#ffffff", primary: "#172554", accent: "#38bdf8" },
+      };
+      titlePage.font = "sans";
+      titlePage.data.vorname = "Mia";
+      localStorage.setItem("titelblatt:v3", JSON.stringify(titlePage));
+    });
+
+    await takeAll.click();
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const saved = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "{}");
+          return {
+            template: saved.design?.template,
+            accent: saved.design?.colors?.accent,
+            font: saved.design?.font,
+            vorname: saved.data?.person?.vorname,
+          };
+        }),
+      )
+      .toEqual({ template: "modern", accent: "#38bdf8", font: "sans", vorname: "Mia" });
+  });
+
   test("PDF export downloads a non-empty PDF from the export CV pages only", async ({ page }) => {
     await seedCv(page, { family: "executive", layout: "timeline", long: true, photo: true });
     const preview = previewRoot(page);

@@ -312,6 +312,13 @@ function Lebenslauf() {
     () => TEMPLATES.find((t) => t.id === design.template) ?? TEMPLATES[0],
     [design.template],
   );
+  const coverTemplateName = useMemo(
+    () =>
+      cover
+        ? (TEMPLATES.find((template) => template.id === cover.template)?.name ?? cover.template)
+        : null,
+    [cover],
+  );
 
   /* ---------------------------------------------------------------------- */
   /* Eigene Elemente – dieselbe Bedienung wie auf dem Titelblatt            */
@@ -422,23 +429,53 @@ function Lebenslauf() {
       return next;
     });
 
-  /** Gespeicherten Lebenslauf übernehmen. Gibt zurück, ob es einen gab. */
-  const loadFromStorage = useCallback((): boolean => {
+  /**
+   * Titelblatt als gemeinsame Quelle für den CV verwenden.
+   *
+   * Das ist bewusst dieselbe Komplettübernahme für den ersten leeren CV und
+   * für den grossen manuellen Button. CV-eigene Inhalte wie Schule oder
+   * Erfahrung bleiben dabei unangetastet; gemeinsame Personendaten und das
+   * gesamte übertragbare Design kommen vom Titelblatt.
+   */
+  const applyEverythingFromCover = useCallback((draft: CoverDraft) => {
+    setCover(draft);
+    setDesign((current) => ({
+      ...current,
+      template: draft.template,
+      colors: draft.colors,
+      font: draft.font ?? undefined,
+      titleScale: draft.fontScale,
+      headingScale: draft.fontScale,
+      bodyScale: draft.fontScale,
+      useElements: draft.elements.length > 0,
+    }));
+    setElements(draft.elements);
+    setElementStyles({});
+    setCvPhotoStyle(draft.photoStyle);
+    setData((current) => ({
+      ...current,
+      person: { ...current.person, ...draft.person },
+    }));
+    setLastCoverFingerprint(coverDraftFingerprint(draft));
+  }, []);
+
+  /** Gespeicherten Lebenslauf übernehmen und den gelesenen Stand zurückgeben. */
+  const loadFromStorage = useCallback((): Partial<Saved> | null => {
     let saved: string | null = null;
     try {
       saved = localStorage.getItem(STORAGE_KEY);
     } catch {
       saved = null;
     }
-    if (!saved) return false;
+    if (!saved) return null;
     try {
       const p = JSON.parse(saved) as Partial<Saved>;
       applySaved(p);
       markWritten(saved);
       setSaveState("saved");
-      return true;
+      return p;
     } catch {
-      return false;
+      return null;
     }
   }, [markWritten, applySaved]);
 
@@ -449,31 +486,23 @@ function Lebenslauf() {
     const draft = readCoverDraft();
     setCover(draft);
 
-    if (loadFromStorage()) return;
+    const stored = loadFromStorage();
+    const storedData = stored?.data
+      ? {
+          ...emptyCv,
+          ...stored.data,
+          person: { ...emptyCv.person, ...stored.data.person },
+        }
+      : null;
 
-    // Erster Besuch: alles vom Titelblatt übernehmen – dieselbe Wirkung wie
-    // der Knopf mit allen Haken, damit beide Wege dasselbe Ergebnis liefern.
-    if (draft) {
-      setDesign((d) => ({
-        ...d,
-        template: draft.template,
-        colors: draft.colors,
-        font: draft.font ?? undefined,
-        titleScale: draft.fontScale,
-        headingScale: draft.fontScale,
-        bodyScale: draft.fontScale,
-        useElements: draft.elements.length > 0,
-      }));
-      setElements(draft.elements);
-      setElementStyles({});
-      if (draft.person.foto) setCvPhotoStyle(draft.photoStyle);
-      if (personFilled(draft.person)) {
-        setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
-      }
-      setLastCoverFingerprint(coverDraftFingerprint(draft));
-    }
+    // Ein leerer, früher automatisch gespeicherter CV zählt weiterhin als
+    // "noch nicht begonnen". Sonst würde genau dieser leere Save die sinnvolle
+    // Erstübernahme vom Titelblatt dauerhaft blockieren.
+    if (storedData && cvHasContent(storedData)) return;
+
+    if (draft) applyEverythingFromCover(draft);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [applyEverythingFromCover]);
 
   /* Zurück im Tab: ein anderes Fenster hat womöglich neuer geschrieben. */
   useEffect(() => {
@@ -636,6 +665,32 @@ function Lebenslauf() {
     { key: "photo", label: "Foto", hint: "samt Rahmenform und Ausschnitt" },
     { key: "person", label: "Persönliche Angaben", hint: "Name, Adresse, Kontakt" },
   ];
+
+  const syncAllFromCover = useCallback(() => {
+    const draft = readCoverDraft();
+    setCover(draft);
+    if (!draft) {
+      setStatus({ kind: "error", text: "Es gibt noch kein gespeichertes Titelblatt." });
+      return;
+    }
+
+    keepSnapshot("Vor kompletter Titelblatt-Übernahme", true);
+    applyEverythingFromCover(draft);
+    setTakeover({
+      template: true,
+      colors: true,
+      typography: true,
+      elements: true,
+      photo: true,
+      person: true,
+    });
+    const templateName =
+      TEMPLATES.find((template) => template.id === draft.template)?.name ?? draft.template;
+    setStatus({
+      kind: "ok",
+      text: `Alles vom Titelblatt übernommen · Vorlage ${templateName}`,
+    });
+  }, [applyEverythingFromCover, keepSnapshot]);
 
   const syncFromCover = useCallback(() => {
     const draft = readCoverDraft();
@@ -1437,6 +1492,23 @@ function Lebenslauf() {
               <span className="text-xs text-muted-foreground">Alles ausfüllen, dann als PDF.</span>
             </div>
 
+            <div className="rounded-lg border bg-primary/5 p-3">
+              <div className="text-sm font-semibold">Titelblatt als Ausgangspunkt</div>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                {cover
+                  ? `Übernimmt persönliche Angaben, Foto, Vorlage ${coverTemplateName ? `„${coverTemplateName}“` : ""}, Farben, Schrift und Formen.`
+                  : "Speichere zuerst ein Titelblatt. Danach kannst du Daten und Design mit einem Klick übernehmen."}
+              </p>
+              <button
+                type="button"
+                onClick={syncAllFromCover}
+                disabled={!cover}
+                className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-45"
+              >
+                Alles vom Titelblatt übernehmen
+              </button>
+            </div>
+
             {coverChanged ? (
               <div
                 role="status"
@@ -1518,7 +1590,7 @@ function Lebenslauf() {
                     disabled={!cover}
                     className="self-start rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent disabled:opacity-50"
                   >
-                    Übernehmen
+                    Auswahl übernehmen
                   </button>
 
                   <label className="mt-1 flex items-start gap-2 border-t pt-2 text-xs">
