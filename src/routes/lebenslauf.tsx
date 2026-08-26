@@ -833,7 +833,7 @@ function Lebenslauf() {
               ? "Dossier geladen: Titelblatt und Lebenslauf"
               : loaded.cv
                 ? "Lebenslauf aus dem Dossier geladen"
-                : "Titelblatt gespeichert – öffne es über die Kopfzeile",
+                : "Titelblatt gespeichert – öffne es über die Übersicht",
         });
         return;
       }
@@ -1134,6 +1134,23 @@ function Lebenslauf() {
     <div className="flex h-screen flex-col overflow-hidden bg-muted/30">
       <header className="z-30 shrink-0 border-b bg-background/95 backdrop-blur">
         <div className="flex items-center gap-3 px-3 py-2.5 sm:px-4">
+          <Link
+            to="/"
+            aria-label="Übersicht"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-input px-2.5 py-2 text-sm font-medium hover:bg-accent sm:px-3"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                d="M2.5 7.2 8 2.8l5.5 4.4v5.5a.8.8 0 0 1-.8.8H9.8V9.6H6.2v3.9H3.3a.8.8 0 0 1-.8-.8Z"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="hidden sm:inline">Übersicht</span>
+          </Link>
           <button
             type="button"
             onClick={() => setPanelOpen((v) => !v)}
@@ -1187,12 +1204,6 @@ function Lebenslauf() {
           )}
 
           <div className="flex shrink-0 items-center gap-2">
-            <Link
-              to="/titelblatt"
-              className="hidden rounded-md border border-input px-3 py-2 text-sm hover:bg-accent sm:inline-flex"
-            >
-              Titelblatt
-            </Link>
             <ThemeToggle />
             <label className="hidden items-center gap-1 sm:inline-flex">
               <span className="sr-only">Zoom der Vorschau</span>
@@ -1246,7 +1257,9 @@ function Lebenslauf() {
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
                   >
                     <span>Ganzes Dossier als PDF</span>
-                    <span className="text-xs text-muted-foreground">Titelblatt + Anschreiben + CV</span>
+                    <span className="text-xs text-muted-foreground">
+                      Titelblatt + Anschreiben + CV
+                    </span>
                   </button>
                   {!canDownloadDossierPdf ? (
                     <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
@@ -1270,7 +1283,9 @@ function Lebenslauf() {
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
                   >
                     <span>Dossier speichern</span>
-                    <span className="text-xs text-muted-foreground">Titelblatt + Anschreiben + CV</span>
+                    <span className="text-xs text-muted-foreground">
+                      Titelblatt + Anschreiben + CV
+                    </span>
                   </button>
                   <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
                     <span>Dossier laden</span>

@@ -235,6 +235,23 @@ function Anschreiben() {
   return (
     <div className="flex h-screen min-h-0 flex-col overflow-hidden bg-background">
       <header className="flex h-14 shrink-0 items-center gap-3 border-b px-3 sm:px-4">
+        <Link
+          to="/"
+          aria-label="Übersicht"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-input px-2.5 py-2 text-sm font-medium hover:bg-accent sm:px-3"
+        >
+          <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+            <path
+              d="M2.5 7.2 8 2.8l5.5 4.4v5.5a.8.8 0 0 1-.8.8H9.8V9.6H6.2v3.9H3.3a.8.8 0 0 1-.8-.8Z"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className="hidden sm:inline">Übersicht</span>
+        </Link>
         <button
           type="button"
           onClick={() => setPanelOpen((value) => !value)}
@@ -243,9 +260,6 @@ function Anschreiben() {
         >
           Formular
         </button>
-        <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-          ← Dossier
-        </Link>
         <div className="min-w-0 flex-1">
           <h1 className="truncate text-sm font-semibold sm:text-base">Anschreiben</h1>
         </div>

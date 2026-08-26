@@ -768,6 +768,21 @@ test.describe("M5.8 dossier regression", () => {
     expect(pdfSource).toContain("Guten Tag Herr Weber");
   });
 
+  test("document editors expose one consistent overview home link", async ({ page }) => {
+    for (const path of ["/titelblatt", "/lebenslauf", "/anschreiben"]) {
+      await page.goto(`${BASE_URL}${path}`);
+      const header = page.locator("header").first();
+      const overview = header.getByRole("link", { name: "Übersicht" });
+      await expect(overview).toHaveCount(1);
+      await expect(overview).toHaveAttribute("href", "/");
+    }
+
+    await page.goto(`${BASE_URL}/titelblatt`);
+    await expect(page.locator('header a[href="/lebenslauf"]')).toHaveCount(0);
+    await page.goto(`${BASE_URL}/lebenslauf`);
+    await expect(page.locator('header a[href="/titelblatt"]')).toHaveCount(0);
+  });
+
   test("card-template sidebar clears the header and stays inside the card", async ({ page }) => {
     await seedCv(page, { layout: "modern" });
     await page.evaluate(() => {
