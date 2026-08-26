@@ -1,6 +1,6 @@
 name: One-time cover content rubrics
 
-# Temporary self-removing validation runner; state-aware rubric test.
+# Temporary self-removing validation runner; exact rubric panels.
 on:
   push:
     branches:
