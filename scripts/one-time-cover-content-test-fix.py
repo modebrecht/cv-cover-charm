@@ -6,7 +6,11 @@ old = '''    const companyToggle = companySection.getByLabel("Auf Titelblatt anz
     const contentToggle = contentSection.getByLabel("Auf Titelblatt anzeigen");
 
     await expect(companyToggle).not.toBeChecked();'''
-new = '''    await companySection.getByRole("button").first().click();
+new = '''    const companyHeader = companySection.getByRole("button").first();
+    if ((await companyHeader.getAttribute("aria-expanded")) !== "true") {
+      await companyHeader.click();
+    }
+    await expect(companyHeader).toHaveAttribute("aria-expanded", "true");
     const companyToggle = companySection.locator('input[type="checkbox"]').first();
     const contentToggle = contentSection.locator('input[type="checkbox"]').first();
 
