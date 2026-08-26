@@ -56,12 +56,12 @@ export function LetterLayoutControls({
       </p>
 
       <AlignmentRow
-        label="Absender"
+        label="Meine Kontaktdaten"
         value={design.senderAlign ?? "left"}
         onChange={(senderAlign) => onChange({ senderAlign })}
       />
       <AlignmentRow
-        label="Empfänger"
+        label="Firma / Lehrbetrieb"
         value={design.recipientAlign ?? "left"}
         onChange={(recipientAlign) => onChange({ recipientAlign })}
       />
@@ -79,7 +79,7 @@ export function LetterLayoutControls({
             checked={design.ruleAfterSender === true}
             onChange={(event) => onChange({ ruleAfterSender: event.target.checked })}
           />
-          Trennlinie nach Absender
+          Trennlinie nach meinen Kontaktdaten
         </label>
         <label className="flex items-center gap-2 text-xs">
           <input
@@ -87,7 +87,15 @@ export function LetterLayoutControls({
             checked={design.ruleAfterRecipient === true}
             onChange={(event) => onChange({ ruleAfterRecipient: event.target.checked })}
           />
-          Trennlinie nach Empfänger
+          Trennlinie nach Firma / Lehrbetrieb
+        </label>
+        <label className="flex items-center gap-2 text-xs">
+          <input
+            type="checkbox"
+            checked={design.ruleAfterSubject === true}
+            onChange={(event) => onChange({ ruleAfterSubject: event.target.checked })}
+          />
+          Trennlinie nach Titel / Betreff
         </label>
       </div>
     </div>

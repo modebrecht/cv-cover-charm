@@ -530,9 +530,11 @@ test.describe("M5.8 dossier regression", () => {
 
     await expect(page.getByRole("heading", { name: "Anschreiben" })).toBeVisible();
     await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
-    await expect(page.getByLabel("Lehrbetrieb")).toHaveValue("Beispiel AG");
+    await expect(page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })).toHaveValue(
+      "Beispiel AG",
+    );
     await expect(page.getByLabel("PLZ und Ort").nth(1)).toHaveValue("4500 Solothurn");
-    await expect(page.getByRole("textbox", { name: "Betreff", exact: true })).toHaveValue(
+    await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
     );
     await expect(page.getByLabel("Vorschau Anschreiben")).toBeVisible();
@@ -556,7 +558,9 @@ test.describe("M5.8 dossier regression", () => {
     });
 
     await page.getByRole("button", { name: "Aus Dossier übernehmen" }).click();
-    await expect(page.getByLabel("Lehrbetrieb")).toHaveValue("Neue Beispiel AG");
+    await expect(page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })).toHaveValue(
+      "Neue Beispiel AG",
+    );
     await expect(body).toHaveText(preservedBody);
     await expect
       .poll(() =>
@@ -573,11 +577,12 @@ test.describe("M5.8 dossier regression", () => {
     // Das Feld wird erst clientseitig aus dem Dossier befüllt und ist damit unser Hydration-Signal.
     await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
 
-    await page.getByRole("button", { name: "Absender Rechts" }).click();
-    await page.getByRole("button", { name: "Empfänger Rechts" }).click();
+    await page.getByRole("button", { name: "Meine Kontaktdaten Rechts" }).click();
+    await page.getByRole("button", { name: "Firma / Lehrbetrieb Rechts" }).click();
     await page.getByRole("button", { name: "Ort & Datum Rechts" }).click();
-    await page.getByLabel("Trennlinie nach Absender").check();
-    await page.getByLabel("Trennlinie nach Empfänger").check();
+    await page.getByLabel("Trennlinie nach meinen Kontaktdaten").check();
+    await page.getByLabel("Trennlinie nach Firma / Lehrbetrieb").check();
+    await page.getByLabel("Trennlinie nach Titel / Betreff").check();
 
     const preview = page.getByLabel("Vorschau Anschreiben");
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCSS(
@@ -591,6 +596,8 @@ test.describe("M5.8 dossier regression", () => {
     await expect(preview.locator('[data-letter-section="date"]')).toHaveCSS("text-align", "right");
     await expect(preview.locator('[data-letter-pdf-rule="sender"]')).toBeVisible();
     await expect(preview.locator('[data-letter-pdf-rule="recipient"]')).toBeVisible();
+    await expect(preview.locator('[data-letter-pdf-rule="subject"]')).toBeVisible();
+    await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toBeVisible();
 
     const body = page.getByRole("textbox", { name: "Brieftext" });
     await body.evaluate((element) => {
@@ -667,6 +674,7 @@ test.describe("M5.8 dossier regression", () => {
           dateAlign: "right",
           ruleAfterSender: true,
           ruleAfterRecipient: true,
+          ruleAfterSubject: true,
         },
         data: { text: "Absatz eins formatiert\nAbsatz zwei bleibt separat" },
       });

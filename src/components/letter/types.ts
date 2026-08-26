@@ -35,6 +35,7 @@ export type LetterDesign = {
   dateAlign?: LetterAlignment;
   ruleAfterSender?: boolean;
   ruleAfterRecipient?: boolean;
+  ruleAfterSubject?: boolean;
 };
 
 export type SavedLetter = {
@@ -81,6 +82,7 @@ export function emptyLetterDesign(): LetterDesign {
     dateAlign: "left",
     ruleAfterSender: false,
     ruleAfterRecipient: false,
+    ruleAfterSubject: false,
   };
 }
 
@@ -111,5 +113,6 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     dateAlign: incoming.dateAlign === "right" ? "right" : "left",
     ruleAfterSender: incoming.ruleAfterSender === true,
     ruleAfterRecipient: incoming.ruleAfterRecipient === true,
+    ruleAfterSubject: incoming.ruleAfterSubject === true,
   };
 }

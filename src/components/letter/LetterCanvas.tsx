@@ -527,13 +527,14 @@ export function LetterCanvas({
         </div>
 
         <div className="mt-[7mm]">
-          <div
-            data-letter-pdf-text="subject"
-            className="mb-[8mm] border-b pb-[2.5mm] text-[12pt] font-semibold leading-tight"
-            style={{ borderColor: palette.accent }}
-          >
+          <div data-letter-pdf-text="subject" className="text-[12pt] font-semibold leading-tight">
             {data.betreff || (exportMode ? "" : "Bewerbung um eine Lehrstelle als …")}
           </div>
+          {design.ruleAfterSubject ? (
+            <Separator color={palette.accent} marker="subject" />
+          ) : (
+            <div className="h-[8mm]" aria-hidden="true" />
+          )}
 
           <p data-letter-pdf-text="salutation" className="mb-[5mm]">
             {data.anrede || (exportMode ? "" : "Guten Tag")}

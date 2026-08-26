@@ -354,7 +354,11 @@ function Anschreiben() {
               </div>
             </Section>
 
-            <Section title="Absender" open={open.absender} onToggle={() => toggle("absender")}>
+            <Section
+              title="Meine Kontaktdaten"
+              open={open.absender}
+              onToggle={() => toggle("absender")}
+            >
               <div className="grid gap-3">
                 <Field
                   label="Vorname und Nachname"
@@ -386,7 +390,11 @@ function Anschreiben() {
               </div>
             </Section>
 
-            <Section title="Empfänger" open={open.empfaenger} onToggle={() => toggle("empfaenger")}>
+            <Section
+              title="Firma / Lehrbetrieb"
+              open={open.empfaenger}
+              onToggle={() => toggle("empfaenger")}
+            >
               <div className="grid gap-3">
                 <Field
                   label="Lehrbetrieb"
@@ -412,14 +420,7 @@ function Anschreiben() {
               </div>
             </Section>
 
-            <Section title="Layout" open={open.layout} onToggle={() => toggle("layout")}>
-              <LetterLayoutControls
-                design={design}
-                onChange={(value) => setDesign((current) => ({ ...current, ...value }))}
-              />
-            </Section>
-
-            <Section title="Brief" open={open.brief} onToggle={() => toggle("brief")}>
+            <Section title="Briefinhalt" open={open.brief} onToggle={() => toggle("brief")}>
               <div className="grid gap-3">
                 <div className="grid grid-cols-2 gap-2">
                   <Field label="Ort" value={data.ort} onChange={(value) => patch({ ort: value })} />
@@ -431,7 +432,7 @@ function Anschreiben() {
                   />
                 </div>
                 <Field
-                  label="Betreff"
+                  label="Titel / Betreff"
                   value={data.betreff}
                   onChange={(value) => patch({ betreff: value })}
                   placeholder="Bewerbung um eine Lehrstelle als …"
@@ -457,6 +458,13 @@ function Anschreiben() {
                   onChange={(value) => patch({ unterschrift: value })}
                 />
               </div>
+            </Section>
+
+            <Section title="Layout" open={open.layout} onToggle={() => toggle("layout")}>
+              <LetterLayoutControls
+                design={design}
+                onChange={(value) => setDesign((current) => ({ ...current, ...value }))}
+              />
             </Section>
 
             <Section title="Vorlage" open={open.vorlage} onToggle={() => toggle("vorlage")}>
