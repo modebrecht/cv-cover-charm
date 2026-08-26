@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   migrate-and-test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,10 +26,10 @@ jobs:
           node-version: 22
 
       - name: Apply title-page rubric migration
-        run: python scripts/one-time-cover-content-rubrics.py
+        run: python3 scripts/one-time-cover-content-rubrics.py
 
       - name: Refine Beilagen rubric and tests
-        run: python scripts/one-time-cover-content-test-fix.py
+        run: python3 scripts/one-time-cover-content-test-fix.py
 
       - name: Format touched files
         run: >-
@@ -74,7 +74,7 @@ jobs:
         run: bun run build
 
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Start application
         shell: bash
