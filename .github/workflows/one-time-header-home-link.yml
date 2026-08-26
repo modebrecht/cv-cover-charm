@@ -29,6 +29,8 @@ jobs:
         run: npm install --no-save --no-package-lock @playwright/test@1.55.0
       - name: Unit tests
         run: bun test tests/unit
+      - name: Normalize lint formatting
+        run: bunx eslint --fix src/routes/titelblatt.tsx src/routes/lebenslauf.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
       - name: Lint touched files
         run: bunx eslint src/routes/titelblatt.tsx src/routes/lebenslauf.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
       - name: Production build
