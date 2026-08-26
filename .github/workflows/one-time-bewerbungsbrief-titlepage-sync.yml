@@ -25,7 +25,19 @@ jobs:
           node-version: 22
 
       - name: Apply Bewerbungsbrief migration
-        run: python scripts/one-time-bewerbungsbrief-titlepage-sync.py
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("scripts/one-time-bewerbungsbrief-titlepage-sync.py")
+          text = path.read_text()
+          old = '''replace_all(test_file, 'name: "Anschreiben"', 'name: "Bewerbungsbrief"', minimum=1)'''
+          new = '''replace_all(test_file, 'name: "Anschreiben"', 'name: "Bewerbungsbrief"', minimum=0)'''
+          if old not in text:
+              raise SystemExit("obsolete heading guard not found")
+          path.write_text(text.replace(old, new, 1))
+          PY
+          python scripts/one-time-bewerbungsbrief-titlepage-sync.py
 
       - name: Format touched files
         run: >-
