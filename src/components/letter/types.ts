@@ -2,6 +2,7 @@ import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/compone
 import { LETTER_STORAGE_KEY } from "@/lib/dossier-project";
 
 export type LetterAlignment = "left" | "right";
+export type LetterTemplateId = "brief" | TemplateId;
 export type LetterBodyColumns = 1 | 2 | 3;
 
 export type LetterData = {
@@ -26,7 +27,7 @@ export type LetterData = {
 };
 
 export type LetterDesign = {
-  template: TemplateId;
+  template: LetterTemplateId;
   colors: Record<string, string>;
   font: FontKey;
   /** Briefspezifische Optionen sind optional, damit alte gespeicherte Designs kompatibel bleiben. */
@@ -66,13 +67,25 @@ export const EMPTY_LETTER: LetterData = {
   unterschrift: "",
 };
 
-export function defaultLetterColors(template: TemplateId): Record<string, string> {
+export function defaultLetterColors(template: LetterTemplateId): Record<string, string> {
+  if (template === "brief") {
+    return {
+      bg: "#ffffff",
+      ink: "#111111",
+      primary: "#111111",
+      secondary: "#111111",
+      accent: "#111111",
+      cvInk: "#111111",
+      cvMuted: "#4b5563",
+      cvHeading: "#111111",
+    };
+  }
   const definition = TEMPLATES.find((candidate) => candidate.id === template) ?? TEMPLATES[0];
   return Object.fromEntries(definition.slots.map((slot) => [slot.key, slot.default]));
 }
 
 export function emptyLetterDesign(): LetterDesign {
-  const template = TEMPLATES.find((candidate) => candidate.id !== "colorful")?.id ?? "klassisch";
+  const template: LetterTemplateId = "brief";
   return {
     template,
     colors: defaultLetterColors(template),
@@ -90,12 +103,16 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
   const fallback = emptyLetterDesign();
   if (!value || typeof value !== "object") return fallback;
   const incoming = value as Partial<LetterDesign>;
-  const template =
-    typeof incoming.template === "string" &&
-    incoming.template !== "colorful" &&
-    TEMPLATES.some((candidate) => candidate.id === incoming.template)
-      ? incoming.template
-      : fallback.template;
+  const template: LetterTemplateId =
+    incoming.template === "brief"
+      ? "brief"
+      : typeof incoming.template === "string" &&
+          incoming.template !== "colorful" &&
+          TEMPLATES.some((candidate) => candidate.id === incoming.template)
+        ? (incoming.template as TemplateId)
+        : incoming.template === "colorful"
+          ? "klassisch"
+          : fallback.template;
   const font =
     typeof incoming.font === "string" && incoming.font in FONT_LABELS
       ? (incoming.font as FontKey)

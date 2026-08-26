@@ -1,6 +1,6 @@
 import { FONT_STACKS, type TemplateId } from "@/components/cover/types";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
-import type { LetterData, LetterDesign } from "./types";
+import type { LetterData, LetterDesign, LetterTemplateId } from "./types";
 import { letterRichHtml, plainTextToRichHtml } from "./rich-text";
 
 type LetterLayout = {
@@ -162,7 +162,10 @@ const LETTER_LAYOUTS: Record<TemplateId, LetterLayout> = {
   },
 };
 
-function layoutFor(template: TemplateId): LetterLayout {
+function layoutFor(template: LetterTemplateId): LetterLayout {
+  if (template === "brief") {
+    return { kind: "quiet", left: 25, right: 25, top: 24, bottom: 22 };
+  }
   return LETTER_LAYOUTS[template] ?? LETTER_LAYOUTS.klassisch;
 }
 
@@ -175,6 +178,16 @@ function color(colors: Record<string, string>, ...keys: string[]): string {
 
 function LetterBackground({ design }: { design: LetterDesign }) {
   const { template, colors } = design;
+  if (template === "brief") {
+    return (
+      <div
+        data-letter-background="brief"
+        className="absolute inset-0 bg-white"
+        aria-hidden="true"
+      />
+    );
+  }
+
   const layout = layoutFor(template);
   const palette = cvPalette(colors);
   const primary = color(colors, "primary", "accent", "secondary", "ink");
@@ -435,7 +448,10 @@ export function LetterCanvas({
   exportMode?: boolean;
 }) {
   const layout = layoutFor(design.template);
-  const palette = cvPalette(design.colors);
+  const palette =
+    design.template === "brief"
+      ? { ink: "#111111", muted: "#4b5563", accent: "#111111", paper: "#ffffff" }
+      : cvPalette(design.colors);
   const fontFamily = FONT_STACKS[design.font];
   const senderAlign = design.senderAlign ?? "left";
   const recipientAlign = design.recipientAlign ?? "left";
@@ -453,6 +469,7 @@ export function LetterCanvas({
   return (
     <article
       data-letter-page
+      data-letter-template={design.template}
       data-letter-font={design.font}
       className="relative h-[1123px] w-[794px] overflow-hidden shadow-xl"
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}

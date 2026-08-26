@@ -3,14 +3,14 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { Section } from "@/components/cover/Section";
-import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/components/cover/types";
+import { FONT_LABELS, TEMPLATES, type FontKey } from "@/components/cover/types";
 import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import { SaveStatus, type SaveState } from "@/components/dossier/SaveStatus";
 import { LetterCanvas } from "@/components/letter/LetterCanvas";
 import { LetterLayoutControls } from "@/components/letter/LetterLayoutControls";
 import { LetterRichTextEditor } from "@/components/letter/LetterRichTextEditor";
+import { LetterTemplatePicker } from "@/components/letter/LetterTemplatePicker";
 import {
   mergeNonEmptyLetterData,
   readLetterDossierSource,
@@ -24,6 +24,7 @@ import {
   normalizeLetterDesign,
   type LetterData,
   type LetterDesign,
+  type LetterTemplateId,
   type SavedLetter,
 } from "@/components/letter/types";
 
@@ -124,8 +125,8 @@ function Anschreiben() {
     }
 
     // Wie beim Lebenslauf: erster Besuch startet aus dem bereits vorhandenen
-    // Dossier. Ein später erneut geöffnetes Anschreiben bleibt dagegen exakt so,
-    // wie der Schüler es zuletzt gespeichert hat.
+    // Dossier. Das Brief-Design startet bewusst neutral und kann später manuell
+    // übernommen werden. Ein erneut geöffnetes Anschreiben bleibt exakt gespeichert.
     if (!loadedLetter) {
       if (dossier.hasPersonal) {
         setData((current) => mergeNonEmptyLetterData(current, dossier.personalData));
@@ -133,12 +134,9 @@ function Anschreiben() {
       if (dossier.hasApplication) {
         setData((current) => mergeNonEmptyLetterData(current, dossier.applicationData));
       }
-      if (dossier.design) setDesign((current) => ({ ...current, ...dossier.design }));
-
       const automatic = [
         dossier.hasPersonal ? "persönliche Angaben" : null,
         dossier.hasApplication ? "Betriebsdaten" : null,
-        dossier.hasDesign ? "Design" : null,
       ].filter(Boolean);
       if (automatic.length) {
         setTransferNote({
@@ -187,14 +185,17 @@ function Anschreiben() {
   }, [transferNote]);
 
   const template = useMemo(
-    () => TEMPLATES.find((candidate) => candidate.id === design.template) ?? TEMPLATES[0],
+    () =>
+      design.template === "brief"
+        ? null
+        : (TEMPLATES.find((candidate) => candidate.id === design.template) ?? TEMPLATES[0]),
     [design.template],
   );
 
   const patch = (value: Partial<LetterData>) => setData((current) => ({ ...current, ...value }));
   const toggle = (key: string) => setOpen((current) => ({ ...current, [key]: !current[key] }));
 
-  const changeTemplate = (next: TemplateId) => {
+  const changeTemplate = (next: LetterTemplateId) => {
     setDesign((current) => ({
       ...current,
       template: next,
@@ -468,28 +469,30 @@ function Anschreiben() {
             </Section>
 
             <Section title="Vorlage" open={open.vorlage} onToggle={() => toggle("vorlage")}>
-              <TemplatePicker value={design.template} onChange={changeTemplate} />
+              <LetterTemplatePicker value={design.template} onChange={changeTemplate} />
             </Section>
 
-            <Section title="Farben" open={open.farben} onToggle={() => toggle("farben")}>
-              <ColorChooser
-                slots={template.slots}
-                colors={design.colors}
-                onChange={(key, value) =>
-                  setDesign((current) => ({
-                    ...current,
-                    colors: { ...current.colors, [key]: value },
-                  }))
-                }
-                onApplyPalette={(colors) => setDesign((current) => ({ ...current, colors }))}
-                onReset={() =>
-                  setDesign((current) => ({
-                    ...current,
-                    colors: defaultLetterColors(current.template),
-                  }))
-                }
-              />
-            </Section>
+            {design.template !== "brief" && template ? (
+              <Section title="Farben" open={open.farben} onToggle={() => toggle("farben")}>
+                <ColorChooser
+                  slots={template.slots}
+                  colors={design.colors}
+                  onChange={(key, value) =>
+                    setDesign((current) => ({
+                      ...current,
+                      colors: { ...current.colors, [key]: value },
+                    }))
+                  }
+                  onApplyPalette={(colors) => setDesign((current) => ({ ...current, colors }))}
+                  onReset={() =>
+                    setDesign((current) => ({
+                      ...current,
+                      colors: defaultLetterColors(current.template),
+                    }))
+                  }
+                />
+              </Section>
+            ) : null}
 
             <Section title="Schrift" open={open.typo} onToggle={() => toggle("typo")}>
               <label className="block text-xs font-medium">

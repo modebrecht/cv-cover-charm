@@ -537,7 +537,21 @@ test.describe("M5.8 dossier regression", () => {
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
     );
-    await expect(page.getByLabel("Vorschau Anschreiben")).toBeVisible();
+    const preview = page.getByLabel("Vorschau Anschreiben");
+    await expect(preview).toBeVisible();
+    await expect(preview).toHaveAttribute("data-letter-template", "brief");
+    await expect(preview.locator('[data-letter-background="brief"]')).toHaveCSS(
+      "background-color",
+      "rgb(255, 255, 255)",
+    );
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}").design?.template ?? "",
+        ),
+      )
+      .toBe("brief");
+    await expect(page.getByRole("button", { name: "Farben", exact: true })).toHaveCount(0);
 
     const body = page.getByLabel("Brieftext");
     const preservedBody = "Mein individuell geschriebener Brieftext bleibt erhalten.";
@@ -598,6 +612,15 @@ test.describe("M5.8 dossier regression", () => {
     await expect(preview.locator('[data-letter-pdf-rule="recipient"]')).toBeVisible();
     await expect(preview.locator('[data-letter-pdf-rule="subject"]')).toBeVisible();
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toBeVisible();
+
+    await page.getByRole("button", { name: "Vorlage", exact: true }).click();
+    await expect(page.getByRole("button", { name: "Brief", exact: true })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await page.getByRole("button", { name: "Editorial", exact: true }).click();
+    await expect(preview).toHaveAttribute("data-letter-template", "klassisch");
+    await expect(page.getByRole("button", { name: "Farben", exact: true })).toBeVisible();
 
     const body = page.getByRole("textbox", { name: "Brieftext" });
     await body.evaluate((element) => {
