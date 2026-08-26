@@ -109,16 +109,16 @@ if anchor not in test_text:
     raise SystemExit("E2E insertion anchor missing")
 new_test = '''  test("document editors expose one consistent overview home link", async ({ page }) => {
     for (const path of ["/titelblatt", "/lebenslauf", "/anschreiben"]) {
-      await page.goto(path);
+      await page.goto(`${BASE_URL}${path}`);
       const header = page.locator("header").first();
       const overview = header.getByRole("link", { name: "Übersicht" });
       await expect(overview).toHaveCount(1);
       await expect(overview).toHaveAttribute("href", "/");
     }
 
-    await page.goto("/titelblatt");
+    await page.goto(`${BASE_URL}/titelblatt`);
     await expect(page.locator('header a[href="/lebenslauf"]')).toHaveCount(0);
-    await page.goto("/lebenslauf");
+    await page.goto(`${BASE_URL}/lebenslauf`);
     await expect(page.locator('header a[href="/titelblatt"]')).toHaveCount(0);
   });
 
