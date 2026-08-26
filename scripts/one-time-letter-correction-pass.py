@@ -82,12 +82,21 @@ text = text.replace(
 )
 text = text.replace(
     '    await expect(preview.locator(\'[data-letter-pdf-rule="recipient"]\')).toBeVisible();\n',
-    '    await expect(preview.locator(\'[data-letter-pdf-rule="recipient"]\')).toBeVisible();\n    await expect(preview.locator(\'[data-letter-pdf-rule="subject"]\')).toBeVisible();\n    await expect(page.getByLabel("Titel / Betreff")).toBeVisible();\n',
+    '    await expect(preview.locator(\'[data-letter-pdf-rule="recipient"]\')).toBeVisible();\n    await expect(preview.locator(\'[data-letter-pdf-rule="subject"]\')).toBeVisible();\n    await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toBeVisible();\n',
     1,
 )
 text = text.replace(
     '          ruleAfterRecipient: true,\n',
     '          ruleAfterRecipient: true,\n          ruleAfterSubject: true,\n',
     1,
+)
+# Existing tests must target fields exactly because the new student-friendly layout labels reuse words.
+text = text.replace(
+    'page.getByLabel("Lehrbetrieb")',
+    'page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })',
+)
+text = text.replace(
+    'page.getByRole("textbox", { name: "Betreff", exact: true })',
+    'page.getByRole("textbox", { name: "Titel / Betreff", exact: true })',
 )
 test.write_text(text)
