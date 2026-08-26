@@ -31,6 +31,9 @@ jobs:
       - name: Fix title-page rubric test setup
         run: python scripts/one-time-cover-content-test-fix.py
 
+      - name: Refine rubric as Beilagen
+        run: python scripts/one-time-cover-attachments-rubric.py
+
       - name: Format touched files
         run: >-
           bunx prettier --write
@@ -103,7 +106,8 @@ jobs:
           git rm -f \
             .github/workflows/one-time-cover-content-rubrics.yml \
             scripts/one-time-cover-content-rubrics.py \
-            scripts/one-time-cover-content-test-fix.py
+            scripts/one-time-cover-content-test-fix.py \
+            scripts/one-time-cover-attachments-rubric.py
           git add \
             src/components/cover/types.ts \
             src/components/cover/CoverForm.tsx \
@@ -112,7 +116,7 @@ jobs:
             src/routes/titelblatt.tsx \
             tests/e2e/dossier-regression.spec.ts
           git diff --cached --check
-          git commit -m "Add title-page company and content visibility rubrics"
+          git commit -m "Add title-page company and attachments visibility rubrics"
           git push origin HEAD:feature/anschreiben-dossier
 
       - name: Stop application
