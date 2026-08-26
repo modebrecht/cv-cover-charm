@@ -84,6 +84,11 @@ replace(
 )
 replace(
     "tests/e2e/dossier-regression.spec.ts",
+    '    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });\n\n    const companyHeader =',
+    '    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });\n    // Wait for client hydration/localStorage restore before clicking a Section header.\n    await expect(page.getByLabel("Vorname")).toHaveValue("Lea");\n\n    const companyHeader =',
+)
+replace(
+    "tests/e2e/dossier-regression.spec.ts",
     "    await expect(contentToggle).toBeChecked();\n",
     "    await expect(attachmentsToggle).toBeChecked();\n",
 )
