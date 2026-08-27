@@ -200,7 +200,7 @@ function addLetterRules(pdf: JsPdf, page: HTMLElement, mmX: number, mmY: number)
 function addLetterTextLayer(pdf: JsPdf, page: HTMLElement) {
   const pageRect = page.getBoundingClientRect();
   if (pageRect.width <= 0 || pageRect.height <= 0) {
-    throw new Error("Anschreiben konnte für den PDF-Text nicht vermessen werden");
+    throw new Error("Motivationsschreiben konnte für den PDF-Text nicht vermessen werden");
   }
 
   const mmX = 210 / pageRect.width;
@@ -293,7 +293,7 @@ async function addRasterPage(
   );
 }
 
-/** Titelblatt/CV bleiben Raster; das Anschreiben erhält eine echte formatierte Textebene. */
+/** Titelblatt/CV bleiben Raster; das Motivationsschreiben erhält eine echte formatierte Textebene. */
 export async function downloadCombinedDossierPdf(
   root: HTMLElement,
   fileName: string,
@@ -308,7 +308,7 @@ export async function downloadCombinedDossierPdf(
   const cvPages = Array.from(root.querySelectorAll<HTMLElement>("[data-cv-page]"));
   if (!cover || !letter || !cvPages.length) {
     throw new Error(
-      "Dossier ist noch nicht vollständig: Titelblatt, Anschreiben und Lebenslauf werden benötigt",
+      "Dossier ist noch nicht vollständig: Titelblatt, Motivationsschreiben und Lebenslauf werden benötigt",
     );
   }
 
@@ -321,7 +321,7 @@ export async function downloadCombinedDossierPdf(
     title: meta.title,
     author: meta.author,
     subject: meta.subject ?? "Bewerbungsdossier",
-    keywords: meta.keywords ?? "Bewerbung, Anschreiben, Lebenslauf, Titelblatt",
+    keywords: meta.keywords ?? "Bewerbung, Motivationsschreiben, Lebenslauf, Titelblatt",
     creator: meta.author || "Bewerbungsdossier",
   });
 
