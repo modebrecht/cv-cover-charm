@@ -30,6 +30,7 @@ jobs:
           python scripts/one-time-standardize-editor-menus.py
           python scripts/one-time-standardize-editor-menus-test-fix.py
           python scripts/one-time-add-letter-history.py
+          python scripts/one-time-letter-history-test-fix.py
 
       - name: Format touched files
         run: bunx prettier --write src/components/dossier/EditorMenuLabel.tsx src/lib/history.ts src/routes/titelblatt.tsx src/routes/lebenslauf.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
@@ -75,7 +76,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm -f .github/workflows/one-time-standardize-editor-menus.yml scripts/one-time-standardize-editor-menus.py scripts/one-time-standardize-editor-menus-test-fix.py scripts/one-time-add-letter-history.py
+          git rm -f .github/workflows/one-time-standardize-editor-menus.yml scripts/one-time-standardize-editor-menus.py scripts/one-time-standardize-editor-menus-test-fix.py scripts/one-time-add-letter-history.py scripts/one-time-letter-history-test-fix.py
           git add src tests
           git diff --cached --check
           git commit -m "Standardize editor menus and isolate document history"
