@@ -114,12 +114,9 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     incoming.template === "brief"
       ? "brief"
       : typeof incoming.template === "string" &&
-          incoming.template !== "colorful" &&
           TEMPLATES.some((candidate) => candidate.id === incoming.template)
         ? (incoming.template as TemplateId)
-        : incoming.template === "colorful"
-          ? "klassisch"
-          : fallback.template;
+        : fallback.template;
   const font =
     typeof incoming.font === "string" && incoming.font in FONT_LABELS
       ? (incoming.font as FontKey)
