@@ -360,20 +360,10 @@ function LetterBackground({ design }: { design: LetterDesign }) {
       )}
 
       {template === "modern" && (
-        <>
-          <div
-            className="absolute left-[24mm] top-[18mm] h-[2mm] w-[10mm]"
-            style={{ backgroundColor: accent }}
-          />
-          <div
-            className="absolute right-[-20mm] top-[14mm] h-[62mm] w-[62mm] rounded-full"
-            style={{ backgroundColor: accent, opacity: 0.07 }}
-          />
-          <div
-            className="absolute inset-x-0 bottom-0 h-[4mm]"
-            style={{ backgroundColor: primary }}
-          />
-        </>
+        <div
+          className="absolute right-[-20mm] top-[14mm] h-[62mm] w-[62mm] rounded-full"
+          style={{ backgroundColor: accent, opacity: 0.07 }}
+        />
       )}
 
       {template === "serioes" && (
