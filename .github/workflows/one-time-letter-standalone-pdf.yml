@@ -28,9 +28,13 @@ jobs:
       - name: Apply standalone PDF migration
         run: python scripts/one-time-letter-standalone-pdf.py
 
+      - name: Apply standalone PDF validation fixes
+        run: python scripts/one-time-letter-standalone-pdf-fix.py
+
       - name: Format touched files
         run: >-
           bunx prettier --write
+          src/components/letter/LetterCanvas.tsx
           src/lib/dossier-pdf.ts
           src/routes/anschreiben.tsx
           tests/e2e/dossier-regression.spec.ts
@@ -47,6 +51,7 @@ jobs:
       - name: Lint touched files
         run: >-
           bunx eslint
+          src/components/letter/LetterCanvas.tsx
           src/lib/dossier-pdf.ts
           src/routes/anschreiben.tsx
           tests/e2e/dossier-regression.spec.ts
@@ -83,8 +88,10 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm -f \
             .github/workflows/one-time-letter-standalone-pdf.yml \
-            scripts/one-time-letter-standalone-pdf.py
+            scripts/one-time-letter-standalone-pdf.py \
+            scripts/one-time-letter-standalone-pdf-fix.py
           git add \
+            src/components/letter/LetterCanvas.tsx \
             src/lib/dossier-pdf.ts \
             src/routes/anschreiben.tsx \
             tests/e2e/dossier-regression.spec.ts
