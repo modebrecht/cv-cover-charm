@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { FONT_STACKS, type TemplateId } from "@/components/cover/types";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
+import { effectiveDossierFont } from "@/lib/dossier-theme";
 import {
   DEFAULT_LETTER_BEILAGEN,
   type LetterData,
@@ -804,7 +805,10 @@ export function LetterCanvas({
     design.template === "brief"
       ? { ink: "#111111", muted: "#4b5563", accent: "#111111", paper: "#ffffff" }
       : cvPalette(design.colors);
-  const fontFamily = FONT_STACKS[design.font];
+  const fontFamily =
+    design.template === "brief"
+      ? FONT_STACKS[design.font]
+      : effectiveDossierFont(design.template, design.fontOverride);
   const senderAlign = design.senderAlign ?? "left";
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
@@ -844,7 +848,8 @@ export function LetterCanvas({
     <article
       data-letter-page
       data-letter-template={design.template}
-      data-letter-font={design.font}
+      data-letter-font={design.fontOverride ?? design.font}
+      data-letter-font-source={design.template === "brief" ? "standalone" : design.fontOverride ? "override" : "family"}
       className="relative h-[1123px] w-[794px] overflow-hidden shadow-xl"
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
       aria-label={ariaLabel}

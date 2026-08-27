@@ -32,7 +32,13 @@ export type LetterData = {
 export type LetterDesign = {
   template: LetterTemplateId;
   colors: Record<string, string>;
+  /** Standalone-Briefschrift bzw. Kompatibilitätswert für ältere Saves. */
   font: FontKey;
+  /**
+   * Nur eine bewusst gewählte Dossier-Schrift darf die Vorlagenfamilie
+   * überschreiben. Fehlt dieser Wert, entscheidet die zentrale Dossier-Familie.
+   */
+  fontOverride?: FontKey | null;
   /** Briefspezifische Optionen sind optional, damit alte gespeicherte Designs kompatibel bleiben. */
   senderAlign?: LetterAlignment;
   recipientAlign?: LetterAlignment;
@@ -119,6 +125,7 @@ export function emptyLetterDesign(): LetterDesign {
     template,
     colors: defaultLetterColors(template),
     font: "sans",
+    fontOverride: null,
     senderAlign: "left",
     recipientAlign: "left",
     dateAlign: "left",
@@ -143,6 +150,10 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     typeof incoming.font === "string" && incoming.font in FONT_LABELS
       ? (incoming.font as FontKey)
       : fallback.font;
+  const fontOverride =
+    typeof incoming.fontOverride === "string" && incoming.fontOverride in FONT_LABELS
+      ? (incoming.fontOverride as FontKey)
+      : null;
   const colors =
     incoming.colors && typeof incoming.colors === "object"
       ? { ...defaultLetterColors(template), ...incoming.colors }
@@ -151,6 +162,7 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     template,
     colors,
     font,
+    fontOverride,
     senderAlign: incoming.senderAlign === "right" ? "right" : "left",
     recipientAlign: incoming.recipientAlign === "right" ? "right" : "left",
     dateAlign: incoming.dateAlign === "right" ? "right" : "left",
