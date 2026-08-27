@@ -1,0 +1,134 @@
+name: One-time all motivation-letter templates
+
+on:
+  push:
+    branches:
+      - feature/anschreiben-dossier
+    paths:
+      - .github/workflows/one-time-all-letter-templates.yml
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/anschreiben-dossier
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+
+      - name: Unit tests
+        run: bun test tests/unit
+
+      - name: Lint changed files
+        run: bunx eslint src/components/letter/LetterTemplatePicker.tsx src/components/letter/types.ts
+
+      - name: Production build
+        run: bun run build
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Create targeted browser test
+        shell: bash
+        run: |
+          cat > /tmp/all-letter-templates.spec.js <<'JS'
+          const { test, expect } = require('@playwright/test');
+
+          test('all motivation-letter templates are selectable and Colorful persists', async ({ page }) => {
+            const pageErrors = [];
+            page.on('pageerror', error => pageErrors.push(error.message));
+
+            await page.goto('http://127.0.0.1:4173/anschreiben', { waitUntil: 'domcontentloaded' });
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({ waitUntil: 'domcontentloaded' });
+
+            const download = page.getByRole('button', { name: 'Download', exact: true });
+            await expect(download).toHaveAttribute('data-editor-ready', 'true');
+
+            const header = page.getByRole('button', { name: /^Vorlage$/ });
+            if ((await header.getAttribute('aria-expanded')) !== 'true') await header.click();
+            const panelId = await header.getAttribute('aria-controls');
+            expect(panelId).toBeTruthy();
+            const panel = page.locator(`[id="${panelId}"]`);
+            const buttons = panel.getByRole('button');
+            await expect(buttons).toHaveCount(20);
+
+            const labels = (await buttons.allTextContents()).map(text => text.trim()).filter(Boolean);
+            expect(labels).toContain('Brief');
+            expect(labels).toContain('Colorful');
+            expect(new Set(labels).size).toBe(20);
+
+            const preview = page.getByLabel('Vorschau Motivationsschreiben');
+            await expect(preview).toBeVisible();
+
+            for (let index = 0; index < 20; index += 1) {
+              const button = buttons.nth(index);
+              await button.click();
+              await expect(button).toHaveAttribute('aria-pressed', 'true');
+              await expect(preview).toBeVisible();
+            }
+
+            await panel.getByRole('button', { name: 'Colorful', exact: true }).click();
+            await page.waitForTimeout(400);
+            await page.reload({ waitUntil: 'domcontentloaded' });
+            await expect(download).toHaveAttribute('data-editor-ready', 'true');
+
+            const headerAfterReload = page.getByRole('button', { name: /^Vorlage$/ });
+            if ((await headerAfterReload.getAttribute('aria-expanded')) !== 'true') {
+              await headerAfterReload.click();
+            }
+            const panelIdAfterReload = await headerAfterReload.getAttribute('aria-controls');
+            const panelAfterReload = page.locator(`[id="${panelIdAfterReload}"]`);
+            await expect(panelAfterReload.getByRole('button', { name: 'Colorful', exact: true })).toHaveAttribute(
+              'aria-pressed',
+              'true',
+            );
+
+            expect(pageErrors).toEqual([]);
+          });
+          JS
+
+      - name: Start application
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/cv-cover-charm.log 2>&1 &
+          echo $! > /tmp/cv-cover-charm.pid
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:4173/anschreiben > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/cv-cover-charm.log
+          exit 1
+
+      - name: Run targeted browser test
+        run: npx playwright test /tmp/all-letter-templates.spec.js --reporter=line --workers=1
+
+      - name: Cleanup workflow after success
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -f .github/workflows/one-time-all-letter-templates.yml
+          git commit -m "Remove one-time template validation workflow"
+          git push origin HEAD:feature/anschreiben-dossier
+
+      - name: Stop application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi
