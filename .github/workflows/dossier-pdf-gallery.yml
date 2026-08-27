@@ -14,6 +14,9 @@ on:
       - tests/e2e/dossier-typography-regression.spec.ts
       - src/components/cover/BlockLayer.tsx
       - src/components/cover/CoverCanvas.tsx
+      - src/components/cover/CoverBackground.tsx
+      - src/components/cover/editable-decorations.css
+      - src/components/cover/template-decorations.ts
       - src/components/cover/fresh-templates.ts
       - src/components/letter/LetterTemplatePicker.tsx
       - src/components/letter/LetterCanvas.tsx
