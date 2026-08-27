@@ -9,6 +9,7 @@ on:
       - render
     paths:
       - .github/workflows/dossier-pdf-gallery.yml
+      - tests/unit/cover-decorations.test.ts
       - tests/e2e/dossier-gallery.spec.ts
       - tests/e2e/dossier-end-to-end.spec.ts
       - tests/e2e/dossier-typography-regression.spec.ts
@@ -16,6 +17,7 @@ on:
       - src/components/cover/CoverCanvas.tsx
       - src/components/cover/CoverBackground.tsx
       - src/components/cover/editable-decorations.css
+      - src/components/cover/layouts.ts
       - src/components/cover/template-decorations.ts
       - src/components/cover/fresh-templates.ts
       - src/components/letter/LetterTemplatePicker.tsx
@@ -58,11 +60,15 @@ jobs:
           bunx prettier --write
           src/components/cover/BlockLayer.tsx
           src/components/cover/CoverCanvas.tsx
+          src/components/cover/CoverBackground.tsx
+          src/components/cover/layouts.ts
+          src/components/cover/template-decorations.ts
           src/components/letter/LetterTemplatePicker.tsx
           src/components/letter/LetterCanvas.tsx
           src/components/letter/dossier-transfer.ts
           src/components/letter/types.ts
           src/lib/dossier-theme.ts
+          tests/unit/cover-decorations.test.ts
           tests/e2e/dossier-end-to-end.spec.ts
           tests/e2e/dossier-gallery.spec.ts
           tests/e2e/dossier-typography-regression.spec.ts
@@ -72,11 +78,15 @@ jobs:
           bunx eslint
           src/components/cover/BlockLayer.tsx
           src/components/cover/CoverCanvas.tsx
+          src/components/cover/CoverBackground.tsx
+          src/components/cover/layouts.ts
+          src/components/cover/template-decorations.ts
           src/components/letter/LetterTemplatePicker.tsx
           src/components/letter/LetterCanvas.tsx
           src/components/letter/dossier-transfer.ts
           src/components/letter/types.ts
           src/lib/dossier-theme.ts
+          tests/unit/cover-decorations.test.ts
           tests/e2e/dossier-end-to-end.spec.ts
           tests/e2e/dossier-gallery.spec.ts
           tests/e2e/dossier-typography-regression.spec.ts
