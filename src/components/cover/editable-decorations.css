@@ -1,63 +1,8 @@
 /*
- * Simple decorative primitives are rendered by template-decorations.ts so they
- * can be selected, moved, resized, recoloured, reset and removed. The original
- * background copies are hidden only on the editable title page. Complex masks,
- * frames, clipped hero fields and full-page gradients deliberately remain
- * structural.
+ * Editable template primitives have a single source of truth:
+ * template-decorations.ts -> BlockLayer.
+ *
+ * CoverBackground.tsx now contains structural artwork only, so no CSS bridge
+ * is allowed to hide duplicate background copies. This keeps reset geometry,
+ * dragging and PDF rendering on the same element.
  */
-
-[data-dossier-document="cover"][data-cover-template="modern"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="colorful"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="blockig"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="edelBlockig"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="serioes"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="human"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="terracotta"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="sonne"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="studio"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="neon"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="verlauf"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="freundlich"] > div:first-child > * {
-  display: none !important;
-}
-
-/*
- * Horizont: the full-width lower colour field is structural and must always
- * touch the A4 bottom edge. Keeping it as a movable decoration allowed stale
- * saved geometry (or an accidental drag) to expose a white strip at the foot.
- * Only the two small lines stay editable; their background copies are hidden.
- */
-[data-dossier-document="cover"][data-cover-template="welle"]
-  > div:first-child
-  > div:nth-child(2),
-[data-dossier-document="cover"][data-cover-template="welle"]
-  > div:first-child
-  > div:nth-child(3),
-[data-dossier-document="cover"][data-cover-template="welle"] [data-block-id="decor-bottom-field"] {
-  display: none !important;
-}
-
-/* Edel keeps its two large document frames; only the small centre accent moves. */
-[data-dossier-document="cover"][data-cover-template="edel"]
-  > div:first-child
-  > div:nth-child(3) {
-  display: none !important;
-}
-
-/* Pastell keeps the large structural frame, while band/line/ellipse are blocks. */
-[data-dossier-document="cover"][data-cover-template="pastell"]
-  > div:first-child
-  > div:nth-child(n + 2) {
-  display: none !important;
-}
-
-/* Aurora keeps its large clipped/rounded gradient hero as structural artwork;
-   only the small accent strip and bottom band become editable blocks. */
-[data-dossier-document="cover"][data-cover-template="aurora"]
-  > div:first-child
-  > div:nth-child(2),
-[data-dossier-document="cover"][data-cover-template="aurora"]
-  > div:first-child
-  > div:nth-child(3) {
-  display: none !important;
-}
