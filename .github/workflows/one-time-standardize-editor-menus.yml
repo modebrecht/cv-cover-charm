@@ -25,14 +25,14 @@ jobs:
         with:
           node-version: 22
 
-      # Apply product changes and deterministic hydration-aware regression coverage.
-      - name: Apply menu standardization
+      - name: Apply menu and history standardization
         run: |
           python scripts/one-time-standardize-editor-menus.py
           python scripts/one-time-standardize-editor-menus-test-fix.py
+          python scripts/one-time-add-letter-history.py
 
       - name: Format touched files
-        run: bunx prettier --write src/components/dossier/EditorMenuLabel.tsx src/routes/titelblatt.tsx src/routes/lebenslauf.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
+        run: bunx prettier --write src/components/dossier/EditorMenuLabel.tsx src/lib/history.ts src/routes/titelblatt.tsx src/routes/lebenslauf.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -41,13 +41,13 @@ jobs:
         run: npm install --no-save --no-package-lock @playwright/test@1.55.0
 
       - name: Normalize lint formatting
-        run: bunx eslint --fix src/components/dossier/EditorMenuLabel.tsx src/routes/titelblatt.tsx src/routes/lebenslauf.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
+        run: bunx eslint --fix src/components/dossier/EditorMenuLabel.tsx src/lib/history.ts src/routes/titelblatt.tsx src/routes/lebenslauf.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
 
       - name: Unit tests
         run: bun test tests/unit
 
       - name: Lint touched files
-        run: bunx eslint src/components/dossier/EditorMenuLabel.tsx src/routes/titelblatt.tsx src/routes/lebenslauf.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
+        run: bunx eslint src/components/dossier/EditorMenuLabel.tsx src/lib/history.ts src/routes/titelblatt.tsx src/routes/lebenslauf.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
 
       - name: Production build
         run: bun run build
@@ -70,15 +70,15 @@ jobs:
       - name: Run dossier regression suite
         run: npx playwright test tests/e2e/dossier-regression.spec.ts --reporter=line --workers=1
 
-      - name: Commit passing menu standardization
+      - name: Commit passing menu and history standardization
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm -f .github/workflows/one-time-standardize-editor-menus.yml scripts/one-time-standardize-editor-menus.py scripts/one-time-standardize-editor-menus-test-fix.py
+          git rm -f .github/workflows/one-time-standardize-editor-menus.yml scripts/one-time-standardize-editor-menus.py scripts/one-time-standardize-editor-menus-test-fix.py scripts/one-time-add-letter-history.py
           git add src tests
           git diff --cached --check
-          git commit -m "Standardize editor action menus"
+          git commit -m "Standardize editor menus and isolate document history"
           git push origin HEAD:feature/anschreiben-dossier
 
       - name: Stop application
