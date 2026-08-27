@@ -5,12 +5,22 @@ on:
   push:
     branches:
       - feature/anschreiben-dossier
+      - render
     paths:
       - .github/workflows/dossier-pdf-gallery.yml
       - tests/e2e/dossier-gallery.spec.ts
+      - tests/e2e/dossier-end-to-end.spec.ts
+      - src/components/letter/LetterTemplatePicker.tsx
+      - src/components/letter/LetterCanvas.tsx
+      - src/components/letter/types.ts
+      - src/components/cover/fresh-templates.ts
 
 permissions:
   contents: read
+
+concurrency:
+  group: dossier-pdf-gallery-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   gallery:
@@ -34,6 +44,24 @@ jobs:
       - name: Unit tests
         run: bun test tests/unit
 
+      - name: Normalize validation files
+        run: >-
+          bunx prettier --write
+          src/components/letter/LetterTemplatePicker.tsx
+          src/components/letter/LetterCanvas.tsx
+          src/components/letter/types.ts
+          tests/e2e/dossier-end-to-end.spec.ts
+          tests/e2e/dossier-gallery.spec.ts
+
+      - name: Lint validation surface
+        run: >-
+          bunx eslint
+          src/components/letter/LetterTemplatePicker.tsx
+          src/components/letter/LetterCanvas.tsx
+          src/components/letter/types.ts
+          tests/e2e/dossier-end-to-end.spec.ts
+          tests/e2e/dossier-gallery.spec.ts
+
       - name: Production build
         run: bun run build
 
@@ -52,14 +80,22 @@ jobs:
           cat /tmp/cv-cover-charm.log
           exit 1
 
+      - name: Complete example dossier and 38-template E2E
+        run: npx playwright test tests/e2e/dossier-end-to-end.spec.ts --reporter=line --workers=1
+
       - name: Generate complete dossier PDF gallery
         env:
           GALLERY_DIR: artifacts/dossier-gallery
         run: npx playwright test tests/e2e/dossier-gallery.spec.ts --reporter=line --workers=1
 
-      - name: Show generated files
-        if: success()
-        run: find artifacts/dossier-gallery -maxdepth 1 -type f -printf '%f\n' | sort
+      - name: Verify generated gallery
+        shell: bash
+        run: |
+          count="$(find artifacts/dossier-gallery -maxdepth 1 -type f -name '*.pdf' | wc -l | tr -d ' ')"
+          echo "Generated $count complete dossier PDFs"
+          test "$count" -eq 39
+          test -f artifacts/dossier-gallery/MANIFEST.txt
+          find artifacts/dossier-gallery -maxdepth 1 -type f -printf '%f\n' | sort
 
       - name: Upload PDF gallery ZIP
         if: success()
