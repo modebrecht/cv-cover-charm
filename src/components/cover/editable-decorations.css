@@ -12,13 +12,28 @@
 [data-dossier-document="cover"][data-cover-template="edelBlockig"] > div:first-child > *,
 [data-dossier-document="cover"][data-cover-template="serioes"] > div:first-child > *,
 [data-dossier-document="cover"][data-cover-template="human"] > div:first-child > *,
-[data-dossier-document="cover"][data-cover-template="welle"] > div:first-child > *,
 [data-dossier-document="cover"][data-cover-template="terracotta"] > div:first-child > *,
 [data-dossier-document="cover"][data-cover-template="sonne"] > div:first-child > *,
 [data-dossier-document="cover"][data-cover-template="studio"] > div:first-child > *,
 [data-dossier-document="cover"][data-cover-template="neon"] > div:first-child > *,
 [data-dossier-document="cover"][data-cover-template="verlauf"] > div:first-child > *,
 [data-dossier-document="cover"][data-cover-template="freundlich"] > div:first-child > * {
+  display: none !important;
+}
+
+/*
+ * Horizont: the full-width lower colour field is structural and must always
+ * touch the A4 bottom edge. Keeping it as a movable decoration allowed stale
+ * saved geometry (or an accidental drag) to expose a white strip at the foot.
+ * Only the two small lines stay editable; their background copies are hidden.
+ */
+[data-dossier-document="cover"][data-cover-template="welle"]
+  > div:first-child
+  > div:nth-child(2),
+[data-dossier-document="cover"][data-cover-template="welle"]
+  > div:first-child
+  > div:nth-child(3),
+[data-dossier-document="cover"][data-cover-template="welle"] [data-block-id="decor-bottom-field"] {
   display: none !important;
 }
 
