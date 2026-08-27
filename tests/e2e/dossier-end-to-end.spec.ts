@@ -5,11 +5,13 @@ import { join } from "node:path";
 const BASE_URL = "http://127.0.0.1:4173";
 const GALLERY_DIR = process.env.DOSSIER_GALLERY_DIR;
 
+type StoredPart = { data?: Record<string, unknown>; design?: Record<string, unknown> };
+
 async function applyExampleData(
   page: Page,
   route: "/titelblatt" | "/anschreiben" | "/lebenslauf",
   storageKey: string,
-  ready: (saved: any) => boolean,
+  ready: (saved: StoredPart) => boolean,
 ) {
   await page.goto(`${BASE_URL}${route}`, { waitUntil: "domcontentloaded" });
 
@@ -35,7 +37,7 @@ async function applyExampleData(
         },
         { key: storageKey },
       );
-      return !!saved && ready(saved);
+      return !!saved && ready(saved as StoredPart);
     })
     .toBe(true);
 }
@@ -78,31 +80,26 @@ test.describe("complete dossier end-to-end", () => {
     await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => localStorage.clear());
 
-    await applyExampleData(
-      page,
-      "/titelblatt",
-      "titelblatt:v3",
-      (saved) => saved?.data?.vorname === "Lea" && saved?.data?.nachname === "Müller",
-    );
-    await applyExampleData(
-      page,
-      "/anschreiben",
-      "anschreiben:v1",
-      (saved) =>
-        saved?.data?.betreff === "Bewerbung um eine Lehrstelle als Informatiker/in EFZ" &&
-        saved?.data?.absenderName === "Lea Müller",
-    );
-    await applyExampleData(
-      page,
-      "/lebenslauf",
-      "lebenslauf:v1",
-      (saved) => saved?.data?.person?.vorname === "Lea" && saved?.data?.person?.nachname === "Müller",
-    );
+    await applyExampleData(page, "/titelblatt", "titelblatt:v3", (saved) => {
+      const data = saved.data;
+      return data?.vorname === "Lea" && data?.nachname === "Müller";
+    });
+    await applyExampleData(page, "/anschreiben", "anschreiben:v1", (saved) => {
+      const data = saved.data;
+      return (
+        data?.betreff === "Bewerbung um eine Lehrstelle als Informatiker/in EFZ" &&
+        data?.absenderName === "Lea Müller"
+      );
+    });
+    await applyExampleData(page, "/lebenslauf", "lebenslauf:v1", (saved) => {
+      const person = saved.data?.person as Record<string, unknown> | undefined;
+      return person?.vorname === "Lea" && person?.nachname === "Müller";
+    });
 
     await downloadCompleteDossier(page);
   });
 
-  test("alle 20 Motivationsschreiben-Vorlagen sind auswählbar und Colorful bleibt gespeichert", async ({
+  test("alle 38 Motivationsschreiben-Vorlagen sind auswählbar und Fresh-Designs bleiben gespeichert", async ({
     page,
   }) => {
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
@@ -122,22 +119,23 @@ test.describe("complete dossier end-to-end", () => {
     const panel = page.locator(`[id="${panelId}"]`);
     const buttons = panel.getByRole("button");
 
-    await expect(buttons).toHaveCount(20);
+    await expect(buttons).toHaveCount(38);
     const labels = (await buttons.allTextContents()).map((value) => value.trim()).filter(Boolean);
-    expect(new Set(labels).size).toBe(20);
-    expect(labels).toContain("Brief");
-    expect(labels).toContain("Colorful");
+    expect(new Set(labels).size).toBe(38);
+    for (const required of ["Brief", "Colorful", "Edge", "Glow", "Mono Luxe", "Cove"]) {
+      expect(labels).toContain(required);
+    }
 
     const preview = page.getByLabel("Vorschau Motivationsschreiben");
     await expect(preview).toBeVisible();
-    for (let index = 0; index < 20; index += 1) {
+    for (let index = 0; index < 38; index += 1) {
       const button = buttons.nth(index);
       await button.click();
       await expect(button).toHaveAttribute("aria-pressed", "true");
       await expect(preview).toBeVisible();
     }
 
-    await panel.getByRole("button", { name: "Colorful", exact: true }).click();
+    await panel.getByRole("button", { name: "Edge", exact: true }).click();
     await expect
       .poll(() =>
         page.evaluate(() => {
@@ -145,10 +143,11 @@ test.describe("complete dossier end-to-end", () => {
           return raw ? JSON.parse(raw)?.design?.template : null;
         }),
       )
-      .toBe("colorful");
+      .toBe("edge");
 
     await page.reload({ waitUntil: "domcontentloaded" });
-    await expect(downloadMenuButton).toHaveAttribute("data-editor-ready", "true");
+    const freshDownloadMenuButton = page.getByRole("button", { name: "Download", exact: true });
+    await expect(freshDownloadMenuButton).toHaveAttribute("data-editor-ready", "true");
     const headerAfterReload = page.getByRole("button", { name: /^Vorlage/ });
     if ((await headerAfterReload.getAttribute("aria-expanded")) !== "true") {
       await headerAfterReload.click();
@@ -156,8 +155,9 @@ test.describe("complete dossier end-to-end", () => {
     const panelIdAfterReload = await headerAfterReload.getAttribute("aria-controls");
     expect(panelIdAfterReload).toBeTruthy();
     const panelAfterReload = page.locator(`[id="${panelIdAfterReload}"]`);
-    await expect(
-      panelAfterReload.getByRole("button", { name: "Colorful", exact: true }),
-    ).toHaveAttribute("aria-pressed", "true");
+    await expect(panelAfterReload.getByRole("button", { name: "Edge", exact: true })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
   });
 });
