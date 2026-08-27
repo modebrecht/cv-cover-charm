@@ -11,10 +11,15 @@ on:
       - .github/workflows/dossier-pdf-gallery.yml
       - tests/e2e/dossier-gallery.spec.ts
       - tests/e2e/dossier-end-to-end.spec.ts
+      - tests/e2e/dossier-typography-regression.spec.ts
+      - src/components/cover/BlockLayer.tsx
+      - src/components/cover/CoverCanvas.tsx
+      - src/components/cover/fresh-templates.ts
       - src/components/letter/LetterTemplatePicker.tsx
       - src/components/letter/LetterCanvas.tsx
+      - src/components/letter/dossier-transfer.ts
       - src/components/letter/types.ts
-      - src/components/cover/fresh-templates.ts
+      - src/lib/dossier-theme.ts
 
 permissions:
   contents: read
@@ -48,20 +53,30 @@ jobs:
       - name: Normalize validation files
         run: >-
           bunx prettier --write
+          src/components/cover/BlockLayer.tsx
+          src/components/cover/CoverCanvas.tsx
           src/components/letter/LetterTemplatePicker.tsx
           src/components/letter/LetterCanvas.tsx
+          src/components/letter/dossier-transfer.ts
           src/components/letter/types.ts
+          src/lib/dossier-theme.ts
           tests/e2e/dossier-end-to-end.spec.ts
           tests/e2e/dossier-gallery.spec.ts
+          tests/e2e/dossier-typography-regression.spec.ts
 
       - name: Lint validation surface
         run: >-
           bunx eslint
+          src/components/cover/BlockLayer.tsx
+          src/components/cover/CoverCanvas.tsx
           src/components/letter/LetterTemplatePicker.tsx
           src/components/letter/LetterCanvas.tsx
+          src/components/letter/dossier-transfer.ts
           src/components/letter/types.ts
+          src/lib/dossier-theme.ts
           tests/e2e/dossier-end-to-end.spec.ts
           tests/e2e/dossier-gallery.spec.ts
+          tests/e2e/dossier-typography-regression.spec.ts
 
       - name: Production build
         run: bun run build
@@ -80,6 +95,9 @@ jobs:
           done
           cat /tmp/cv-cover-charm.log
           exit 1
+
+      - name: Dossier typography regression
+        run: npx playwright test tests/e2e/dossier-typography-regression.spec.ts --reporter=line --workers=1
 
       - name: Complete example dossier and 38-template E2E
         run: npx playwright test tests/e2e/dossier-end-to-end.spec.ts --reporter=line --workers=1
