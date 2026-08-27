@@ -1,9 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { Section } from "@/components/cover/Section";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
+import { FileDown, History } from "lucide-react";
+import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
+import { useForeignWrite, usePageVisible } from "@/lib/autosave";
+import {
+  HISTORY_KEYS,
+  formatWhen,
+  hasContent,
+  pushSnapshot,
+  readHistory,
+  type Snapshot,
+} from "@/lib/history";
 import { FONT_LABELS, TEMPLATES, type FontKey } from "@/components/cover/types";
 import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import { SaveStatus, type SaveState } from "@/components/dossier/SaveStatus";
@@ -124,6 +135,9 @@ function Anschreiben() {
   const [hydrated, setHydrated] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [history, setHistory] = useState<Snapshot[]>([]);
   const [letterOverflow, setLetterOverflow] = useState(false);
   const [pdfDownloading, setPdfDownloading] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
@@ -132,6 +146,9 @@ function Anschreiben() {
     kind: "ok" | "error";
     text: string;
   } | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const visible = usePageVisible();
+  const { markWritten, changedElsewhere } = useForeignWrite(LETTER_STORAGE_KEY);
   const [takeover, setTakeover] = useState({
     personal: true,
     application: true,
@@ -156,6 +173,7 @@ function Anschreiben() {
 
   useEffect(() => {
     const dossier = refreshSource();
+    setHistory(readHistory(HISTORY_KEYS.letter));
     let nextData: LetterData = { ...EMPTY_LETTER };
     let nextDesign: LetterDesign = emptyLetterDesign();
     let savedDataLoaded = false;
@@ -163,6 +181,7 @@ function Anschreiben() {
     try {
       const raw = window.localStorage.getItem(LETTER_STORAGE_KEY);
       if (raw) {
+        markWritten(raw);
         const parsed = JSON.parse(raw) as Partial<SavedLetter>;
         if (parsed.data && typeof parsed.data === "object") {
           nextData = { ...EMPTY_LETTER, ...parsed.data };
@@ -206,7 +225,7 @@ function Anschreiben() {
     setData(nextData);
     setDesign(nextDesign);
     setHydrated(true);
-  }, [refreshSource]);
+  }, [refreshSource, markWritten]);
 
   useEffect(() => {
     const refresh = () => refreshSource();
@@ -222,26 +241,84 @@ function Anschreiben() {
     };
   }, [refreshSource]);
 
+  // Ein zweiter Motivationsschreiben-Tab darf beim Zurückkehren nicht seinen
+  // älteren Zustand über den neueren Autosave schreiben. Im Hintergrund wird
+  // deshalb nicht gespeichert; bei Fokuswechsel gewinnt der frischere Key.
   useEffect(() => {
-    if (!hydrated) return;
+    if (!visible || !hydrated || !changedElsewhere()) return;
+    try {
+      const raw = window.localStorage.getItem(LETTER_STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as Partial<SavedLetter>;
+      if (parsed.data && typeof parsed.data === "object") {
+        setData({ ...EMPTY_LETTER, ...parsed.data });
+      }
+      if (parsed.design) setDesign(normalizeLetterDesign(parsed.design));
+      markWritten(raw);
+      setHistory(readHistory(HISTORY_KEYS.letter));
+      setSaveState("saved");
+      setTransferNote({
+        kind: "ok",
+        text: "Neuerer Stand aus einem anderen Fenster geladen.",
+      });
+    } catch {
+      setSaveState("error");
+    }
+  }, [visible, hydrated, changedElsewhere, markWritten]);
+
+  const snapshotPayload = useCallback(
+    (): SavedLetter => ({ version: 1, data, design }),
+    [data, design],
+  );
+
+  const keepSnapshot = useCallback(
+    (label: string, force = false) => {
+      const payload = snapshotPayload() as unknown as Record<string, unknown>;
+      if (!hasContent(payload)) return;
+      setHistory(pushSnapshot(HISTORY_KEYS.letter, payload, label, force));
+    },
+    [snapshotPayload],
+  );
+
+  useEffect(() => {
+    if (!hydrated || !visible) return;
     setSaveState("saving");
     const timer = window.setTimeout(() => {
       try {
-        const saved: SavedLetter = { version: 1, data, design };
-        window.localStorage.setItem(LETTER_STORAGE_KEY, JSON.stringify(saved));
+        const saved = snapshotPayload();
+        const raw = JSON.stringify(saved);
+        window.localStorage.setItem(LETTER_STORAGE_KEY, raw);
+        markWritten(raw);
         setSaveState("saved");
+        keepSnapshot("Automatisch");
       } catch {
         setSaveState("error");
       }
     }, 250);
     return () => window.clearTimeout(timer);
-  }, [data, design, hydrated]);
+  }, [hydrated, visible, snapshotPayload, markWritten, keepSnapshot]);
 
   useEffect(() => {
     if (!transferNote) return;
     const timer = window.setTimeout(() => setTransferNote(null), 6000);
     return () => window.clearTimeout(timer);
   }, [transferNote]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const close = (event: PointerEvent) => {
+      if (!menuRef.current?.contains(event.target as Node)) {
+        setMenuOpen(false);
+        setHistoryOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", close);
+    return () => document.removeEventListener("pointerdown", close);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) setHistoryOpen(false);
+  }, [menuOpen]);
 
   const template = useMemo(
     () =>
@@ -353,6 +430,21 @@ function Anschreiben() {
     );
   };
 
+  const restoreSnapshot = (snap: Snapshot) => {
+    keepSnapshot("Vor dem Zurückholen", true);
+    const saved = snap.payload as Partial<SavedLetter>;
+    if (saved.data && typeof saved.data === "object") {
+      setData({ ...EMPTY_LETTER, ...saved.data });
+    }
+    if (saved.design) setDesign(normalizeLetterDesign(saved.design));
+    setMenuOpen(false);
+    setHistoryOpen(false);
+    setTransferNote({
+      kind: "ok",
+      text: `Stand von ${formatWhen(snap.at)} geladen.`,
+    });
+  };
+
   const anySource = !!source && (source.hasPersonal || source.hasApplication || source.hasDesign);
 
   return (
@@ -388,6 +480,72 @@ function Anschreiben() {
         </div>
         <SaveStatus state={saveState} />
         <ThemeToggle />
+        <div className="relative" ref={menuRef}>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((value) => !value)}
+            disabled={pdfDownloading}
+            aria-expanded={menuOpen}
+            data-editor-ready={saveState === "idle" ? "false" : "true"}
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60 sm:px-4"
+          >
+            {pdfDownloading ? "PDF…" : "Download"}
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+              <path
+                d="M3 4.5l3 3 3-3"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          {menuOpen ? (
+            <div
+              data-editor-action-menu
+              className="absolute right-0 z-50 mt-2 w-72 overflow-hidden rounded-md border bg-popover shadow-lg"
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  setMenuOpen(false);
+                  void downloadMotivationLetter();
+                }}
+                disabled={letterOverflow || !letterHasStarted(data)}
+                className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
+              >
+                <EditorMenuLabel icon={FileDown}>Nur Motivationsschreiben als PDF</EditorMenuLabel>
+                <span className="text-xs text-muted-foreground">.pdf</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setHistoryOpen((value) => !value)}
+                disabled={history.length === 0}
+                className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
+              >
+                <EditorMenuLabel icon={History}>Früheren Stand laden</EditorMenuLabel>
+                <span className="text-xs text-muted-foreground">{history.length}</span>
+              </button>
+              {historyOpen && history.length > 0 ? (
+                <div className="max-h-56 overflow-y-auto border-t bg-muted/20 p-1">
+                  {history.slice(0, 8).map((snap) => (
+                    <button
+                      key={snap.id}
+                      type="button"
+                      data-letter-history-item
+                      onClick={() => restoreSnapshot(snap)}
+                      className="flex w-full items-center justify-between gap-3 rounded px-2 py-2 text-left text-xs hover:bg-accent"
+                    >
+                      <span className="truncate font-medium">{snap.label}</span>
+                      <span className="shrink-0 text-muted-foreground">{formatWhen(snap.at)}</span>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
       </header>
 
       <div className="relative flex min-h-0 flex-1 overflow-hidden">
@@ -408,28 +566,14 @@ function Anschreiben() {
               </div>
             ) : null}
 
-            <div className="rounded-lg border bg-background p-3">
-              <button
-                type="button"
-                onClick={downloadMotivationLetter}
-                disabled={pdfDownloading || letterOverflow || !letterHasStarted(data)}
-                className="w-full rounded-md bg-foreground px-4 py-3 text-sm font-semibold text-background hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            {pdfError ? (
+              <div
+                role="status"
+                className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive"
               >
-                {pdfDownloading
-                  ? "PDF wird erstellt…"
-                  : "Motivationsschreiben als PDF herunterladen"}
-              </button>
-              {pdfError ? (
-                <div role="status" className="mt-2 text-xs text-destructive">
-                  {pdfError}
-                </div>
-              ) : null}
-              {letterOverflow ? (
-                <p className="mt-2 text-[11px] text-muted-foreground">
-                  PDF-Download ist verfügbar, sobald alles auf eine A4-Seite passt.
-                </p>
-              ) : null}
-            </div>
+                {pdfError}
+              </div>
+            ) : null}
 
             <div className="rounded-lg border border-primary/25 bg-primary/5 p-3">
               <div className="text-sm font-semibold text-foreground">

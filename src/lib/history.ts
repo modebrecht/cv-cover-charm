@@ -10,11 +10,12 @@ import { HISTORY } from "@/default-config";
  */
 
 /**
- * Jedes Dokument hat seine eigene Historie. Am Lebenslauf zu arbeiten darf die
- * Stände des Titelblatts nicht anfassen und umgekehrt.
+ * Jedes Dokument hat seine eigene Historie. Titelblatt, Motivationsschreiben
+ * und Lebenslauf dürfen ihre früheren Stände nie gegenseitig überschreiben.
  */
 export const HISTORY_KEYS = {
   cover: "titelblatt:history",
+  letter: "anschreiben:history",
   cv: "lebenslauf:history",
 } as const;
 

@@ -1,6 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
+import {
+  FileDown,
+  Files,
+  FolderOpen,
+  History,
+  MoveDiagonal2,
+  RotateCcw,
+  Save,
+  Sparkles,
+} from "lucide-react";
+import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { Section } from "@/components/cover/Section";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
@@ -1280,6 +1291,8 @@ function Lebenslauf() {
                 type="button"
                 onClick={() => setMenuOpen((v) => !v)}
                 disabled={downloading}
+                aria-expanded={menuOpen}
+                data-editor-ready={saveState === "idle" ? "false" : "true"}
                 className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60 sm:px-4"
               >
                 {downloading ? "PDF…" : "Download"}
@@ -1295,7 +1308,10 @@ function Lebenslauf() {
                 </svg>
               </button>
               {menuOpen && (
-                <div className="absolute right-0 mt-2 w-64 overflow-hidden rounded-md border bg-popover shadow-lg">
+                <div
+                  data-editor-action-menu
+                  className="absolute right-0 mt-2 w-72 overflow-hidden rounded-md border bg-popover shadow-lg"
+                >
                   <button
                     type="button"
                     onClick={() => {
@@ -1311,7 +1327,7 @@ function Lebenslauf() {
                     }
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
                   >
-                    <span>Ganzes Dossier als PDF</span>
+                    <EditorMenuLabel icon={Files}>Ganzes Dossier als PDF</EditorMenuLabel>
                     <span className="text-xs text-muted-foreground">
                       Titelblatt + Motivationsschreiben + CV
                     </span>
@@ -1329,7 +1345,7 @@ function Lebenslauf() {
                     }}
                     className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
                   >
-                    <span>Nur Lebenslauf als PDF</span>
+                    <EditorMenuLabel icon={FileDown}>Nur Lebenslauf als PDF</EditorMenuLabel>
                     <span className="text-xs text-muted-foreground">.pdf</span>
                   </button>
                   <button
@@ -1337,13 +1353,13 @@ function Lebenslauf() {
                     onClick={downloadDossier}
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
                   >
-                    <span>Dossier speichern</span>
+                    <EditorMenuLabel icon={Save}>Dossier speichern</EditorMenuLabel>
                     <span className="text-xs text-muted-foreground">
                       Titelblatt + Motivationsschreiben + CV
                     </span>
                   </button>
                   <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
-                    <span>Dossier laden</span>
+                    <EditorMenuLabel icon={FolderOpen}>Dossier laden</EditorMenuLabel>
                     <span className="text-xs text-muted-foreground">.json</span>
                     <input
                       type="file"
@@ -1378,9 +1394,9 @@ function Lebenslauf() {
                     <button
                       type="button"
                       onClick={() => setConfirmDemo(true)}
-                      className="w-full border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                      className="flex w-full items-center border-t px-3 py-2 text-left text-sm hover:bg-accent"
                     >
-                      Beispieldaten
+                      <EditorMenuLabel icon={Sparkles}>Beispieldaten übernehmen</EditorMenuLabel>
                     </button>
                   )}
 
@@ -1389,41 +1405,22 @@ function Lebenslauf() {
                     onClick={resetPositionsOnly}
                     className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
                   >
-                    <span>Positionen &amp; Grössen zurücksetzen</span>
+                    <EditorMenuLabel icon={MoveDiagonal2}>
+                      Positionen &amp; Grössen zurücksetzen
+                    </EditorMenuLabel>
                     <span className="text-xs text-muted-foreground">Layout</span>
                   </button>
 
-                  {/* Wie im Titelblatt: zweistufig, weil dabei alles verloren geht. */}
-                  {confirmWipe ? (
-                    <div className="flex items-center gap-1 border-t bg-destructive/5 px-3 py-2">
-                      <span className="mr-auto text-xs font-medium text-destructive">
-                        Wirklich alles?
-                      </span>
-                      <button
-                        type="button"
-                        onClick={resetEverything}
-                        className="rounded-md bg-destructive px-2 py-1 text-xs font-medium text-destructive-foreground hover:bg-destructive/90"
-                      >
-                        Ja
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setConfirmWipe(false)}
-                        className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
-                      >
-                        Abbrechen
-                      </button>
-                    </div>
-                  ) : (
+                  {history.length === 0 ? (
                     <button
                       type="button"
-                      onClick={() => setConfirmWipe(true)}
-                      className="w-full border-t px-3 py-2 text-left text-sm text-destructive hover:bg-destructive/10"
+                      disabled
+                      className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm opacity-45"
                     >
-                      Alles zurücksetzen
+                      <EditorMenuLabel icon={History}>Früheren Stand laden</EditorMenuLabel>
+                      <span className="text-xs text-muted-foreground">0</span>
                     </button>
-                  )}
-
+                  ) : null}
                   {history.length > 0 && (
                     <div className="border-t">
                       <button
@@ -1432,7 +1429,7 @@ function Lebenslauf() {
                         aria-expanded={historyOpen}
                         className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm hover:bg-accent"
                       >
-                        <span>Früheren Stand laden</span>
+                        <EditorMenuLabel icon={History}>Früheren Stand laden</EditorMenuLabel>
                         <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                           {history.length}
                           <svg
@@ -1477,6 +1474,37 @@ function Lebenslauf() {
                         </div>
                       )}
                     </div>
+                  )}
+
+                  {/* Wie im Titelblatt: zweistufig, weil dabei alles verloren geht. */}
+                  {confirmWipe ? (
+                    <div className="flex items-center gap-1 border-t bg-destructive/5 px-3 py-2">
+                      <span className="mr-auto text-xs font-medium text-destructive">
+                        Wirklich alles?
+                      </span>
+                      <button
+                        type="button"
+                        onClick={resetEverything}
+                        className="rounded-md bg-destructive px-2 py-1 text-xs font-medium text-destructive-foreground hover:bg-destructive/90"
+                      >
+                        Ja
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmWipe(false)}
+                        className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setConfirmWipe(true)}
+                      className="flex w-full items-center border-t px-3 py-2 text-left text-sm text-destructive hover:bg-destructive/10"
+                    >
+                      <EditorMenuLabel icon={RotateCcw}>Alles zurücksetzen</EditorMenuLabel>
+                    </button>
                   )}
                 </div>
               )}

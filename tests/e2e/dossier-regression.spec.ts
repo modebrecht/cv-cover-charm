@@ -726,10 +726,14 @@ test.describe("M5.8 dossier regression", () => {
       "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
     );
 
-    const button = page.getByRole("button", {
-      name: "Motivationsschreiben als PDF herunterladen",
-      exact: true,
-    });
+    const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
+    await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true");
+    await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
+    await downloadToggle.click();
+    await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
+    const button = page
+      .locator("[data-editor-action-menu] button")
+      .filter({ hasText: "Nur Motivationsschreiben als PDF" });
     await expect(button).toBeEnabled();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
     await button.click();
@@ -755,12 +759,19 @@ test.describe("M5.8 dossier regression", () => {
 
     const body = page.getByRole("textbox", { name: "Brieftext" });
     const alert = page.getByRole("alert");
-    const pdfButton = page.getByRole("button", {
-      name: "Motivationsschreiben als PDF herunterladen",
-      exact: true,
-    });
+    const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
+    await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true");
+    const openPdfMenu = async () => {
+      if ((await downloadToggle.getAttribute("aria-expanded")) !== "true") {
+        await downloadToggle.click();
+      }
+      await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
+      return page
+        .locator("[data-editor-action-menu] button")
+        .filter({ hasText: "Nur Motivationsschreiben als PDF" });
+    };
     await expect(alert).toHaveCount(0);
-    await expect(pdfButton).toBeEnabled();
+    await expect(await openPdfMenu()).toBeEnabled();
 
     await body.fill(
       Array.from(
@@ -771,7 +782,7 @@ test.describe("M5.8 dossier regression", () => {
     );
 
     await expect(alert).toContainText("Dein Motivationsschreiben passt nicht auf eine Seite");
-    await expect(pdfButton).toBeDisabled();
+    await expect(await openPdfMenu()).toBeDisabled();
     const overflowing = await page
       .getByLabel("Vorschau Motivationsschreiben")
       .locator("[data-letter-text-layer]")
@@ -782,7 +793,7 @@ test.describe("M5.8 dossier regression", () => {
       "Ich interessiere mich sehr für die Lehrstelle und freue mich auf ein Gespräch.",
     );
     await expect(alert).toHaveCount(0);
-    await expect(pdfButton).toBeEnabled();
+    await expect(await openPdfMenu()).toBeEnabled();
   });
 
   test("letter layout controls and Word-like formatting persist", async ({ page }) => {
@@ -969,6 +980,153 @@ test.describe("M5.8 dossier regression", () => {
     const pdfSource = (await readFile(path ?? "")).toString("latin1");
     expect(pdfSource).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
     expect(pdfSource).toContain("Guten Tag Herr Weber");
+  });
+
+  test("editor action menus share order, wording and monochrome icon labels", async ({ page }) => {
+    const cases = [
+      {
+        path: "/titelblatt",
+        ownPdf: "Nur Titelblatt als PDF",
+        full: true,
+      },
+      {
+        path: "/lebenslauf",
+        ownPdf: "Nur Lebenslauf als PDF",
+        full: true,
+      },
+      {
+        path: "/anschreiben",
+        ownPdf: "Nur Motivationsschreiben als PDF",
+        full: false,
+      },
+    ] as const;
+
+    for (const item of cases) {
+      await page.goto(`${BASE_URL}${item.path}`, { waitUntil: "domcontentloaded" });
+      const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
+      await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true");
+      await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
+      await downloadToggle.click();
+      await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
+      let menu = page.locator("[data-editor-action-menu]");
+      await expect(menu).toBeVisible();
+
+      if (item.full) {
+        await page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true }).click();
+        await page.getByRole("button", { name: "Ja", exact: true }).click();
+        await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
+        await downloadToggle.click();
+        await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
+        menu = page.locator("[data-editor-action-menu]");
+        await expect(menu).toBeVisible();
+
+        const labels = await menu.locator("[data-editor-menu-label]").allTextContents();
+        expect(labels).toEqual([
+          "Ganzes Dossier als PDF",
+          item.ownPdf,
+          "Dossier speichern",
+          "Dossier laden",
+          "Beispieldaten übernehmen",
+          "Positionen & Grössen zurücksetzen",
+          "Früheren Stand laden",
+          "Alles zurücksetzen",
+        ]);
+      } else {
+        await expect(menu.locator("[data-editor-menu-label]")).toHaveText([
+          item.ownPdf,
+          "Früheren Stand laden",
+        ]);
+      }
+
+      const labels = menu.locator("[data-editor-menu-label]");
+      await expect(labels.locator("svg")).toHaveCount(await labels.count());
+    }
+  });
+
+  test("Motivationsschreiben keeps autosave and earlier states in its own pool", async ({
+    page,
+  }) => {
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    const sentinels = await page.evaluate(() => {
+      localStorage.clear();
+      const cover = JSON.stringify({
+        version: 7,
+        data: { vorname: "Cover", nachname: "Pool", beruf: "Informatiker/in EFZ" },
+      });
+      const cv = JSON.stringify({
+        version: 1,
+        data: { person: { vorname: "CV", nachname: "Pool" } },
+      });
+      localStorage.setItem("titelblatt:v3", cover);
+      localStorage.setItem("lebenslauf:v1", cv);
+      localStorage.setItem(
+        "anschreiben:v1",
+        JSON.stringify({
+          version: 1,
+          data: {
+            anrede: "Guten Tag",
+            gruss: "Freundliche Grüsse",
+            betreff: "Aktueller Betreff",
+          },
+          design: {},
+        }),
+      );
+      localStorage.setItem(
+        "anschreiben:history",
+        JSON.stringify([
+          {
+            id: "letter-old",
+            at: Date.now() - 60_000,
+            label: "Älterer Brief",
+            payload: {
+              version: 1,
+              data: {
+                anrede: "Guten Tag",
+                gruss: "Freundliche Grüsse",
+                betreff: "Alter Betreff",
+              },
+            },
+          },
+        ]),
+      );
+      return { cover, cv };
+    });
+    await page.reload({ waitUntil: "domcontentloaded" });
+
+    const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
+    await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true");
+    await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
+      "Aktueller Betreff",
+    );
+    await downloadToggle.click();
+
+    const historyButton = page
+      .locator("[data-editor-action-menu] button")
+      .filter({ hasText: "Früheren Stand laden" });
+    await expect(historyButton).toBeEnabled();
+    await historyButton.click();
+    await page.locator("[data-letter-history-item]").first().click();
+    await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
+      "Alter Betreff",
+    );
+
+    await page.waitForFunction(() => {
+      const raw = localStorage.getItem("anschreiben:v1");
+      if (!raw) return false;
+      return JSON.parse(raw).data?.betreff === "Alter Betreff";
+    });
+    const pools = await page.evaluate(() => ({
+      cover: localStorage.getItem("titelblatt:v3"),
+      cv: localStorage.getItem("lebenslauf:v1"),
+      letterHistory: JSON.parse(localStorage.getItem("anschreiben:history") ?? "[]"),
+      coverHistory: localStorage.getItem("titelblatt:history"),
+      cvHistory: localStorage.getItem("lebenslauf:history"),
+    }));
+    expect(pools.cover).toBe(sentinels.cover);
+    expect(pools.cv).toBe(sentinels.cv);
+    expect(pools.letterHistory.length).toBeGreaterThanOrEqual(1);
+    expect(pools.coverHistory).toBeNull();
+    expect(pools.cvHistory).toBeNull();
   });
 
   test("document editors expose one consistent overview home link", async ({ page }) => {
