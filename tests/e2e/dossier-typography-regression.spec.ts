@@ -94,6 +94,18 @@ async function dossierFonts(page: Page, template: string, font?: string) {
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
   const cvRoot = page.locator('[data-dossier-document="cv"][data-export-mode="false"]').first();
   await expect(cvRoot).toBeVisible();
+
+  // The route intentionally paints its empty default once before the first-use
+  // title-page takeover runs in an effect. Wait for transferred applicant data
+  // so the font assertion observes the settled dossier state, not that transient frame.
+  await expect(
+    page
+      .locator(
+        '[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"] [data-cv-name]',
+      )
+      .first(),
+  ).toContainText("Lea Müller");
+
   const cv = await computedFont(
     page,
     '[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"] [data-cv-main]',
