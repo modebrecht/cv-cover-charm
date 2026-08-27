@@ -52,6 +52,28 @@ export { LETTER_STORAGE_KEY };
 
 export const DEFAULT_LETTER_BEILAGEN = ["Lebenslauf", "Zeugnis"] as const;
 
+export const DEMO_LETTER: LetterData = {
+  absenderName: "Lea Müller",
+  absenderAdresse: "Dorfstrasse 12",
+  absenderPlzOrt: "4535 Hubersdorf",
+  absenderTelefon: "+41 79 123 45 67",
+  absenderEmail: "lea.mueller@example.ch",
+  empfaengerFirma: "Beispiel AG",
+  empfaengerName: "Herr Thomas Weber",
+  empfaengerAdresse: "Industriestrasse 8",
+  empfaengerPlzOrt: "4500 Solothurn",
+  ort: "Hubersdorf",
+  datum: "15.11.2026",
+  betreff: "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+  anrede: "Guten Tag Herr Weber",
+  text: "Die Informatik begeistert mich, weil ich gerne logisch denke, Probleme löse und Neues ausprobiere. Deshalb bewerbe ich mich mit grossem Interesse um die Lehrstelle als Informatikerin EFZ bei der Beispiel AG.\n\nIn der Schule arbeite ich besonders gerne an Aufgaben, bei denen ich selbstständig Lösungen entwickeln kann. Ich bin zuverlässig, lerne schnell und arbeite gerne im Team.\n\nGerne möchte ich Ihr Unternehmen und den Beruf bei einem persönlichen Gespräch oder einer Schnupperlehre näher kennenlernen. Ich freue mich über Ihre Rückmeldung.",
+  richTextHtml: "",
+  gruss: "Freundliche Grüsse",
+  unterschrift: "Lea Müller",
+  showBeilagen: true,
+  beilagen: [...DEFAULT_LETTER_BEILAGEN],
+};
+
 export const EMPTY_LETTER: LetterData = {
   absenderName: "",
   absenderAdresse: "",

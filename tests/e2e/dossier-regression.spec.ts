@@ -1034,6 +1034,7 @@ test.describe("M5.8 dossier regression", () => {
       } else {
         await expect(menu.locator("[data-editor-menu-label]")).toHaveText([
           item.ownPdf,
+          "Beispieldaten übernehmen",
           "Früheren Stand laden",
         ]);
       }

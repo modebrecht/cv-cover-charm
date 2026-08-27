@@ -4,7 +4,7 @@ import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { Section } from "@/components/cover/Section";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import { FileDown, History } from "lucide-react";
+import { FileDown, History, Sparkles } from "lucide-react";
 import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import {
@@ -30,6 +30,7 @@ import {
 } from "@/components/letter/dossier-transfer";
 import {
   DEFAULT_LETTER_BEILAGEN,
+  DEMO_LETTER,
   EMPTY_LETTER,
   LETTER_STORAGE_KEY,
   defaultLetterColors,
@@ -138,6 +139,7 @@ function Anschreiben() {
   const [panelOpen, setPanelOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [confirmDemo, setConfirmDemo] = useState(false);
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [letterOverflow, setLetterOverflow] = useState(false);
   const [pdfDownloading, setPdfDownloading] = useState(false);
@@ -312,6 +314,7 @@ function Anschreiben() {
       if (!menuRef.current?.contains(event.target as Node)) {
         setMenuOpen(false);
         setHistoryOpen(false);
+        setConfirmDemo(false);
       }
     };
     document.addEventListener("pointerdown", close);
@@ -319,7 +322,10 @@ function Anschreiben() {
   }, [menuOpen]);
 
   useEffect(() => {
-    if (!menuOpen) setHistoryOpen(false);
+    if (!menuOpen) {
+      setHistoryOpen(false);
+      setConfirmDemo(false);
+    }
   }, [menuOpen]);
 
   const template = useMemo(
@@ -432,6 +438,17 @@ function Anschreiben() {
     );
   };
 
+  const loadDemo = () => {
+    keepSnapshot("Vor den Beispieldaten", true);
+    setData({
+      ...DEMO_LETTER,
+      beilagen: [...(DEMO_LETTER.beilagen ?? DEFAULT_LETTER_BEILAGEN)],
+    });
+    setMenuOpen(false);
+    setConfirmDemo(false);
+    setTransferNote({ kind: "ok", text: "Beispieldaten eingefügt" });
+  };
+
   const restoreSnapshot = (snap: Snapshot) => {
     keepSnapshot("Vor dem Zurückholen", true);
     const saved = snap.payload as Partial<SavedLetter>;
@@ -520,6 +537,33 @@ function Anschreiben() {
                 <EditorMenuLabel icon={FileDown}>Nur Motivationsschreiben als PDF</EditorMenuLabel>
                 <span className="text-xs text-muted-foreground">.pdf</span>
               </button>
+              {confirmDemo ? (
+                <div className="flex items-center gap-1 border-t bg-accent/40 px-3 py-2">
+                  <span className="mr-auto text-xs font-medium">Beispieldaten übernehmen?</span>
+                  <button
+                    type="button"
+                    onClick={loadDemo}
+                    className="rounded-md bg-primary px-2 py-1 text-xs font-medium text-primary-foreground hover:bg-primary/90"
+                  >
+                    Ja
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmDemo(false)}
+                    className="rounded-md border border-input px-2 py-1 text-xs font-medium hover:bg-accent"
+                  >
+                    Nein
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setConfirmDemo(true)}
+                  className="flex w-full items-center border-t px-3 py-2 text-left text-sm hover:bg-accent"
+                >
+                  <EditorMenuLabel icon={Sparkles}>Beispieldaten übernehmen</EditorMenuLabel>
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => setHistoryOpen((value) => !value)}
