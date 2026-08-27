@@ -96,7 +96,7 @@ async function dossierFonts(page: Page, template: string, font?: string) {
   await expect(cvRoot).toBeVisible();
   const cv = await computedFont(
     page,
-    '[data-dossier-document="cv"][data-export-mode="false"] [data-cv-main]',
+    '[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"] [data-cv-main]',
   );
 
   return { cover, letter, cv };
