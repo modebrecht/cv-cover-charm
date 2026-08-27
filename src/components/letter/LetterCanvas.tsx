@@ -444,11 +444,13 @@ export function LetterCanvas({
   design,
   exportMode = false,
   onOverflowChange,
+  ariaLabel = "Vorschau Motivationsschreiben",
 }: {
   data: LetterData;
   design: LetterDesign;
   exportMode?: boolean;
   onOverflowChange?: (overflow: boolean) => void;
+  ariaLabel?: string;
 }) {
   const layout = layoutFor(design.template);
   const palette =
@@ -494,7 +496,7 @@ export function LetterCanvas({
       data-letter-font={design.font}
       className="relative h-[1123px] w-[794px] overflow-hidden shadow-xl"
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
-      aria-label="Vorschau Motivationsschreiben"
+      aria-label={ariaLabel}
     >
       <LetterBackground design={design} />
       <div

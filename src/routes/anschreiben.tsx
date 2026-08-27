@@ -11,6 +11,7 @@ import { LetterCanvas } from "@/components/letter/LetterCanvas";
 import { LetterLayoutControls } from "@/components/letter/LetterLayoutControls";
 import { LetterRichTextEditor } from "@/components/letter/LetterRichTextEditor";
 import { LetterTemplatePicker } from "@/components/letter/LetterTemplatePicker";
+import { downloadLetterPdf } from "@/lib/dossier-pdf";
 import {
   mergeNonEmptyLetterData,
   readLetterDossierSource,
@@ -124,6 +125,8 @@ function Anschreiben() {
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
   const [letterOverflow, setLetterOverflow] = useState(false);
+  const [pdfDownloading, setPdfDownloading] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
   const [source, setSource] = useState<LetterDossierSource | null>(null);
   const [transferNote, setTransferNote] = useState<{
     kind: "ok" | "error";
@@ -267,6 +270,32 @@ function Anschreiben() {
     }));
   };
 
+  const downloadMotivationLetter = async () => {
+    if (pdfDownloading || letterOverflow || !letterHasStarted(data)) return;
+    setPdfError(null);
+    setPdfDownloading(true);
+    try {
+      const page = document.querySelector<HTMLElement>(
+        "[data-letter-standalone-export] [data-letter-page]",
+      );
+      if (!page) throw new Error("Exportansicht ist noch nicht bereit");
+      const namePart = data.absenderName
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^A-Za-z0-9ÄÖÜäöüß_-]/g, "");
+      await downloadLetterPdf(page, `Motivationsschreiben-${namePart || "Bewerbung"}.pdf`, {
+        title: data.betreff || "Motivationsschreiben",
+        author: data.absenderName.trim(),
+        subject: "Motivationsschreiben",
+        keywords: "Bewerbung, Motivationsschreiben, Lehrstelle",
+      });
+    } catch (error) {
+      setPdfError(error instanceof Error ? error.message : "PDF konnte nicht erstellt werden.");
+    } finally {
+      setPdfDownloading(false);
+    }
+  };
+
   const syncAllFromTitlePage = () => {
     const dossier = refreshSource();
     if (!titlePageHasMeaningfulSource(dossier)) {
@@ -378,6 +407,29 @@ function Anschreiben() {
                 <div>Dein Motivationsschreiben passt nicht auf eine Seite. Kürze den Text.</div>
               </div>
             ) : null}
+
+            <div className="rounded-lg border bg-background p-3">
+              <button
+                type="button"
+                onClick={downloadMotivationLetter}
+                disabled={pdfDownloading || letterOverflow || !letterHasStarted(data)}
+                className="w-full rounded-md bg-foreground px-4 py-3 text-sm font-semibold text-background hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {pdfDownloading
+                  ? "PDF wird erstellt…"
+                  : "Motivationsschreiben als PDF herunterladen"}
+              </button>
+              {pdfError ? (
+                <div role="status" className="mt-2 text-xs text-destructive">
+                  {pdfError}
+                </div>
+              ) : null}
+              {letterOverflow ? (
+                <p className="mt-2 text-[11px] text-muted-foreground">
+                  PDF-Download ist verfügbar, sobald alles auf eine A4-Seite passt.
+                </p>
+              ) : null}
+            </div>
 
             <div className="rounded-lg border border-primary/25 bg-primary/5 p-3">
               <div className="text-sm font-semibold text-foreground">
@@ -665,6 +717,19 @@ function Anschreiben() {
             </ScaledPreview>
           </div>
         </main>
+
+        <div
+          data-letter-standalone-export
+          className="pointer-events-none fixed left-[-10000px] top-0"
+          aria-hidden="true"
+        >
+          <LetterCanvas
+            data={data}
+            design={design}
+            exportMode
+            ariaLabel="Exportansicht Motivationsschreiben"
+          />
+        </div>
       </div>
     </div>
   );

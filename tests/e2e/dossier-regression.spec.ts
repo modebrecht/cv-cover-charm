@@ -719,6 +719,33 @@ test.describe("M5.8 dossier regression", () => {
       .toEqual({ accent: "#38bdf8", font: "serif", text: preservedBody });
   });
 
+  test("standalone Motivationsschreiben PDF downloads as a one-page text PDF", async ({ page }) => {
+    await seedCoreDossier(page, true);
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
+      "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+    );
+
+    const button = page.getByRole("button", {
+      name: "Motivationsschreiben als PDF herunterladen",
+      exact: true,
+    });
+    await expect(button).toBeEnabled();
+    const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
+    await button.click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(
+      /^Motivationsschreiben-Lea-(?:Müller|Mueller)\.pdf$/,
+    );
+    const path = await download.path();
+    expect(path).not.toBeNull();
+    expect((await stat(path ?? "")).size).toBeGreaterThan(5_000);
+
+    const pdfSource = (await readFile(path ?? "")).toString("latin1");
+    expect(pdfSource).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
+    expect(pdfSource).toContain("Guten Tag Herr Weber");
+  });
+
   test("Motivationsschreiben warns when its A4 text layer overflows and clears after shortening", async ({
     page,
   }) => {
@@ -728,7 +755,12 @@ test.describe("M5.8 dossier regression", () => {
 
     const body = page.getByRole("textbox", { name: "Brieftext" });
     const alert = page.getByRole("alert");
+    const pdfButton = page.getByRole("button", {
+      name: "Motivationsschreiben als PDF herunterladen",
+      exact: true,
+    });
     await expect(alert).toHaveCount(0);
+    await expect(pdfButton).toBeEnabled();
 
     await body.fill(
       Array.from(
@@ -739,6 +771,7 @@ test.describe("M5.8 dossier regression", () => {
     );
 
     await expect(alert).toContainText("Dein Motivationsschreiben passt nicht auf eine Seite");
+    await expect(pdfButton).toBeDisabled();
     const overflowing = await page
       .getByLabel("Vorschau Motivationsschreiben")
       .locator("[data-letter-text-layer]")
@@ -749,6 +782,7 @@ test.describe("M5.8 dossier regression", () => {
       "Ich interessiere mich sehr für die Lehrstelle und freue mich auf ein Gespräch.",
     );
     await expect(alert).toHaveCount(0);
+    await expect(pdfButton).toBeEnabled();
   });
 
   test("letter layout controls and Word-like formatting persist", async ({ page }) => {

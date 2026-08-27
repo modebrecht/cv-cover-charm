@@ -335,3 +335,34 @@ export async function downloadCombinedDossierPdf(
   }
   downloadBlob(pdf.output("blob"), fileName);
 }
+
+/** Exportiert nur das Motivationsschreiben als eine A4-Seite mit echter PDF-Textebene. */
+export async function downloadLetterPdf(
+  page: HTMLElement,
+  fileName: string,
+  meta: DossierPdfMeta,
+): Promise<void> {
+  await document.fonts?.ready;
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+  if (!page.matches("[data-letter-page]")) {
+    throw new Error("Motivationsschreiben konnte nicht für den PDF-Export gefunden werden");
+  }
+
+  const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+    import("html2canvas-pro"),
+    import("jspdf"),
+  ]);
+  const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+  pdf.setProperties({
+    title: meta.title,
+    author: meta.author,
+    subject: meta.subject ?? "Motivationsschreiben",
+    keywords: meta.keywords ?? "Bewerbung, Motivationsschreiben, Lehrstelle",
+    creator: meta.author || "Motivationsschreiben",
+  });
+
+  await addRasterPage(pdf, html2canvas, page, true);
+  addLetterTextLayer(pdf, page);
+  downloadBlob(pdf.output("blob"), fileName);
+}
