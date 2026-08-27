@@ -28,15 +28,16 @@ async function applyExampleData(
 
   await expect
     .poll(async () => {
-      return page.evaluate(
+      const saved = await page.evaluate(
         ({ key }) => {
           const raw = localStorage.getItem(key);
           return raw ? JSON.parse(raw) : null;
         },
         { key: storageKey },
       );
+      return !!saved && ready(saved);
     })
-    .toSatisfy((saved) => !!saved && ready(saved));
+    .toBe(true);
 }
 
 async function downloadCompleteDossier(page: Page) {
@@ -152,9 +153,9 @@ test.describe("complete dossier end-to-end", () => {
     if ((await headerAfterReload.getAttribute("aria-expanded")) !== "true") {
       await headerAfterReload.click();
     }
-    const panelAfterReload = page.locator(
-      `[id="${await headerAfterReload.getAttribute("aria-controls")}"]`,
-    );
+    const panelIdAfterReload = await headerAfterReload.getAttribute("aria-controls");
+    expect(panelIdAfterReload).toBeTruthy();
+    const panelAfterReload = page.locator(`[id="${panelIdAfterReload}"]`);
     await expect(
       panelAfterReload.getByRole("button", { name: "Colorful", exact: true }),
     ).toHaveAttribute("aria-pressed", "true");
