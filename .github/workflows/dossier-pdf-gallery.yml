@@ -1,5 +1,6 @@
 name: Dossier PDF Gallery
 
+# Reproducible visual QA: every selectable dossier design is rendered as a complete PDF.
 on:
   workflow_dispatch:
   push:
