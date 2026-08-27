@@ -46,62 +46,61 @@ jobs:
       - name: Create targeted browser test
         shell: bash
         run: |
-          cat > /tmp/all-letter-templates.spec.js <<'JS'
-          const { test, expect } = require('@playwright/test');
+          cat > tests/e2e/all-letter-templates.tmp.spec.ts <<'TS'
+          import { expect, test } from "@playwright/test";
 
-          test('all motivation-letter templates are selectable and Colorful persists', async ({ page }) => {
-            const pageErrors = [];
-            page.on('pageerror', error => pageErrors.push(error.message));
+          test("all motivation-letter templates are selectable and Colorful persists", async ({ page }) => {
+            const pageErrors: string[] = [];
+            page.on("pageerror", (error) => pageErrors.push(error.message));
 
-            await page.goto('http://127.0.0.1:4173/anschreiben', { waitUntil: 'domcontentloaded' });
+            await page.goto("http://127.0.0.1:4173/anschreiben", { waitUntil: "domcontentloaded" });
             await page.evaluate(() => localStorage.clear());
-            await page.reload({ waitUntil: 'domcontentloaded' });
+            await page.reload({ waitUntil: "domcontentloaded" });
 
-            const download = page.getByRole('button', { name: 'Download', exact: true });
-            await expect(download).toHaveAttribute('data-editor-ready', 'true');
+            const download = page.getByRole("button", { name: "Download", exact: true });
+            await expect(download).toHaveAttribute("data-editor-ready", "true");
 
-            const header = page.getByRole('button', { name: /^Vorlage$/ });
-            if ((await header.getAttribute('aria-expanded')) !== 'true') await header.click();
-            const panelId = await header.getAttribute('aria-controls');
+            const header = page.getByRole("button", { name: /^Vorlage$/ });
+            if ((await header.getAttribute("aria-expanded")) !== "true") await header.click();
+            const panelId = await header.getAttribute("aria-controls");
             expect(panelId).toBeTruthy();
             const panel = page.locator(`[id="${panelId}"]`);
-            const buttons = panel.getByRole('button');
+            const buttons = panel.getByRole("button");
             await expect(buttons).toHaveCount(20);
 
-            const labels = (await buttons.allTextContents()).map(text => text.trim()).filter(Boolean);
-            expect(labels).toContain('Brief');
-            expect(labels).toContain('Colorful');
+            const labels = (await buttons.allTextContents()).map((text) => text.trim()).filter(Boolean);
+            expect(labels).toContain("Brief");
+            expect(labels).toContain("Colorful");
             expect(new Set(labels).size).toBe(20);
 
-            const preview = page.getByLabel('Vorschau Motivationsschreiben');
+            const preview = page.getByLabel("Vorschau Motivationsschreiben");
             await expect(preview).toBeVisible();
 
             for (let index = 0; index < 20; index += 1) {
               const button = buttons.nth(index);
               await button.click();
-              await expect(button).toHaveAttribute('aria-pressed', 'true');
+              await expect(button).toHaveAttribute("aria-pressed", "true");
               await expect(preview).toBeVisible();
             }
 
-            await panel.getByRole('button', { name: 'Colorful', exact: true }).click();
+            await panel.getByRole("button", { name: "Colorful", exact: true }).click();
             await page.waitForTimeout(400);
-            await page.reload({ waitUntil: 'domcontentloaded' });
-            await expect(download).toHaveAttribute('data-editor-ready', 'true');
+            await page.reload({ waitUntil: "domcontentloaded" });
+            await expect(download).toHaveAttribute("data-editor-ready", "true");
 
-            const headerAfterReload = page.getByRole('button', { name: /^Vorlage$/ });
-            if ((await headerAfterReload.getAttribute('aria-expanded')) !== 'true') {
+            const headerAfterReload = page.getByRole("button", { name: /^Vorlage$/ });
+            if ((await headerAfterReload.getAttribute("aria-expanded")) !== "true") {
               await headerAfterReload.click();
             }
-            const panelIdAfterReload = await headerAfterReload.getAttribute('aria-controls');
+            const panelIdAfterReload = await headerAfterReload.getAttribute("aria-controls");
             const panelAfterReload = page.locator(`[id="${panelIdAfterReload}"]`);
-            await expect(panelAfterReload.getByRole('button', { name: 'Colorful', exact: true })).toHaveAttribute(
-              'aria-pressed',
-              'true',
-            );
+            await expect(
+              panelAfterReload.getByRole("button", { name: "Colorful", exact: true }),
+            ).toHaveAttribute("aria-pressed", "true");
 
             expect(pageErrors).toEqual([]);
           });
-          JS
+          TS
 
       - name: Start application
         shell: bash
@@ -116,11 +115,12 @@ jobs:
           exit 1
 
       - name: Run targeted browser test
-        run: npx playwright test /tmp/all-letter-templates.spec.js --reporter=line --workers=1
+        run: npx playwright test tests/e2e/all-letter-templates.tmp.spec.ts --reporter=line --workers=1
 
       - name: Cleanup workflow after success
         shell: bash
         run: |
+          rm -f tests/e2e/all-letter-templates.tmp.spec.ts
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm -f .github/workflows/one-time-all-letter-templates.yml
