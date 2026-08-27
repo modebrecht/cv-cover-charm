@@ -1,0 +1,128 @@
+name: One-time enable all dossier templates
+
+on:
+  push:
+    branches:
+      - feature/anschreiben-dossier
+    paths:
+      - .github/workflows/one-time-enable-all-dossier-templates.yml
+
+permissions:
+  contents: write
+
+jobs:
+  integrate-test-and-generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/anschreiben-dossier
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Apply all-template integration
+        run: python scripts/one-time-enable-all-dossier-templates.py
+
+      - name: Format touched files
+        run: >-
+          bunx prettier --write
+          src/components/cover/TemplatePicker.tsx
+          src/components/letter/LetterTemplatePicker.tsx
+          src/routes/lebenslauf.tsx
+          tests/e2e/dossier-regression.spec.ts
+          tests/e2e/dossier-gallery.spec.ts
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+
+      - name: Normalize lint formatting
+        run: >-
+          bunx eslint --fix
+          src/components/cover/TemplatePicker.tsx
+          src/components/letter/LetterTemplatePicker.tsx
+          src/routes/lebenslauf.tsx
+          tests/e2e/dossier-regression.spec.ts
+          tests/e2e/dossier-gallery.spec.ts
+
+      - name: Unit tests
+        run: bun test tests/unit
+
+      - name: Lint touched files
+        run: >-
+          bunx eslint
+          src/components/cover/TemplatePicker.tsx
+          src/components/letter/LetterTemplatePicker.tsx
+          src/routes/lebenslauf.tsx
+          tests/e2e/dossier-regression.spec.ts
+          tests/e2e/dossier-gallery.spec.ts
+
+      - name: Production build
+        run: bun run build
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start application
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/cv-cover-charm.log 2>&1 &
+          echo $! > /tmp/cv-cover-charm.pid
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/cv-cover-charm.log
+          exit 1
+
+      - name: Run dossier regression suite
+        run: npx playwright test tests/e2e/dossier-regression.spec.ts --reporter=line --workers=1
+
+      - name: Generate all complete dossier PDFs
+        env:
+          GALLERY_DIR: artifacts/dossier-gallery
+        run: npx playwright test tests/e2e/dossier-gallery.spec.ts --reporter=line --workers=1
+
+      - name: Upload all-template PDF gallery
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gesamtdossier-pdf-galerie-alle-vorlagen
+          path: artifacts/dossier-gallery
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Commit passing all-template integration
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -f \
+            .github/workflows/one-time-enable-all-dossier-templates.yml \
+            scripts/one-time-enable-all-dossier-templates.py
+          git add \
+            src/components/cover/TemplatePicker.tsx \
+            src/components/letter/LetterTemplatePicker.tsx \
+            src/routes/lebenslauf.tsx \
+            tests/e2e/dossier-regression.spec.ts \
+            tests/e2e/dossier-gallery.spec.ts
+          git diff --cached --check
+          git commit -m "Enable all dossier templates everywhere"
+          git push origin HEAD:feature/anschreiben-dossier
+
+      - name: Show application log on failure
+        if: failure()
+        run: cat /tmp/cv-cover-charm.log || true
+
+      - name: Stop application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi
