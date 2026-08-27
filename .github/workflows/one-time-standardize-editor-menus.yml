@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: 22
 
+      # Apply product changes and deterministic hydration-aware regression coverage.
       - name: Apply menu standardization
         run: |
           python scripts/one-time-standardize-editor-menus.py
