@@ -26,7 +26,9 @@ jobs:
           node-version: 22
 
       - name: Apply Beilagen integration
-        run: python scripts/one-time-add-beilagen.py
+        run: |
+          python scripts/one-time-add-beilagen.py
+          python scripts/one-time-add-beilagen-test-fix.py
 
       - name: Format touched files
         run: bunx prettier --write src/components/cover/types.ts src/components/cover/CoverForm.tsx src/components/cover/layouts.ts src/components/cover/BlockLayer.tsx src/routes/titelblatt.tsx src/components/letter/types.ts src/components/letter/dossier-transfer.ts src/components/letter/LetterCanvas.tsx src/routes/anschreiben.tsx tests/e2e/dossier-regression.spec.ts
@@ -72,7 +74,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm -f .github/workflows/one-time-add-beilagen.yml scripts/one-time-add-beilagen.py
+          git rm -f .github/workflows/one-time-add-beilagen.yml scripts/one-time-add-beilagen.py scripts/one-time-add-beilagen-test-fix.py
           git add src tests
           git diff --cached --check
           git commit -m "Add consistent Beilagen controls"
