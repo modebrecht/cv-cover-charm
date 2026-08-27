@@ -25,30 +25,37 @@ jobs:
         with:
           node-version: 22
 
-      - name: Replace legacy wording
+      - name: Replace legacy PDF wording
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          changed = []
-          for root in (Path('src'), Path('tests')):
-              for path in root.rglob('*'):
-                  if path.suffix not in {'.ts', '.tsx'}:
-                      continue
-                  text = path.read_text()
-                  updated = text.replace('Anschreiben', 'Motivationsschreiben')
-                  if updated != text:
-                      path.write_text(updated)
-                      changed.append(str(path))
-          print('changed:', *changed, sep='\n- ')
+
+          path = Path('src/lib/dossier-pdf.ts')
+          text = path.read_text()
+          replacements = {
+              'Anschreiben konnte für den PDF-Text nicht vermessen werden':
+                  'Motivationsschreiben konnte für den PDF-Text nicht vermessen werden',
+              'Titelblatt/CV bleiben Raster; das Anschreiben erhält eine echte formatierte Textebene.':
+                  'Titelblatt/CV bleiben Raster; das Motivationsschreiben erhält eine echte formatierte Textebene.',
+              'Dossier ist noch nicht vollständig: Titelblatt, Anschreiben und Lebenslauf werden benötigt':
+                  'Dossier ist noch nicht vollständig: Titelblatt, Motivationsschreiben und Lebenslauf werden benötigt',
+              'Bewerbung, Anschreiben, Lebenslauf, Titelblatt':
+                  'Bewerbung, Motivationsschreiben, Lebenslauf, Titelblatt',
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f'expected wording not found: {old}')
+              text = text.replace(old, new, 1)
+          path.write_text(text)
           PY
-          if grep -RIn --include='*.ts' --include='*.tsx' 'Anschreiben' src tests; then
-            echo 'Legacy capitalized wording still present' >&2
+          if grep -n 'Anschreiben' src/lib/dossier-pdf.ts; then
+            echo 'Legacy wording still present in dossier-pdf.ts' >&2
             exit 1
           fi
 
-      - name: Format touched source
-        run: bunx prettier --write src tests/e2e/dossier-regression.spec.ts
+      - name: Format touched file
+        run: bunx prettier --write src/lib/dossier-pdf.ts
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -59,8 +66,8 @@ jobs:
       - name: Unit tests
         run: bun test tests/unit
 
-      - name: Lint
-        run: bunx eslint src tests/e2e/dossier-regression.spec.ts
+      - name: Lint touched file
+        run: bunx eslint src/lib/dossier-pdf.ts
 
       - name: Production build
         run: bun run build
@@ -89,7 +96,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm -f .github/workflows/one-time-motivation-letter-wording.yml
-          git add src tests
+          git add src/lib/dossier-pdf.ts
           git diff --cached --check
           git commit -m "Use motivation-letter wording consistently"
           git push origin HEAD:feature/anschreiben-dossier
