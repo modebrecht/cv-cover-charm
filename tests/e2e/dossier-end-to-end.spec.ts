@@ -49,6 +49,7 @@ async function downloadCompleteDossier(page: Page) {
     .getByRole("button")
     .filter({ hasText: "Gesamtdossier herunterladen" });
   await expect(dossierCard).toBeVisible();
+  await expect(dossierCard).toContainText("Dossier prüfen & herunterladen", { timeout: 15_000 });
   await dossierCard.click();
 
   const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
