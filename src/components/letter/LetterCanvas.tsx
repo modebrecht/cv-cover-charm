@@ -1,7 +1,12 @@
 import { useEffect, useRef } from "react";
 import { FONT_STACKS, type TemplateId } from "@/components/cover/types";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
-import type { LetterData, LetterDesign, LetterTemplateId } from "./types";
+import {
+  DEFAULT_LETTER_BEILAGEN,
+  type LetterData,
+  type LetterDesign,
+  type LetterTemplateId,
+} from "./types";
 import { letterRichHtml, plainTextToRichHtml } from "./rich-text";
 
 type LetterLayout = {
@@ -461,6 +466,10 @@ export function LetterCanvas({
   const senderAlign = design.senderAlign ?? "left";
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
+  const beilagen = DEFAULT_LETTER_BEILAGEN.map(
+    (fallback, index) => data.beilagen?.[index] ?? fallback,
+  ).filter((value) => value.trim());
+  const showBeilagen = data.showBeilagen !== false && beilagen.length > 0;
   const placeholder =
     "Hier entsteht dein persönliches Motivationsschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.";
   const bodyHtml = data.richTextHtml?.trim()
@@ -595,6 +604,17 @@ export function LetterCanvas({
               {data.unterschrift || data.absenderName}
             </div>
           </div>
+
+          {showBeilagen ? (
+            <div className="mt-[9mm] text-[10pt] leading-[1.45]">
+              <div data-letter-pdf-text="attachments-heading" className="font-semibold">
+                Beilagen:
+              </div>
+              <div data-letter-pdf-text="attachments-body" className="mt-[1.5mm]">
+                <Lines values={beilagen} />
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </article>

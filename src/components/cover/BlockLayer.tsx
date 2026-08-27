@@ -52,9 +52,10 @@ function dossierRole(block: Block): DossierTextRole | undefined {
   if (block.kind !== "text") return undefined;
   if (block.id === "name") return "name";
   if (block.id === "beruf") return "subtitle";
-  if (["eyebrow", "kicker", "kontaktTitel", "anTitel"].includes(block.id)) return "heading";
+  if (["eyebrow", "kicker", "kontaktTitel", "anTitel", "beilagenTitel"].includes(block.id))
+    return "heading";
   if (["ortDatum", "lehrbeginn"].includes(block.id)) return "muted";
-  if (["kontakt", "empfaenger"].includes(block.id)) return "body";
+  if (["kontakt", "empfaenger", "beilagen"].includes(block.id)) return "body";
   return undefined;
 }
 
@@ -422,8 +423,7 @@ export function BlockLayer({
          */
         const shapeHeightMm = isShape && !isLine ? st.w * (st.ratio ?? 1) : 0;
         const isDecoration = b.id.startsWith("decor-");
-        const bleedRight =
-          isDecoration && Math.abs(st.x + st.w - PAGE_W_MM) <= EDGE_EPSILON_MM;
+        const bleedRight = isDecoration && Math.abs(st.x + st.w - PAGE_W_MM) <= EDGE_EPSILON_MM;
         const bleedBottom =
           isDecoration &&
           isShape &&

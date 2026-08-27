@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  FormBeilagen,
   FormBetrieb,
   FormBewerbung,
   FormFoto,
@@ -75,6 +76,7 @@ import { DEFAULTS, FONT, PAGE, PDF, PREVIEW, SHAPE } from "@/default-config";
 
 import {
   customKind,
+  DEFAULT_COVER_BEILAGEN,
   DEMO_DATA,
   EMPTY_META,
   FONT_LABELS,
@@ -133,6 +135,9 @@ const emptyData: CoverData = {
   lehrbetrieb: "",
   ansprechperson: "",
   betriebAdresse: "",
+  showBetriebOnCover: false,
+  showBeilagenOnCover: true,
+  beilagen: [...DEFAULT_COVER_BEILAGEN],
   ort: "",
   datum: "",
   labelKontakt: "",
@@ -146,8 +151,9 @@ const STORAGE_KEY = COVER_STORAGE_KEY;
  * 6 = eigene Titel (`labelKontakt`/`labelEmpfaenger`), acht Schriften,
  *     Farbverläufe an Formen, Trennlinien als Blöcke.
  * 7 = gemeinsame Dossier-Schrift für Titelblatt und Lebenslauf.
+ * 8 = Sichtbarkeit Firma / Lehrbetrieb und native Beilagenrubrik.
  */
-const SAVE_VERSION = 7;
+const SAVE_VERSION = 8;
 
 const validFont = (value: unknown): FontKey | null =>
   typeof value === "string" && value in FONT_LABELS ? (value as FontKey) : null;
@@ -159,6 +165,9 @@ const prefill = (d: CoverData): CoverData => ({
   datum: d.datum || today(),
   ort: d.ort || DEFAULTS.LOCATION,
   kicker: d.kicker || DEFAULTS.KICKER,
+  showBetriebOnCover: d.showBetriebOnCover === true,
+  showBeilagenOnCover: d.showBeilagenOnCover !== false,
+  beilagen: DEFAULT_COVER_BEILAGEN.map((fallback, index) => d.beilagen?.[index] ?? fallback),
 });
 
 function defaultColors(templateId: TemplateId): Record<string, string> {
@@ -183,6 +192,7 @@ type SectionKey =
   | "person"
   | "foto"
   | "betrieb"
+  | "beilagen"
   | "ortDatum"
   | "meta";
 
@@ -279,6 +289,7 @@ function Titelblatt() {
     person: true,
     foto: false,
     betrieb: false,
+    beilagen: true,
     ortDatum: false,
     meta: false,
   });
@@ -1338,12 +1349,25 @@ function Titelblatt() {
             </Section>
 
             <Section
-              title="Lehrbetrieb"
+              title="Firma / Lehrbetrieb"
               open={open.betrieb}
               onToggle={() => toggleSection("betrieb")}
-              hint={`${filled([data.lehrbetrieb, data.ansprechperson, data.betriebAdresse])} / 3`}
+              hint={
+                data.showBetriebOnCover === true
+                  ? `${filled([data.lehrbetrieb, data.ansprechperson, data.betriebAdresse])} / 3 · angezeigt`
+                  : "ausgeblendet"
+              }
             >
               <FormBetrieb data={data} onChange={patch} />
+            </Section>
+
+            <Section
+              title="Beilagen"
+              open={open.beilagen}
+              onToggle={() => toggleSection("beilagen")}
+              hint={data.showBeilagenOnCover !== false ? "angezeigt" : "ausgeblendet"}
+            >
+              <FormBeilagen data={data} onChange={patch} />
             </Section>
 
             <Section

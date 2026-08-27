@@ -15,6 +15,11 @@ export type CoverData = {
   lehrbetrieb: string;
   ansprechperson: string;
   betriebAdresse: string;
+  /** Firma bleibt gespeichert, kann auf dem Titelblatt aber ausgeblendet werden. */
+  showBetriebOnCover?: boolean;
+  /** Native Beilagenrubrik auf dem Titelblatt. */
+  showBeilagenOnCover?: boolean;
+  beilagen?: string[];
   ort: string;
   datum: string;
   /**
@@ -38,6 +43,8 @@ export type PdfMeta = {
 };
 
 export const EMPTY_META: PdfMeta = { title: "", author: "", subject: "", keywords: "" };
+
+export const DEFAULT_COVER_BEILAGEN = ["Motivationsschreiben", "Lebenslauf", "Zeugnis"] as const;
 
 export type ColorSlot = {
   key: string;
@@ -268,7 +275,14 @@ export const FONT_STACKS: Record<FontKey, string> = {
 };
 
 export type FontKey =
-  "sans" | "serif" | "times" | "humanist" | "freundlich" | "schmal" | "maschine" | "plakativ";
+  | "sans"
+  | "serif"
+  | "times"
+  | "humanist"
+  | "freundlich"
+  | "schmal"
+  | "maschine"
+  | "plakativ";
 
 /** Anzeigenamen für die Schriftwahl in der Werkzeugleiste. */
 export const FONT_LABELS: Record<FontKey, string> = {

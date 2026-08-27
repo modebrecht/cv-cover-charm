@@ -1,4 +1,5 @@
 import type { Block, ColorSlot, CoverData, CustomField, TemplateId } from "./types";
+import { DEFAULT_COVER_BEILAGEN } from "./types";
 import { buildBlocks as buildBaseBlocks } from "./layouts-base";
 import type { StyleOverrides } from "./layouts-base";
 import { templateDecorations } from "./template-decorations";
@@ -19,8 +20,82 @@ export function buildBlocks(
   const blocks = buildBaseBlocks(template, data, customs, overrides, slots);
   const decorations = templateDecorations(template, overrides);
 
+  const companyVisible = data.showBetriebOnCover === true;
+  const beilagen = DEFAULT_COVER_BEILAGEN.map(
+    (fallback, index) => data.beilagen?.[index] ?? fallback,
+  ).filter((value) => value.trim());
+  const beilagenVisible = data.showBeilagenOnCover !== false && beilagen.length > 0;
+
+  // Ausblenden entfernt nur die Darstellung. Die Firmendaten bleiben im
+  // Titelblatt gespeichert und stehen weiterhin für das Motivationsschreiben
+  // zur Übernahme bereit.
+  const contentBlocks = blocks.map((block) =>
+    !companyVisible && (block.id === "anTitel" || block.id === "empfaenger")
+      ? { ...block, lines: [] }
+      : block,
+  );
+
+  if (beilagenVisible) {
+    const recipientTitle = blocks.find((block) => block.id === "anTitel");
+    const recipientBody = blocks.find((block) => block.id === "empfaenger");
+
+    if (recipientTitle && recipientBody) {
+      const titleBase = companyVisible
+        ? {
+            ...recipientTitle.style,
+            above: "beilagen",
+            follows: null,
+            anchorBottom: false,
+            gap: 1.5,
+            uppercase: false,
+            weight: Math.max(600, recipientTitle.style.weight),
+          }
+        : {
+            ...recipientTitle.style,
+            uppercase: false,
+            weight: Math.max(600, recipientTitle.style.weight),
+          };
+      const bodyBase = companyVisible
+        ? {
+            ...recipientBody.style,
+            above: "anTitel",
+            follows: null,
+            anchorBottom: false,
+            gap: 2,
+          }
+        : {
+            ...recipientBody.style,
+            follows: "beilagenTitel",
+            above: null,
+          };
+      const titleOverride = overrides.beilagenTitel ?? {};
+      const bodyOverride = overrides.beilagen ?? {};
+
+      contentBlocks.push(
+        {
+          id: "beilagenTitel",
+          label: "Titel Beilagen",
+          kind: "text",
+          lines: ["Beilagen:"],
+          style: {
+            ...titleBase,
+            ...titleOverride,
+            weight: Math.max(600, titleOverride.weight ?? titleBase.weight),
+          },
+        },
+        {
+          id: "beilagen",
+          label: "Beilagen",
+          kind: "text",
+          lines: beilagen,
+          style: { ...bodyBase, ...bodyOverride },
+        },
+      );
+    }
+  }
+
   // Decorations render first so text/photos/custom content remain above them.
   // They are otherwise normal shape blocks, so the shared BlockLayer and
   // ElementBar provide dragging, size, colour, opacity, reset and remove.
-  return [...decorations, ...blocks];
+  return [...decorations, ...contentBlocks];
 }

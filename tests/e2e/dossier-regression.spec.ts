@@ -1129,6 +1129,82 @@ test.describe("M5.8 dossier regression", () => {
     expect(pools.cvHistory).toBeNull();
   });
 
+  test("Titelblatt and Motivationsschreiben expose independent Beilagen controls", async ({
+    page,
+  }) => {
+    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => localStorage.clear());
+    await page.reload({ waitUntil: "domcontentloaded" });
+
+    const coverDownload = page.getByRole("button", { name: "Download", exact: true });
+    await expect(coverDownload).toHaveAttribute("data-editor-ready", "true");
+
+    const companyHeader = page.getByRole("button", { name: /^Firma \/ Lehrbetrieb/ });
+    if ((await companyHeader.getAttribute("aria-expanded")) !== "true") await companyHeader.click();
+    const companyPanelId = await companyHeader.getAttribute("aria-controls");
+    expect(companyPanelId).toBeTruthy();
+    const companyPanel = page.locator(`[id="${companyPanelId}"]`);
+    const companyToggle = companyPanel.getByLabel("Auf Titelblatt anzeigen");
+    await expect(companyToggle).not.toBeChecked();
+    await companyPanel.getByLabel("Firma", { exact: true }).fill("Beispiel AG");
+
+    const coverBeilagenHeader = page.getByRole("button", { name: /^Beilagen/ });
+    if ((await coverBeilagenHeader.getAttribute("aria-expanded")) !== "true") {
+      await coverBeilagenHeader.click();
+    }
+    const coverBeilagenPanelId = await coverBeilagenHeader.getAttribute("aria-controls");
+    expect(coverBeilagenPanelId).toBeTruthy();
+    const coverBeilagenPanel = page.locator(`[id="${coverBeilagenPanelId}"]`);
+    const coverBeilagenToggle = coverBeilagenPanel.getByLabel("Auf Titelblatt anzeigen");
+    await expect(coverBeilagenToggle).toBeChecked();
+    await expect(page.locator('[data-block-id="beilagenTitel"]').first()).toContainText(
+      "Beilagen:",
+    );
+    await expect(page.locator('[data-block-id="beilagen"]').first()).toContainText(
+      "Motivationsschreiben",
+    );
+    await expect(page.locator('[data-block-id="empfaenger"]')).toHaveCount(0);
+
+    await companyToggle.check();
+    await expect(page.locator('[data-block-id="empfaenger"]').first()).toContainText("Beispiel AG");
+    await coverBeilagenToggle.uncheck();
+    await expect(page.locator('[data-block-id="beilagenTitel"]')).toHaveCount(0);
+    await expect(page.locator('[data-block-id="empfaenger"]').first()).toContainText("Beispiel AG");
+
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => {
+      localStorage.removeItem("anschreiben:v1");
+      localStorage.removeItem("anschreiben:history");
+    });
+    await page.reload({ waitUntil: "domcontentloaded" });
+
+    const letterDownload = page.getByRole("button", { name: "Download", exact: true });
+    await expect(letterDownload).toHaveAttribute("data-editor-ready", "true");
+    const letterBeilagenHeader = page.getByRole("button", { name: /^Beilagen/ });
+    if ((await letterBeilagenHeader.getAttribute("aria-expanded")) !== "true") {
+      await letterBeilagenHeader.click();
+    }
+    const letterPanelId = await letterBeilagenHeader.getAttribute("aria-controls");
+    expect(letterPanelId).toBeTruthy();
+    const letterPanel = page.locator(`[id="${letterPanelId}"]`);
+    const letterToggle = letterPanel.getByLabel("Im Motivationsschreiben anzeigen");
+    await expect(letterToggle).toBeChecked();
+    const preview = page.getByLabel("Vorschau Motivationsschreiben");
+    await expect(preview.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveText(
+      "Beilagen:",
+    );
+    await expect(preview.locator('[data-letter-pdf-text="attachments-body"]')).toContainText(
+      "Lebenslauf",
+    );
+    await expect(preview.locator('[data-letter-pdf-text="attachments-body"]')).toContainText(
+      "Zeugnis",
+    );
+
+    await letterToggle.uncheck();
+    await expect(preview.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveCount(0);
+    await expect(page.locator('[data-block-id="beilagenTitel"]')).toHaveCount(0);
+  });
+
   test("document editors expose one consistent overview home link", async ({ page }) => {
     for (const path of ["/titelblatt", "/lebenslauf", "/anschreiben"]) {
       await page.goto(`${BASE_URL}${path}`);

@@ -1,14 +1,6 @@
 import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/components/cover/types";
-import {
-  COVER_STORAGE_KEY,
-  CV_STORAGE_KEY,
-  readStoredDossierPart,
-} from "@/lib/dossier-project";
-import {
-  defaultLetterColors,
-  type LetterData,
-  type LetterDesign,
-} from "./types";
+import { COVER_STORAGE_KEY, CV_STORAGE_KEY, readStoredDossierPart } from "@/lib/dossier-project";
+import { defaultLetterColors, type LetterData, type LetterDesign } from "./types";
 
 type RecordLike = Record<string, unknown>;
 
@@ -155,10 +147,9 @@ export function mergeNonEmptyLetterData(
   incoming: Partial<LetterData>,
 ): LetterData {
   const next = { ...current };
-  for (const [key, value] of Object.entries(incoming) as Array<
-    [keyof LetterData, string | undefined]
-  >) {
-    if (value?.trim()) next[key] = value;
+  for (const [key, value] of Object.entries(incoming)) {
+    if (typeof value !== "string" || !value.trim()) continue;
+    (next as unknown as Record<string, unknown>)[key] = value;
   }
   return next;
 }

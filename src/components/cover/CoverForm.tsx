@@ -1,6 +1,6 @@
 import type { BlockStyle, CoverData, PdfMeta } from "./types";
 import { PhotoControls } from "./PhotoControls";
-import { LEHRBERUFE } from "./types";
+import { DEFAULT_COVER_BEILAGEN, LEHRBERUFE } from "./types";
 import { readPhoto } from "@/lib/image";
 import { DEFAULTS } from "@/default-config";
 
@@ -203,6 +203,14 @@ export function FormFoto({
 export function FormBetrieb({ data, onChange }: Props) {
   return (
     <div className="flex flex-col gap-3">
+      <label className="flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          checked={data.showBetriebOnCover === true}
+          onChange={(event) => onChange({ showBetriebOnCover: event.target.checked })}
+        />
+        <span>Auf Titelblatt anzeigen</span>
+      </label>
       <Field label="Firma">
         <input
           className={inputCls}
@@ -225,6 +233,40 @@ export function FormBetrieb({ data, onChange }: Props) {
           placeholder="Strasse, PLZ Ort"
         />
       </Field>
+    </div>
+  );
+}
+
+export function FormBeilagen({ data, onChange }: Props) {
+  const values = DEFAULT_COVER_BEILAGEN.map(
+    (fallback, index) => data.beilagen?.[index] ?? fallback,
+  );
+
+  const changeEntry = (index: number, value: string) => {
+    const next = [...values];
+    next[index] = value;
+    onChange({ beilagen: next });
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      <label className="flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          checked={data.showBeilagenOnCover !== false}
+          onChange={(event) => onChange({ showBeilagenOnCover: event.target.checked })}
+        />
+        <span>Auf Titelblatt anzeigen</span>
+      </label>
+      {values.map((value, index) => (
+        <Field key={index} label={`Beilage ${index + 1}`}>
+          <input
+            className={inputCls}
+            value={value}
+            onChange={(event) => changeEntry(index, event.target.value)}
+          />
+        </Field>
+      ))}
     </div>
   );
 }

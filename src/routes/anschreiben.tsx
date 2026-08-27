@@ -29,6 +29,7 @@ import {
   type LetterDossierSource,
 } from "@/components/letter/dossier-transfer";
 import {
+  DEFAULT_LETTER_BEILAGEN,
   EMPTY_LETTER,
   LETTER_STORAGE_KEY,
   defaultLetterColors,
@@ -160,6 +161,7 @@ function Anschreiben() {
     empfaenger: true,
     layout: true,
     brief: true,
+    beilagen: true,
     vorlage: false,
     farben: false,
     typo: false,
@@ -797,6 +799,38 @@ function Anschreiben() {
                   value={data.unterschrift}
                   onChange={(value) => patch({ unterschrift: value })}
                 />
+              </div>
+            </Section>
+
+            <Section
+              title="Beilagen"
+              open={open.beilagen}
+              onToggle={() => toggle("beilagen")}
+              hint={data.showBeilagen !== false ? "angezeigt" : "ausgeblendet"}
+            >
+              <div className="flex flex-col gap-3">
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={data.showBeilagen !== false}
+                    onChange={(event) => patch({ showBeilagen: event.target.checked })}
+                  />
+                  <span>Im Motivationsschreiben anzeigen</span>
+                </label>
+                {DEFAULT_LETTER_BEILAGEN.map((fallback, index) => (
+                  <Field
+                    key={index}
+                    label={`Beilage ${index + 1}`}
+                    value={data.beilagen?.[index] ?? fallback}
+                    onChange={(value) => {
+                      const next = DEFAULT_LETTER_BEILAGEN.map(
+                        (entryFallback, entryIndex) => data.beilagen?.[entryIndex] ?? entryFallback,
+                      );
+                      next[index] = value;
+                      patch({ beilagen: next });
+                    }}
+                  />
+                ))}
               </div>
             </Section>
 

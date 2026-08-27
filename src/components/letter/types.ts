@@ -24,6 +24,9 @@ export type LetterData = {
   richTextHtml?: string;
   gruss: string;
   unterschrift: string;
+  /** Beilagen am Ende des Motivationsschreibens. */
+  showBeilagen?: boolean;
+  beilagen?: string[];
 };
 
 export type LetterDesign = {
@@ -47,6 +50,8 @@ export type SavedLetter = {
 
 export { LETTER_STORAGE_KEY };
 
+export const DEFAULT_LETTER_BEILAGEN = ["Lebenslauf", "Zeugnis"] as const;
+
 export const EMPTY_LETTER: LetterData = {
   absenderName: "",
   absenderAdresse: "",
@@ -65,6 +70,8 @@ export const EMPTY_LETTER: LetterData = {
   richTextHtml: "",
   gruss: "Freundliche Grüsse",
   unterschrift: "",
+  showBeilagen: true,
+  beilagen: [...DEFAULT_LETTER_BEILAGEN],
 };
 
 export function defaultLetterColors(template: LetterTemplateId): Record<string, string> {
