@@ -1,3 +1,4 @@
+import "@/components/cover/fresh-templates";
 import { TEMPLATES } from "@/components/cover/types";
 import type { LetterTemplateId } from "./types";
 

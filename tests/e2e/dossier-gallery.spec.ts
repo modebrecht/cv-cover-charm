@@ -6,6 +6,35 @@ import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 const BASE_URL = "http://127.0.0.1:4173";
 const GALLERY_DIR = process.env.GALLERY_DIR ?? "artifacts/dossier-gallery";
 
+// Do not import fresh-templates.ts in the Playwright Node process: that module
+// intentionally imports the browser CSS for the fresh designs. The running app
+// registers the same 18 designs; this list only enumerates them for gallery files.
+const FRESH_GALLERY_TEMPLATES: Array<{ id: TemplateId; name: string }> = [
+  { id: "edge" as TemplateId, name: "Edge" },
+  { id: "glow" as TemplateId, name: "Glow" },
+  { id: "frame" as TemplateId, name: "Frame" },
+  { id: "monoLuxe" as TemplateId, name: "Mono Luxe" },
+  { id: "horizon" as TemplateId, name: "Horizon" },
+  { id: "sunrise" as TemplateId, name: "Sunrise" },
+  { id: "forestFlow" as TemplateId, name: "Forest Flow" },
+  { id: "violetPulse" as TemplateId, name: "Violet Pulse" },
+  { id: "studio2" as TemplateId, name: "Studio 2" },
+  { id: "studio3" as TemplateId, name: "Studio 3" },
+  { id: "warm2" as TemplateId, name: "Warm 2" },
+  { id: "warm3" as TemplateId, name: "Warm 3" },
+  { id: "ledger" as TemplateId, name: "Ledger" },
+  { id: "prism" as TemplateId, name: "Prism" },
+  { id: "gallery" as TemplateId, name: "Gallery" },
+  { id: "orbit" as TemplateId, name: "Orbit" },
+  { id: "ribbon" as TemplateId, name: "Ribbon" },
+  { id: "cove" as TemplateId, name: "Cove" },
+];
+
+const ALL_GALLERY_TEMPLATES = [
+  ...TEMPLATES.map((template) => ({ id: template.id, name: template.name })),
+  ...FRESH_GALLERY_TEMPLATES,
+];
+
 async function waitEditorReady(page: Page) {
   const toggle = page.getByRole("button", { name: "Download", exact: true });
   await expect(toggle).toHaveAttribute("data-editor-ready", "true", { timeout: 15_000 });
@@ -101,15 +130,16 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
       coverTemplate: "klassisch",
       cvTemplate: "klassisch",
     },
-    ...TEMPLATES.map((template) => ({
+    ...ALL_GALLERY_TEMPLATES.map((template) => ({
       label: template.name,
       letterTemplate: template.id,
       coverTemplate: template.id,
-      cvTemplate: template.id === "colorful" ? ("blockig" as const) : template.id,
+      cvTemplate: template.id,
     })),
   ];
 
-  expect(cases).toHaveLength(20);
+  expect(ALL_GALLERY_TEMPLATES).toHaveLength(37);
+  expect(cases).toHaveLength(38);
 
   for (const [index, item] of cases.entries()) {
     await page.evaluate(
@@ -156,13 +186,9 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
     );
   }
 
-  manifest.push(
-    "",
-    "Hinweis: Colorful ist beim CV historisch stillgelegt; deshalb nutzt die Colorful-Gesamtdossier-PDF für den CV die Vorlage Blockig.",
-  );
   await writeFile(join(GALLERY_DIR, "MANIFEST.txt"), `${manifest.join("\n")}\n`, "utf8");
 
   const files = await import("node:fs/promises").then(({ readdir }) => readdir(GALLERY_DIR));
-  expect(files.filter((file) => file.toLowerCase().endsWith(".pdf"))).toHaveLength(21);
+  expect(files.filter((file) => file.toLowerCase().endsWith(".pdf"))).toHaveLength(39);
   expect(files).toContain("MANIFEST.txt");
 });
