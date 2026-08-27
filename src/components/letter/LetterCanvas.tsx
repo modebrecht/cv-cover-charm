@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { FONT_STACKS, type TemplateId } from "@/components/cover/types";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import type { LetterData, LetterDesign, LetterTemplateId } from "./types";
@@ -442,10 +443,12 @@ export function LetterCanvas({
   data,
   design,
   exportMode = false,
+  onOverflowChange,
 }: {
   data: LetterData;
   design: LetterDesign;
   exportMode?: boolean;
+  onOverflowChange?: (overflow: boolean) => void;
 }) {
   const layout = layoutFor(design.template);
   const palette =
@@ -465,6 +468,24 @@ export function LetterCanvas({
       : exportMode
         ? ""
         : plainTextToRichHtml(placeholder);
+  const textLayerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!onOverflowChange) return;
+    const textLayer = textLayerRef.current;
+    if (!textLayer) return;
+
+    const measure = () => onOverflowChange(textLayer.scrollHeight > textLayer.clientHeight + 1);
+    const frame = requestAnimationFrame(() => requestAnimationFrame(measure));
+    const observer = new ResizeObserver(measure);
+    observer.observe(textLayer);
+    void document.fonts?.ready.then(measure);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [bodyHtml, data, design, onOverflowChange]);
 
   return (
     <article
@@ -477,6 +498,7 @@ export function LetterCanvas({
     >
       <LetterBackground design={design} />
       <div
+        ref={textLayerRef}
         data-letter-text-layer
         className="absolute flex flex-col"
         style={{

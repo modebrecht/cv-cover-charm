@@ -123,6 +123,7 @@ function Anschreiben() {
   const [hydrated, setHydrated] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
+  const [letterOverflow, setLetterOverflow] = useState(false);
   const [source, setSource] = useState<LetterDossierSource | null>(null);
   const [transferNote, setTransferNote] = useState<{
     kind: "ok" | "error";
@@ -367,6 +368,16 @@ function Anschreiben() {
               Schreibe dein Motivationsschreiben hier. Das Layout bleibt bewusst ruhiger als beim
               Lebenslauf, damit längerer Text gut lesbar bleibt.
             </div>
+
+            {letterOverflow ? (
+              <div
+                role="alert"
+                className="rounded-lg border border-amber-300/80 bg-amber-50 px-3 py-2.5 text-xs leading-relaxed text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100"
+              >
+                <div className="font-semibold">Zu viel Text für eine Seite</div>
+                <div>Dein Motivationsschreiben passt nicht auf eine Seite. Kürze den Text.</div>
+              </div>
+            ) : null}
 
             <div className="rounded-lg border border-primary/25 bg-primary/5 p-3">
               <div className="text-sm font-semibold text-foreground">
@@ -650,7 +661,7 @@ function Anschreiben() {
         <main className="min-w-0 flex-1 overflow-auto bg-muted/40 p-3 sm:p-6">
           <div className="mx-auto w-full max-w-[980px] py-2 sm:py-4">
             <ScaledPreview max={1}>
-              <LetterCanvas data={data} design={design} />
+              <LetterCanvas data={data} design={design} onOverflowChange={setLetterOverflow} />
             </ScaledPreview>
           </div>
         </main>

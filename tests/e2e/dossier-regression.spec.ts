@@ -719,6 +719,38 @@ test.describe("M5.8 dossier regression", () => {
       .toEqual({ accent: "#38bdf8", font: "serif", text: preservedBody });
   });
 
+  test("Motivationsschreiben warns when its A4 text layer overflows and clears after shortening", async ({
+    page,
+  }) => {
+    await seedCoreDossier(page);
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
+
+    const body = page.getByRole("textbox", { name: "Brieftext" });
+    const alert = page.getByRole("alert");
+    await expect(alert).toHaveCount(0);
+
+    await body.fill(
+      Array.from(
+        { length: 55 },
+        (_, index) =>
+          `Absatz ${index + 1}: Ich interessiere mich sehr für diesen Beruf und möchte meine Motivation, Zuverlässigkeit und Lernbereitschaft zeigen.`,
+      ).join("\n"),
+    );
+
+    await expect(alert).toContainText("Dein Motivationsschreiben passt nicht auf eine Seite");
+    const overflowing = await page
+      .getByLabel("Vorschau Motivationsschreiben")
+      .locator("[data-letter-text-layer]")
+      .evaluate((element) => element.scrollHeight > element.clientHeight + 1);
+    expect(overflowing).toBe(true);
+
+    await body.fill(
+      "Ich interessiere mich sehr für die Lehrstelle und freue mich auf ein Gespräch.",
+    );
+    await expect(alert).toHaveCount(0);
+  });
+
   test("letter layout controls and Word-like formatting persist", async ({ page }) => {
     await seedCoreDossier(page);
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
