@@ -108,8 +108,7 @@ jobs:
             src/components/letter/types.ts \
             src/routes/anschreiben.tsx \
             tests/e2e/dossier-regression.spec.ts \
-            tests/e2e/dossier-gallery.spec.ts \
-            .github/workflows/dossier-pdf-gallery.yml
+            tests/e2e/dossier-gallery.spec.ts
           git diff --cached --check
           git commit -m "Add complete dossier PDF gallery"
           git push origin HEAD:feature/anschreiben-dossier
