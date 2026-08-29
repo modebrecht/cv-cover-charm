@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { readFileSync } from "node:fs";
 import { emptyLetterDesign } from "../../src/components/letter/types";
+import { FONT_LABELS, FONT_STACKS } from "../../src/components/cover/types";
 import {
   dossierFontFromSerialized,
   reconcileDossierFontTexts,
@@ -69,20 +69,18 @@ describe("CV and motivation-letter font sync", () => {
     expect(fontOf(result.letter)).toBe("times");
   });
 
-  test("uses Trebuchet as the new-dossier default while preserving saved font choices", () => {
-    const coverSource = readFileSync(
-      new URL("../../src/routes/titelblatt.tsx", import.meta.url),
-      "utf8",
-    );
-    const cvSource = readFileSync(
-      new URL("../../src/routes/lebenslauf.tsx", import.meta.url),
-      "utf8",
+  test("keeps the semantic dossier default mapped to Cabin", () => {
+    expect(emptyLetterDesign().font).toBe("freundlich");
+    expect(FONT_LABELS.freundlich).toBe("Cabin");
+    expect(FONT_STACKS.freundlich).toContain("Cabin");
+
+    const reconciled = reconcileDossierFontTexts(
+      JSON.stringify({ version: 6, design: { font: "freundlich" } }),
+      JSON.stringify({ version: 1, design: {} }),
     );
 
-    expect(emptyLetterDesign().font).toBe("freundlich");
-    expect(coverSource).toContain('useState<FontKey | null>("freundlich")');
-    expect(coverSource).toContain("setDocumentFont(validFont(p.font));");
-    expect(cvSource).toContain('font: "freundlich"');
-    expect(cvSource).toContain('font: draft ? (draft.font ?? undefined) : "freundlich"');
+    expect(reconciled.font).toBe("freundlich");
+    expect(fontOf(reconciled.cv)).toBe("freundlich");
+    expect(fontOf(reconciled.letter)).toBe("freundlich");
   });
 });
