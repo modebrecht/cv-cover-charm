@@ -100,6 +100,7 @@ jobs:
           tests/e2e/fresh-dossier-templates.spec.ts
           tests/e2e/gradient-edge-smoke.spec.ts
           tests/e2e/cv-card-refresh.spec.ts
+          tests/e2e/cv-pdf-text.spec.ts
           --reporter=line --workers=1
 
       - name: Show application log on failure
