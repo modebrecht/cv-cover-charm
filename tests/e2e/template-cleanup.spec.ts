@@ -99,13 +99,14 @@ test.describe("template cleanup", () => {
 
   test("Blockig CV left rail is grey to the bottom with orange on top", async ({ page }) => {
     await seedCv(page, "blockig");
+    await expect(page.locator("html")).toHaveAttribute("data-dossier-template", "blockig");
 
     const geometry = await page
       .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page]')
       .first()
       .evaluate((pageEl) => {
         const pageRect = pageEl.getBoundingClientRect();
-        const root = pageEl.querySelector<HTMLElement>('[data-cover-template="blockig"]');
+        const root = pageEl.querySelector<HTMLElement>('[data-cv-background="motif"] > div');
         if (!root) return null;
         const grey = getComputedStyle(root, "::before");
         const orange = getComputedStyle(root, "::after");
