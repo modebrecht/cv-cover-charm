@@ -9,7 +9,7 @@ const source = readFileSync(
 describe("element proportion lock regression", () => {
   test("restores the persistent proportion control without replacing current sizing logic", () => {
     expect(source).toContain('lockRatio?: boolean');
-    expect(source).toContain('const lockRatio = st.lockRatio ?? isPhoto;');
+    expect(source).toContain('const lockRatio = st.lockRatio ?? (isPhoto || isImage);');
     expect(source).toContain('checked={lockRatio}');
     expect(source).toContain('lockRatio: e.target.checked');
 
