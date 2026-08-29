@@ -3,9 +3,7 @@ import { expect, test } from "@playwright/test";
 const BASE_URL = "http://127.0.0.1:4173";
 
 test.describe("shared CV and motivation-letter font", () => {
-  test("inherits an existing CV font and propagates later letter font changes back to CV", async ({
-    page,
-  }) => {
+  test("propagates font changes both ways between CV and motivation letter", async ({ page }) => {
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => {
       localStorage.clear();
@@ -58,6 +56,7 @@ test.describe("shared CV and motivation-letter font", () => {
     const fontSelect = page.locator("label").filter({ hasText: "Schriftart" }).locator("select");
     await expect(fontSelect).toHaveValue("times");
 
+    // Motivation letter -> CV.
     await fontSelect.selectOption("maschine");
 
     await expect
@@ -77,7 +76,42 @@ test.describe("shared CV and motivation-letter font", () => {
         }),
       )
       .toBe("maschine");
+
+    // CV -> motivation letter. This direction used to be implemented but was not
+    // protected by a real editor interaction in the required E2E suite.
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+    const cvTypographySection = page.getByRole("button", {
+      name: "Schrift und Layout",
+      exact: true,
+    });
+    await cvTypographySection.click();
+    const cvFontSelect = page
+      .locator("label")
+      .filter({ hasText: "Schriftart gesamtes Dossier" })
+      .locator("select");
+    await expect(cvFontSelect).toHaveValue("maschine");
+
+    await cvFontSelect.selectOption("sans");
+
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const raw = localStorage.getItem("anschreiben:v1");
+          return raw ? JSON.parse(raw).design?.font : null;
+        }),
+      )
+      .toBe("sans");
+
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    await page.getByRole("button", { name: "Schrift", exact: true }).click();
+    const syncedLetterSelect = page
+      .locator("label")
+      .filter({ hasText: "Schriftart" })
+      .locator("select");
+    await expect(syncedLetterSelect).toHaveValue("sans");
+    await expect(page.locator("[data-letter-page]").first()).toHaveAttribute("data-letter-font", "sans");
   });
+
   test("new cover, CV and letter previews use Cabin as the default dossier family", async ({ page }) => {
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => localStorage.clear());
@@ -104,7 +138,9 @@ test.describe("shared CV and motivation-letter font", () => {
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
     const cvPage = page.locator('[data-dossier-document="cv"] [data-cv-page]').first();
     await expect
-      .poll(() => cvPage.evaluate((element) => getComputedStyle(element).getPropertyValue("--dossier-font")))
+      .poll(() =>
+        cvPage.evaluate((element) => getComputedStyle(element).getPropertyValue("--dossier-font")),
+      )
       .toContain("Cabin");
   });
 });
