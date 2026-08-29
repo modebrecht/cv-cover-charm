@@ -49,20 +49,32 @@ export function usePageVisible(): boolean {
 export function useForeignWrite(storageKey: string) {
   const lastWritten = useRef<string | null>(null);
   const lastFont = useRef<FontKey | null | undefined>(undefined);
+  const suppressFirstNormalizedFont = useRef(false);
 
   /** Nach jedem eigenen Schreibvorgang aufrufen. */
   const markWritten = useCallback(
     (text: string) => {
       const font = dossierFontFromSerialized(text);
       const previousFont = lastFont.current;
+      const firstObservation = previousFont === undefined;
+
       lastWritten.current = text;
       lastFont.current = font;
 
-      // First observation is hydration, not a user change. Existing concrete
-      // fonts were already reconciled before hydration. A normalized fallback
-      // (for example letter design {} -> sans) must not become a cross-document
-      // choice just because autosave wrote it for the first time.
-      if (previousFont === undefined) return;
+      // The first observation is hydration. If that stored draft has no
+      // concrete font, the editor may normalize it to its visual default on
+      // the first autosave (e.g. letter {} -> sans). That one normalization is
+      // not a user choice and must not rewrite the sibling document.
+      if (firstObservation) {
+        suppressFirstNormalizedFont.current = font === null;
+        return;
+      }
+
+      if (suppressFirstNormalizedFont.current && previousFont === null && font) {
+        suppressFirstNormalizedFont.current = false;
+        return;
+      }
+      suppressFirstNormalizedFont.current = false;
 
       if (font && font !== previousFont) propagateDossierFontFrom(storageKey, text);
     },
