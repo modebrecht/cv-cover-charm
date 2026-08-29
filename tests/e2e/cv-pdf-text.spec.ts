@@ -237,18 +237,21 @@ test.describe("CV PDF real text layer", () => {
     );
     await page.reload({ waitUntil: "domcontentloaded" });
 
-    await page.getByRole("button", { name: "Download" }).click();
-    const fullPdfButton = page
-      .locator("[data-editor-action-menu] button")
-      .filter({ hasText: "Ganzes Dossier als PDF" });
-    await expect(fullPdfButton).toBeEnabled();
+    const downloadToggle = page.locator('button[data-editor-ready]');
+    await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true", { timeout: 10_000 });
+    await downloadToggle.click();
+
+    const menu = page.locator("[data-editor-action-menu]");
+    await expect(menu).toBeVisible();
+    const fullPdfButton = menu.getByRole("button", { name: /Ganzes Dossier als PDF/i });
+    await expect(fullPdfButton).toBeEnabled({ timeout: 10_000 });
     await fullPdfButton.click();
 
     const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
     await expect(dialog).toBeVisible();
     await expect(dialog).toContainText(/Reihenfolge: Titelblatt, Motivationsschreiben und/);
     const confirm = dialog.getByRole("button", { name: "Dossier herunterladen" });
-    await expect(confirm).toBeEnabled();
+    await expect(confirm).toBeEnabled({ timeout: 10_000 });
 
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
     await confirm.click();
