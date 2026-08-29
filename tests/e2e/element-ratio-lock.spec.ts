@@ -110,13 +110,24 @@ function slider(page: Page, label: "Breite" | "Höhe") {
     .locator('input[type="range"]');
 }
 
+/** Drive the native range input with real keyboard events so React sees every change. */
 async function setSlider(target: Locator, value: number) {
-  await target.evaluate((node, next) => {
-    const input = node as HTMLInputElement;
-    input.value = String(next);
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    input.dispatchEvent(new Event("change", { bubbles: true }));
-  }, value);
+  const min = Number((await target.getAttribute("min")) ?? 0);
+  const max = Number((await target.getAttribute("max")) ?? 100);
+  const step = Number((await target.getAttribute("step")) ?? 1);
+  const clamped = Math.max(min, Math.min(max, value));
+  const fromStart = Math.round((clamped - min) / step);
+  const fromEnd = Math.round((max - clamped) / step);
+
+  await target.focus();
+  if (fromStart <= fromEnd) {
+    await target.press("Home");
+    for (let i = 0; i < fromStart; i += 1) await target.press("ArrowRight");
+  } else {
+    await target.press("End");
+    for (let i = 0; i < fromEnd; i += 1) await target.press("ArrowLeft");
+  }
+  await expect.poll(async () => Number(await target.inputValue())).toBeCloseTo(clamped, 5);
 }
 
 async function geometry(target: Locator) {
@@ -125,17 +136,17 @@ async function geometry(target: Locator) {
   return { width: box.width, height: box.height, ratio: box.height / box.width };
 }
 
-async function dragHandle(target: Locator, direction: string) {
+async function dragHandle(page: Page, target: Locator, direction: string) {
   const handle = target.locator(`[data-element-resize-handle="${direction}"]`);
   const box = await handle.boundingBox();
   if (!box) throw new Error(`Resize handle ${direction} unavailable`);
   const delta = HANDLE_DELTA[direction];
   const x = box.x + box.width / 2;
   const y = box.y + box.height / 2;
-  await target.page().mouse.move(x, y);
-  await target.page().mouse.down();
-  await target.page().mouse.move(x + delta.x, y + delta.y, { steps: 5 });
-  await target.page().mouse.up();
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  await page.mouse.move(x + delta.x, y + delta.y, { steps: 5 });
+  await page.mouse.up();
 }
 
 async function storedLock(page: Page, id: string) {
@@ -187,7 +198,7 @@ test.describe("element proportion lock behavior", () => {
       target = block(page, "foto");
       await expect(proportionCheckbox(page)).toBeChecked();
       before = await geometry(target);
-      await dragHandle(target, direction);
+      await dragHandle(page, target, direction);
       after = await geometry(target);
       expect(after.ratio, `photo handle ${direction}`).toBeCloseTo(before.ratio, 2);
     }
@@ -202,7 +213,7 @@ test.describe("element proportion lock behavior", () => {
     target = await selectBlock(page, "custom-image-ratio");
     await expect(proportionCheckbox(page)).not.toBeChecked();
     before = await geometry(target);
-    await dragHandle(target, "e");
+    await dragHandle(page, target, "e");
     after = await geometry(target);
     expect(Math.abs(after.ratio - before.ratio)).toBeGreaterThan(0.03);
 
@@ -223,14 +234,14 @@ test.describe("element proportion lock behavior", () => {
     target = await selectBlock(page, "custom-shape-ratio");
     await expect(proportionCheckbox(page)).not.toBeChecked();
     before = await geometry(target);
-    await dragHandle(target, "e");
+    await dragHandle(page, target, "e");
     after = await geometry(target);
     expect(Math.abs(after.ratio - before.ratio)).toBeGreaterThan(0.03);
 
     await proportionCheckbox(page).check();
     await waitForStoredLock(page, "custom-shape-ratio", true);
     before = await geometry(target);
-    await dragHandle(target, "se");
+    await dragHandle(page, target, "se");
     after = await geometry(target);
     expect(after.ratio).toBeCloseTo(before.ratio, 2);
 
