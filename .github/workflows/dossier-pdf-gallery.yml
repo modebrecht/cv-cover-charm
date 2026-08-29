@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - feature/anschreiben-dossier
+      - dev
       - render
     paths:
       - .github/workflows/dossier-pdf-gallery.yml
