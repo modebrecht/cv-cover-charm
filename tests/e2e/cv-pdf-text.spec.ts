@@ -3,25 +3,20 @@ import { readFile, stat } from "node:fs/promises";
 
 const BASE_URL = "http://127.0.0.1:4173";
 
-
 async function extractPdfPages(path: string): Promise<string[]> {
   const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const data = new Uint8Array(await readFile(path));
   const document = await getDocument({ data, disableFontFace: true }).promise;
   const pages: string[] = [];
-  try {
-    for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
-      const pdfPage = await document.getPage(pageNumber);
-      const content = await pdfPage.getTextContent();
-      pages.push(
-        content.items
-          .map((item) => ("str" in item ? item.str : ""))
-          .filter(Boolean)
-          .join(" "),
-      );
-    }
-  } finally {
-    await document.destroy();
+  for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
+    const pdfPage = await document.getPage(pageNumber);
+    const content = await pdfPage.getTextContent();
+    pages.push(
+      content.items
+        .map((item) => ("str" in item ? item.str : ""))
+        .filter(Boolean)
+        .join(" "),
+    );
   }
   return pages;
 }
