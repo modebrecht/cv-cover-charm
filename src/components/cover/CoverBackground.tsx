@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { TemplateId } from "./types";
 
 /**
@@ -146,6 +147,20 @@ export function CoverBackground({
 
   // All remaining templates are composed from the plain page surface plus
   // editable primitives from template-decorations.ts. There is deliberately no
-  // second background copy of those primitives here.
-  return <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }} />;
+  // second background copy of those primitives here. The color variables are
+  // exposed for CV-only archetype adaptations (for example Blockig's 66 mm
+  // rail) without duplicating those editor primitives on the title page.
+  return (
+    <div
+      data-cover-template={template}
+      className="absolute inset-0 overflow-hidden"
+      style={
+        {
+          backgroundColor: colors.bg,
+          "--cover-primary": colors.primary ?? colors.accent ?? colors.ink ?? colors.bg,
+          "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,
+        } as CSSProperties
+      }
+    />
+  );
 }
