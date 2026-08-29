@@ -151,16 +151,43 @@ export function CoverBackground({
   // exposed for CV-only archetype adaptations (for example Blockig's 66 mm
   // rail) without duplicating those editor primitives on the title page.
   return (
-    <div
-      data-cover-template={template}
-      className="absolute inset-0 overflow-hidden"
-      style={
-        {
-          backgroundColor: colors.bg,
-          "--cover-primary": colors.primary ?? colors.accent ?? colors.ink ?? colors.bg,
-          "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,
-        } as CSSProperties
-      }
-    />
+    <>
+      {template === "blockig" ? (
+        <style>{`
+          html[data-dossier-template="blockig"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 66mm;
+            background: var(--cover-primary);
+            pointer-events: none;
+          }
+          html[data-dossier-template="blockig"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 46mm;
+            width: 66mm;
+            height: 72mm;
+            background: var(--cover-accent);
+            opacity: 0.9;
+            pointer-events: none;
+          }
+        `}</style>
+      ) : null}
+      <div
+        data-cover-template={template}
+        className="absolute inset-0 overflow-hidden"
+        style={
+          {
+            backgroundColor: colors.bg,
+            "--cover-primary": colors.primary ?? colors.accent ?? colors.ink ?? colors.bg,
+            "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,
+          } as CSSProperties
+        }
+      />
+    </>
   );
 }
