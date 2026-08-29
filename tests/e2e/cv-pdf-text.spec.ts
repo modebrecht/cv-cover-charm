@@ -3,6 +3,33 @@ import { readFile, stat } from "node:fs/promises";
 
 const BASE_URL = "http://127.0.0.1:4173";
 
+
+async function extractPdfPages(path: string): Promise<string[]> {
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const data = new Uint8Array(await readFile(path));
+  const document = await getDocument({ data, disableFontFace: true }).promise;
+  const pages: string[] = [];
+  try {
+    for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
+      const pdfPage = await document.getPage(pageNumber);
+      const content = await pdfPage.getTextContent();
+      pages.push(
+        content.items
+          .map((item) => ("str" in item ? item.str : ""))
+          .filter(Boolean)
+          .join(" "),
+      );
+    }
+  } finally {
+    await document.destroy();
+  }
+  return pages;
+}
+
+function expectCabinEmbedded(source: string) {
+  expect(source, "Cabin must be embedded as the real PDF font").toMatch(/Cabin/i);
+}
+
 function cvPayload({ long = false } = {}) {
   const school = long
     ? Array.from({ length: 12 }, (_, index) => ({
@@ -198,11 +225,13 @@ test.describe("CV PDF real text layer", () => {
     expect((await stat(path ?? "")).size).toBeGreaterThan(8_000);
 
     const pdfSource = (await readFile(path ?? "")).toString("latin1");
-    expect(pdfSource).toContain("Lea");
-    expect(pdfSource).toContain("Sekundarschule");
-    expect(pdfSource).toContain("Beispielbetrieb");
-    expect(pdfSource).toContain("Volleyball");
-    expect(pdfSource).toContain("Cabin");
+    const pdfPages = await extractPdfPages(path ?? "");
+    const pdfText = pdfPages.join(" ");
+    expect(pdfText).toContain("Lea");
+    expect(pdfText).toContain("Sekundarschule");
+    expect(pdfText).toContain("Beispielbetrieb");
+    expect(pdfText).toContain("Volleyball");
+    expectCabinEmbedded(pdfSource);
   });
 
   test("second CV page also contributes real PDF text", async ({ page }) => {
@@ -221,8 +250,9 @@ test.describe("CV PDF real text layer", () => {
     const path = await download.path();
     expect(path).not.toBeNull();
 
-    const pdfSource = (await readFile(path ?? "")).toString("latin1");
-    expect(pdfSource).toContain(marker ?? "__missing_second_page_marker__");
+    const pdfPages = await extractPdfPages(path ?? "");
+    expect(pdfPages.length).toBeGreaterThan(1);
+    expect(pdfPages.slice(1).join(" ")).toContain(marker ?? "__missing_second_page_marker__");
   });
 
   test("combined dossier keeps letter before real CV text", async ({ page }) => {
@@ -263,11 +293,10 @@ test.describe("CV PDF real text layer", () => {
     expect((await stat(path ?? "")).size).toBeGreaterThan(12_000);
 
     const pdfSource = (await readFile(path ?? "")).toString("latin1");
-    const letterIndex = pdfSource.indexOf("Bewerbung Informatik Textlayer Test");
-    const cvIndex = pdfSource.indexOf("Sekundarschule");
-    expect(letterIndex).toBeGreaterThan(-1);
-    expect(cvIndex).toBeGreaterThan(-1);
-    expect(letterIndex).toBeLessThan(cvIndex);
-    expect(pdfSource).toContain("Cabin");
+    const pdfPages = await extractPdfPages(path ?? "");
+    expect(pdfPages.length).toBeGreaterThanOrEqual(3);
+    expect(pdfPages[1]).toContain("Bewerbung Informatik Textlayer Test");
+    expect(pdfPages.slice(2).join(" ")).toContain("Sekundarschule");
+    expectCabinEmbedded(pdfSource);
   });
 });
