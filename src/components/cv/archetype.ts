@@ -113,7 +113,7 @@ const FRAMES: Record<TemplateId, CvFrame> = {
   colorful: band(30, { footMm: 8 }), //     Titelblatt: 28 mm Kopfband, 8 mm Fussband
   welle: band(0, { footMm: 24, footRule: true }), // Titelblatt: Fussfläche ab 180 mm
   serioes: band(6, { footMm: 3 }), //       Titelblatt: 6 mm / 3 mm
-  modern: band(0, { footMm: 4 }), //        Titelblatt: nur 4 mm Fussband
+  modern: band(0), //                       Titelblatt: keine eigenen Ränder
 
   // Karte auf Fläche – der Grund bleibt voll deckend, der Text sitzt darauf.
   citrus: card(12, 8), //                   Titelblatt: Karte 182 × 233 mm, Radius 10 mm
