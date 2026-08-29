@@ -1,0 +1,32 @@
+name: Install PDF.js Cabin tests
+
+on:
+  push:
+    branches:
+      - feature/cabin-dossier-font
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/cabin-dossier-font
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install PDF.js
+        run: bun add --dev pdfjs-dist
+      - name: Patch PDF tests
+        run: python3 scripts/upgrade-cabin-pdf-tests.py
+      - name: Commit upgraded tests
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Verify Cabin PDFs with real text extraction'
+          git push origin HEAD:feature/cabin-dossier-font
