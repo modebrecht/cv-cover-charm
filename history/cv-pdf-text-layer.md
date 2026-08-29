@@ -1,6 +1,7 @@
 # CV PDF real text layer
 
-Branch: `feature/cv-pdf-text-layer`
+Implementation branch: `feature/cv-pdf-text-layer`  
+Landed on: `dev`
 
 ## Goal
 
@@ -53,7 +54,7 @@ The standalone CV exporter and combined dossier exporter currently create their 
 - [x] Verify representative CV content (`Lea`, `Sekundarschule`, `Beispielbetrieb`, `Volleyball`) is present as real PDF text rather than image pixels; this is the basis for viewer selection/copy and search.
 - [x] Verify a deliberately long CV has more than one page and a unique text marker from CV page 2 is present in the generated PDF text layer.
 - [x] Verify the combined dossier keeps the expected order and contains motivation-letter text before CV text: title page -> motivation letter -> CV page(s).
-- [x] Feature is verified and ready to fast-forward into `dev`; promotion remains `dev -> render -> main`.
+- [x] Fast-forward the verified feature branch into `dev`; promotion remains `dev -> render -> main`.
 
 ## Verification record
 
@@ -64,10 +65,11 @@ The standalone CV exporter and combined dossier exporter currently create their 
 - Run #97 confirmed standalone and second-page real text; its new combined-dossier test had a test-menu synchronization bug and an unrelated existing Blockig visual test flaked.
 - The test synchronization was fixed; no application rendering change was made for that failure.
 - Run #98 passed the complete suite, including the expanded CV PDF text tests.
+- The verified feature branch was fast-forwarded into `dev` without conflicts or a merge commit.
 
 ## Acceptance criteria
 
-The feature is ready to land on `dev` because:
+The feature is complete on `dev` because:
 
 - CV preview/layout code is unchanged; the feature is isolated to PDF export plumbing.
 - Raster export text is explicitly transparent before html2canvas capture, so typography is not duplicated under the vector layer.
@@ -88,4 +90,4 @@ A normal PDF viewer should therefore allow selecting/copying and searching the C
 
 ## Notes for the next session
 
-If asked to "go read the CV PDF history", read this file first. Implementation and automated verification are complete. The branch is ready to land on `dev`; later promotion remains `dev -> render -> main`.
+If asked to "go read the CV PDF history", read this file first. Implementation, automated verification and landing on `dev` are complete. Further promotion remains `dev -> render -> main`.
