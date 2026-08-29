@@ -95,6 +95,7 @@ jobs:
           npx playwright test
           tests/e2e/dossier-regression.spec.ts
           tests/e2e/dossier-font-sync.spec.ts
+          tests/e2e/dossier-typography-regression.spec.ts
           tests/e2e/element-ratio-lock.spec.ts
           tests/e2e/cv-edge-smoke.spec.ts
           tests/e2e/cover-edge-smoke.spec.ts
