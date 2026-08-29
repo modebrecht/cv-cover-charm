@@ -1,4 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { FontKey } from "@/components/cover/types";
+import {
+  dossierFontFromSerialized,
+  propagateDossierFontFrom,
+  reconcileStoredDossierFonts,
+} from "@/lib/dossier-font-sync";
+
+// Before either editor hydrates, make existing CV/letter drafts agree on one
+// concrete dossier font. CV wins only for an already conflicting legacy pair.
+if (typeof window !== "undefined") reconcileStoredDossierFonts();
 
 /**
  * Automatisches Sichern nur, solange das Fenster wirklich benutzt wird.
@@ -38,11 +48,27 @@ export function usePageVisible(): boolean {
  */
 export function useForeignWrite(storageKey: string) {
   const lastWritten = useRef<string | null>(null);
+  const lastFont = useRef<FontKey | null | undefined>(undefined);
 
   /** Nach jedem eigenen Schreibvorgang aufrufen. */
-  const markWritten = useCallback((text: string) => {
-    lastWritten.current = text;
-  }, []);
+  const markWritten = useCallback(
+    (text: string) => {
+      const font = dossierFontFromSerialized(text);
+      const previousFont = lastFont.current;
+      lastWritten.current = text;
+      lastFont.current = font;
+
+      // First observation is hydration, not a user change. Reconcile missing
+      // sibling fonts, but do not treat an old local value as a new choice.
+      if (previousFont === undefined) {
+        reconcileStoredDossierFonts();
+        return;
+      }
+
+      if (font && font !== previousFont) propagateDossierFontFrom(storageKey, text);
+    },
+    [storageKey],
+  );
 
   /**
    * Hat ein anderer Tab den Schlüssel verändert? Vor dem ersten eigenen
