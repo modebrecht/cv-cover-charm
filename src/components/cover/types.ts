@@ -137,6 +137,8 @@ export type BlockStyle = {
   anchorBottom?: boolean;
   /** Foto und Formen: Höhe = w * ratio */
   ratio?: number;
+  /** Breite und Höhe gemeinsam skalieren; ohne gespeicherten Wert setzt die UI den passenden Element-Default. */
+  lockRatio?: boolean;
   /** Eckenradius in mm; 999 = Kreis, 0 = eckig. */
   radius?: number;
   /** Bildzuschnitt: Vergrösserung (1 = ganzes Bild) und Bildausschnitt in %. */
