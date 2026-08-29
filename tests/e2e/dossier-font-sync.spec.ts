@@ -80,10 +80,7 @@ test.describe("shared CV and motivation-letter font", () => {
     // CV -> motivation letter. This direction used to be implemented but was not
     // protected by a real editor interaction in the required E2E suite.
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
-    const cvTypographySection = page.getByRole("button", {
-      name: "Schrift und Layout",
-      exact: true,
-    });
+    const cvTypographySection = page.getByRole("button", { name: /Schrift und Layout/ });
     await cvTypographySection.click();
     const cvFontSelect = page
       .locator("label")
