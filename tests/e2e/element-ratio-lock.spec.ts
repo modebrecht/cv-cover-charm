@@ -116,17 +116,13 @@ async function setSlider(target: Locator, value: number) {
   const max = Number((await target.getAttribute("max")) ?? 100);
   const step = Number((await target.getAttribute("step")) ?? 1);
   const clamped = Math.max(min, Math.min(max, value));
-  const fromStart = Math.round((clamped - min) / step);
-  const fromEnd = Math.round((max - clamped) / step);
 
   await target.focus();
-  if (fromStart <= fromEnd) {
-    await target.press("Home");
-    for (let i = 0; i < fromStart; i += 1) await target.press("ArrowRight");
-  } else {
-    await target.press("End");
-    for (let i = 0; i < fromEnd; i += 1) await target.press("ArrowLeft");
-  }
+  const current = Number(await target.inputValue());
+  const steps = Math.round(Math.abs(clamped - current) / step);
+  const key = clamped >= current ? "ArrowRight" : "ArrowLeft";
+  for (let i = 0; i < steps; i += 1) await target.press(key);
+
   await expect.poll(async () => Number(await target.inputValue())).toBeCloseTo(clamped, 5);
 }
 
