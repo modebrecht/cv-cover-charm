@@ -1,5 +1,6 @@
 import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/components/cover/types";
 import { COVER_STORAGE_KEY, CV_STORAGE_KEY, readStoredDossierPart } from "@/lib/dossier-project";
+import { dossierDefaultFontKey } from "@/lib/dossier-theme";
 import { defaultLetterColors, type LetterData, type LetterDesign } from "./types";
 
 type RecordLike = Record<string, unknown>;
@@ -57,11 +58,15 @@ function coverDesign(raw: RecordLike | undefined): LetterDesign | null {
   const savedColors = isRecord(colorsByTemplate[template])
     ? (colorsByTemplate[template] as Record<string, string>)
     : {};
+  const explicitFont = validFont(raw.font);
 
   return {
     template,
     colors: { ...defaultLetterColors(template), ...savedColors },
-    font: validFont(raw.font) ?? "sans",
+    // Kompatibilitätswert für das Auswahlfeld. Die tatsächliche Schrift kommt
+    // aus der Dossier-Familie, solange kein expliziter Override gesetzt wurde.
+    font: explicitFont ?? dossierDefaultFontKey(template),
+    fontOverride: explicitFont,
   };
 }
 
@@ -73,11 +78,13 @@ function cvDesign(raw: RecordLike | undefined): LetterDesign | null {
   const colors = isRecord(incoming.colors)
     ? (incoming.colors as Record<string, string>)
     : defaultLetterColors(template);
+  const explicitFont = validFont(incoming.font);
 
   return {
     template,
     colors: { ...defaultLetterColors(template), ...colors },
-    font: validFont(incoming.font) ?? "sans",
+    font: explicitFont ?? dossierDefaultFontKey(template),
+    fontOverride: explicitFont,
   };
 }
 

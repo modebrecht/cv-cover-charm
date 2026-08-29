@@ -174,10 +174,6 @@ type Saved = {
 function migratedDesign(current: CvDesign, incoming: CvDesign, version?: number): CvDesign {
   const merged = { ...current, ...incoming };
   if (!merged.font || !(merged.font in FONT_LABELS)) delete merged.font;
-  if (merged.template === "colorful") {
-    merged.template = "blockig";
-    merged.colors = defaultColors("blockig");
-  }
   const isOldSave = (version ?? 1) < DESIGN_MIGRATION_VERSION;
   const usedOldDefault = LEGACY_DEFAULT_BG_OPACITIES.some(
     (value) => Math.abs(merged.bgOpacity - value) < 0.001,

@@ -18,8 +18,8 @@ import "../cv/layout-options.css";
 import "../dossier-theme.css";
 import "./fresh-templates.css";
 
-const SELECTABLE_TEMPLATES = TEMPLATES.filter((template) => template.id !== "colorful").sort(
-  (a, b) => a.name.localeCompare(b.name, "de", { sensitivity: "base" }),
+const SELECTABLE_TEMPLATES = [...TEMPLATES].sort((a, b) =>
+  a.name.localeCompare(b.name, "de", { sensitivity: "base" }),
 );
 
 type Props = {
@@ -128,16 +128,9 @@ export function TemplatePicker({ value, onChange }: Props) {
     setOnCvPage(window.location.pathname.includes("lebenslauf"));
   }, []);
 
-  // Colorful is retired. Old saved drafts still deserialize because the legacy
-  // id remains part of TemplateId, but the first render migrates them to Blockig.
-  // New drafts can no longer select Colorful.
   useEffect(() => {
-    if (value === "colorful") {
-      onChange("blockig");
-      return;
-    }
     applyDossierTheme(value, freshFamilyForTemplate(value) ?? familyForTemplate(value));
-  }, [onChange, value]);
+  }, [value]);
 
   return (
     <div>

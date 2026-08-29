@@ -168,6 +168,8 @@ type Props = {
   selected: string | null;
   onSelect: (id: string | null) => void;
   onMove: (id: string, patch: Partial<BlockStyle>) => void;
+  /** Gemeinsame berechnete Dossier-Schrift für semantische Titelblattrollen. */
+  dossierFont?: string;
   /** Globale Schriftskalierung (1 = Vorlagen-Standard). */
   fontScale?: number;
   editable?: boolean;
@@ -195,6 +197,7 @@ export function BlockLayer({
   selected,
   onSelect,
   onMove,
+  dossierFont,
   fontScale = 1,
   editable = true,
   drawing = false,
@@ -449,7 +452,7 @@ export function BlockLayer({
               left: `${st.x}mm`,
               top: `${y}mm`,
               width: bleedRight ? `calc(${st.w}mm + ${EDGE_BLEED_PX}px)` : `${st.w}mm`,
-              ["--dossier-font" as string]: FONT_STACKS[st.font],
+              ["--dossier-font" as string]: role && dossierFont ? dossierFont : FONT_STACKS[st.font],
               zIndex,
               cursor: editable && !drawing ? "move" : "default",
               touchAction: "none",

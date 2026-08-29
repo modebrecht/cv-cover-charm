@@ -1,0 +1,149 @@
+name: Dossier PDF Gallery
+
+# Reproducible visual QA: every selectable dossier design is rendered as a complete PDF.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/anschreiben-dossier
+      - render
+    paths:
+      - .github/workflows/dossier-pdf-gallery.yml
+      - tests/unit/cover-decorations.test.ts
+      - tests/e2e/dossier-gallery.spec.ts
+      - tests/e2e/dossier-end-to-end.spec.ts
+      - tests/e2e/dossier-typography-regression.spec.ts
+      - src/components/cover/BlockLayer.tsx
+      - src/components/cover/CoverCanvas.tsx
+      - src/components/cover/CoverBackground.tsx
+      - src/components/cover/editable-decorations.css
+      - src/components/cover/layouts.ts
+      - src/components/cover/template-decorations.ts
+      - src/components/cover/fresh-templates.ts
+      - src/components/letter/LetterTemplatePicker.tsx
+      - src/components/letter/LetterCanvas.tsx
+      - src/components/letter/dossier-transfer.ts
+      - src/components/letter/types.ts
+      - src/lib/dossier-theme.ts
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dossier-pdf-gallery-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gallery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+
+      - name: Unit tests
+        run: bun test tests/unit
+
+      - name: Normalize validation files
+        run: >-
+          bunx prettier --write
+          src/components/cover/BlockLayer.tsx
+          src/components/cover/CoverCanvas.tsx
+          src/components/cover/CoverBackground.tsx
+          src/components/cover/layouts.ts
+          src/components/cover/template-decorations.ts
+          src/components/letter/LetterTemplatePicker.tsx
+          src/components/letter/LetterCanvas.tsx
+          src/components/letter/dossier-transfer.ts
+          src/components/letter/types.ts
+          src/lib/dossier-theme.ts
+          tests/unit/cover-decorations.test.ts
+          tests/e2e/dossier-end-to-end.spec.ts
+          tests/e2e/dossier-gallery.spec.ts
+          tests/e2e/dossier-typography-regression.spec.ts
+
+      - name: Lint validation surface
+        run: >-
+          bunx eslint
+          src/components/cover/BlockLayer.tsx
+          src/components/cover/CoverCanvas.tsx
+          src/components/cover/CoverBackground.tsx
+          src/components/cover/layouts.ts
+          src/components/cover/template-decorations.ts
+          src/components/letter/LetterTemplatePicker.tsx
+          src/components/letter/LetterCanvas.tsx
+          src/components/letter/dossier-transfer.ts
+          src/components/letter/types.ts
+          src/lib/dossier-theme.ts
+          tests/unit/cover-decorations.test.ts
+          tests/e2e/dossier-end-to-end.spec.ts
+          tests/e2e/dossier-gallery.spec.ts
+          tests/e2e/dossier-typography-regression.spec.ts
+
+      - name: Production build
+        run: bun run build
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start application
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/cv-cover-charm.log 2>&1 &
+          echo $! > /tmp/cv-cover-charm.pid
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/cv-cover-charm.log
+          exit 1
+
+      - name: Dossier typography regression
+        run: npx playwright test tests/e2e/dossier-typography-regression.spec.ts --reporter=line --workers=1
+
+      - name: Complete example dossier and 38-template E2E
+        run: npx playwright test tests/e2e/dossier-end-to-end.spec.ts --reporter=line --workers=1
+
+      - name: Generate complete dossier PDF gallery
+        env:
+          GALLERY_DIR: artifacts/dossier-gallery
+        run: npx playwright test tests/e2e/dossier-gallery.spec.ts --reporter=line --workers=1
+
+      - name: Verify generated gallery
+        shell: bash
+        run: |
+          count="$(find artifacts/dossier-gallery -maxdepth 1 -type f -name '*.pdf' | wc -l | tr -d ' ')"
+          echo "Generated $count complete dossier PDFs"
+          test "$count" -eq 39
+          test -f artifacts/dossier-gallery/MANIFEST.txt
+          find artifacts/dossier-gallery -maxdepth 1 -type f -printf '%f\n' | sort
+
+      - name: Upload PDF gallery ZIP
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gesamtdossier-pdf-galerie
+          path: artifacts/dossier-gallery
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Show application log on failure
+        if: failure()
+        run: cat /tmp/cv-cover-charm.log || true
+
+      - name: Stop application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi

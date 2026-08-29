@@ -1,4 +1,4 @@
-import type { TemplateId } from "@/components/cover/types";
+import { FONT_STACKS, type FontKey, type TemplateId } from "@/components/cover/types";
 import { familyForTemplate, getDossierFamily, type DossierFamilyId } from "@/lib/dossier-family";
 
 export type DossierTheme = {
@@ -142,6 +142,27 @@ export function dossierThemeFor(template: TemplateId): DossierTheme {
   return dossierThemeForFamily(familyForTemplate(template));
 }
 
+/**
+ * Single font source for every dossier document.
+ *
+ * The template/family decides the font until the user explicitly chooses a
+ * dossier-wide override. Individual renderers must not silently invent their
+ * own fallback (the motivation letter used to force `sans`, which split
+ * Editorial/Executive dossiers into different typefaces).
+ */
+export function effectiveDossierFont(
+  template: TemplateId,
+  fontOverride?: FontKey | null,
+): string {
+  return fontOverride ? FONT_STACKS[fontOverride] : dossierThemeFor(template).typography.fontStack;
+}
+
+/** Compatibility key for controls/storage that still require a FontKey. */
+export function dossierDefaultFontKey(template: TemplateId): FontKey {
+  const family = familyForTemplate(template);
+  return family === "executive" || family === "editorial" ? "serif" : "sans";
+}
+
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 /**
@@ -161,10 +182,11 @@ export function dossierNameScale(name: string): number {
   return clamp(scale, 0.7, 1);
 }
 
-/** Apply the shared family contract as CSS custom properties used by both documents. */
+/** Apply the shared family contract as CSS custom properties used by all dossier documents. */
 export function applyDossierTheme(
   template: TemplateId,
   familyOverride?: DossierFamilyId,
+  fontOverride?: FontKey | null,
 ): DossierTheme {
   const family = familyOverride ?? getDossierFamily(template);
   const theme = dossierThemeForFamily(family);
@@ -174,7 +196,7 @@ export function applyDossierTheme(
   const density = theme.spacingDensity;
   root.dataset.dossierTemplate = template;
   root.dataset.dossierFamily = family;
-  root.style.setProperty("--dossier-font", theme.typography.fontStack);
+  root.style.setProperty("--dossier-font", effectiveDossierFont(template, fontOverride));
   root.style.setProperty("--dossier-name-weight", String(theme.typography.nameWeight));
   root.style.setProperty("--dossier-name-tracking", `${theme.typography.nameTrackingEm}em`);
   root.style.setProperty("--dossier-name-line-height", String(theme.typography.nameLineHeight));

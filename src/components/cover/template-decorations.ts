@@ -51,7 +51,19 @@ const rect = (
   h: number,
   color: string,
   opacity = 1,
-): DecorSpec => ({ id, label, shape: "rect", x, y, w, h, color, fill: color, strokeWidth: 0, opacity });
+): DecorSpec => ({
+  id,
+  label,
+  shape: "rect",
+  x,
+  y,
+  w,
+  h,
+  color,
+  fill: color,
+  strokeWidth: 0,
+  opacity,
+});
 
 const circle = (
   id: string,
@@ -62,7 +74,19 @@ const circle = (
   h: number,
   color: string,
   opacity = 1,
-): DecorSpec => ({ id, label, shape: "circle", x, y, w, h, color, fill: color, strokeWidth: 0, opacity });
+): DecorSpec => ({
+  id,
+  label,
+  shape: "circle",
+  x,
+  y,
+  w,
+  h,
+  color,
+  fill: color,
+  strokeWidth: 0,
+  opacity,
+});
 
 const line = (
   id: string,
@@ -73,7 +97,19 @@ const line = (
   thickness: number,
   color: string,
   opacity = 1,
-): DecorSpec => ({ id, label, shape: "line", x, y, w, h: 0, color, fill: null, strokeWidth: thickness, opacity });
+): DecorSpec => ({
+  id,
+  label,
+  shape: "line",
+  x,
+  y,
+  w,
+  h: 0,
+  color,
+  fill: null,
+  strokeWidth: thickness,
+  opacity,
+});
 
 /**
  * Simple visual primitives that belong to a template but should behave like
@@ -82,11 +118,9 @@ const line = (
  */
 const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
   modern: [
-    // Keep the ids introduced by the first Kreis edit so existing saved
-    // overrides continue to apply after this catalogue-wide refactor.
-    line("modernAccentLine", "Akzentstrich", 20, 21, 10, 2, "accent"),
+    // Modern bleibt bewusst ruhig: nur die weiche Kreisfläche, keine
+    // dekorativen Striche oder Farbbänder im Bewerbungsdossier.
     circle("modernAccentCircle", "Kreisfläche", 112, 24, 86, 86, "accent", 0.1),
-    rect("modernBottomBand", "Unteres Farbband", 0, 293, 210, 4, "primary"),
   ],
 
   edel: [line("decor-center-line", "Akzentstrich", 85, 196, 40, 0.159, "accent", 0.7)],
@@ -152,14 +186,39 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
   ],
 
   neon: [
-    { ...circle("decor-blob-one", "Verlaufsfläche 1", -45, -40, 150, 130, "primary", 0.95), gradFrom: "secondary", gradTo: "primary", gradAngle: 135 },
-    { ...circle("decor-blob-two", "Verlaufsfläche 2", 126, 138, 112, 108, "primary", 0.8), gradFrom: "secondary", gradTo: "primary", gradAngle: 135 },
-    { ...circle("decor-blob-three", "Verlaufsfläche 3", 20, 196, 36, 36, "primary", 0.5), gradFrom: "secondary", gradTo: "primary", gradAngle: 135 },
+    {
+      ...circle("decor-blob-one", "Verlaufsfläche 1", -45, -40, 150, 130, "primary", 0.95),
+      gradFrom: "secondary",
+      gradTo: "primary",
+      gradAngle: 135,
+    },
+    {
+      ...circle("decor-blob-two", "Verlaufsfläche 2", 126, 138, 112, 108, "primary", 0.8),
+      gradFrom: "secondary",
+      gradTo: "primary",
+      gradAngle: 135,
+    },
+    {
+      ...circle("decor-blob-three", "Verlaufsfläche 3", 20, 196, 36, 36, "primary", 0.5),
+      gradFrom: "secondary",
+      gradTo: "primary",
+      gradAngle: 135,
+    },
   ],
 
   aurora: [
-    { ...rect("decor-accent-line", "Akzentband", 20, 150, 26, 1.6, "primary"), gradFrom: "primary", gradTo: "secondary", gradAngle: 90 },
-    { ...rect("decor-bottom-band", "Unteres Farbband", 0, 292, 210, 5, "primary"), gradFrom: "primary", gradTo: "secondary", gradAngle: 90 },
+    {
+      ...rect("decor-accent-line", "Akzentband", 20, 150, 26, 1.6, "primary"),
+      gradFrom: "primary",
+      gradTo: "secondary",
+      gradAngle: 90,
+    },
+    {
+      ...rect("decor-bottom-band", "Unteres Farbband", 0, 292, 210, 5, "primary"),
+      gradFrom: "primary",
+      gradTo: "secondary",
+      gradAngle: 90,
+    },
   ],
 
   verlauf: [

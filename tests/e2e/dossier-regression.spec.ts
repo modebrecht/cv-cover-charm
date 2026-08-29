@@ -1034,6 +1034,7 @@ test.describe("M5.8 dossier regression", () => {
       } else {
         await expect(menu.locator("[data-editor-menu-label]")).toHaveText([
           item.ownPdf,
+          "Beispieldaten übernehmen",
           "Früheren Stand laden",
         ]);
       }
@@ -1203,6 +1204,64 @@ test.describe("M5.8 dossier regression", () => {
     await letterToggle.uncheck();
     await expect(preview.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveCount(0);
     await expect(page.locator('[data-block-id="beilagenTitel"]')).toHaveCount(0);
+  });
+
+  test("all dossier design templates are selectable in all three workspaces", async ({ page }) => {
+    const expectedDesigns = 37;
+
+    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => localStorage.clear());
+    await page.reload({ waitUntil: "domcontentloaded" });
+    const coverDownload = page.getByRole("button", { name: "Download", exact: true });
+    await expect(coverDownload).toHaveAttribute("data-editor-ready", "true");
+    const coverTemplateHeader = page.getByRole("button", { name: /^Vorlage/ });
+    if ((await coverTemplateHeader.getAttribute("aria-expanded")) !== "true")
+      await coverTemplateHeader.click();
+    const coverPanelId = await coverTemplateHeader.getAttribute("aria-controls");
+    const coverPanel = page.locator(`[id="${coverPanelId}"]`);
+    await expect(coverPanel.locator("button[aria-pressed]")).toHaveCount(expectedDesigns);
+    await coverPanel.getByRole("button", { name: "Colorful", exact: true }).click();
+    await page.waitForTimeout(400);
+    expect(
+      await page.evaluate(
+        () => JSON.parse(localStorage.getItem("titelblatt:v3") ?? "null")?.template,
+      ),
+    ).toBe("colorful");
+
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+    const cvDownload = page.getByRole("button", { name: "Download", exact: true });
+    await expect(cvDownload).toHaveAttribute("data-editor-ready", "true");
+    const cvTemplateHeader = page.getByRole("button", { name: /^Vorlage/ });
+    if ((await cvTemplateHeader.getAttribute("aria-expanded")) !== "true")
+      await cvTemplateHeader.click();
+    const cvPanelId = await cvTemplateHeader.getAttribute("aria-controls");
+    const cvPanel = page.locator(`[id="${cvPanelId}"]`);
+    // 37 design buttons plus the five separate CV layout cards.
+    await expect(cvPanel.getByRole("button", { name: "Colorful", exact: true })).toBeVisible();
+    await cvPanel.getByRole("button", { name: "Colorful", exact: true }).click();
+    await page.waitForTimeout(400);
+    expect(
+      await page.evaluate(
+        () => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.design?.template,
+      ),
+    ).toBe("colorful");
+
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    const letterDownload = page.getByRole("button", { name: "Download", exact: true });
+    await expect(letterDownload).toHaveAttribute("data-editor-ready", "true");
+    const letterTemplateHeader = page.getByRole("button", { name: /^Vorlage/ });
+    if ((await letterTemplateHeader.getAttribute("aria-expanded")) !== "true")
+      await letterTemplateHeader.click();
+    const letterPanelId = await letterTemplateHeader.getAttribute("aria-controls");
+    const letterPanel = page.locator(`[id="${letterPanelId}"]`);
+    await expect(letterPanel.locator("button[aria-pressed]")).toHaveCount(expectedDesigns + 1);
+    await letterPanel.getByRole("button", { name: "Colorful", exact: true }).click();
+    await page.waitForTimeout(400);
+    expect(
+      await page.evaluate(
+        () => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "null")?.design?.template,
+      ),
+    ).toBe("colorful");
   });
 
   test("document editors expose one consistent overview home link", async ({ page }) => {
