@@ -1,0 +1,40 @@
+name: Fix Cabin CSS order
+
+on:
+  push:
+    branches:
+      - feature/cabin-dossier-font
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/cabin-dossier-font
+      - name: Keep CSS imports before font-face rules
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          p = Path('src/styles.css')
+          text = p.read_text()
+          marker = '@import "tailwindcss" source(none);\n@source "../src";\n@import "tw-animate-css";\n\n'
+          if not text.startswith('@font-face'):
+              raise SystemExit('Cabin font-face block not found at file start')
+          idx = text.index(marker)
+          faces = text[:idx]
+          rest = text[idx + len(marker):]
+          p.write_text(marker + faces + rest)
+          PY
+          rm .github/workflows/fix-cabin-css-order.yml
+      - name: Commit CSS order fix
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/styles.css .github/workflows/fix-cabin-css-order.yml
+          git commit -m 'Keep Cabin font faces after CSS imports'
+          git push origin HEAD:feature/cabin-dossier-font
