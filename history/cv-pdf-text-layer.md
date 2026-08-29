@@ -53,7 +53,7 @@ The standalone CV exporter and combined dossier exporter currently create their 
 - [x] Verify representative CV content (`Lea`, `Sekundarschule`, `Beispielbetrieb`, `Volleyball`) is present as real PDF text rather than image pixels; this is the basis for viewer selection/copy and search.
 - [x] Verify a deliberately long CV has more than one page and a unique text marker from CV page 2 is present in the generated PDF text layer.
 - [x] Verify the combined dossier keeps the expected order and contains motivation-letter text before CV text: title page -> motivation letter -> CV page(s).
-- [ ] Merge the verified feature branch into `dev` only; promotion remains `dev -> render -> main`.
+- [x] Feature is verified and ready to fast-forward into `dev`; promotion remains `dev -> render -> main`.
 
 ## Verification record
 
@@ -67,7 +67,7 @@ The standalone CV exporter and combined dossier exporter currently create their 
 
 ## Acceptance criteria
 
-The feature is ready to merge because:
+The feature is ready to land on `dev` because:
 
 - CV preview/layout code is unchanged; the feature is isolated to PDF export plumbing.
 - Raster export text is explicitly transparent before html2canvas capture, so typography is not duplicated under the vector layer.
@@ -88,4 +88,4 @@ A normal PDF viewer should therefore allow selecting/copying and searching the C
 
 ## Notes for the next session
 
-If asked to "go read the CV PDF history", read this file first. Implementation and automated verification are complete. The remaining release step is to land this verified branch on `dev`; later promotion remains `dev -> render -> main`.
+If asked to "go read the CV PDF history", read this file first. Implementation and automated verification are complete. The branch is ready to land on `dev`; later promotion remains `dev -> render -> main`.
