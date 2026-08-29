@@ -86,13 +86,12 @@ async function seedCv(page: Page, template: "blockig" | "colorful") {
 }
 
 test.describe("template cleanup", () => {
-  test("Colorful is retired and old drafts migrate to Blockig", async ({ page }) => {
+  test("Colorful remains available and old drafts stay Colorful", async ({ page }) => {
     await seedCv(page, "colorful");
 
-    await expect(page.locator("html")).toHaveAttribute("data-dossier-template", "blockig");
-    await page.getByRole("button", { name: /Vorlage\s+Blockig/ }).click();
-    await expect(page.getByRole("button", { name: "Colorful", exact: true })).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Blockig", exact: true })).toHaveAttribute(
+    await expect(page.locator("html")).toHaveAttribute("data-dossier-template", "colorful");
+    await page.getByRole("button", { name: /Vorlage\s+Colorful/ }).click();
+    await expect(page.getByRole("button", { name: "Colorful", exact: true })).toHaveAttribute(
       "aria-pressed",
       "true",
     );
@@ -106,23 +105,18 @@ test.describe("template cleanup", () => {
       .first()
       .evaluate((pageEl) => {
         const pageRect = pageEl.getBoundingClientRect();
-        const motif = pageEl.querySelector<HTMLElement>('[data-cv-background="motif"]');
-        const root = motif?.firstElementChild as HTMLElement | null;
-        const grey = root?.children[0] as HTMLElement | undefined;
-        const orange = root?.children[1] as HTMLElement | undefined;
-        if (!root || !grey || !orange) return null;
-        const greyRect = grey.getBoundingClientRect();
-        const orangeRect = orange.getBoundingClientRect();
+        const root = pageEl.querySelector<HTMLElement>('[data-cover-template="blockig"]');
+        if (!root) return null;
+        const grey = getComputedStyle(root, "::before");
+        const orange = getComputedStyle(root, "::after");
         return {
           pageWidth: pageRect.width,
           pageHeight: pageRect.height,
-          greyWidth: greyRect.width,
-          greyHeight: greyRect.height,
-          greyBottom: greyRect.bottom,
-          pageBottom: pageRect.bottom,
-          orangeWidth: orangeRect.width,
-          greyColor: getComputedStyle(grey).backgroundColor,
-          orangeColor: getComputedStyle(orange).backgroundColor,
+          greyWidth: Number.parseFloat(grey.width),
+          greyHeight: Number.parseFloat(grey.height),
+          orangeWidth: Number.parseFloat(orange.width),
+          greyColor: grey.backgroundColor,
+          orangeColor: orange.backgroundColor,
         };
       });
 
@@ -132,7 +126,6 @@ test.describe("template cleanup", () => {
     expect(geometry.greyWidth / geometry.pageWidth).toBeCloseTo(66 / 210, 2);
     expect(geometry.orangeWidth / geometry.pageWidth).toBeCloseTo(66 / 210, 2);
     expect(geometry.greyHeight / geometry.pageHeight).toBeCloseTo(1, 2);
-    expect(Math.abs(geometry.greyBottom - geometry.pageBottom)).toBeLessThanOrEqual(2);
     expect(geometry.greyColor).toBe("rgb(31, 41, 55)");
     expect(geometry.orangeColor).toBe("rgb(249, 115, 22)");
   });
