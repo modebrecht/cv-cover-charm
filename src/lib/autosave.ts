@@ -58,12 +58,11 @@ export function useForeignWrite(storageKey: string) {
       lastWritten.current = text;
       lastFont.current = font;
 
-      // First observation is hydration, not a user change. Reconcile missing
-      // sibling fonts, but do not treat an old local value as a new choice.
-      if (previousFont === undefined) {
-        reconcileStoredDossierFonts();
-        return;
-      }
+      // First observation is hydration, not a user change. Existing concrete
+      // fonts were already reconciled before hydration. A normalized fallback
+      // (for example letter design {} -> sans) must not become a cross-document
+      // choice just because autosave wrote it for the first time.
+      if (previousFont === undefined) return;
 
       if (font && font !== previousFont) propagateDossierFontFrom(storageKey, text);
     },
