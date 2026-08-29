@@ -33,7 +33,7 @@ type Props = {
 };
 
 type Tab = "text" | "absatz" | "farbe" | "rahmen" | "bild" | "position" | "form";
-type LayeredStyle = BlockStyle & { layer?: "back" | "front" };
+type LayeredStyle = BlockStyle & { layer?: "back" | "front"; lockRatio?: boolean };
 
 const TAB_LABELS: Record<Tab, string> = {
   text: "Text",
@@ -214,6 +214,8 @@ export function ElementBar({
   const isShape = block.kind === "shape";
   const isPhoto = block.kind === "photo";
   const isImage = block.kind === "image";
+  /** Fotos bleiben standardmässig proportional; Formen/Bilder sind frei skalierbar. */
+  const lockRatio = st.lockRatio ?? isPhoto;
   const isSlot = slots.some((s) => s.key === st.color);
   // Ohne eigene Rahmenfarbe folgt der Rahmen der Elementfarbe.
   const frameKey = st.borderColor ?? st.color;
@@ -550,22 +552,37 @@ export function ElementBar({
                 min={5}
                 max={A4_WIDTH_MM}
                 step={1}
-                onChange={(w) => onChange({ w, ...keepHeight(block, w) })}
+                onChange={(w) => onChange({ w, ...(lockRatio ? {} : keepHeight(block, w)) })}
                 suffix="mm"
               />
             </Ctl>
 
             {block.shape !== "line" && (
-              <Ctl label="Höhe" grow>
-                <Slider
-                  value={heightMm(block)}
-                  min={5}
-                  max={A4_HEIGHT_MM}
-                  step={1}
-                  onChange={(mm) => onChange({ ratio: mm / Math.max(1, st.w) })}
-                  suffix="mm"
-                />
-              </Ctl>
+              <>
+                <Ctl label="Höhe" grow>
+                  <Slider
+                    value={heightMm(block)}
+                    min={5}
+                    max={A4_HEIGHT_MM}
+                    step={1}
+                    onChange={(mm) => onChange({ ratio: mm / Math.max(1, st.w) })}
+                    suffix="mm"
+                  />
+                </Ctl>
+
+                <Ctl label="Proportion">
+                  <label className="flex cursor-pointer items-center gap-1.5 text-xs">
+                    <input
+                      type="checkbox"
+                      checked={lockRatio}
+                      onChange={(e) =>
+                        onChange({ lockRatio: e.target.checked } as Partial<LayeredStyle>)
+                      }
+                    />
+                    behalten
+                  </label>
+                </Ctl>
+              </>
             )}
 
             {(isPhoto || isImage) && (
@@ -920,7 +937,7 @@ export function ElementBar({
                 min={5}
                 max={A4_WIDTH_MM}
                 step={1}
-                onChange={(w) => onChange({ w, ...keepHeight(block, w) })}
+                onChange={(w) => onChange({ w, ...(lockRatio ? {} : keepHeight(block, w)) })}
                 suffix="mm"
               />
             </Ctl>
