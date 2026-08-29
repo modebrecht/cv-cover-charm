@@ -55,7 +55,7 @@ test.describe("shared CV and motivation-letter font", () => {
 
     const typographySection = page.getByRole("button", { name: "Schrift", exact: true });
     await typographySection.click();
-    const fontSelect = page.getByLabel("Schriftart", { exact: true });
+    const fontSelect = page.locator("label").filter({ hasText: "Schriftart" }).locator("select");
     await expect(fontSelect).toHaveValue("times");
 
     await fontSelect.selectOption("maschine");
