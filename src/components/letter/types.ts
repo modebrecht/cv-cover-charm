@@ -96,7 +96,7 @@ export function emptyLetterDesign(): LetterDesign {
   return {
     template,
     colors: defaultLetterColors(template),
-    font: "sans",
+    font: "freundlich",
     senderAlign: "left",
     recipientAlign: "left",
     dateAlign: "left",
