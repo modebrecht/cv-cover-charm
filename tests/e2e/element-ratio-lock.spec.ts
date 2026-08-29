@@ -160,8 +160,15 @@ async function waitForStoredLock(page: Page, id: string, expected: boolean) {
   await expect.poll(() => storedLock(page, id)).toBe(expected);
 }
 
+/** Reset one element fully to its template defaults; useful between independent handle checks. */
 async function resetSelected(page: Page) {
   await page.getByRole("button", { name: "Zurücksetzen" }).last().click();
+}
+
+/** Reset only geometry, which must preserve visual/user preferences such as lockRatio. */
+async function resetGeometry(page: Page) {
+  await page.getByRole("button", { name: "Download" }).click();
+  await page.getByRole("button", { name: /Positionen\s*&\s*Grössen zurücksetzen/ }).click();
 }
 
 test.describe("element proportion lock behavior", () => {
@@ -214,7 +221,8 @@ test.describe("element proportion lock behavior", () => {
     expect(Math.abs(after.ratio - before.ratio)).toBeGreaterThan(0.03);
 
     // Geometry reset must not erase the explicit unlock preference.
-    await resetSelected(page);
+    await resetGeometry(page);
+    target = await selectBlock(page, "custom-image-ratio");
     await expect(proportionCheckbox(page)).not.toBeChecked();
     await waitForStoredLock(page, "custom-image-ratio", false);
 
