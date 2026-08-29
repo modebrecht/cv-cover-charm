@@ -256,19 +256,16 @@ export function customKind(c: CustomField): CustomKind {
 }
 
 /**
- * Nur Systemschriften.
- *
- * Der PDF-Export fotografiert das, was der Browser zeichnet – eine
- * nachzuladende Webschrift wäre beim Export womöglich noch nicht da und das
- * Blatt käme in der Ersatzschrift heraus. Jeder Eintrag hat darum eine Kette
- * von Alternativen für Windows, macOS und Linux.
+ * Dossier-Schriften. Cabin wird lokal aus `public/fonts` geladen und ist
+ * zugleich die eingebettete PDF-Standardschrift. Die übrigen Einträge behalten
+ * System-Fallbacks für bestehende gespeicherte Schriftwahlen.
  */
 export const FONT_STACKS: Record<FontKey, string> = {
   sans: "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
   serif: "Georgia, 'Times New Roman', Times, serif",
   times: "'Times New Roman', Times, Georgia, serif",
   humanist: "Verdana, Geneva, 'DejaVu Sans', sans-serif",
-  freundlich: "'Trebuchet MS', 'Segoe UI', Tahoma, sans-serif",
+  freundlich: "Cabin, 'Trebuchet MS', 'Segoe UI', Tahoma, sans-serif",
   schmal: "'Arial Narrow', 'Liberation Sans Narrow', 'Helvetica Neue Condensed', Arial, sans-serif",
   maschine: "'Courier New', Courier, 'DejaVu Sans Mono', monospace",
   plakativ: "Impact, Haettenschweiler, 'Arial Black', 'Franklin Gothic Bold', sans-serif",
@@ -290,7 +287,7 @@ export const FONT_LABELS: Record<FontKey, string> = {
   serif: "Serif",
   times: "Times",
   humanist: "Verdana",
-  freundlich: "Trebuchet",
+  freundlich: "Cabin",
   schmal: "Schmal",
   maschine: "Maschine",
   plakativ: "Plakativ",

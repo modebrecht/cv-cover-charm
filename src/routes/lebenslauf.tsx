@@ -92,6 +92,7 @@ import {
 } from "@/components/cover/types";
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
+import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
 import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
@@ -947,6 +948,7 @@ function Lebenslauf() {
       if (!pages.length) throw new Error("keine Seiten");
 
       const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+      await registerCabinPdfFonts(pdf);
       const name = [data.person.vorname, data.person.nachname].filter(Boolean).join(" ");
       pdf.setProperties({
         title: name ? `Lebenslauf – ${name}` : "Lebenslauf",

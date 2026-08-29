@@ -1,6 +1,7 @@
 import type { jsPDF as JsPdf } from "jspdf";
 import { PAGE, PDF } from "@/default-config";
 import { downloadBlob } from "@/lib/download";
+import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
 
 export type DossierPdfMeta = {
   title: string;
@@ -10,13 +11,14 @@ export type DossierPdfMeta = {
 };
 
 type Html2Canvas = (typeof import("html2canvas-pro"))["default"];
-type PdfFont = "helvetica" | "times" | "courier";
+type PdfFont = "helvetica" | "times" | "courier" | "Cabin";
 type PdfFontStyle = "normal" | "bold" | "italic" | "bolditalic";
 
 const MM_PER_PT = 25.4 / 72;
 
 function pdfFontFor(page: HTMLElement): PdfFont {
   const font = page.dataset.letterFont;
+  if (font === "freundlich") return "Cabin";
   if (font === "serif" || font === "times") return "times";
   if (font === "maschine") return "courier";
   return "helvetica";
@@ -317,6 +319,7 @@ export async function downloadCombinedDossierPdf(
     import("jspdf"),
   ]);
   const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+  await registerCabinPdfFonts(pdf);
   pdf.setProperties({
     title: meta.title,
     author: meta.author,
@@ -354,6 +357,7 @@ export async function downloadLetterPdf(
     import("jspdf"),
   ]);
   const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+  await registerCabinPdfFonts(pdf);
   pdf.setProperties({
     title: meta.title,
     author: meta.author,

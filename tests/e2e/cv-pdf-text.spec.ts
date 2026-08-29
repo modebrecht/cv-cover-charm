@@ -74,6 +74,7 @@ function cvPayload({ long = false } = {}) {
     design: {
       template: "modern",
       colors: { primary: "#24364b", accent: "#d6a47d", bg: "#ffffff" },
+      font: "freundlich",
       bgOpacity: 0.25,
       useElements: false,
     },
@@ -146,7 +147,7 @@ function letterPayload() {
     design: {
       template: "modern",
       colors: { bg: "#ffffff", primary: "#24364b", accent: "#d6a47d" },
-      font: "sans",
+      font: "freundlich",
     },
   };
 }
@@ -201,6 +202,7 @@ test.describe("CV PDF real text layer", () => {
     expect(pdfSource).toContain("Sekundarschule");
     expect(pdfSource).toContain("Beispielbetrieb");
     expect(pdfSource).toContain("Volleyball");
+    expect(pdfSource).toContain("Cabin");
   });
 
   test("second CV page also contributes real PDF text", async ({ page }) => {
@@ -266,5 +268,6 @@ test.describe("CV PDF real text layer", () => {
     expect(letterIndex).toBeGreaterThan(-1);
     expect(cvIndex).toBeGreaterThan(-1);
     expect(letterIndex).toBeLessThan(cvIndex);
+    expect(pdfSource).toContain("Cabin");
   });
 });

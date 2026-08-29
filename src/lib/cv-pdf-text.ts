@@ -4,7 +4,7 @@ const MASK_STYLE_ID = "cv-pdf-raster-text-mask";
 const PLUGIN_FLAG = "__cvPdfTextPluginInstalled";
 const MM_PER_PT = 25.4 / 72;
 
-type PdfFont = "helvetica" | "times" | "courier";
+type PdfFont = "helvetica" | "times" | "courier" | "Cabin";
 type PdfFontStyle = "normal" | "bold" | "italic" | "bolditalic";
 type UnknownFn = (...args: unknown[]) => unknown;
 type PdfProperties = Record<string, string | undefined>;
@@ -69,6 +69,7 @@ function rgb(cssColor: string): [number, number, number] {
 
 function pdfFontFor(style: CSSStyleDeclaration): PdfFont {
   const family = style.fontFamily.toLowerCase();
+  if (family.includes("cabin")) return "Cabin";
   if (
     family.includes("serif") ||
     family.includes("georgia") ||

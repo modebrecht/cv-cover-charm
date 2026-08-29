@@ -78,4 +78,22 @@ test.describe("shared CV and motivation-letter font", () => {
       )
       .toBe("maschine");
   });
+  test("new CV and letter previews use Cabin as the default dossier family", async ({ page }) => {
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => localStorage.clear());
+    await page.reload({ waitUntil: "domcontentloaded" });
+
+    const letterPage = page.locator("[data-letter-page]").first();
+    await expect(letterPage).toHaveAttribute("data-letter-font", "freundlich");
+    await expect
+      .poll(() => letterPage.evaluate((element) => getComputedStyle(element).fontFamily))
+      .toContain("Cabin");
+
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+    const cvPage = page.locator('[data-dossier-document="cv"] [data-cv-page]').first();
+    await expect
+      .poll(() => cvPage.evaluate((element) => getComputedStyle(element).getPropertyValue("--dossier-font")))
+      .toContain("Cabin");
+  });
+
 });
