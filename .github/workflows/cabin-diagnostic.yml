@@ -1,0 +1,72 @@
+name: Cabin PDF diagnostic
+
+on:
+  push:
+    branches:
+      - feature/cabin-dossier-font
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  diagnose:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/cabin-dossier-font
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: bun install --frozen-lockfile
+      - run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Start app
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 >/tmp/app.log 2>&1 &
+          echo $! >/tmp/app.pid
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:4173/lebenslauf >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/app.log
+          exit 1
+      - name: Run Cabin-focused tests and comment result
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set +e
+          npx playwright test tests/e2e/dossier-font-sync.spec.ts tests/e2e/cv-pdf-text.spec.ts --reporter=line --workers=1 > /tmp/cabin-test.log 2>&1
+          code=$?
+          set -e
+          tail -n 180 /tmp/cabin-test.log > /tmp/cabin-tail.log
+          {
+            echo '### Cabin diagnostic'
+            echo
+            if [ "$code" -eq 0 ]; then echo '**Result: PASS**'; else echo '**Result: FAIL**'; fi
+            echo
+            echo '```text'
+            cat /tmp/cabin-tail.log
+            echo '```'
+          } > /tmp/comment.md
+          gh pr comment 29 --repo "$GITHUB_REPOSITORY" --body-file /tmp/comment.md
+          exit "$code"
+      - name: Stop app
+        if: always()
+        run: kill "$(cat /tmp/app.pid)" || true
+      - name: Remove diagnostic workflow
+        if: always()
+        run: |
+          rm .github/workflows/cabin-diagnostic.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/workflows/cabin-diagnostic.yml
+          git commit -m 'Remove one-time Cabin diagnostic' || true
+          git push origin HEAD:feature/cabin-dossier-font || true
