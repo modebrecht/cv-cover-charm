@@ -341,6 +341,10 @@ export function BlockLayer({
     const originalBottom = fromY + fromHeight;
     const minWidth = 5;
     const minHeight = block.kind === "text" ? 6 : 5;
+    const lockRatio =
+      block.kind !== "text" &&
+      block.shape !== "line" &&
+      (block.style.lockRatio ?? (block.kind === "photo" || block.kind === "image"));
     let detachedDependents = false;
 
     const move = (ev: PointerEvent) => {
@@ -366,6 +370,68 @@ export function BlockLayer({
       }
       if (direction.includes("n")) {
         top = Math.max(0, Math.min(bottom - minHeight, fromY + dy));
+      }
+
+      if (lockRatio) {
+        const horizontal = direction.includes("e") || direction.includes("w");
+        const vertical = direction.includes("n") || direction.includes("s");
+        const rawWidthScale = (right - left) / Math.max(fromWidth, 0.1);
+        const rawHeightScale = (bottom - top) / Math.max(fromHeight, 0.1);
+        let requestedScale = 1;
+        if (horizontal && vertical) {
+          requestedScale =
+            Math.abs(rawWidthScale - 1) >= Math.abs(rawHeightScale - 1)
+              ? rawWidthScale
+              : rawHeightScale;
+        } else if (horizontal) {
+          requestedScale = rawWidthScale;
+        } else if (vertical) {
+          requestedScale = rawHeightScale;
+        }
+
+        const centerX = fromX + fromWidth / 2;
+        const centerY = fromY + fromHeight / 2;
+        let maxScale = Number.POSITIVE_INFINITY;
+        if (horizontal && vertical) {
+          const maxWidth = direction.includes("w") ? originalRight : PAGE_W_MM - fromX;
+          const maxHeight = direction.includes("n") ? originalBottom : PAGE_H_MM - fromY;
+          maxScale = Math.min(maxWidth / fromWidth, maxHeight / fromHeight);
+        } else if (horizontal) {
+          const maxWidth = direction.includes("w") ? originalRight : PAGE_W_MM - fromX;
+          const maxCenteredHeight = 2 * Math.min(centerY, PAGE_H_MM - centerY);
+          maxScale = Math.min(maxWidth / fromWidth, maxCenteredHeight / fromHeight);
+        } else if (vertical) {
+          const maxHeight = direction.includes("n") ? originalBottom : PAGE_H_MM - fromY;
+          const maxCenteredWidth = 2 * Math.min(centerX, PAGE_W_MM - centerX);
+          maxScale = Math.min(maxHeight / fromHeight, maxCenteredWidth / fromWidth);
+        }
+
+        const minScale = Math.max(minWidth / fromWidth, minHeight / fromHeight);
+        const lockedScale = Math.max(minScale, Math.min(maxScale, requestedScale));
+        const width = Math.round(fromWidth * lockedScale * 10) / 10;
+        const visualRatio = fromHeight / Math.max(fromWidth, 0.1);
+        const height = width * visualRatio;
+
+        if (horizontal) {
+          left = direction.includes("w") ? originalRight - width : fromX;
+        } else {
+          left = centerX - width / 2;
+        }
+        if (vertical) {
+          top = direction.includes("n") ? originalBottom - height : fromY;
+        } else {
+          top = centerY - height / 2;
+        }
+
+        onMove(block.id, {
+          x: Math.round(left * 10) / 10,
+          y: Math.round(top * 10) / 10,
+          w: width,
+          ...(block.style.follows ? { follows: null } : {}),
+          ...(block.style.above ? { above: null } : {}),
+          ...(block.style.anchorBottom ? { anchorBottom: false } : {}),
+        });
+        return;
       }
 
       const width = Math.round((right - left) * 10) / 10;

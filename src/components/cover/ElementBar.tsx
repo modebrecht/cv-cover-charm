@@ -33,7 +33,7 @@ type Props = {
 };
 
 type Tab = "text" | "absatz" | "farbe" | "rahmen" | "bild" | "position" | "form";
-type LayeredStyle = BlockStyle & { layer?: "back" | "front"; lockRatio?: boolean };
+type LayeredStyle = BlockStyle & { layer?: "back" | "front" };
 
 const TAB_LABELS: Record<Tab, string> = {
   text: "Text",
@@ -147,6 +147,18 @@ function keepHeight(block: Block, nextW: number): Partial<BlockStyle> {
   const ratio = block.style.ratio ?? impliedRatio(block);
   if (ratio === null || nextW <= 0) return {};
   return { ratio: (block.style.w * ratio) / nextW };
+}
+
+/**
+ * Beim Ändern der Höhe entscheidet der Proportions-Lock, welche Grösse frei ist.
+ * Gelockt bleibt `ratio` unangetastet und die Breite folgt der gewünschten Höhe;
+ * ungelockt bleibt die Breite stehen und das Verhältnis ändert sich wie bisher.
+ */
+function resizeHeight(block: Block, nextH: number, lockRatio: boolean): Partial<BlockStyle> {
+  const ratio = block.style.ratio ?? impliedRatio(block);
+  if (ratio === null || nextH <= 0) return {};
+  if (!lockRatio) return { ratio: nextH / Math.max(1, block.style.w) };
+  return { w: Math.max(5, Math.min(A4_WIDTH_MM, nextH / Math.max(ratio, 0.001))) };
 }
 
 function AlignIcon({ dir }: { dir: "left" | "center" | "right" }) {
@@ -565,7 +577,7 @@ export function ElementBar({
                     min={5}
                     max={A4_HEIGHT_MM}
                     step={1}
-                    onChange={(mm) => onChange({ ratio: mm / Math.max(1, st.w) })}
+                    onChange={(mm) => onChange(resizeHeight(block, mm, lockRatio))}
                     suffix="mm"
                   />
                 </Ctl>

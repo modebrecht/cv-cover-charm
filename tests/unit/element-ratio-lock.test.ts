@@ -6,17 +6,28 @@ const elementBarSource = readFileSync(
   new URL("../../src/components/cover/ElementBar.tsx", import.meta.url),
   "utf8",
 );
+const blockLayerSource = readFileSync(
+  new URL("../../src/components/cover/BlockLayer.tsx", import.meta.url),
+  "utf8",
+);
 
 describe("element proportion lock regression", () => {
   test("keeps the UI defaults and writes the persistent proportion control", () => {
     expect(elementBarSource).toContain('const lockRatio = st.lockRatio ?? (isPhoto || isImage);');
     expect(elementBarSource).toContain('checked={lockRatio}');
     expect(elementBarSource).toContain('lockRatio: e.target.checked');
+    expect(elementBarSource).toContain('onChange={(mm) => onChange(resizeHeight(block, mm, lockRatio))}');
 
     const guardedWidthUpdates = elementBarSource.match(
       /\.\.\.\(lockRatio \? \{\} : keepHeight\(block, w\)\)/g,
     );
     expect(guardedWidthUpdates?.length).toBe(2);
+  });
+
+  test("guards direct preview resize handles with the same effective lock", () => {
+    expect(blockLayerSource).toContain('block.style.lockRatio ?? (block.kind === "photo" || block.kind === "image")');
+    expect(blockLayerSource).toContain("if (lockRatio) {");
+    expect(blockLayerSource).toContain("const lockedScale = Math.max(minScale, Math.min(maxScale, requestedScale));");
   });
 
   test("persists explicit lock choices through saved layout data", () => {
