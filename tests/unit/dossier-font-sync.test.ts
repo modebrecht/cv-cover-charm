@@ -1,5 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { dossierFontFromSerialized, reconcileDossierFontTexts } from "../../src/lib/dossier-font-sync";
+import { readFileSync } from "node:fs";
+import { emptyLetterDesign } from "../../src/components/letter/types";
+import {
+  dossierFontFromSerialized,
+  reconcileDossierFontTexts,
+} from "../../src/lib/dossier-font-sync";
 
 function fontOf(text: string | null) {
   return dossierFontFromSerialized(text);
@@ -62,5 +67,22 @@ describe("CV and motivation-letter font sync", () => {
     expect(result.font).toBe("times");
     expect(fontOf(result.cv)).toBe("times");
     expect(fontOf(result.letter)).toBe("times");
+  });
+
+  test("uses Trebuchet as the new-dossier default while preserving saved font choices", () => {
+    const coverSource = readFileSync(
+      new URL("../../src/routes/titelblatt.tsx", import.meta.url),
+      "utf8",
+    );
+    const cvSource = readFileSync(
+      new URL("../../src/routes/lebenslauf.tsx", import.meta.url),
+      "utf8",
+    );
+
+    expect(emptyLetterDesign().font).toBe("freundlich");
+    expect(coverSource).toContain('useState<FontKey | null>("freundlich")');
+    expect(coverSource).toContain("setDocumentFont(validFont(p.font));");
+    expect(cvSource).toContain('font: "freundlich"');
+    expect(cvSource).toContain('font: draft ? (draft.font ?? undefined) : "freundlich"');
   });
 });
