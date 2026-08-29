@@ -48,7 +48,8 @@ The standalone CV exporter and combined dossier exporter currently create their 
 - [x] Add a dedicated Playwright regression that verifies the standalone CV PDF contains real CV strings in the PDF source.
 - [x] Verify the hidden raster export copy has transparent text before capture.
 - [x] Add the new PDF-text regression to the M5.8 CI command.
-- [ ] Run/observe production build + lint + Playwright regression on a CI-triggering branch/PR.
+- [x] Feature-branch Vercel build succeeds.
+- [ ] Run/observe lint + M5.8 Playwright regression on a CI-triggering branch/PR.
 - [ ] Confirm visually that no raster text remains underneath the real text (no ghost/double glyphs).
 - [ ] Confirm a downloaded PDF allows selecting/copying name, school, work experience and hobbies in a normal PDF viewer.
 - [ ] Confirm PDF viewer search finds representative CV words.
