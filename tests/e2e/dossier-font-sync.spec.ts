@@ -81,11 +81,13 @@ test.describe("shared CV and motivation-letter font", () => {
     // protected by a real editor interaction in the required E2E suite.
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
     const cvTypographySection = page.getByRole("button", { name: /Schrift und Layout/ });
-    await cvTypographySection.click();
-    const cvFontSelect = page
-      .locator("label")
-      .filter({ hasText: "Schriftart gesamtes Dossier" })
-      .locator("select");
+    if ((await cvTypographySection.getAttribute("aria-expanded")) !== "true") {
+      await cvTypographySection.click();
+    }
+    await expect(cvTypographySection).toHaveAttribute("aria-expanded", "true");
+
+    const cvTypographyPanel = cvTypographySection.locator("xpath=ancestor::section[1]");
+    const cvFontSelect = cvTypographyPanel.locator("select").first();
     await expect(cvFontSelect).toHaveValue("maschine");
 
     await cvFontSelect.selectOption("sans");
