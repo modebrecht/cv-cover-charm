@@ -77,9 +77,11 @@ test.describe("shared CV and motivation-letter font", () => {
       )
       .toBe("maschine");
 
-    // CV -> motivation letter. This direction used to be implemented but was not
-    // protected by a real editor interaction in the required E2E suite.
+    // CV -> motivation letter. This direction is implemented through the shared
+    // autosave font propagation and is now protected by a real editor interaction.
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+    await page.locator('button[data-editor-ready="true"]').waitFor({ state: "visible" });
+
     const cvTypographySection = page.getByRole("button", { name: /Schrift und Layout/ });
     if ((await cvTypographySection.getAttribute("aria-expanded")) !== "true") {
       await cvTypographySection.click();
@@ -102,6 +104,7 @@ test.describe("shared CV and motivation-letter font", () => {
       .toBe("sans");
 
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    await page.locator('button[data-editor-ready="true"]').waitFor({ state: "visible" });
     await page.getByRole("button", { name: "Schrift", exact: true }).click();
     const syncedLetterSelect = page
       .locator("label")
