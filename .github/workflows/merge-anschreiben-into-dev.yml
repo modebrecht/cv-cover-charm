@@ -35,24 +35,17 @@ jobs:
 
           if [ "$merge_status" -ne 0 ]; then
             mapfile -t conflicts < <(git diff --name-only --diff-filter=U | sort)
-            expected=(
-              'src/components/letter/types.ts'
-              'src/routes/lebenslauf.tsx'
-            )
-            mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | sort)
-            if [ "$(printf '%s\n' "${conflicts[@]}")" != "$(printf '%s\n' "${expected_sorted[@]}")" ]; then
+            if [ "${#conflicts[@]}" -ne 1 ] || [ "${conflicts[0]}" != 'src/components/letter/types.ts' ]; then
               printf 'Unexpected conflicts:\n%s\n' "${conflicts[*]}" >&2
               git merge --abort
               exit 1
             fi
 
+            # Keep the feature's dossier/fontOverride model, but preserve the
+            # current Cabin default from dev.
             git checkout --theirs -- src/components/letter/types.ts
             python3 -c 'from pathlib import Path; p=Path("src/components/letter/types.ts"); s=p.read_text(); old="    font: \"sans\",\n    fontOverride: null,"; new="    font: \"freundlich\",\n    fontOverride: null,"; assert old in s, "letter default block missing"; p.write_text(s.replace(old,new,1))'
-
-            git checkout --ours -- src/routes/lebenslauf.tsx
-            python3 -c 'from pathlib import Path; p=Path("src/routes/lebenslauf.tsx"); s=p.read_text(); old="  if (merged.template === \"colorful\") {\n    merged.template = \"blockig\";\n    merged.colors = defaultColors(\"blockig\");\n  }\n"; assert old in s, "legacy colorful migration missing"; p.write_text(s.replace(old,"",1))'
-
-            git add src/components/letter/types.ts src/routes/lebenslauf.tsx
+            git add src/components/letter/types.ts
           fi
 
           if git diff --name-only --diff-filter=U | grep -q .; then
@@ -60,7 +53,7 @@ jobs:
             exit 1
           fi
 
-          # The runner is temporary and must not land on dev.
+          # Temporary runner must not land on dev.
           git rm -f .github/workflows/merge-anschreiben-into-dev.yml
           git commit -m 'Merge feature/anschreiben-dossier into dev'
 
