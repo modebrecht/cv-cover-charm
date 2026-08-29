@@ -1,3 +1,5 @@
+import "./cv-pdf-text";
+
 const UMLAUTS: Record<string, string> = {
   ä: "ae",
   ö: "oe",
