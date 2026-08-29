@@ -170,9 +170,6 @@ function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
       );
       if (!rects.length) continue;
 
-      // Normaler Fall: ein Wort liegt vollständig auf einer Zeile. Bei einem
-      // sehr langen untrennbaren Wort (z. B. Mailadresse) zeichnen wir es pro
-      // sichtbarer Zeile, damit ein Browser-Zeilenumbruch nicht verloren geht.
       const fragments: Array<{ text: string; rect: DOMRect }> = [];
       if (rects.length === 1) {
         fragments.push({ text: token, rect: rects[0] });
@@ -291,28 +288,28 @@ function installJsPdfPlugin(JsPdfRuntime: JsPdfConstructor) {
   api.events.push([
     "initialized",
     function initializedCvPdfTextPlugin(this: JsPdf) {
-      const pdf = this;
-      const originalSetProperties = pdf.setProperties as unknown as UnknownFn;
-      const originalOutput = pdf.output as unknown as UnknownFn;
+      const originalSetProperties = this.setProperties as unknown as UnknownFn;
+      const originalOutput = this.output as unknown as UnknownFn;
 
-      (pdf as unknown as { setProperties: UnknownFn }).setProperties = (...args: unknown[]) => {
+      (this as unknown as { setProperties: UnknownFn }).setProperties = (...args: unknown[]) => {
         const properties = (args[0] ?? {}) as PdfProperties;
-        if (typeof properties.subject === "string") subjects.set(pdf, properties.subject);
-        return Reflect.apply(originalSetProperties, pdf, args);
+        if (typeof properties.subject === "string") subjects.set(this, properties.subject);
+        return Reflect.apply(originalSetProperties, this, args);
       };
 
-      (pdf as unknown as { output: UnknownFn }).output = (...args: unknown[]) => {
-        const subject = subjects.get(pdf) ?? "";
-        if (!textLayerApplied.has(pdf) && (subject === "Lebenslauf" || subject === "Bewerbungsdossier")) {
-          if (applyTextLayerForSubject(pdf, subject)) textLayerApplied.add(pdf);
+      (this as unknown as { output: UnknownFn }).output = (...args: unknown[]) => {
+        const subject = subjects.get(this) ?? "";
+        if (
+          !textLayerApplied.has(this) &&
+          (subject === "Lebenslauf" || subject === "Bewerbungsdossier")
+        ) {
+          if (applyTextLayerForSubject(this, subject)) textLayerApplied.add(this);
         }
-        return Reflect.apply(originalOutput, pdf, args);
+        return Reflect.apply(originalOutput, this, args);
       };
     },
   ]);
 
-  // Erst maskieren, wenn der jsPDF-Hook sicher installiert ist. So kann ein
-  // fehlgeschlagener Chunk-Import nie zu einem PDF mit unsichtbarem CV-Text führen.
   installRasterTextMask();
 }
 
