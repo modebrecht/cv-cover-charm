@@ -254,7 +254,7 @@ function Titelblatt() {
     useState<Record<TemplateId, StyleOverrides>>(allEmptyLayouts);
   const [customs, setCustoms] = useState<CustomField[]>([]);
   const [fontScale, setFontScale] = useState<number>(FONT.DEFAULT_SCALE);
-  const [documentFont, setDocumentFont] = useState<FontKey | null>(null);
+  const [documentFont, setDocumentFont] = useState<FontKey | null>("freundlich");
   const [selected, setSelected] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -356,7 +356,7 @@ function Titelblatt() {
   const resetLayout = () => {
     setLayoutByTemplate((l) => ({ ...l, [template]: {} }));
     setFontScale(FONT.DEFAULT_SCALE);
-    setDocumentFont(null);
+    setDocumentFont("freundlich");
   };
 
   /**
@@ -368,7 +368,7 @@ function Titelblatt() {
   const resetAllLayouts = useCallback(() => {
     setLayoutByTemplate(allEmptyLayouts());
     setFontScale(FONT.DEFAULT_SCALE);
-    setDocumentFont(null);
+    setDocumentFont("freundlich");
     setSelected(null);
   }, []);
 

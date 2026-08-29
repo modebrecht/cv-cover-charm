@@ -242,6 +242,7 @@ function Lebenslauf() {
     return {
       template: d.template,
       colors: d.colors,
+      font: "freundlich",
       bgOpacity: DEFAULT_BG_OPACITY,
       useElements: false,
     };
@@ -854,7 +855,7 @@ function Lebenslauf() {
     setDesign((d) => ({
       template: draft?.template ?? d.template,
       colors: draft?.colors ?? d.colors,
-      font: draft?.font ?? undefined,
+      font: draft ? (draft.font ?? undefined) : "freundlich",
       bgOpacity: DEFAULT_BG_OPACITY,
       useElements: (draft?.elements.length ?? 0) > 0,
       titleScale: draft?.fontScale ?? CV_TYPE_DEFAULTS.titleScale,
