@@ -105,14 +105,14 @@ test.describe("template cleanup", () => {
       .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page]')
       .first()
       .evaluate((pageEl) => {
-        const pageRect = pageEl.getBoundingClientRect();
+        const pageStyle = getComputedStyle(pageEl);
         const root = pageEl.querySelector<HTMLElement>('[data-cv-background="motif"] > div');
         if (!root) return null;
         const grey = getComputedStyle(root, "::before");
         const orange = getComputedStyle(root, "::after");
         return {
-          pageWidth: pageRect.width,
-          pageHeight: pageRect.height,
+          pageWidth: Number.parseFloat(pageStyle.width),
+          pageHeight: Number.parseFloat(pageStyle.height),
           greyWidth: Number.parseFloat(grey.width),
           greyHeight: Number.parseFloat(grey.height),
           orangeWidth: Number.parseFloat(orange.width),
