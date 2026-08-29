@@ -78,10 +78,22 @@ test.describe("shared CV and motivation-letter font", () => {
       )
       .toBe("maschine");
   });
-  test("new CV and letter previews use Cabin as the default dossier family", async ({ page }) => {
-    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+  test("new cover, CV and letter previews use Cabin as the default dossier family", async ({ page }) => {
+    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: "domcontentloaded" });
+
+    const coverBlock = page.locator('[data-dossier-document="cover"] [data-block-id]').first();
+    await expect(coverBlock).toBeVisible();
+    await expect
+      .poll(() =>
+        coverBlock.evaluate((element) =>
+          getComputedStyle(element).getPropertyValue("--dossier-font"),
+        ),
+      )
+      .toContain("Cabin");
+
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
 
     const letterPage = page.locator("[data-letter-page]").first();
     await expect(letterPage).toHaveAttribute("data-letter-font", "freundlich");
@@ -95,5 +107,4 @@ test.describe("shared CV and motivation-letter font", () => {
       .poll(() => cvPage.evaluate((element) => getComputedStyle(element).getPropertyValue("--dossier-font")))
       .toContain("Cabin");
   });
-
 });
