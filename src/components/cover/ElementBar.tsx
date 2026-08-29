@@ -214,8 +214,8 @@ export function ElementBar({
   const isShape = block.kind === "shape";
   const isPhoto = block.kind === "photo";
   const isImage = block.kind === "image";
-  /** Fotos bleiben standardmässig proportional; Formen/Bilder sind frei skalierbar. */
-  const lockRatio = st.lockRatio ?? isPhoto;
+  /** Fotos und Bilder bleiben standardmässig proportional; Formen sind frei skalierbar. */
+  const lockRatio = st.lockRatio ?? (isPhoto || isImage);
   const isSlot = slots.some((s) => s.key === st.color);
   // Ohne eigene Rahmenfarbe folgt der Rahmen der Elementfarbe.
   const frameKey = st.borderColor ?? st.color;
