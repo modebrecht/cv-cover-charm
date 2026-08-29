@@ -1,3 +1,7 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
 @font-face {
   font-family: "Cabin";
   src: url("/fonts/Cabin-Regular.ttf") format("truetype");
@@ -29,10 +33,6 @@
   font-weight: 600 900;
   font-display: swap;
 }
-
-@import "tailwindcss" source(none);
-@source "../src";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
