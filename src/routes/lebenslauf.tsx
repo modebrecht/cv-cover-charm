@@ -273,7 +273,7 @@ function Lebenslauf() {
     vorlage: false,
     farben: false,
     typo: false,
-    rubriken: true,
+    rubriken: false,
     person: true,
     schule: false,
     erfahrung: false,
@@ -370,8 +370,6 @@ function Lebenslauf() {
   const place = ({ field, style }: NewElement) => {
     setElements((c) => [...c, field]);
     if (style) patchStyle(field.id, style);
-    // Eigene Elemente sind nur sichtbar, wenn sie eingeschaltet sind. Ein neu
-    // eingefügtes Feld, das unsichtbar bleibt, wäre ein toter Knopf.
     setDesign((d) => (d.useElements ? d : { ...d, useElements: true }));
     setSelected(field.id);
   };
@@ -430,7 +428,6 @@ function Lebenslauf() {
     }
   };
 
-  /** Ein Element auf den Vorgabestil der Vorlage zurücksetzen. */
   const resetElement = (id: string) =>
     setElementStyles((s) => {
       const next = { ...s };
@@ -438,14 +435,6 @@ function Lebenslauf() {
       return next;
     });
 
-  /**
-   * Titelblatt als gemeinsame Quelle für den CV verwenden.
-   *
-   * Das ist bewusst dieselbe Komplettübernahme für den ersten leeren CV und
-   * für den grossen manuellen Button. CV-eigene Inhalte wie Schule oder
-   * Erfahrung bleiben dabei unangetastet; gemeinsame Personendaten und das
-   * gesamte übertragbare Design kommen vom Titelblatt.
-   */
   const applyEverythingFromCover = useCallback((draft: CoverDraft) => {
     setCover(draft);
     setDesign((current) => ({
@@ -468,7 +457,6 @@ function Lebenslauf() {
     setLastCoverFingerprint(coverDraftFingerprint(draft));
   }, []);
 
-  /** Gespeicherten Lebenslauf übernehmen und den gelesenen Stand zurückgeben. */
   const loadFromStorage = useCallback((): Partial<Saved> | null => {
     let saved: string | null = null;
     try {
@@ -488,7 +476,6 @@ function Lebenslauf() {
     }
   }, [markWritten, applySaved]);
 
-  /* ---------- Laden ---------- */
   useEffect(() => {
     restored.current = true;
     setHistory(readHistory(HISTORY_KEYS.cv));
@@ -504,16 +491,11 @@ function Lebenslauf() {
         }
       : null;
 
-    // Ein leerer, früher automatisch gespeicherter CV zählt weiterhin als
-    // "noch nicht begonnen". Sonst würde genau dieser leere Save die sinnvolle
-    // Erstübernahme vom Titelblatt dauerhaft blockieren.
     if (storedData && cvHasContent(storedData)) return;
-
     if (draft) applyEverythingFromCover(draft);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applyEverythingFromCover]);
 
-  /* Zurück im Tab: ein anderes Fenster hat womöglich neuer geschrieben. */
   useEffect(() => {
     if (!visible || !restored.current) return;
     if (changedElsewhere()) {
@@ -524,10 +506,6 @@ function Lebenslauf() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
-  /**
-   * Das Titelblatt hat einen eigenen Speicher. Beim Zurückkehren in den Tab
-   * und bei Änderungen aus einem zweiten Fenster den aktuellen Stand lesen.
-   */
   useEffect(() => {
     const refreshCover = () => {
       setCover(readCoverDraft());
@@ -545,7 +523,6 @@ function Lebenslauf() {
     };
   }, []);
 
-  /** Der laufende Lebenslauf, so wie er gespeichert bzw. exportiert wird. */
   const payload = useCallback(
     (): Saved => ({
       version: SAVE_VERSION,
@@ -558,7 +535,6 @@ function Lebenslauf() {
     [data, design, elements, elementStyles, lastCoverFingerprint],
   );
 
-  /** Stand in die eigene Historie legen – die des Titelblatts bleibt unberührt. */
   const keepSnapshot = useCallback(
     (label: string, force = false) => {
       const p = payload();
@@ -570,7 +546,6 @@ function Lebenslauf() {
     [payload],
   );
 
-  /* ---------- Sichern ---------- */
   useEffect(() => {
     if (!restored.current) return;
     if (!visible) return;
@@ -582,7 +557,6 @@ function Lebenslauf() {
         markWritten(text);
         setSaveState("saved");
       } catch {
-        // Speicher voll – Bearbeiten geht weiter
         setSaveState("error");
       }
       keepSnapshot("Automatisch");
@@ -617,16 +591,6 @@ function Lebenslauf() {
     }
   }, [menuOpen]);
 
-  /**
-   * Schriftbild der Vorlage auf das Dokument legen.
-   *
-   * `dossier-theme.css` gestaltet den Lebenslauf über `--dossier-*` und
-   * `html[data-dossier-family]`. Gesetzt wurden diese Werte bisher nur beim
-   * Wechsel der Vorlage im Titelblatt – auf dieser Seite blieben sie deshalb
-   * auf der Familie "modern" stehen, egal welche Vorlage gewählt war. Jede
-   * Regel mit `!important` hat damit Moderns Typografie erzwungen, also genau
-   * das, was hier eigentlich von der Vorlage kommen soll.
-   */
   useEffect(() => {
     applyDossierTheme(design.template);
   }, [design.template]);
@@ -644,15 +608,6 @@ function Lebenslauf() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  /**
-   * Was vom Titelblatt übernommen wird.
-   *
-   * Vorher setzte der Knopf nur Vorlage und Farben. Die Formen wurden zwar
-   * kopiert, aber nicht eingeschaltet – sie blieben also unsichtbar –, und Foto
-   * und Angaben zur Person lagen hinter zwei weiteren Knöpfen an anderer
-   * Stelle. Ein Dossier wird davon nicht einheitlich; darum steht hier alles
-   * beisammen und ist einzeln abwählbar.
-   */
   const [takeover, setTakeover] = useState({
     template: true,
     colors: true,
@@ -733,8 +688,6 @@ function Lebenslauf() {
     if (takeover.elements) {
       setElements(draft.elements);
       setElementStyles({});
-      // Kopieren allein genügt nicht: ohne diesen Schalter werden die Formen
-      // nicht gezeichnet, und es sieht aus, als hätte der Knopf nichts getan.
       setDesign((d) => ({ ...d, useElements: draft.elements.length > 0 }));
       done.push(`Formen (${draft.elements.length})`);
     }
@@ -760,13 +713,6 @@ function Lebenslauf() {
     );
   }, [takeover]);
 
-  /**
-   * Rückmeldung direkt beim Knopf.
-   *
-   * Die Statuszeile steht oben in der Kopfzeile und ist auf schmalen Fenstern
-   * ausgeblendet – wer hier im Seitenteil klickte, sah gar nichts und hielt
-   * den Knopf für kaputt.
-   */
   const [personNote, setPersonNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
   useEffect(() => {
     if (!personNote) return;
@@ -802,10 +748,6 @@ function Lebenslauf() {
     setStatus({ kind: "ok", text: "Beispieldaten eingefügt" });
   };
 
-  /**
-   * Nur die frei veränderte Geometrie zurücknehmen. Seitenwahl, Rubrikenmodus,
-   * Farben, Texte, Rahmen und Ebenen bleiben bewusst erhalten.
-   */
   const resetPositionsOnly = () => {
     keepSnapshot("Vor dem Zurücksetzen der Positionen", true);
     setElementStyles((current) =>
@@ -834,13 +776,6 @@ function Lebenslauf() {
     setStatus({ kind: "ok", text: "Positionen und Grössen zurückgesetzt" });
   };
 
-  /**
-   * Ganzes Formular leeren – wie im Titelblatt.
-   *
-   * Der Stand wandert vorher in die Historie, damit ein Fehlgriff nicht
-   * endgültig ist. Die Gestaltung kommt wieder vom Titelblatt, sofern es eines
-   * gibt; sonst bleibt die aktuelle Vorlage stehen.
-   */
   const resetEverything = () => {
     keepSnapshot("Vor dem Zurücksetzen", true);
     const draft = readCoverDraft();
@@ -1017,9 +952,6 @@ function Lebenslauf() {
       const previous = cvSectionLayout(current, key);
       const next = normalizeCvSectionLayout({ ...previous, ...patch });
       let order = cvSectionOrder(current);
-
-      // Beim Seitenwechsel landet die Rubrik bewusst am Ende der Zielseite.
-      // Innerhalb der Zielseite kann sie anschliessend fein sortiert werden.
       if (patch.page && patch.page !== previous.page) {
         order = order.filter((candidate) => candidate !== key);
         const lastOnTarget = [...order]
@@ -1028,7 +960,6 @@ function Lebenslauf() {
         const insertAt = lastOnTarget ? order.indexOf(lastOnTarget) + 1 : order.length;
         order.splice(insertAt, 0, key);
       }
-
       return {
         ...current,
         sectionOrder: order,
@@ -1475,7 +1406,6 @@ function Lebenslauf() {
                     </div>
                   )}
 
-                  {/* Wie im Titelblatt: zweistufig, weil dabei alles verloren geht. */}
                   {confirmWipe ? (
                     <div className="flex items-center gap-1 border-t bg-destructive/5 px-3 py-2">
                       <span className="mr-auto text-xs font-medium text-destructive">
@@ -1572,72 +1502,369 @@ function Lebenslauf() {
               </div>
             ) : null}
 
-            <div className="order-last flex flex-col gap-3">
-              <div className="mt-2 h-px bg-border" />
+            <Section
+              title="Vom Titelblatt übernehmen"
+              open={open.uebernehmen}
+              onToggle={() => toggle("uebernehmen")}
+              hint={cover ? "bereit" : "nicht vorhanden"}
+            >
+              <div className="flex flex-col gap-2 rounded-md border border-dashed p-2">
+                <span className="text-xs text-muted-foreground">
+                  {cover
+                    ? "Wähle, was mitkommen soll. Alles zusammen ergibt den roten Faden durchs Dossier."
+                    : "Noch kein Titelblatt gespeichert – du kannst hier frei wählen."}
+                </span>
 
-              <Section
-                title="Vom Titelblatt übernehmen"
-                open={open.uebernehmen}
-                onToggle={() => toggle("uebernehmen")}
-                hint={cover ? "bereit" : "nicht vorhanden"}
-              >
-                <div className="flex flex-col gap-2 rounded-md border border-dashed p-2">
-                  <span className="text-xs text-muted-foreground">
-                    {cover
-                      ? "Wähle, was mitkommen soll. Alles zusammen ergibt den roten Faden durchs Dossier."
-                      : "Noch kein Titelblatt gespeichert – du kannst hier frei wählen."}
-                  </span>
-
-                  <div className="flex flex-col gap-1.5">
-                    {TAKEOVER_LABELS.map(({ key, label, hint }) => (
-                      <label key={key} className="flex items-start gap-2 text-xs">
-                        <input
-                          type="checkbox"
-                          className="mt-0.5"
-                          checked={takeover[key]}
-                          disabled={!cover}
-                          onChange={(e) => setTakeover((t) => ({ ...t, [key]: e.target.checked }))}
-                        />
-                        <span>
-                          {label}
-                          <span className="block text-muted-foreground">
-                            {hint}
-                            {key === "elements" &&
-                              cover &&
-                              ` · ${cover.elements.length} im Titelblatt`}
-                          </span>
+                <div className="flex flex-col gap-1.5">
+                  {TAKEOVER_LABELS.map(({ key, label, hint }) => (
+                    <label key={key} className="flex items-start gap-2 text-xs">
+                      <input
+                        type="checkbox"
+                        className="mt-0.5"
+                        checked={takeover[key]}
+                        disabled={!cover}
+                        onChange={(e) => setTakeover((t) => ({ ...t, [key]: e.target.checked }))}
+                      />
+                      <span>
+                        {label}
+                        <span className="block text-muted-foreground">
+                          {hint}
+                          {key === "elements" && cover && ` · ${cover.elements.length} im Titelblatt`}
                         </span>
-                      </label>
-                    ))}
-                  </div>
+                      </span>
+                    </label>
+                  ))}
+                </div>
 
+                <button
+                  type="button"
+                  onClick={syncFromCover}
+                  disabled={!cover}
+                  className="self-start rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent disabled:opacity-50"
+                >
+                  Auswahl übernehmen
+                </button>
+
+                <label className="mt-1 flex items-start gap-2 border-t pt-2 text-xs">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5"
+                    checked={design.useElements}
+                    onChange={(e) => setDesign((d) => ({ ...d, useElements: e.target.checked }))}
+                  />
+                  <span>
+                    Übernommene Formen anzeigen
+                    <span className="block text-muted-foreground">
+                      {elements.length > 0 ? `${elements.length} übernommen.` : "Noch keine übernommen."}
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </Section>
+
+            <Section
+              title="Persönliche Angaben"
+              open={open.person}
+              onToggle={() => toggle("person")}
+              hint={data.person.vorname || data.person.nachname ? "gesetzt" : "leer"}
+            >
+              <div className="flex flex-col gap-3">
+                <SectionLayoutControls
+                  section="person"
+                  layout={cvSectionLayout(data, "person")}
+                  onLayout={(patch) => setSectionLayout("person", patch)}
+                />
+                <div className="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
-                    onClick={syncFromCover}
-                    disabled={!cover}
-                    className="self-start rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent disabled:opacity-50"
+                    onClick={takePerson}
+                    className="rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
                   >
-                    Auswahl übernehmen
+                    Angaben vom Titelblatt holen
                   </button>
-
-                  <label className="mt-1 flex items-start gap-2 border-t pt-2 text-xs">
-                    <input
-                      type="checkbox"
-                      className="mt-0.5"
-                      checked={design.useElements}
-                      onChange={(e) => setDesign((d) => ({ ...d, useElements: e.target.checked }))}
-                    />
-                    <span>
-                      Übernommene Formen anzeigen
-                      <span className="block text-muted-foreground">
-                        {elements.length > 0
-                          ? `${elements.length} übernommen.`
-                          : "Noch keine übernommen."}
-                      </span>
+                  {personNote && (
+                    <span
+                      role="status"
+                      className={`rounded-md px-2 py-1 text-xs ${
+                        personNote.kind === "error"
+                          ? "bg-destructive/10 text-destructive"
+                          : "bg-primary/10 text-primary"
+                      }`}
+                    >
+                      {personNote.text}
                     </span>
-                  </label>
+                  )}
                 </div>
-              </Section>
+
+                <label className="flex flex-col gap-1 text-xs">
+                  <span className="text-muted-foreground">Titel des Dokuments</span>
+                  <input
+                    type="text"
+                    value={data.titel ?? ""}
+                    placeholder={DEFAULT_CV_TITLE}
+                    onChange={(e) => patchData({ titel: e.target.value })}
+                    className="rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  />
+                  <span className="text-muted-foreground/80">
+                    Steht über dem Namen. Leer lassen blendet ihn aus.
+                  </span>
+                </label>
+
+                <FormCvPerson
+                  person={data.person}
+                  onChange={patchPerson}
+                  contactLabel={data.labels.kontakt ?? ""}
+                  onContactLabel={(v) => setLabel("kontakt", v)}
+                />
+              </div>
+            </Section>
+
+            <Section
+              title={sectionLabel("schule")}
+              open={open.schule}
+              onToggle={() => toggle("schule")}
+              hint={`${data.schule.length}`}
+            >
+              {opts("schule")}
+              <FormCvEntries
+                entries={data.schule}
+                onChange={(schule) => patchData({ schule })}
+                titelLabel="Schule / Stufe"
+                ortLabel="Schulhaus, Ort"
+              />
+            </Section>
+
+            <Section
+              title={sectionLabel("erfahrung")}
+              open={open.erfahrung}
+              onToggle={() => toggle("erfahrung")}
+              hint={`${data.erfahrung.length}`}
+            >
+              {opts("erfahrung")}
+              <FormCvEntries
+                entries={data.erfahrung}
+                onChange={(erfahrung) => patchData({ erfahrung })}
+                titelLabel="Was hast du gemacht?"
+                ortLabel="Betrieb, Ort"
+              />
+            </Section>
+
+            <Section
+              title={sectionLabel("sprachen")}
+              open={open.sprachen}
+              onToggle={() => toggle("sprachen")}
+              hint={`${data.sprachen.length}`}
+            >
+              {opts("sprachen")}
+              <FormCvSprachen
+                list={data.sprachen}
+                onChange={(sprachen) => patchData({ sprachen })}
+              />
+            </Section>
+
+            <Section
+              title={sectionLabel("staerken")}
+              open={open.staerken}
+              onToggle={() => toggle("staerken")}
+              hint={`${data.staerken.length}`}
+            >
+              {opts("staerken")}
+              <FormCvLines
+                list={data.staerken}
+                onChange={(staerken) => patchData({ staerken })}
+                placeholder="z. B. Zuverlässig und pünktlich"
+                addLabel="+ Stärke"
+              />
+            </Section>
+
+            <Section
+              title={sectionLabel("hobbys")}
+              open={open.hobbys}
+              onToggle={() => toggle("hobbys")}
+              hint={`${data.hobbys.length}`}
+            >
+              {opts("hobbys")}
+              <FormCvLines
+                list={data.hobbys}
+                onChange={(hobbys) => patchData({ hobbys })}
+                placeholder="z. B. Volleyball im Verein"
+                addLabel="+ Hobby"
+              />
+            </Section>
+
+            <Section
+              title={sectionLabel("referenzen")}
+              open={open.referenzen}
+              onToggle={() => toggle("referenzen")}
+              hint={`${data.referenzen.length}`}
+            >
+              {opts("referenzen")}
+              <FormCvReferenzen
+                list={data.referenzen}
+                onChange={(referenzen) => patchData({ referenzen })}
+              />
+            </Section>
+
+            {(data.customSections ?? []).map((section) => {
+              const key = customSectionKey(section.id);
+              return (
+                <Section
+                  key={section.id}
+                  title={section.title.trim() || "Eigene Rubrik"}
+                  open={!!open[key]}
+                  onToggle={() => toggle(key)}
+                  hint={`${section.entries.length}`}
+                  action={
+                    <button
+                      type="button"
+                      onClick={() => removeCustomSection(section.id)}
+                      className="rounded px-2 py-1 text-xs text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                      aria-label={`${section.title || "Eigene Rubrik"} löschen`}
+                      title="Rubrik löschen"
+                    >
+                      Löschen
+                    </button>
+                  }
+                >
+                  <div className="mb-2 flex flex-col gap-2 border-b pb-2">
+                    <label className="flex flex-col gap-1 text-xs">
+                      <span className="text-muted-foreground">Rubriktitel</span>
+                      <input
+                        value={section.title}
+                        onChange={(event) =>
+                          patchCustomSection(section.id, { title: event.target.value })
+                        }
+                        placeholder="z. B. Projekte oder Kurse"
+                        className="rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                      />
+                    </label>
+                    <SectionLayoutControls
+                      section={key}
+                      layout={cvSectionLayout(data, key)}
+                      onLayout={(patch) => setSectionLayout(key, patch)}
+                    />
+                  </div>
+                  <FormCvEntries
+                    entries={section.entries}
+                    onChange={(entries) => patchCustomSection(section.id, { entries })}
+                    titelLabel="Titel"
+                    ortLabel="Ort / Organisation"
+                    placement={null}
+                  />
+                </Section>
+              );
+            })}
+
+            <Section
+              title="Rubriken anordnen"
+              open={open.rubriken}
+              onToggle={() => toggle("rubriken")}
+              hint={`${cvSectionOrder(data).length}`}
+            >
+              <div className="flex flex-col gap-3">
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Ziehe ganze Rubriken in die gewünschte Reihenfolge oder verschiebe sie auf die
+                  andere Seite.
+                </p>
+                {([1, 2] as const).map((page) => {
+                  const pageKeys = cvSectionOrder(data).filter(
+                    (key) => cvSectionLayout(data, key).page === page,
+                  );
+                  return (
+                    <div key={page} className="rounded-md border bg-muted/20 p-2">
+                      <div className="mb-2 text-xs font-semibold">Seite {page}</div>
+                      <div
+                        className="flex min-h-10 flex-col gap-1"
+                        onDragOver={(event) => event.preventDefault()}
+                        onDrop={(event) => {
+                          event.preventDefault();
+                          const key =
+                            draggedSection ||
+                            (event.dataTransfer.getData("text/plain") as CvLayoutSectionKey);
+                          if (cvSectionOrder(data).includes(key)) dropSection(key, page, null);
+                        }}
+                      >
+                        {pageKeys.map((key, index) => (
+                          <div
+                            key={key}
+                            onDragOver={(event) => event.preventDefault()}
+                            onDrop={(event) => {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              const dropped =
+                                draggedSection ||
+                                (event.dataTransfer.getData("text/plain") as CvLayoutSectionKey);
+                              if (cvSectionOrder(data).includes(dropped) && dropped !== key) {
+                                dropSection(dropped, page, key);
+                              }
+                            }}
+                            className={`flex items-center gap-1.5 rounded border bg-background px-2 py-1.5 text-xs ${
+                              draggedSection === key ? "opacity-50" : ""
+                            }`}
+                          >
+                            <span
+                              draggable
+                              onDragStart={(event) => {
+                                setDraggedSection(key);
+                                event.dataTransfer.effectAllowed = "move";
+                                event.dataTransfer.setData("text/plain", key);
+                              }}
+                              onDragEnd={() => setDraggedSection(null)}
+                              aria-hidden="true"
+                              className="cursor-grab select-none text-base leading-none text-muted-foreground"
+                              title="Rubrik ziehen"
+                            >
+                              ⋮⋮
+                            </span>
+                            <span className="min-w-0 flex-1 truncate font-medium">
+                              {sectionDisplayLabel(key)}
+                            </span>
+                            <button
+                              type="button"
+                              disabled={index === 0}
+                              onClick={() => reorderSection(key, -1)}
+                              className="rounded px-1.5 py-1 hover:bg-accent disabled:opacity-30"
+                              aria-label={`${sectionDisplayLabel(key)} nach oben`}
+                            >
+                              ↑
+                            </button>
+                            <button
+                              type="button"
+                              disabled={index === pageKeys.length - 1}
+                              onClick={() => reorderSection(key, 1)}
+                              className="rounded px-1.5 py-1 hover:bg-accent disabled:opacity-30"
+                              aria-label={`${sectionDisplayLabel(key)} nach unten`}
+                            >
+                              ↓
+                            </button>
+                            <CompactPageSelect
+                              page={page}
+                              label={sectionDisplayLabel(key)}
+                              onChange={(nextPage) => setSectionLayout(key, { page: nextPage })}
+                            />
+                          </div>
+                        ))}
+                        {!pageKeys.length && (
+                          <div className="rounded border border-dashed px-2 py-3 text-center text-[11px] text-muted-foreground">
+                            Rubrik hier ablegen
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+                <button
+                  type="button"
+                  onClick={addCustomSection}
+                  className="rounded-md border border-input bg-background px-3 py-2 text-xs font-medium hover:bg-accent"
+                >
+                  + Eigene Rubrik
+                </button>
+              </div>
+            </Section>
+
+            <div className="flex flex-col gap-3">
+              <div className="mt-2 h-px bg-border" />
 
               <Section
                 title="Vorlage"
@@ -1829,307 +2056,6 @@ function Lebenslauf() {
                 </div>
               </Section>
             </div>
-
-            <Section
-              title="Rubriken anordnen"
-              open={open.rubriken}
-              onToggle={() => toggle("rubriken")}
-              hint={`${cvSectionOrder(data).length}`}
-            >
-              <div className="flex flex-col gap-3">
-                <p className="text-xs leading-relaxed text-muted-foreground">
-                  Ziehe ganze Rubriken in die gewünschte Reihenfolge oder verschiebe sie auf die
-                  andere Seite.
-                </p>
-                {([1, 2] as const).map((page) => {
-                  const pageKeys = cvSectionOrder(data).filter(
-                    (key) => cvSectionLayout(data, key).page === page,
-                  );
-                  return (
-                    <div key={page} className="rounded-md border bg-muted/20 p-2">
-                      <div className="mb-2 text-xs font-semibold">Seite {page}</div>
-                      <div
-                        className="flex min-h-10 flex-col gap-1"
-                        onDragOver={(event) => event.preventDefault()}
-                        onDrop={(event) => {
-                          event.preventDefault();
-                          const key =
-                            draggedSection ||
-                            (event.dataTransfer.getData("text/plain") as CvLayoutSectionKey);
-                          if (cvSectionOrder(data).includes(key)) dropSection(key, page, null);
-                        }}
-                      >
-                        {pageKeys.map((key, index) => (
-                          <div
-                            key={key}
-                            onDragOver={(event) => event.preventDefault()}
-                            onDrop={(event) => {
-                              event.preventDefault();
-                              event.stopPropagation();
-                              const dropped =
-                                draggedSection ||
-                                (event.dataTransfer.getData("text/plain") as CvLayoutSectionKey);
-                              if (cvSectionOrder(data).includes(dropped) && dropped !== key) {
-                                dropSection(dropped, page, key);
-                              }
-                            }}
-                            className={`flex items-center gap-1.5 rounded border bg-background px-2 py-1.5 text-xs ${
-                              draggedSection === key ? "opacity-50" : ""
-                            }`}
-                          >
-                            <span
-                              draggable
-                              onDragStart={(event) => {
-                                setDraggedSection(key);
-                                event.dataTransfer.effectAllowed = "move";
-                                event.dataTransfer.setData("text/plain", key);
-                              }}
-                              onDragEnd={() => setDraggedSection(null)}
-                              aria-hidden="true"
-                              className="cursor-grab select-none text-base leading-none text-muted-foreground"
-                              title="Rubrik ziehen"
-                            >
-                              ⋮⋮
-                            </span>
-                            <span className="min-w-0 flex-1 truncate font-medium">
-                              {sectionDisplayLabel(key)}
-                            </span>
-                            <button
-                              type="button"
-                              disabled={index === 0}
-                              onClick={() => reorderSection(key, -1)}
-                              className="rounded px-1.5 py-1 hover:bg-accent disabled:opacity-30"
-                              aria-label={`${sectionDisplayLabel(key)} nach oben`}
-                            >
-                              ↑
-                            </button>
-                            <button
-                              type="button"
-                              disabled={index === pageKeys.length - 1}
-                              onClick={() => reorderSection(key, 1)}
-                              className="rounded px-1.5 py-1 hover:bg-accent disabled:opacity-30"
-                              aria-label={`${sectionDisplayLabel(key)} nach unten`}
-                            >
-                              ↓
-                            </button>
-                            <CompactPageSelect
-                              page={page}
-                              label={sectionDisplayLabel(key)}
-                              onChange={(nextPage) => setSectionLayout(key, { page: nextPage })}
-                            />
-                          </div>
-                        ))}
-                        {!pageKeys.length && (
-                          <div className="rounded border border-dashed px-2 py-3 text-center text-[11px] text-muted-foreground">
-                            Rubrik hier ablegen
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-                <button
-                  type="button"
-                  onClick={addCustomSection}
-                  className="rounded-md border border-input bg-background px-3 py-2 text-xs font-medium hover:bg-accent"
-                >
-                  + Eigene Rubrik
-                </button>
-              </div>
-            </Section>
-
-            <Section
-              title="Persönliche Angaben"
-              open={open.person}
-              onToggle={() => toggle("person")}
-              hint={data.person.vorname || data.person.nachname ? "gesetzt" : "leer"}
-            >
-              <div className="flex flex-col gap-3">
-                <SectionLayoutControls
-                  section="person"
-                  layout={cvSectionLayout(data, "person")}
-                  onLayout={(patch) => setSectionLayout("person", patch)}
-                />
-                <div className="flex flex-wrap items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={takePerson}
-                    className="rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
-                  >
-                    Angaben vom Titelblatt holen
-                  </button>
-                  {personNote && (
-                    <span
-                      role="status"
-                      className={`rounded-md px-2 py-1 text-xs ${
-                        personNote.kind === "error"
-                          ? "bg-destructive/10 text-destructive"
-                          : "bg-primary/10 text-primary"
-                      }`}
-                    >
-                      {personNote.text}
-                    </span>
-                  )}
-                </div>
-
-                <label className="flex flex-col gap-1 text-xs">
-                  <span className="text-muted-foreground">Titel des Dokuments</span>
-                  <input
-                    type="text"
-                    value={data.titel ?? ""}
-                    placeholder={DEFAULT_CV_TITLE}
-                    onChange={(e) => patchData({ titel: e.target.value })}
-                    className="rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                  />
-                  <span className="text-muted-foreground/80">
-                    Steht über dem Namen. Leer lassen blendet ihn aus.
-                  </span>
-                </label>
-
-                <FormCvPerson
-                  person={data.person}
-                  onChange={patchPerson}
-                  contactLabel={data.labels.kontakt ?? ""}
-                  onContactLabel={(v) => setLabel("kontakt", v)}
-                />
-              </div>
-            </Section>
-
-            <Section
-              title={sectionLabel("schule")}
-              open={open.schule}
-              onToggle={() => toggle("schule")}
-              hint={`${data.schule.length}`}
-            >
-              {opts("schule")}
-              <FormCvEntries
-                entries={data.schule}
-                onChange={(schule) => patchData({ schule })}
-                titelLabel="Schule / Stufe"
-                ortLabel="Schulhaus, Ort"
-              />
-            </Section>
-
-            <Section
-              title={sectionLabel("erfahrung")}
-              open={open.erfahrung}
-              onToggle={() => toggle("erfahrung")}
-              hint={`${data.erfahrung.length}`}
-            >
-              {opts("erfahrung")}
-              <FormCvEntries
-                entries={data.erfahrung}
-                onChange={(erfahrung) => patchData({ erfahrung })}
-                titelLabel="Was hast du gemacht?"
-                ortLabel="Betrieb, Ort"
-              />
-            </Section>
-
-            <Section
-              title={sectionLabel("sprachen")}
-              open={open.sprachen}
-              onToggle={() => toggle("sprachen")}
-              hint={`${data.sprachen.length}`}
-            >
-              {opts("sprachen")}
-              <FormCvSprachen
-                list={data.sprachen}
-                onChange={(sprachen) => patchData({ sprachen })}
-              />
-            </Section>
-
-            <Section
-              title={sectionLabel("hobbys")}
-              open={open.hobbys}
-              onToggle={() => toggle("hobbys")}
-              hint={`${data.hobbys.length}`}
-            >
-              {opts("hobbys")}
-              <FormCvLines
-                list={data.hobbys}
-                onChange={(hobbys) => patchData({ hobbys })}
-                placeholder="z. B. Volleyball im Verein"
-                addLabel="+ Hobby"
-              />
-            </Section>
-
-            <Section
-              title={sectionLabel("staerken")}
-              open={open.staerken}
-              onToggle={() => toggle("staerken")}
-              hint={`${data.staerken.length}`}
-            >
-              {opts("staerken")}
-              <FormCvLines
-                list={data.staerken}
-                onChange={(staerken) => patchData({ staerken })}
-                placeholder="z. B. Zuverlässig und pünktlich"
-                addLabel="+ Stärke"
-              />
-            </Section>
-
-            <Section
-              title={sectionLabel("referenzen")}
-              open={open.referenzen}
-              onToggle={() => toggle("referenzen")}
-              hint={`${data.referenzen.length}`}
-            >
-              {opts("referenzen")}
-              <FormCvReferenzen
-                list={data.referenzen}
-                onChange={(referenzen) => patchData({ referenzen })}
-              />
-            </Section>
-
-            {(data.customSections ?? []).map((section) => {
-              const key = customSectionKey(section.id);
-              return (
-                <Section
-                  key={section.id}
-                  title={section.title.trim() || "Eigene Rubrik"}
-                  open={!!open[key]}
-                  onToggle={() => toggle(key)}
-                  hint={`${section.entries.length}`}
-                  action={
-                    <button
-                      type="button"
-                      onClick={() => removeCustomSection(section.id)}
-                      className="rounded px-2 py-1 text-xs text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-                      aria-label={`${section.title || "Eigene Rubrik"} löschen`}
-                      title="Rubrik löschen"
-                    >
-                      Löschen
-                    </button>
-                  }
-                >
-                  <div className="mb-2 flex flex-col gap-2 border-b pb-2">
-                    <label className="flex flex-col gap-1 text-xs">
-                      <span className="text-muted-foreground">Rubriktitel</span>
-                      <input
-                        value={section.title}
-                        onChange={(event) =>
-                          patchCustomSection(section.id, { title: event.target.value })
-                        }
-                        placeholder="z. B. Projekte oder Kurse"
-                        className="rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                      />
-                    </label>
-                    <SectionLayoutControls
-                      section={key}
-                      layout={cvSectionLayout(data, key)}
-                      onLayout={(patch) => setSectionLayout(key, patch)}
-                    />
-                  </div>
-                  <FormCvEntries
-                    entries={section.entries}
-                    onChange={(entries) => patchCustomSection(section.id, { entries })}
-                    titelLabel="Titel"
-                    ortLabel="Ort / Organisation"
-                    placement={null}
-                  />
-                </Section>
-              );
-            })}
           </div>
         </ResizableEditorPanel>
 
@@ -2150,7 +2076,6 @@ function Lebenslauf() {
             </div>
           </div>
 
-          {/* Werkzeugleiste unter dem Blatt – wie auf dem Titelblatt. */}
           <div className="shrink-0 px-2 pb-3 pt-2 lg:px-6">
             <div className="mx-auto w-full max-w-[900px]">
               {drawing ? (
