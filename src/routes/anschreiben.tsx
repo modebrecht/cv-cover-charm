@@ -159,11 +159,11 @@ function Anschreiben() {
   });
   const [open, setOpen] = useState<Record<string, boolean>>({
     uebernehmen: true,
-    absender: true,
-    empfaenger: true,
-    layout: true,
+    absender: false,
+    empfaenger: false,
+    layout: false,
     brief: true,
-    beilagen: true,
+    beilagen: false,
     vorlage: false,
     farben: false,
     typo: false,
@@ -740,6 +740,46 @@ function Anschreiben() {
               </div>
             </Section>
 
+            <Section title="Briefinhalt" open={open.brief} onToggle={() => toggle("brief")}>
+              <div className="grid gap-3">
+                <div className="grid grid-cols-2 gap-2">
+                  <Field label="Ort" value={data.ort} onChange={(value) => patch({ ort: value })} />
+                  <Field
+                    label="Datum"
+                    value={data.datum}
+                    onChange={(value) => patch({ datum: value })}
+                    placeholder="25.08.2026"
+                  />
+                </div>
+                <Field
+                  label="Titel / Betreff"
+                  value={data.betreff}
+                  onChange={(value) => patch({ betreff: value })}
+                  placeholder="Bewerbung um eine Lehrstelle als …"
+                />
+                <Field
+                  label="Anrede"
+                  value={data.anrede}
+                  onChange={(value) => patch({ anrede: value })}
+                />
+                <LetterRichTextEditor
+                  text={data.text}
+                  richTextHtml={data.richTextHtml}
+                  onChange={({ text, richTextHtml }) => patch({ text, richTextHtml })}
+                />
+                <Field
+                  label="Grussformel"
+                  value={data.gruss}
+                  onChange={(value) => patch({ gruss: value })}
+                />
+                <Field
+                  label="Name unter der Unterschrift"
+                  value={data.unterschrift}
+                  onChange={(value) => patch({ unterschrift: value })}
+                />
+              </div>
+            </Section>
+
             <Section
               title="Meine Kontaktdaten"
               open={open.absender}
@@ -802,46 +842,6 @@ function Anschreiben() {
                   label="PLZ und Ort"
                   value={data.empfaengerPlzOrt}
                   onChange={(value) => patch({ empfaengerPlzOrt: value })}
-                />
-              </div>
-            </Section>
-
-            <Section title="Briefinhalt" open={open.brief} onToggle={() => toggle("brief")}>
-              <div className="grid gap-3">
-                <div className="grid grid-cols-2 gap-2">
-                  <Field label="Ort" value={data.ort} onChange={(value) => patch({ ort: value })} />
-                  <Field
-                    label="Datum"
-                    value={data.datum}
-                    onChange={(value) => patch({ datum: value })}
-                    placeholder="25.08.2026"
-                  />
-                </div>
-                <Field
-                  label="Titel / Betreff"
-                  value={data.betreff}
-                  onChange={(value) => patch({ betreff: value })}
-                  placeholder="Bewerbung um eine Lehrstelle als …"
-                />
-                <Field
-                  label="Anrede"
-                  value={data.anrede}
-                  onChange={(value) => patch({ anrede: value })}
-                />
-                <LetterRichTextEditor
-                  text={data.text}
-                  richTextHtml={data.richTextHtml}
-                  onChange={({ text, richTextHtml }) => patch({ text, richTextHtml })}
-                />
-                <Field
-                  label="Grussformel"
-                  value={data.gruss}
-                  onChange={(value) => patch({ gruss: value })}
-                />
-                <Field
-                  label="Name unter der Unterschrift"
-                  value={data.unterschrift}
-                  onChange={(value) => patch({ unterschrift: value })}
                 />
               </div>
             </Section>
