@@ -7,6 +7,24 @@ const GALLERY_DIR = process.env.DOSSIER_GALLERY_DIR;
 
 type StoredPart = { data?: Record<string, unknown>; design?: Record<string, unknown> };
 
+async function extractPdfText(path: string): Promise<string> {
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const data = new Uint8Array(await readFile(path));
+  const document = await getDocument({ data, disableFontFace: true }).promise;
+  const pages: string[] = [];
+  for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
+    const pdfPage = await document.getPage(pageNumber);
+    const content = await pdfPage.getTextContent();
+    pages.push(
+      content.items
+        .map((item) => ("str" in item ? item.str : ""))
+        .filter(Boolean)
+        .join(" "),
+    );
+  }
+  return pages.join("\n").replace(/\s+/g, " ").trim();
+}
+
 async function applyExampleData(
   page: Page,
   route: "/titelblatt" | "/anschreiben" | "/lebenslauf",
@@ -62,9 +80,9 @@ async function downloadCompleteDossier(page: Page) {
   expect(path).not.toBeNull();
   expect((await stat(path ?? "")).size).toBeGreaterThan(15_000);
 
-  const pdfSource = (await readFile(path ?? "")).toString("latin1");
-  expect(pdfSource).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
-  expect(pdfSource).toContain("Guten Tag Herr Weber");
+  const pdfText = await extractPdfText(path ?? "");
+  expect(pdfText).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
+  expect(pdfText).toContain("Guten Tag Herr Weber");
 
   if (GALLERY_DIR) {
     await mkdir(GALLERY_DIR, { recursive: true });
