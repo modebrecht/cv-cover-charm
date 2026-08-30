@@ -15,13 +15,13 @@ export function Section({ title, open, onToggle, hint, action, children }: Props
   const id = useId();
   return (
     <section className="overflow-hidden rounded-lg border bg-background">
-      <div className="flex items-center gap-2 pr-3">
+      <div className="flex items-center gap-2 pr-2 sm:pr-3">
         <button
           type="button"
           onClick={onToggle}
           aria-expanded={open}
           aria-controls={id}
-          className="flex min-w-0 flex-1 items-center gap-2 px-4 py-3 text-left hover:bg-accent/50"
+          className="flex min-w-0 flex-1 items-center gap-2 px-3 py-2.5 text-left hover:bg-accent/50 sm:px-4 sm:py-3"
         >
           <svg
             width="10"
@@ -39,11 +39,11 @@ export function Section({ title, open, onToggle, hint, action, children }: Props
               strokeLinejoin="round"
             />
           </svg>
-          <span className="truncate text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+          <span className="truncate text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:text-sm">
             {title}
           </span>
           {hint && (
-            <span className="ml-auto shrink-0 text-xs font-normal normal-case text-muted-foreground/70">
+            <span className="ml-auto shrink-0 text-[11px] font-normal normal-case text-muted-foreground/70 sm:text-xs">
               {hint}
             </span>
           )}
@@ -51,7 +51,7 @@ export function Section({ title, open, onToggle, hint, action, children }: Props
         {action}
       </div>
       {open && (
-        <div id={id} className="border-t px-4 py-4">
+        <div id={id} className="border-t px-3 py-3 sm:px-4 sm:py-4">
           {children}
         </div>
       )}
