@@ -80,28 +80,8 @@ function letterHasStarted(data: LetterData): boolean {
   ].some((value) => !!value?.trim());
 }
 
-/** Ort/Datum werden im Titelblatt vorbelegt und reichen allein nicht für einen echten Entwurf. */
-function titlePageHasMeaningfulSource(source: LetterDossierSource | null): boolean {
-  if (!source) return false;
-  const personal =
-    source.personalSource === "Titelblatt" &&
-    [
-      source.personalData.absenderName,
-      source.personalData.absenderAdresse,
-      source.personalData.absenderPlzOrt,
-      source.personalData.absenderTelefon,
-      source.personalData.absenderEmail,
-    ].some((value) => !!value?.trim());
-  const application =
-    source.applicationSource === "Titelblatt" &&
-    [
-      source.applicationData.empfaengerFirma,
-      source.applicationData.empfaengerName,
-      source.applicationData.empfaengerAdresse,
-      source.applicationData.empfaengerPlzOrt,
-      source.applicationData.betreff,
-    ].some((value) => !!value?.trim());
-  return personal || application;
+function dossierHasMeaningfulSource(source: LetterDossierSource | null): boolean {
+  return !!source && (source.hasPersonal || source.hasApplication || source.hasDesign);
 }
 
 function Field({
@@ -198,30 +178,28 @@ function Anschreiben() {
       setSaveState("error");
     }
 
-    // Ein technisch vorhandener, aber inhaltlich leerer Autosave zählt wie ein
-    // erster Besuch. Sobald das Titelblatt echte Angaben enthält, startet der
-    // Motivationsschreiben mit denselben Daten und derselben Designsprache.
-    if (
-      (!savedDataLoaded || !letterHasStarted(nextData)) &&
-      titlePageHasMeaningfulSource(dossier)
-    ) {
+    // Ein leerer Entwurf darf beim ersten Besuch gemeinsame Dossier-Daten nutzen.
+    // Die Quellpriorität steckt zentral in readLetterDossierSource: Titelblatt vor CV.
+    if ((!savedDataLoaded || !letterHasStarted(nextData)) && dossierHasMeaningfulSource(dossier)) {
       const automatic: string[] = [];
-      if (dossier.personalSource === "Titelblatt" && dossier.hasPersonal) {
+      if (dossier.hasPersonal) {
         nextData = mergeNonEmptyLetterData(nextData, dossier.personalData);
-        automatic.push("persönliche Angaben");
+        automatic.push(
+          `persönliche Angaben${dossier.personalSource ? ` aus ${dossier.personalSource}` : ""}`,
+        );
       }
-      if (dossier.applicationSource === "Titelblatt" && dossier.hasApplication) {
+      if (dossier.hasApplication) {
         nextData = mergeNonEmptyLetterData(nextData, dossier.applicationData);
-        automatic.push("Betriebsdaten");
+        automatic.push("Betriebsdaten aus Titelblatt");
       }
-      if (dossier.designSource === "Titelblatt" && dossier.design) {
+      if (dossier.design) {
         nextDesign = { ...nextDesign, ...dossier.design };
-        automatic.push("Design");
+        automatic.push(`Design${dossier.designSource ? ` aus ${dossier.designSource}` : ""}`);
       }
       if (automatic.length) {
         setTransferNote({
           kind: "ok",
-          text: `Automatisch vom Titelblatt übernommen: ${automatic.join(", ")}.`,
+          text: `Automatisch aus dem Dossier übernommen: ${automatic.join(", ")}.`,
         });
       }
     }
@@ -335,14 +313,6 @@ function Anschreiben() {
         : (TEMPLATES.find((candidate) => candidate.id === design.template) ?? TEMPLATES[0]),
     [design.template],
   );
-  const titlePageReady = titlePageHasMeaningfulSource(source);
-  const titlePageTemplateName = useMemo(() => {
-    if (source?.designSource !== "Titelblatt" || !source.design) return null;
-    return (
-      TEMPLATES.find((candidate) => candidate.id === source.design?.template)?.name ??
-      source.design.template
-    );
-  }, [source]);
 
   const patch = (value: Partial<LetterData>) => setData((current) => ({ ...current, ...value }));
   const toggle = (key: string) => setOpen((current) => ({ ...current, [key]: !current[key] }));
@@ -381,33 +351,35 @@ function Anschreiben() {
     }
   };
 
-  const syncAllFromTitlePage = () => {
+  const syncAllFromDossier = () => {
     const dossier = refreshSource();
-    if (!titlePageHasMeaningfulSource(dossier)) {
+    if (!dossierHasMeaningfulSource(dossier)) {
       setTransferNote({
         kind: "error",
-        text: "Fülle zuerst dein Titelblatt aus.",
+        text: "Im Titelblatt oder Lebenslauf sind noch keine übernehmbaren Angaben gespeichert.",
       });
       return;
     }
 
     const done: string[] = [];
-    if (dossier.personalSource === "Titelblatt" && dossier.hasPersonal) {
+    if (dossier.hasPersonal) {
       setData((current) => mergeNonEmptyLetterData(current, dossier.personalData));
-      done.push("persönliche Angaben");
+      done.push(
+        `persönliche Angaben${dossier.personalSource ? ` aus ${dossier.personalSource}` : ""}`,
+      );
     }
-    if (dossier.applicationSource === "Titelblatt" && dossier.hasApplication) {
+    if (dossier.hasApplication) {
       setData((current) => mergeNonEmptyLetterData(current, dossier.applicationData));
-      done.push("Betriebsdaten");
+      done.push("Betriebsdaten aus Titelblatt");
     }
-    if (dossier.designSource === "Titelblatt" && dossier.design) {
+    if (dossier.design) {
       setDesign((current) => ({ ...current, ...dossier.design! }));
-      done.push("Design");
+      done.push(`Design${dossier.designSource ? ` aus ${dossier.designSource}` : ""}`);
     }
 
     setTransferNote({
       kind: "ok",
-      text: `Alles vom Titelblatt übernommen: ${done.join(", ")}. Dein Brieftext bleibt erhalten.`,
+      text: `Aus dem Dossier übernommen: ${done.join(", ")}. Dein Brieftext bleibt erhalten.`,
     });
   };
 
@@ -464,7 +436,7 @@ function Anschreiben() {
     });
   };
 
-  const anySource = !!source && (source.hasPersonal || source.hasApplication || source.hasDesign);
+  const anySource = dossierHasMeaningfulSource(source);
 
   return (
     <div className="flex h-screen min-h-0 flex-col overflow-hidden bg-background">
@@ -621,109 +593,118 @@ function Anschreiben() {
               </div>
             ) : null}
 
-            <div className="rounded-lg border border-primary/25 bg-primary/5 p-3">
-              <div className="text-sm font-semibold text-foreground">
-                Mit dem Titelblatt abgleichen
-              </div>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                Übernimmt Kontaktdaten, Lehrbetrieb, Ort, Datum und Betreff sowie Vorlage, Farben
-                und Schrift. Dein eigener Brieftext bleibt erhalten.
-              </p>
-              <button
-                type="button"
-                onClick={syncAllFromTitlePage}
-                disabled={!titlePageReady}
-                className="mt-3 w-full rounded-md bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                Alles vom Titelblatt übernehmen
-              </button>
-              <p className="mt-2 text-[11px] text-muted-foreground">
-                {titlePageReady
-                  ? titlePageTemplateName
-                    ? `Titelblatt-Vorlage: ${titlePageTemplateName}`
-                    : "Titelblatt-Daten gefunden."
-                  : "Fülle zuerst dein Titelblatt aus."}
-              </p>
-            </div>
-
             <Section
-              title="Einzeln übernehmen"
+              title="Vom Dossier übernehmen"
               open={open.uebernehmen}
               onToggle={() => toggle("uebernehmen")}
+              hint={anySource ? "bereit" : "nichts verfügbar"}
             >
-              <div className="grid gap-2.5">
+              <div className="grid gap-3 rounded-md border border-dashed p-2.5">
                 <p className="text-xs leading-relaxed text-muted-foreground">
-                  Aktualisiere Angaben aus Titelblatt oder Lebenslauf. Leere Quellfelder und dein
-                  eigentlicher Brieftext werden dabei nie gelöscht.
+                  Das Dossier nimmt persönliche Angaben bevorzugt vom Titelblatt, sonst aus dem
+                  Lebenslauf. Betriebsdaten kommen vom Titelblatt; Design vom Titelblatt, sonst aus
+                  dem Lebenslauf. Dein Brieftext wird nie überschrieben.
                 </p>
-
-                <label className="flex items-start gap-2 rounded-md border p-2.5 text-xs">
-                  <input
-                    type="checkbox"
-                    className="mt-0.5"
-                    checked={takeover.personal}
-                    disabled={!source?.hasPersonal}
-                    onChange={(event) =>
-                      setTakeover((current) => ({ ...current, personal: event.target.checked }))
-                    }
-                  />
-                  <span>
-                    <span className="block font-medium">Persönliche Angaben</span>
-                    <span className="text-muted-foreground">
-                      Name, Adresse und Kontakt
-                      {source?.personalSource ? ` · aus ${source.personalSource}` : " · noch leer"}
-                    </span>
-                  </span>
-                </label>
-
-                <label className="flex items-start gap-2 rounded-md border p-2.5 text-xs">
-                  <input
-                    type="checkbox"
-                    className="mt-0.5"
-                    checked={takeover.application}
-                    disabled={!source?.hasApplication}
-                    onChange={(event) =>
-                      setTakeover((current) => ({ ...current, application: event.target.checked }))
-                    }
-                  />
-                  <span>
-                    <span className="block font-medium">Betrieb und Bewerbung</span>
-                    <span className="text-muted-foreground">
-                      Empfänger, Ort, Datum und Betreff
-                      {source?.applicationSource
-                        ? ` · aus ${source.applicationSource}`
-                        : " · noch leer"}
-                    </span>
-                  </span>
-                </label>
-
-                <label className="flex items-start gap-2 rounded-md border p-2.5 text-xs">
-                  <input
-                    type="checkbox"
-                    className="mt-0.5"
-                    checked={takeover.design}
-                    disabled={!source?.hasDesign}
-                    onChange={(event) =>
-                      setTakeover((current) => ({ ...current, design: event.target.checked }))
-                    }
-                  />
-                  <span>
-                    <span className="block font-medium">Design</span>
-                    <span className="text-muted-foreground">
-                      Vorlage, Farben und Schrift
-                      {source?.designSource ? ` · aus ${source.designSource}` : " · noch leer"}
-                    </span>
-                  </span>
-                </label>
 
                 <button
                   type="button"
-                  onClick={syncFromDossier}
+                  onClick={syncAllFromDossier}
                   disabled={!anySource}
-                  className="mt-1 rounded-md bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:cursor-not-allowed disabled:opacity-40"
+                  className="w-full rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  Auswahl übernehmen
+                  Alles übernehmen
                 </button>
+
+                <div className="grid gap-1 text-[11px] text-muted-foreground">
+                  <span>
+                    Persönliche Angaben: {source?.personalSource ?? "noch nicht verfügbar"}
+                  </span>
+                  <span>Betrieb und Bewerbung: {source?.applicationSource ?? "noch nicht verfügbar"}</span>
+                  <span>Design: {source?.designSource ?? "noch nicht verfügbar"}</span>
+                </div>
+
+                <details className="rounded-md border bg-background">
+                  <summary className="cursor-pointer select-none px-3 py-2 text-xs font-medium">
+                    Auswahl anpassen
+                  </summary>
+                  <div className="grid gap-2.5 border-t p-3">
+                    <label className="flex items-start gap-2 rounded-md border p-2.5 text-xs">
+                      <input
+                        type="checkbox"
+                        className="mt-0.5"
+                        checked={takeover.personal}
+                        disabled={!source?.hasPersonal}
+                        onChange={(event) =>
+                          setTakeover((current) => ({
+                            ...current,
+                            personal: event.target.checked,
+                          }))
+                        }
+                      />
+                      <span>
+                        <span className="block font-medium">Persönliche Angaben</span>
+                        <span className="text-muted-foreground">
+                          Name, Adresse und Kontakt
+                          {source?.personalSource
+                            ? ` · aus ${source.personalSource}`
+                            : " · noch leer"}
+                        </span>
+                      </span>
+                    </label>
+
+                    <label className="flex items-start gap-2 rounded-md border p-2.5 text-xs">
+                      <input
+                        type="checkbox"
+                        className="mt-0.5"
+                        checked={takeover.application}
+                        disabled={!source?.hasApplication}
+                        onChange={(event) =>
+                          setTakeover((current) => ({
+                            ...current,
+                            application: event.target.checked,
+                          }))
+                        }
+                      />
+                      <span>
+                        <span className="block font-medium">Betrieb und Bewerbung</span>
+                        <span className="text-muted-foreground">
+                          Empfänger, Ort, Datum und Betreff
+                          {source?.applicationSource
+                            ? ` · aus ${source.applicationSource}`
+                            : " · noch leer"}
+                        </span>
+                      </span>
+                    </label>
+
+                    <label className="flex items-start gap-2 rounded-md border p-2.5 text-xs">
+                      <input
+                        type="checkbox"
+                        className="mt-0.5"
+                        checked={takeover.design}
+                        disabled={!source?.hasDesign}
+                        onChange={(event) =>
+                          setTakeover((current) => ({ ...current, design: event.target.checked }))
+                        }
+                      />
+                      <span>
+                        <span className="block font-medium">Design</span>
+                        <span className="text-muted-foreground">
+                          Vorlage, Farben und Schrift
+                          {source?.designSource ? ` · aus ${source.designSource}` : " · noch leer"}
+                        </span>
+                      </span>
+                    </label>
+
+                    <button
+                      type="button"
+                      onClick={syncFromDossier}
+                      disabled={!anySource}
+                      className="mt-1 rounded-md border border-input px-3 py-2 text-xs font-semibold hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      Auswahl übernehmen
+                    </button>
+                  </div>
+                </details>
 
                 {transferNote && (
                   <div
