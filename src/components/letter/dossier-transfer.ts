@@ -1,4 +1,10 @@
-import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/components/cover/types";
+import {
+  FONT_LABELS,
+  TEMPLATES,
+  type CoverData,
+  type FontKey,
+  type TemplateId,
+} from "@/components/cover/types";
 import { COVER_STORAGE_KEY, CV_STORAGE_KEY, readStoredDossierPart } from "@/lib/dossier-project";
 import { dossierDefaultFontKey } from "@/lib/dossier-theme";
 import { defaultLetterColors, type LetterData, type LetterDesign } from "./types";
@@ -15,6 +21,12 @@ export type LetterDossierSource = {
   personalSource: "Titelblatt" | "Lebenslauf" | null;
   applicationSource: "Titelblatt" | null;
   designSource: "Titelblatt" | "Lebenslauf" | null;
+};
+
+export type CoverDossierSource = {
+  personalData: Partial<CoverData>;
+  hasPersonal: boolean;
+  personalSource: "Lebenslauf" | null;
 };
 
 const isRecord = (value: unknown): value is RecordLike =>
@@ -85,6 +97,34 @@ function cvDesign(raw: RecordLike | undefined): LetterDesign | null {
     colors: { ...defaultLetterColors(template), ...colors },
     font: explicitFont ?? dossierDefaultFontKey(template),
     fontOverride: explicitFont,
+  };
+}
+
+export function readCoverDossierSource(): CoverDossierSource {
+  const cv = readStoredDossierPart(CV_STORAGE_KEY);
+  const cvData = cv && isRecord(cv.data) ? cv.data : undefined;
+  const cvPerson = cvData && isRecord(cvData.person) ? cvData.person : undefined;
+  const foto = cvPerson?.foto;
+
+  const personalData: Partial<CoverData> = {
+    vorname: text(cvPerson, "vorname"),
+    nachname: text(cvPerson, "nachname"),
+    adresse: text(cvPerson, "adresse"),
+    plzOrt: text(cvPerson, "plzOrt"),
+    telefon: text(cvPerson, "telefon"),
+    email: text(cvPerson, "email"),
+    geburtsdatum: text(cvPerson, "geburtsdatum"),
+    foto: typeof foto === "string" && foto.startsWith("data:") ? foto : null,
+  };
+
+  const hasPersonal = Object.entries(personalData).some(([key, value]) =>
+    key === "foto" ? !!value : typeof value === "string" && !!value.trim(),
+  );
+
+  return {
+    personalData,
+    hasPersonal,
+    personalSource: hasPersonal ? "Lebenslauf" : null,
   };
 }
 
