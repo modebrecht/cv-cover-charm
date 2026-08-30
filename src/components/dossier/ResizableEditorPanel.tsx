@@ -71,8 +71,9 @@ export function ResizableEditorPanel({ open, children }: { open: boolean; childr
   return (
     <div
       ref={panelRef}
+      data-editor-panel
       style={style}
-      className={`absolute inset-y-0 left-0 z-20 w-[min(92vw,420px)] shrink-0 border-r bg-muted transition-transform duration-300 ease-out sm:static sm:h-auto sm:transition-[width,transform] ${
+      className={`absolute inset-y-0 left-0 z-20 w-full shrink-0 border-r bg-muted transition-transform duration-300 ease-out sm:static sm:h-auto sm:transition-[width,transform] ${
         open ? `translate-x-0 ${openWidthClass}` : "-translate-x-full sm:w-0 sm:border-r-0"
       }`}
     >
