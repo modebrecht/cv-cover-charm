@@ -96,7 +96,8 @@ async function downloadWholeDossier(page: Page, fileName: string) {
 
   const pdfText = await extractPdfText(target);
   expect(pdfText).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
-  expect(pdfText).toContain("Guten Tag Herr Weber");
+  expect(pdfText).toContain("Herr Thomas Weber");
+  expect(pdfText).toContain("Guten Tag");
   return target;
 }
 
