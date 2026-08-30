@@ -30,7 +30,7 @@ export function ThemeToggle() {
         type="button"
         onClick={toggle}
         aria-label={dark ? "Hellen Modus aktivieren" : "Dunklen Modus aktivieren"}
-        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-input text-foreground hover:bg-accent"
+        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-input text-foreground hover:bg-accent sm:h-9 sm:w-9"
       >
         {dark ? (
           <svg
