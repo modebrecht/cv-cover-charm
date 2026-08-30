@@ -321,13 +321,6 @@ function Lebenslauf() {
     () => TEMPLATES.find((t) => t.id === design.template) ?? TEMPLATES[0],
     [design.template],
   );
-  const coverTemplateName = useMemo(
-    () =>
-      cover
-        ? (TEMPLATES.find((template) => template.id === cover.template)?.name ?? cover.template)
-        : null,
-    [cover],
-  );
 
   /* ---------------------------------------------------------------------- */
   /* Eigene Elemente – dieselbe Bedienung wie auf dem Titelblatt            */
@@ -712,32 +705,6 @@ function Lebenslauf() {
         : { kind: "error", text: "Nichts ausgewählt – oder im Titelblatt steht dazu nichts." },
     );
   }, [takeover]);
-
-  const [personNote, setPersonNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
-  useEffect(() => {
-    if (!personNote) return;
-    const t = setTimeout(() => setPersonNote(null), 4000);
-    return () => clearTimeout(t);
-  }, [personNote]);
-
-  const takePerson = () => {
-    const draft = readCoverDraft();
-    if (!draft || !personFilled(draft.person)) {
-      const note = { kind: "error" as const, text: "Im Titelblatt stehen noch keine Angaben." };
-      setStatus(note);
-      setPersonNote(note);
-      return;
-    }
-    setData((d) => ({ ...d, person: { ...d.person, ...draft.person } }));
-    const taken = [
-      draft.person.vorname || draft.person.nachname ? "Name" : null,
-      draft.person.adresse || draft.person.plzOrt ? "Adresse" : null,
-      draft.person.telefon || draft.person.email ? "Kontakt" : null,
-    ].filter(Boolean);
-    const note = { kind: "ok" as const, text: `Übernommen: ${taken.join(", ")}` };
-    setStatus(note);
-    setPersonNote(note);
-  };
 
   const loadDemo = () => {
     keepSnapshot("Vor den Beispieldaten", true);
@@ -1449,42 +1416,6 @@ function Lebenslauf() {
               <span className="text-xs text-muted-foreground">Alles ausfüllen, dann als PDF.</span>
             </div>
 
-            <div className="rounded-lg border bg-primary/5 p-3">
-              <div className="text-sm font-semibold">Titelblatt als Ausgangspunkt</div>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                {cover
-                  ? `Übernimmt persönliche Angaben, Foto, Vorlage ${coverTemplateName ? `„${coverTemplateName}“` : ""}, Farben, Schrift und Formen.`
-                  : "Speichere zuerst ein Titelblatt. Danach kannst du Daten und Design mit einem Klick übernehmen."}
-              </p>
-              <button
-                type="button"
-                onClick={syncAllFromCover}
-                disabled={!cover}
-                className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-45"
-              >
-                Alles vom Titelblatt übernehmen
-              </button>
-            </div>
-
-            {coverChanged ? (
-              <div
-                role="status"
-                className="rounded-lg border border-sky-300/70 bg-sky-50 p-3 text-sky-950 dark:border-sky-800 dark:bg-sky-950/40 dark:text-sky-100"
-              >
-                <div className="text-xs font-semibold">Titelblatt wurde geändert</div>
-                <p className="mt-1 text-[11px] leading-relaxed opacity-80">
-                  Übernimm die ausgewählten Änderungen, damit dein Dossier zusammenpasst.
-                </p>
-                <button
-                  type="button"
-                  onClick={syncFromCover}
-                  className="mt-2 rounded-md border border-current/25 bg-background/80 px-2.5 py-1.5 text-xs font-medium hover:bg-background"
-                >
-                  Änderungen übernehmen
-                </button>
-              </div>
-            ) : null}
-
             {layoutWarnings.length ? (
               <div
                 aria-live="polite"
@@ -1503,62 +1434,89 @@ function Lebenslauf() {
             ) : null}
 
             <Section
-              title="Vom Titelblatt übernehmen"
+              title="Vom Dossier übernehmen"
               open={open.uebernehmen}
               onToggle={() => toggle("uebernehmen")}
-              hint={cover ? "bereit" : "nicht vorhanden"}
+              hint={cover ? "Titelblatt bereit" : "nichts verfügbar"}
             >
-              <div className="flex flex-col gap-2 rounded-md border border-dashed p-2">
-                <span className="text-xs text-muted-foreground">
-                  {cover
-                    ? "Wähle, was mitkommen soll. Alles zusammen ergibt den roten Faden durchs Dossier."
-                    : "Noch kein Titelblatt gespeichert – du kannst hier frei wählen."}
-                </span>
-
-                <div className="flex flex-col gap-1.5">
-                  {TAKEOVER_LABELS.map(({ key, label, hint }) => (
-                    <label key={key} className="flex items-start gap-2 text-xs">
-                      <input
-                        type="checkbox"
-                        className="mt-0.5"
-                        checked={takeover[key]}
-                        disabled={!cover}
-                        onChange={(e) => setTakeover((t) => ({ ...t, [key]: e.target.checked }))}
-                      />
-                      <span>
-                        {label}
-                        <span className="block text-muted-foreground">
-                          {hint}
-                          {key === "elements" && cover && ` · ${cover.elements.length} im Titelblatt`}
-                        </span>
-                      </span>
-                    </label>
-                  ))}
-                </div>
+              <div className="flex flex-col gap-3 rounded-md border border-dashed p-2.5">
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Gemeinsame Angaben und Design kommen im Lebenslauf aus dem Titelblatt. Deine
+                  CV-eigenen Inhalte wie Schule und Erfahrung bleiben erhalten.
+                </p>
 
                 <button
                   type="button"
-                  onClick={syncFromCover}
+                  onClick={syncAllFromCover}
                   disabled={!cover}
-                  className="self-start rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent disabled:opacity-50"
+                  className="w-full rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-45"
                 >
-                  Auswahl übernehmen
+                  Alles übernehmen
                 </button>
 
-                <label className="mt-1 flex items-start gap-2 border-t pt-2 text-xs">
-                  <input
-                    type="checkbox"
-                    className="mt-0.5"
-                    checked={design.useElements}
-                    onChange={(e) => setDesign((d) => ({ ...d, useElements: e.target.checked }))}
-                  />
-                  <span>
-                    Übernommene Formen anzeigen
-                    <span className="block text-muted-foreground">
-                      {elements.length > 0 ? `${elements.length} übernommen.` : "Noch keine übernommen."}
-                    </span>
-                  </span>
-                </label>
+                {coverChanged ? (
+                  <div
+                    role="status"
+                    className="rounded-md border border-sky-300/70 bg-sky-50 p-2.5 text-sky-950 dark:border-sky-800 dark:bg-sky-950/40 dark:text-sky-100"
+                  >
+                    <div className="text-xs font-semibold">Titelblatt wurde geändert</div>
+                    <p className="mt-1 text-[11px] leading-relaxed opacity-80">
+                      Du kannst alles neu übernehmen oder unten nur die gewünschte Auswahl.
+                    </p>
+                  </div>
+                ) : null}
+
+                <details className="rounded-md border bg-background">
+                  <summary className="cursor-pointer select-none px-3 py-2 text-xs font-medium">
+                    Auswahl anpassen
+                  </summary>
+                  <div className="grid gap-2 border-t p-3">
+                    {TAKEOVER_LABELS.map(({ key, label, hint }) => (
+                      <label key={key} className="flex items-start gap-2 text-xs">
+                        <input
+                          type="checkbox"
+                          className="mt-0.5"
+                          checked={takeover[key]}
+                          disabled={!cover}
+                          onChange={(e) => setTakeover((t) => ({ ...t, [key]: e.target.checked }))}
+                        />
+                        <span>
+                          <span className="block font-medium">{label}</span>
+                          <span className="block text-muted-foreground">
+                            {hint}
+                            {key === "elements" && cover && ` · ${cover.elements.length} im Titelblatt`}
+                          </span>
+                        </span>
+                      </label>
+                    ))}
+
+                    <button
+                      type="button"
+                      onClick={syncFromCover}
+                      disabled={!cover}
+                      className="mt-1 self-start rounded-md border border-input px-3 py-1.5 text-xs font-medium hover:bg-accent disabled:opacity-50"
+                    >
+                      Auswahl übernehmen
+                    </button>
+
+                    <label className="mt-1 flex items-start gap-2 border-t pt-2 text-xs">
+                      <input
+                        type="checkbox"
+                        className="mt-0.5"
+                        checked={design.useElements}
+                        onChange={(e) => setDesign((d) => ({ ...d, useElements: e.target.checked }))}
+                      />
+                      <span>
+                        Übernommene Formen anzeigen
+                        <span className="block text-muted-foreground">
+                          {elements.length > 0
+                            ? `${elements.length} übernommen.`
+                            : "Noch keine übernommen."}
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </details>
               </div>
             </Section>
 
@@ -1574,27 +1532,6 @@ function Lebenslauf() {
                   layout={cvSectionLayout(data, "person")}
                   onLayout={(patch) => setSectionLayout("person", patch)}
                 />
-                <div className="flex flex-wrap items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={takePerson}
-                    className="rounded-md border border-input px-3 py-1.5 text-xs hover:bg-accent"
-                  >
-                    Angaben vom Titelblatt holen
-                  </button>
-                  {personNote && (
-                    <span
-                      role="status"
-                      className={`rounded-md px-2 py-1 text-xs ${
-                        personNote.kind === "error"
-                          ? "bg-destructive/10 text-destructive"
-                          : "bg-primary/10 text-primary"
-                      }`}
-                    >
-                      {personNote.text}
-                    </span>
-                  )}
-                </div>
 
                 <label className="flex flex-col gap-1 text-xs">
                   <span className="text-muted-foreground">Titel des Dokuments</span>
