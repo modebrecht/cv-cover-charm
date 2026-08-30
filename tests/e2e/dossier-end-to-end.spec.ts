@@ -82,7 +82,8 @@ async function downloadCompleteDossier(page: Page) {
 
   const pdfText = await extractPdfText(path ?? "");
   expect(pdfText).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
-  expect(pdfText).toContain("Guten Tag Herr Weber");
+  expect(pdfText).toContain("Herr Thomas Weber");
+  expect(pdfText).toContain("Guten Tag");
 
   if (GALLERY_DIR) {
     await mkdir(GALLERY_DIR, { recursive: true });
