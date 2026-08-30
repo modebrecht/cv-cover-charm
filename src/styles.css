@@ -361,19 +361,20 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
   }
 
   .h-screen > header a[aria-label="Übersicht"] {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
     padding: 0 !important;
     justify-content: center;
   }
 
   .h-screen > header a[aria-label="Übersicht"] + button {
-    min-height: 2.25rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
     padding: 0.45rem 0.625rem !important;
   }
 
   .h-screen > header [data-editor-ready] {
-    min-height: 2.25rem;
+    min-height: 2.5rem;
     padding-left: 0.625rem !important;
     padding-right: 0.625rem !important;
     font-size: 0.8125rem;
@@ -383,19 +384,15 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
     width: min(18rem, calc(100vw - 1rem)) !important;
   }
 
-  [data-editor-panel] [class*="bg-primary/5"] {
-    background-color: var(--background) !important;
+  [data-editor-action-menu] button,
+  [data-editor-action-menu] label,
+  [data-editor-panel] details > summary {
+    min-height: 2.5rem;
   }
 
-  [data-editor-panel] [class*="bg-primary/5"] > p:first-of-type {
-    display: none;
-  }
-
-  [data-editor-panel] [class*="bg-primary/5"] > button {
-    margin-top: 0.5rem !important;
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
-    font-size: 0.75rem !important;
+  [data-editor-panel] details > summary {
+    display: flex;
+    align-items: center;
   }
 
   body:has([data-letter-page]) [data-editor-panel] > aside > div > div:first-child,
