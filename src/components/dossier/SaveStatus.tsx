@@ -6,7 +6,7 @@ const COPY: Record<Exclude<SaveState, "idle">, string> = {
   error: "Nicht automatisch gespeichert",
 };
 
-/** Gleiche, zurückhaltende Speicheranzeige für beide Teile des Dossiers. */
+/** Gleiche, zurückhaltende Speicheranzeige für alle Teile des Dossiers. */
 export function SaveStatus({ state }: { state: SaveState }) {
   if (state === "idle") return null;
 
@@ -14,6 +14,7 @@ export function SaveStatus({ state }: { state: SaveState }) {
     <span
       role="status"
       aria-live="polite"
+      title={COPY[state]}
       className={`inline-flex min-w-0 items-center gap-1.5 truncate text-[10px] sm:text-xs ${
         state === "error" ? "text-destructive" : "text-muted-foreground"
       }`}
@@ -28,7 +29,8 @@ export function SaveStatus({ state }: { state: SaveState }) {
               : "bg-emerald-500"
         }`}
       />
-      <span className="truncate">{COPY[state]}</span>
+      <span className="sr-only sm:hidden">{COPY[state]}</span>
+      <span className="hidden truncate sm:inline">{COPY[state]}</span>
     </span>
   );
 }
