@@ -35,6 +35,24 @@ const ALL_GALLERY_TEMPLATES = [
   ...FRESH_GALLERY_TEMPLATES,
 ];
 
+async function extractPdfText(path: string): Promise<string> {
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const data = new Uint8Array(await readFile(path));
+  const document = await getDocument({ data, disableFontFace: true }).promise;
+  const pages: string[] = [];
+  for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
+    const pdfPage = await document.getPage(pageNumber);
+    const content = await pdfPage.getTextContent();
+    pages.push(
+      content.items
+        .map((item) => ("str" in item ? item.str : ""))
+        .filter(Boolean)
+        .join(" "),
+    );
+  }
+  return pages.join("\n").replace(/\s+/g, " ").trim();
+}
+
 async function waitEditorReady(page: Page) {
   const toggle = page.getByRole("button", { name: "Download", exact: true });
   await expect(toggle).toHaveAttribute("data-editor-ready", "true", { timeout: 15_000 });
@@ -76,9 +94,9 @@ async function downloadWholeDossier(page: Page, fileName: string) {
   await copyFile(tempPath ?? "", target);
   expect((await stat(target)).size).toBeGreaterThan(10_000);
 
-  const source = (await readFile(target)).toString("latin1");
-  expect(source).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
-  expect(source).toContain("Guten Tag Herr Weber");
+  const pdfText = await extractPdfText(target);
+  expect(pdfText).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
+  expect(pdfText).toContain("Guten Tag Herr Weber");
   return target;
 }
 
