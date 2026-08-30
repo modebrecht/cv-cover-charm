@@ -282,14 +282,14 @@ function Titelblatt() {
     undo?: () => void;
   } | null>(null);
   const [open, setOpen] = useState<Record<SectionKey, boolean>>({
-    vorlage: true,
+    vorlage: false,
     farben: false,
     typo: false,
     bewerbung: true,
-    person: true,
+    person: false,
     foto: false,
     betrieb: false,
-    beilagen: true,
+    beilagen: false,
     ortDatum: false,
     meta: false,
   });
@@ -1317,6 +1317,19 @@ function Titelblatt() {
             </Section>
 
             <Section
+              title="Firma / Lehrbetrieb"
+              open={open.betrieb}
+              onToggle={() => toggleSection("betrieb")}
+              hint={
+                data.showBetriebOnCover === true
+                  ? `${filled([data.lehrbetrieb, data.ansprechperson, data.betriebAdresse])} / 3 · angezeigt`
+                  : "ausgeblendet"
+              }
+            >
+              <FormBetrieb data={data} onChange={patch} />
+            </Section>
+
+            <Section
               title="Persönliche Angaben"
               open={open.person}
               onToggle={() => toggleSection("person")}
@@ -1349,28 +1362,6 @@ function Titelblatt() {
             </Section>
 
             <Section
-              title="Firma / Lehrbetrieb"
-              open={open.betrieb}
-              onToggle={() => toggleSection("betrieb")}
-              hint={
-                data.showBetriebOnCover === true
-                  ? `${filled([data.lehrbetrieb, data.ansprechperson, data.betriebAdresse])} / 3 · angezeigt`
-                  : "ausgeblendet"
-              }
-            >
-              <FormBetrieb data={data} onChange={patch} />
-            </Section>
-
-            <Section
-              title="Beilagen"
-              open={open.beilagen}
-              onToggle={() => toggleSection("beilagen")}
-              hint={data.showBeilagenOnCover !== false ? "angezeigt" : "ausgeblendet"}
-            >
-              <FormBeilagen data={data} onChange={patch} />
-            </Section>
-
-            <Section
               title="Ort & Datum"
               open={open.ortDatum}
               onToggle={() => toggleSection("ortDatum")}
@@ -1380,16 +1371,12 @@ function Titelblatt() {
             </Section>
 
             <Section
-              title="PDF-Angaben"
-              open={open.meta}
-              onToggle={() => toggleSection("meta")}
-              hint={filled(Object.values(data.meta)) ? "angepasst" : "automatisch"}
+              title="Beilagen"
+              open={open.beilagen}
+              onToggle={() => toggleSection("beilagen")}
+              hint={data.showBeilagenOnCover !== false ? "angezeigt" : "ausgeblendet"}
             >
-              <FormMeta
-                meta={data.meta}
-                auto={autoMeta}
-                onChange={(p) => patch({ meta: { ...data.meta, ...p } })}
-              />
+              <FormBeilagen data={data} onChange={patch} />
             </Section>
 
             <div className="mt-2 h-px bg-border" />
@@ -1500,6 +1487,19 @@ function Titelblatt() {
                   </div>
                 )}
               </div>
+            </Section>
+
+            <Section
+              title="PDF-Angaben"
+              open={open.meta}
+              onToggle={() => toggleSection("meta")}
+              hint={filled(Object.values(data.meta)) ? "angepasst" : "automatisch"}
+            >
+              <FormMeta
+                meta={data.meta}
+                auto={autoMeta}
+                onChange={(p) => patch({ meta: { ...data.meta, ...p } })}
+              />
             </Section>
           </div>
         </ResizableEditorPanel>
