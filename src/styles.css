@@ -323,3 +323,83 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
   vertical-align: top;
   border: 1px solid color-mix(in srgb, currentColor 38%, transparent);
 }
+
+/*
+ * Mobile dossier editors.
+ *
+ * On phones the form is a real full-width work surface, not a translucent
+ * drawer over the preview. The three editors keep their desktop layouts, but
+ * reduce header noise and instructional chrome below 640 px.
+ */
+@media (max-width: 639px) {
+  [data-editor-panel] {
+    width: 100% !important;
+    border-right-width: 0 !important;
+  }
+
+  [data-editor-panel] > aside > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 0.625rem !important;
+    padding-left: 0.625rem !important;
+    padding-right: 0.625rem !important;
+  }
+
+  .h-screen > header.flex {
+    gap: 0.5rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .h-screen > header:not(.flex) > div.flex {
+    gap: 0.5rem !important;
+    padding: 0.5rem !important;
+  }
+
+  .h-screen > header h1 {
+    display: none !important;
+  }
+
+  .h-screen > header a[aria-label="Übersicht"] {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 !important;
+    justify-content: center;
+  }
+
+  .h-screen > header a[aria-label="Übersicht"] + button {
+    min-height: 2.25rem;
+    padding: 0.45rem 0.625rem !important;
+  }
+
+  .h-screen > header [data-editor-ready] {
+    min-height: 2.25rem;
+    padding-left: 0.625rem !important;
+    padding-right: 0.625rem !important;
+    font-size: 0.8125rem;
+  }
+
+  [data-editor-action-menu] {
+    width: min(18rem, calc(100vw - 1rem)) !important;
+  }
+
+  [data-editor-panel] [class*="bg-primary/5"] {
+    background-color: var(--background) !important;
+  }
+
+  [data-editor-panel] [class*="bg-primary/5"] > p:first-of-type {
+    display: none;
+  }
+
+  [data-editor-panel] [class*="bg-primary/5"] > button {
+    margin-top: 0.5rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  body:has([data-letter-page]) [data-editor-panel] > aside > div > div:first-child,
+  body:has([data-cv-page]) [data-editor-panel] > aside > div > div:first-child {
+    display: none;
+  }
+}
