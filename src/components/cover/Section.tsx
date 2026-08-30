@@ -14,14 +14,15 @@ type Props = {
 export function Section({ title, open, onToggle, hint, action, children }: Props) {
   const id = useId();
   return (
-    <section className="overflow-hidden rounded-lg border bg-background">
+    <section data-editor-section className="overflow-hidden rounded-lg border bg-background">
       <div className="flex items-center gap-2 pr-2 sm:pr-3">
         <button
           type="button"
+          data-editor-section-toggle
           onClick={onToggle}
           aria-expanded={open}
           aria-controls={id}
-          className="flex min-w-0 flex-1 items-center gap-2 px-3 py-2.5 text-left hover:bg-accent/50 sm:px-4 sm:py-3"
+          className="flex min-h-11 min-w-0 flex-1 items-center gap-2 px-3 py-2.5 text-left hover:bg-accent/50 sm:px-4 sm:py-3"
         >
           <svg
             width="10"

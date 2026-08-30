@@ -23,7 +23,7 @@ function storeWidth(width: number | null) {
   }
 }
 
-/** Gemeinsames, desktopweit verstellbares Formularpanel für Titelblatt und CV. */
+/** Gemeinsames, desktopweit verstellbares Formularpanel für alle Dossier-Editoren. */
 export function ResizableEditorPanel({ open, children }: { open: boolean; children: ReactNode }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{ pointerId: number; startX: number; startWidth: number } | null>(null);
@@ -73,12 +73,12 @@ export function ResizableEditorPanel({ open, children }: { open: boolean; childr
       ref={panelRef}
       data-editor-panel
       style={style}
-      className={`absolute inset-y-0 left-0 z-20 w-full shrink-0 border-r bg-muted transition-transform duration-300 ease-out sm:static sm:h-auto sm:transition-[width,transform] ${
+      className={`absolute inset-y-0 left-0 z-20 w-full shrink-0 border-r bg-background transition-transform duration-300 ease-out sm:static sm:h-auto sm:bg-muted sm:transition-[width,transform] ${
         open ? `translate-x-0 ${openWidthClass}` : "-translate-x-full sm:w-0 sm:border-r-0"
       }`}
     >
       <aside
-        className={`h-full overflow-y-auto overflow-x-hidden ${open ? "" : "sm:overflow-hidden"}`}
+        className={`h-full overscroll-contain overflow-y-auto overflow-x-hidden ${open ? "" : "sm:overflow-hidden"}`}
         aria-hidden={!open}
         inert={!open}
       >
