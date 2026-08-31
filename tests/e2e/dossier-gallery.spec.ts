@@ -98,6 +98,11 @@ async function downloadWholeDossier(page: Page, fileName: string) {
   expect(pdfText).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
   expect(pdfText).toContain("Herr Thomas Weber");
   expect(pdfText).toContain("Guten Tag");
+  // The old gallery gate only proved that the letter existed. A completely
+  // blank CV therefore passed as green. Require content that exists only in
+  // the CV sample so every generated dossier verifies the final pages too.
+  expect(pdfText).toContain("Sekundarschule, Niveau A");
+  expect(pdfText).toContain("Schwerpunkt Mathematik und Informatik");
   return target;
 }
 
