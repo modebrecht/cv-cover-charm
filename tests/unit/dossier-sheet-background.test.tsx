@@ -39,8 +39,11 @@ describe("shared dossier sheet background", () => {
     expect(markupFor("terracotta")).toContain("width:70mm");
     expect(markupFor("studio")).toContain("width:72mm");
     expect(markupFor("studio")).toContain("height:38mm");
+    expect(letterLayoutFor("modern").top).toBe(14);
     expect(letterLayoutFor("freundlich").top).toBe(60);
     expect(letterLayoutFor("blockig").left).toBe(74);
+    expect(letterLayoutFor("studio").left).toBe(80);
+    expect(letterLayoutFor("edel").left).toBe(19);
   });
 
   test("continuation pages collapse large CV headers without overlapping content", () => {
