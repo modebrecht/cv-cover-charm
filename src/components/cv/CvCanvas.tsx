@@ -1,6 +1,6 @@
 import { useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { PAGE } from "@/default-config";
-import { CoverBackground } from "@/components/cover/CoverBackground";
+import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackground";
 import { BlockLayer, type Point } from "@/components/cover/BlockLayer";
 import { buildCustomBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import {
@@ -1262,7 +1262,7 @@ export function CvCanvas({
    */
   const ground = (
     <div data-cv-background="motif" style={{ position: "absolute", inset: 0 }}>
-      <CoverBackground template={design.template} colors={design.colors} />
+      <DossierSheetBackground template={design.template} colors={design.colors} />
     </div>
   );
 
@@ -1360,7 +1360,7 @@ export function CvCanvas({
           height: `${PAGE.HEIGHT}px`,
         }}
       >
-        <CoverBackground template={design.template} colors={design.colors} />
+        <DossierSheetBackground template={design.template} colors={design.colors} />
       </div>
     </div>
   );
@@ -2532,6 +2532,7 @@ export function CvCanvas({
       ref={canvasRef}
       className="flex flex-col items-center gap-4"
       data-dossier-document="cv"
+      data-cv-template={design.template}
       data-cv-layout={layout}
       data-cv-archetype={frame.id}
       data-cv-band-head={frame.headFirstMm > 0 ? "true" : "false"}
