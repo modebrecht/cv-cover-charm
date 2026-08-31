@@ -1,0 +1,17 @@
+/*
+ * Titelblatt und Lebenslauf hatten oberhalb des eigentlichen Formulars noch
+ * eine zusätzliche Anweisung ("Alles ausfüllen …"). Die Editoren erklären
+ * sich inzwischen selbst; Reset-Aktionen liegen gesammelt im Download-Menü.
+ *
+ * Die Dokumentmarker stammen aus den jeweiligen Vorschauen und begrenzen die
+ * Regel zuverlässig auf diese beiden Editoren. Das Motivationsschreiben behält
+ * seinen inhaltlichen Hinweis, weil er die Textaufgabe erklärt.
+ */
+body:has([data-dossier-document="cover"])
+  [data-editor-panel]
+  > aside
+  > div
+  > div:first-child,
+body:has([data-cv-page]) [data-editor-panel] > aside > div > div:first-child {
+  display: none;
+}
