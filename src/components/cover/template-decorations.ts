@@ -119,8 +119,9 @@ const line = (
 const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
   modern: [
     // Modern bleibt bewusst ruhig: nur die weiche Kreisfläche, keine
-    // dekorativen Striche oder Farbbänder im Bewerbungsdossier.
-    circle("modernAccentCircle", "Kreisfläche", 112, 25, 86, 86, "accent", 0.1),
+    // dekorativen Striche oder Farbbänder im Bewerbungsdossier. Der Halo bleibt
+    // konzentrisch zum 52-mm-Foto, endet aber klar unter der Kopfzeile.
+    circle("modernAccentCircle", "Kreisfläche", 118, 30, 74, 74, "accent", 0.1),
   ],
 
   edel: [line("decor-center-line", "Akzentstrich", 85, 196, 40, 0.159, "accent", 0.7)],
