@@ -1,5 +1,6 @@
 import type { jsPDF as JsPdf } from "jspdf";
 import { PAGE, PDF } from "@/default-config";
+import { addCvTextLayer } from "@/lib/cv-pdf-text";
 import { downloadBlob } from "@/lib/download";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
 
@@ -295,7 +296,7 @@ async function addRasterPage(
   );
 }
 
-/** Titelblatt/CV bleiben Raster; das Motivationsschreiben erhält eine echte formatierte Textebene. */
+/** Titelblatt bleibt Raster; Anschreiben und CV erhalten zusätzlich echte PDF-Textebenen. */
 export async function downloadCombinedDossierPdf(
   root: HTMLElement,
   fileName: string,
@@ -335,6 +336,7 @@ export async function downloadCombinedDossierPdf(
   for (const cvPage of cvPages) {
     pdf.addPage("a4", "portrait");
     await addRasterPage(pdf, html2canvas, cvPage);
+    addCvTextLayer(pdf, cvPage);
   }
   downloadBlob(pdf.output("blob"), fileName);
 }

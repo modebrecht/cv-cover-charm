@@ -9,8 +9,6 @@ type PdfFont = "helvetica" | "times" | "courier" | "Cabin";
 type PdfFontStyle = "normal" | "bold" | "italic" | "bolditalic";
 type UnknownFn = (...args: unknown[]) => unknown;
 type PdfProperties = Record<string, string | undefined>;
-type JsPdfConstructor = typeof import("jspdf")["jsPDF"];
-
 type JsPdfApiRegistry = {
   events: Array<[string, (this: JsPdf) => void]>;
   [PLUGIN_FLAG]?: boolean;
@@ -130,7 +128,7 @@ function visibleInsidePage(element: HTMLElement, page: HTMLElement): boolean {
   return true;
 }
 
-function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
+function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
   const pageRect = page.getBoundingClientRect();
   if (pageRect.width <= 0 || pageRect.height <= 0) {
     throw new Error("Lebenslauf konnte für den PDF-Text nicht vermessen werden");
@@ -223,6 +221,15 @@ function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
   }
 }
 
+/**
+ * Zeichnet den sichtbaren CV-Text deterministisch auf die aktuell aktive PDF-Seite.
+ * Die Raster-Maske wird dafür kurz deaktiviert, damit echte Textfarben und Geometrie
+ * aus dem Browserlayout gelesen werden können.
+ */
+export function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
+  withRasterTextVisible(() => drawCvTextLayer(pdf, page));
+}
+
 function exportRoots(): HTMLElement[] {
   if (typeof document === "undefined") return [];
   return Array.from(
@@ -246,44 +253,40 @@ function isDossierRoot(root: HTMLElement): boolean {
   return false;
 }
 
-function pagesFor(subject: string): { pages: HTMLElement[]; pdfStartPage: number } | null {
-  const roots = exportRoots();
-  const dossier = subject === "Bewerbungsdossier";
-  const root = roots.find((candidate) => isDossierRoot(candidate) === dossier);
+function standalonePages(): HTMLElement[] | null {
+  const root = exportRoots().find((candidate) => !isDossierRoot(candidate));
   if (!root) return null;
   const pages = Array.from(root.querySelectorAll<HTMLElement>("[data-cv-page]"));
-  if (!pages.length) return null;
-  return { pages, pdfStartPage: dossier ? 3 : 1 };
+  return pages.length ? pages : null;
 }
 
-function applyTextLayerForSubject(pdf: JsPdf, subject: string): boolean {
-  if (subject !== "Lebenslauf" && subject !== "Bewerbungsdossier") return false;
-  const source = pagesFor(subject);
-  if (!source) {
-    throw new Error(`PDF-Textquelle für ${subject} wurde nicht gefunden`);
+function applyStandaloneTextLayer(pdf: JsPdf): boolean {
+  const pages = standalonePages();
+  if (!pages) {
+    throw new Error("PDF-Textquelle für Lebenslauf wurde nicht gefunden");
   }
-
-  const pageCount = pdf.getNumberOfPages();
-  const lastRequiredPage = source.pdfStartPage + source.pages.length - 1;
-  if (lastRequiredPage > pageCount) {
+  if (pages.length > pdf.getNumberOfPages()) {
     throw new Error(
-      `PDF hat ${pageCount} Seite(n), benötigt werden mindestens ${lastRequiredPage}`,
+      `PDF hat ${pdf.getNumberOfPages()} Seite(n), benötigt werden mindestens ${pages.length}`,
     );
   }
 
   const currentPage = pdf.getCurrentPageInfo().pageNumber;
-  withRasterTextVisible(() => {
-    source.pages.forEach((page, index) => {
-      pdf.setPage(source.pdfStartPage + index);
-      addCvTextLayer(pdf, page);
-    });
+  pages.forEach((page, index) => {
+    pdf.setPage(index + 1);
+    addCvTextLayer(pdf, page);
   });
-  pdf.setPage(Math.min(currentPage, pageCount));
+  pdf.setPage(Math.min(currentPage, pdf.getNumberOfPages()));
   return true;
 }
 
-function installJsPdfPlugin(JsPdfRuntime: JsPdfConstructor) {
-  const api = JsPdfRuntime.API as unknown as JsPdfApiRegistry;
+/**
+ * Der separate CV-Download benutzt noch den bestehenden jsPDF-Ausgabepunkt.
+ * Das Gesamtdossier ruft addCvTextLayer dagegen direkt im Exportpfad auf und
+ * hängt damit nicht mehr an diesem Hook.
+ */
+function installJsPdfPlugin() {
+  const api = jsPDF.API as unknown as JsPdfApiRegistry;
   if (api[PLUGIN_FLAG]) return;
   api[PLUGIN_FLAG] = true;
 
@@ -300,12 +303,8 @@ function installJsPdfPlugin(JsPdfRuntime: JsPdfConstructor) {
       };
 
       (this as unknown as { output: UnknownFn }).output = (...args: unknown[]) => {
-        const subject = subjects.get(this) ?? "";
-        if (
-          !textLayerApplied.has(this) &&
-          (subject === "Lebenslauf" || subject === "Bewerbungsdossier")
-        ) {
-          if (applyTextLayerForSubject(this, subject)) textLayerApplied.add(this);
+        if (!textLayerApplied.has(this) && subjects.get(this) === "Lebenslauf") {
+          if (applyStandaloneTextLayer(this)) textLayerApplied.add(this);
         }
         return Reflect.apply(originalOutput, this, args);
       };
@@ -315,4 +314,4 @@ function installJsPdfPlugin(JsPdfRuntime: JsPdfConstructor) {
   installRasterTextMask();
 }
 
-if (typeof window !== "undefined") installJsPdfPlugin(jsPDF);
+if (typeof window !== "undefined") installJsPdfPlugin();
