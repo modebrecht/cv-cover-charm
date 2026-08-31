@@ -23,33 +23,30 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
 
-          def replace_one(path, old, new):
+          def load(path):
               p = Path(path)
-              text = p.read_text()
+              return p, p.read_text()
+
+          def replace_exact(path, old, new, expected=1):
+              p, text = load(path)
               count = text.count(old)
-              if count != 1:
-                  raise SystemExit(f"{path}: expected exactly one match, got {count}")
-              p.write_text(text.replace(old, new, 1))
+              if count != expected:
+                  raise SystemExit(f"{path}: expected {expected} match(es), got {count}: {old[:80]!r}")
+              p.write_text(text.replace(old, new))
 
-          # Modern: the left header uses the same 20 mm edge as the right-aligned location.
-          # Blockig: keep the full kicker on one line so "ALS" never hangs alone.
-          replace_one(
+          def replace_regex(path, pattern, new, expected=1):
+              p, text = load(path)
+              result, count = re.subn(pattern, new, text, flags=re.S)
+              if count != expected:
+                  raise SystemExit(f"{path}: expected {expected} regex match(es), got {count}")
+              p.write_text(result)
+
+          # Modern header symmetry + Blockig kicker integrity.
+          replace_regex(
               "src/components/cover/layouts.ts",
-              '''function modernTopClusterOffset(
-            template: TemplateId,
-            block: Block,
-            overrides: StyleOverrides,
-          ): Block {
-            if (template !== "modern") return block;
-            if (block.id !== "foto" && block.id !== "modernAccentCircle") return block;
-            if (overrides[block.id]?.y !== undefined) return block;
-
-            return {
-              ...block,
-              style: { ...block.style, y: block.style.y + MODERN_TOP_CLUSTER_OFFSET_MM },
-            };
-          }''',
+              r'function modernTopClusterOffset\(.*?\n\}',
               '''function templateDefaultAdjustment(
             template: TemplateId,
             block: Block,
@@ -86,145 +83,70 @@ jobs:
             return adjusted;
           }'''
           )
-          replace_one(
+          replace_exact(
               "src/components/cover/layouts.ts",
-              '''  const blocks = buildBaseBlocks(template, data, customs, overrides, slots).map((block) =>
-            modernTopClusterOffset(template, block, overrides),
-          );
-            const decorations = templateDecorations(template, overrides).map((block) =>
-              modernTopClusterOffset(template, block, overrides),
-            );''',
-              '''  const blocks = buildBaseBlocks(template, data, customs, overrides, slots).map((block) =>
-            templateDefaultAdjustment(template, block, overrides),
-          );
-            const decorations = templateDecorations(template, overrides).map((block) =>
-              templateDefaultAdjustment(template, block, overrides),
-            );'''
+              "modernTopClusterOffset(template, block, overrides)",
+              "templateDefaultAdjustment(template, block, overrides)",
+              expected=2,
           )
 
-          # Colorful needs a real print-safe header zone, not a title glued to the top edge.
-          replace_one(
+          # Colorful: reserve a real print-safe header zone.
+          replace_regex(
               "src/components/cv/archetype.ts",
-              '  colorful: band(30, { footMm: 8 }), //     Titelblatt: 28 mm Kopfband, 8 mm Fussband',
-              '  colorful: band(40, { footMm: 8 }), //     CV: 40 mm Druckrand-Kopfzone, 8 mm Fussband'
+              r'  colorful: band\(30, \{ footMm: 8 \}\),[^\n]*',
+              '  colorful: band(40, { footMm: 8 }), //     CV: 40 mm Druckrand-Kopfzone, 8 mm Fussband',
           )
 
-          # The CV renderer intentionally does not reuse editable title-page primitives.
-          # Recreate only the structural CV bands needed for readable Warm/Colorful headers;
-          # Warm's circles deliberately stay off the CV.
-          replace_one(
-              "src/components/cover/CoverBackground.tsx",
-              '''  return (
-            <>
-              {template === "blockig" ? (''',
-              '''  return (
-            <>
-              {template === "freundlich" || template === "colorful" ? (
+          # Warm/Colorful CV structural bands. Warm circles intentionally do not carry into the CV.
+          cover_insert = '''      {template === "freundlich" || template === "colorful" ? (
                 <style>{`
                   html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    top: 0;
-                    height: 52mm;
-                    background: var(--cover-primary);
-                    pointer-events: none;
+                    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 52mm;
+                    background: var(--cover-primary); pointer-events: none;
                   }
                   html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    top: 0;
-                    height: 14mm;
-                    background: var(--cover-primary);
-                    pointer-events: none;
+                    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 14mm;
+                    background: var(--cover-primary); pointer-events: none;
                   }
                   html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    top: 0;
-                    height: 40mm;
-                    background: var(--cover-primary);
-                    pointer-events: none;
+                    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 40mm;
+                    background: var(--cover-primary); pointer-events: none;
                   }
                   html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    top: 0;
-                    height: 14mm;
-                    background: var(--cover-primary);
-                    pointer-events: none;
+                    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 14mm;
+                    background: var(--cover-primary); pointer-events: none;
                   }
                   html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::after {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    height: 8mm;
-                    background: var(--cover-secondary);
-                    pointer-events: none;
+                    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8mm;
+                    background: var(--cover-secondary); pointer-events: none;
                   }
                 `}</style>
               ) : null}
-              {template === "blockig" ? ('''
-          )
-          replace_one(
+'''
+          replace_exact(
               "src/components/cover/CoverBackground.tsx",
-              '''            "--cover-primary": colors.primary ?? colors.accent ?? colors.ink ?? colors.bg,
-                "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,''',
-              '''            "--cover-primary": colors.primary ?? colors.accent ?? colors.ink ?? colors.bg,
-                "--cover-secondary": colors.secondary ?? colors.accent ?? colors.primary ?? colors.bg,
-                "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,'''
+              '      {template === "blockig" ? (',
+              cover_insert + '      {template === "blockig" ? (',
+          )
+          replace_exact(
+              "src/components/cover/CoverBackground.tsx",
+              '            "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,',
+              '            "--cover-secondary": colors.secondary ?? colors.accent ?? colors.primary ?? colors.bg,\n            "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,',
           )
 
-          # Warm: no second outline/ring around the circular CV portrait.
-          replace_one(
+          # Warm portrait: remove the unwanted second circular outline.
+          css_anchor = '  box-shadow: 0 0 0 var(--cv-photo-border-width, 0.3mm) var(--cv-photo-border-color, currentColor) !important;\n}\n'
+          replace_exact(
               "src/components/cv/layout-options.css",
-              '''[data-cv-photo] {
-            position: relative !important;
-            /*
-             * Rahmenfarbe: ohne eigene Wahl die Schriftfarbe der Umgebung, sonst die im
-             * Lebenslauf gewählte. Die Regel gewinnt gegen Inline-Stile, darum läuft auch
-             * die Farbe über eine Variable statt über den Renderer.
-             */
-            box-shadow: 0 0 0 var(--cv-photo-border-width, 0.3mm) var(--cv-photo-border-color, currentColor) !important;
-          }''',
-              '''[data-cv-photo] {
-            position: relative !important;
-            /*
-             * Rahmenfarbe: ohne eigene Wahl die Schriftfarbe der Umgebung, sonst die im
-             * Lebenslauf gewählte. Die Regel gewinnt gegen Inline-Stile, darum läuft auch
-             * die Farbe über eine Variable statt über den Renderer.
-             */
-            box-shadow: 0 0 0 var(--cv-photo-border-width, 0.3mm) var(--cv-photo-border-color, currentColor) !important;
-          }
-
-          /* Warm hält das runde Portrait bewusst sauber: kein zweiter Kreis um den Bildausschnitt. */
-          html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-photo] {
-            box-shadow: none !important;
-          }'''
+              css_anchor,
+              css_anchor + '\n/* Warm: no second ring around a circular portrait. */\nhtml[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-photo] {\n  box-shadow: none !important;\n}\n',
           )
 
-          # Edel letter gets the same dark outer sheet + light writing surface as its CV.
-          # Edel blockig restores its 36 mm dark cap and 16 mm dark footer field.
-          replace_one(
+          # Edel: dark outer sheet and light inset writing surface, consistent with its CV.
+          # Edel blockig: restore the strong 36 mm cap and 16 mm dark footer.
+          replace_regex(
               "src/components/letter/LetterCanvas.tsx",
-              '''  edelBlockig: {
-            kind: "band",
-            left: 25,
-            right: 23,
-            top: 31,
-            bottom: 25,
-            bandMm: 14,
-            footMm: 7,
-          },''',
+              r'  edelBlockig: \{\n    kind: "band",\n    left: 25,\n    right: 23,\n    top: 31,\n    bottom: 25,\n    bandMm: 14,\n    footMm: 7,\n  \},',
               '''  edelBlockig: {
             kind: "band",
             left: 25,
@@ -235,80 +157,60 @@ jobs:
             footMm: 16,
           },'''
           )
-          replace_one(
-              "src/components/letter/LetterCanvas.tsx",
-              '''  const primaryRoles = onColorRoles(primary, accent);
+          edel_background = '''  const primaryRoles = onColorRoles(primary, accent);
 
-            if (layout.kind === "card") {''',
-              '''  const primaryRoles = onColorRoles(primary, accent);
-
-            if (template === "edel") {
-              return (
+          if (template === "edel") {
+            return (
+              <div
+                className="absolute inset-0 overflow-hidden"
+                style={{ backgroundColor: color(colors, "bg") }}
+                aria-hidden="true"
+              >
+                <div className="absolute" style={{ inset: "19mm", backgroundColor: palette.paper }} />
                 <div
-                  className="absolute inset-0 overflow-hidden"
-                  style={{ backgroundColor: color(colors, "bg") }}
-                  aria-hidden="true"
-                >
-                  <div
-                    className="absolute"
-                    style={{ inset: "19mm", backgroundColor: palette.paper }}
-                  />
-                  <div
-                    className="absolute"
-                    style={{
-                      inset: "12mm",
-                      border: `0.55px solid ${accent}`,
-                      opacity: 0.5,
-                    }}
-                  />
-                  <div
-                    className="absolute"
-                    style={{
-                      inset: "15mm",
-                      border: `0.35px solid ${accent}`,
-                      opacity: 0.3,
-                    }}
-                  />
-                </div>
-              );
-            }
+                  className="absolute"
+                  style={{ inset: "12mm", border: `0.55px solid ${accent}`, opacity: 0.5 }}
+                />
+                <div
+                  className="absolute"
+                  style={{ inset: "15mm", border: `0.35px solid ${accent}`, opacity: 0.3 }}
+                />
+              </div>
+            );
+          }
 
-            if (layout.kind === "card") {'''
+          if (layout.kind === "card") {'''
+          replace_exact(
+              "src/components/letter/LetterCanvas.tsx",
+              '  const primaryRoles = onColorRoles(primary, accent);\n\n  if (layout.kind === "card") {',
+              edel_background,
           )
-          replace_one(
+          replace_exact(
               "src/components/letter/LetterCanvas.tsx",
-              '''            backgroundColor: template === "sonne" ? primary : accent,''',
-              '''            backgroundColor:
-                      template === "sonne" || template === "edelBlockig" ? primary : accent,'''
+              '            backgroundColor: template === "sonne" ? primary : accent,',
+              '            backgroundColor:\n              template === "sonne" || template === "edelBlockig" ? primary : accent,',
           )
-          replace_one(
+          band_anchor = '''      {layout.kind === "band" && (layout.bandMm ?? 0) > 0 && (
+            <div
+              className="absolute inset-x-0 top-0"
+              style={{ height: `${layout.bandMm}mm`, backgroundColor: primary }}
+            />
+          )}
+
+'''
+          replace_exact(
               "src/components/letter/LetterCanvas.tsx",
-              '''      {layout.kind === "band" && (layout.bandMm ?? 0) > 0 && (
-                <div
-                  className="absolute inset-x-0 top-0"
-                  style={{ height: `${layout.bandMm}mm`, backgroundColor: primary }}
-                />
-              )}
+              band_anchor,
+              band_anchor + '''      {template === "edelBlockig" && (
+            <div
+              className="absolute inset-x-0 top-[36mm] h-[0.3mm]"
+              style={{ backgroundColor: accent, opacity: 0.72 }}
+            />
+          )}
 
-              {(layout.footMm ?? 0) > 0 && (''',
-              '''      {layout.kind === "band" && (layout.bandMm ?? 0) > 0 && (
-                <div
-                  className="absolute inset-x-0 top-0"
-                  style={{ height: `${layout.bandMm}mm`, backgroundColor: primary }}
-                />
-              )}
-
-              {template === "edelBlockig" && (
-                <div
-                  className="absolute inset-x-0 top-[36mm] h-[0.3mm]"
-                  style={{ backgroundColor: accent, opacity: 0.72 }}
-                />
-              )}
-
-              {(layout.footMm ?? 0) > 0 && ('''
+''',
           )
 
-          # Remove this one-shot workflow in the same real fix commit.
           Path(".github/workflows/visual-template-regression-fix.yml").unlink()
           PY
 
