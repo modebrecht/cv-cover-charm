@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import "./EditorPanelIntro.css";
 
 const STORAGE_KEY = "bewerbungsdossier:editor-panel-width";
 const MIN_WIDTH = 260;
