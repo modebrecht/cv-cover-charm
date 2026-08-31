@@ -1260,9 +1260,13 @@ export function CvCanvas({
    * durch die Schreibfläche darüber, nicht dadurch, dass die Vorlage
    * verschwindet.
    */
-  const ground = (
+  const ground = (pageIndex: number) => (
     <div data-cv-background="motif" style={{ position: "absolute", inset: 0 }}>
-      <DossierSheetBackground template={design.template} colors={design.colors} />
+      <DossierSheetBackground
+        template={design.template}
+        colors={design.colors}
+        pageIndex={pageIndex}
+      />
     </div>
   );
 
@@ -1386,7 +1390,7 @@ export function CvCanvas({
           data-cv-background="paper"
           style={{ position: "absolute", inset: 0, background: pal.paper }}
         />
-        {ground}
+        {ground(pageIndex)}
 
         <div
           data-cv-surface
@@ -1402,7 +1406,11 @@ export function CvCanvas({
             // Der Regler bestimmt, wie viel Vorlage durch die Schreibfläche
             // scheint. Der Bereich ist eng gehalten, damit der Text auf jeder
             // Einstellung lesbar bleibt.
-            opacity: 1 - policy.backgroundOpacity * 0.14,
+            opacity:
+              frame.id === "quiet" ||
+              (frame.id === "band" && frame.headFirstMm === 0 && frame.footMm === 0)
+                ? Math.max(0.8, 1 - policy.backgroundOpacity * 0.5)
+                : 1,
           }}
         />
       </>

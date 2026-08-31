@@ -1,3 +1,5 @@
+import { TEMPLATES, type TemplateId } from "@/components/cover/types";
+import { cvContentBox, cvFrameFor } from "@/components/cv/archetype";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import type { LetterTemplateId } from "@/components/letter/types";
 
@@ -200,11 +202,43 @@ const LETTER_LAYOUTS: Record<string, LetterLayout> = {
   cove: { kind: "quiet", left: 26, right: 24, top: 34, bottom: 24 },
 };
 
-export function letterLayoutFor(template: LetterTemplateId): LetterLayout {
+const BASE_TEMPLATE_IDS = new Set<string>(TEMPLATES.map(({ id }) => id));
+
+function baseTemplateId(template: LetterTemplateId): TemplateId | null {
+  return template !== "brief" && BASE_TEMPLATE_IDS.has(template) ? (template as TemplateId) : null;
+}
+
+function dossierSheetLayoutFor(template: LetterTemplateId, pageIndex = 0): LetterLayout {
   if (template === "brief") {
     return { kind: "quiet", left: 25, right: 25, top: 24, bottom: 22 };
   }
+
+  const baseId = baseTemplateId(template);
+  if (baseId) {
+    const frame = cvFrameFor(baseId);
+    const box = cvContentBox(frame, pageIndex, "classic");
+    const headMm = pageIndex === 0 ? frame.headFirstMm : frame.headRestMm;
+    return {
+      kind: frame.id,
+      left: box.left,
+      right: box.right,
+      top: box.top,
+      bottom: box.bottom,
+      columnMm: frame.columnMm || undefined,
+      bandMm: headMm || undefined,
+      footMm: frame.footMm || undefined,
+      cardInsetMm: frame.cardInsetMm || undefined,
+      borderInsetMm: frame.borderInsetMm || undefined,
+    };
+  }
+
+  // Fresh variants have no legacy CV archetype. They still use the same shared
+  // background component on both documents and keep their curated safe margins.
   return LETTER_LAYOUTS[template] ?? LETTER_LAYOUTS.klassisch;
+}
+
+export function letterLayoutFor(template: LetterTemplateId): LetterLayout {
+  return dossierSheetLayoutFor(template, 0);
 }
 
 function color(colors: Record<string, string>, ...keys: string[]): string {
@@ -527,9 +561,11 @@ function DossierSheetSignature({
 export function DossierSheetBackground({
   template,
   colors,
+  pageIndex = 0,
 }: {
   template: LetterTemplateId;
   colors: Record<string, string>;
+  pageIndex?: number;
 }) {
   if (template === "brief") {
     return (
@@ -542,7 +578,7 @@ export function DossierSheetBackground({
     );
   }
 
-  const layout = letterLayoutFor(template);
+  const layout = dossierSheetLayoutFor(template, pageIndex);
   const palette = cvPalette(colors);
   const primary = color(colors, "primary", "accent", "secondary", "ink");
   const secondary = color(colors, "secondary", "accent", "primary", "ink");
@@ -634,9 +670,11 @@ export function DossierSheetBackground({
 
       {template === "studio" && (
         <div
-          className="absolute left-0 top-[24mm] h-[10mm]"
+          className="absolute top-[24mm]"
           style={{
-            width: "30mm",
+            left: `${layout.columnMm ?? 20}mm`,
+            right: 0,
+            height: `${layout.bandMm ?? 10}mm`,
             backgroundColor: accent,
             color: primaryRoles.ink,
           }}
@@ -689,8 +727,11 @@ export function DossierSheetBackground({
 
       {template === "aurora" && (
         <div
-          className="absolute inset-x-0 top-0 h-[16mm]"
-          style={{ background: `linear-gradient(90deg, ${primary}, ${secondary})` }}
+          className="absolute inset-x-0 top-0"
+          style={{
+            height: `${layout.bandMm ?? 16}mm`,
+            background: `linear-gradient(90deg, ${primary}, ${secondary})`,
+          }}
         />
       )}
 
@@ -717,12 +758,16 @@ export function DossierSheetBackground({
       {template === "welle" && (
         <>
           <div
-            className="absolute inset-x-0 bottom-0 h-[15mm]"
-            style={{ backgroundColor: primary }}
+            className="absolute inset-x-0 bottom-0"
+            style={{ height: `${layout.footMm ?? 15}mm`, backgroundColor: primary }}
           />
           <div
-            className="absolute bottom-[13mm] left-0 h-[5mm] w-[62%] rounded-tr-[100%]"
-            style={{ backgroundColor: secondary, opacity: 0.8 }}
+            className="absolute left-0 h-[5mm] w-[62%] rounded-tr-[100%]"
+            style={{
+              bottom: `${Math.max(0, (layout.footMm ?? 15) - 2)}mm`,
+              backgroundColor: secondary,
+              opacity: 0.8,
+            }}
           />
         </>
       )}

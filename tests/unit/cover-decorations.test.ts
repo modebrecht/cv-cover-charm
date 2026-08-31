@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { CoverBackground } from "../../src/components/cover/CoverBackground";
+import { DossierSheetBackground } from "../../src/components/dossier/DossierSheetBackground";
 import { templateDecorations } from "../../src/components/cover/template-decorations";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 import { cvFrameFor } from "../../src/components/cv/archetype";
@@ -110,16 +111,16 @@ describe("cover decoration single source", () => {
 
   test("Warm and Colorful CVs keep real header fields and print-safe geometry", () => {
     const warm = renderToStaticMarkup(
-      createElement(CoverBackground, { template: "freundlich", colors: COLORS }),
+      createElement(DossierSheetBackground, { template: "freundlich", colors: COLORS }),
     );
     const colorful = renderToStaticMarkup(
-      createElement(CoverBackground, { template: "colorful", colors: COLORS }),
+      createElement(DossierSheetBackground, { template: "colorful", colors: COLORS }),
     );
 
-    expect(warm).toContain("height: 52mm");
-    expect(warm).toContain("background: var(--cover-primary)");
-    expect(colorful).toContain("height: 40mm");
-    expect(colorful).toContain("height: 8mm");
+    expect(warm).toContain("height:52mm");
+    expect(colorful).toContain("height:40mm");
+    expect(colorful).toContain("height:8mm");
+    expect(cvFrameFor("freundlich").headFirstMm).toBe(52);
     expect(cvFrameFor("colorful").headFirstMm).toBe(40);
   });
 
@@ -140,8 +141,6 @@ describe("cover decoration single source", () => {
     expect(sheetBackground).toContain("bandMm: 36");
     expect(sheetBackground).toContain("footMm: 16");
     expect(sheetBackground).toContain('template === "edel"');
-    expect(sheetBackground).toContain(
-      'style={{ inset: "19mm", backgroundColor: palette.paper }}',
-    );
+    expect(sheetBackground).toContain('style={{ inset: "19mm", backgroundColor: palette.paper }}');
   });
 });

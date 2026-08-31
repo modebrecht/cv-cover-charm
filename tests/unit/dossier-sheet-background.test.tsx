@@ -1,16 +1,22 @@
 import { describe, expect, test } from "bun:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { DossierSheetBackground } from "../../src/components/dossier/DossierSheetBackground";
+import {
+  DossierSheetBackground,
+  letterLayoutFor,
+} from "../../src/components/dossier/DossierSheetBackground";
 import { TEMPLATES } from "../../src/components/cover/types";
 import { defaultLetterColors } from "../../src/components/letter/types";
+
+const markupFor = (template: Parameters<typeof DossierSheetBackground>[0]["template"]) =>
+  renderToStaticMarkup(
+    createElement(DossierSheetBackground, { template, colors: defaultLetterColors(template) }),
+  );
 
 describe("shared dossier sheet background", () => {
   test("every dossier template renders the shared non-brief background", () => {
     for (const { id } of TEMPLATES) {
-      const markup = renderToStaticMarkup(
-        createElement(DossierSheetBackground, { template: id, colors: defaultLetterColors(id) }),
-      );
+      const markup = markupFor(id);
       expect(markup).toContain(`data-dossier-sheet-background="${id}"`);
       expect(markup).not.toContain('data-dossier-sheet-background="brief"');
       expect(markup).not.toContain('data-letter-background="brief"');
@@ -18,13 +24,20 @@ describe("shared dossier sheet background", () => {
     }
   });
 
+  test("established templates use CV archetype geometry on the letter too", () => {
+    expect(markupFor("freundlich")).toContain("height:52mm");
+    expect(markupFor("colorful")).toContain("height:40mm");
+    expect(markupFor("colorful")).toContain("height:8mm");
+    expect(markupFor("blockig")).toContain("width:66mm");
+    expect(markupFor("terracotta")).toContain("width:70mm");
+    expect(markupFor("studio")).toContain("width:72mm");
+    expect(markupFor("studio")).toContain("height:38mm");
+    expect(letterLayoutFor("freundlich").top).toBe(60);
+    expect(letterLayoutFor("blockig").left).toBe(74);
+  });
+
   test("Brief remains the deliberate plain-white alternative", () => {
-    const markup = renderToStaticMarkup(
-      createElement(DossierSheetBackground, {
-        template: "brief",
-        colors: defaultLetterColors("brief"),
-      }),
-    );
+    const markup = markupFor("brief");
     expect(markup).toContain('data-dossier-sheet-background="brief"');
     expect(markup).toContain('data-letter-background="brief"');
     expect(markup).toContain("bg-white");
