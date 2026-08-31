@@ -23,6 +23,7 @@ import { LetterLayoutControls } from "@/components/letter/LetterLayoutControls";
 import { LetterRichTextEditor } from "@/components/letter/LetterRichTextEditor";
 import { LetterTemplatePicker } from "@/components/letter/LetterTemplatePicker";
 import { downloadLetterPdf } from "@/lib/dossier-pdf";
+import { readPhoto } from "@/lib/image";
 import {
   mergeNonEmptyLetterData,
   readLetterDossierSource,
@@ -38,6 +39,7 @@ import {
   normalizeLetterDesign,
   type LetterData,
   type LetterDesign,
+  type LetterFlowImage,
   type LetterTemplateId,
   type SavedLetter,
 } from "@/components/letter/types";
@@ -315,6 +317,39 @@ function Anschreiben() {
   );
 
   const patch = (value: Partial<LetterData>) => setData((current) => ({ ...current, ...value }));
+
+  const addLetterImage = async (file?: File) => {
+    if (!file) return;
+    try {
+      const src = await readPhoto(file);
+      const image: LetterFlowImage = {
+        id: `letter-image-${Date.now()}`,
+        src,
+        side: "right",
+        topMm: 8,
+        widthMm: 34,
+        gapMm: 4,
+      };
+      setData((current) => ({ ...current, images: [...(current.images ?? []), image] }));
+    } catch {
+      setTransferNote({ kind: "error", text: "Foto oder Bild konnte nicht gelesen werden." });
+    }
+  };
+
+  const patchLetterImage = (id: string, imagePatch: Partial<LetterFlowImage>) =>
+    setData((current) => ({
+      ...current,
+      images: (current.images ?? []).map((image) =>
+        image.id === id ? { ...image, ...imagePatch } : image,
+      ),
+    }));
+
+  const removeLetterImage = (id: string) =>
+    setData((current) => ({
+      ...current,
+      images: (current.images ?? []).filter((image) => image.id !== id),
+    }));
+
   const toggle = (key: string) => setOpen((current) => ({ ...current, [key]: !current[key] }));
 
   const changeTemplate = (next: LetterTemplateId) => {
@@ -748,6 +783,23 @@ function Anschreiben() {
                   richTextHtml={data.richTextHtml}
                   onChange={({ text, richTextHtml }) => patch({ text, richTextHtml })}
                 />
+                <div className="flex flex-wrap items-center gap-2 rounded-md border border-dashed p-2.5">
+                  <label className="cursor-pointer rounded-md border border-input bg-background px-3 py-2 text-xs font-medium hover:bg-accent">
+                    + Foto
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(event) => {
+                        void addLetterImage(event.target.files?.[0]);
+                        event.target.value = "";
+                      }}
+                    />
+                  </label>
+                  <span className="text-[11px] leading-relaxed text-muted-foreground">
+                    Foto oder Bild frei platzieren · Text fliesst automatisch im Quadrat darum.
+                  </span>
+                </div>
                 <Field
                   label="Grussformel"
                   value={data.gruss}
@@ -916,7 +968,13 @@ function Anschreiben() {
         <main className="min-w-0 flex-1 overflow-auto bg-muted/40 p-3 sm:p-6">
           <div className="mx-auto w-full max-w-[980px] py-2 sm:py-4">
             <ScaledPreview max={1}>
-              <LetterCanvas data={data} design={design} onOverflowChange={setLetterOverflow} />
+              <LetterCanvas
+                data={data}
+                design={design}
+                onOverflowChange={setLetterOverflow}
+                onImageChange={patchLetterImage}
+                onImageRemove={removeLetterImage}
+              />
             </ScaledPreview>
           </div>
         </main>

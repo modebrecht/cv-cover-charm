@@ -6,9 +6,11 @@ import {
   DEFAULT_LETTER_BEILAGEN,
   type LetterData,
   type LetterDesign,
+  type LetterFlowImage,
   type LetterTemplateId,
 } from "./types";
 import { letterRichHtml, plainTextToRichHtml } from "./rich-text";
+import { LetterFlowImages } from "./LetterFlowImages";
 
 type LetterLayout = {
   left: number;
@@ -792,15 +794,20 @@ export function LetterCanvas({
   design,
   exportMode = false,
   onOverflowChange,
+  onImageChange,
+  onImageRemove,
   ariaLabel = "Vorschau Motivationsschreiben",
 }: {
   data: LetterData;
   design: LetterDesign;
   exportMode?: boolean;
   onOverflowChange?: (overflow: boolean) => void;
+  onImageChange?: (id: string, patch: Partial<LetterFlowImage>) => void;
+  onImageRemove?: (id: string) => void;
   ariaLabel?: string;
 }) {
   const layout = layoutFor(design.template);
+  const contentWidthMm = 210 - layout.left - layout.right;
   const palette =
     design.template === "brief"
       ? { ink: "#111111", muted: "#4b5563", accent: "#111111", paper: "#ffffff" }
@@ -933,12 +940,21 @@ export function LetterCanvas({
             <div className="h-[8mm]" aria-hidden="true" />
           )}
 
-          <p data-letter-pdf-text="salutation" className="mb-[5mm]">
-            {data.anrede || (exportMode ? "" : "Guten Tag")}
-          </p>
+          <div data-letter-flow-zone>
+            <p data-letter-pdf-text="salutation" className="mb-[5mm]">
+              {data.anrede || (exportMode ? "" : "Guten Tag")}
+            </p>
 
-          <div
-            data-letter-pdf-richtext="body"
+            <LetterFlowImages
+              images={data.images ?? []}
+              contentWidthMm={contentWidthMm}
+              exportMode={exportMode}
+              onChange={onImageChange}
+              onRemove={onImageRemove}
+            />
+
+            <div
+              data-letter-pdf-richtext="body"
             className="text-[10.5pt] leading-[1.55] [&_div]:min-h-[1.55em] [&_p]:min-h-[1.55em] [&_hr]:my-[5mm] [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-current [&_hr]:opacity-50"
             dangerouslySetInnerHTML={{ __html: bodyHtml }}
           />
@@ -952,16 +968,17 @@ export function LetterCanvas({
             </div>
           </div>
 
-          {showBeilagen ? (
-            <div className="mt-[9mm] text-[10pt] leading-[1.45]">
-              <div data-letter-pdf-text="attachments-heading" className="font-semibold">
-                Beilagen:
+            {showBeilagen ? (
+              <div className="mt-[9mm] text-[10pt] leading-[1.45]">
+                <div data-letter-pdf-text="attachments-heading" className="font-semibold">
+                  Beilagen:
+                </div>
+                <div data-letter-pdf-text="attachments-body" className="mt-[1.5mm]">
+                  <Lines values={beilagen} />
+                </div>
               </div>
-              <div data-letter-pdf-text="attachments-body" className="mt-[1.5mm]">
-                <Lines values={beilagen} />
-              </div>
-            </div>
-          ) : null}
+            ) : null}
+          </div>
         </div>
       </div>
     </article>

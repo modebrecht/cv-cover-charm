@@ -5,6 +5,18 @@ export type LetterAlignment = "left" | "right";
 export type LetterTemplateId = "brief" | TemplateId;
 export type LetterBodyColumns = 1 | 2 | 3;
 
+/** Frei platzierbares Foto/Bild im Anschreiben. Der Textumbruch ist immer rechteckig (Word: Quadrat). */
+export type LetterFlowImage = {
+  id: string;
+  src: string;
+  side: "left" | "right";
+  /** Vertikaler Versatz ab Beginn des Brieftext-Bereichs in mm. */
+  topMm: number;
+  widthMm: number;
+  /** Abstand des Textes zum Bild in mm. */
+  gapMm: number;
+};
+
 export type LetterData = {
   absenderName: string;
   absenderAdresse: string;
@@ -24,6 +36,8 @@ export type LetterData = {
   richTextHtml?: string;
   gruss: string;
   unterschrift: string;
+  /** Optionale frei platzierbare Fotos/Bilder. Alte Entwürfe ohne Feld bleiben kompatibel. */
+  images?: LetterFlowImage[];
   /** Beilagen am Ende des Motivationsschreibens. */
   showBeilagen?: boolean;
   beilagen?: string[];
@@ -76,6 +90,7 @@ export const DEMO_LETTER: LetterData = {
   richTextHtml: "",
   gruss: "Freundliche Grüsse",
   unterschrift: "Lea Müller",
+  images: [],
   showBeilagen: true,
   beilagen: [...DEFAULT_LETTER_BEILAGEN],
 };
@@ -98,6 +113,7 @@ export const EMPTY_LETTER: LetterData = {
   richTextHtml: "",
   gruss: "Freundliche Grüsse",
   unterschrift: "",
+  images: [],
   showBeilagen: true,
   beilagen: [...DEFAULT_LETTER_BEILAGEN],
 };

@@ -342,4 +342,67 @@ test.describe("M7 dossier transfer regression", () => {
         font: "serif",
       });
   });
+
+  test("Anschreiben wraps text around freely placed photos", async ({ page }) => {
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+    await page.evaluate((photo) => {
+      localStorage.clear();
+      localStorage.setItem(
+        "anschreiben:v1",
+        JSON.stringify({
+          version: 1,
+          data: {
+            absenderName: "Mia Keller",
+            text:
+              "Dieser längere Brieftext prüft den Textfluss um ein frei platziertes Foto. ".repeat(12),
+            anrede: "Guten Tag",
+            gruss: "Freundliche Grüsse",
+            unterschrift: "Mia Keller",
+            images: [
+              {
+                id: "letter-flow-1",
+                src: photo,
+                side: "right",
+                topMm: 8,
+                widthMm: 34,
+                gapMm: 4,
+              },
+            ],
+          },
+          design: {
+            template: "brief",
+            colors: { bg: "#ffffff", primary: "#111111", accent: "#111111" },
+            font: "freundlich",
+          },
+        }),
+      );
+    }, PHOTO);
+
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    const preview = page.getByLabel("Vorschau Motivationsschreiben");
+    const image = preview.locator('[data-letter-flow-image="letter-flow-1"]');
+    await expect(image).toBeVisible();
+    await expect(image).toHaveAttribute("data-wrap", "square");
+    await expect(image).toHaveAttribute("data-side", "right");
+    expect(await image.evaluate((element) => getComputedStyle(element).cssFloat)).toBe("right");
+
+    const box = await image.boundingBox();
+    if (!box) throw new Error("flow image has no bounding box");
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x - 80, box.y + box.height / 2 + 30, { steps: 5 });
+    await page.mouse.up();
+
+    await expect(image).toHaveAttribute("data-side", "left");
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const saved = JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}");
+          const flow = saved.data?.images?.[0];
+          return { side: flow?.side, topMm: flow?.topMm };
+        }),
+      )
+      .toMatchObject({ side: "left" });
+  });
+
 });
