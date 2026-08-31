@@ -94,6 +94,7 @@ jobs:
         run: >-
           npx playwright test
           tests/e2e/dossier-regression.spec.ts
+          tests/e2e/dossier-transfer-regression.spec.ts
           tests/e2e/dossier-font-sync.spec.ts
           tests/e2e/dossier-typography-regression.spec.ts
           tests/e2e/element-ratio-lock.spec.ts
