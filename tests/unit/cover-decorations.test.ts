@@ -4,6 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { CoverBackground } from "../../src/components/cover/CoverBackground";
 import { templateDecorations } from "../../src/components/cover/template-decorations";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
+import { cvFrameFor } from "../../src/components/cv/archetype";
 
 const COLORS = {
   bg: "#ffffff",
@@ -105,5 +106,40 @@ describe("cover decoration single source", () => {
     for (const [template, id] of topBound) {
       expect(decoration(template, id).style.y).toBe(0);
     }
+  });
+
+  test("Warm and Colorful CVs keep real header fields and print-safe geometry", () => {
+    const warm = renderToStaticMarkup(
+      createElement(CoverBackground, { template: "freundlich", colors: COLORS }),
+    );
+    const colorful = renderToStaticMarkup(
+      createElement(CoverBackground, { template: "colorful", colors: COLORS }),
+    );
+
+    expect(warm).toContain("height: 52mm");
+    expect(warm).toContain("background: var(--cover-primary)");
+    expect(colorful).toContain("height: 40mm");
+    expect(colorful).toContain("height: 8mm");
+    expect(cvFrameFor("colorful").headFirstMm).toBe(40);
+  });
+
+  test("reported Modern, Blockig, Warm and Edel regressions stay guarded", async () => {
+    const [layouts, photoCss, letter] = await Promise.all([
+      Bun.file("src/components/cover/layouts.ts").text(),
+      Bun.file("src/components/cv/layout-options.css").text(),
+      Bun.file("src/components/letter/LetterCanvas.tsx").text(),
+    ]);
+
+    expect(layouts).toContain('block.id === "eyebrow"');
+    expect(layouts).toContain("x: 20");
+    expect(layouts).toContain("{ w: 174 }");
+    expect(layouts).toContain("{ maxLines: 1 }");
+    expect(photoCss).toContain('data-dossier-template="freundlich"');
+    expect(photoCss).toContain("box-shadow: none !important");
+    expect(letter).toContain("top: 44");
+    expect(letter).toContain("bandMm: 36");
+    expect(letter).toContain("footMm: 16");
+    expect(letter).toContain('template === "edel"');
+    expect(letter).toContain('style={{ inset: "19mm", backgroundColor: palette.paper }}');
   });
 });
