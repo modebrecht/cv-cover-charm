@@ -5,7 +5,12 @@ import {
   type FontKey,
   type TemplateId,
 } from "@/components/cover/types";
-import { COVER_STORAGE_KEY, CV_STORAGE_KEY, readStoredDossierPart } from "@/lib/dossier-project";
+import {
+  COVER_STORAGE_KEY,
+  CV_STORAGE_KEY,
+  LETTER_STORAGE_KEY,
+  readStoredDossierPart,
+} from "@/lib/dossier-project";
 import { dossierDefaultFontKey } from "@/lib/dossier-theme";
 import { defaultLetterColors, type LetterData, type LetterDesign } from "./types";
 
@@ -25,8 +30,15 @@ export type LetterDossierSource = {
 
 export type CoverDossierSource = {
   personalData: Partial<CoverData>;
+  applicationData: Partial<CoverData>;
   hasPersonal: boolean;
-  personalSource: "Lebenslauf" | null;
+  hasApplication: boolean;
+  personalSource:
+    | "Lebenslauf"
+    | "Motivationsschreiben"
+    | "Lebenslauf + Motivationsschreiben"
+    | null;
+  applicationSource: "Motivationsschreiben" | null;
 };
 
 const isRecord = (value: unknown): value is RecordLike =>
@@ -39,6 +51,25 @@ const text = (record: RecordLike | undefined, key: string): string => {
 
 function fullName(record: RecordLike | undefined): string {
   return [text(record, "vorname"), text(record, "nachname")].filter(Boolean).join(" ");
+}
+
+function splitLetterName(value: string): { vorname: string; nachname: string } {
+  const parts = value.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return { vorname: "", nachname: "" };
+  if (parts.length === 1) return { vorname: parts[0], nachname: "" };
+  return {
+    vorname: parts.slice(0, -1).join(" "),
+    nachname: parts.at(-1) ?? "",
+  };
+}
+
+function coverBerufFromLetterSubject(value: string): string {
+  const normalized = value.trim();
+  if (!normalized) return "";
+  const match =
+    normalized.match(/^Bewerbung\s+um\s+(?:eine\s+)?Lehrstelle\s+als\s+(.+)$/i) ??
+    normalized.match(/^Bewerbung\s+als\s+(.+)$/i);
+  return match?.[1]?.trim() ?? "";
 }
 
 /** Titelblatt speichert die Betriebsadresse bislang in einem Feld. Für den Brief
@@ -100,13 +131,23 @@ function cvDesign(raw: RecordLike | undefined): LetterDesign | null {
   };
 }
 
+/**
+ * Ein noch leeres Titelblatt darf das vorhandene Dossier zusammensetzen:
+ * persönliche Angaben bevorzugt aus dem Lebenslauf, fehlende Felder aus dem
+ * Motivationsschreiben; Foto nur aus dem Lebenslauf; Betrieb/Bewerbung aus dem
+ * Motivationsschreiben. Dadurch hängt die sinnvolle Reihenfolge der drei
+ * Editoren nicht mehr davon ab, womit jemand begonnen hat.
+ */
 export function readCoverDossierSource(): CoverDossierSource {
   const cv = readStoredDossierPart(CV_STORAGE_KEY);
+  const letter = readStoredDossierPart(LETTER_STORAGE_KEY);
   const cvData = cv && isRecord(cv.data) ? cv.data : undefined;
   const cvPerson = cvData && isRecord(cvData.person) ? cvData.person : undefined;
+  const letterData = letter && isRecord(letter.data) ? letter.data : undefined;
+  const letterName = splitLetterName(text(letterData, "absenderName"));
   const foto = cvPerson?.foto;
 
-  const personalData: Partial<CoverData> = {
+  const cvPersonal = {
     vorname: text(cvPerson, "vorname"),
     nachname: text(cvPerson, "nachname"),
     adresse: text(cvPerson, "adresse"),
@@ -114,17 +155,82 @@ export function readCoverDossierSource(): CoverDossierSource {
     telefon: text(cvPerson, "telefon"),
     email: text(cvPerson, "email"),
     geburtsdatum: text(cvPerson, "geburtsdatum"),
+  };
+  const letterPersonal = {
+    vorname: letterName.vorname,
+    nachname: letterName.nachname,
+    adresse: text(letterData, "absenderAdresse"),
+    plzOrt: text(letterData, "absenderPlzOrt"),
+    telefon: text(letterData, "absenderTelefon"),
+    email: text(letterData, "absenderEmail"),
+  };
+
+  const personalData: Partial<CoverData> = {
+    vorname: cvPersonal.vorname || letterPersonal.vorname,
+    nachname: cvPersonal.nachname || letterPersonal.nachname,
+    adresse: cvPersonal.adresse || letterPersonal.adresse,
+    plzOrt: cvPersonal.plzOrt || letterPersonal.plzOrt,
+    telefon: cvPersonal.telefon || letterPersonal.telefon,
+    email: cvPersonal.email || letterPersonal.email,
+    geburtsdatum: cvPersonal.geburtsdatum,
     foto: typeof foto === "string" && foto.startsWith("data:") ? foto : null,
   };
 
+  const cvContributed =
+    Object.values(cvPersonal).some(Boolean) ||
+    (typeof personalData.foto === "string" && personalData.foto.startsWith("data:"));
+  const letterContributed = !!(
+    (!cvPersonal.vorname && letterPersonal.vorname) ||
+    (!cvPersonal.nachname && letterPersonal.nachname) ||
+    (!cvPersonal.adresse && letterPersonal.adresse) ||
+    (!cvPersonal.plzOrt && letterPersonal.plzOrt) ||
+    (!cvPersonal.telefon && letterPersonal.telefon) ||
+    (!cvPersonal.email && letterPersonal.email)
+  );
   const hasPersonal = Object.entries(personalData).some(([key, value]) =>
     key === "foto" ? !!value : typeof value === "string" && !!value.trim(),
   );
 
+  const recipientAddress = [
+    text(letterData, "empfaengerAdresse"),
+    text(letterData, "empfaengerPlzOrt"),
+  ]
+    .filter(Boolean)
+    .join(", ");
+  const lehrbetrieb = text(letterData, "empfaengerFirma");
+  const ansprechperson = text(letterData, "empfaengerName");
+  const beruf = coverBerufFromLetterSubject(text(letterData, "betreff"));
+  const applicationData: Partial<CoverData> = {
+    lehrbetrieb,
+    ansprechperson,
+    betriebAdresse: recipientAddress,
+    beruf,
+    ort: text(letterData, "ort"),
+    datum: text(letterData, "datum"),
+    ...(lehrbetrieb || ansprechperson || recipientAddress ? { showBetriebOnCover: true } : {}),
+  };
+  const hasApplication = [
+    lehrbetrieb,
+    ansprechperson,
+    recipientAddress,
+    beruf,
+    text(letterData, "ort"),
+    text(letterData, "datum"),
+  ].some(Boolean);
+
   return {
     personalData,
+    applicationData,
     hasPersonal,
-    personalSource: hasPersonal ? "Lebenslauf" : null,
+    hasApplication,
+    personalSource: hasPersonal
+      ? cvContributed && letterContributed
+        ? "Lebenslauf + Motivationsschreiben"
+        : cvContributed
+          ? "Lebenslauf"
+          : "Motivationsschreiben"
+      : null,
+    applicationSource: hasApplication ? "Motivationsschreiben" : null,
   };
 }
 

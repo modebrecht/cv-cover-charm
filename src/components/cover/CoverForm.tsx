@@ -28,8 +28,118 @@ const inputCls =
   "rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring";
 
 export function FormBewerbung({ data, onChange }: Props) {
+  const [dossierSource, setDossierSource] = useState<CoverDossierSource | null>(null);
+  const [transferNote, setTransferNote] = useState<{ kind: "ok" | "error"; text: string } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    const refresh = () => setDossierSource(readCoverDossierSource());
+    refresh();
+    window.addEventListener("focus", refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!transferNote) return;
+    const timer = window.setTimeout(() => setTransferNote(null), 6000);
+    return () => window.clearTimeout(timer);
+  }, [transferNote]);
+
+  const takeFromDossier = () => {
+    const source = readCoverDossierSource();
+    setDossierSource(source);
+    if (!source.hasPersonal && !source.hasApplication) {
+      setTransferNote({
+        kind: "error",
+        text: "Im Lebenslauf oder Motivationsschreiben stehen noch keine übernehmbaren Angaben.",
+      });
+      return;
+    }
+
+    const personal = source.personalData;
+    const application = source.applicationData;
+    onChange({
+      ...(personal.vorname?.trim() ? { vorname: personal.vorname } : {}),
+      ...(personal.nachname?.trim() ? { nachname: personal.nachname } : {}),
+      ...(personal.adresse?.trim() ? { adresse: personal.adresse } : {}),
+      ...(personal.plzOrt?.trim() ? { plzOrt: personal.plzOrt } : {}),
+      ...(personal.telefon?.trim() ? { telefon: personal.telefon } : {}),
+      ...(personal.email?.trim() ? { email: personal.email } : {}),
+      ...(personal.geburtsdatum?.trim() ? { geburtsdatum: personal.geburtsdatum } : {}),
+      ...(personal.foto ? { foto: personal.foto } : {}),
+      ...(application.beruf?.trim() ? { beruf: application.beruf } : {}),
+      ...(application.lehrbetrieb?.trim() ? { lehrbetrieb: application.lehrbetrieb } : {}),
+      ...(application.ansprechperson?.trim()
+        ? { ansprechperson: application.ansprechperson }
+        : {}),
+      ...(application.betriebAdresse?.trim()
+        ? { betriebAdresse: application.betriebAdresse }
+        : {}),
+      ...(application.ort?.trim() ? { ort: application.ort } : {}),
+      ...(application.datum?.trim() ? { datum: application.datum } : {}),
+      ...(application.showBetriebOnCover === true ? { showBetriebOnCover: true } : {}),
+    });
+
+    const done: string[] = [];
+    if (source.hasPersonal) {
+      done.push(`persönliche Angaben aus ${source.personalSource}`);
+    }
+    if (source.hasApplication) {
+      done.push("Betrieb/Bewerbung aus Motivationsschreiben");
+    }
+    setTransferNote({
+      kind: "ok",
+      text: `Aus dem Dossier übernommen: ${done.join("; ")}.`,
+    });
+  };
+
   return (
     <div className="flex flex-col gap-3">
+      <div className="rounded-md border border-dashed p-2.5">
+        <div className="flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            <div className="text-xs font-semibold">Vom Dossier übernehmen</div>
+            <div className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
+              Lebenslauf zuerst für persönliche Angaben; das Motivationsschreiben ergänzt fehlende
+              Kontaktdaten sowie Betrieb und Bewerbung.
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={takeFromDossier}
+            disabled={!dossierSource?.hasPersonal && !dossierSource?.hasApplication}
+            className="shrink-0 rounded-md border border-input px-2.5 py-1.5 text-xs font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Alles übernehmen
+          </button>
+        </div>
+        <div className="mt-1.5 space-y-0.5 text-[11px] text-muted-foreground">
+          <div>
+            Persönliche Angaben: {dossierSource?.personalSource ?? "noch nicht verfügbar"}
+          </div>
+          <div>
+            Betrieb und Bewerbung: {dossierSource?.applicationSource ?? "noch nicht verfügbar"}
+          </div>
+        </div>
+        {transferNote ? (
+          <div
+            role="status"
+            className={`mt-2 rounded-md border px-2.5 py-1.5 text-[11px] ${
+              transferNote.kind === "error"
+                ? "border-destructive/40 text-destructive"
+                : "border-border bg-muted/40 text-muted-foreground"
+            }`}
+          >
+            {transferNote.text}
+          </div>
+        ) : null}
+      </div>
+
       <Field label="Titelzeile">
         <input
           className={inputCls}
@@ -73,92 +183,8 @@ export function FormBewerbung({ data, onChange }: Props) {
 }
 
 export function FormPerson({ data, onChange }: Props) {
-  const [dossierSource, setDossierSource] = useState<CoverDossierSource | null>(null);
-  const [transferNote, setTransferNote] = useState<{ kind: "ok" | "error"; text: string } | null>(
-    null,
-  );
-
-  useEffect(() => {
-    const refresh = () => setDossierSource(readCoverDossierSource());
-    refresh();
-    window.addEventListener("focus", refresh);
-    window.addEventListener("storage", refresh);
-    return () => {
-      window.removeEventListener("focus", refresh);
-      window.removeEventListener("storage", refresh);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!transferNote) return;
-    const timer = window.setTimeout(() => setTransferNote(null), 5000);
-    return () => window.clearTimeout(timer);
-  }, [transferNote]);
-
-  const takeFromDossier = () => {
-    const source = readCoverDossierSource();
-    setDossierSource(source);
-    if (!source.hasPersonal) {
-      setTransferNote({
-        kind: "error",
-        text: "Im Lebenslauf stehen noch keine persönlichen Angaben.",
-      });
-      return;
-    }
-
-    const incoming = source.personalData;
-    onChange({
-      ...(incoming.vorname?.trim() ? { vorname: incoming.vorname } : {}),
-      ...(incoming.nachname?.trim() ? { nachname: incoming.nachname } : {}),
-      ...(incoming.adresse?.trim() ? { adresse: incoming.adresse } : {}),
-      ...(incoming.plzOrt?.trim() ? { plzOrt: incoming.plzOrt } : {}),
-      ...(incoming.telefon?.trim() ? { telefon: incoming.telefon } : {}),
-      ...(incoming.email?.trim() ? { email: incoming.email } : {}),
-      ...(incoming.geburtsdatum?.trim() ? { geburtsdatum: incoming.geburtsdatum } : {}),
-      ...(incoming.foto ? { foto: incoming.foto } : {}),
-    });
-    setTransferNote({
-      kind: "ok",
-      text: "Persönliche Angaben aus dem Lebenslauf übernommen.",
-    });
-  };
-
   return (
     <div className="flex flex-col gap-3">
-      <div className="rounded-md border border-dashed p-2.5">
-        <div className="flex items-center justify-between gap-2">
-          <div className="min-w-0">
-            <div className="text-xs font-semibold">Vom Dossier übernehmen</div>
-            <div className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
-              Name, Adresse, Kontakt, Geburtsdatum und Foto aus dem Lebenslauf.
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={takeFromDossier}
-            disabled={!dossierSource?.hasPersonal}
-            className="shrink-0 rounded-md border border-input px-2.5 py-1.5 text-xs font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Übernehmen
-          </button>
-        </div>
-        <div className="mt-1.5 text-[11px] text-muted-foreground">
-          Quelle: {dossierSource?.personalSource ?? "noch nicht verfügbar"}
-        </div>
-        {transferNote ? (
-          <div
-            role="status"
-            className={`mt-2 rounded-md border px-2.5 py-1.5 text-[11px] ${
-              transferNote.kind === "error"
-                ? "border-destructive/40 text-destructive"
-                : "border-border bg-muted/40 text-muted-foreground"
-            }`}
-          >
-            {transferNote.text}
-          </div>
-        ) : null}
-      </div>
-
       <div className="grid grid-cols-2 gap-3">
         <Field label="Vorname">
           <input

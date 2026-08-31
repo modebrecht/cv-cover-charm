@@ -90,6 +90,35 @@ function coverPayload() {
   };
 }
 
+function letterPayload() {
+  return {
+    version: 1,
+    data: {
+      absenderName: "Noemi Frei",
+      absenderAdresse: "Briefweg 9",
+      absenderPlzOrt: "4500 Solothurn",
+      absenderTelefon: "+41 78 222 33 44",
+      absenderEmail: "noemi.frei@example.ch",
+      empfaengerFirma: "LetterWorks AG",
+      empfaengerName: "Herr Luca Beispiel",
+      empfaengerAdresse: "Werkstrasse 11",
+      empfaengerPlzOrt: "4600 Olten",
+      ort: "Solothurn",
+      datum: "31.08.2026",
+      betreff: "Bewerbung um eine Lehrstelle als Mediamatiker/in EFZ",
+      anrede: "Guten Tag Herr Beispiel",
+      text: "Eigener Brieftext",
+      gruss: "Freundliche Grüsse",
+      unterschrift: "Noemi Frei",
+    },
+    design: {
+      template: "brief",
+      colors: { bg: "#ffffff", primary: "#111111", accent: "#111111" },
+      font: "freundlich",
+    },
+  };
+}
+
 async function openSection(page: Page, name: RegExp) {
   const header = page.getByRole("button", { name });
   if ((await header.getAttribute("aria-expanded")) !== "true") await header.click();
@@ -99,24 +128,49 @@ async function openSection(page: Page, name: RegExp) {
 }
 
 test.describe("M7 dossier transfer regression", () => {
-  test("Titelblatt can reuse personal details from the Lebenslauf", async ({ page }) => {
+  test("Titelblatt combines CV personal data with letter application data", async ({ page }) => {
     await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
-    await page.evaluate((cv) => {
-      localStorage.clear();
-      localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
-    }, cvPayload());
+    await page.evaluate(
+      ({ cv, letter }) => {
+        localStorage.clear();
+        localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
+        localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
+      },
+      { cv: cvPayload(), letter: letterPayload() },
+    );
 
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
-    const person = await openSection(page, /^Persönliche Angaben/);
-    await expect(person.getByText("Quelle: Lebenslauf", { exact: true })).toBeVisible();
-    await person.getByRole("button", { name: "Übernehmen", exact: true }).click();
+    const application = await openSection(page, /^Bewerbung/);
+    await expect(
+      application.getByText("Persönliche Angaben: Lebenslauf", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      application.getByText("Betrieb und Bewerbung: Motivationsschreiben", { exact: true }),
+    ).toBeVisible();
+    await application.getByRole("button", { name: "Alles übernehmen", exact: true }).click();
+    await expect(application.getByRole("status")).toContainText(
+      "persönliche Angaben aus Lebenslauf",
+    );
+    await expect(application.getByLabel("Lehrberuf", { exact: true })).toHaveValue(
+      "Mediamatiker/in EFZ",
+    );
 
+    const person = await openSection(page, /^Persönliche Angaben/);
     await expect(person.getByLabel("Vorname", { exact: true })).toHaveValue("Mia");
     await expect(person.getByLabel("Nachname", { exact: true })).toHaveValue("Keller");
     await expect(person.getByLabel("Adresse", { exact: true })).toHaveValue("Dorfweg 7");
     await expect(person.getByLabel("PLZ / Ort", { exact: true })).toHaveValue("4535 Hubersdorf");
     await expect(person.getByLabel("E-Mail", { exact: true })).toHaveValue(
       "mia.keller@example.ch",
+    );
+
+    const company = await openSection(page, /^Firma \/ Lehrbetrieb/);
+    await expect(company.getByLabel("Firma", { exact: true })).toHaveValue("LetterWorks AG");
+    await expect(company.getByLabel("Ansprechperson", { exact: true })).toHaveValue(
+      "Herr Luca Beispiel",
+    );
+    await expect(company.getByLabel("Adresse", { exact: true })).toHaveValue(
+      "Werkstrasse 11, 4600 Olten",
     );
 
     await expect
@@ -127,6 +181,8 @@ test.describe("M7 dossier transfer regression", () => {
             vorname: saved.data?.vorname,
             nachname: saved.data?.nachname,
             geburtsdatum: saved.data?.geburtsdatum,
+            beruf: saved.data?.beruf,
+            lehrbetrieb: saved.data?.lehrbetrieb,
             hasPhoto: typeof saved.data?.foto === "string" && saved.data.foto.startsWith("data:"),
           };
         }),
@@ -135,8 +191,33 @@ test.describe("M7 dossier transfer regression", () => {
         vorname: "Mia",
         nachname: "Keller",
         geburtsdatum: "12.04.2010",
+        beruf: "Mediamatiker/in EFZ",
+        lehrbetrieb: "LetterWorks AG",
         hasPhoto: true,
       });
+  });
+
+  test("Titelblatt falls back to letter personal data when no CV exists", async ({ page }) => {
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+    await page.evaluate((letter) => {
+      localStorage.clear();
+      localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
+    }, letterPayload());
+
+    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+    const application = await openSection(page, /^Bewerbung/);
+    await expect(
+      application.getByText("Persönliche Angaben: Motivationsschreiben", { exact: true }),
+    ).toBeVisible();
+    await application.getByRole("button", { name: "Alles übernehmen", exact: true }).click();
+
+    const person = await openSection(page, /^Persönliche Angaben/);
+    await expect(person.getByLabel("Vorname", { exact: true })).toHaveValue("Noemi");
+    await expect(person.getByLabel("Nachname", { exact: true })).toHaveValue("Frei");
+    await expect(person.getByLabel("Adresse", { exact: true })).toHaveValue("Briefweg 9");
+    await expect(person.getByLabel("E-Mail", { exact: true })).toHaveValue(
+      "noemi.frei@example.ch",
+    );
   });
 
   test("Lebenslauf uses one dossier takeover and preserves CV-only content", async ({ page }) => {
