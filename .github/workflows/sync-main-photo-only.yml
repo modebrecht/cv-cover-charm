@@ -1,0 +1,165 @@
+name: Main Photo Sync Cleanup
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - .github/workflows/sync-main-photo-only.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: Keep free elements local
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_exact(path: Path, old: str, new: str, label: str) -> None:
+              text = path.read_text(encoding="utf-8")
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{label}: expected 1 match, found {count}")
+              path.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+          cv = Path("src/routes/lebenslauf.tsx")
+
+          replace_exact(
+              cv,
+              '''      bodyScale: draft.fontScale,\n      useElements: draft.elements.length > 0,\n    }));\n    setElements(draft.elements);\n    setElementStyles({});\n    setCvPhotoStyle(draft.photoStyle);''',
+              '''      bodyScale: draft.fontScale,\n    }));\n    setCvPhotoStyle(draft.photoStyle);''',
+              "full takeover must preserve local free elements",
+          )
+
+          replace_exact(
+              cv,
+              '''    typography: true,\n    elements: true,\n    photo: true,''',
+              '''    typography: true,\n    photo: true,''',
+              "takeover state",
+          )
+
+          replace_exact(
+              cv,
+              '''    { key: "elements", label: "Eigene Felder und Formen", hint: "Formen und Linien, ohne Texte" },\n''',
+              '''''',
+              "remove free-elements takeover option",
+          )
+
+          replace_exact(
+              cv,
+              '''      typography: true,\n      elements: true,\n      photo: true,''',
+              '''      typography: true,\n      photo: true,''',
+              "reset takeover selection",
+          )
+
+          replace_exact(
+              cv,
+              '''    if (takeover.elements) {\n      setElements(draft.elements);\n      setElementStyles({});\n      setDesign((d) => ({ ...d, useElements: draft.elements.length > 0 }));\n      done.push(`Formen (${draft.elements.length})`);\n    }\n\n''',
+              '''''',
+              "remove granular free-elements sync",
+          )
+
+          replace_exact(
+              cv,
+              '''    setElements(draft?.elements ?? []);\n    setElementStyles({});''',
+              '''    setElements([]);\n    setElementStyles({});''',
+              "reset keeps free elements local",
+          )
+
+          replace_exact(
+              cv,
+              '''      useElements: (draft?.elements.length ?? 0) > 0,''',
+              '''      useElements: false,''',
+              "reset useElements",
+          )
+
+          dossier = Path("src/lib/dossier.ts")
+          replace_exact(
+              dossier,
+              '''  type CoverData,\n  type CustomField,\n  type FontKey,''',
+              '''  type CoverData,\n  type FontKey,''',
+              "unused CustomField import",
+          )
+          replace_exact(
+              dossier,
+              '''  customs?: unknown;\n''',
+              '''''',
+              "stored cover customs",
+          )
+          replace_exact(
+              dossier,
+              '''  /** Selbst hinzugefügte Formen und Bilder – ohne die Textfelder. */\n  elements: CustomField[];\n''',
+              '''''',
+              "CoverDraft elements",
+          )
+          replace_exact(
+              dossier,
+              '''    elements: draft.elements,\n''',
+              '''''',
+              "fingerprint elements",
+          )
+          replace_exact(
+              dossier,
+              '''    elements: [],\n''',
+              '''''',
+              "empty draft elements",
+          )
+          replace_exact(
+              dossier,
+              '''    // Nur Formen und Bilder – Textfelder gehören zum Titelblatt, nicht hierher.\n    const elements = Array.isArray(p.customs)\n      ? (p.customs as Record<string, unknown>[]).filter((c) => {\n          const kind = c.kind ?? (c.shape ? "shape" : "text");\n          return kind === "shape" || kind === "image";\n        })\n      : [];\n\n''',
+              '''''',
+              "readCoverDraft free elements",
+          )
+          replace_exact(
+              dossier,
+              '''      elements: elements as CustomField[],\n''',
+              '''''',
+              "return free elements",
+          )
+
+          spec = Path("tests/e2e/dossier-transfer-regression.spec.ts")
+          replace_exact(
+              spec,
+              '''    elements: [],\n    elementStyles: {},''',
+              '''    elements: [\n      {\n        id: "cv-local-image",\n        label: "Bild 1",\n        text: "",\n        kind: "image",\n        src: PHOTO,\n        page: 1,\n      },\n    ],\n    elementStyles: {},''',
+              "CV local free element fixture",
+          )
+          replace_exact(
+              spec,
+              '''    customs: [],\n    fontScale: 1.15,''',
+              '''    customs: [\n      {\n        id: "cover-free-image",\n        label: "Bild 1",\n        text: "",\n        kind: "image",\n        src: PHOTO,\n      },\n    ],\n    fontScale: 1.15,''',
+              "cover free element fixture",
+          )
+          replace_exact(
+              spec,
+              '''            vorname: saved.data?.person?.vorname,\n            school: saved.data?.schule?.[0]?.titel,''',
+              '''            vorname: saved.data?.person?.vorname,\n            school: saved.data?.schule?.[0]?.titel,\n            elementIds: saved.elements?.map((element: { id?: string }) => element.id),''',
+              "capture preserved CV elements",
+          )
+          replace_exact(
+              spec,
+              '''        vorname: "Lea",\n        school: "Bestehende Schule bleibt erhalten",\n      });''',
+              '''        vorname: "Lea",\n        school: "Bestehende Schule bleibt erhalten",\n        elementIds: ["cv-local-image"],\n      });''',
+              "assert local free elements remain local",
+          )
+
+          Path(".github/workflows/sync-main-photo-only.yml").unlink()
+          PY
+
+      - name: Commit focused sync cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix: sync only the main dossier photo"
+          git push origin HEAD:dev
