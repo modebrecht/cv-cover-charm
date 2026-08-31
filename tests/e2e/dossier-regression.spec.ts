@@ -549,7 +549,7 @@ test.describe("M5.8 dossier regression", () => {
     );
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
 
-    const takeAll = page.getByRole("button", { name: "Alles vom Titelblatt übernehmen" });
+    const takeAll = page.getByRole("button", { name: "Alles übernehmen" });
     await expect(takeAll).toBeVisible();
     await expect
       .poll(() =>
@@ -663,7 +663,7 @@ test.describe("M5.8 dossier regression", () => {
     await expect(preview).toHaveAttribute("data-letter-template", "modern");
     await expect(page.getByRole("button", { name: "Farben", exact: true })).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Alles vom Titelblatt übernehmen", exact: true }),
+      page.getByRole("button", { name: "Alles übernehmen", exact: true }),
     ).toBeVisible();
     await expect
       .poll(() =>
@@ -699,7 +699,7 @@ test.describe("M5.8 dossier regression", () => {
       localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
     });
 
-    await page.getByRole("button", { name: "Alles vom Titelblatt übernehmen" }).click();
+    await page.getByRole("button", { name: "Alles übernehmen" }).click();
     await expect(page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })).toHaveValue(
       "Neue Beispiel AG",
     );
