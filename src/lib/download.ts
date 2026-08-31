@@ -1,3 +1,4 @@
+import "jspdf";
 import "./cv-pdf-text";
 
 const UMLAUTS: Record<string, string> = {
