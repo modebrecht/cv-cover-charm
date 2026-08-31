@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import "@/components/cover/fresh-templates";
 import { CoverCanvas } from "@/components/cover/CoverCanvas";
 import { CvCanvas } from "@/components/cv/CvCanvas";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
