@@ -120,7 +120,7 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
   modern: [
     // Modern bleibt bewusst ruhig: nur die weiche Kreisfläche, keine
     // dekorativen Striche oder Farbbänder im Bewerbungsdossier.
-    circle("modernAccentCircle", "Kreisfläche", 112, 24, 86, 86, "accent", 0.1),
+    circle("modernAccentCircle", "Kreisfläche", 112, 25, 86, 86, "accent", 0.1),
   ],
 
   edel: [line("decor-center-line", "Akzentstrich", 85, 196, 40, 0.159, "accent", 0.7)],
