@@ -670,10 +670,11 @@ export function DossierSheetBackground({
 
       {template === "studio" && (
         <div
-          className="absolute top-[24mm]"
+          className="absolute"
           style={{
             left: `${layout.columnMm ?? 20}mm`,
             right: 0,
+            top: `${pageIndex === 0 ? 24 : 0}mm`,
             height: `${layout.bandMm ?? 10}mm`,
             backgroundColor: accent,
             color: primaryRoles.ink,

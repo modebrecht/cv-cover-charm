@@ -8,9 +8,16 @@ import {
 import { TEMPLATES } from "../../src/components/cover/types";
 import { defaultLetterColors } from "../../src/components/letter/types";
 
-const markupFor = (template: Parameters<typeof DossierSheetBackground>[0]["template"]) =>
+const markupFor = (
+  template: Parameters<typeof DossierSheetBackground>[0]["template"],
+  pageIndex = 0,
+) =>
   renderToStaticMarkup(
-    createElement(DossierSheetBackground, { template, colors: defaultLetterColors(template) }),
+    createElement(DossierSheetBackground, {
+      template,
+      colors: defaultLetterColors(template),
+      pageIndex,
+    }),
   );
 
 describe("shared dossier sheet background", () => {
@@ -34,6 +41,14 @@ describe("shared dossier sheet background", () => {
     expect(markupFor("studio")).toContain("height:38mm");
     expect(letterLayoutFor("freundlich").top).toBe(60);
     expect(letterLayoutFor("blockig").left).toBe(74);
+  });
+
+  test("continuation pages collapse large CV headers without overlapping content", () => {
+    expect(markupFor("freundlich", 1)).toContain("height:14mm");
+    expect(markupFor("colorful", 1)).toContain("height:14mm");
+    expect(markupFor("studio", 1)).toContain("height:13mm");
+    expect(markupFor("studio", 1)).toContain("top:0mm");
+    expect(markupFor("studio", 1)).toContain("width:72mm");
   });
 
   test("Brief remains the deliberate plain-white alternative", () => {
