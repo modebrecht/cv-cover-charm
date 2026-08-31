@@ -1,3 +1,4 @@
+import { jsPDF } from "jspdf";
 import type { jsPDF as JsPdf } from "jspdf";
 
 const MASK_STYLE_ID = "cv-pdf-raster-text-mask";
@@ -314,13 +315,4 @@ function installJsPdfPlugin(JsPdfRuntime: JsPdfConstructor) {
   installRasterTextMask();
 }
 
-function prepareCvPdfTextLayer() {
-  if (typeof window === "undefined") return;
-  void import("jspdf")
-    .then(({ jsPDF }) => installJsPdfPlugin(jsPDF))
-    .catch((error: unknown) => {
-      console.error("CV-PDF-Textebene konnte nicht vorbereitet werden", error);
-    });
-}
-
-prepareCvPdfTextLayer();
+if (typeof window !== "undefined") installJsPdfPlugin(jsPDF);
