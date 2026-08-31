@@ -4,7 +4,7 @@ import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { Section } from "@/components/cover/Section";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import { FileDown, History, Sparkles } from "lucide-react";
+import { FileDown, History, RotateCcw, Sparkles } from "lucide-react";
 import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import {
@@ -122,6 +122,7 @@ function Anschreiben() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [confirmDemo, setConfirmDemo] = useState(false);
+  const [confirmWipe, setConfirmWipe] = useState(false);
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [letterOverflow, setLetterOverflow] = useState(false);
   const [pdfDownloading, setPdfDownloading] = useState(false);
@@ -295,6 +296,7 @@ function Anschreiben() {
         setMenuOpen(false);
         setHistoryOpen(false);
         setConfirmDemo(false);
+        setConfirmWipe(false);
       }
     };
     document.addEventListener("pointerdown", close);
@@ -305,6 +307,7 @@ function Anschreiben() {
     if (!menuOpen) {
       setHistoryOpen(false);
       setConfirmDemo(false);
+      setConfirmWipe(false);
     }
   }, [menuOpen]);
 
@@ -456,6 +459,25 @@ function Anschreiben() {
     setTransferNote({ kind: "ok", text: "Beispieldaten eingefügt" });
   };
 
+  const resetLetter = () => {
+    keepSnapshot("Vor dem Zurücksetzen", true);
+    setData({
+      ...EMPTY_LETTER,
+      images: [],
+      beilagen: [...DEFAULT_LETTER_BEILAGEN],
+    });
+    setDesign(emptyLetterDesign());
+    setPdfError(null);
+    setHistoryOpen(false);
+    setConfirmDemo(false);
+    setConfirmWipe(false);
+    setMenuOpen(false);
+    setTransferNote({
+      kind: "ok",
+      text: "Motivationsschreiben zurückgesetzt – frühere Stände im Menü oben rechts.",
+    });
+  };
+
   const restoreSnapshot = (snap: Snapshot) => {
     keepSnapshot("Vor dem Zurückholen", true);
     const saved = snap.payload as Partial<SavedLetter>;
@@ -565,7 +587,10 @@ function Anschreiben() {
               ) : (
                 <button
                   type="button"
-                  onClick={() => setConfirmDemo(true)}
+                  onClick={() => {
+                    setConfirmDemo(true);
+                    setConfirmWipe(false);
+                  }}
                   className="flex w-full items-center border-t px-3 py-2 text-left text-sm hover:bg-accent"
                 >
                   <EditorMenuLabel icon={Sparkles}>Beispieldaten übernehmen</EditorMenuLabel>
@@ -573,7 +598,10 @@ function Anschreiben() {
               )}
               <button
                 type="button"
-                onClick={() => setHistoryOpen((value) => !value)}
+                onClick={() => {
+                  setHistoryOpen((value) => !value);
+                  setConfirmWipe(false);
+                }}
                 disabled={history.length === 0}
                 className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
               >
@@ -596,6 +624,41 @@ function Anschreiben() {
                   ))}
                 </div>
               ) : null}
+              {confirmWipe ? (
+                <div className="flex items-center gap-1 border-t bg-destructive/5 px-3 py-2">
+                  <span className="mr-auto text-xs font-medium text-destructive">
+                    Motivationsschreiben wirklich zurücksetzen?
+                  </span>
+                  <button
+                    type="button"
+                    onClick={resetLetter}
+                    className="rounded-md bg-destructive px-2 py-1 text-xs font-medium text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    Ja
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmWipe(false)}
+                    className="rounded-md border border-input px-2 py-1 text-xs hover:bg-accent"
+                  >
+                    Abbrechen
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setConfirmWipe(true);
+                    setConfirmDemo(false);
+                    setHistoryOpen(false);
+                  }}
+                  className="flex w-full items-center border-t px-3 py-2 text-left text-sm text-destructive hover:bg-destructive/10"
+                >
+                  <EditorMenuLabel icon={RotateCcw}>
+                    Motivationsschreiben zurücksetzen
+                  </EditorMenuLabel>
+                </button>
+              )}
             </div>
           ) : null}
         </div>
