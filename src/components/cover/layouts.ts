@@ -12,19 +12,40 @@ export * from "./layouts-base";
 
 const MODERN_TOP_CLUSTER_OFFSET_MM = 6;
 
-function modernTopClusterOffset(
+function templateDefaultAdjustment(
   template: TemplateId,
   block: Block,
   overrides: StyleOverrides,
 ): Block {
-  if (template !== "modern") return block;
-  if (block.id !== "foto" && block.id !== "modernAccentCircle") return block;
-  if (overrides[block.id]?.y !== undefined) return block;
+  let adjusted = block;
 
-  return {
-    ...block,
-    style: { ...block.style, y: block.style.y + MODERN_TOP_CLUSTER_OFFSET_MM },
-  };
+  if (template === "modern") {
+    if (block.id === "eyebrow" && overrides[block.id]?.x === undefined) {
+      adjusted = { ...adjusted, style: { ...adjusted.style, x: 20 } };
+    }
+    if (
+      (block.id === "foto" || block.id === "modernAccentCircle") &&
+      overrides[block.id]?.y === undefined
+    ) {
+      adjusted = {
+        ...adjusted,
+        style: { ...adjusted.style, y: adjusted.style.y + MODERN_TOP_CLUSTER_OFFSET_MM },
+      };
+    }
+  }
+
+  if (template === "blockig" && block.id === "kicker") {
+    adjusted = {
+      ...adjusted,
+      style: {
+        ...adjusted.style,
+        ...(overrides[block.id]?.w === undefined ? { w: 174 } : {}),
+        ...(overrides[block.id]?.maxLines === undefined ? { maxLines: 1 } : {}),
+      },
+    };
+  }
+
+  return adjusted;
 }
 
 export function buildBlocks(
@@ -35,10 +56,10 @@ export function buildBlocks(
   slots: ColorSlot[],
 ): Block[] {
   const blocks = buildBaseBlocks(template, data, customs, overrides, slots).map((block) =>
-    modernTopClusterOffset(template, block, overrides),
+    templateDefaultAdjustment(template, block, overrides),
   );
   const decorations = templateDecorations(template, overrides).map((block) =>
-    modernTopClusterOffset(template, block, overrides),
+    templateDefaultAdjustment(template, block, overrides),
   );
 
   const companyVisible = data.showBetriebOnCover === true;

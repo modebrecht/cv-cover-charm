@@ -78,10 +78,10 @@ const LETTER_LAYOUTS: Record<string, LetterLayout> = {
     kind: "band",
     left: 25,
     right: 23,
-    top: 31,
-    bottom: 25,
-    bandMm: 14,
-    footMm: 7,
+    top: 44,
+    bottom: 24,
+    bandMm: 36,
+    footMm: 16,
   },
   serioes: {
     kind: "band",
@@ -549,6 +549,26 @@ function LetterBackground({ design }: { design: LetterDesign }) {
   const accent = color(colors, "accent", "secondary", "primary", "ink");
   const primaryRoles = onColorRoles(primary, accent);
 
+  if (template === "edel") {
+    return (
+      <div
+        className="absolute inset-0 overflow-hidden"
+        style={{ backgroundColor: color(colors, "bg") }}
+        aria-hidden="true"
+      >
+        <div className="absolute" style={{ inset: "19mm", backgroundColor: palette.paper }} />
+        <div
+          className="absolute"
+          style={{ inset: "12mm", border: `0.55px solid ${accent}`, opacity: 0.5 }}
+        />
+        <div
+          className="absolute"
+          style={{ inset: "15mm", border: `0.35px solid ${accent}`, opacity: 0.3 }}
+        />
+      </div>
+    );
+  }
+
   if (layout.kind === "card") {
     const inset = layout.cardInsetMm ?? 12;
     const cardBackground = template === "citrus" ? color(colors, "bg") : palette.paper;
@@ -644,12 +664,19 @@ function LetterBackground({ design }: { design: LetterDesign }) {
         />
       )}
 
+      {template === "edelBlockig" && (
+        <div
+          className="absolute inset-x-0 top-[36mm] h-[0.3mm]"
+          style={{ backgroundColor: accent, opacity: 0.72 }}
+        />
+      )}
+
       {(layout.footMm ?? 0) > 0 && (
         <div
           className="absolute inset-x-0 bottom-0"
           style={{
             height: `${layout.footMm}mm`,
-            backgroundColor: template === "sonne" ? primary : accent,
+            backgroundColor: template === "sonne" || template === "edelBlockig" ? primary : accent,
           }}
         />
       )}
@@ -856,7 +883,9 @@ export function LetterCanvas({
       data-letter-page
       data-letter-template={design.template}
       data-letter-font={design.fontOverride ?? design.font}
-      data-letter-font-source={design.template === "brief" ? "standalone" : design.fontOverride ? "override" : "family"}
+      data-letter-font-source={
+        design.template === "brief" ? "standalone" : design.fontOverride ? "override" : "family"
+      }
       className="relative h-[1123px] w-[794px] overflow-hidden shadow-xl"
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
       aria-label={ariaLabel}
@@ -955,18 +984,18 @@ export function LetterCanvas({
 
             <div
               data-letter-pdf-richtext="body"
-            className="text-[10.5pt] leading-[1.55] [&_div]:min-h-[1.55em] [&_p]:min-h-[1.55em] [&_hr]:my-[5mm] [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-current [&_hr]:opacity-50"
-            dangerouslySetInnerHTML={{ __html: bodyHtml }}
-          />
+              className="text-[10.5pt] leading-[1.55] [&_div]:min-h-[1.55em] [&_p]:min-h-[1.55em] [&_hr]:my-[5mm] [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-current [&_hr]:opacity-50"
+              dangerouslySetInnerHTML={{ __html: bodyHtml }}
+            />
 
-          <div className="mt-[9mm]">
-            <div data-letter-pdf-text="closing">
-              {data.gruss || (exportMode ? "" : "Freundliche Grüsse")}
+            <div className="mt-[9mm]">
+              <div data-letter-pdf-text="closing">
+                {data.gruss || (exportMode ? "" : "Freundliche Grüsse")}
+              </div>
+              <div data-letter-pdf-text="signature" className="mt-[9mm] font-medium">
+                {data.unterschrift || data.absenderName}
+              </div>
             </div>
-            <div data-letter-pdf-text="signature" className="mt-[9mm] font-medium">
-              {data.unterschrift || data.absenderName}
-            </div>
-          </div>
 
             {showBeilagen ? (
               <div className="mt-[9mm] text-[10pt] leading-[1.45]">

@@ -110,7 +110,7 @@ const FRAMES: Record<TemplateId, CvFrame> = {
   freundlich: band(52, { bandMotif: true }), // Titelblatt: 115 mm Kopffläche
   aurora: band(56, { bandMotif: true, footMm: 5 }), // Titelblatt: 128 mm Verlaufsband
   edelBlockig: band(36, { footMm: 16, footRule: true }), // Titelblatt: 36 mm / 65 mm
-  colorful: band(30, { footMm: 8 }), //     Titelblatt: 28 mm Kopfband, 8 mm Fussband
+  colorful: band(40, { footMm: 8 }), //     CV: 40 mm Druckrand-Kopfzone, 8 mm Fussband
   welle: band(0, { footMm: 24, footRule: true }), // Titelblatt: Fussfläche ab 180 mm
   serioes: band(6, { footMm: 3 }), //       Titelblatt: 6 mm / 3 mm
   modern: band(0), //                       Titelblatt: keine eigenen Ränder

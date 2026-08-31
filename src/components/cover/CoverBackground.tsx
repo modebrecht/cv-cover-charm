@@ -152,6 +152,60 @@ export function CoverBackground({
   // rail) without duplicating those editor primitives on the title page.
   return (
     <>
+      {template === "freundlich" || template === "colorful" ? (
+        <style>{`
+          html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 52mm;
+            background: var(--cover-primary);
+            pointer-events: none;
+          }
+          html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 14mm;
+            background: var(--cover-primary);
+            pointer-events: none;
+          }
+          html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 40mm;
+            background: var(--cover-primary);
+            pointer-events: none;
+          }
+          html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 14mm;
+            background: var(--cover-primary);
+            pointer-events: none;
+          }
+          html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 8mm;
+            background: var(--cover-secondary);
+            pointer-events: none;
+          }
+        `}</style>
+      ) : null}
       {template === "blockig" ? (
         <style>{`
           html[data-dossier-template="blockig"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::before {
@@ -184,6 +238,7 @@ export function CoverBackground({
           {
             backgroundColor: colors.bg,
             "--cover-primary": colors.primary ?? colors.accent ?? colors.ink ?? colors.bg,
+            "--cover-secondary": colors.secondary ?? colors.accent ?? colors.primary ?? colors.bg,
             "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,
           } as CSSProperties
         }

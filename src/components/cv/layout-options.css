@@ -17,6 +17,11 @@
   box-shadow: 0 0 0 var(--cv-photo-border-width, 0.3mm) var(--cv-photo-border-color, currentColor) !important;
 }
 
+/* Warm: no second ring around a circular portrait. */
+html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-photo] {
+  box-shadow: none !important;
+}
+
 /*
  * Nachfahre statt Kind: das frei gesetzte Foto trägt seinen Beschnitt in einer
  * inneren Fläche, damit der Griff für die Grösse daneben stehen bleiben kann.
