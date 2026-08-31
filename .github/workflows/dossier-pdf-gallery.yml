@@ -21,11 +21,17 @@ on:
       - src/components/cover/layouts.ts
       - src/components/cover/template-decorations.ts
       - src/components/cover/fresh-templates.ts
+      - src/components/cv/CvCanvas.tsx
+      - src/components/dossier/DossierPdfCanvas.tsx
       - src/components/letter/LetterTemplatePicker.tsx
       - src/components/letter/LetterCanvas.tsx
       - src/components/letter/dossier-transfer.ts
       - src/components/letter/types.ts
+      - src/lib/cv-pdf-text.ts
+      - src/lib/dossier-pdf.ts
+      - src/lib/dossier-pdf-document.ts
       - src/lib/dossier-theme.ts
+      - src/lib/download.ts
 
 permissions:
   contents: read
@@ -64,11 +70,17 @@ jobs:
           src/components/cover/CoverBackground.tsx
           src/components/cover/layouts.ts
           src/components/cover/template-decorations.ts
+          src/components/cv/CvCanvas.tsx
+          src/components/dossier/DossierPdfCanvas.tsx
           src/components/letter/LetterTemplatePicker.tsx
           src/components/letter/LetterCanvas.tsx
           src/components/letter/dossier-transfer.ts
           src/components/letter/types.ts
+          src/lib/cv-pdf-text.ts
+          src/lib/dossier-pdf.ts
+          src/lib/dossier-pdf-document.ts
           src/lib/dossier-theme.ts
+          src/lib/download.ts
           tests/unit/cover-decorations.test.ts
           tests/e2e/dossier-end-to-end.spec.ts
           tests/e2e/dossier-gallery.spec.ts
@@ -82,11 +94,17 @@ jobs:
           src/components/cover/CoverBackground.tsx
           src/components/cover/layouts.ts
           src/components/cover/template-decorations.ts
+          src/components/cv/CvCanvas.tsx
+          src/components/dossier/DossierPdfCanvas.tsx
           src/components/letter/LetterTemplatePicker.tsx
           src/components/letter/LetterCanvas.tsx
           src/components/letter/dossier-transfer.ts
           src/components/letter/types.ts
+          src/lib/cv-pdf-text.ts
+          src/lib/dossier-pdf.ts
+          src/lib/dossier-pdf-document.ts
           src/lib/dossier-theme.ts
+          src/lib/download.ts
           tests/unit/cover-decorations.test.ts
           tests/e2e/dossier-end-to-end.spec.ts
           tests/e2e/dossier-gallery.spec.ts
