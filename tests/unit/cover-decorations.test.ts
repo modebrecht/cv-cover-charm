@@ -124,10 +124,10 @@ describe("cover decoration single source", () => {
   });
 
   test("reported Modern, Blockig, Warm and Edel regressions stay guarded", async () => {
-    const [layouts, photoCss, letter] = await Promise.all([
+    const [layouts, photoCss, sheetBackground] = await Promise.all([
       Bun.file("src/components/cover/layouts.ts").text(),
       Bun.file("src/components/cv/layout-options.css").text(),
-      Bun.file("src/components/letter/LetterCanvas.tsx").text(),
+      Bun.file("src/components/dossier/DossierSheetBackground.tsx").text(),
     ]);
 
     expect(layouts).toContain('block.id === "eyebrow"');
@@ -136,10 +136,12 @@ describe("cover decoration single source", () => {
     expect(layouts).toContain("{ maxLines: 1 }");
     expect(photoCss).toContain('data-dossier-template="freundlich"');
     expect(photoCss).toContain("box-shadow: none !important");
-    expect(letter).toContain("top: 44");
-    expect(letter).toContain("bandMm: 36");
-    expect(letter).toContain("footMm: 16");
-    expect(letter).toContain('template === "edel"');
-    expect(letter).toContain('style={{ inset: "19mm", backgroundColor: palette.paper }}');
+    expect(sheetBackground).toContain("top: 44");
+    expect(sheetBackground).toContain("bandMm: 36");
+    expect(sheetBackground).toContain("footMm: 16");
+    expect(sheetBackground).toContain('template === "edel"');
+    expect(sheetBackground).toContain(
+      'style={{ inset: "19mm", backgroundColor: palette.paper }}',
+    );
   });
 });
