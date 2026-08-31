@@ -10,6 +10,23 @@ import "./editable-decorations.css";
 // CoverBackground is reserved for structural masks, frames and page surfaces.
 export * from "./layouts-base";
 
+const MODERN_TOP_CLUSTER_OFFSET_MM = 6;
+
+function modernTopClusterOffset(
+  template: TemplateId,
+  block: Block,
+  overrides: StyleOverrides,
+): Block {
+  if (template !== "modern") return block;
+  if (block.id !== "foto" && block.id !== "modernAccentCircle") return block;
+  if (overrides[block.id]?.y !== undefined) return block;
+
+  return {
+    ...block,
+    style: { ...block.style, y: block.style.y + MODERN_TOP_CLUSTER_OFFSET_MM },
+  };
+}
+
 export function buildBlocks(
   template: TemplateId,
   data: CoverData,
@@ -17,8 +34,12 @@ export function buildBlocks(
   overrides: StyleOverrides,
   slots: ColorSlot[],
 ): Block[] {
-  const blocks = buildBaseBlocks(template, data, customs, overrides, slots);
-  const decorations = templateDecorations(template, overrides);
+  const blocks = buildBaseBlocks(template, data, customs, overrides, slots).map((block) =>
+    modernTopClusterOffset(template, block, overrides),
+  );
+  const decorations = templateDecorations(template, overrides).map((block) =>
+    modernTopClusterOffset(template, block, overrides),
+  );
 
   const companyVisible = data.showBetriebOnCover === true;
   const beilagen = DEFAULT_COVER_BEILAGEN.map(
