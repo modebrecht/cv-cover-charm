@@ -45,7 +45,16 @@ function cvPayload() {
       bgOpacity: 0.25,
       useElements: false,
     },
-    elements: [],
+    elements: [
+      {
+        id: "cv-local-image",
+        label: "Bild 1",
+        text: "",
+        kind: "image",
+        src: PHOTO,
+        page: 1,
+      },
+    ],
     elementStyles: {},
     coverFingerprint: null,
   };
@@ -59,7 +68,15 @@ function coverPayload() {
       pastell: { bg: "#fff7ed", primary: "#7c2d12", accent: "#fb923c" },
     },
     layout: { pastell: {} },
-    customs: [],
+    customs: [
+      {
+        id: "cover-free-image",
+        label: "Bild 1",
+        text: "",
+        kind: "image",
+        src: PHOTO,
+      },
+    ],
     fontScale: 1.15,
     font: "sans",
     data: {
@@ -249,6 +266,7 @@ test.describe("M7 dossier transfer regression", () => {
             font: saved.design?.font,
             vorname: saved.data?.person?.vorname,
             school: saved.data?.schule?.[0]?.titel,
+            elementIds: saved.elements?.map((element: { id?: string }) => element.id),
           };
         }),
       )
@@ -257,6 +275,7 @@ test.describe("M7 dossier transfer regression", () => {
         font: "sans",
         vorname: "Lea",
         school: "Bestehende Schule bleibt erhalten",
+        elementIds: ["cv-local-image"],
       });
   });
 

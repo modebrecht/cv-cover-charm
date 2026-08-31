@@ -6,7 +6,6 @@ import {
   TEMPLATES,
   type BlockStyle,
   type CoverData,
-  type CustomField,
   type FontKey,
   type TemplateId,
 } from "@/components/cover/types";
@@ -35,7 +34,6 @@ type StoredCover = {
   font?: unknown;
   fontScale?: unknown;
   photoStyle?: Partial<DossierPhotoStyle>;
-  customs?: unknown;
   data?: Record<string, unknown>;
 };
 
@@ -47,8 +45,6 @@ export type CoverDraft = {
   font: FontKey | null;
   /** Sichtbare Gesamtskalierung, 1 = 100 %. */
   fontScale: number;
-  /** Selbst hinzugefügte Formen und Bilder – ohne die Textfelder. */
-  elements: CustomField[];
   person: CvPerson;
   /** Read-only transfer snapshot of the title-page applicant photo treatment. */
   photoStyle: DossierPhotoStyle;
@@ -71,7 +67,6 @@ export function coverDraftFingerprint(draft: CoverDraft | null): string | null {
     colors: draft.colors,
     font: draft.font,
     fontScale: draft.fontScale,
-    elements: draft.elements,
     person: draft.person,
     photoStyle: draft.photoStyle,
   });
@@ -99,7 +94,6 @@ export function emptyCoverDraft(): CoverDraft {
     colors: defaultColors(template),
     font: null,
     fontScale: 1,
-    elements: [],
     person: {
       vorname: "",
       nachname: "",
@@ -238,20 +232,11 @@ export function readCoverDraft(): CoverDraft | null {
         ? p.fontScale / FONT.DEFAULT_SCALE
         : 1;
 
-    // Nur Formen und Bilder – Textfelder gehören zum Titelblatt, nicht hierher.
-    const elements = Array.isArray(p.customs)
-      ? (p.customs as Record<string, unknown>[]).filter((c) => {
-          const kind = c.kind ?? (c.shape ? "shape" : "text");
-          return kind === "shape" || kind === "image";
-        })
-      : [];
-
     return {
       template,
       colors: { ...defaultColors(template), ...(p.colors?.[template] ?? {}) },
       font,
       fontScale,
-      elements: elements as CustomField[],
       person: {
         vorname: coverData.vorname,
         nachname: coverData.nachname,

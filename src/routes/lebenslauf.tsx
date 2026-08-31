@@ -438,10 +438,7 @@ function Lebenslauf() {
       titleScale: draft.fontScale,
       headingScale: draft.fontScale,
       bodyScale: draft.fontScale,
-      useElements: draft.elements.length > 0,
     }));
-    setElements(draft.elements);
-    setElementStyles({});
     setCvPhotoStyle(draft.photoStyle);
     setData((current) => ({
       ...current,
@@ -605,7 +602,6 @@ function Lebenslauf() {
     template: true,
     colors: true,
     typography: true,
-    elements: true,
     photo: true,
     person: true,
   });
@@ -618,7 +614,6 @@ function Lebenslauf() {
       label: "Schrift und Grösse",
       hint: "globale Schrift sowie die Gesamtgrösse",
     },
-    { key: "elements", label: "Eigene Felder und Formen", hint: "Formen und Linien, ohne Texte" },
     { key: "photo", label: "Foto", hint: "samt Rahmenform und Ausschnitt" },
     { key: "person", label: "Persönliche Angaben", hint: "Name, Adresse, Kontakt" },
   ];
@@ -637,7 +632,6 @@ function Lebenslauf() {
       template: true,
       colors: true,
       typography: true,
-      elements: true,
       photo: true,
       person: true,
     });
@@ -676,13 +670,6 @@ function Lebenslauf() {
       if (takeover.template) done.push("Vorlage");
       if (takeover.colors) done.push("Farben");
       if (takeover.typography) done.push("Schrift");
-    }
-
-    if (takeover.elements) {
-      setElements(draft.elements);
-      setElementStyles({});
-      setDesign((d) => ({ ...d, useElements: draft.elements.length > 0 }));
-      done.push(`Formen (${draft.elements.length})`);
     }
 
     if (takeover.photo && draft.person.foto) {
@@ -747,7 +734,7 @@ function Lebenslauf() {
     keepSnapshot("Vor dem Zurücksetzen", true);
     const draft = readCoverDraft();
     setData({ ...emptyCv, person: { ...emptyCv.person } });
-    setElements(draft?.elements ?? []);
+    setElements([]);
     setElementStyles({});
     setSelected(null);
     setSelectedSection(null);
@@ -756,7 +743,7 @@ function Lebenslauf() {
       colors: draft?.colors ?? d.colors,
       font: draft ? (draft.font ?? undefined) : "freundlich",
       bgOpacity: DEFAULT_BG_OPACITY,
-      useElements: (draft?.elements.length ?? 0) > 0,
+      useElements: false,
       titleScale: draft?.fontScale ?? CV_TYPE_DEFAULTS.titleScale,
       headingScale: draft?.fontScale ?? CV_TYPE_DEFAULTS.headingScale,
       bodyScale: draft?.fontScale ?? CV_TYPE_DEFAULTS.bodyScale,
