@@ -13,6 +13,8 @@ describe("shared dossier sheet background", () => {
       );
       expect(markup).toContain(`data-dossier-sheet-background="${id}"`);
       expect(markup).not.toContain('data-dossier-sheet-background="brief"');
+      expect(markup).not.toContain('data-letter-background="brief"');
+      expect(markup).not.toContain("bg-white");
     }
   });
 
@@ -24,6 +26,7 @@ describe("shared dossier sheet background", () => {
       }),
     );
     expect(markup).toContain('data-dossier-sheet-background="brief"');
+    expect(markup).toContain('data-letter-background="brief"');
     expect(markup).toContain("bg-white");
   });
 });
