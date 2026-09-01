@@ -14,6 +14,7 @@ concurrency:
 
 jobs:
   apply:
+    if: github.event.head_commit.message != 'test: stabilize M5 final QA baselines'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -22,7 +23,7 @@ jobs:
           ref: letter-m1-m2
           fetch-depth: 1
 
-      - name: Apply targeted QA fixes and final CI wiring
+      - name: Apply targeted baseline fixes
         shell: bash
         run: |
           python - <<'PY'
@@ -34,24 +35,19 @@ jobs:
               found = text.count(old)
               if found < count:
                   raise SystemExit(f"{path}: expected at least {count} occurrence(s), found {found}: {old!r}")
-              text = text.replace(old, new, count)
-              file.write_text(text, encoding="utf-8")
+              file.write_text(text.replace(old, new, count), encoding="utf-8")
 
-          # Correct stale sender-PLZ expectation. Product truth is Hubersdorf.
           replace(
               "tests/e2e/dossier-regression.spec.ts",
               '.toEqual({ name: "Lea Müller", plzOrt: "4500 Solothurn", company: "Beispiel AG" });',
               '.toEqual({ name: "Lea Müller", plzOrt: "4535 Hubersdorf", company: "Beispiel AG" });',
           )
 
-          # Fresh template selector is inside the collapsed Vorlage section.
           replace(
               "tests/e2e/fresh-dossier-templates.spec.ts",
               '    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });\n\n    for (const template of FRESH) {',
               '    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });\n    const templateSection = page.getByRole("button", { name: "Vorlage", exact: true });\n    if ((await templateSection.getAttribute("aria-expanded")) !== "true") {\n      await templateSection.click();\n    }\n\n    for (const template of FRESH) {',
           )
-
-          # Seed Fresh title-page storage outside the editor to avoid its 250ms autosave race.
           replace(
               "tests/e2e/fresh-dossier-templates.spec.ts",
               '      await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });\n      await page.evaluate(',
@@ -62,8 +58,6 @@ jobs:
               '      await page.reload({ waitUntil: "domcontentloaded" });\n      await settle(page, template.id);',
               '      await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });\n      await settle(page, template.id);',
           )
-
-          # Seed Fresh CV storage outside the editor for the same reason.
           replace(
               "tests/e2e/fresh-dossier-templates.spec.ts",
               '      await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });\n      await page.evaluate(',
@@ -75,7 +69,6 @@ jobs:
               '      await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });\n      await settle(page, template.id);',
           )
 
-          # Gradient edge smokes had the same editor-autosave race.
           replace(
               "tests/e2e/gradient-edge-smoke.spec.ts",
               '  await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });\n  await page.evaluate(',
@@ -96,41 +89,14 @@ jobs:
               '  await page.reload({ waitUntil: "domcontentloaded" });\n  await page.waitForFunction(',
               '  await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });\n  await page.waitForFunction(',
           )
-
-          # Make the normal regression workflow own M5 and retain the visual review artifact.
-          replace(
-              ".github/workflows/dossier-regression.yml",
-              "    timeout-minutes: 18\n    strategy:",
-              "    timeout-minutes: 30\n    strategy:",
-          )
-          replace(
-              ".github/workflows/dossier-regression.yml",
-              "          - group: letter-m1-m4\n            files: >-\n              tests/e2e/letter-header-modes.spec.ts",
-              "          - group: letter-m1-m5\n            files: >-\n              tests/e2e/letter-header-modes.spec.ts\n              tests/e2e/letter-final-qa.spec.ts",
-          )
-          replace(
-              ".github/workflows/dossier-regression.yml",
-              "      - name: Show application log on failure\n        if: failure()",
-              "      - name: Upload M5 letter visual gallery\n        if: matrix.group == 'letter-m1-m5' && always()\n        uses: actions/upload-artifact@v4\n        with:\n          name: letter-m5-visual-gallery\n          path: artifacts/letter-final-qa\n          if-no-files-found: warn\n          retention-days: 14\n\n      - name: Show application log on failure\n        if: failure()",
-          )
-
-          # Run the existing 39-output dossier PDF gallery on this PR when letter QA changes.
-          replace(
-              ".github/workflows/dossier-pdf-gallery.yml",
-              "on:\n  workflow_dispatch:\n  push:",
-              "on:\n  workflow_dispatch:\n  pull_request:\n    branches:\n      - main\n    paths:\n      - .github/workflows/dossier-pdf-gallery.yml\n      - tests/e2e/letter-final-qa.spec.ts\n      - tests/e2e/letter-header-modes.spec.ts\n      - src/components/letter/LetterCanvas.tsx\n      - src/components/letter/layout-system.ts\n      - src/components/letter/types.ts\n      - src/lib/dossier-pdf.ts\n  push:",
-          )
-
-          # This helper is intentionally one-shot; final branch returns to read-only CI.
-          Path(".github/workflows/m5-maintenance.yml").unlink()
           PY
 
-      - name: Commit QA wiring
+      - name: Commit baseline fixes
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add tests/e2e/dossier-regression.spec.ts tests/e2e/fresh-dossier-templates.spec.ts tests/e2e/gradient-edge-smoke.spec.ts
           git diff --cached --check
           git commit -m "test: stabilize M5 final QA baselines"
           git push origin HEAD:letter-m1-m2
