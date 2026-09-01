@@ -263,7 +263,7 @@ async function addRasterPage(
     onclone: hideLetterText
       ? (clonedDocument) => {
           for (const node of clonedDocument.querySelectorAll<HTMLElement>(
-            "[data-letter-text-layer], [data-letter-text-layer] *",
+            "[data-letter-text-layer], [data-letter-text-layer] *, [data-letter-pdf-text], [data-letter-pdf-text] *",
           )) {
             node.style.setProperty("color", "transparent", "important");
             node.style.setProperty("-webkit-text-fill-color", "transparent", "important");
@@ -338,6 +338,7 @@ export async function downloadCombinedDossierPdf(
     await addRasterPage(pdf, html2canvas, cvPage);
     addCvTextLayer(pdf, cvPage);
   }
+
   downloadBlob(pdf.output("blob"), fileName);
 }
 
