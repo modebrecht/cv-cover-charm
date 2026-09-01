@@ -165,18 +165,21 @@ function LetterChrome({
               color: headerRoles.ink,
             }}
           >
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1" style={{ overflowWrap: "anywhere" }}>
               {design.headerShowName !== false && data.absenderName ? (
-                <div className="truncate text-[10pt] font-semibold">{data.absenderName}</div>
+                <div className="text-[10pt] font-semibold">{data.absenderName}</div>
               ) : null}
               {design.headerShowAddress !== false ? (
-                <div className="truncate opacity-90">
+                <div className="opacity-90">
                   {[data.absenderAdresse, data.absenderPlzOrt].filter(Boolean).join(" · ")}
                 </div>
               ) : null}
             </div>
             {contactBits.length ? (
-              <div className="shrink-0 text-right opacity-95">
+              <div
+                className="min-w-0 max-w-[48%] shrink-0 text-right opacity-95"
+                style={{ overflowWrap: "anywhere" }}
+              >
                 {contactBits.map((value) => (
                   <div key={value}>{value}</div>
                 ))}
@@ -221,7 +224,11 @@ function LetterChrome({
               <div data-letter-pdf-text="attachments-heading" className="shrink-0 font-semibold">
                 Beilagen:
               </div>
-              <div data-letter-pdf-text="attachments-body" className="min-w-0 flex-1">
+              <div
+                data-letter-pdf-text="attachments-body"
+                className="min-w-0 flex-1"
+                style={{ overflowWrap: "anywhere" }}
+              >
                 <Lines values={attachments} />
               </div>
             </div>
