@@ -20,9 +20,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  regression:
+  fast-checks:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 12
 
     steps:
       - name: Checkout
@@ -38,7 +38,7 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
-            -d '{"state":"pending","context":"M5.8 Regression","description":"Dossier regression suite is running","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+            -d '{"state":"pending","context":"M5.8 Regression","description":"Parallel dossier regression suite is running","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -53,16 +53,9 @@ jobs:
       - name: Install application dependencies
         run: bun install --frozen-lockfile
 
-      # Browser tooling is CI-only on purpose: no Playwright dependency or lockfile
-      # churn in the application itself.
-      - name: Install browser test runner
-        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
-
       - name: Unit regressions
         run: bun test tests/unit
 
-      # The repository already contained unrelated Prettier drift before M5.
-      # Normalize the runner copy so ESLint can focus on semantic/rule failures.
       - name: Normalize source formatting
         run: bunx prettier --write "src/**/*.{ts,tsx,css}" "tests/**/*.{ts,tsx}"
 
@@ -71,6 +64,55 @@ jobs:
 
       - name: Production build
         run: bun run build
+
+  browser-regressions:
+    needs: fast-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - group: dossier-flow
+            files: >-
+              tests/e2e/dossier-regression.spec.ts
+              tests/e2e/dossier-transfer-regression.spec.ts
+              tests/e2e/dossier-font-sync.spec.ts
+              tests/e2e/dossier-typography-regression.spec.ts
+          - group: cv-pdf
+            files: >-
+              tests/e2e/element-ratio-lock.spec.ts
+              tests/e2e/cv-edge-smoke.spec.ts
+              tests/e2e/cv-card-refresh.spec.ts
+              tests/e2e/cv-pdf-text.spec.ts
+          - group: templates-layout
+            files: >-
+              tests/e2e/cover-edge-smoke.spec.ts
+              tests/e2e/template-cleanup.spec.ts
+              tests/e2e/fresh-dossier-templates.spec.ts
+              tests/e2e/gradient-edge-smoke.spec.ts
+
+    name: Browser smoke - ${{ matrix.group }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install browser test runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
 
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
@@ -91,22 +133,8 @@ jobs:
           cat /tmp/cv-cover-charm.log
           exit 1
 
-      - name: Browser and PDF regressions
-        run: >-
-          npx playwright test
-          tests/e2e/dossier-regression.spec.ts
-          tests/e2e/dossier-transfer-regression.spec.ts
-          tests/e2e/dossier-font-sync.spec.ts
-          tests/e2e/dossier-typography-regression.spec.ts
-          tests/e2e/element-ratio-lock.spec.ts
-          tests/e2e/cv-edge-smoke.spec.ts
-          tests/e2e/cover-edge-smoke.spec.ts
-          tests/e2e/template-cleanup.spec.ts
-          tests/e2e/fresh-dossier-templates.spec.ts
-          tests/e2e/gradient-edge-smoke.spec.ts
-          tests/e2e/cv-card-refresh.spec.ts
-          tests/e2e/cv-pdf-text.spec.ts
-          --reporter=line --workers=1
+      - name: Run ${{ matrix.group }} regressions
+        run: npx playwright test ${{ matrix.files }} --reporter=line --workers=1
 
       - name: Show application log on failure
         if: failure()
@@ -120,28 +148,36 @@ jobs:
             kill "$(cat /tmp/cv-cover-charm.pid)" || true
           fi
 
-      - name: Publish regression success
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          curl --fail-with-body -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
-            -d '{"state":"success","context":"M5.8 Regression","description":"Unit, lint, build, browser, smoke and PDF regressions passed","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+  publish-regression-status:
+    if: always()
+    needs:
+      - fast-checks
+      - browser-regressions
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
 
-      - name: Publish regression failure
-        if: failure()
+    steps:
+      - name: Publish final regression status
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FAST_RESULT: ${{ needs.fast-checks.result }}
+          BROWSER_RESULT: ${{ needs.browser-regressions.result }}
+        shell: bash
         run: |
+          if [ "$FAST_RESULT" = "success" ] && [ "$BROWSER_RESULT" = "success" ]; then
+            state="success"
+            description="Unit, lint, build and all parallel browser/PDF smokes passed"
+          else
+            state="failure"
+            description="One or more parallel dossier regression checks failed"
+          fi
+
           curl --fail-with-body -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
-            -d '{"state":"failure","context":"M5.8 Regression","description":"One or more dossier regression checks failed","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+            -d "{\"state\":\"$state\",\"context\":\"M5.8 Regression\",\"description\":\"$description\",\"target_url\":\"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"
+
+          test "$state" = "success"
