@@ -100,7 +100,7 @@ const CONTENT_INSETS: Record<LetterArchetype, { left: number; right: number }> =
 
 const FIRST_PAGE_TOP: Record<LetterHeaderMode, number> = {
   compact: 21,
-  contact: 27,
+  contact: 31,
   none: 18,
 };
 
@@ -155,8 +155,16 @@ export function letterFooterHeightMm(data: LetterData, mode: LetterFooterMode): 
   if (mode === "none") return 0;
   if (mode === "compact") return 2.4;
 
-  const attachmentCount = data.showBeilagen !== false ? visibleLetterAttachments(data).length : 0;
-  return attachmentCount > 0 ? Math.min(24, 7 + attachmentCount * 3.6) : 4;
+  const attachments = data.showBeilagen !== false ? visibleLetterAttachments(data) : [];
+  if (!attachments.length) return 4;
+
+  // Footer text has roughly 140 mm usable width next to the heading. Reserve
+  // space for wrapped long attachment names instead of sizing by item count only.
+  const visualLineCount = attachments.reduce(
+    (sum, value) => sum + Math.max(1, Math.ceil(value.trim().length / 56)),
+    0,
+  );
+  return Math.min(30, 7 + visualLineCount * 3.8);
 }
 
 function effectiveHeaderMode(design: LetterDesign, firstPage: boolean): LetterHeaderMode {
@@ -218,11 +226,11 @@ export function letterPageGeometry(
       height,
     },
     header: {
-      contactHeight: 18,
+      contactHeight: 22,
       contactLeft: 24,
       contactRight: 23,
       contactTop: 3.1,
-      contactMinHeight: 11,
+      contactMinHeight: 15,
       sidebarWidth: archetype === "sidebar" ? 6 : 0,
       compactTopBandHeight: archetype === "band" ? 5 : 0,
       compactAccent: COMPACT_ACCENTS[archetype],
