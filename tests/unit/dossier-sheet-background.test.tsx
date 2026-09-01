@@ -20,6 +20,7 @@ const markupFor = (
     }),
   );
 
+// Release guard: this contract is part of the final parallel 39-PDF gallery gate.
 describe("shared dossier sheet background", () => {
   test("every dossier template renders the shared non-brief background", () => {
     for (const { id } of TEMPLATES) {
