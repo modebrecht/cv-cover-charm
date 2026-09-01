@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
-import { cvPalette } from "@/components/cv/palette";
+import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
 import { letterLayoutFor } from "@/components/dossier/DossierSheetBackground";
 import {
@@ -40,17 +40,6 @@ function Separator({ color, marker }: { color: string; marker: string }) {
   );
 }
 
-function contrastInk(color: string): string {
-  const match = color.trim().match(/^#([0-9a-f]{6})$/i);
-  if (!match) return "#ffffff";
-  const value = Number.parseInt(match[1], 16);
-  const r = (value >> 16) & 255;
-  const g = (value >> 8) & 255;
-  const b = value & 255;
-  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-  return luminance > 0.58 ? "#111111" : "#ffffff";
-}
-
 function letterContentLayout(design: LetterDesign) {
   const reference = letterLayoutFor(design.template);
   const headerMode = design.headerMode ?? "compact";
@@ -70,9 +59,18 @@ function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign
   const mode = design.headerMode ?? "compact";
   const reference = letterLayoutFor(design.template);
   const sourcePalette = cvPalette(design.colors);
-  const primary = design.template === "brief" ? "#111111" : sourcePalette.accent;
-  const secondary = design.template === "brief" ? "#4b5563" : sourcePalette.heading;
-  const headerInk = contrastInk(primary);
+  const primary =
+    design.template === "brief"
+      ? "#111111"
+      : design.colors.primary ??
+        design.colors.accent ??
+        design.colors.secondary ??
+        sourcePalette.accent;
+  const secondary =
+    design.template === "brief"
+      ? "#4b5563"
+      : design.colors.accent ?? design.colors.secondary ?? sourcePalette.accent;
+  const headerRoles = onColorRoles(primary, secondary);
   const sidebar = reference.kind === "column";
   const card = reference.kind === "card";
   const band = reference.kind === "band";
@@ -142,7 +140,7 @@ function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign
           <div
             data-letter-integrated-contact
             className="absolute left-[24mm] right-[23mm] top-[3.1mm] flex min-h-[11mm] items-center justify-between gap-[8mm] text-[8.5pt] leading-[1.28]"
-            style={{ color: headerInk }}
+            style={{ color: headerRoles.ink }}
           >
             <div className="min-w-0">
               {design.headerShowName !== false && data.absenderName ? (
