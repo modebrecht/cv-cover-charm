@@ -59,6 +59,16 @@ jobs:
       - name: Normalize source formatting
         run: bunx prettier --write "src/**/*.{ts,tsx,css}" "tests/**/*.{ts,tsx}"
 
+      - name: Show letter formatting diff
+        run: |
+          git diff -- \
+            src/components/letter/LetterCanvas.tsx \
+            src/components/letter/LetterLayoutControls.tsx \
+            src/components/letter/layout-system.ts \
+            tests/e2e/letter-header-modes.spec.ts \
+            tests/unit/letter-compact-header.test.tsx \
+            tests/unit/letter-layout-system.test.ts
+
       - name: Lint
         run: bun run lint
 
