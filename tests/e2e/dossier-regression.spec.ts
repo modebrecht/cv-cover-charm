@@ -650,13 +650,18 @@ test.describe("M5.8 dossier regression", () => {
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
 
     await expect(page.getByRole("heading", { name: "Motivationsschreiben" })).toBeVisible();
-    await page.getByRole("button", { name: "Meine Kontaktdaten", exact: true }).click();
-    await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
-    await expect(page.getByLabel("PLZ und Ort")).toHaveValue("4500 Solothurn");
-    await page.getByRole("button", { name: "Firma / Lehrbetrieb", exact: true }).click();
-    await expect(page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })).toHaveValue(
-      "Beispiel AG",
-    );
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const saved = JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}");
+          return {
+            name: saved.data?.absenderName,
+            plzOrt: saved.data?.absenderPlzOrt,
+            company: saved.data?.empfaengerFirma,
+          };
+        }),
+      )
+      .toEqual({ name: "Lea Müller", plzOrt: "4500 Solothurn", company: "Beispiel AG" });
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
     );
@@ -700,9 +705,14 @@ test.describe("M5.8 dossier regression", () => {
     });
 
     await page.getByRole("button", { name: "Alles übernehmen" }).click();
-    await expect(page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })).toHaveValue(
-      "Neue Beispiel AG",
-    );
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () =>
+            JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}").data?.empfaengerFirma ?? "",
+        ),
+      )
+      .toBe("Neue Beispiel AG");
     await expect(preview).toHaveAttribute("data-letter-font", "serif");
     await expect(body).toHaveText(preservedBody);
     await expect
@@ -755,8 +765,10 @@ test.describe("M5.8 dossier regression", () => {
   }) => {
     await seedCoreDossier(page);
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
-    await page.getByRole("button", { name: "Meine Kontaktdaten", exact: true }).click();
-    await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
+    await expect(page.getByRole("button", { name: "Download", exact: true })).toHaveAttribute(
+      "data-editor-ready",
+      "true",
+    );
 
     const body = page.getByRole("textbox", { name: "Brieftext" });
     const alert = page.getByRole("alert");
@@ -800,9 +812,11 @@ test.describe("M5.8 dossier regression", () => {
   test("letter layout controls and Word-like formatting persist", async ({ page }) => {
     await seedCoreDossier(page);
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
-    // Das Feld wird erst clientseitig aus dem Dossier befüllt und ist damit unser Hydration-Signal.
-    await page.getByRole("button", { name: "Meine Kontaktdaten", exact: true }).click();
-    await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
+    await expect(page.getByRole("button", { name: "Download", exact: true })).toHaveAttribute(
+      "data-editor-ready",
+      "true",
+    );
+    await page.getByRole("button", { name: "Layout", exact: true }).click();
 
     await page.getByRole("button", { name: "Meine Kontaktdaten Rechts" }).click();
     await page.getByRole("button", { name: "Firma / Lehrbetrieb Rechts" }).click();
