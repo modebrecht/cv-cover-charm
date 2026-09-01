@@ -154,6 +154,7 @@ async function seedDossier(page: Page, letter: ReturnType<typeof letterPayload>)
 async function openReview(page: Page) {
   const card = page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" });
   await expect(card).toBeVisible();
+  await expect(card).toContainText("Dossier prüfen & herunterladen", { timeout: 15_000 });
   await card.click();
   const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
   await expect(dialog).toBeVisible();
