@@ -5,6 +5,18 @@ import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 
 const BASE_URL = "http://127.0.0.1:4173";
 const GALLERY_DIR = process.env.GALLERY_DIR ?? "artifacts/dossier-gallery";
+const GALLERY_BATCH_SIZE = 4;
+const GALLERY_BATCH_COUNT = 10;
+
+function galleryBatchIndex(): number | null {
+  const raw = process.env.GALLERY_BATCH_INDEX;
+  if (raw === undefined || raw === "") return null;
+  const value = Number(raw);
+  if (!Number.isInteger(value) || value < 0 || value >= GALLERY_BATCH_COUNT) {
+    throw new Error(`Invalid GALLERY_BATCH_INDEX=${raw}; expected 0-${GALLERY_BATCH_COUNT - 1}`);
+  }
+  return value;
+}
 
 // Do not import fresh-templates.ts in the Playwright Node process: that module
 // intentionally imports the browser CSS for the fresh designs. The running app
@@ -98,9 +110,6 @@ async function downloadWholeDossier(page: Page, fileName: string) {
   expect(pdfText).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
   expect(pdfText).toContain("Herr Thomas Weber");
   expect(pdfText).toContain("Guten Tag");
-  // The old gallery gate only proved that the letter existed. A completely
-  // blank CV therefore passed as green. Require content that exists only in
-  // the CV sample so every generated dossier verifies the final pages too.
   expect(pdfText).toContain("Sekundarschule, Niveau A");
   expect(pdfText).toContain("Schwerpunkt Mathematik und Informatik");
   return target;
@@ -117,11 +126,14 @@ function safeName(value: string) {
 test("UI sample dossier downloads and all motivation-letter templates produce review PDFs", async ({
   page,
 }) => {
-  test.setTimeout(25 * 60_000);
+  test.setTimeout(15 * 60_000);
+  const batchIndex = galleryBatchIndex();
+
   await page.goto(`${BASE_URL}/`, { waitUntil: "domcontentloaded" });
   await page.evaluate(() => localStorage.clear());
 
-  // Real student path: every workspace fills itself through its visible UI.
+  // Every batch still follows the real student path once, then renders only its
+  // assigned complete dossiers. Batching changes CI scheduling, not PDF truth.
   await loadDemoThroughUi(page, "/titelblatt");
   await loadDemoThroughUi(page, "/anschreiben");
   await loadDemoThroughUi(page, "/lebenslauf");
@@ -134,13 +146,6 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
   expect(stored.cover?.data?.vorname).toBe("Lea");
   expect(stored.letter?.data?.unterschrift).toBe("Lea Müller");
   expect(stored.cv?.data?.person?.vorname).toBe("Lea");
-
-  const manifest: string[] = [
-    "Gesamtdossier PDF Galerie",
-    "",
-    "00-Beispieldossier-E2E.pdf | echter UI-E2E: Titelblatt + Motivationsschreiben + Lebenslauf per Beispieldaten übernehmen",
-  ];
-  await downloadWholeDossier(page, "00-Beispieldossier-E2E.pdf");
 
   const cases: Array<{
     label: string;
@@ -165,7 +170,31 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
   expect(ALL_GALLERY_TEMPLATES).toHaveLength(37);
   expect(cases).toHaveLength(38);
 
-  for (const [index, item] of cases.entries()) {
+  const totalPdfCount = cases.length + 1; // UI example + 38 selectable letter/template cases.
+  expect(totalPdfCount).toBe(39);
+  expect(Math.ceil(totalPdfCount / GALLERY_BATCH_SIZE)).toBe(GALLERY_BATCH_COUNT);
+
+  const batchStart = batchIndex === null ? 0 : batchIndex * GALLERY_BATCH_SIZE;
+  const batchEnd =
+    batchIndex === null ? totalPdfCount : Math.min(batchStart + GALLERY_BATCH_SIZE, totalPdfCount);
+  const includeSample = batchIndex === null || batchStart === 0;
+  const caseStart = batchIndex === null ? 0 : Math.max(0, batchStart - 1);
+  const caseEnd = batchIndex === null ? cases.length : Math.max(0, batchEnd - 1);
+  const selectedCases = cases.slice(caseStart, caseEnd).map((item, offset) => ({
+    item,
+    globalIndex: caseStart + offset,
+  }));
+
+  const manifestEntries: string[] = [];
+
+  if (includeSample) {
+    await downloadWholeDossier(page, "00-Beispieldossier-E2E.pdf");
+    manifestEntries.push(
+      "00-Beispieldossier-E2E.pdf | echter UI-E2E: Titelblatt + Motivationsschreiben + Lebenslauf per Beispieldaten übernehmen",
+    );
+  }
+
+  for (const { item, globalIndex } of selectedCases) {
     await page.evaluate(
       ({ base, letterTemplate, coverTemplate, cvTemplate }) => {
         const cover = structuredClone(base.cover);
@@ -202,17 +231,29 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
       },
     );
 
-    const number = String(index + 1).padStart(2, "0");
+    const number = String(globalIndex + 1).padStart(2, "0");
     const fileName = `${number}-${safeName(item.label)}.pdf`;
     await downloadWholeDossier(page, fileName);
-    manifest.push(
+    manifestEntries.push(
       `${fileName} | Titelblatt=${item.coverTemplate} | Motivationsschreiben=${item.letterTemplate} | CV=${item.cvTemplate}`,
     );
   }
 
-  await writeFile(join(GALLERY_DIR, "MANIFEST.txt"), `${manifest.join("\n")}\n`, "utf8");
+  if (batchIndex === null) {
+    const manifest = ["Gesamtdossier PDF Galerie", "", ...manifestEntries];
+    await writeFile(join(GALLERY_DIR, "MANIFEST.txt"), `${manifest.join("\n")}\n`, "utf8");
+  } else {
+    const partName = `MANIFEST.part-${String(batchIndex).padStart(2, "0")}.txt`;
+    await writeFile(join(GALLERY_DIR, partName), `${manifestEntries.join("\n")}\n`, "utf8");
+  }
 
   const files = await import("node:fs/promises").then(({ readdir }) => readdir(GALLERY_DIR));
-  expect(files.filter((file) => file.toLowerCase().endsWith(".pdf"))).toHaveLength(39);
-  expect(files).toContain("MANIFEST.txt");
+  const expectedPdfCount = batchEnd - batchStart;
+  expect(files.filter((file) => file.toLowerCase().endsWith(".pdf"))).toHaveLength(expectedPdfCount);
+
+  if (batchIndex === null) {
+    expect(files).toContain("MANIFEST.txt");
+  } else {
+    expect(files).toContain(`MANIFEST.part-${String(batchIndex).padStart(2, "0")}.txt`);
+  }
 });
