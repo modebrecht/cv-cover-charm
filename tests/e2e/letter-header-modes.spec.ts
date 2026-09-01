@@ -69,6 +69,25 @@ async function seedLetter(page: Page) {
   await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
 }
 
+async function setStoredTemplate(page: Page, template: string) {
+  await page.evaluate(
+    ({ key, templateId }) => {
+      const saved = JSON.parse(localStorage.getItem(key) ?? "{}");
+      saved.design = {
+        ...(saved.design ?? {}),
+        template: templateId,
+        colors: { bg: "#ffffff", primary: "#172554", secondary: "#2563eb", accent: "#38bdf8" },
+        headerMode: "compact",
+        footerMode: "compact",
+      };
+      localStorage.setItem(key, JSON.stringify(saved));
+    },
+    { key: STORAGE_KEY, templateId: template },
+  );
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
+}
+
 test.describe("M1/M2 compact letter header", () => {
   test("header modes change real geometry, persist, and preview/export stay aligned", async ({ page }) => {
     await seedLetter(page);
@@ -196,5 +215,51 @@ test.describe("M3 compact letter footer", () => {
       "data-letter-footer-mode",
       "none",
     );
+  });
+});
+
+test.describe("M4 centralized letter layout", () => {
+  test("representative archetypes react to every mode with matching preview/export content boxes", async ({ page }) => {
+    await seedLetter(page);
+
+    const samples = [
+      ["modern", "quiet"],
+      ["freundlich", "band"],
+      ["blockig", "sidebar"],
+      ["neon", "frame"],
+      ["glow", "fresh"],
+    ] as const;
+
+    for (const [template, archetype] of samples) {
+      await setStoredTemplate(page, template);
+      const layout = await openSection(page, /^Layout$/);
+      const headerSelect = layout.locator("[data-letter-header-mode-control]");
+      const footerSelect = layout.locator("[data-letter-footer-mode-control]");
+      const preview = page.locator("main [data-letter-page]");
+      const exportPage = page.locator("[data-letter-standalone-export] [data-letter-page]");
+      const previewLayer = preview.locator("[data-letter-text-layer]");
+      const exportLayer = exportPage.locator("[data-letter-text-layer]");
+
+      await expect(preview).toHaveAttribute("data-letter-layout-archetype", archetype);
+      await expect(exportPage).toHaveAttribute("data-letter-layout-archetype", archetype);
+
+      for (const mode of ["compact", "contact", "none"] as const) {
+        await headerSelect.selectOption(mode);
+        await expect(preview).toHaveAttribute("data-letter-header-mode", mode);
+        await expect(exportPage).toHaveAttribute("data-letter-header-mode", mode);
+        const contentBox = await previewLayer.getAttribute("data-letter-content-box");
+        expect(contentBox).not.toBeNull();
+        await expect(exportLayer).toHaveAttribute("data-letter-content-box", contentBox!);
+      }
+
+      for (const mode of ["compact", "attachments", "none"] as const) {
+        await footerSelect.selectOption(mode);
+        await expect(preview).toHaveAttribute("data-letter-footer-mode", mode);
+        await expect(exportPage).toHaveAttribute("data-letter-footer-mode", mode);
+        const contentBox = await previewLayer.getAttribute("data-letter-content-box");
+        expect(contentBox).not.toBeNull();
+        await expect(exportLayer).toHaveAttribute("data-letter-content-box", contentBox!);
+      }
+    }
   });
 });
