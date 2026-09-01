@@ -40,9 +40,25 @@ function Separator({ color, marker }: { color: string; marker: string }) {
   );
 }
 
-function letterContentLayout(design: LetterDesign) {
+function visibleAttachments(data: LetterData): string[] {
+  const values = data.beilagen?.length ? data.beilagen : [...DEFAULT_LETTER_BEILAGEN];
+  return values.filter((value) => value.trim());
+}
+
+function letterFooterHeightMm(data: LetterData, design: LetterDesign): number {
+  const mode = design.footerMode ?? "compact";
+  if (mode === "none") return 0;
+  if (mode === "compact") return 2.4;
+
+  const attachmentCount = data.showBeilagen !== false ? visibleAttachments(data).length : 0;
+  return attachmentCount > 0 ? Math.min(24, 7 + attachmentCount * 3.6) : 4;
+}
+
+function letterContentLayout(data: LetterData, design: LetterDesign) {
   const reference = letterLayoutFor(design.template);
   const headerMode = design.headerMode ?? "compact";
+  const footerMode = design.footerMode ?? "compact";
+  const footerHeightMm = letterFooterHeightMm(data, design);
   const sidebar = reference.kind === "column";
   const card = reference.kind === "card";
 
@@ -50,13 +66,14 @@ function letterContentLayout(design: LetterDesign) {
     left: sidebar ? 30 : card ? 27 : 24,
     right: card ? 27 : 23,
     top: headerMode === "contact" ? 27 : headerMode === "none" ? 18 : 21,
-    bottom: 17,
+    bottom: footerMode === "none" ? 10 : footerMode === "attachments" ? footerHeightMm + 7 : 17,
     kind: reference.kind,
   };
 }
 
 function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign }) {
   const mode = design.headerMode ?? "compact";
+  const footerMode = design.footerMode ?? "compact";
   const reference = letterLayoutFor(design.template);
   const sourcePalette = cvPalette(design.colors);
   const primary =
@@ -71,6 +88,7 @@ function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign
       ? "#4b5563"
       : design.colors.accent ?? design.colors.secondary ?? sourcePalette.accent;
   const headerRoles = onColorRoles(primary, secondary);
+  const footerRoles = onColorRoles(secondary, primary);
   const sidebar = reference.kind === "column";
   const card = reference.kind === "card";
   const band = reference.kind === "band";
@@ -78,6 +96,9 @@ function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign
     design.headerShowPhone !== false ? data.absenderTelefon : "",
     design.headerShowEmail !== false ? data.absenderEmail : "",
   ].filter(Boolean);
+  const attachments = visibleAttachments(data);
+  const showAttachments = data.showBeilagen !== false && attachments.length > 0;
+  const footerHeightMm = letterFooterHeightMm(data, design);
 
   return (
     <div
@@ -85,7 +106,6 @@ function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign
       data-letter-header-mode={mode}
       data-letter-reference-kind={reference.kind}
       className="pointer-events-none absolute inset-0 overflow-hidden"
-      aria-hidden="true"
     >
       {mode === "compact" ? (
         <>
@@ -163,11 +183,37 @@ function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign
         </>
       ) : null}
 
-      <div
-        data-letter-footer="compact"
-        className="absolute inset-x-0 bottom-0 h-[2.4mm]"
-        style={{ backgroundColor: secondary, opacity: design.template === "brief" ? 0.75 : 0.92 }}
-      />
+      {footerMode === "compact" ? (
+        <div
+          data-letter-footer="compact"
+          className="absolute inset-x-0 bottom-0 h-[2.4mm]"
+          style={{ backgroundColor: secondary, opacity: design.template === "brief" ? 0.75 : 0.92 }}
+        />
+      ) : null}
+
+      {footerMode === "attachments" ? (
+        <div
+          data-letter-footer="attachments"
+          data-letter-footer-height-mm={footerHeightMm}
+          className="absolute inset-x-0 bottom-0 px-[24mm] py-[2.2mm] text-[8.5pt] leading-[1.3]"
+          style={{
+            height: `${footerHeightMm}mm`,
+            backgroundColor: secondary,
+            color: footerRoles.ink,
+          }}
+        >
+          {showAttachments ? (
+            <div data-letter-footer-attachments className="flex h-full items-start gap-[8mm]">
+              <div data-letter-pdf-text="attachments-heading" className="shrink-0 font-semibold">
+                Beilagen:
+              </div>
+              <div data-letter-pdf-text="attachments-body" className="min-w-0 flex-1">
+                <Lines values={attachments} />
+              </div>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -189,7 +235,7 @@ export function LetterCanvas({
   onImageRemove?: (id: string) => void;
   ariaLabel?: string;
 }) {
-  const layout = letterContentLayout(design);
+  const layout = letterContentLayout(data, design);
   const contentWidthMm = 210 - layout.left - layout.right;
   const sourcePalette = cvPalette(design.colors);
   const palette = {
@@ -206,11 +252,11 @@ export function LetterCanvas({
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
   const headerMode = design.headerMode ?? "compact";
+  const footerMode = design.footerMode ?? "compact";
   const senderIntegrated = headerMode === "contact";
-  const beilagen = DEFAULT_LETTER_BEILAGEN.map(
-    (fallback, index) => data.beilagen?.[index] ?? fallback,
-  ).filter((value) => value.trim());
+  const beilagen = visibleAttachments(data);
   const showBeilagen = data.showBeilagen !== false && beilagen.length > 0;
+  const showBeilagenInBody = showBeilagen && footerMode !== "attachments";
   const placeholder =
     "Hier entsteht dein persönliches Motivationsschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.";
   const bodyHtml = data.richTextHtml?.trim()
@@ -244,6 +290,7 @@ export function LetterCanvas({
       data-letter-page
       data-letter-template={design.template}
       data-letter-header-mode={headerMode}
+      data-letter-footer-mode={footerMode}
       data-letter-font={design.fontOverride ?? design.font}
       data-letter-font-source={
         design.template === "brief" ? "standalone" : design.fontOverride ? "override" : "family"
@@ -363,7 +410,7 @@ export function LetterCanvas({
               </div>
             </div>
 
-            {showBeilagen ? (
+            {showBeilagenInBody ? (
               <div className="mt-[9mm] text-[10pt] leading-[1.45]">
                 <div data-letter-pdf-text="attachments-heading" className="font-semibold">
                   Beilagen:
