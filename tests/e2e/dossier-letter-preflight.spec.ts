@@ -66,7 +66,7 @@ function letterPayload(text: string, patch: Record<string, unknown> = {}) {
 async function seedDossier(page: Page, letter: ReturnType<typeof letterPayload>) {
   await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
-    ({ letterValue }) => {
+    ({ letterValue, letterKey }) => {
       localStorage.clear();
       localStorage.setItem(
         "titelblatt:v3",
@@ -81,7 +81,7 @@ async function seedDossier(page: Page, letter: ReturnType<typeof letterPayload>)
           },
         }),
       );
-      localStorage.setItem(LETTER_KEY, JSON.stringify(letterValue));
+      localStorage.setItem(letterKey, JSON.stringify(letterValue));
       localStorage.setItem(
         "lebenslauf:v1",
         JSON.stringify({
@@ -108,7 +108,7 @@ async function seedDossier(page: Page, letter: ReturnType<typeof letterPayload>)
         }),
       );
     },
-    { letterValue: letter },
+    { letterValue: letter, letterKey: LETTER_KEY },
   );
   await page.reload({ waitUntil: "domcontentloaded" });
 }
@@ -142,14 +142,14 @@ test.describe("M1 dossier sending truth", () => {
     await dialog.getByRole("button", { name: "Zurück zum Bearbeiten" }).click();
 
     await page.evaluate(
-      ({ hugeBody }) => {
-        const saved = JSON.parse(localStorage.getItem(LETTER_KEY) ?? "{}");
+      ({ hugeBody, letterKey }) => {
+        const saved = JSON.parse(localStorage.getItem(letterKey) ?? "{}");
         saved.data.betreff = "Bewerbung um eine Lehrstelle als Informatikerin EFZ";
         saved.data.text = hugeBody;
         saved.data.richTextHtml = "";
-        localStorage.setItem(LETTER_KEY, JSON.stringify(saved));
+        localStorage.setItem(letterKey, JSON.stringify(saved));
       },
-      { hugeBody: HUGE_BODY },
+      { hugeBody: HUGE_BODY, letterKey: LETTER_KEY },
     );
     await page.reload({ waitUntil: "domcontentloaded" });
 
@@ -173,13 +173,13 @@ test.describe("M1 dossier sending truth", () => {
     await dialog.getByRole("button", { name: "Zurück zum Bearbeiten" }).click();
 
     await page.evaluate(
-      ({ fittingBody }) => {
-        const saved = JSON.parse(localStorage.getItem(LETTER_KEY) ?? "{}");
+      ({ fittingBody, letterKey }) => {
+        const saved = JSON.parse(localStorage.getItem(letterKey) ?? "{}");
         saved.data.text = fittingBody;
         saved.data.richTextHtml = "";
-        localStorage.setItem(LETTER_KEY, JSON.stringify(saved));
+        localStorage.setItem(letterKey, JSON.stringify(saved));
       },
-      { fittingBody: LONG_FITTING_BODY },
+      { fittingBody: LONG_FITTING_BODY, letterKey: LETTER_KEY },
     );
     await page.reload({ waitUntil: "domcontentloaded" });
 
