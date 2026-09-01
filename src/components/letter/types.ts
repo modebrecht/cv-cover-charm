@@ -4,6 +4,7 @@ import { LETTER_STORAGE_KEY } from "@/lib/dossier-project";
 export type LetterAlignment = "left" | "right";
 export type LetterTemplateId = "brief" | TemplateId;
 export type LetterBodyColumns = 1 | 2 | 3;
+export type LetterHeaderMode = "compact" | "contact" | "none";
 
 /** Frei platzierbares Foto/Bild im Anschreiben. Der Textumbruch ist immer rechteckig (Word: Quadrat). */
 export type LetterFlowImage = {
@@ -60,6 +61,12 @@ export type LetterDesign = {
   ruleAfterSender?: boolean;
   ruleAfterRecipient?: boolean;
   ruleAfterSubject?: boolean;
+  /** Eigener, kompakter Kopf für das Anschreiben. Alte Saves fallen auf `compact` zurück. */
+  headerMode?: LetterHeaderMode;
+  headerShowName?: boolean;
+  headerShowAddress?: boolean;
+  headerShowPhone?: boolean;
+  headerShowEmail?: boolean;
 };
 
 export type SavedLetter = {
@@ -148,6 +155,11 @@ export function emptyLetterDesign(): LetterDesign {
     ruleAfterSender: false,
     ruleAfterRecipient: false,
     ruleAfterSubject: false,
+    headerMode: "compact",
+    headerShowName: true,
+    headerShowAddress: true,
+    headerShowPhone: true,
+    headerShowEmail: true,
   };
 }
 
@@ -174,6 +186,10 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     incoming.colors && typeof incoming.colors === "object"
       ? { ...defaultLetterColors(template), ...incoming.colors }
       : defaultLetterColors(template);
+  const headerMode: LetterHeaderMode =
+    incoming.headerMode === "contact" || incoming.headerMode === "none"
+      ? incoming.headerMode
+      : "compact";
   return {
     template,
     colors,
@@ -185,5 +201,10 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     ruleAfterSender: incoming.ruleAfterSender === true,
     ruleAfterRecipient: incoming.ruleAfterRecipient === true,
     ruleAfterSubject: incoming.ruleAfterSubject === true,
+    headerMode,
+    headerShowName: incoming.headerShowName !== false,
+    headerShowAddress: incoming.headerShowAddress !== false,
+    headerShowPhone: incoming.headerShowPhone !== false,
+    headerShowEmail: incoming.headerShowEmail !== false,
   };
 }
