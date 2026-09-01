@@ -1,5 +1,6 @@
 import { FRESH_TEMPLATE_IDS } from "@/components/cover/fresh-templates";
-import { letterLayoutFor } from "@/components/dossier/DossierSheetBackground";
+import type { TemplateId } from "@/components/cover/types";
+import { cvFrameFor } from "@/components/cv/archetype";
 import {
   DEFAULT_LETTER_BEILAGEN,
   type LetterData,
@@ -118,9 +119,9 @@ const COMPACT_ACCENTS: Record<LetterArchetype, MmBar> = {
 };
 
 /**
- * Existing dossier geometry is deliberately used only as a visual classifier.
- * The letter never inherits those large CV measurements; it maps the visual
- * reference to one of a handful of compact letter archetypes instead.
+ * CV geometry is used only as a structural visual reference. The letter never
+ * inherits CV measurements; base templates map from their CV frame to one of
+ * the compact letter archetypes, while Fresh templates use the registry above.
  */
 export function letterArchetypeFor(template: LetterTemplateId): LetterArchetype {
   const freshTemplate = template !== "brief" && FRESH_TEMPLATE_SET.has(template);
@@ -131,12 +132,16 @@ export function letterArchetypeFor(template: LetterTemplateId): LetterArchetype 
     return "fresh";
   }
 
-  const reference = letterLayoutFor(template);
-  const activeBand =
-    reference.kind === "band" && ((reference.bandMm ?? 0) > 0 || (reference.footMm ?? 0) > 0);
+  if (template === "brief") return "quiet";
 
-  if (reference.kind === "column") return "sidebar";
-  if (reference.kind === "card" || reference.cardInsetMm || reference.borderInsetMm) return "frame";
+  const reference = cvFrameFor(template as TemplateId);
+  const activeBand =
+    reference.id === "band" && (reference.headFirstMm > 0 || reference.footMm > 0);
+
+  if (reference.id === "column") return "sidebar";
+  if (reference.id === "card" || reference.cardInsetMm > 0 || reference.borderInsetMm > 0) {
+    return "frame";
+  }
   if (activeBand) return "band";
   return "quiet";
 }
