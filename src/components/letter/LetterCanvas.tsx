@@ -2,16 +2,12 @@ import { useEffect, useRef } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
 import { cvPalette } from "@/components/cv/palette";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
-import {
-  DossierSheetBackground,
-  letterLayoutFor,
-} from "@/components/dossier/DossierSheetBackground";
+import { letterLayoutFor } from "@/components/dossier/DossierSheetBackground";
 import {
   DEFAULT_LETTER_BEILAGEN,
   type LetterData,
   type LetterDesign,
   type LetterFlowImage,
-  type LetterTemplateId,
 } from "./types";
 import { letterRichHtml, plainTextToRichHtml } from "./rich-text";
 import { LetterFlowImages } from "./LetterFlowImages";
@@ -44,6 +40,140 @@ function Separator({ color, marker }: { color: string; marker: string }) {
   );
 }
 
+function contrastInk(color: string): string {
+  const match = color.trim().match(/^#([0-9a-f]{6})$/i);
+  if (!match) return "#ffffff";
+  const value = Number.parseInt(match[1], 16);
+  const r = (value >> 16) & 255;
+  const g = (value >> 8) & 255;
+  const b = value & 255;
+  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  return luminance > 0.58 ? "#111111" : "#ffffff";
+}
+
+function letterContentLayout(design: LetterDesign) {
+  const reference = letterLayoutFor(design.template);
+  const headerMode = design.headerMode ?? "compact";
+  const sidebar = reference.kind === "column";
+  const card = reference.kind === "card";
+
+  return {
+    left: sidebar ? 30 : card ? 27 : 24,
+    right: card ? 27 : 23,
+    top: headerMode === "contact" ? 27 : headerMode === "none" ? 18 : 21,
+    bottom: 17,
+    kind: reference.kind,
+  };
+}
+
+function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign }) {
+  const mode = design.headerMode ?? "compact";
+  const reference = letterLayoutFor(design.template);
+  const sourcePalette = cvPalette(design.colors);
+  const primary = design.template === "brief" ? "#111111" : sourcePalette.accent;
+  const secondary = design.template === "brief" ? "#4b5563" : sourcePalette.heading;
+  const headerInk = contrastInk(primary);
+  const sidebar = reference.kind === "column";
+  const card = reference.kind === "card";
+  const band = reference.kind === "band";
+  const contactBits = [
+    design.headerShowPhone !== false ? data.absenderTelefon : "",
+    design.headerShowEmail !== false ? data.absenderEmail : "",
+  ].filter(Boolean);
+
+  return (
+    <div
+      data-letter-chrome
+      data-letter-header-mode={mode}
+      data-letter-reference-kind={reference.kind}
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      aria-hidden="true"
+    >
+      {mode === "compact" ? (
+        <>
+          {sidebar ? (
+            <>
+              <div className="absolute inset-y-0 left-0 w-[6mm]" style={{ backgroundColor: primary }} />
+              <div
+                className="absolute left-[13mm] top-[14mm] h-[1.2mm] w-[24mm]"
+                style={{ backgroundColor: secondary }}
+              />
+            </>
+          ) : card ? (
+            <>
+              <div
+                className="absolute right-[18mm] top-[11mm] h-[7mm] w-[32mm] rounded-full"
+                style={{ backgroundColor: primary, opacity: 0.2 }}
+              />
+              <div
+                className="absolute left-[24mm] top-[15mm] h-[1.2mm] w-[24mm]"
+                style={{ backgroundColor: primary }}
+              />
+            </>
+          ) : band ? (
+            <>
+              <div className="absolute inset-x-0 top-0 h-[5mm]" style={{ backgroundColor: primary }} />
+              <div
+                className="absolute left-[24mm] top-[12mm] h-[1.1mm] w-[22mm]"
+                style={{ backgroundColor: secondary }}
+              />
+            </>
+          ) : (
+            <>
+              <div
+                className="absolute left-[24mm] right-[23mm] top-[13mm] h-[1px]"
+                style={{ backgroundColor: primary, opacity: 0.72 }}
+              />
+              <div
+                className="absolute left-[24mm] top-[11.8mm] h-[3mm] w-[10mm]"
+                style={{ backgroundColor: secondary }}
+              />
+            </>
+          )}
+        </>
+      ) : null}
+
+      {mode === "contact" ? (
+        <>
+          <div className="absolute inset-x-0 top-0 h-[18mm]" style={{ backgroundColor: primary }} />
+          {sidebar ? (
+            <div className="absolute inset-y-0 left-0 w-[6mm]" style={{ backgroundColor: primary }} />
+          ) : null}
+          <div
+            data-letter-integrated-contact
+            className="absolute left-[24mm] right-[23mm] top-[3.1mm] flex min-h-[11mm] items-center justify-between gap-[8mm] text-[8.5pt] leading-[1.28]"
+            style={{ color: headerInk }}
+          >
+            <div className="min-w-0">
+              {design.headerShowName !== false && data.absenderName ? (
+                <div className="truncate text-[10pt] font-semibold">{data.absenderName}</div>
+              ) : null}
+              {design.headerShowAddress !== false ? (
+                <div className="truncate opacity-90">
+                  {[data.absenderAdresse, data.absenderPlzOrt].filter(Boolean).join(" · ")}
+                </div>
+              ) : null}
+            </div>
+            {contactBits.length ? (
+              <div className="shrink-0 text-right opacity-95">
+                {contactBits.map((value) => (
+                  <div key={value}>{value}</div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </>
+      ) : null}
+
+      <div
+        data-letter-footer="compact"
+        className="absolute inset-x-0 bottom-0 h-[2.4mm]"
+        style={{ backgroundColor: secondary, opacity: design.template === "brief" ? 0.75 : 0.92 }}
+      />
+    </div>
+  );
+}
+
 export function LetterCanvas({
   data,
   design,
@@ -61,12 +191,15 @@ export function LetterCanvas({
   onImageRemove?: (id: string) => void;
   ariaLabel?: string;
 }) {
-  const layout = letterLayoutFor(design.template);
+  const layout = letterContentLayout(design);
   const contentWidthMm = 210 - layout.left - layout.right;
-  const palette =
-    design.template === "brief"
-      ? { ink: "#111111", muted: "#4b5563", accent: "#111111", paper: "#ffffff" }
-      : cvPalette(design.colors);
+  const sourcePalette = cvPalette(design.colors);
+  const palette = {
+    ink: "#111111",
+    muted: "#4b5563",
+    accent: design.template === "brief" ? "#111111" : sourcePalette.accent,
+    paper: "#ffffff",
+  };
   const fontFamily =
     design.template === "brief"
       ? FONT_STACKS[design.font]
@@ -74,6 +207,8 @@ export function LetterCanvas({
   const senderAlign = design.senderAlign ?? "left";
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
+  const headerMode = design.headerMode ?? "compact";
+  const senderIntegrated = headerMode === "contact";
   const beilagen = DEFAULT_LETTER_BEILAGEN.map(
     (fallback, index) => data.beilagen?.[index] ?? fallback,
   ).filter((value) => value.trim());
@@ -110,15 +245,16 @@ export function LetterCanvas({
     <article
       data-letter-page
       data-letter-template={design.template}
+      data-letter-header-mode={headerMode}
       data-letter-font={design.fontOverride ?? design.font}
       data-letter-font-source={
         design.template === "brief" ? "standalone" : design.fontOverride ? "override" : "family"
       }
-      className="relative h-[1123px] w-[794px] overflow-hidden shadow-xl"
+      className="relative h-[1123px] w-[794px] overflow-hidden bg-white shadow-xl"
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
       aria-label={ariaLabel}
     >
-      <DossierSheetBackground template={design.template} colors={design.colors} />
+      <LetterChrome data={data} design={design} />
       <div
         ref={textLayerRef}
         data-letter-text-layer
@@ -132,30 +268,34 @@ export function LetterCanvas({
           lineHeight: 1.48,
         }}
       >
-        <div
-          data-letter-section="sender"
-          className="text-[9.5pt] leading-[1.45]"
-          style={{ textAlign: senderAlign }}
-        >
-          <div data-letter-pdf-text="sender">
-            <Lines
-              values={[
-                data.absenderName,
-                data.absenderAdresse,
-                data.absenderPlzOrt,
-                data.absenderTelefon,
-                data.absenderEmail,
-              ]}
-              align={senderAlign}
-            />
-          </div>
-        </div>
+        {!senderIntegrated ? (
+          <>
+            <div
+              data-letter-section="sender"
+              className="text-[9.5pt] leading-[1.45]"
+              style={{ textAlign: senderAlign }}
+            >
+              <div data-letter-pdf-text="sender">
+                <Lines
+                  values={[
+                    data.absenderName,
+                    data.absenderAdresse,
+                    data.absenderPlzOrt,
+                    data.absenderTelefon,
+                    data.absenderEmail,
+                  ]}
+                  align={senderAlign}
+                />
+              </div>
+            </div>
 
-        {design.ruleAfterSender ? <Separator color={palette.accent} marker="sender" /> : null}
+            {design.ruleAfterSender ? <Separator color={palette.accent} marker="sender" /> : null}
+          </>
+        ) : null}
 
         <div
           data-letter-section="recipient"
-          className="mt-[6mm] min-h-[24mm] text-[10pt] leading-[1.45]"
+          className={`${senderIntegrated ? "mt-[1mm]" : "mt-[6mm]"} min-h-[24mm] text-[10pt] leading-[1.45]`}
           style={{ textAlign: recipientAlign }}
         >
           <div data-letter-pdf-text="recipient">
