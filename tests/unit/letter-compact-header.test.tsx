@@ -105,6 +105,16 @@ describe("compact letter presentation", () => {
     expect(longMarkup).toContain("Kursbestätigung");
   });
 
+  test("meaningful contact and attachment chrome stays in the accessibility tree", () => {
+    const markup = markupFor("modern", "contact", "attachments");
+    const chromeTag = markup.match(/<div[^>]*data-letter-chrome[^>]*>/)?.[0];
+
+    expect(chromeTag).toBeDefined();
+    expect(chromeTag).not.toContain('aria-hidden="true"');
+    expect(markup).toContain("data-letter-integrated-contact");
+    expect(markup).toContain("data-letter-footer-attachments");
+  });
+
   test("header and footer settings survive design normalization", () => {
     const normalized = normalizeLetterDesign({
       template: "modern",
