@@ -1,0 +1,43 @@
+name: M5 Test Assertion Fix
+
+on:
+  push:
+    branches:
+      - letter-m1-m2
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: letter-m1-m2
+          fetch-depth: 1
+
+      - name: Fix content-box locator assertion
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tests/e2e/letter-final-qa.spec.ts')
+          text = path.read_text(encoding='utf-8')
+          old = '''  await expect(exported).toHaveAttribute("data-letter-template", expected.template);\n  await expect(exported).toHaveAttribute("data-letter-requested-header-mode", expected.header);\n  await expect(exported).toHaveAttribute("data-letter-requested-footer-mode", expected.footer);\n  await expect(exported).toHaveAttribute(\n    "data-letter-content-box",\n    (await preview.getAttribute("data-letter-content-box")) ?? "",\n  );\n'''
+          new = '''  await expect(exported).toHaveAttribute("data-letter-template", expected.template);\n  await expect(exported).toHaveAttribute("data-letter-requested-header-mode", expected.header);\n  await expect(exported).toHaveAttribute("data-letter-requested-footer-mode", expected.footer);\n  const previewContentBox = preview.locator("[data-letter-content-box]");\n  const exportedContentBox = exported.locator("[data-letter-content-box]");\n  await expect(previewContentBox).toHaveCount(1);\n  await expect(exportedContentBox).toHaveCount(1);\n  await expect(exportedContentBox).toHaveAttribute(\n    "data-letter-content-box",\n    (await previewContentBox.getAttribute("data-letter-content-box")) ?? "",\n  );\n'''
+          if old not in text:
+              raise SystemExit('expected assertion block not found')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
+      - name: Commit test fix
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/e2e/letter-final-qa.spec.ts
+          git diff --cached --check
+          git commit -m "test(letter): compare actual content-box layers"
+          git push origin HEAD:letter-m1-m2
