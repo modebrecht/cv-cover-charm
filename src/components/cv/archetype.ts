@@ -129,6 +129,7 @@ const FRAMES: Record<TemplateId, CvFrame> = {
 };
 
 export function cvFrameFor(template: TemplateId): CvFrame {
+  if ((template as string) === "brief") return quiet(0);
   return FRAMES[template] ?? FRAMES.klassisch;
 }
 

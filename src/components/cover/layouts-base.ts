@@ -105,6 +105,21 @@ function common(data: CoverData) {
 
 function defsFor(template: TemplateId, data: CoverData): Def[] {
   const { kicker, fullName, kontakt, empfaenger, ortDatum } = common(data);
+
+  if ((template as string) === "brief") {
+    return defsFor("modern", data)
+      .filter((definition) => definition.id !== "trenner")
+      .map((definition) => ({
+        ...definition,
+        style: {
+          ...definition.style,
+          color: "ink",
+          bg: null,
+          ...(definition.kind === "photo" ? { radius: 0, fill: "bg" } : {}),
+        },
+      }));
+  }
+
   const font: BlockStyle["font"] = template === "klassisch" ? "serif" : "sans";
   const ink = template === "modern" ? "primary" : "ink";
 

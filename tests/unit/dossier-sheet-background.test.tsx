@@ -23,7 +23,7 @@ const markupFor = (
 // Release guard: this contract is part of the parallel 39-PDF + browser smoke gate.
 describe("shared dossier sheet background", () => {
   test("every dossier template renders the shared non-brief background", () => {
-    for (const { id } of TEMPLATES) {
+    for (const { id } of TEMPLATES.filter(({ id }) => (id as string) !== "brief")) {
       const markup = markupFor(id);
       expect(markup).toContain(`data-dossier-sheet-background="${id}"`);
       expect(markup).not.toContain('data-dossier-sheet-background="brief"');
