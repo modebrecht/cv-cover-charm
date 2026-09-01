@@ -84,6 +84,11 @@ const FRESH_SIDEBAR_TEMPLATES = new Set<string>([
 const FRESH_BAND_TEMPLATES = new Set<string>(["horizon", "sunrise", "ribbon", "cove"]);
 const FRESH_FRAME_TEMPLATES = new Set<string>(["frame", "monoLuxe"]);
 
+/**
+ * These are the only letter-specific content dimensions. Templates do not own
+ * letter margins; they are reduced to a structural archetype first and then use
+ * the same compact measurements as every other template in that archetype.
+ */
 const CONTENT_INSETS: Record<LetterArchetype, { left: number; right: number }> = {
   quiet: { left: 24, right: 23 },
   fresh: { left: 25, right: 24 },
