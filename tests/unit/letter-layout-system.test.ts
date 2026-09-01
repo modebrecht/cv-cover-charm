@@ -19,6 +19,10 @@ import {
 
 const headerModes: LetterHeaderMode[] = ["compact", "contact", "none"];
 const footerModes: LetterFooterMode[] = ["compact", "attachments", "none"];
+const LETTER_TEMPLATE_IDS: LetterTemplateId[] = [
+  "brief",
+  ...TEMPLATES.map((template) => template.id as LetterTemplateId),
+];
 
 function designFor(
   template: LetterTemplateId,
@@ -35,15 +39,16 @@ function designFor(
 }
 
 describe("central motivation-letter layout system", () => {
-  test("every registered template and every header/footer mode yields one usable content box", () => {
-    expect(TEMPLATES.length).toBeGreaterThanOrEqual(37);
+  test("every selectable letter style and every header/footer mode yields one usable content box", () => {
+    expect(TEMPLATES.length).toBe(37);
+    expect(LETTER_TEMPLATE_IDS.length).toBe(38);
 
-    for (const template of TEMPLATES) {
+    for (const template of LETTER_TEMPLATE_IDS) {
       for (const headerMode of headerModes) {
         for (const footerMode of footerModes) {
           const geometry = letterPageGeometry(
             DEMO_LETTER,
-            designFor(template.id, headerMode, footerMode),
+            designFor(template, headerMode, footerMode),
           );
 
           expect(geometry.content.left).toBeGreaterThanOrEqual(20);
@@ -66,11 +71,11 @@ describe("central motivation-letter layout system", () => {
   test("letter geometry is archetype-based instead of copying per-template CV dimensions", () => {
     const groups = new Map<LetterArchetype, Set<string>>();
 
-    for (const template of TEMPLATES) {
-      const archetype = letterArchetypeFor(template.id);
+    for (const template of LETTER_TEMPLATE_IDS) {
+      const archetype = letterArchetypeFor(template);
       const geometry = letterPageGeometry(
         DEMO_LETTER,
-        designFor(template.id, "compact", "compact"),
+        designFor(template, "compact", "compact"),
       );
       const signature = `${geometry.content.left}/${geometry.content.right}/${geometry.content.top}/${geometry.content.bottom}`;
       const signatures = groups.get(archetype) ?? new Set<string>();
@@ -83,7 +88,7 @@ describe("central motivation-letter layout system", () => {
   });
 
   test("band, sidebar, frame, quiet and fresh references are all represented", () => {
-    const archetypes = new Set(TEMPLATES.map((template) => letterArchetypeFor(template.id)));
+    const archetypes = new Set(LETTER_TEMPLATE_IDS.map((template) => letterArchetypeFor(template)));
 
     expect(archetypes).toEqual(new Set<LetterArchetype>(["quiet", "band", "sidebar", "frame", "fresh"]));
 
