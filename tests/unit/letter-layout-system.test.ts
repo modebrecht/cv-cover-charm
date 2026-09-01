@@ -78,18 +78,14 @@ describe("central motivation-letter layout system", () => {
       groups.set(archetype, signatures);
     }
 
-    expect(groups.size).toBeGreaterThanOrEqual(4);
+    expect(groups.size).toBe(5);
     for (const signatures of groups.values()) expect(signatures.size).toBe(1);
   });
 
   test("band, sidebar, frame, quiet and fresh references are all represented", () => {
     const archetypes = new Set(TEMPLATES.map((template) => letterArchetypeFor(template.id)));
 
-    expect(archetypes.has("band")).toBe(true);
-    expect(archetypes.has("sidebar")).toBe(true);
-    expect(archetypes.has("frame")).toBe(true);
-    expect(archetypes.has("quiet")).toBe(true);
-    expect(archetypes.has("fresh")).toBe(true);
+    expect(archetypes).toEqual(new Set<LetterArchetype>(["quiet", "band", "sidebar", "frame", "fresh"]));
 
     for (const id of FRESH_TEMPLATE_IDS) {
       const geometry = letterPageGeometry(
@@ -98,6 +94,13 @@ describe("central motivation-letter layout system", () => {
       );
       expect(geometry.freshTemplate).toBe(true);
     }
+  });
+
+  test("fresh structural references are deterministic and independent of import order", () => {
+    expect(letterArchetypeFor("glow" as LetterTemplateId)).toBe("fresh");
+    expect(letterArchetypeFor("edge" as LetterTemplateId)).toBe("sidebar");
+    expect(letterArchetypeFor("horizon" as LetterTemplateId)).toBe("band");
+    expect(letterArchetypeFor("frame" as LetterTemplateId)).toBe("frame");
   });
 
   test("a zero-height CV band remains a quiet letter reference", () => {
