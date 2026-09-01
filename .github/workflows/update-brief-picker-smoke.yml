@@ -1,0 +1,32 @@
+name: Update Brief picker smoke
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - .github/scripts/update-brief-picker-smoke.py
+      - .github/workflows/update-brief-picker-smoke.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+      - name: Update Brief picker smoke
+        run: python .github/scripts/update-brief-picker-smoke.py
+      - name: Format test
+        run: npx --yes prettier@3.8.3 --write tests/e2e/dossier-regression.spec.ts
+      - name: Commit picker smoke
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "test: verify Brief picker across dossier"
+          git push origin HEAD:dev
