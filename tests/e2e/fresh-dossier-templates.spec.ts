@@ -248,6 +248,10 @@ test.describe("Fresh dossier templates", () => {
 
   test("all twelve templates are selectable", async ({ page }) => {
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+    const templateSection = page.getByRole("button", { name: "Vorlage", exact: true });
+    if ((await templateSection.getAttribute("aria-expanded")) !== "true") {
+      await templateSection.click();
+    }
 
     for (const template of FRESH) {
       await expect(page.getByRole("button", { name: template.name, exact: true })).toBeVisible();
@@ -261,6 +265,7 @@ test.describe("Fresh dossier templates", () => {
 
     for (const template of FRESH) {
       await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+      await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
       await page.evaluate(
         ({ payload }) => {
           localStorage.clear();
@@ -268,7 +273,7 @@ test.describe("Fresh dossier templates", () => {
         },
         { payload: coverPayload(template) },
       );
-      await page.reload({ waitUntil: "domcontentloaded" });
+      await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
       await settle(page, template.id);
 
       const sheet = page.locator('[data-dossier-document="cover"]').first();
@@ -287,6 +292,7 @@ test.describe("Fresh dossier templates", () => {
 
     for (const template of FRESH) {
       await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+      await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
       await page.evaluate(
         ({ payload }) => {
           localStorage.clear();
@@ -296,7 +302,7 @@ test.describe("Fresh dossier templates", () => {
         },
         { payload: cvPayload(template) },
       );
-      await page.reload({ waitUntil: "domcontentloaded" });
+      await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
       await settle(page, template.id);
 
       const sheet = page

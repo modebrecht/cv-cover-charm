@@ -193,6 +193,7 @@ function cvData() {
 
 async function seedCover(page: Page, template: (typeof TEMPLATES)[number]): Promise<Locator> {
   await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
     ({ payload }) => {
       localStorage.clear();
@@ -210,7 +211,7 @@ async function seedCover(page: Page, template: (typeof TEMPLATES)[number]): Prom
       },
     },
   );
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
   await page.waitForFunction(
     (expected) => document.documentElement.dataset.dossierTemplate === expected,
     template.id,
@@ -222,6 +223,7 @@ async function seedCover(page: Page, template: (typeof TEMPLATES)[number]): Prom
 
 async function seedCv(page: Page, template: (typeof TEMPLATES)[number]): Promise<Locator> {
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
     ({ payload }) => {
       localStorage.clear();
@@ -243,7 +245,7 @@ async function seedCv(page: Page, template: (typeof TEMPLATES)[number]): Promise
       },
     },
   );
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
   await page.waitForFunction(
     (expected) => document.documentElement.dataset.dossierTemplate === expected,
     template.id,

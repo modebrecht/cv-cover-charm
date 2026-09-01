@@ -661,7 +661,7 @@ test.describe("M5.8 dossier regression", () => {
           };
         }),
       )
-      .toEqual({ name: "Lea Müller", plzOrt: "4500 Solothurn", company: "Beispiel AG" });
+      .toEqual({ name: "Lea Müller", plzOrt: "4535 Hubersdorf", company: "Beispiel AG" });
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
     );
