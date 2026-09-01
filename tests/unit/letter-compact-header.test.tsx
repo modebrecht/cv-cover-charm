@@ -67,7 +67,7 @@ describe("compact letter presentation", () => {
       expect(contact).toContain('data-letter-header-mode="contact"');
       expect(contact).toContain("data-letter-integrated-contact");
       expect(contact).not.toContain('data-letter-section="sender"');
-      expect(contact).toContain("top:27mm");
+      expect(contact).toContain("top:31mm");
 
       expect(none).toContain('data-letter-header-mode="none"');
       expect(none).not.toContain("data-letter-integrated-contact");
@@ -109,6 +109,36 @@ describe("compact letter presentation", () => {
     expect(footerHeight(longMarkup)).toBeGreaterThan(footerHeight(shortMarkup));
     expect(longMarkup).toContain("Schnupperbericht");
     expect(longMarkup).toContain("Kursbestätigung");
+  });
+
+  test("attachments footer also grows when the item count stays the same but a label wraps", () => {
+    const shortMarkup = markupFor("modern", "compact", "attachments", {
+      ...DEMO_LETTER,
+      beilagen: ["Lebenslauf", "Zeugnis"],
+    });
+    const wrappedMarkup = markupFor("modern", "compact", "attachments", {
+      ...DEMO_LETTER,
+      beilagen: [
+        "Lebenslauf",
+        "Bestätigung über die absolvierte mehrwöchige Schnupperlehre und den erfolgreichen Abschluss des Einführungskurses",
+      ],
+    });
+
+    expect(footerHeight(wrappedMarkup)).toBeGreaterThan(footerHeight(shortMarkup));
+  });
+
+  test("contact header keeps long real-world contact values wrap-capable instead of truncating them", () => {
+    const markup = markupFor("modern", "contact", "compact", {
+      ...DEMO_LETTER,
+      absenderName: "Lea Sophie Alexandra Müller-Winterberger-Schneider",
+      absenderAdresse: "Sehrlangebeispielstrasse 123a Hinterhaus",
+      absenderEmail: "lea.sophie.alexandra.mueller-winterberger-schneider@example-company.ch",
+    });
+
+    expect(markup).toContain("Lea Sophie Alexandra Müller-Winterberger-Schneider");
+    expect(markup).toContain("overflow-wrap:anywhere");
+    expect(markup).not.toContain("text-overflow:ellipsis");
+    expect(markup).toContain("top:31mm");
   });
 
   test("meaningful contact and attachment chrome stays in the accessibility tree", () => {
