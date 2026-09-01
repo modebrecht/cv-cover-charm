@@ -2,13 +2,12 @@ import { useEffect, useRef } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
-import { letterLayoutFor } from "@/components/dossier/DossierSheetBackground";
 import {
-  DEFAULT_LETTER_BEILAGEN,
-  type LetterData,
-  type LetterDesign,
-  type LetterFlowImage,
-} from "./types";
+  letterPageGeometry,
+  visibleLetterAttachments,
+  type LetterPageGeometry,
+} from "./layout-system";
+import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
 import { letterRichHtml, plainTextToRichHtml } from "./rich-text";
 import { LetterFlowImages } from "./LetterFlowImages";
 
@@ -40,41 +39,17 @@ function Separator({ color, marker }: { color: string; marker: string }) {
   );
 }
 
-function visibleAttachments(data: LetterData): string[] {
-  const values = data.beilagen?.length ? data.beilagen : [...DEFAULT_LETTER_BEILAGEN];
-  return values.filter((value) => value.trim());
-}
-
-function letterFooterHeightMm(data: LetterData, design: LetterDesign): number {
-  const mode = design.footerMode ?? "compact";
-  if (mode === "none") return 0;
-  if (mode === "compact") return 2.4;
-
-  const attachmentCount = data.showBeilagen !== false ? visibleAttachments(data).length : 0;
-  return attachmentCount > 0 ? Math.min(24, 7 + attachmentCount * 3.6) : 4;
-}
-
-function letterContentLayout(data: LetterData, design: LetterDesign) {
-  const reference = letterLayoutFor(design.template);
-  const headerMode = design.headerMode ?? "compact";
-  const footerMode = design.footerMode ?? "compact";
-  const footerHeightMm = letterFooterHeightMm(data, design);
-  const sidebar = reference.kind === "column";
-  const card = reference.kind === "card";
-
-  return {
-    left: sidebar ? 30 : card ? 27 : 24,
-    right: card ? 27 : 23,
-    top: headerMode === "contact" ? 27 : headerMode === "none" ? 18 : 21,
-    bottom: footerMode === "none" ? 10 : footerMode === "attachments" ? footerHeightMm + 7 : 17,
-    kind: reference.kind,
-  };
-}
-
-function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign }) {
-  const mode = design.headerMode ?? "compact";
-  const footerMode = design.footerMode ?? "compact";
-  const reference = letterLayoutFor(design.template);
+function LetterChrome({
+  data,
+  design,
+  geometry,
+}: {
+  data: LetterData;
+  design: LetterDesign;
+  geometry: LetterPageGeometry;
+}) {
+  const mode = geometry.effectiveHeaderMode;
+  const footerMode = geometry.effectiveFooterMode;
   const sourcePalette = cvPalette(design.colors);
   const primary =
     design.template === "brief"
@@ -89,78 +64,107 @@ function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign
       : design.colors.accent ?? design.colors.secondary ?? sourcePalette.accent;
   const headerRoles = onColorRoles(primary, secondary);
   const footerRoles = onColorRoles(secondary, primary);
-  const sidebar = reference.kind === "column";
-  const card = reference.kind === "card";
-  const band = reference.kind === "band";
+  const sidebar = geometry.archetype === "sidebar";
+  const frame = geometry.archetype === "frame";
+  const band = geometry.archetype === "band";
   const contactBits = [
     design.headerShowPhone !== false ? data.absenderTelefon : "",
     design.headerShowEmail !== false ? data.absenderEmail : "",
   ].filter(Boolean);
-  const attachments = visibleAttachments(data);
-  const showAttachments = data.showBeilagen !== false && attachments.length > 0;
-  const footerHeightMm = letterFooterHeightMm(data, design);
+  const attachments = visibleLetterAttachments(data);
+  const accent = geometry.header.compactAccent;
+  const pill = geometry.header.compactPill;
 
   return (
     <div
       data-letter-chrome
       data-letter-header-mode={mode}
-      data-letter-reference-kind={reference.kind}
+      data-letter-reference-kind={geometry.archetype}
+      data-letter-fresh-reference={geometry.freshTemplate ? "true" : "false"}
       className="pointer-events-none absolute inset-0 overflow-hidden"
+      aria-hidden="true"
     >
       {mode === "compact" ? (
         <>
-          {sidebar ? (
-            <>
-              <div className="absolute inset-y-0 left-0 w-[6mm]" style={{ backgroundColor: primary }} />
-              <div
-                className="absolute left-[13mm] top-[14mm] h-[1.2mm] w-[24mm]"
-                style={{ backgroundColor: secondary }}
-              />
-            </>
-          ) : card ? (
-            <>
-              <div
-                className="absolute right-[18mm] top-[11mm] h-[7mm] w-[32mm] rounded-full"
-                style={{ backgroundColor: primary, opacity: 0.2 }}
-              />
-              <div
-                className="absolute left-[24mm] top-[15mm] h-[1.2mm] w-[24mm]"
-                style={{ backgroundColor: primary }}
-              />
-            </>
-          ) : band ? (
-            <>
-              <div className="absolute inset-x-0 top-0 h-[5mm]" style={{ backgroundColor: primary }} />
-              <div
-                className="absolute left-[24mm] top-[12mm] h-[1.1mm] w-[22mm]"
-                style={{ backgroundColor: secondary }}
-              />
-            </>
-          ) : (
-            <>
-              <div
-                className="absolute left-[24mm] right-[23mm] top-[13mm] h-[1px]"
-                style={{ backgroundColor: primary, opacity: 0.72 }}
-              />
-              <div
-                className="absolute left-[24mm] top-[11.8mm] h-[3mm] w-[10mm]"
-                style={{ backgroundColor: secondary }}
-              />
-            </>
-          )}
+          {sidebar && geometry.header.sidebarWidth > 0 ? (
+            <div
+              className="absolute inset-y-0 left-0"
+              style={{ width: `${geometry.header.sidebarWidth}mm`, backgroundColor: primary }}
+            />
+          ) : null}
+
+          {band && geometry.header.compactTopBandHeight > 0 ? (
+            <div
+              className="absolute inset-x-0 top-0"
+              style={{
+                height: `${geometry.header.compactTopBandHeight}mm`,
+                backgroundColor: primary,
+              }}
+            />
+          ) : null}
+
+          {frame && pill ? (
+            <div
+              className="absolute rounded-full"
+              style={{
+                left: `${pill.left}mm`,
+                top: `${pill.top}mm`,
+                width: `${pill.width}mm`,
+                height: `${pill.height}mm`,
+                backgroundColor: primary,
+                opacity: 0.2,
+              }}
+            />
+          ) : null}
+
+          {geometry.header.compactLineTop > 0 ? (
+            <div
+              className="absolute h-px"
+              style={{
+                left: `${geometry.content.left}mm`,
+                right: `${geometry.content.right}mm`,
+                top: `${geometry.header.compactLineTop}mm`,
+                backgroundColor: primary,
+                opacity: 0.72,
+              }}
+            />
+          ) : null}
+
+          <div
+            className="absolute"
+            style={{
+              left: `${accent.left}mm`,
+              top: `${accent.top}mm`,
+              width: `${accent.width}mm`,
+              height: `${accent.height}mm`,
+              backgroundColor: sidebar || band ? secondary : primary,
+            }}
+          />
         </>
       ) : null}
 
       {mode === "contact" ? (
         <>
-          <div className="absolute inset-x-0 top-0 h-[18mm]" style={{ backgroundColor: primary }} />
-          {sidebar ? (
-            <div className="absolute inset-y-0 left-0 w-[6mm]" style={{ backgroundColor: primary }} />
+          <div
+            className="absolute inset-x-0 top-0"
+            style={{ height: `${geometry.header.contactHeight}mm`, backgroundColor: primary }}
+          />
+          {sidebar && geometry.header.sidebarWidth > 0 ? (
+            <div
+              className="absolute inset-y-0 left-0"
+              style={{ width: `${geometry.header.sidebarWidth}mm`, backgroundColor: primary }}
+            />
           ) : null}
           <div
             data-letter-integrated-contact
-            className="absolute left-[24mm] right-[23mm] top-[3.1mm] flex min-h-[11mm] items-center justify-between gap-[8mm] text-[8.5pt] leading-[1.28]"
-            style={{ color: headerRoles.ink }}
+            className="absolute flex items-center justify-between gap-[8mm] text-[8.5pt] leading-[1.28]"
+            style={{
+              left: `${geometry.header.contactLeft}mm`,
+              right: `${geometry.header.contactRight}mm`,
+              top: `${geometry.header.contactTop}mm`,
+              minHeight: `${geometry.header.contactMinHeight}mm`,
+              color: headerRoles.ink,
+            }}
           >
             <div className="min-w-0">
               {design.headerShowName !== false && data.absenderName ? (
@@ -186,23 +190,34 @@ function LetterChrome({ data, design }: { data: LetterData; design: LetterDesign
       {footerMode === "compact" ? (
         <div
           data-letter-footer="compact"
-          className="absolute inset-x-0 bottom-0 h-[2.4mm]"
-          style={{ backgroundColor: secondary, opacity: design.template === "brief" ? 0.75 : 0.92 }}
+          data-letter-footer-height-mm={geometry.footer.height}
+          className="absolute inset-x-0 bottom-0"
+          style={{
+            height: `${geometry.footer.height}mm`,
+            backgroundColor: secondary,
+            opacity: design.template === "brief" ? 0.75 : 0.92,
+          }}
         />
       ) : null}
 
       {footerMode === "attachments" ? (
         <div
           data-letter-footer="attachments"
-          data-letter-footer-height-mm={footerHeightMm}
-          className="absolute inset-x-0 bottom-0 px-[24mm] py-[2.2mm] text-[8.5pt] leading-[1.3]"
+          data-letter-footer-height-mm={geometry.footer.height}
+          className="absolute inset-x-0 bottom-0 text-[8.5pt] leading-[1.3]"
           style={{
-            height: `${footerHeightMm}mm`,
+            left: 0,
+            right: 0,
+            height: `${geometry.footer.height}mm`,
+            paddingLeft: `${geometry.footer.contentLeft}mm`,
+            paddingRight: `${geometry.footer.contentRight}mm`,
+            paddingTop: `${geometry.footer.paddingY}mm`,
+            paddingBottom: `${geometry.footer.paddingY}mm`,
             backgroundColor: secondary,
             color: footerRoles.ink,
           }}
         >
-          {showAttachments ? (
+          {geometry.footer.showAttachments ? (
             <div data-letter-footer-attachments className="flex h-full items-start gap-[8mm]">
               <div data-letter-pdf-text="attachments-heading" className="shrink-0 font-semibold">
                 Beilagen:
@@ -235,8 +250,8 @@ export function LetterCanvas({
   onImageRemove?: (id: string) => void;
   ariaLabel?: string;
 }) {
-  const layout = letterContentLayout(data, design);
-  const contentWidthMm = 210 - layout.left - layout.right;
+  const geometry = letterPageGeometry(data, design);
+  const contentWidthMm = geometry.content.width;
   const sourcePalette = cvPalette(design.colors);
   const palette = {
     ink: "#111111",
@@ -251,12 +266,10 @@ export function LetterCanvas({
   const senderAlign = design.senderAlign ?? "left";
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
-  const headerMode = design.headerMode ?? "compact";
-  const footerMode = design.footerMode ?? "compact";
-  const senderIntegrated = headerMode === "contact";
-  const beilagen = visibleAttachments(data);
+  const senderIntegrated = geometry.effectiveHeaderMode === "contact";
+  const beilagen = visibleLetterAttachments(data);
   const showBeilagen = data.showBeilagen !== false && beilagen.length > 0;
-  const showBeilagenInBody = showBeilagen && footerMode !== "attachments";
+  const showBeilagenInBody = showBeilagen && geometry.requestedFooterMode !== "attachments";
   const placeholder =
     "Hier entsteht dein persönliches Motivationsschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.";
   const bodyHtml = data.richTextHtml?.trim()
@@ -289,8 +302,13 @@ export function LetterCanvas({
     <article
       data-letter-page
       data-letter-template={design.template}
-      data-letter-header-mode={headerMode}
-      data-letter-footer-mode={footerMode}
+      data-letter-header-mode={geometry.effectiveHeaderMode}
+      data-letter-requested-header-mode={geometry.requestedHeaderMode}
+      data-letter-footer-mode={geometry.effectiveFooterMode}
+      data-letter-requested-footer-mode={geometry.requestedFooterMode}
+      data-letter-layout-archetype={geometry.archetype}
+      data-letter-page-index={geometry.pageIndex}
+      data-letter-final-page={geometry.finalPage ? "true" : "false"}
       data-letter-font={design.fontOverride ?? design.font}
       data-letter-font-source={
         design.template === "brief" ? "standalone" : design.fontOverride ? "override" : "family"
@@ -299,16 +317,17 @@ export function LetterCanvas({
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
       aria-label={ariaLabel}
     >
-      <LetterChrome data={data} design={design} />
+      <LetterChrome data={data} design={design} geometry={geometry} />
       <div
         ref={textLayerRef}
         data-letter-text-layer
+        data-letter-content-box={`${geometry.content.left},${geometry.content.top},${geometry.content.right},${geometry.content.bottom}`}
         className="absolute flex flex-col"
         style={{
-          left: `${layout.left}mm`,
-          right: `${layout.right}mm`,
-          top: `${layout.top}mm`,
-          bottom: `${layout.bottom}mm`,
+          left: `${geometry.content.left}mm`,
+          right: `${geometry.content.right}mm`,
+          top: `${geometry.content.top}mm`,
+          bottom: `${geometry.content.bottom}mm`,
           fontSize: "10.5pt",
           lineHeight: 1.48,
         }}
