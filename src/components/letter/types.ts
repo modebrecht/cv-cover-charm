@@ -5,6 +5,7 @@ export type LetterAlignment = "left" | "right";
 export type LetterTemplateId = "brief" | TemplateId;
 export type LetterBodyColumns = 1 | 2 | 3;
 export type LetterHeaderMode = "compact" | "contact" | "none";
+export type LetterFooterMode = "compact" | "attachments" | "none";
 
 /** Frei platzierbares Foto/Bild im Anschreiben. Der Textumbruch ist immer rechteckig (Word: Quadrat). */
 export type LetterFlowImage = {
@@ -67,6 +68,8 @@ export type LetterDesign = {
   headerShowAddress?: boolean;
   headerShowPhone?: boolean;
   headerShowEmail?: boolean;
+  /** Briefspezifischer Fussbereich. Alte Saves behalten das kompakte Footerband. */
+  footerMode?: LetterFooterMode;
 };
 
 export type SavedLetter = {
@@ -160,6 +163,7 @@ export function emptyLetterDesign(): LetterDesign {
     headerShowAddress: true,
     headerShowPhone: true,
     headerShowEmail: true,
+    footerMode: "compact",
   };
 }
 
@@ -190,6 +194,10 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     incoming.headerMode === "contact" || incoming.headerMode === "none"
       ? incoming.headerMode
       : "compact";
+  const footerMode: LetterFooterMode =
+    incoming.footerMode === "attachments" || incoming.footerMode === "none"
+      ? incoming.footerMode
+      : "compact";
   return {
     template,
     colors,
@@ -206,5 +214,6 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     headerShowAddress: incoming.headerShowAddress !== false,
     headerShowPhone: incoming.headerShowPhone !== false,
     headerShowEmail: incoming.headerShowEmail !== false,
+    footerMode,
   };
 }
