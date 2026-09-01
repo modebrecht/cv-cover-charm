@@ -1,6 +1,7 @@
 import type {
   LetterAlignment,
   LetterDesign,
+  LetterFooterMode,
   LetterHeaderMode,
 } from "@/components/letter/types";
 
@@ -55,6 +56,7 @@ export function LetterLayoutControls({
   onChange: (value: Partial<LetterDesign>) => void;
 }) {
   const headerMode = design.headerMode ?? "compact";
+  const footerMode = design.footerMode ?? "compact";
   const contactOptions = [
     ["headerShowName", "Name", design.headerShowName !== false],
     ["headerShowAddress", "Adresse", design.headerShowAddress !== false],
@@ -97,6 +99,26 @@ export function LetterLayoutControls({
             ))}
           </div>
         ) : null}
+      </div>
+
+      <div className="rounded-md border p-2.5">
+        <label className="block text-xs font-medium">
+          Footer
+          <select
+            data-letter-footer-mode-control
+            value={footerMode}
+            onChange={(event) => onChange({ footerMode: event.target.value as LetterFooterMode })}
+            className={selectClass}
+          >
+            <option value="compact">Footerband kompakt</option>
+            <option value="attachments">Footerband mit Beilagen</option>
+            <option value="none">Kein Footer</option>
+          </select>
+        </label>
+        <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+          Bei „mit Beilagen“ wandern die im Abschnitt Beilagen gepflegten Angaben automatisch in
+          den Footer. Seine Höhe passt sich dem Inhalt an.
+        </p>
       </div>
 
       <p className="text-xs leading-relaxed text-muted-foreground">
