@@ -20,7 +20,7 @@ const markupFor = (
     }),
   );
 
-// Release guard: this contract is part of the parallel 39-PDF + browser smoke gate.
+// Release guard: Brief is a shared dossier template across cover, letter and CV.
 describe("shared dossier sheet background", () => {
   test("Brief is selectable from the shared dossier template catalogue", () => {
     const brief = TEMPLATES.find(({ id }) => (id as string) === "brief");
