@@ -650,11 +650,13 @@ test.describe("M5.8 dossier regression", () => {
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
 
     await expect(page.getByRole("heading", { name: "Motivationsschreiben" })).toBeVisible();
+    await page.getByRole("button", { name: "Meine Kontaktdaten", exact: true }).click();
     await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
+    await expect(page.getByLabel("PLZ und Ort")).toHaveValue("4500 Solothurn");
+    await page.getByRole("button", { name: "Firma / Lehrbetrieb", exact: true }).click();
     await expect(page.getByRole("textbox", { name: "Lehrbetrieb", exact: true })).toHaveValue(
       "Beispiel AG",
     );
-    await expect(page.getByLabel("PLZ und Ort").nth(1)).toHaveValue("4500 Solothurn");
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
     );
@@ -662,9 +664,7 @@ test.describe("M5.8 dossier regression", () => {
     await expect(preview).toBeVisible();
     await expect(preview).toHaveAttribute("data-letter-template", "modern");
     await expect(page.getByRole("button", { name: "Farben", exact: true })).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Alles übernehmen", exact: true }),
-    ).toBeVisible();
+    await expect(page.getByRole("button", { name: "Alles übernehmen", exact: true })).toBeVisible();
     await expect
       .poll(() =>
         page.evaluate(() => {
@@ -755,6 +755,7 @@ test.describe("M5.8 dossier regression", () => {
   }) => {
     await seedCoreDossier(page);
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    await page.getByRole("button", { name: "Meine Kontaktdaten", exact: true }).click();
     await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
 
     const body = page.getByRole("textbox", { name: "Brieftext" });
@@ -800,6 +801,7 @@ test.describe("M5.8 dossier regression", () => {
     await seedCoreDossier(page);
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     // Das Feld wird erst clientseitig aus dem Dossier befüllt und ist damit unser Hydration-Signal.
+    await page.getByRole("button", { name: "Meine Kontaktdaten", exact: true }).click();
     await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Lea Müller");
 
     await page.getByRole("button", { name: "Meine Kontaktdaten Rechts" }).click();
@@ -987,16 +989,19 @@ test.describe("M5.8 dossier regression", () => {
       {
         path: "/titelblatt",
         ownPdf: "Nur Titelblatt als PDF",
+        reset: "Titelblatt zurücksetzen",
         full: true,
       },
       {
         path: "/lebenslauf",
         ownPdf: "Nur Lebenslauf als PDF",
+        reset: "Lebenslauf zurücksetzen",
         full: true,
       },
       {
         path: "/anschreiben",
         ownPdf: "Nur Motivationsschreiben als PDF",
+        reset: "Motivationsschreiben zurücksetzen",
         full: false,
       },
     ] as const;
@@ -1029,13 +1034,14 @@ test.describe("M5.8 dossier regression", () => {
           "Beispieldaten übernehmen",
           "Positionen & Grössen zurücksetzen",
           "Früheren Stand laden",
-          "Alles zurücksetzen",
+          item.reset,
         ]);
       } else {
         await expect(menu.locator("[data-editor-menu-label]")).toHaveText([
           item.ownPdf,
           "Beispieldaten übernehmen",
           "Früheren Stand laden",
+          item.reset,
         ]);
       }
 

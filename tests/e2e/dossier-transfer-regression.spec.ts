@@ -177,9 +177,7 @@ test.describe("M7 dossier transfer regression", () => {
     await expect(person.getByLabel("Nachname", { exact: true })).toHaveValue("Keller");
     await expect(person.getByLabel("Adresse", { exact: true })).toHaveValue("Dorfweg 7");
     await expect(person.getByLabel("PLZ / Ort", { exact: true })).toHaveValue("4535 Hubersdorf");
-    await expect(person.getByLabel("E-Mail", { exact: true })).toHaveValue(
-      "mia.keller@example.ch",
-    );
+    await expect(person.getByLabel("E-Mail", { exact: true })).toHaveValue("mia.keller@example.ch");
 
     const company = await openSection(page, /^Firma \/ Lehrbetrieb/);
     await expect(company.getByLabel("Firma", { exact: true })).toHaveValue("LetterWorks AG");
@@ -232,9 +230,7 @@ test.describe("M7 dossier transfer regression", () => {
     await expect(person.getByLabel("Vorname", { exact: true })).toHaveValue("Noemi");
     await expect(person.getByLabel("Nachname", { exact: true })).toHaveValue("Frei");
     await expect(person.getByLabel("Adresse", { exact: true })).toHaveValue("Briefweg 9");
-    await expect(person.getByLabel("E-Mail", { exact: true })).toHaveValue(
-      "noemi.frei@example.ch",
-    );
+    await expect(person.getByLabel("E-Mail", { exact: true })).toHaveValue("noemi.frei@example.ch");
   });
 
   test("Lebenslauf uses one dossier takeover and preserves CV-only content", async ({ page }) => {
@@ -279,7 +275,9 @@ test.describe("M7 dossier transfer regression", () => {
       });
   });
 
-  test("Motivationsschreiben falls back to CV data and keeps its own brief text", async ({ page }) => {
+  test("Motivationsschreiben falls back to CV data and keeps its own brief text", async ({
+    page,
+  }) => {
     await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
     await page.evaluate((cv) => {
       localStorage.clear();
@@ -317,7 +315,8 @@ test.describe("M7 dossier transfer regression", () => {
     await expect(body).toHaveText("Mein eigener Brieftext bleibt erhalten.");
     await takeover.getByRole("button", { name: "Alles übernehmen", exact: true }).click();
 
-    await expect(page.getByLabel("Vorname und Nachname")).toHaveValue("Mia Keller");
+    const personal = await openSection(page, /^Meine Kontaktdaten/);
+    await expect(personal.getByLabel("Vorname und Nachname")).toHaveValue("Mia Keller");
     await expect(body).toHaveText("Mein eigener Brieftext bleibt erhalten.");
     await expect(page.getByLabel("Vorschau Motivationsschreiben")).toHaveAttribute(
       "data-letter-template",
@@ -353,8 +352,9 @@ test.describe("M7 dossier transfer regression", () => {
           version: 1,
           data: {
             absenderName: "Mia Keller",
-            text:
-              "Dieser längere Brieftext prüft den Textfluss um ein frei platziertes Foto. ".repeat(12),
+            text: "Dieser längere Brieftext prüft den Textfluss um ein frei platziertes Foto. ".repeat(
+              12,
+            ),
             anrede: "Guten Tag",
             gruss: "Freundliche Grüsse",
             unterschrift: "Mia Keller",
@@ -387,10 +387,14 @@ test.describe("M7 dossier transfer regression", () => {
     expect(await image.evaluate((element) => getComputedStyle(element).cssFloat)).toBe("right");
 
     const box = await image.boundingBox();
+    const layerBox = await preview.locator("[data-letter-text-layer]").first().boundingBox();
     if (!box) throw new Error("flow image has no bounding box");
+    if (!layerBox) throw new Error("letter text layer has no bounding box");
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
     await page.mouse.down();
-    await page.mouse.move(box.x - 80, box.y + box.height / 2 + 30, { steps: 5 });
+    await page.mouse.move(layerBox.x + layerBox.width * 0.2, box.y + box.height / 2 + 30, {
+      steps: 8,
+    });
     await page.mouse.up();
 
     await expect(image).toHaveAttribute("data-side", "left");
@@ -404,5 +408,4 @@ test.describe("M7 dossier transfer regression", () => {
       )
       .toMatchObject({ side: "left" });
   });
-
 });
