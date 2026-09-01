@@ -94,7 +94,9 @@ async function setStoredTemplate(page: Page, template: string) {
 }
 
 test.describe("M1/M2 compact letter header", () => {
-  test("header modes change real geometry, persist, and preview/export stay aligned", async ({ page }) => {
+  test("header modes change real geometry, persist, and preview/export stay aligned", async ({
+    page,
+  }) => {
     await seedLetter(page);
 
     const layout = await openSection(page, /^Layout$/);
@@ -106,9 +108,9 @@ test.describe("M1/M2 compact letter header", () => {
     await expect(preview).toHaveAttribute("data-letter-header-mode", "compact");
     await expect(preview).toHaveCSS("background-color", "rgb(255, 255, 255)");
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCount(1);
-    expect(await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top)).toBe(
-      "21mm",
-    );
+    expect(
+      await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top),
+    ).toBe("21mm");
 
     await select.selectOption("contact");
     await expect(preview).toHaveAttribute("data-letter-header-mode", "contact");
@@ -118,9 +120,9 @@ test.describe("M1/M2 compact letter header", () => {
       "+41 79 123 45 67",
     );
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCount(0);
-    expect(await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top)).toBe(
-      "31mm",
-    );
+    expect(
+      await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top),
+    ).toBe("31mm");
 
     const headerBox = await preview.locator("[data-letter-integrated-contact]").boundingBox();
     const recipientBox = await preview.locator('[data-letter-section="recipient"]').boundingBox();
@@ -130,7 +132,9 @@ test.describe("M1/M2 compact letter header", () => {
 
     await layout.getByLabel("Name integrieren").uncheck();
     await layout.getByLabel("Telefon integrieren").uncheck();
-    await expect(preview.locator("[data-letter-integrated-contact]")).not.toContainText("Lea Müller");
+    await expect(preview.locator("[data-letter-integrated-contact]")).not.toContainText(
+      "Lea Müller",
+    );
     await expect(preview.locator("[data-letter-integrated-contact]")).not.toContainText(
       "+41 79 123 45 67",
     );
@@ -156,9 +160,9 @@ test.describe("M1/M2 compact letter header", () => {
     await expect(preview).toHaveAttribute("data-letter-header-mode", "none");
     await expect(preview.locator("[data-letter-integrated-contact]")).toHaveCount(0);
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCount(1);
-    expect(await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top)).toBe(
-      "18mm",
-    );
+    expect(
+      await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top),
+    ).toBe("18mm");
 
     await expect
       .poll(async () => {
@@ -216,7 +220,9 @@ test.describe("M1/M2 compact letter header", () => {
 });
 
 test.describe("M3 compact letter footer", () => {
-  test("footer modes relocate attachments, adapt geometry, persist, and match export", async ({ page }) => {
+  test("footer modes relocate attachments, adapt geometry, persist, and match export", async ({
+    page,
+  }) => {
     await seedLetter(page);
 
     const layout = await openSection(page, /^Layout$/);
@@ -278,7 +284,9 @@ test.describe("M3 compact letter footer", () => {
 });
 
 test.describe("M4 centralized letter layout", () => {
-  test("representative archetypes react to every mode with matching preview/export content boxes", async ({ page }) => {
+  test("representative archetypes react to every mode with matching preview/export content boxes", async ({
+    page,
+  }) => {
     await seedLetter(page);
 
     const samples = [

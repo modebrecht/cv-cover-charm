@@ -116,14 +116,14 @@ export function LetterLayoutControls({
           </select>
         </label>
         <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-          Bei „mit Beilagen“ wandern die im Abschnitt Beilagen gepflegten Angaben automatisch in
-          den Footer. Seine Höhe passt sich dem Inhalt an.
+          Bei „mit Beilagen“ wandern die im Abschnitt Beilagen gepflegten Angaben automatisch in den
+          Footer. Seine Höhe passt sich dem Inhalt an.
         </p>
       </div>
 
       <p className="text-xs leading-relaxed text-muted-foreground">
-        Empfänger und Datum bleiben im eigentlichen Briefbereich. Die Ausrichtung kannst du weiterhin
-        separat steuern.
+        Empfänger und Datum bleiben im eigentlichen Briefbereich. Die Ausrichtung kannst du
+        weiterhin separat steuern.
       </p>
 
       {headerMode !== "contact" ? (

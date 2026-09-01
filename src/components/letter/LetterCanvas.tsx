@@ -54,14 +54,14 @@ function LetterChrome({
   const primary =
     design.template === "brief"
       ? "#111111"
-      : design.colors.primary ??
+      : (design.colors.primary ??
         design.colors.accent ??
         design.colors.secondary ??
-        sourcePalette.accent;
+        sourcePalette.accent);
   const secondary =
     design.template === "brief"
       ? "#4b5563"
-      : design.colors.accent ?? design.colors.secondary ?? sourcePalette.accent;
+      : (design.colors.accent ?? design.colors.secondary ?? sourcePalette.accent);
   const headerRoles = onColorRoles(primary, secondary);
   const footerRoles = onColorRoles(secondary, primary);
   const sidebar = geometry.archetype === "sidebar";

@@ -135,8 +135,7 @@ export function letterArchetypeFor(template: LetterTemplateId): LetterArchetype 
   if (template === "brief") return "quiet";
 
   const reference = cvFrameFor(template as TemplateId);
-  const activeBand =
-    reference.id === "band" && (reference.headFirstMm > 0 || reference.footMm > 0);
+  const activeBand = reference.id === "band" && (reference.headFirstMm > 0 || reference.footMm > 0);
 
   if (reference.id === "column") return "sidebar";
   if (reference.id === "card" || reference.cardInsetMm > 0 || reference.borderInsetMm > 0) {
@@ -235,8 +234,7 @@ export function letterPageGeometry(
       compactTopBandHeight: archetype === "band" ? 5 : 0,
       compactAccent: COMPACT_ACCENTS[archetype],
       compactLineTop: archetype === "quiet" || archetype === "fresh" ? 13 : 0,
-      compactPill:
-        archetype === "frame" ? { left: 160, top: 11, width: 32, height: 7 } : null,
+      compactPill: archetype === "frame" ? { left: 160, top: 11, width: 32, height: 7 } : null,
     },
     footer: {
       height: footerHeight,

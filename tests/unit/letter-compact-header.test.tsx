@@ -191,7 +191,7 @@ describe("compact letter presentation", () => {
       headerMode: "contact" as const,
     };
     const markup = renderToStaticMarkup(createElement(LetterCanvas, { data: DEMO_LETTER, design }));
-    expect(markup).toContain('data-letter-integrated-contact');
+    expect(markup).toContain("data-letter-integrated-contact");
     expect(markup).toContain("color:#18181b");
   });
 });

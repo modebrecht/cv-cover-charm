@@ -73,10 +73,7 @@ describe("central motivation-letter layout system", () => {
 
     for (const template of LETTER_TEMPLATE_IDS) {
       const archetype = letterArchetypeFor(template);
-      const geometry = letterPageGeometry(
-        DEMO_LETTER,
-        designFor(template, "compact", "compact"),
-      );
+      const geometry = letterPageGeometry(DEMO_LETTER, designFor(template, "compact", "compact"));
       const signature = `${geometry.content.left}/${geometry.content.right}/${geometry.content.top}/${geometry.content.bottom}`;
       const signatures = groups.get(archetype) ?? new Set<string>();
       signatures.add(signature);
@@ -90,7 +87,9 @@ describe("central motivation-letter layout system", () => {
   test("band, sidebar, frame, quiet and fresh references are all represented", () => {
     const archetypes = new Set(LETTER_TEMPLATE_IDS.map((template) => letterArchetypeFor(template)));
 
-    expect(archetypes).toEqual(new Set<LetterArchetype>(["quiet", "band", "sidebar", "frame", "fresh"]));
+    expect(archetypes).toEqual(
+      new Set<LetterArchetype>(["quiet", "band", "sidebar", "frame", "fresh"]),
+    );
 
     for (const id of FRESH_TEMPLATE_IDS) {
       const geometry = letterPageGeometry(
@@ -113,10 +112,7 @@ describe("central motivation-letter layout system", () => {
   });
 
   test("no-footer and attachment-footer reserve only their functional bottom space", () => {
-    const compact = letterPageGeometry(
-      DEMO_LETTER,
-      designFor("modern", "compact", "compact"),
-    );
+    const compact = letterPageGeometry(DEMO_LETTER, designFor("modern", "compact", "compact"));
     const attachments = letterPageGeometry(
       { ...DEMO_LETTER, beilagen: ["Lebenslauf", "Zeugnis", "Schnupperbericht"] },
       designFor("modern", "compact", "attachments"),
