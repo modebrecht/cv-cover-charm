@@ -150,6 +150,33 @@ async function settleVisualPreview(preview: Locator) {
     .toBeGreaterThan(0.99);
 }
 
+async function screenshotExportSurface(
+  page: Page,
+  exported: Locator,
+  path: string,
+) {
+  const host = page.locator("[data-letter-standalone-export]");
+  await host.evaluate((element) => {
+    const html = element as HTMLElement;
+    html.dataset.m5OriginalStyle = html.getAttribute("style") ?? "";
+    html.style.position = "absolute";
+    html.style.left = "0";
+    html.style.top = "0";
+    html.style.zIndex = "2147483647";
+    html.style.background = "white";
+  });
+  await doubleFrame(page);
+  const shot = await exported.screenshot({ path, animations: "disabled" });
+  await host.evaluate((element) => {
+    const html = element as HTMLElement;
+    const original = html.dataset.m5OriginalStyle ?? "";
+    if (original) html.setAttribute("style", original);
+    else html.removeAttribute("style");
+    delete html.dataset.m5OriginalStyle;
+  });
+  return shot;
+}
+
 async function seedLetter(
   page: Page,
   options: Parameters<typeof letterPayload>[0],
@@ -320,13 +347,13 @@ test.describe("M5 final letter QA", () => {
       });
       const number = String(index + 1).padStart(2, "0");
       const fileName = `${number}-${safeName(template)}-default.png`;
-      await settleVisualPreview(preview);
-      const shot = await preview.screenshot({
-        path: join(ARTIFACT_DIR, fileName),
-        animations: "disabled",
-      });
+      const shot = await screenshotExportSurface(
+        page,
+        exported,
+        join(ARTIFACT_DIR, fileName),
+      );
       expect(shot.length, `${template} screenshot should not be blank`).toBeGreaterThan(10_000);
-      manifest.push(`${fileName} | template=${template} | header=compact | footer=compact`);
+      manifest.push(`${fileName} | export | template=${template} | header=compact | footer=compact`);
     }
 
     expect(manifest).toHaveLength(39);
