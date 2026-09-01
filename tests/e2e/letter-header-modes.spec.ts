@@ -43,11 +43,15 @@ function letterPayload() {
 }
 
 async function openSection(page: Page, name: RegExp) {
-  const header = page.getByRole("button", { name });
+  const section = page
+    .locator("[data-editor-section]")
+    .filter({ has: page.getByRole("button", { name }) })
+    .first();
+  const header = section.getByRole("button", { name });
+  await expect(header).toBeVisible();
   if ((await header.getAttribute("aria-expanded")) !== "true") await header.click();
-  const panelId = await header.getAttribute("aria-controls");
-  if (!panelId) throw new Error(`Section ${name} has no aria-controls`);
-  return page.locator(`[id="${panelId}"]`);
+  await expect(header).toHaveAttribute("aria-expanded", "true");
+  return section;
 }
 
 async function seedLetter(page: Page) {
