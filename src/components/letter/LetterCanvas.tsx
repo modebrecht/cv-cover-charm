@@ -82,7 +82,6 @@ function LetterChrome({
       data-letter-reference-kind={geometry.archetype}
       data-letter-fresh-reference={geometry.freshTemplate ? "true" : "false"}
       className="pointer-events-none absolute inset-0 overflow-hidden"
-      aria-hidden="true"
     >
       {mode === "compact" ? (
         <>
