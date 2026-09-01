@@ -17,6 +17,85 @@ const HUGE_BODY = Array.from(
     `Absatz ${index + 1}: Ich interessiere mich sehr für diesen Beruf und möchte meine Motivation, Zuverlässigkeit und Lernbereitschaft mit einem ausführlichen Beispiel aus Schule und Alltag zeigen.`,
 ).join("\n\n");
 
+function coverPayload() {
+  return {
+    version: 7,
+    template: "modern",
+    colors: {
+      modern: { bg: "#ffffff", primary: "#24364b", accent: "#d6a47d" },
+    },
+    layout: { modern: {} },
+    customs: [],
+    fontScale: 1.2,
+    font: "sans",
+    data: {
+      meta: { title: "", author: "", subject: "", keywords: "" },
+      kicker: "Bewerbung um eine Lehrstelle als",
+      eyebrow: "Bewerbung",
+      beruf: "Informatiker/in EFZ",
+      lehrbeginn: "Lehrbeginn August 2027",
+      vorname: "Lea",
+      nachname: "Müller",
+      adresse: "Dorfstrasse 12",
+      plzOrt: "4535 Hubersdorf",
+      telefon: "+41 79 123 45 67",
+      email: "lea.mueller@example.ch",
+      geburtsdatum: "14.03.2010",
+      lehrbetrieb: "Beispiel AG",
+      ansprechperson: "Herr Thomas Weber",
+      betriebAdresse: "Industriestrasse 8, 4500 Solothurn",
+      ort: "Hubersdorf",
+      datum: "02.09.2026",
+      labelKontakt: "",
+      labelEmpfaenger: "",
+      foto: null,
+    },
+  };
+}
+
+function cvPayload() {
+  return {
+    version: 2,
+    data: {
+      person: {
+        vorname: "Lea",
+        nachname: "Müller",
+        adresse: "Dorfstrasse 12",
+        plzOrt: "4535 Hubersdorf",
+        telefon: "+41 79 123 45 67",
+        email: "lea.mueller@example.ch",
+        geburtsdatum: "14.03.2010",
+        nationalitaet: "Schweiz",
+        untertitel: "Schülerin, 3. Sekundarklasse",
+        foto: null,
+      },
+      schule: [
+        {
+          id: "school-1",
+          zeit: "2023 – heute",
+          titel: "Sekundarschule",
+          ort: "Solothurn",
+          beschreibung: "",
+        },
+      ],
+      erfahrung: [],
+      sprachen: [{ id: "de", name: "Deutsch", niveau: "Muttersprache" }],
+      hobbys: ["Programmieren"],
+      staerken: ["Zuverlässig"],
+      referenzen: [],
+      labels: {},
+      hidden: {},
+    },
+    design: {
+      template: "modern",
+      colors: { primary: "#111827", accent: "#f43f5e", bg: "#fafafa" },
+      bgOpacity: 0.06,
+      useElements: false,
+    },
+    elements: [],
+  };
+}
+
 function letterPayload(text: string, patch: Record<string, unknown> = {}) {
   return {
     version: 1,
@@ -44,19 +123,9 @@ function letterPayload(text: string, patch: Record<string, unknown> = {}) {
       ...patch,
     },
     design: {
-      template: "brief",
-      colors: {
-        bg: "#ffffff",
-        ink: "#111111",
-        primary: "#111111",
-        secondary: "#4b5563",
-        accent: "#111111",
-        cvInk: "#111111",
-        cvMuted: "#4b5563",
-        cvHeading: "#111111",
-      },
-      font: "freundlich",
-      fontOverride: null,
+      template: "modern",
+      colors: { bg: "#ffffff", primary: "#24364b", accent: "#d6a47d" },
+      font: "sans",
       headerMode: "compact",
       footerMode: "compact",
     },
@@ -66,49 +135,18 @@ function letterPayload(text: string, patch: Record<string, unknown> = {}) {
 async function seedDossier(page: Page, letter: ReturnType<typeof letterPayload>) {
   await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
-    ({ letterValue, letterKey }) => {
+    ({ cover, cv, letterValue, letterKey }) => {
       localStorage.clear();
-      localStorage.setItem(
-        "titelblatt:v3",
-        JSON.stringify({
-          version: 7,
-          template: "modern",
-          data: {
-            vorname: "Lea",
-            nachname: "Müller",
-            beruf: "Informatikerin EFZ",
-            lehrbetrieb: "Beispiel AG",
-          },
-        }),
-      );
+      localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
+      localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
       localStorage.setItem(letterKey, JSON.stringify(letterValue));
-      localStorage.setItem(
-        "lebenslauf:v1",
-        JSON.stringify({
-          version: 6,
-          data: {
-            person: {
-              vorname: "Lea",
-              nachname: "Müller",
-              adresse: "Dorfstrasse 12",
-              plzOrt: "4535 Hubersdorf",
-              telefon: "+41 79 123 45 67",
-              email: "lea.mueller@example.ch",
-            },
-            schule: [
-              {
-                id: "schule-1",
-                zeit: "2023 – heute",
-                titel: "Sekundarschule",
-                ort: "Solothurn",
-                beschreibung: "",
-              },
-            ],
-          },
-        }),
-      );
     },
-    { letterValue: letter, letterKey: LETTER_KEY },
+    {
+      cover: coverPayload(),
+      cv: cvPayload(),
+      letterValue: letter,
+      letterKey: LETTER_KEY,
+    },
   );
   await page.reload({ waitUntil: "domcontentloaded" });
 }
