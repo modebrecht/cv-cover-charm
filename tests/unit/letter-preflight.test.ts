@@ -5,6 +5,7 @@ import {
   letterTextLayerOverflows,
 } from "../../src/components/letter/preflight";
 import { EMPTY_LETTER } from "../../src/components/letter/types";
+import { downloadCombinedDossierPdf, downloadLetterPdf } from "../../src/lib/dossier-pdf";
 
 describe("letter preflight", () => {
   test("distinguishes an untouched letter from a started draft", () => {
@@ -58,5 +59,58 @@ describe("letter preflight", () => {
     expect(letterTextLayerOverflows({ scrollHeight: 101, clientHeight: 100 })).toBe(false);
     expect(letterTextLayerOverflows({ scrollHeight: 102, clientHeight: 100 })).toBe(true);
     expect(letterTextLayerOverflows(null)).toBe(false);
+  });
+
+  test("PDF exporters reject an overflowing letter before rasterization", async () => {
+    const documentDescriptor = Object.getOwnPropertyDescriptor(globalThis, "document");
+    const rafDescriptor = Object.getOwnPropertyDescriptor(globalThis, "requestAnimationFrame");
+    Object.defineProperty(globalThis, "document", {
+      configurable: true,
+      value: { fonts: { ready: Promise.resolve() } },
+    });
+    Object.defineProperty(globalThis, "requestAnimationFrame", {
+      configurable: true,
+      value: (callback: (timestamp: number) => void) => {
+        callback(0);
+        return 1;
+      },
+    });
+
+    const textLayer = { scrollHeight: 220, clientHeight: 100 };
+    const letterPage = {
+      matches: (selector: string) => selector === "[data-letter-page]",
+      querySelector: (selector: string) =>
+        selector === "[data-letter-text-layer]" ? textLayer : null,
+    } as unknown as HTMLElement;
+    const letterRoot = {
+      querySelector: (selector: string) =>
+        selector === "[data-letter-page]" ? letterPage : null,
+    } as unknown as HTMLElement;
+    const combinedRoot = {
+      querySelector: (selector: string) => {
+        if (selector === "[data-dossier-document='cover']") return {} as HTMLElement;
+        if (selector === "[data-dossier-document='letter']") return letterRoot;
+        return null;
+      },
+      querySelectorAll: (selector: string) =>
+        selector === "[data-cv-page]" ? ([{} as HTMLElement] as unknown as NodeListOf<HTMLElement>) : [],
+    } as unknown as HTMLElement;
+
+    try {
+      await expect(
+        downloadLetterPdf(letterPage, "blocked.pdf", { title: "Test", author: "Test" }),
+      ).rejects.toThrow("Motivationsschreiben passt nicht auf eine Seite");
+      await expect(
+        downloadCombinedDossierPdf(combinedRoot, "blocked-dossier.pdf", {
+          title: "Test",
+          author: "Test",
+        }),
+      ).rejects.toThrow("Motivationsschreiben passt nicht auf eine Seite");
+    } finally {
+      if (documentDescriptor) Object.defineProperty(globalThis, "document", documentDescriptor);
+      else Reflect.deleteProperty(globalThis, "document");
+      if (rafDescriptor) Object.defineProperty(globalThis, "requestAnimationFrame", rafDescriptor);
+      else Reflect.deleteProperty(globalThis, "requestAnimationFrame");
+    }
   });
 });
