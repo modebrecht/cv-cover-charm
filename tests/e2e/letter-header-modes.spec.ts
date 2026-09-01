@@ -38,6 +38,7 @@ function letterPayload() {
       headerShowAddress: true,
       headerShowPhone: true,
       headerShowEmail: true,
+      footerMode: "compact",
     },
   };
 }
@@ -135,6 +136,64 @@ test.describe("M1/M2 compact letter header", () => {
     await expect(reloadedLayout.locator("[data-letter-header-mode-control]")).toHaveValue("none");
     await expect(page.locator("main [data-letter-page]")).toHaveAttribute(
       "data-letter-header-mode",
+      "none",
+    );
+  });
+});
+
+test.describe("M3 compact letter footer", () => {
+  test("footer modes relocate attachments, adapt geometry, persist, and match export", async ({ page }) => {
+    await seedLetter(page);
+
+    const layout = await openSection(page, /^Layout$/);
+    const select = layout.locator("[data-letter-footer-mode-control]");
+    const preview = page.locator("main [data-letter-page]");
+    const exportPage = page.locator("[data-letter-standalone-export] [data-letter-page]");
+    const textLayer = preview.locator("[data-letter-text-layer]");
+
+    await expect(select).toHaveValue("compact");
+    await expect(preview).toHaveAttribute("data-letter-footer-mode", "compact");
+    await expect(preview.locator('[data-letter-footer="compact"]')).toHaveCount(1);
+    expect(await textLayer.evaluate((node) => node.style.bottom)).toBe("17mm");
+    await expect(
+      textLayer.locator('[data-letter-pdf-text="attachments-heading"]'),
+    ).toHaveCount(1);
+
+    await select.selectOption("attachments");
+    await expect(preview).toHaveAttribute("data-letter-footer-mode", "attachments");
+    await expect(exportPage).toHaveAttribute("data-letter-footer-mode", "attachments");
+    await expect(preview.locator('[data-letter-footer="attachments"]')).toHaveCount(1);
+    await expect(preview.locator("[data-letter-footer-attachments]")).toContainText("Lebenslauf");
+    await expect(preview.locator("[data-letter-footer-attachments]")).toContainText("Zeugnis");
+    await expect(
+      textLayer.locator('[data-letter-pdf-text="attachments-heading"]'),
+    ).toHaveCount(0);
+    const attachmentsBottom = await textLayer.evaluate((node) => parseFloat(node.style.bottom));
+    expect(attachmentsBottom).toBeGreaterThan(17);
+
+    await expect.poll(async () => {
+      return page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.footerMode, STORAGE_KEY);
+    }).toBe("attachments");
+
+    await select.selectOption("none");
+    await expect(preview).toHaveAttribute("data-letter-footer-mode", "none");
+    await expect(exportPage).toHaveAttribute("data-letter-footer-mode", "none");
+    await expect(preview.locator("[data-letter-footer]")).toHaveCount(0);
+    expect(await textLayer.evaluate((node) => node.style.bottom)).toBe("10mm");
+    await expect(
+      textLayer.locator('[data-letter-pdf-text="attachments-heading"]'),
+    ).toHaveCount(1);
+
+    await expect.poll(async () => {
+      return page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.footerMode, STORAGE_KEY);
+    }).toBe("none");
+
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
+    const reloadedLayout = await openSection(page, /^Layout$/);
+    await expect(reloadedLayout.locator("[data-letter-footer-mode-control]")).toHaveValue("none");
+    await expect(page.locator("main [data-letter-page]")).toHaveAttribute(
+      "data-letter-footer-mode",
       "none",
     );
   });
