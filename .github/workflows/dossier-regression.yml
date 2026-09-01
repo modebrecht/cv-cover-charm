@@ -12,7 +12,7 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
   statuses: write
 
 concurrency:
@@ -27,8 +27,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Publish regression pending
         env:
@@ -58,38 +56,8 @@ jobs:
       - name: Unit regressions
         run: bun test tests/unit
 
-      - name: Normalize letter formatting
-        run: |
-          bunx prettier --write \
-            src/components/letter/LetterCanvas.tsx \
-            src/components/letter/LetterLayoutControls.tsx \
-            src/components/letter/layout-system.ts \
-            tests/e2e/letter-header-modes.spec.ts \
-            tests/unit/letter-compact-header.test.tsx \
-            tests/unit/letter-layout-system.test.ts
-
-      - name: Commit letter formatting
-        env:
-          HEAD_REF: ${{ github.event.pull_request.head.ref }}
-        run: |
-          files=(
-            src/components/letter/LetterCanvas.tsx
-            src/components/letter/LetterLayoutControls.tsx
-            src/components/letter/layout-system.ts
-            tests/e2e/letter-header-modes.spec.ts
-            tests/unit/letter-compact-header.test.tsx
-            tests/unit/letter-layout-system.test.ts
-          )
-
-          if git diff --quiet -- "${files[@]}"; then
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "${files[@]}"
-          git commit -m "style(letter): normalize formatting"
-          git push origin HEAD:"$HEAD_REF"
+      - name: Normalize source formatting
+        run: bunx prettier --write "src/**/*.{ts,tsx,css}" "tests/**/*.{ts,tsx}"
 
       - name: Lint
         run: bun run lint
