@@ -76,7 +76,12 @@ async function setStoredTemplate(page: Page, template: string) {
       saved.design = {
         ...(saved.design ?? {}),
         template: templateId,
-        colors: { bg: "#ffffff", primary: "#172554", secondary: "#2563eb", accent: "#38bdf8" },
+        colors: {
+          bg: "#ffffff",
+          primary: "#172554",
+          secondary: "#2563eb",
+          accent: "#38bdf8",
+        },
         headerMode: "compact",
         footerMode: "compact",
       };
@@ -114,7 +119,7 @@ test.describe("M1/M2 compact letter header", () => {
     );
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCount(0);
     expect(await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top)).toBe(
-      "27mm",
+      "31mm",
     );
 
     const headerBox = await preview.locator("[data-letter-integrated-contact]").boundingBox();
@@ -130,12 +135,22 @@ test.describe("M1/M2 compact letter header", () => {
       "+41 79 123 45 67",
     );
 
-    await expect.poll(async () => {
-      return page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.headerMode, STORAGE_KEY);
-    }).toBe("contact");
-    await expect.poll(async () => {
-      return page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.headerShowName, STORAGE_KEY);
-    }).toBe(false);
+    await expect
+      .poll(async () => {
+        return page.evaluate(
+          (key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.headerMode,
+          STORAGE_KEY,
+        );
+      })
+      .toBe("contact");
+    await expect
+      .poll(async () => {
+        return page.evaluate(
+          (key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.headerShowName,
+          STORAGE_KEY,
+        );
+      })
+      .toBe(false);
 
     await select.selectOption("none");
     await expect(preview).toHaveAttribute("data-letter-header-mode", "none");
@@ -145,9 +160,14 @@ test.describe("M1/M2 compact letter header", () => {
       "18mm",
     );
 
-    await expect.poll(async () => {
-      return page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.headerMode, STORAGE_KEY);
-    }).toBe("none");
+    await expect
+      .poll(async () => {
+        return page.evaluate(
+          (key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.headerMode,
+          STORAGE_KEY,
+        );
+      })
+      .toBe("none");
 
     await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
@@ -157,6 +177,41 @@ test.describe("M1/M2 compact letter header", () => {
       "data-letter-header-mode",
       "none",
     );
+  });
+
+  test("long contact values wrap without horizontal clipping or touching the recipient block", async ({
+    page,
+  }) => {
+    await seedLetter(page);
+    await page.evaluate((key) => {
+      const saved = JSON.parse(localStorage.getItem(key) ?? "{}");
+      saved.data.absenderName = "Lea Sophie Alexandra Müller-Winterberger-Schneider";
+      saved.data.absenderAdresse = "Sehrlangebeispielstrasse 123a Hinterhaus";
+      saved.data.absenderEmail =
+        "lea.sophie.alexandra.mueller-winterberger-schneider@example-company.ch";
+      saved.design.headerMode = "contact";
+      localStorage.setItem(key, JSON.stringify(saved));
+    }, STORAGE_KEY);
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
+
+    const preview = page.locator("main [data-letter-page]");
+    const contact = preview.locator("[data-letter-integrated-contact]");
+    const recipient = preview.locator('[data-letter-section="recipient"]');
+    await expect(contact).toContainText("Müller-Winterberger-Schneider");
+    await expect(contact).toContainText("example-company.ch");
+
+    const dimensions = await contact.evaluate((node) => ({
+      clientWidth: node.clientWidth,
+      scrollWidth: node.scrollWidth,
+    }));
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1);
+
+    const contactBox = await contact.boundingBox();
+    const recipientBox = await recipient.boundingBox();
+    expect(contactBox).not.toBeNull();
+    expect(recipientBox).not.toBeNull();
+    expect(contactBox!.y + contactBox!.height).toBeLessThanOrEqual(recipientBox!.y);
   });
 });
 
@@ -174,9 +229,7 @@ test.describe("M3 compact letter footer", () => {
     await expect(preview).toHaveAttribute("data-letter-footer-mode", "compact");
     await expect(preview.locator('[data-letter-footer="compact"]')).toHaveCount(1);
     expect(await textLayer.evaluate((node) => node.style.bottom)).toBe("17mm");
-    await expect(
-      textLayer.locator('[data-letter-pdf-text="attachments-heading"]'),
-    ).toHaveCount(1);
+    await expect(textLayer.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveCount(1);
 
     await select.selectOption("attachments");
     await expect(preview).toHaveAttribute("data-letter-footer-mode", "attachments");
@@ -184,28 +237,34 @@ test.describe("M3 compact letter footer", () => {
     await expect(preview.locator('[data-letter-footer="attachments"]')).toHaveCount(1);
     await expect(preview.locator("[data-letter-footer-attachments]")).toContainText("Lebenslauf");
     await expect(preview.locator("[data-letter-footer-attachments]")).toContainText("Zeugnis");
-    await expect(
-      textLayer.locator('[data-letter-pdf-text="attachments-heading"]'),
-    ).toHaveCount(0);
+    await expect(textLayer.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveCount(0);
     const attachmentsBottom = await textLayer.evaluate((node) => parseFloat(node.style.bottom));
     expect(attachmentsBottom).toBeGreaterThan(17);
 
-    await expect.poll(async () => {
-      return page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.footerMode, STORAGE_KEY);
-    }).toBe("attachments");
+    await expect
+      .poll(async () => {
+        return page.evaluate(
+          (key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.footerMode,
+          STORAGE_KEY,
+        );
+      })
+      .toBe("attachments");
 
     await select.selectOption("none");
     await expect(preview).toHaveAttribute("data-letter-footer-mode", "none");
     await expect(exportPage).toHaveAttribute("data-letter-footer-mode", "none");
     await expect(preview.locator("[data-letter-footer]")).toHaveCount(0);
     expect(await textLayer.evaluate((node) => node.style.bottom)).toBe("10mm");
-    await expect(
-      textLayer.locator('[data-letter-pdf-text="attachments-heading"]'),
-    ).toHaveCount(1);
+    await expect(textLayer.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveCount(1);
 
-    await expect.poll(async () => {
-      return page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.footerMode, STORAGE_KEY);
-    }).toBe("none");
+    await expect
+      .poll(async () => {
+        return page.evaluate(
+          (key) => JSON.parse(localStorage.getItem(key) ?? "{}").design?.footerMode,
+          STORAGE_KEY,
+        );
+      })
+      .toBe("none");
 
     await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
