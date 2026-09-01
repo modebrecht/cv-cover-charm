@@ -21,7 +21,7 @@ export function LetterTemplatePicker({ value, onChange }: Props) {
         type="button"
         onClick={() => onChange("brief")}
         aria-pressed={value === "brief"}
-        title="Klassischer Brief auf reinweissem Papier ohne Gestaltungselemente"
+        title="Klassischer Brief auf reinweissem Papier mit den gewählten Header- und Footer-Optionen"
         className={`${baseClass} ${
           value === "brief"
             ? "border-foreground bg-accent"
