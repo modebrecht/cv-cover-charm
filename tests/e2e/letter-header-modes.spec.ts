@@ -55,14 +55,14 @@ async function openSection(page: Page, name: RegExp) {
   return section;
 }
 
-async function seedLetter(page: Page) {
+async function seedLetter(page: Page, payload = letterPayload()) {
   await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
-    ({ key, payload }) => {
+    ({ key, payload: seededPayload }) => {
       localStorage.clear();
-      localStorage.setItem(key, JSON.stringify(payload));
+      localStorage.setItem(key, JSON.stringify(seededPayload));
     },
-    { key: STORAGE_KEY, payload: letterPayload() },
+    { key: STORAGE_KEY, payload },
   );
   await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { name: "Motivationsschreiben" })).toBeVisible();
@@ -186,18 +186,13 @@ test.describe("M1/M2 compact letter header", () => {
   test("long contact values wrap without horizontal clipping or touching the recipient block", async ({
     page,
   }) => {
-    await seedLetter(page);
-    await page.evaluate((key) => {
-      const saved = JSON.parse(localStorage.getItem(key) ?? "{}");
-      saved.data.absenderName = "Lea Sophie Alexandra Müller-Winterberger-Schneider";
-      saved.data.absenderAdresse = "Sehrlangebeispielstrasse 123a Hinterhaus";
-      saved.data.absenderEmail =
-        "lea.sophie.alexandra.mueller-winterberger-schneider@example-company.ch";
-      saved.design.headerMode = "contact";
-      localStorage.setItem(key, JSON.stringify(saved));
-    }, STORAGE_KEY);
-    await page.reload({ waitUntil: "domcontentloaded" });
-    await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
+    const payload = letterPayload();
+    payload.data.absenderName = "Lea Sophie Alexandra Müller-Winterberger-Schneider";
+    payload.data.absenderAdresse = "Sehrlangebeispielstrasse 123a Hinterhaus";
+    payload.data.absenderEmail =
+      "lea.sophie.alexandra.mueller-winterberger-schneider@example-company.ch";
+    payload.design.headerMode = "contact";
+    await seedLetter(page, payload);
 
     const preview = page.locator("main [data-letter-page]");
     const contact = preview.locator("[data-letter-integrated-contact]");
