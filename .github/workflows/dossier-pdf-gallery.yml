@@ -1,6 +1,7 @@
 name: Dossier PDF Gallery
 
-# Reproducible visual QA: every selectable dossier design is rendered as a complete PDF.
+# Reproducible visual QA: every complete dossier PDF is rendered, but the expensive
+# PDF work is split into 4-document batches and aggregated back into one artifact.
 on:
   workflow_dispatch:
   push:
@@ -44,9 +45,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  gallery:
+  checks:
+    name: Gallery fast checks
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 18
+
     steps:
       - uses: actions/checkout@v4
 
@@ -138,7 +141,7 @@ jobs:
       - name: Dossier typography regression
         run: npx playwright test tests/e2e/dossier-typography-regression.spec.ts --reporter=line --workers=1
 
-      - name: Complete example dossier and 39-template E2E
+      - name: Complete example dossier E2E
         shell: bash
         run: |
           mkdir -p artifacts/ci
@@ -156,28 +159,82 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
-      - name: Generate complete dossier PDF gallery
-        env:
-          GALLERY_DIR: artifacts/dossier-gallery
-        run: npx playwright test tests/e2e/dossier-gallery.spec.ts --reporter=line --workers=1
+      - name: Show application log on failure
+        if: failure()
+        run: cat /tmp/cv-cover-charm.log || true
 
-      - name: Verify generated gallery
+      - name: Stop application
+        if: always()
         shell: bash
         run: |
-          count="$(find artifacts/dossier-gallery -maxdepth 1 -type f -name '*.pdf' | wc -l | tr -d ' ')"
-          echo "Generated $count complete dossier PDFs"
-          test "$count" -eq 39
-          test -f artifacts/dossier-gallery/MANIFEST.txt
-          find artifacts/dossier-gallery -maxdepth 1 -type f -printf '%f\n' | sort
+          if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi
 
-      - name: Upload PDF gallery ZIP
-        if: success()
+  pdf-batch:
+    name: Full PDF batch ${{ matrix.batch }}
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        batch: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start application
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/cv-cover-charm.log 2>&1 &
+          echo $! > /tmp/cv-cover-charm.pid
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/cv-cover-charm.log
+          exit 1
+
+      - name: Generate complete dossier PDFs for batch ${{ matrix.batch }}
+        env:
+          GALLERY_BATCH_INDEX: ${{ matrix.batch }}
+          GALLERY_DIR: artifacts/dossier-gallery-batch-${{ matrix.batch }}
+        run: npx playwright test tests/e2e/dossier-gallery.spec.ts --reporter=line --workers=1
+
+      - name: Verify batch output
+        shell: bash
+        run: |
+          dir="artifacts/dossier-gallery-batch-${{ matrix.batch }}"
+          count="$(find "$dir" -maxdepth 1 -type f -name '*.pdf' | wc -l | tr -d ' ')"
+          expected=4
+          if [ "${{ matrix.batch }}" = "9" ]; then expected=3; fi
+          echo "Batch ${{ matrix.batch }} generated $count/$expected complete PDFs"
+          test "$count" -eq "$expected"
+          part="$(printf '%02d' '${{ matrix.batch }}')"
+          test -f "$dir/MANIFEST.part-$part.txt"
+
+      - name: Upload batch artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gesamtdossier-pdf-galerie
-          path: artifacts/dossier-gallery
+          name: dossier-pdf-batch-${{ matrix.batch }}
+          path: artifacts/dossier-gallery-batch-${{ matrix.batch }}
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 2
 
       - name: Show application log on failure
         if: failure()
@@ -188,3 +245,61 @@ jobs:
         shell: bash
         run: |
           if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi
+
+  aggregate:
+    name: Aggregate 39/39 PDF gallery
+    needs:
+      - checks
+      - pdf-batch
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Download all PDF batches
+        uses: actions/download-artifact@v4
+        with:
+          pattern: dossier-pdf-batch-*
+          path: artifacts/batches
+
+      - name: Verify and aggregate all 39 PDFs
+        shell: bash
+        run: |
+          pdf_count="$(find artifacts/batches -type f -name '*.pdf' | wc -l | tr -d ' ')"
+          unique_count="$(find artifacts/batches -type f -name '*.pdf' -printf '%f\n' | sort -u | wc -l | tr -d ' ')"
+          part_count="$(find artifacts/batches -type f -name 'MANIFEST.part-*.txt' | wc -l | tr -d ' ')"
+
+          echo "PDFs: $pdf_count total, $unique_count unique; manifest parts: $part_count"
+          test "$pdf_count" -eq 39
+          test "$unique_count" -eq 39
+          test "$part_count" -eq 10
+
+          mkdir -p artifacts/dossier-gallery
+          while IFS= read -r -d '' pdf; do
+            base="$(basename "$pdf")"
+            test ! -e "artifacts/dossier-gallery/$base"
+            cp "$pdf" "artifacts/dossier-gallery/$base"
+          done < <(find artifacts/batches -type f -name '*.pdf' -print0)
+
+          {
+            echo "Gesamtdossier PDF Galerie"
+            echo
+            while IFS= read -r part; do
+              cat "$part"
+            done < <(find artifacts/batches -type f -name 'MANIFEST.part-*.txt' | sort)
+          } > artifacts/dossier-gallery/MANIFEST.txt
+
+          final_count="$(find artifacts/dossier-gallery -maxdepth 1 -type f -name '*.pdf' | wc -l | tr -d ' ')"
+          manifest_count="$(grep -c '\.pdf |' artifacts/dossier-gallery/MANIFEST.txt)"
+          test "$final_count" -eq 39
+          test "$manifest_count" -eq 39
+          test -f artifacts/dossier-gallery/00-Beispieldossier-E2E.pdf
+          test -f artifacts/dossier-gallery/MANIFEST.txt
+          find artifacts/dossier-gallery -maxdepth 1 -type f -printf '%f\n' | sort
+
+      - name: Upload final 39-PDF gallery ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: gesamtdossier-pdf-galerie
+          path: artifacts/dossier-gallery
+          if-no-files-found: error
+          retention-days: 14
