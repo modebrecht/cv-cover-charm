@@ -133,6 +133,23 @@ async function doubleFrame(page: Page) {
   );
 }
 
+async function settleVisualPreview(preview: Locator) {
+  await expect
+    .poll(
+      () =>
+        preview.evaluate((element) => {
+          const scaleHost = element.parentElement;
+          if (!scaleHost) return 0;
+          const transform = getComputedStyle(scaleHost).transform;
+          if (!transform || transform === "none") return 1;
+          const matrix = new DOMMatrixReadOnly(transform);
+          return matrix.a;
+        }),
+      { message: "ScaledPreview should finish its ResizeObserver measurement before visual capture" },
+    )
+    .toBeGreaterThan(0.99);
+}
+
 async function seedLetter(
   page: Page,
   options: Parameters<typeof letterPayload>[0],
@@ -274,6 +291,7 @@ async function uiDefaultScreenshot(page: Page) {
   const preview = page.getByLabel("Vorschau Motivationsschreiben");
   await expect(preview).toBeVisible();
   await doubleFrame(page);
+  await settleVisualPreview(preview);
   const path = join(ARTIFACT_DIR, "00-UI-Default.png");
   const shot = await preview.screenshot({ path, animations: "disabled" });
   expect(shot.length).toBeGreaterThan(10_000);
@@ -302,6 +320,7 @@ test.describe("M5 final letter QA", () => {
       });
       const number = String(index + 1).padStart(2, "0");
       const fileName = `${number}-${safeName(template)}-default.png`;
+      await settleVisualPreview(preview);
       const shot = await preview.screenshot({
         path: join(ARTIFACT_DIR, fileName),
         animations: "disabled",
