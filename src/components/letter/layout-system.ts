@@ -104,10 +104,12 @@ const COMPACT_ACCENTS: Record<LetterArchetype, MmBar> = {
 export function letterArchetypeFor(template: LetterTemplateId): LetterArchetype {
   const reference = letterLayoutFor(template);
   const freshTemplate = template !== "brief" && FRESH_TEMPLATE_SET.has(template);
+  const activeBand =
+    reference.kind === "band" && ((reference.bandMm ?? 0) > 0 || (reference.footMm ?? 0) > 0);
 
   if (reference.kind === "column" || (freshTemplate && reference.left >= 32)) return "sidebar";
   if (reference.kind === "card" || reference.cardInsetMm || reference.borderInsetMm) return "frame";
-  if (reference.kind === "band" || (freshTemplate && reference.top >= 31)) return "band";
+  if (activeBand || (freshTemplate && reference.top >= 31)) return "band";
   return freshTemplate ? "fresh" : "quiet";
 }
 
@@ -131,10 +133,7 @@ function effectiveHeaderMode(design: LetterDesign, firstPage: boolean): LetterHe
   return requested === "none" ? "none" : "compact";
 }
 
-function effectiveFooterMode(
-  design: LetterDesign,
-  finalPage: boolean,
-): LetterFooterMode {
+function effectiveFooterMode(design: LetterDesign, finalPage: boolean): LetterFooterMode {
   const requested = design.footerMode ?? "compact";
   // Attachment lists belong on the final page only. Earlier pages keep the compact band.
   if (requested === "attachments" && !finalPage) return "compact";
