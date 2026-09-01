@@ -15,6 +15,11 @@ import {
   type LetterTemplateId,
 } from "../../src/components/letter/types";
 
+const LETTER_TEMPLATE_IDS: LetterTemplateId[] = [
+  "brief",
+  ...TEMPLATES.map((template) => template.id as LetterTemplateId),
+];
+
 function markupFor(
   template: LetterTemplateId,
   headerMode: LetterHeaderMode,
@@ -37,10 +42,11 @@ function footerHeight(markup: string): number {
 }
 
 describe("compact letter presentation", () => {
-  test("every registered dossier template renders on neutral white letter paper", () => {
-    expect(TEMPLATES.length).toBeGreaterThanOrEqual(37);
-    for (const template of TEMPLATES) {
-      const markup = markupFor(template.id, "compact");
+  test("every selectable letter style renders on neutral white letter paper", () => {
+    expect(TEMPLATES.length).toBe(37);
+    expect(LETTER_TEMPLATE_IDS.length).toBe(38);
+    for (const template of LETTER_TEMPLATE_IDS) {
+      const markup = markupFor(template, "compact");
       expect(markup).toContain('data-letter-header-mode="compact"');
       expect(markup).toContain('data-letter-footer="compact"');
       expect(markup).toContain('data-letter-footer-mode="compact"');
@@ -49,11 +55,11 @@ describe("compact letter presentation", () => {
     }
   });
 
-  test("all header modes work for every registered template", () => {
-    for (const template of TEMPLATES) {
-      const compact = markupFor(template.id, "compact");
-      const contact = markupFor(template.id, "contact");
-      const none = markupFor(template.id, "none");
+  test("all header modes work for every selectable letter style", () => {
+    for (const template of LETTER_TEMPLATE_IDS) {
+      const compact = markupFor(template, "compact");
+      const contact = markupFor(template, "contact");
+      const none = markupFor(template, "none");
 
       expect(compact).toContain('data-letter-header-mode="compact"');
       expect(compact).toContain('data-letter-section="sender"');
@@ -70,11 +76,11 @@ describe("compact letter presentation", () => {
     }
   });
 
-  test("all footer modes work for every registered template without duplicating attachments", () => {
-    for (const template of TEMPLATES) {
-      const compact = markupFor(template.id, "compact", "compact");
-      const attachments = markupFor(template.id, "compact", "attachments");
-      const none = markupFor(template.id, "compact", "none");
+  test("all footer modes work for every selectable letter style without duplicating attachments", () => {
+    for (const template of LETTER_TEMPLATE_IDS) {
+      const compact = markupFor(template, "compact", "compact");
+      const attachments = markupFor(template, "compact", "attachments");
+      const none = markupFor(template, "compact", "none");
 
       expect(compact).toContain('data-letter-footer-mode="compact"');
       expect(compact).toContain('data-letter-footer="compact"');
