@@ -1,0 +1,35 @@
+name: Refresh dossier smoke contracts
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/refresh-dossier-smoke-contracts.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Apply smoke contract refresh
+        run: python3 .github/scripts/refresh-dossier-smoke-contracts.py
+
+      - name: Format touched tests
+        run: npx prettier --write tests/e2e/dossier-regression.spec.ts tests/e2e/dossier-transfer-regression.spec.ts
+
+      - name: Commit refresh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "test: align dossier smokes with current editor UI"
+          git push origin HEAD:main
