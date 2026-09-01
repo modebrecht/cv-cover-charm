@@ -68,6 +68,22 @@ export type LetterPageGeometry = {
 
 const FRESH_TEMPLATE_SET = new Set<string>(FRESH_TEMPLATE_IDS);
 
+/**
+ * Fresh designs have no legacy CV frame registry. Their structural signature is
+ * classified here once; no dimensions live in these sets. Every member still
+ * renders through the same archetype geometry below.
+ */
+const FRESH_SIDEBAR_TEMPLATES = new Set<string>([
+  "edge",
+  "forestFlow",
+  "studio2",
+  "studio3",
+  "ledger",
+  "gallery",
+]);
+const FRESH_BAND_TEMPLATES = new Set<string>(["horizon", "sunrise", "ribbon", "cove"]);
+const FRESH_FRAME_TEMPLATES = new Set<string>(["frame", "monoLuxe"]);
+
 const CONTENT_INSETS: Record<LetterArchetype, { left: number; right: number }> = {
   quiet: { left: 24, right: 23 },
   fresh: { left: 25, right: 24 },
@@ -102,15 +118,22 @@ const COMPACT_ACCENTS: Record<LetterArchetype, MmBar> = {
  * reference to one of a handful of compact letter archetypes instead.
  */
 export function letterArchetypeFor(template: LetterTemplateId): LetterArchetype {
-  const reference = letterLayoutFor(template);
   const freshTemplate = template !== "brief" && FRESH_TEMPLATE_SET.has(template);
+  if (freshTemplate) {
+    if (FRESH_SIDEBAR_TEMPLATES.has(template)) return "sidebar";
+    if (FRESH_BAND_TEMPLATES.has(template)) return "band";
+    if (FRESH_FRAME_TEMPLATES.has(template)) return "frame";
+    return "fresh";
+  }
+
+  const reference = letterLayoutFor(template);
   const activeBand =
     reference.kind === "band" && ((reference.bandMm ?? 0) > 0 || (reference.footMm ?? 0) > 0);
 
-  if (reference.kind === "column" || (freshTemplate && reference.left >= 32)) return "sidebar";
+  if (reference.kind === "column") return "sidebar";
   if (reference.kind === "card" || reference.cardInsetMm || reference.borderInsetMm) return "frame";
-  if (activeBand || (freshTemplate && reference.top >= 31)) return "band";
-  return freshTemplate ? "fresh" : "quiet";
+  if (activeBand) return "band";
+  return "quiet";
 }
 
 export function visibleLetterAttachments(data: LetterData): string[] {
