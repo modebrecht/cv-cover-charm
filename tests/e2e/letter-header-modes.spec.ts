@@ -64,6 +64,8 @@ async function seedLetter(page: Page) {
     { key: STORAGE_KEY, payload: letterPayload() },
   );
   await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+  await expect(page.getByRole("heading", { name: "Motivationsschreiben" })).toBeVisible();
+  await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
 }
 
 test.describe("M1/M2 compact letter header", () => {
@@ -128,6 +130,7 @@ test.describe("M1/M2 compact letter header", () => {
     }).toBe("none");
 
     await page.reload({ waitUntil: "domcontentloaded" });
+    await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
     const reloadedLayout = await openSection(page, /^Layout$/);
     await expect(reloadedLayout.locator("[data-letter-header-mode-control]")).toHaveValue("none");
     await expect(page.locator("main [data-letter-page]")).toHaveAttribute(
