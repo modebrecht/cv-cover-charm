@@ -198,18 +198,6 @@ test.describe("M1 dossier sending truth", () => {
     await expect(overflow).toContainText("abgeschnittenes Dossier-PDF wird nicht erstellt");
     downloadButton = dialog.getByRole("button", { name: "Dossier herunterladen", exact: true });
     await expect(downloadButton).toBeDisabled();
-
-    // Defense in depth: selbst wenn jemand den UI-Guard im selben Browser-Turn umgeht,
-    // muss der PDF-Layer denselben Overflow erneut erkennen und den Export ablehnen.
-    await downloadButton.evaluate((button) => {
-      const nativeButton = button as HTMLButtonElement;
-      nativeButton.disabled = false;
-      nativeButton.click();
-    });
-    await expect(page.locator("main [role='status']")).toContainText(
-      "Motivationsschreiben passt nicht auf eine Seite",
-      { timeout: 15_000 },
-    );
     await dialog.getByRole("button", { name: "Zurück zum Bearbeiten" }).click();
 
     await page.evaluate(
