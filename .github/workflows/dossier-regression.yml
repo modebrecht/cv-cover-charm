@@ -79,7 +79,7 @@ jobs:
               tests/e2e/dossier-transfer-regression.spec.ts
               tests/e2e/dossier-font-sync.spec.ts
               tests/e2e/dossier-typography-regression.spec.ts
-          - group: letter-m1-m2
+          - group: letter-m1-m4
             files: >-
               tests/e2e/letter-header-modes.spec.ts
           - group: cv-pdf
