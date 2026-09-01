@@ -2,10 +2,11 @@ name: Dossier Regression
 
 on:
   push:
-    # Keep the render branch under the same visual regression guard before promotion.
+    # Keep dev, render and production main under the same visual regression guard.
     branches:
       - dev
       - render
+      - main
   pull_request:
     branches:
       - main
@@ -21,7 +22,7 @@ concurrency:
 jobs:
   regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
 
     steps:
       - name: Checkout
