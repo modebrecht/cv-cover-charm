@@ -100,6 +100,10 @@ describe("central motivation-letter layout system", () => {
     }
   });
 
+  test("a zero-height CV band remains a quiet letter reference", () => {
+    expect(letterArchetypeFor("modern")).toBe("quiet");
+  });
+
   test("no-footer and attachment-footer reserve only their functional bottom space", () => {
     const compact = letterPageGeometry(
       DEMO_LETTER,
