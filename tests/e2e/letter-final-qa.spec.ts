@@ -246,9 +246,13 @@ async function assertHealthy(
   await expect(exported).toHaveAttribute("data-letter-template", expected.template);
   await expect(exported).toHaveAttribute("data-letter-requested-header-mode", expected.header);
   await expect(exported).toHaveAttribute("data-letter-requested-footer-mode", expected.footer);
-  await expect(exported).toHaveAttribute(
+  const previewContentBox = preview.locator("[data-letter-content-box]");
+  const exportedContentBox = exported.locator("[data-letter-content-box]");
+  await expect(previewContentBox).toHaveCount(1);
+  await expect(exportedContentBox).toHaveCount(1);
+  await expect(exportedContentBox).toHaveAttribute(
     "data-letter-content-box",
-    (await preview.getAttribute("data-letter-content-box")) ?? "",
+    (await previewContentBox.getAttribute("data-letter-content-box")) ?? "",
   );
   await expect
     .poll(() => geometryFailures(preview), { message: `${label} preview clipping/overlap` })
