@@ -1,4 +1,5 @@
 import type { jsPDF as JsPdf } from "jspdf";
+import { letterPageOverflows } from "@/components/letter/preflight";
 import { PAGE, PDF } from "@/default-config";
 import { addCvTextLayer } from "@/lib/cv-pdf-text";
 import { downloadBlob } from "@/lib/download";
@@ -263,7 +264,7 @@ async function addRasterPage(
     onclone: hideLetterText
       ? (clonedDocument) => {
           for (const node of clonedDocument.querySelectorAll<HTMLElement>(
-            "[data-letter-text-layer], [data-letter-text-layer] *",
+            "[data-letter-text-layer], [data-letter-text-layer] *, [data-letter-pdf-text], [data-letter-pdf-text] *",
           )) {
             node.style.setProperty("color", "transparent", "important");
             node.style.setProperty("-webkit-text-fill-color", "transparent", "important");
@@ -314,6 +315,11 @@ export async function downloadCombinedDossierPdf(
       "Dossier ist noch nicht vollständig: Titelblatt, Motivationsschreiben und Lebenslauf werden benötigt",
     );
   }
+  if (letterPageOverflows(letter)) {
+    throw new Error(
+      "Motivationsschreiben passt nicht auf eine Seite. Kürze den Text vor dem Dossier-Export.",
+    );
+  }
 
   const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
     import("html2canvas-pro"),
@@ -338,6 +344,7 @@ export async function downloadCombinedDossierPdf(
     await addRasterPage(pdf, html2canvas, cvPage);
     addCvTextLayer(pdf, cvPage);
   }
+
   downloadBlob(pdf.output("blob"), fileName);
 }
 
@@ -352,6 +359,11 @@ export async function downloadLetterPdf(
 
   if (!page.matches("[data-letter-page]")) {
     throw new Error("Motivationsschreiben konnte nicht für den PDF-Export gefunden werden");
+  }
+  if (letterPageOverflows(page)) {
+    throw new Error(
+      "Motivationsschreiben passt nicht auf eine Seite. Kürze den Text vor dem PDF-Export.",
+    );
   }
 
   const [{ default: html2canvas }, { jsPDF }] = await Promise.all([

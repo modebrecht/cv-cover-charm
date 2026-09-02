@@ -152,25 +152,17 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
     letterTemplate: "brief" | TemplateId;
     coverTemplate: TemplateId;
     cvTemplate: TemplateId;
-  }> = [
-    {
-      label: "Brief",
-      letterTemplate: "brief",
-      coverTemplate: "klassisch",
-      cvTemplate: "klassisch",
-    },
-    ...ALL_GALLERY_TEMPLATES.map((template) => ({
-      label: template.name,
-      letterTemplate: template.id,
-      coverTemplate: template.id,
-      cvTemplate: template.id,
-    })),
-  ];
+  }> = ALL_GALLERY_TEMPLATES.map((template) => ({
+    label: template.name,
+    letterTemplate: template.id as "brief" | TemplateId,
+    coverTemplate: template.id,
+    cvTemplate: template.id,
+  }));
 
-  expect(ALL_GALLERY_TEMPLATES).toHaveLength(37);
+  expect(ALL_GALLERY_TEMPLATES).toHaveLength(38);
   expect(cases).toHaveLength(38);
 
-  const totalPdfCount = cases.length + 1; // UI example + 38 selectable letter/template cases.
+  const totalPdfCount = cases.length + 1; // UI example + 38 dossier template cases.
   expect(totalPdfCount).toBe(39);
   expect(Math.ceil(totalPdfCount / GALLERY_BATCH_SIZE)).toBe(GALLERY_BATCH_COUNT);
 
@@ -249,7 +241,9 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
 
   const files = await import("node:fs/promises").then(({ readdir }) => readdir(GALLERY_DIR));
   const expectedPdfCount = batchEnd - batchStart;
-  expect(files.filter((file) => file.toLowerCase().endsWith(".pdf"))).toHaveLength(expectedPdfCount);
+  expect(files.filter((file) => file.toLowerCase().endsWith(".pdf"))).toHaveLength(
+    expectedPdfCount,
+  );
 
   if (batchIndex === null) {
     expect(files).toContain("MANIFEST.txt");

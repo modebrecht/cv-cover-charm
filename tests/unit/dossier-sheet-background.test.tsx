@@ -20,10 +20,16 @@ const markupFor = (
     }),
   );
 
-// Release guard: this contract is part of the parallel 39-PDF + browser smoke gate.
+// Release guard: Brief is a shared dossier template across cover, letter and CV.
 describe("shared dossier sheet background", () => {
+  test("Brief is selectable from the shared dossier template catalogue", () => {
+    const brief = TEMPLATES.find(({ id }) => (id as string) === "brief");
+    expect(brief?.name).toBe("Brief");
+    expect(brief?.slots.find(({ key }) => key === "bg")?.default).toBe("#ffffff");
+  });
+
   test("every dossier template renders the shared non-brief background", () => {
-    for (const { id } of TEMPLATES) {
+    for (const { id } of TEMPLATES.filter(({ id }) => (id as string) !== "brief")) {
       const markup = markupFor(id);
       expect(markup).toContain(`data-dossier-sheet-background="${id}"`);
       expect(markup).not.toContain('data-dossier-sheet-background="brief"');

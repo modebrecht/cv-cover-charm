@@ -15,6 +15,17 @@ export function CoverBackground({
   template: TemplateId;
   colors: Record<string, string>;
 }) {
+  if ((template as string) === "brief") {
+    return (
+      <div
+        data-cover-template="brief"
+        className="absolute inset-0 bg-white"
+        style={{ backgroundColor: "#ffffff" }}
+        aria-hidden="true"
+      />
+    );
+  }
+
   // Classic: the inset document frame is structural.
   if (template === "klassisch") {
     return (

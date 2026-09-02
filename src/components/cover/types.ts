@@ -297,6 +297,17 @@ export const FONT_LABELS: Record<FontKey, string> = {
 
 export const TEMPLATES: TemplateDefinition[] = [
   {
+    id: "brief" as TemplateId,
+    name: "Brief",
+    description: "Reinweisses Papier, schwarze Typografie, ohne Gestaltungselemente",
+    slots: [
+      { key: "bg", label: "Papier", default: "#ffffff" },
+      { key: "ink", label: "Text", default: "#111111" },
+      { key: "primary", label: "Hauptfarbe", default: "#111111" },
+      { key: "accent", label: "Akzent", default: "#111111" },
+    ],
+  },
+  {
     id: "klassisch",
     name: "Editorial",
     description: "Ruhige Serif, feine Rahmenlinien",

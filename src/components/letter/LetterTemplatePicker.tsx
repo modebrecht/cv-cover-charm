@@ -17,19 +17,6 @@ const baseClass =
 export function LetterTemplatePicker({ value, onChange }: Props) {
   return (
     <div className="grid grid-cols-3 gap-2">
-      <button
-        type="button"
-        onClick={() => onChange("brief")}
-        aria-pressed={value === "brief"}
-        title="Klassischer Brief auf reinweissem Papier ohne Gestaltungselemente"
-        className={`${baseClass} ${
-          value === "brief"
-            ? "border-foreground bg-accent"
-            : "border-input hover:border-foreground/40 hover:bg-accent/40"
-        }`}
-      >
-        Brief
-      </button>
       {SELECTABLE_TEMPLATES.map((template) => {
         const active = template.id === value;
         return (
