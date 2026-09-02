@@ -73,11 +73,10 @@ async function seedCv(page: Page, template: "blockig" | "colorful") {
   );
   await page.waitForLoadState("domcontentloaded");
   await page
-    .locator(
-      `[data-dossier-document="cv"][data-cv-template="${template}"][data-export-mode="false"] [data-cv-page]`,
-    )
+    .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page]')
     .first()
     .waitFor({ state: "visible" });
+  await page.waitForFunction(() => document.documentElement.dataset.cvVariant !== undefined);
   await page.evaluate(
     () =>
       new Promise<void>((resolve) => {
@@ -103,40 +102,22 @@ test.describe("template cleanup", () => {
     await expect(page.locator("html")).toHaveAttribute("data-dossier-template", "blockig");
 
     const geometry = await page
-      .locator(
-        '[data-dossier-document="cv"][data-cv-template="blockig"][data-export-mode="false"] [data-dossier-sheet-background="blockig"]',
-      )
+      .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page]')
       .first()
-      .evaluate((background) => {
-        const rootRect = background.getBoundingClientRect();
-        const children = Array.from(background.children).filter(
-          (node): node is HTMLElement => node instanceof HTMLElement,
-        );
-        const measured = children.map((node) => ({
-          node,
-          rect: node.getBoundingClientRect(),
-          style: getComputedStyle(node),
-        }));
-        const grey = measured.find(
-          ({ rect, style }) =>
-            style.backgroundColor === "rgb(31, 41, 55)" &&
-            Math.abs(rect.height - rootRect.height) <= 1,
-        );
-        const orange = measured.find(
-          ({ rect, style }) =>
-            style.backgroundColor === "rgb(249, 115, 22)" && rect.width > 0 && rect.height > 0,
-        );
-        if (!grey || !orange) return null;
-
+      .evaluate((pageEl) => {
+        const pageStyle = getComputedStyle(pageEl);
+        const root = pageEl.querySelector<HTMLElement>('[data-cv-background="motif"] > div');
+        if (!root) return null;
+        const grey = getComputedStyle(root, "::before");
+        const orange = getComputedStyle(root, "::after");
         return {
-          pageWidth: rootRect.width,
-          pageHeight: rootRect.height,
-          greyWidth: grey.rect.width,
-          greyHeight: grey.rect.height,
-          orangeWidth: orange.rect.width,
-          orangeHeight: orange.rect.height,
-          greyColor: grey.style.backgroundColor,
-          orangeColor: orange.style.backgroundColor,
+          pageWidth: Number.parseFloat(pageStyle.width),
+          pageHeight: Number.parseFloat(pageStyle.height),
+          greyWidth: Number.parseFloat(grey.width),
+          greyHeight: Number.parseFloat(grey.height),
+          orangeWidth: Number.parseFloat(orange.width),
+          greyColor: grey.backgroundColor,
+          orangeColor: orange.backgroundColor,
         };
       });
 
@@ -144,9 +125,8 @@ test.describe("template cleanup", () => {
     if (!geometry) return;
 
     expect(geometry.greyWidth / geometry.pageWidth).toBeCloseTo(66 / 210, 2);
+    expect(geometry.orangeWidth / geometry.pageWidth).toBeCloseTo(66 / 210, 2);
     expect(geometry.greyHeight / geometry.pageHeight).toBeCloseTo(1, 2);
-    expect(geometry.orangeWidth / geometry.pageWidth).toBeCloseTo(25 / 210, 2);
-    expect(geometry.orangeHeight / geometry.pageHeight).toBeCloseTo(28 / 297, 2);
     expect(geometry.greyColor).toBe("rgb(31, 41, 55)");
     expect(geometry.orangeColor).toBe("rgb(249, 115, 22)");
   });

@@ -228,36 +228,17 @@ function cvPayload(template: (typeof FRESH)[number]) {
   };
 }
 
-async function settleCover(page: Page, template: string) {
-  const sheet = page
-    .locator(`[data-dossier-document="cover"][data-cover-template="${template}"]`)
-    .first();
-  await sheet.waitFor({ state: "visible" });
-  await page.evaluate(
-    () =>
-      new Promise<void>((resolve) => {
-        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
-      }),
-  );
-  return sheet;
-}
-
-async function settleCv(page: Page, template: string) {
+async function settle(page: Page, template: string) {
   await page.waitForFunction(
     (expected) => document.documentElement.dataset.dossierTemplate === expected,
     template,
   );
-  const sheet = page
-    .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page]')
-    .first();
-  await sheet.waitFor({ state: "visible" });
   await page.evaluate(
     () =>
       new Promise<void>((resolve) => {
         requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
       }),
   );
-  return sheet;
 }
 
 const hash = (buffer: Buffer) => createHash("sha256").update(buffer).digest("hex");
@@ -267,16 +248,11 @@ test.describe("Fresh dossier templates", () => {
 
   test("all twelve templates are selectable", async ({ page }) => {
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
-    await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
-    const templateSection = page.getByRole("button", { name: /^Vorlage(?:\s|$)/ }).first();
-    await expect(templateSection).toBeVisible();
-    if ((await templateSection.getAttribute("aria-expanded")) !== "true") {
-      await templateSection.click();
-    }
 
     for (const template of FRESH) {
       await expect(page.getByRole("button", { name: template.name, exact: true })).toBeVisible();
     }
+
   });
 
   test("all twelve title pages render as distinct full dossiers", async ({ page }) => {
@@ -284,7 +260,7 @@ test.describe("Fresh dossier templates", () => {
     const hashes = new Set<string>();
 
     for (const template of FRESH) {
-      await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+      await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
       await page.evaluate(
         ({ payload }) => {
           localStorage.clear();
@@ -292,8 +268,11 @@ test.describe("Fresh dossier templates", () => {
         },
         { payload: coverPayload(template) },
       );
-      await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
-      const sheet = await settleCover(page, template.id);
+      await page.reload({ waitUntil: "domcontentloaded" });
+      await settle(page, template.id);
+
+      const sheet = page.locator('[data-dossier-document="cover"]').first();
+      await sheet.waitFor({ state: "visible" });
       const shot = await sheet.screenshot({ animations: "disabled" });
       expect(shot.length, `${template.name} title page should not be blank`).toBeGreaterThan(8_000);
       hashes.add(hash(shot));
@@ -307,7 +286,7 @@ test.describe("Fresh dossier templates", () => {
     const hashes = new Set<string>();
 
     for (const template of FRESH) {
-      await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+      await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
       await page.evaluate(
         ({ payload }) => {
           localStorage.clear();
@@ -317,8 +296,13 @@ test.describe("Fresh dossier templates", () => {
         },
         { payload: cvPayload(template) },
       );
-      await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
-      const sheet = await settleCv(page, template.id);
+      await page.reload({ waitUntil: "domcontentloaded" });
+      await settle(page, template.id);
+
+      const sheet = page
+        .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page]')
+        .first();
+      await sheet.waitFor({ state: "visible" });
       const shot = await sheet.screenshot({ animations: "disabled" });
       expect(shot.length, `${template.name} CV should not be blank`).toBeGreaterThan(8_000);
       hashes.add(hash(shot));

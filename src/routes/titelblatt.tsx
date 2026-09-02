@@ -478,6 +478,7 @@ function Titelblatt() {
         colors,
         font: documentFont,
         fontScale: fontScale / FONT.DEFAULT_SCALE,
+        elements: customs.filter((item) => customKind(item) !== "text"),
         person: {
           vorname: data.vorname,
           nachname: data.nachname,
@@ -492,7 +493,7 @@ function Titelblatt() {
         },
         photoStyle: dossierPhotoStyleFromBlockStyle(photoBlock?.style),
       }),
-    [colors, data, documentFont, fontScale, photoBlock?.style, template],
+    [colors, customs, data, documentFont, fontScale, photoBlock?.style, template],
   );
   const titleCoverChanged =
     !!storedCvDocument?.coverFingerprint &&

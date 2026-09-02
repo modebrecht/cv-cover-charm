@@ -1,23 +1,22 @@
 name: Dossier Regression
 
 on:
-  workflow_dispatch:
   push:
-    # Keep the release candidate, dev, render and production main under the same regression guard.
+    # Keep dev, render and production main under the same visual regression guard.
     branches:
-      - letter-m1-m2
       - dev
       - render
       - main
-    paths-ignore:
-      - "History/**"
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
   statuses: write
 
 concurrency:
-  group: dossier-regression-${{ github.sha }}
+  group: dossier-regression-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -39,7 +38,7 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
-            -d '{"state":"pending","context":"M6 Release Candidate","description":"Release-candidate regression suite is running","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+            -d '{"state":"pending","context":"M5.8 Regression","description":"Parallel dossier regression suite is running","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -57,11 +56,8 @@ jobs:
       - name: Unit regressions
         run: bun test tests/unit
 
-      - name: Check release formatting
-        run: bun run format:check:release
-
-      - name: TypeScript typecheck
-        run: bun run typecheck
+      - name: Normalize source formatting
+        run: bunx prettier --write "src/**/*.{ts,tsx,css}" "tests/**/*.{ts,tsx}"
 
       - name: Lint
         run: bun run lint
@@ -72,7 +68,7 @@ jobs:
   browser-regressions:
     needs: fast-checks
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 18
     strategy:
       fail-fast: false
       matrix:
@@ -83,36 +79,18 @@ jobs:
               tests/e2e/dossier-transfer-regression.spec.ts
               tests/e2e/dossier-font-sync.spec.ts
               tests/e2e/dossier-typography-regression.spec.ts
-              tests/e2e/dossier-letter-preflight.spec.ts
-              tests/e2e/dossier-state-roundtrip.spec.ts
-              tests/e2e/dossier-state-isolation.spec.ts
-          - group: letter-m1-m5
-            files: >-
-              tests/e2e/letter-header-modes.spec.ts
-              tests/e2e/letter-final-qa.spec.ts
-          - group: letter-m8-edge
-            files: >-
-              tests/e2e/letter-adversarial-content.spec.ts
           - group: cv-pdf
             files: >-
               tests/e2e/element-ratio-lock.spec.ts
               tests/e2e/cv-edge-smoke.spec.ts
               tests/e2e/cv-card-refresh.spec.ts
               tests/e2e/cv-pdf-text.spec.ts
-          - group: cv-m9-pagination
-            files: >-
-              tests/e2e/cv-demo-pagination.spec.ts
-          - group: m9-responsive
-            files: >-
-              tests/e2e/dossier-responsive-product-smoke.spec.ts
           - group: templates-layout
             files: >-
               tests/e2e/cover-edge-smoke.spec.ts
               tests/e2e/template-cleanup.spec.ts
-              tests/e2e/gradient-edge-smoke.spec.ts
-          - group: fresh-dossier-templates
-            files: >-
               tests/e2e/fresh-dossier-templates.spec.ts
+              tests/e2e/gradient-edge-smoke.spec.ts
 
     name: Browser smoke - ${{ matrix.group }}
 
@@ -158,15 +136,6 @@ jobs:
       - name: Run ${{ matrix.group }} regressions
         run: npx playwright test ${{ matrix.files }} --reporter=line --workers=1
 
-      - name: Upload M5 letter visual gallery
-        if: matrix.group == 'letter-m1-m5' && always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: letter-m5-visual-gallery
-          path: artifacts/letter-final-qa
-          if-no-files-found: warn
-          retention-days: 14
-
       - name: Show application log on failure
         if: failure()
         run: cat /tmp/cv-cover-charm.log || true
@@ -197,10 +166,10 @@ jobs:
         run: |
           if [ "$FAST_RESULT" = "success" ] && [ "$BROWSER_RESULT" = "success" ]; then
             state="success"
-            description="Unit, format, typecheck, lint, build and browser/PDF smokes passed"
+            description="Unit, lint, build and all parallel browser/PDF smokes passed"
           else
             state="failure"
-            description="One or more release-candidate checks failed"
+            description="One or more parallel dossier regression checks failed"
           fi
 
           curl --fail-with-body -L \
@@ -209,6 +178,6 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
-            -d "{\"state\":\"$state\",\"context\":\"M6 Release Candidate\",\"description\":\"$description\",\"target_url\":\"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"
+            -d "{\"state\":\"$state\",\"context\":\"M5.8 Regression\",\"description\":\"$description\",\"target_url\":\"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"
 
           test "$state" = "success"

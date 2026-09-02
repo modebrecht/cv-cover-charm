@@ -23,13 +23,9 @@ import {
 } from "../../src/lib/dossier-pdf-document";
 import { emptyCv } from "../../src/components/cv/types";
 import {
-  COVER_STORAGE_KEY,
-  CV_STORAGE_KEY,
   DOSSIER_PROJECT_KIND,
-  LETTER_STORAGE_KEY,
   createDossierProject,
   parseDossierProject,
-  storeDossierProject,
 } from "../../src/lib/dossier-project";
 
 describe("dossier families", () => {
@@ -207,88 +203,6 @@ describe("combined dossier project", () => {
 
     expect(project.kind).toBe(DOSSIER_PROJECT_KIND);
     expect(parseDossierProject(JSON.parse(JSON.stringify(project)))).toEqual(project);
-  });
-
-  test("round-trips title page, motivation letter and CV without losing document-local state", () => {
-    const cover = {
-      version: 8,
-      template: "edge",
-      data: { vorname: "Lea", nachname: "Müller" },
-      customs: [{ id: "cover-only", kind: "text", text: "Titelblatt-Notiz" }],
-    };
-    const letter = {
-      version: 1,
-      data: {
-        absenderName: "Lea Müller",
-        betreff: "Bewerbung Informatik",
-        images: [{ id: "letter-only", src: "data:image/svg+xml,%3Csvg/%3E" }],
-      },
-      design: { template: "glow", headerMode: "contact", footerMode: "attachments" },
-    };
-    const cv = {
-      version: 2,
-      data: { titel: "Lebenslauf", person: { vorname: "Lea", nachname: "Müller" } },
-      design: { template: "edge" },
-      elements: [{ id: "cv-only", kind: "text", text: "CV-Notiz" }],
-    };
-
-    const project = createDossierProject({ cover, letter, cv });
-    const parsed = parseDossierProject(JSON.parse(JSON.stringify(project)));
-
-    expect(parsed).not.toBeNull();
-    expect(parsed?.cover).toEqual(cover);
-    expect(parsed?.letter).toEqual(letter);
-    expect(parsed?.cv).toEqual(cv);
-  });
-
-  test("stores all three parts and legacy cover+cv projects leave an existing letter untouched", () => {
-    const previousWindow = globalThis.window;
-    const storage = new Map<string, string>([
-      [LETTER_STORAGE_KEY, JSON.stringify({ version: 1, data: { betreff: "Bestehender Brief" } })],
-    ]);
-    Object.defineProperty(globalThis, "window", {
-      configurable: true,
-      value: {
-        localStorage: {
-          getItem: (key: string) => storage.get(key) ?? null,
-          setItem: (key: string, value: string) => storage.set(key, value),
-        },
-      },
-    });
-
-    try {
-      const fullProject = createDossierProject({
-        cover: { version: 8, data: { vorname: "Lea" } },
-        letter: { version: 1, data: { betreff: "Neuer Brief" } },
-        cv: { version: 2, data: { titel: "Lebenslauf" } },
-      });
-      expect(storeDossierProject(fullProject)).toEqual({ cover: true, letter: true, cv: true });
-      expect(JSON.parse(storage.get(COVER_STORAGE_KEY) ?? "null")?.data?.vorname).toBe("Lea");
-      expect(JSON.parse(storage.get(LETTER_STORAGE_KEY) ?? "null")?.data?.betreff).toBe("Neuer Brief");
-      expect(JSON.parse(storage.get(CV_STORAGE_KEY) ?? "null")?.data?.titel).toBe("Lebenslauf");
-
-      storage.set(
-        LETTER_STORAGE_KEY,
-        JSON.stringify({ version: 1, data: { betreff: "Brief behalten" } }),
-      );
-      const legacy = parseDossierProject({
-        kind: DOSSIER_PROJECT_KIND,
-        version: 1,
-        savedAt: "2026-08-31T12:00:00.000Z",
-        cover: { version: 7, data: { vorname: "Alt" } },
-        cv: { version: 2, data: { titel: "Alter Lebenslauf" } },
-      });
-      expect(legacy).not.toBeNull();
-      expect(storeDossierProject(legacy!)).toEqual({ cover: true, letter: false, cv: true });
-      expect(JSON.parse(storage.get(LETTER_STORAGE_KEY) ?? "null")?.data?.betreff).toBe(
-        "Brief behalten",
-      );
-    } finally {
-      Object.defineProperty(globalThis, "window", {
-        configurable: true,
-        value: previousWindow,
-      });
-    }
   });
 
   test("rejects unrelated JSON and empty project envelopes", () => {

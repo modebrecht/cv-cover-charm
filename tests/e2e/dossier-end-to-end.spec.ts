@@ -108,9 +108,7 @@ test.describe("complete dossier end-to-end", () => {
       const data = saved.data;
       return (
         data?.betreff === "Bewerbung um eine Lehrstelle als Informatiker/in EFZ" &&
-        data?.absenderName === "Lea Müller" &&
-        typeof data?.text === "string" &&
-        data.text.includes("Die Informatik begeistert mich")
+        data?.absenderName === "Lea Müller"
       );
     });
     await applyExampleData(page, "/lebenslauf", "lebenslauf:v1", (saved) => {

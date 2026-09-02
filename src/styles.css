@@ -325,20 +325,6 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
 }
 
 /*
- * M9 dossier density.
- *
- * The default demo CV used to spill its single reference entry onto an almost
- * empty continuation page in every template. Keep the established font sizes
- * and print margins; only tighten the repeated vertical rhythm between main
- * CV rubrics. The hidden pagination measurement uses the same data hooks, so
- * preview, page count and PDF remain in lockstep.
- */
-[data-cv-main] [data-cv-section] {
-  margin-top: 3.2mm !important;
-  margin-bottom: 1.5mm !important;
-}
-
-/*
  * Mobile dossier editors.
  *
  * On phones the form is a real full-width work surface, not a translucent
@@ -411,6 +397,6 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
 
   body:has([data-letter-page]) [data-editor-panel] > aside > div > div:first-child,
   body:has([data-cv-page]) [data-editor-panel] > aside > div > div:first-child {
-    display: none !important;
+    display: none;
   }
 }
