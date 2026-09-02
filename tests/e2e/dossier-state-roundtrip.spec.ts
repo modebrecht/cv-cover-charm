@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 const BASE_URL = "http://127.0.0.1:4173";
 
@@ -10,10 +10,18 @@ const SIDE_KEYS = [
   "lebenslauf:photo-place:v1",
 ] as const;
 
+type StoredSnapshot = {
+  data?: {
+    vorname?: string;
+    absenderName?: string;
+    person?: { vorname?: string };
+  };
+};
+
 async function waitForStoredValue(
-  page: import("@playwright/test").Page,
+  page: Page,
   key: string,
-  read: (saved: Record<string, any>) => unknown,
+  read: (saved: StoredSnapshot) => unknown,
   expected: unknown,
 ) {
   await expect
@@ -33,7 +41,7 @@ async function waitForStoredValue(
       const saved = await page.evaluate(
         ({ storageKey }) => {
           const raw = localStorage.getItem(storageKey);
-          return raw ? JSON.parse(raw) : null;
+          return raw ? (JSON.parse(raw) as StoredSnapshot) : null;
         },
         { storageKey: key },
       );
