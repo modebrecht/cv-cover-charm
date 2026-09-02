@@ -9,11 +9,16 @@ on:
       - main
     paths:
       - .github/workflows/dossier-pdf-gallery.yml
+      - package.json
       - tests/e2e/letter-final-qa.spec.ts
       - tests/e2e/letter-header-modes.spec.ts
       - src/components/letter/LetterCanvas.tsx
+      - src/components/letter/LetterLayoutControls.tsx
       - src/components/letter/layout-system.ts
+      - src/components/letter/preflight.ts
       - src/components/letter/types.ts
+      - src/components/dossier/DossierExportDialog.tsx
+      - src/routes/anschreiben.tsx
       - src/lib/dossier-pdf.ts
   push:
     branches:
@@ -24,11 +29,14 @@ on:
       - main
     paths:
       - .github/workflows/dossier-pdf-gallery.yml
+      - package.json
       - tests/unit/cover-decorations.test.ts
       - tests/unit/dossier-sheet-background.test.tsx
       - tests/e2e/dossier-gallery.spec.ts
       - tests/e2e/dossier-end-to-end.spec.ts
       - tests/e2e/dossier-typography-regression.spec.ts
+      - tests/e2e/letter-final-qa.spec.ts
+      - tests/e2e/letter-header-modes.spec.ts
       - src/components/cover/BlockLayer.tsx
       - src/components/cover/CoverCanvas.tsx
       - src/components/cover/CoverBackground.tsx
@@ -39,10 +47,15 @@ on:
       - src/components/cv/CvCanvas.tsx
       - src/components/dossier/DossierPdfCanvas.tsx
       - src/components/dossier/DossierSheetBackground.tsx
+      - src/components/dossier/DossierExportDialog.tsx
       - src/components/letter/LetterTemplatePicker.tsx
       - src/components/letter/LetterCanvas.tsx
+      - src/components/letter/LetterLayoutControls.tsx
       - src/components/letter/dossier-transfer.ts
+      - src/components/letter/layout-system.ts
+      - src/components/letter/preflight.ts
       - src/components/letter/types.ts
+      - src/routes/anschreiben.tsx
       - src/lib/cv-pdf-text.ts
       - src/lib/dossier-pdf.ts
       - src/lib/dossier-pdf-document.ts
@@ -80,8 +93,8 @@ jobs:
       - name: Unit tests
         run: bun test tests/unit
 
-      - name: Check source formatting
-        run: bun run format:check
+      - name: Check release formatting
+        run: bun run format:check:release
 
       - name: TypeScript typecheck
         run: bun run typecheck
@@ -97,9 +110,13 @@ jobs:
           src/components/cv/CvCanvas.tsx
           src/components/dossier/DossierPdfCanvas.tsx
           src/components/dossier/DossierSheetBackground.tsx
+          src/components/dossier/DossierExportDialog.tsx
           src/components/letter/LetterTemplatePicker.tsx
           src/components/letter/LetterCanvas.tsx
+          src/components/letter/LetterLayoutControls.tsx
           src/components/letter/dossier-transfer.ts
+          src/components/letter/layout-system.ts
+          src/components/letter/preflight.ts
           src/components/letter/types.ts
           src/lib/cv-pdf-text.ts
           src/lib/dossier-pdf.ts
@@ -111,6 +128,7 @@ jobs:
           tests/e2e/dossier-end-to-end.spec.ts
           tests/e2e/dossier-gallery.spec.ts
           tests/e2e/dossier-typography-regression.spec.ts
+          tests/e2e/letter-header-modes.spec.ts
 
       - name: Production build
         run: bun run build
