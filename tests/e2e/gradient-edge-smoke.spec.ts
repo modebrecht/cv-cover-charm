@@ -212,11 +212,11 @@ async function seedCover(page: Page, template: (typeof TEMPLATES)[number]): Prom
     },
   );
   await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
-  await page.waitForFunction(
-    (expected) => document.documentElement.dataset.dossierTemplate === expected,
-    template.id,
-  );
-  const sheet = page.locator('[data-dossier-document="cover"]').first();
+  const sheet = page
+    .locator(
+      `[data-dossier-document="cover"][data-cover-template="${template.id}"]`,
+    )
+    .first();
   await sheet.waitFor({ state: "visible" });
   return sheet;
 }
@@ -246,12 +246,10 @@ async function seedCv(page: Page, template: (typeof TEMPLATES)[number]): Promise
     },
   );
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
-  await page.waitForFunction(
-    (expected) => document.documentElement.dataset.dossierTemplate === expected,
-    template.id,
-  );
   const sheet = page
-    .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page]')
+    .locator(
+      `[data-dossier-document="cv"][data-cv-template="${template.id}"][data-export-mode="false"] [data-cv-page]`,
+    )
     .first();
   await sheet.waitFor({ state: "visible" });
   return sheet;
