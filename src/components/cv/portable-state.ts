@@ -1,5 +1,5 @@
 import { setCvLayout, setCvLayoutMirror, type CvLayoutId } from "./layout";
-import { setCvPlacement, type CvPlacements } from "./placement";
+import { setCvPlacement } from "./placement";
 import { setCvPhotoStyle } from "./photo";
 import {
   normalizeCvPhotoPlacement,
@@ -10,7 +10,11 @@ import {
   normalizeDossierPhotoStyle,
   type DossierPhotoStyle,
 } from "@/lib/dossier-photo";
-import { DEFAULT_CV_PLACEMENTS, type CvPlacementKey } from "./types";
+import {
+  DEFAULT_CV_PLACEMENTS,
+  type CvPlacementKey,
+  type CvPlacements,
+} from "./types";
 
 const LAYOUT_KEY = "lebenslauf:layout:v1";
 const MIRROR_KEY = "lebenslauf:layout-mirror:v1";
