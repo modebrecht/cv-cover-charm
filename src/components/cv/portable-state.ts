@@ -1,4 +1,10 @@
-import { getCvLayoutChoice, getCvLayoutMirror, setCvLayout, setCvLayoutMirror, type CvLayoutId } from "./layout";
+import {
+  getCvLayoutChoice,
+  getCvLayoutMirror,
+  setCvLayout,
+  setCvLayoutMirror,
+  type CvLayoutId,
+} from "./layout";
 import { getCvPlacements, setCvPlacement, type CvPlacements } from "./placement";
 import { getCvPhotoStyle, setCvPhotoStyle } from "./photo";
 import {
@@ -8,6 +14,14 @@ import {
 } from "./photo-place";
 import type { DossierPhotoStyle } from "@/lib/dossier-photo";
 import { DEFAULT_CV_PLACEMENTS, type CvPlacementKey } from "./types";
+
+const PORTABLE_CV_STORAGE_KEYS = [
+  "lebenslauf:layout:v1",
+  "lebenslauf:layout-mirror:v1",
+  "lebenslauf:placement:v1",
+  "lebenslauf:photo:v2",
+  "lebenslauf:photo-place:v1",
+] as const;
 
 /**
  * CV settings that historically lived in dedicated localStorage keys.
@@ -22,7 +36,21 @@ export type PortableCvState = {
   photoPlacement?: Partial<CvPhotoPlacement>;
 };
 
-export function readPortableCvState(): PortableCvState {
+/**
+ * No sidecar key means the user still uses the historical defaults. In that
+ * case the dossier needs no additive state and stays compatible with older
+ * project files.
+ */
+export function readPortableCvState(): PortableCvState | undefined {
+  if (typeof window === "undefined") return undefined;
+  try {
+    if (!PORTABLE_CV_STORAGE_KEYS.some((key) => window.localStorage.getItem(key) !== null)) {
+      return undefined;
+    }
+  } catch {
+    return undefined;
+  }
+
   return {
     layout: getCvLayoutChoice(),
     mirrored: getCvLayoutMirror(),
