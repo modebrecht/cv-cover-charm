@@ -1,27 +1,6 @@
 import { expect, test } from "@playwright/test";
-import "../../src/components/cover/fresh-templates";
-import { TEMPLATES } from "../../src/components/cover/types";
-import { DEMO_CV } from "../../src/components/cv/types";
 
 const BASE_URL = "http://127.0.0.1:4173";
-const STORAGE_KEY = "lebenslauf:v1";
-
-function savedDemo(template: (typeof TEMPLATES)[number]) {
-  return {
-    version: 6,
-    data: DEMO_CV,
-    design: {
-      template: template.id,
-      colors: Object.fromEntries(template.slots.map((slot) => [slot.key, slot.default])),
-      font: "freundlich",
-      bgOpacity: 0.25,
-      useElements: false,
-    },
-    elements: [],
-    elementStyles: {},
-    coverFingerprint: null,
-  };
-}
 
 test.describe("M9 demo CV pagination", () => {
   test.setTimeout(6 * 60_000);
@@ -29,28 +8,44 @@ test.describe("M9 demo CV pagination", () => {
   test("every selectable template keeps the normal demo CV compact without an almost-empty continuation", async ({
     page,
   }) => {
-    expect(TEMPLATES.length).toBeGreaterThanOrEqual(37);
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => localStorage.clear());
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
 
-    for (const template of TEMPLATES) {
-      await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
-      await page.evaluate(
-        ({ key, saved }) => {
-          localStorage.clear();
-          localStorage.setItem(key, JSON.stringify(saved));
-        },
-        { key: STORAGE_KEY, saved: savedDemo(template) },
-      );
-      await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+    const download = page.getByRole("button", { name: "Download", exact: true });
+    await expect(download).toHaveAttribute("data-editor-ready", "true", { timeout: 15_000 });
+    await download.click();
+    await page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true }).click();
+    await page.getByRole("button", { name: "Ja", exact: true }).click();
 
-      const download = page.getByRole("button", { name: "Download", exact: true });
-      await expect(download).toHaveAttribute("data-editor-ready", "true", { timeout: 15_000 });
+    const cv = page.locator("main [data-dossier-document='cv']");
+    const pages = cv.locator("[data-cv-page]");
+    await expect(pages.first()).toContainText("Herr Thomas Weber");
 
-      const cv = page.locator("main [data-dossier-document='cv']");
-      const pages = cv.locator("[data-cv-page]");
-      await expect(cv).toHaveAttribute("data-cv-template", template.id);
+    const templateSection = page.getByRole("button", { name: /^Vorlage(?:\s|$)/ }).first();
+    if ((await templateSection.getAttribute("aria-expanded")) !== "true") {
+      await templateSection.click();
+    }
+    const templatePanelId = await templateSection.getAttribute("aria-controls");
+    expect(templatePanelId).toBeTruthy();
+    const templatePanel = page.locator(`[id="${templatePanelId}"]`);
+    const templateButtons = templatePanel.locator("button[title][aria-pressed]");
+    await expect(templateButtons).toHaveCount(38);
+    const templateNames = await templateButtons.allTextContents();
+
+    for (const rawName of templateNames) {
+      const name = rawName.trim();
+      await templatePanel.getByRole("button", { name, exact: true }).click();
+      await expect
+        .poll(() => cv.getAttribute("data-cv-template"), {
+          message: `${name}: template selection must reach the rendered CV`,
+        })
+        .not.toBeNull();
+      const templateId = await cv.getAttribute("data-cv-template");
+
       await expect
         .poll(() => pages.count(), {
-          message: `${template.id}: normal demo CV must not create an almost-empty reference page`,
+          message: `${templateId}: normal demo CV must not create an almost-empty reference page`,
         })
         .toBe(1);
 
@@ -66,7 +61,7 @@ test.describe("M9 demo CV pagination", () => {
         }));
       expect(
         clipped.scrollHeight,
-        `${template.id}: compacting the CV must not trade the extra page for clipped content`,
+        `${templateId}: compacting the CV must not trade the extra page for clipped content`,
       ).toBeLessThanOrEqual(clipped.clientHeight + 3);
     }
   });
