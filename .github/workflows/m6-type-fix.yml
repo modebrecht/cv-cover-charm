@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: letter-m1-m2
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -39,36 +41,32 @@ jobs:
           from pathlib import Path
 
           background = Path("src/components/dossier/DossierSheetBackground.tsx")
-          text = background.read_text()
-          old = '''          {template === "edel" && (
-            <div
-              className="absolute"
-              style={{
-                inset: `${layout.borderInsetMm + 3}mm`,
-                border: `0.35px solid ${accent}`,
-                opacity: 0.28,
-              }}
-            />
-          )}
-'''
-          assert old in text, "Expected unreachable edel block not found"
-          background.write_text(text.replace(old, "", 1))
+          lines = background.read_text().splitlines(keepends=True)
+          marker = '          {template === "edel" && (\n'
+          starts = [index for index, line in enumerate(lines) if line == marker]
+          assert len(starts) == 1, f"Expected one unreachable edel block, found {len(starts)}"
+          start = starts[0]
+          end = next(index for index in range(start + 1, len(lines)) if lines[index] == '          )}\n')
+          del lines[start : end + 1]
+          background.write_text(''.join(lines))
 
           cv = Path("src/routes/lebenslauf.tsx")
-          text = cv.read_text()
-          old = '                            {key === "elements" && cover && ` · ${cover.elements.length} im Titelblatt`}\n'
-          assert old in text, "Expected stale elements hint not found"
-          cv.write_text(text.replace(old, "", 1))
+          lines = cv.read_text().splitlines(keepends=True)
+          matches = [index for index, line in enumerate(lines) if 'key === "elements" && cover' in line]
+          assert len(matches) == 1, f"Expected one stale elements hint, found {len(matches)}"
+          del lines[matches[0]]
+          cv.write_text(''.join(lines))
 
           cover = Path("src/routes/titelblatt.tsx")
-          text = cover.read_text()
-          old_elements = '        elements: customs.filter((item) => customKind(item) !== "text"),\n'
-          assert old_elements in text, "Expected non-transferable elements fingerprint field not found"
-          text = text.replace(old_elements, "", 1)
-          old_deps = '    [colors, customs, data, documentFont, fontScale, photoBlock?.style, template],\n'
-          new_deps = '    [colors, data, documentFont, fontScale, photoBlock?.style, template],\n'
-          assert old_deps in text, "Expected fingerprint dependency list not found"
-          cover.write_text(text.replace(old_deps, new_deps, 1))
+          lines = cover.read_text().splitlines(keepends=True)
+          element_matches = [index for index, line in enumerate(lines) if 'elements: customs.filter((item) => customKind(item) !== "text")' in line]
+          assert len(element_matches) == 1, f"Expected one fingerprint elements field, found {len(element_matches)}"
+          del lines[element_matches[0]]
+          dependency_matches = [index for index, line in enumerate(lines) if '[colors, customs, data, documentFont, fontScale, photoBlock?.style, template]' in line]
+          assert len(dependency_matches) == 1, f"Expected one fingerprint dependency list, found {len(dependency_matches)}"
+          index = dependency_matches[0]
+          lines[index] = lines[index].replace('[colors, customs, data', '[colors, data')
+          cover.write_text(''.join(lines))
           PY
 
           git diff --check
@@ -84,7 +82,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/m6-type-fix.yml
           git add src/components/dossier/DossierSheetBackground.tsx src/routes/lebenslauf.tsx src/routes/titelblatt.tsx
-          git diff --cached --quiet && exit 0
-          git commit -m "fix(m6): resolve typecheck inconsistencies"
+          git commit -m "fix(m6): resolve baseline typecheck inconsistencies"
           git push origin HEAD:letter-m1-m2
