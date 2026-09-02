@@ -2,84 +2,12 @@ name: Dossier PDF Gallery
 
 # Reproducible visual QA: every complete dossier PDF is rendered, but the expensive
 # PDF work is split into 4-document batches and aggregated back into one artifact.
+# Release-candidate runs are intentionally manual; production main remains automatic.
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - .github/workflows/dossier-pdf-gallery.yml
-      - .github/workflows/dossier-regression.yml
-      - eslint.config.js
-      - package.json
-      - tests/e2e/cover-edge-smoke.spec.ts
-      - tests/e2e/fresh-dossier-templates.spec.ts
-      - tests/e2e/gradient-edge-smoke.spec.ts
-      - tests/e2e/template-cleanup.spec.ts
-      - tests/e2e/letter-final-qa.spec.ts
-      - tests/e2e/letter-header-modes.spec.ts
-      - src/components/letter/LetterCanvas.tsx
-      - src/components/letter/LetterLayoutControls.tsx
-      - src/components/letter/layout-system.ts
-      - src/components/letter/preflight.ts
-      - src/components/letter/types.ts
-      - src/components/dossier/DossierExportDialog.tsx
-      - src/components/dossier/DossierSheetBackground.tsx
-      - src/routes/anschreiben.tsx
-      - src/routes/lebenslauf.tsx
-      - src/routes/titelblatt.tsx
-      - src/lib/dossier.ts
-      - src/lib/dossier-pdf.ts
   push:
     branches:
-      - letter-m1-m2
-      - feature/anschreiben-dossier
-      - dev
-      - render
       - main
-    paths:
-      - .github/workflows/dossier-pdf-gallery.yml
-      - .github/workflows/dossier-regression.yml
-      - eslint.config.js
-      - package.json
-      - tests/unit/cover-decorations.test.ts
-      - tests/unit/dossier-sheet-background.test.tsx
-      - tests/e2e/cover-edge-smoke.spec.ts
-      - tests/e2e/fresh-dossier-templates.spec.ts
-      - tests/e2e/gradient-edge-smoke.spec.ts
-      - tests/e2e/template-cleanup.spec.ts
-      - tests/e2e/dossier-gallery.spec.ts
-      - tests/e2e/dossier-end-to-end.spec.ts
-      - tests/e2e/dossier-typography-regression.spec.ts
-      - tests/e2e/letter-final-qa.spec.ts
-      - tests/e2e/letter-header-modes.spec.ts
-      - src/components/cover/BlockLayer.tsx
-      - src/components/cover/CoverCanvas.tsx
-      - src/components/cover/CoverBackground.tsx
-      - src/components/cover/editable-decorations.css
-      - src/components/cover/layouts.ts
-      - src/components/cover/template-decorations.ts
-      - src/components/cover/fresh-templates.ts
-      - src/components/cv/CvCanvas.tsx
-      - src/components/dossier/DossierPdfCanvas.tsx
-      - src/components/dossier/DossierSheetBackground.tsx
-      - src/components/dossier/DossierExportDialog.tsx
-      - src/components/letter/LetterTemplatePicker.tsx
-      - src/components/letter/LetterCanvas.tsx
-      - src/components/letter/LetterLayoutControls.tsx
-      - src/components/letter/dossier-transfer.ts
-      - src/components/letter/layout-system.ts
-      - src/components/letter/preflight.ts
-      - src/components/letter/types.ts
-      - src/routes/anschreiben.tsx
-      - src/routes/lebenslauf.tsx
-      - src/routes/titelblatt.tsx
-      - src/lib/dossier.ts
-      - src/lib/cv-pdf-text.ts
-      - src/lib/dossier-pdf.ts
-      - src/lib/dossier-pdf-document.ts
-      - src/lib/dossier-theme.ts
-      - src/lib/download.ts
 
 permissions:
   contents: read
