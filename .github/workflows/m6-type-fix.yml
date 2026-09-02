@@ -1,5 +1,6 @@
 name: M6 Type Fix
 
+# One-time verified migration helper; it deletes itself after a successful source fix.
 on:
   push:
     branches:
