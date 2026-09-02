@@ -33,22 +33,42 @@ test.describe("M9 demo CV pagination", () => {
     const templateButtons = templatePanel.locator("button[title][aria-pressed]");
     await expect(templateButtons).toHaveCount(38);
     const templateNames = await templateButtons.allTextContents();
+    const spillages: string[] = [];
 
     for (const rawName of templateNames) {
       const name = rawName.trim();
-      await templatePanel.getByRole("button", { name, exact: true }).click();
-      await expect
-        .poll(() => cv.getAttribute("data-cv-template"), {
-          message: `${name}: template selection must reach the rendered CV`,
-        })
-        .not.toBeNull();
-      const templateId = await cv.getAttribute("data-cv-template");
+      const button = templatePanel.getByRole("button", { name, exact: true });
+      await button.click();
+      await expect(button).toHaveAttribute("aria-pressed", "true");
 
-      await expect
-        .poll(() => pages.count(), {
-          message: `${templateId}: normal demo CV must not create an almost-empty reference page`,
-        })
-        .toBe(1);
+      const templateId = await expect
+        .poll(
+          () =>
+            page.evaluate(
+              () => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.design?.template,
+            ),
+          { message: `${name}: selected template must be persisted before pagination is inspected` },
+        )
+        .not.toBeNull()
+        .then(() =>
+          page.evaluate(
+            () => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.design?.template as string,
+          ),
+        );
+
+      await expect(cv).toHaveAttribute("data-cv-template", templateId);
+      await page.evaluate(
+        () =>
+          new Promise<void>((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+          ),
+      );
+
+      const pageCount = await pages.count();
+      if (pageCount !== 1) {
+        spillages.push(`${templateId}:${pageCount}`);
+        continue;
+      }
 
       await expect(pages.first()).toContainText("Referenzen");
       await expect(pages.first()).toContainText("Herr Thomas Weber");
@@ -65,5 +85,7 @@ test.describe("M9 demo CV pagination", () => {
         `${templateId}: compacting the CV must not trade the extra page for clipped content`,
       ).toBeLessThanOrEqual(clipped.clientHeight + 3);
     }
+
+    expect(spillages, "normal demo CV spill templates").toEqual([]);
   });
 });
