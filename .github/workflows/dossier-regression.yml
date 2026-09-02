@@ -1,6 +1,7 @@
 name: Dossier Regression
 
 on:
+  workflow_dispatch:
   push:
     # Keep the release candidate, dev, render and production main under the same regression guard.
     branches:
@@ -8,16 +9,13 @@ on:
       - dev
       - render
       - main
-  pull_request:
-    branches:
-      - main
 
 permissions:
   contents: read
   statuses: write
 
 concurrency:
-  group: dossier-regression-${{ github.event.pull_request.head.sha || github.sha }}
+  group: dossier-regression-${{ github.sha }}
   cancel-in-progress: true
 
 jobs:
