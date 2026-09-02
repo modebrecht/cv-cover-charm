@@ -1,0 +1,145 @@
+import { setCvLayout, setCvLayoutMirror, type CvLayoutId } from "./layout";
+import { setCvPlacement } from "./placement";
+import { setCvPhotoStyle } from "./photo";
+import {
+  normalizeCvPhotoPlacement,
+  setCvPhotoPlacement,
+  type CvPhotoPlacement,
+} from "./photo-place";
+import {
+  normalizeDossierPhotoStyle,
+  type DossierPhotoStyle,
+} from "@/lib/dossier-photo";
+import {
+  DEFAULT_CV_PLACEMENTS,
+  type CvPlacementKey,
+  type CvPlacements,
+} from "./types";
+
+const LAYOUT_KEY = "lebenslauf:layout:v1";
+const MIRROR_KEY = "lebenslauf:layout-mirror:v1";
+const PLACEMENT_KEY = "lebenslauf:placement:v1";
+const PHOTO_KEY = "lebenslauf:photo:v2";
+const PHOTO_PLACEMENT_KEY = "lebenslauf:photo-place:v1";
+
+const PORTABLE_CV_STORAGE_KEYS = [
+  LAYOUT_KEY,
+  MIRROR_KEY,
+  PLACEMENT_KEY,
+  PHOTO_KEY,
+  PHOTO_PLACEMENT_KEY,
+] as const;
+
+/**
+ * CV settings that historically lived in dedicated localStorage keys.
+ * Keeping them inside the portable CV snapshot makes Save -> clear browser
+ * state -> Load deterministic without changing the legacy keys themselves.
+ */
+export type PortableCvState = {
+  layout?: CvLayoutId;
+  mirrored?: boolean;
+  placements?: Partial<CvPlacements>;
+  photoStyle?: Partial<DossierPhotoStyle>;
+  photoPlacement?: Partial<CvPhotoPlacement>;
+};
+
+const validLayout = (value: string | null): CvLayoutId | undefined => {
+  if (
+    value === "classic" ||
+    value === "modern" ||
+    value === "minimal" ||
+    value === "timeline" ||
+    value === "editorial"
+  ) {
+    return value;
+  }
+  return value === "executive" ? "modern" : undefined;
+};
+
+/**
+ * Read the persisted values directly instead of going through renderer caches.
+ * The portable file must represent what is actually stored, even if another
+ * route or test changed localStorage after a CV module was already mounted.
+ */
+export function readPortableCvState(): PortableCvState | undefined {
+  if (typeof window === "undefined") return undefined;
+  try {
+    const storage = window.localStorage;
+    if (!PORTABLE_CV_STORAGE_KEYS.some((key) => storage.getItem(key) !== null)) return undefined;
+
+    const layout = validLayout(storage.getItem(LAYOUT_KEY));
+    const mirroredRaw = storage.getItem(MIRROR_KEY);
+    const placementsRaw = storage.getItem(PLACEMENT_KEY);
+    const photoRaw = storage.getItem(PHOTO_KEY);
+    const photoPlacementRaw = storage.getItem(PHOTO_PLACEMENT_KEY);
+
+    let placements: CvPlacements | undefined;
+    if (placementsRaw) {
+      try {
+        const parsed = JSON.parse(placementsRaw) as Partial<CvPlacements>;
+        placements = { ...DEFAULT_CV_PLACEMENTS };
+        for (const key of Object.keys(DEFAULT_CV_PLACEMENTS) as CvPlacementKey[]) {
+          const value = parsed[key];
+          if (value === "side" || value === "main") placements[key] = value;
+        }
+      } catch {
+        placements = undefined;
+      }
+    }
+
+    let photoStyle: DossierPhotoStyle | undefined;
+    if (photoRaw) {
+      try {
+        photoStyle = normalizeDossierPhotoStyle(JSON.parse(photoRaw) as Partial<DossierPhotoStyle>);
+      } catch {
+        photoStyle = undefined;
+      }
+    }
+
+    let photoPlacement: CvPhotoPlacement | undefined;
+    if (photoPlacementRaw) {
+      try {
+        photoPlacement = normalizeCvPhotoPlacement(
+          JSON.parse(photoPlacementRaw) as Partial<CvPhotoPlacement>,
+        );
+      } catch {
+        photoPlacement = undefined;
+      }
+    }
+
+    return {
+      ...(layout ? { layout } : {}),
+      ...(mirroredRaw !== null ? { mirrored: mirroredRaw === "true" } : {}),
+      ...(placements ? { placements } : {}),
+      ...(photoStyle ? { photoStyle } : {}),
+      ...(photoPlacement ? { photoPlacement } : {}),
+    };
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Missing values are intentionally ignored. Older dossier/CV files therefore
+ * never wipe newer browser-local choices merely because they predate M7.
+ */
+export function applyPortableCvState(state?: PortableCvState | null) {
+  if (!state || typeof state !== "object") return;
+
+  if (state.layout) setCvLayout(state.layout);
+  if (typeof state.mirrored === "boolean") setCvLayoutMirror(state.mirrored);
+
+  if (state.placements && typeof state.placements === "object") {
+    for (const key of Object.keys(DEFAULT_CV_PLACEMENTS) as CvPlacementKey[]) {
+      const value = state.placements[key];
+      if (value === "side" || value === "main") setCvPlacement(key, value);
+    }
+  }
+
+  if (state.photoStyle && typeof state.photoStyle === "object") {
+    setCvPhotoStyle(state.photoStyle);
+  }
+  if (state.photoPlacement && typeof state.photoPlacement === "object") {
+    setCvPhotoPlacement(state.photoPlacement);
+  }
+}

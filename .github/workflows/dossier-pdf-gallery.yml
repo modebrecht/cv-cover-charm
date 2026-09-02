@@ -2,46 +2,18 @@ name: Dossier PDF Gallery
 
 # Reproducible visual QA: every complete dossier PDF is rendered, but the expensive
 # PDF work is split into 4-document batches and aggregated back into one artifact.
+# Release-candidate runs are intentionally manual; production main remains automatic.
 on:
   workflow_dispatch:
   push:
     branches:
-      - feature/anschreiben-dossier
-      - dev
-      - render
       - main
-    paths:
-      - .github/workflows/dossier-pdf-gallery.yml
-      - tests/unit/cover-decorations.test.ts
-      - tests/unit/dossier-sheet-background.test.tsx
-      - tests/e2e/dossier-gallery.spec.ts
-      - tests/e2e/dossier-end-to-end.spec.ts
-      - tests/e2e/dossier-typography-regression.spec.ts
-      - src/components/cover/BlockLayer.tsx
-      - src/components/cover/CoverCanvas.tsx
-      - src/components/cover/CoverBackground.tsx
-      - src/components/cover/editable-decorations.css
-      - src/components/cover/layouts.ts
-      - src/components/cover/template-decorations.ts
-      - src/components/cover/fresh-templates.ts
-      - src/components/cv/CvCanvas.tsx
-      - src/components/dossier/DossierPdfCanvas.tsx
-      - src/components/dossier/DossierSheetBackground.tsx
-      - src/components/letter/LetterTemplatePicker.tsx
-      - src/components/letter/LetterCanvas.tsx
-      - src/components/letter/dossier-transfer.ts
-      - src/components/letter/types.ts
-      - src/lib/cv-pdf-text.ts
-      - src/lib/dossier-pdf.ts
-      - src/lib/dossier-pdf-document.ts
-      - src/lib/dossier-theme.ts
-      - src/lib/download.ts
 
 permissions:
   contents: read
 
 concurrency:
-  group: dossier-pdf-gallery-${{ github.ref }}
+  group: dossier-pdf-gallery-${{ github.event.pull_request.head.sha || github.sha }}
   cancel-in-progress: true
 
 jobs:
@@ -68,31 +40,11 @@ jobs:
       - name: Unit tests
         run: bun test tests/unit
 
-      - name: Normalize validation files
-        run: >-
-          bunx prettier --write
-          src/components/cover/BlockLayer.tsx
-          src/components/cover/CoverCanvas.tsx
-          src/components/cover/CoverBackground.tsx
-          src/components/cover/layouts.ts
-          src/components/cover/template-decorations.ts
-          src/components/cv/CvCanvas.tsx
-          src/components/dossier/DossierPdfCanvas.tsx
-          src/components/dossier/DossierSheetBackground.tsx
-          src/components/letter/LetterTemplatePicker.tsx
-          src/components/letter/LetterCanvas.tsx
-          src/components/letter/dossier-transfer.ts
-          src/components/letter/types.ts
-          src/lib/cv-pdf-text.ts
-          src/lib/dossier-pdf.ts
-          src/lib/dossier-pdf-document.ts
-          src/lib/dossier-theme.ts
-          src/lib/download.ts
-          tests/unit/cover-decorations.test.ts
-          tests/unit/dossier-sheet-background.test.tsx
-          tests/e2e/dossier-end-to-end.spec.ts
-          tests/e2e/dossier-gallery.spec.ts
-          tests/e2e/dossier-typography-regression.spec.ts
+      - name: Check release formatting
+        run: bun run format:check:release
+
+      - name: TypeScript typecheck
+        run: bun run typecheck
 
       - name: Lint validation surface
         run: >-
@@ -105,9 +57,13 @@ jobs:
           src/components/cv/CvCanvas.tsx
           src/components/dossier/DossierPdfCanvas.tsx
           src/components/dossier/DossierSheetBackground.tsx
+          src/components/dossier/DossierExportDialog.tsx
           src/components/letter/LetterTemplatePicker.tsx
           src/components/letter/LetterCanvas.tsx
+          src/components/letter/LetterLayoutControls.tsx
           src/components/letter/dossier-transfer.ts
+          src/components/letter/layout-system.ts
+          src/components/letter/preflight.ts
           src/components/letter/types.ts
           src/lib/cv-pdf-text.ts
           src/lib/dossier-pdf.ts
@@ -119,6 +75,7 @@ jobs:
           tests/e2e/dossier-end-to-end.spec.ts
           tests/e2e/dossier-gallery.spec.ts
           tests/e2e/dossier-typography-regression.spec.ts
+          tests/e2e/letter-header-modes.spec.ts
 
       - name: Production build
         run: bun run build
