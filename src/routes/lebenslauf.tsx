@@ -1471,7 +1471,6 @@ function Lebenslauf() {
                           <span className="block font-medium">{label}</span>
                           <span className="block text-muted-foreground">
                             {hint}
-                            {key === "elements" && cover && ` · ${cover.elements.length} im Titelblatt`}
                           </span>
                         </span>
                       </label>
