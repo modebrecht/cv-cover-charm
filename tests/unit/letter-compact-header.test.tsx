@@ -15,10 +15,9 @@ import {
   type LetterTemplateId,
 } from "../../src/components/letter/types";
 
-const LETTER_TEMPLATE_IDS: LetterTemplateId[] = [
-  "brief",
-  ...TEMPLATES.map((template) => template.id as LetterTemplateId),
-];
+const LETTER_TEMPLATE_IDS: LetterTemplateId[] = TEMPLATES.map(
+  (template) => template.id as LetterTemplateId,
+);
 
 function markupFor(
   template: LetterTemplateId,
@@ -43,7 +42,7 @@ function footerHeight(markup: string): number {
 
 describe("compact letter presentation", () => {
   test("every selectable letter style renders on neutral white letter paper", () => {
-    expect(TEMPLATES.length).toBe(37);
+    expect(TEMPLATES.length).toBe(38);
     expect(LETTER_TEMPLATE_IDS.length).toBe(38);
     for (const template of LETTER_TEMPLATE_IDS) {
       const markup = markupFor(template, "compact");
