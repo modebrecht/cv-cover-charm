@@ -18,7 +18,11 @@ on:
       - src/components/letter/preflight.ts
       - src/components/letter/types.ts
       - src/components/dossier/DossierExportDialog.tsx
+      - src/components/dossier/DossierSheetBackground.tsx
       - src/routes/anschreiben.tsx
+      - src/routes/lebenslauf.tsx
+      - src/routes/titelblatt.tsx
+      - src/lib/dossier.ts
       - src/lib/dossier-pdf.ts
   push:
     branches:
@@ -56,6 +60,9 @@ on:
       - src/components/letter/preflight.ts
       - src/components/letter/types.ts
       - src/routes/anschreiben.tsx
+      - src/routes/lebenslauf.tsx
+      - src/routes/titelblatt.tsx
+      - src/lib/dossier.ts
       - src/lib/cv-pdf-text.ts
       - src/lib/dossier-pdf.ts
       - src/lib/dossier-pdf-document.ts
