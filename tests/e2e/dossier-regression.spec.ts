@@ -1313,6 +1313,7 @@ test.describe("M5.8 dossier regression", () => {
       window.location.reload();
     });
     await page.waitForLoadState("domcontentloaded");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-template", "neon");
 
     const sheet = previewRoot(page).locator('[data-cv-page="0"]');
     await sheet.waitFor({ state: "visible" });

@@ -34,7 +34,7 @@ const DOSSIER_TEMPLATE_IDS = [
   ...TEMPLATES.map((template) => template.id as string),
   ...FRESH_TEMPLATE_IDS,
 ];
-const LETTER_STYLE_IDS = ["brief", ...DOSSIER_TEMPLATE_IDS] as const;
+const LETTER_STYLE_IDS = DOSSIER_TEMPLATE_IDS;
 
 const NORMAL_BODY = [
   "Die Informatik begeistert mich, weil ich gerne logisch denke, Probleme löse und Neues ausprobiere. Deshalb bewerbe ich mich mit grossem Interesse um die Lehrstelle als Informatikerin EFZ.",
@@ -145,16 +145,14 @@ async function settleVisualPreview(preview: Locator) {
           const matrix = new DOMMatrixReadOnly(transform);
           return matrix.a;
         }),
-      { message: "ScaledPreview should finish its ResizeObserver measurement before visual capture" },
+      {
+        message: "ScaledPreview should finish its ResizeObserver measurement before visual capture",
+      },
     )
     .toBeGreaterThan(0.99);
 }
 
-async function screenshotExportSurface(
-  page: Page,
-  exported: Locator,
-  path: string,
-) {
+async function screenshotExportSurface(page: Page, exported: Locator, path: string) {
   const host = page.locator("[data-letter-standalone-export]");
   await host.evaluate((element) => {
     const html = element as HTMLElement;
@@ -211,8 +209,10 @@ async function geometryFailures(root: Locator): Promise<string[]> {
     if (!textLayer) return ["missing text layer"];
     const textRect = textLayer.getBoundingClientRect();
 
-    if (textLayer.scrollWidth > textLayer.clientWidth + 1) failures.push("text layer horizontal overflow");
-    if (textLayer.scrollHeight > textLayer.clientHeight + 1) failures.push("text layer vertical overflow");
+    if (textLayer.scrollWidth > textLayer.clientWidth + 1)
+      failures.push("text layer horizontal overflow");
+    if (textLayer.scrollHeight > textLayer.clientHeight + 1)
+      failures.push("text layer vertical overflow");
     if (textRect.left < pageRect.left - tolerance || textRect.right > pageRect.right + tolerance) {
       failures.push("text layer outside page horizontally");
     }
@@ -225,7 +225,12 @@ async function geometryFailures(root: Locator): Promise<string[]> {
     ).filter((element) => {
       const style = getComputedStyle(element);
       const rect = element.getBoundingClientRect();
-      return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0;
+      return (
+        style.display !== "none" &&
+        style.visibility !== "hidden" &&
+        rect.width > 0 &&
+        rect.height > 0
+      );
     });
 
     for (const element of visibleTextNodes) {
@@ -242,30 +247,44 @@ async function geometryFailures(root: Locator): Promise<string[]> {
     const contact = pageEl.querySelector<HTMLElement>("[data-letter-integrated-contact]");
     const recipient = pageEl.querySelector<HTMLElement>('[data-letter-section="recipient"]');
     if (contact) {
-      if (contact.scrollWidth > contact.clientWidth + 1 || contact.scrollHeight > contact.clientHeight + 1) {
+      if (
+        contact.scrollWidth > contact.clientWidth + 1 ||
+        contact.scrollHeight > contact.clientHeight + 1
+      ) {
         failures.push("contact header clipped");
       }
       const contactRect = contact.getBoundingClientRect();
-      if (contactRect.left < pageRect.left - tolerance || contactRect.right > pageRect.right + tolerance) {
+      if (
+        contactRect.left < pageRect.left - tolerance ||
+        contactRect.right > pageRect.right + tolerance
+      ) {
         failures.push("contact header outside page horizontally");
       }
       if (recipient) {
         const recipientRect = recipient.getBoundingClientRect();
-        if (contactRect.bottom > recipientRect.top + tolerance) failures.push("contact header overlaps recipient");
+        if (contactRect.bottom > recipientRect.top + tolerance)
+          failures.push("contact header overlaps recipient");
       }
     }
 
     const footer = pageEl.querySelector<HTMLElement>("[data-letter-footer]");
     if (footer) {
       const footerRect = footer.getBoundingClientRect();
-      if (footerRect.left < pageRect.left - tolerance || footerRect.right > pageRect.right + tolerance) {
+      if (
+        footerRect.left < pageRect.left - tolerance ||
+        footerRect.right > pageRect.right + tolerance
+      ) {
         failures.push("footer outside page horizontally");
       }
       if (footerRect.bottom > pageRect.bottom + tolerance) failures.push("footer below page");
-      if (footer.scrollWidth > footer.clientWidth + 1 || footer.scrollHeight > footer.clientHeight + 1) {
+      if (
+        footer.scrollWidth > footer.clientWidth + 1 ||
+        footer.scrollHeight > footer.clientHeight + 1
+      ) {
         failures.push("footer clipped");
       }
-      if (textRect.bottom > footerRect.top + tolerance) failures.push("content box overlaps footer");
+      if (textRect.bottom > footerRect.top + tolerance)
+        failures.push("content box overlaps footer");
     }
 
     return [...new Set(failures)];
@@ -278,7 +297,10 @@ async function assertHealthy(
   label: string,
   expected: { template: string; header: string; footer: string },
 ) {
-  await expect(preview, `${label} template`).toHaveAttribute("data-letter-template", expected.template);
+  await expect(preview, `${label} template`).toHaveAttribute(
+    "data-letter-template",
+    expected.template,
+  );
   await expect(preview, `${label} header`).toHaveAttribute(
     "data-letter-requested-header-mode",
     expected.header,
@@ -328,11 +350,13 @@ async function uiDefaultScreenshot(page: Page) {
 test.describe("M5 final letter QA", () => {
   test.setTimeout(15 * 60_000);
 
-  test("repo truth and 39-output visual gallery cover every selectable letter style", async ({ page }) => {
-    expect(TEMPLATES).toHaveLength(19);
+  test("repo truth and 39-output visual gallery cover every selectable letter style", async ({
+    page,
+  }) => {
+    expect(TEMPLATES).toHaveLength(20);
     expect(FRESH_TEMPLATE_IDS).toHaveLength(18);
-    expect(DOSSIER_TEMPLATE_IDS).toHaveLength(37);
-    expect(new Set(DOSSIER_TEMPLATE_IDS).size).toBe(37);
+    expect(DOSSIER_TEMPLATE_IDS).toHaveLength(38);
+    expect(new Set(DOSSIER_TEMPLATE_IDS).size).toBe(38);
     expect(LETTER_STYLE_IDS).toHaveLength(38);
 
     await mkdir(ARTIFACT_DIR, { recursive: true });
@@ -347,20 +371,20 @@ test.describe("M5 final letter QA", () => {
       });
       const number = String(index + 1).padStart(2, "0");
       const fileName = `${number}-${safeName(template)}-default.png`;
-      const shot = await screenshotExportSurface(
-        page,
-        exported,
-        join(ARTIFACT_DIR, fileName),
-      );
+      const shot = await screenshotExportSurface(page, exported, join(ARTIFACT_DIR, fileName));
       expect(shot.length, `${template} screenshot should not be blank`).toBeGreaterThan(10_000);
-      manifest.push(`${fileName} | export | template=${template} | header=compact | footer=compact`);
+      manifest.push(
+        `${fileName} | export | template=${template} | header=compact | footer=compact`,
+      );
     }
 
     expect(manifest).toHaveLength(39);
     await writeFile(join(ARTIFACT_DIR, "MANIFEST.txt"), `${manifest.join("\n")}\n`, "utf8");
   });
 
-  test("all 38 styles keep the functional contact header clear of recipient content", async ({ page }) => {
+  test("all 38 styles keep the functional contact header clear of recipient content", async ({
+    page,
+  }) => {
     for (const template of LETTER_STYLE_IDS) {
       const { preview, exported } = await seedLetter(page, { template, headerMode: "contact" });
       await expect(preview.locator("[data-letter-integrated-contact]")).toBeVisible();
@@ -372,7 +396,9 @@ test.describe("M5 final letter QA", () => {
     }
   });
 
-  test("all 38 styles release header space cleanly when the header is disabled", async ({ page }) => {
+  test("all 38 styles release header space cleanly when the header is disabled", async ({
+    page,
+  }) => {
     for (const template of LETTER_STYLE_IDS) {
       const { preview, exported } = await seedLetter(page, { template, headerMode: "none" });
       await expect(preview.locator("[data-letter-integrated-contact]")).toHaveCount(0);
@@ -384,7 +410,9 @@ test.describe("M5 final letter QA", () => {
     }
   });
 
-  test("all 38 styles render wrapped attachments in the footer without clipping", async ({ page }) => {
+  test("all 38 styles render wrapped attachments in the footer without clipping", async ({
+    page,
+  }) => {
     const attachments = [
       "Lebenslauf mit vollständiger Übersicht über Schule, Schnupperlehren und persönliche Angaben",
       "Zeugnisse der letzten beiden Semester sowie zusätzliche Bestätigung der Schnupperlehre",
@@ -407,7 +435,9 @@ test.describe("M5 final letter QA", () => {
     }
   });
 
-  test("all 38 styles release footer space cleanly when the footer is disabled", async ({ page }) => {
+  test("all 38 styles release footer space cleanly when the footer is disabled", async ({
+    page,
+  }) => {
     for (const template of LETTER_STYLE_IDS) {
       const { preview, exported } = await seedLetter(page, { template, footerMode: "none" });
       await expect(preview.locator("[data-letter-footer]")).toHaveCount(0);
@@ -436,11 +466,15 @@ test.describe("M5 final letter QA", () => {
     const download = page.getByRole("button", { name: "Download", exact: true });
     await download.click();
     await expect(
-      page.locator("[data-editor-action-menu] button").filter({ hasText: "Nur Motivationsschreiben als PDF" }),
+      page
+        .locator("[data-editor-action-menu] button")
+        .filter({ hasText: "Nur Motivationsschreiben als PDF" }),
     ).toBeEnabled();
   });
 
-  test("multi-page-sized content is visibly blocked instead of producing a clipped PDF", async ({ page }) => {
+  test("multi-page-sized content is visibly blocked instead of producing a clipped PDF", async ({
+    page,
+  }) => {
     const multiPageBody = Array.from(
       { length: 55 },
       (_, index) =>
