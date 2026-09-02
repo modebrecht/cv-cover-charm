@@ -1,11 +1,17 @@
+import {
+  applyPortableCvState,
+  readPortableCvState,
+  type PortableCvState,
+} from "@/components/cv/portable-state";
+
 export const COVER_STORAGE_KEY = "titelblatt:v3";
 export const LETTER_STORAGE_KEY = "anschreiben:v1";
 export const CV_STORAGE_KEY = "lebenslauf:v1";
 
 export const DOSSIER_PROJECT_KIND = "cv-cover-charm-dossier";
 /**
- * `letter` ist eine additive Erweiterung von Version 1. Alte Projektdateien mit
- * nur Titelblatt und Lebenslauf bleiben dadurch ohne Migration lesbar.
+ * `letter` and the optional CV portable state are additive extensions of
+ * version 1. Older project files therefore stay readable without migration.
  */
 export const DOSSIER_PROJECT_VERSION = 1;
 
@@ -34,14 +40,25 @@ export function readStoredDossierPart(storageKey: string): Record<string, unknow
 }
 
 /**
+ * Ergänzt den CV nur in einer echten Browser-Sitzung um die bisher separat
+ * gespeicherten Aufbau-/Foto-Einstellungen. Der normale CV-Speicher bleibt
+ * unverändert; nur die portable Dossier-Datei bekommt den vollständigen Stand.
+ */
+function portableCv(cv?: Record<string, unknown>): Record<string, unknown> | undefined {
+  if (!cv) return undefined;
+  if (typeof window === "undefined") return cv;
+  return { ...cv, portableState: readPortableCvState() };
+}
+
+/**
  * Baut eine gemeinsame, portable Projektdatei aus Titelblatt, Anschreiben und
  * Lebenslauf.
  *
  * Titelblatt und CV rufen diese Funktion schon länger nur mit ihrem eigenen
  * aktuellen Stand auf. Damit deren bestehende Exportwege das neue Anschreiben
  * automatisch mitnehmen, wird ein nicht explizit übergebener Brief aus dem
- * Browser-Speicher ergänzt. Auf dem Server bzw. ohne gespeicherten Brief bleibt
- * der Teil schlicht weg.
+ * Browser-Speicher ergänzt. Dasselbe gilt für die CV-Sidecars: sie werden nur
+ * in der Dossier-Datei eingebettet, nicht in den bisherigen Einzel-Save gezwungen.
  */
 export function createDossierProject(parts: {
   cover?: Record<string, unknown>;
@@ -49,19 +66,20 @@ export function createDossierProject(parts: {
   cv?: Record<string, unknown>;
 }): DossierProject {
   const letter = parts.letter ?? readStoredDossierPart(LETTER_STORAGE_KEY);
+  const cv = portableCv(parts.cv);
   return {
     kind: DOSSIER_PROJECT_KIND,
     version: DOSSIER_PROJECT_VERSION,
     savedAt: new Date().toISOString(),
     ...(parts.cover ? { cover: parts.cover } : {}),
     ...(letter ? { letter } : {}),
-    ...(parts.cv ? { cv: parts.cv } : {}),
+    ...(cv ? { cv } : {}),
   };
 }
 
 /**
- * Erkennt das gemeinsame Format. `letter` ist optional, damit bestehende
- * Version-1-Dateien mit nur `cover + cv` unverändert weiter funktionieren.
+ * Erkennt das gemeinsame Format. `letter` und `cv.portableState` sind optional,
+ * damit bestehende Version-1-Dateien unverändert weiter funktionieren.
  * Alte Einzeldateien behandeln die Editoren weiterhin separat.
  */
 export function parseDossierProject(value: unknown): DossierProject | null {
@@ -86,6 +104,10 @@ export function parseDossierProject(value: unknown): DossierProject | null {
 /**
  * Schreibt alle vorhandenen Teile zurück. Fehlende Teile bleiben bewusst
  * unangetastet, damit auch partielle bzw. ältere Projektdateien nichts löschen.
+ *
+ * `portableState` gehört nicht in den alten `lebenslauf:v1`-Payload. Beim Import
+ * wird es stattdessen über die bestehenden CV-Setter in seine Sidecar-Keys
+ * zurückgespielt; so reagieren auch bereits geöffnete CV-Ansichten sofort.
  */
 export function storeDossierProject(project: DossierProject): {
   cover: boolean;
@@ -94,6 +116,10 @@ export function storeDossierProject(project: DossierProject): {
 } {
   if (project.cover) localStorage.setItem(COVER_STORAGE_KEY, JSON.stringify(project.cover));
   if (project.letter) localStorage.setItem(LETTER_STORAGE_KEY, JSON.stringify(project.letter));
-  if (project.cv) localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(project.cv));
+  if (project.cv) {
+    const { portableState, ...cv } = project.cv;
+    localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(cv));
+    if (isRecord(portableState)) applyPortableCvState(portableState as PortableCvState);
+  }
   return { cover: !!project.cover, letter: !!project.letter, cv: !!project.cv };
 }
