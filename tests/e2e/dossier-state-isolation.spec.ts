@@ -1,9 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const BASE_URL = "http://127.0.0.1:4173";
-const COVER_KEY = "titelblatt:v3";
-const LETTER_KEY = "anschreiben:v1";
-const CV_KEY = "lebenslauf:v1";
 
 const coverSnapshot = {
   version: 8,
@@ -135,10 +132,10 @@ test.describe("M7 dossier state isolation", () => {
     await openLetter(page);
     await page.getByRole("button", { name: "Download", exact: true }).click();
     const menu = page.locator("[data-editor-action-menu]");
-    await menu
-      .getByRole("button", { name: /Motivationsschreiben zurücksetzen/ })
-      .click();
-    await expect(menu.getByText("Motivationsschreiben wirklich zurücksetzen?", { exact: true })).toBeVisible();
+    await menu.getByRole("button", { name: /Motivationsschreiben zurücksetzen/ }).click();
+    await expect(
+      menu.getByText("Motivationsschreiben wirklich zurücksetzen?", { exact: true }),
+    ).toBeVisible();
     await menu.getByRole("button", { name: "Ja", exact: true }).click();
 
     await expect
