@@ -47,12 +47,16 @@ test.describe("M9 demo CV pagination", () => {
             page.evaluate(
               () => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.design?.template,
             ),
-          { message: `${name}: selected template must be persisted before pagination is inspected` },
+          {
+            message: `${name}: selected template must be persisted before pagination is inspected`,
+          },
         )
         .not.toBeNull()
         .then(() =>
           page.evaluate(
-            () => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.design?.template as string,
+            () =>
+              JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.design
+                ?.template as string,
           ),
         );
 
