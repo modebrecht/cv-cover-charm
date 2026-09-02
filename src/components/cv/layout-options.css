@@ -248,6 +248,18 @@ html[data-cv-mirrored="true"][data-cv-variant="editorial"]
   overflow-wrap: anywhere;
 }
 
+/*
+ * M9: Der Demo-CV lief bei allen Vorlagen mit nur „Referenzen“ auf eine fast
+ * leere zweite CV-Seite. Messseite und echte Seite müssen denselben Rhythmus
+ * haben, deshalb sitzt die Korrektur hier zentral statt in der Pagination.
+ * Nur Hauptspalten-Rubriken werden verdichtet; Sidebar und freie Rubriken
+ * behalten ihre eigene Geometrie.
+ */
+[data-cv-main] [data-cv-section]:not([data-cv-section="sidebar"]) {
+  margin-top: 3mm !important;
+  margin-bottom: 1.4mm !important;
+}
+
 /* In der halben Hauptspalte braucht die Datums-/Sprachrail etwas weniger Raum. */
 [data-cv-section-width="half"] [data-cv-rail] {
   width: 20mm !important;
