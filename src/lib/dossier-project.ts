@@ -27,10 +27,14 @@ export type DossierProject = {
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === "object" && !Array.isArray(value);
 
+const browserStorage = () => (typeof window === "undefined" ? null : window.localStorage);
+
 /** Liest einen Teil des Dossiers, ohne einen beschädigten Browserstand weiterzugeben. */
 export function readStoredDossierPart(storageKey: string): Record<string, unknown> | undefined {
   try {
-    const text = localStorage.getItem(storageKey);
+    const storage = browserStorage();
+    if (!storage) return undefined;
+    const text = storage.getItem(storageKey);
     if (!text) return undefined;
     const parsed: unknown = JSON.parse(text);
     return isRecord(parsed) ? parsed : undefined;
@@ -46,7 +50,7 @@ export function readStoredDossierPart(storageKey: string): Record<string, unknow
  */
 function portableCv(cv?: Record<string, unknown>): Record<string, unknown> | undefined {
   if (!cv) return undefined;
-  if (typeof window === "undefined") return cv;
+  if (!browserStorage()) return cv;
   return { ...cv, portableState: readPortableCvState() };
 }
 
@@ -114,11 +118,14 @@ export function storeDossierProject(project: DossierProject): {
   letter: boolean;
   cv: boolean;
 } {
-  if (project.cover) localStorage.setItem(COVER_STORAGE_KEY, JSON.stringify(project.cover));
-  if (project.letter) localStorage.setItem(LETTER_STORAGE_KEY, JSON.stringify(project.letter));
+  const storage = browserStorage();
+  if (!storage) return { cover: false, letter: false, cv: false };
+
+  if (project.cover) storage.setItem(COVER_STORAGE_KEY, JSON.stringify(project.cover));
+  if (project.letter) storage.setItem(LETTER_STORAGE_KEY, JSON.stringify(project.letter));
   if (project.cv) {
     const { portableState, ...cv } = project.cv;
-    localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(cv));
+    storage.setItem(CV_STORAGE_KEY, JSON.stringify(cv));
     if (isRecord(portableState)) applyPortableCvState(portableState as PortableCvState);
   }
   return { cover: !!project.cover, letter: !!project.letter, cv: !!project.cv };
