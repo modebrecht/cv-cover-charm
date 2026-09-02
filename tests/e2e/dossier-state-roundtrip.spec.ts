@@ -10,6 +10,38 @@ const SIDE_KEYS = [
   "lebenslauf:photo-place:v1",
 ] as const;
 
+async function waitForStoredValue(
+  page: import("@playwright/test").Page,
+  key: string,
+  read: (saved: Record<string, any>) => unknown,
+  expected: unknown,
+) {
+  await expect
+    .poll(() =>
+      page.evaluate(
+        ({ storageKey }) => {
+          const raw = localStorage.getItem(storageKey);
+          return raw ? JSON.parse(raw) : null;
+        },
+        { storageKey: key },
+      ),
+    )
+    .not.toBeNull();
+
+  await expect
+    .poll(async () => {
+      const saved = await page.evaluate(
+        ({ storageKey }) => {
+          const raw = localStorage.getItem(storageKey);
+          return raw ? JSON.parse(raw) : null;
+        },
+        { storageKey: key },
+      );
+      return saved ? read(saved) : undefined;
+    })
+    .toEqual(expected);
+}
+
 test.describe("M7 dossier state roundtrip", () => {
   test.setTimeout(120_000);
 
@@ -26,6 +58,7 @@ test.describe("M7 dossier state roundtrip", () => {
     const menu = page.locator("[data-editor-action-menu]");
     await menu.getByRole("button").filter({ hasText: "Beispieldaten übernehmen" }).click();
     await menu.getByRole("button", { name: "Ja", exact: true }).click();
+    await waitForStoredValue(page, "titelblatt:v3", (saved) => saved.data?.vorname, "Lea");
 
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     const letterDownload = page.getByRole("button", { name: "Download", exact: true });
@@ -34,6 +67,12 @@ test.describe("M7 dossier state roundtrip", () => {
     const letterMenu = page.locator("[data-editor-action-menu]");
     await letterMenu.getByRole("button").filter({ hasText: "Beispieldaten übernehmen" }).click();
     await letterMenu.getByRole("button", { name: "Ja", exact: true }).click();
+    await waitForStoredValue(
+      page,
+      "anschreiben:v1",
+      (saved) => saved.data?.absenderName,
+      "Lea Müller",
+    );
 
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
     const cvDownload = page.getByRole("button", { name: "Download", exact: true });
@@ -42,6 +81,7 @@ test.describe("M7 dossier state roundtrip", () => {
     const cvMenu = page.locator("[data-editor-action-menu]");
     await cvMenu.getByRole("button").filter({ hasText: "Beispieldaten übernehmen" }).click();
     await cvMenu.getByRole("button", { name: "Ja", exact: true }).click();
+    await waitForStoredValue(page, "lebenslauf:v1", (saved) => saved.data?.person?.vorname, "Lea");
 
     await page.evaluate(() => {
       localStorage.setItem("lebenslauf:layout:v1", "timeline");
