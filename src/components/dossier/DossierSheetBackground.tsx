@@ -817,16 +817,6 @@ export function DossierSheetBackground({
               opacity: template === "klassisch" ? 0.3 : 0.46,
             }}
           />
-          {template === "edel" && (
-            <div
-              className="absolute"
-              style={{
-                inset: `${layout.borderInsetMm + 3}mm`,
-                border: `0.35px solid ${accent}`,
-                opacity: 0.28,
-              }}
-            />
-          )}
         </>
       )}
 
