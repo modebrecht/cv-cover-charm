@@ -90,6 +90,9 @@ jobs:
             files: >-
               tests/e2e/letter-header-modes.spec.ts
               tests/e2e/letter-final-qa.spec.ts
+          - group: letter-m8-edge
+            files: >-
+              tests/e2e/letter-adversarial-content.spec.ts
           - group: cv-pdf
             files: >-
               tests/e2e/element-ratio-lock.spec.ts
