@@ -9,6 +9,7 @@ on:
       - main
     paths:
       - .github/workflows/dossier-pdf-gallery.yml
+      - eslint.config.js
       - package.json
       - tests/e2e/letter-final-qa.spec.ts
       - tests/e2e/letter-header-modes.spec.ts
@@ -33,6 +34,7 @@ on:
       - main
     paths:
       - .github/workflows/dossier-pdf-gallery.yml
+      - eslint.config.js
       - package.json
       - tests/unit/cover-decorations.test.ts
       - tests/unit/dossier-sheet-background.test.tsx
