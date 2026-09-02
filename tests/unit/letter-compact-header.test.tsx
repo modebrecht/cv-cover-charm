@@ -15,6 +15,7 @@ import {
   type LetterTemplateId,
 } from "../../src/components/letter/types";
 
+// Brief now lives in the shared dossier catalogue; never prepend it a second time here.
 const LETTER_TEMPLATE_IDS: LetterTemplateId[] = TEMPLATES.map(
   (template) => template.id as LetterTemplateId,
 );
