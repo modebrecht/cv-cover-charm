@@ -102,6 +102,9 @@ jobs:
           - group: cv-m9-pagination
             files: >-
               tests/e2e/cv-demo-pagination.spec.ts
+          - group: m9-responsive
+            files: >-
+              tests/e2e/dossier-responsive-product-smoke.spec.ts
           - group: templates-layout
             files: >-
               tests/e2e/cover-edge-smoke.spec.ts
