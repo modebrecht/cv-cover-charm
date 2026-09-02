@@ -90,6 +90,7 @@ test.describe("M9 demo CV pagination", () => {
       ).toBeLessThanOrEqual(clipped.clientHeight + 3);
     }
 
+    // Report all spillers together so one density fix can cover the complete runtime matrix.
     expect(spillages, "normal demo CV spill templates").toEqual([]);
   });
 });
