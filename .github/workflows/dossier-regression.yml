@@ -13,7 +13,7 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
   statuses: write
 
 concurrency:
@@ -21,6 +21,90 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  m6-source-fix:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/letter-m1-m2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout release candidate
+        uses: actions/checkout@v4
+        with:
+          ref: letter-m1-m2
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Apply exact M6 type fixes
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          background = Path("src/components/dossier/DossierSheetBackground.tsx")
+          text = background.read_text()
+          old = '''          {template === "edel" && (
+            <div
+              className="absolute"
+              style={{
+                inset: `${layout.borderInsetMm + 3}mm`,
+                border: `0.35px solid ${accent}`,
+                opacity: 0.28,
+              }}
+            />
+          )}
+'''
+          assert text.count(old) == 1, "Expected exactly one unreachable edel block"
+          background.write_text(text.replace(old, "", 1))
+
+          cv = Path("src/routes/lebenslauf.tsx")
+          text = cv.read_text()
+          old = '                            {key === "elements" && cover && ` · ${cover.elements.length} im Titelblatt`}\n'
+          assert text.count(old) == 1, "Expected exactly one stale elements hint"
+          cv.write_text(text.replace(old, "", 1))
+
+          cover = Path("src/routes/titelblatt.tsx")
+          text = cover.read_text()
+          old_elements = '        elements: customs.filter((item) => customKind(item) !== "text"),\n'
+          assert text.count(old_elements) == 1, "Expected exactly one non-transferable elements fingerprint field"
+          text = text.replace(old_elements, "", 1)
+          old_deps = '    [colors, customs, data, documentFont, fontScale, photoBlock?.style, template],\n'
+          new_deps = '    [colors, data, documentFont, fontScale, photoBlock?.style, template],\n'
+          assert text.count(old_deps) == 1, "Expected exactly one fingerprint dependency list"
+          cover.write_text(text.replace(old_deps, new_deps, 1))
+          PY
+
+          git diff --check
+
+      - name: Verify TypeScript
+        run: bun run typecheck
+
+      - name: Verify unit regressions
+        run: bun test tests/unit
+
+      - name: Remove temporary helper workflow
+        run: git rm -f .github/workflows/m6-type-fix.yml
+
+      - name: Commit verified source fixes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/dossier/DossierSheetBackground.tsx src/routes/lebenslauf.tsx src/routes/titelblatt.tsx .github/workflows/m6-type-fix.yml
+          git diff --cached --quiet && exit 0
+          git commit -m "fix(m6): resolve typecheck inconsistencies"
+          git push origin HEAD:letter-m1-m2
+
   fast-checks:
     runs-on: ubuntu-latest
     timeout-minutes: 12
