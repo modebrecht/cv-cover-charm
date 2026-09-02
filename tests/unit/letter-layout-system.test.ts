@@ -19,10 +19,9 @@ import {
 
 const headerModes: LetterHeaderMode[] = ["compact", "contact", "none"];
 const footerModes: LetterFooterMode[] = ["compact", "attachments", "none"];
-const LETTER_TEMPLATE_IDS: LetterTemplateId[] = [
-  "brief",
-  ...TEMPLATES.map((template) => template.id as LetterTemplateId),
-];
+const LETTER_TEMPLATE_IDS: LetterTemplateId[] = TEMPLATES.map(
+  (template) => template.id as LetterTemplateId,
+);
 
 function designFor(
   template: LetterTemplateId,
@@ -40,7 +39,7 @@ function designFor(
 
 describe("central motivation-letter layout system", () => {
   test("every selectable letter style and every header/footer mode yields one usable content box", () => {
-    expect(TEMPLATES.length).toBe(37);
+    expect(TEMPLATES.length).toBe(38);
     expect(LETTER_TEMPLATE_IDS.length).toBe(38);
 
     for (const template of LETTER_TEMPLATE_IDS) {
