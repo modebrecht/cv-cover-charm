@@ -44,14 +44,14 @@ export function readStoredDossierPart(storageKey: string): Record<string, unknow
 }
 
 /**
- * Ergänzt den CV nur in einer echten Browser-Sitzung um die bisher separat
- * gespeicherten Aufbau-/Foto-Einstellungen. Der normale CV-Speicher bleibt
- * unverändert; nur die portable Dossier-Datei bekommt den vollständigen Stand.
+ * Ergänzt den CV nur dann um portable Sidecars, wenn dafür wirklich ein
+ * persistierter Browserstand existiert. Default-only CVs bleiben dadurch exakt
+ * im bisherigen Projektformat.
  */
 function portableCv(cv?: Record<string, unknown>): Record<string, unknown> | undefined {
   if (!cv) return undefined;
-  if (!browserStorage()) return cv;
-  return { ...cv, portableState: readPortableCvState() };
+  const portableState = readPortableCvState();
+  return portableState ? { ...cv, portableState } : cv;
 }
 
 /**
