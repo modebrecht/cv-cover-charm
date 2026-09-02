@@ -1,26 +1,29 @@
+import { setCvLayout, setCvLayoutMirror, type CvLayoutId } from "./layout";
+import { setCvPlacement, type CvPlacements } from "./placement";
+import { setCvPhotoStyle } from "./photo";
 import {
-  getCvLayoutChoice,
-  getCvLayoutMirror,
-  setCvLayout,
-  setCvLayoutMirror,
-  type CvLayoutId,
-} from "./layout";
-import { getCvPlacements, setCvPlacement, type CvPlacements } from "./placement";
-import { getCvPhotoStyle, setCvPhotoStyle } from "./photo";
-import {
-  getCvPhotoPlacement,
+  normalizeCvPhotoPlacement,
   setCvPhotoPlacement,
   type CvPhotoPlacement,
 } from "./photo-place";
-import type { DossierPhotoStyle } from "@/lib/dossier-photo";
+import {
+  normalizeDossierPhotoStyle,
+  type DossierPhotoStyle,
+} from "@/lib/dossier-photo";
 import { DEFAULT_CV_PLACEMENTS, type CvPlacementKey } from "./types";
 
+const LAYOUT_KEY = "lebenslauf:layout:v1";
+const MIRROR_KEY = "lebenslauf:layout-mirror:v1";
+const PLACEMENT_KEY = "lebenslauf:placement:v1";
+const PHOTO_KEY = "lebenslauf:photo:v2";
+const PHOTO_PLACEMENT_KEY = "lebenslauf:photo-place:v1";
+
 const PORTABLE_CV_STORAGE_KEYS = [
-  "lebenslauf:layout:v1",
-  "lebenslauf:layout-mirror:v1",
-  "lebenslauf:placement:v1",
-  "lebenslauf:photo:v2",
-  "lebenslauf:photo-place:v1",
+  LAYOUT_KEY,
+  MIRROR_KEY,
+  PLACEMENT_KEY,
+  PHOTO_KEY,
+  PHOTO_PLACEMENT_KEY,
 ] as const;
 
 /**
@@ -36,28 +39,80 @@ export type PortableCvState = {
   photoPlacement?: Partial<CvPhotoPlacement>;
 };
 
+const validLayout = (value: string | null): CvLayoutId | undefined => {
+  if (
+    value === "classic" ||
+    value === "modern" ||
+    value === "minimal" ||
+    value === "timeline" ||
+    value === "editorial"
+  ) {
+    return value;
+  }
+  return value === "executive" ? "modern" : undefined;
+};
+
 /**
- * No sidecar key means the user still uses the historical defaults. In that
- * case the dossier needs no additive state and stays compatible with older
- * project files.
+ * Read the persisted values directly instead of going through renderer caches.
+ * The portable file must represent what is actually stored, even if another
+ * route or test changed localStorage after a CV module was already mounted.
  */
 export function readPortableCvState(): PortableCvState | undefined {
   if (typeof window === "undefined") return undefined;
   try {
-    if (!PORTABLE_CV_STORAGE_KEYS.some((key) => window.localStorage.getItem(key) !== null)) {
-      return undefined;
+    const storage = window.localStorage;
+    if (!PORTABLE_CV_STORAGE_KEYS.some((key) => storage.getItem(key) !== null)) return undefined;
+
+    const layout = validLayout(storage.getItem(LAYOUT_KEY));
+    const mirroredRaw = storage.getItem(MIRROR_KEY);
+    const placementsRaw = storage.getItem(PLACEMENT_KEY);
+    const photoRaw = storage.getItem(PHOTO_KEY);
+    const photoPlacementRaw = storage.getItem(PHOTO_PLACEMENT_KEY);
+
+    let placements: CvPlacements | undefined;
+    if (placementsRaw) {
+      try {
+        const parsed = JSON.parse(placementsRaw) as Partial<CvPlacements>;
+        placements = { ...DEFAULT_CV_PLACEMENTS };
+        for (const key of Object.keys(DEFAULT_CV_PLACEMENTS) as CvPlacementKey[]) {
+          const value = parsed[key];
+          if (value === "side" || value === "main") placements[key] = value;
+        }
+      } catch {
+        placements = undefined;
+      }
     }
+
+    let photoStyle: DossierPhotoStyle | undefined;
+    if (photoRaw) {
+      try {
+        photoStyle = normalizeDossierPhotoStyle(JSON.parse(photoRaw) as Partial<DossierPhotoStyle>);
+      } catch {
+        photoStyle = undefined;
+      }
+    }
+
+    let photoPlacement: CvPhotoPlacement | undefined;
+    if (photoPlacementRaw) {
+      try {
+        photoPlacement = normalizeCvPhotoPlacement(
+          JSON.parse(photoPlacementRaw) as Partial<CvPhotoPlacement>,
+        );
+      } catch {
+        photoPlacement = undefined;
+      }
+    }
+
+    return {
+      ...(layout ? { layout } : {}),
+      ...(mirroredRaw !== null ? { mirrored: mirroredRaw === "true" } : {}),
+      ...(placements ? { placements } : {}),
+      ...(photoStyle ? { photoStyle } : {}),
+      ...(photoPlacement ? { photoPlacement } : {}),
+    };
   } catch {
     return undefined;
   }
-
-  return {
-    layout: getCvLayoutChoice(),
-    mirrored: getCvLayoutMirror(),
-    placements: getCvPlacements(),
-    photoStyle: getCvPhotoStyle(),
-    photoPlacement: getCvPhotoPlacement(),
-  };
 }
 
 /**
