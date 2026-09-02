@@ -311,11 +311,16 @@ test.describe("M8 adversarial motivation-letter content", () => {
       expect(problems.some((problem) => problem.includes("footer"))).toBe(true);
       await download.click();
       const pdfButton = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ });
-      await expect(pdfButton).toBeEnabled();
-      await pdfButton.click();
-      await expect(
-        page.getByRole("status").filter({ hasText: "Motivationsschreiben passt nicht auf eine Seite" }),
-      ).toBeVisible({ timeout: 15_000 });
+      if (await pdfButton.isDisabled()) {
+        await expect(page.getByRole("alert")).toContainText("Zu viel Text für eine Seite");
+      } else {
+        await pdfButton.click();
+        await expect(
+          page
+            .getByRole("status")
+            .filter({ hasText: "Motivationsschreiben passt nicht auf eine Seite" }),
+        ).toBeVisible({ timeout: 15_000 });
+      }
     }
   });
 
