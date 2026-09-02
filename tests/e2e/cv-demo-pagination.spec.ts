@@ -57,10 +57,13 @@ test.describe("M9 demo CV pagination", () => {
       await expect(pages.first()).toContainText("Referenzen");
       await expect(pages.first()).toContainText("Herr Thomas Weber");
 
-      const clipped = await pages.first().locator("[data-cv-main]").evaluate((node) => ({
-        scrollHeight: node.scrollHeight,
-        clientHeight: node.clientHeight,
-      }));
+      const clipped = await pages
+        .first()
+        .locator("[data-cv-main]")
+        .evaluate((node) => ({
+          scrollHeight: node.scrollHeight,
+          clientHeight: node.clientHeight,
+        }));
       expect(
         clipped.scrollHeight,
         `${template.id}: compacting the CV must not trade the extra page for clipped content`,

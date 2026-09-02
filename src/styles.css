@@ -219,9 +219,7 @@
   pointer-events: none;
 }
 
-[data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > [data-cover-template="blockig"]::after {
+[data-dossier-document="cv"] [data-cv-background="motif"] > [data-cover-template="blockig"]::after {
   content: "";
   position: absolute;
   left: 0;
