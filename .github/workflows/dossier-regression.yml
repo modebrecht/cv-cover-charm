@@ -9,6 +9,8 @@ on:
       - dev
       - render
       - main
+    paths-ignore:
+      - "History/**"
 
 permissions:
   contents: read
