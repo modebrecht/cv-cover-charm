@@ -29,6 +29,7 @@ test.describe("M9 demo CV pagination", () => {
     const templatePanelId = await templateSection.getAttribute("aria-controls");
     expect(templatePanelId).toBeTruthy();
     const templatePanel = page.locator(`[id="${templatePanelId}"]`);
+    // Count the runtime picker itself so shared templates such as Brief cannot drift from this gate.
     const templateButtons = templatePanel.locator("button[title][aria-pressed]");
     await expect(templateButtons).toHaveCount(38);
     const templateNames = await templateButtons.allTextContents();
