@@ -1,0 +1,38 @@
+name: One-shot release format
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - .github/workflows/one-shot-release-format.yml
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Format release-gate files
+        run: >-
+          bunx prettier@3.8.3 --write
+          src/styles.css
+          src/components/letter/preflight.ts
+          tests/e2e/cv-demo-pagination.spec.ts
+      - name: Commit formatter result and remove one-shot workflow
+        run: |
+          rm .github/workflows/one-shot-release-format.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "style: normalize release-gate formatting"
+          git push origin HEAD:dev
