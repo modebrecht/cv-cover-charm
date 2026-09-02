@@ -124,44 +124,58 @@ async function geometryProblems(root: Locator): Promise<string[]> {
     const pageRect = pageElement.getBoundingClientRect();
     const textLayer = pageElement.querySelector<HTMLElement>("[data-letter-text-layer]");
     if (!textLayer) return ["missing text layer"];
+    const textRect = textLayer.getBoundingClientRect();
 
     if (textLayer.scrollWidth > textLayer.clientWidth + 1) problems.push("horizontal text overflow");
     if (textLayer.scrollHeight > textLayer.clientHeight + 1) problems.push("vertical text overflow");
 
-    const insidePage = (element: HTMLElement, label: string) => {
+    const outside = (
+      element: HTMLElement,
+      bounds: Pick<DOMRect, "left" | "right" | "top" | "bottom">,
+      label: string,
+    ) => {
       const rect = element.getBoundingClientRect();
-      if (rect.left < pageRect.left - tolerance || rect.right > pageRect.right + tolerance) {
-        problems.push(`${label} outside page horizontally`);
+      if (rect.left < bounds.left - tolerance || rect.right > bounds.right + tolerance) {
+        problems.push(`${label} outside horizontally`);
       }
-      if (rect.top < pageRect.top - tolerance || rect.bottom > pageRect.bottom + tolerance) {
-        problems.push(`${label} outside page vertically`);
+      if (rect.top < bounds.top - tolerance || rect.bottom > bounds.bottom + tolerance) {
+        problems.push(`${label} outside vertically`);
       }
     };
 
     for (const element of pageElement.querySelectorAll<HTMLElement>(
       "[data-letter-pdf-text], [data-letter-pdf-richtext]",
     )) {
-      insidePage(element, element.dataset.letterPdfText ?? element.dataset.letterPdfRichtext ?? "text");
+      outside(
+        element,
+        pageRect,
+        element.dataset.letterPdfText ?? element.dataset.letterPdfRichtext ?? "text",
+      );
     }
 
     const contact = pageElement.querySelector<HTMLElement>("[data-letter-integrated-contact]");
+    const recipient = pageElement.querySelector<HTMLElement>('[data-letter-section="recipient"]');
     if (contact) {
-      insidePage(contact, "contact header");
+      outside(contact, pageRect, "contact header");
       if (contact.scrollWidth > contact.clientWidth + 1 || contact.scrollHeight > contact.clientHeight + 1) {
         problems.push("contact header clipped");
+      }
+      if (recipient && contact.getBoundingClientRect().bottom > recipient.getBoundingClientRect().top + tolerance) {
+        problems.push("contact header overlaps recipient");
       }
     }
 
     const footer = pageElement.querySelector<HTMLElement>("[data-letter-footer]");
     if (footer) {
-      insidePage(footer, "footer");
+      outside(footer, pageRect, "footer");
       if (footer.scrollWidth > footer.clientWidth + 1 || footer.scrollHeight > footer.clientHeight + 1) {
         problems.push("footer clipped");
       }
     }
 
     for (const image of pageElement.querySelectorAll<HTMLElement>("[data-letter-flow-image]")) {
-      insidePage(image, `image ${image.dataset.letterFlowImage ?? "unknown"}`);
+      outside(image, pageRect, `image ${image.dataset.letterFlowImage ?? "unknown"}`);
+      outside(image, textRect, `image ${image.dataset.letterFlowImage ?? "unknown"} text area`);
     }
 
     return [...new Set(problems)];
@@ -226,7 +240,7 @@ test.describe("M8 adversarial motivation-letter content", () => {
     }
   });
 
-  test("attachment counts, footer modes and individual contact toggles collapse cleanly", async ({
+  test("attachment counts, footer modes and individual contact toggles never lose content silently", async ({
     page,
   }) => {
     const attachmentCases = [
@@ -274,7 +288,7 @@ test.describe("M8 adversarial motivation-letter content", () => {
     ] as const;
 
     for (const scenario of attachmentCases) {
-      const { preview, exported } = await seedLetter(
+      const { preview, exported, download } = await seedLetter(
         page,
         payload({ data: scenario.data, design: scenario.design }),
       );
@@ -282,9 +296,26 @@ test.describe("M8 adversarial motivation-letter content", () => {
         "data-letter-requested-footer-mode",
         scenario.design.footerMode,
       );
-      const footerItems = preview.locator("[data-letter-footer-attachments] [data-letter-pdf-text='attachments-body'] > div > div");
+      const footerItems = preview.locator(
+        "[data-letter-footer-attachments] [data-letter-pdf-text='attachments-body'] > div > div",
+      );
       await expect(footerItems).toHaveCount(scenario.expectedAttachments);
-      await expectHealthy(preview, exported, `attachments-${scenario.label}`);
+
+      const problems = await geometryProblems(exported);
+      if (problems.length === 0) {
+        await expectHealthy(preview, exported, `attachments-${scenario.label}`);
+        continue;
+      }
+
+      expect(scenario.label).toBe("many");
+      expect(problems.some((problem) => problem.includes("footer"))).toBe(true);
+      await download.click();
+      const pdfButton = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ });
+      await expect(pdfButton).toBeEnabled();
+      await pdfButton.click();
+      await expect(
+        page.getByRole("status").filter({ hasText: "Motivationsschreiben passt nicht auf eine Seite" }),
+      ).toBeVisible({ timeout: 15_000 });
     }
   });
 
