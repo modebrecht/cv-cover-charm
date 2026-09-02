@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"tests/**/*.{ts,tsx}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"tests/**/*.{ts,tsx}\"",
+    "format:check:release": "prettier --check package.json src/components/letter/LetterCanvas.tsx src/components/letter/LetterLayoutControls.tsx src/components/letter/LetterTemplatePicker.tsx src/components/letter/layout-system.ts src/components/letter/preflight.ts src/components/letter/dossier-transfer.ts src/components/letter/types.ts src/components/dossier/DossierExportDialog.tsx src/lib/dossier-pdf.ts src/lib/dossier-pdf-document.ts tests/e2e/letter-header-modes.spec.ts tests/e2e/dossier-letter-preflight.spec.ts tests/unit/letter-compact-header.test.tsx tests/unit/letter-layout-system.test.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -66,6 +67,7 @@
     "tailwindcss": "^4.2.1",
     "tw-animate-css": "^1.3.4",
     "vaul": "^1.1.2",
+    "vite-tsconfig-paths": "^6.0.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
