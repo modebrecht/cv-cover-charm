@@ -76,7 +76,11 @@ test.describe("M9 demo CV pagination", () => {
 
       const pageCount = await pages.count();
       if (pageCount !== 1) {
-        spillages.push(`${templateId}:${pageCount}`);
+        const continuation = (await pages.nth(1).innerText())
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 180);
+        spillages.push(`${templateId}:${pageCount}:${continuation}`);
         continue;
       }
 
