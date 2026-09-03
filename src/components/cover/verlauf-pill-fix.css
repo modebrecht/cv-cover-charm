@@ -17,3 +17,11 @@ html[data-dossier-template="gallery"]
   [data-cv-main] {
   bottom: 18mm !important;
 }
+
+/* The real M9 smoke shows the normal demo spills only the final reference
+ * rubric on 26 templates. Preserve type sizes and page margins; reclaim the
+ * few missing millimetres from the repeated rubric rhythm only. */
+[data-cv-main] [data-cv-section] {
+  margin-top: 2.8mm !important;
+  margin-bottom: 1.2mm !important;
+}
