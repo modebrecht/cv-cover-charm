@@ -25,3 +25,49 @@ html[data-dossier-template="gallery"]
   margin-top: 2.8mm !important;
   margin-bottom: 1.2mm !important;
 }
+
+/*
+ * The newest deterministic M9 run narrows the remaining problem to 24
+ * templates: every one moves only the final Referenzen block to page 2, with a
+ * measured first-page deficit between 27 px and 97 px. These dossier variants
+ * deliberately start from the renderer's 120% type baseline, so a 90% flow
+ * scale keeps the effective text comfortably above the former 100% baseline
+ * while avoiding template-by-template margin hacks. Apply it only to the
+ * proven spillers; already-fitting templates stay pixel-identical.
+ *
+ * Width is compensated so the physical text measure stays unchanged. Because
+ * CSS zoom participates in layout, the hidden pagination page, preview and PDF
+ * all measure the same compact flow instead of merely shrinking it visually.
+ */
+html:is(
+    [data-dossier-template="aurora"],
+    [data-dossier-template="sonnig"],
+    [data-dossier-template="citrus"],
+    [data-dossier-template="cove"],
+    [data-dossier-template="edel"],
+    [data-dossier-template="edelBlockig"],
+    [data-dossier-template="klassisch"],
+    [data-dossier-template="welle"],
+    [data-dossier-template="human"],
+    [data-dossier-template="terracotta"],
+    [data-dossier-template="ledger"],
+    [data-dossier-template="modern"],
+    [data-dossier-template="neon"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="prism"],
+    [data-dossier-template="pastell"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="serioes"],
+    [data-dossier-template="sonne"],
+    [data-dossier-template="studio"],
+    [data-dossier-template="verlauf"],
+    [data-dossier-template="freundlich"],
+    [data-dossier-template="warm2"],
+    [data-dossier-template="warm3"]
+  )
+  [data-dossier-document="cv"]
+  [data-cv-main]
+  > div {
+  zoom: 0.9;
+  width: 111.111111%;
+}
