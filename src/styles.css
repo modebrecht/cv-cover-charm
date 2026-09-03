@@ -219,9 +219,7 @@
   pointer-events: none;
 }
 
-[data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > [data-cover-template="blockig"]::after {
+[data-dossier-document="cv"] [data-cv-background="motif"] > [data-cover-template="blockig"]::after {
   content: "";
   position: absolute;
   left: 0;
@@ -334,8 +332,8 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
  * preview, page count and PDF remain in lockstep.
  */
 [data-cv-main] [data-cv-section] {
-  margin-top: 3.2mm !important;
-  margin-bottom: 1.5mm !important;
+  margin-top: 3mm !important;
+  margin-bottom: 1.4mm !important;
 }
 
 /*

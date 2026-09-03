@@ -126,8 +126,11 @@ async function geometryProblems(root: Locator): Promise<string[]> {
     if (!textLayer) return ["missing text layer"];
     const textRect = textLayer.getBoundingClientRect();
 
-    if (textLayer.scrollWidth > textLayer.clientWidth + 1) problems.push("horizontal text overflow");
-    if (textLayer.scrollHeight > textLayer.clientHeight + 1) problems.push("vertical text overflow");
+    // Editor-only image handles may deliberately protrude into the page margin.
+    // Horizontal overflow is therefore checked on printable text/image nodes below,
+    // while the text layer itself remains authoritative for vertical one-page fit.
+    if (textLayer.scrollHeight > textLayer.clientHeight + 1)
+      problems.push("vertical text overflow");
 
     const outside = (
       element: HTMLElement,
@@ -146,21 +149,27 @@ async function geometryProblems(root: Locator): Promise<string[]> {
     for (const element of pageElement.querySelectorAll<HTMLElement>(
       "[data-letter-pdf-text], [data-letter-pdf-richtext]",
     )) {
-      outside(
-        element,
-        pageRect,
-        element.dataset.letterPdfText ?? element.dataset.letterPdfRichtext ?? "text",
-      );
+      const label = element.dataset.letterPdfText ?? element.dataset.letterPdfRichtext ?? "text";
+      outside(element, pageRect, label);
+      if (element.scrollWidth > element.clientWidth + 1) {
+        problems.push(`${label} horizontal overflow`);
+      }
     }
 
     const contact = pageElement.querySelector<HTMLElement>("[data-letter-integrated-contact]");
     const recipient = pageElement.querySelector<HTMLElement>('[data-letter-section="recipient"]');
     if (contact) {
       outside(contact, pageRect, "contact header");
-      if (contact.scrollWidth > contact.clientWidth + 1 || contact.scrollHeight > contact.clientHeight + 1) {
+      if (
+        contact.scrollWidth > contact.clientWidth + 1 ||
+        contact.scrollHeight > contact.clientHeight + 1
+      ) {
         problems.push("contact header clipped");
       }
-      if (recipient && contact.getBoundingClientRect().bottom > recipient.getBoundingClientRect().top + tolerance) {
+      if (
+        recipient &&
+        contact.getBoundingClientRect().bottom > recipient.getBoundingClientRect().top + tolerance
+      ) {
         problems.push("contact header overlaps recipient");
       }
     }
@@ -168,7 +177,10 @@ async function geometryProblems(root: Locator): Promise<string[]> {
     const footer = pageElement.querySelector<HTMLElement>("[data-letter-footer]");
     if (footer) {
       outside(footer, pageRect, "footer");
-      if (footer.scrollWidth > footer.clientWidth + 1 || footer.scrollHeight > footer.clientHeight + 1) {
+      if (
+        footer.scrollWidth > footer.clientWidth + 1 ||
+        footer.scrollHeight > footer.clientHeight + 1
+      ) {
         problems.push("footer clipped");
       }
     }
@@ -194,7 +206,9 @@ async function expectHealthy(preview: Locator, exported: Locator, label: string)
 test.describe("M8 adversarial motivation-letter content", () => {
   test.setTimeout(240_000);
 
-  test("long international identity and contact values remain visible and inside A4", async ({ page }) => {
+  test("long international identity and contact values remain visible and inside A4", async ({
+    page,
+  }) => {
     const longName = "Zoë-Anouk D’Ávila-Müller-Winterberger";
     const longEmail = "zoe-anouk.davila-mueller-winterberger+bewerbung.2027@example-schule.ch";
     const company = "Internationales Technologie- und Ausbildungszentrum Solothurn AG";
@@ -357,7 +371,9 @@ test.describe("M8 adversarial motivation-letter content", () => {
     await expectHealthy(preview, exported, "rich-text-images");
   });
 
-  test("deliberately too-long content is clearly blocked instead of silently exported", async ({ page }) => {
+  test("deliberately too-long content is clearly blocked instead of silently exported", async ({
+    page,
+  }) => {
     const { download } = await seedLetter(
       page,
       payload({

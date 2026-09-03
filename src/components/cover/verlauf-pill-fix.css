@@ -6,3 +6,75 @@ html[data-dossier-template="verlauf"]
   span {
   background-color: #ffffff !important;
 }
+
+/* Gallery: the readable CV surface ends at the 18 mm grounding field.
+ * Keep the measured and rendered main box on that same boundary so the normal
+ * one-page CV uses the available paper instead of clipping above the field. */
+html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cv"]
+  [data-cv-measure-page]
+  [data-cv-main] {
+  bottom: 18mm !important;
+}
+
+/* The real M9 smoke shows the normal demo spills only the final reference
+ * rubric on 26 templates. Preserve type sizes and page margins; reclaim the
+ * few missing millimetres from the repeated rubric rhythm only. */
+[data-cv-main] [data-cv-section] {
+  margin-top: 2.8mm !important;
+  margin-bottom: 1.2mm !important;
+}
+
+/*
+ * The deterministic M9 run narrowed the remaining problem to 24 templates:
+ * every one moved only the final Referenzen block to page 2, with a measured
+ * first-page deficit between 27 px and 97 px. These dossier variants start
+ * from the renderer's 120% type baseline, so a 90% flow zoom keeps the
+ * effective text above the former 100% baseline while avoiding per-template
+ * page-margin hacks. Apply it only to the proven spillers; already-fitting
+ * templates stay pixel-identical.
+ *
+ * Do not enlarge the child width to compensate for zoom: dossier-flow checks
+ * physical A4 bounds, and a width above 100% is real horizontal overflow.
+ * Keeping the normal width lets hidden pagination, preview and PDF share the
+ * same compact flow without crossing the content box.
+ */
+html:is(
+    [data-dossier-template="aurora"],
+    [data-dossier-template="sonnig"],
+    [data-dossier-template="citrus"],
+    [data-dossier-template="cove"],
+    [data-dossier-template="edel"],
+    [data-dossier-template="edelBlockig"],
+    [data-dossier-template="klassisch"],
+    [data-dossier-template="welle"],
+    [data-dossier-template="human"],
+    [data-dossier-template="terracotta"],
+    [data-dossier-template="ledger"],
+    [data-dossier-template="modern"],
+    [data-dossier-template="neon"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="prism"],
+    [data-dossier-template="pastell"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="serioes"],
+    [data-dossier-template="sonne"],
+    [data-dossier-template="studio"],
+    [data-dossier-template="verlauf"],
+    [data-dossier-template="freundlich"],
+    [data-dossier-template="warm2"],
+    [data-dossier-template="warm3"]
+  )
+  [data-dossier-document="cv"]
+  [data-cv-main]
+  > div {
+  zoom: 0.9;
+}
+
+/* Warm/Freundlich was the sole residual spiller after the scoped 90% pass,
+ * missing page one by only 2 px. Give that one template half a percentage
+ * point more room; all other templates retain the already-verified geometry. */
+html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-main] > div {
+  zoom: 0.895;
+}

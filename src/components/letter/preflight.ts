@@ -115,14 +115,22 @@ export function letterPageOverflows(page: ParentNode): boolean {
     if (clipsOwnBox(element) || rectOutside(element.getBoundingClientRect(), pageRect)) return true;
   }
 
-  if (contact && recipient && overlaps(contact.getBoundingClientRect(), recipient.getBoundingClientRect())) {
+  if (
+    contact &&
+    recipient &&
+    overlaps(contact.getBoundingClientRect(), recipient.getBoundingClientRect())
+  ) {
     return true;
   }
 
   const images = measurablePage.querySelectorAll?.<HTMLElement>("[data-letter-flow-image]") ?? [];
   for (const image of Array.from(images)) {
     const imageRect = image.getBoundingClientRect();
-    if (clipsOwnBox(image) || rectOutside(imageRect, pageRect) || rectOutside(imageRect, layerRect)) {
+    if (
+      clipsOwnBox(image) ||
+      rectOutside(imageRect, pageRect) ||
+      rectOutside(imageRect, layerRect)
+    ) {
       return true;
     }
     if (footer && overlaps(imageRect, footer.getBoundingClientRect())) return true;
