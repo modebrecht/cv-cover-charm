@@ -20,6 +20,7 @@ test.describe("M9 demo CV pagination", () => {
 
     const cv = page.locator("main [data-dossier-document='cv']");
     const pages = cv.locator("[data-cv-page]");
+    const measureMain = cv.locator("[data-cv-measure-page] [data-cv-main]");
     await expect(pages.first()).toContainText("Herr Thomas Weber");
 
     const templateSection = page.getByRole("button", { name: /^Vorlage(?:\s|$)/ }).first();
@@ -80,7 +81,12 @@ test.describe("M9 demo CV pagination", () => {
           .replace(/\s+/g, " ")
           .trim()
           .slice(0, 180);
-        spillages.push(`${templateId}:${pageCount}:${continuation}`);
+        const measure = await measureMain.evaluate((node) => ({
+          scrollHeight: node.scrollHeight,
+          clientHeight: node.clientHeight,
+        }));
+        const deficit = Math.max(0, measure.scrollHeight - measure.clientHeight);
+        spillages.push(`${templateId}:${pageCount}:deficit=${deficit}px:${continuation}`);
         continue;
       }
 
