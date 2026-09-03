@@ -27,17 +27,18 @@ html[data-dossier-template="gallery"]
 }
 
 /*
- * The newest deterministic M9 run narrows the remaining problem to 24
- * templates: every one moves only the final Referenzen block to page 2, with a
- * measured first-page deficit between 27 px and 97 px. These dossier variants
- * deliberately start from the renderer's 120% type baseline, so a 90% flow
- * scale keeps the effective text comfortably above the former 100% baseline
- * while avoiding template-by-template margin hacks. Apply it only to the
- * proven spillers; already-fitting templates stay pixel-identical.
+ * The deterministic M9 run narrowed the remaining problem to 24 templates:
+ * every one moved only the final Referenzen block to page 2, with a measured
+ * first-page deficit between 27 px and 97 px. These dossier variants start
+ * from the renderer's 120% type baseline, so a 90% flow zoom keeps the
+ * effective text above the former 100% baseline while avoiding per-template
+ * page-margin hacks. Apply it only to the proven spillers; already-fitting
+ * templates stay pixel-identical.
  *
- * Width is compensated so the physical text measure stays unchanged. Because
- * CSS zoom participates in layout, the hidden pagination page, preview and PDF
- * all measure the same compact flow instead of merely shrinking it visually.
+ * Do not enlarge the child width to compensate for zoom: dossier-flow checks
+ * physical A4 bounds, and a width above 100% is real horizontal overflow.
+ * Keeping the normal width lets hidden pagination, preview and PDF share the
+ * same compact flow without crossing the content box.
  */
 html:is(
     [data-dossier-template="aurora"],
@@ -69,7 +70,6 @@ html:is(
   [data-cv-main]
   > div {
   zoom: 0.9;
-  width: 111.111111%;
 }
 
 /* Warm/Freundlich was the sole residual spiller after the scoped 90% pass,
@@ -77,5 +77,4 @@ html:is(
  * point more room; all other templates retain the already-verified geometry. */
 html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-main] > div {
   zoom: 0.895;
-  width: 111.731844%;
 }
