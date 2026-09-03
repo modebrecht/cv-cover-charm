@@ -32,41 +32,28 @@ test.describe("M9 demo CV pagination", () => {
     // Count the runtime picker itself so shared templates such as Brief cannot drift from this gate.
     const templateButtons = templatePanel.locator("button[title][aria-pressed]");
     await expect(templateButtons).toHaveCount(38);
-    const templateNames = await templateButtons.allTextContents();
+    const templateCount = await templateButtons.count();
     const spillages: string[] = [];
+    const exercisedTemplateIds = new Set<string>();
 
-    for (const rawName of templateNames) {
-      const name = rawName.trim();
-      const button = templatePanel.getByRole("button", { name, exact: true });
+    for (let index = 0; index < templateCount; index += 1) {
+      const button = templateButtons.nth(index);
+      const name = (await button.textContent())?.trim() || `template-${index + 1}`;
       await button.click();
       await expect(button).toHaveAttribute("aria-pressed", "true");
 
-      const templateId = await expect
-        .poll(
-          () =>
-            page.evaluate(
-              () => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.design?.template,
-            ),
-          {
-            message: `${name}: selected template must be persisted before pagination is inspected`,
-          },
-        )
-        .not.toBeNull()
-        .then(() =>
-          page.evaluate(
-            () =>
-              JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.design
-                ?.template as string,
-          ),
-        );
-
-      await expect(cv).toHaveAttribute("data-cv-template", templateId);
+      // React selection is the source of truth here. Autosave intentionally lags behind the UI,
+      // so localStorage must not decide which template the pagination gate is inspecting.
       await page.evaluate(
         () =>
           new Promise<void>((resolve) =>
             requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
           ),
       );
+
+      const templateId = await cv.getAttribute("data-cv-template");
+      expect(templateId, `${name}: selected template must reach the rendered CV`).toBeTruthy();
+      exercisedTemplateIds.add(templateId!);
 
       const pageCount = await pages.count();
       if (pageCount !== 1) {
@@ -90,6 +77,10 @@ test.describe("M9 demo CV pagination", () => {
       ).toBeLessThanOrEqual(clipped.clientHeight + 3);
     }
 
+    expect(
+      exercisedTemplateIds.size,
+      "runtime template picker must exercise 38 unique CV templates",
+    ).toBe(38);
     // Report all spillers together so one density fix can cover the complete runtime matrix.
     expect(spillages, "normal demo CV spill templates").toEqual([]);
   });
