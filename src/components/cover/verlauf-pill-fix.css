@@ -6,3 +6,14 @@ html[data-dossier-template="verlauf"]
   span {
   background-color: #ffffff !important;
 }
+
+/* Gallery: the readable CV surface ends at the 18 mm grounding field.
+ * Keep the measured and rendered main box on that same boundary so the normal
+ * one-page CV uses the available paper instead of clipping above the field. */
+html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-main],
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cv"]
+  [data-cv-measure-page]
+  [data-cv-main] {
+  bottom: 18mm !important;
+}
