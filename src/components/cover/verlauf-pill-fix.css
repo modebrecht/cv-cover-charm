@@ -71,3 +71,11 @@ html:is(
   zoom: 0.9;
   width: 111.111111%;
 }
+
+/* Warm/Freundlich was the sole residual spiller after the scoped 90% pass,
+ * missing page one by only 2 px. Give that one template half a percentage
+ * point more room; all other templates retain the already-verified geometry. */
+html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-main] > div {
+  zoom: 0.895;
+  width: 111.731844%;
+}
