@@ -332,8 +332,8 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
  * preview, page count and PDF remain in lockstep.
  */
 [data-cv-main] [data-cv-section] {
-  margin-top: 3.2mm !important;
-  margin-bottom: 1.5mm !important;
+  margin-top: 3mm !important;
+  margin-bottom: 1.4mm !important;
 }
 
 /*
