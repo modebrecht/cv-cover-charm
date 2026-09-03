@@ -42,15 +42,34 @@ test.describe("M9 demo CV pagination", () => {
       await button.click();
       await expect(button).toHaveAttribute("aria-pressed", "true");
 
-      // React selection is the source of truth here. Autosave intentionally lags behind the UI,
-      // so localStorage must not decide which template the pagination gate is inspecting.
+      // Template selection, dossier-theme propagation and pagination do not commit in one
+      // React frame. Wait for the document to become mutation-quiet before sampling pages;
+      // otherwise this gate can attribute the previous template's pagination to the new one.
       await page.evaluate(
         () =>
-          new Promise<void>((resolve) =>
-            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-          ),
+          new Promise<void>((resolve) => {
+            let timer = 0;
+            const observer = new MutationObserver(() => {
+              window.clearTimeout(timer);
+              timer = window.setTimeout(finish, 120);
+            });
+            const finish = () => {
+              observer.disconnect();
+              requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+            };
+
+            observer.observe(document.documentElement, {
+              subtree: true,
+              childList: true,
+              attributes: true,
+              characterData: true,
+            });
+            timer = window.setTimeout(finish, 120);
+          }),
       );
 
+      // React selection is the source of truth here. Autosave intentionally lags behind the UI,
+      // so localStorage must not decide which template the pagination gate is inspecting.
       const templateId = await cv.getAttribute("data-cv-template");
       expect(templateId, `${name}: selected template must reach the rendered CV`).toBeTruthy();
       exercisedTemplateIds.add(templateId!);
