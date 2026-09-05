@@ -172,9 +172,11 @@ export function DossierHeaderFooterChrome({
                 className="min-w-0 flex-1"
                 style={{ overflowWrap: "anywhere" }}
               >
-                {footerDetails.map((value) => (
-                  <div key={value}>{value}</div>
-                ))}
+                <div>
+                  {footerDetails.map((value) => (
+                    <div key={value}>{value}</div>
+                  ))}
+                </div>
               </div>
             </div>
           ) : (
