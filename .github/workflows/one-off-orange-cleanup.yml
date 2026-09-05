@@ -1,0 +1,50 @@
+name: One-off orange architecture cleanup
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/one-off-orange-cleanup.yml"
+      - "scripts/one-off-orange-cleanup.py"
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Apply orange cleanup
+        run: python scripts/one-off-orange-cleanup.py
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Format changed files
+        run: bunx prettier --write src/lib/dossier-chrome.ts src/components/cv/archetype.ts src/components/cv/CvCanvas.tsx src/components/letter/types.ts src/components/letter/LetterCanvas.tsx src/routes/anschreiben.tsx tests/unit/dossier-chrome-geometry.test.ts
+
+      - name: Verify fast gates
+        run: bun run check:release
+
+      - name: Commit cleanup
+        shell: bash
+        run: |
+          git config user.name "modebrecht"
+          git config user.email "137332207+modebrecht@users.noreply.github.com"
+          git rm .github/workflows/one-off-orange-cleanup.yml scripts/one-off-orange-cleanup.py
+          git add src/lib/dossier-chrome.ts src/components/cv/archetype.ts src/components/cv/CvCanvas.tsx src/components/letter/types.ts src/components/letter/LetterCanvas.tsx src/routes/anschreiben.tsx tests/unit/dossier-chrome-geometry.test.ts
+          git commit -m "refactor(dossier): make chrome state explicit and history-safe"
+          git push origin HEAD:dev
