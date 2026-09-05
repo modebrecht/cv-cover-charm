@@ -1,0 +1,53 @@
+name: Final chrome wiring fix v2
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "scripts/final-chrome-wiring-fix-v2.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Apply final wiring patch
+        shell: bash
+        run: |
+          sed -i 's/minimum=2,/minimum=1,/' scripts/final-chrome-wiring-fix.py
+          python scripts/final-chrome-wiring-fix.py
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/routes/anschreiben.tsx')
+          text = p.read_text()
+          needle = '      if (parsed.chrome) applyPortableDossierChromeState(parsed.chrome);\n'
+          if needle not in text:
+              raise SystemExit('remaining focus chrome restore not found')
+          p.write_text(text.replace(needle, '', 1))
+          PY
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Format changed files
+        run: bunx prettier --write src/lib/dossier-contact.ts src/lib/dossier-chrome.ts src/components/cv/CvCanvas.tsx src/components/letter/LetterCanvas.tsx src/components/dossier/DossierPdfCanvas.tsx src/routes/anschreiben.tsx src/routes/lebenslauf.tsx tests/e2e/dossier-chrome-sync.spec.ts tests/e2e/dossier-state-roundtrip.spec.ts tests/unit/dossier-contact.test.ts
+      - name: Fast verification
+        run: |
+          bun test tests/unit/dossier-contact.test.ts tests/unit/dossier-chrome-renderer-boundary.test.ts tests/unit/dossier-chrome-history.test.ts
+          bun run typecheck
+      - name: Commit patch and remove helpers
+        run: |
+          rm -f scripts/final-chrome-wiring-fix.py scripts/final-chrome-wiring-fix-v2.trigger .github/workflows/final-chrome-wiring-fix.yml .github/workflows/final-chrome-wiring-fix-v2.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix(dossier): finish shared chrome wiring"
+          git push origin dev
