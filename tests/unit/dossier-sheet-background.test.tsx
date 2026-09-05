@@ -28,11 +28,11 @@ describe("shared dossier sheet background", () => {
     expect(brief?.slots.find(({ key }) => key === "bg")?.default).toBe("#ffffff");
   });
 
-  test("every dossier template renders the shared non-brief background", () => {
+  test("every dossier template renders a motif-only shared non-brief background", () => {
     for (const { id } of TEMPLATES.filter(({ id }) => (id as string) !== "brief")) {
       const markup = markupFor(id);
       expect(markup).toContain(`data-dossier-sheet-background="${id}"`);
-      expect(markup).toContain('data-dossier-chrome="cv"');
+      expect(markup).not.toContain('data-dossier-chrome="cv"');
       expect(markup).not.toContain('data-dossier-sheet-background="brief"');
       expect(markup).not.toContain('data-letter-background="brief"');
       expect(markup).not.toContain("bg-white");

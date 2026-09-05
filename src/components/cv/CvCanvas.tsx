@@ -1,5 +1,6 @@
 import { useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { PAGE } from "@/default-config";
+import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
 import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackground";
 import { BlockLayer, type Point } from "@/components/cover/BlockLayer";
 import { buildCustomBlocks, type StyleOverrides } from "@/components/cover/layouts";
@@ -531,48 +532,50 @@ export function CvCanvas({
     if (!list.length || data.hidden.referenzen) return [];
     return [
       heading("referenzen"),
-      ...list.map((r): Row => ({
-        id: r.id,
-        node: (
-          <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
-            {r.name && (
-              <div
-                data-cv-entry-title
-                style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
-              >
-                {r.name}
-              </div>
-            )}
-            {r.funktion && (
-              <div
-                data-cv-muted
-                style={{
-                  fontSize: pt(9.7),
-                  color: pal.muted,
-                  marginTop: "0.3mm",
-                  lineHeight: 1.3,
-                }}
-              >
-                {r.funktion}
-              </div>
-            )}
-            {r.kontakt && (
-              <div
-                data-cv-body
-                style={{
-                  fontSize: pt(9.7),
-                  color: pal.ink,
-                  marginTop: "0.35mm",
-                  lineHeight: 1.3,
-                  overflowWrap: "anywhere",
-                }}
-              >
-                {r.kontakt}
-              </div>
-            )}
-          </div>
-        ),
-      })),
+      ...list.map(
+        (r): Row => ({
+          id: r.id,
+          node: (
+            <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
+              {r.name && (
+                <div
+                  data-cv-entry-title
+                  style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
+                >
+                  {r.name}
+                </div>
+              )}
+              {r.funktion && (
+                <div
+                  data-cv-muted
+                  style={{
+                    fontSize: pt(9.7),
+                    color: pal.muted,
+                    marginTop: "0.3mm",
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {r.funktion}
+                </div>
+              )}
+              {r.kontakt && (
+                <div
+                  data-cv-body
+                  style={{
+                    fontSize: pt(9.7),
+                    color: pal.ink,
+                    marginTop: "0.35mm",
+                    lineHeight: 1.3,
+                    overflowWrap: "anywhere",
+                  }}
+                >
+                  {r.kontakt}
+                </div>
+              )}
+            </div>
+          ),
+        }),
+      ),
     ];
   };
 
@@ -581,33 +584,35 @@ export function CvCanvas({
     if (!list.length || data.hidden.sprachen) return [];
     return [
       heading("sprachen"),
-      ...list.map((s): Row => ({
-        id: `main-${s.id}`,
-        node: (
-          <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
-            <div
-              data-cv-rail
-              data-cv-entry-title
-              style={{
-                width: layout === "modern" ? "23mm" : "27mm",
-                flexShrink: 0,
-                fontSize: pt(10.2),
-                fontWeight: 650,
-                color: pal.ink,
-                lineHeight: 1.3,
-              }}
-            >
-              {s.name}
+      ...list.map(
+        (s): Row => ({
+          id: `main-${s.id}`,
+          node: (
+            <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
+              <div
+                data-cv-rail
+                data-cv-entry-title
+                style={{
+                  width: layout === "modern" ? "23mm" : "27mm",
+                  flexShrink: 0,
+                  fontSize: pt(10.2),
+                  fontWeight: 650,
+                  color: pal.ink,
+                  lineHeight: 1.3,
+                }}
+              >
+                {s.name}
+              </div>
+              <div
+                data-cv-muted
+                style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
+              >
+                {s.niveau}
+              </div>
             </div>
-            <div
-              data-cv-muted
-              style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
-            >
-              {s.niveau}
-            </div>
-          </div>
-        ),
-      })),
+          ),
+        }),
+      ),
     ];
   };
 
@@ -617,26 +622,28 @@ export function CvCanvas({
     if (!list.length) return [];
     return [
       heading(key),
-      ...list.map((v, i): Row => ({
-        id: `main-${key}-${i}`,
-        node: (
-          <div
-            data-cv-entry
-            data-cv-body
-            style={{
-              display: "flex",
-              gap: "2.6mm",
-              marginBottom: "1.35mm",
-              fontSize: pt(9.9),
-              lineHeight: 1.35,
-              color: pal.ink,
-            }}
-          >
-            <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
-            <span>{v}</span>
-          </div>
-        ),
-      })),
+      ...list.map(
+        (v, i): Row => ({
+          id: `main-${key}-${i}`,
+          node: (
+            <div
+              data-cv-entry
+              data-cv-body
+              style={{
+                display: "flex",
+                gap: "2.6mm",
+                marginBottom: "1.35mm",
+                fontSize: pt(9.9),
+                lineHeight: 1.35,
+                color: pal.ink,
+              }}
+            >
+              <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
+              <span>{v}</span>
+            </div>
+          ),
+        }),
+      ),
     ];
   };
 
@@ -2612,6 +2619,21 @@ export function CvCanvas({
             style={{ width: `${PAGE.WIDTH}px`, height: `${PAGE.HEIGHT}px`, background: pal.paper }}
           >
             {chrome(i)}
+            <DossierHeaderFooterChrome
+              scope="cv"
+              template={design.template}
+              colors={design.colors}
+              contact={{
+                name,
+                address: p.adresse ?? "",
+                place: p.plzOrt ?? "",
+                phone: p.telefon ?? "",
+                email: p.email ?? "",
+              }}
+              pageIndex={i}
+              footerLeft={name || "Lebenslauf"}
+              footerRight={`Seite ${i + 1}`}
+            />
             {layout === "modern" && modernSidebar(i)}
             {bandHeader(i)}
             {footer(i)}

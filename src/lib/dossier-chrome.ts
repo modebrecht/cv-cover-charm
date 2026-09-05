@@ -48,16 +48,7 @@ export const DEFAULT_DOSSIER_CHROME_STATE: DossierChromeState = {
   letter: { ...DEFAULT_DOSSIER_CHROME_OPTIONS },
 };
 
-const EMPTY_CONTACT: DossierChromeContact = {
-  name: "",
-  address: "",
-  place: "",
-  phone: "",
-  email: "",
-};
-
 let cached: DossierChromeState | null = null;
-let currentCvContact: DossierChromeContact = EMPTY_CONTACT;
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === "object" && !Array.isArray(value);
@@ -69,17 +60,13 @@ function normalizeOptions(
   if (!isRecord(value)) return { ...fallback };
   return {
     headerMode:
-      value.headerMode === "contact" || value.headerMode === "none"
-        ? value.headerMode
-        : "compact",
+      value.headerMode === "contact" || value.headerMode === "none" ? value.headerMode : "compact",
     headerShowName: value.headerShowName !== false,
     headerShowAddress: value.headerShowAddress !== false,
     headerShowPhone: value.headerShowPhone !== false,
     headerShowEmail: value.headerShowEmail !== false,
     footerMode:
-      value.footerMode === "details" || value.footerMode === "none"
-        ? value.footerMode
-        : "compact",
+      value.footerMode === "details" || value.footerMode === "none" ? value.footerMode : "compact",
   };
 }
 
@@ -232,7 +219,10 @@ export function patchDossierChromeState(
   };
 }
 
-export function patchDossierChrome(scope: DossierChromeScope, patch: Partial<DossierChromeOptions>) {
+export function patchDossierChrome(
+  scope: DossierChromeScope,
+  patch: Partial<DossierChromeOptions>,
+) {
   store(patchDossierChromeState(getDossierChromeState(), scope, patch));
 }
 
@@ -318,25 +308,4 @@ export function dossierFooterVisualHeightMm(scope: DossierChromeScope): number {
   const mode = getDossierChromeOptions(scope).footerMode;
   if (mode === "none") return 0;
   return mode === "details" ? 10 : 2.4;
-}
-
-export function setCurrentCvChromeContact(person: {
-  vorname?: string;
-  nachname?: string;
-  adresse?: string;
-  plzOrt?: string;
-  telefon?: string;
-  email?: string;
-}) {
-  currentCvContact = {
-    name: [person.vorname, person.nachname].filter(Boolean).join(" "),
-    address: person.adresse ?? "",
-    place: person.plzOrt ?? "",
-    phone: person.telefon ?? "",
-    email: person.email ?? "",
-  };
-}
-
-export function getCurrentCvChromeContact(): DossierChromeContact {
-  return currentCvContact;
 }
