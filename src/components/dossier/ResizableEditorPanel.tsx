@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { DossierChromeControls } from "./DossierChromeControls";
 import "./EditorPanelIntro.css";
 
 const STORAGE_KEY = "bewerbungsdossier:editor-panel-width";
@@ -31,6 +32,8 @@ export function ResizableEditorPanel({ open, children }: { open: boolean; childr
   const widthRef = useRef<number | null>(null);
   const [customWidth, setCustomWidth] = useState<number | null>(null);
   const [resizing, setResizing] = useState(false);
+  const path = typeof window === "undefined" ? "" : window.location.pathname;
+  const chromeScope = path === "/lebenslauf" ? "cv" : path === "/anschreiben" ? "letter" : null;
 
   useEffect(() => {
     try {
@@ -83,6 +86,11 @@ export function ResizableEditorPanel({ open, children }: { open: boolean; childr
         aria-hidden={!open}
         inert={!open}
       >
+        {chromeScope ? (
+          <div className="px-3 pt-3">
+            <DossierChromeControls scope={chromeScope} />
+          </div>
+        ) : null}
         {children}
       </aside>
 
