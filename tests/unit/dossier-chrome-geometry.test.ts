@@ -7,6 +7,7 @@ import {
   type DossierChromeOptions,
 } from "../../src/lib/dossier-chrome";
 
+// Release guard: CV layout geometry must be reproducible from an explicit chrome snapshot.
 const contact: DossierChromeOptions = {
   ...DEFAULT_DOSSIER_CHROME_OPTIONS,
   headerMode: "contact",
