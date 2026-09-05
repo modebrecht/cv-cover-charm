@@ -19,6 +19,12 @@ export type DossierChromeState = {
   letter: DossierChromeOptions;
 };
 
+export type DossierChromeHistorySnapshot = {
+  version: 1;
+  scope: DossierChromeScope;
+  options: DossierChromeOptions;
+};
+
 export type DossierChromeContact = {
   name: string;
   address: string;
@@ -106,6 +112,74 @@ export function normalizeDossierChromeState(value: unknown): DossierChromeState 
     shared,
     cv: normalizeOptions(value.cv, shared),
     letter: normalizeOptions(value.letter, shared),
+  };
+}
+
+/**
+ * History is document-scoped. Persist only the effective chrome options of the
+ * document that owns the history entry; never capture another document's
+ * independent branch or the global sync flag.
+ *
+ * Existing history entries may still contain a full DossierChromeState. Passing
+ * one here migrates it to the compact, scope-safe representation in memory.
+ */
+export function createDossierChromeHistorySnapshot(
+  value: unknown,
+  scope: DossierChromeScope,
+): DossierChromeHistorySnapshot {
+  if (
+    isRecord(value) &&
+    value.scope === scope &&
+    isRecord(value.options)
+  ) {
+    return {
+      version: 1,
+      scope,
+      options: normalizeOptions(value.options),
+    };
+  }
+
+  const state = normalizeDossierChromeState(value);
+  const options = state.sync ? state.shared : state[scope];
+  return {
+    version: 1,
+    scope,
+    options: { ...options },
+  };
+}
+
+/**
+ * Restore one history snapshot into the current chrome topology. The current
+ * sync mode stays authoritative: with sync off only the owning document branch
+ * changes; with sync on only the shared branch changes. Latent CV/letter
+ * branches are never rolled back by another document's history.
+ */
+export function restoreDossierChromeHistoryState(
+  current: DossierChromeState,
+  value: unknown,
+): DossierChromeState {
+  if (
+    !isRecord(value) ||
+    (value.scope !== "cv" && value.scope !== "letter") ||
+    !isRecord(value.options)
+  ) {
+    return current;
+  }
+
+  const scope = value.scope as DossierChromeScope;
+  const fallback = current.sync ? current.shared : current[scope];
+  const options = normalizeOptions(value.options, fallback);
+
+  if (current.sync) {
+    return {
+      ...current,
+      shared: options,
+    };
+  }
+
+  return {
+    ...current,
+    [scope]: options,
   };
 }
 
@@ -278,6 +352,13 @@ export function applyPortableDossierChromeState(
   value: unknown,
   { replaceExisting = false }: { replaceExisting?: boolean } = {},
 ) {
+  const current = getDossierChromeState();
+  const historyRestored = restoreDossierChromeHistoryState(current, value);
+  if (historyRestored !== current) {
+    store(historyRestored);
+    return;
+  }
+
   if (!replaceExisting && typeof window !== "undefined") {
     try {
       const existing = window.localStorage?.getItem(DOSSIER_CHROME_STORAGE_KEY);
