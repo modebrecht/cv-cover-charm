@@ -32,8 +32,16 @@ export function ResizableEditorPanel({ open, children }: { open: boolean; childr
   const widthRef = useRef<number | null>(null);
   const [customWidth, setCustomWidth] = useState<number | null>(null);
   const [resizing, setResizing] = useState(false);
-  const path = typeof window === "undefined" ? "" : window.location.pathname;
-  const chromeScope = path === "/lebenslauf" ? "cv" : path === "/anschreiben" ? "letter" : null;
+  // Keep server markup and the browser's first render identical. Reading
+  // window.location directly during render used to insert the chrome controls
+  // only on the client and could remount editor subtrees during hydration.
+  // The letter owns its controls inside LetterLayoutControls; only the CV uses
+  // this shared host.
+  const [chromeScope, setChromeScope] = useState<"cv" | null>(null);
+
+  useEffect(() => {
+    setChromeScope(window.location.pathname === "/lebenslauf" ? "cv" : null);
+  }, []);
 
   useEffect(() => {
     try {
@@ -86,11 +94,13 @@ export function ResizableEditorPanel({ open, children }: { open: boolean; childr
         aria-hidden={!open}
         inert={!open}
       >
-        {chromeScope ? (
-          <div className="px-3 pt-3">
-            <DossierChromeControls scope={chromeScope} />
-          </div>
-        ) : null}
+        <div
+          data-dossier-chrome-host
+          className={chromeScope ? "px-3 pt-3" : "hidden"}
+          aria-hidden={chromeScope ? undefined : true}
+        >
+          {chromeScope ? <DossierChromeControls scope={chromeScope} /> : null}
+        </div>
         {children}
       </aside>
 
