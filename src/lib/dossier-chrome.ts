@@ -146,21 +146,25 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
     const options = next.sync ? next.shared : next.letter;
     const footerMode = options.footerMode === "details" ? "attachments" : options.footerMode;
     const design = parsed.design;
-    if (
+    const designMatches =
       design.headerMode === options.headerMode &&
       design.headerShowName === options.headerShowName &&
       design.headerShowAddress === options.headerShowAddress &&
       design.headerShowPhone === options.headerShowPhone &&
       design.headerShowEmail === options.headerShowEmail &&
-      design.footerMode === footerMode
-    ) {
-      return;
-    }
+      design.footerMode === footerMode;
+    const nestedChromeMatches =
+      isRecord(parsed.chrome) &&
+      JSON.stringify(normalizeDossierChromeState(parsed.chrome)) === JSON.stringify(next);
+    if (designMatches && nestedChromeMatches) return;
 
     window.localStorage.setItem(
       LETTER_STORAGE_KEY,
       JSON.stringify({
         ...parsed,
+        // Bestehende v1-Briefe dürfen die Information weiter mittragen, aber
+        // diese Kopie ist nur noch Spiegel der kanonischen Dossier-Einstellung.
+        chrome: next,
         design: {
           ...design,
           headerMode: options.headerMode,
@@ -270,7 +274,25 @@ export function readPortableDossierChromeState(): DossierChromeState {
   return getDossierChromeState();
 }
 
-export function applyPortableDossierChromeState(value: unknown) {
+export function applyPortableDossierChromeState(
+  value: unknown,
+  { replaceExisting = false }: { replaceExisting?: boolean } = {},
+) {
+  if (!replaceExisting && typeof window !== "undefined") {
+    try {
+      const existing = window.localStorage?.getItem(DOSSIER_CHROME_STORAGE_KEY);
+      if (existing) {
+        // Ein eingebetteter Letter-Snapshot ist nur noch Kompatibilitätsdaten.
+        // Sobald die dedizierte Dossier-Quelle existiert, darf er sie nicht
+        // beim Öffnen oder bei einem Fokuswechsel zurückrollen.
+        cached = normalizeDossierChromeState(JSON.parse(existing));
+        return;
+      }
+    } catch {
+      // Beschädigter kanonischer Speicher darf durch einen portablen Stand
+      // repariert werden.
+    }
+  }
   store(normalizeDossierChromeState(value));
 }
 

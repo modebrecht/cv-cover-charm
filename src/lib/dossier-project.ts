@@ -122,6 +122,10 @@ export function storeDossierProject(project: DossierProject): {
     storage.setItem(CV_STORAGE_KEY, JSON.stringify(cv));
     if (isRecord(portableState)) applyPortableCvState(portableState as PortableCvState);
   }
-  if (project.chrome) applyPortableDossierChromeState(project.chrome);
+  if (project.chrome) {
+    // Ein bewusst geladenes Dossier darf den aktuellen Browserstand ersetzen.
+    // Eingebettete Chrome-Kopien einzelner Dokumente dürfen das hingegen nicht.
+    applyPortableDossierChromeState(project.chrome, { replaceExisting: true });
+  }
   return { cover: !!project.cover, letter: !!project.letter, cv: !!project.cv };
 }

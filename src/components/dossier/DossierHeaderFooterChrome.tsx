@@ -1,4 +1,9 @@
-import { useSyncExternalStore } from "react";
+import {
+  createContext,
+  useContext,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
@@ -8,6 +13,23 @@ import {
   type DossierChromeOptions,
   type DossierChromeScope,
 } from "@/lib/dossier-chrome";
+
+const CvContactOverrideContext = createContext<DossierChromeContact | null>(null);
+
+/**
+ * Der CV-Body darf integrierte Kontaktfelder ausblenden, ohne dem gemeinsamen
+ * Header dieselben Daten wegzunehmen. Der Provider hält deshalb ausschliesslich
+ * die ursprünglichen CV-Kontaktdaten für den Chrome-Renderer bereit.
+ */
+export function DossierChromeContactOverrideProvider({
+  contact,
+  children,
+}: {
+  contact: DossierChromeContact;
+  children: ReactNode;
+}) {
+  return <CvContactOverrideContext.Provider value={contact}>{children}</CvContactOverrideContext.Provider>;
+}
 
 export function DossierHeaderFooterChrome({
   scope,
@@ -39,6 +61,8 @@ export function DossierHeaderFooterChrome({
     getDossierChromeState,
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
+  const cvContactOverride = useContext(CvContactOverrideContext);
+  const resolvedContact = scope === "cv" && cvContactOverride ? cvContactOverride : contact;
   const options = optionsOverride ?? (state.sync ? state.shared : state[scope]);
   const headerMode =
     pageIndex === 0
@@ -58,11 +82,13 @@ export function DossierHeaderFooterChrome({
   const headerRoles = onColorRoles(primary, secondary);
   const footerRoles = onColorRoles(secondary, primary);
   const rightBits = [
-    options.headerShowPhone ? contact.phone : "",
-    options.headerShowEmail ? contact.email : "",
+    options.headerShowPhone ? resolvedContact.phone : "",
+    options.headerShowEmail ? resolvedContact.email : "",
   ].filter(Boolean);
   const detailsHeight = footerHeightMm ?? 10;
   const letter = scope === "letter";
+  const resolvedFooterLeft =
+    scope === "cv" && cvContactOverride?.name ? cvContactOverride.name : footerLeft;
 
   return (
     <div
@@ -103,12 +129,12 @@ export function DossierHeaderFooterChrome({
             }}
           >
             <div className="min-w-0 flex-1" style={{ overflowWrap: "anywhere" }}>
-              {options.headerShowName && contact.name ? (
-                <div className="text-[10pt] font-semibold">{contact.name}</div>
+              {options.headerShowName && resolvedContact.name ? (
+                <div className="text-[10pt] font-semibold">{resolvedContact.name}</div>
               ) : null}
               {options.headerShowAddress ? (
                 <div className="opacity-90">
-                  {[contact.address, contact.place].filter(Boolean).join(" · ")}
+                  {[resolvedContact.address, resolvedContact.place].filter(Boolean).join(" · ")}
                 </div>
               ) : null}
             </div>
@@ -181,7 +207,7 @@ export function DossierHeaderFooterChrome({
             </div>
           ) : (
             <div className="flex h-full min-w-0 flex-1 items-center justify-between gap-[8mm]">
-              <span className="truncate">{footerLeft}</span>
+              <span className="truncate">{resolvedFooterLeft}</span>
               <span className="shrink-0">{footerRight}</span>
             </div>
           )}
