@@ -2,6 +2,8 @@ import { TEMPLATES, type TemplateId } from "@/components/cover/types";
 import { cvContentBox, cvFrameFor } from "@/components/cv/archetype";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import type { LetterTemplateId } from "@/components/letter/types";
+import { getCurrentCvChromeContact } from "@/lib/dossier-chrome";
+import { DossierHeaderFooterChrome } from "./DossierHeaderFooterChrome";
 
 /**
  * One visual sheet background for the complete dossier. CV and Anschreiben
@@ -232,8 +234,6 @@ function dossierSheetLayoutFor(template: LetterTemplateId, pageIndex = 0): Lette
     };
   }
 
-  // Fresh variants have no legacy CV archetype. They still use the same shared
-  // background component on both documents and keep their curated safe margins.
   return LETTER_LAYOUTS[template] ?? LETTER_LAYOUTS.klassisch;
 }
 
@@ -584,6 +584,18 @@ export function DossierSheetBackground({
   const secondary = color(colors, "secondary", "accent", "primary", "ink");
   const accent = color(colors, "accent", "secondary", "primary", "ink");
   const primaryRoles = onColorRoles(primary, accent);
+  const contact = getCurrentCvChromeContact();
+  const chrome = (
+    <DossierHeaderFooterChrome
+      scope="cv"
+      template={template}
+      colors={colors}
+      contact={contact}
+      pageIndex={pageIndex}
+      footerLeft={contact.name || "Lebenslauf"}
+      footerRight={`Seite ${pageIndex + 1}`}
+    />
+  );
 
   if (template === "edel") {
     return (
@@ -602,6 +614,7 @@ export function DossierSheetBackground({
           className="absolute"
           style={{ inset: "15mm", border: `0.35px solid ${accent}`, opacity: 0.3 }}
         />
+        {chrome}
       </div>
     );
   }
@@ -643,6 +656,7 @@ export function DossierSheetBackground({
             backgroundColor: cardBackground,
           }}
         />
+        {chrome}
       </div>
     );
   }
@@ -808,16 +822,14 @@ export function DossierSheetBackground({
       )}
 
       {layout.borderInsetMm && (
-        <>
-          <div
-            className="absolute"
-            style={{
-              inset: `${layout.borderInsetMm}mm`,
-              border: `0.55px solid ${accent}`,
-              opacity: template === "klassisch" ? 0.3 : 0.46,
-            }}
-          />
-        </>
+        <div
+          className="absolute"
+          style={{
+            inset: `${layout.borderInsetMm}mm`,
+            border: `0.55px solid ${accent}`,
+            opacity: template === "klassisch" ? 0.3 : 0.46,
+          }}
+        />
       )}
 
       {template === "pastell" && (
@@ -826,6 +838,8 @@ export function DossierSheetBackground({
           style={{ backgroundColor: secondary, opacity: 0.58 }}
         />
       )}
+
+      {chrome}
     </div>
   );
 }
