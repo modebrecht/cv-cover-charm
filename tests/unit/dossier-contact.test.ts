@@ -75,4 +75,14 @@ describe("shared dossier contact", () => {
       email: "brief@example.ch",
     });
   });
+
+  test("returns a stable empty contact when the dossier has no personal source", () => {
+    expect(resolveDossierContact({})).toEqual({
+      name: "",
+      address: "",
+      place: "",
+      phone: "",
+      email: "",
+    });
+  });
 });
