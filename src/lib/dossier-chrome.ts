@@ -62,7 +62,10 @@ let currentCvContact: DossierChromeContact = EMPTY_CONTACT;
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === "object" && !Array.isArray(value);
 
-function normalizeOptions(value: unknown, fallback = DEFAULT_DOSSIER_CHROME_OPTIONS): DossierChromeOptions {
+function normalizeOptions(
+  value: unknown,
+  fallback = DEFAULT_DOSSIER_CHROME_OPTIONS,
+): DossierChromeOptions {
   if (!isRecord(value)) return { ...fallback };
   return {
     headerMode:
@@ -101,7 +104,14 @@ function optionsFromSavedLetter(storage: Storage): DossierChromeOptions | null {
 }
 
 export function normalizeDossierChromeState(value: unknown): DossierChromeState {
-  if (!isRecord(value)) return { ...DEFAULT_DOSSIER_CHROME_STATE };
+  if (!isRecord(value)) {
+    return {
+      ...DEFAULT_DOSSIER_CHROME_STATE,
+      shared: { ...DEFAULT_DOSSIER_CHROME_STATE.shared },
+      cv: { ...DEFAULT_DOSSIER_CHROME_STATE.cv },
+      letter: { ...DEFAULT_DOSSIER_CHROME_STATE.letter },
+    };
+  }
   const shared = normalizeOptions(value.shared);
   return {
     version: 1,
@@ -113,38 +123,42 @@ export function normalizeDossierChromeState(value: unknown): DossierChromeState 
 }
 
 function read(): DossierChromeState {
-  if (typeof window === "undefined") return DEFAULT_DOSSIER_CHROME_STATE;
+  if (typeof window === "undefined") return normalizeDossierChromeState(null);
   try {
-    const raw = window.localStorage.getItem(DOSSIER_CHROME_STORAGE_KEY);
+    const raw = window.localStorage?.getItem(DOSSIER_CHROME_STORAGE_KEY);
     if (raw) return normalizeDossierChromeState(JSON.parse(raw));
 
     // Ein bestehendes Anschreiben behält seine bisherige Kopf-/Fusswahl. Beim
     // ersten Start des gemeinsamen Systems wird sie zur gemeinsamen Vorgabe.
-    const migrated = optionsFromSavedLetter(window.localStorage);
-    if (migrated) {
-      return {
-        version: 1,
-        sync: true,
-        shared: migrated,
-        cv: { ...migrated },
-        letter: { ...migrated },
-      };
+    if (window.localStorage) {
+      const migrated = optionsFromSavedLetter(window.localStorage);
+      if (migrated) {
+        return {
+          version: 1,
+          sync: true,
+          shared: migrated,
+          cv: { ...migrated },
+          letter: { ...migrated },
+        };
+      }
     }
   } catch {
     // Blockierter oder beschädigter Storage fällt auf sichere Defaults zurück.
   }
-  return DEFAULT_DOSSIER_CHROME_STATE;
+  return normalizeDossierChromeState(null);
 }
 
 function store(next: DossierChromeState) {
   cached = next;
   if (typeof window === "undefined") return;
   try {
-    window.localStorage.setItem(DOSSIER_CHROME_STORAGE_KEY, JSON.stringify(next));
+    window.localStorage?.setItem(DOSSIER_CHROME_STORAGE_KEY, JSON.stringify(next));
   } catch {
     // Der laufende Tab reagiert weiterhin über das Event.
   }
-  window.dispatchEvent(new CustomEvent(EVENT));
+  if (typeof window.dispatchEvent === "function" && typeof CustomEvent !== "undefined") {
+    window.dispatchEvent(new CustomEvent(EVENT));
+  }
 }
 
 export function getDossierChromeState(): DossierChromeState {
@@ -157,36 +171,53 @@ export function getDossierChromeOptions(scope: DossierChromeScope): DossierChrom
   return state.sync ? state.shared : state[scope];
 }
 
-export function patchDossierChrome(scope: DossierChromeScope, patch: Partial<DossierChromeOptions>) {
-  const current = getDossierChromeState();
-  if (current.sync) {
-    store({ ...current, shared: normalizeOptions({ ...current.shared, ...patch }, current.shared) });
-    return;
+export function patchDossierChromeState(
+  state: DossierChromeState,
+  scope: DossierChromeScope,
+  patch: Partial<DossierChromeOptions>,
+): DossierChromeState {
+  if (state.sync) {
+    return {
+      ...state,
+      shared: normalizeOptions({ ...state.shared, ...patch }, state.shared),
+    };
   }
-  store({
-    ...current,
-    [scope]: normalizeOptions({ ...current[scope], ...patch }, current[scope]),
-  });
+  return {
+    ...state,
+    [scope]: normalizeOptions({ ...state[scope], ...patch }, state[scope]),
+  };
+}
+
+export function patchDossierChrome(scope: DossierChromeScope, patch: Partial<DossierChromeOptions>) {
+  store(patchDossierChromeState(getDossierChromeState(), scope, patch));
+}
+
+export function setDossierChromeSyncState(
+  state: DossierChromeState,
+  scope: DossierChromeScope,
+  sync: boolean,
+): DossierChromeState {
+  if (state.sync === sync) return state;
+  if (sync) {
+    const source = state[scope];
+    return { ...state, sync: true, shared: { ...source } };
+  }
+  return {
+    ...state,
+    sync: false,
+    cv: { ...state.shared },
+    letter: { ...state.shared },
+  };
 }
 
 export function setDossierChromeSync(scope: DossierChromeScope, sync: boolean) {
-  const current = getDossierChromeState();
-  if (current.sync === sync) return;
-  if (sync) {
-    const source = current[scope];
-    store({ ...current, sync: true, shared: { ...source } });
-    return;
-  }
-  store({
-    ...current,
-    sync: false,
-    cv: { ...current.shared },
-    letter: { ...current.shared },
-  });
+  store(setDossierChromeSyncState(getDossierChromeState(), scope, sync));
 }
 
 export function subscribeDossierChrome(onChange: () => void) {
-  if (typeof window === "undefined") return () => {};
+  if (typeof window === "undefined" || typeof window.addEventListener !== "function") {
+    return () => {};
+  }
   const local = () => onChange();
   const storage = (event: StorageEvent) => {
     if (event.key !== DOSSIER_CHROME_STORAGE_KEY) return;
