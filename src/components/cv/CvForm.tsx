@@ -9,7 +9,6 @@ import {
   type DossierPhotoStyle,
 } from "@/lib/dossier-photo";
 import { PhotoStyleControls } from "@/components/photo/PhotoStyleControls";
-import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import { getCvLayout, subscribeCvLayout } from "./layout";
 import { getCvPlacements, setCvPlacement, subscribeCvPlacements } from "./placement";
 import { getCvPhotoStyle, setCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
@@ -419,7 +418,6 @@ export function FormCvPerson({
 
   return (
     <div className="flex flex-col gap-3">
-      <DossierChromeControls scope="cv" />
       <BlockPlacementControl block="kontakt" label="Kontaktangaben" />
       <label className="flex flex-col gap-1">
         <span className="text-xs text-muted-foreground">Überschrift über den Kontaktangaben</span>
@@ -786,7 +784,7 @@ export function FormCvLines({
           <button
             type="button"
             className={delBtn}
-            onClick={() => onChange(list.filter((_, j) => j !== i)}
+            onClick={() => onChange(list.filter((_, j) => j !== i))}
           >
             ✕
           </button>
