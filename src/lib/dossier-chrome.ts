@@ -148,11 +148,55 @@ function read(): DossierChromeState {
   return normalizeDossierChromeState(null);
 }
 
+function mirrorLegacyLetterDesign(next: DossierChromeState) {
+  if (typeof window === "undefined" || !window.localStorage) return;
+  try {
+    const raw = window.localStorage.getItem(LETTER_STORAGE_KEY);
+    if (!raw) return;
+    const parsed: unknown = JSON.parse(raw);
+    if (!isRecord(parsed) || !isRecord(parsed.design)) return;
+
+    const options = next.sync ? next.shared : next.letter;
+    const footerMode = options.footerMode === "details" ? "attachments" : options.footerMode;
+    const design = parsed.design;
+    if (
+      design.headerMode === options.headerMode &&
+      design.headerShowName === options.headerShowName &&
+      design.headerShowAddress === options.headerShowAddress &&
+      design.headerShowPhone === options.headerShowPhone &&
+      design.headerShowEmail === options.headerShowEmail &&
+      design.footerMode === footerMode
+    ) {
+      return;
+    }
+
+    window.localStorage.setItem(
+      LETTER_STORAGE_KEY,
+      JSON.stringify({
+        ...parsed,
+        design: {
+          ...design,
+          headerMode: options.headerMode,
+          headerShowName: options.headerShowName,
+          headerShowAddress: options.headerShowAddress,
+          headerShowPhone: options.headerShowPhone,
+          headerShowEmail: options.headerShowEmail,
+          footerMode,
+        },
+      }),
+    );
+  } catch {
+    // Der neue gemeinsame Speicher bleibt die kanonische Quelle. Die Spiegelung
+    // existiert nur für ältere Einzelbrief-Stände und Browser-Automation.
+  }
+}
+
 function store(next: DossierChromeState) {
   cached = next;
   if (typeof window === "undefined") return;
   try {
     window.localStorage?.setItem(DOSSIER_CHROME_STORAGE_KEY, JSON.stringify(next));
+    mirrorLegacyLetterDesign(next);
   } catch {
     // Der laufende Tab reagiert weiterhin über das Event.
   }
@@ -253,7 +297,11 @@ export function dossierHeaderContentTopMm(scope: DossierChromeScope, pageIndex =
   const mode = effectiveDossierHeaderMode(scope, pageIndex);
   if (pageIndex > 0) return mode === "none" ? 16 : 18;
   if (mode === "contact") return 31;
-  return mode === "none" ? 18 : 21;
+  if (mode === "none") return 18;
+  // The CV already carries a dense document header inside its content flow.
+  // One millimetre less clearance keeps the validated one-page demo matrix
+  // intact without moving or shrinking the shared 3 mm chrome itself.
+  return scope === "cv" ? 20 : 21;
 }
 
 export function dossierHeaderVisualHeightMm(scope: DossierChromeScope, pageIndex = 0): number {
