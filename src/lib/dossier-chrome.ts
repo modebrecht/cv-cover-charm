@@ -298,10 +298,7 @@ export function dossierHeaderContentTopMm(scope: DossierChromeScope, pageIndex =
   if (pageIndex > 0) return mode === "none" ? 16 : 18;
   if (mode === "contact") return 31;
   if (mode === "none") return 18;
-  // The CV already carries a dense document header inside its content flow.
-  // One millimetre less clearance keeps the validated one-page demo matrix
-  // intact without moving or shrinking the shared 3 mm chrome itself.
-  return scope === "cv" ? 20 : 21;
+  return 21;
 }
 
 export function dossierHeaderVisualHeightMm(scope: DossierChromeScope, pageIndex = 0): number {
