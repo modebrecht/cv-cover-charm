@@ -86,6 +86,17 @@ const FRESH_BAND_TEMPLATES = new Set<string>(["horizon", "sunrise", "ribbon", "c
 const FRESH_FRAME_TEMPLATES = new Set<string>(["frame", "monoLuxe"]);
 
 /**
+ * These first gallery designs are intentionally typographic/quiet on the letter
+ * page. A detached mini-bar, hairline or pill reads as a rendering fragment,
+ * not as a coherent header. Keep their compact header completely fragment-free.
+ */
+const FRAGMENT_FREE_COMPACT_TEMPLATES = new Set<LetterTemplateId>([
+  "brief",
+  "klassisch",
+  "modern",
+]);
+
+/**
  * These are the only letter-specific content dimensions. Templates do not own
  * letter margins; they are reduced to a structural archetype first and then use
  * the same compact measurements as every other template in that archetype.
@@ -205,6 +216,8 @@ export function letterPageGeometry(
     finalPage &&
     data.showBeilagen !== false &&
     visibleLetterAttachments(data).length > 0;
+  const suppressCompactFragments =
+    headerMode === "compact" && FRAGMENT_FREE_COMPACT_TEMPLATES.has(design.template);
 
   return {
     pageIndex,
@@ -232,9 +245,19 @@ export function letterPageGeometry(
       contactMinHeight: 15,
       sidebarWidth: archetype === "sidebar" ? 6 : 0,
       compactTopBandHeight: archetype === "band" ? 5 : 0,
-      compactAccent: COMPACT_ACCENTS[archetype],
-      compactLineTop: archetype === "quiet" || archetype === "fresh" ? 13 : 0,
-      compactPill: archetype === "frame" ? { left: 160, top: 11, width: 32, height: 7 } : null,
+      compactAccent: suppressCompactFragments
+        ? { left: 0, top: 0, width: 0, height: 0 }
+        : COMPACT_ACCENTS[archetype],
+      compactLineTop: suppressCompactFragments
+        ? 0
+        : archetype === "quiet" || archetype === "fresh"
+          ? 13
+          : 0,
+      compactPill: suppressCompactFragments
+        ? null
+        : archetype === "frame"
+          ? { left: 160, top: 11, width: 32, height: 7 }
+          : null,
     },
     footer: {
       height: footerHeight,
