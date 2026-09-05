@@ -1,0 +1,42 @@
+name: Final chrome wiring fix
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "scripts/final-chrome-wiring-fix.py"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Apply final wiring patch
+        run: python scripts/final-chrome-wiring-fix.py
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Format changed files
+        run: bunx prettier --write src/lib/dossier-contact.ts src/lib/dossier-chrome.ts src/components/cv/CvCanvas.tsx src/components/letter/LetterCanvas.tsx src/components/dossier/DossierPdfCanvas.tsx src/routes/anschreiben.tsx src/routes/lebenslauf.tsx tests/e2e/dossier-chrome-sync.spec.ts tests/e2e/dossier-state-roundtrip.spec.ts tests/unit/dossier-contact.test.ts
+      - name: Fast verification
+        run: |
+          bun test tests/unit/dossier-contact.test.ts tests/unit/dossier-chrome-renderer-boundary.test.ts tests/unit/dossier-chrome-history.test.ts
+          bun run typecheck
+      - name: Commit patch and remove helper
+        run: |
+          rm -f scripts/final-chrome-wiring-fix.py .github/workflows/final-chrome-wiring-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix(dossier): finish shared chrome wiring"
+          git push origin dev
