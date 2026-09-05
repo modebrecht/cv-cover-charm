@@ -1,4 +1,8 @@
 import {
+  getDossierChromeState,
+  subscribeDossierChrome,
+} from "@/lib/dossier-chrome";
+import {
   DEFAULT_CV_PLACEMENTS,
   type CvPlacement,
   type CvPlacementKey,
@@ -9,6 +13,7 @@ const STORAGE_KEY = "lebenslauf:placement:v1";
 const EVENT = "lebenslauf-placement-change";
 
 let cached: CvPlacements | null = null;
+let chromeSnapshot = getDossierChromeState();
 
 function read(): CvPlacements {
   if (typeof window === "undefined") return DEFAULT_CV_PLACEMENTS;
@@ -23,6 +28,11 @@ function read(): CvPlacements {
 }
 
 export function getCvPlacements(): CvPlacements {
+  const chrome = getDossierChromeState();
+  if (chrome !== chromeSnapshot) {
+    chromeSnapshot = chrome;
+    if (cached) cached = { ...cached };
+  }
   if (cached) return cached;
   cached = read();
   return cached;
@@ -48,11 +58,17 @@ export function subscribeCvPlacements(onChange: () => void) {
     cached = read();
     onChange();
   };
+  const chrome = subscribeDossierChrome(() => {
+    chromeSnapshot = getDossierChromeState();
+    cached = { ...(cached ?? read()) };
+    onChange();
+  });
 
   window.addEventListener(EVENT, local);
   window.addEventListener("storage", storage);
   return () => {
     window.removeEventListener(EVENT, local);
     window.removeEventListener("storage", storage);
+    chrome();
   };
 }
