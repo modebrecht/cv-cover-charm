@@ -72,12 +72,27 @@ html:is(
   zoom: 0.9;
 }
 
-/* Glow was already a one-page design before the shared compact chrome. The
- * new top chrome changes its available raster by only a few source pixels, so
- * use a deliberately tiny flow correction instead of adding Glow to the much
- * stronger 90% spill-template group. Hidden measurement, preview and PDF all
- * receive the exact same adjustment. */
-[data-dossier-document="cv"][data-cv-template="glow"] [data-cv-main] > div {
+/* Designs that were exactly on the old one-page boundary need only a tiny
+ * correction for the shared compact chrome: the current browser matrix shows
+ * a uniform 5 px deficit (Gallery lands on the rounding boundary). Keep them
+ * visually unchanged to the eye instead of moving them into the strong 90%
+ * compact group. Hidden measurement, preview and PDF share this exact rule. */
+[data-dossier-document="cv"]:is(
+    [data-cv-template="blockig"],
+    [data-cv-template="brief"],
+    [data-cv-template="colorful"],
+    [data-cv-template="edge"],
+    [data-cv-template="forestFlow"],
+    [data-cv-template="frame"],
+    [data-cv-template="gallery"],
+    [data-cv-template="glow"],
+    [data-cv-template="horizon"],
+    [data-cv-template="monoLuxe"],
+    [data-cv-template="sunrise"],
+    [data-cv-template="violetPulse"]
+  )
+  [data-cv-main]
+  > div {
   zoom: 0.995;
 }
 
