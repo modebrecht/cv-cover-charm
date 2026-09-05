@@ -32,4 +32,14 @@ describe("dossier chrome renderer boundary", () => {
     expect(source).toContain("cvContentBox(frame, i, layout, sidebarPct, chromeOptions)");
     expect(source).toContain("options={chromeOptions}");
   });
+
+  test("chrome controls derive every field from their subscribed state snapshot", () => {
+    const source = read("src/components/dossier/DossierChromeControls.tsx");
+    expect(source).toContain("const options = state.sync ? state.shared : state[scope]");
+    expect(source).toContain("value={options.headerMode}");
+    expect(source).toContain('options.headerMode === "contact"');
+    expect(source).not.toContain("getDossierChromeOptions");
+    expect(source).not.toContain("selected.headerMode");
+    expect(source).not.toContain("selected.footerMode");
+  });
 });
