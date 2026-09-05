@@ -21,6 +21,11 @@ jobs:
           ref: dev
           fetch-depth: 0
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Apply explicit chrome snapshot boundary
         run: python3 scripts/point4_refactor.py
 
