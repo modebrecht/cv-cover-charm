@@ -84,19 +84,31 @@ async function seedCv(page: Page) {
 const previewCv = (page: Page) =>
   page.locator('[data-dossier-document="cv"][data-export-mode="false"]').first();
 
+const cvControls = (page: Page) =>
+  page.locator('[data-dossier-chrome-host] [data-dossier-chrome-controls="cv"]');
+
 test.describe("shared CV / motivation-letter chrome", () => {
   test.setTimeout(120_000);
 
-  test("CV exposes the same controls and sync-on changes reach the motivation letter", async ({
+  test("CV exposes one shared control set and sync-on changes reach the motivation letter", async ({
     page,
   }) => {
     await seedCv(page);
 
-    const controls = page.locator('[data-dossier-chrome-controls="cv"]');
+    const controls = cvControls(page);
+    await expect(controls).toHaveCount(1);
     await expect(controls).toBeVisible();
     await expect(controls.locator('[data-dossier-chrome-sync]')).toBeChecked();
 
     await controls.locator('[data-cv-header-mode-control]').selectOption("contact");
+    await expect
+      .poll(() =>
+        page.evaluate(
+          (key) => JSON.parse(localStorage.getItem(key) ?? "null")?.shared?.headerMode,
+          CHROME_KEY,
+        ),
+      )
+      .toBe("contact");
     await expect(previewCv(page).locator('[data-dossier-chrome="cv"]').first()).toHaveAttribute(
       "data-dossier-header-mode",
       "contact",
@@ -192,7 +204,9 @@ test.describe("shared CV / motivation-letter chrome", () => {
     await expect.poll(bodyText).toContain("14.03.2010");
     await expect.poll(bodyText).toContain("Schweiz");
 
-    await page.getByLabel("E-Mail integrieren").uncheck();
+    const controls = cvControls(page);
+    await expect(controls).toHaveCount(1);
+    await controls.getByLabel("E-Mail integrieren").uncheck();
     await expect(integrated).not.toContainText("chrome-test@example.ch");
     await expect.poll(bodyText).toContain("chrome-test@example.ch");
   });
