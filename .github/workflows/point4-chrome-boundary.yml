@@ -1,0 +1,504 @@
+name: Point 4 Chrome Boundary Refactor
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/point4-chrome-boundary.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  refactor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Apply explicit chrome snapshot boundary
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          def read(path):
+              return Path(path).read_text()
+
+          def write(path, text):
+              Path(path).write_text(text)
+
+          def replace_once(text, old, new, label):
+              if old not in text:
+                  raise SystemExit(f"missing expected snippet: {label}")
+              return text.replace(old, new, 1)
+
+          # 1) Pure presentational chrome: no store subscription, no hidden contact context.
+          path = "src/components/dossier/DossierHeaderFooterChrome.tsx"
+          s = read(path)
+          old = '''import {
+            createContext,
+            useContext,
+            useSyncExternalStore,
+            type ReactNode,
+          } from "react";
+          import { cvPalette, onColorRoles } from "@/components/cv/palette";
+          import {
+            DEFAULT_DOSSIER_CHROME_STATE,
+            getDossierChromeState,
+            subscribeDossierChrome,
+            type DossierChromeContact,
+            type DossierChromeOptions,
+            type DossierChromeScope,
+          } from "@/lib/dossier-chrome";
+
+          const CvContactOverrideContext = createContext<DossierChromeContact | null>(null);
+
+          /**
+           * Der CV-Body darf integrierte Kontaktfelder ausblenden, ohne dem gemeinsamen
+           * Header dieselben Daten wegzunehmen. Der Provider hält deshalb ausschliesslich
+           * die ursprünglichen CV-Kontaktdaten für den Chrome-Renderer bereit.
+           */
+          export function DossierChromeContactOverrideProvider({
+            contact,
+            children,
+          }: {
+            contact: DossierChromeContact;
+            children: ReactNode;
+          }) {
+            return <CvContactOverrideContext.Provider value={contact}>{children}</CvContactOverrideContext.Provider>;
+          }
+
+          '''
+          new = '''import { cvPalette, onColorRoles } from "@/components/cv/palette";
+          import type {
+            DossierChromeContact,
+            DossierChromeOptions,
+            DossierChromeScope,
+          } from "@/lib/dossier-chrome";
+
+          '''
+          s = replace_once(s, old, new, "chrome imports/context")
+          s = replace_once(s, "  optionsOverride,\n", "  options,\n", "chrome options destructure")
+          s = replace_once(s, "  optionsOverride?: DossierChromeOptions;\n", "  options: DossierChromeOptions;\n", "chrome options prop")
+          old = '''  const state = useSyncExternalStore(
+            subscribeDossierChrome,
+            getDossierChromeState,
+            () => DEFAULT_DOSSIER_CHROME_STATE,
+          );
+          const cvContactOverride = useContext(CvContactOverrideContext);
+          const resolvedContact = scope === "cv" && cvContactOverride ? cvContactOverride : contact;
+          const options = optionsOverride ?? (state.sync ? state.shared : state[scope]);
+          '''
+          s = replace_once(s, old, "  const resolvedContact = contact;\n", "chrome live subscription")
+          old = '''  const resolvedFooterLeft =
+            scope === "cv" && cvContactOverride?.name ? cvContactOverride.name : footerLeft;
+          '''
+          s = replace_once(s, old, "  const resolvedFooterLeft = footerLeft;\n", "chrome footer context")
+          write(path, s)
+
+          # 2) Letter canvas is a pure snapshot renderer. Legacy design remains only a static fallback.
+          path = "src/components/letter/LetterCanvas.tsx"
+          s = read(path)
+          s = replace_once(
+              s,
+              'import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";',
+              'import { useEffect, useMemo, useRef } from "react";',
+              "letter react import",
+          )
+          old = '''import {
+            DEFAULT_DOSSIER_CHROME_STATE,
+            getDossierChromeState,
+            subscribeDossierChrome,
+            type DossierChromeOptions,
+          } from "@/lib/dossier-chrome";
+          '''
+          s = replace_once(s, old, 'import type { DossierChromeOptions } from "@/lib/dossier-chrome";\n', "letter chrome import")
+          s = replace_once(s, "  exportMode = false,\n", "  exportMode = false,\n  chromeOptions,\n", "letter chrome destructure")
+          s = replace_once(s, "  exportMode?: boolean;\n", "  exportMode?: boolean;\n  chromeOptions?: DossierChromeOptions;\n", "letter chrome prop")
+          old = '''  const chromeState = useSyncExternalStore(
+            subscribeDossierChrome,
+            getDossierChromeState,
+            () => DEFAULT_DOSSIER_CHROME_STATE,
+          );
+          const liveBrowser =
+            typeof window !== "undefined" &&
+            typeof window.addEventListener === "function" &&
+            typeof window.document !== "undefined";
+          const chrome = liveBrowser
+            ? chromeState.sync
+              ? chromeState.shared
+              : chromeState.letter
+            : legacyChromeFromDesign(design);
+          '''
+          s = replace_once(s, old, "  const chrome = chromeOptions ?? legacyChromeFromDesign(design);\n", "letter live subscription")
+          s = replace_once(s, "        optionsOverride={chrome}\n", "        options={chrome}\n", "letter chrome render prop")
+          write(path, s)
+
+          # 3) CV public canvas is pure: the editor supplies options, static defaults cover direct tests/SSR.
+          path = "src/components/cv/CvCanvas.tsx"
+          write(path, '''import { useMemo, type ComponentProps } from "react";
+          import {
+            DEFAULT_DOSSIER_CHROME_OPTIONS,
+            type DossierChromeContact,
+            type DossierChromeOptions,
+          } from "@/lib/dossier-chrome";
+          import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
+          import type { CvData } from "./types";
+
+          export type { CvLayoutWarning } from "./CvCanvasBase";
+
+          type BaseProps = ComponentProps<typeof BaseCvCanvas>;
+          type Props = Omit<BaseProps, "chromeOptions" | "chromeContact"> & {
+            chromeOptions?: DossierChromeOptions;
+          };
+
+          function contactFromCv(data: CvData): DossierChromeContact {
+            const person = data.person;
+            return {
+              name: [person.vorname, person.nachname].filter(Boolean).join(" "),
+              address: person.adresse ?? "",
+              place: person.plzOrt ?? "",
+              phone: person.telefon ?? "",
+              email: person.email ?? "",
+            };
+          }
+
+          /**
+           * Der gemeinsame Contact-Header besitzt die ausgewählten Identitätsfelder.
+           * Für den historischen CV-Renderer werden genau diese Felder ausgeblendet,
+           * damit sie nicht direkt darunter ein zweites Mal erscheinen. Nicht integrierte
+           * Felder sowie Geburtsdatum/Nationalität bleiben unverändert im CV-Inhalt.
+           */
+          function cvBodyData(data: CvData, options: DossierChromeOptions): CvData {
+            if (options.headerMode !== "contact") return data;
+
+            const person = data.person;
+            const hasName = !!(person.vorname?.trim() || person.nachname?.trim());
+            return {
+              ...data,
+              person: {
+                ...person,
+                ...(options.headerShowName && hasName ? { vorname: "\\u200b", nachname: "" } : {}),
+                ...(options.headerShowAddress ? { adresse: "", plzOrt: "" } : {}),
+                ...(options.headerShowPhone ? { telefon: "" } : {}),
+                ...(options.headerShowEmail ? { email: "" } : {}),
+              },
+            };
+          }
+
+          /**
+           * Reiner Snapshot-Adapter: keine Store-Abos. Der Editor übergibt die aktuelle
+           * Chrome-Konfiguration explizit; direkte Tests/SSR nutzen nur statische Defaults.
+           */
+          export function CvCanvas({
+            chromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS,
+            ...props
+          }: Props) {
+            const contact = useMemo(() => contactFromCv(props.data), [props.data]);
+            const data = useMemo(
+              () => cvBodyData(props.data, chromeOptions),
+              [props.data, chromeOptions],
+            );
+
+            return (
+              <BaseCvCanvas
+                {...props}
+                data={data}
+                chromeOptions={chromeOptions}
+                chromeContact={contact}
+              />
+            );
+          }
+          ''')
+
+          # 4) CV base receives one explicit snapshot for geometry and visual chrome.
+          path = "src/components/cv/CvCanvasBase.tsx"
+          s = read(path)
+          old = '''import {
+            DEFAULT_DOSSIER_CHROME_STATE,
+            getDossierChromeState,
+            subscribeDossierChrome,
+          } from "@/lib/dossier-chrome";
+          '''
+          s = replace_once(
+              s,
+              old,
+              'import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";\n',
+              "cv base chrome import",
+          )
+          s = replace_once(
+              s,
+              "  elements: CustomField[];\n",
+              "  elements: CustomField[];\n  chromeOptions: DossierChromeOptions;\n  chromeContact: DossierChromeContact;\n",
+              "cv base chrome props",
+          )
+          s = replace_once(
+              s,
+              "  elements,\n  exportMode = false,\n",
+              "  elements,\n  chromeOptions,\n  chromeContact,\n  exportMode = false,\n",
+              "cv base chrome destructure",
+          )
+          old = '''  const chromeState = useSyncExternalStore(
+            subscribeDossierChrome,
+            getDossierChromeState,
+            () => DEFAULT_DOSSIER_CHROME_STATE,
+          );
+          const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
+          '''
+          s = replace_once(s, old, "", "cv base live subscription")
+          s = replace_once(
+              s,
+              "        const box = cvContentBox(frame, i, layout, sidebarPct);\n",
+              "        const box = cvContentBox(frame, i, layout, sidebarPct, chromeOptions);\n",
+              "cv page explicit geometry",
+          )
+          s = replace_once(s, "              optionsOverride={chromeOptions}\n", "              options={chromeOptions}\n", "cv chrome render prop")
+          old = '''              contact={{
+                name,
+                address: p.adresse ?? "",
+                place: p.plzOrt ?? "",
+                phone: p.telefon ?? "",
+                email: p.email ?? "",
+              }}
+          '''
+          s = replace_once(s, old, "              contact={chromeContact}\n", "cv explicit contact")
+          s = s.replace('              footerLeft={name || "Lebenslauf"}\n', '              footerLeft={chromeContact.name || "Lebenslauf"}\n')
+          write(path, s)
+
+          # 5) Combined PDF renderer receives the route/editor snapshot instead of reading the store.
+          path = "src/components/dossier/DossierPdfCanvas.tsx"
+          s = read(path)
+          s = replace_once(
+              s,
+              'import { LETTER_STORAGE_KEY, readStoredDossierPart } from "@/lib/dossier-project";\n',
+              'import { LETTER_STORAGE_KEY, readStoredDossierPart } from "@/lib/dossier-project";\nimport { DEFAULT_DOSSIER_CHROME_STATE, type DossierChromeState } from "@/lib/dossier-chrome";\n',
+              "pdf chrome import",
+          )
+          s = replace_once(
+              s,
+              "    cv: CvPdfDocument | null;\n",
+              "    cv: CvPdfDocument | null;\n    chromeState?: DossierChromeState;\n",
+              "pdf chrome prop",
+          )
+          old = '''>(function DossierPdfCanvas({ cover, letter, cv, onCvLayoutWarnings, onCvPageCount }, ref) {
+            const storedLetter =
+          '''
+          new = '''>(function DossierPdfCanvas(
+            {
+              cover,
+              letter,
+              cv,
+              chromeState = DEFAULT_DOSSIER_CHROME_STATE,
+              onCvLayoutWarnings,
+              onCvPageCount,
+            },
+            ref,
+          ) {
+            const letterChromeOptions = chromeState.sync ? chromeState.shared : chromeState.letter;
+            const cvChromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
+            const storedLetter =
+          '''
+          s = replace_once(s, old, new, "pdf function signature")
+          s = replace_once(
+              s,
+              "          <LetterCanvas data={storedLetter.data} design={storedLetter.design} exportMode />\n",
+              "          <LetterCanvas\n            data={storedLetter.data}\n            design={storedLetter.design}\n            chromeOptions={letterChromeOptions}\n            exportMode\n          />\n",
+              "pdf letter snapshot",
+          )
+          s = replace_once(
+              s,
+              "          data={cv.data}\n          design={cv.design}\n",
+              "          data={cv.data}\n          design={cv.design}\n          chromeOptions={cvChromeOptions}\n",
+              "pdf cv snapshot",
+          )
+          write(path, s)
+
+          # 6) Motivation-letter editor already owns the store subscription; pass that snapshot down.
+          path = "src/routes/anschreiben.tsx"
+          s = read(path)
+          old = '''  const chromeState = useSyncExternalStore(
+            subscribeDossierChrome,
+            getDossierChromeState,
+            () => DEFAULT_DOSSIER_CHROME_STATE,
+          );
+          '''
+          new = old + "  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.letter;\n"
+          s = replace_once(s, old, new, "letter route snapshot")
+          # Exactly two canvases: preview and standalone export.
+          marker = "                design={design}\n"
+          if s.count(marker) < 1:
+              raise SystemExit("missing letter preview marker")
+          s = s.replace(marker, marker + "                chromeOptions={chromeOptions}\n", 1)
+          marker2 = "            design={design}\n            exportMode\n"
+          s = replace_once(s, marker2, "            design={design}\n            chromeOptions={chromeOptions}\n            exportMode\n", "letter export snapshot")
+          write(path, s)
+
+          # Helpers for routes that render CV/PDF output.
+          chrome_import = '''import {
+            DEFAULT_DOSSIER_CHROME_STATE,
+            getDossierChromeState,
+            subscribeDossierChrome,
+          } from "@/lib/dossier-chrome";
+          '''
+
+          # 7) CV editor owns one live snapshot and gives it to preview, standalone export and dossier export.
+          path = "src/routes/lebenslauf.tsx"
+          s = read(path)
+          s = replace_once(
+              s,
+              'import { useCallback, useEffect, useMemo, useRef, useState } from "react";',
+              'import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";',
+              "cv route react import",
+          )
+          anchor = 'import { SIDEBAR_PCT_MAX, SIDEBAR_PCT_MIN } from "@/components/cv/archetype";\n'
+          s = replace_once(s, anchor, anchor + chrome_import, "cv route chrome import")
+          anchor = "function Lebenslauf() {\n"
+          state = '''function Lebenslauf() {
+            const chromeState = useSyncExternalStore(
+              subscribeDossierChrome,
+              getDossierChromeState,
+              () => DEFAULT_DOSSIER_CHROME_STATE,
+            );
+            const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
+          '''
+          s = replace_once(s, anchor, state, "cv route snapshot")
+          # Two direct CvCanvas instances.
+          needle = "      design={design}\n      elements={elements}\n"
+          s = replace_once(s, needle, "      design={design}\n      chromeOptions={chromeOptions}\n      elements={elements}\n", "cv preview snapshot")
+          needle = "          design={design}\n          elements={elements}\n          elementStyles={elementStyles}\n          exportMode\n"
+          s = replace_once(s, needle, "          design={design}\n          chromeOptions={chromeOptions}\n          elements={elements}\n          elementStyles={elementStyles}\n          exportMode\n", "cv standalone snapshot")
+          needle = "            cv={currentCvDocument}\n"
+          s = replace_once(s, needle, needle + "            chromeState={chromeState}\n", "cv dossier snapshot")
+          write(path, s)
+
+          # 8) Title-page dossier export owns a snapshot as well.
+          path = "src/routes/titelblatt.tsx"
+          s = read(path)
+          s = replace_once(
+              s,
+              'import { useCallback, useEffect, useMemo, useRef, useState } from "react";',
+              'import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";',
+              "cover route react import",
+          )
+          anchor = 'import { DEFAULTS, FONT, PAGE, PDF, PREVIEW, SHAPE } from "@/default-config";\n'
+          s = replace_once(s, anchor, anchor + chrome_import, "cover route chrome import")
+          anchor = "function Titelblatt() {\n"
+          state = '''function Titelblatt() {
+            const chromeState = useSyncExternalStore(
+              subscribeDossierChrome,
+              getDossierChromeState,
+              () => DEFAULT_DOSSIER_CHROME_STATE,
+            );
+          '''
+          s = replace_once(s, anchor, state, "cover route snapshot")
+          needle = "            cv={storedCvDocument}\n"
+          s = replace_once(s, needle, needle + "            chromeState={chromeState}\n", "cover dossier snapshot")
+          write(path, s)
+
+          # 9) Start-page dossier export owns a snapshot rather than delegating store access to the renderer.
+          path = "src/routes/index.tsx"
+          s = read(path)
+          s = replace_once(
+              s,
+              'import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";',
+              'import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";',
+              "index react import",
+          )
+          anchor = '''import {
+            COVER_STORAGE_KEY,
+            CV_STORAGE_KEY,
+            LETTER_STORAGE_KEY,
+            readStoredDossierPart,
+          } from "@/lib/dossier-project";
+          '''
+          s = replace_once(s, anchor, anchor + chrome_import, "index chrome import")
+          anchor = "function Start() {\n"
+          state = '''function Start() {
+            const chromeState = useSyncExternalStore(
+              subscribeDossierChrome,
+              getDossierChromeState,
+              () => DEFAULT_DOSSIER_CHROME_STATE,
+            );
+          '''
+          s = replace_once(s, anchor, state, "index snapshot")
+          needle = "            cv={documents.cv}\n"
+          s = replace_once(s, needle, needle + "            chromeState={chromeState}\n", "index dossier snapshot")
+          write(path, s)
+
+          # 10) Architecture regression: visual renderers must stay store-free.
+          Path("tests/unit/dossier-chrome-renderer-boundary.test.ts").write_text('''import { readFileSync } from "node:fs";
+          import { describe, expect, test } from "bun:test";
+
+          const read = (path: string) => readFileSync(path, "utf8");
+
+          describe("dossier chrome renderer boundary", () => {
+            test("renderers consume explicit snapshots and never subscribe to the global chrome store", () => {
+              const renderers = [
+                "src/components/dossier/DossierHeaderFooterChrome.tsx",
+                "src/components/dossier/DossierPdfCanvas.tsx",
+                "src/components/letter/LetterCanvas.tsx",
+                "src/components/cv/CvCanvas.tsx",
+                "src/components/cv/CvCanvasBase.tsx",
+              ];
+
+              for (const path of renderers) {
+                const source = read(path);
+                expect(source).not.toContain("subscribeDossierChrome");
+                expect(source).not.toContain("getDossierChromeState");
+              }
+            });
+
+            test("the shared chrome component is presentational and receives options explicitly", () => {
+              const source = read("src/components/dossier/DossierHeaderFooterChrome.tsx");
+              expect(source).toContain("options: DossierChromeOptions");
+              expect(source).not.toContain("optionsOverride");
+              expect(source).not.toContain("useSyncExternalStore");
+            });
+
+            test("CV geometry uses the exact same explicit chrome snapshot as the visual chrome", () => {
+              const source = read("src/components/cv/CvCanvasBase.tsx");
+              expect(source).toContain("chromeOptions: DossierChromeOptions");
+              expect(source).toContain("cvContentBox(frame, i, layout, sidebarPct, chromeOptions)");
+              expect(source).toContain("options={chromeOptions}");
+            });
+          });
+          ''')
+          PY
+
+      - name: Format changed files
+        run: npx prettier --write \
+          src/components/dossier/DossierHeaderFooterChrome.tsx \
+          src/components/dossier/DossierPdfCanvas.tsx \
+          src/components/letter/LetterCanvas.tsx \
+          src/components/cv/CvCanvas.tsx \
+          src/components/cv/CvCanvasBase.tsx \
+          src/routes/anschreiben.tsx \
+          src/routes/lebenslauf.tsx \
+          src/routes/titelblatt.tsx \
+          src/routes/index.tsx \
+          tests/unit/dossier-chrome-renderer-boundary.test.ts
+
+      - name: Verify before commit
+        run: |
+          bun install --frozen-lockfile
+          bun test tests/unit/dossier-chrome-renderer-boundary.test.ts tests/unit/dossier-chrome-sync.test.ts tests/unit/dossier-chrome-geometry.test.ts
+          bun run typecheck
+
+      - name: Commit point 4 refactor
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No refactor changes needed"
+            exit 0
+          fi
+          git config user.name "modebrecht"
+          git config user.email "137332207+modebrecht@users.noreply.github.com"
+          git add src tests/unit/dossier-chrome-renderer-boundary.test.ts
+          git commit -m "refactor(dossier): pass chrome snapshots explicitly"
+          git push origin HEAD:dev
