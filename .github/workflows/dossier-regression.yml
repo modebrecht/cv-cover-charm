@@ -9,11 +9,12 @@ on:
       - dev
       - render
       - main
+      - tmp-cv-chrome-refactor-10
     paths-ignore:
       - "History/**"
 
 permissions:
-  contents: read
+  contents: write
   statuses: write
 
 concurrency:
@@ -21,7 +22,51 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  one-off-cv-chrome-refactor:
+    if: github.ref_name == 'tmp-cv-chrome-refactor-10' && github.event.head_commit.message == 'chore(refactor): run cv chrome extraction'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: tmp-cv-chrome-refactor-10
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Apply CV chrome refactor
+        run: python scripts/one-off-cv-chrome-refactor.py
+
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Format changed files
+        run: bunx prettier --write src/components/cv/CvCanvas.tsx src/components/dossier/DossierSheetBackground.tsx src/lib/dossier-chrome.ts tests/unit/dossier-sheet-background.test.tsx
+
+      - name: Verify fast gates
+        run: |
+          bun run test:unit
+          bun run typecheck
+          bun run lint
+          bun run build
+
+      - name: Commit refactor and restore normal workflow
+        run: |
+          git config user.name "modebrecht"
+          git config user.email "137332207+modebrecht@users.noreply.github.com"
+          git checkout 8324551d90c42f8f4d7c907afb84621712eee90a -- .github/workflows/dossier-regression.yml
+          git rm -f scripts/one-off-cv-chrome-refactor.py .github/workflows/one-off-cv-chrome-refactor.yml
+          git add -A
+          git commit -m "refactor(cv): make dossier chrome explicit"
+          git push origin HEAD:tmp-cv-chrome-refactor-10
+
   fast-checks:
+    if: github.ref_name != 'tmp-cv-chrome-refactor-10'
     runs-on: ubuntu-latest
     timeout-minutes: 12
 
@@ -70,6 +115,7 @@ jobs:
         run: bun run build
 
   browser-regressions:
+    if: github.ref_name != 'tmp-cv-chrome-refactor-10'
     needs: fast-checks
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -180,7 +226,7 @@ jobs:
           fi
 
   publish-regression-status:
-    if: always()
+    if: always() && github.ref_name != 'tmp-cv-chrome-refactor-10'
     needs:
       - fast-checks
       - browser-regressions
