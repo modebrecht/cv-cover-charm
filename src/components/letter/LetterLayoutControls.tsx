@@ -1,8 +1,22 @@
 import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import type { LetterAlignment, LetterDesign } from "@/components/letter/types";
+import type { DossierChromeOptions } from "@/lib/dossier-chrome";
 
 const buttonClass =
   "rounded-md border px-2.5 py-1.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+
+function legacyChromePatch(patch: Partial<DossierChromeOptions>): Partial<LetterDesign> {
+  const next: Partial<LetterDesign> = {};
+  if (patch.headerMode !== undefined) next.headerMode = patch.headerMode;
+  if (patch.headerShowName !== undefined) next.headerShowName = patch.headerShowName;
+  if (patch.headerShowAddress !== undefined) next.headerShowAddress = patch.headerShowAddress;
+  if (patch.headerShowPhone !== undefined) next.headerShowPhone = patch.headerShowPhone;
+  if (patch.headerShowEmail !== undefined) next.headerShowEmail = patch.headerShowEmail;
+  if (patch.footerMode !== undefined) {
+    next.footerMode = patch.footerMode === "details" ? "attachments" : patch.footerMode;
+  }
+  return next;
+}
 
 function AlignmentRow({
   label,
@@ -51,7 +65,10 @@ export function LetterLayoutControls({
 }) {
   return (
     <div className="grid gap-2.5">
-      <DossierChromeControls scope="letter" />
+      <DossierChromeControls
+        scope="letter"
+        onOptionsChange={(patch) => onChange(legacyChromePatch(patch))}
+      />
 
       <p className="text-xs leading-relaxed text-muted-foreground">
         Header und Footer stellst du hier gemeinsam für Lebenslauf und Motivationsschreiben ein.
