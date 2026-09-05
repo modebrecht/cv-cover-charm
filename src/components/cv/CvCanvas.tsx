@@ -12,6 +12,7 @@ export type { CvLayoutWarning } from "./CvCanvasBase";
 type BaseProps = ComponentProps<typeof BaseCvCanvas>;
 type Props = Omit<BaseProps, "chromeOptions" | "chromeContact"> & {
   chromeOptions?: DossierChromeOptions;
+  chromeContact?: DossierChromeContact;
 };
 
 function contactFromCv(data: CvData): DossierChromeContact {
@@ -42,11 +43,20 @@ function cvBodyData(data: CvData, options: DossierChromeOptions): CvData {
 }
 
 /** Pure snapshot adapter: no dossier-chrome store reads happen below the route/editor boundary. */
-export function CvCanvas({ chromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS, ...props }: Props) {
-  const contact = useMemo(() => contactFromCv(props.data), [props.data]);
+export function CvCanvas({
+  chromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS,
+  chromeContact,
+  ...props
+}: Props) {
+  const localContact = useMemo(() => contactFromCv(props.data), [props.data]);
   const data = useMemo(() => cvBodyData(props.data, chromeOptions), [props.data, chromeOptions]);
 
   return (
-    <BaseCvCanvas {...props} data={data} chromeOptions={chromeOptions} chromeContact={contact} />
+    <BaseCvCanvas
+      {...props}
+      data={data}
+      chromeOptions={chromeOptions}
+      chromeContact={chromeContact ?? localContact}
+    />
   );
 }

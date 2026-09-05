@@ -98,9 +98,9 @@ test.describe("shared CV / motivation-letter chrome", () => {
     const controls = cvControls(page);
     await expect(controls).toHaveCount(1);
     await expect(controls).toBeVisible();
-    await expect(controls.locator('[data-dossier-chrome-sync]')).toBeChecked();
+    await expect(controls.locator("[data-dossier-chrome-sync]")).toBeChecked();
 
-    await controls.locator('[data-cv-header-mode-control]').selectOption("contact");
+    await controls.locator("[data-cv-header-mode-control]").selectOption("contact");
     await expect
       .poll(() =>
         page.evaluate(
@@ -164,23 +164,92 @@ test.describe("shared CV / motivation-letter chrome", () => {
       .toBe("contact");
     await expect
       .poll(() =>
+        page.evaluate(() => JSON.parse(localStorage.getItem("anschreiben:v1") ?? "null")?.chrome),
+      )
+      .toBeUndefined();
+  });
+
+  test("sync uses one dossier contact source, splits cleanly, and rejoins from the active branch", async ({
+    page,
+  }) => {
+    await seedCv(page);
+    await page.evaluate(() => {
+      localStorage.setItem(
+        "anschreiben:v1",
+        JSON.stringify({
+          version: 1,
+          data: {
+            absenderName: "Andere Person",
+            absenderAdresse: "Briefweg 9",
+            absenderPlzOrt: "3000 Bern",
+            absenderTelefon: "+41 31 000 00 00",
+            absenderEmail: "anderes@example.ch",
+            betreff: "Bewerbung Informatik",
+            text: "Motivation",
+          },
+          design: { template: "brief", colors: {}, font: "freundlich" },
+        }),
+      );
+    });
+    await page.reload({ waitUntil: "domcontentloaded" });
+
+    const cv = previewCv(page);
+    const controls = cvControls(page);
+    await controls.locator("[data-cv-header-mode-control]").selectOption("contact");
+    await expect(cv.locator("[data-dossier-integrated-contact]").first()).toContainText(
+      "Lea Müller",
+    );
+    await expect(cv.locator("[data-dossier-integrated-contact]").first()).not.toContainText(
+      "Andere Person",
+    );
+
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    const letterHeader = page.locator("[data-dossier-integrated-contact]").first();
+    await expect(letterHeader).toContainText("Lea Müller");
+    await expect(letterHeader).not.toContainText("Andere Person");
+
+    await page.getByRole("button", { name: "Layout", exact: true }).click();
+    const letterControls = page.locator('[data-dossier-chrome-controls="letter"]');
+    await letterControls.locator("[data-dossier-chrome-sync]").uncheck();
+    await expect(letterHeader).toContainText("Andere Person");
+    await letterControls.locator("[data-letter-header-mode-control]").selectOption("none");
+
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+    await expect(previewCv(page).locator('[data-dossier-chrome="cv"]').first()).toHaveAttribute(
+      "data-dossier-header-mode",
+      "contact",
+    );
+
+    const cvControlsAfterSplit = cvControls(page);
+    await cvControlsAfterSplit.locator("[data-dossier-chrome-sync]").check();
+    await expect
+      .poll(() =>
         page.evaluate(
-          () =>
-            JSON.parse(localStorage.getItem("anschreiben:v1") ?? "null")?.chrome?.shared
-              ?.headerMode,
+          (key) => JSON.parse(localStorage.getItem(key) ?? "null")?.shared?.headerMode,
+          CHROME_KEY,
         ),
       )
       .toBe("contact");
+
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await expect(previewCv(page).locator('[data-dossier-chrome="cv"]').first()).toHaveAttribute(
+      "data-dossier-header-mode",
+      "contact",
+    );
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("[data-dossier-integrated-contact]").first()).toContainText(
+      "Lea Müller",
+    );
   });
 
   test("CV contact header owns integrated fields exactly once and leaves unchecked fields in the body", async ({
     page,
   }) => {
     await seedCv(page);
-    await page.evaluate(
-      ({ key, state }) => localStorage.setItem(key, JSON.stringify(state)),
-      { key: CHROME_KEY, state: sharedChrome("contact") },
-    );
+    await page.evaluate(({ key, state }) => localStorage.setItem(key, JSON.stringify(state)), {
+      key: CHROME_KEY,
+      state: sharedChrome("contact"),
+    });
     await page.reload({ waitUntil: "domcontentloaded" });
 
     const cv = previewCv(page);

@@ -127,11 +127,7 @@ export function createDossierChromeHistorySnapshot(
   value: unknown,
   scope: DossierChromeScope,
 ): DossierChromeHistorySnapshot {
-  if (
-    isRecord(value) &&
-    value.scope === scope &&
-    isRecord(value.options)
-  ) {
+  if (isRecord(value) && value.scope === scope && isRecord(value.options)) {
     return {
       version: 1,
       scope,
@@ -227,29 +223,24 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
       design.headerShowPhone === options.headerShowPhone &&
       design.headerShowEmail === options.headerShowEmail &&
       design.footerMode === footerMode;
-    const nestedChromeMatches =
-      isRecord(parsed.chrome) &&
-      JSON.stringify(normalizeDossierChromeState(parsed.chrome)) === JSON.stringify(next);
-    if (designMatches && nestedChromeMatches) return;
+    if (designMatches && parsed.chrome == null) return;
 
-    window.localStorage.setItem(
-      LETTER_STORAGE_KEY,
-      JSON.stringify({
-        ...parsed,
-        // Bestehende v1-Briefe dürfen die Information weiter mittragen, aber
-        // diese Kopie ist nur noch Spiegel der kanonischen Dossier-Einstellung.
-        chrome: next,
-        design: {
-          ...design,
-          headerMode: options.headerMode,
-          headerShowName: options.headerShowName,
-          headerShowAddress: options.headerShowAddress,
-          headerShowPhone: options.headerShowPhone,
-          headerShowEmail: options.headerShowEmail,
-          footerMode,
-        },
-      }),
-    );
+    const nextLetter: Record<string, unknown> = {
+      ...parsed,
+      design: {
+        ...design,
+        headerMode: options.headerMode,
+        headerShowName: options.headerShowName,
+        headerShowAddress: options.headerShowAddress,
+        headerShowPhone: options.headerShowPhone,
+        headerShowEmail: options.headerShowEmail,
+        footerMode,
+      },
+    };
+    // `bewerbungsdossier:chrome:v1` is the only live authority. Strip old
+    // embedded copies whenever the compatibility design mirror is touched.
+    delete nextLetter.chrome;
+    window.localStorage.setItem(LETTER_STORAGE_KEY, JSON.stringify(nextLetter));
   } catch {
     // Der neue gemeinsame Speicher bleibt die kanonische Quelle. Die Spiegelung
     // existiert nur für ältere Einzelbrief-Stände und Browser-Automation.

@@ -12,6 +12,7 @@ import {
 } from "@/lib/dossier-pdf-document";
 import { LETTER_STORAGE_KEY, readStoredDossierPart } from "@/lib/dossier-project";
 import { DEFAULT_DOSSIER_CHROME_STATE, type DossierChromeState } from "@/lib/dossier-chrome";
+import { resolveDossierContact } from "@/lib/dossier-contact";
 
 const ignoreSelection = () => {};
 const ignoreMove = () => {};
@@ -45,6 +46,13 @@ export const DossierPdfCanvas = forwardRef<
     letter === undefined
       ? letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY))
       : letter;
+  const sharedChromeContact = chromeState.sync
+    ? resolveDossierContact({
+        cover: cover?.data,
+        cv: cv?.data,
+        letter: storedLetter?.data,
+      })
+    : undefined;
 
   return (
     <div ref={ref}>
@@ -67,6 +75,7 @@ export const DossierPdfCanvas = forwardRef<
             data={storedLetter.data}
             design={storedLetter.design}
             chromeOptions={letterChromeOptions}
+            chromeContact={sharedChromeContact}
             exportMode
           />
         </div>
@@ -76,6 +85,7 @@ export const DossierPdfCanvas = forwardRef<
           data={cv.data}
           design={cv.design}
           chromeOptions={cvChromeOptions}
+          chromeContact={sharedChromeContact}
           elements={cv.elements}
           elementStyles={cv.elementStyles}
           exportMode

@@ -93,6 +93,7 @@ import {
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
+import { readDossierContact } from "@/lib/dossier-contact";
 import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
@@ -322,6 +323,8 @@ function Lebenslauf() {
         : coverDraftFingerprint(readCoverDraft()),
     );
   }, []);
+
+  const chromeContact = chromeState.sync ? readDossierContact({ cv: data }) : undefined;
 
   const toggle = (k: string) => setOpen((o) => ({ ...o, [k]: !o[k] }));
   const patchData = (p: Partial<CvData>) => setData((d) => ({ ...d, ...p }));
@@ -1074,6 +1077,7 @@ function Lebenslauf() {
       data={data}
       design={design}
       chromeOptions={chromeOptions}
+      chromeContact={chromeContact}
       elements={elements}
       elementStyles={elementStyles}
       selected={selected}
@@ -2187,6 +2191,7 @@ function Lebenslauf() {
           data={data}
           design={design}
           chromeOptions={chromeOptions}
+          chromeContact={chromeContact}
           elements={elements}
           elementStyles={elementStyles}
           exportMode

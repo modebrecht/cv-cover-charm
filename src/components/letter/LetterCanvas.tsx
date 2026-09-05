@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
 import { cvPalette } from "@/components/cv/palette";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
-import type { DossierChromeOptions } from "@/lib/dossier-chrome";
+import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
 import { letterPageGeometry, visibleLetterAttachments } from "./layout-system";
 import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
@@ -59,6 +59,7 @@ export function LetterCanvas({
   design,
   exportMode = false,
   chromeOptions,
+  chromeContact,
   onOverflowChange,
   onImageChange,
   onImageRemove,
@@ -68,6 +69,7 @@ export function LetterCanvas({
   design: LetterDesign;
   exportMode?: boolean;
   chromeOptions?: DossierChromeOptions;
+  chromeContact?: DossierChromeContact;
   onOverflowChange?: (overflow: boolean) => void;
   onImageChange?: (id: string, patch: Partial<LetterFlowImage>) => void;
   onImageRemove?: (id: string) => void;
@@ -162,13 +164,15 @@ export function LetterCanvas({
         scope="letter"
         template={design.template}
         colors={design.colors}
-        contact={{
-          name: data.absenderName,
-          address: data.absenderAdresse,
-          place: data.absenderPlzOrt,
-          phone: data.absenderTelefon,
-          email: data.absenderEmail,
-        }}
+        contact={
+          chromeContact ?? {
+            name: data.absenderName,
+            address: data.absenderAdresse,
+            place: data.absenderPlzOrt,
+            phone: data.absenderTelefon,
+            email: data.absenderEmail,
+          }
+        }
         pageIndex={geometry.pageIndex}
         options={chrome}
         footerHeightMm={geometry.footer.height}

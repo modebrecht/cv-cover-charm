@@ -24,6 +24,7 @@ import { LetterRichTextEditor } from "@/components/letter/LetterRichTextEditor";
 import { LetterTemplatePicker } from "@/components/letter/LetterTemplatePicker";
 import { downloadLetterPdf } from "@/lib/dossier-pdf";
 import { readPhoto } from "@/lib/image";
+import { readDossierContact } from "@/lib/dossier-contact";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   applyPortableDossierChromeState,
@@ -164,6 +165,8 @@ function Anschreiben() {
     typo: false,
   });
 
+  const chromeContact = chromeState.sync ? readDossierContact({ letter: data }) : undefined;
+
   const refreshSource = useCallback(() => {
     const next = readLetterDossierSource();
     setSource(next);
@@ -187,7 +190,6 @@ function Anschreiben() {
           savedDataLoaded = true;
         }
         if (parsed.design) nextDesign = normalizeLetterDesign(parsed.design);
-        if (parsed.chrome) applyPortableDossierChromeState(parsed.chrome);
         setSaveState("saved");
       }
     } catch {
@@ -252,7 +254,6 @@ function Anschreiben() {
         setData({ ...EMPTY_LETTER, ...parsed.data });
       }
       if (parsed.design) setDesign(normalizeLetterDesign(parsed.design));
-      if (parsed.chrome) applyPortableDossierChromeState(parsed.chrome);
       markWritten(raw);
       setHistory(readHistory(HISTORY_KEYS.letter));
       setSaveState("saved");
@@ -266,17 +267,22 @@ function Anschreiben() {
   }, [visible, hydrated, changedElsewhere, markWritten]);
 
   const snapshotPayload = useCallback(
-    (): SavedLetter => ({ version: 1, data, design, chrome: chromeState }),
-    [data, design, chromeState],
+    (): SavedLetter => ({ version: 1, data, design }),
+    [data, design],
+  );
+
+  const historyPayload = useCallback(
+    () => ({ ...snapshotPayload(), chrome: chromeState }) as unknown as Record<string, unknown>,
+    [snapshotPayload, chromeState],
   );
 
   const keepSnapshot = useCallback(
     (label: string, force = false) => {
-      const payload = snapshotPayload() as unknown as Record<string, unknown>;
+      const payload = historyPayload();
       if (!hasContent(payload)) return;
       setHistory(pushSnapshot(HISTORY_KEYS.letter, payload, label, force));
     },
-    [snapshotPayload],
+    [historyPayload],
   );
 
   useEffect(() => {
@@ -1052,6 +1058,7 @@ function Anschreiben() {
                 data={data}
                 design={design}
                 chromeOptions={chromeOptions}
+                chromeContact={chromeContact}
                 onOverflowChange={setLetterOverflow}
                 onImageChange={patchLetterImage}
                 onImageRemove={removeLetterImage}
@@ -1069,6 +1076,7 @@ function Anschreiben() {
             data={data}
             design={design}
             chromeOptions={chromeOptions}
+            chromeContact={chromeContact}
             exportMode
             ariaLabel="Exportansicht Motivationsschreiben"
           />
