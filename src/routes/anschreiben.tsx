@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { Section } from "@/components/cover/Section";
@@ -24,6 +24,12 @@ import { LetterRichTextEditor } from "@/components/letter/LetterRichTextEditor";
 import { LetterTemplatePicker } from "@/components/letter/LetterTemplatePicker";
 import { downloadLetterPdf } from "@/lib/dossier-pdf";
 import { readPhoto } from "@/lib/image";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  applyPortableDossierChromeState,
+  getDossierChromeState,
+  subscribeDossierChrome,
+} from "@/lib/dossier-chrome";
 import {
   mergeNonEmptyLetterData,
   readLetterDossierSource,
@@ -116,6 +122,11 @@ function Field({
 function Anschreiben() {
   const [data, setData] = useState<LetterData>(EMPTY_LETTER);
   const [design, setDesign] = useState<LetterDesign>(emptyLetterDesign);
+  const chromeState = useSyncExternalStore(
+    subscribeDossierChrome,
+    getDossierChromeState,
+    () => DEFAULT_DOSSIER_CHROME_STATE,
+  );
   const [hydrated, setHydrated] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
@@ -175,6 +186,7 @@ function Anschreiben() {
           savedDataLoaded = true;
         }
         if (parsed.design) nextDesign = normalizeLetterDesign(parsed.design);
+        if (parsed.chrome) applyPortableDossierChromeState(parsed.chrome);
         setSaveState("saved");
       }
     } catch {
@@ -239,6 +251,7 @@ function Anschreiben() {
         setData({ ...EMPTY_LETTER, ...parsed.data });
       }
       if (parsed.design) setDesign(normalizeLetterDesign(parsed.design));
+      if (parsed.chrome) applyPortableDossierChromeState(parsed.chrome);
       markWritten(raw);
       setHistory(readHistory(HISTORY_KEYS.letter));
       setSaveState("saved");
@@ -252,8 +265,8 @@ function Anschreiben() {
   }, [visible, hydrated, changedElsewhere, markWritten]);
 
   const snapshotPayload = useCallback(
-    (): SavedLetter => ({ version: 1, data, design }),
-    [data, design],
+    (): SavedLetter => ({ version: 1, data, design, chrome: chromeState }),
+    [data, design, chromeState],
   );
 
   const keepSnapshot = useCallback(
@@ -485,6 +498,7 @@ function Anschreiben() {
       setData({ ...EMPTY_LETTER, ...saved.data });
     }
     if (saved.design) setDesign(normalizeLetterDesign(saved.design));
+    if (saved.chrome) applyPortableDossierChromeState(saved.chrome);
     setMenuOpen(false);
     setHistoryOpen(false);
     setTransferNote({
@@ -717,7 +731,9 @@ function Anschreiben() {
                   <span>
                     Persönliche Angaben: {source?.personalSource ?? "noch nicht verfügbar"}
                   </span>
-                  <span>Betrieb und Bewerbung: {source?.applicationSource ?? "noch nicht verfügbar"}</span>
+                  <span>
+                    Betrieb und Bewerbung: {source?.applicationSource ?? "noch nicht verfügbar"}
+                  </span>
                   <span>Design: {source?.designSource ?? "noch nicht verfügbar"}</span>
                 </div>
 

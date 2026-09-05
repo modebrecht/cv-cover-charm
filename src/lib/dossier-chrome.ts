@@ -274,38 +274,67 @@ export function applyPortableDossierChromeState(value: unknown) {
   store(normalizeDossierChromeState(value));
 }
 
-export function effectiveDossierHeaderMode(
-  scope: DossierChromeScope,
+export function effectiveDossierHeaderModeForOptions(
+  options: DossierChromeOptions,
   pageIndex = 0,
 ): DossierHeaderMode {
-  const requested = getDossierChromeOptions(scope).headerMode;
+  const requested = options.headerMode;
   if (pageIndex === 0) return requested;
   return requested === "none" ? "none" : "compact";
 }
 
-export function dossierHeaderContentTopMm(scope: DossierChromeScope, pageIndex = 0): number {
-  const mode = effectiveDossierHeaderMode(scope, pageIndex);
+export function dossierHeaderContentTopMmForOptions(
+  options: DossierChromeOptions,
+  pageIndex = 0,
+): number {
+  const mode = effectiveDossierHeaderModeForOptions(options, pageIndex);
   if (pageIndex > 0) return mode === "none" ? 16 : 18;
   if (mode === "contact") return 31;
   if (mode === "none") return 18;
   return 21;
 }
 
-export function dossierHeaderVisualHeightMm(scope: DossierChromeScope, pageIndex = 0): number {
-  const mode = effectiveDossierHeaderMode(scope, pageIndex);
+export function dossierHeaderVisualHeightMmForOptions(
+  options: DossierChromeOptions,
+  pageIndex = 0,
+): number {
+  const mode = effectiveDossierHeaderModeForOptions(options, pageIndex);
   if (mode === "contact") return 22;
   if (mode === "compact") return 3;
   return 0;
 }
 
+export function dossierFooterContentBottomMmForOptions(options: DossierChromeOptions): number {
+  if (options.footerMode === "none") return 10;
+  return options.footerMode === "details" ? 20 : 17;
+}
+
+export function dossierFooterVisualHeightMmForOptions(options: DossierChromeOptions): number {
+  if (options.footerMode === "none") return 0;
+  return options.footerMode === "details" ? 10 : 2.4;
+}
+
+// Compatibility wrappers for callers that intentionally read the live store.
+// Layout engines should use the pure option-based helpers above.
+export function effectiveDossierHeaderMode(
+  scope: DossierChromeScope,
+  pageIndex = 0,
+): DossierHeaderMode {
+  return effectiveDossierHeaderModeForOptions(getDossierChromeOptions(scope), pageIndex);
+}
+
+export function dossierHeaderContentTopMm(scope: DossierChromeScope, pageIndex = 0): number {
+  return dossierHeaderContentTopMmForOptions(getDossierChromeOptions(scope), pageIndex);
+}
+
+export function dossierHeaderVisualHeightMm(scope: DossierChromeScope, pageIndex = 0): number {
+  return dossierHeaderVisualHeightMmForOptions(getDossierChromeOptions(scope), pageIndex);
+}
+
 export function dossierFooterContentBottomMm(scope: DossierChromeScope): number {
-  const mode = getDossierChromeOptions(scope).footerMode;
-  if (mode === "none") return 10;
-  return mode === "details" ? 20 : 17;
+  return dossierFooterContentBottomMmForOptions(getDossierChromeOptions(scope));
 }
 
 export function dossierFooterVisualHeightMm(scope: DossierChromeScope): number {
-  const mode = getDossierChromeOptions(scope).footerMode;
-  if (mode === "none") return 0;
-  return mode === "details" ? 10 : 2.4;
+  return dossierFooterVisualHeightMmForOptions(getDossierChromeOptions(scope));
 }

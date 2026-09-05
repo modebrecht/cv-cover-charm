@@ -33,6 +33,11 @@ import {
   type CvRenderLayout,
 } from "./archetype";
 import { dossierThemeFor } from "@/lib/dossier-theme";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  getDossierChromeState,
+  subscribeDossierChrome,
+} from "@/lib/dossier-chrome";
 import { dossierPhotoCropStyle, dossierPhotoRadius, dossierPhotoRatio } from "@/lib/dossier-photo";
 import { getCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
@@ -167,6 +172,12 @@ export function CvCanvas({
   // Die Bauform der Vorlage entscheidet über Flächen und Textbereich. Sie ist
   // der eigentliche Träger der Verwandtschaft zum Titelblatt.
   const frame = useMemo(() => cvFrameFor(design.template), [design.template]);
+  const chromeState = useSyncExternalStore(
+    subscribeDossierChrome,
+    getDossierChromeState,
+    () => DEFAULT_DOSSIER_CHROME_STATE,
+  );
+  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
   // Die Auswahl im Aufbau-Picker gilt. Sie wurde früher bei Spalten- und
   // Karten-Vorlagen überschrieben, was wie ein toter Knopf wirkte.
   const layout = useSyncExternalStore<CvRenderLayout>(
@@ -1080,7 +1091,8 @@ export function CvCanvas({
       return `${key}:${value.page}:${value.width}:${value.positioning}:${value.x}:${value.y}:${value.widthMm}:${value.heightMm}`;
     })
     .join("|");
-  const shape = `${layoutChoice}|${layout}|${frame.id}|${design.font ?? "template"}|${placementShape}|${sectionLayoutShape}|${rows
+  const chromeShape = `${chromeOptions.headerMode}|${chromeOptions.footerMode}|${chromeOptions.headerShowName ? 1 : 0}|${chromeOptions.headerShowAddress ? 1 : 0}|${chromeOptions.headerShowPhone ? 1 : 0}|${chromeOptions.headerShowEmail ? 1 : 0}`;
+  const shape = `${chromeShape}|${layoutChoice}|${layout}|${frame.id}|${design.font ?? "template"}|${placementShape}|${sectionLayoutShape}|${rows
     .map((row) => `${row.id}:${row.minPage ?? "auto"}`)
     .join("|")}`;
 
@@ -1185,10 +1197,10 @@ export function CvCanvas({
      * unterscheiden sich davon nur um das, was die Bauform selbst pro Seite
      * ändert: das kürzere Kopfband und die Fusszeile.
      */
-    const first = cvContentBox(frame, 0, layout, sidebarPct);
+    const first = cvContentBox(frame, 0, layout, sidebarPct, chromeOptions);
     const heightFor = (pageIndex: number) => {
       if (pageIndex === 0) return measured;
-      const b = cvContentBox(frame, pageIndex, layout, sidebarPct);
+      const b = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);
       const deltaMm = b.top - first.top + (b.bottom - first.bottom);
       return measured - deltaMm * PX_PER_MM;
     };
@@ -1390,7 +1402,7 @@ export function CvCanvas({
    * Titelblatt – und hier kommt nur noch die Schreibfläche darüber.
    */
   const chrome = (pageIndex: number) => {
-    const surface = cvSurface(frame, pageIndex, layout, sidebarPct);
+    const surface = cvSurface(frame, pageIndex, layout, sidebarPct, chromeOptions);
     return (
       <>
         <div
@@ -1612,7 +1624,7 @@ export function CvCanvas({
 
   const freeSectionBox = (key: CvLayoutSectionKey, pageIndex: number) => {
     const sectionLayout = cvSectionLayout(data, key);
-    const box = cvContentBox(frame, pageIndex, layout, sidebarPct);
+    const box = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);
     const available = SHEET_W_MM - box.left - box.right;
     const presetWidth =
       sectionLayout.width === "half" ? Math.max(20, (available - 6) / 2) : available;
@@ -2092,8 +2104,8 @@ export function CvCanvas({
     // Eine farbige Spalte läuft über die volle Höhe, wie auf dem Titelblatt.
     // Die getönte Papierspalte beginnt erst unter dem Kopfband, damit dieses
     // über die ganze Breite sichtbar bleibt.
-    const surface = cvSurface(frame, pageIndex, layout, sidebarPct);
-    const contentBox = cvContentBox(frame, pageIndex, layout, sidebarPct);
+    const surface = cvSurface(frame, pageIndex, layout, sidebarPct, chromeOptions);
+    const contentBox = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);
     // Card-Vorlagen tragen den Kopf bewusst auf der farbigen Oberzone. Die
     // Sidebar darf diese Komposition auf Seite 1 weder links anschneiden noch
     // vertikal hineinragen. Ab Seite 2 gilt wieder die normale Kartenfläche.
@@ -2508,7 +2520,7 @@ export function CvCanvas({
    */
   const footer = (pageIndex: number) => {
     if (pageIndex === 0 || pageMarker(frame) !== "footer") return null;
-    const box = cvContentBox(frame, pageIndex, layout, sidebarPct);
+    const box = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);
     return (
       <div
         data-cv-page-label
@@ -2540,7 +2552,7 @@ export function CvCanvas({
     );
   };
 
-  const firstBox = cvContentBox(frame, 0, layout, sidebarPct);
+  const firstBox = cvContentBox(frame, 0, layout, sidebarPct, chromeOptions);
 
   return (
     <div
@@ -2623,6 +2635,7 @@ export function CvCanvas({
               scope="cv"
               template={design.template}
               colors={design.colors}
+              optionsOverride={chromeOptions}
               contact={{
                 name,
                 address: p.adresse ?? "",

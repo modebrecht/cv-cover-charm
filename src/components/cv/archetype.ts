@@ -1,9 +1,11 @@
 import type { TemplateId } from "@/components/cover/types";
 import {
-  dossierFooterContentBottomMm,
-  dossierFooterVisualHeightMm,
-  dossierHeaderContentTopMm,
-  dossierHeaderVisualHeightMm,
+  DEFAULT_DOSSIER_CHROME_OPTIONS,
+  dossierFooterContentBottomMmForOptions,
+  dossierFooterVisualHeightMmForOptions,
+  dossierHeaderContentTopMmForOptions,
+  dossierHeaderVisualHeightMmForOptions,
+  type DossierChromeOptions,
 } from "@/lib/dossier-chrome";
 
 /**
@@ -141,9 +143,10 @@ export function cvSurface(
   pageIndex: number,
   layout: CvRenderLayout,
   sidebarPct?: number,
+  chrome: DossierChromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS,
 ): CvContentBox {
-  const header = dossierHeaderVisualHeightMm("cv", pageIndex);
-  const footer = dossierFooterVisualHeightMm("cv");
+  const header = dossierHeaderVisualHeightMmForOptions(chrome, pageIndex);
+  const footer = dossierFooterVisualHeightMmForOptions(chrome);
 
   if (frame.id === "card") {
     const inset = frame.cardInsetMm;
@@ -155,7 +158,7 @@ export function cvSurface(
     };
   }
 
-  const box = cvContentBox(frame, pageIndex, layout, sidebarPct);
+  const box = cvContentBox(frame, pageIndex, layout, sidebarPct, chrome);
 
   if (frame.id === "quiet") {
     const frameClearance = frame.borderInsetMm ? frame.borderInsetMm + 2 : 0;
@@ -191,9 +194,10 @@ export function cvContentBox(
   pageIndex: number,
   layout: CvRenderLayout,
   sidebarPct?: number,
+  chrome: DossierChromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS,
 ): CvContentBox {
-  const top = dossierHeaderContentTopMm("cv", pageIndex);
-  const bottom = dossierFooterContentBottomMm("cv");
+  const top = dossierHeaderContentTopMmForOptions(chrome, pageIndex);
+  const bottom = dossierFooterContentBottomMmForOptions(chrome);
 
   if (frame.id === "card") {
     const inset = frame.cardInsetMm + 11;

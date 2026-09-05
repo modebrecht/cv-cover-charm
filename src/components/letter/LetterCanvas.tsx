@@ -42,7 +42,8 @@ function Separator({ color, marker }: { color: string; marker: string }) {
   );
 }
 
-function chromeFromDesign(design: LetterDesign): DossierChromeOptions {
+/** Legacy/SSR adapter only. Live DossierChromeState is the single source of truth. */
+function legacyChromeFromDesign(design: LetterDesign): DossierChromeOptions {
   return {
     headerMode: design.headerMode ?? "compact",
     headerShowName: design.headerShowName !== false,
@@ -88,7 +89,7 @@ export function LetterCanvas({
     ? chromeState.sync
       ? chromeState.shared
       : chromeState.letter
-    : chromeFromDesign(design);
+    : legacyChromeFromDesign(design);
   const effectiveDesign = useMemo<LetterDesign>(
     () => ({
       ...design,
