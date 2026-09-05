@@ -59,10 +59,9 @@ bg, count = re.subn(
 )
 if count != 1:
     raise SystemExit(f"background chrome block: expected 1 match, got {count}")
-chrome_children = bg.count("        {chrome}\n")
+bg, chrome_children = re.subn(r"^\s*\{chrome\}\n", "", bg, flags=re.MULTILINE)
 if chrome_children != 3:
     raise SystemExit(f"background chrome children: expected 3, got {chrome_children}")
-bg = bg.replace("        {chrome}\n", "")
 bg_path.write_text(bg)
 
 chrome_path = Path("src/lib/dossier-chrome.ts")
