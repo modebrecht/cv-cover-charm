@@ -1,5 +1,6 @@
 import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/components/cover/types";
 import { LETTER_STORAGE_KEY } from "@/lib/dossier-project";
+import type { DossierChromeState } from "@/lib/dossier-chrome";
 
 export type LetterAlignment = "left" | "right";
 export type LetterTemplateId = "brief" | TemplateId;
@@ -62,13 +63,13 @@ export type LetterDesign = {
   ruleAfterSender?: boolean;
   ruleAfterRecipient?: boolean;
   ruleAfterSubject?: boolean;
-  /** Eigener, kompakter Kopf für das Anschreiben. Alte Saves fallen auf `compact` zurück. */
+  /** @deprecated Legacy-/SSR-Kompatibilität. Live ist DossierChromeState kanonisch. */
   headerMode?: LetterHeaderMode;
   headerShowName?: boolean;
   headerShowAddress?: boolean;
   headerShowPhone?: boolean;
   headerShowEmail?: boolean;
-  /** Briefspezifischer Fussbereich. Alte Saves behalten das kompakte Footerband. */
+  /** @deprecated Legacy-/SSR-Kompatibilität. Live ist DossierChromeState kanonisch. */
   footerMode?: LetterFooterMode;
 };
 
@@ -76,6 +77,8 @@ export type SavedLetter = {
   version: 1;
   data: LetterData;
   design: LetterDesign;
+  /** Optional so existing v1 saves remain valid. */
+  chrome?: DossierChromeState;
 };
 
 export { LETTER_STORAGE_KEY };

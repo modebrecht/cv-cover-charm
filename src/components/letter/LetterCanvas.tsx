@@ -1,12 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
-import { cvPalette, onColorRoles } from "@/components/cv/palette";
+import { cvPalette } from "@/components/cv/palette";
+import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
+import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
-import {
-  letterPageGeometry,
-  visibleLetterAttachments,
-  type LetterPageGeometry,
-} from "./layout-system";
+import { letterPageGeometry, visibleLetterAttachments } from "./layout-system";
 import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
 import { letterRichHtml, plainTextToRichHtml } from "./rich-text";
 import { LetterFlowImages } from "./LetterFlowImages";
@@ -39,210 +37,29 @@ function Separator({ color, marker }: { color: string; marker: string }) {
   );
 }
 
-function LetterChrome({
-  data,
-  design,
-  geometry,
-}: {
-  data: LetterData;
-  design: LetterDesign;
-  geometry: LetterPageGeometry;
-}) {
-  const mode = geometry.effectiveHeaderMode;
-  const footerMode = geometry.effectiveFooterMode;
-  const sourcePalette = cvPalette(design.colors);
-  const primary =
-    design.template === "brief"
-      ? "#111111"
-      : (design.colors.primary ??
-        design.colors.accent ??
-        design.colors.secondary ??
-        sourcePalette.accent);
-  const secondary =
-    design.template === "brief"
-      ? "#4b5563"
-      : (design.colors.accent ?? design.colors.secondary ?? sourcePalette.accent);
-  const headerRoles = onColorRoles(primary, secondary);
-  const footerRoles = onColorRoles(secondary, primary);
-  const sidebar = geometry.archetype === "sidebar";
-  const frame = geometry.archetype === "frame";
-  const band = geometry.archetype === "band";
-  const contactBits = [
-    design.headerShowPhone !== false ? data.absenderTelefon : "",
-    design.headerShowEmail !== false ? data.absenderEmail : "",
-  ].filter(Boolean);
-  const attachments = visibleLetterAttachments(data);
-  const accent = geometry.header.compactAccent;
-  const pill = geometry.header.compactPill;
-
-  return (
-    <div
-      data-letter-chrome
-      data-letter-header-mode={mode}
-      data-letter-reference-kind={geometry.archetype}
-      data-letter-fresh-reference={geometry.freshTemplate ? "true" : "false"}
-      className="pointer-events-none absolute inset-0 overflow-hidden"
-    >
-      {mode === "compact" ? (
-        <>
-          {sidebar && geometry.header.sidebarWidth > 0 ? (
-            <div
-              className="absolute inset-y-0 left-0"
-              style={{ width: `${geometry.header.sidebarWidth}mm`, backgroundColor: primary }}
-            />
-          ) : null}
-
-          {band && geometry.header.compactTopBandHeight > 0 ? (
-            <div
-              className="absolute inset-x-0 top-0"
-              style={{
-                height: `${geometry.header.compactTopBandHeight}mm`,
-                backgroundColor: primary,
-              }}
-            />
-          ) : null}
-
-          {frame && pill ? (
-            <div
-              className="absolute rounded-full"
-              style={{
-                left: `${pill.left}mm`,
-                top: `${pill.top}mm`,
-                width: `${pill.width}mm`,
-                height: `${pill.height}mm`,
-                backgroundColor: primary,
-                opacity: 0.2,
-              }}
-            />
-          ) : null}
-
-          {geometry.header.compactLineTop > 0 ? (
-            <div
-              className="absolute h-px"
-              style={{
-                left: `${geometry.content.left}mm`,
-                right: `${geometry.content.right}mm`,
-                top: `${geometry.header.compactLineTop}mm`,
-                backgroundColor: primary,
-                opacity: 0.72,
-              }}
-            />
-          ) : null}
-
-          <div
-            className="absolute"
-            style={{
-              left: `${accent.left}mm`,
-              top: `${accent.top}mm`,
-              width: `${accent.width}mm`,
-              height: `${accent.height}mm`,
-              backgroundColor: sidebar || band ? secondary : primary,
-            }}
-          />
-        </>
-      ) : null}
-
-      {mode === "contact" ? (
-        <>
-          <div
-            className="absolute inset-x-0 top-0"
-            style={{ height: `${geometry.header.contactHeight}mm`, backgroundColor: primary }}
-          />
-          {sidebar && geometry.header.sidebarWidth > 0 ? (
-            <div
-              className="absolute inset-y-0 left-0"
-              style={{ width: `${geometry.header.sidebarWidth}mm`, backgroundColor: primary }}
-            />
-          ) : null}
-          <div
-            data-letter-integrated-contact
-            className="absolute flex items-center justify-between gap-[8mm] text-[8.5pt] leading-[1.28]"
-            style={{
-              left: `${geometry.header.contactLeft}mm`,
-              right: `${geometry.header.contactRight}mm`,
-              top: `${geometry.header.contactTop}mm`,
-              minHeight: `${geometry.header.contactMinHeight}mm`,
-              color: headerRoles.ink,
-            }}
-          >
-            <div className="min-w-0 flex-1" style={{ overflowWrap: "anywhere" }}>
-              {design.headerShowName !== false && data.absenderName ? (
-                <div className="text-[10pt] font-semibold">{data.absenderName}</div>
-              ) : null}
-              {design.headerShowAddress !== false ? (
-                <div className="opacity-90">
-                  {[data.absenderAdresse, data.absenderPlzOrt].filter(Boolean).join(" · ")}
-                </div>
-              ) : null}
-            </div>
-            {contactBits.length ? (
-              <div
-                className="min-w-0 max-w-[48%] shrink-0 text-right opacity-95"
-                style={{ overflowWrap: "anywhere" }}
-              >
-                {contactBits.map((value) => (
-                  <div key={value}>{value}</div>
-                ))}
-              </div>
-            ) : null}
-          </div>
-        </>
-      ) : null}
-
-      {footerMode === "compact" ? (
-        <div
-          data-letter-footer="compact"
-          data-letter-footer-height-mm={geometry.footer.height}
-          className="absolute inset-x-0 bottom-0"
-          style={{
-            height: `${geometry.footer.height}mm`,
-            backgroundColor: secondary,
-            opacity: design.template === "brief" ? 0.75 : 0.92,
-          }}
-        />
-      ) : null}
-
-      {footerMode === "attachments" ? (
-        <div
-          data-letter-footer="attachments"
-          data-letter-footer-height-mm={geometry.footer.height}
-          className="absolute inset-x-0 bottom-0 text-[8.5pt] leading-[1.3]"
-          style={{
-            left: 0,
-            right: 0,
-            height: `${geometry.footer.height}mm`,
-            paddingLeft: `${geometry.footer.contentLeft}mm`,
-            paddingRight: `${geometry.footer.contentRight}mm`,
-            paddingTop: `${geometry.footer.paddingY}mm`,
-            paddingBottom: `${geometry.footer.paddingY}mm`,
-            backgroundColor: secondary,
-            color: footerRoles.ink,
-          }}
-        >
-          {geometry.footer.showAttachments ? (
-            <div data-letter-footer-attachments className="flex h-full items-start gap-[8mm]">
-              <div data-letter-pdf-text="attachments-heading" className="shrink-0 font-semibold">
-                Beilagen:
-              </div>
-              <div
-                data-letter-pdf-text="attachments-body"
-                className="min-w-0 flex-1"
-                style={{ overflowWrap: "anywhere" }}
-              >
-                <Lines values={attachments} />
-              </div>
-            </div>
-          ) : null}
-        </div>
-      ) : null}
-    </div>
-  );
+/** Legacy/SSR adapter only. Live DossierChromeState is the single source of truth. */
+function legacyChromeFromDesign(design: LetterDesign): DossierChromeOptions {
+  return {
+    headerMode: design.headerMode ?? "compact",
+    headerShowName: design.headerShowName !== false,
+    headerShowAddress: design.headerShowAddress !== false,
+    headerShowPhone: design.headerShowPhone !== false,
+    headerShowEmail: design.headerShowEmail !== false,
+    footerMode:
+      design.footerMode === "attachments"
+        ? "details"
+        : design.footerMode === "none"
+          ? "none"
+          : "compact",
+  };
 }
 
 export function LetterCanvas({
   data,
   design,
   exportMode = false,
+  chromeOptions,
+  chromeContact,
   onOverflowChange,
   onImageChange,
   onImageRemove,
@@ -251,12 +68,32 @@ export function LetterCanvas({
   data: LetterData;
   design: LetterDesign;
   exportMode?: boolean;
+  chromeOptions?: DossierChromeOptions;
+  chromeContact?: DossierChromeContact;
   onOverflowChange?: (overflow: boolean) => void;
   onImageChange?: (id: string, patch: Partial<LetterFlowImage>) => void;
   onImageRemove?: (id: string) => void;
   ariaLabel?: string;
 }) {
-  const geometry = letterPageGeometry(data, design);
+  const chrome = chromeOptions ?? legacyChromeFromDesign(design);
+  const effectiveDesign = useMemo<LetterDesign>(
+    () => ({
+      ...design,
+      headerMode: chrome.headerMode,
+      headerShowName: chrome.headerShowName,
+      headerShowAddress: chrome.headerShowAddress,
+      headerShowPhone: chrome.headerShowPhone,
+      headerShowEmail: chrome.headerShowEmail,
+      footerMode:
+        chrome.footerMode === "details"
+          ? "attachments"
+          : chrome.footerMode === "none"
+            ? "none"
+            : "compact",
+    }),
+    [chrome, design],
+  );
+  const geometry = letterPageGeometry(data, effectiveDesign);
   const contentWidthMm = geometry.content.width;
   const sourcePalette = cvPalette(design.colors);
   const palette = {
@@ -302,7 +139,7 @@ export function LetterCanvas({
       cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, [bodyHtml, data, design, onOverflowChange]);
+  }, [bodyHtml, data, effectiveDesign, onOverflowChange]);
 
   return (
     <article
@@ -323,7 +160,26 @@ export function LetterCanvas({
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
       aria-label={ariaLabel}
     >
-      <LetterChrome data={data} design={design} geometry={geometry} />
+      <DossierHeaderFooterChrome
+        scope="letter"
+        template={design.template}
+        colors={design.colors}
+        contact={
+          chromeContact ?? {
+            name: data.absenderName,
+            address: data.absenderAdresse,
+            place: data.absenderPlzOrt,
+            phone: data.absenderTelefon,
+            email: data.absenderEmail,
+          }
+        }
+        pageIndex={geometry.pageIndex}
+        options={chrome}
+        footerHeightMm={geometry.footer.height}
+        footerLabel="Beilagen:"
+        footerDetails={geometry.footer.showAttachments ? beilagen : []}
+      />
+
       <div
         ref={textLayerRef}
         data-letter-text-layer
@@ -358,7 +214,6 @@ export function LetterCanvas({
                 />
               </div>
             </div>
-
             {design.ruleAfterSender ? <Separator color={palette.accent} marker="sender" /> : null}
           </>
         ) : null}

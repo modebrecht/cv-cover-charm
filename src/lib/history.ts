@@ -1,4 +1,5 @@
 import { HISTORY } from "@/default-config";
+import { createDossierChromeHistorySnapshot, type DossierChromeScope } from "@/lib/dossier-chrome";
 
 /**
  * Frühere Stände des Entwurfs im Browser-Speicher.
@@ -57,15 +58,45 @@ function stripImages(payload: Record<string, unknown>): Record<string, unknown> 
   };
 }
 
+function chromeScopeForHistoryKey(key: HistoryKey): DossierChromeScope | null {
+  if (key === HISTORY_KEYS.letter) return "letter";
+  if (key === HISTORY_KEYS.cv) return "cv";
+  return null;
+}
+
+/**
+ * Header/Footer gehören zur jeweiligen Dokument-Historie. Eine History-Kopie
+ * darf deshalb nie den kompletten DossierChromeState mitsamt fremdem Branch
+ * und Sync-Flag konservieren. Alte Vollzustände werden beim Lesen ebenfalls
+ * in die scope-sichere Form migriert.
+ */
+function scopeChromeForHistory(
+  key: HistoryKey,
+  payload: Record<string, unknown>,
+): Record<string, unknown> {
+  const scope = chromeScopeForHistoryKey(key);
+  if (!scope || payload.chrome == null) return payload;
+  return {
+    ...payload,
+    chrome: createDossierChromeHistorySnapshot(payload.chrome, scope),
+  };
+}
+
 export function readHistory(key: HistoryKey): Snapshot[] {
   try {
     const raw = localStorage.getItem(key);
     if (!raw) return [];
     const list: unknown = JSON.parse(raw);
     if (!Array.isArray(list)) return [];
-    return list.filter(
-      (s): s is Snapshot => !!s && typeof s === "object" && typeof s.at === "number" && !!s.payload,
-    );
+    return list
+      .filter(
+        (s): s is Snapshot =>
+          !!s && typeof s === "object" && typeof s.at === "number" && !!s.payload,
+      )
+      .map((snapshot) => ({
+        ...snapshot,
+        payload: scopeChromeForHistory(key, snapshot.payload),
+      }));
   } catch {
     return [];
   }
@@ -100,7 +131,7 @@ export function pushSnapshot(
   force = false,
 ): Snapshot[] {
   const list = readHistory(key);
-  const stripped = stripImages(payload);
+  const stripped = scopeChromeForHistory(key, stripImages(payload));
   const body = JSON.stringify(stripped);
 
   const last = list[0];

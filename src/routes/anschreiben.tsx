@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { Section } from "@/components/cover/Section";
@@ -24,6 +24,13 @@ import { LetterRichTextEditor } from "@/components/letter/LetterRichTextEditor";
 import { LetterTemplatePicker } from "@/components/letter/LetterTemplatePicker";
 import { downloadLetterPdf } from "@/lib/dossier-pdf";
 import { readPhoto } from "@/lib/image";
+import { readDossierContact } from "@/lib/dossier-contact";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  applyPortableDossierChromeState,
+  getDossierChromeState,
+  subscribeDossierChrome,
+} from "@/lib/dossier-chrome";
 import {
   mergeNonEmptyLetterData,
   readLetterDossierSource,
@@ -116,6 +123,12 @@ function Field({
 function Anschreiben() {
   const [data, setData] = useState<LetterData>(EMPTY_LETTER);
   const [design, setDesign] = useState<LetterDesign>(emptyLetterDesign);
+  const chromeState = useSyncExternalStore(
+    subscribeDossierChrome,
+    getDossierChromeState,
+    () => DEFAULT_DOSSIER_CHROME_STATE,
+  );
+  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.letter;
   const [hydrated, setHydrated] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
@@ -151,6 +164,8 @@ function Anschreiben() {
     farben: false,
     typo: false,
   });
+
+  const chromeContact = chromeState.sync ? readDossierContact({ letter: data }) : undefined;
 
   const refreshSource = useCallback(() => {
     const next = readLetterDossierSource();
@@ -256,13 +271,18 @@ function Anschreiben() {
     [data, design],
   );
 
+  const historyPayload = useCallback(
+    () => ({ ...snapshotPayload(), chrome: chromeState }) as unknown as Record<string, unknown>,
+    [snapshotPayload, chromeState],
+  );
+
   const keepSnapshot = useCallback(
     (label: string, force = false) => {
-      const payload = snapshotPayload() as unknown as Record<string, unknown>;
+      const payload = historyPayload();
       if (!hasContent(payload)) return;
       setHistory(pushSnapshot(HISTORY_KEYS.letter, payload, label, force));
     },
-    [snapshotPayload],
+    [historyPayload],
   );
 
   useEffect(() => {
@@ -485,6 +505,7 @@ function Anschreiben() {
       setData({ ...EMPTY_LETTER, ...saved.data });
     }
     if (saved.design) setDesign(normalizeLetterDesign(saved.design));
+    if (saved.chrome) applyPortableDossierChromeState(saved.chrome);
     setMenuOpen(false);
     setHistoryOpen(false);
     setTransferNote({
@@ -717,7 +738,9 @@ function Anschreiben() {
                   <span>
                     Persönliche Angaben: {source?.personalSource ?? "noch nicht verfügbar"}
                   </span>
-                  <span>Betrieb und Bewerbung: {source?.applicationSource ?? "noch nicht verfügbar"}</span>
+                  <span>
+                    Betrieb und Bewerbung: {source?.applicationSource ?? "noch nicht verfügbar"}
+                  </span>
                   <span>Design: {source?.designSource ?? "noch nicht verfügbar"}</span>
                 </div>
 
@@ -1034,6 +1057,8 @@ function Anschreiben() {
               <LetterCanvas
                 data={data}
                 design={design}
+                chromeOptions={chromeOptions}
+                chromeContact={chromeContact}
                 onOverflowChange={setLetterOverflow}
                 onImageChange={patchLetterImage}
                 onImageRemove={removeLetterImage}
@@ -1050,6 +1075,8 @@ function Anschreiben() {
           <LetterCanvas
             data={data}
             design={design}
+            chromeOptions={chromeOptions}
+            chromeContact={chromeContact}
             exportMode
             ariaLabel="Exportansicht Motivationsschreiben"
           />

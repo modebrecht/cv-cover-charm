@@ -72,6 +72,30 @@ html:is(
   zoom: 0.9;
 }
 
+/* Designs that were exactly on the old one-page boundary need only a tiny
+ * correction for the shared compact chrome: the current browser matrix shows
+ * a uniform 5 px deficit (Gallery lands on the rounding boundary). Keep them
+ * visually unchanged to the eye instead of moving them into the strong 90%
+ * compact group. Hidden measurement, preview and PDF share this exact rule. */
+[data-dossier-document="cv"]:is(
+    [data-cv-template="blockig"],
+    [data-cv-template="brief"],
+    [data-cv-template="colorful"],
+    [data-cv-template="edge"],
+    [data-cv-template="forestFlow"],
+    [data-cv-template="frame"],
+    [data-cv-template="gallery"],
+    [data-cv-template="glow"],
+    [data-cv-template="horizon"],
+    [data-cv-template="monoLuxe"],
+    [data-cv-template="sunrise"],
+    [data-cv-template="violetPulse"]
+  )
+  [data-cv-main]
+  > div {
+  zoom: 0.995;
+}
+
 /* Warm/Freundlich was the sole residual spiller after the scoped 90% pass,
  * missing page one by only 2 px. Give that one template half a percentage
  * point more room; all other templates retain the already-verified geometry. */

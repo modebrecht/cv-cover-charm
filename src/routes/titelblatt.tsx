@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
   FormBeilagen,
   FormBetrieb,
@@ -73,6 +73,11 @@ import {
   type Snapshot,
 } from "@/lib/history";
 import { DEFAULTS, FONT, PAGE, PDF, PREVIEW, SHAPE } from "@/default-config";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  getDossierChromeState,
+  subscribeDossierChrome,
+} from "@/lib/dossier-chrome";
 
 import {
   customKind,
@@ -246,6 +251,11 @@ function sanitizeCustoms(raw: unknown): CustomField[] {
 }
 
 function Titelblatt() {
+  const chromeState = useSyncExternalStore(
+    subscribeDossierChrome,
+    getDossierChromeState,
+    () => DEFAULT_DOSSIER_CHROME_STATE,
+  );
   const [data, setData] = useState<CoverData>(emptyData);
   const [template, setTemplate] = useState<TemplateId>(DEFAULTS.TEMPLATE);
   const [colorsByTemplate, setColorsByTemplate] =
@@ -1687,6 +1697,7 @@ function Titelblatt() {
             ref={dossierExportRef}
             cover={currentCoverDocument}
             cv={storedCvDocument}
+            chromeState={chromeState}
             onCvLayoutWarnings={receiveDossierWarnings}
             onCvPageCount={setDossierCvPageCount}
           />

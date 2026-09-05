@@ -28,17 +28,18 @@ describe("shared dossier sheet background", () => {
     expect(brief?.slots.find(({ key }) => key === "bg")?.default).toBe("#ffffff");
   });
 
-  test("every dossier template renders the shared non-brief background", () => {
+  test("every dossier template renders a motif-only shared non-brief background", () => {
     for (const { id } of TEMPLATES.filter(({ id }) => (id as string) !== "brief")) {
       const markup = markupFor(id);
       expect(markup).toContain(`data-dossier-sheet-background="${id}"`);
+      expect(markup).not.toContain('data-dossier-chrome="cv"');
       expect(markup).not.toContain('data-dossier-sheet-background="brief"');
       expect(markup).not.toContain('data-letter-background="brief"');
       expect(markup).not.toContain("bg-white");
     }
   });
 
-  test("established templates use CV archetype geometry on the letter too", () => {
+  test("established templates keep their structural geometry while shared chrome owns top spacing", () => {
     expect(markupFor("freundlich")).toContain("height:52mm");
     expect(markupFor("colorful")).toContain("height:40mm");
     expect(markupFor("colorful")).toContain("height:8mm");
@@ -46,8 +47,11 @@ describe("shared dossier sheet background", () => {
     expect(markupFor("terracotta")).toContain("width:70mm");
     expect(markupFor("studio")).toContain("width:72mm");
     expect(markupFor("studio")).toContain("height:38mm");
-    expect(letterLayoutFor("modern").top).toBe(14);
-    expect(letterLayoutFor("freundlich").top).toBe(60);
+
+    // Compact is the dossier default in both CV and motivation letter. The
+    // common chrome, not the historic per-template head band, owns the text top.
+    expect(letterLayoutFor("modern").top).toBe(21);
+    expect(letterLayoutFor("freundlich").top).toBe(21);
     expect(letterLayoutFor("blockig").left).toBe(74);
     expect(letterLayoutFor("studio").left).toBe(80);
     expect(letterLayoutFor("edel").left).toBe(19);

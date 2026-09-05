@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
 import {
   FileDown,
@@ -93,6 +93,7 @@ import {
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
+import { readDossierContact } from "@/lib/dossier-contact";
 import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
@@ -115,6 +116,11 @@ import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import { applyDossierTheme } from "@/lib/dossier-theme";
 import { setCvPhotoStyle } from "@/components/cv/photo";
 import { SIDEBAR_PCT_MAX, SIDEBAR_PCT_MIN } from "@/components/cv/archetype";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  getDossierChromeState,
+  subscribeDossierChrome,
+} from "@/lib/dossier-chrome";
 
 export const Route = createFileRoute("/lebenslauf")({
   head: () => ({
@@ -233,6 +239,12 @@ function CompactPageSelect({
 }
 
 function Lebenslauf() {
+  const chromeState = useSyncExternalStore(
+    subscribeDossierChrome,
+    getDossierChromeState,
+    () => DEFAULT_DOSSIER_CHROME_STATE,
+  );
+  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
   const [data, setData] = useState<CvData>(emptyCv);
   const [design, setDesign] = useState<CvDesign>(() => {
     const d = emptyCoverDraft();
@@ -311,6 +323,8 @@ function Lebenslauf() {
         : coverDraftFingerprint(readCoverDraft()),
     );
   }, []);
+
+  const chromeContact = chromeState.sync ? readDossierContact({ cv: data }) : undefined;
 
   const toggle = (k: string) => setOpen((o) => ({ ...o, [k]: !o[k] }));
   const patchData = (p: Partial<CvData>) => setData((d) => ({ ...d, ...p }));
@@ -1062,6 +1076,8 @@ function Lebenslauf() {
     <CvCanvas
       data={data}
       design={design}
+      chromeOptions={chromeOptions}
+      chromeContact={chromeContact}
       elements={elements}
       elementStyles={elementStyles}
       selected={selected}
@@ -1469,9 +1485,7 @@ function Lebenslauf() {
                         />
                         <span>
                           <span className="block font-medium">{label}</span>
-                          <span className="block text-muted-foreground">
-                            {hint}
-                          </span>
+                          <span className="block text-muted-foreground">{hint}</span>
                         </span>
                       </label>
                     ))}
@@ -1490,7 +1504,9 @@ function Lebenslauf() {
                         type="checkbox"
                         className="mt-0.5"
                         checked={design.useElements}
-                        onChange={(e) => setDesign((d) => ({ ...d, useElements: e.target.checked }))}
+                        onChange={(e) =>
+                          setDesign((d) => ({ ...d, useElements: e.target.checked }))
+                        }
                       />
                       <span>
                         Übernommene Formen anzeigen
@@ -2174,6 +2190,8 @@ function Lebenslauf() {
         <CvCanvas
           data={data}
           design={design}
+          chromeOptions={chromeOptions}
+          chromeContact={chromeContact}
           elements={elements}
           elementStyles={elementStyles}
           exportMode
@@ -2205,6 +2223,7 @@ function Lebenslauf() {
             ref={dossierExportRef}
             cover={storedCoverDocument}
             cv={currentCvDocument}
+            chromeState={chromeState}
             onCvLayoutWarnings={receiveDossierWarnings}
             onCvPageCount={setDossierCvPageCount}
           />

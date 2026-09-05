@@ -89,6 +89,8 @@ export type SidebarPlan = {
 /**
  * Grobe Inhaltsdichte statt DOM-Messung: stabil im Preview und PDF und billig
  * genug für jeden Tastendruck. Lange Texte zählen stärker als kurze Einträge.
+ * Die Funktion bleibt bewusst rein; Rendering- oder Store-Synchronisation
+ * gehört in CvCanvas und darf die Layout-Schätzung nicht versteckt verändern.
  */
 export function sidebarPlan(data: CvData): SidebarPlan {
   // Ein Stand aus einer älteren Fassung kann einzelne Felder gar nicht haben.

@@ -232,8 +232,6 @@ function dossierSheetLayoutFor(template: LetterTemplateId, pageIndex = 0): Lette
     };
   }
 
-  // Fresh variants have no legacy CV archetype. They still use the same shared
-  // background component on both documents and keep their curated safe margins.
   return LETTER_LAYOUTS[template] ?? LETTER_LAYOUTS.klassisch;
 }
 
@@ -808,16 +806,14 @@ export function DossierSheetBackground({
       )}
 
       {layout.borderInsetMm && (
-        <>
-          <div
-            className="absolute"
-            style={{
-              inset: `${layout.borderInsetMm}mm`,
-              border: `0.55px solid ${accent}`,
-              opacity: template === "klassisch" ? 0.3 : 0.46,
-            }}
-          />
-        </>
+        <div
+          className="absolute"
+          style={{
+            inset: `${layout.borderInsetMm}mm`,
+            border: `0.55px solid ${accent}`,
+            opacity: template === "klassisch" ? 0.3 : 0.46,
+          }}
+        />
       )}
 
       {template === "pastell" && (

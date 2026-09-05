@@ -122,6 +122,40 @@ test.describe("M7 dossier state roundtrip", () => {
       );
     });
 
+    await page.evaluate(() => {
+      localStorage.setItem(
+        "bewerbungsdossier:chrome:v1",
+        JSON.stringify({
+          version: 1,
+          sync: false,
+          shared: {
+            headerMode: "compact",
+            headerShowName: true,
+            headerShowAddress: true,
+            headerShowPhone: true,
+            headerShowEmail: true,
+            footerMode: "compact",
+          },
+          cv: {
+            headerMode: "contact",
+            headerShowName: true,
+            headerShowAddress: true,
+            headerShowPhone: false,
+            headerShowEmail: true,
+            footerMode: "details",
+          },
+          letter: {
+            headerMode: "none",
+            headerShowName: true,
+            headerShowAddress: false,
+            headerShowPhone: true,
+            headerShowEmail: false,
+            footerMode: "none",
+          },
+        }),
+      );
+    });
+
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
     const titleDownload = page.getByRole("button", { name: "Download", exact: true });
     await expect(titleDownload).toHaveAttribute("data-editor-ready", "true");
@@ -139,10 +173,14 @@ test.describe("M7 dossier state roundtrip", () => {
       cover: JSON.parse(localStorage.getItem("titelblatt:v3") ?? "null"),
       letter: JSON.parse(localStorage.getItem("anschreiben:v1") ?? "null"),
       cv: JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null"),
+      chrome: JSON.parse(localStorage.getItem("bewerbungsdossier:chrome:v1") ?? "null"),
     }));
     expect(before.cover?.data?.vorname).toBe("Lea");
     expect(before.letter?.data?.absenderName).toBe("Lea Müller");
     expect(before.cv?.data?.person?.vorname).toBe("Lea");
+    expect(before.chrome?.sync).toBe(false);
+    expect(before.chrome?.cv?.headerMode).toBe("contact");
+    expect(before.chrome?.letter?.headerMode).toBe("none");
 
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: "domcontentloaded" });
@@ -152,7 +190,9 @@ test.describe("M7 dossier state roundtrip", () => {
     );
     await page.getByRole("button", { name: "Download", exact: true }).click();
 
-    const fileInput = page.locator('[data-editor-action-menu] input[type="file"][accept="application/json"]');
+    const fileInput = page.locator(
+      '[data-editor-action-menu] input[type="file"][accept="application/json"]',
+    );
     await fileInput.setInputFiles(projectPath ?? "");
 
     await expect
@@ -163,6 +203,7 @@ test.describe("M7 dossier state roundtrip", () => {
           cv: JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.data?.person?.vorname,
           layout: localStorage.getItem("lebenslauf:layout:v1"),
           mirrored: localStorage.getItem("lebenslauf:layout-mirror:v1"),
+          chrome: JSON.parse(localStorage.getItem("bewerbungsdossier:chrome:v1") ?? "null"),
         })),
       )
       .toEqual({
@@ -171,6 +212,7 @@ test.describe("M7 dossier state roundtrip", () => {
         cv: "Lea",
         layout: "timeline",
         mirrored: "true",
+        chrome: before.chrome,
       });
 
     const restored = await page.evaluate((keys) => {
@@ -181,8 +223,6 @@ test.describe("M7 dossier state roundtrip", () => {
 
     expect(JSON.parse(restored["lebenslauf:placement:v1"] ?? "null")?.schule).toBe("side");
     expect(JSON.parse(restored["lebenslauf:photo:v2"] ?? "null")?.zoom).toBe(1.6);
-    expect(JSON.parse(restored["lebenslauf:photo-place:v1"] ?? "null")?.frameColor).toBe(
-      "#123456",
-    );
+    expect(JSON.parse(restored["lebenslauf:photo-place:v1"] ?? "null")?.frameColor).toBe("#123456");
   });
 });
