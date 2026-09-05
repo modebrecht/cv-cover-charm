@@ -1,4 +1,4 @@
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
 import { cvPalette } from "@/components/cv/palette";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
@@ -6,6 +6,7 @@ import {
   DEFAULT_DOSSIER_CHROME_STATE,
   getDossierChromeState,
   subscribeDossierChrome,
+  type DossierChromeOptions,
 } from "@/lib/dossier-chrome";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
 import { letterPageGeometry, visibleLetterAttachments } from "./layout-system";
@@ -41,6 +42,22 @@ function Separator({ color, marker }: { color: string; marker: string }) {
   );
 }
 
+function chromeFromDesign(design: LetterDesign): DossierChromeOptions {
+  return {
+    headerMode: design.headerMode ?? "compact",
+    headerShowName: design.headerShowName !== false,
+    headerShowAddress: design.headerShowAddress !== false,
+    headerShowPhone: design.headerShowPhone !== false,
+    headerShowEmail: design.headerShowEmail !== false,
+    footerMode:
+      design.footerMode === "attachments"
+        ? "details"
+        : design.footerMode === "none"
+          ? "none"
+          : "compact",
+  };
+}
+
 export function LetterCanvas({
   data,
   design,
@@ -63,21 +80,32 @@ export function LetterCanvas({
     getDossierChromeState,
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
-  const chrome = chromeState.sync ? chromeState.shared : chromeState.letter;
-  const effectiveDesign: LetterDesign = {
-    ...design,
-    headerMode: chrome.headerMode,
-    headerShowName: chrome.headerShowName,
-    headerShowAddress: chrome.headerShowAddress,
-    headerShowPhone: chrome.headerShowPhone,
-    headerShowEmail: chrome.headerShowEmail,
-    footerMode:
-      chrome.footerMode === "details"
-        ? "attachments"
-        : chrome.footerMode === "none"
-          ? "none"
-          : "compact",
-  };
+  const liveBrowser =
+    typeof window !== "undefined" &&
+    typeof window.addEventListener === "function" &&
+    typeof window.document !== "undefined";
+  const chrome = liveBrowser
+    ? chromeState.sync
+      ? chromeState.shared
+      : chromeState.letter
+    : chromeFromDesign(design);
+  const effectiveDesign = useMemo<LetterDesign>(
+    () => ({
+      ...design,
+      headerMode: chrome.headerMode,
+      headerShowName: chrome.headerShowName,
+      headerShowAddress: chrome.headerShowAddress,
+      headerShowPhone: chrome.headerShowPhone,
+      headerShowEmail: chrome.headerShowEmail,
+      footerMode:
+        chrome.footerMode === "details"
+          ? "attachments"
+          : chrome.footerMode === "none"
+            ? "none"
+            : "compact",
+    }),
+    [chrome, design],
+  );
   const geometry = letterPageGeometry(data, effectiveDesign);
   const contentWidthMm = geometry.content.width;
   const sourcePalette = cvPalette(design.colors);
@@ -157,6 +185,7 @@ export function LetterCanvas({
           email: data.absenderEmail,
         }}
         pageIndex={geometry.pageIndex}
+        optionsOverride={chrome}
         footerHeightMm={geometry.footer.height}
         footerLabel="Beilagen:"
         footerDetails={geometry.footer.showAttachments ? beilagen : []}
