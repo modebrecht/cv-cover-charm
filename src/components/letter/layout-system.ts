@@ -90,11 +90,7 @@ const FRESH_FRAME_TEMPLATES = new Set<string>(["frame", "monoLuxe"]);
  * page. A detached mini-bar, hairline or pill reads as a rendering fragment,
  * not as a coherent header. Keep their compact header completely fragment-free.
  */
-const FRAGMENT_FREE_COMPACT_TEMPLATES = new Set<LetterTemplateId>([
-  "brief",
-  "klassisch",
-  "modern",
-]);
+const FRAGMENT_FREE_COMPACT_TEMPLATES = new Set<LetterTemplateId>(["brief", "klassisch", "modern"]);
 
 /**
  * These are the only letter-specific content dimensions. Templates do not own
