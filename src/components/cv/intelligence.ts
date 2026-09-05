@@ -1,5 +1,4 @@
 import type { ShapeKind, TemplateId } from "@/components/cover/types";
-import { setCurrentCvChromeContact } from "@/lib/dossier-chrome";
 import { getDossierFamily, type DossierFamilyId } from "@/lib/dossier-family";
 import { dossierNameScale } from "@/lib/dossier-theme";
 import type { CvData } from "./types";
@@ -90,13 +89,10 @@ export type SidebarPlan = {
 /**
  * Grobe Inhaltsdichte statt DOM-Messung: stabil im Preview und PDF und billig
  * genug für jeden Tastendruck. Lange Texte zählen stärker als kurze Einträge.
+ * Die Funktion bleibt bewusst rein; Rendering- oder Store-Synchronisation
+ * gehört in CvCanvas und darf die Layout-Schätzung nicht versteckt verändern.
  */
 export function sidebarPlan(data: CvData): SidebarPlan {
-  // CvCanvas ruft diese Funktion bei jeder Änderung des CV-Datensatzes auf.
-  // Damit kann der gemeinsame Dossier-Header dieselben aktuellen Kontaktdaten
-  // rendern, ohne einen zweiten CV-Speicher oder eine Route-spezifische Kopie.
-  setCurrentCvChromeContact(data.person ?? {});
-
   // Ein Stand aus einer älteren Fassung kann einzelne Felder gar nicht haben.
   // Das ist nur eine Schätzung der Dichte – dafür darf die Seite nicht
   // abstürzen, also wird hier fehlender Inhalt als leer gelesen.
