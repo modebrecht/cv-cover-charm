@@ -6,6 +6,7 @@ import {
   patchDossierChrome,
   setDossierChromeSync,
   subscribeDossierChrome,
+  type DossierChromeOptions,
   type DossierChromeScope,
   type DossierFooterMode,
   type DossierHeaderMode,
@@ -14,7 +15,18 @@ import {
 const selectClass =
   "mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring";
 
-export function DossierChromeControls({ scope }: { scope: DossierChromeScope }) {
+export function DossierChromeControls({
+  scope,
+  onOptionsChange,
+}: {
+  scope: DossierChromeScope;
+  /**
+   * Compatibility bridge for editors that still persist these fields inside
+   * their document model. The shared chrome store remains canonical, while the
+   * callback keeps legacy autosave from writing a stale value back afterwards.
+   */
+  onOptionsChange?: (patch: Partial<DossierChromeOptions>) => void;
+}) {
   const state = useSyncExternalStore(
     subscribeDossierChrome,
     getDossierChromeState,
@@ -39,6 +51,11 @@ export function DossierChromeControls({ scope }: { scope: DossierChromeScope }) 
   const footerControlValue =
     scope === "letter" && selected.footerMode === "details" ? "attachments" : selected.footerMode;
 
+  const patchOptions = (patch: Partial<DossierChromeOptions>) => {
+    patchDossierChrome(scope, patch);
+    onOptionsChange?.(patch);
+  };
+
   return (
     <section
       data-dossier-chrome-controls={scope}
@@ -51,7 +68,15 @@ export function DossierChromeControls({ scope }: { scope: DossierChromeScope }) 
           type="checkbox"
           className="mt-0.5"
           checked={state.sync}
-          onChange={(event) => setDossierChromeSync(scope, event.target.checked)}
+          onChange={(event) => {
+            const sync = event.target.checked;
+            // setDossierChromeSync copies the active document into shared when
+            // enabling, or shared into both documents when disabling. Mirror
+            // exactly that resulting value into a legacy editor model as well.
+            const nextOptions = sync ? state[scope] : state.shared;
+            setDossierChromeSync(scope, sync);
+            onOptionsChange?.(nextOptions);
+          }}
         />
         <label htmlFor={`dossier-chrome-sync-${scope}`} className="min-w-0 text-xs">
           <span className="block font-semibold">Header &amp; Footer synchron halten</span>
@@ -73,7 +98,7 @@ export function DossierChromeControls({ scope }: { scope: DossierChromeScope }) 
               {...(scope === "cv" ? { "data-cv-header-mode-control": "" } : {})}
               value={selected.headerMode}
               onChange={(event) =>
-                patchDossierChrome(scope, { headerMode: event.target.value as DossierHeaderMode })
+                patchOptions({ headerMode: event.target.value as DossierHeaderMode })
               }
               className={selectClass}
             >
@@ -93,7 +118,7 @@ export function DossierChromeControls({ scope }: { scope: DossierChromeScope }) 
                   <input
                     type="checkbox"
                     checked={checked}
-                    onChange={(event) => patchDossierChrome(scope, { [key]: event.target.checked })}
+                    onChange={(event) => patchOptions({ [key]: event.target.checked })}
                   />
                   {label} integrieren
                 </label>
@@ -111,7 +136,7 @@ export function DossierChromeControls({ scope }: { scope: DossierChromeScope }) 
             value={footerControlValue}
             onChange={(event) => {
               const value = event.target.value;
-              patchDossierChrome(scope, {
+              patchOptions({
                 footerMode: (value === "attachments" ? "details" : value) as DossierFooterMode,
               });
             }}
