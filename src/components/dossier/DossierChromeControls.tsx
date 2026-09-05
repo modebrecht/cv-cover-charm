@@ -1,7 +1,6 @@
 import { useSyncExternalStore } from "react";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
-  getDossierChromeOptions,
   getDossierChromeState,
   patchDossierChrome,
   setDossierChromeSync,
@@ -42,14 +41,11 @@ export function DossierChromeControls({
     ["headerShowEmail", "E-Mail", options.headerShowEmail],
   ] as const;
 
-  // Keeps the direct getter exercised by the UI contract and makes accidental
-  // divergence between state and the public scope selector immediately visible.
-  const selected = getDossierChromeOptions(scope);
   // The shared model calls the rich footer "details". The letter UI historically
   // exposed the same behavior as "attachments"; keeping that form value avoids
   // breaking persisted browser automation and makes the migration additive.
   const footerControlValue =
-    scope === "letter" && selected.footerMode === "details" ? "attachments" : selected.footerMode;
+    scope === "letter" && options.footerMode === "details" ? "attachments" : options.footerMode;
 
   const patchOptions = (patch: Partial<DossierChromeOptions>) => {
     patchDossierChrome(scope, patch);
@@ -96,7 +92,7 @@ export function DossierChromeControls({
               data-dossier-header-mode-control
               {...(scope === "letter" ? { "data-letter-header-mode-control": "" } : {})}
               {...(scope === "cv" ? { "data-cv-header-mode-control": "" } : {})}
-              value={selected.headerMode}
+              value={options.headerMode}
               onChange={(event) =>
                 patchOptions({ headerMode: event.target.value as DossierHeaderMode })
               }
@@ -108,7 +104,7 @@ export function DossierChromeControls({
             </select>
           </label>
 
-          {selected.headerMode === "contact" ? (
+          {options.headerMode === "contact" ? (
             <div
               data-dossier-header-fields
               className="mt-2 grid grid-cols-2 gap-2 rounded-md border bg-muted/30 p-2.5"
