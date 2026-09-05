@@ -1,3 +1,4 @@
+import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import type { LetterAlignment, LetterDesign } from "@/components/letter/types";
 
 const buttonClass =
@@ -50,8 +51,10 @@ export function LetterLayoutControls({
 }) {
   return (
     <div className="grid gap-2.5">
+      <DossierChromeControls scope="letter" />
+
       <p className="text-xs leading-relaxed text-muted-foreground">
-        Header und Footer stellst du oben gemeinsam für Lebenslauf und Motivationsschreiben ein.
+        Header und Footer stellst du hier gemeinsam für Lebenslauf und Motivationsschreiben ein.
         Empfänger, Datum und Trennlinien bleiben briefspezifisch.
       </p>
 
