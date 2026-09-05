@@ -33,6 +33,11 @@ export function DossierChromeControls({ scope }: { scope: DossierChromeScope }) 
   // Keeps the direct getter exercised by the UI contract and makes accidental
   // divergence between state and the public scope selector immediately visible.
   const selected = getDossierChromeOptions(scope);
+  // The shared model calls the rich footer "details". The letter UI historically
+  // exposed the same behavior as "attachments"; keeping that form value avoids
+  // breaking persisted browser automation and makes the migration additive.
+  const footerControlValue =
+    scope === "letter" && selected.footerMode === "details" ? "attachments" : selected.footerMode;
 
   return (
     <section
@@ -103,14 +108,19 @@ export function DossierChromeControls({ scope }: { scope: DossierChromeScope }) 
             data-dossier-footer-mode-control
             {...(scope === "letter" ? { "data-letter-footer-mode-control": "" } : {})}
             {...(scope === "cv" ? { "data-cv-footer-mode-control": "" } : {})}
-            value={selected.footerMode}
-            onChange={(event) =>
-              patchDossierChrome(scope, { footerMode: event.target.value as DossierFooterMode })
-            }
+            value={footerControlValue}
+            onChange={(event) => {
+              const value = event.target.value;
+              patchDossierChrome(scope, {
+                footerMode: (value === "attachments" ? "details" : value) as DossierFooterMode,
+              });
+            }}
             className={selectClass}
           >
             <option value="compact">Footerband kompakt</option>
-            <option value="details">Footerband mit Details</option>
+            <option value={scope === "letter" ? "attachments" : "details"}>
+              Footerband mit Details
+            </option>
             <option value="none">Kein Footer</option>
           </select>
           <span className="mt-1.5 block text-[11px] leading-relaxed text-muted-foreground">
