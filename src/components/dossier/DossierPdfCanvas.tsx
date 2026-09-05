@@ -11,6 +11,7 @@ import {
   type LetterPdfDocument,
 } from "@/lib/dossier-pdf-document";
 import { LETTER_STORAGE_KEY, readStoredDossierPart } from "@/lib/dossier-project";
+import { DEFAULT_DOSSIER_CHROME_STATE, type DossierChromeState } from "@/lib/dossier-chrome";
 
 const ignoreSelection = () => {};
 const ignoreMove = () => {};
@@ -23,10 +24,23 @@ export const DossierPdfCanvas = forwardRef<
     /** Optional explizit übergeben; bestehende Editoren lesen sonst den gespeicherten Brief. */
     letter?: LetterPdfDocument | null;
     cv: CvPdfDocument | null;
+    chromeState?: DossierChromeState;
     onCvLayoutWarnings?: (warnings: CvLayoutWarning[]) => void;
     onCvPageCount?: (count: number) => void;
   }
->(function DossierPdfCanvas({ cover, letter, cv, onCvLayoutWarnings, onCvPageCount }, ref) {
+>(function DossierPdfCanvas(
+  {
+    cover,
+    letter,
+    cv,
+    chromeState = DEFAULT_DOSSIER_CHROME_STATE,
+    onCvLayoutWarnings,
+    onCvPageCount,
+  },
+  ref,
+) {
+  const letterChromeOptions = chromeState.sync ? chromeState.shared : chromeState.letter;
+  const cvChromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
   const storedLetter =
     letter === undefined
       ? letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY))
@@ -49,13 +63,19 @@ export const DossierPdfCanvas = forwardRef<
       ) : null}
       {storedLetter ? (
         <div data-dossier-document="letter">
-          <LetterCanvas data={storedLetter.data} design={storedLetter.design} exportMode />
+          <LetterCanvas
+            data={storedLetter.data}
+            design={storedLetter.design}
+            chromeOptions={letterChromeOptions}
+            exportMode
+          />
         </div>
       ) : null}
       {cv ? (
         <CvCanvas
           data={cv.data}
           design={cv.design}
+          chromeOptions={cvChromeOptions}
           elements={cv.elements}
           elementStyles={cv.elementStyles}
           exportMode

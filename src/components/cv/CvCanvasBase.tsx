@@ -33,11 +33,7 @@ import {
   type CvRenderLayout,
 } from "./archetype";
 import { dossierThemeFor } from "@/lib/dossier-theme";
-import {
-  DEFAULT_DOSSIER_CHROME_STATE,
-  getDossierChromeState,
-  subscribeDossierChrome,
-} from "@/lib/dossier-chrome";
+import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import { dossierPhotoCropStyle, dossierPhotoRadius, dossierPhotoRatio } from "@/lib/dossier-photo";
 import { getCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
@@ -129,6 +125,8 @@ type Props = {
   data: CvData;
   design: CvDesign;
   elements: CustomField[];
+  chromeOptions: DossierChromeOptions;
+  chromeContact: DossierChromeContact;
   exportMode?: boolean;
   /** Abweichungen vom Vorgabestil je Element – Position, Farbe, Grösse. */
   elementStyles?: StyleOverrides;
@@ -155,6 +153,8 @@ export function CvCanvas({
   data,
   design,
   elements,
+  chromeOptions,
+  chromeContact,
   exportMode = false,
   elementStyles = {},
   selected = null,
@@ -172,12 +172,6 @@ export function CvCanvas({
   // Die Bauform der Vorlage entscheidet über Flächen und Textbereich. Sie ist
   // der eigentliche Träger der Verwandtschaft zum Titelblatt.
   const frame = useMemo(() => cvFrameFor(design.template), [design.template]);
-  const chromeState = useSyncExternalStore(
-    subscribeDossierChrome,
-    getDossierChromeState,
-    () => DEFAULT_DOSSIER_CHROME_STATE,
-  );
-  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
   // Die Auswahl im Aufbau-Picker gilt. Sie wurde früher bei Spalten- und
   // Karten-Vorlagen überschrieben, was wie ein toter Knopf wirkte.
   const layout = useSyncExternalStore<CvRenderLayout>(
@@ -543,50 +537,48 @@ export function CvCanvas({
     if (!list.length || data.hidden.referenzen) return [];
     return [
       heading("referenzen"),
-      ...list.map(
-        (r): Row => ({
-          id: r.id,
-          node: (
-            <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
-              {r.name && (
-                <div
-                  data-cv-entry-title
-                  style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
-                >
-                  {r.name}
-                </div>
-              )}
-              {r.funktion && (
-                <div
-                  data-cv-muted
-                  style={{
-                    fontSize: pt(9.7),
-                    color: pal.muted,
-                    marginTop: "0.3mm",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {r.funktion}
-                </div>
-              )}
-              {r.kontakt && (
-                <div
-                  data-cv-body
-                  style={{
-                    fontSize: pt(9.7),
-                    color: pal.ink,
-                    marginTop: "0.35mm",
-                    lineHeight: 1.3,
-                    overflowWrap: "anywhere",
-                  }}
-                >
-                  {r.kontakt}
-                </div>
-              )}
-            </div>
-          ),
-        }),
-      ),
+      ...list.map((r): Row => ({
+        id: r.id,
+        node: (
+          <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
+            {r.name && (
+              <div
+                data-cv-entry-title
+                style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
+              >
+                {r.name}
+              </div>
+            )}
+            {r.funktion && (
+              <div
+                data-cv-muted
+                style={{
+                  fontSize: pt(9.7),
+                  color: pal.muted,
+                  marginTop: "0.3mm",
+                  lineHeight: 1.3,
+                }}
+              >
+                {r.funktion}
+              </div>
+            )}
+            {r.kontakt && (
+              <div
+                data-cv-body
+                style={{
+                  fontSize: pt(9.7),
+                  color: pal.ink,
+                  marginTop: "0.35mm",
+                  lineHeight: 1.3,
+                  overflowWrap: "anywhere",
+                }}
+              >
+                {r.kontakt}
+              </div>
+            )}
+          </div>
+        ),
+      })),
     ];
   };
 
@@ -595,35 +587,33 @@ export function CvCanvas({
     if (!list.length || data.hidden.sprachen) return [];
     return [
       heading("sprachen"),
-      ...list.map(
-        (s): Row => ({
-          id: `main-${s.id}`,
-          node: (
-            <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
-              <div
-                data-cv-rail
-                data-cv-entry-title
-                style={{
-                  width: layout === "modern" ? "23mm" : "27mm",
-                  flexShrink: 0,
-                  fontSize: pt(10.2),
-                  fontWeight: 650,
-                  color: pal.ink,
-                  lineHeight: 1.3,
-                }}
-              >
-                {s.name}
-              </div>
-              <div
-                data-cv-muted
-                style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
-              >
-                {s.niveau}
-              </div>
+      ...list.map((s): Row => ({
+        id: `main-${s.id}`,
+        node: (
+          <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
+            <div
+              data-cv-rail
+              data-cv-entry-title
+              style={{
+                width: layout === "modern" ? "23mm" : "27mm",
+                flexShrink: 0,
+                fontSize: pt(10.2),
+                fontWeight: 650,
+                color: pal.ink,
+                lineHeight: 1.3,
+              }}
+            >
+              {s.name}
             </div>
-          ),
-        }),
-      ),
+            <div
+              data-cv-muted
+              style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
+            >
+              {s.niveau}
+            </div>
+          </div>
+        ),
+      })),
     ];
   };
 
@@ -633,28 +623,26 @@ export function CvCanvas({
     if (!list.length) return [];
     return [
       heading(key),
-      ...list.map(
-        (v, i): Row => ({
-          id: `main-${key}-${i}`,
-          node: (
-            <div
-              data-cv-entry
-              data-cv-body
-              style={{
-                display: "flex",
-                gap: "2.6mm",
-                marginBottom: "1.35mm",
-                fontSize: pt(9.9),
-                lineHeight: 1.35,
-                color: pal.ink,
-              }}
-            >
-              <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
-              <span>{v}</span>
-            </div>
-          ),
-        }),
-      ),
+      ...list.map((v, i): Row => ({
+        id: `main-${key}-${i}`,
+        node: (
+          <div
+            data-cv-entry
+            data-cv-body
+            style={{
+              display: "flex",
+              gap: "2.6mm",
+              marginBottom: "1.35mm",
+              fontSize: pt(9.9),
+              lineHeight: 1.35,
+              color: pal.ink,
+            }}
+          >
+            <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
+            <span>{v}</span>
+          </div>
+        ),
+      })),
     ];
   };
 
@@ -2622,7 +2610,7 @@ export function CvCanvas({
       </div>
 
       {pages.map((page, i) => {
-        const box = cvContentBox(frame, i, layout, sidebarPct);
+        const box = cvContentBox(frame, i, layout, sidebarPct, chromeOptions);
         return (
           <div
             key={i}
@@ -2635,16 +2623,10 @@ export function CvCanvas({
               scope="cv"
               template={design.template}
               colors={design.colors}
-              optionsOverride={chromeOptions}
-              contact={{
-                name,
-                address: p.adresse ?? "",
-                place: p.plzOrt ?? "",
-                phone: p.telefon ?? "",
-                email: p.email ?? "",
-              }}
+              options={chromeOptions}
+              contact={chromeContact}
               pageIndex={i}
-              footerLeft={name || "Lebenslauf"}
+              footerLeft={chromeContact.name || "Lebenslauf"}
               footerRight={`Seite ${i + 1}`}
             />
             {layout === "modern" && modernSidebar(i)}

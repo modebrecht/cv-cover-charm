@@ -1,13 +1,8 @@
-import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
 import { cvPalette } from "@/components/cv/palette";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
-import {
-  DEFAULT_DOSSIER_CHROME_STATE,
-  getDossierChromeState,
-  subscribeDossierChrome,
-  type DossierChromeOptions,
-} from "@/lib/dossier-chrome";
+import type { DossierChromeOptions } from "@/lib/dossier-chrome";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
 import { letterPageGeometry, visibleLetterAttachments } from "./layout-system";
 import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
@@ -63,6 +58,7 @@ export function LetterCanvas({
   data,
   design,
   exportMode = false,
+  chromeOptions,
   onOverflowChange,
   onImageChange,
   onImageRemove,
@@ -71,25 +67,13 @@ export function LetterCanvas({
   data: LetterData;
   design: LetterDesign;
   exportMode?: boolean;
+  chromeOptions?: DossierChromeOptions;
   onOverflowChange?: (overflow: boolean) => void;
   onImageChange?: (id: string, patch: Partial<LetterFlowImage>) => void;
   onImageRemove?: (id: string) => void;
   ariaLabel?: string;
 }) {
-  const chromeState = useSyncExternalStore(
-    subscribeDossierChrome,
-    getDossierChromeState,
-    () => DEFAULT_DOSSIER_CHROME_STATE,
-  );
-  const liveBrowser =
-    typeof window !== "undefined" &&
-    typeof window.addEventListener === "function" &&
-    typeof window.document !== "undefined";
-  const chrome = liveBrowser
-    ? chromeState.sync
-      ? chromeState.shared
-      : chromeState.letter
-    : legacyChromeFromDesign(design);
+  const chrome = chromeOptions ?? legacyChromeFromDesign(design);
   const effectiveDesign = useMemo<LetterDesign>(
     () => ({
       ...design,
@@ -186,7 +170,7 @@ export function LetterCanvas({
           email: data.absenderEmail,
         }}
         pageIndex={geometry.pageIndex}
-        optionsOverride={chrome}
+        options={chrome}
         footerHeightMm={geometry.footer.height}
         footerLabel="Beilagen:"
         footerDetails={geometry.footer.showAttachments ? beilagen : []}

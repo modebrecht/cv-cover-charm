@@ -1,9 +1,6 @@
-import { useMemo, useSyncExternalStore, type ComponentProps } from "react";
-import { DossierChromeContactOverrideProvider } from "@/components/dossier/DossierHeaderFooterChrome";
+import { useMemo, type ComponentProps } from "react";
 import {
-  DEFAULT_DOSSIER_CHROME_STATE,
-  getDossierChromeState,
-  subscribeDossierChrome,
+  DEFAULT_DOSSIER_CHROME_OPTIONS,
   type DossierChromeContact,
   type DossierChromeOptions,
 } from "@/lib/dossier-chrome";
@@ -12,7 +9,10 @@ import type { CvData } from "./types";
 
 export type { CvLayoutWarning } from "./CvCanvasBase";
 
-type Props = ComponentProps<typeof BaseCvCanvas>;
+type BaseProps = ComponentProps<typeof BaseCvCanvas>;
+type Props = Omit<BaseProps, "chromeOptions" | "chromeContact"> & {
+  chromeOptions?: DossierChromeOptions;
+};
 
 function contactFromCv(data: CvData): DossierChromeContact {
   const person = data.person;
@@ -25,15 +25,8 @@ function contactFromCv(data: CvData): DossierChromeContact {
   };
 }
 
-/**
- * Der gemeinsame Contact-Header besitzt die ausgewählten Identitätsfelder.
- * Für den historischen CV-Renderer werden genau diese Felder ausgeblendet,
- * damit sie nicht direkt darunter ein zweites Mal erscheinen. Nicht integrierte
- * Felder sowie Geburtsdatum/Nationalität bleiben unverändert im CV-Inhalt.
- */
 function cvBodyData(data: CvData, options: DossierChromeOptions): CvData {
   if (options.headerMode !== "contact") return data;
-
   const person = data.person;
   const hasName = !!(person.vorname?.trim() || person.nachname?.trim());
   return {
@@ -48,24 +41,12 @@ function cvBodyData(data: CvData, options: DossierChromeOptions): CvData {
   };
 }
 
-/**
- * Adapter um den bestehenden CV-Satz: die echte Person bleibt für den
- * gemeinsamen Header erhalten, während der Body nur die nicht integrierten
- * Kontaktfelder erhält. So bleibt der Eingabe-State unverändert.
- */
-export function CvCanvas(props: Props) {
-  const state = useSyncExternalStore(
-    subscribeDossierChrome,
-    getDossierChromeState,
-    () => DEFAULT_DOSSIER_CHROME_STATE,
-  );
-  const options = state.sync ? state.shared : state.cv;
+/** Pure snapshot adapter: no dossier-chrome store reads happen below the route/editor boundary. */
+export function CvCanvas({ chromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS, ...props }: Props) {
   const contact = useMemo(() => contactFromCv(props.data), [props.data]);
-  const data = useMemo(() => cvBodyData(props.data, options), [props.data, options]);
+  const data = useMemo(() => cvBodyData(props.data, chromeOptions), [props.data, chromeOptions]);
 
   return (
-    <DossierChromeContactOverrideProvider contact={contact}>
-      <BaseCvCanvas {...props} data={data} />
-    </DossierChromeContactOverrideProvider>
+    <BaseCvCanvas {...props} data={data} chromeOptions={chromeOptions} chromeContact={contact} />
   );
 }

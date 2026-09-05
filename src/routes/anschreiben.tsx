@@ -127,6 +127,7 @@ function Anschreiben() {
     getDossierChromeState,
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
+  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.letter;
   const [hydrated, setHydrated] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
@@ -1050,6 +1051,7 @@ function Anschreiben() {
               <LetterCanvas
                 data={data}
                 design={design}
+                chromeOptions={chromeOptions}
                 onOverflowChange={setLetterOverflow}
                 onImageChange={patchLetterImage}
                 onImageRemove={removeLetterImage}
@@ -1066,6 +1068,7 @@ function Anschreiben() {
           <LetterCanvas
             data={data}
             design={design}
+            chromeOptions={chromeOptions}
             exportMode
             ariaLabel="Exportansicht Motivationsschreiben"
           />

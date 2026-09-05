@@ -1,35 +1,9 @@
-import {
-  createContext,
-  useContext,
-  useSyncExternalStore,
-  type ReactNode,
-} from "react";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
-import {
-  DEFAULT_DOSSIER_CHROME_STATE,
-  getDossierChromeState,
-  subscribeDossierChrome,
-  type DossierChromeContact,
-  type DossierChromeOptions,
-  type DossierChromeScope,
+import type {
+  DossierChromeContact,
+  DossierChromeOptions,
+  DossierChromeScope,
 } from "@/lib/dossier-chrome";
-
-const CvContactOverrideContext = createContext<DossierChromeContact | null>(null);
-
-/**
- * Der CV-Body darf integrierte Kontaktfelder ausblenden, ohne dem gemeinsamen
- * Header dieselben Daten wegzunehmen. Der Provider hält deshalb ausschliesslich
- * die ursprünglichen CV-Kontaktdaten für den Chrome-Renderer bereit.
- */
-export function DossierChromeContactOverrideProvider({
-  contact,
-  children,
-}: {
-  contact: DossierChromeContact;
-  children: ReactNode;
-}) {
-  return <CvContactOverrideContext.Provider value={contact}>{children}</CvContactOverrideContext.Provider>;
-}
 
 export function DossierHeaderFooterChrome({
   scope,
@@ -37,7 +11,7 @@ export function DossierHeaderFooterChrome({
   colors,
   contact,
   pageIndex = 0,
-  optionsOverride,
+  options,
   footerHeightMm,
   footerLabel,
   footerDetails = [],
@@ -49,36 +23,23 @@ export function DossierHeaderFooterChrome({
   colors: Record<string, string>;
   contact: DossierChromeContact;
   pageIndex?: number;
-  optionsOverride?: DossierChromeOptions;
+  options: DossierChromeOptions;
   footerHeightMm?: number;
   footerLabel?: string;
   footerDetails?: string[];
   footerLeft?: string;
   footerRight?: string;
 }) {
-  const state = useSyncExternalStore(
-    subscribeDossierChrome,
-    getDossierChromeState,
-    () => DEFAULT_DOSSIER_CHROME_STATE,
-  );
-  const cvContactOverride = useContext(CvContactOverrideContext);
-  const resolvedContact = scope === "cv" && cvContactOverride ? cvContactOverride : contact;
-  const options = optionsOverride ?? (state.sync ? state.shared : state[scope]);
+  const resolvedContact = contact;
   const headerMode =
-    pageIndex === 0
-      ? options.headerMode
-      : options.headerMode === "none"
-        ? "none"
-        : "compact";
+    pageIndex === 0 ? options.headerMode : options.headerMode === "none" ? "none" : "compact";
   const sourcePalette = cvPalette(colors);
   const primary =
     template === "brief"
       ? "#111111"
       : (colors.primary ?? colors.accent ?? colors.secondary ?? sourcePalette.accent);
   const secondary =
-    template === "brief"
-      ? "#4b5563"
-      : (colors.accent ?? colors.secondary ?? sourcePalette.accent);
+    template === "brief" ? "#4b5563" : (colors.accent ?? colors.secondary ?? sourcePalette.accent);
   const headerRoles = onColorRoles(primary, secondary);
   const footerRoles = onColorRoles(secondary, primary);
   const rightBits = [
@@ -87,8 +48,7 @@ export function DossierHeaderFooterChrome({
   ].filter(Boolean);
   const detailsHeight = footerHeightMm ?? 10;
   const letter = scope === "letter";
-  const resolvedFooterLeft =
-    scope === "cv" && cvContactOverride?.name ? cvContactOverride.name : footerLeft;
+  const resolvedFooterLeft = footerLeft;
 
   return (
     <div

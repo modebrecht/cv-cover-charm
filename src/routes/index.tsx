@@ -1,5 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
 import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
@@ -22,6 +30,11 @@ import {
   LETTER_STORAGE_KEY,
   readStoredDossierPart,
 } from "@/lib/dossier-project";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  getDossierChromeState,
+  subscribeDossierChrome,
+} from "@/lib/dossier-chrome";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -336,6 +349,11 @@ function DossierArt() {
 }
 
 function Start() {
+  const chromeState = useSyncExternalStore(
+    subscribeDossierChrome,
+    getDossierChromeState,
+    () => DEFAULT_DOSSIER_CHROME_STATE,
+  );
   const [documents, setDocuments] = useState<DossierDocuments>({
     cover: null,
     letter: null,
@@ -545,6 +563,7 @@ function Start() {
             cover={documents.cover}
             letter={documents.letter}
             cv={documents.cv}
+            chromeState={chromeState}
             onCvLayoutWarnings={receiveWarnings}
             onCvPageCount={setCvPageCount}
           />
