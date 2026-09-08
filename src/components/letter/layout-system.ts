@@ -158,11 +158,10 @@ export function letterFooterHeightMm(data: LetterData, mode: LetterFooterMode): 
   return Math.min(30, 7 + visualLineCount * 3.8);
 }
 
-function effectiveHeaderMode(design: LetterDesign, firstPage: boolean): LetterHeaderMode {
-  const requested = design.headerMode ?? "compact";
-  if (firstPage) return requested;
-  // Continuation pages keep only a small design signature; sender contact data is not repeated.
-  return requested === "none" ? "none" : "compact";
+function effectiveHeaderMode(design: LetterDesign): LetterHeaderMode {
+  // Header modes have the same semantic meaning as in the CV. The shared chrome
+  // renderer decides how the contact mode is visually condensed on continuation pages.
+  return design.headerMode ?? "compact";
 }
 
 function effectiveFooterMode(design: LetterDesign, finalPage: boolean): LetterFooterMode {
@@ -184,7 +183,7 @@ export function letterPageGeometry(
   const freshTemplate = design.template !== "brief" && FRESH_TEMPLATE_SET.has(design.template);
   const requestedHeaderMode = design.headerMode ?? "compact";
   const requestedFooterMode = design.footerMode ?? "compact";
-  const headerMode = effectiveHeaderMode(design, firstPage);
+  const headerMode = effectiveHeaderMode(design);
   const footerMode = effectiveFooterMode(design, finalPage);
   const footerHeight = letterFooterHeightMm(data, footerMode);
   const insets = CONTENT_INSETS[archetype];
