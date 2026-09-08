@@ -1,7 +1,9 @@
+import { DEFAULTS } from "@/default-config";
 import type { Block, ColorSlot, CoverData, CustomField, TemplateId } from "./types";
 import { DEFAULT_COVER_BEILAGEN } from "./types";
 import { buildBlocks as buildBaseBlocks } from "./layouts-base";
 import type { StyleOverrides } from "./layouts-base";
+import { isFreshTemplate } from "./fresh-templates";
 import { templateDecorations } from "./template-decorations";
 import "./editable-decorations.css";
 
@@ -48,6 +50,51 @@ function templateDefaultAdjustment(
   return adjusted;
 }
 
+/**
+ * Templates 21-38 were originally registered after the legacy layout switch
+ * and therefore fell through to the old Warm content schema. That leaked stale
+ * eyebrow copy from another design and placed the complete application kicker
+ * plus profession on one flowing line.
+ *
+ * Keep the proven geometry for now, but give every Fresh cover one explicit
+ * content contract:
+ * - the top label is the stable document label "Bewerbung";
+ * - application kicker and profession are separate logical lines inside the
+ *   existing `beruf` block, so all template-specific transforms remain valid;
+ * - the profession keeps its accent colour/weight without allowing `ALS` to
+ *   flow behind the profession title.
+ *
+ * User data is not mutated. Switching back to a legacy template still restores
+ * a custom eyebrow exactly as entered.
+ */
+function freshContentAdjustment(template: TemplateId, data: CoverData, block: Block): Block {
+  if (!isFreshTemplate(template)) return block;
+
+  if (block.id === "eyebrow") {
+    return {
+      ...block,
+      lines: ["Bewerbung"],
+      style: { ...block.style, maxLines: 1 },
+    };
+  }
+
+  if (block.id === "beruf") {
+    if (!data.beruf.trim()) return { ...block, lines: [] };
+    const kicker = data.kicker.trim() || DEFAULTS.KICKER;
+    return {
+      ...block,
+      lines: [kicker, [{ t: data.beruf, color: "primary", weight: 700 }]],
+      style: {
+        ...block.style,
+        maxLines: Math.max(3, block.style.maxLines ?? 0),
+        lineHeight: Math.max(1.2, block.style.lineHeight),
+      },
+    };
+  }
+
+  return block;
+}
+
 export function buildBlocks(
   template: TemplateId,
   data: CoverData,
@@ -56,7 +103,11 @@ export function buildBlocks(
   slots: ColorSlot[],
 ): Block[] {
   const blocks = buildBaseBlocks(template, data, customs, overrides, slots).map((block) =>
-    templateDefaultAdjustment(template, block, overrides),
+    freshContentAdjustment(
+      template,
+      data,
+      templateDefaultAdjustment(template, block, overrides),
+    ),
   );
   const decorations = templateDecorations(template, overrides).map((block) =>
     templateDefaultAdjustment(template, block, overrides),
