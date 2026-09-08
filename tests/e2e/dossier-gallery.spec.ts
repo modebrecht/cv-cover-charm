@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { FRESH_TEMPLATE_REGISTRY } from "../../src/components/cover/fresh-template-registry";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 
 const BASE_URL = "http://127.0.0.1:4173";
@@ -18,33 +19,9 @@ function galleryBatchIndex(): number | null {
   return value;
 }
 
-// Do not import fresh-templates.ts in the Playwright Node process: that module
-// intentionally imports the browser CSS for the fresh designs. The running app
-// registers the same 18 designs; this list only enumerates them for gallery files.
-const FRESH_GALLERY_TEMPLATES: Array<{ id: TemplateId; name: string }> = [
-  { id: "edge" as TemplateId, name: "Edge" },
-  { id: "glow" as TemplateId, name: "Glow" },
-  { id: "frame" as TemplateId, name: "Frame" },
-  { id: "monoLuxe" as TemplateId, name: "Mono Luxe" },
-  { id: "horizon" as TemplateId, name: "Horizon" },
-  { id: "sunrise" as TemplateId, name: "Sunrise" },
-  { id: "forestFlow" as TemplateId, name: "Forest Flow" },
-  { id: "violetPulse" as TemplateId, name: "Violet Pulse" },
-  { id: "studio2" as TemplateId, name: "Studio 2" },
-  { id: "studio3" as TemplateId, name: "Studio 3" },
-  { id: "warm2" as TemplateId, name: "Warm 2" },
-  { id: "warm3" as TemplateId, name: "Warm 3" },
-  { id: "ledger" as TemplateId, name: "Ledger" },
-  { id: "prism" as TemplateId, name: "Prism" },
-  { id: "gallery" as TemplateId, name: "Gallery" },
-  { id: "orbit" as TemplateId, name: "Orbit" },
-  { id: "ribbon" as TemplateId, name: "Ribbon" },
-  { id: "cove" as TemplateId, name: "Cove" },
-];
-
 const ALL_GALLERY_TEMPLATES = [
   ...TEMPLATES.map((template) => ({ id: template.id, name: template.name })),
-  ...FRESH_GALLERY_TEMPLATES,
+  ...FRESH_TEMPLATE_REGISTRY,
 ];
 
 async function extractPdfText(path: string): Promise<string> {
@@ -164,10 +141,11 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
   }> = ALL_GALLERY_TEMPLATES.map((template) => ({
     label: template.name,
     letterTemplate: template.id as "brief" | TemplateId,
-    coverTemplate: template.id,
-    cvTemplate: template.id,
+    coverTemplate: template.id as TemplateId,
+    cvTemplate: template.id as TemplateId,
   }));
 
+  expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(18);
   expect(ALL_GALLERY_TEMPLATES).toHaveLength(38);
   expect(cases).toHaveLength(38);
 
@@ -240,7 +218,12 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
 
   await mkdir(GALLERY_DIR, { recursive: true });
   await writeFile(
-    join(GALLERY_DIR, batchIndex === null ? "MANIFEST.txt" : `MANIFEST.part-${String(batchIndex).padStart(2, "0")}.txt`),
+    join(
+      GALLERY_DIR,
+      batchIndex === null
+        ? "MANIFEST.txt"
+        : `MANIFEST.part-${String(batchIndex).padStart(2, "0")}.txt`,
+    ),
     `${manifestEntries.join("\n")}\n`,
     "utf8",
   );

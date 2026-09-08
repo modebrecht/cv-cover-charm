@@ -1,7 +1,7 @@
 import {
   FRESH_TEMPLATE_IDS,
   type FreshTemplateId,
-} from "@/components/cover/fresh-templates";
+} from "@/components/cover/fresh-template-registry";
 
 export const LETTER_SHEET_MM = { width: 210, height: 297 } as const;
 

@@ -2,26 +2,18 @@
 /* Fresh dossier systems: Edge · Glow · Frame · Mono Luxe                     */
 /* -------------------------------------------------------------------------- */
 /*
- * The four fresh templates use the proven responsive text schema but give it
- * four genuinely different compositions. Default offsets are transforms on the
- * draggable wrappers: user x/y edits keep working because they still move the
- * wrapper while the template-specific composition remains its local baseline.
- *
- * CoverBackground's color-aware fallback gives us one primary plane and two
- * secondary shapes. They are reshaped here, so every palette variant and every
- * manually edited color keeps working on title page and CV alike.
+ * CoverBackground exposes semantic primary/secondary/accent fields. Cover CSS
+ * targets those roles directly so structural DOM order can change safely.
+ * CV keeps its established selectors until its motif renderer exposes the same
+ * semantic contract.
  */
 
 /* -------------------------------------------------------------------------- */
 /* EDGE — clean professional header, strong edge accent                       */
 /* -------------------------------------------------------------------------- */
-/*
- * Edge used to be a very narrow full-height rail with a rotated BEWERBUNG
- * label. That made the cover feel empty and awkward. The cover now uses a
- * compact hero/header field: still precise and asymmetric, but useful as an
- * actual dossier cover.
- */
-html[data-dossier-template="edge"] [data-dossier-document="cover"] > div:first-child > div:first-child {
+html[data-dossier-template="edge"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"] {
   left: 0 !important;
   right: 0 !important;
   top: 0 !important;
@@ -33,9 +25,7 @@ html[data-dossier-template="edge"] [data-dossier-document="cover"] > div:first-c
 
 html[data-dossier-template="edge"]
   [data-dossier-document="cover"]
-  > div:first-child
-  > div:first-child
-  > div:first-child {
+  [data-fresh-cover-field="secondary"] {
   left: 0 !important;
   right: auto !important;
   top: 0 !important;
@@ -48,9 +38,7 @@ html[data-dossier-template="edge"]
 
 html[data-dossier-template="edge"]
   [data-dossier-document="cover"]
-  > div:first-child
-  > div:first-child
-  > div:nth-child(2) {
+  [data-fresh-cover-field="accent"] {
   left: auto !important;
   right: -18mm !important;
   top: -26mm !important;
@@ -61,11 +49,7 @@ html[data-dossier-template="edge"]
   opacity: 0.16 !important;
 }
 
-/* BEWERBUNG is a normal horizontal eyebrow again. */
-html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
-  transform: none !important;
-}
-
+html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="eyebrow"],
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
   transform: none !important;
 }
@@ -92,7 +76,11 @@ html[data-dossier-template="edge"]
 }
 
 /* CV echoes the cover with a compact top field instead of a permanent rail. */
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-background="motif"] > div > div:first-child {
+html[data-dossier-template="edge"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
   left: 0 !important;
   right: 0 !important;
   top: 0 !important;
@@ -140,7 +128,12 @@ html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-accent=
 /* GLOW — soft color field, restrained rather than luminous                   */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="glow"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"],
+html[data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
   > div:first-child {
   left: -28mm !important;
   right: auto !important;
@@ -151,9 +144,13 @@ html[data-dossier-template="glow"]
   opacity: 0.82 !important;
 }
 
-/* Former huge cyan glow: now only a very soft atmospheric tint. */
 html[data-dossier-template="glow"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"],
+html[data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
   > div:first-child
   > div:first-child {
   left: 108mm !important;
@@ -163,13 +160,17 @@ html[data-dossier-template="glow"]
   width: 82mm !important;
   height: 82mm !important;
   border-radius: 9999px !important;
-  opacity: 0.10 !important;
+  opacity: 0.1 !important;
   filter: blur(12mm);
 }
 
-/* Lower glow is nearly imperceptible; it only keeps the page from feeling flat. */
 html[data-dossier-template="glow"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"],
+html[data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
   > div:first-child
   > div:nth-child(2) {
   left: 20mm !important;
@@ -214,7 +215,12 @@ html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-accent]
 /* FRAME — architectural bars, warm contrast                                  */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="frame"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"],
+html[data-dossier-template="frame"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
   > div:first-child {
   left: 0 !important;
   right: 0 !important;
@@ -226,7 +232,12 @@ html[data-dossier-template="frame"]
 }
 
 html[data-dossier-template="frame"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"],
+html[data-dossier-template="frame"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
   > div:first-child
   > div:first-child {
   left: 0 !important;
@@ -240,7 +251,12 @@ html[data-dossier-template="frame"]
 }
 
 html[data-dossier-template="frame"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"],
+html[data-dossier-template="frame"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
   > div:first-child
   > div:nth-child(2) {
   left: 15mm !important;
@@ -288,7 +304,12 @@ html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-sectio
 /* MONO LUXE — black header, cream paper, tiny metallic details                */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="monoLuxe"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"],
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
   > div:first-child {
   left: 0 !important;
   right: 0 !important;
@@ -300,7 +321,12 @@ html[data-dossier-template="monoLuxe"]
 }
 
 html[data-dossier-template="monoLuxe"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"],
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
   > div:first-child
   > div:first-child {
   left: 72mm !important;
@@ -314,7 +340,12 @@ html[data-dossier-template="monoLuxe"]
 }
 
 html[data-dossier-template="monoLuxe"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"],
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
   > div:first-child
   > div:nth-child(2) {
   left: 168mm !important;

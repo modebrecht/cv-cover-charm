@@ -1,5 +1,7 @@
+import type { CSSProperties } from "react";
 import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackground";
 import { cvPalette } from "@/components/cv/palette";
+import { freshLetterSpec, type FreshLetterColorRole } from "./fresh-letter-system";
 import type { LetterTemplateId } from "./types";
 
 function pick(colors: Record<string, string>, ...keys: string[]): string {
@@ -7,6 +9,72 @@ function pick(colors: Record<string, string>, ...keys: string[]): string {
     if (colors[key]) return colors[key];
   }
   return "#111111";
+}
+
+function freshRoleColor(
+  role: FreshLetterColorRole,
+  colors: Record<string, string>,
+): string {
+  if (role === "primary") return pick(colors, "primary", "accent", "secondary", "ink");
+  if (role === "secondary") return pick(colors, "secondary", "accent", "primary", "ink");
+  return pick(colors, "accent", "secondary", "primary", "ink");
+}
+
+function FreshLetterBackground({
+  template,
+  colors,
+}: {
+  template: LetterTemplateId;
+  colors: Record<string, string>;
+}) {
+  const spec = freshLetterSpec(template);
+  if (!spec) return null;
+
+  const palette = cvPalette(colors);
+
+  return (
+    <div
+      data-dossier-sheet-background={template}
+      data-letter-background-variant="fresh"
+      data-letter-fresh-template={template}
+      className="absolute inset-0 overflow-hidden"
+      style={{ backgroundColor: palette.paper }}
+      aria-hidden="true"
+    >
+      {spec.motifs.map((motif) => {
+        const baseColor = freshRoleColor(motif.color, colors);
+        const gradientColor = motif.gradientTo
+          ? freshRoleColor(motif.gradientTo, colors)
+          : null;
+        const style: CSSProperties = {
+          position: "absolute",
+          left: `${motif.x}mm`,
+          top: `${motif.y}mm`,
+          width: `${motif.w}mm`,
+          height: `${motif.h}mm`,
+          opacity: motif.opacity ?? 1,
+          borderRadius: motif.radiusMm ? `${motif.radiusMm}mm` : undefined,
+          clipPath: motif.clipPath,
+          background:
+            !motif.borderMm && gradientColor
+              ? `linear-gradient(90deg, ${baseColor}, ${gradientColor})`
+              : undefined,
+          backgroundColor: !motif.borderMm && !gradientColor ? baseColor : undefined,
+          border: motif.borderMm ? `${motif.borderMm}mm solid ${baseColor}` : undefined,
+          boxSizing: "border-box",
+        };
+
+        return (
+          <div
+            key={motif.id}
+            data-letter-motif={motif.id}
+            data-letter-motif-role={motif.color}
+            style={style}
+          />
+        );
+      })}
+    </div>
+  );
 }
 
 function QuietColumnBackground({
@@ -33,14 +101,17 @@ function QuietColumnBackground({
         <>
           <div
             data-letter-safe-rail
+            data-letter-motif="rail"
             className="absolute inset-y-0 left-0 w-[19mm]"
             style={{ backgroundColor: primary }}
           />
           <div
+            data-letter-motif="accent-block"
             className="absolute left-0 top-[48mm] h-[22mm] w-[19mm]"
             style={{ backgroundColor: accent, opacity: 0.92 }}
           />
           <div
+            data-letter-motif="rail-rule"
             className="absolute left-[4mm] top-[82mm] h-[2.2mm] w-[10mm]"
             style={{ backgroundColor: secondary }}
           />
@@ -51,10 +122,12 @@ function QuietColumnBackground({
         <>
           <div
             data-letter-safe-rail
+            data-letter-motif="rail"
             className="absolute inset-y-0 left-0 w-[17mm]"
             style={{ backgroundColor: primary }}
           />
           <div
+            data-letter-motif="rail-rule"
             className="absolute left-[6mm] top-[20mm] h-[38mm] w-px"
             style={{ backgroundColor: secondary, opacity: 0.82 }}
           />
@@ -65,14 +138,17 @@ function QuietColumnBackground({
         <>
           <div
             data-letter-safe-rail
+            data-letter-motif="rail"
             className="absolute inset-y-0 left-0 w-[20mm]"
             style={{ backgroundColor: primary }}
           />
           <div
+            data-letter-motif="accent-block"
             className="absolute left-0 top-[20mm] h-[14mm] w-[20mm]"
             style={{ backgroundColor: accent }}
           />
           <div
+            data-letter-motif="rail-rule"
             className="absolute left-[6mm] top-[43mm] h-[2mm] w-[8mm]"
             style={{ backgroundColor: secondary }}
           />
@@ -83,10 +159,9 @@ function QuietColumnBackground({
 }
 
 /**
- * Motivation letters keep the template identity but never reuse the large CV
- * column geometry in the reading area. The three legacy column templates are
- * rendered with their intentionally quieter letter signatures; every other
- * template continues to use the shared dossier background unchanged.
+ * Motivation letters keep template identity without borrowing CV geometry.
+ * Fresh templates render directly from their dedicated letter specification;
+ * the three legacy column templates keep their intentionally quiet rails.
  */
 export function LetterSheetBackground({
   template,
@@ -97,6 +172,10 @@ export function LetterSheetBackground({
   colors: Record<string, string>;
   pageIndex?: number;
 }) {
+  if (freshLetterSpec(template)) {
+    return <FreshLetterBackground template={template} colors={colors} />;
+  }
+
   if (template === "blockig" || template === "terracotta" || template === "studio") {
     return <QuietColumnBackground template={template} colors={colors} />;
   }
