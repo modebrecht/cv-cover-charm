@@ -146,6 +146,14 @@ export function buildBlocks(
           }
         : {
             ...recipientTitle.style,
+            // With no company block on the cover, the attachment list owns the
+            // recipient area's original bottom anchor. Put the heading above
+            // that list instead of chaining the list below a hidden recipient;
+            // otherwise low-anchored layouts such as Studio can run past A4.
+            above: "beilagen",
+            follows: null,
+            anchorBottom: false,
+            gap: 1.5,
             uppercase: false,
             weight: Math.max(600, recipientTitle.style.weight),
           };
@@ -159,7 +167,7 @@ export function buildBlocks(
           }
         : {
             ...recipientBody.style,
-            follows: "beilagenTitel",
+            follows: null,
             above: null,
           };
       const titleOverride = overrides.beilagenTitel ?? {};
