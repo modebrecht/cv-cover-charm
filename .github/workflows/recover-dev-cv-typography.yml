@@ -31,13 +31,58 @@ jobs:
           if ! grep -q 'CV_DOC_TITLE_DEFAULTS' src/components/cv/types.ts; then
             python scripts/recover-dev-cv-typography.py
           fi
+
+      - name: Harden validation selectors
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          dossier = Path("tests/e2e/dossier-regression.spec.ts")
+          text = dossier.read_text()
+          old = '    const cvTemplateHeader = page.getByRole("button", { name: /^Vorlage/ });'
+          new = '''    const cvTemplateHeader = page
+                .locator("button[data-editor-section-toggle]")
+                .filter({ hasText: "Vorlage" })
+                .first();'''
+          if old in text:
+              text = text.replace(old, new, 1)
+          elif new not in text:
+              raise SystemExit("Could not locate CV template header selector")
+          dossier.write_text(text)
+
+          card = Path("tests/e2e/cv-card-refresh.spec.ts")
+          text = card.read_text()
+          replacements = [
+              (
+                  '    const title = node.querySelector<HTMLElement>("[data-cv-doc-title]");',
+                  '    const title = node.querySelector<HTMLElement>("[data-cv-page] [data-cv-doc-title]");',
+              ),
+              (
+                  'node.querySelectorAll<HTMLElement>("[data-cv-section-title]")',
+                  'node.querySelectorAll<HTMLElement>("[data-cv-page] [data-cv-section-title]")',
+              ),
+              (
+                  '    await expect(preview.getByText("Projekte", { exact: true }).first()).toBeVisible();',
+                  '    await expect(\n      preview.locator("[data-cv-page]").getByText("Projekte", { exact: true }).first(),\n    ).toBeVisible();',
+              ),
+          ]
+          for old, new in replacements:
+              if old in text:
+                  text = text.replace(old, new, 1)
+              elif new not in text:
+                  raise SystemExit(f"Could not locate expected CV typography validation fragment: {old}")
+          card.write_text(text)
+          PY
+
           bunx prettier --write \
             src/components/cv/types.ts \
             src/components/cv/CvCanvasBase.tsx \
             src/routes/lebenslauf.tsx \
             tests/unit/cv-dev-recovery.test.ts \
             tests/e2e/cv-demo-pagination.spec.ts \
-            tests/e2e/cv-card-refresh.spec.ts
+            tests/e2e/cv-card-refresh.spec.ts \
+            tests/e2e/dossier-regression.spec.ts
 
       - name: Verify focused recovery tests
         run: bun test tests/unit/cv-dev-recovery.test.ts tests/unit/cv-section-rule.test.ts
@@ -57,8 +102,9 @@ jobs:
             src/routes/lebenslauf.tsx \
             tests/unit/cv-dev-recovery.test.ts \
             tests/e2e/cv-demo-pagination.spec.ts \
-            tests/e2e/cv-card-refresh.spec.ts
-          git commit -m 'test(cv): harden recovered typography validation'
+            tests/e2e/cv-card-refresh.spec.ts \
+            tests/e2e/dossier-regression.spec.ts
+          git commit -m 'test(cv): harden final recovered typography validation'
           git push origin HEAD:recover-dev-cv-typography
 
       - name: Dispatch native regression and 39-PDF gallery
