@@ -1,0 +1,33 @@
+name: Temporary CV pagination formatter
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - .github/workflows/temp-format-cv-pagination.yml
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bunx prettier --write tests/e2e/cv-demo-pagination.spec.ts
+      - name: Commit formatting
+        shell: bash
+        run: |
+          git config user.name "modebrecht"
+          git config user.email "137332207+modebrecht@users.noreply.github.com"
+          git add tests/e2e/cv-demo-pagination.spec.ts
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "style(cv): format pagination selector guard"
+          git push origin HEAD:dev
