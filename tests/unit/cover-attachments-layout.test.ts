@@ -55,8 +55,9 @@ describe("optional cover attachments", () => {
       expect(body!.style.follows, template.name).toBeNull();
       expect(body!.style.above, template.name).toBeNull();
       expect(body!.style.y, template.name).toBe(
-        contact?.style.anchorBottom === true ? contact.style.y : 281,
+        Math.min(contact?.style.anchorBottom === true ? contact.style.y : 276, 276),
       );
+      expect(body!.style.y, template.name).toBeLessThanOrEqual(276);
     }
   });
 
