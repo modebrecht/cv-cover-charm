@@ -227,9 +227,7 @@ export function LetterCanvas({
               data-letter-section="sender"
               data-letter-warm-sender={warmCompactHeader ? "" : undefined}
               className={
-                warmCompactHeader
-                  ? "text-[9.3pt] leading-[1.42]"
-                  : "text-[9.5pt] leading-[1.45]"
+                warmCompactHeader ? "text-[9.3pt] leading-[1.42]" : "text-[9.5pt] leading-[1.45]"
               }
               style={{
                 textAlign: senderAlign,
