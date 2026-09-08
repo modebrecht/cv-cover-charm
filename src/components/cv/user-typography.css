@@ -1,0 +1,98 @@
+/*
+ * Explicit CV typography controls outrank template defaults without changing
+ * untouched templates. The PDF raster mask intentionally has higher
+ * specificity so exported raster text remains transparent; addCvTextLayer()
+ * disables that mask while reading these real computed values for vector text.
+ */
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-doc-title][data-cv-user-doc-size="true"] {
+  font-size: var(--cv-user-doc-font-size) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-doc-title][data-cv-user-doc-color="true"] {
+  color: var(--cv-user-doc-color) !important;
+  -webkit-text-fill-color: var(--cv-user-doc-color) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-doc-title][data-cv-user-doc-weight="true"] {
+  font-weight: var(--cv-user-doc-weight) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-doc-title][data-cv-user-doc-style="true"] {
+  font-style: var(--cv-user-doc-style) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-doc-title][data-cv-user-doc-decoration="true"] {
+  text-decoration-line: var(--cv-user-doc-decoration) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-doc-title][data-cv-user-doc-margin="true"] {
+  margin-bottom: var(--cv-user-doc-margin-bottom) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-section][data-cv-user-section-margin="true"] {
+  margin-bottom: var(--cv-user-section-margin-bottom) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-section-title][data-cv-user-section-size="true"] {
+  font-size: var(--cv-user-section-font-size) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-section-title][data-cv-user-section-color="true"] {
+  color: var(--cv-user-section-color) !important;
+  -webkit-text-fill-color: var(--cv-user-section-color) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-section-title][data-cv-user-section-weight="true"] {
+  font-weight: var(--cv-user-section-weight) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-section-title][data-cv-user-section-style="true"] {
+  font-style: var(--cv-user-section-style) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-section-title][data-cv-user-section-decoration="true"] {
+  text-decoration-line: var(--cv-user-section-decoration) !important;
+}
+
+html[data-dossier-template]
+  [data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-accent="section"][data-cv-user-section-color="true"] {
+  background: var(--cv-user-section-color) !important;
+}
