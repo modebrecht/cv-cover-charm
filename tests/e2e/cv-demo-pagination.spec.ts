@@ -23,11 +23,11 @@ test.describe("M9 demo CV pagination", () => {
     const measureMain = cv.locator("[data-cv-measure-page] [data-cv-main]");
     await expect(pages.first()).toContainText("Herr Thomas Weber");
 
-    // Styling panels also contain reset buttons called "Vorlage". Target the actual
-    // expandable template section by its disclosure contract instead of the label alone.
+    // Styling panels also contain reset buttons called "Vorlage". Section.tsx already exposes
+    // a stable semantic toggle marker, so target that contract and ignore the adjacent hint text.
     const templateSection = page
-      .locator("button[aria-controls][aria-expanded]")
-      .filter({ hasText: /^Vorlage(?:\s|$)/ })
+      .locator("[data-editor-section-toggle]")
+      .filter({ hasText: "Vorlage" })
       .first();
     await expect(templateSection).toBeVisible();
     if ((await templateSection.getAttribute("aria-expanded")) !== "true") {
