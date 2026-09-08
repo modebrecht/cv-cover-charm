@@ -25,10 +25,17 @@ function templateDefaultAdjustment(
 ): Block {
   let adjusted = block;
 
+  // Brief intentionally reuses Modern's base geometry. Keep the document label
+  // on the same corrected 20mm left margin as Modern unless the user moved it.
+  if (
+    (template === "modern" || (template as string) === "brief") &&
+    block.id === "eyebrow" &&
+    overrides[block.id]?.x === undefined
+  ) {
+    adjusted = { ...adjusted, style: { ...adjusted.style, x: 20 } };
+  }
+
   if (template === "modern") {
-    if (block.id === "eyebrow" && overrides[block.id]?.x === undefined) {
-      adjusted = { ...adjusted, style: { ...adjusted.style, x: 20 } };
-    }
     if (
       (block.id === "foto" || block.id === "modernAccentCircle") &&
       overrides[block.id]?.y === undefined
