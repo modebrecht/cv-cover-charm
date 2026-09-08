@@ -14,6 +14,9 @@ import "./fresh-cover-visual-cleanup.css";
 export * from "./layouts-base";
 
 const MODERN_TOP_CLUSTER_OFFSET_MM = 6;
+const COVER_BEILAGEN_RIGHT_X_MM = 110;
+const COVER_BEILAGEN_WIDTH_MM = 80;
+const COVER_BEILAGEN_FALLBACK_BOTTOM_MM = 281;
 
 function templateDefaultAdjustment(
   template: TemplateId,
@@ -130,6 +133,7 @@ export function buildBlocks(
   );
 
   if (beilagenVisible) {
+    const contactBody = blocks.find((block) => block.id === "kontakt");
     const recipientTitle = blocks.find((block) => block.id === "anTitel");
     const recipientBody = blocks.find((block) => block.id === "empfaenger");
 
@@ -146,10 +150,9 @@ export function buildBlocks(
           }
         : {
             ...recipientTitle.style,
-            // With no company block on the cover, the attachment list owns the
-            // recipient area's original bottom anchor. Put the heading above
-            // that list instead of chaining the list below a hidden recipient;
-            // otherwise low-anchored layouts such as Studio can run past A4.
+            x: COVER_BEILAGEN_RIGHT_X_MM,
+            w: COVER_BEILAGEN_WIDTH_MM,
+            align: "right" as const,
             above: "beilagen",
             follows: null,
             anchorBottom: false,
@@ -167,8 +170,21 @@ export function buildBlocks(
           }
         : {
             ...recipientBody.style,
+            // If the company is hidden, the old recipient chain no longer has
+            // a lower anchor. Without an explicit replacement the base `y=20`
+            // leaks through and puts Beilagen beside the date/photo. Keep the
+            // optional cover attachments in their own stable bottom-right slot,
+            // aligned with the contact block's lower edge where available.
+            x: COVER_BEILAGEN_RIGHT_X_MM,
+            w: COVER_BEILAGEN_WIDTH_MM,
+            y:
+              contactBody?.style.anchorBottom === true
+                ? contactBody.style.y
+                : COVER_BEILAGEN_FALLBACK_BOTTOM_MM,
+            align: "right" as const,
             follows: null,
             above: null,
+            anchorBottom: true,
           };
       const titleOverride = overrides.beilagenTitel ?? {};
       const bodyOverride = overrides.beilagen ?? {};
