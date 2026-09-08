@@ -53,6 +53,8 @@ export function DossierHeaderFooterChrome({
   ].filter(Boolean);
   const detailsHeight = footerHeightMm ?? 10;
   const letter = scope === "letter";
+  const warmLetterOwnsFirstPageHeader =
+    letter && template === "freundlich" && pageIndex === 0 && headerMode === "compact";
   const resolvedFooterLeft = footerLeft;
   const cvPageNumberFooter =
     scope === "cv" && footerRight ? /^seite\s+\d+$/i.test(footerRight.trim()) : false;
@@ -67,7 +69,7 @@ export function DossierHeaderFooterChrome({
       data-letter-header-mode={letter ? headerMode : undefined}
       className="pointer-events-none absolute inset-0 z-[3] overflow-hidden"
     >
-      {headerMode === "compact" ? (
+      {headerMode === "compact" && !warmLetterOwnsFirstPageHeader ? (
         <div
           data-dossier-compact-header
           className="absolute inset-x-0 top-0"
