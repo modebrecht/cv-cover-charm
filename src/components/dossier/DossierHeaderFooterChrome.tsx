@@ -46,9 +46,18 @@ export function DossierHeaderFooterChrome({
     options.headerShowPhone ? resolvedContact.phone : "",
     options.headerShowEmail ? resolvedContact.email : "",
   ].filter(Boolean);
+  const cvContinuation = scope === "cv" && pageIndex > 0 && headerMode === "compact";
+  const cvContinuationBits = [
+    options.headerShowAddress ? resolvedContact.place : "",
+    options.headerShowEmail ? resolvedContact.email : "",
+    options.headerShowPhone ? resolvedContact.phone : "",
+  ].filter(Boolean);
   const detailsHeight = footerHeightMm ?? 10;
   const letter = scope === "letter";
   const resolvedFooterLeft = footerLeft;
+  const cvPageNumberFooter =
+    scope === "cv" && footerRight ? /^seite\s+\d+$/i.test(footerRight.trim()) : false;
+  const resolvedFooterRight = cvPageNumberFooter ? undefined : footerRight;
 
   return (
     <div
@@ -60,12 +69,43 @@ export function DossierHeaderFooterChrome({
       className="pointer-events-none absolute inset-0 z-[3] overflow-hidden"
     >
       {headerMode === "compact" ? (
-        <div
-          data-dossier-compact-header
-          className="absolute inset-x-0 top-0"
-          style={{ height: "3mm", backgroundColor: primary }}
-          aria-hidden="true"
-        />
+        cvContinuation ? (
+          <div
+            data-dossier-compact-header
+            data-cv-continuation-header
+            className="absolute inset-x-0 top-0 flex items-center gap-[7mm]"
+            style={{
+              height: "8mm",
+              padding: "0 12mm",
+              boxSizing: "border-box",
+              backgroundColor: primary,
+              color: headerRoles.ink,
+              fontSize: "7.6pt",
+              lineHeight: 1.1,
+            }}
+          >
+            {options.headerShowName && resolvedContact.name ? (
+              <div className="max-w-[38%] shrink-0 truncate font-semibold">
+                {resolvedContact.name}
+              </div>
+            ) : null}
+            {cvContinuationBits.length ? (
+              <div
+                data-cv-continuation-contact
+                className="min-w-0 flex-1 truncate text-right opacity-95"
+              >
+                {cvContinuationBits.join(" · ")}
+              </div>
+            ) : null}
+          </div>
+        ) : (
+          <div
+            data-dossier-compact-header
+            className="absolute inset-x-0 top-0"
+            style={{ height: "3mm", backgroundColor: primary }}
+            aria-hidden="true"
+          />
+        )
       ) : null}
 
       {headerMode === "contact" ? (
@@ -168,7 +208,7 @@ export function DossierHeaderFooterChrome({
           ) : (
             <div className="flex h-full min-w-0 flex-1 items-center justify-between gap-[8mm]">
               <span className="truncate">{resolvedFooterLeft}</span>
-              <span className="shrink-0">{footerRight}</span>
+              {resolvedFooterRight ? <span className="shrink-0">{resolvedFooterRight}</span> : null}
             </div>
           )}
         </div>
