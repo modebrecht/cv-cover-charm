@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
 import { cvPalette } from "@/components/cv/palette";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
+import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackground";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
 import { letterPageGeometry, visibleLetterAttachments } from "./layout-system";
@@ -160,6 +161,12 @@ export function LetterCanvas({
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
       aria-label={ariaLabel}
     >
+      <DossierSheetBackground
+        template={design.template}
+        colors={design.colors}
+        pageIndex={geometry.pageIndex}
+      />
+
       <DossierHeaderFooterChrome
         scope="letter"
         template={design.template}
