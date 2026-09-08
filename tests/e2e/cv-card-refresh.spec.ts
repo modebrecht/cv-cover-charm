@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 const BASE_URL = "http://127.0.0.1:4173";
 
@@ -95,7 +95,8 @@ async function seed(page: Page, template: (typeof TEMPLATES)[number]) {
     template.id,
   );
   const sheet = page
-    .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"]')
+    .locator('[data-dossier-document="cv"] [data-cv-page="0"]')
+    .filter({ visible: true })
     .first();
   await sheet.waitFor({ state: "visible" });
   await page.evaluate(
@@ -108,6 +109,38 @@ async function seed(page: Page, template: (typeof TEMPLATES)[number]) {
 }
 
 const hash = (buffer: Buffer) => createHash("sha256").update(buffer).digest("hex");
+
+async function typographySnapshot(root: Locator) {
+  return root.evaluate((node) => {
+    const title = node.querySelector<HTMLElement>("[data-cv-doc-title]");
+    const rubric = Array.from(node.querySelectorAll<HTMLElement>("[data-cv-section-title]")).find(
+      (candidate) => candidate.textContent?.trim() === "Projekte",
+    );
+    const rule = rubric?.parentElement?.querySelector<HTMLElement>('[data-cv-accent="section"]');
+    if (!title || !rubric || !rule) return null;
+    const titleStyle = getComputedStyle(title);
+    const rubricStyle = getComputedStyle(rubric);
+    const ruleStyle = getComputedStyle(rule);
+    return {
+      title: {
+        fontSize: titleStyle.fontSize,
+        color: titleStyle.color,
+        fontWeight: titleStyle.fontWeight,
+        fontStyle: titleStyle.fontStyle,
+        decoration: titleStyle.textDecorationLine,
+        marginBottom: titleStyle.marginBottom,
+      },
+      rubric: {
+        fontSize: rubricStyle.fontSize,
+        color: rubricStyle.color,
+        fontWeight: rubricStyle.fontWeight,
+        fontStyle: rubricStyle.fontStyle,
+        decoration: rubricStyle.textDecorationLine,
+      },
+      ruleColor: ruleStyle.backgroundColor,
+    };
+  });
+}
 
 test.describe("Neon / Verlauf / Citrus CV refresh", () => {
   test.setTimeout(120_000);
@@ -147,7 +180,8 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
 
       const nameBox = await sheet.locator("[data-cv-name]").first().boundingBox();
       expect(nameBox).not.toBeNull();
-      if (nameBox) expect(nameBox.y, `${template.id} name belongs in the hero`).toBeLessThan(surfaceBox.y);
+      if (nameBox)
+        expect(nameBox.y, `${template.id} name belongs in the hero`).toBeLessThan(surfaceBox.y);
 
       const sectionRule = sheet.locator('[data-cv-accent="section"]').first();
       await expect(sectionRule).toBeVisible();
@@ -161,8 +195,13 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
           width: rule.width,
         };
       });
-      expect(ruleGeometry.rightGap, `${template.id} section rule should reach the row edge`).toBeLessThanOrEqual(2);
-      expect(ruleGeometry.width, `${template.id} section rule should remain visible`).toBeGreaterThan(4);
+      expect(
+        ruleGeometry.rightGap,
+        `${template.id} section rule should reach the row edge`,
+      ).toBeLessThanOrEqual(2);
+      expect(ruleGeometry.width, `${template.id} section rule should remain visible`).toBeGreaterThan(
+        4,
+      );
 
       const shot = await sheet.screenshot({ animations: "disabled" });
       expect(shot.length, `${template.id} should render substantial output`).toBeGreaterThan(8_000);
@@ -170,5 +209,94 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
     }
 
     expect(screenshots.size).toBe(TEMPLATES.length);
+  });
+
+  test("persisted recovered typography reaches preview and PDF export canvas identically", async ({
+    page,
+  }) => {
+    await seed(page, TEMPLATES[0]);
+    await page.evaluate(() => {
+      const key = "lebenslauf:v1";
+      const saved = JSON.parse(localStorage.getItem(key) || "{}") as {
+        data?: Record<string, unknown> & { customSections?: unknown[]; sectionOrder?: string[] };
+        design?: Record<string, unknown>;
+      };
+      saved.design = {
+        ...(saved.design ?? {}),
+        headingRule: "full",
+        docTitleFontSizePx: 21,
+        docTitleColor: "#2457c5",
+        docTitleBold: false,
+        docTitleItalic: true,
+        docTitleUnderline: true,
+        docTitleMarginBottomPx: 13,
+        sectionTitleFontSizePx: 17,
+        sectionTitleColor: "#8a2be2",
+        sectionTitleBold: false,
+        sectionTitleItalic: true,
+        sectionTitleUnderline: true,
+        sectionTitleMarginBottomPx: 9,
+      };
+      saved.data = {
+        ...(saved.data ?? {}),
+        customSections: [
+          {
+            id: "projects",
+            title: "Projekte",
+            entries: [
+              {
+                id: "project-1",
+                zeit: "2026",
+                titel: "Schulprojekt",
+                ort: "Zürich",
+                beschreibung: "Eine kleine Web-App",
+              },
+            ],
+          },
+        ],
+        sectionOrder: [
+          "person",
+          "schule",
+          "erfahrung",
+          "sprachen",
+          "hobbys",
+          "staerken",
+          "referenzen",
+          "custom:projects",
+        ],
+      };
+      localStorage.setItem(key, JSON.stringify(saved));
+    });
+    await page.reload({ waitUntil: "domcontentloaded" });
+
+    const cvRoots = page.locator('[data-dossier-document="cv"]');
+    await expect(cvRoots).toHaveCount(2);
+    const preview = cvRoots.filter({ visible: true }).first();
+    const exportRoot = cvRoots.filter({ visible: false }).first();
+    await expect(preview.locator("[data-cv-doc-title]").first()).toHaveText("Lebenslauf");
+    await expect(preview.getByText("Projekte", { exact: true }).first()).toBeVisible();
+
+    const previewSnapshot = await typographySnapshot(preview);
+    const exportSnapshot = await typographySnapshot(exportRoot);
+    expect(previewSnapshot).not.toBeNull();
+    expect(exportSnapshot).toEqual(previewSnapshot);
+    expect(previewSnapshot).toEqual({
+      title: {
+        fontSize: "21px",
+        color: "rgb(36, 87, 197)",
+        fontWeight: "400",
+        fontStyle: "italic",
+        decoration: "underline",
+        marginBottom: "13px",
+      },
+      rubric: {
+        fontSize: "17px",
+        color: "rgb(138, 43, 226)",
+        fontWeight: "400",
+        fontStyle: "italic",
+        decoration: "underline",
+      },
+      ruleColor: "rgb(138, 43, 226)",
+    });
   });
 });
