@@ -125,7 +125,7 @@ describe("central motivation-letter layout system", () => {
     expect(attachments.content.bottom).toBe(attachments.footer.height + 7);
   });
 
-  test("multi-page context keeps contact details on page one and attachments on the final page", () => {
+  test("multi-page context keeps contact semantics and reserves attachments for the final page", () => {
     const design = designFor("modern", "contact", "attachments");
     const firstOfTwo = letterPageGeometry(DEMO_LETTER, design, {
       pageIndex: 0,
@@ -142,7 +142,7 @@ describe("central motivation-letter layout system", () => {
     expect(firstOfTwo.footer.showAttachments).toBe(false);
 
     expect(finalContinuation.firstPage).toBe(false);
-    expect(finalContinuation.effectiveHeaderMode).toBe("compact");
+    expect(finalContinuation.effectiveHeaderMode).toBe("contact");
     expect(finalContinuation.effectiveFooterMode).toBe("attachments");
     expect(finalContinuation.footer.showAttachments).toBe(true);
     expect(finalContinuation.content.top).toBeLessThan(firstOfTwo.content.top);
