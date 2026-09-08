@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useLayoutEffect } from "react";
 import type { Block, BlockStyle, CoverData, FontKey, TemplateId } from "./types";
 import { CoverBackground } from "./CoverBackground";
 import { BlockLayer, type Point } from "./BlockLayer";
@@ -65,6 +65,22 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
   ref,
 ) {
   const { editable = true, drawing = false } = rest;
+
+  // Fresh cover CSS historically scopes itself through html[data-dossier-template].
+  // The visible editor already establishes that route-level scope, but the hidden
+  // combined-PDF canvas can be mounted from another route. Keep the actual cover
+  // template active while this canvas exists so Edge-Cove do not rasterise as a
+  // flat primary-colour page. M14 will remove this global CSS dependency entirely.
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    const previous = root.dataset.dossierTemplate;
+    root.dataset.dossierTemplate = template as string;
+
+    return () => {
+      if (previous === undefined) delete root.dataset.dossierTemplate;
+      else root.dataset.dossierTemplate = previous;
+    };
+  }, [template]);
 
   // Die Titelblatt-Route trägt eine bewusst gewählte globale Schrift bereits
   // in alle Standardblöcke ein. Ein von der Familienvorgabe abweichender
