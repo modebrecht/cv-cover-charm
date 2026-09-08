@@ -28,31 +28,37 @@ jobs:
       - name: Apply recovery patch once
         shell: bash
         run: |
-          if grep -q 'CV_DOC_TITLE_DEFAULTS' src/components/cv/types.ts; then
-            echo 'Recovery patch already applied.'
-            exit 0
+          if ! grep -q 'CV_DOC_TITLE_DEFAULTS' src/components/cv/types.ts; then
+            python scripts/recover-dev-cv-typography.py
           fi
-          python scripts/recover-dev-cv-typography.py
           bunx prettier --write \
             src/components/cv/types.ts \
             src/components/cv/CvCanvasBase.tsx \
             src/routes/lebenslauf.tsx \
-            tests/unit/cv-dev-recovery.test.ts
+            tests/unit/cv-dev-recovery.test.ts \
+            tests/e2e/cv-demo-pagination.spec.ts \
+            tests/e2e/cv-card-refresh.spec.ts
 
       - name: Verify focused recovery tests
         run: bun test tests/unit/cv-dev-recovery.test.ts tests/unit/cv-section-rule.test.ts
 
-      - name: Commit product patch
+      - name: Commit recovery changes
         shell: bash
         run: |
           if git diff --quiet; then
-            echo 'No product patch to commit.'
+            echo 'No recovery changes to commit.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src/components/cv/types.ts src/components/cv/CvCanvasBase.tsx src/routes/lebenslauf.tsx tests/unit/cv-dev-recovery.test.ts
-          git commit -m 'feat(cv): recover title and rubric typography controls'
+          git add \
+            src/components/cv/types.ts \
+            src/components/cv/CvCanvasBase.tsx \
+            src/routes/lebenslauf.tsx \
+            tests/unit/cv-dev-recovery.test.ts \
+            tests/e2e/cv-demo-pagination.spec.ts \
+            tests/e2e/cv-card-refresh.spec.ts
+          git commit -m 'test(cv): harden recovered typography validation'
           git push origin HEAD:recover-dev-cv-typography
 
       - name: Dispatch native regression and 39-PDF gallery
