@@ -257,12 +257,19 @@ export type CvDesign = {
 
   /** Linie neben der Abschnittsüberschrift. */
   headingRule?: CvHeadingRule;
-  /** Grösse von Name und Dokumenttitel, 1 = Vorgabe. */
+  /** Grösse des Namens, 1 = Vorgabe. Der Dokumenttitel hat eigene Regler. */
   titleScale?: number;
   /** Grösse von Untertitel und Rubriken, 1 = Vorgabe. */
   headingScale?: number;
   /** Grösse des Fliesstexts, 1 = Vorgabe. */
   bodyScale?: number;
+  /** Eigene Gestaltung für den kleinen Dokumenttitel über dem Namen. */
+  docTitleFontSizePx?: number;
+  docTitleColor?: string;
+  docTitleBold?: boolean;
+  docTitleItalic?: boolean;
+  docTitleUnderline?: boolean;
+  docTitleMarginBottomPx?: number;
   /** Breite der Seitenspalte als Anteil der Blattbreite. */
   sidebarPct?: number;
 };
@@ -271,13 +278,24 @@ export type CvDesign = {
 export type CvHeadingRule = "none" | "short" | "full";
 
 export const CV_TYPE_DEFAULTS = {
-  headingRule: "short" as CvHeadingRule,
+  headingRule: "full" as CvHeadingRule,
   titleScale: 1,
   headingScale: 1,
   bodyScale: 1,
   /** 30/70 – die Aufteilung, die sich beim Ausprobieren als brauchbar zeigte. */
   sidebarPct: 0.3,
 } as const;
+
+export const CV_DOC_TITLE_DEFAULTS = {
+  fontSizePx: 18,
+  bold: true,
+  italic: false,
+  underline: false,
+  marginBottomPx: 10,
+} as const;
+export const CV_DOC_TITLE_FONT_SIZE_MIN = 10;
+export const CV_DOC_TITLE_FONT_SIZE_MAX = 48;
+export const CV_DOC_TITLE_MARGIN_BOTTOM_MAX = 100;
 
 /**
  * Typografie-Regler sind bewusst enger als früher begrenzt.
@@ -397,7 +415,7 @@ export const DEMO_CV: CvData = {
     email: "lea.mueller@example.ch",
     geburtsdatum: "14.03.2010",
     nationalitaet: "Schweiz",
-    untertitel: "Schülerin, 3. Sekundarklasse",
+    untertitel: "",
     foto: null,
   },
   schule: [

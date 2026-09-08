@@ -515,10 +515,10 @@ export function FormCvPerson({
           />
         </Field>
       </div>
-      <Field label="Zeile unter dem Namen">
+      <Field label="Zeile unter dem Namen (optional)">
         <input
           className={inputCls}
-          placeholder="z. B. Schülerin, 3. Sekundarklasse"
+          placeholder="z. B. Schüler/in, 3. Sekundarklasse"
           value={person.untertitel}
           onChange={(e) => onChange({ untertitel: e.target.value })}
         />

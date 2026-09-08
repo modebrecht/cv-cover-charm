@@ -50,6 +50,10 @@ import {
 } from "@/components/cv/CvForm";
 import {
   CV_SECTION_LABELS,
+  CV_DOC_TITLE_DEFAULTS,
+  CV_DOC_TITLE_FONT_SIZE_MAX,
+  CV_DOC_TITLE_FONT_SIZE_MIN,
+  CV_DOC_TITLE_MARGIN_BOTTOM_MAX,
   CV_SCALE_MAX,
   CV_SCALE_MIN,
   CV_TYPE_DEFAULTS,
@@ -1549,6 +1553,131 @@ function Lebenslauf() {
                   </span>
                 </label>
 
+                <div className="grid gap-3 rounded-md border bg-muted/20 p-2.5">
+                  <div className="text-xs font-semibold">Dokumenttitel gestalten</div>
+                  <label className="flex flex-col gap-1 text-xs">
+                    <span className="text-muted-foreground">
+                      Schriftgrösse {design.docTitleFontSizePx ?? CV_DOC_TITLE_DEFAULTS.fontSizePx}{" "}
+                      px
+                    </span>
+                    <input
+                      type="range"
+                      min={CV_DOC_TITLE_FONT_SIZE_MIN}
+                      max={CV_DOC_TITLE_FONT_SIZE_MAX}
+                      step={1}
+                      value={design.docTitleFontSizePx ?? CV_DOC_TITLE_DEFAULTS.fontSizePx}
+                      onChange={(event) =>
+                        setDesign((current) => ({
+                          ...current,
+                          docTitleFontSizePx: Number(event.target.value),
+                        }))
+                      }
+                      className="w-full accent-primary"
+                      aria-label="Schriftgrösse Dokumenttitel"
+                    />
+                  </label>
+
+                  <div className="flex flex-wrap items-center gap-2 text-xs">
+                    <span className="text-muted-foreground">Schriftfarbe</span>
+                    <input
+                      type="color"
+                      value={design.docTitleColor ?? "#6b7280"}
+                      onChange={(event) =>
+                        setDesign((current) => ({ ...current, docTitleColor: event.target.value }))
+                      }
+                      className="h-7 w-10 cursor-pointer rounded border border-input bg-background"
+                      aria-label="Schriftfarbe Dokumenttitel"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setDesign((current) => ({ ...current, docTitleColor: undefined }))
+                      }
+                      className="text-muted-foreground underline hover:text-foreground"
+                    >
+                      Vorlage
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-1">
+                    <button
+                      type="button"
+                      aria-pressed={design.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold}
+                      onClick={() =>
+                        setDesign((current) => ({
+                          ...current,
+                          docTitleBold: !(current.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold),
+                        }))
+                      }
+                      className={`rounded-md border px-2 py-1.5 text-xs font-bold ${
+                        (design.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold)
+                          ? "border-foreground bg-accent"
+                          : "border-input hover:border-foreground/40"
+                      }`}
+                    >
+                      Fett
+                    </button>
+                    <button
+                      type="button"
+                      aria-pressed={design.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic}
+                      onClick={() =>
+                        setDesign((current) => ({
+                          ...current,
+                          docTitleItalic: !(current.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic),
+                        }))
+                      }
+                      className={`rounded-md border px-2 py-1.5 text-xs italic ${
+                        (design.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic)
+                          ? "border-foreground bg-accent"
+                          : "border-input hover:border-foreground/40"
+                      }`}
+                    >
+                      Kursiv
+                    </button>
+                    <button
+                      type="button"
+                      aria-pressed={design.docTitleUnderline ?? CV_DOC_TITLE_DEFAULTS.underline}
+                      onClick={() =>
+                        setDesign((current) => ({
+                          ...current,
+                          docTitleUnderline: !(
+                            current.docTitleUnderline ?? CV_DOC_TITLE_DEFAULTS.underline
+                          ),
+                        }))
+                      }
+                      className={`rounded-md border px-2 py-1.5 text-xs underline ${
+                        (design.docTitleUnderline ?? CV_DOC_TITLE_DEFAULTS.underline)
+                          ? "border-foreground bg-accent"
+                          : "border-input hover:border-foreground/40"
+                      }`}
+                    >
+                      Unterstrichen
+                    </button>
+                  </div>
+
+                  <label className="flex flex-col gap-1 text-xs">
+                    <span className="text-muted-foreground">
+                      Abstand nach unten{" "}
+                      {design.docTitleMarginBottomPx ?? CV_DOC_TITLE_DEFAULTS.marginBottomPx} px
+                    </span>
+                    <input
+                      type="range"
+                      min={0}
+                      max={CV_DOC_TITLE_MARGIN_BOTTOM_MAX}
+                      step={1}
+                      value={design.docTitleMarginBottomPx ?? CV_DOC_TITLE_DEFAULTS.marginBottomPx}
+                      onChange={(event) =>
+                        setDesign((current) => ({
+                          ...current,
+                          docTitleMarginBottomPx: Number(event.target.value),
+                        }))
+                      }
+                      className="w-full accent-primary"
+                      aria-label="Abstand unter Dokumenttitel"
+                    />
+                  </label>
+                </div>
+
                 <FormCvPerson
                   person={data.person}
                   onChange={patchPerson}
@@ -1937,7 +2066,7 @@ function Lebenslauf() {
 
                   {(
                     [
-                      ["titleScale", "Name und Titel", "Der Name oben und der Dokumenttitel."],
+                      ["titleScale", "Name", "Der Name oben."],
                       [
                         "headingScale",
                         "Untertitel und Rubriken",

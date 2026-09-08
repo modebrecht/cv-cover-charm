@@ -45,6 +45,10 @@ import {
 } from "./photo-place";
 import {
   CV_BLOCK_LABELS,
+  CV_DOC_TITLE_DEFAULTS,
+  CV_DOC_TITLE_FONT_SIZE_MAX,
+  CV_DOC_TITLE_FONT_SIZE_MIN,
+  CV_DOC_TITLE_MARGIN_BOTTOM_MAX,
   CV_TYPE_DEFAULTS,
   DEFAULT_CV_PLACEMENTS,
   customSectionForKey,
@@ -439,18 +443,36 @@ export function CvCanvas({
   const docTitle = (color: string) => {
     const text = data.titel?.trim();
     if (!text) return null;
+    const fontSizePx = Math.max(
+      CV_DOC_TITLE_FONT_SIZE_MIN,
+      Math.min(
+        CV_DOC_TITLE_FONT_SIZE_MAX,
+        design.docTitleFontSizePx ?? CV_DOC_TITLE_DEFAULTS.fontSizePx,
+      ),
+    );
+    const marginBottomPx = Math.max(
+      0,
+      Math.min(
+        CV_DOC_TITLE_MARGIN_BOTTOM_MAX,
+        design.docTitleMarginBottomPx ?? CV_DOC_TITLE_DEFAULTS.marginBottomPx,
+      ),
+    );
+    const customColor = design.docTitleColor?.trim();
     return (
       <div
         data-cv-doc-title
         style={{
-          fontSize: `${(8.2 * TYPE_BASE * titleScale).toFixed(2)}pt`,
-          fontWeight: headingStyle.weight,
+          fontSize: `${fontSizePx}px`,
+          fontWeight: (design.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold) ? 700 : 400,
+          fontStyle: (design.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic) ? "italic" : "normal",
+          textDecoration:
+            (design.docTitleUnderline ?? CV_DOC_TITLE_DEFAULTS.underline) ? "underline" : "none",
           letterSpacing: "0.16em",
           textTransform: "uppercase",
           fontFamily: theme.typography.fontStack,
-          color,
-          opacity: 0.85,
-          marginBottom: "1.8mm",
+          color: customColor || color,
+          opacity: customColor ? 1 : 0.85,
+          marginBottom: `${marginBottomPx}px`,
         }}
       >
         {text}
