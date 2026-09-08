@@ -120,16 +120,14 @@ export function LetterCanvas({
     design.colors.accent ??
     design.colors.secondary ??
     sourcePalette.accent;
-  const warmSecondary =
-    design.colors.secondary ??
-    design.colors.accent ??
-    design.colors.primary ??
-    sourcePalette.accent;
-  const warmHeaderInk = onColorRoles(warmPrimary, warmSecondary).ink;
+  const warmHeaderInk = onColorRoles(
+    warmPrimary,
+    design.colors.secondary ?? design.colors.accent ?? sourcePalette.accent,
+  ).ink;
   const recipientTopMargin = senderIntegrated
     ? "mt-[1mm]"
     : warmCompactHeader
-      ? "mt-[10mm]"
+      ? "mt-[6mm]"
       : "mt-[6mm]";
   const beilagen = visibleLetterAttachments(data);
   const showBeilagen = data.showBeilagen !== false && beilagen.length > 0;
@@ -235,8 +233,6 @@ export function LetterCanvas({
                   ? {
                       width: "82mm",
                       boxSizing: "border-box",
-                      borderLeft: `0.8mm solid ${warmSecondary}`,
-                      paddingLeft: "5mm",
                       color: warmHeaderInk,
                     }
                   : {}),
