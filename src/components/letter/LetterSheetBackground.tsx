@@ -3,7 +3,6 @@ import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackgro
 import { cvPalette } from "@/components/cv/palette";
 import { freshLetterSpec, type FreshLetterColorRole } from "./fresh-letter-system";
 import type { LetterTemplateId } from "./types";
-import "./warm-letter-polish.css";
 
 function pick(colors: Record<string, string>, ...keys: string[]): string {
   for (const key of keys) {
@@ -19,6 +18,72 @@ function freshRoleColor(
   if (role === "primary") return pick(colors, "primary", "accent", "secondary", "ink");
   if (role === "secondary") return pick(colors, "secondary", "accent", "primary", "ink");
   return pick(colors, "accent", "secondary", "primary", "ink");
+}
+
+/**
+ * Warm's motivation-letter header is deliberately its own composition instead
+ * of inheriting the CV background verbatim. The broad teal field keeps the
+ * family resemblance while the oversized amber disc and fine orbit line are
+ * anchored to the page edge, so the crop reads as intentional rather than as
+ * a clipped floating circle.
+ */
+function WarmLetterBackground({
+  colors,
+  pageIndex,
+}: {
+  colors: Record<string, string>;
+  pageIndex: number;
+}) {
+  const palette = cvPalette(colors);
+  const primary = pick(colors, "primary", "accent", "secondary", "ink");
+  const secondary = pick(colors, "secondary", "accent", "primary", "ink");
+  const firstPage = pageIndex === 0;
+
+  return (
+    <div
+      data-dossier-sheet-background="freundlich"
+      data-letter-background-variant="warm"
+      className="absolute inset-0 overflow-hidden"
+      style={{ backgroundColor: palette.paper }}
+      aria-hidden="true"
+    >
+      <div
+        data-letter-warm-band
+        className="absolute inset-x-0 top-0"
+        style={{ height: firstPage ? "52mm" : "14mm", backgroundColor: primary }}
+      />
+
+      {firstPage ? (
+        <>
+          <div
+            data-letter-warm-ring
+            className="absolute rounded-full"
+            style={{
+              right: "-24mm",
+              top: "-41mm",
+              width: "92mm",
+              height: "92mm",
+              border: `0.8mm solid ${secondary}`,
+              boxSizing: "border-box",
+              opacity: 0.78,
+            }}
+          />
+          <div
+            data-letter-warm-orb
+            className="absolute rounded-full"
+            style={{
+              right: "-13mm",
+              top: "-31mm",
+              width: "72mm",
+              height: "72mm",
+              backgroundColor: secondary,
+              opacity: 0.72,
+            }}
+          />
+        </>
+      ) : null}
+    </div>
+  );
 }
 
 function FreshLetterBackground({
@@ -175,6 +240,10 @@ export function LetterSheetBackground({
 }) {
   if (freshLetterSpec(template)) {
     return <FreshLetterBackground template={template} colors={colors} />;
+  }
+
+  if (template === "freundlich") {
+    return <WarmLetterBackground colors={colors} pageIndex={pageIndex} />;
   }
 
   if (template === "blockig" || template === "terracotta" || template === "studio") {
