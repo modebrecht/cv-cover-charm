@@ -6,6 +6,7 @@ import type { StyleOverrides } from "./layouts-base";
 import { isFreshTemplate } from "./fresh-templates";
 import { templateDecorations } from "./template-decorations";
 import "./editable-decorations.css";
+import "./fresh-cover-visual-cleanup.css";
 
 // Keep the established layout catalogue in a stable base module. Simple visual
 // primitives live exactly once as editor blocks in template-decorations.ts;
