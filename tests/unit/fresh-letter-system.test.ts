@@ -45,9 +45,12 @@ describe("Fresh motivation-letter visual system", () => {
 
     for (const id of FRESH_TEMPLATE_IDS) {
       for (const motif of FRESH_LETTER_SPECS[id].motifs) {
-        // Full-height side rails are allowed because they remain outside the reading box.
-        // Everything else must be a restrained edge signature, not cover-scale art.
-        if (motif.h === LETTER_SHEET_MM.height) continue;
+        const fullHeightRail = motif.h === LETTER_SHEET_MM.height;
+        const restrainedHeaderBand = motif.w >= 180 && motif.h <= 12;
+
+        // Long edge rails and shallow page-width mastheads are deliberate letter
+        // signatures. Other motifs stay compact and can never become cover-scale art.
+        if (fullHeightRail || restrainedHeaderBand) continue;
         expect(motif.w * motif.h, `${id}/${motif.id}`).toBeLessThan(1800);
       }
     }
