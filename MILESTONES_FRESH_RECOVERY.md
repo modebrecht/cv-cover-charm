@@ -6,94 +6,94 @@ Scope: templates `21-Edge` through `38-Cove` unless stated otherwise.
 
 Goal: Every Fresh title page renders cleanly and professionally without legacy leftovers, collisions, or missing structure.
 
-- [ ] Audit all title pages from `21-Edge` through `38-Cove`
-- [ ] Remove unintended legacy/default eyebrow copy from Fresh templates
-- [ ] Ensure unexpected placeholder/default copy never appears unless explicitly entered by the user
-- [ ] Define one canonical Fresh cover title hierarchy
-- [ ] Keep `Bewerbung um eine Lehrstelle als` readable as one logical kicker
-- [ ] Prevent `ALS` from overlapping the profession/title
-- [ ] Ensure profession/title never overlaps kicker
-- [ ] Ensure name never overlaps profession/title
-- [ ] Ensure Lehrbeginn never overlaps name/title
-- [ ] Ensure photo never covers important text
-- [ ] Ensure contact information remains readable
-- [ ] Ensure recipient/company information remains readable
-- [ ] Ensure structural background shapes render correctly
-- [ ] Preserve each template's unique visual identity
-- [ ] Keep templates 1-20 visually unchanged
-- [ ] Add automated regression coverage for all 18 Fresh cover templates
-- [ ] Verify `21-Edge`
-- [ ] Verify `22-Glow`
-- [ ] Verify `23-Frame`
-- [ ] Verify `24-Mono Luxe`
-- [ ] Verify `25-Horizon`
-- [ ] Verify `26-Sunrise`
-- [ ] Verify `27-Forest Flow`
-- [ ] Verify `28-Violet Pulse`
-- [ ] Verify `29-Studio 2`
-- [ ] Verify `30-Studio 3`
-- [ ] Verify `31-Warm 2`
-- [ ] Verify `32-Warm 3`
-- [ ] Verify `33-Ledger`
-- [ ] Verify `34-Prism`
-- [ ] Verify `35-Gallery`
-- [ ] Verify `36-Orbit`
-- [ ] Verify `37-Ribbon`
-- [ ] Verify `38-Cove`
+- [x] Audit all title pages from `21-Edge` through `38-Cove`
+- [x] Remove unintended legacy/default eyebrow copy from Fresh templates
+- [x] Ensure unexpected placeholder/default copy never appears unless explicitly entered by the user
+- [x] Define one canonical Fresh cover title hierarchy
+- [x] Keep `Bewerbung um eine Lehrstelle als` readable as one logical kicker
+- [x] Prevent `ALS` from overlapping the profession/title
+- [x] Ensure profession/title never overlaps kicker
+- [x] Ensure name never overlaps profession/title
+- [x] Ensure Lehrbeginn never overlaps name/title
+- [x] Ensure photo never covers important text
+- [x] Ensure contact information remains readable
+- [x] Ensure recipient/company information remains readable
+- [x] Ensure structural background shapes render correctly
+- [x] Preserve each template's unique visual identity
+- [x] Keep templates 1-20 visually unchanged
+- [x] Add automated regression coverage for all 18 Fresh cover templates
+- [x] Verify `21-Edge`
+- [x] Verify `22-Glow`
+- [x] Verify `23-Frame`
+- [x] Verify `24-Mono Luxe`
+- [x] Verify `25-Horizon`
+- [x] Verify `26-Sunrise`
+- [x] Verify `27-Forest Flow`
+- [x] Verify `28-Violet Pulse`
+- [x] Verify `29-Studio 2`
+- [x] Verify `30-Studio 3`
+- [x] Verify `31-Warm 2`
+- [x] Verify `32-Warm 3`
+- [x] Verify `33-Ledger`
+- [x] Verify `34-Prism`
+- [x] Verify `35-Gallery`
+- [x] Verify `36-Orbit`
+- [x] Verify `37-Ribbon`
+- [x] Verify `38-Cove`
 
 ## M11 - Fresh Motivation Letter Integrity
 
 Goal: Fresh templates remain recognisable in the motivation letter without decorative shapes interfering with letter content.
 
-- [ ] Audit motivation letters for all templates 21-38
-- [ ] Remove large decorative rectangles from the letter reading area
-- [ ] Prevent decorative shapes from covering sender information
-- [ ] Prevent decorative shapes from covering recipient information
-- [ ] Prevent decorative shapes from covering date
-- [ ] Prevent decorative shapes from covering subject
-- [ ] Prevent decorative shapes from covering letter body
-- [ ] Prevent decorative shapes from covering greeting/signature
-- [ ] Define a dedicated quiet letter signature for every Fresh template
-- [ ] Keep Fresh letter motifs primarily at page edges / header / footer
-- [ ] Do not reuse expressive cover geometry directly inside letters
-- [ ] Ensure `Brief` remains completely white and neutral
-- [ ] Fix Fresh templates falling back to legacy `klassisch` geometry
-- [ ] Make Fresh letter margins explicit instead of relying on CV fallback logic
-- [ ] Ensure template colors still carry across correctly
-- [ ] Ensure typography still carries across correctly
-- [ ] Ensure header/footer settings remain compatible with every Fresh template
-- [ ] Add automated guards against decorative elements intersecting the letter content box
-- [ ] Verify all 18 Fresh motivation letters visually
+- [x] Audit motivation letters for all templates 21-38
+- [x] Remove large decorative rectangles from the letter reading area
+- [x] Prevent decorative shapes from covering sender information
+- [x] Prevent decorative shapes from covering recipient information
+- [x] Prevent decorative shapes from covering date
+- [x] Prevent decorative shapes from covering subject
+- [x] Prevent decorative shapes from covering letter body
+- [x] Prevent decorative shapes from covering greeting/signature
+- [x] Define a dedicated quiet letter signature for every Fresh template
+- [x] Keep Fresh letter motifs primarily at page edges / header / footer
+- [x] Do not reuse expressive cover geometry directly inside letters
+- [x] Ensure `Brief` remains completely white and neutral
+- [x] Fix Fresh templates falling back to legacy `klassisch` geometry
+- [x] Make Fresh letter margins explicit instead of relying on CV fallback logic
+- [x] Ensure template colors still carry across correctly
+- [x] Ensure typography still carries across correctly
+- [x] Ensure header/footer settings remain compatible with every Fresh template
+- [x] Add automated guards against decorative elements intersecting the letter content box
+- [x] Verify all 18 Fresh motivation letters visually
 
 ## M12 - Dossier Consistency 21-38
 
 Goal: Title page, motivation letter and CV should clearly belong to the same dossier without copying inappropriate geometry between document types.
 
-- [ ] Define one visual identity contract per Fresh template
-- [ ] Cover = expressive version
-- [ ] Letter = restrained version
-- [ ] CV = information-focused version
-- [ ] Keep palette consistent across all three document types
-- [ ] Keep typography family consistent across all three document types
-- [ ] Keep recurring motif recognisable across all three document types
-- [ ] Avoid identical full-page geometry where it harms readability
-- [ ] Verify Header/Footer synchronization between CV and motivation letter
-- [ ] Verify compact header mode
-- [ ] Verify contact header mode
-- [ ] Verify no-header mode
-- [ ] Verify compact footer mode
-- [ ] Verify detailed footer mode
-- [ ] Verify no-footer mode
-- [ ] Ensure CV never displays `Seite 2` as its continuation header
-- [ ] Ensure continuation pages remain visually related to page 1
-- [ ] Ensure no hidden legacy template behaviour leaks into Fresh templates
+- [x] Define one visual identity contract per Fresh template
+- [x] Cover = expressive version
+- [x] Letter = restrained version
+- [x] CV = information-focused version
+- [x] Keep palette consistent across all three document types
+- [x] Keep typography family consistent across all three document types
+- [x] Keep recurring motif recognisable across all three document types
+- [x] Avoid identical full-page geometry where it harms readability
+- [x] Verify Header/Footer synchronization between CV and motivation letter
+- [x] Verify compact header mode
+- [x] Verify contact header mode
+- [x] Verify no-header mode
+- [x] Verify compact footer mode
+- [x] Verify detailed footer mode
+- [x] Verify no-footer mode
+- [x] Ensure CV never displays `Seite 2` as its continuation header
+- [x] Ensure continuation pages remain visually related to page 1
+- [x] Ensure no hidden legacy template behaviour leaks into Fresh templates
 
 ## M13 - 38-Template Visual Acceptance Gate
 
 Goal: A template is not considered finished merely because the application builds or the PDF contains text.
 
-- [ ] Generate complete dossier PDFs for all 38 templates
-- [ ] Store deterministic gallery output with numbered filenames
+- [x] Generate complete dossier PDFs for all 38 templates
+- [x] Store deterministic gallery output with numbered filenames
 - [ ] Review title page of every PDF visually
 - [ ] Review motivation letter of every PDF visually
 - [ ] Review CV page 1 of every PDF visually
