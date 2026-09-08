@@ -1,0 +1,16 @@
+name: Temporary Warm formatter
+
+on:
+  push:
+    branches:
+      - tmp-warm-format
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bunx prettier src/components/letter/LetterCanvas.tsx --write
+      - run: cat src/components/letter/LetterCanvas.tsx
