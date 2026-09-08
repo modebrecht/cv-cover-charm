@@ -149,8 +149,20 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
       expect(nameBox).not.toBeNull();
       if (nameBox) expect(nameBox.y, `${template.id} name belongs in the hero`).toBeLessThan(surfaceBox.y);
 
-      const oldRule = sheet.locator('[data-cv-accent="section"]').first();
-      if ((await oldRule.count()) > 0) await expect(oldRule).toBeHidden();
+      const sectionRule = sheet.locator('[data-cv-accent="section"]').first();
+      await expect(sectionRule).toBeVisible();
+      const ruleGeometry = await sectionRule.evaluate((node) => {
+        const row = node.parentElement;
+        if (!row) return { rightGap: Number.POSITIVE_INFINITY, width: 0 };
+        const rule = node.getBoundingClientRect();
+        const headingRow = row.getBoundingClientRect();
+        return {
+          rightGap: Math.abs(headingRow.right - rule.right),
+          width: rule.width,
+        };
+      });
+      expect(ruleGeometry.rightGap, `${template.id} section rule should reach the row edge`).toBeLessThanOrEqual(2);
+      expect(ruleGeometry.width, `${template.id} section rule should remain visible`).toBeGreaterThan(4);
 
       const shot = await sheet.screenshot({ animations: "disabled" });
       expect(shot.length, `${template.id} should render substantial output`).toBeGreaterThan(8_000);
