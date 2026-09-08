@@ -411,7 +411,10 @@ export function CvCanvas({
     node: (
       <div
         data-cv-section={id}
+        data-cv-user-section-margin={sectionTitleMarginBottomPx === null ? undefined : "true"}
         style={{
+          ["--cv-user-section-margin-bottom" as string]:
+            sectionTitleMarginBottomPx === null ? undefined : `${sectionTitleMarginBottomPx}px`,
           marginTop: layout === "modern" ? "4.8mm" : "4mm",
           marginBottom:
             sectionTitleMarginBottomPx === null
@@ -424,7 +427,22 @@ export function CvCanvas({
         <div style={{ display: "flex", alignItems: "center", gap: "3mm" }}>
           <div
             data-cv-section-title
+            data-cv-user-section-size={sectionTitleFontSizePx === null ? undefined : "true"}
+            data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
+            data-cv-user-section-weight={design.sectionTitleBold === undefined ? undefined : "true"}
+            data-cv-user-section-style={
+              design.sectionTitleItalic === undefined ? undefined : "true"
+            }
+            data-cv-user-section-decoration={
+              design.sectionTitleUnderline === undefined ? undefined : "true"
+            }
             style={{
+              ["--cv-user-section-font-size" as string]:
+                sectionTitleFontSizePx === null ? undefined : `${sectionTitleFontSizePx}px`,
+              ["--cv-user-section-color" as string]: sectionTitleColor || undefined,
+              ["--cv-user-section-weight" as string]: `${sectionTitleWeight}`,
+              ["--cv-user-section-style" as string]: sectionTitleFontStyle,
+              ["--cv-user-section-decoration" as string]: sectionTitleDecoration,
               // Versalien laufen breiter als Gemischtschrift; darum je nach
               // Familie ein anderer Grundwert.
               fontSize:
@@ -446,7 +464,9 @@ export function CvCanvas({
           {headingRule !== "none" && (
             <div
               data-cv-accent="section"
+              data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
               style={{
+                ["--cv-user-section-color" as string]: sectionTitleColor || undefined,
                 width: headingRule === "full" ? "auto" : layout === "modern" ? "15mm" : "18mm",
                 flex: headingRule === "full" ? "1 1 auto" : undefined,
                 height: layout === "modern" ? "0.65mm" : "0.55mm",
@@ -496,7 +516,31 @@ export function CvCanvas({
     return (
       <div
         data-cv-doc-title
+        data-cv-user-doc-size={
+          typeof design.docTitleFontSizePx === "number" &&
+          Number.isFinite(design.docTitleFontSizePx)
+            ? "true"
+            : undefined
+        }
+        data-cv-user-doc-color={customColor ? "true" : undefined}
+        data-cv-user-doc-weight={design.docTitleBold === undefined ? undefined : "true"}
+        data-cv-user-doc-style={design.docTitleItalic === undefined ? undefined : "true"}
+        data-cv-user-doc-decoration={design.docTitleUnderline === undefined ? undefined : "true"}
+        data-cv-user-doc-margin={
+          typeof design.docTitleMarginBottomPx === "number" &&
+          Number.isFinite(design.docTitleMarginBottomPx)
+            ? "true"
+            : undefined
+        }
         style={{
+          ["--cv-user-doc-font-size" as string]: `${fontSizePx}px`,
+          ["--cv-user-doc-color" as string]: customColor || undefined,
+          ["--cv-user-doc-weight" as string]: `${(design.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold) ? 700 : 400}`,
+          ["--cv-user-doc-style" as string]:
+            (design.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic) ? "italic" : "normal",
+          ["--cv-user-doc-decoration" as string]:
+            (design.docTitleUnderline ?? CV_DOC_TITLE_DEFAULTS.underline) ? "underline" : "none",
+          ["--cv-user-doc-margin-bottom" as string]: `${marginBottomPx}px`,
           fontSize: `${fontSizePx}px`,
           fontWeight: (design.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold) ? 700 : 400,
           fontStyle: (design.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic) ? "italic" : "normal",
@@ -1552,7 +1596,10 @@ export function CvCanvas({
   const sideHeading = (text: string, first = false) => (
     <div
       data-cv-section="sidebar"
+      data-cv-user-section-margin={sectionTitleMarginBottomPx === null ? undefined : "true"}
       style={{
+        ["--cv-user-section-margin-bottom" as string]:
+          sectionTitleMarginBottomPx === null ? undefined : `${sectionTitleMarginBottomPx}px`,
         marginTop:
           first && !autoPhoto
             ? "0.8mm"
@@ -1574,7 +1621,20 @@ export function CvCanvas({
       <div style={{ display: "flex", alignItems: "center", gap: "2mm", minWidth: 0 }}>
         <div
           data-cv-section-title
+          data-cv-user-section-size={sectionTitleFontSizePx === null ? undefined : "true"}
+          data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
+          data-cv-user-section-weight={design.sectionTitleBold === undefined ? undefined : "true"}
+          data-cv-user-section-style={design.sectionTitleItalic === undefined ? undefined : "true"}
+          data-cv-user-section-decoration={
+            design.sectionTitleUnderline === undefined ? undefined : "true"
+          }
           style={{
+            ["--cv-user-section-font-size" as string]:
+              sectionTitleFontSizePx === null ? undefined : `${sectionTitleFontSizePx}px`,
+            ["--cv-user-section-color" as string]: sectionTitleColor || undefined,
+            ["--cv-user-section-weight" as string]: `${sectionTitleWeight}`,
+            ["--cv-user-section-style" as string]: sectionTitleFontStyle,
+            ["--cv-user-section-decoration" as string]: sectionTitleDecoration,
             fontSize:
               sectionTitleFontSizePx === null
                 ? ptHead(
@@ -1607,7 +1667,9 @@ export function CvCanvas({
         {headingRule !== "none" && (
           <div
             data-cv-accent="section"
+            data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
             style={{
+              ["--cv-user-section-color" as string]: sectionTitleColor || undefined,
               width: "auto",
               flex: "1 1 auto",
               minWidth: 0,

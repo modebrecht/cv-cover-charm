@@ -12,6 +12,7 @@ import { cvDesignWithFullSectionRules } from "../../src/components/cv/CvCanvas";
 
 const canvas = readFileSync("src/components/cv/CvCanvasBase.tsx", "utf8");
 const route = readFileSync("src/routes/lebenslauf.tsx", "utf8");
+const userTypographyCss = readFileSync("src/components/cv/user-typography.css", "utf8");
 
 test("CV defaults and legacy section rules resolve to full width", () => {
   expect(CV_TYPE_DEFAULTS.headingRule).toBe("full");
@@ -59,6 +60,26 @@ test("rubric title formatting is global and includes side/custom render paths", 
   expect(canvas).toContain("sectionTitleColor || pal.accent");
   expect(canvas).toContain("sectionTitleColor || side.accent");
   expect(canvas).toContain("customSectionForKey(data, key)");
+});
+
+test("explicit typography controls outrank template defaults without breaking the PDF raster mask", () => {
+  for (const contract of [
+    "data-cv-user-doc-color",
+    "data-cv-user-doc-weight",
+    "data-cv-user-doc-margin",
+    "data-cv-user-section-color",
+    "data-cv-user-section-weight",
+    "data-cv-user-section-margin",
+  ]) {
+    expect(canvas).toContain(contract);
+  }
+  expect(userTypographyCss).toContain(
+    "-webkit-text-fill-color: var(--cv-user-doc-color) !important",
+  );
+  expect(userTypographyCss).toContain("font-weight: var(--cv-user-section-weight) !important");
+  expect(userTypographyCss).toContain(
+    "margin-bottom: var(--cv-user-section-margin-bottom) !important",
+  );
 });
 
 test("demo CV no longer adds a redundant subtitle below the candidate name", () => {
