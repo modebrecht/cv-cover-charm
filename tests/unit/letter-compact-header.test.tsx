@@ -42,7 +42,7 @@ function footerHeight(markup: string): number {
 }
 
 describe("compact letter presentation", () => {
-  test("every selectable letter style renders on neutral white letter paper", () => {
+  test("letter canvas renders shared dossier paper for every template", () => {
     expect(TEMPLATES.length).toBe(38);
     expect(LETTER_TEMPLATE_IDS.length).toBe(38);
     for (const template of LETTER_TEMPLATE_IDS) {
@@ -50,8 +50,14 @@ describe("compact letter presentation", () => {
       expect(markup).toContain('data-letter-header-mode="compact"');
       expect(markup).toContain('data-letter-footer="compact"');
       expect(markup).toContain('data-letter-footer-mode="compact"');
-      expect(markup).toContain("background-color:#ffffff");
-      expect(markup).not.toContain("data-dossier-sheet-background");
+      expect(markup).toContain(`data-dossier-sheet-background="${template}"`);
+
+      if (template === "brief") {
+        expect(markup).toContain('data-letter-background="brief"');
+        expect(markup).toContain("bg-white");
+      } else {
+        expect(markup).not.toContain('data-letter-background="brief"');
+      }
     }
   });
 
