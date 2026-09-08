@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildBlocks } from "../../src/components/cover/layouts";
-import { FRESH_TEMPLATE_IDS } from "../../src/components/cover/fresh-templates";
+import { FRESH_TEMPLATE_IDS } from "../../src/components/cover/fresh-template-registry";
 import { DEMO_DATA, TEMPLATES, lineText, type TemplateId } from "../../src/components/cover/types";
 
 function slotsFor(template: TemplateId) {
