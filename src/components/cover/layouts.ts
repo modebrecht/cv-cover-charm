@@ -16,7 +16,7 @@ export * from "./layouts-base";
 const MODERN_TOP_CLUSTER_OFFSET_MM = 6;
 const COVER_BEILAGEN_RIGHT_X_MM = 110;
 const COVER_BEILAGEN_WIDTH_MM = 80;
-const COVER_BEILAGEN_FALLBACK_BOTTOM_MM = 281;
+const COVER_BEILAGEN_MAX_BOTTOM_MM = 276;
 
 function templateDefaultAdjustment(
   template: TemplateId,
@@ -174,13 +174,16 @@ export function buildBlocks(
             // a lower anchor. Without an explicit replacement the base `y=20`
             // leaks through and puts Beilagen beside the date/photo. Keep the
             // optional cover attachments in their own stable bottom-right slot,
-            // aligned with the contact block's lower edge where available.
+            // aligned with the contact block where possible but capped at the
+            // established print-safe lower edge.
             x: COVER_BEILAGEN_RIGHT_X_MM,
             w: COVER_BEILAGEN_WIDTH_MM,
-            y:
+            y: Math.min(
               contactBody?.style.anchorBottom === true
                 ? contactBody.style.y
-                : COVER_BEILAGEN_FALLBACK_BOTTOM_MM,
+                : COVER_BEILAGEN_MAX_BOTTOM_MM,
+              COVER_BEILAGEN_MAX_BOTTOM_MM,
+            ),
             align: "right" as const,
             follows: null,
             above: null,
