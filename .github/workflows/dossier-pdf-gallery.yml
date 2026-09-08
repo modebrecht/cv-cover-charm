@@ -2,12 +2,13 @@ name: Dossier PDF Gallery
 
 # Reproducible visual QA: every complete dossier PDF is rendered, but the expensive
 # PDF work is split into 4-document batches and aggregated back into one artifact.
-# Release-candidate runs are intentionally manual; production main remains automatic.
+# M13's visual-acceptance branch runs this gate automatically; production main remains automatic.
 on:
   workflow_dispatch:
   push:
     branches:
       - main
+      - m13-visual-acceptance
 
 permissions:
   contents: read
@@ -61,6 +62,7 @@ jobs:
           src/components/letter/LetterTemplatePicker.tsx
           src/components/letter/LetterCanvas.tsx
           src/components/letter/LetterLayoutControls.tsx
+          src/components/letter/LetterSheetBackground.tsx
           src/components/letter/dossier-transfer.ts
           src/components/letter/layout-system.ts
           src/components/letter/preflight.ts
@@ -72,6 +74,7 @@ jobs:
           src/lib/download.ts
           tests/unit/cover-decorations.test.ts
           tests/unit/dossier-sheet-background.test.tsx
+          tests/unit/m13-visual-fixes.test.tsx
           tests/e2e/dossier-end-to-end.spec.ts
           tests/e2e/dossier-gallery.spec.ts
           tests/e2e/dossier-typography-regression.spec.ts
