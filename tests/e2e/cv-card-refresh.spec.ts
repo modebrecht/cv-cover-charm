@@ -272,8 +272,10 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
 
     const cvRoots = page.locator('[data-dossier-document="cv"]');
     await expect(cvRoots).toHaveCount(2);
-    const preview = cvRoots.filter({ visible: true }).first();
-    const exportRoot = cvRoots.filter({ visible: false }).first();
+    const preview = page.locator('[data-dossier-document="cv"][data-export-mode="false"]').first();
+    const exportRoot = page
+      .locator('[data-dossier-document="cv"][data-export-mode="true"]')
+      .first();
     await expect(preview.locator("[data-cv-doc-title]").first()).toHaveText("Lebenslauf");
     await expect(
       preview.locator("[data-cv-page]").getByText("Projekte", { exact: true }).first(),
