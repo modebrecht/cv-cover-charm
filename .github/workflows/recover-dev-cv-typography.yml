@@ -66,6 +66,10 @@ jobs:
                   '    await expect(preview.getByText("Projekte", { exact: true }).first()).toBeVisible();',
                   '    await expect(\n      preview.locator("[data-cv-page]").getByText("Projekte", { exact: true }).first(),\n    ).toBeVisible();',
               ),
+              (
+                  '    const preview = cvRoots.filter({ visible: true }).first();\n    const exportRoot = cvRoots.filter({ visible: false }).first();',
+                  '    const preview = page.locator(\'[data-dossier-document="cv"][data-export-mode="false"]\').first();\n    const exportRoot = page.locator(\'[data-dossier-document="cv"][data-export-mode="true"]\').first();',
+              ),
           ]
           for old, new in replacements:
               if old in text:
@@ -104,7 +108,7 @@ jobs:
             tests/e2e/cv-demo-pagination.spec.ts \
             tests/e2e/cv-card-refresh.spec.ts \
             tests/e2e/dossier-regression.spec.ts
-          git commit -m 'test(cv): harden final recovered typography validation'
+          git commit -m 'test(cv): use explicit export-mode validation boundary'
           git push origin HEAD:recover-dev-cv-typography
 
       - name: Dispatch native regression and 39-PDF gallery
