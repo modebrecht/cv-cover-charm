@@ -1,17 +1,19 @@
 /*
  * Visible CV rubric separators always fill the remaining heading row.
  *
- * Older structural variants (notably Luftig/Timeline, used by templates such as
- * Aurora) still contain fixed-width rules with `!important` from the period
- * when `headingRule="short"` was a supported visual mode. The shared CV renderer
- * now retires that mode. This semantic selector deliberately outranks those
- * variant-specific legacy rules so preview, pagination measurement and PDF
- * export all obey the same full-width contract.
+ * Older structural/template variants still contain fixed-width rules and a few
+ * template-specific `display: none !important` overrides from the period when
+ * headings were allowed to replace the shared separator treatment. The editor
+ * now has one explicit source of truth: `headingRule="none"` omits the element;
+ * every rendered separator therefore stays visible and consumes the complete
+ * remaining heading row in preview, pagination measurement and PDF export.
  */
 html[data-cv-variant][data-cv-variant][data-cv-variant]
   [data-dossier-document="cv"]
   [data-cv-accent="section"] {
+  display: block !important;
   width: auto !important;
+  max-width: none !important;
   flex: 1 1 0% !important;
   min-width: 0 !important;
 }
