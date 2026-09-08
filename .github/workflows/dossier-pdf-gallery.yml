@@ -9,7 +9,6 @@ on:
     branches:
       - main
       - m13-visual-acceptance
-      - fix-cover-attachments-bottom-right
 
 permissions:
   contents: read
