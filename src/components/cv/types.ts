@@ -50,7 +50,12 @@ export type CvPerson = {
 
 /** Welche Abschnitte gibt es und wie heissen sie in der Vorgabe? */
 export type CvSectionKey =
-  "schule" | "erfahrung" | "sprachen" | "hobbys" | "staerken" | "referenzen";
+  | "schule"
+  | "erfahrung"
+  | "sprachen"
+  | "hobbys"
+  | "staerken"
+  | "referenzen";
 
 export const CV_SECTION_LABELS: Record<CvSectionKey, string> = {
   schule: "Schulbildung",
@@ -270,6 +275,13 @@ export type CvDesign = {
   docTitleItalic?: boolean;
   docTitleUnderline?: boolean;
   docTitleMarginBottomPx?: number;
+  /** Eine gemeinsame Gestaltung für alle Rubriktitel, inklusive eigener Rubriken. */
+  sectionTitleFontSizePx?: number;
+  sectionTitleColor?: string;
+  sectionTitleBold?: boolean;
+  sectionTitleItalic?: boolean;
+  sectionTitleUnderline?: boolean;
+  sectionTitleMarginBottomPx?: number;
   /** Breite der Seitenspalte als Anteil der Blattbreite. */
   sidebarPct?: number;
 };
@@ -296,6 +308,17 @@ export const CV_DOC_TITLE_DEFAULTS = {
 export const CV_DOC_TITLE_FONT_SIZE_MIN = 10;
 export const CV_DOC_TITLE_FONT_SIZE_MAX = 48;
 export const CV_DOC_TITLE_MARGIN_BOTTOM_MAX = 100;
+
+export const CV_SECTION_TITLE_DEFAULTS = {
+  fontSizePx: 16,
+  bold: true,
+  italic: false,
+  underline: false,
+  marginBottomPx: 7,
+} as const;
+export const CV_SECTION_TITLE_FONT_SIZE_MIN = 10;
+export const CV_SECTION_TITLE_FONT_SIZE_MAX = 32;
+export const CV_SECTION_TITLE_MARGIN_BOTTOM_MAX = 100;
 
 /**
  * Typografie-Regler sind bewusst enger als früher begrenzt.

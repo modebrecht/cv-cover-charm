@@ -54,6 +54,10 @@ import {
   CV_DOC_TITLE_FONT_SIZE_MAX,
   CV_DOC_TITLE_FONT_SIZE_MIN,
   CV_DOC_TITLE_MARGIN_BOTTOM_MAX,
+  CV_SECTION_TITLE_DEFAULTS,
+  CV_SECTION_TITLE_FONT_SIZE_MAX,
+  CV_SECTION_TITLE_FONT_SIZE_MIN,
+  CV_SECTION_TITLE_MARGIN_BOTTOM_MAX,
   CV_SCALE_MAX,
   CV_SCALE_MIN,
   CV_TYPE_DEFAULTS,
@@ -2037,40 +2041,214 @@ function Lebenslauf() {
                     </span>
                   </label>
 
-                  <label className="flex flex-col gap-1 text-xs">
-                    <span className="text-muted-foreground">Linie neben der Überschrift</span>
-                    <div className="flex gap-1">
-                      {(
-                        [
-                          ["short", "Kurz"],
-                          ["full", "Ganze Breite"],
-                          ["none", "Keine"],
-                        ] as const
-                      ).map(([id, label]) => (
-                        <button
-                          key={id}
-                          type="button"
-                          aria-pressed={(design.headingRule ?? CV_TYPE_DEFAULTS.headingRule) === id}
-                          onClick={() => setDesign((d) => ({ ...d, headingRule: id }))}
-                          className={`flex-1 rounded-md border px-2 py-1.5 text-xs transition ${
-                            (design.headingRule ?? CV_TYPE_DEFAULTS.headingRule) === id
-                              ? "border-foreground bg-accent"
-                              : "border-input hover:border-foreground/40"
-                          }`}
-                        >
-                          {label}
-                        </button>
-                      ))}
+                  <div className="grid gap-3 rounded-md border bg-muted/20 p-2.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-xs font-semibold">Rubriktitel gestalten</div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setDesign((current) => ({
+                            ...current,
+                            sectionTitleFontSizePx: undefined,
+                            sectionTitleColor: undefined,
+                            sectionTitleBold: undefined,
+                            sectionTitleItalic: undefined,
+                            sectionTitleUnderline: undefined,
+                            sectionTitleMarginBottomPx: undefined,
+                            headingRule: CV_TYPE_DEFAULTS.headingRule,
+                          }))
+                        }
+                        className="text-xs text-muted-foreground underline hover:text-foreground"
+                      >
+                        Vorlage
+                      </button>
                     </div>
-                  </label>
+
+                    <label className="flex flex-col gap-1 text-xs">
+                      <span className="text-muted-foreground">
+                        Schriftgrösse{" "}
+                        {design.sectionTitleFontSizePx ?? CV_SECTION_TITLE_DEFAULTS.fontSizePx} px
+                      </span>
+                      <input
+                        type="range"
+                        min={CV_SECTION_TITLE_FONT_SIZE_MIN}
+                        max={CV_SECTION_TITLE_FONT_SIZE_MAX}
+                        step={1}
+                        value={
+                          design.sectionTitleFontSizePx ?? CV_SECTION_TITLE_DEFAULTS.fontSizePx
+                        }
+                        onChange={(event) =>
+                          setDesign((current) => ({
+                            ...current,
+                            sectionTitleFontSizePx: Number(event.target.value),
+                          }))
+                        }
+                        className="w-full accent-primary"
+                        aria-label="Schriftgrösse Rubriktitel"
+                      />
+                    </label>
+
+                    <div className="flex flex-wrap items-center gap-2 text-xs">
+                      <span className="text-muted-foreground">Schriftfarbe</span>
+                      <input
+                        type="color"
+                        value={
+                          design.sectionTitleColor ??
+                          design.colors.accent ??
+                          design.colors.primary ??
+                          "#6b7280"
+                        }
+                        onChange={(event) =>
+                          setDesign((current) => ({
+                            ...current,
+                            sectionTitleColor: event.target.value,
+                          }))
+                        }
+                        className="h-7 w-10 cursor-pointer rounded border border-input bg-background"
+                        aria-label="Schriftfarbe Rubriktitel"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setDesign((current) => ({ ...current, sectionTitleColor: undefined }))
+                        }
+                        className="text-muted-foreground underline hover:text-foreground"
+                      >
+                        Standardfarbe
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-1">
+                      <button
+                        type="button"
+                        aria-pressed={design.sectionTitleBold ?? CV_SECTION_TITLE_DEFAULTS.bold}
+                        onClick={() =>
+                          setDesign((current) => ({
+                            ...current,
+                            sectionTitleBold: !(
+                              current.sectionTitleBold ?? CV_SECTION_TITLE_DEFAULTS.bold
+                            ),
+                          }))
+                        }
+                        className={`rounded-md border px-2 py-1.5 text-xs font-bold ${
+                          (design.sectionTitleBold ?? CV_SECTION_TITLE_DEFAULTS.bold)
+                            ? "border-foreground bg-accent"
+                            : "border-input hover:border-foreground/40"
+                        }`}
+                      >
+                        Fett
+                      </button>
+                      <button
+                        type="button"
+                        aria-pressed={design.sectionTitleItalic ?? CV_SECTION_TITLE_DEFAULTS.italic}
+                        onClick={() =>
+                          setDesign((current) => ({
+                            ...current,
+                            sectionTitleItalic: !(
+                              current.sectionTitleItalic ?? CV_SECTION_TITLE_DEFAULTS.italic
+                            ),
+                          }))
+                        }
+                        className={`rounded-md border px-2 py-1.5 text-xs italic ${
+                          (design.sectionTitleItalic ?? CV_SECTION_TITLE_DEFAULTS.italic)
+                            ? "border-foreground bg-accent"
+                            : "border-input hover:border-foreground/40"
+                        }`}
+                      >
+                        Kursiv
+                      </button>
+                      <button
+                        type="button"
+                        aria-pressed={
+                          design.sectionTitleUnderline ?? CV_SECTION_TITLE_DEFAULTS.underline
+                        }
+                        onClick={() =>
+                          setDesign((current) => ({
+                            ...current,
+                            sectionTitleUnderline: !(
+                              current.sectionTitleUnderline ?? CV_SECTION_TITLE_DEFAULTS.underline
+                            ),
+                          }))
+                        }
+                        className={`rounded-md border px-2 py-1.5 text-xs underline ${
+                          (design.sectionTitleUnderline ?? CV_SECTION_TITLE_DEFAULTS.underline)
+                            ? "border-foreground bg-accent"
+                            : "border-input hover:border-foreground/40"
+                        }`}
+                      >
+                        Unterstrichen
+                      </button>
+                    </div>
+
+                    <label className="flex flex-col gap-1 text-xs">
+                      <span className="text-muted-foreground">
+                        Abstand nach unten{" "}
+                        {design.sectionTitleMarginBottomPx ??
+                          CV_SECTION_TITLE_DEFAULTS.marginBottomPx}{" "}
+                        px
+                      </span>
+                      <input
+                        type="range"
+                        min={0}
+                        max={CV_SECTION_TITLE_MARGIN_BOTTOM_MAX}
+                        step={1}
+                        value={
+                          design.sectionTitleMarginBottomPx ??
+                          CV_SECTION_TITLE_DEFAULTS.marginBottomPx
+                        }
+                        onChange={(event) =>
+                          setDesign((current) => ({
+                            ...current,
+                            sectionTitleMarginBottomPx: Number(event.target.value),
+                          }))
+                        }
+                        className="w-full accent-primary"
+                        aria-label="Abstand unter Rubriktiteln"
+                      />
+                    </label>
+
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="text-muted-foreground">Linie nach rechts</span>
+                      <div className="flex gap-1">
+                        {(
+                          [
+                            ["full", "Ganze Breite"],
+                            ["short", "Kurz"],
+                            ["none", "Keine"],
+                          ] as const
+                        ).map(([id, label]) => (
+                          <button
+                            key={id}
+                            type="button"
+                            aria-pressed={
+                              (design.headingRule ?? CV_TYPE_DEFAULTS.headingRule) === id
+                            }
+                            onClick={() => setDesign((d) => ({ ...d, headingRule: id }))}
+                            className={`flex-1 rounded-md border px-2 py-1.5 text-xs transition ${
+                              (design.headingRule ?? CV_TYPE_DEFAULTS.headingRule) === id
+                                ? "border-foreground bg-accent"
+                                : "border-input hover:border-foreground/40"
+                            }`}
+                          >
+                            {label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <span className="text-[11px] leading-relaxed text-muted-foreground/80">
+                      Gilt gemeinsam für Schulbildung, Praktika, Sprachen, Stärken, Hobbys,
+                      Referenzen und eigene Rubriken.
+                    </span>
+                  </div>
 
                   {(
                     [
                       ["titleScale", "Name", "Der Name oben."],
                       [
                         "headingScale",
-                        "Untertitel und Rubriken",
-                        "Untertitel unter dem Namen sowie alle Rubriktitel, auch in der Seitenspalte.",
+                        "Untertitel / Rubriken-Basis",
+                        "Untertitel sowie die Vorlagen-Grösse der Rubriken. Eine eigene Rubriktitel-Grösse überschreibt sie.",
                       ],
                       [
                         "bodyScale",
