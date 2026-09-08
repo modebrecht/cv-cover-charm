@@ -23,7 +23,13 @@ test.describe("M9 demo CV pagination", () => {
     const measureMain = cv.locator("[data-cv-measure-page] [data-cv-main]");
     await expect(pages.first()).toContainText("Herr Thomas Weber");
 
-    const templateSection = page.getByRole("button", { name: /^Vorlage(?:\s|$)/ }).first();
+    // Styling panels also contain reset buttons called "Vorlage". Section.tsx already exposes
+    // a stable semantic toggle marker, so target that contract and ignore the adjacent hint text.
+    const templateSection = page
+      .locator("[data-editor-section-toggle]")
+      .filter({ hasText: "Vorlage" })
+      .first();
+    await expect(templateSection).toBeVisible();
     if ((await templateSection.getAttribute("aria-expanded")) !== "true") {
       await templateSection.click();
     }
