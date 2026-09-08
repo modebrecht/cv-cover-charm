@@ -1,0 +1,52 @@
+name: Recover dev CV typography
+
+on:
+  push:
+    branches:
+      - recover-dev-cv-typography
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: recover-dev-cv-typography
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Apply recovery patch once
+        shell: bash
+        run: |
+          if grep -q 'CV_DOC_TITLE_DEFAULTS' src/components/cv/types.ts; then
+            echo 'Recovery patch already applied.'
+            exit 0
+          fi
+          python scripts/recover-dev-cv-typography.py
+          bunx prettier --write \
+            src/components/cv/types.ts \
+            src/components/cv/CvCanvasBase.tsx \
+            src/routes/lebenslauf.tsx \
+            tests/unit/cv-dev-recovery.test.ts
+
+      - name: Verify focused recovery tests
+        run: bun test tests/unit/cv-dev-recovery.test.ts tests/unit/cv-section-rule.test.ts
+
+      - name: Commit product patch
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo 'No product patch to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/components/cv/types.ts src/components/cv/CvCanvasBase.tsx src/routes/lebenslauf.tsx tests/unit/cv-dev-recovery.test.ts
+          git commit -m 'feat(cv): recover title and rubric typography controls'
+          git push origin HEAD:recover-dev-cv-typography
