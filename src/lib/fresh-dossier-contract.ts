@@ -1,7 +1,7 @@
 import {
   FRESH_TEMPLATE_IDS,
   type FreshTemplateId,
-} from "@/components/cover/fresh-templates";
+} from "@/components/cover/fresh-template-registry";
 import { TEMPLATES, type TemplateId } from "@/components/cover/types";
 import { freshLetterSpec } from "@/components/letter/fresh-letter-system";
 import { familyForTemplate, type DossierFamilyId } from "@/lib/dossier-family";
