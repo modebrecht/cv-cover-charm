@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
-import { cvPalette } from "@/components/cv/palette";
+import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
@@ -111,6 +111,20 @@ export function LetterCanvas({
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
   const senderIntegrated = geometry.effectiveHeaderMode === "contact";
+  const warmCompactHeader =
+    design.template === "freundlich" &&
+    geometry.effectiveHeaderMode === "compact" &&
+    geometry.pageIndex === 0;
+  const warmPrimary =
+    design.colors.primary ?? design.colors.accent ?? design.colors.secondary ?? sourcePalette.accent;
+  const warmSecondary =
+    design.colors.secondary ?? design.colors.accent ?? design.colors.primary ?? sourcePalette.accent;
+  const warmHeaderInk = onColorRoles(warmPrimary, warmSecondary).ink;
+  const recipientTopMargin = senderIntegrated
+    ? "mt-[1mm]"
+    : warmCompactHeader
+      ? "mt-[10mm]"
+      : "mt-[6mm]";
   const beilagen = visibleLetterAttachments(data);
   const showBeilagen = data.showBeilagen !== false && beilagen.length > 0;
   const showBeilagenInBody = showBeilagen && geometry.requestedFooterMode !== "attachments";
@@ -205,20 +219,51 @@ export function LetterCanvas({
           <>
             <div
               data-letter-section="sender"
-              className="text-[9.5pt] leading-[1.45]"
-              style={{ textAlign: senderAlign }}
+              data-letter-warm-sender={warmCompactHeader ? "" : undefined}
+              className={warmCompactHeader ? "text-[9.3pt] leading-[1.42]" : "text-[9.5pt] leading-[1.45]"}
+              style={{
+                textAlign: senderAlign,
+                ...(warmCompactHeader
+                  ? {
+                      width: "82mm",
+                      boxSizing: "border-box",
+                      borderLeft: `0.8mm solid ${warmSecondary}`,
+                      paddingLeft: "5mm",
+                      color: warmHeaderInk,
+                    }
+                  : {}),
+              }}
             >
               <div data-letter-pdf-text="sender">
-                <Lines
-                  values={[
-                    data.absenderName,
-                    data.absenderAdresse,
-                    data.absenderPlzOrt,
-                    data.absenderTelefon,
-                    data.absenderEmail,
-                  ]}
-                  align={senderAlign}
-                />
+                {warmCompactHeader ? (
+                  <>
+                    {data.absenderName?.trim() ? (
+                      <div className="mb-[1mm] text-[11pt] font-semibold leading-[1.25]">
+                        {data.absenderName}
+                      </div>
+                    ) : null}
+                    <Lines
+                      values={[
+                        data.absenderAdresse,
+                        data.absenderPlzOrt,
+                        data.absenderTelefon,
+                        data.absenderEmail,
+                      ]}
+                      align={senderAlign}
+                    />
+                  </>
+                ) : (
+                  <Lines
+                    values={[
+                      data.absenderName,
+                      data.absenderAdresse,
+                      data.absenderPlzOrt,
+                      data.absenderTelefon,
+                      data.absenderEmail,
+                    ]}
+                    align={senderAlign}
+                  />
+                )}
               </div>
             </div>
             {design.ruleAfterSender ? <Separator color={palette.accent} marker="sender" /> : null}
@@ -227,7 +272,7 @@ export function LetterCanvas({
 
         <div
           data-letter-section="recipient"
-          className={`${senderIntegrated ? "mt-[1mm]" : "mt-[6mm]"} min-h-[24mm] text-[10pt] leading-[1.45]`}
+          className={`${recipientTopMargin} min-h-[24mm] text-[10pt] leading-[1.45]`}
           style={{ textAlign: recipientAlign }}
         >
           <div data-letter-pdf-text="recipient">
