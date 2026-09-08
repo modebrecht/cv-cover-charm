@@ -119,23 +119,25 @@ Acceptance record: the 39-PDF gallery from workflow run `34247101050` on impleme
 
 Goal: The same class of defect should not return after future template or renderer work.
 
-- [ ] Add Fresh template IDs to one canonical shared registry
-- [ ] Remove duplicated Fresh template ID lists where practical
-- [ ] Separate cover geometry from letter geometry explicitly
-- [ ] Separate letter geometry from CV geometry explicitly
-- [ ] Avoid DOM-child-position selectors where a semantic data attribute can be used
-- [ ] Add semantic markers to structural template shapes
-- [ ] Test that Fresh cover background structure exists
-- [ ] Test that Fresh letter background remains non-invasive
-- [ ] Test title hierarchy does not overlap with sample content
-- [ ] Test no unexpected default copy appears
-- [ ] Test all 38 templates can render and export
-- [ ] Run unit tests
-- [ ] Run formatting
-- [ ] Run typecheck
-- [ ] Run lint
-- [ ] Run production build
-- [ ] Run browser regression suite
-- [ ] Run complete dossier PDF gallery
-- [ ] Complete final visual review
-- [ ] Merge only after all release gates are green
+- [x] Add Fresh template IDs to one canonical shared registry
+- [x] Remove duplicated Fresh template ID lists where practical
+- [x] Separate cover geometry from letter geometry explicitly
+- [x] Separate letter geometry from CV geometry explicitly
+- [x] Avoid DOM-child-position selectors where a semantic data attribute can be used
+- [x] Add semantic markers to structural template shapes
+- [x] Test that Fresh cover background structure exists
+- [x] Test that Fresh letter background remains non-invasive
+- [x] Test title hierarchy does not overlap with sample content
+- [x] Test no unexpected default copy appears
+- [x] Test all 38 templates can render and export
+- [x] Run unit tests
+- [x] Run formatting
+- [x] Run typecheck
+- [x] Run lint
+- [x] Run production build
+- [x] Run browser regression suite
+- [x] Run complete dossier PDF gallery
+- [x] Complete final visual review
+- [x] Merge only after all release gates are green
+
+Acceptance record: M14 was merged as PR `#56`. The branch validation passed `112/112` unit tests plus release formatting, TypeScript, lint and production build. Full PDF Gallery run `34253781839` verified exactly `39/39` unique dossier PDFs before promotion. After merge, exact main SHA `406f353169ea3d5142ca1a0d4612534dec73423d` passed the full Dossier Regression suite, all browser/PDF smoke groups, the `39/39` PDF Gallery, Vercel deployment and the `M6 Release Candidate` status. Fresh motivation-letter and CV contact sheets for templates 21-38 were also visually reviewed for clipping, overlap and cross-document motif leakage.
