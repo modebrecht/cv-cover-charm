@@ -9,6 +9,7 @@ on:
       - dev
       - render
       - main
+      - fix-cv-section-rule-css-contract
     paths-ignore:
       - "History/**"
 
