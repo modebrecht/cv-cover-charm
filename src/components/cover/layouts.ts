@@ -177,6 +177,10 @@ export function buildBlocks(
           }
         : {
             ...recipientBody.style,
+            // Kolumne keeps its recipient text white because it normally lives
+            // on the dark sidebar. Attachments move to the light bottom-right
+            // page area, so their default must switch back to readable ink.
+            ...(template === "terracotta" ? { color: "ink" } : {}),
             // If the company is hidden, the old recipient chain no longer has
             // a lower anchor. Without an explicit replacement the base `y=20`
             // leaks through and puts Beilagen beside the date/photo. Keep the
