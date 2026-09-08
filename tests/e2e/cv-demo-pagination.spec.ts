@@ -75,6 +75,36 @@ test.describe("M9 demo CV pagination", () => {
       expect(templateId, `${name}: selected template must reach the rendered CV`).toBeTruthy();
       exercisedTemplateIds.add(templateId!);
 
+      // Visible section rules are a global CV contract: the title keeps its natural width and
+      // the rule consumes every remaining pixel in that heading row. Measure the user-visible
+      // result instead of merely checking the stored design enum so legacy `short` saves cannot
+      // silently bring back the old 15/18 mm dash.
+      const ruleGeometry = await pages
+        .first()
+        .locator('[data-cv-accent="section"]')
+        .evaluateAll((nodes) =>
+          nodes.map((node) => {
+            const row = node.parentElement;
+            if (!row) return { rightGap: Number.POSITIVE_INFINITY, width: 0 };
+            const rule = node.getBoundingClientRect();
+            const headingRow = row.getBoundingClientRect();
+            return {
+              rightGap: Math.abs(headingRow.right - rule.right),
+              width: rule.width,
+            };
+          }),
+        );
+      expect(ruleGeometry.length, `${templateId}: demo CV should render section rules`).toBeGreaterThan(
+        0,
+      );
+      for (const geometry of ruleGeometry) {
+        expect(
+          geometry.rightGap,
+          `${templateId}: section rule must reach the right edge of its heading row`,
+        ).toBeLessThanOrEqual(2);
+        expect(geometry.width, `${templateId}: section rule must have visible width`).toBeGreaterThan(4);
+      }
+
       const pageCount = await pages.count();
       if (pageCount !== 1) {
         const continuation = (await pages.nth(1).innerText())
