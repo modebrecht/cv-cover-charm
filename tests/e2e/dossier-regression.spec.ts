@@ -1251,7 +1251,10 @@ test.describe("M5.8 dossier regression", () => {
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
     const cvDownload = page.getByRole("button", { name: "Download", exact: true });
     await expect(cvDownload).toHaveAttribute("data-editor-ready", "true");
-    const cvTemplateHeader = page.getByRole("button", { name: /^Vorlage/ });
+    const cvTemplateHeader = page
+      .locator("button[data-editor-section-toggle]")
+      .filter({ hasText: "Vorlage" })
+      .first();
     if ((await cvTemplateHeader.getAttribute("aria-expanded")) !== "true")
       await cvTemplateHeader.click();
     const cvPanelId = await cvTemplateHeader.getAttribute("aria-controls");

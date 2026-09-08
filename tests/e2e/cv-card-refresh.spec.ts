@@ -112,10 +112,10 @@ const hash = (buffer: Buffer) => createHash("sha256").update(buffer).digest("hex
 
 async function typographySnapshot(root: Locator) {
   return root.evaluate((node) => {
-    const title = node.querySelector<HTMLElement>("[data-cv-doc-title]");
-    const rubric = Array.from(node.querySelectorAll<HTMLElement>("[data-cv-section-title]")).find(
-      (candidate) => candidate.textContent?.trim() === "Projekte",
-    );
+    const title = node.querySelector<HTMLElement>("[data-cv-page] [data-cv-doc-title]");
+    const rubric = Array.from(
+      node.querySelectorAll<HTMLElement>("[data-cv-page] [data-cv-section-title]"),
+    ).find((candidate) => candidate.textContent?.trim() === "Projekte");
     const rule = rubric?.parentElement?.querySelector<HTMLElement>('[data-cv-accent="section"]');
     if (!title || !rubric || !rule) return null;
     const titleStyle = getComputedStyle(title);
@@ -275,7 +275,9 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
     const preview = cvRoots.filter({ visible: true }).first();
     const exportRoot = cvRoots.filter({ visible: false }).first();
     await expect(preview.locator("[data-cv-doc-title]").first()).toHaveText("Lebenslauf");
-    await expect(preview.getByText("Projekte", { exact: true }).first()).toBeVisible();
+    await expect(
+      preview.locator("[data-cv-page]").getByText("Projekte", { exact: true }).first(),
+    ).toBeVisible();
 
     const previewSnapshot = await typographySnapshot(preview);
     const exportSnapshot = await typographySnapshot(exportRoot);
