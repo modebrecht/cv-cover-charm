@@ -1,4 +1,9 @@
 import type { DossierFamilyId } from "@/lib/dossier-family";
+import {
+  FRESH_TEMPLATE_IDS,
+  isFreshTemplateId,
+  type FreshTemplateId,
+} from "./fresh-template-registry";
 import { TEMPLATES, type TemplateDefinition, type TemplateId } from "./types";
 import "./gradient-templates.css";
 import "./studio-warm-variants.css";
@@ -9,6 +14,8 @@ import "./signature-templates.css";
 import "./next-signature-templates.css";
 import "./verlauf-pill-fix.css";
 
+export { FRESH_TEMPLATE_IDS, type FreshTemplateId } from "./fresh-template-registry";
+
 /**
  * Fresh dossier templates introduced after the original template union.
  *
@@ -18,28 +25,6 @@ import "./verlauf-pill-fix.css";
  * makes colors, import/export and both document editors understand them without
  * invalidating older drafts.
  */
-export const FRESH_TEMPLATE_IDS = [
-  "edge",
-  "glow",
-  "frame",
-  "monoLuxe",
-  "horizon",
-  "sunrise",
-  "forestFlow",
-  "violetPulse",
-  "studio2",
-  "studio3",
-  "warm2",
-  "warm3",
-  "ledger",
-  "prism",
-  "gallery",
-  "orbit",
-  "ribbon",
-  "cove",
-] as const;
-export type FreshTemplateId = (typeof FRESH_TEMPLATE_IDS)[number];
-
 const freshDefinitions: TemplateDefinition[] = [
   {
     id: "edge" as TemplateId,
@@ -266,7 +251,7 @@ for (const definition of freshDefinitions) {
 }
 
 export function isFreshTemplate(template: TemplateId): template is TemplateId & FreshTemplateId {
-  return (FRESH_TEMPLATE_IDS as readonly string[]).includes(template as string);
+  return isFreshTemplateId(template as string);
 }
 
 /** Typography family used by the shared dossier-theme CSS variables. */
