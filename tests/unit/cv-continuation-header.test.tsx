@@ -18,7 +18,11 @@ const colors = {
   accent: "#315d7d",
 };
 
-function markup(scope: "cv" | "letter", pageIndex = 1) {
+function markup(
+  scope: "cv" | "letter",
+  headerMode: "compact" | "contact" | "none",
+  pageIndex = 1,
+) {
   return renderToStaticMarkup(
     createElement(DossierHeaderFooterChrome, {
       scope,
@@ -28,35 +32,41 @@ function markup(scope: "cv" | "letter", pageIndex = 1) {
       pageIndex,
       options: {
         ...DEFAULT_DOSSIER_CHROME_OPTIONS,
-        headerMode: "compact",
-        footerMode: "details",
+        headerMode,
+        footerMode: "compact",
       },
-      footerLeft: contact.name,
-      footerRight: `Seite ${pageIndex + 1}`,
     }),
   );
 }
 
-describe("CV continuation identity header", () => {
-  test("continuation pages show core contact data instead of a page-number label", () => {
-    const html = markup("cv", 1);
+describe("shared dossier continuation headers", () => {
+  test("compact means a decorative band without contact data in both documents", () => {
+    for (const scope of ["cv", "letter"] as const) {
+      const html = markup(scope, "compact");
 
-    expect(html).toContain("data-cv-continuation-header");
-    expect(html).toContain("Lea Müller");
-    expect(html).toContain("8000 Zürich");
-    expect(html).toContain("lea@example.ch");
-    expect(html).toContain("+41 79 123 45 67");
-    expect(html).not.toContain("Seite 2");
+      expect(html).toContain("data-dossier-compact-header");
+      expect(html).not.toContain("data-dossier-continuation-contact-header");
+      expect(html).not.toContain("Lea Müller");
+      expect(html).not.toContain("8000 Zürich");
+      expect(html).not.toContain("lea@example.ch");
+      expect(html).not.toContain("+41 79 123 45 67");
+    }
   });
 
-  test("the continuation treatment stays CV-only", () => {
-    const html = markup("letter", 1);
+  test("contact means the same compact identity header on continuation pages", () => {
+    for (const scope of ["cv", "letter"] as const) {
+      const html = markup(scope, "contact");
 
-    expect(html).not.toContain("data-cv-continuation-header");
-    expect(html).toContain("Seite 2");
+      expect(html).toContain("data-dossier-continuation-contact-header");
+      expect(html).toContain("Lea Müller");
+      expect(html).toContain("8000 Zürich");
+      expect(html).toContain("lea@example.ch");
+      expect(html).toContain("+41 79 123 45 67");
+      expect(html).not.toContain("Bahnhofstrasse 42");
+    }
   });
 
-  test("CV continuation contact respects the existing visibility switches", () => {
+  test("contact continuation respects the existing visibility switches", () => {
     const html = renderToStaticMarkup(
       createElement(DossierHeaderFooterChrome, {
         scope: "cv",
@@ -66,7 +76,7 @@ describe("CV continuation identity header", () => {
         pageIndex: 1,
         options: {
           ...DEFAULT_DOSSIER_CHROME_OPTIONS,
-          headerMode: "compact",
+          headerMode: "contact",
           headerShowAddress: false,
           headerShowPhone: false,
           footerMode: "compact",
@@ -78,5 +88,15 @@ describe("CV continuation identity header", () => {
     expect(html).toContain("lea@example.ch");
     expect(html).not.toContain("8000 Zürich");
     expect(html).not.toContain("+41 79 123 45 67");
+  });
+
+  test("none removes the header in both documents", () => {
+    for (const scope of ["cv", "letter"] as const) {
+      const html = markup(scope, "none");
+
+      expect(html).not.toContain("data-dossier-compact-header");
+      expect(html).not.toContain("data-dossier-integrated-contact");
+      expect(html).not.toContain("data-dossier-continuation-contact-header");
+    }
   });
 });

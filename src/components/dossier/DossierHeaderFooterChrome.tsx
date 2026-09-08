@@ -31,8 +31,8 @@ export function DossierHeaderFooterChrome({
   footerRight?: string;
 }) {
   const resolvedContact = contact;
-  const headerMode =
-    pageIndex === 0 ? options.headerMode : options.headerMode === "none" ? "none" : "compact";
+  const headerMode = options.headerMode;
+  const continuationContact = pageIndex > 0 && headerMode === "contact";
   const sourcePalette = cvPalette(colors);
   const primary =
     template === "brief"
@@ -46,8 +46,7 @@ export function DossierHeaderFooterChrome({
     options.headerShowPhone ? resolvedContact.phone : "",
     options.headerShowEmail ? resolvedContact.email : "",
   ].filter(Boolean);
-  const cvContinuation = scope === "cv" && pageIndex > 0 && headerMode === "compact";
-  const cvContinuationBits = [
+  const continuationBits = [
     options.headerShowAddress ? resolvedContact.place : "",
     options.headerShowEmail ? resolvedContact.email : "",
     options.headerShowPhone ? resolvedContact.phone : "",
@@ -69,10 +68,20 @@ export function DossierHeaderFooterChrome({
       className="pointer-events-none absolute inset-0 z-[3] overflow-hidden"
     >
       {headerMode === "compact" ? (
-        cvContinuation ? (
+        <div
+          data-dossier-compact-header
+          className="absolute inset-x-0 top-0"
+          style={{ height: "3mm", backgroundColor: primary }}
+          aria-hidden="true"
+        />
+      ) : null}
+
+      {headerMode === "contact" ? (
+        continuationContact ? (
           <div
-            data-dossier-compact-header
-            data-cv-continuation-header
+            data-dossier-continuation-contact-header
+            data-cv-continuation-header={scope === "cv" ? "" : undefined}
+            data-letter-continuation-header={letter ? "" : undefined}
             className="absolute inset-x-0 top-0 flex items-center gap-[7mm]"
             style={{
               height: "8mm",
@@ -89,67 +98,58 @@ export function DossierHeaderFooterChrome({
                 {resolvedContact.name}
               </div>
             ) : null}
-            {cvContinuationBits.length ? (
+            {continuationBits.length ? (
               <div
-                data-cv-continuation-contact
+                data-dossier-continuation-contact
                 className="min-w-0 flex-1 truncate text-right opacity-95"
               >
-                {cvContinuationBits.join(" · ")}
+                {continuationBits.join(" · ")}
               </div>
             ) : null}
           </div>
         ) : (
-          <div
-            data-dossier-compact-header
-            className="absolute inset-x-0 top-0"
-            style={{ height: "3mm", backgroundColor: primary }}
-            aria-hidden="true"
-          />
-        )
-      ) : null}
-
-      {headerMode === "contact" ? (
-        <>
-          <div
-            data-dossier-contact-header-background
-            className="absolute inset-x-0 top-0"
-            style={{ height: "22mm", backgroundColor: primary }}
-            aria-hidden="true"
-          />
-          <div
-            data-dossier-integrated-contact
-            data-letter-integrated-contact={letter ? "" : undefined}
-            className="absolute flex items-center justify-between gap-[8mm] text-[8.5pt] leading-[1.28]"
-            style={{
-              left: "24mm",
-              right: "23mm",
-              top: "3.1mm",
-              minHeight: "15mm",
-              color: headerRoles.ink,
-            }}
-          >
-            <div className="min-w-0 flex-1" style={{ overflowWrap: "anywhere" }}>
-              {options.headerShowName && resolvedContact.name ? (
-                <div className="text-[10pt] font-semibold">{resolvedContact.name}</div>
-              ) : null}
-              {options.headerShowAddress ? (
-                <div className="opacity-90">
-                  {[resolvedContact.address, resolvedContact.place].filter(Boolean).join(" · ")}
+          <>
+            <div
+              data-dossier-contact-header-background
+              className="absolute inset-x-0 top-0"
+              style={{ height: "22mm", backgroundColor: primary }}
+              aria-hidden="true"
+            />
+            <div
+              data-dossier-integrated-contact
+              data-letter-integrated-contact={letter ? "" : undefined}
+              className="absolute flex items-center justify-between gap-[8mm] text-[8.5pt] leading-[1.28]"
+              style={{
+                left: "24mm",
+                right: "23mm",
+                top: "3.1mm",
+                minHeight: "15mm",
+                color: headerRoles.ink,
+              }}
+            >
+              <div className="min-w-0 flex-1" style={{ overflowWrap: "anywhere" }}>
+                {options.headerShowName && resolvedContact.name ? (
+                  <div className="text-[10pt] font-semibold">{resolvedContact.name}</div>
+                ) : null}
+                {options.headerShowAddress ? (
+                  <div className="opacity-90">
+                    {[resolvedContact.address, resolvedContact.place].filter(Boolean).join(" · ")}
+                  </div>
+                ) : null}
+              </div>
+              {rightBits.length ? (
+                <div
+                  className="min-w-0 max-w-[48%] shrink-0 text-right opacity-95"
+                  style={{ overflowWrap: "anywhere" }}
+                >
+                  {rightBits.map((value) => (
+                    <div key={value}>{value}</div>
+                  ))}
                 </div>
               ) : null}
             </div>
-            {rightBits.length ? (
-              <div
-                className="min-w-0 max-w-[48%] shrink-0 text-right opacity-95"
-                style={{ overflowWrap: "anywhere" }}
-              >
-                {rightBits.map((value) => (
-                  <div key={value}>{value}</div>
-                ))}
-              </div>
-            ) : null}
-          </div>
-        </>
+          </>
+        )
       ) : null}
 
       {options.footerMode === "compact" ? (
