@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { FRESH_TEMPLATE_IDS } from "../../src/components/cover/fresh-templates";
+import { FRESH_TEMPLATE_IDS } from "../../src/components/cover/fresh-template-registry";
 import {
   FRESH_LETTER_SPECS,
   LETTER_SHEET_MM,
