@@ -3,6 +3,7 @@ import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackgro
 import { cvPalette } from "@/components/cv/palette";
 import { freshLetterSpec, type FreshLetterColorRole } from "./fresh-letter-system";
 import type { LetterTemplateId } from "./types";
+import "./warm-letter-polish.css";
 
 function pick(colors: Record<string, string>, ...keys: string[]): string {
   for (const key of keys) {
