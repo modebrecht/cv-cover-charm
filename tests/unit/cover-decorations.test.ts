@@ -3,6 +3,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { CoverBackground } from "../../src/components/cover/CoverBackground";
 import { DossierSheetBackground } from "../../src/components/dossier/DossierSheetBackground";
+import { isFreshTemplate } from "../../src/components/cover/fresh-templates";
 import { templateDecorations } from "../../src/components/cover/template-decorations";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 import { cvFrameFor } from "../../src/components/cv/archetype";
@@ -45,7 +46,8 @@ describe("cover decoration single source", () => {
     };
 
     for (const { id } of TEMPLATES) {
-      expect(backgroundChildCount(id)).toBe(structuralChildren[id] ?? 0);
+      const expectedChildren = isFreshTemplate(id) ? 3 : (structuralChildren[id] ?? 0);
+      expect(backgroundChildCount(id)).toBe(expectedChildren);
     }
   });
 
