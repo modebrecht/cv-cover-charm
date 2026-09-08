@@ -5,7 +5,7 @@ import {
   type DossierChromeOptions,
 } from "@/lib/dossier-chrome";
 import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
-import type { CvData } from "./types";
+import type { CvData, CvDesign } from "./types";
 
 export type { CvLayoutWarning } from "./CvCanvasBase";
 
@@ -14,6 +14,18 @@ type Props = Omit<BaseProps, "chromeOptions" | "chromeContact"> & {
   chromeOptions?: DossierChromeOptions;
   chromeContact?: DossierChromeContact;
 };
+
+/**
+ * Section rules are one dossier-wide visual contract: when a rule is visible,
+ * it fills the remaining heading row all the way to the right. Older saved CVs
+ * may still contain the retired `short` value; render those as `full` instead
+ * of leaking the historic 15/18 mm dash back into preview or PDF export.
+ */
+export function cvDesignWithFullSectionRules(design: CvDesign): CvDesign {
+  if (design.headingRule === "none") return design;
+  if (design.headingRule === "full") return design;
+  return { ...design, headingRule: "full" };
+}
 
 function contactFromCv(data: CvData): DossierChromeContact {
   const person = data.person;
@@ -50,11 +62,13 @@ export function CvCanvas({
 }: Props) {
   const localContact = useMemo(() => contactFromCv(props.data), [props.data]);
   const data = useMemo(() => cvBodyData(props.data, chromeOptions), [props.data, chromeOptions]);
+  const design = useMemo(() => cvDesignWithFullSectionRules(props.design), [props.design]);
 
   return (
     <BaseCvCanvas
       {...props}
       data={data}
+      design={design}
       chromeOptions={chromeOptions}
       chromeContact={chromeContact ?? localContact}
     />
