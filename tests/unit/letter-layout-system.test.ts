@@ -125,29 +125,26 @@ describe("central motivation-letter layout system", () => {
     expect(attachments.content.bottom).toBe(attachments.footer.height + 7);
   });
 
-  test(
-    "multi-page context keeps contact semantics and reserves attachments for the final page",
-    () => {
-      const design = designFor("modern", "contact", "attachments");
-      const firstOfTwo = letterPageGeometry(DEMO_LETTER, design, {
-        pageIndex: 0,
-        finalPage: false,
-      });
-      const finalContinuation = letterPageGeometry(DEMO_LETTER, design, {
-        pageIndex: 1,
-        finalPage: true,
-      });
+  test("multi-page context keeps contact semantics on continuation pages", () => {
+    const design = designFor("modern", "contact", "attachments");
+    const firstOfTwo = letterPageGeometry(DEMO_LETTER, design, {
+      pageIndex: 0,
+      finalPage: false,
+    });
+    const finalContinuation = letterPageGeometry(DEMO_LETTER, design, {
+      pageIndex: 1,
+      finalPage: true,
+    });
 
-      expect(firstOfTwo.firstPage).toBe(true);
-      expect(firstOfTwo.effectiveHeaderMode).toBe("contact");
-      expect(firstOfTwo.effectiveFooterMode).toBe("compact");
-      expect(firstOfTwo.footer.showAttachments).toBe(false);
+    expect(firstOfTwo.firstPage).toBe(true);
+    expect(firstOfTwo.effectiveHeaderMode).toBe("contact");
+    expect(firstOfTwo.effectiveFooterMode).toBe("compact");
+    expect(firstOfTwo.footer.showAttachments).toBe(false);
 
-      expect(finalContinuation.firstPage).toBe(false);
-      expect(finalContinuation.effectiveHeaderMode).toBe("contact");
-      expect(finalContinuation.effectiveFooterMode).toBe("attachments");
-      expect(finalContinuation.footer.showAttachments).toBe(true);
-      expect(finalContinuation.content.top).toBeLessThan(firstOfTwo.content.top);
-    },
-  );
+    expect(finalContinuation.firstPage).toBe(false);
+    expect(finalContinuation.effectiveHeaderMode).toBe("contact");
+    expect(finalContinuation.effectiveFooterMode).toBe("attachments");
+    expect(finalContinuation.footer.showAttachments).toBe(true);
+    expect(finalContinuation.content.top).toBeLessThan(firstOfTwo.content.top);
+  });
 });
