@@ -26,7 +26,7 @@ test.describe("M9 demo CV pagination", () => {
     // Styling panels also contain reset buttons called "Vorlage". Target the actual
     // expandable template section by its disclosure contract instead of the label alone.
     const templateSection = page
-      .locator('button[aria-controls][aria-expanded]')
+      .locator("button[aria-controls][aria-expanded]")
       .filter({ hasText: /^Vorlage(?:\s|$)/ })
       .first();
     await expect(templateSection).toBeVisible();

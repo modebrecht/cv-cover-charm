@@ -199,9 +199,10 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
         ruleGeometry.rightGap,
         `${template.id} section rule should reach the row edge`,
       ).toBeLessThanOrEqual(2);
-      expect(ruleGeometry.width, `${template.id} section rule should remain visible`).toBeGreaterThan(
-        4,
-      );
+      expect(
+        ruleGeometry.width,
+        `${template.id} section rule should remain visible`,
+      ).toBeGreaterThan(4);
 
       const shot = await sheet.screenshot({ animations: "disabled" });
       expect(shot.length, `${template.id} should render substantial output`).toBeGreaterThan(8_000);
