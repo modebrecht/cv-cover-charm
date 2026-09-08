@@ -3,34 +3,47 @@
  * Keep these as cover-only overrides. The established CV geometry remains
  * untouched; this file exists to resolve defects found in the 21-38 PDF
  * contact-sheet review without weakening each template's visual identity.
+ *
+ * Structural Fresh fields use semantic data attributes here instead of DOM
+ * child-position guesses. `:root` deliberately gives the acceptance override
+ * enough specificity to win over older template rules that still use
+ * `:first-child` / `:nth-child` selectors.
  */
 
 /* FRAME: the architectural crossbar must separate content, never strike
  * through the contact/attachments footer. */
-html[data-dossier-template="frame"]
+html:root[data-dossier-template="frame"]
   [data-dossier-document="cover"]
-  > div:first-child
-  > div:first-child
-  > div:nth-child(2) {
+  [data-fresh-cover-background="frame"]
+  [data-fresh-cover-field="primary"]
+  > [data-fresh-cover-field="accent"] {
   top: 240mm !important;
   height: 2.2mm !important;
   opacity: 0.88 !important;
 }
 
-/* FOREST FLOW: the 48 mm colour rail is a motif, not a clipping mask for the
- * dossier content. Keep the eyebrow/date inside the rail and move the main
- * identity/contact column fully onto the paper field. */
+/* FOREST FLOW: the vertical colour rail is a motif, not a clipping mask for
+ * metadata. Give the cover rail enough width for BEWERBUNG + place/date while
+ * keeping the identity/contact column fully on the paper field. CV geometry is
+ * intentionally not touched. */
+html:root[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-background="forestFlow"]
+  > [data-fresh-cover-field="primary"] {
+  width: 56mm !important;
+}
+
 html[data-dossier-template="forestFlow"]
   [data-dossier-document="cover"]
   [data-block-id="eyebrow"] {
-  width: 36mm !important;
+  width: 44mm !important;
   transform: translate(-8mm, 0);
 }
 
 html[data-dossier-template="forestFlow"]
   [data-dossier-document="cover"]
   [data-block-id="ortDatum"] {
-  width: 36mm !important;
+  width: 44mm !important;
   transform: translate(-96mm, 15mm);
 }
 
