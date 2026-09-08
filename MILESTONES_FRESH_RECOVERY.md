@@ -94,24 +94,26 @@ Goal: A template is not considered finished merely because the application build
 
 - [x] Generate complete dossier PDFs for all 38 templates
 - [x] Store deterministic gallery output with numbered filenames
-- [ ] Review title page of every PDF visually
-- [ ] Review motivation letter of every PDF visually
-- [ ] Review CV page 1 of every PDF visually
-- [ ] Review CV continuation pages where present
-- [ ] Check for overlapping text
-- [ ] Check for clipped text
-- [ ] Check for accidental placeholder/default copy
-- [ ] Check for decorative objects inside reading areas
-- [ ] Check for unexpected white backgrounds
-- [ ] Check for missing template motifs
-- [ ] Check for inconsistent colors
-- [ ] Check for inconsistent fonts
-- [ ] Check for broken header/footer rendering
-- [ ] Check A4 page boundaries
-- [ ] Check PDF export against editor preview
-- [ ] Reject the release if any template has a visible layout defect
-- [ ] Record visual acceptance for templates 1-20
-- [ ] Record visual acceptance for templates 21-38
+- [x] Review title page of every PDF visually
+- [x] Review motivation letter of every PDF visually
+- [x] Review CV page 1 of every PDF visually
+- [x] Review CV continuation pages where present
+- [x] Check for overlapping text
+- [x] Check for clipped text
+- [x] Check for accidental placeholder/default copy
+- [x] Check for decorative objects inside reading areas
+- [x] Check for unexpected white backgrounds
+- [x] Check for missing template motifs
+- [x] Check for inconsistent colors
+- [x] Check for inconsistent fonts
+- [x] Check for broken header/footer rendering
+- [x] Check A4 page boundaries
+- [x] Check PDF export against editor preview
+- [x] Reject the release if any template has a visible layout defect
+- [x] Record visual acceptance for templates 1-20
+- [x] Record visual acceptance for templates 21-38
+
+Acceptance record: the 39-PDF gallery from workflow run `34247101050` on implementation SHA `3fc262021bc1d49aba6173c0be1fb20e4fff073d` was reviewed across cover, motivation-letter and CV pages, including the Blockig continuation page. The gate initially rejected visible Studio cover clipping, invasive Blockig/Kolumne/Studio letter geometry and duplicated Citrus/Studio 2/Studio 3 CV raster text. Those defects were fixed, the complete gallery regenerated, and the corrected output was visually re-reviewed before M13 was closed.
 
 ## M14 - Regression Hardening
 
