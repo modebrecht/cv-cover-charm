@@ -20,7 +20,7 @@ export type FreshDossierIdentity = {
 };
 
 function identityFor(id: FreshTemplateId): FreshDossierIdentity {
-  const definition = TEMPLATES.find((template) => template.id === id);
+  const definition = TEMPLATES.find((template) => (template.id as string) === id);
   const letter = freshLetterSpec(id);
 
   if (!definition || !letter) {
