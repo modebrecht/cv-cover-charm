@@ -23,7 +23,13 @@ test.describe("M9 demo CV pagination", () => {
     const measureMain = cv.locator("[data-cv-measure-page] [data-cv-main]");
     await expect(pages.first()).toContainText("Herr Thomas Weber");
 
-    const templateSection = page.getByRole("button", { name: /^Vorlage(?:\s|$)/ }).first();
+    // Styling panels also contain reset buttons called "Vorlage". Target the actual
+    // expandable template section by its disclosure contract instead of the label alone.
+    const templateSection = page
+      .locator('button[aria-controls][aria-expanded]')
+      .filter({ hasText: /^Vorlage(?:\s|$)/ })
+      .first();
+    await expect(templateSection).toBeVisible();
     if ((await templateSection.getAttribute("aria-expanded")) !== "true") {
       await templateSection.click();
     }
