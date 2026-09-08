@@ -1,6 +1,7 @@
-import { FRESH_TEMPLATE_IDS } from "@/components/cover/fresh-templates";
 import type { TemplateId } from "@/components/cover/types";
 import { cvFrameFor } from "@/components/cv/archetype";
+import { freshLetterSpec } from "./fresh-letter-system";
+import "./fresh-letter-integrity.css";
 import {
   DEFAULT_LETTER_BEILAGEN,
   type LetterData,
@@ -67,28 +68,11 @@ export type LetterPageGeometry = {
   };
 };
 
-const FRESH_TEMPLATE_SET = new Set<string>(FRESH_TEMPLATE_IDS);
-
 /**
- * Fresh designs have no legacy CV frame registry. Their structural signature is
- * classified here once; no dimensions live in these sets. Every member still
- * renders through the same archetype geometry below.
- */
-const FRESH_SIDEBAR_TEMPLATES = new Set<string>([
-  "edge",
-  "forestFlow",
-  "studio2",
-  "studio3",
-  "ledger",
-  "gallery",
-]);
-const FRESH_BAND_TEMPLATES = new Set<string>(["horizon", "sunrise", "ribbon", "cove"]);
-const FRESH_FRAME_TEMPLATES = new Set<string>(["frame", "monoLuxe"]);
-
-/**
- * These are the only letter-specific content dimensions. Templates do not own
- * letter margins; they are reduced to a structural archetype first and then use
- * the same compact measurements as every other template in that archetype.
+ * Established templates remain archetype-based. Fresh templates own explicit
+ * left/right insets in fresh-letter-system.ts because their letter signatures
+ * are intentionally independent from CV geometry and from legacy `klassisch`
+ * fallback behaviour.
  */
 const CONTENT_INSETS: Record<LetterArchetype, { left: number; right: number }> = {
   quiet: { left: 24, right: 23 },
@@ -111,18 +95,13 @@ const CONTINUATION_TOP: Record<LetterHeaderMode, number> = {
 };
 
 /**
- * CV geometry is used only as a structural visual reference. The letter never
- * inherits CV measurements; base templates map from their CV frame to one of
- * the compact letter archetypes, while Fresh templates use the registry above.
+ * CV geometry is used only as a structural visual reference for established
+ * templates. Fresh templates are resolved first from their dedicated letter
+ * registry, so they can never silently inherit legacy CV dimensions.
  */
 export function letterArchetypeFor(template: LetterTemplateId): LetterArchetype {
-  const freshTemplate = template !== "brief" && FRESH_TEMPLATE_SET.has(template);
-  if (freshTemplate) {
-    if (FRESH_SIDEBAR_TEMPLATES.has(template)) return "sidebar";
-    if (FRESH_BAND_TEMPLATES.has(template)) return "band";
-    if (FRESH_FRAME_TEMPLATES.has(template)) return "frame";
-    return "fresh";
-  }
+  const fresh = freshLetterSpec(template);
+  if (fresh) return fresh.archetype;
 
   if (template === "brief") return "quiet";
 
@@ -179,14 +158,15 @@ export function letterPageGeometry(
   const pageIndex = Math.max(0, context.pageIndex ?? 0);
   const firstPage = pageIndex === 0;
   const finalPage = context.finalPage ?? true;
-  const archetype = letterArchetypeFor(design.template);
-  const freshTemplate = design.template !== "brief" && FRESH_TEMPLATE_SET.has(design.template);
+  const fresh = freshLetterSpec(design.template);
+  const archetype = fresh?.archetype ?? letterArchetypeFor(design.template);
+  const freshTemplate = fresh !== null;
   const requestedHeaderMode = design.headerMode ?? "compact";
   const requestedFooterMode = design.footerMode ?? "compact";
   const headerMode = effectiveHeaderMode(design);
   const footerMode = effectiveFooterMode(design, finalPage);
   const footerHeight = letterFooterHeightMm(data, footerMode);
-  const insets = CONTENT_INSETS[archetype];
+  const insets = fresh ? { left: fresh.left, right: fresh.right } : CONTENT_INSETS[archetype];
   const top = firstPage ? FIRST_PAGE_TOP[headerMode] : CONTINUATION_TOP[headerMode];
   const bottom = footerMode === "none" ? 10 : footerMode === "attachments" ? footerHeight + 7 : 17;
   const width = LETTER_PAGE_MM.width - insets.left - insets.right;
