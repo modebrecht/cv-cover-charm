@@ -23,7 +23,12 @@ test.describe("M9 demo CV pagination", () => {
     const measureMain = cv.locator("[data-cv-measure-page] [data-cv-main]");
     await expect(pages.first()).toContainText("Herr Thomas Weber");
 
-    const templateSection = page.getByRole("button", { name: /^Vorlage(?:\s|$)/ }).first();
+    // Target the collapsible editor section itself. The CV title controls also contain a
+    // "Vorlage" color-reset button, which is intentionally not a section toggle.
+    const templateSection = page
+      .locator("[data-editor-section-toggle]")
+      .filter({ hasText: /^Vorlage(?:\s|$)/ })
+      .first();
     if ((await templateSection.getAttribute("aria-expanded")) !== "true") {
       await templateSection.click();
     }
