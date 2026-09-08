@@ -45,6 +45,13 @@ import {
 } from "./photo-place";
 import {
   CV_BLOCK_LABELS,
+  CV_DOC_TITLE_DEFAULTS,
+  CV_DOC_TITLE_FONT_SIZE_MAX,
+  CV_DOC_TITLE_FONT_SIZE_MIN,
+  CV_DOC_TITLE_MARGIN_BOTTOM_MAX,
+  CV_SECTION_TITLE_FONT_SIZE_MAX,
+  CV_SECTION_TITLE_FONT_SIZE_MIN,
+  CV_SECTION_TITLE_MARGIN_BOTTOM_MAX,
   CV_TYPE_DEFAULTS,
   DEFAULT_CV_PLACEMENTS,
   customSectionForKey,
@@ -243,6 +250,28 @@ export function CvCanvas({
    */
   const theme = useMemo(() => dossierThemeFor(design.template), [design.template]);
   const headingStyle = theme.headingStyle;
+  const sectionTitleFontSizePx =
+    typeof design.sectionTitleFontSizePx === "number" &&
+    Number.isFinite(design.sectionTitleFontSizePx)
+      ? Math.max(
+          CV_SECTION_TITLE_FONT_SIZE_MIN,
+          Math.min(CV_SECTION_TITLE_FONT_SIZE_MAX, design.sectionTitleFontSizePx),
+        )
+      : null;
+  const sectionTitleMarginBottomPx =
+    typeof design.sectionTitleMarginBottomPx === "number" &&
+    Number.isFinite(design.sectionTitleMarginBottomPx)
+      ? Math.max(0, Math.min(CV_SECTION_TITLE_MARGIN_BOTTOM_MAX, design.sectionTitleMarginBottomPx))
+      : null;
+  const sectionTitleColor = design.sectionTitleColor?.trim();
+  const sectionTitleWeight =
+    design.sectionTitleBold === undefined
+      ? headingStyle.weight
+      : design.sectionTitleBold
+        ? 700
+        : 400;
+  const sectionTitleFontStyle = design.sectionTitleItalic ? "italic" : "normal";
+  const sectionTitleDecoration = design.sectionTitleUnderline ? "underline" : "none";
 
   /** Rahmenform des Fotos – dieselbe Einstellung wie im Titelblatt. */
   const photoStyle = useSyncExternalStore(subscribeCvPhotoStyle, getCvPhotoStyle, () =>
@@ -384,7 +413,12 @@ export function CvCanvas({
         data-cv-section={id}
         style={{
           marginTop: layout === "modern" ? "4.8mm" : "4mm",
-          marginBottom: layout === "modern" ? "2mm" : "1.8mm",
+          marginBottom:
+            sectionTitleMarginBottomPx === null
+              ? layout === "modern"
+                ? "2mm"
+                : "1.8mm"
+              : `${sectionTitleMarginBottomPx}px`,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "3mm" }}>
@@ -393,12 +427,17 @@ export function CvCanvas({
             style={{
               // Versalien laufen breiter als Gemischtschrift; darum je nach
               // Familie ein anderer Grundwert.
-              fontSize: ptHead(headingStyle.uppercase ? 10.2 : 11.4),
-              fontWeight: headingStyle.weight,
+              fontSize:
+                sectionTitleFontSizePx === null
+                  ? ptHead(headingStyle.uppercase ? 10.2 : 11.4)
+                  : `${sectionTitleFontSizePx}px`,
+              fontWeight: sectionTitleWeight,
+              fontStyle: sectionTitleFontStyle,
+              textDecoration: sectionTitleDecoration,
               letterSpacing: `${headingStyle.trackingEm}em`,
               textTransform: headingStyle.uppercase ? "uppercase" : "none",
               fontFamily: theme.typography.fontStack,
-              color: pal.accent,
+              color: sectionTitleColor || pal.accent,
               lineHeight: headingStyle.lineHeight,
             }}
           >
@@ -413,7 +452,7 @@ export function CvCanvas({
                 height: layout === "modern" ? "0.65mm" : "0.55mm",
                 flexShrink: headingRule === "full" ? 1 : 0,
                 borderRadius: "999px",
-                background: pal.accent,
+                background: sectionTitleColor || pal.accent,
                 opacity: layout === "modern" ? 0.9 : 0.72,
               }}
             />
@@ -439,18 +478,36 @@ export function CvCanvas({
   const docTitle = (color: string) => {
     const text = data.titel?.trim();
     if (!text) return null;
+    const fontSizePx = Math.max(
+      CV_DOC_TITLE_FONT_SIZE_MIN,
+      Math.min(
+        CV_DOC_TITLE_FONT_SIZE_MAX,
+        design.docTitleFontSizePx ?? CV_DOC_TITLE_DEFAULTS.fontSizePx,
+      ),
+    );
+    const marginBottomPx = Math.max(
+      0,
+      Math.min(
+        CV_DOC_TITLE_MARGIN_BOTTOM_MAX,
+        design.docTitleMarginBottomPx ?? CV_DOC_TITLE_DEFAULTS.marginBottomPx,
+      ),
+    );
+    const customColor = design.docTitleColor?.trim();
     return (
       <div
         data-cv-doc-title
         style={{
-          fontSize: `${(8.2 * TYPE_BASE * titleScale).toFixed(2)}pt`,
-          fontWeight: headingStyle.weight,
+          fontSize: `${fontSizePx}px`,
+          fontWeight: (design.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold) ? 700 : 400,
+          fontStyle: (design.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic) ? "italic" : "normal",
+          textDecoration:
+            (design.docTitleUnderline ?? CV_DOC_TITLE_DEFAULTS.underline) ? "underline" : "none",
           letterSpacing: "0.16em",
           textTransform: "uppercase",
           fontFamily: theme.typography.fontStack,
-          color,
-          opacity: 0.85,
-          marginBottom: "1.8mm",
+          color: customColor || color,
+          opacity: customColor ? 1 : 0.85,
+          marginBottom: `${marginBottomPx}px`,
         }}
       >
         {text}
@@ -537,48 +594,50 @@ export function CvCanvas({
     if (!list.length || data.hidden.referenzen) return [];
     return [
       heading("referenzen"),
-      ...list.map((r): Row => ({
-        id: r.id,
-        node: (
-          <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
-            {r.name && (
-              <div
-                data-cv-entry-title
-                style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
-              >
-                {r.name}
-              </div>
-            )}
-            {r.funktion && (
-              <div
-                data-cv-muted
-                style={{
-                  fontSize: pt(9.7),
-                  color: pal.muted,
-                  marginTop: "0.3mm",
-                  lineHeight: 1.3,
-                }}
-              >
-                {r.funktion}
-              </div>
-            )}
-            {r.kontakt && (
-              <div
-                data-cv-body
-                style={{
-                  fontSize: pt(9.7),
-                  color: pal.ink,
-                  marginTop: "0.35mm",
-                  lineHeight: 1.3,
-                  overflowWrap: "anywhere",
-                }}
-              >
-                {r.kontakt}
-              </div>
-            )}
-          </div>
-        ),
-      })),
+      ...list.map(
+        (r): Row => ({
+          id: r.id,
+          node: (
+            <div data-cv-entry style={{ marginBottom: "2.1mm" }}>
+              {r.name && (
+                <div
+                  data-cv-entry-title
+                  style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
+                >
+                  {r.name}
+                </div>
+              )}
+              {r.funktion && (
+                <div
+                  data-cv-muted
+                  style={{
+                    fontSize: pt(9.7),
+                    color: pal.muted,
+                    marginTop: "0.3mm",
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {r.funktion}
+                </div>
+              )}
+              {r.kontakt && (
+                <div
+                  data-cv-body
+                  style={{
+                    fontSize: pt(9.7),
+                    color: pal.ink,
+                    marginTop: "0.35mm",
+                    lineHeight: 1.3,
+                    overflowWrap: "anywhere",
+                  }}
+                >
+                  {r.kontakt}
+                </div>
+              )}
+            </div>
+          ),
+        }),
+      ),
     ];
   };
 
@@ -587,33 +646,35 @@ export function CvCanvas({
     if (!list.length || data.hidden.sprachen) return [];
     return [
       heading("sprachen"),
-      ...list.map((s): Row => ({
-        id: `main-${s.id}`,
-        node: (
-          <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
-            <div
-              data-cv-rail
-              data-cv-entry-title
-              style={{
-                width: layout === "modern" ? "23mm" : "27mm",
-                flexShrink: 0,
-                fontSize: pt(10.2),
-                fontWeight: 650,
-                color: pal.ink,
-                lineHeight: 1.3,
-              }}
-            >
-              {s.name}
+      ...list.map(
+        (s): Row => ({
+          id: `main-${s.id}`,
+          node: (
+            <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
+              <div
+                data-cv-rail
+                data-cv-entry-title
+                style={{
+                  width: layout === "modern" ? "23mm" : "27mm",
+                  flexShrink: 0,
+                  fontSize: pt(10.2),
+                  fontWeight: 650,
+                  color: pal.ink,
+                  lineHeight: 1.3,
+                }}
+              >
+                {s.name}
+              </div>
+              <div
+                data-cv-muted
+                style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
+              >
+                {s.niveau}
+              </div>
             </div>
-            <div
-              data-cv-muted
-              style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
-            >
-              {s.niveau}
-            </div>
-          </div>
-        ),
-      })),
+          ),
+        }),
+      ),
     ];
   };
 
@@ -623,26 +684,28 @@ export function CvCanvas({
     if (!list.length) return [];
     return [
       heading(key),
-      ...list.map((v, i): Row => ({
-        id: `main-${key}-${i}`,
-        node: (
-          <div
-            data-cv-entry
-            data-cv-body
-            style={{
-              display: "flex",
-              gap: "2.6mm",
-              marginBottom: "1.35mm",
-              fontSize: pt(9.9),
-              lineHeight: 1.35,
-              color: pal.ink,
-            }}
-          >
-            <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
-            <span>{v}</span>
-          </div>
-        ),
-      })),
+      ...list.map(
+        (v, i): Row => ({
+          id: `main-${key}-${i}`,
+          node: (
+            <div
+              data-cv-entry
+              data-cv-body
+              style={{
+                display: "flex",
+                gap: "2.6mm",
+                marginBottom: "1.35mm",
+                fontSize: pt(9.9),
+                lineHeight: 1.35,
+                color: pal.ink,
+              }}
+            >
+              <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
+              <span>{v}</span>
+            </div>
+          ),
+        }),
+      ),
     ];
   };
 
@@ -1489,7 +1552,6 @@ export function CvCanvas({
   const sideHeading = (text: string, first = false) => (
     <div
       data-cv-section="sidebar"
-      data-cv-section-title
       style={{
         marginTop:
           first && !autoPhoto
@@ -1499,29 +1561,64 @@ export function CvCanvas({
               : sidePlan.compact
                 ? "4.1mm"
                 : "5.2mm",
-        marginBottom: sidePlan.veryCompact ? "1.2mm" : sidePlan.compact ? "1.5mm" : "1.9mm",
-        fontSize: ptHead(
-          headingStyle.uppercase
+        marginBottom:
+          sectionTitleMarginBottomPx === null
             ? sidePlan.veryCompact
-              ? 8.4
+              ? "1.2mm"
               : sidePlan.compact
-                ? 8.8
-                : 9.2
-            : sidePlan.veryCompact
-              ? 9.4
-              : sidePlan.compact
-                ? 9.8
-                : 10.2,
-        ),
-        fontWeight: headingStyle.weight,
-        letterSpacing: `${headingStyle.trackingEm}em`,
-        textTransform: headingStyle.uppercase ? "uppercase" : "none",
-        fontFamily: theme.typography.fontStack,
-        color: side.accent,
-        lineHeight: headingStyle.lineHeight,
+                ? "1.5mm"
+                : "1.9mm"
+            : `${sectionTitleMarginBottomPx}px`,
       }}
     >
-      {text}
+      <div style={{ display: "flex", alignItems: "center", gap: "2mm", minWidth: 0 }}>
+        <div
+          data-cv-section-title
+          style={{
+            fontSize:
+              sectionTitleFontSizePx === null
+                ? ptHead(
+                    headingStyle.uppercase
+                      ? sidePlan.veryCompact
+                        ? 8.4
+                        : sidePlan.compact
+                          ? 8.8
+                          : 9.2
+                      : sidePlan.veryCompact
+                        ? 9.4
+                        : sidePlan.compact
+                          ? 9.8
+                          : 10.2,
+                  )
+                : `${sectionTitleFontSizePx}px`,
+            fontWeight: sectionTitleWeight,
+            fontStyle: sectionTitleFontStyle,
+            textDecoration: sectionTitleDecoration,
+            letterSpacing: `${headingStyle.trackingEm}em`,
+            textTransform: headingStyle.uppercase ? "uppercase" : "none",
+            fontFamily: theme.typography.fontStack,
+            color: sectionTitleColor || side.accent,
+            lineHeight: headingStyle.lineHeight,
+            flexShrink: 0,
+          }}
+        >
+          {text}
+        </div>
+        {headingRule !== "none" && (
+          <div
+            data-cv-accent="section"
+            style={{
+              width: "auto",
+              flex: "1 1 auto",
+              minWidth: 0,
+              height: "0.5mm",
+              borderRadius: "999px",
+              background: sectionTitleColor || side.accent,
+              opacity: 0.78,
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 
