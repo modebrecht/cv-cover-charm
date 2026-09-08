@@ -94,15 +94,19 @@ test.describe("M9 demo CV pagination", () => {
             };
           }),
         );
-      expect(ruleGeometry.length, `${templateId}: demo CV should render section rules`).toBeGreaterThan(
-        0,
-      );
+      expect(
+        ruleGeometry.length,
+        `${templateId}: demo CV should render section rules`,
+      ).toBeGreaterThan(0);
       for (const geometry of ruleGeometry) {
         expect(
           geometry.rightGap,
           `${templateId}: section rule must reach the right edge of its heading row`,
         ).toBeLessThanOrEqual(2);
-        expect(geometry.width, `${templateId}: section rule must have visible width`).toBeGreaterThan(4);
+        expect(
+          geometry.width,
+          `${templateId}: section rule must have visible width`,
+        ).toBeGreaterThan(4);
       }
 
       const pageCount = await pages.count();
