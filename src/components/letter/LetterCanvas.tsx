@@ -116,9 +116,15 @@ export function LetterCanvas({
     geometry.effectiveHeaderMode === "compact" &&
     geometry.pageIndex === 0;
   const warmPrimary =
-    design.colors.primary ?? design.colors.accent ?? design.colors.secondary ?? sourcePalette.accent;
+    design.colors.primary ??
+    design.colors.accent ??
+    design.colors.secondary ??
+    sourcePalette.accent;
   const warmSecondary =
-    design.colors.secondary ?? design.colors.accent ?? design.colors.primary ?? sourcePalette.accent;
+    design.colors.secondary ??
+    design.colors.accent ??
+    design.colors.primary ??
+    sourcePalette.accent;
   const warmHeaderInk = onColorRoles(warmPrimary, warmSecondary).ink;
   const recipientTopMargin = senderIntegrated
     ? "mt-[1mm]"
@@ -220,7 +226,11 @@ export function LetterCanvas({
             <div
               data-letter-section="sender"
               data-letter-warm-sender={warmCompactHeader ? "" : undefined}
-              className={warmCompactHeader ? "text-[9.3pt] leading-[1.42]" : "text-[9.5pt] leading-[1.45]"}
+              className={
+                warmCompactHeader
+                  ? "text-[9.3pt] leading-[1.42]"
+                  : "text-[9.5pt] leading-[1.45]"
+              }
               style={{
                 textAlign: senderAlign,
                 ...(warmCompactHeader
