@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import "../../src/components/cover/fresh-templates";
 import { FRESH_TEMPLATE_IDS } from "../../src/components/cover/fresh-templates";
 import { TEMPLATES } from "../../src/components/cover/types";
+import { freshLetterSpec } from "../../src/components/letter/fresh-letter-system";
 import {
   LETTER_PAGE_MM,
   letterArchetypeFor,
@@ -22,6 +23,7 @@ const footerModes: LetterFooterMode[] = ["compact", "attachments", "none"];
 const LETTER_TEMPLATE_IDS: LetterTemplateId[] = TEMPLATES.map(
   (template) => template.id as LetterTemplateId,
 );
+const FRESH_IDS = new Set<string>(FRESH_TEMPLATE_IDS);
 
 function designFor(
   template: LetterTemplateId,
@@ -67,10 +69,10 @@ describe("central motivation-letter layout system", () => {
     }
   });
 
-  test("letter geometry is archetype-based instead of copying per-template CV dimensions", () => {
+  test("established templates stay archetype-based without copying per-template CV dimensions", () => {
     const groups = new Map<LetterArchetype, Set<string>>();
 
-    for (const template of LETTER_TEMPLATE_IDS) {
+    for (const template of LETTER_TEMPLATE_IDS.filter((id) => !FRESH_IDS.has(id))) {
       const archetype = letterArchetypeFor(template);
       const geometry = letterPageGeometry(DEMO_LETTER, designFor(template, "compact", "compact"));
       const signature = `${geometry.content.left}/${geometry.content.right}/${geometry.content.top}/${geometry.content.bottom}`;
@@ -79,8 +81,26 @@ describe("central motivation-letter layout system", () => {
       groups.set(archetype, signatures);
     }
 
-    expect(groups.size).toBe(5);
     for (const signatures of groups.values()) expect(signatures.size).toBe(1);
+  });
+
+  test("Fresh templates use their explicit letter insets instead of a legacy CV fallback", () => {
+    const signatures = new Set<string>();
+
+    for (const id of FRESH_TEMPLATE_IDS) {
+      const template = id as LetterTemplateId;
+      const spec = freshLetterSpec(id);
+      const geometry = letterPageGeometry(DEMO_LETTER, designFor(template, "compact", "compact"));
+
+      expect(spec).not.toBeNull();
+      expect(geometry.freshTemplate).toBe(true);
+      expect(geometry.content.left).toBe(spec?.left);
+      expect(geometry.content.right).toBe(spec?.right);
+      signatures.add(`${geometry.content.left}/${geometry.content.right}`);
+    }
+
+    // Fresh letters are not flattened into one `klassisch` margin pair.
+    expect(signatures.size).toBeGreaterThan(5);
   });
 
   test("band, sidebar, frame, quiet and fresh references are all represented", () => {

@@ -1,0 +1,262 @@
+/* M11 — Fresh motivation-letter integrity.
+ *
+ * Fresh covers are expressive; letters are deliberately restrained. These
+ * overrides keep the existing colour identity but confine every decorative
+ * primitive to an outer page edge or to the shared header/footer safety zone.
+ * The maximal reading box is therefore decoration-free even with Header/Footer
+ * set to "none".
+ */
+
+/* Edge */
+[data-dossier-sheet-background="edge"] > div:nth-child(3) {
+  top: 16.2mm !important;
+  height: 1.2mm !important;
+}
+
+/* Glow */
+[data-dossier-sheet-background="glow"] > div:nth-child(1) {
+  left: 190mm !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 20mm !important;
+  height: 20mm !important;
+  border-radius: 999px !important;
+}
+[data-dossier-sheet-background="glow"] > div:nth-child(2) {
+  left: 0 !important;
+  bottom: 5mm !important;
+  width: 22mm !important;
+  height: 22mm !important;
+  border-radius: 999px !important;
+}
+[data-dossier-sheet-background="glow"] > div:nth-child(3) {
+  left: 25mm !important;
+  top: 16.2mm !important;
+  width: 24mm !important;
+  height: 1mm !important;
+}
+
+/* Frame */
+[data-dossier-sheet-background="frame"] > div:nth-child(1) {
+  left: 9mm !important;
+  top: 5mm !important;
+  width: 2mm !important;
+  height: 12mm !important;
+}
+[data-dossier-sheet-background="frame"] > div:nth-child(2) {
+  right: 9mm !important;
+  bottom: 6mm !important;
+  width: 17mm !important;
+  height: 2mm !important;
+}
+
+/* Mono Luxe */
+[data-dossier-sheet-background="monoLuxe"] > div:nth-child(1) {
+  top: 16.4mm !important;
+  height: 0.45mm !important;
+}
+[data-dossier-sheet-background="monoLuxe"] > div:nth-child(2) {
+  top: 13.2mm !important;
+}
+[data-dossier-sheet-background="monoLuxe"] > div:nth-child(3) {
+  bottom: 8mm !important;
+  height: 0.45mm !important;
+}
+
+/* Horizon */
+[data-dossier-sheet-background="horizon"] > div:nth-child(1) {
+  height: 10mm !important;
+}
+[data-dossier-sheet-background="horizon"] > div:nth-child(2) {
+  top: 16.2mm !important;
+  height: 1.2mm !important;
+}
+
+/* Sunrise */
+[data-dossier-sheet-background="sunrise"] > div:nth-child(1) {
+  height: 10mm !important;
+}
+[data-dossier-sheet-background="sunrise"] > div:nth-child(2) {
+  right: 10mm !important;
+  top: 3mm !important;
+  width: 12mm !important;
+  height: 12mm !important;
+}
+
+/* Forest Flow */
+[data-dossier-sheet-background="forestFlow"] > div:nth-child(2) {
+  left: 8mm !important;
+  top: 18mm !important;
+  width: 18mm !important;
+  height: 18mm !important;
+}
+[data-dossier-sheet-background="forestFlow"] > div:nth-child(3) {
+  left: 18mm !important;
+  top: 22mm !important;
+  width: 14mm !important;
+}
+
+/* Violet Pulse */
+[data-dossier-sheet-background="violetPulse"] > div:nth-child(1) {
+  left: 155mm !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 55mm !important;
+  height: 17.5mm !important;
+  border-radius: 5mm !important;
+  transform: none !important;
+}
+[data-dossier-sheet-background="violetPulse"] > div:nth-child(2) {
+  top: 16.2mm !important;
+  height: 1.2mm !important;
+}
+
+/* Studio 2 */
+[data-dossier-sheet-background="studio2"] > div:nth-child(2) {
+  top: 18mm !important;
+}
+[data-dossier-sheet-background="studio2"] > div:nth-child(3) {
+  width: 14mm !important;
+}
+
+/* Studio 3 */
+[data-dossier-sheet-background="studio3"] > div:nth-child(2) {
+  height: 14mm !important;
+}
+[data-dossier-sheet-background="studio3"] > div:nth-child(3) {
+  left: 20mm !important;
+  top: 16.2mm !important;
+  height: 1.2mm !important;
+}
+
+/* Warm 2 */
+[data-dossier-sheet-background="warm2"] > div:nth-child(1) {
+  left: 188mm !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 22mm !important;
+  height: 18mm !important;
+  border-radius: 999px !important;
+}
+[data-dossier-sheet-background="warm2"] > div:nth-child(2) {
+  right: 26mm !important;
+  top: 6mm !important;
+  width: 10mm !important;
+  height: 10mm !important;
+}
+[data-dossier-sheet-background="warm2"] > div:nth-child(3) {
+  top: 16.2mm !important;
+  height: 1.1mm !important;
+}
+
+/* Warm 3 */
+[data-dossier-sheet-background="warm3"] > div:nth-child(1) {
+  height: 8mm !important;
+}
+[data-dossier-sheet-background="warm3"] > div:nth-child(2) {
+  left: 190mm !important;
+  right: auto !important;
+  top: 8mm !important;
+  width: 20mm !important;
+  height: 32mm !important;
+  border-radius: 0 0 0 10mm !important;
+}
+[data-dossier-sheet-background="warm3"] > div:nth-child(3) {
+  top: 16.2mm !important;
+  height: 1.1mm !important;
+}
+
+/* Ledger */
+[data-dossier-sheet-background="ledger"] > div:nth-child(1) {
+  top: 0 !important;
+  bottom: 0 !important;
+}
+[data-dossier-sheet-background="ledger"] > div:nth-child(2) {
+  top: 0 !important;
+  bottom: 0 !important;
+}
+[data-dossier-sheet-background="ledger"] > div:nth-child(3) {
+  top: 16.4mm !important;
+  height: 0.45mm !important;
+}
+
+/* Prism */
+[data-dossier-sheet-background="prism"] > div:nth-child(1) {
+  height: 15mm !important;
+}
+[data-dossier-sheet-background="prism"] > div:nth-child(2) {
+  top: 15mm !important;
+  height: 2.5mm !important;
+}
+[data-dossier-sheet-background="prism"] > div:nth-child(3) {
+  top: 16.2mm !important;
+  height: 1.1mm !important;
+}
+
+/* Gallery — the portrait block remains entirely inside the left margin. */
+[data-dossier-sheet-background="gallery"] > div:nth-child(1) {
+  width: 15mm !important;
+}
+[data-dossier-sheet-background="gallery"] > div:nth-child(2) {
+  left: 5mm !important;
+  top: 18mm !important;
+  width: 23mm !important;
+  height: 34mm !important;
+}
+[data-dossier-sheet-background="gallery"] > div:nth-child(3) {
+  left: 20mm !important;
+  top: 58mm !important;
+}
+
+/* Orbit — rings live entirely in the right margin. */
+[data-dossier-sheet-background="orbit"] > div:nth-child(1) {
+  left: 190mm !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 20mm !important;
+  height: 20mm !important;
+  border-width: 2.2mm !important;
+}
+[data-dossier-sheet-background="orbit"] > div:nth-child(2) {
+  left: 189mm !important;
+  right: auto !important;
+  top: 24mm !important;
+  width: 14mm !important;
+  height: 14mm !important;
+  border-width: 1.2mm !important;
+}
+[data-dossier-sheet-background="orbit"] > div:nth-child(3) {
+  top: 16.2mm !important;
+  height: 1.1mm !important;
+}
+
+/* Ribbon */
+[data-dossier-sheet-background="ribbon"] > div:nth-child(1) {
+  right: 20mm !important;
+  height: 10.5mm !important;
+}
+[data-dossier-sheet-background="ribbon"] > div:nth-child(2) {
+  top: 10.5mm !important;
+  height: 5mm !important;
+}
+[data-dossier-sheet-background="ribbon"] > div:nth-child(3) {
+  bottom: 0 !important;
+  height: 3mm !important;
+}
+
+/* Cove */
+[data-dossier-sheet-background="cove"] > div:nth-child(1) {
+  height: 12mm !important;
+}
+[data-dossier-sheet-background="cove"] > div:nth-child(2) {
+  left: 188mm !important;
+  right: auto !important;
+  top: 6mm !important;
+  width: 22mm !important;
+  height: 38mm !important;
+  border-radius: 0 0 0 11mm !important;
+}
+[data-dossier-sheet-background="cove"] > div:nth-child(3) {
+  top: 16.2mm !important;
+  height: 1.2mm !important;
+}
