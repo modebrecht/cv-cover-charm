@@ -4,30 +4,10 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { CoverBackground } from "../../src/components/cover/CoverBackground";
 import {
   FRESH_TEMPLATE_IDS,
-  type FreshTemplateId,
-} from "../../src/components/cover/fresh-templates";
+  FRESH_TEMPLATE_REGISTRY,
+} from "../../src/components/cover/fresh-template-registry";
+import "../../src/components/cover/fresh-templates";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
-
-const EXPECTED_21_TO_38 = [
-  "edge",
-  "glow",
-  "frame",
-  "monoLuxe",
-  "horizon",
-  "sunrise",
-  "forestFlow",
-  "violetPulse",
-  "studio2",
-  "studio3",
-  "warm2",
-  "warm3",
-  "ledger",
-  "prism",
-  "gallery",
-  "orbit",
-  "ribbon",
-  "cove",
-] as const satisfies readonly FreshTemplateId[];
 
 function defaultColors(template: TemplateId) {
   const definition = TEMPLATES.find(({ id }) => id === template);
@@ -36,16 +16,22 @@ function defaultColors(template: TemplateId) {
 }
 
 describe("Fresh title-page background contract", () => {
-  test("Fresh template registry is exactly dossier templates 21 through 38", () => {
-    expect(FRESH_TEMPLATE_IDS).toEqual(EXPECTED_21_TO_38);
+  test("canonical Fresh registry is exactly dossier templates 21 through 38", () => {
+    expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(18);
+    expect(FRESH_TEMPLATE_IDS).toHaveLength(18);
+    expect(TEMPLATES).toHaveLength(38);
+    expect(TEMPLATES.slice(20).map(({ id }) => id as string)).toEqual(FRESH_TEMPLATE_IDS);
+    expect(FRESH_TEMPLATE_REGISTRY[0]).toEqual({ id: "edge", name: "Edge" });
+    expect(FRESH_TEMPLATE_REGISTRY.at(-1)).toEqual({ id: "cove", name: "Cove" });
   });
 
   test("every Fresh template renders the shared three-field structural scaffold", () => {
-    for (const template of EXPECTED_21_TO_38) {
-      const colors = defaultColors(template as TemplateId);
+    for (const template of FRESH_TEMPLATE_IDS) {
+      const templateId = template as TemplateId;
+      const colors = defaultColors(templateId);
       const markup = renderToStaticMarkup(
         createElement(CoverBackground, {
-          template: template as TemplateId,
+          template: templateId,
           colors,
         }),
       );
@@ -56,7 +42,7 @@ describe("Fresh title-page background contract", () => {
       expect(markup).toContain('data-fresh-cover-field="accent"');
       expect(markup.match(/data-fresh-cover-field=/g)?.length).toBe(3);
 
-      const definition = TEMPLATES.find(({ id }) => id === template);
+      const definition = TEMPLATES.find(({ id }) => id === templateId);
       const primary = definition?.slots.find(({ key }) => key === "primary")?.default;
       const secondary = definition?.slots.find(({ key }) => key === "secondary")?.default;
       const accent = definition?.slots.find(({ key }) => key === "accent")?.default;
