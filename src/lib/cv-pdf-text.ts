@@ -23,8 +23,10 @@ function installRasterTextMask() {
   const style = document.createElement("style");
   style.id = MASK_STYLE_ID;
   style.textContent = `
-[data-dossier-document="cv"][data-export-mode="true"] [data-cv-page],
-[data-dossier-document="cv"][data-export-mode="true"] [data-cv-page] * {
+html[data-dossier-template][data-dossier-template][data-dossier-template]
+  [data-dossier-document="cv"][data-export-mode="true"] [data-cv-page],
+html[data-dossier-template][data-dossier-template][data-dossier-template]
+  [data-dossier-document="cv"][data-export-mode="true"] [data-cv-page] * {
   color: transparent !important;
   -webkit-text-fill-color: transparent !important;
   text-decoration-color: transparent !important;
