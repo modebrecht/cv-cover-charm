@@ -40,8 +40,7 @@ jobs:
 
           wrapper = Path("src/components/cv/CvCanvas.tsx")
           text = wrapper.read_text()
-          import_line = 'import "./user-typography.css";'
-          if import_line not in text:
+          if 'import "./user-typography.css";' not in text:
               text = text.replace(
                   'import "./full-section-rules.css";\n',
                   'import "./full-section-rules.css";\nimport "./user-typography.css";\n',
@@ -53,16 +52,16 @@ jobs:
           text = canvas.read_text()
 
           old = '''      <div
-        data-cv-section={id}
-        style={{
-          marginTop: layout === "modern" ? "4.8mm" : "4mm",'''
+            data-cv-section={id}
+            style={{
+              marginTop: layout === "modern" ? "4.8mm" : "4mm",'''
           new = '''      <div
-        data-cv-section={id}
-        data-cv-user-section-margin={sectionTitleMarginBottomPx === null ? undefined : "true"}
-        style={{
-          ["--cv-user-section-margin-bottom" as string]:
-            sectionTitleMarginBottomPx === null ? undefined : `${sectionTitleMarginBottomPx}px`,
-          marginTop: layout === "modern" ? "4.8mm" : "4mm",'''
+            data-cv-section={id}
+            data-cv-user-section-margin={sectionTitleMarginBottomPx === null ? undefined : "true"}
+            style={{
+              ["--cv-user-section-margin-bottom" as string]:
+                sectionTitleMarginBottomPx === null ? undefined : `${sectionTitleMarginBottomPx}px`,
+              marginTop: layout === "modern" ? "4.8mm" : "4mm",'''
           if old in text:
               text = text.replace(old, new, 1)
           elif 'data-cv-user-section-margin={sectionTitleMarginBottomPx === null ? undefined : "true"}' not in text:
@@ -110,80 +109,80 @@ jobs:
               raise SystemExit("Could not patch main section rule color override")
 
           old = '''      <div
-        data-cv-doc-title
-        style={{
-          fontSize: `${fontSizePx}px`,'''
+            data-cv-doc-title
+            style={{
+              fontSize: `${fontSizePx}px`,'''
           new = '''      <div
-        data-cv-doc-title
-        data-cv-user-doc-size={
-          typeof design.docTitleFontSizePx === "number" && Number.isFinite(design.docTitleFontSizePx)
-            ? "true"
-            : undefined
-        }
-        data-cv-user-doc-color={customColor ? "true" : undefined}
-        data-cv-user-doc-weight={design.docTitleBold === undefined ? undefined : "true"}
-        data-cv-user-doc-style={design.docTitleItalic === undefined ? undefined : "true"}
-        data-cv-user-doc-decoration={design.docTitleUnderline === undefined ? undefined : "true"}
-        data-cv-user-doc-margin={
-          typeof design.docTitleMarginBottomPx === "number" &&
-          Number.isFinite(design.docTitleMarginBottomPx)
-            ? "true"
-            : undefined
-        }
-        style={{
-          ["--cv-user-doc-font-size" as string]: `${fontSizePx}px`,
-          ["--cv-user-doc-color" as string]: customColor || undefined,
-          ["--cv-user-doc-weight" as string]: `${
-            (design.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold) ? 700 : 400
-          }`,
-          ["--cv-user-doc-style" as string]:
-            (design.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic) ? "italic" : "normal",
-          ["--cv-user-doc-decoration" as string]:
-            (design.docTitleUnderline ?? CV_DOC_TITLE_DEFAULTS.underline) ? "underline" : "none",
-          ["--cv-user-doc-margin-bottom" as string]: `${marginBottomPx}px`,
-          fontSize: `${fontSizePx}px`,'''
+            data-cv-doc-title
+            data-cv-user-doc-size={
+              typeof design.docTitleFontSizePx === "number" && Number.isFinite(design.docTitleFontSizePx)
+                ? "true"
+                : undefined
+            }
+            data-cv-user-doc-color={customColor ? "true" : undefined}
+            data-cv-user-doc-weight={design.docTitleBold === undefined ? undefined : "true"}
+            data-cv-user-doc-style={design.docTitleItalic === undefined ? undefined : "true"}
+            data-cv-user-doc-decoration={design.docTitleUnderline === undefined ? undefined : "true"}
+            data-cv-user-doc-margin={
+              typeof design.docTitleMarginBottomPx === "number" &&
+              Number.isFinite(design.docTitleMarginBottomPx)
+                ? "true"
+                : undefined
+            }
+            style={{
+              ["--cv-user-doc-font-size" as string]: `${fontSizePx}px`,
+              ["--cv-user-doc-color" as string]: customColor || undefined,
+              ["--cv-user-doc-weight" as string]: `${
+                (design.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold) ? 700 : 400
+              }`,
+              ["--cv-user-doc-style" as string]:
+                (design.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic) ? "italic" : "normal",
+              ["--cv-user-doc-decoration" as string]:
+                (design.docTitleUnderline ?? CV_DOC_TITLE_DEFAULTS.underline) ? "underline" : "none",
+              ["--cv-user-doc-margin-bottom" as string]: `${marginBottomPx}px`,
+              fontSize: `${fontSizePx}px`,'''
           if old in text:
               text = text.replace(old, new, 1)
           elif 'data-cv-user-doc-color={customColor ? "true" : undefined}' not in text:
               raise SystemExit("Could not patch document title overrides")
 
           old = '''    <div
-      data-cv-section="sidebar"
-      style={{
-        marginTop:'''
+            data-cv-section="sidebar"
+            style={{
+              marginTop:'''
           new = '''    <div
-      data-cv-section="sidebar"
-      data-cv-user-section-margin={sectionTitleMarginBottomPx === null ? undefined : "true"}
-      style={{
-        ["--cv-user-section-margin-bottom" as string]:
-          sectionTitleMarginBottomPx === null ? undefined : `${sectionTitleMarginBottomPx}px`,
-        marginTop:'''
+            data-cv-section="sidebar"
+            data-cv-user-section-margin={sectionTitleMarginBottomPx === null ? undefined : "true"}
+            style={{
+              ["--cv-user-section-margin-bottom" as string]:
+                sectionTitleMarginBottomPx === null ? undefined : `${sectionTitleMarginBottomPx}px`,
+              marginTop:'''
           if old in text:
               text = text.replace(old, new, 1)
           elif 'data-cv-section="sidebar"\n      data-cv-user-section-margin=' not in text:
               raise SystemExit("Could not patch sidebar section margin override")
 
           old = '''        <div
-          data-cv-section-title
-          style={{
-            fontSize:'''
+            data-cv-section-title
+            style={{
+              fontSize:'''
           new = '''        <div
-          data-cv-section-title
-          data-cv-user-section-size={sectionTitleFontSizePx === null ? undefined : "true"}
-          data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
-          data-cv-user-section-weight={design.sectionTitleBold === undefined ? undefined : "true"}
-          data-cv-user-section-style={design.sectionTitleItalic === undefined ? undefined : "true"}
-          data-cv-user-section-decoration={
-            design.sectionTitleUnderline === undefined ? undefined : "true"
-          }
-          style={{
-            ["--cv-user-section-font-size" as string]:
-              sectionTitleFontSizePx === null ? undefined : `${sectionTitleFontSizePx}px`,
-            ["--cv-user-section-color" as string]: sectionTitleColor || undefined,
-            ["--cv-user-section-weight" as string]: `${sectionTitleWeight}`,
-            ["--cv-user-section-style" as string]: sectionTitleFontStyle,
-            ["--cv-user-section-decoration" as string]: sectionTitleDecoration,
-            fontSize:'''
+            data-cv-section-title
+            data-cv-user-section-size={sectionTitleFontSizePx === null ? undefined : "true"}
+            data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
+            data-cv-user-section-weight={design.sectionTitleBold === undefined ? undefined : "true"}
+            data-cv-user-section-style={design.sectionTitleItalic === undefined ? undefined : "true"}
+            data-cv-user-section-decoration={
+              design.sectionTitleUnderline === undefined ? undefined : "true"
+            }
+            style={{
+              ["--cv-user-section-font-size" as string]:
+                sectionTitleFontSizePx === null ? undefined : `${sectionTitleFontSizePx}px`,
+              ["--cv-user-section-color" as string]: sectionTitleColor || undefined,
+              ["--cv-user-section-weight" as string]: `${sectionTitleWeight}`,
+              ["--cv-user-section-style" as string]: sectionTitleFontStyle,
+              ["--cv-user-section-decoration" as string]: sectionTitleDecoration,
+              fontSize:'''
           if old in text:
               text = text.replace(old, new, 1)
           elif text.count('data-cv-user-section-size={sectionTitleFontSizePx === null ? undefined : "true"}') < 2:
@@ -206,128 +205,27 @@ jobs:
 
           canvas.write_text(text)
 
-          css = Path("src/components/cv/user-typography.css")
-          css.write_text('''/*
- * Explicit CV typography controls outrank template defaults without changing
- * untouched templates. The PDF raster mask intentionally has higher
- * specificity so exported raster text remains transparent; addCvTextLayer()
- * disables that mask while reading these real computed values for vector text.
- */
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-doc-title][data-cv-user-doc-size="true"] {
-  font-size: var(--cv-user-doc-font-size) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-doc-title][data-cv-user-doc-color="true"] {
-  color: var(--cv-user-doc-color) !important;
-  -webkit-text-fill-color: var(--cv-user-doc-color) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-doc-title][data-cv-user-doc-weight="true"] {
-  font-weight: var(--cv-user-doc-weight) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-doc-title][data-cv-user-doc-style="true"] {
-  font-style: var(--cv-user-doc-style) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-doc-title][data-cv-user-doc-decoration="true"] {
-  text-decoration-line: var(--cv-user-doc-decoration) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-doc-title][data-cv-user-doc-margin="true"] {
-  margin-bottom: var(--cv-user-doc-margin-bottom) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-section][data-cv-user-section-margin="true"] {
-  margin-bottom: var(--cv-user-section-margin-bottom) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-section-title][data-cv-user-section-size="true"] {
-  font-size: var(--cv-user-section-font-size) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-section-title][data-cv-user-section-color="true"] {
-  color: var(--cv-user-section-color) !important;
-  -webkit-text-fill-color: var(--cv-user-section-color) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-section-title][data-cv-user-section-weight="true"] {
-  font-weight: var(--cv-user-section-weight) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-section-title][data-cv-user-section-style="true"] {
-  font-style: var(--cv-user-section-style) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-section-title][data-cv-user-section-decoration="true"] {
-  text-decoration-line: var(--cv-user-section-decoration) !important;
-}
-
-html[data-dossier-template]
-  [data-dossier-document="cv"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-accent="section"][data-cv-user-section-color="true"] {
-  background: var(--cv-user-section-color) !important;
-}
-''')
-
           card = Path("tests/e2e/cv-card-refresh.spec.ts")
           text = card.read_text()
           old = '''    const previewSnapshot = await typographySnapshot(preview);
-    const exportSnapshot = await typographySnapshot(exportRoot);
-    expect(previewSnapshot).not.toBeNull();'''
+            const exportSnapshot = await typographySnapshot(exportRoot);
+            expect(previewSnapshot).not.toBeNull();'''
           new = '''    const previewSnapshot = await typographySnapshot(preview);
-    const unmasked = await page.evaluate(() => {
-      const mask = document.getElementById("cv-pdf-raster-text-mask") as HTMLStyleElement | null;
-      if (!mask) return false;
-      mask.disabled = true;
-      return true;
-    });
-    expect(unmasked, "PDF text-layer source must be readable with the raster mask disabled").toBe(
-      true,
-    );
-    const exportSnapshot = await typographySnapshot(exportRoot);
-    await page.evaluate(() => {
-      const mask = document.getElementById("cv-pdf-raster-text-mask") as HTMLStyleElement | null;
-      if (mask) mask.disabled = false;
-    });
-    expect(previewSnapshot).not.toBeNull();'''
+            const unmasked = await page.evaluate(() => {
+              const mask = document.getElementById("cv-pdf-raster-text-mask") as HTMLStyleElement | null;
+              if (!mask) return false;
+              mask.disabled = true;
+              return true;
+            });
+            expect(unmasked, "PDF text-layer source must be readable with the raster mask disabled").toBe(
+              true,
+            );
+            const exportSnapshot = await typographySnapshot(exportRoot);
+            await page.evaluate(() => {
+              const mask = document.getElementById("cv-pdf-raster-text-mask") as HTMLStyleElement | null;
+              if (mask) mask.disabled = false;
+            });
+            expect(previewSnapshot).not.toBeNull();'''
           if old in text:
               text = text.replace(old, new, 1)
           elif 'PDF text-layer source must be readable with the raster mask disabled' not in text:
@@ -336,30 +234,31 @@ html[data-dossier-template]
 
           unit = Path("tests/unit/cv-dev-recovery.test.ts")
           text = unit.read_text()
-          if 'const userTypographyCss = readFileSync("src/components/cv/user-typography.css", "utf8");' not in text:
+          css_read = 'const userTypographyCss = readFileSync("src/components/cv/user-typography.css", "utf8");'
+          if css_read not in text:
               text = text.replace(
                   'const route = readFileSync("src/routes/lebenslauf.tsx", "utf8");\n',
-                  'const route = readFileSync("src/routes/lebenslauf.tsx", "utf8");\nconst userTypographyCss = readFileSync("src/components/cv/user-typography.css", "utf8");\n',
+                  'const route = readFileSync("src/routes/lebenslauf.tsx", "utf8");\n' + css_read + '\n',
                   1,
               )
           marker = '''test("explicit typography controls outrank template defaults without breaking the PDF raster mask", () => {
-  for (const contract of [
-    "data-cv-user-doc-color",
-    "data-cv-user-doc-weight",
-    "data-cv-user-doc-margin",
-    "data-cv-user-section-color",
-    "data-cv-user-section-weight",
-    "data-cv-user-section-margin",
-  ]) {
-    expect(canvas).toContain(contract);
-  }
-  expect(userTypographyCss).toContain("-webkit-text-fill-color: var(--cv-user-doc-color) !important");
-  expect(userTypographyCss).toContain("font-weight: var(--cv-user-section-weight) !important");
-  expect(userTypographyCss).toContain("margin-bottom: var(--cv-user-section-margin-bottom) !important");
-});
+            for (const contract of [
+              "data-cv-user-doc-color",
+              "data-cv-user-doc-weight",
+              "data-cv-user-doc-margin",
+              "data-cv-user-section-color",
+              "data-cv-user-section-weight",
+              "data-cv-user-section-margin",
+            ]) {
+              expect(canvas).toContain(contract);
+            }
+            expect(userTypographyCss).toContain("-webkit-text-fill-color: var(--cv-user-doc-color) !important");
+            expect(userTypographyCss).toContain("font-weight: var(--cv-user-section-weight) !important");
+            expect(userTypographyCss).toContain("margin-bottom: var(--cv-user-section-margin-bottom) !important");
+          });
 
-'''
-          if marker not in text:
+          '''
+          if 'explicit typography controls outrank template defaults' not in text:
               text = text.replace(
                   'test("demo CV no longer adds a redundant subtitle below the candidate name", () => {',
                   marker + 'test("demo CV no longer adds a redundant subtitle below the candidate name", () => {',
