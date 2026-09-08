@@ -104,6 +104,11 @@ export function DossierChromeControls({
             </select>
           </label>
 
+          <span className="mt-1.5 block text-[11px] leading-relaxed text-muted-foreground">
+            Kompakt zeigt nur das Designband. Mit Kontaktdaten werden Name, Adresse/Wohnort,
+            Telefon und E-Mail integriert; auf Folgeseiten in einer kleineren Variante.
+          </span>
+
           {options.headerMode === "contact" ? (
             <div
               data-dossier-header-fields
@@ -145,8 +150,8 @@ export function DossierChromeControls({
             <option value="none">Kein Footer</option>
           </select>
           <span className="mt-1.5 block text-[11px] leading-relaxed text-muted-foreground">
-            Mit Details zeigt das Motivationsschreiben die Beilagen; im Lebenslauf stehen Name und
-            Seitenzahl im Footer.
+            Kompakt zeigt nur das Designband. Mit Details bleibt die Gestaltung synchron; der
+            Inhalt ist dokumentgerecht: Beilagen im Motivationsschreiben, Identität im Lebenslauf.
           </span>
         </label>
       </div>
