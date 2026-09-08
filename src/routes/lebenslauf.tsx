@@ -1595,7 +1595,7 @@ function Lebenslauf() {
                       }
                       className="text-muted-foreground underline hover:text-foreground"
                     >
-                      Vorlage
+                      Vorlagenfarbe
                     </button>
                   </div>
 
