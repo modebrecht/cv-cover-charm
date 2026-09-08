@@ -1,0 +1,14 @@
+/*
+ * Visible CV rubric separators always fill the remaining heading row.
+ *
+ * Older structural variants (notably Luftig/Timeline, used by templates such as
+ * Aurora) still contain intentional fixed-width rules with `!important` from
+ * the period when `headingRule="short"` was a supported visual mode. The shared
+ * CV renderer now retires that mode, so this semantic rule is the final visual
+ * contract for preview, pagination measurement and PDF export.
+ */
+[data-dossier-document="cv"] [data-cv-accent="section"] {
+  width: auto !important;
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+}
