@@ -1,4 +1,6 @@
 import type { CSSProperties } from "react";
+import { isFreshTemplate } from "./fresh-templates";
+import "./fresh-templates.css";
 import type { TemplateId } from "./types";
 
 /**
@@ -7,6 +9,11 @@ import type { TemplateId } from "./types";
  * Simple rectangles, lines and circles that users may move/resize live exactly
  * once in template-decorations.ts. Keeping a second copy here caused the same
  * visual element to have two competing geometries (background vs editor block).
+ *
+ * Fresh dossier templates (Edge through Cove) are the exception only in the
+ * structural sense: their CSS systems deliberately reshape one primary plane
+ * with two nested color fields. Those fields are not editor primitives and must
+ * exist here so the 18 fresh title-page compositions have something to style.
  */
 export function CoverBackground({
   template,
@@ -23,6 +30,69 @@ export function CoverBackground({
         style={{ backgroundColor: "#ffffff" }}
         aria-hidden="true"
       />
+    );
+  }
+
+  // Edge–Cove share one stable structural DOM contract. Their individual CSS
+  // reshapes these three color-aware fields into each template's own motif.
+  // Keep this before legacy fallbacks so Fresh templates never collapse to a
+  // plain sheet when no editable template decorations exist.
+  if (isFreshTemplate(template)) {
+    const paper = colors.bg ?? "#ffffff";
+    const primary = colors.primary ?? colors.accent ?? colors.ink ?? paper;
+    const secondary = colors.secondary ?? colors.accent ?? primary;
+    const accent = colors.accent ?? secondary;
+
+    return (
+      <div
+        data-cover-template={template}
+        data-fresh-cover-background={template}
+        className="absolute inset-0 overflow-hidden"
+        style={
+          {
+            backgroundColor: paper,
+            "--cover-primary": primary,
+            "--cover-secondary": secondary,
+            "--cover-accent": accent,
+          } as CSSProperties
+        }
+        aria-hidden="true"
+      >
+        <div
+          data-fresh-cover-field="primary"
+          className="absolute"
+          style={{
+            left: 0,
+            top: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: primary,
+          }}
+        >
+          <div
+            data-fresh-cover-field="secondary"
+            className="absolute"
+            style={{
+              left: 0,
+              top: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: secondary,
+            }}
+          />
+          <div
+            data-fresh-cover-field="accent"
+            className="absolute"
+            style={{
+              left: 0,
+              top: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: accent,
+            }}
+          />
+        </div>
+      </div>
     );
   }
 
@@ -156,11 +226,11 @@ export function CoverBackground({
     );
   }
 
-  // All remaining templates are composed from the plain page surface plus
-  // editable primitives from template-decorations.ts. There is deliberately no
-  // second background copy of those primitives here. The color variables are
-  // exposed for CV-only archetype adaptations (for example Blockig's 66 mm
-  // rail) without duplicating those editor primitives on the title page.
+  // All remaining legacy templates are composed from the plain page surface
+  // plus editable primitives from template-decorations.ts. There is deliberately
+  // no second background copy of those primitives here. The color variables are
+  // exposed for CV-only archetype adaptations (for example Blockig's 66 mm rail)
+  // without duplicating those editor primitives on the title page.
   return (
     <>
       {template === "freundlich" || template === "colorful" ? (
