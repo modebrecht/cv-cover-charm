@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import {
   FRESH_TEMPLATE_IDS,
   type FreshTemplateId,
-} from "../../src/components/cover/fresh-templates";
+} from "../../src/components/cover/fresh-template-registry";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 import { DossierHeaderFooterChrome } from "../../src/components/dossier/DossierHeaderFooterChrome";
 import { freshLetterSpec } from "../../src/components/letter/fresh-letter-system";
