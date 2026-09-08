@@ -1,0 +1,87 @@
+/* M10 visual acceptance fixes for Fresh covers.
+ *
+ * Keep these as cover-only overrides. The established CV geometry remains
+ * untouched; this file exists to resolve defects found in the 21-38 PDF
+ * contact-sheet review without weakening each template's visual identity.
+ */
+
+/* FRAME: the architectural crossbar must separate content, never strike
+ * through the contact/attachments footer. */
+html[data-dossier-template="frame"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  top: 240mm !important;
+  height: 2.2mm !important;
+  opacity: 0.88 !important;
+}
+
+/* FOREST FLOW: the 48 mm colour rail is a motif, not a clipping mask for the
+ * dossier content. Keep the eyebrow/date inside the rail and move the main
+ * identity/contact column fully onto the paper field. */
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-block-id="eyebrow"] {
+  width: 36mm !important;
+  transform: translate(-8mm, 0);
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-block-id="ortDatum"] {
+  width: 36mm !important;
+  transform: translate(-96mm, 15mm);
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-block-id="name"] {
+  width: 116mm !important;
+  transform: translate(40mm, -18mm);
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  width: 116mm !important;
+  transform: translate(40mm, -15mm);
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"]) {
+  width: 60mm !important;
+  transform: translate(40mm, 0);
+}
+
+/* GALLERY: keep the date in the portrait tower but below the photo rather than
+ * allowing the circular portrait to cover the date. */
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cover"]
+  [data-block-id="ortDatum"] {
+  width: 58mm !important;
+  transform: translate(18mm, 82mm);
+}
+
+/* ORBIT: the top-right orbit has enough room for a deliberate three-step stack:
+ * document label, date, portrait. The previous baseline put label/date on top
+ * of each other and the portrait immediately beneath them. */
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cover"]
+  [data-block-id="eyebrow"] {
+  transform: translate(102mm, -2mm);
+}
+
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cover"]
+  [data-block-id="ortDatum"] {
+  transform: translate(-2mm, 9mm);
+}
+
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cover"]
+  [data-block-id="foto"] {
+  transform: translate(57mm, -42mm) scale(0.82);
+  transform-origin: top left;
+}
