@@ -130,6 +130,18 @@ function visibleInsidePage(element: HTMLElement, page: HTMLElement): boolean {
   return true;
 }
 
+function fittedHorizontalScale(pdf: JsPdf, text: string, targetWidthMm: number): number {
+  const renderedWidthMm = pdf.getTextWidth(text);
+  if (!Number.isFinite(renderedWidthMm) || renderedWidthMm <= 0 || targetWidthMm <= 0) return 1;
+
+  // Browser and jsPDF can use different physical fonts for the same logical
+  // family (notably Palatino/Georgia -> PDF Times). Keep the browser-measured
+  // token width so neighbouring words retain the whitespace seen in preview.
+  // The clamp is only a corruption guard; normal font substitutions stay close
+  // to 1 and therefore keep their original vertical typography untouched.
+  return Math.max(0.5, Math.min(1.5, targetWidthMm / renderedWidthMm));
+}
+
 function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
   const pageRect = page.getBoundingClientRect();
   if (pageRect.width <= 0 || pageRect.height <= 0) {
@@ -204,7 +216,11 @@ function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
         pdf.setFont(font, fontStyle);
         pdf.setFontSize(fontSizePt);
         pdf.setTextColor(red, green, blue);
-        pdf.text(fragment.text, x, baseline);
+        const horizontalScale =
+          rects.length === 1
+            ? fittedHorizontalScale(pdf, fragment.text, fragment.rect.width * mmX)
+            : 1;
+        pdf.text(fragment.text, x, baseline, { horizontalScale });
 
         if (style.textDecorationLine.includes("underline")) {
           pdf.setDrawColor(red, green, blue);

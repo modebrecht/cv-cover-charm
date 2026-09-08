@@ -1,0 +1,30 @@
+/*
+ * Edel is intentionally dark and ceremonial on the cover, but text-heavy
+ * interior pages must behave like premium stationery rather than a framed
+ * poster. This stylesheet is imported only by CV / letter renderers, so the
+ * title page keeps its established black-and-gold composition unchanged.
+ */
+[data-dossier-sheet-background="edel"] {
+  background-color: #fffdfa !important;
+}
+
+/* The legacy Edel background created a white card inset by 19 mm inside the
+ * dark cover colour. Promote that card to the full printable sheet instead.
+ */
+[data-dossier-sheet-background="edel"] > div:first-child {
+  inset: 0 !important;
+  background-color: #fffdfa !important;
+}
+
+/* Keep the double gold hairline as the family signature, but move it close to
+ * the page edge so it frames the stationery without stealing usable width.
+ */
+[data-dossier-sheet-background="edel"] > div:nth-child(2) {
+  inset: 9mm !important;
+  opacity: 0.46 !important;
+}
+
+[data-dossier-sheet-background="edel"] > div:nth-child(3) {
+  inset: 12mm !important;
+  opacity: 0.24 !important;
+}

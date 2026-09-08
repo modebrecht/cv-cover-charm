@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackground";
 import { cvPalette } from "@/components/cv/palette";
+import "@/components/dossier/edel-stationery.css";
 import { freshLetterSpec, type FreshLetterColorRole } from "./fresh-letter-system";
 import type { LetterTemplateId } from "./types";
 

@@ -6,6 +6,7 @@ import {
 } from "@/lib/dossier-chrome";
 import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
 import type { CvData, CvDesign } from "./types";
+import "@/components/dossier/edel-stationery.css";
 import "./full-section-rules.css";
 import "./user-typography.css";
 
