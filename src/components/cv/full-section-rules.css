@@ -86,41 +86,6 @@ html[data-dossier-template="neon"]
 }
 
 /*
- * Edge uses the cover masthead as its family signature: navy top field with a
- * narrow blue signal edge. The CV therefore keeps the same compact 12 mm
- * masthead and drops the card-like inset surface and detached header dash.
- * Content geometry remains owned by the selected CV layout; Standard/classic
- * is now the unsaved default, while an explicit Sidebar choice still works.
- */
-html[data-dossier-template="edge"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:first-child {
-  left: 0 !important;
-  right: auto !important;
-  top: 0 !important;
-  width: 5mm !important;
-  height: 12mm !important;
-  border-radius: 0 !important;
-  opacity: 1 !important;
-}
-
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-surface] {
-  left: 0 !important;
-  right: 0 !important;
-  top: 12mm !important;
-  bottom: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-accent="header"] {
-  display: none !important;
-}
-
-/*
  * Kolumne/Terracotta used to draw a thin vertical ornament beside the contact
  * block. In the compact sidebar it reads like an accidental hanging line and
  * competes with the section hierarchy, so suppress that legacy motif.
