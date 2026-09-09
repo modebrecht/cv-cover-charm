@@ -10,6 +10,10 @@ const controls = readFileSync(
   new URL("../../src/components/dossier/DossierChromeControls.tsx", import.meta.url),
   "utf8",
 );
+const letterCanvas = readFileSync(
+  new URL("../../src/components/letter/LetterCanvas.tsx", import.meta.url),
+  "utf8",
+);
 
 describe("dossier header spacing", () => {
   test("defaults to 6 mm and clamps persisted values to 0–40 mm", () => {
@@ -53,5 +57,11 @@ describe("dossier header spacing", () => {
     expect(controls).toContain("min={0}");
     expect(controls).toContain("max={40}");
     expect(controls).toContain("headerGapMm: 6");
+  });
+
+  test("applies the shared gap to motivation-letter content geometry", () => {
+    expect(letterCanvas).toContain("chrome.headerGapMm ?? 6");
+    expect(letterCanvas).toContain("top: baseGeometry.content.top + headerGapMm");
+    expect(letterCanvas).toContain("height: Math.max(0, baseGeometry.content.height - headerGapMm)");
   });
 });
