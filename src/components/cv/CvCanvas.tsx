@@ -7,6 +7,7 @@ import {
 import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
 import type { CvData, CvDesign } from "./types";
 import "@/components/dossier/edel-stationery.css";
+import "./blockig-sidebar-polish.css";
 import "./full-section-rules.css";
 import "./user-typography.css";
 
