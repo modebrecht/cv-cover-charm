@@ -1,9 +1,6 @@
 import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/components/cover/types";
 import { LETTER_STORAGE_KEY } from "@/lib/dossier-project";
-import type {
-  DossierChromeState,
-  DossierChromeTextLayout,
-} from "@/lib/dossier-chrome";
+import type { DossierChromeState, DossierChromeTextLayout } from "@/lib/dossier-chrome";
 
 export type LetterAlignment = "left" | "right";
 export type LetterTemplateId = "brief" | TemplateId;
