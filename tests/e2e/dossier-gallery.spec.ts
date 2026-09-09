@@ -2,6 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { FRESH_TEMPLATE_REGISTRY } from "../../src/components/cover/fresh-template-registry";
+import "../../src/components/cover/fresh-templates";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 
 const BASE_URL = "http://127.0.0.1:4173";
@@ -19,10 +20,12 @@ function galleryBatchIndex(): number | null {
   return value;
 }
 
-const ALL_GALLERY_TEMPLATES = [
-  ...TEMPLATES.map((template) => ({ id: template.id, name: template.name })),
-  ...FRESH_TEMPLATE_REGISTRY,
-];
+// Importing fresh-templates registers the complete selectable catalogue once:
+// legacy 01-20, Fresh 21-38 and the standalone Edel Dark variant 39.
+const ALL_GALLERY_TEMPLATES = TEMPLATES.map((template) => ({
+  id: template.id,
+  name: template.name,
+}));
 
 async function extractPdfText(path: string): Promise<string> {
   const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
@@ -146,11 +149,12 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
   }));
 
   expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(18);
-  expect(ALL_GALLERY_TEMPLATES).toHaveLength(38);
-  expect(cases).toHaveLength(38);
+  expect(ALL_GALLERY_TEMPLATES).toHaveLength(39);
+  expect(cases).toHaveLength(39);
+  expect(cases.at(-1)?.label).toBe("Edel Dark");
 
-  const totalPdfCount = cases.length + 1; // UI example + 38 dossier template cases.
-  expect(totalPdfCount).toBe(39);
+  const totalPdfCount = cases.length + 1; // UI example + 39 dossier template cases.
+  expect(totalPdfCount).toBe(40);
   expect(Math.ceil(totalPdfCount / GALLERY_BATCH_SIZE)).toBe(GALLERY_BATCH_COUNT);
 
   const batchStart = batchIndex === null ? 0 : batchIndex * GALLERY_BATCH_SIZE;
