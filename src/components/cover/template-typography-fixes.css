@@ -1,0 +1,29 @@
+/* Template-specific typography corrections kept at the cover boundary.
+ * Geometry stays owned by the template; the shared dossier family still owns
+ * the font family itself.
+ */
+
+/* 02 Editorial: reduce competing display treatments. The profession is the
+ * single deliberate italic accent; headings and metadata stay quiet/roman. */
+html[data-dossier-template="klassisch"] [data-dossier-document="cover"] {
+  --dossier-name-weight: 700;
+  --dossier-name-tracking: -0.01em;
+  --dossier-name-line-height: 1.03;
+  --dossier-subtitle-weight: 600;
+  --dossier-subtitle-tracking: 0em;
+  --dossier-subtitle-line-height: 1.2;
+  --dossier-heading-weight: 600;
+  --dossier-heading-tracking: 0.04em;
+  --dossier-heading-transform: none;
+  --dossier-heading-line-height: 1.15;
+  --dossier-body-weight: 400;
+  --dossier-body-line-height: 1.38;
+  --dossier-muted-opacity: 0.75;
+}
+
+/* Applicant initials are content, not a separate typeface. BlockLayer keeps a
+ * local editable font token on the photo wrapper, so use the cover's resolved
+ * dossier token here to avoid Georgia initials inside Palatino Fresh dossiers. */
+[data-dossier-document="cover"] [data-dossier-photo="applicant"] > div {
+  font-family: var(--dossier-resolved-font, var(--dossier-font)) !important;
+}
