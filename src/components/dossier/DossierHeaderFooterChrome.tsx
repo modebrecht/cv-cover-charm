@@ -90,6 +90,7 @@ export function DossierHeaderFooterChrome({
   const footerValues = [resolvedFooterLeft, resolvedFooterRight].filter(
     (value): value is string => !!value?.trim(),
   );
+  const stackedHeader = options.headerTextLayout === "stacked";
 
   return (
     <div
@@ -154,21 +155,21 @@ export function DossierHeaderFooterChrome({
               className="absolute inset-x-0 top-0 flex"
               style={{
                 height: `${headerVisualHeight}mm`,
-                padding: "2mm 23mm 2mm 24mm",
+                padding: stackedHeader ? "1mm 23mm 1mm 24mm" : "2mm 23mm 2mm 24mm",
                 boxSizing: "border-box",
                 color: headerRoles.ink,
-                fontSize: "8.5pt",
-                lineHeight: 1.18,
+                fontSize: stackedHeader ? "8pt" : "8.5pt",
+                lineHeight: stackedHeader ? 1.08 : 1.18,
                 overflow: "hidden",
               }}
             >
-              {options.headerTextLayout === "stacked" ? (
+              {stackedHeader ? (
                 <div className="my-auto min-w-0" style={{ overflowWrap: "anywhere" }}>
                   {contactRows.map((row) => (
                     <div
                       key={row.key}
                       className={row.strong ? "font-semibold" : "opacity-95"}
-                      style={row.strong ? { fontSize: "10pt", marginBottom: "0.35mm" } : undefined}
+                      style={row.strong ? { fontSize: "9.5pt", marginBottom: "0.2mm" } : undefined}
                     >
                       {row.value}
                     </div>
@@ -231,13 +232,20 @@ export function DossierHeaderFooterChrome({
                 >
                   {footerLabel}
                 </span>
-                <span
+                <div
                   data-letter-pdf-text={letter ? "attachments-body" : undefined}
                   className="min-w-0 opacity-95"
                   style={{ overflowWrap: "anywhere" }}
                 >
-                  {footerDetails.join(" · ")}
-                </span>
+                  <div className="min-w-0">
+                    {footerDetails.map((value, index) => (
+                      <div key={value} className="inline">
+                        {index ? " · " : ""}
+                        {value}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             ) : (
               <div
@@ -255,9 +263,11 @@ export function DossierHeaderFooterChrome({
                   className="min-w-0 flex-1"
                   style={{ overflowWrap: "anywhere" }}
                 >
-                  {footerDetails.map((value) => (
-                    <div key={value}>{value}</div>
-                  ))}
+                  <div>
+                    {footerDetails.map((value) => (
+                      <div key={value}>{value}</div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )
