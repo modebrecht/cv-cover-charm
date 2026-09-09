@@ -61,19 +61,27 @@ jobs:
               'expect(markup).toContain("left-[63mm]");\n    expect(markup).toContain("h-[76mm]");\n    expect(markup).toContain("w-[3mm]");',
           )
           test.write_text(text)
+
+          hardening = Path('tests/unit/m14-regression-hardening.test.tsx')
+          text = hardening.read_text()
+          text = text.replace(
+              'expect(markup).toContain(\'data-letter-motif="accent-block"\');',
+              'expect(markup).toContain(\'data-letter-motif="accent-edge"\');',
+          )
+          hardening.write_text(text)
           PY
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Format changed files
-        run: bunx prettier --write src/components/letter/LetterSheetBackground.tsx src/components/dossier/DossierSheetBackground.tsx tests/unit/m13-visual-fixes.test.tsx
+        run: bunx prettier --write src/components/letter/LetterSheetBackground.tsx src/components/dossier/DossierSheetBackground.tsx tests/unit/m13-visual-fixes.test.tsx tests/unit/m14-regression-hardening.test.tsx
 
       - name: Validate
         run: |
           bun test tests/unit
           bun run typecheck
-          bunx eslint src/components/letter/LetterSheetBackground.tsx src/components/dossier/DossierSheetBackground.tsx tests/unit/m13-visual-fixes.test.tsx
+          bunx eslint src/components/letter/LetterSheetBackground.tsx src/components/dossier/DossierSheetBackground.tsx tests/unit/m13-visual-fixes.test.tsx tests/unit/m14-regression-hardening.test.tsx
           bun run build
 
       - name: Install Playwright runner
@@ -116,7 +124,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/components/letter/LetterSheetBackground.tsx src/components/dossier/DossierSheetBackground.tsx tests/unit/m13-visual-fixes.test.tsx
+          git add src/components/letter/LetterSheetBackground.tsx src/components/dossier/DossierSheetBackground.tsx tests/unit/m13-visual-fixes.test.tsx tests/unit/m14-regression-hardening.test.tsx
           if git diff --cached --quiet; then
             echo "No redesign changes needed."
             exit 0
