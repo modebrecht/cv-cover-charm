@@ -1,4 +1,4 @@
-import type { DossierFamilyId } from "@/lib/dossier-family";
+import { familyForTemplate, type DossierFamilyId } from "@/lib/dossier-family";
 import {
   FRESH_TEMPLATE_IDS,
   FRESH_TEMPLATE_REGISTRY,
@@ -41,31 +41,8 @@ export function isFreshTemplate(template: TemplateId): template is TemplateId & 
   return isFreshTemplateId(template as string);
 }
 
-/** Typography family used by the shared dossier-theme CSS variables. */
+/** Compatibility helper; the family itself is owned centrally. */
 export function freshFamilyForTemplate(template: TemplateId): DossierFamilyId | null {
-  switch (template as string) {
-    case "edge":
-    case "glow":
-    case "horizon":
-    case "sunrise":
-    case "violetPulse":
-    case "studio2":
-    case "studio3":
-    case "warm2":
-    case "warm3":
-    case "ledger":
-    case "prism":
-    case "gallery":
-    case "orbit":
-    case "ribbon":
-    case "cove":
-      return "modern";
-    case "frame":
-    case "forestFlow":
-      return "executive";
-    case "monoLuxe":
-      return "editorial";
-    default:
-      return null;
-  }
+  if (!isFreshTemplate(template)) return null;
+  return familyForTemplate(template);
 }
