@@ -117,7 +117,7 @@ function templateDefaultAdjustment(
     }
   }
 
-  if (template === "blockig" && block.id === "kicker") {
+  if ((template === "blockig" || template === "colorful") && block.id === "kicker") {
     adjusted = {
       ...adjusted,
       style: {
@@ -126,6 +126,146 @@ function templateDefaultAdjustment(
         ...(overrides[block.id]?.maxLines === undefined ? { maxLines: 1 } : {}),
       },
     };
+  }
+
+  // Human used to look like unrelated legacy blocks dropped onto two giant
+  // circles. Keep every user override intact, but give untouched blocks a
+  // deliberate two-column hero, a stable title hierarchy and a calmer lower
+  // information area. The profession follows the application kicker so long
+  // copy can never collide with it.
+  if (template === "human") {
+    const custom = overrides[block.id] ?? {};
+
+    if (block.id === "eyebrow") {
+      adjusted = {
+        ...adjusted,
+        style: {
+          ...adjusted.style,
+          ...(custom.x === undefined ? { x: 20 } : {}),
+          ...(custom.y === undefined ? { y: 18 } : {}),
+          ...(custom.w === undefined ? { w: 104 } : {}),
+          ...(custom.size === undefined ? { size: 9.5 } : {}),
+          ...(custom.weight === undefined ? { weight: 500 } : {}),
+          ...(custom.tracking === undefined ? { tracking: 0.01 } : {}),
+        },
+      };
+    }
+
+    if (block.id === "ortDatum") {
+      adjusted = {
+        ...adjusted,
+        style: {
+          ...adjusted.style,
+          ...(custom.x === undefined ? { x: 120 } : {}),
+          ...(custom.y === undefined ? { y: 18 } : {}),
+          ...(custom.w === undefined ? { w: 70 } : {}),
+          ...(custom.size === undefined ? { size: 9 } : {}),
+        },
+      };
+    }
+
+    if (block.id === "foto") {
+      adjusted = {
+        ...adjusted,
+        style: {
+          ...adjusted.style,
+          ...(custom.x === undefined ? { x: 22 } : {}),
+          ...(custom.y === undefined ? { y: 46 } : {}),
+          ...(custom.w === undefined ? { w: 46 } : {}),
+          ...(custom.font === undefined ? { font: "freundlich" as const } : {}),
+          ...(custom.fill === undefined ? { fill: "bg" } : {}),
+        },
+      };
+    }
+
+    if (block.id === "kicker") {
+      adjusted = {
+        ...adjusted,
+        style: {
+          ...adjusted.style,
+          ...(custom.x === undefined ? { x: 80 } : {}),
+          ...(custom.y === undefined ? { y: 50 } : {}),
+          ...(custom.w === undefined ? { w: 108 } : {}),
+          ...(custom.size === undefined ? { size: 8.5 } : {}),
+          ...(custom.weight === undefined ? { weight: 700 } : {}),
+          ...(custom.tracking === undefined ? { tracking: 0.12 } : {}),
+          ...(custom.lineHeight === undefined ? { lineHeight: 1.18 } : {}),
+          ...(custom.maxLines === undefined ? { maxLines: 2 } : {}),
+        },
+      };
+    }
+
+    if (block.id === "beruf") {
+      adjusted = {
+        ...adjusted,
+        style: {
+          ...adjusted.style,
+          ...(custom.x === undefined ? { x: 80 } : {}),
+          ...(custom.w === undefined ? { w: 108 } : {}),
+          ...(custom.size === undefined ? { size: 26 } : {}),
+          ...(custom.weight === undefined ? { weight: 700 } : {}),
+          ...(custom.italic === undefined ? { italic: false } : {}),
+          ...(custom.lineHeight === undefined ? { lineHeight: 1.04 } : {}),
+          ...(custom.follows === undefined ? { follows: "kicker" } : {}),
+          ...(custom.gap === undefined ? { gap: 2.2 } : {}),
+        },
+      };
+    }
+
+    if (block.id === "name") {
+      adjusted = {
+        ...adjusted,
+        style: {
+          ...adjusted.style,
+          ...(custom.x === undefined ? { x: 20 } : {}),
+          ...(custom.y === undefined ? { y: 116 } : {}),
+          ...(custom.w === undefined ? { w: 170 } : {}),
+          ...(custom.size === undefined ? { size: 18.5 } : {}),
+          ...(custom.weight === undefined ? { weight: 700 } : {}),
+          ...(custom.tracking === undefined ? { tracking: -0.015 } : {}),
+        },
+      };
+    }
+
+    if (block.id === "lehrbeginn") {
+      adjusted = {
+        ...adjusted,
+        style: {
+          ...adjusted.style,
+          ...(custom.x === undefined ? { x: 20 } : {}),
+          ...(custom.w === undefined ? { w: 165 } : {}),
+          ...(custom.size === undefined ? { size: 9.5 } : {}),
+          ...(custom.follows === undefined ? { follows: "name" } : {}),
+          ...(custom.gap === undefined ? { gap: 1.6 } : {}),
+        },
+      };
+    }
+
+    if (block.id === "kontaktTitel" || block.id === "kontakt") {
+      adjusted = {
+        ...adjusted,
+        style: {
+          ...adjusted.style,
+          ...(custom.x === undefined ? { x: 20 } : {}),
+          ...(custom.w === undefined ? { w: 82 } : {}),
+        },
+      };
+    }
+
+    if (block.id === "kontakt" && custom.y === undefined) {
+      adjusted = { ...adjusted, style: { ...adjusted.style, y: 282 } };
+    }
+
+    if (block.id === "anTitel" || block.id === "empfaenger") {
+      adjusted = {
+        ...adjusted,
+        style: {
+          ...adjusted.style,
+          ...(custom.x === undefined ? { x: 110 } : {}),
+          ...(custom.w === undefined ? { w: 80 } : {}),
+        },
+      };
+    }
   }
 
   return adjusted;

@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import { FONT_LABELS, type FontKey } from "@/components/cover/types";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   getDossierChromeState,
@@ -13,6 +14,69 @@ import {
 
 const selectClass =
   "mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring";
+const smallButtonClass =
+  "rounded border border-input bg-background px-2 py-1 text-[11px] font-medium hover:bg-accent";
+
+function BackgroundControl({
+  label,
+  color,
+  gradientColor,
+  fallback,
+  onColor,
+  onGradientColor,
+}: {
+  label: string;
+  color: string | null;
+  gradientColor: string | null;
+  fallback: string;
+  onColor: (value: string | null) => void;
+  onGradientColor: (value: string | null) => void;
+}) {
+  const gradient = gradientColor !== null;
+  return (
+    <div className="grid gap-2 rounded-md border bg-muted/20 p-2.5">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="mr-auto text-xs text-muted-foreground">{label}</span>
+        <input
+          type="color"
+          value={color ?? fallback}
+          onChange={(event) => onColor(event.target.value)}
+          className="h-7 w-10 cursor-pointer rounded border border-input bg-background"
+          aria-label={`${label} erste Farbe`}
+        />
+        {color ? (
+          <button type="button" className={smallButtonClass} onClick={() => onColor(null)}>
+            Wie Vorlage
+          </button>
+        ) : (
+          <span className="text-[11px] text-muted-foreground">Vorlage</span>
+        )}
+      </div>
+
+      <label className="flex items-center gap-2 text-xs">
+        <input
+          type="checkbox"
+          checked={gradient}
+          onChange={(event) => onGradientColor(event.target.checked ? "#ffffff" : null)}
+        />
+        Hintergrundverlauf mit zweiter Farbe
+      </label>
+
+      {gradient ? (
+        <div className="flex items-center justify-between gap-2 pl-5">
+          <span className="text-[11px] text-muted-foreground">Zweite Farbe</span>
+          <input
+            type="color"
+            value={gradientColor ?? "#ffffff"}
+            onChange={(event) => onGradientColor(event.target.value)}
+            className="h-7 w-10 cursor-pointer rounded border border-input bg-background"
+            aria-label={`${label} zweite Verlaufsfarbe`}
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export function DossierChromeControls({
   scope,
@@ -52,6 +116,16 @@ export function DossierChromeControls({
     onOptionsChange?.(patch);
   };
 
+  const headerDefaultHeight = options.headerMode === "contact" ? 22 : 3;
+  const headerHeight = options.headerHeightMm ?? headerDefaultHeight;
+  const headerMin =
+    options.headerMode === "contact" ? (options.headerTextLayout === "stacked" ? 18 : 10) : 1;
+  const headerMax = options.headerMode === "contact" ? 40 : 18;
+  const footerDefaultHeight = options.footerMode === "details" ? 10 : 2.4;
+  const footerHeight = options.footerHeightMm ?? footerDefaultHeight;
+  const footerMin = options.footerMode === "details" ? 4 : 1;
+  const footerMax = options.footerMode === "details" ? 40 : 18;
+
   return (
     <section
       data-dossier-chrome-controls={scope}
@@ -85,7 +159,98 @@ export function DossierChromeControls({
       </div>
 
       <div className="mt-3 grid gap-3 border-t pt-3">
-        <div>
+        <label className="block text-xs font-medium">
+          Schrift in Header &amp; Footer
+          <select
+            data-dossier-chrome-font-control
+            value={options.textFont ?? "template"}
+            onChange={(event) =>
+              patchOptions({
+                textFont:
+                  event.target.value === "template" ? null : (event.target.value as FontKey),
+              })
+            }
+            className={selectClass}
+          >
+            <option value="template">Wie Vorlage</option>
+            {(Object.entries(FONT_LABELS) as Array<[FontKey, string]>).map(([key, label]) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <div data-dossier-border-controls className="grid gap-2 rounded-md border bg-muted/20 p-2.5">
+          <label className="flex items-center gap-2 text-xs font-medium">
+            <input
+              data-dossier-border-enabled-control
+              type="checkbox"
+              checked={options.borderEnabled}
+              onChange={(event) => patchOptions({ borderEnabled: event.target.checked })}
+            />
+            Rahmen aktiv
+          </label>
+          <span className="text-[11px] leading-relaxed text-muted-foreground">
+            Eine gemeinsame Linie für beide: Header unten, Footer oben. Farbe und Dicke sind
+            identisch.
+          </span>
+
+          {options.borderEnabled ? (
+            <>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="mr-auto text-xs text-muted-foreground">Rahmenfarbe</span>
+                <input
+                  data-dossier-border-color-control
+                  type="color"
+                  value={options.borderColor ?? "#64748b"}
+                  onChange={(event) => patchOptions({ borderColor: event.target.value })}
+                  className="h-7 w-10 cursor-pointer rounded border border-input bg-background"
+                  aria-label="Rahmenfarbe"
+                />
+                {options.borderColor ? (
+                  <button
+                    type="button"
+                    className={smallButtonClass}
+                    onClick={() => patchOptions({ borderColor: null })}
+                  >
+                    Automatisch passend
+                  </button>
+                ) : (
+                  <span className="text-[11px] text-muted-foreground">Automatisch passend</span>
+                )}
+              </div>
+
+              <label className="grid gap-1 text-xs">
+                <span className="flex items-center justify-between gap-2 text-muted-foreground">
+                  <span>Rahmendicke</span>
+                  <span>{options.borderWidthMm.toFixed(1)} mm</span>
+                </span>
+                <input
+                  data-dossier-border-width-control
+                  type="range"
+                  min={0.2}
+                  max={3}
+                  step={0.1}
+                  value={options.borderWidthMm}
+                  onChange={(event) => patchOptions({ borderWidthMm: Number(event.target.value) })}
+                  className="w-full accent-primary"
+                />
+                {options.borderWidthMm !== 0.6 ? (
+                  <button
+                    type="button"
+                    className={`${smallButtonClass} justify-self-start`}
+                    onClick={() => patchOptions({ borderWidthMm: 0.6 })}
+                  >
+                    Standarddicke
+                  </button>
+                ) : null}
+              </label>
+            </>
+          ) : null}
+        </div>
+
+        <div className="grid gap-2 rounded-md border p-2.5">
           <label className="block text-xs font-medium">
             Header
             <select
@@ -94,7 +259,10 @@ export function DossierChromeControls({
               {...(scope === "cv" ? { "data-cv-header-mode-control": "" } : {})}
               value={options.headerMode}
               onChange={(event) =>
-                patchOptions({ headerMode: event.target.value as DossierHeaderMode })
+                patchOptions({
+                  headerMode: event.target.value as DossierHeaderMode,
+                  headerHeightMm: null,
+                })
               }
               className={selectClass}
             >
@@ -104,56 +272,177 @@ export function DossierChromeControls({
             </select>
           </label>
 
-          <span className="mt-1.5 block text-[11px] leading-relaxed text-muted-foreground">
+          <span className="text-[11px] leading-relaxed text-muted-foreground">
             Kompakt zeigt nur das Designband. Mit Kontaktdaten werden Name, Adresse/Wohnort,
             Telefon und E-Mail integriert; auf Folgeseiten in einer kleineren Variante.
           </span>
 
-          {options.headerMode === "contact" ? (
-            <div
-              data-dossier-header-fields
-              className="mt-2 grid grid-cols-2 gap-2 rounded-md border bg-muted/30 p-2.5"
-            >
-              {contactOptions.map(([key, label, checked]) => (
-                <label key={key} className="flex items-center gap-2 text-xs">
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={(event) => patchOptions({ [key]: event.target.checked })}
-                  />
-                  {label} integrieren
-                </label>
-              ))}
-            </div>
+          {options.headerMode !== "none" ? (
+            <>
+              <label className="grid gap-1 text-xs">
+                <span className="flex items-center justify-between gap-2 text-muted-foreground">
+                  <span>Headerhöhe</span>
+                  <span>{headerHeight.toFixed(headerHeight % 1 ? 1 : 0)} mm</span>
+                </span>
+                <input
+                  data-dossier-header-height-control
+                  type="range"
+                  min={headerMin}
+                  max={headerMax}
+                  step={1}
+                  value={Math.min(headerMax, Math.max(headerMin, headerHeight))}
+                  onChange={(event) => patchOptions({ headerHeightMm: Number(event.target.value) })}
+                  className="w-full accent-primary"
+                />
+                {options.headerHeightMm !== null ? (
+                  <button
+                    type="button"
+                    className={`${smallButtonClass} justify-self-start`}
+                    onClick={() => patchOptions({ headerHeightMm: null })}
+                  >
+                    Standardhöhe
+                  </button>
+                ) : null}
+              </label>
+
+              {options.headerMode === "contact" ? (
+                <>
+                  <label className="block text-xs font-medium">
+                    Anordnung der Angaben
+                    <select
+                      data-dossier-header-text-layout-control
+                      value={options.headerTextLayout}
+                      onChange={(event) =>
+                        patchOptions({
+                          headerTextLayout:
+                            event.target.value === "inline" ? "inline" : "stacked",
+                        })
+                      }
+                      className={selectClass}
+                    >
+                      <option value="stacked">Alle Angaben untereinander</option>
+                      <option value="inline">Alle Angaben nebeneinander</option>
+                    </select>
+                  </label>
+
+                  <div
+                    data-dossier-header-fields
+                    className="grid grid-cols-2 gap-2 rounded-md border bg-muted/30 p-2.5"
+                  >
+                    {contactOptions.map(([key, label, checked]) => (
+                      <label key={key} className="flex items-center gap-2 text-xs">
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={(event) => patchOptions({ [key]: event.target.checked })}
+                        />
+                        {label} integrieren
+                      </label>
+                    ))}
+                  </div>
+                </>
+              ) : null}
+
+              <BackgroundControl
+                label="Header-Hintergrund"
+                color={options.headerBackgroundColor}
+                gradientColor={options.headerGradientColor}
+                fallback="#334155"
+                onColor={(headerBackgroundColor) => patchOptions({ headerBackgroundColor })}
+                onGradientColor={(headerGradientColor) => patchOptions({ headerGradientColor })}
+              />
+            </>
           ) : null}
         </div>
 
-        <label className="block text-xs font-medium">
-          Footer
-          <select
-            data-dossier-footer-mode-control
-            {...(scope === "letter" ? { "data-letter-footer-mode-control": "" } : {})}
-            {...(scope === "cv" ? { "data-cv-footer-mode-control": "" } : {})}
-            value={footerControlValue}
-            onChange={(event) => {
-              const value = event.target.value;
-              patchOptions({
-                footerMode: (value === "attachments" ? "details" : value) as DossierFooterMode,
-              });
-            }}
-            className={selectClass}
-          >
-            <option value="compact">Footerband kompakt</option>
-            <option value={scope === "letter" ? "attachments" : "details"}>
-              Footerband mit Details
-            </option>
-            <option value="none">Kein Footer</option>
-          </select>
-          <span className="mt-1.5 block text-[11px] leading-relaxed text-muted-foreground">
+        <div className="grid gap-2 rounded-md border p-2.5">
+          <label className="block text-xs font-medium">
+            Footer
+            <select
+              data-dossier-footer-mode-control
+              {...(scope === "letter" ? { "data-letter-footer-mode-control": "" } : {})}
+              {...(scope === "cv" ? { "data-cv-footer-mode-control": "" } : {})}
+              value={footerControlValue}
+              onChange={(event) => {
+                const value = event.target.value;
+                patchOptions({
+                  footerMode: (value === "attachments" ? "details" : value) as DossierFooterMode,
+                  footerHeightMm: null,
+                });
+              }}
+              className={selectClass}
+            >
+              <option value="compact">Footerband kompakt</option>
+              <option value={scope === "letter" ? "attachments" : "details"}>
+                Footerband mit Details
+              </option>
+              <option value="none">Kein Footer</option>
+            </select>
+          </label>
+          <span className="text-[11px] leading-relaxed text-muted-foreground">
             Kompakt zeigt nur das Designband. Mit Details bleibt die Gestaltung synchron; der
             Inhalt ist dokumentgerecht: Beilagen im Motivationsschreiben, Identität im Lebenslauf.
           </span>
-        </label>
+
+          {options.footerMode !== "none" ? (
+            <>
+              <label className="grid gap-1 text-xs">
+                <span className="flex items-center justify-between gap-2 text-muted-foreground">
+                  <span>Footerhöhe</span>
+                  <span>{footerHeight.toFixed(footerHeight % 1 ? 1 : 0)} mm</span>
+                </span>
+                <input
+                  data-dossier-footer-height-control
+                  type="range"
+                  min={footerMin}
+                  max={footerMax}
+                  step={1}
+                  value={Math.min(footerMax, Math.max(footerMin, footerHeight))}
+                  onChange={(event) => patchOptions({ footerHeightMm: Number(event.target.value) })}
+                  className="w-full accent-primary"
+                />
+                {options.footerHeightMm !== null ? (
+                  <button
+                    type="button"
+                    className={`${smallButtonClass} justify-self-start`}
+                    onClick={() => patchOptions({ footerHeightMm: null })}
+                  >
+                    Standardhöhe
+                  </button>
+                ) : null}
+              </label>
+
+              {options.footerMode === "details" ? (
+                <label className="block text-xs font-medium">
+                  Anordnung der Angaben
+                  <select
+                    data-dossier-footer-text-layout-control
+                    value={options.footerTextLayout}
+                    onChange={(event) =>
+                      patchOptions({
+                        footerTextLayout:
+                          event.target.value === "stacked" ? "stacked" : "inline",
+                      })
+                    }
+                    className={selectClass}
+                  >
+                    <option value="inline">Alle Angaben nebeneinander</option>
+                    <option value="stacked">Alle Angaben untereinander</option>
+                  </select>
+                </label>
+              ) : null}
+
+              <BackgroundControl
+                label="Footer-Hintergrund"
+                color={options.footerBackgroundColor}
+                gradientColor={options.footerGradientColor}
+                fallback="#64748b"
+                onColor={(footerBackgroundColor) => patchOptions({ footerBackgroundColor })}
+                onGradientColor={(footerGradientColor) => patchOptions({ footerGradientColor })}
+              />
+            </>
+          ) : null}
+        </div>
       </div>
     </section>
   );
