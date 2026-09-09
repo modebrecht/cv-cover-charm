@@ -35,3 +35,21 @@ html[data-cv-variant][data-cv-variant][data-cv-variant]
   min-width: 4mm !important;
   margin-right: 0 !important;
 }
+
+/*
+ * The Sidebar/Modern layout already gets its hierarchy from the split column,
+ * typography and whitespace. Horizontal dashes inside the narrow sidebar add
+ * noise and can look like truncated rules, so keep section rules for the main
+ * column only. The short decorative dash below the name has the same problem:
+ * in this layout it reads like a broken underline rather than a deliberate
+ * separator.
+ */
+html[data-cv-variant][data-cv-variant][data-cv-variant]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-section="sidebar"]
+  [data-cv-accent="section"],
+html[data-cv-variant][data-cv-variant][data-cv-variant]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-accent="header"] {
+  display: none !important;
+}
