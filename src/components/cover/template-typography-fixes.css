@@ -21,6 +21,29 @@ html[data-dossier-template="klassisch"] [data-dossier-document="cover"] {
   --dossier-muted-opacity: 0.75;
 }
 
+/* An older cover-specific rule still gave the Editorial eyebrow the UI sans
+ * stack. Pin the complete visible Editorial text system to the already-resolved
+ * dossier font so the page cannot visually split into Georgia + Cabin. */
+html:root[data-dossier-template="klassisch"]
+  [data-dossier-document="cover"]
+  :is(
+    [data-block-id="eyebrow"],
+    [data-block-id="ortDatum"],
+    [data-block-id="kicker"],
+    [data-block-id="beruf"],
+    [data-block-id="name"],
+    [data-block-id="lehrbeginn"],
+    [data-block-id="kontaktTitel"],
+    [data-block-id="kontakt"],
+    [data-block-id="anTitel"],
+    [data-block-id="empfaenger"],
+    [data-block-id="beilagenTitel"],
+    [data-block-id="beilagen"]
+  )
+  > div {
+  font-family: var(--dossier-resolved-font, var(--dossier-font)) !important;
+}
+
 /* Applicant initials are content, not a separate typeface. BlockLayer keeps a
  * local editable font token on the photo wrapper, so use the cover's resolved
  * dossier token here to avoid Georgia initials inside Palatino Fresh dossiers. */
