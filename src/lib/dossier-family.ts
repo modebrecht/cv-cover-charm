@@ -42,7 +42,15 @@ export const DOSSIER_FAMILIES: DossierFamily[] = [
   },
 ];
 
-const TEMPLATE_FAMILY: Record<TemplateId, DossierFamilyId> = {
+/**
+ * One canonical family source for legacy and Fresh templates.
+ *
+ * Fresh ids are registered into the legacy TemplateId boundary at runtime, so
+ * this map deliberately keys by string instead of repeating a second family
+ * switch in the Fresh registration module. Unknown templates still keep the
+ * historical Modern fallback.
+ */
+const TEMPLATE_FAMILY: Record<string, DossierFamilyId> = {
   klassisch: "editorial",
   modern: "modern",
   freundlich: "editorial",
@@ -62,16 +70,36 @@ const TEMPLATE_FAMILY: Record<TemplateId, DossierFamilyId> = {
   aurora: "modern",
   verlauf: "modern",
   citrus: "modern",
+
+  // Fresh 21-38
+  edge: "modern",
+  glow: "modern",
+  frame: "executive",
+  monoLuxe: "editorial",
+  horizon: "modern",
+  sunrise: "modern",
+  forestFlow: "executive",
+  violetPulse: "modern",
+  studio2: "modern",
+  studio3: "modern",
+  warm2: "modern",
+  warm3: "modern",
+  ledger: "modern",
+  prism: "modern",
+  gallery: "modern",
+  orbit: "modern",
+  ribbon: "modern",
+  cove: "modern",
 };
 
 export function familyForTemplate(template: TemplateId): DossierFamilyId {
-  return TEMPLATE_FAMILY[template] ?? "modern";
+  return TEMPLATE_FAMILY[template as string] ?? "modern";
 }
 
 export function templatesForFamily(family: DossierFamilyId): TemplateId[] {
-  return (Object.entries(TEMPLATE_FAMILY) as Array<[TemplateId, DossierFamilyId]>)
+  return Object.entries(TEMPLATE_FAMILY)
     .filter(([, value]) => value === family)
-    .map(([template]) => template);
+    .map(([template]) => template as TemplateId);
 }
 
 function apply(family: DossierFamilyId) {
