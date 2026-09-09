@@ -104,6 +104,9 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
         height: `${PAGE_H}px`,
         backgroundColor: colors.bg ?? "#ffffff",
         ["--dossier-font" as string]: dossierFont,
+        // Photo initials are not a semantic text role, but still belong to the
+        // dossier type system. Keep one unshadowed token for that renderer edge.
+        ["--dossier-resolved-font" as string]: dossierFont,
       }}
       onPointerDown={(e) => {
         if (drawing) return;
