@@ -6,34 +6,68 @@ const letter = readFileSync(
   new URL("../../src/components/letter/fresh-letter-system.ts", import.meta.url),
   "utf8",
 );
-const cvRules = readFileSync(
-  new URL("../../src/components/cv/full-section-rules.css", import.meta.url),
+const freshCss = readFileSync(
+  new URL("../../src/components/cover/fresh-templates.css", import.meta.url),
   "utf8",
 );
 
-describe("Edge dossier consistency", () => {
+describe("Fresh 19-22 dossier rebuild", () => {
   test("unsaved CVs default to the one-column Standard layout", () => {
     expect(layout).toContain('const DEFAULT_LAYOUT: CvLayoutId = "classic";');
     expect(layout).toContain("return valid(value) ? value : DEFAULT_LAYOUT;");
   });
 
-  test("Edge letter echoes the cover masthead instead of a permanent rail", () => {
+  test("Edge uses one compact masthead signature across cover, letter and CV", () => {
     const edge = letter.slice(letter.indexOf("  edge: {"), letter.indexOf("  glow: {"));
-    expect(edge).toContain('archetype: "band"');
-    expect(edge).toContain("left: 25");
-    expect(edge).toContain('rect("edge-band", 0, 0, 210, 12, "primary")');
-    expect(edge).toContain('rect("edge-signal", 0, 0, 5, 12, "secondary")');
+    expect(edge).toContain('rect("edge-band", 0, 0, 210, 9, "primary")');
+    expect(edge).toContain('rect("edge-signal", 0, 0, 4, 9, "secondary")');
+    expect(edge).toContain('rect("edge-rule", 25, 15.5, 42, 1.1, "accent"');
     expect(edge).not.toContain('rect("rail"');
-    expect(edge).not.toContain("top-rule");
+
+    expect(freshCss).toContain("/* 19 EDGE");
+    expect(freshCss).toContain('data-dossier-sheet-background="edge"');
+    expect(freshCss).toContain("height: 10mm !important;");
+    expect(freshCss).toContain("background: transparent !important;");
   });
 
-  test("Edge CV keeps the same narrow signal edge and drops the card treatment", () => {
-    expect(cvRules).toContain('html[data-dossier-template="edge"]');
-    expect(cvRules).toContain("width: 5mm !important;");
-    expect(cvRules).toContain("height: 12mm !important;");
-    expect(cvRules).toContain("top: 12mm !important;");
-    expect(cvRules).toContain("left: 0 !important;");
-    expect(cvRules).toContain("right: 0 !important;");
-    expect(cvRules).toContain("box-shadow: none !important;");
+  test("Glow is restrained and does not use page-filling blobs or card shadows", () => {
+    const glow = letter.slice(letter.indexOf("  glow: {"), letter.indexOf("  frame: {"));
+    expect(glow).toContain("glow-capsule");
+    expect(glow).toContain("glow-orb");
+    expect(glow).toContain("glow-rule");
+    expect(glow).not.toContain("bottom-orb");
+
+    const css = freshCss.slice(freshCss.indexOf("/* 20 GLOW"), freshCss.indexOf("/* 21 FRAME"));
+    expect(css).toContain("width: 72mm !important;");
+    expect(css).toContain("height: 24mm !important;");
+    expect(css).toContain("box-shadow: none !important;");
+    expect(css).not.toContain("176mm");
+    expect(css).not.toContain("146mm");
+  });
+
+  test("Frame is an inset architectural frame rather than a heavy color slab", () => {
+    const frame = letter.slice(letter.indexOf("  frame: {"), letter.indexOf("  monoLuxe: {"));
+    expect(frame).toContain("frame-top");
+    expect(frame).toContain("frame-left");
+    expect(frame).toContain("frame-bottom");
+    expect(frame).toContain("frame-right");
+
+    const css = freshCss.slice(freshCss.indexOf("/* 21 FRAME"), freshCss.indexOf("/* 22 MONO LUXE"));
+    expect(css).toContain("border: 0.55mm solid var(--cover-primary) !important;");
+    expect(css).toContain("background: transparent !important;");
+    expect(css).not.toContain("width: 15mm !important;");
+    expect(css).not.toContain("height: 265mm !important;");
+  });
+
+  test("Mono Luxe stays typographic and removes the old filled CV card treatment", () => {
+    const mono = letter.slice(letter.indexOf("  monoLuxe: {"), letter.indexOf("  horizon: {"));
+    expect(mono).toContain("mono-band");
+    expect(mono).toContain("mono-gold-rule");
+    expect(mono).toContain("mono-mark");
+
+    const css = freshCss.slice(freshCss.indexOf("/* 22 MONO LUXE"));
+    expect(css).toContain("font-family: Georgia");
+    expect(css).toContain("background: transparent !important;");
+    expect(css).toContain("height: 9mm !important;");
   });
 });
