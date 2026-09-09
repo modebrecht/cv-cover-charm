@@ -174,13 +174,8 @@ function QuietColumnBackground({
           />
           <div
             data-letter-motif="accent-block"
-            className="absolute left-0 top-[48mm] h-[22mm] w-[19mm]"
-            style={{ backgroundColor: accent, opacity: 0.92 }}
-          />
-          <div
-            data-letter-motif="rail-rule"
-            className="absolute left-[4mm] top-[82mm] h-[2.2mm] w-[10mm]"
-            style={{ backgroundColor: secondary }}
+            className="absolute left-0 top-[45mm] h-[32mm] w-[24mm]"
+            style={{ backgroundColor: accent, opacity: 0.96 }}
           />
         </>
       ) : null}
