@@ -69,6 +69,19 @@ async function seedCover(page: Page, template: string, font?: string) {
   );
 }
 
+async function settledCoverRoot(page: Page, template: string, font?: string) {
+  // Titelblatt hydrates once with the in-memory Modern/Cabin defaults, then
+  // restores the saved dossier in an effect. A merely visible cover can still
+  // be that transient first frame; wait for the actual persisted template and
+  // its final font source before reading computed typography.
+  const root = page
+    .locator(`[data-dossier-document="cover"][data-cover-template="${template}"]`)
+    .first();
+  await expect(root).toBeVisible();
+  await expect(root).toHaveAttribute("data-dossier-font-source", font ? "override" : "family");
+  return root;
+}
+
 async function computedFont(page: Page, selector: string) {
   const node = page.locator(selector).first();
   await expect(node).toBeVisible();
@@ -79,11 +92,10 @@ async function dossierFonts(page: Page, template: string, font?: string) {
   await seedCover(page, template, font);
 
   await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
-  const coverRoot = page.locator('[data-dossier-document="cover"]').first();
-  await expect(coverRoot).toBeVisible();
+  await settledCoverRoot(page, template, font);
   const cover = await computedFont(
     page,
-    '[data-dossier-document="cover"] [data-block-id="kontakt"] > div',
+    `[data-dossier-document="cover"][data-cover-template="${template}"] [data-block-id="kontakt"] > div`,
   );
 
   // No letter is seeded: this deliberately exercises cover -> letter design transfer.
@@ -117,9 +129,11 @@ async function dossierFonts(page: Page, template: string, font?: string) {
   return { cover, letter, cv };
 }
 
-async function coverTextStyle(page: Page, blockId: string) {
+async function coverTextStyle(page: Page, template: string, blockId: string) {
   const node = page
-    .locator(`[data-dossier-document="cover"] [data-block-id="${blockId}"] > div`)
+    .locator(
+      `[data-dossier-document="cover"][data-cover-template="${template}"] [data-block-id="${blockId}"] > div`,
+    )
     .first();
   await expect(node).toBeVisible();
   return node.evaluate((element) => {
@@ -151,7 +165,7 @@ test.describe("dossier typography regression", () => {
   test("02 Editorial renders as one restrained serif hierarchy", async ({ page }) => {
     await seedCover(page, "klassisch");
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
-    await expect(page.locator('[data-dossier-document="cover"]').first()).toBeVisible();
+    await settledCoverRoot(page, "klassisch");
 
     const ids = [
       "eyebrow",
@@ -166,7 +180,9 @@ test.describe("dossier typography regression", () => {
       "beilagen",
     ];
     const styles = Object.fromEntries(
-      await Promise.all(ids.map(async (id) => [id, await coverTextStyle(page, id)] as const)),
+      await Promise.all(
+        ids.map(async (id) => [id, await coverTextStyle(page, "klassisch", id)] as const),
+      ),
     );
 
     expect(styles.name.fontFamily).toContain("Georgia");
@@ -194,8 +210,11 @@ test.describe("dossier typography regression", () => {
   test("Fresh Executive applicant initials use the resolved Palatino dossier font", async ({ page }) => {
     await seedCover(page, "frame");
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+    await settledCoverRoot(page, "frame");
     const initials = page
-      .locator('[data-dossier-document="cover"] [data-dossier-photo="applicant"] > div')
+      .locator(
+        '[data-dossier-document="cover"][data-cover-template="frame"] [data-dossier-photo="applicant"] > div',
+      )
       .first();
     await expect(initials).toBeVisible();
     const font = await initials.evaluate((element) => getComputedStyle(element).fontFamily);
