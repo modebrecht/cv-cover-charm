@@ -143,6 +143,9 @@ test.describe("M7 dossier state roundtrip", () => {
             footerTextLayout: "inline",
             footerBackgroundColor: null,
             footerGradientColor: null,
+            borderEnabled: true,
+            borderColor: null,
+            borderWidthMm: 0.6,
             textFont: null,
           },
           cv: {
@@ -160,6 +163,9 @@ test.describe("M7 dossier state roundtrip", () => {
             footerTextLayout: "stacked",
             footerBackgroundColor: "#654321",
             footerGradientColor: null,
+            borderEnabled: true,
+            borderColor: "#fedcba",
+            borderWidthMm: 1.1,
             textFont: "freundlich",
           },
           letter: {
@@ -177,6 +183,9 @@ test.describe("M7 dossier state roundtrip", () => {
             footerTextLayout: "inline",
             footerBackgroundColor: null,
             footerGradientColor: null,
+            borderEnabled: false,
+            borderColor: "#112233",
+            borderWidthMm: 0.8,
             textFont: null,
           },
         }),
@@ -211,8 +220,12 @@ test.describe("M7 dossier state roundtrip", () => {
     expect(before.chrome?.cv?.headerBackgroundColor).toBe("#123456");
     expect(before.chrome?.cv?.headerGradientColor).toBe("#abcdef");
     expect(before.chrome?.cv?.footerHeightMm).toBe(14);
+    expect(before.chrome?.cv?.borderEnabled).toBe(true);
+    expect(before.chrome?.cv?.borderColor).toBe("#fedcba");
+    expect(before.chrome?.cv?.borderWidthMm).toBe(1.1);
     expect(before.chrome?.cv?.textFont).toBe("freundlich");
     expect(before.chrome?.letter?.headerMode).toBe("none");
+    expect(before.chrome?.letter?.borderEnabled).toBe(false);
 
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: "domcontentloaded" });
