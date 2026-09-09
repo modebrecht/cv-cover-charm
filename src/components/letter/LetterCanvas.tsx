@@ -60,6 +60,9 @@ function legacyChromeFromDesign(design: LetterDesign): DossierChromeOptions {
     footerTextLayout: design.footerTextLayout === "stacked" ? "stacked" : "inline",
     footerBackgroundColor: design.footerBackgroundColor ?? null,
     footerGradientColor: design.footerGradientColor ?? null,
+    borderEnabled: design.chromeBorderEnabled !== false,
+    borderColor: design.chromeBorderColor ?? null,
+    borderWidthMm: design.chromeBorderWidthMm ?? 0.6,
     textFont: design.chromeTextFont ?? null,
   };
 }
@@ -108,6 +111,9 @@ export function LetterCanvas({
       footerTextLayout: chrome.footerTextLayout,
       footerBackgroundColor: chrome.footerBackgroundColor,
       footerGradientColor: chrome.footerGradientColor,
+      chromeBorderEnabled: chrome.borderEnabled,
+      chromeBorderColor: chrome.borderColor,
+      chromeBorderWidthMm: chrome.borderWidthMm,
       chromeTextFont: chrome.textFont,
     }),
     [chrome, design],
