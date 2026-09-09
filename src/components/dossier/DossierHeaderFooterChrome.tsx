@@ -12,6 +12,50 @@ function surfaceBackground(first: string, second: string | null): string {
   return second ? `linear-gradient(90deg, ${first}, ${second})` : first;
 }
 
+function normalizedHex(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const color = value.trim().toLowerCase();
+  return /^#[0-9a-f]{6}$/.test(color) ? color : null;
+}
+
+function automaticBorderColor({
+  colors,
+  headerBackground,
+  headerGradient,
+  footerBackground,
+  footerGradient,
+  palette,
+}: {
+  colors: Record<string, string>;
+  headerBackground: string;
+  headerGradient: string | null;
+  footerBackground: string;
+  footerGradient: string | null;
+  palette: ReturnType<typeof cvPalette>;
+}): string {
+  const occupied = new Set(
+    [headerBackground, headerGradient, footerBackground, footerGradient]
+      .map(normalizedHex)
+      .filter((value): value is string => value !== null),
+  );
+  const candidates = [
+    colors.cvHeading,
+    colors.accent,
+    colors.secondary,
+    colors.primary,
+    palette.accent,
+    palette.ink,
+    palette.muted,
+    "#94a3b8",
+    "#cbd5e1",
+  ];
+  for (const candidate of candidates) {
+    const normalized = normalizedHex(candidate);
+    if (normalized && !occupied.has(normalized)) return normalized;
+  }
+  return "#94a3b8";
+}
+
 export function DossierHeaderFooterChrome({
   scope,
   template,
@@ -53,6 +97,19 @@ export function DossierHeaderFooterChrome({
   const footerRoles = onColorRoles(footerBackground, options.footerGradientColor ?? primary);
   const headerSurface = surfaceBackground(headerBackground, options.headerGradientColor);
   const footerSurface = surfaceBackground(footerBackground, options.footerGradientColor);
+  const borderColor =
+    options.borderColor ??
+    automaticBorderColor({
+      colors,
+      headerBackground,
+      headerGradient: options.headerGradientColor,
+      footerBackground,
+      footerGradient: options.footerGradientColor,
+      palette: sourcePalette,
+    });
+  const borderStyle = options.borderEnabled
+    ? `${options.borderWidthMm}mm solid ${borderColor}`
+    : undefined;
   const textFontFamily = options.textFont ? FONT_STACKS[options.textFont] : undefined;
   const headerVisualHeight = dossierHeaderVisualHeightMmForOptions(options, pageIndex);
   const compactFooterHeight = dossierFooterVisualHeightMmForOptions(options);
@@ -99,6 +156,9 @@ export function DossierHeaderFooterChrome({
       data-dossier-footer-mode={options.footerMode}
       data-dossier-header-text-layout={options.headerTextLayout}
       data-dossier-footer-text-layout={options.footerTextLayout}
+      data-dossier-border-enabled={options.borderEnabled ? "true" : "false"}
+      data-dossier-border-color={borderColor}
+      data-dossier-border-width-mm={options.borderWidthMm}
       data-dossier-chrome-font={options.textFont ?? "template"}
       data-letter-chrome={letter ? "" : undefined}
       data-letter-header-mode={letter ? headerMode : undefined}
@@ -110,7 +170,25 @@ export function DossierHeaderFooterChrome({
           data-dossier-compact-header
           data-dossier-header-height-mm={headerVisualHeight}
           className="absolute inset-x-0 top-0"
-          style={{ height: `${headerVisualHeight}mm`, background: headerSurface }}
+          style={{
+            height: `${headerVisualHeight}mm`,
+            boxSizing: "border-box",
+            background: headerSurface,
+            borderBottom: borderStyle,
+          }}
+          aria-hidden="true"
+        />
+      ) : null}
+
+      {warmLetterOwnsFirstPageHeader && options.borderEnabled ? (
+        <div
+          data-dossier-header-border
+          className="absolute inset-x-0"
+          style={{
+            top: `${Math.max(0, headerVisualHeight - options.borderWidthMm)}mm`,
+            height: `${options.borderWidthMm}mm`,
+            background: borderColor,
+          }}
           aria-hidden="true"
         />
       ) : null}
@@ -128,6 +206,7 @@ export function DossierHeaderFooterChrome({
               padding: "0 12mm",
               boxSizing: "border-box",
               background: headerSurface,
+              borderBottom: borderStyle,
               color: headerRoles.ink,
               fontSize: "7.6pt",
               lineHeight: 1.1,
@@ -146,7 +225,12 @@ export function DossierHeaderFooterChrome({
               data-dossier-contact-header-background
               data-dossier-header-height-mm={headerVisualHeight}
               className="absolute inset-x-0 top-0"
-              style={{ height: `${headerVisualHeight}mm`, background: headerSurface }}
+              style={{
+                height: `${headerVisualHeight}mm`,
+                boxSizing: "border-box",
+                background: headerSurface,
+                borderBottom: borderStyle,
+              }}
               aria-hidden="true"
             />
             <div
@@ -197,7 +281,9 @@ export function DossierHeaderFooterChrome({
           className="absolute inset-x-0 bottom-0"
           style={{
             height: `${compactFooterHeight}mm`,
+            boxSizing: "border-box",
             background: footerSurface,
+            borderTop: borderStyle,
             opacity: template === "brief" ? 0.75 : 0.92,
           }}
           aria-hidden="true"
@@ -216,6 +302,7 @@ export function DossierHeaderFooterChrome({
             padding: "2.2mm 23mm 2.2mm 24mm",
             boxSizing: "border-box",
             background: footerSurface,
+            borderTop: borderStyle,
             color: footerRoles.ink,
             overflow: "hidden",
           }}
