@@ -55,6 +55,37 @@ html[data-cv-variant][data-cv-variant][data-cv-variant]
 }
 
 /*
+ * Neon PDF export does not always carry the route-only data-cv-variant marker.
+ * Keep the modern cleanup template-scoped as well so sidebar/header micro-rules
+ * cannot reappear in exported dossiers.
+ */
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-section="sidebar"]
+  [data-cv-accent="section"],
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-accent="header"] {
+  display: none !important;
+}
+
+/*
+ * Neon's refreshed first page deliberately places the white CV heading on the
+ * dark gradient hero. The legacy card archetype still injected a second white
+ * inner card into the motif, covering that hero and making LEBENSLAUF / name
+ * disappear. Remove only that obsolete inner card on Neon page one; the shared
+ * reading surface below 43 mm remains authoritative.
+ */
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"]
+  [data-cv-page="0"]
+  [data-cv-background="motif"]
+  [data-dossier-sheet-background="neon"]
+  > div:last-child {
+  display: none !important;
+}
+
+/*
  * Kolumne/Terracotta used to draw a thin vertical ornament beside the contact
  * block. In the compact sidebar it reads like an accidental hanging line and
  * competes with the section hierarchy, so suppress that legacy motif.
