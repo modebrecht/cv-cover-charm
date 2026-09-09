@@ -225,11 +225,7 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
     circle("decor-soft-circle-right", "Kreisfläche rechts", 128, -24, 110, 110, "bg", 0.12),
   ],
 
-  pastell: [
-    rect("decor-top-band", "Kopfband", 0, 0, 210, 8, "primary"),
-    line("decor-middle-rule", "Mittlere Linie", 12, 150, 186, 0.3, "primary", 0.3),
-    circle("decor-bottom-ellipse", "Untere Kreisfläche", -30, 237, 160, 120, "secondary", 0.5),
-  ],
+  pastell: [rect("decor-top-band", "Kopfband", 12, 12, 186, 3, "secondary", 0.72)],
 
   freundlich: [
     rect("decor-top-field", "Kopffläche", 0, 0, 210, 115, "primary"),
