@@ -90,6 +90,9 @@ const TEMPLATE_FAMILY: Record<string, DossierFamilyId> = {
   orbit: "modern",
   ribbon: "modern",
   cove: "modern",
+
+  // 39: same premium typography family as Edel, but with a true dark sheet.
+  edelDark: "executive",
 };
 
 export function familyForTemplate(template: TemplateId): DossierFamilyId {
