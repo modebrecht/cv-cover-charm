@@ -12,6 +12,8 @@ export type DossierChromeOptions = {
   headerShowPhone: boolean;
   headerShowEmail: boolean;
   headerHeightMm: number | null;
+  /** Additional whitespace between the shared header zone and document content. */
+  headerGapMm?: number;
   headerTextLayout: DossierChromeTextLayout;
   headerBackgroundColor: string | null;
   headerGradientColor: string | null;
@@ -59,6 +61,7 @@ export const DEFAULT_DOSSIER_CHROME_OPTIONS: DossierChromeOptions = {
   headerShowPhone: true,
   headerShowEmail: true,
   headerHeightMm: null,
+  headerGapMm: 6,
   headerTextLayout: "stacked",
   headerBackgroundColor: null,
   headerGradientColor: null,
@@ -121,6 +124,7 @@ function normalizeOptions(
     headerShowPhone: value.headerShowPhone !== false,
     headerShowEmail: value.headerShowEmail !== false,
     headerHeightMm: normalizedMm(value.headerHeightMm, 1, 40),
+    headerGapMm: normalizedMm(value.headerGapMm, 0, 40) ?? fallback.headerGapMm ?? 6,
     headerTextLayout: value.headerTextLayout === "inline" ? "inline" : "stacked",
     headerBackgroundColor: normalizedColor(value.headerBackgroundColor),
     headerGradientColor: normalizedColor(value.headerGradientColor),
@@ -151,6 +155,7 @@ function optionsFromSavedLetter(storage: Storage): DossierChromeOptions | null {
       headerShowPhone: design.headerShowPhone,
       headerShowEmail: design.headerShowEmail,
       headerHeightMm: design.headerHeightMm,
+      headerGapMm: design.headerGapMm,
       headerTextLayout: design.headerTextLayout,
       headerBackgroundColor: design.headerBackgroundColor,
       headerGradientColor: design.headerGradientColor,
@@ -296,6 +301,7 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
       design.headerShowPhone === options.headerShowPhone &&
       design.headerShowEmail === options.headerShowEmail &&
       design.headerHeightMm === options.headerHeightMm &&
+      design.headerGapMm === (options.headerGapMm ?? 6) &&
       design.headerTextLayout === options.headerTextLayout &&
       design.headerBackgroundColor === options.headerBackgroundColor &&
       design.headerGradientColor === options.headerGradientColor &&
@@ -320,6 +326,7 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
         headerShowPhone: options.headerShowPhone,
         headerShowEmail: options.headerShowEmail,
         headerHeightMm: options.headerHeightMm,
+        headerGapMm: options.headerGapMm ?? 6,
         headerTextLayout: options.headerTextLayout,
         headerBackgroundColor: options.headerBackgroundColor,
         headerGradientColor: options.headerGradientColor,
@@ -499,13 +506,14 @@ export function dossierHeaderContentTopMmForOptions(
   if (mode === "none") return pageIndex > 0 ? 16 : 18;
 
   const height = dossierHeaderVisualHeightMmForOptions(options, pageIndex);
+  const gap = Math.min(40, Math.max(0, options.headerGapMm ?? 6));
   if (pageIndex > 0) {
-    return options.headerMode === "contact"
-      ? Math.max(18, height + 10)
-      : Math.max(18, height + 15);
+    const base =
+      options.headerMode === "contact" ? Math.max(18, height + 10) : Math.max(18, height + 15);
+    return base + gap;
   }
-  if (mode === "contact") return Math.max(18, height + 9);
-  return Math.max(18, height + 18);
+  const base = mode === "contact" ? Math.max(18, height + 9) : Math.max(18, height + 18);
+  return base + gap;
 }
 
 export function dossierFooterVisualHeightMmForOptions(options: DossierChromeOptions): number {
