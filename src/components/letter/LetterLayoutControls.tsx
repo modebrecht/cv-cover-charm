@@ -12,9 +12,22 @@ function legacyChromePatch(patch: Partial<DossierChromeOptions>): Partial<Letter
   if (patch.headerShowAddress !== undefined) next.headerShowAddress = patch.headerShowAddress;
   if (patch.headerShowPhone !== undefined) next.headerShowPhone = patch.headerShowPhone;
   if (patch.headerShowEmail !== undefined) next.headerShowEmail = patch.headerShowEmail;
+  if (patch.headerHeightMm !== undefined) next.headerHeightMm = patch.headerHeightMm;
+  if (patch.headerTextLayout !== undefined) next.headerTextLayout = patch.headerTextLayout;
+  if (patch.headerBackgroundColor !== undefined) {
+    next.headerBackgroundColor = patch.headerBackgroundColor;
+  }
+  if (patch.headerGradientColor !== undefined) next.headerGradientColor = patch.headerGradientColor;
   if (patch.footerMode !== undefined) {
     next.footerMode = patch.footerMode === "details" ? "attachments" : patch.footerMode;
   }
+  if (patch.footerHeightMm !== undefined) next.footerHeightMm = patch.footerHeightMm;
+  if (patch.footerTextLayout !== undefined) next.footerTextLayout = patch.footerTextLayout;
+  if (patch.footerBackgroundColor !== undefined) {
+    next.footerBackgroundColor = patch.footerBackgroundColor;
+  }
+  if (patch.footerGradientColor !== undefined) next.footerGradientColor = patch.footerGradientColor;
+  if (patch.textFont !== undefined) next.chromeTextFont = patch.textFont;
   return next;
 }
 
