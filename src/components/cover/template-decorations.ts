@@ -153,9 +153,15 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
   ],
 
   human: [
-    circle("decor-organic-top", "Obere Kreisfläche", -40, -70, 190, 150, "secondary", 0.85),
-    circle("decor-organic-bottom", "Untere Kreisfläche", 135, 222, 120, 120, "secondary", 0.6),
-    line("decor-accent-line", "Akzentstrich", 20, 140, 30, 1.2, "primary", 0.7),
+    // Human uses a small family of related organic shapes instead of two huge,
+    // randomly clipped circles. The photo gets its own quiet halo, the upper
+    // wash frames the greeting and the lower shapes balance contact/attachments.
+    circle("decor-organic-top", "Obere weiche Fläche", -28, -38, 154, 112, "secondary", 0.78),
+    circle("decor-photo-halo", "Foto-Hintergrund", 12, 37, 64, 64, "primary", 0.1),
+    circle("decor-organic-middle", "Mittlere weiche Fläche", 146, 128, 82, 68, "secondary", 0.24),
+    circle("decor-organic-bottom", "Untere weiche Fläche", 132, 226, 108, 92, "secondary", 0.68),
+    circle("decor-organic-dot", "Kleine Akzentfläche", 169, 188, 14, 14, "primary", 0.12),
+    line("decor-accent-line", "Akzentstrich", 20, 148, 28, 1.1, "primary", 0.82),
   ],
 
   welle: [
