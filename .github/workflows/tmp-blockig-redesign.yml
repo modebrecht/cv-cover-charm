@@ -1,0 +1,135 @@
+name: Temporary Blockig redesign
+
+on:
+  push:
+    branches:
+      - templateREDO
+
+permissions:
+  contents: write
+
+jobs:
+  redesign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: templateREDO
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Redesign Blockig accents
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          letter = Path('src/components/letter/LetterSheetBackground.tsx')
+          text = letter.read_text()
+          old = '''          <div\n            data-letter-motif="accent-block"\n            className="absolute left-0 top-[45mm] h-[32mm] w-[24mm]"\n            style={{ backgroundColor: accent, opacity: 0.96 }}\n          />'''
+          new = '''          <div\n            data-letter-motif="accent-edge"\n            className="absolute left-[16mm] top-[44mm] h-[76mm] w-[3mm]"\n            style={{ backgroundColor: accent, opacity: 0.96 }}\n          />'''
+          if old not in text:
+              raise SystemExit('Blockig letter accent snippet changed unexpectedly')
+          letter.write_text(text.replace(old, new))
+
+          bg = Path('src/components/dossier/DossierSheetBackground.tsx')
+          text = bg.read_text()
+          old = '''      {template === "blockig" && (\n        <div\n          data-dossier-blockig-accent\n          className="absolute left-0 top-[46mm] h-[52mm] w-[7mm]"\n          style={{ backgroundColor: accent, opacity: 0.96 }}\n        />\n      )}'''
+          new = '''      {template === "blockig" && (\n        <div\n          data-dossier-blockig-accent\n          className="absolute left-[63mm] top-[44mm] h-[76mm] w-[3mm]"\n          style={{ backgroundColor: accent, opacity: 0.96 }}\n        />\n      )}'''
+          if old not in text:
+              raise SystemExit('Blockig shared accent snippet changed unexpectedly')
+          bg.write_text(text.replace(old, new))
+
+          test = Path('tests/unit/m13-visual-fixes.test.tsx')
+          text = test.read_text()
+          text = text.replace(
+              'test("Blockig letter uses one larger orange block without a detached dash", () => {',
+              'test("Blockig letter keeps the orange accent inside the dark rail", () => {',
+          )
+          text = text.replace(
+              'expect(markup).toContain(\'data-letter-motif="accent-block"\');\n    expect(markup).toContain("h-[32mm]");\n    expect(markup).toContain("w-[24mm]");',
+              'expect(markup).toContain(\'data-letter-motif="accent-edge"\');\n    expect(markup).toContain("left-[16mm]");\n    expect(markup).toContain("h-[76mm]");\n    expect(markup).toContain("w-[3mm]");',
+          )
+          text = text.replace(
+              'expect(markup).toContain("h-[52mm]");\n    expect(markup).toContain("w-[7mm]");',
+              'expect(markup).toContain("left-[63mm]");\n    expect(markup).toContain("h-[76mm]");\n    expect(markup).toContain("w-[3mm]");',
+          )
+          test.write_text(text)
+          PY
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Format changed files
+        run: bunx prettier --write src/components/letter/LetterSheetBackground.tsx src/components/dossier/DossierSheetBackground.tsx tests/unit/m13-visual-fixes.test.tsx
+
+      - name: Validate
+        run: |
+          bun test tests/unit
+          bun run typecheck
+          bunx eslint src/components/letter/LetterSheetBackground.tsx src/components/dossier/DossierSheetBackground.tsx tests/unit/m13-visual-fixes.test.tsx
+          bun run build
+
+      - name: Install Playwright runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start application
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/cv-cover-charm.log 2>&1 &
+          echo $! > /tmp/cv-cover-charm.pid
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/cv-cover-charm.log
+          exit 1
+
+      - name: Generate Blockig gallery batch
+        env:
+          GALLERY_BATCH_INDEX: 1
+          GALLERY_DIR: artifacts/blockig-redesign
+        run: npx playwright test tests/e2e/dossier-gallery.spec.ts --reporter=line --workers=1
+
+      - name: Verify Blockig PDF exists
+        run: test -f artifacts/blockig-redesign/07-Blockig.pdf
+
+      - name: Upload Blockig PDF batch
+        uses: actions/upload-artifact@v4
+        with:
+          name: blockig-redesign-batch
+          path: artifacts/blockig-redesign
+          if-no-files-found: error
+          retention-days: 2
+
+      - name: Commit redesign
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/letter/LetterSheetBackground.tsx src/components/dossier/DossierSheetBackground.tsx tests/unit/m13-visual-fixes.test.tsx
+          if git diff --cached --quiet; then
+            echo "No redesign changes needed."
+            exit 0
+          fi
+          git commit -m "Redesign Blockig accent geometry"
+          git push origin HEAD:templateREDO
+
+      - name: Show application log on failure
+        if: failure()
+        run: cat /tmp/cv-cover-charm.log || true
+
+      - name: Stop application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi
