@@ -1,0 +1,75 @@
+/*
+ * Human dossier polish.
+ *
+ * The legacy continuation pages only had two large clipped ellipses. Reuse
+ * those live template-colour surfaces, but turn them into a consistent small
+ * corner wash + accent stem + quiet lower echo. This keeps custom palette
+ * choices working because every generated shape inherits an existing inline
+ * template colour instead of hard-coding a brown/beige value here.
+ */
+html[data-dossier-template="human"] [data-dossier-sheet-background="human"] > div:nth-of-type(1) {
+  right: -22mm !important;
+  top: -16mm !important;
+  width: 82mm !important;
+  height: 62mm !important;
+  border-radius: 44% 0 48% 54% !important;
+  opacity: 0.3 !important;
+  transform: rotate(-4deg);
+  transform-origin: center;
+}
+
+html[data-dossier-template="human"] [data-dossier-sheet-background="human"] > div:nth-of-type(2) {
+  left: 17mm !important;
+  right: auto !important;
+  top: 18mm !important;
+  bottom: auto !important;
+  width: 2mm !important;
+  height: 42mm !important;
+  border-radius: 999px !important;
+  opacity: 0.78 !important;
+}
+
+html[data-dossier-template="human"]
+  [data-dossier-sheet-background="human"]
+  > div:nth-of-type(2)::after {
+  content: "";
+  position: absolute;
+  left: -35mm;
+  top: 224mm;
+  width: 58mm;
+  height: 40mm;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.14;
+}
+
+html[data-dossier-template="human"]
+  [data-dossier-sheet-background="human"]
+  > div:nth-of-type(2)::before {
+  content: "";
+  position: absolute;
+  left: -0.8mm;
+  top: 48mm;
+  width: 3.6mm;
+  height: 3.6mm;
+  border-radius: 999px;
+  background: inherit;
+  opacity: 0.34;
+}
+
+/* Human should read as warm and contemporary, not as an unfinished editorial
+ * serif variant. Geometry remains layout-driven; only the default rhythm gets
+ * a little more breathing room on content pages. */
+html[data-dossier-template="human"] [data-dossier-document="cv"] [data-cv-header] {
+  margin-bottom: 5.5mm;
+}
+
+html[data-dossier-template="human"] [data-dossier-document="cv"] [data-cv-section] {
+  margin-top: 3.6mm !important;
+  margin-bottom: 1.8mm !important;
+}
+
+html[data-dossier-template="human"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  border-radius: 999px;
+  opacity: 0.62;
+}
