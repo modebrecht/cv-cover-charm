@@ -5,6 +5,10 @@ const decorations = readFileSync(
   new URL("../../src/components/cover/template-decorations.ts", import.meta.url),
   "utf8",
 );
+const coverBackground = readFileSync(
+  new URL("../../src/components/cover/CoverBackground.tsx", import.meta.url),
+  "utf8",
+);
 const stationery = readFileSync(
   new URL("../../src/components/dossier/pastell-stationery.css", import.meta.url),
   "utf8",
@@ -21,6 +25,7 @@ describe("Rahmen/Pastell dossier consistency", () => {
     );
     expect(decorations).not.toContain("decor-middle-rule");
     expect(decorations).not.toContain("decor-bottom-ellipse");
+    expect(coverBackground).toContain('border: `0.4mm solid ${colors.secondary ?? colors.primary}`');
   });
 
   test("letter and CV use the same frame/top geometry and a quiet sidebar tint", () => {
