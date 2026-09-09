@@ -20,6 +20,9 @@ export type DossierChromeOptions = {
   footerTextLayout: DossierChromeTextLayout;
   footerBackgroundColor: string | null;
   footerGradientColor: string | null;
+  borderEnabled: boolean;
+  borderColor: string | null;
+  borderWidthMm: number;
   textFont: FontKey | null;
 };
 
@@ -64,6 +67,9 @@ export const DEFAULT_DOSSIER_CHROME_OPTIONS: DossierChromeOptions = {
   footerTextLayout: "inline",
   footerBackgroundColor: null,
   footerGradientColor: null,
+  borderEnabled: true,
+  borderColor: null,
+  borderWidthMm: 0.6,
   textFont: null,
 };
 
@@ -97,6 +103,11 @@ function normalizedFont(value: unknown): FontKey | null {
   return typeof value === "string" && value in FONT_LABELS ? (value as FontKey) : null;
 }
 
+function normalizedBorderWidth(value: unknown, fallback: number): number {
+  const normalized = normalizedMm(value, 0.2, 3);
+  return normalized ?? fallback;
+}
+
 function normalizeOptions(
   value: unknown,
   fallback = DEFAULT_DOSSIER_CHROME_OPTIONS,
@@ -119,6 +130,9 @@ function normalizeOptions(
     footerTextLayout: value.footerTextLayout === "stacked" ? "stacked" : "inline",
     footerBackgroundColor: normalizedColor(value.footerBackgroundColor),
     footerGradientColor: normalizedColor(value.footerGradientColor),
+    borderEnabled: value.borderEnabled !== false,
+    borderColor: normalizedColor(value.borderColor),
+    borderWidthMm: normalizedBorderWidth(value.borderWidthMm, fallback.borderWidthMm),
     textFont: normalizedFont(value.textFont),
   };
 }
@@ -145,6 +159,9 @@ function optionsFromSavedLetter(storage: Storage): DossierChromeOptions | null {
       footerTextLayout: design.footerTextLayout,
       footerBackgroundColor: design.footerBackgroundColor,
       footerGradientColor: design.footerGradientColor,
+      borderEnabled: design.chromeBorderEnabled,
+      borderColor: design.chromeBorderColor,
+      borderWidthMm: design.chromeBorderWidthMm,
       textFont: design.chromeTextFont,
     });
   } catch {
@@ -287,6 +304,9 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
       design.footerTextLayout === options.footerTextLayout &&
       design.footerBackgroundColor === options.footerBackgroundColor &&
       design.footerGradientColor === options.footerGradientColor &&
+      design.chromeBorderEnabled === options.borderEnabled &&
+      design.chromeBorderColor === options.borderColor &&
+      design.chromeBorderWidthMm === options.borderWidthMm &&
       design.chromeTextFont === options.textFont;
     if (designMatches && parsed.chrome == null) return;
 
@@ -308,6 +328,9 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
         footerTextLayout: options.footerTextLayout,
         footerBackgroundColor: options.footerBackgroundColor,
         footerGradientColor: options.footerGradientColor,
+        chromeBorderEnabled: options.borderEnabled,
+        chromeBorderColor: options.borderColor,
+        chromeBorderWidthMm: options.borderWidthMm,
         chromeTextFont: options.textFont,
       },
     };
