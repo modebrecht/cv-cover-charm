@@ -1,6 +1,9 @@
 import { FONT_LABELS, TEMPLATES, type FontKey, type TemplateId } from "@/components/cover/types";
 import { LETTER_STORAGE_KEY } from "@/lib/dossier-project";
-import type { DossierChromeState } from "@/lib/dossier-chrome";
+import type {
+  DossierChromeState,
+  DossierChromeTextLayout,
+} from "@/lib/dossier-chrome";
 
 export type LetterAlignment = "left" | "right";
 export type LetterTemplateId = "brief" | TemplateId;
@@ -69,8 +72,17 @@ export type LetterDesign = {
   headerShowAddress?: boolean;
   headerShowPhone?: boolean;
   headerShowEmail?: boolean;
+  headerHeightMm?: number | null;
+  headerTextLayout?: DossierChromeTextLayout;
+  headerBackgroundColor?: string | null;
+  headerGradientColor?: string | null;
   /** @deprecated Legacy-/SSR-Kompatibilität. Live ist DossierChromeState kanonisch. */
   footerMode?: LetterFooterMode;
+  footerHeightMm?: number | null;
+  footerTextLayout?: DossierChromeTextLayout;
+  footerBackgroundColor?: string | null;
+  footerGradientColor?: string | null;
+  chromeTextFont?: FontKey | null;
 };
 
 export type SavedLetter = {
@@ -148,6 +160,18 @@ export function defaultLetterColors(template: LetterTemplateId): Record<string, 
   return Object.fromEntries(definition.slots.map((slot) => [slot.key, slot.default]));
 }
 
+function normalizedMm(value: unknown): number | null {
+  return typeof value === "number" && Number.isFinite(value)
+    ? Math.min(40, Math.max(1, Math.round(value * 10) / 10))
+    : null;
+}
+
+function normalizedColor(value: unknown): string | null {
+  return typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value.trim())
+    ? value.trim().toLowerCase()
+    : null;
+}
+
 export function emptyLetterDesign(): LetterDesign {
   const template: LetterTemplateId = "brief";
   return {
@@ -166,7 +190,16 @@ export function emptyLetterDesign(): LetterDesign {
     headerShowAddress: true,
     headerShowPhone: true,
     headerShowEmail: true,
+    headerHeightMm: null,
+    headerTextLayout: "stacked",
+    headerBackgroundColor: null,
+    headerGradientColor: null,
     footerMode: "compact",
+    footerHeightMm: null,
+    footerTextLayout: "inline",
+    footerBackgroundColor: null,
+    footerGradientColor: null,
+    chromeTextFont: null,
   };
 }
 
@@ -188,6 +221,10 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
   const fontOverride =
     typeof incoming.fontOverride === "string" && incoming.fontOverride in FONT_LABELS
       ? (incoming.fontOverride as FontKey)
+      : null;
+  const chromeTextFont =
+    typeof incoming.chromeTextFont === "string" && incoming.chromeTextFont in FONT_LABELS
+      ? (incoming.chromeTextFont as FontKey)
       : null;
   const colors =
     incoming.colors && typeof incoming.colors === "object"
@@ -217,6 +254,15 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     headerShowAddress: incoming.headerShowAddress !== false,
     headerShowPhone: incoming.headerShowPhone !== false,
     headerShowEmail: incoming.headerShowEmail !== false,
+    headerHeightMm: normalizedMm(incoming.headerHeightMm),
+    headerTextLayout: incoming.headerTextLayout === "inline" ? "inline" : "stacked",
+    headerBackgroundColor: normalizedColor(incoming.headerBackgroundColor),
+    headerGradientColor: normalizedColor(incoming.headerGradientColor),
     footerMode,
+    footerHeightMm: normalizedMm(incoming.footerHeightMm),
+    footerTextLayout: incoming.footerTextLayout === "stacked" ? "stacked" : "inline",
+    footerBackgroundColor: normalizedColor(incoming.footerBackgroundColor),
+    footerGradientColor: normalizedColor(incoming.footerGradientColor),
+    chromeTextFont,
   };
 }
