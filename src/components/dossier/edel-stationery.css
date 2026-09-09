@@ -30,3 +30,13 @@
   inset: 12mm !important;
   opacity: 0.24 !important;
 }
+
+/*
+ * Kolumne/Terracotta no longer uses the thin vertical rail beside the contact
+ * area on interior pages. It adds noise in both CV and motivation letter and
+ * duplicates the much stronger full-height colour column.
+ */
+[data-letter-background-variant="quiet-column"][data-dossier-sheet-background="terracotta"]
+  [data-letter-motif="rail-rule"] {
+  display: none !important;
+}
