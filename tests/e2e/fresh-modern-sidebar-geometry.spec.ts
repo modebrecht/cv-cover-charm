@@ -87,14 +87,18 @@ test("Fresh Sidebar templates keep their main column clear of the adjustable sid
     ).toBeGreaterThan(2);
   }
 
-  const widths = [];
+  const geometries = [];
   for (const sidebarPct of [0.22, 0.42]) {
     await applyTemplate(page, "warm2", sidebarPct);
     const geometry = await sidebarGeometry(page, "warm2");
     expect(geometry?.overlap ?? Number.POSITIVE_INFINITY).toBeLessThanOrEqual(2);
-    widths.push(geometry?.mainLeft ?? 0);
+    geometries.push(geometry);
   }
-  expect(widths[1], "wider user sidebar must move the main column right").toBeGreaterThan(
-    widths[0] + 80,
-  );
+
+  expect(geometries[0]?.rendererLeft).toBe("54mm");
+  expect(geometries[1]?.rendererLeft).toBe("96mm");
+  expect(
+    geometries[1]?.mainLeft ?? Number.NEGATIVE_INFINITY,
+    "wider user sidebar must move the main column right in the scaled preview",
+  ).toBeGreaterThan((geometries[0]?.mainLeft ?? 0) + 50);
 });
