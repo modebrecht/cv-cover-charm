@@ -181,6 +181,75 @@ export function DossierChromeControls({
           </select>
         </label>
 
+        <div data-dossier-border-controls className="grid gap-2 rounded-md border bg-muted/20 p-2.5">
+          <label className="flex items-center gap-2 text-xs font-medium">
+            <input
+              data-dossier-border-enabled-control
+              type="checkbox"
+              checked={options.borderEnabled}
+              onChange={(event) => patchOptions({ borderEnabled: event.target.checked })}
+            />
+            Rahmen aktiv
+          </label>
+          <span className="text-[11px] leading-relaxed text-muted-foreground">
+            Eine gemeinsame Linie für beide: Header unten, Footer oben. Farbe und Dicke sind
+            identisch.
+          </span>
+
+          {options.borderEnabled ? (
+            <>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="mr-auto text-xs text-muted-foreground">Rahmenfarbe</span>
+                <input
+                  data-dossier-border-color-control
+                  type="color"
+                  value={options.borderColor ?? "#64748b"}
+                  onChange={(event) => patchOptions({ borderColor: event.target.value })}
+                  className="h-7 w-10 cursor-pointer rounded border border-input bg-background"
+                  aria-label="Rahmenfarbe"
+                />
+                {options.borderColor ? (
+                  <button
+                    type="button"
+                    className={smallButtonClass}
+                    onClick={() => patchOptions({ borderColor: null })}
+                  >
+                    Automatisch passend
+                  </button>
+                ) : (
+                  <span className="text-[11px] text-muted-foreground">Automatisch passend</span>
+                )}
+              </div>
+
+              <label className="grid gap-1 text-xs">
+                <span className="flex items-center justify-between gap-2 text-muted-foreground">
+                  <span>Rahmendicke</span>
+                  <span>{options.borderWidthMm.toFixed(1)} mm</span>
+                </span>
+                <input
+                  data-dossier-border-width-control
+                  type="range"
+                  min={0.2}
+                  max={3}
+                  step={0.1}
+                  value={options.borderWidthMm}
+                  onChange={(event) => patchOptions({ borderWidthMm: Number(event.target.value) })}
+                  className="w-full accent-primary"
+                />
+                {options.borderWidthMm !== 0.6 ? (
+                  <button
+                    type="button"
+                    className={`${smallButtonClass} justify-self-start`}
+                    onClick={() => patchOptions({ borderWidthMm: 0.6 })}
+                  >
+                    Standarddicke
+                  </button>
+                ) : null}
+              </label>
+            </>
+          ) : null}
+        </div>
+
         <div className="grid gap-2 rounded-md border p-2.5">
           <label className="block text-xs font-medium">
             Header
