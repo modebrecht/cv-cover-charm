@@ -94,7 +94,8 @@ export function letterArchetypeFor(template: LetterTemplateId): LetterArchetype 
   if (template === "brief") return "quiet";
 
   const reference = cvFrameFor(template as TemplateId);
-  const activeBand = reference.id === "band" && (reference.headFirstMm > 0 || reference.footMm > 0);
+  const activeBand =
+    reference.id === "band" && (reference.headFirstMm > 0 || reference.footMm > 0);
 
   if (reference.id === "column") return "sidebar";
   if (reference.id === "card" || reference.cardInsetMm > 0 || reference.borderInsetMm > 0) {
@@ -155,18 +156,12 @@ function letterHeaderVisualHeightMm(
   if (mode === "none") return 0;
   const custom = design.headerHeightMm;
   if (pageIndex > 0 && mode === "contact") {
-    return custom === null || custom === undefined
-      ? 8
-      : Math.min(18, Math.max(5, custom));
+    return custom === null || custom === undefined ? 8 : Math.min(18, Math.max(5, custom));
   }
   if (mode === "contact") {
-    return custom === null || custom === undefined
-      ? 22
-      : Math.min(40, Math.max(10, custom));
+    return custom === null || custom === undefined ? 22 : Math.min(40, Math.max(10, custom));
   }
-  return custom === null || custom === undefined
-    ? 3
-    : Math.min(18, Math.max(1, custom));
+  return custom === null || custom === undefined ? 3 : Math.min(18, Math.max(1, custom));
 }
 
 function letterContentTopMm(
