@@ -81,6 +81,33 @@ test.describe("M9 demo CV pagination", () => {
       expect(templateId, `${name}: selected template must reach the rendered CV`).toBeTruthy();
       exercisedTemplateIds.add(templateId!);
 
+      // The two-column layout owns its horizontal split. Template-specific CV polish may change
+      // the reading surface and vertical rhythm, but it must never pull the main column back over
+      // the sidebar. This catches visual collisions that text-presence/PDF checks cannot see.
+      if ((await cv.getAttribute("data-cv-layout")) === "modern") {
+        const columns = await pages.first().evaluate((pageNode) => {
+          const sidebar = Array.from(pageNode.children).find(
+            (child) => child instanceof HTMLElement && child.hasAttribute("data-cv-sidebar"),
+          ) as HTMLElement | undefined;
+          const main = Array.from(pageNode.children).find(
+            (child) => child instanceof HTMLElement && child.hasAttribute("data-cv-main"),
+          ) as HTMLElement | undefined;
+          if (!sidebar || !main) return null;
+          const sideRect = sidebar.getBoundingClientRect();
+          const mainRect = main.getBoundingClientRect();
+          return {
+            sidebarRight: sideRect.right,
+            mainLeft: mainRect.left,
+            overlap: Math.max(0, sideRect.right - mainRect.left),
+          };
+        });
+        expect(columns, `${templateId}: modern CV must render sidebar and main column`).not.toBeNull();
+        expect(
+          columns?.overlap ?? Number.POSITIVE_INFINITY,
+          `${templateId}: main CV column must not overlap the sidebar; ${JSON.stringify(columns)}`,
+        ).toBeLessThanOrEqual(2);
+      }
+
       // Visible section rules are a global CV contract: the title keeps its natural width and
       // the rule consumes every remaining pixel in that heading row. Measure the user-visible
       // result instead of merely checking the stored design enum so legacy `short` saves cannot
