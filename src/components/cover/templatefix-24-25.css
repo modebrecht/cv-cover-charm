@@ -1,0 +1,193 @@
+/* templateFIX: 24 Sunrise + 25 Forest Flow visual cleanup.
+ * Imported late so these rules intentionally override the older gradient family.
+ */
+
+/* 24 SUNRISE — keep the warm family, remove the orphan letter dash. */
+[data-letter-fresh-template="sunrise"] [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+/* 25 FOREST FLOW — rebuilt as a calm editorial green family.
+ * No full-height rail, no floating circles, no blurred blobs.
+ * Signature: compact dark canopy + attached soft sage bay + narrow stem.
+ */
+
+/* Cover: compact canopy instead of the old dominant left column. */
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 24mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  background-image: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"] {
+  left: auto !important;
+  right: 0 !important;
+  top: 24mm !important;
+  bottom: auto !important;
+  width: 58mm !important;
+  height: 42mm !important;
+  border-radius: 0 0 0 24mm !important;
+  opacity: 0.22 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"] {
+  left: 0 !important;
+  right: auto !important;
+  top: 24mm !important;
+  bottom: auto !important;
+  width: 7mm !important;
+  height: 34mm !important;
+  border-radius: 0 0 4mm 0 !important;
+  opacity: 0.92 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  transform: none !important;
+  width: auto !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(48mm, -9mm) scale(0.76) !important;
+  transform-origin: top left;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(-34mm, -26mm) !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: translate(-34mm, -22mm) !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+/* Letter: the old permanent rail becomes the same compact canopy.
+ * The old orb becomes one attached sage bay; the micro-rule disappears.
+ */
+[data-letter-fresh-template="forestFlow"] [data-letter-motif="rail"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 10mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+[data-letter-fresh-template="forestFlow"] [data-letter-motif="soft-orb"] {
+  left: auto !important;
+  right: 0 !important;
+  top: 10mm !important;
+  width: 46mm !important;
+  height: 16mm !important;
+  border-radius: 0 0 0 10mm !important;
+  opacity: 0.2 !important;
+}
+
+[data-letter-fresh-template="forestFlow"] [data-letter-motif="rail-rule"] {
+  display: none !important;
+}
+
+/* CV: repeat the canopy at document scale; keep the page itself quiet.
+ * This works with Standard/classic by default and does not force another layout.
+ */
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 9mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  background-image: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 9mm !important;
+  bottom: auto !important;
+  width: 42mm !important;
+  height: 18mm !important;
+  border-radius: 0 0 0 11mm !important;
+  opacity: 0.16 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  left: 0 !important;
+  right: auto !important;
+  top: 9mm !important;
+  bottom: auto !important;
+  width: 4mm !important;
+  height: 18mm !important;
+  border-radius: 0 0 3mm 0 !important;
+  opacity: 0.8 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 9mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-accent="header"] {
+  display: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-section-title] {
+  letter-spacing: 0.02em !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  border-radius: 999px !important;
+  opacity: 0.7 !important;
+}
