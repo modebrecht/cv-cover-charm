@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { buildBlocks } from "../../src/components/cover/layouts";
+import { DossierSheetBackground } from "../../src/components/dossier/DossierSheetBackground";
 import { resolveLayout } from "../../src/components/cover/resolve";
 import { EMPTY_META, TEMPLATES, type CoverData } from "../../src/components/cover/types";
 import { LetterSheetBackground } from "../../src/components/letter/LetterSheetBackground";
@@ -81,5 +82,19 @@ describe("M13 visual acceptance fixes", () => {
     expect(markup).toContain("h-[32mm]");
     expect(markup).toContain("w-[24mm]");
     expect(markup).not.toContain('data-letter-motif="rail-rule"');
+  });
+  test("Blockig shared sheet keeps one long sidebar-safe accent and no detached dash", () => {
+    const markup = renderToStaticMarkup(
+      createElement(DossierSheetBackground, {
+        template: "blockig",
+        colors: defaultLetterColors("blockig"),
+      }),
+    );
+
+    expect(markup).toContain("width:66mm");
+    expect(markup).toContain("data-dossier-blockig-accent");
+    expect(markup).toContain("h-[52mm]");
+    expect(markup).toContain("w-[7mm]");
+    expect(markup).not.toContain("top-[88mm]");
   });
 });
