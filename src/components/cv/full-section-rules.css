@@ -1,12 +1,13 @@
 /*
- * Visible CV rubric separators always fill the remaining heading row.
+ * Visible main-column CV rubric separators fill the remaining heading row.
  *
  * Older structural/template variants still contain fixed-width rules and a few
  * template-specific `display: none !important` overrides from the period when
  * headings were allowed to replace the shared separator treatment. The editor
  * now has one explicit source of truth: `headingRule="none"` omits the element;
- * every rendered separator therefore stays visible and consumes the complete
- * remaining heading row in preview, pagination measurement and PDF export.
+ * every rendered main-column separator therefore stays visible and consumes
+ * the complete remaining heading row in preview, pagination measurement and
+ * PDF export.
  *
  * Keep a small guaranteed rule width. Display-heavy template typography (for
  * example Aurora) can otherwise consume the row's entire flex budget and
@@ -14,9 +15,8 @@
  * minimum is also the flex basis, so it participates in layout calculation
  * instead of being clamped on only after flex space has already been resolved.
  *
- * Sidebar headings historically set `flexShrink: 0` inline. In narrow template
- * columns that can push the rule beyond the row edge. Override that legacy
- * detail here so the title may wrap while the separator remains visible.
+ * Some headings historically set `flexShrink: 0` inline. Override that legacy
+ * detail so titles may wrap when space is tight.
  */
 html[data-cv-variant][data-cv-variant][data-cv-variant]
   [data-dossier-document="cv"]
