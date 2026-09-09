@@ -68,4 +68,18 @@ describe("M13 visual acceptance fixes", () => {
       expect(markup).not.toContain(`width:${legacyWidth}`);
     }
   });
+
+  test("Blockig letter uses one larger orange block without a detached dash", () => {
+    const markup = renderToStaticMarkup(
+      createElement(LetterSheetBackground, {
+        template: "blockig",
+        colors: defaultLetterColors("blockig"),
+      }),
+    );
+
+    expect(markup).toContain('data-letter-motif="accent-block"');
+    expect(markup).toContain("h-[32mm]");
+    expect(markup).toContain("w-[24mm]");
+    expect(markup).not.toContain('data-letter-motif="rail-rule"');
+  });
 });
