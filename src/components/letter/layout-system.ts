@@ -82,18 +82,6 @@ const CONTENT_INSETS: Record<LetterArchetype, { left: number; right: number }> =
   frame: { left: 27, right: 27 },
 };
 
-const FIRST_PAGE_TOP: Record<LetterHeaderMode, number> = {
-  compact: 21,
-  contact: 31,
-  none: 18,
-};
-
-const CONTINUATION_TOP: Record<LetterHeaderMode, number> = {
-  compact: 18,
-  contact: 18,
-  none: 16,
-};
-
 /**
  * CV geometry is used only as a structural visual reference for established
  * templates. Fresh templates are resolved first from their dedicated letter
@@ -121,8 +109,17 @@ export function visibleLetterAttachments(data: LetterData): string[] {
   return values.filter((value) => value.trim());
 }
 
-export function letterFooterHeightMm(data: LetterData, mode: LetterFooterMode): number {
+export function letterFooterHeightMm(
+  data: LetterData,
+  mode: LetterFooterMode,
+  heightOverrideMm: number | null = null,
+): number {
   if (mode === "none") return 0;
+  if (heightOverrideMm !== null && Number.isFinite(heightOverrideMm)) {
+    return mode === "compact"
+      ? Math.min(18, Math.max(1, heightOverrideMm))
+      : Math.min(40, Math.max(4, heightOverrideMm));
+  }
   if (mode === "compact") return 2.4;
 
   const attachments = data.showBeilagen !== false ? visibleLetterAttachments(data) : [];
@@ -150,6 +147,41 @@ function effectiveFooterMode(design: LetterDesign, finalPage: boolean): LetterFo
   return requested;
 }
 
+function letterHeaderVisualHeightMm(
+  design: LetterDesign,
+  pageIndex: number,
+  mode: LetterHeaderMode,
+): number {
+  if (mode === "none") return 0;
+  const custom = design.headerHeightMm;
+  if (pageIndex > 0 && mode === "contact") {
+    return custom === null || custom === undefined
+      ? 8
+      : Math.min(18, Math.max(5, custom));
+  }
+  if (mode === "contact") {
+    return custom === null || custom === undefined
+      ? 22
+      : Math.min(40, Math.max(10, custom));
+  }
+  return custom === null || custom === undefined
+    ? 3
+    : Math.min(18, Math.max(1, custom));
+}
+
+function letterContentTopMm(
+  design: LetterDesign,
+  pageIndex: number,
+  mode: LetterHeaderMode,
+): number {
+  if (mode === "none") return pageIndex > 0 ? 16 : 18;
+  const height = letterHeaderVisualHeightMm(design, pageIndex, mode);
+  if (pageIndex > 0) {
+    return mode === "contact" ? Math.max(18, height + 10) : Math.max(18, height + 15);
+  }
+  return mode === "contact" ? Math.max(18, height + 9) : Math.max(18, height + 18);
+}
+
 export function letterPageGeometry(
   data: LetterData,
   design: LetterDesign,
@@ -165,10 +197,15 @@ export function letterPageGeometry(
   const requestedFooterMode = design.footerMode ?? "compact";
   const headerMode = effectiveHeaderMode(design);
   const footerMode = effectiveFooterMode(design, finalPage);
-  const footerHeight = letterFooterHeightMm(data, footerMode);
+  const footerHeight = letterFooterHeightMm(data, footerMode, design.footerHeightMm ?? null);
   const insets = fresh ? { left: fresh.left, right: fresh.right } : CONTENT_INSETS[archetype];
-  const top = firstPage ? FIRST_PAGE_TOP[headerMode] : CONTINUATION_TOP[headerMode];
-  const bottom = footerMode === "none" ? 10 : footerMode === "attachments" ? footerHeight + 7 : 17;
+  const top = letterContentTopMm(design, pageIndex, headerMode);
+  const bottom =
+    footerMode === "none"
+      ? 10
+      : footerMode === "attachments"
+        ? footerHeight + 7
+        : footerHeight + 14.6;
   const width = LETTER_PAGE_MM.width - insets.left - insets.right;
   const height = LETTER_PAGE_MM.height - top - bottom;
   const showAttachments =
@@ -196,7 +233,7 @@ export function letterPageGeometry(
       height,
     },
     header: {
-      contactHeight: 22,
+      contactHeight: letterHeaderVisualHeightMm(design, pageIndex, "contact"),
       contactLeft: 24,
       contactRight: 23,
       contactTop: 3.1,
