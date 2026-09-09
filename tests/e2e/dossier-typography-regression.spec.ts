@@ -7,6 +7,9 @@ const FAMILY_CASES = [
   { family: "executive", template: "pastell", expected: "Palatino" },
   { family: "modern", template: "modern", expected: "Helvetica" },
   { family: "classic", template: "serioes", expected: "Helvetica" },
+  { family: "executive Fresh", template: "frame", expected: "Palatino" },
+  { family: "executive Fresh", template: "forestFlow", expected: "Palatino" },
+  { family: "editorial Fresh", template: "monoLuxe", expected: "Georgia" },
 ] as const;
 
 function coverPayload(template: string, font?: string) {
@@ -114,17 +117,86 @@ async function dossierFonts(page: Page, template: string, font?: string) {
   return { cover, letter, cv };
 }
 
+async function coverTextStyle(page: Page, blockId: string) {
+  const node = page.locator(`[data-dossier-document="cover"] [data-block-id="${blockId}"] > div`).first();
+  await expect(node).toBeVisible();
+  return node.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      fontFamily: style.fontFamily,
+      fontStyle: style.fontStyle,
+      fontWeight: style.fontWeight,
+      textTransform: style.textTransform,
+      letterSpacing: style.letterSpacing,
+    };
+  });
+}
+
 test.describe("dossier typography regression", () => {
   test.setTimeout(120_000);
 
   for (const item of FAMILY_CASES) {
-    test(`${item.family}: cover, motivation letter and CV use one family font`, async ({ page }) => {
+    test(`${item.family} ${item.template}: cover, motivation letter and CV use one family font`, async ({
+      page,
+    }) => {
       const fonts = await dossierFonts(page, item.template);
       expect(fonts.cover).toBe(fonts.letter);
       expect(fonts.letter).toBe(fonts.cv);
       expect(fonts.cover).toContain(item.expected);
     });
   }
+
+  test("02 Editorial renders as one restrained serif hierarchy", async ({ page }) => {
+    await seedCover(page, "klassisch");
+    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator('[data-dossier-document="cover"]').first()).toBeVisible();
+
+    const ids = [
+      "eyebrow",
+      "ortDatum",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "beilagenTitel",
+      "beilagen",
+    ];
+    const styles = Object.fromEntries(
+      await Promise.all(ids.map(async (id) => [id, await coverTextStyle(page, id)] as const)),
+    );
+
+    expect(new Set(ids.map((id) => styles[id].fontFamily))).toEqual(
+      new Set([styles.name.fontFamily]),
+    );
+    expect(styles.name.fontFamily).toContain("Georgia");
+
+    // One intentional display accent: the profession. Metadata and secondary
+    // labels stay roman instead of alternating between several type treatments.
+    expect(styles.beruf.fontStyle).toBe("italic");
+    expect(styles.ortDatum.fontStyle).toBe("normal");
+    expect(styles.lehrbeginn.fontStyle).toBe("normal");
+    expect(styles.name.fontStyle).toBe("normal");
+
+    for (const id of ["eyebrow", "kicker", "kontaktTitel", "beilagenTitel"]) {
+      expect(styles[id].textTransform).toBe("none");
+      expect(Number(styles[id].fontWeight)).toBeGreaterThanOrEqual(600);
+    }
+
+    expect(Number(styles.name.fontWeight)).toBeGreaterThanOrEqual(700);
+  });
+
+  test("Fresh Executive applicant initials use the resolved Palatino dossier font", async ({ page }) => {
+    await seedCover(page, "frame");
+    await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+    const initials = page.locator(
+      '[data-dossier-document="cover"] [data-dossier-photo="applicant"] > div',
+    );
+    await expect(initials).toBeVisible();
+    const font = await initials.evaluate((element) => getComputedStyle(element).fontFamily);
+    expect(font).toContain("Palatino");
+  });
 
   test("an explicit title-page font becomes one dossier-wide override", async ({ page }) => {
     const fonts = await dossierFonts(page, "klassisch", "maschine");
