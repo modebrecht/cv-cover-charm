@@ -2,7 +2,6 @@ import { expect, test, type Page } from "@playwright/test";
 import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { FRESH_TEMPLATE_REGISTRY } from "../../src/components/cover/fresh-template-registry";
-import "../../src/components/cover/fresh-templates";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 
 const BASE_URL = "http://127.0.0.1:4173";
@@ -20,12 +19,18 @@ function galleryBatchIndex(): number | null {
   return value;
 }
 
-// The side-effect import above builds the exact live selectable catalogue,
-// including Fresh and Edel Dark while excluding retired templates.
-const ALL_GALLERY_TEMPLATES = TEMPLATES.map((template) => ({
-  id: template.id,
-  name: template.name,
-}));
+// Keep this Node-side catalogue data-only: importing fresh-templates.ts would
+// pull CSS into Playwright's test transform. Mirror the live product boundary
+// explicitly instead: retired legacy ids are excluded, Fresh remains complete,
+// and Edel Dark is the final registered non-Fresh template.
+const RETIRED_TEMPLATE_IDS = new Set(["edelBlockig", "sonnig"]);
+const ALL_GALLERY_TEMPLATES = [
+  ...TEMPLATES.filter((template) => !RETIRED_TEMPLATE_IDS.has(template.id as string)).map(
+    (template) => ({ id: template.id, name: template.name }),
+  ),
+  ...FRESH_TEMPLATE_REGISTRY,
+  { id: "edelDark", name: "Edel Dark" },
+];
 
 async function extractPdfText(path: string): Promise<string> {
   const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
