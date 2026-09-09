@@ -1,5 +1,6 @@
 import { DEFAULTS } from "@/default-config";
-import type { Block, ColorSlot, CoverData, CustomField, TemplateId } from "./types";
+import { dossierDefaultFontKey } from "@/lib/dossier-theme";
+import type { Block, BlockStyle, ColorSlot, CoverData, CustomField, TemplateId } from "./types";
 import { DEFAULT_COVER_BEILAGEN } from "./types";
 import { buildBlocks as buildBaseBlocks } from "./layouts-base";
 import type { StyleOverrides } from "./layouts-base";
@@ -7,6 +8,7 @@ import { isFreshTemplate } from "./fresh-templates";
 import { templateDecorations } from "./template-decorations";
 import "./editable-decorations.css";
 import "./fresh-cover-visual-cleanup.css";
+import "./template-typography-fixes.css";
 
 // Keep the established layout catalogue in a stable base module. Simple visual
 // primitives live exactly once as editor blocks in template-decorations.ts;
@@ -18,12 +20,80 @@ const COVER_BEILAGEN_RIGHT_X_MM = 110;
 const COVER_BEILAGEN_WIDTH_MM = 80;
 const COVER_BEILAGEN_MAX_BOTTOM_MM = 276;
 
+const EDITORIAL_HEADING_IDS = new Set(["eyebrow", "kicker", "kontaktTitel", "anTitel"]);
+
+function setDefaultStyle<K extends keyof BlockStyle>(
+  patch: Partial<BlockStyle>,
+  blockOverrides: Partial<BlockStyle>,
+  key: K,
+  value: BlockStyle[K],
+) {
+  if (blockOverrides[key] === undefined) patch[key] = value;
+}
+
+/**
+ * Visual defaults that need to be applied after the legacy layout catalogue.
+ * Explicit per-element edits always win; this only corrects template defaults.
+ */
+function typographyDefaultPatch(
+  template: TemplateId,
+  block: Block,
+  overrides: StyleOverrides,
+): Partial<BlockStyle> {
+  const patch: Partial<BlockStyle> = {};
+  const blockOverrides = overrides[block.id] ?? {};
+
+  // Fresh templates currently reuse proven legacy geometry, but typography must
+  // come from their real dossier family rather than the old Warm/sans fallback.
+  if (isFreshTemplate(template)) {
+    setDefaultStyle(patch, blockOverrides, "font", dossierDefaultFontKey(template));
+  }
+
+  // 02 Editorial deliberately uses one restrained serif system. Keep the
+  // profession as the single italic display accent; everything around it is a
+  // quieter roman hierarchy rather than a mix of caps, italics and wide tracking.
+  if (template === "klassisch") {
+    if (EDITORIAL_HEADING_IDS.has(block.id)) {
+      setDefaultStyle(patch, blockOverrides, "uppercase", false);
+      setDefaultStyle(patch, blockOverrides, "weight", 600);
+      setDefaultStyle(patch, blockOverrides, "tracking", 0.04);
+    }
+
+    if (block.id === "ortDatum") {
+      setDefaultStyle(patch, blockOverrides, "italic", false);
+      setDefaultStyle(patch, blockOverrides, "tracking", 0);
+    }
+
+    if (block.id === "beruf") {
+      setDefaultStyle(patch, blockOverrides, "italic", true);
+      setDefaultStyle(patch, blockOverrides, "weight", 600);
+      setDefaultStyle(patch, blockOverrides, "tracking", 0);
+    }
+
+    if (block.id === "name") {
+      setDefaultStyle(patch, blockOverrides, "weight", 700);
+      setDefaultStyle(patch, blockOverrides, "tracking", -0.01);
+    }
+
+    if (block.id === "lehrbeginn") {
+      setDefaultStyle(patch, blockOverrides, "italic", false);
+      setDefaultStyle(patch, blockOverrides, "tracking", 0);
+    }
+  }
+
+  return patch;
+}
+
 function templateDefaultAdjustment(
   template: TemplateId,
   block: Block,
   overrides: StyleOverrides,
 ): Block {
   let adjusted = block;
+  const typographyPatch = typographyDefaultPatch(template, block, overrides);
+  if (Object.keys(typographyPatch).length > 0) {
+    adjusted = { ...adjusted, style: { ...adjusted.style, ...typographyPatch } };
+  }
 
   // Brief intentionally reuses Modern's base geometry. Keep the document label
   // on the same corrected 20mm left margin as Modern unless the user moved it.
