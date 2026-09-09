@@ -20,8 +20,8 @@ function galleryBatchIndex(): number | null {
   return value;
 }
 
-// Importing fresh-templates registers the complete selectable catalogue once:
-// legacy 01-20, Fresh 21-38 and the standalone Edel Dark variant 39.
+// The side-effect import above builds the exact live selectable catalogue,
+// including Fresh and Edel Dark while excluding retired templates.
 const ALL_GALLERY_TEMPLATES = TEMPLATES.map((template) => ({
   id: template.id,
   name: template.name,
@@ -149,12 +149,14 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
   }));
 
   expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(18);
-  expect(ALL_GALLERY_TEMPLATES).toHaveLength(39);
-  expect(cases).toHaveLength(39);
+  expect(ALL_GALLERY_TEMPLATES).toHaveLength(37);
+  expect(cases).toHaveLength(37);
   expect(cases.at(-1)?.label).toBe("Edel Dark");
+  expect(ALL_GALLERY_TEMPLATES.map(({ id }) => id as string)).not.toContain("edelBlockig");
+  expect(ALL_GALLERY_TEMPLATES.map(({ id }) => id as string)).not.toContain("sonnig");
 
-  const totalPdfCount = cases.length + 1; // UI example + 39 dossier template cases.
-  expect(totalPdfCount).toBe(40);
+  const totalPdfCount = cases.length + 1; // UI example + 37 dossier template cases.
+  expect(totalPdfCount).toBe(38);
   expect(Math.ceil(totalPdfCount / GALLERY_BATCH_SIZE)).toBe(GALLERY_BATCH_COUNT);
 
   const batchStart = batchIndex === null ? 0 : batchIndex * GALLERY_BATCH_SIZE;
