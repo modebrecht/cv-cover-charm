@@ -79,6 +79,9 @@ export type LetterDesign = {
   footerTextLayout?: DossierChromeTextLayout;
   footerBackgroundColor?: string | null;
   footerGradientColor?: string | null;
+  chromeBorderEnabled?: boolean;
+  chromeBorderColor?: string | null;
+  chromeBorderWidthMm?: number;
   chromeTextFont?: FontKey | null;
 };
 
@@ -163,6 +166,12 @@ function normalizedMm(value: unknown): number | null {
     : null;
 }
 
+function normalizedBorderWidth(value: unknown): number {
+  return typeof value === "number" && Number.isFinite(value)
+    ? Math.min(3, Math.max(0.2, Math.round(value * 10) / 10))
+    : 0.6;
+}
+
 function normalizedColor(value: unknown): string | null {
   return typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value.trim())
     ? value.trim().toLowerCase()
@@ -196,6 +205,9 @@ export function emptyLetterDesign(): LetterDesign {
     footerTextLayout: "inline",
     footerBackgroundColor: null,
     footerGradientColor: null,
+    chromeBorderEnabled: true,
+    chromeBorderColor: null,
+    chromeBorderWidthMm: 0.6,
     chromeTextFont: null,
   };
 }
@@ -260,6 +272,9 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     footerTextLayout: incoming.footerTextLayout === "stacked" ? "stacked" : "inline",
     footerBackgroundColor: normalizedColor(incoming.footerBackgroundColor),
     footerGradientColor: normalizedColor(incoming.footerGradientColor),
+    chromeBorderEnabled: incoming.chromeBorderEnabled !== false,
+    chromeBorderColor: normalizedColor(incoming.chromeBorderColor),
+    chromeBorderWidthMm: normalizedBorderWidth(incoming.chromeBorderWidthMm),
     chromeTextFont,
   };
 }
