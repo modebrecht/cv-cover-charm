@@ -15,6 +15,7 @@ import "./signature-templates.css";
 import "./next-signature-templates.css";
 import "./verlauf-pill-fix.css";
 import "./templatefix-24-25.css";
+import "./templatefix-violet-pulse.css";
 
 export { FRESH_TEMPLATE_IDS, type FreshTemplateId } from "./fresh-template-registry";
 
