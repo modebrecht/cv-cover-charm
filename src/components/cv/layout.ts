@@ -40,6 +40,7 @@ export const CV_LAYOUTS: Array<{
 const STORAGE_KEY = "lebenslauf:layout:v1";
 const MIRROR_STORAGE_KEY = "lebenslauf:layout-mirror:v1";
 const EVENT = "lebenslauf-layout-change";
+const DEFAULT_LAYOUT: CvLayoutId = "modern";
 
 function valid(value: string | null): value is CvLayoutId {
   return (
@@ -53,12 +54,12 @@ function valid(value: string | null): value is CvLayoutId {
 }
 
 function readChoice(): CvLayoutId {
-  if (typeof window === "undefined") return "classic";
+  if (typeof window === "undefined") return DEFAULT_LAYOUT;
   try {
     const value = window.localStorage.getItem(STORAGE_KEY);
-    return valid(value) ? value : "classic";
+    return valid(value) ? value : DEFAULT_LAYOUT;
   } catch {
-    return "classic";
+    return DEFAULT_LAYOUT;
   }
 }
 

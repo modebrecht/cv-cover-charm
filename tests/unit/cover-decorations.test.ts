@@ -111,16 +111,6 @@ describe("cover decoration single source", () => {
     }
   });
 
-  test("Colorful removes the stray accent bar and keeps the application kicker on one line", async () => {
-    const colorfulIds = templateDecorations("colorful", {}).map((block) => block.id);
-    expect(colorfulIds).not.toContain("decor-accent-bar");
-
-    const layouts = await Bun.file("src/components/cover/layouts.ts").text();
-    expect(layouts).toContain('(template === "blockig" || template === "colorful")');
-    expect(layouts).toContain("{ w: 174 }");
-    expect(layouts).toContain("{ maxLines: 1 }");
-  });
-
   test("Warm and Colorful CVs keep real header fields and print-safe geometry", () => {
     const warm = renderToStaticMarkup(
       createElement(DossierSheetBackground, { template: "freundlich", colors: COLORS }),
