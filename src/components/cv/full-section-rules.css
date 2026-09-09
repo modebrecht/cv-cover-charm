@@ -7,6 +7,11 @@
  * now has one explicit source of truth: `headingRule="none"` omits the element;
  * every rendered separator therefore stays visible and consumes the complete
  * remaining heading row in preview, pagination measurement and PDF export.
+ *
+ * Keep a small guaranteed rule width. Display-heavy template typography (for
+ * example Aurora) can otherwise consume the row's entire flex budget and
+ * collapse the rule to 0 px even though the shared setting is "full". The
+ * heading itself remains shrinkable, so this minimum does not create overflow.
  */
 html[data-cv-variant][data-cv-variant][data-cv-variant]
   [data-dossier-document="cv"]
@@ -15,6 +20,6 @@ html[data-cv-variant][data-cv-variant][data-cv-variant]
   width: auto !important;
   max-width: none !important;
   flex: 1 1 0% !important;
-  min-width: 0 !important;
+  min-width: 4mm !important;
   margin-right: 0 !important;
 }
