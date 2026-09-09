@@ -1,6 +1,9 @@
+import { FONT_LABELS, type FontKey } from "@/components/cover/types";
+
 export type DossierChromeScope = "cv" | "letter";
 export type DossierHeaderMode = "compact" | "contact" | "none";
 export type DossierFooterMode = "compact" | "details" | "none";
+export type DossierChromeTextLayout = "stacked" | "inline";
 
 export type DossierChromeOptions = {
   headerMode: DossierHeaderMode;
@@ -8,7 +11,16 @@ export type DossierChromeOptions = {
   headerShowAddress: boolean;
   headerShowPhone: boolean;
   headerShowEmail: boolean;
+  headerHeightMm: number | null;
+  headerTextLayout: DossierChromeTextLayout;
+  headerBackgroundColor: string | null;
+  headerGradientColor: string | null;
   footerMode: DossierFooterMode;
+  footerHeightMm: number | null;
+  footerTextLayout: DossierChromeTextLayout;
+  footerBackgroundColor: string | null;
+  footerGradientColor: string | null;
+  textFont: FontKey | null;
 };
 
 export type DossierChromeState = {
@@ -43,7 +55,16 @@ export const DEFAULT_DOSSIER_CHROME_OPTIONS: DossierChromeOptions = {
   headerShowAddress: true,
   headerShowPhone: true,
   headerShowEmail: true,
+  headerHeightMm: null,
+  headerTextLayout: "stacked",
+  headerBackgroundColor: null,
+  headerGradientColor: null,
   footerMode: "compact",
+  footerHeightMm: null,
+  footerTextLayout: "inline",
+  footerBackgroundColor: null,
+  footerGradientColor: null,
+  textFont: null,
 };
 
 export const DEFAULT_DOSSIER_CHROME_STATE: DossierChromeState = {
@@ -59,6 +80,23 @@ let cached: DossierChromeState | null = null;
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === "object" && !Array.isArray(value);
 
+function normalizedMm(value: unknown, min: number, max: number): number | null {
+  if (value === null || value === undefined || value === "") return null;
+  const numeric = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(numeric)) return null;
+  return Math.min(max, Math.max(min, Math.round(numeric * 10) / 10));
+}
+
+function normalizedColor(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const color = value.trim();
+  return /^#[0-9a-f]{6}$/i.test(color) ? color.toLowerCase() : null;
+}
+
+function normalizedFont(value: unknown): FontKey | null {
+  return typeof value === "string" && value in FONT_LABELS ? (value as FontKey) : null;
+}
+
 function normalizeOptions(
   value: unknown,
   fallback = DEFAULT_DOSSIER_CHROME_OPTIONS,
@@ -71,8 +109,17 @@ function normalizeOptions(
     headerShowAddress: value.headerShowAddress !== false,
     headerShowPhone: value.headerShowPhone !== false,
     headerShowEmail: value.headerShowEmail !== false,
+    headerHeightMm: normalizedMm(value.headerHeightMm, 1, 40),
+    headerTextLayout: value.headerTextLayout === "inline" ? "inline" : "stacked",
+    headerBackgroundColor: normalizedColor(value.headerBackgroundColor),
+    headerGradientColor: normalizedColor(value.headerGradientColor),
     footerMode:
       value.footerMode === "details" || value.footerMode === "none" ? value.footerMode : "compact",
+    footerHeightMm: normalizedMm(value.footerHeightMm, 1, 40),
+    footerTextLayout: value.footerTextLayout === "stacked" ? "stacked" : "inline",
+    footerBackgroundColor: normalizedColor(value.footerBackgroundColor),
+    footerGradientColor: normalizedColor(value.footerGradientColor),
+    textFont: normalizedFont(value.textFont),
   };
 }
 
@@ -89,7 +136,16 @@ function optionsFromSavedLetter(storage: Storage): DossierChromeOptions | null {
       headerShowAddress: design.headerShowAddress,
       headerShowPhone: design.headerShowPhone,
       headerShowEmail: design.headerShowEmail,
+      headerHeightMm: design.headerHeightMm,
+      headerTextLayout: design.headerTextLayout,
+      headerBackgroundColor: design.headerBackgroundColor,
+      headerGradientColor: design.headerGradientColor,
       footerMode: design.footerMode === "attachments" ? "details" : design.footerMode,
+      footerHeightMm: design.footerHeightMm,
+      footerTextLayout: design.footerTextLayout,
+      footerBackgroundColor: design.footerBackgroundColor,
+      footerGradientColor: design.footerGradientColor,
+      textFont: design.chromeTextFont,
     });
   } catch {
     return null;
@@ -222,7 +278,16 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
       design.headerShowAddress === options.headerShowAddress &&
       design.headerShowPhone === options.headerShowPhone &&
       design.headerShowEmail === options.headerShowEmail &&
-      design.footerMode === footerMode;
+      design.headerHeightMm === options.headerHeightMm &&
+      design.headerTextLayout === options.headerTextLayout &&
+      design.headerBackgroundColor === options.headerBackgroundColor &&
+      design.headerGradientColor === options.headerGradientColor &&
+      design.footerMode === footerMode &&
+      design.footerHeightMm === options.footerHeightMm &&
+      design.footerTextLayout === options.footerTextLayout &&
+      design.footerBackgroundColor === options.footerBackgroundColor &&
+      design.footerGradientColor === options.footerGradientColor &&
+      design.chromeTextFont === options.textFont;
     if (designMatches && parsed.chrome == null) return;
 
     const nextLetter: Record<string, unknown> = {
@@ -234,7 +299,16 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
         headerShowAddress: options.headerShowAddress,
         headerShowPhone: options.headerShowPhone,
         headerShowEmail: options.headerShowEmail,
+        headerHeightMm: options.headerHeightMm,
+        headerTextLayout: options.headerTextLayout,
+        headerBackgroundColor: options.headerBackgroundColor,
+        headerGradientColor: options.headerGradientColor,
         footerMode,
+        footerHeightMm: options.footerHeightMm,
+        footerTextLayout: options.footerTextLayout,
+        footerBackgroundColor: options.footerBackgroundColor,
+        footerGradientColor: options.footerGradientColor,
+        chromeTextFont: options.textFont,
       },
     };
     // `bewerbungsdossier:chrome:v1` is the only live authority. Strip old
@@ -377,35 +451,53 @@ export function effectiveDossierHeaderModeForOptions(
   return requested === "none" ? "none" : "compact";
 }
 
+export function dossierHeaderVisualHeightMmForOptions(
+  options: DossierChromeOptions,
+  pageIndex = 0,
+): number {
+  if (options.headerMode === "none") return 0;
+
+  const custom = options.headerHeightMm;
+  if (pageIndex > 0 && options.headerMode === "contact") {
+    return custom === null ? 8 : Math.min(18, Math.max(5, custom));
+  }
+
+  const mode = effectiveDossierHeaderModeForOptions(options, pageIndex);
+  if (mode === "contact") return custom === null ? 22 : Math.min(40, Math.max(10, custom));
+  if (mode === "compact") return custom === null ? 3 : Math.min(18, Math.max(1, custom));
+  return 0;
+}
+
 export function dossierHeaderContentTopMmForOptions(
   options: DossierChromeOptions,
   pageIndex = 0,
 ): number {
   const mode = effectiveDossierHeaderModeForOptions(options, pageIndex);
-  if (pageIndex > 0) return mode === "none" ? 16 : 18;
-  if (mode === "contact") return 31;
-  if (mode === "none") return 18;
-  return 21;
-}
+  if (mode === "none") return pageIndex > 0 ? 16 : 18;
 
-export function dossierHeaderVisualHeightMmForOptions(
-  options: DossierChromeOptions,
-  pageIndex = 0,
-): number {
-  const mode = effectiveDossierHeaderModeForOptions(options, pageIndex);
-  if (mode === "contact") return 22;
-  if (mode === "compact") return 3;
-  return 0;
-}
-
-export function dossierFooterContentBottomMmForOptions(options: DossierChromeOptions): number {
-  if (options.footerMode === "none") return 10;
-  return options.footerMode === "details" ? 20 : 17;
+  const height = dossierHeaderVisualHeightMmForOptions(options, pageIndex);
+  if (pageIndex > 0) {
+    return options.headerMode === "contact"
+      ? Math.max(18, height + 10)
+      : Math.max(18, height + 15);
+  }
+  if (mode === "contact") return Math.max(18, height + 9);
+  return Math.max(18, height + 18);
 }
 
 export function dossierFooterVisualHeightMmForOptions(options: DossierChromeOptions): number {
   if (options.footerMode === "none") return 0;
-  return options.footerMode === "details" ? 10 : 2.4;
+  const custom = options.footerHeightMm;
+  if (options.footerMode === "details") {
+    return custom === null ? 10 : Math.min(40, Math.max(4, custom));
+  }
+  return custom === null ? 2.4 : Math.min(18, Math.max(1, custom));
+}
+
+export function dossierFooterContentBottomMmForOptions(options: DossierChromeOptions): number {
+  if (options.footerMode === "none") return 10;
+  const height = dossierFooterVisualHeightMmForOptions(options);
+  return options.footerMode === "details" ? height + 10 : height + 14.6;
 }
 
 // Compatibility wrappers for callers that intentionally read the live store.
