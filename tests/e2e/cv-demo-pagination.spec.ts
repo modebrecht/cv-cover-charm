@@ -87,7 +87,8 @@ test.describe("M9 demo CV pagination", () => {
       if ((await cv.getAttribute("data-cv-layout")) === "modern") {
         const columns = await pages.first().evaluate((pageNode) => {
           const sidebar = Array.from(pageNode.children).find(
-            (child) => child instanceof HTMLElement && child.hasAttribute("data-cv-sidebar"),
+            (child) =>
+              child instanceof HTMLElement && child.hasAttribute("data-cv-sidebar"),
           ) as HTMLElement | undefined;
           const main = Array.from(pageNode.children).find(
             (child) => child instanceof HTMLElement && child.hasAttribute("data-cv-main"),
@@ -101,7 +102,10 @@ test.describe("M9 demo CV pagination", () => {
             overlap: Math.max(0, sideRect.right - mainRect.left),
           };
         });
-        expect(columns, `${templateId}: modern CV must render sidebar and main column`).not.toBeNull();
+        expect(
+          columns,
+          `${templateId}: modern CV must render sidebar and main column`,
+        ).not.toBeNull();
         expect(
           columns?.overlap ?? Number.POSITIVE_INFINITY,
           `${templateId}: main CV column must not overlap the sidebar; ${JSON.stringify(columns)}`,
