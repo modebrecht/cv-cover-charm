@@ -680,14 +680,6 @@ export function DossierSheetBackground({
         />
       )}
 
-      {template === "blockig" && (
-        <div
-          data-dossier-blockig-accent
-          className="absolute left-[63mm] top-[44mm] h-[76mm] w-[3mm]"
-          style={{ backgroundColor: accent, opacity: 0.96 }}
-        />
-      )}
-
       {template === "terracotta" && (
         <div
           className="absolute left-[6mm] top-[20mm] h-[38mm] w-[1px]"

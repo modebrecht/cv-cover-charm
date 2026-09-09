@@ -57,7 +57,7 @@ describe("M14 Fresh renderer boundaries", () => {
     expect(markup).toContain('data-letter-background-variant="quiet-column"');
     expect(markup).toContain('data-letter-safe-rail="true"');
     expect(markup).toContain('data-letter-motif="rail"');
-    expect(markup).toContain('data-letter-motif="accent-edge"');
+    expect(markup).not.toContain('data-letter-motif="accent-edge"');
     expect(markup).not.toContain('data-letter-motif="rail-rule"');
   });
 });

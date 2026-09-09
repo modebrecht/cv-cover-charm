@@ -70,7 +70,7 @@ describe("M13 visual acceptance fixes", () => {
     }
   });
 
-  test("Blockig letter keeps the orange accent inside the dark rail", () => {
+  test("Blockig letter uses one clean dark rail without floating orange fragments", () => {
     const markup = renderToStaticMarkup(
       createElement(LetterSheetBackground, {
         template: "blockig",
@@ -78,13 +78,13 @@ describe("M13 visual acceptance fixes", () => {
       }),
     );
 
-    expect(markup).toContain('data-letter-motif="accent-edge"');
-    expect(markup).toContain("left-[16mm]");
-    expect(markup).toContain("h-[76mm]");
-    expect(markup).toContain("w-[3mm]");
+    expect(markup).toContain('data-letter-motif="rail"');
+    expect(markup).not.toContain('data-letter-motif="accent-edge"');
+    expect(markup).not.toContain('data-letter-motif="accent-block"');
     expect(markup).not.toContain('data-letter-motif="rail-rule"');
   });
-  test("Blockig shared sheet keeps one long sidebar-safe accent and no detached dash", () => {
+
+  test("Blockig shared CV sheet uses the navy sidebar without a floating accent slab", () => {
     const markup = renderToStaticMarkup(
       createElement(DossierSheetBackground, {
         template: "blockig",
@@ -93,10 +93,7 @@ describe("M13 visual acceptance fixes", () => {
     );
 
     expect(markup).toContain("width:66mm");
-    expect(markup).toContain("data-dossier-blockig-accent");
-    expect(markup).toContain("left-[63mm]");
-    expect(markup).toContain("h-[76mm]");
-    expect(markup).toContain("w-[3mm]");
+    expect(markup).not.toContain("data-dossier-blockig-accent");
     expect(markup).not.toContain("top-[88mm]");
   });
 });

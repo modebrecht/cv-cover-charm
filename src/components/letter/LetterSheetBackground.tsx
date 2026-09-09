@@ -167,11 +167,6 @@ function QuietColumnBackground({
             className="absolute inset-y-0 left-0 w-[19mm]"
             style={{ backgroundColor: primary }}
           />
-          <div
-            data-letter-motif="accent-edge"
-            className="absolute left-[16mm] top-[44mm] h-[76mm] w-[3mm]"
-            style={{ backgroundColor: accent, opacity: 0.96 }}
-          />
         </>
       ) : null}
 

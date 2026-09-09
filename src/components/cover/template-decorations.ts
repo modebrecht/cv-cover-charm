@@ -136,7 +136,7 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
 
   blockig: [
     rect("decor-top-block", "Kopfblock", 0, 0, 105, 30, "primary"),
-    rect("decor-side-block", "Farbfläche", 0, 46, 105, 72, "accent", 0.9),
+    rect("decor-accent-band", "Akzentband", 0, 104, 105, 14, "accent", 0.96),
   ],
 
   edelBlockig: [
