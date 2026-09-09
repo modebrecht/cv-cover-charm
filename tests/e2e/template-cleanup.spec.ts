@@ -98,7 +98,7 @@ test.describe("template cleanup", () => {
     );
   });
 
-  test("Blockig CV keeps the full-height grey rail and redesigned orange accent band", async ({
+  test("Blockig CV keeps only the full-height grey rail from the cleaned background", async ({
     page,
   }) => {
     await seedCv(page, "blockig");
@@ -117,44 +117,36 @@ test.describe("template cleanup", () => {
         if (!pageElement || !background) return null;
 
         const pageRect = pageElement.getBoundingClientRect();
-        const backgroundChildren = Array.from(background.children).filter(
-          (node): node is HTMLElement => node instanceof HTMLElement,
+        const measured = Array.from(background.children)
+          .filter((node): node is HTMLElement => node instanceof HTMLElement)
+          .map((node) => ({ rect: node.getBoundingClientRect(), style: getComputedStyle(node) }));
+        const grey = measured.find(
+          ({ rect, style }) =>
+            style.backgroundColor === "rgb(31, 41, 55)" &&
+            Math.abs(rect.height - pageRect.height) <= 1,
         );
-        const grey = backgroundChildren
-          .map((node) => ({ rect: node.getBoundingClientRect(), style: getComputedStyle(node) }))
-          .find(
-            ({ rect, style }) =>
-              style.backgroundColor === "rgb(31, 41, 55)" &&
-              Math.abs(rect.height - pageRect.height) <= 1,
-          );
+        if (!grey) return null;
 
-        const expectedAccentHeight = pageRect.height * (14 / 297);
-        const orange = Array.from(documentRoot.querySelectorAll<HTMLElement>("*"))
-          .map((node) => ({ rect: node.getBoundingClientRect(), style: getComputedStyle(node) }))
-          .filter(
-            ({ rect, style }) =>
-              style.backgroundColor === "rgb(249, 115, 22)" &&
-              rect.width > 0 &&
-              rect.height > 0 &&
-              Math.abs(rect.height - expectedAccentHeight) <= 2,
-          )
-          .sort(
-            (a, b) =>
-              Math.abs(a.rect.height - expectedAccentHeight) -
-              Math.abs(b.rect.height - expectedAccentHeight),
-          )[0];
-
-        if (!grey || !orange) return null;
+        const orangeBackgroundFragments = measured.filter(
+          ({ rect, style }) =>
+            style.backgroundColor === "rgb(249, 115, 22)" && rect.width > 0 && rect.height > 0,
+        ).length;
+        const extraGreyFragments = measured.filter(
+          ({ rect, style }) =>
+            style.backgroundColor === "rgb(31, 41, 55)" &&
+            rect.width > 0 &&
+            rect.height > 0 &&
+            Math.abs(rect.height - pageRect.height) > 1,
+        ).length;
 
         return {
           pageWidth: pageRect.width,
           pageHeight: pageRect.height,
           greyWidth: grey.rect.width,
           greyHeight: grey.rect.height,
-          orangeWidth: orange.rect.width,
-          orangeHeight: orange.rect.height,
           greyColor: grey.style.backgroundColor,
-          orangeColor: orange.style.backgroundColor,
+          orangeBackgroundFragments,
+          extraGreyFragments,
         };
       });
 
@@ -163,9 +155,8 @@ test.describe("template cleanup", () => {
 
     expect(geometry.greyWidth / geometry.pageWidth).toBeCloseTo(66 / 210, 2);
     expect(geometry.greyHeight / geometry.pageHeight).toBeCloseTo(1, 2);
-    expect(geometry.orangeWidth / geometry.pageWidth).toBeCloseTo(105 / 210, 2);
-    expect(geometry.orangeHeight / geometry.pageHeight).toBeCloseTo(14 / 297, 2);
     expect(geometry.greyColor).toBe("rgb(31, 41, 55)");
-    expect(geometry.orangeColor).toBe("rgb(249, 115, 22)");
+    expect(geometry.orangeBackgroundFragments).toBe(0);
+    expect(geometry.extraGreyFragments).toBe(0);
   });
 });
