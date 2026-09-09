@@ -1,36 +1,37 @@
 /*
- * Fresh templates with bespoke Classic CV composition must not override the
- * horizontal geometry of the Executive / two-column layout.
+ * A template may own its vertical CV rhythm, but the Sidebar layout owns the
+ * horizontal split. Several Fresh styles predate that boundary and still set
+ * `left` / `right` on every CV main column with `!important`, which can pull
+ * the content back over the adjustable sidebar.
  *
- * The Executive contract in layout-variants.css owns a 60 mm sidebar and a
- * 69 mm main-column start. Several later Fresh template styles predate that
- * separation and still set `left` on every CV main column, which makes their
- * Modern/Executive PDFs overlap the sidebar. Keep their vertical/template
- * treatment, but give the two-column layout its horizontal clearance back.
+ * CvCanvas publishes the renderer's exact computed content box as inherited
+ * variables. Use those values instead of duplicating the 22-42 % sidebar math
+ * here, so preview, saved custom widths and PDF export stay identical.
  */
-html[data-cv-variant="executive"][data-dossier-template="warm2"]
+html[data-dossier-template="warm2"]
   [data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-cv-variant="executive"][data-dossier-template="warm3"]
+html[data-dossier-template="warm3"]
   [data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-cv-variant="executive"][data-dossier-template="prism"]
+html[data-dossier-template="prism"]
   [data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-cv-variant="executive"][data-dossier-template="gallery"]
+html[data-dossier-template="gallery"]
   [data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-cv-variant="executive"][data-dossier-template="orbit"]
+html[data-dossier-template="orbit"]
   [data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-cv-variant="executive"][data-dossier-template="cove"]
+html[data-dossier-template="cove"]
   [data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main] {
-  left: 69mm !important;
+  left: var(--cv-modern-main-left) !important;
+  right: var(--cv-modern-main-right) !important;
 }

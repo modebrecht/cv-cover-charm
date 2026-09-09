@@ -114,6 +114,7 @@ jobs:
           - group: fresh-dossier-templates
             files: >-
               tests/e2e/fresh-dossier-templates.spec.ts
+              tests/e2e/fresh-modern-sidebar-geometry.spec.ts
 
     name: Browser smoke - ${{ matrix.group }}
 
