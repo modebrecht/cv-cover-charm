@@ -16,4 +16,5 @@ html[data-cv-variant][data-cv-variant][data-cv-variant]
   max-width: none !important;
   flex: 1 1 0% !important;
   min-width: 0 !important;
+  margin-right: 0 !important;
 }
