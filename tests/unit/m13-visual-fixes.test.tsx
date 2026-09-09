@@ -70,7 +70,7 @@ describe("M13 visual acceptance fixes", () => {
     }
   });
 
-  test("Blockig letter uses one larger orange block without a detached dash", () => {
+  test("Blockig letter keeps the orange accent inside the dark rail", () => {
     const markup = renderToStaticMarkup(
       createElement(LetterSheetBackground, {
         template: "blockig",
@@ -78,9 +78,10 @@ describe("M13 visual acceptance fixes", () => {
       }),
     );
 
-    expect(markup).toContain('data-letter-motif="accent-block"');
-    expect(markup).toContain("h-[32mm]");
-    expect(markup).toContain("w-[24mm]");
+    expect(markup).toContain('data-letter-motif="accent-edge"');
+    expect(markup).toContain("left-[16mm]");
+    expect(markup).toContain("h-[76mm]");
+    expect(markup).toContain("w-[3mm]");
     expect(markup).not.toContain('data-letter-motif="rail-rule"');
   });
   test("Blockig shared sheet keeps one long sidebar-safe accent and no detached dash", () => {
@@ -93,8 +94,9 @@ describe("M13 visual acceptance fixes", () => {
 
     expect(markup).toContain("width:66mm");
     expect(markup).toContain("data-dossier-blockig-accent");
-    expect(markup).toContain("h-[52mm]");
-    expect(markup).toContain("w-[7mm]");
+    expect(markup).toContain("left-[63mm]");
+    expect(markup).toContain("h-[76mm]");
+    expect(markup).toContain("w-[3mm]");
     expect(markup).not.toContain("top-[88mm]");
   });
 });
