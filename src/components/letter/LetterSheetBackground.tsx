@@ -12,10 +12,7 @@ function pick(colors: Record<string, string>, ...keys: string[]): string {
   return "#111111";
 }
 
-function freshRoleColor(
-  role: FreshLetterColorRole,
-  colors: Record<string, string>,
-): string {
+function freshRoleColor(role: FreshLetterColorRole, colors: Record<string, string>): string {
   if (role === "primary") return pick(colors, "primary", "accent", "secondary", "ink");
   if (role === "secondary") return pick(colors, "secondary", "accent", "primary", "ink");
   return pick(colors, "accent", "secondary", "primary", "ink");
@@ -110,9 +107,7 @@ function FreshLetterBackground({
     >
       {spec.motifs.map((motif) => {
         const baseColor = freshRoleColor(motif.color, colors);
-        const gradientColor = motif.gradientTo
-          ? freshRoleColor(motif.gradientTo, colors)
-          : null;
+        const gradientColor = motif.gradientTo ? freshRoleColor(motif.gradientTo, colors) : null;
         const style: CSSProperties = {
           position: "absolute",
           left: `${motif.x}mm`,
