@@ -27,6 +27,9 @@ function legacyChromePatch(patch: Partial<DossierChromeOptions>): Partial<Letter
     next.footerBackgroundColor = patch.footerBackgroundColor;
   }
   if (patch.footerGradientColor !== undefined) next.footerGradientColor = patch.footerGradientColor;
+  if (patch.borderEnabled !== undefined) next.chromeBorderEnabled = patch.borderEnabled;
+  if (patch.borderColor !== undefined) next.chromeBorderColor = patch.borderColor;
+  if (patch.borderWidthMm !== undefined) next.chromeBorderWidthMm = patch.borderWidthMm;
   if (patch.textFont !== undefined) next.chromeTextFont = patch.textFont;
   return next;
 }
