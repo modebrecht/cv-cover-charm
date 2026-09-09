@@ -31,10 +31,31 @@ const freshDefinitions: TemplateDefinition[] = FRESH_TEMPLATE_REGISTRY.map((defi
   slots: definition.slots.map((slot) => ({ ...slot })),
 }));
 
+/**
+ * Template 39 deliberately reuses the proven Edel composition instead of
+ * entering the Fresh geometry system. Its extra `sheet` slot is semantic:
+ * title page and text-heavy interior pages can share a genuinely dark surface
+ * without changing the established light-interior Edel template.
+ */
+const edelDarkDefinition: TemplateDefinition = {
+  id: "edelDark" as TemplateId,
+  name: "Edel Dark",
+  description: "Vollflächiges Anthrazit, warmes Weiss und feine Goldlinien",
+  slots: [
+    { key: "bg", label: "Hintergrund", default: "#171716" },
+    { key: "sheet", label: "Innenfläche", default: "#171716" },
+    { key: "ink", label: "Text", default: "#f3eee5" },
+    { key: "accent", label: "Gold", default: "#c7a35a" },
+  ],
+};
+
 // Module evaluation happens before the route modules initialise their color
 // maps. Guarding by id keeps Vite HMR from registering duplicates.
 for (const definition of freshDefinitions) {
   if (!TEMPLATES.some((template) => template.id === definition.id)) TEMPLATES.push(definition);
+}
+if (!TEMPLATES.some((template) => (template.id as string) === "edelDark")) {
+  TEMPLATES.push(edelDarkDefinition);
 }
 
 export function isFreshTemplate(template: TemplateId): template is TemplateId & FreshTemplateId {
