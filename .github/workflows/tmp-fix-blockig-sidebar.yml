@@ -1,0 +1,89 @@
+name: Temporary Blockig sidebar repair
+
+on:
+  push:
+    branches:
+      - templateREDO
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: templateREDO
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Patch Blockig CV sidebar
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          bg = Path('src/components/dossier/DossierSheetBackground.tsx')
+          text = bg.read_text()
+          old = '''      {template === "blockig" && (\n        <>\n          <div\n            className="absolute left-0 top-[48mm] h-[28mm] w-[25mm]"\n            style={{ backgroundColor: accent, opacity: 0.9 }}\n          />\n          <div\n            className="absolute left-[7mm] top-[88mm] h-[2.5mm] w-[13mm]"\n            style={{ backgroundColor: primary }}\n          />\n        </>\n      )}'''
+          new = '''      {template === "blockig" && (\n        <div\n          data-dossier-blockig-accent\n          className="absolute left-0 top-[46mm] h-[52mm] w-[7mm]"\n          style={{ backgroundColor: accent, opacity: 0.96 }}\n        />\n      )}'''
+          if old in text:
+              bg.write_text(text.replace(old, new))
+          elif 'data-dossier-blockig-accent' not in text:
+              raise SystemExit('Blockig background snippet changed unexpectedly')
+
+          canvas = Path('src/components/cv/CvCanvas.tsx')
+          text = canvas.read_text()
+          text = text.replace('import "./blockig-sidebar-polish.css";\n', '')
+          canvas.write_text(text)
+
+          css = Path('src/components/cv/blockig-sidebar-polish.css')
+          if css.exists():
+              css.unlink()
+
+          test = Path('tests/unit/m13-visual-fixes.test.tsx')
+          text = test.read_text()
+          import_line = 'import { DossierSheetBackground } from "../../src/components/dossier/DossierSheetBackground";\n'
+          if import_line not in text:
+              text = text.replace(
+                  'import { buildBlocks } from "../../src/components/cover/layouts";\n',
+                  'import { buildBlocks } from "../../src/components/cover/layouts";\n' + import_line,
+              )
+          marker = '  test("Blockig shared sheet keeps one long sidebar-safe accent and no detached dash", () => {'
+          if marker not in text:
+              insert = '''\n  test("Blockig shared sheet keeps one long sidebar-safe accent and no detached dash", () => {\n    const markup = renderToStaticMarkup(\n      createElement(DossierSheetBackground, {\n        template: "blockig",\n        colors: defaultLetterColors("blockig"),\n      }),\n    );\n\n    expect(markup).toContain("width:66mm");\n    expect(markup).toContain("data-dossier-blockig-accent");\n    expect(markup).toContain("h-[52mm]");\n    expect(markup).toContain("w-[7mm]");\n    expect(markup).not.toContain("top-[88mm]");\n  });\n'''
+              pos = text.rfind('\n});')
+              if pos < 0:
+                  raise SystemExit('Could not locate test suite end')
+              text = text[:pos] + insert + text[pos:]
+          test.write_text(text)
+          PY
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Format changed files
+        run: bunx prettier --write src/components/dossier/DossierSheetBackground.tsx src/components/cv/CvCanvas.tsx tests/unit/m13-visual-fixes.test.tsx
+
+      - name: Validate
+        run: |
+          bun test tests/unit
+          bun run typecheck
+          bunx eslint src/components/dossier/DossierSheetBackground.tsx src/components/cv/CvCanvas.tsx tests/unit/m13-visual-fixes.test.tsx
+          bun run build
+
+      - name: Commit repair
+        shell: bash
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No repair changes needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Fix Blockig sidebar decoration"
+          git push origin HEAD:templateREDO
