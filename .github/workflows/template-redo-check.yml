@@ -40,8 +40,11 @@ jobs:
           bunx prettier --check
           src/components/letter/LetterSheetBackground.tsx
           src/components/cover/template-decorations.ts
+          src/components/cv/CvCanvas.tsx
+          src/components/cv/blockig-sidebar-polish.css
           src/components/cv/layout.ts
           tests/unit/m13-visual-fixes.test.tsx
+          tests/unit/m14-regression-hardening.test.tsx
 
       - name: TypeScript typecheck
         run: bun run typecheck
@@ -51,8 +54,10 @@ jobs:
           bunx eslint
           src/components/letter/LetterSheetBackground.tsx
           src/components/cover/template-decorations.ts
+          src/components/cv/CvCanvas.tsx
           src/components/cv/layout.ts
           tests/unit/m13-visual-fixes.test.tsx
+          tests/unit/m14-regression-hardening.test.tsx
 
       - name: Production build
         run: bun run build
