@@ -118,7 +118,9 @@ async function dossierFonts(page: Page, template: string, font?: string) {
 }
 
 async function coverTextStyle(page: Page, blockId: string) {
-  const node = page.locator(`[data-dossier-document="cover"] [data-block-id="${blockId}"] > div`).first();
+  const node = page
+    .locator(`[data-dossier-document="cover"] [data-block-id="${blockId}"] > div`)
+    .first();
   await expect(node).toBeVisible();
   return node.evaluate((element) => {
     const style = getComputedStyle(element);
@@ -167,10 +169,12 @@ test.describe("dossier typography regression", () => {
       await Promise.all(ids.map(async (id) => [id, await coverTextStyle(page, id)] as const)),
     );
 
-    expect(new Set(ids.map((id) => styles[id].fontFamily))).toEqual(
-      new Set([styles.name.fontFamily]),
-    );
     expect(styles.name.fontFamily).toContain("Georgia");
+    for (const id of ids) {
+      expect(styles[id].fontFamily, `${id} must use the Editorial dossier font`).toBe(
+        styles.name.fontFamily,
+      );
+    }
 
     // One intentional display accent: the profession. Metadata and secondary
     // labels stay roman instead of alternating between several type treatments.
@@ -190,9 +194,9 @@ test.describe("dossier typography regression", () => {
   test("Fresh Executive applicant initials use the resolved Palatino dossier font", async ({ page }) => {
     await seedCover(page, "frame");
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
-    const initials = page.locator(
-      '[data-dossier-document="cover"] [data-dossier-photo="applicant"] > div',
-    );
+    const initials = page
+      .locator('[data-dossier-document="cover"] [data-dossier-photo="applicant"] > div')
+      .first();
     await expect(initials).toBeVisible();
     const font = await initials.evaluate((element) => getComputedStyle(element).fontFamily);
     expect(font).toContain("Palatino");
