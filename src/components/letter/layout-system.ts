@@ -94,8 +94,7 @@ export function letterArchetypeFor(template: LetterTemplateId): LetterArchetype 
   if (template === "brief") return "quiet";
 
   const reference = cvFrameFor(template as TemplateId);
-  const activeBand =
-    reference.id === "band" && (reference.headFirstMm > 0 || reference.footMm > 0);
+  const activeBand = reference.id === "band" && (reference.headFirstMm > 0 || reference.footMm > 0);
 
   if (reference.id === "column") return "sidebar";
   if (reference.id === "card" || reference.cardInsetMm > 0 || reference.borderInsetMm > 0) {
