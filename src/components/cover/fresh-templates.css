@@ -1,16 +1,16 @@
 /* -------------------------------------------------------------------------- */
-/* Fresh dossier systems: Edge · Glow · Frame · Mono Luxe                     */
+/* Rebuilt dossier systems 19-22: Edge · Glow · Frame · Mono Luxe             */
 /* -------------------------------------------------------------------------- */
 /*
- * CoverBackground exposes semantic primary/secondary/accent fields. Cover CSS
- * targets those roles directly so structural DOM order can change safely.
- * CV keeps its established selectors until its motif renderer exposes the same
- * semantic contract.
+ * These four templates deliberately use quiet, print-safe geometry. The cover
+ * may be expressive, but letter and CV repeat the same signature at reduced
+ * scale. No dashboard cards, giant blobs, permanent sidebars or unrelated
+ * interior-page motifs.
  */
 
-/* -------------------------------------------------------------------------- */
-/* EDGE — clean professional header, strong edge accent                       */
-/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+/* 19 EDGE — Swiss editorial masthead + electric-blue signal                  */
+/* ========================================================================== */
 html[data-dossier-template="edge"]
   [data-dossier-document="cover"]
   [data-fresh-cover-field="primary"] {
@@ -18,8 +18,8 @@ html[data-dossier-template="edge"]
   right: 0 !important;
   top: 0 !important;
   width: 100% !important;
-  height: 72mm !important;
-  border-radius: 0 0 30mm 0 !important;
+  height: 24mm !important;
+  border-radius: 0 !important;
   opacity: 1 !important;
 }
 
@@ -30,8 +30,8 @@ html[data-dossier-template="edge"]
   right: auto !important;
   top: 0 !important;
   bottom: auto !important;
-  width: 5mm !important;
-  height: 72mm !important;
+  width: 6mm !important;
+  height: 24mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
 }
@@ -39,33 +39,28 @@ html[data-dossier-template="edge"]
 html[data-dossier-template="edge"]
   [data-dossier-document="cover"]
   [data-fresh-cover-field="accent"] {
-  left: auto !important;
-  right: -18mm !important;
-  top: -26mm !important;
+  left: 24mm !important;
+  right: auto !important;
+  top: 21.5mm !important;
   bottom: auto !important;
-  width: 92mm !important;
-  height: 92mm !important;
-  border-radius: 9999px !important;
-  opacity: 0.16 !important;
-}
-
-html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="eyebrow"],
-html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
-  transform: none !important;
+  width: 52mm !important;
+  height: 1.5mm !important;
+  border-radius: 999px !important;
+  opacity: 1 !important;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(48mm, -28mm) scale(0.8);
+  transform: translate(48mm, -14mm) scale(0.78);
   transform-origin: top left;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(4mm, -22mm);
+  transform: translate(-34mm, -24mm);
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="beruf"],
 html[data-dossier-template="edge"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
-  transform: translate(4mm, -18mm);
+  transform: translate(-34mm, -20mm);
 }
 
 html[data-dossier-template="edge"]
@@ -75,153 +70,296 @@ html[data-dossier-template="edge"]
   text-align: left !important;
 }
 
-/* CV echoes the cover with a compact top field instead of a permanent rail. */
+/* Edge CV: same masthead, scaled down. */
 html[data-dossier-template="edge"]
   [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child {
+  [data-dossier-sheet-background="edge"]
+  > div:nth-child(1) {
   left: 0 !important;
   right: 0 !important;
   top: 0 !important;
+  bottom: auto !important;
   width: 100% !important;
-  height: 12mm !important;
+  height: 10mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
 }
 
 html[data-dossier-template="edge"]
   [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:first-child {
+  [data-dossier-sheet-background="edge"]
+  > div:nth-child(2) {
   left: 0 !important;
   right: auto !important;
   top: 0 !important;
-  width: 34mm !important;
-  height: 12mm !important;
-  border-radius: 0 !important;
+  bottom: auto !important;
+  width: 4mm !important;
+  height: 10mm !important;
   opacity: 1 !important;
 }
 
 html[data-dossier-template="edge"]
   [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:nth-child(2) {
-  display: none !important;
+  [data-dossier-sheet-background="edge"]
+  > div:nth-child(3) {
+  left: 20mm !important;
+  right: auto !important;
+  top: 15.5mm !important;
+  width: 42mm !important;
+  height: 1.1mm !important;
+  border-radius: 999px !important;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-surface] {
-  left: 12mm !important;
-  right: 12mm !important;
-  top: 14mm !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 10mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-accent="header"] {
+  display: none !important;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-accent="section"] {
-  border-radius: 0 !important;
+  border-radius: 999px !important;
 }
 
-/* -------------------------------------------------------------------------- */
-/* GLOW — soft color field, restrained rather than luminous                   */
-/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+/* 20 GLOW — airy capsule + soft orbit, no page-filling blobs                  */
+/* ========================================================================== */
 html[data-dossier-template="glow"]
   [data-dossier-document="cover"]
-  [data-fresh-cover-field="primary"],
-html[data-dossier-template="glow"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child {
-  left: -28mm !important;
+  [data-fresh-cover-field="primary"] {
+  left: 126mm !important;
   right: auto !important;
-  top: -34mm !important;
-  width: 176mm !important;
-  height: 146mm !important;
-  border-radius: 0 0 92mm 0 !important;
-  opacity: 0.82 !important;
+  top: 12mm !important;
+  width: 72mm !important;
+  height: 24mm !important;
+  border-radius: 14mm !important;
+  opacity: 0.16 !important;
 }
 
 html[data-dossier-template="glow"]
   [data-dossier-document="cover"]
-  [data-fresh-cover-field="secondary"],
-html[data-dossier-template="glow"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:first-child {
-  left: 108mm !important;
+  [data-fresh-cover-field="secondary"] {
+  left: -18mm !important;
   right: auto !important;
-  top: 70mm !important;
+  top: 10mm !important;
   bottom: auto !important;
-  width: 82mm !important;
-  height: 82mm !important;
+  width: 32mm !important;
+  height: 32mm !important;
   border-radius: 9999px !important;
-  opacity: 0.1 !important;
-  filter: blur(12mm);
+  opacity: 0.2 !important;
 }
 
 html[data-dossier-template="glow"]
   [data-dossier-document="cover"]
-  [data-fresh-cover-field="accent"],
-html[data-dossier-template="glow"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:nth-child(2) {
-  left: 20mm !important;
+  [data-fresh-cover-field="accent"] {
+  left: 8mm !important;
   right: auto !important;
-  top: 204mm !important;
+  top: 27mm !important;
   bottom: auto !important;
-  width: 48mm !important;
-  height: 48mm !important;
-  border-radius: 9999px !important;
-  opacity: 0.06 !important;
-  filter: blur(11mm);
-}
-
-html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
-  transform: translate(-50mm, 5mm);
+  width: 50mm !important;
+  height: 1.4mm !important;
+  border-radius: 999px !important;
+  opacity: 0.88 !important;
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(50mm, -24mm) scale(0.82);
+  transform: translate(48mm, -10mm) scale(0.78);
   transform-origin: top left;
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(0, -16mm);
+  transform: translate(-34mm, -30mm);
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="beruf"],
 html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
-  transform: translate(0, -14mm);
+  transform: translate(-34mm, -26mm);
+}
+
+html[data-dossier-template="glow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+/* Glow CV: subtle top-right capsule and one thin accent stroke. */
+html[data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="glow"]
+  > div:nth-child(1) {
+  left: auto !important;
+  right: 12mm !important;
+  top: 0 !important;
+  width: 68mm !important;
+  height: 20mm !important;
+  border-radius: 12mm !important;
+  opacity: 0.11 !important;
+}
+
+html[data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="glow"]
+  > div:nth-child(2) {
+  left: auto !important;
+  right: 52mm !important;
+  top: 6mm !important;
+  bottom: auto !important;
+  width: 22mm !important;
+  height: 22mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.14 !important;
+}
+
+html[data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="glow"]
+  > div:nth-child(3) {
+  left: 20mm !important;
+  top: 15mm !important;
+  width: 38mm !important;
+  height: 1.1mm !important;
+  border-radius: 999px !important;
+  opacity: 0.9 !important;
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-surface] {
-  border-radius: 7mm !important;
-  box-shadow: 0 2mm 9mm rgb(23 32 51 / 0.035);
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-accent] {
   border-radius: 999px !important;
 }
 
-/* -------------------------------------------------------------------------- */
-/* FRAME — architectural bars, warm contrast                                  */
-/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+/* 21 FRAME — fine architectural frame + two warm corner markers              */
+/* ========================================================================== */
 html[data-dossier-template="frame"]
   [data-dossier-document="cover"]
-  [data-fresh-cover-field="primary"],
+  [data-fresh-cover-field="primary"] {
+  left: 10mm !important;
+  right: auto !important;
+  top: 10mm !important;
+  width: 190mm !important;
+  height: 277mm !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: 0.55mm solid var(--cover-primary) !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="frame"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"] {
+  left: -0.55mm !important;
+  right: auto !important;
+  top: -0.55mm !important;
+  bottom: auto !important;
+  width: 38mm !important;
+  height: 4mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="frame"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"] {
+  left: auto !important;
+  right: -0.55mm !important;
+  top: auto !important;
+  bottom: -0.55mm !important;
+  width: 28mm !important;
+  height: 4mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(48mm, -8mm) scale(0.76);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translate(-34mm, -26mm);
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="beruf"],
+html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  transform: translate(-34mm, -22mm);
+}
+
+html[data-dossier-template="frame"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
 html[data-dossier-template="frame"]
   [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child {
+  [data-dossier-sheet-background="frame"]::before {
+  content: "";
+  position: absolute;
+  inset: 8mm;
+  border: 0.35mm solid currentColor;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+html[data-dossier-template="frame"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="frame"]
+  > div:nth-child(1) {
+  left: 8mm !important;
+  top: 8mm !important;
+  width: 36mm !important;
+  height: 2.2mm !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="frame"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="frame"]
+  > div:nth-child(2) {
+  left: auto !important;
+  right: 8mm !important;
+  top: auto !important;
+  bottom: 8mm !important;
+  width: 28mm !important;
+  height: 2.2mm !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 10mm !important;
+  right: 10mm !important;
+  top: 10mm !important;
+  bottom: 10mm !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-section-title] {
+  letter-spacing: 0.02em;
+}
+
+/* ========================================================================== */
+/* 22 MONO LUXE — cream paper, black masthead, restrained brass hairlines     */
+/* ========================================================================== */
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"] {
   left: 0 !important;
   right: 0 !important;
   top: 0 !important;
@@ -231,145 +369,44 @@ html[data-dossier-template="frame"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="frame"]
+html[data-dossier-template="monoLuxe"]
   [data-dossier-document="cover"]
-  [data-fresh-cover-field="secondary"],
-html[data-dossier-template="frame"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:first-child {
-  left: 0 !important;
-  right: auto !important;
-  top: 32mm !important;
+  [data-fresh-cover-field="secondary"] {
+  left: 28mm !important;
+  right: 28mm !important;
+  top: 31.2mm !important;
   bottom: auto !important;
-  width: 15mm !important;
-  height: 265mm !important;
-  border-radius: 0 !important;
-  opacity: 1 !important;
-}
-
-html[data-dossier-template="frame"]
-  [data-dossier-document="cover"]
-  [data-fresh-cover-field="accent"],
-html[data-dossier-template="frame"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:nth-child(2) {
-  left: 15mm !important;
-  right: auto !important;
-  top: 258mm !important;
-  bottom: auto !important;
-  width: 195mm !important;
-  height: 7mm !important;
-  border-radius: 0 !important;
-  opacity: 1 !important;
-}
-
-html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(60mm, -38mm) scale(0.8);
-  transform-origin: top left;
-}
-
-html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(8mm, -30mm);
-}
-
-html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="beruf"],
-html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
-  transform: translate(8mm, -26mm);
-}
-
-html[data-dossier-template="frame"]
-  [data-dossier-document="cover"]
-  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
-  > div {
-  text-align: left !important;
-}
-
-html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-surface] {
-  left: 15mm !important;
-  top: 14mm !important;
-  bottom: 12mm !important;
-}
-
-html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-section-title] {
-  font-variant-caps: small-caps;
-}
-
-/* -------------------------------------------------------------------------- */
-/* MONO LUXE — black header, cream paper, tiny metallic details                */
-/* -------------------------------------------------------------------------- */
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
-  [data-fresh-cover-field="primary"],
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child {
-  left: 0 !important;
-  right: 0 !important;
-  top: 0 !important;
-  width: 100% !important;
-  height: 28mm !important;
-  border-radius: 0 !important;
-  opacity: 1 !important;
-}
-
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
-  [data-fresh-cover-field="secondary"],
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:first-child {
-  left: 72mm !important;
-  right: auto !important;
-  top: 27.2mm !important;
-  bottom: auto !important;
-  width: 66mm !important;
+  width: auto !important;
   height: 0.8mm !important;
   border-radius: 0 !important;
-  opacity: 1 !important;
+  opacity: 0.9 !important;
 }
 
 html[data-dossier-template="monoLuxe"]
   [data-dossier-document="cover"]
-  [data-fresh-cover-field="accent"],
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:nth-child(2) {
-  left: 168mm !important;
+  [data-fresh-cover-field="accent"] {
+  left: 28mm !important;
   right: auto !important;
-  top: 18mm !important;
+  top: 17mm !important;
   bottom: auto !important;
-  width: 16mm !important;
-  height: 2.2mm !important;
+  width: 5mm !important;
+  height: 5mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
 }
 
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(59mm, -38mm) scale(0.74);
+  transform: translate(50mm, -8mm) scale(0.74);
   transform-origin: top left;
 }
 
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(8mm, -32mm);
+  transform: translate(-34mm, -30mm);
 }
 
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="beruf"],
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
-  transform: translate(8mm, -28mm);
+  transform: translate(-34mm, -26mm);
 }
 
 html[data-dossier-template="monoLuxe"]
@@ -379,15 +416,65 @@ html[data-dossier-template="monoLuxe"]
   text-align: left !important;
 }
 
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-surface] {
-  top: 13mm !important;
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="name"] > div,
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-section-title] {
+  font-family: Georgia, "Times New Roman", serif !important;
+}
+
+/* Mono Luxe CV: no large beige card; just a small black masthead and brass rule. */
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="monoLuxe"]
+  > div:nth-child(1) {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 9mm !important;
   border-radius: 0 !important;
-  box-shadow: inset 0 0.25mm 0 rgb(142 111 66 / 0.38);
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="monoLuxe"]
+  > div:nth-child(2) {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 9mm !important;
+  width: auto !important;
+  height: 0.55mm !important;
+  border-radius: 0 !important;
+  opacity: 0.82 !important;
+}
+
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="monoLuxe"]
+  > div:nth-child(3) {
+  left: 20mm !important;
+  right: auto !important;
+  top: 14mm !important;
+  bottom: auto !important;
+  width: 4mm !important;
+  height: 4mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 9.5mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-accent="section"] {
-  height: 0.25mm !important;
-  opacity: 0.46 !important;
+  height: 0.3mm !important;
+  opacity: 0.5 !important;
   border-radius: 0 !important;
 }
 
