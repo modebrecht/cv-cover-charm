@@ -120,6 +120,7 @@ describe("dossier chrome customization", () => {
     expect(markup).toContain("linear-gradient(90deg, #778899, #aabbcc)");
     expect(markup).toContain("Lea Müller");
     expect(markup).toContain("Dorfstrasse 12");
-    expect(markup).toContain("Lebenslauf · Zeugnis");
+    expect(markup).toContain(">Lebenslauf</div>");
+    expect(markup).toContain("> · Zeugnis</div>");
   });
 });
