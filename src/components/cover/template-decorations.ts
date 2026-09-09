@@ -173,13 +173,11 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
   sonne: [
     rect("decor-top-field", "Kopffläche", 0, 0, 210, 118, "primary"),
     circle("decor-photo-circle", "Helle Kreisfläche", 104, 6, 98, 98, "bg"),
-    circle("decor-bottom-circle", "Untere Kreisfläche", 96, 196, 180, 180, "primary"),
   ],
 
   studio: [
     rect("decor-side-column", "Dunkle Spalte", 0, 0, 72, 297, "primary"),
     rect("decor-name-band", "Farbbanner", 72, 24, 138, 38, "accent"),
-    rect("decor-accent-bar", "Akzentbalken", 84, 84, 26, 1.4, "accent"),
     circle("decor-soft-circle", "Kreisfläche", 112, 128, 92, 92, "accent", 0.22),
     rect("decor-bottom-band", "Unteres Farbband", 72, 291, 138, 6, "accent"),
   ],
