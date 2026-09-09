@@ -130,7 +130,6 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
     rect("decor-top-band", "Kopfband", 0, 0, 210, 28, "primary"),
     rect("decor-left-field", "Linke Farbfläche", 0, 28, 70, 80, "secondary"),
     rect("decor-middle-field", "Mittlere Farbfläche", 70, 28, 45, 80, "tertiary"),
-    rect("decor-accent-bar", "Akzentbalken", 18, 112, 24, 3, "primary"),
     rect("decor-bottom-band", "Unteres Farbband", 0, 289, 210, 8, "secondary"),
   ],
 
