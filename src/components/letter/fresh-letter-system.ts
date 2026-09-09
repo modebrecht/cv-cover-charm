@@ -47,13 +47,12 @@ const rect = (
  */
 export const FRESH_LETTER_SPECS: Record<FreshTemplateId, FreshLetterSpec> = {
   edge: {
-    archetype: "sidebar",
-    left: 32,
+    archetype: "band",
+    left: 25,
     right: 23,
     motifs: [
-      rect("rail", 0, 0, 7, 297, "primary"),
-      rect("rail-accent", 7, 0, 1.2, 297, "accent", { opacity: 0.9 }),
-      rect("top-rule", 17, 16.2, 18, 1.2, "secondary"),
+      rect("edge-band", 0, 0, 210, 12, "primary"),
+      rect("edge-signal", 0, 0, 5, 12, "secondary"),
     ],
   },
   glow: {
