@@ -40,24 +40,44 @@ describe("M14 Fresh renderer boundaries", () => {
     }
   });
 
-  test("legacy letter-only rails also expose semantic motif markers", () => {
-    const markup = renderToStaticMarkup(
+  test("legacy letter-only rails expose their current semantic motif markers", () => {
+    const colors = {
+      bg: "#ffffff",
+      primary: "#223344",
+      secondary: "#556677",
+      accent: "#cc8844",
+      ink: "#111111",
+    };
+
+    const blockig = renderToStaticMarkup(
       createElement(LetterSheetBackground, {
         template: "blockig",
-        colors: {
-          bg: "#ffffff",
-          primary: "#223344",
-          secondary: "#556677",
-          accent: "#cc8844",
-          ink: "#111111",
-        },
+        colors,
       }),
     );
+    expect(blockig).toContain('data-letter-background-variant="quiet-column"');
+    expect(blockig).toContain('data-letter-safe-rail="true"');
+    expect(blockig).toContain('data-letter-motif="rail"');
+    expect(blockig).not.toContain('data-letter-motif="accent-block"');
+    expect(blockig).not.toContain('data-letter-motif="rail-rule"');
 
-    expect(markup).toContain('data-letter-background-variant="quiet-column"');
-    expect(markup).toContain('data-letter-safe-rail="true"');
-    expect(markup).toContain('data-letter-motif="rail"');
-    expect(markup).toContain('data-letter-motif="accent-block"');
-    expect(markup).toContain('data-letter-motif="rail-rule"');
+    const terracotta = renderToStaticMarkup(
+      createElement(LetterSheetBackground, {
+        template: "terracotta",
+        colors,
+      }),
+    );
+    expect(terracotta).toContain('data-letter-motif="rail"');
+    expect(terracotta).toContain('data-letter-motif="rail-rule"');
+
+    const studio = renderToStaticMarkup(
+      createElement(LetterSheetBackground, {
+        template: "studio",
+        colors,
+      }),
+    );
+    expect(studio).toContain('data-letter-motif="rail"');
+    expect(studio).toContain('data-letter-motif="accent-block"');
+    expect(studio).toContain('data-letter-motif="rail-rule"');
   });
 });
