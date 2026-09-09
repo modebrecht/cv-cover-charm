@@ -209,8 +209,8 @@ export function CoverBackground({
     );
   }
 
-  // Rahmen/Pastell: keep the large inset frame structural. Band, middle line
-  // and lower ellipse are editable decorations.
+  // Rahmen/Pastell keeps one quiet 12 mm frame as its structural signature.
+  // The slim inset top bar is the only editable decoration for this family.
   if (template === "pastell") {
     return (
       <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: colors.bg }}>
@@ -218,7 +218,7 @@ export function CoverBackground({
           className="absolute"
           style={{
             inset: "12mm",
-            border: `0.4mm solid ${colors.primary}`,
+            border: `0.4mm solid ${colors.secondary ?? colors.primary}`,
             opacity: 0.35,
           }}
         />
