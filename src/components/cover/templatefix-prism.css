@@ -1,0 +1,120 @@
+/* -------------------------------------------------------------------------- */
+/* templateFIX — 32 Prism interiors only                                      */
+/* -------------------------------------------------------------------------- */
+/*
+ * Prism's cover is intentionally left untouched. Letter and CV keep only one
+ * compressed two-tone signature at the top: navy field + royal diagonal cap.
+ * This preserves the cover DNA without repeating its large hero geometry on
+ * text-heavy pages.
+ */
+
+/* Motivation letter: one calm masthead, no detached cyan micro-rule. */
+[data-letter-fresh-template="prism"] [data-letter-motif="top-wedge"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 7mm !important;
+  border-radius: 0 !important;
+  clip-path: none !important;
+  opacity: 1 !important;
+}
+
+[data-letter-fresh-template="prism"] [data-letter-motif="top-signal"] {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 54mm !important;
+  height: 7mm !important;
+  border-radius: 0 !important;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%) !important;
+  opacity: 1 !important;
+}
+
+[data-letter-fresh-template="prism"] [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+/* CV: compress the old diagonal hero into the same restrained top signature. */
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 9mm !important;
+  border-radius: 0 !important;
+  clip-path: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  overflow: hidden !important;
+}
+
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 58mm !important;
+  height: 9mm !important;
+  border-radius: 0 !important;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 9mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-main],
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-measure-page]
+  [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 20mm !important;
+  bottom: 16mm !important;
+}
+
+/* If a user explicitly selects Sidebar, keep it readable rather than tinted. */
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
+  display: none !important;
+}
+
+/* Prism no longer stacks decorative dashes on top of its geometric signature. */
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-accent="header"],
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-section-title] {
+  letter-spacing: 0.055em !important;
+}

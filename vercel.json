@@ -3,7 +3,8 @@
   "git": {
     "deploymentEnabled": {
       "dev": false,
-      "render": false
+      "render": false,
+      "templateFIX": false
     }
   }
 }

@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackground";
 import { cvPalette } from "@/components/cv/palette";
 import "@/components/dossier/edel-stationery.css";
+import "@/components/cover/templatefix-24-25.css";
 import { freshLetterSpec, type FreshLetterColorRole } from "./fresh-letter-system";
 import type { LetterTemplateId } from "./types";
 
@@ -211,6 +212,25 @@ function QuietColumnBackground({
 }
 
 /**
+ * Horizont's cover owns the oversized lower field. On a motivation letter the
+ * shared dossier chrome already renders the configurable footer, so inheriting
+ * the CV background would create a second 24 mm band and the old orange wedge.
+ * Keep the sheet itself quiet and let the shared footer be the only footer.
+ */
+function QuietHorizonLetterBackground({ colors }: { colors: Record<string, string> }) {
+  const palette = cvPalette(colors);
+  return (
+    <div
+      data-dossier-sheet-background="welle"
+      data-letter-background-variant="quiet-horizon"
+      className="absolute inset-0 overflow-hidden"
+      style={{ backgroundColor: palette.paper }}
+      aria-hidden="true"
+    />
+  );
+}
+
+/**
  * Motivation letters keep template identity without borrowing CV geometry.
  * Fresh templates render directly from their dedicated letter specification;
  * the three legacy column templates keep their intentionally quiet rails.
@@ -230,6 +250,10 @@ export function LetterSheetBackground({
 
   if (template === "freundlich") {
     return <WarmLetterBackground colors={colors} pageIndex={pageIndex} />;
+  }
+
+  if (template === "welle") {
+    return <QuietHorizonLetterBackground colors={colors} />;
   }
 
   if (template === "blockig" || template === "terracotta" || template === "studio") {

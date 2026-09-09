@@ -40,7 +40,7 @@ export const CV_LAYOUTS: Array<{
 const STORAGE_KEY = "lebenslauf:layout:v1";
 const MIRROR_STORAGE_KEY = "lebenslauf:layout-mirror:v1";
 const EVENT = "lebenslauf-layout-change";
-const DEFAULT_LAYOUT: CvLayoutId = "modern";
+const DEFAULT_LAYOUT: CvLayoutId = "classic";
 
 function valid(value: string | null): value is CvLayoutId {
   return (

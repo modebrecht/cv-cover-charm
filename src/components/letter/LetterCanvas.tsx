@@ -47,6 +47,7 @@ function legacyChromeFromDesign(design: LetterDesign): DossierChromeOptions {
     headerShowPhone: design.headerShowPhone !== false,
     headerShowEmail: design.headerShowEmail !== false,
     headerHeightMm: design.headerHeightMm ?? null,
+    headerGapMm: 6,
     headerTextLayout: design.headerTextLayout === "inline" ? "inline" : "stacked",
     headerBackgroundColor: design.headerBackgroundColor ?? null,
     headerGradientColor: design.headerGradientColor ?? null,
@@ -118,7 +119,19 @@ export function LetterCanvas({
     }),
     [chrome, design],
   );
-  const geometry = letterPageGeometry(data, effectiveDesign);
+  const baseGeometry = letterPageGeometry(data, effectiveDesign);
+  const headerGapMm =
+    baseGeometry.effectiveHeaderMode === "none"
+      ? 0
+      : Math.min(40, Math.max(0, chrome.headerGapMm ?? 6));
+  const geometry = {
+    ...baseGeometry,
+    content: {
+      ...baseGeometry.content,
+      top: baseGeometry.content.top + headerGapMm,
+      height: Math.max(0, baseGeometry.content.height - headerGapMm),
+    },
+  };
   const contentWidthMm = geometry.content.width;
   const sourcePalette = cvPalette(design.colors);
   const palette =

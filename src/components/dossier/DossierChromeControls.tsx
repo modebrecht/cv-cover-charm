@@ -118,6 +118,7 @@ export function DossierChromeControls({
 
   const headerDefaultHeight = options.headerMode === "contact" ? 22 : 3;
   const headerHeight = options.headerHeightMm ?? headerDefaultHeight;
+  const headerGap = options.headerGapMm ?? 6;
   const headerMin =
     options.headerMode === "contact" ? (options.headerTextLayout === "stacked" ? 18 : 10) : 1;
   const headerMax = options.headerMode === "contact" ? 40 : 18;
@@ -301,6 +302,32 @@ export function DossierChromeControls({
                     onClick={() => patchOptions({ headerHeightMm: null })}
                   >
                     Standardhöhe
+                  </button>
+                ) : null}
+              </label>
+
+              <label className="grid gap-1 text-xs">
+                <span className="flex items-center justify-between gap-2 text-muted-foreground">
+                  <span>Abstand nach Header</span>
+                  <span>{headerGap.toFixed(headerGap % 1 ? 1 : 0)} mm</span>
+                </span>
+                <input
+                  data-dossier-header-gap-control
+                  type="range"
+                  min={0}
+                  max={40}
+                  step={1}
+                  value={Math.min(40, Math.max(0, headerGap))}
+                  onChange={(event) => patchOptions({ headerGapMm: Number(event.target.value) })}
+                  className="w-full accent-primary"
+                />
+                {headerGap !== 6 ? (
+                  <button
+                    type="button"
+                    className={`${smallButtonClass} justify-self-start`}
+                    onClick={() => patchOptions({ headerGapMm: 6 })}
+                  >
+                    Standardabstand
                   </button>
                 ) : null}
               </label>

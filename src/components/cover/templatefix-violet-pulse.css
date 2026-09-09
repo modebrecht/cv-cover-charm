@@ -1,0 +1,107 @@
+/*
+ * templateFIX — Violet Pulse interior cleanup.
+ *
+ * The cover is intentionally untouched. Motivation letter and CV repeat the
+ * palette in a much quieter way: one restrained top signature, no detached
+ * micro-rules, no giant interior blobs and no card treatment.
+ */
+
+/* Motivation letter: one calm full-width gradient cap, no stray short rule. */
+html[data-dossier-template="violetPulse"]
+  [data-letter-fresh-template="violetPulse"]
+  [data-letter-motif="top-field"] {
+  left: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 6mm !important;
+  border-radius: 0 !important;
+  opacity: 0.92 !important;
+}
+
+html[data-dossier-template="violetPulse"]
+  [data-letter-fresh-template="violetPulse"]
+  [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+/* CV: compress the old expressive motif into one soft top-right signature. */
+html[data-dossier-template="violetPulse"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: auto !important;
+  right: -8mm !important;
+  top: -8mm !important;
+  bottom: auto !important;
+  width: 62mm !important;
+  height: 28mm !important;
+  border-radius: 0 0 0 24mm !important;
+  transform: none !important;
+  opacity: 0.12 !important;
+  filter: none !important;
+  overflow: hidden !important;
+}
+
+html[data-dossier-template="violetPulse"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child,
+html[data-dossier-template="violetPulse"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+/* DossierSheetBackground fallback used by PDF/export paths. */
+html[data-dossier-template="violetPulse"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="violetPulse"]
+  > div:first-child {
+  left: auto !important;
+  right: -8mm !important;
+  top: -8mm !important;
+  width: 62mm !important;
+  height: 28mm !important;
+  border-radius: 0 0 0 24mm !important;
+  transform: none !important;
+  opacity: 0.12 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="violetPulse"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="violetPulse"]
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="violetPulse"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  opacity: 1 !important;
+}
+
+/* Typography carries the hierarchy; decorative heading/header dashes do not. */
+html[data-dossier-template="violetPulse"]
+  [data-dossier-document="cv"]
+  [data-cv-accent="section"],
+html[data-dossier-template="violetPulse"]
+  [data-dossier-document="cv"]
+  [data-cv-accent="header"] {
+  display: none !important;
+}
+
+html[data-dossier-template="violetPulse"] [data-dossier-document="cv"] [data-cv-section-title] {
+  letter-spacing: 0.055em !important;
+}

@@ -14,6 +14,12 @@ import "./studio-cv-redesign.css";
 import "./signature-templates.css";
 import "./next-signature-templates.css";
 import "./verlauf-pill-fix.css";
+import "./templatefix-24-25.css";
+import "./templatefix-violet-pulse.css";
+import "./templatefix-27-28.css";
+import "./templatefix-29-31.css";
+import "./templatefix-prism.css";
+import "./templatefix-32-36.css";
 
 export { FRESH_TEMPLATE_IDS, type FreshTemplateId } from "./fresh-template-registry";
 

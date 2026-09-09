@@ -1,0 +1,26 @@
+/*
+ * Rahmen/Pastell uses one quiet stationery signature on text-heavy pages:
+ * the same 12 mm frame geometry as the cover plus a slim inset top bar.
+ * The Modern/Sidebar layout may still use its column, but only as a faint
+ * paper tint so it supports the hierarchy instead of becoming a second motif.
+ */
+[data-dossier-sheet-background="pastell"] > div:first-child {
+  inset: 12mm !important;
+  opacity: 0.35 !important;
+}
+
+[data-dossier-sheet-background="pastell"] > div:last-child {
+  left: 12mm !important;
+  right: 12mm !important;
+  top: 12mm !important;
+  width: auto !important;
+  height: 3mm !important;
+  border-radius: 0 !important;
+  opacity: 0.72 !important;
+}
+
+html[data-dossier-template="pastell"]
+  [data-dossier-document="cv"]
+  [data-cv-sidebar-tint] {
+  opacity: 0.35 !important;
+}

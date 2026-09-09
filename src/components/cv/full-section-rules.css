@@ -1,12 +1,13 @@
 /*
- * Visible CV rubric separators always fill the remaining heading row.
+ * Visible main-column CV rubric separators fill the remaining heading row.
  *
  * Older structural/template variants still contain fixed-width rules and a few
  * template-specific `display: none !important` overrides from the period when
  * headings were allowed to replace the shared separator treatment. The editor
  * now has one explicit source of truth: `headingRule="none"` omits the element;
- * every rendered separator therefore stays visible and consumes the complete
- * remaining heading row in preview, pagination measurement and PDF export.
+ * every rendered main-column separator therefore stays visible and consumes
+ * the complete remaining heading row in preview, pagination measurement and
+ * PDF export.
  *
  * Keep a small guaranteed rule width. Display-heavy template typography (for
  * example Aurora) can otherwise consume the row's entire flex budget and
@@ -14,9 +15,8 @@
  * minimum is also the flex basis, so it participates in layout calculation
  * instead of being clamped on only after flex space has already been resolved.
  *
- * Sidebar headings historically set `flexShrink: 0` inline. In narrow template
- * columns that can push the rule beyond the row edge. Override that legacy
- * detail here so the title may wrap while the separator remains visible.
+ * Some headings historically set `flexShrink: 0` inline. Override that legacy
+ * detail so titles may wrap when space is tight.
  */
 html[data-cv-variant][data-cv-variant][data-cv-variant]
   [data-dossier-document="cv"]
@@ -34,4 +34,64 @@ html[data-cv-variant][data-cv-variant][data-cv-variant]
   flex: 1 0 4mm !important;
   min-width: 4mm !important;
   margin-right: 0 !important;
+}
+
+/*
+ * The Sidebar/Modern layout already gets its hierarchy from the split column,
+ * typography and whitespace. Horizontal dashes inside the narrow sidebar add
+ * noise and can look like truncated rules, so keep section rules for the main
+ * column only. The short decorative dash below the name has the same problem:
+ * in this layout it reads like a broken underline rather than a deliberate
+ * separator.
+ */
+html[data-cv-variant][data-cv-variant][data-cv-variant]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-section="sidebar"]
+  [data-cv-accent="section"],
+html[data-cv-variant][data-cv-variant][data-cv-variant]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-accent="header"] {
+  display: none !important;
+}
+
+/*
+ * Neon PDF export does not always carry the route-only data-cv-variant marker.
+ * Keep the modern cleanup template-scoped as well so sidebar/header micro-rules
+ * cannot reappear in exported dossiers.
+ */
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-section="sidebar"]
+  [data-cv-accent="section"],
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"][data-cv-layout="modern"]
+  [data-cv-accent="header"] {
+  display: none !important;
+}
+
+/*
+ * Neon's refreshed first page deliberately places the white CV heading on the
+ * dark gradient hero. The legacy card archetype still injected a second white
+ * inner card into the motif, covering that hero and making LEBENSLAUF / name
+ * disappear. Remove only that obsolete inner card on Neon page one; the shared
+ * reading surface below 43 mm remains authoritative.
+ */
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"]
+  [data-cv-page="0"]
+  [data-cv-background="motif"]
+  [data-dossier-sheet-background="neon"]
+  > div:last-child {
+  display: none !important;
+}
+
+/*
+ * Kolumne/Terracotta used to draw a thin vertical ornament beside the contact
+ * block. In the compact sidebar it reads like an accidental hanging line and
+ * competes with the section hierarchy, so suppress that legacy motif.
+ */
+[data-dossier-document="cv"]
+  [data-dossier-sheet-background="terracotta"]
+  > .left-\[6mm\].top-\[20mm\].h-\[38mm\].w-\[1px\] {
+  display: none !important;
 }

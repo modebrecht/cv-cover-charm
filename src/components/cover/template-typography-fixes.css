@@ -27,3 +27,11 @@ html[data-dossier-template="klassisch"] [data-dossier-document="cover"] {
 [data-dossier-document="cover"] [data-dossier-photo="applicant"] > div {
   font-family: var(--dossier-resolved-font, var(--dossier-font)) !important;
 }
+
+/* Neon already has enough visual energy from its gradient fields. The legacy
+ * separator immediately above Kontakt reads like a random rule, so remove it. */
+html[data-dossier-template="neon"]
+  [data-dossier-document="cover"]
+  [data-block-id="trenner"] {
+  display: none !important;
+}

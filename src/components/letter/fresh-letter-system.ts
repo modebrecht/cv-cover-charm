@@ -47,13 +47,13 @@ const rect = (
  */
 export const FRESH_LETTER_SPECS: Record<FreshTemplateId, FreshLetterSpec> = {
   edge: {
-    archetype: "sidebar",
-    left: 32,
+    archetype: "band",
+    left: 25,
     right: 23,
     motifs: [
-      rect("rail", 0, 0, 7, 297, "primary"),
-      rect("rail-accent", 7, 0, 1.2, 297, "accent", { opacity: 0.9 }),
-      rect("top-rule", 17, 16.2, 18, 1.2, "secondary"),
+      rect("edge-band", 0, 0, 210, 9, "primary"),
+      rect("edge-signal", 0, 0, 4, 9, "secondary"),
+      rect("edge-rule", 25, 15.5, 42, 1.1, "accent", { radiusMm: 0.55 }),
     ],
   },
   glow: {
@@ -61,9 +61,9 @@ export const FRESH_LETTER_SPECS: Record<FreshTemplateId, FreshLetterSpec> = {
     left: 25,
     right: 24,
     motifs: [
-      rect("top-orb", 190, 0, 20, 20, "primary", { opacity: 0.16, radiusMm: 10 }),
-      rect("bottom-orb", 0, 270, 22, 22, "secondary", { opacity: 0.17, radiusMm: 11 }),
-      rect("top-rule", 25, 16.2, 24, 1, "accent", { radiusMm: 0.5, gradientTo: "primary" }),
+      rect("glow-capsule", 136, 0, 62, 12, "primary", { opacity: 0.14, radiusMm: 6 }),
+      rect("glow-orb", 178, 0, 28, 18, "secondary", { opacity: 0.18, radiusMm: 9 }),
+      rect("glow-rule", 25, 16, 34, 1, "accent", { radiusMm: 0.5, gradientTo: "primary" }),
     ],
   },
   frame: {
@@ -71,18 +71,21 @@ export const FRESH_LETTER_SPECS: Record<FreshTemplateId, FreshLetterSpec> = {
     left: 27,
     right: 27,
     motifs: [
-      rect("top-corner", 9, 5, 2, 12, "accent"),
-      rect("bottom-corner", 184, 289, 17, 2, "secondary"),
+      rect("frame-top", 10, 5, 30, 1.2, "primary"),
+      rect("frame-left", 10, 5, 1.2, 12, "accent"),
+      rect("frame-bottom", 170, 290, 30, 1.2, "primary"),
+      rect("frame-right", 198.8, 280, 1.2, 11.2, "secondary"),
     ],
   },
   monoLuxe: {
-    archetype: "frame",
+    archetype: "band",
     left: 27,
     right: 27,
     motifs: [
-      rect("top-rule", 27, 16.4, 156, 0.45, "primary", { opacity: 0.75 }),
-      rect("top-mark", 27, 13.2, 4, 4, "accent"),
-      rect("bottom-rule", 27, 288.5, 38, 0.45, "accent", { opacity: 0.75 }),
+      rect("mono-band", 0, 0, 210, 8, "primary"),
+      rect("mono-gold-rule", 27, 11.5, 156, 0.55, "secondary", { opacity: 0.86 }),
+      rect("mono-mark", 27, 14.2, 3.2, 3.2, "accent"),
+      rect("mono-bottom-rule", 27, 289, 36, 0.45, "accent", { opacity: 0.72 }),
     ],
   },
   horizon: {
