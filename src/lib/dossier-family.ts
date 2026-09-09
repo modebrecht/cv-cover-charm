@@ -51,7 +51,7 @@ const TEMPLATE_FAMILY: Record<TemplateId, DossierFamilyId> = {
   blockig: "modern",
   edelBlockig: "executive",
   serioes: "classic",
-  human: "editorial",
+  human: "classic",
   sonnig: "executive",
   welle: "executive",
   terracotta: "executive",
