@@ -41,3 +41,40 @@
   [data-letter-motif="rail-rule"] {
   display: none !important;
 }
+
+/*
+ * Sonne's historical 54 mm letter band is too poster-like for stationery and
+ * visually swallows the recipient block. Keep the same full-width yellow
+ * signature, but stop it around the shared header/content boundary instead.
+ */
+[data-dossier-document="letter"]
+  [data-dossier-sheet-background="sonne"]
+  > .absolute.inset-x-0.top-0 {
+  height: 38mm !important;
+}
+
+/*
+ * Studio's letter column needs one strong accent, not a short accent block plus
+ * a floating dash. Extend the yellow block vertically while preserving the
+ * 20 mm rail width, and drop the isolated mini-rule.
+ */
+[data-letter-background-variant="quiet-column"][data-dossier-sheet-background="studio"]
+  [data-letter-motif="accent-block"] {
+  height: 24mm !important;
+}
+
+[data-letter-background-variant="quiet-column"][data-dossier-sheet-background="studio"]
+  [data-letter-motif="rail-rule"] {
+  display: none !important;
+}
+
+/*
+ * The shared dossier chrome already owns Studio's footer. The legacy 6 mm
+ * template footer underneath it produced the doubled/broken yellow ending on
+ * CV pages, so suppress only that old background strip.
+ */
+[data-dossier-document="cv"]
+  [data-dossier-sheet-background="studio"]
+  > .absolute.inset-x-0.bottom-0 {
+  display: none !important;
+}
