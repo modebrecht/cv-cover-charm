@@ -1,0 +1,416 @@
+/* -------------------------------------------------------------------------- */
+/* templateFIX — 29 Warm 2 / 30 Warm 3 / 31 Ledger                           */
+/* -------------------------------------------------------------------------- */
+/*
+ * Rebuild these three dossier families around two coherent structural colours
+ * each. The third palette role remains available to users, but no longer owns
+ * a large decorative field. Covers, letters and CVs therefore read as one
+ * family instead of three unrelated pages.
+ */
+
+/* ========================================================================== */
+/* 29 WARM 2 — coral + apricot only; calm cream paper                         */
+/* ========================================================================== */
+/* Cover: one warm hero with an integrated apricot corner. */
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 74mm !important;
+  border-radius: 0 0 38mm 0 !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  overflow: hidden !important;
+}
+
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 76mm !important;
+  height: 74mm !important;
+  border-radius: 0 0 0 38mm !important;
+  opacity: 0.92 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+/* Letter: compact stationery band, no dots/orbs/rules. */
+[data-letter-fresh-template="warm2"] [data-letter-motif="signal-dot"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 7mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+[data-letter-fresh-template="warm2"] [data-letter-motif="warm-orb"] {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 64mm !important;
+  height: 7mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+[data-letter-fresh-template="warm2"] [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+/* CV: same two-tone cap, otherwise clean paper. */
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: 9mm !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  overflow: hidden !important;
+}
+
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 64mm !important;
+  height: 9mm !important;
+  border-radius: 0 !important;
+  opacity: 0.92 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 9mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ========================================================================== */
+/* 30 WARM 3 — deep teal + amber only; no terracotta/pink field               */
+/* ========================================================================== */
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 72mm !important;
+  border-radius: 0 0 34mm 0 !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  overflow: hidden !important;
+}
+
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 84mm !important;
+  height: 72mm !important;
+  border-radius: 0 0 0 34mm !important;
+  opacity: 0.94 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+[data-letter-fresh-template="warm3"] [data-letter-motif="top-band"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 7mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+[data-letter-fresh-template="warm3"] [data-letter-motif="right-field"] {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 66mm !important;
+  height: 7mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+[data-letter-fresh-template="warm3"] [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: 10mm !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  overflow: hidden !important;
+}
+
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 66mm !important;
+  height: 10mm !important;
+  border-radius: 0 !important;
+  opacity: 0.94 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 10mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ========================================================================== */
+/* 31 LEDGER — navy / sand editorial, but no content trapped in a tiny index  */
+/* ========================================================================== */
+/* Cover keeps the ledger concept, with a slimmer, quieter index field. */
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 26mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  overflow: visible !important;
+}
+
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 26mm !important;
+  bottom: auto !important;
+  width: 54mm !important;
+  height: 271mm !important;
+  border-radius: 0 !important;
+  opacity: 0.78 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+/* Letter: one editorial masthead, sand index cap; no full-height rail/rule. */
+[data-letter-fresh-template="ledger"] [data-letter-motif="index-strip"] {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  width: 54mm !important;
+  height: 8mm !important;
+  border-radius: 0 !important;
+  opacity: 0.88 !important;
+}
+
+[data-letter-fresh-template="ledger"] [data-letter-motif="index-rule"] {
+  left: 54mm !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 156mm !important;
+  height: 8mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+[data-letter-fresh-template="ledger"] [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+/* CV: full-width reading sheet. The index becomes only a small top cap. */
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: 10mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  overflow: hidden !important;
+}
+
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 54mm !important;
+  height: 10mm !important;
+  border-radius: 0 !important;
+  opacity: 0.82 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 10mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* All three use the standard one-column geometry by default. A manually chosen
+ * Sidebar remains a user choice and is not globally disabled. */
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-main],
+html[data-dossier-template="warm2"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-measure-page]
+  [data-cv-main],
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-main],
+html[data-dossier-template="warm3"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-measure-page]
+  [data-cv-main],
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-main],
+html[data-dossier-template="ledger"]
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-measure-page]
+  [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-accent="header"],
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-accent="section"],
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-accent="header"],
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-accent="section"],
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-accent="header"],
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-sidebar-tint],
+html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-sidebar-tint],
+html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
+  opacity: 0.045 !important;
+}
