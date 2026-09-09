@@ -1,9 +1,10 @@
-import { useMemo, type ComponentProps } from "react";
+import { useMemo, type ComponentProps, type CSSProperties } from "react";
 import {
   DEFAULT_DOSSIER_CHROME_OPTIONS,
   type DossierChromeContact,
   type DossierChromeOptions,
 } from "@/lib/dossier-chrome";
+import { cvContentBox, cvFrameFor } from "./archetype";
 import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
 import type { CvData, CvDesign } from "./types";
 import "@/components/dossier/edel-stationery.css";
@@ -67,14 +68,28 @@ export function CvCanvas({
   const localContact = useMemo(() => contactFromCv(props.data), [props.data]);
   const data = useMemo(() => cvBodyData(props.data, chromeOptions), [props.data, chromeOptions]);
   const design = useMemo(() => cvDesignWithFullSectionRules(props.design), [props.design]);
+  const modernBox = cvContentBox(
+    cvFrameFor(design.template),
+    0,
+    "modern",
+    design.sidebarPct,
+    chromeOptions,
+  );
+  const geometryStyle = {
+    display: "contents",
+    "--cv-modern-main-left": `${modernBox.left}mm`,
+    "--cv-modern-main-right": `${modernBox.right}mm`,
+  } as CSSProperties;
 
   return (
-    <BaseCvCanvas
-      {...props}
-      data={data}
-      design={design}
-      chromeOptions={chromeOptions}
-      chromeContact={chromeContact ?? localContact}
-    />
+    <div style={geometryStyle}>
+      <BaseCvCanvas
+        {...props}
+        data={data}
+        design={design}
+        chromeOptions={chromeOptions}
+        chromeContact={chromeContact ?? localContact}
+      />
+    </div>
   );
 }
