@@ -35,7 +35,7 @@ describe("dossier chrome customization", () => {
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.textFont).toBeNull();
   });
 
-  test("normalization keeps valid customization and safely defaults old border-less saves", () => {
+  test("normalization keeps customization and lets old branches inherit shared border thickness", () => {
     const state = normalizeDossierChromeState({
       sync: true,
       shared: {
@@ -77,7 +77,7 @@ describe("dossier chrome customization", () => {
     expect(state.shared.textFont).toBe("freundlich");
     expect(state.cv.borderEnabled).toBe(true);
     expect(state.cv.borderColor).toBeNull();
-    expect(state.cv.borderWidthMm).toBe(0.6);
+    expect(state.cv.borderWidthMm).toBe(1.2);
   });
 
   test("custom heights reserve matching CV content space", () => {
