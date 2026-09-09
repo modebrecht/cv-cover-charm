@@ -949,8 +949,6 @@ test.describe("M5.8 dossier regression", () => {
   }) => {
     await seedCoreDossier(page);
 
-    // Dieser Text entsteht erst nach dem clientseitigen Storage-Read und ist damit
-    // zugleich unser Hydration-Signal: Titelblatt und CV sind bereit, nur der Brief fehlt.
     await expect(
       page.getByText("Gesamtdossier verfügbar, sobald Motivationsschreiben ausgefüllt ist."),
     ).toBeVisible();
@@ -964,7 +962,6 @@ test.describe("M5.8 dossier regression", () => {
       localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
     }, letterPayload());
 
-    // Kein Reload: dieser zweite Klick schützt gezielt gegen stale React state.
     await dossierCard.click();
     const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
     await expect(dialog).toBeVisible();
@@ -991,8 +988,6 @@ test.describe("M5.8 dossier regression", () => {
     expect(path).not.toBeNull();
     expect((await stat(path ?? "")).size).toBeGreaterThan(10_000);
 
-    // Der Brief muss als echter PDF-Text vorliegen. Im alten Screenshot-Export
-    // kamen diese Inhalte nur als Bildpixel vor und tauchten im PDF-Quelltext nicht auf.
     const pdfSource = (await readFile(path ?? "")).toString("latin1");
     expect(pdfSource).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
     expect(pdfSource).toContain("Guten Tag Herr Weber");
@@ -1227,7 +1222,7 @@ test.describe("M5.8 dossier regression", () => {
   });
 
   test("all dossier design templates are selectable in all three workspaces", async ({ page }) => {
-    const expectedDesigns = 38;
+    const expectedDesigns = 37;
 
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => localStorage.clear());
@@ -1259,7 +1254,7 @@ test.describe("M5.8 dossier regression", () => {
       await cvTemplateHeader.click();
     const cvPanelId = await cvTemplateHeader.getAttribute("aria-controls");
     const cvPanel = page.locator(`[id="${cvPanelId}"]`);
-    // 38 design buttons plus the separate CV layout cards.
+    // 37 design buttons plus the separate CV layout cards.
     await expect(cvPanel.getByRole("button", { name: "Brief", exact: true })).toBeVisible();
     await cvPanel.getByRole("button", { name: "Brief", exact: true }).click();
     await page.waitForTimeout(400);
