@@ -91,12 +91,50 @@ test.describe("M9 demo CV pagination", () => {
         .evaluateAll((nodes) =>
           nodes.map((node) => {
             const row = node.parentElement;
-            if (!row) return { rightGap: Number.POSITIVE_INFINITY, width: 0 };
+            if (!row)
+              return {
+                rightGap: Number.POSITIVE_INFINITY,
+                width: 0,
+                rule: {},
+                row: {},
+                before: {},
+                after: {},
+              };
             const rule = node.getBoundingClientRect();
             const headingRow = row.getBoundingClientRect();
+            const ruleStyle = getComputedStyle(node);
+            const rowStyle = getComputedStyle(row);
+            const before = getComputedStyle(row, "::before");
+            const after = getComputedStyle(row, "::after");
             return {
               rightGap: Math.abs(headingRow.right - rule.right),
               width: rule.width,
+              rule: {
+                display: ruleStyle.display,
+                width: ruleStyle.width,
+                maxWidth: ruleStyle.maxWidth,
+                marginLeft: ruleStyle.marginLeft,
+                marginRight: ruleStyle.marginRight,
+                flex: ruleStyle.flex,
+                transform: ruleStyle.transform,
+              },
+              row: {
+                display: rowStyle.display,
+                gap: rowStyle.gap,
+                paddingLeft: rowStyle.paddingLeft,
+                paddingRight: rowStyle.paddingRight,
+                justifyContent: rowStyle.justifyContent,
+              },
+              before: {
+                content: before.content,
+                display: before.display,
+                width: before.width,
+              },
+              after: {
+                content: after.content,
+                display: after.display,
+                width: after.width,
+              },
             };
           }),
         );
@@ -107,7 +145,7 @@ test.describe("M9 demo CV pagination", () => {
       for (const geometry of ruleGeometry) {
         expect(
           geometry.rightGap,
-          `${templateId}: section rule must reach the right edge of its heading row`,
+          `${templateId}: section rule must reach the right edge of its heading row; ${JSON.stringify(geometry)}`,
         ).toBeLessThanOrEqual(2);
         expect(
           geometry.width,
