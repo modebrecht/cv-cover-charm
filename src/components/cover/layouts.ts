@@ -9,6 +9,7 @@ import { templateDecorations } from "./template-decorations";
 import "./editable-decorations.css";
 import "./fresh-cover-visual-cleanup.css";
 import "./template-typography-fixes.css";
+import "./edel-dark.css";
 
 // Keep the established layout catalogue in a stable base module. Simple visual
 // primitives live exactly once as editor blocks in template-decorations.ts;
@@ -323,14 +324,18 @@ export function buildBlocks(
   overrides: StyleOverrides,
   slots: ColorSlot[],
 ): Block[] {
-  const blocks = buildBaseBlocks(template, data, customs, overrides, slots).map((block) =>
+  // Edel Dark is a colour/surface variant, not a second geometry. Reuse the
+  // established Edel composition so both designs stay aligned as the editor
+  // evolves, while keeping their palettes and interior-page contracts separate.
+  const layoutTemplate = (template as string) === "edelDark" ? ("edel" as TemplateId) : template;
+  const blocks = buildBaseBlocks(layoutTemplate, data, customs, overrides, slots).map((block) =>
     freshContentAdjustment(
       template,
       data,
       templateDefaultAdjustment(template, block, overrides),
     ),
   );
-  const decorations = templateDecorations(template, overrides).map((block) =>
+  const decorations = templateDecorations(layoutTemplate, overrides).map((block) =>
     templateDefaultAdjustment(template, block, overrides),
   );
 

@@ -1,0 +1,41 @@
+/*
+ * Edel Dark is a true dark dossier, not the old Edel "dark mat + white card"
+ * treatment. The cover reuses Edel geometry and keeps the full sheet charcoal;
+ * CV and letter receive their dark writing surface from the semantic `sheet`
+ * palette slot.
+ */
+[data-cover-template="edelDark"]::before,
+[data-cover-template="edelDark"]::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: var(--cover-accent, #c7a35a);
+}
+
+[data-cover-template="edelDark"]::before {
+  inset: 12mm;
+  border-width: 0.6px;
+  opacity: 0.52;
+}
+
+[data-cover-template="edelDark"]::after {
+  inset: 15mm;
+  border-width: 0.4px;
+  opacity: 0.28;
+}
+
+/* Interior renderer already draws one colour-aware frame from the Edel frame
+ * geometry. Add only the quieter outer companion line here; this avoids a
+ * white inset card while preserving the double-hairline family signature.
+ */
+[data-dossier-sheet-background="edelDark"]::after {
+  content: "";
+  position: absolute;
+  inset: 9mm;
+  box-sizing: border-box;
+  border: 0.35px solid #c7a35a;
+  opacity: 0.24;
+  pointer-events: none;
+}

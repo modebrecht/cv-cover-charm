@@ -30,9 +30,13 @@ const FRESH_TEMPLATE_IDS = [
   "cove",
 ] as const;
 
+const RETIRED_TEMPLATE_IDS = new Set(["edelBlockig", "sonnig"]);
 const DOSSIER_TEMPLATE_IDS = [
-  ...TEMPLATES.map((template) => template.id as string),
+  ...TEMPLATES.filter((template) => !RETIRED_TEMPLATE_IDS.has(template.id as string)).map(
+    (template) => template.id as string,
+  ),
   ...FRESH_TEMPLATE_IDS,
+  "edelDark",
 ];
 const LETTER_STYLE_IDS = DOSSIER_TEMPLATE_IDS;
 
@@ -350,14 +354,16 @@ async function uiDefaultScreenshot(page: Page) {
 test.describe("M5 final letter QA", () => {
   test.setTimeout(15 * 60_000);
 
-  test("repo truth and 39-output visual gallery cover every selectable letter style", async ({
+  test("repo truth and 38-output visual gallery cover every selectable letter style", async ({
     page,
   }) => {
     expect(TEMPLATES).toHaveLength(20);
     expect(FRESH_TEMPLATE_IDS).toHaveLength(18);
-    expect(DOSSIER_TEMPLATE_IDS).toHaveLength(38);
-    expect(new Set(DOSSIER_TEMPLATE_IDS).size).toBe(38);
-    expect(LETTER_STYLE_IDS).toHaveLength(38);
+    expect(DOSSIER_TEMPLATE_IDS).toHaveLength(37);
+    expect(new Set(DOSSIER_TEMPLATE_IDS).size).toBe(37);
+    expect(LETTER_STYLE_IDS).toHaveLength(37);
+    expect(LETTER_STYLE_IDS).not.toContain("edelBlockig");
+    expect(LETTER_STYLE_IDS).not.toContain("sonnig");
 
     await mkdir(ARTIFACT_DIR, { recursive: true });
     const manifest: string[] = [await uiDefaultScreenshot(page)];
@@ -378,11 +384,11 @@ test.describe("M5 final letter QA", () => {
       );
     }
 
-    expect(manifest).toHaveLength(39);
+    expect(manifest).toHaveLength(38);
     await writeFile(join(ARTIFACT_DIR, "MANIFEST.txt"), `${manifest.join("\n")}\n`, "utf8");
   });
 
-  test("all 38 styles keep the functional contact header clear of recipient content", async ({
+  test("all 37 styles keep the functional contact header clear of recipient content", async ({
     page,
   }) => {
     for (const template of LETTER_STYLE_IDS) {
@@ -396,7 +402,7 @@ test.describe("M5 final letter QA", () => {
     }
   });
 
-  test("all 38 styles release header space cleanly when the header is disabled", async ({
+  test("all 37 styles release header space cleanly when the header is disabled", async ({
     page,
   }) => {
     for (const template of LETTER_STYLE_IDS) {
@@ -410,7 +416,7 @@ test.describe("M5 final letter QA", () => {
     }
   });
 
-  test("all 38 styles render wrapped attachments in the footer without clipping", async ({
+  test("all 37 styles render wrapped attachments in the footer without clipping", async ({
     page,
   }) => {
     const attachments = [
@@ -435,7 +441,7 @@ test.describe("M5 final letter QA", () => {
     }
   });
 
-  test("all 38 styles release footer space cleanly when the footer is disabled", async ({
+  test("all 37 styles release footer space cleanly when the footer is disabled", async ({
     page,
   }) => {
     for (const template of LETTER_STYLE_IDS) {

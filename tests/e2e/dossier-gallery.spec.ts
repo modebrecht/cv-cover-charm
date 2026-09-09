@@ -19,9 +19,17 @@ function galleryBatchIndex(): number | null {
   return value;
 }
 
+// Keep this Node-side catalogue data-only: importing fresh-templates.ts would
+// pull CSS into Playwright's test transform. Mirror the live product boundary
+// explicitly instead: retired legacy ids are excluded, Fresh remains complete,
+// and Edel Dark is the final registered non-Fresh template.
+const RETIRED_TEMPLATE_IDS = new Set(["edelBlockig", "sonnig"]);
 const ALL_GALLERY_TEMPLATES = [
-  ...TEMPLATES.map((template) => ({ id: template.id, name: template.name })),
+  ...TEMPLATES.filter((template) => !RETIRED_TEMPLATE_IDS.has(template.id as string)).map(
+    (template) => ({ id: template.id, name: template.name }),
+  ),
   ...FRESH_TEMPLATE_REGISTRY,
+  { id: "edelDark", name: "Edel Dark" },
 ];
 
 async function extractPdfText(path: string): Promise<string> {
@@ -146,11 +154,14 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
   }));
 
   expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(18);
-  expect(ALL_GALLERY_TEMPLATES).toHaveLength(38);
-  expect(cases).toHaveLength(38);
+  expect(ALL_GALLERY_TEMPLATES).toHaveLength(37);
+  expect(cases).toHaveLength(37);
+  expect(cases.at(-1)?.label).toBe("Edel Dark");
+  expect(ALL_GALLERY_TEMPLATES.map(({ id }) => id as string)).not.toContain("edelBlockig");
+  expect(ALL_GALLERY_TEMPLATES.map(({ id }) => id as string)).not.toContain("sonnig");
 
-  const totalPdfCount = cases.length + 1; // UI example + 38 dossier template cases.
-  expect(totalPdfCount).toBe(39);
+  const totalPdfCount = cases.length + 1; // UI example + 37 dossier template cases.
+  expect(totalPdfCount).toBe(38);
   expect(Math.ceil(totalPdfCount / GALLERY_BATCH_SIZE)).toBe(GALLERY_BATCH_COUNT);
 
   const batchStart = batchIndex === null ? 0 : batchIndex * GALLERY_BATCH_SIZE;
