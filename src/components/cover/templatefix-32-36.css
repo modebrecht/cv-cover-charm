@@ -1,0 +1,511 @@
+/* -------------------------------------------------------------------------- */
+/* templateFIX — 32 Prism through 36 Cove                                     */
+/* -------------------------------------------------------------------------- */
+/*
+ * One rule for all five families: expressive cover, restrained stationery.
+ * Large surfaces use only primary + secondary. Accent colours are reserved for
+ * editable content controls, never as a third competing architectural field.
+ * Letter/CV pages share one compact masthead and neutral reading paper.
+ */
+
+/* Shared interior cleanup: no orphan header/section dashes and no coloured
+ * sidebar wash. Explicit Sidebar layout remains supported, but the default
+ * classic layout stays the intended presentation for these families. */
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"]
+  :is([data-cv-accent="header"], [data-cv-accent="section"]) {
+  display: none !important;
+}
+
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"]
+  [data-cv-sidebar-tint] {
+  display: none !important;
+}
+
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"]
+  [data-cv-section-title] {
+  color: inherit !important;
+  letter-spacing: 0.045em !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 32 PRISM — navy plane + one royal diagonal                                 */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="prism"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 94mm !important;
+  border-radius: 0 !important;
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 0 100%) !important;
+  transform: none !important;
+  overflow: hidden !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="prism"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 78mm !important;
+  height: 94mm !important;
+  border-radius: 0 !important;
+  clip-path: polygon(26% 0, 100% 0, 100% 100%, 0 78%) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="prism"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+[data-letter-fresh-template="prism"] [data-letter-motif="top-wedge"] {
+  left: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 7mm !important;
+  clip-path: none !important;
+  opacity: 1 !important;
+}
+[data-letter-fresh-template="prism"] [data-letter-motif="top-signal"] {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 54mm !important;
+  height: 7mm !important;
+  clip-path: polygon(16% 0, 100% 0, 100% 100%, 0 100%) !important;
+  opacity: 1 !important;
+}
+[data-letter-fresh-template="prism"] [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 33 GALLERY — plum tower + warm sand grounding field                        */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  left: 138mm !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 72mm !important;
+  height: 158mm !important;
+  border-radius: 0 0 0 24mm !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:first-child {
+  left: -138mm !important;
+  top: 232mm !important;
+  width: 210mm !important;
+  height: 65mm !important;
+  border-radius: 18mm 0 0 0 !important;
+  opacity: 0.82 !important;
+  filter: none !important;
+}
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+[data-letter-fresh-template="gallery"] [data-letter-motif="rail"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 8mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+[data-letter-fresh-template="gallery"] [data-letter-motif="portrait-block"] {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 48mm !important;
+  height: 8mm !important;
+  border-radius: 0 0 0 6mm !important;
+  opacity: 1 !important;
+}
+[data-letter-fresh-template="gallery"] [data-letter-motif="signal"] {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 34 ORBIT — midnight + indigo; orbit identity without loose ring clutter    */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  left: 106mm !important;
+  right: auto !important;
+  top: -34mm !important;
+  width: 138mm !important;
+  height: 138mm !important;
+  border-radius: 9999px !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:first-child {
+  left: -34mm !important;
+  top: 92mm !important;
+  width: 82mm !important;
+  height: 82mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.9 !important;
+  filter: none !important;
+}
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+[data-letter-fresh-template="orbit"] [data-letter-motif="outer-ring"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 7mm !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+[data-letter-fresh-template="orbit"] [data-letter-motif="inner-ring"] {
+  left: auto !important;
+  right: 8mm !important;
+  top: -4mm !important;
+  width: 18mm !important;
+  height: 18mm !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  opacity: 0.34 !important;
+}
+[data-letter-fresh-template="orbit"] [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 35 RIBBON — forest anchor + single gold ribbon, no mint third field        */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  top: 0 !important;
+  width: 48mm !important;
+  height: 100% !important;
+  border-radius: 0 0 22mm 0 !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:first-child {
+  left: 40mm !important;
+  top: 30mm !important;
+  width: 170mm !important;
+  height: 48mm !important;
+  border-radius: 0 24mm 24mm 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+[data-letter-fresh-template="ribbon"] [data-letter-motif="top-ribbon"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 8mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+[data-letter-fresh-template="ribbon"] [data-letter-motif="signal-ribbon"] {
+  left: 0 !important;
+  top: 8mm !important;
+  width: 78mm !important;
+  height: 3mm !important;
+  border-radius: 0 1.5mm 1.5mm 0 !important;
+  opacity: 1 !important;
+}
+[data-letter-fresh-template="ribbon"] [data-letter-motif="bottom-rule"] {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 36 COVE — plum masthead + coral bay; gold removed from architecture        */
+/* -------------------------------------------------------------------------- */
+html[data-dossier-template="cove"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 76mm !important;
+  border-radius: 0 0 46mm 0 !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+html[data-dossier-template="cove"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:first-child {
+  left: 134mm !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 76mm !important;
+  height: 108mm !important;
+  border-radius: 0 0 0 48mm !important;
+  opacity: 0.94 !important;
+  filter: none !important;
+}
+html[data-dossier-template="cove"]
+  [data-dossier-document="cover"]
+  > div:first-child
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+[data-letter-fresh-template="cove"] [data-letter-motif="top-cove"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 210mm !important;
+  height: 8mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+[data-letter-fresh-template="cove"] [data-letter-motif="right-cove"] {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 46mm !important;
+  height: 18mm !important;
+  border-radius: 0 0 0 9mm !important;
+  opacity: 0.92 !important;
+}
+[data-letter-fresh-template="cove"] [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Shared CV mastheads — exactly the same two-colour language as each letter  */
+/* -------------------------------------------------------------------------- */
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 10mm !important;
+  border-radius: 0 !important;
+  clip-path: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  overflow: hidden !important;
+}
+
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+/* Secondary cap differs slightly by family but never becomes a third field. */
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 58mm !important;
+  height: 10mm !important;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%) !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 52mm !important;
+  height: 10mm !important;
+  border-radius: 0 0 0 6mm !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 8mm !important;
+  top: -6mm !important;
+  width: 22mm !important;
+  height: 22mm !important;
+  border-radius: 999px !important;
+  opacity: 0.36 !important;
+}
+
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: 0 !important;
+  right: auto !important;
+  top: 7mm !important;
+  width: 84mm !important;
+  height: 3mm !important;
+  border-radius: 0 1.5mm 1.5mm 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="cove"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > div
+  > div:first-child
+  > div:first-child {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 50mm !important;
+  height: 16mm !important;
+  border-radius: 0 0 0 8mm !important;
+  opacity: 0.92 !important;
+}
+
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"]
+  [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 10mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-main],
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"][data-cv-layout="classic"]
+  [data-cv-measure-page]
+  [data-cv-main] {
+  left: 20mm !important;
+  right: 20mm !important;
+  top: 21mm !important;
+  bottom: 16mm !important;
+}
