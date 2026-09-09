@@ -97,12 +97,17 @@ export function LetterCanvas({
   const geometry = letterPageGeometry(data, effectiveDesign);
   const contentWidthMm = geometry.content.width;
   const sourcePalette = cvPalette(design.colors);
-  const palette = {
-    ink: "#111111",
-    muted: "#4b5563",
-    accent: design.template === "brief" ? "#111111" : sourcePalette.accent,
-    paper: "#ffffff",
-  };
+  const palette =
+    design.template === "brief"
+      ? { ink: "#111111", muted: "#4b5563", accent: "#111111", paper: "#ffffff" }
+      : design.colors.sheet
+        ? sourcePalette
+        : {
+            ink: "#111111",
+            muted: "#4b5563",
+            accent: sourcePalette.accent,
+            paper: "#ffffff",
+          };
   const fontFamily =
     design.template === "brief"
       ? FONT_STACKS[design.font]

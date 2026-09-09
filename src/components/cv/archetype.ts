@@ -103,6 +103,7 @@ const FRAMES: Record<TemplateId, CvFrame> = {
 
 export function cvFrameFor(template: TemplateId): CvFrame {
   if ((template as string) === "brief") return quiet(0);
+  if ((template as string) === "edelDark") return FRAMES.edel;
   return FRAMES[template] ?? FRAMES.klassisch;
 }
 

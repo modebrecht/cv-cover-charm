@@ -2,10 +2,14 @@
  * Farben einer Vorlage für den Lebenslauf nutzbar machen.
  *
  * Das Titelblatt darf dunkel sein – ein Lebenslauf wird gelesen und gedruckt
- * und braucht helles Papier. Der Hintergrund der Vorlage liegt hier nur blass
- * darüber, die Schrift kommt also auf Weiss zu liegen. Eine helle Vorlagen-
- * Textfarbe (gedacht für dunklen Grund) wäre dort unlesbar; darum werden die
- * Farben hier auf Lesbarkeit geprüft und notfalls abgedunkelt.
+ * und braucht normalerweise helles Papier. Der Hintergrund der Vorlage liegt
+ * hier nur blass darüber, die Schrift kommt also auf Weiss zu liegen. Eine
+ * helle Vorlagen-Textfarbe (gedacht für dunklen Grund) wäre dort unlesbar;
+ * darum werden die Farben hier auf Lesbarkeit geprüft und notfalls abgedunkelt.
+ *
+ * Eine Vorlage kann diese Schutzlogik bewusst mit dem semantischen `sheet`-Slot
+ * überschreiben. Das ist für echte Dark-Dossiers gedacht: dann wird nicht das
+ * Dunkel aufgehellt, sondern die Textpalette kontrastreich auf die Fläche gelegt.
  */
 
 type Rgb = { r: number; g: number; b: number };
@@ -101,21 +105,21 @@ export type CvPalette = {
   ink: string;
   /** Gedämpfter Text: Zeitangaben, Orte. */
   muted: string;
-  /** Abschnittsüberschriften und Linien – auch bei sehr hellen Vorlagen lesbar. */
+  /** Abschnittsüberschriften und Linien. */
   accent: string;
-  /** Grundfarbe des Blattes – immer hell. */
+  /** Schreibfläche; normalerweise hell, bei explizitem `sheet` auch dunkel. */
   paper: string;
 };
 
 /**
- * Aus den Slots der Vorlage eine Palette bauen, die auf hellem Papier
- * funktioniert.
+ * Aus den Slots der Vorlage eine Palette bauen, die auf der vorgesehenen
+ * Schreibfläche funktioniert.
  *
- * Für automatisch erzeugte CV-Farben nehmen wir bewusst mehr Reserve als das
- * nackte WCAG-Minimum: kleine Zeitangaben und Orte werden sonst auf getöntem
- * Papier sowie im Ausdruck sichtbar zu blass. Wer im CV-Farbwähler eigene
- * Werte setzt, bekommt diese dagegen unverändert – eine bewusste Wahl soll
- * nicht heimlich umgefärbt werden.
+ * Für normale Vorlagen nehmen wir bewusst mehr Reserve als das nackte
+ * WCAG-Minimum: kleine Zeitangaben und Orte werden sonst auf getöntem Papier
+ * sowie im Ausdruck sichtbar zu blass. Ein expliziter `sheet`-Slot ist dagegen
+ * ein bewusster Vertrag für die Innenfläche und darf deshalb auch dunkel sein.
+ * Eigene CV-Farben (`cvInk`, `cvMuted`, `cvHeading`) gewinnen weiterhin.
  */
 export function cvPalette(colors: Record<string, string>): CvPalette {
   const customInk = parse(colors.cvInk ?? "");
@@ -124,6 +128,29 @@ export function cvPalette(colors: Record<string, string>): CvPalette {
 
   const accentRaw = parse(pick(colors, ["accent", "primary", "secondary", "ink"]) ?? "#1f2937");
   const inkRaw = parse(pick(colors, ["ink", "primary", "accent"]) ?? "#111111");
+  const explicitSheet = parse(colors.sheet ?? "");
+
+  if (explicitSheet) {
+    const paper = toHex(explicitSheet);
+    const roles = onColorRoles(
+      paper,
+      pick(colors, ["accent", "primary", "secondary", "ink"]) ?? undefined,
+    );
+    const fallbackInk = parse(roles.ink) ?? { r: 255, g: 255, b: 255 };
+    const fallbackMuted = parse(roles.muted) ?? fallbackInk;
+    const fallbackAccent = parse(roles.accent) ?? fallbackInk;
+    const automaticInk =
+      inkRaw && contrast(inkRaw, explicitSheet) >= 7 ? inkRaw : fallbackInk;
+    const automaticAccent =
+      accentRaw && contrast(accentRaw, explicitSheet) >= 4.5 ? accentRaw : fallbackAccent;
+
+    return {
+      ink: toHex(customInk ?? automaticInk),
+      muted: toHex(customMuted ?? fallbackMuted),
+      accent: toHex(customAccent ?? automaticAccent),
+      paper,
+    };
+  }
 
   // Eine für dunklen Grund gedachte helle Textfarbe ist hier unbrauchbar.
   const automaticInk = inkRaw && contrastOnWhite(inkRaw) >= 8 ? inkRaw : { r: 26, g: 26, b: 30 };
@@ -154,7 +181,8 @@ export function cvPalette(colors: Record<string, string>): CvPalette {
  * den Lebenslauf auf reines Weiss, unterschieden sich die beiden Blätter schon
  * vor dem ersten Strich. Übernommen wird die Farbe nur, solange sie hell genug
  * für dunkle Schrift bleibt; eine dunkle Vorlage bekommt weiterhin helles
- * Papier, weil ein Lebenslauf gelesen und gedruckt wird.
+ * Papier, weil ein Lebenslauf gelesen und gedruckt wird. Echte Dark-Dossiers
+ * verwenden stattdessen den expliziten `sheet`-Pfad in `cvPalette`.
  */
 function paperFor(colors: Record<string, string>, ink: Rgb): string {
   const bg = parse(colors.bg ?? "");
