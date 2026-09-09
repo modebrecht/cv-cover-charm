@@ -1,0 +1,85 @@
+name: Template Typography Verification
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - template-font-audit
+    paths:
+      - "src/lib/dossier-family.ts"
+      - "src/lib/dossier-theme.ts"
+      - "src/components/cover/fresh-templates.ts"
+      - "src/components/cover/layouts.ts"
+      - "src/components/cover/CoverCanvas.tsx"
+      - "src/components/cover/template-typography-fixes.css"
+      - "tests/unit/template-typography.test.ts"
+      - "tests/e2e/dossier-typography-regression.spec.ts"
+      - ".github/workflows/template-font-audit.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: template-font-audit-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Typography unit contracts
+        run: bun test tests/unit/template-typography.test.ts
+
+      - name: TypeScript typecheck
+        run: bun run typecheck
+
+      - name: Install Playwright runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start application
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/cv-cover-charm-font.log 2>&1 &
+          echo $! > /tmp/cv-cover-charm-font.pid
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:4173/titelblatt > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/cv-cover-charm-font.log
+          exit 1
+
+      - name: Browser typography regression
+        run: npx playwright test tests/e2e/dossier-typography-regression.spec.ts --reporter=line --workers=1
+
+      - name: Fresh template smoke
+        run: npx playwright test tests/e2e/fresh-dossier-templates.spec.ts --reporter=line --workers=1
+
+      - name: Show app log on failure
+        if: failure()
+        run: cat /tmp/cv-cover-charm-font.log || true
+
+      - name: Stop application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/cv-cover-charm-font.pid ]; then
+            kill "$(cat /tmp/cv-cover-charm-font.pid)" || true
+          fi
