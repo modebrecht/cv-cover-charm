@@ -40,7 +40,7 @@ describe("M14 Fresh renderer boundaries", () => {
     }
   });
 
-  test("legacy letter-only rails also expose semantic motif markers", () => {
+  test("legacy Blockig letter rail exposes its intentional semantic motifs only", () => {
     const markup = renderToStaticMarkup(
       createElement(LetterSheetBackground, {
         template: "blockig",
@@ -58,6 +58,6 @@ describe("M14 Fresh renderer boundaries", () => {
     expect(markup).toContain('data-letter-safe-rail="true"');
     expect(markup).toContain('data-letter-motif="rail"');
     expect(markup).toContain('data-letter-motif="accent-block"');
-    expect(markup).toContain('data-letter-motif="rail-rule"');
+    expect(markup).not.toContain('data-letter-motif="rail-rule"');
   });
 });
