@@ -134,7 +134,16 @@ test.describe("M7 dossier state roundtrip", () => {
             headerShowAddress: true,
             headerShowPhone: true,
             headerShowEmail: true,
+            headerHeightMm: null,
+            headerTextLayout: "stacked",
+            headerBackgroundColor: null,
+            headerGradientColor: null,
             footerMode: "compact",
+            footerHeightMm: null,
+            footerTextLayout: "inline",
+            footerBackgroundColor: null,
+            footerGradientColor: null,
+            textFont: null,
           },
           cv: {
             headerMode: "contact",
@@ -142,7 +151,16 @@ test.describe("M7 dossier state roundtrip", () => {
             headerShowAddress: true,
             headerShowPhone: false,
             headerShowEmail: true,
+            headerHeightMm: 26,
+            headerTextLayout: "inline",
+            headerBackgroundColor: "#123456",
+            headerGradientColor: "#abcdef",
             footerMode: "details",
+            footerHeightMm: 14,
+            footerTextLayout: "stacked",
+            footerBackgroundColor: "#654321",
+            footerGradientColor: null,
+            textFont: "freundlich",
           },
           letter: {
             headerMode: "none",
@@ -150,7 +168,16 @@ test.describe("M7 dossier state roundtrip", () => {
             headerShowAddress: false,
             headerShowPhone: true,
             headerShowEmail: false,
+            headerHeightMm: null,
+            headerTextLayout: "stacked",
+            headerBackgroundColor: null,
+            headerGradientColor: null,
             footerMode: "none",
+            footerHeightMm: null,
+            footerTextLayout: "inline",
+            footerBackgroundColor: null,
+            footerGradientColor: null,
+            textFont: null,
           },
         }),
       );
@@ -180,6 +207,11 @@ test.describe("M7 dossier state roundtrip", () => {
     expect(before.cv?.data?.person?.vorname).toBe("Lea");
     expect(before.chrome?.sync).toBe(false);
     expect(before.chrome?.cv?.headerMode).toBe("contact");
+    expect(before.chrome?.cv?.headerHeightMm).toBe(26);
+    expect(before.chrome?.cv?.headerBackgroundColor).toBe("#123456");
+    expect(before.chrome?.cv?.headerGradientColor).toBe("#abcdef");
+    expect(before.chrome?.cv?.footerHeightMm).toBe(14);
+    expect(before.chrome?.cv?.textFont).toBe("freundlich");
     expect(before.chrome?.letter?.headerMode).toBe("none");
 
     await page.evaluate(() => localStorage.clear());
