@@ -9,6 +9,7 @@ on:
       - dev
       - render
       - main
+      - feature/header-footer-customization
     paths-ignore:
       - "History/**"
 
