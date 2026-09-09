@@ -19,8 +19,9 @@ describe("Fresh title-page background contract", () => {
   test("canonical Fresh registry is exactly dossier templates 21 through 38", () => {
     expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(18);
     expect(FRESH_TEMPLATE_IDS).toHaveLength(18);
-    expect(TEMPLATES).toHaveLength(38);
-    expect(TEMPLATES.slice(20).map(({ id }) => id as string)).toEqual(FRESH_TEMPLATE_IDS);
+    expect(TEMPLATES).toHaveLength(39);
+    expect(TEMPLATES.slice(20, 38).map(({ id }) => id as string)).toEqual(FRESH_TEMPLATE_IDS);
+    expect((TEMPLATES.at(-1)?.id as string) ?? "").toBe("edelDark");
     expect(FRESH_TEMPLATE_REGISTRY[0]).toMatchObject({ id: "edge", name: "Edge" });
     expect(FRESH_TEMPLATE_REGISTRY.at(-1)).toMatchObject({ id: "cove", name: "Cove" });
   });
