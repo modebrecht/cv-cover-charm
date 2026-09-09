@@ -53,3 +53,14 @@ html[data-cv-variant][data-cv-variant][data-cv-variant]
   [data-cv-accent="header"] {
   display: none !important;
 }
+
+/*
+ * Kolumne/Terracotta used to draw a thin vertical ornament beside the contact
+ * block. In the compact sidebar it reads like an accidental hanging line and
+ * competes with the section hierarchy, so suppress that legacy motif.
+ */
+[data-dossier-document="cv"]
+  [data-dossier-sheet-background="terracotta"]
+  > .left-\[6mm\].top-\[20mm\].h-\[38mm\].w-\[1px\] {
+  display: none !important;
+}
