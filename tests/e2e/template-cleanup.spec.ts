@@ -128,13 +128,21 @@ test.describe("template cleanup", () => {
               Math.abs(rect.height - pageRect.height) <= 1,
           );
 
+        const expectedAccentHeight = pageRect.height * (14 / 297);
         const orange = Array.from(documentRoot.querySelectorAll<HTMLElement>("*"))
           .map((node) => ({ rect: node.getBoundingClientRect(), style: getComputedStyle(node) }))
           .filter(
             ({ rect, style }) =>
-              style.backgroundColor === "rgb(249, 115, 22)" && rect.width > 0 && rect.height > 0,
+              style.backgroundColor === "rgb(249, 115, 22)" &&
+              rect.width > 0 &&
+              rect.height > 0 &&
+              Math.abs(rect.height - expectedAccentHeight) <= 2,
           )
-          .sort((a, b) => b.rect.width - a.rect.width)[0];
+          .sort(
+            (a, b) =>
+              Math.abs(a.rect.height - expectedAccentHeight) -
+              Math.abs(b.rect.height - expectedAccentHeight),
+          )[0];
 
         if (!grey || !orange) return null;
 
