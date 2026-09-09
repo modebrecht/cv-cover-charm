@@ -46,12 +46,21 @@ function legacyChromeFromDesign(design: LetterDesign): DossierChromeOptions {
     headerShowAddress: design.headerShowAddress !== false,
     headerShowPhone: design.headerShowPhone !== false,
     headerShowEmail: design.headerShowEmail !== false,
+    headerHeightMm: design.headerHeightMm ?? null,
+    headerTextLayout: design.headerTextLayout === "inline" ? "inline" : "stacked",
+    headerBackgroundColor: design.headerBackgroundColor ?? null,
+    headerGradientColor: design.headerGradientColor ?? null,
     footerMode:
       design.footerMode === "attachments"
         ? "details"
         : design.footerMode === "none"
           ? "none"
           : "compact",
+    footerHeightMm: design.footerHeightMm ?? null,
+    footerTextLayout: design.footerTextLayout === "stacked" ? "stacked" : "inline",
+    footerBackgroundColor: design.footerBackgroundColor ?? null,
+    footerGradientColor: design.footerGradientColor ?? null,
+    textFont: design.chromeTextFont ?? null,
   };
 }
 
@@ -85,12 +94,21 @@ export function LetterCanvas({
       headerShowAddress: chrome.headerShowAddress,
       headerShowPhone: chrome.headerShowPhone,
       headerShowEmail: chrome.headerShowEmail,
+      headerHeightMm: chrome.headerHeightMm,
+      headerTextLayout: chrome.headerTextLayout,
+      headerBackgroundColor: chrome.headerBackgroundColor,
+      headerGradientColor: chrome.headerGradientColor,
       footerMode:
         chrome.footerMode === "details"
           ? "attachments"
           : chrome.footerMode === "none"
             ? "none"
             : "compact",
+      footerHeightMm: chrome.footerHeightMm,
+      footerTextLayout: chrome.footerTextLayout,
+      footerBackgroundColor: chrome.footerBackgroundColor,
+      footerGradientColor: chrome.footerGradientColor,
+      chromeTextFont: chrome.textFont,
     }),
     [chrome, design],
   );
