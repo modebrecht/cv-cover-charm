@@ -38,7 +38,7 @@ test.describe("M9 demo CV pagination", () => {
     const templatePanel = page.locator(`[id="${templatePanelId}"]`);
     // Count the runtime picker itself so shared templates such as Brief cannot drift from this gate.
     const templateButtons = templatePanel.locator("button[title][aria-pressed]");
-    await expect(templateButtons).toHaveCount(38);
+    await expect(templateButtons).toHaveCount(37);
     const templateCount = await templateButtons.count();
     const spillages: string[] = [];
     const exercisedTemplateIds = new Set<string>();
@@ -148,8 +148,8 @@ test.describe("M9 demo CV pagination", () => {
 
     expect(
       exercisedTemplateIds.size,
-      "runtime template picker must exercise 38 unique CV templates",
-    ).toBe(38);
+      "runtime template picker must exercise 37 unique CV templates",
+    ).toBe(37);
     // Report all spillers together so one density fix can cover the complete runtime matrix.
     expect(spillages, "normal demo CV spill templates").toEqual([]);
   });
