@@ -47,7 +47,7 @@ function templateDefaultAdjustment(
     }
   }
 
-  if (template === "blockig" && block.id === "kicker") {
+  if ((template === "blockig" || template === "colorful") && block.id === "kicker") {
     adjusted = {
       ...adjusted,
       style: {
