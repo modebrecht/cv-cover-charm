@@ -1,9 +1,16 @@
+import { FONT_STACKS } from "@/components/cover/types";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
-import type {
-  DossierChromeContact,
-  DossierChromeOptions,
-  DossierChromeScope,
+import {
+  dossierFooterVisualHeightMmForOptions,
+  dossierHeaderVisualHeightMmForOptions,
+  type DossierChromeContact,
+  type DossierChromeOptions,
+  type DossierChromeScope,
 } from "@/lib/dossier-chrome";
+
+function surfaceBackground(first: string, second: string | null): string {
+  return second ? `linear-gradient(90deg, ${first}, ${second})` : first;
+}
 
 export function DossierHeaderFooterChrome({
   scope,
@@ -40,18 +47,16 @@ export function DossierHeaderFooterChrome({
       : (colors.primary ?? colors.accent ?? colors.secondary ?? sourcePalette.accent);
   const secondary =
     template === "brief" ? "#4b5563" : (colors.accent ?? colors.secondary ?? sourcePalette.accent);
-  const headerRoles = onColorRoles(primary, secondary);
-  const footerRoles = onColorRoles(secondary, primary);
-  const rightBits = [
-    options.headerShowPhone ? resolvedContact.phone : "",
-    options.headerShowEmail ? resolvedContact.email : "",
-  ].filter(Boolean);
-  const continuationBits = [
-    options.headerShowAddress ? resolvedContact.place : "",
-    options.headerShowEmail ? resolvedContact.email : "",
-    options.headerShowPhone ? resolvedContact.phone : "",
-  ].filter(Boolean);
-  const detailsHeight = footerHeightMm ?? 10;
+  const headerBackground = options.headerBackgroundColor ?? primary;
+  const footerBackground = options.footerBackgroundColor ?? secondary;
+  const headerRoles = onColorRoles(headerBackground, options.headerGradientColor ?? secondary);
+  const footerRoles = onColorRoles(footerBackground, options.footerGradientColor ?? primary);
+  const headerSurface = surfaceBackground(headerBackground, options.headerGradientColor);
+  const footerSurface = surfaceBackground(footerBackground, options.footerGradientColor);
+  const textFontFamily = options.textFont ? FONT_STACKS[options.textFont] : undefined;
+  const headerVisualHeight = dossierHeaderVisualHeightMmForOptions(options, pageIndex);
+  const compactFooterHeight = dossierFooterVisualHeightMmForOptions(options);
+  const detailsHeight = options.footerHeightMm ?? footerHeightMm ?? 10;
   const letter = scope === "letter";
   const warmLetterOwnsFirstPageHeader =
     letter && template === "freundlich" && pageIndex === 0 && headerMode === "compact";
@@ -59,21 +64,52 @@ export function DossierHeaderFooterChrome({
   const cvPageNumberFooter =
     scope === "cv" && footerRight ? /^seite\s+\d+$/i.test(footerRight.trim()) : false;
   const resolvedFooterRight = cvPageNumberFooter ? undefined : footerRight;
+  const contactRows = [
+    options.headerShowName && resolvedContact.name
+      ? { key: "name", value: resolvedContact.name, strong: true }
+      : null,
+    options.headerShowAddress && resolvedContact.address
+      ? { key: "address", value: resolvedContact.address, strong: false }
+      : null,
+    options.headerShowAddress && resolvedContact.place
+      ? { key: "place", value: resolvedContact.place, strong: false }
+      : null,
+    options.headerShowPhone && resolvedContact.phone
+      ? { key: "phone", value: resolvedContact.phone, strong: false }
+      : null,
+    options.headerShowEmail && resolvedContact.email
+      ? { key: "email", value: resolvedContact.email, strong: false }
+      : null,
+  ].filter((row): row is { key: string; value: string; strong: boolean } => row !== null);
+  const continuationBits = [
+    options.headerShowName ? resolvedContact.name : "",
+    options.headerShowAddress ? resolvedContact.place : "",
+    options.headerShowEmail ? resolvedContact.email : "",
+    options.headerShowPhone ? resolvedContact.phone : "",
+  ].filter(Boolean);
+  const footerValues = [resolvedFooterLeft, resolvedFooterRight].filter(
+    (value): value is string => !!value?.trim(),
+  );
 
   return (
     <div
       data-dossier-chrome={scope}
       data-dossier-header-mode={headerMode}
       data-dossier-footer-mode={options.footerMode}
+      data-dossier-header-text-layout={options.headerTextLayout}
+      data-dossier-footer-text-layout={options.footerTextLayout}
+      data-dossier-chrome-font={options.textFont ?? "template"}
       data-letter-chrome={letter ? "" : undefined}
       data-letter-header-mode={letter ? headerMode : undefined}
       className="pointer-events-none absolute inset-0 z-[3] overflow-hidden"
+      style={{ fontFamily: textFontFamily }}
     >
       {headerMode === "compact" && !warmLetterOwnsFirstPageHeader ? (
         <div
           data-dossier-compact-header
+          data-dossier-header-height-mm={headerVisualHeight}
           className="absolute inset-x-0 top-0"
-          style={{ height: "3mm", backgroundColor: primary }}
+          style={{ height: `${headerVisualHeight}mm`, background: headerSurface }}
           aria-hidden="true"
         />
       ) : null}
@@ -82,73 +118,70 @@ export function DossierHeaderFooterChrome({
         continuationContact ? (
           <div
             data-dossier-continuation-contact-header
+            data-dossier-header-height-mm={headerVisualHeight}
             data-cv-continuation-header={scope === "cv" ? "" : undefined}
             data-letter-continuation-header={letter ? "" : undefined}
-            className="absolute inset-x-0 top-0 flex items-center gap-[7mm]"
+            className="absolute inset-x-0 top-0 flex items-center"
             style={{
-              height: "8mm",
+              height: `${headerVisualHeight}mm`,
               padding: "0 12mm",
               boxSizing: "border-box",
-              backgroundColor: primary,
+              background: headerSurface,
               color: headerRoles.ink,
               fontSize: "7.6pt",
               lineHeight: 1.1,
             }}
           >
-            {options.headerShowName && resolvedContact.name ? (
-              <div className="max-w-[38%] shrink-0 truncate font-semibold">
-                {resolvedContact.name}
-              </div>
-            ) : null}
-            {continuationBits.length ? (
-              <div
-                data-dossier-continuation-contact
-                className="min-w-0 flex-1 truncate text-right opacity-95"
-              >
-                {continuationBits.join(" · ")}
-              </div>
-            ) : null}
+            <div
+              data-dossier-continuation-contact
+              className="min-w-0 flex-1 truncate text-center opacity-95"
+            >
+              {continuationBits.join(" · ")}
+            </div>
           </div>
         ) : (
           <>
             <div
               data-dossier-contact-header-background
+              data-dossier-header-height-mm={headerVisualHeight}
               className="absolute inset-x-0 top-0"
-              style={{ height: "22mm", backgroundColor: primary }}
+              style={{ height: `${headerVisualHeight}mm`, background: headerSurface }}
               aria-hidden="true"
             />
             <div
               data-dossier-integrated-contact
               data-letter-integrated-contact={letter ? "" : undefined}
-              className="absolute flex items-center justify-between gap-[8mm] text-[8.5pt] leading-[1.28]"
+              className="absolute inset-x-0 top-0 flex"
               style={{
-                left: "24mm",
-                right: "23mm",
-                top: "3.1mm",
-                minHeight: "15mm",
+                height: `${headerVisualHeight}mm`,
+                padding: "2mm 23mm 2mm 24mm",
+                boxSizing: "border-box",
                 color: headerRoles.ink,
+                fontSize: "8.5pt",
+                lineHeight: 1.18,
+                overflow: "hidden",
               }}
             >
-              <div className="min-w-0 flex-1" style={{ overflowWrap: "anywhere" }}>
-                {options.headerShowName && resolvedContact.name ? (
-                  <div className="text-[10pt] font-semibold">{resolvedContact.name}</div>
-                ) : null}
-                {options.headerShowAddress ? (
-                  <div className="opacity-90">
-                    {[resolvedContact.address, resolvedContact.place].filter(Boolean).join(" · ")}
-                  </div>
-                ) : null}
-              </div>
-              {rightBits.length ? (
-                <div
-                  className="min-w-0 max-w-[48%] shrink-0 text-right opacity-95"
-                  style={{ overflowWrap: "anywhere" }}
-                >
-                  {rightBits.map((value) => (
-                    <div key={value}>{value}</div>
+              {options.headerTextLayout === "stacked" ? (
+                <div className="my-auto min-w-0" style={{ overflowWrap: "anywhere" }}>
+                  {contactRows.map((row) => (
+                    <div
+                      key={row.key}
+                      className={row.strong ? "font-semibold" : "opacity-95"}
+                      style={row.strong ? { fontSize: "10pt", marginBottom: "0.35mm" } : undefined}
+                    >
+                      {row.value}
+                    </div>
                   ))}
                 </div>
-              ) : null}
+              ) : (
+                <div
+                  className="my-auto min-w-0 flex-1 text-center opacity-95"
+                  style={{ overflowWrap: "anywhere" }}
+                >
+                  {contactRows.map((row) => row.value).join(" · ")}
+                </div>
+              )}
             </div>
           </>
         )
@@ -157,12 +190,13 @@ export function DossierHeaderFooterChrome({
       {options.footerMode === "compact" ? (
         <div
           data-dossier-footer="compact"
+          data-dossier-footer-height-mm={compactFooterHeight}
           data-letter-footer={letter ? "compact" : undefined}
-          data-letter-footer-height-mm={letter ? 2.4 : undefined}
+          data-letter-footer-height-mm={letter ? compactFooterHeight : undefined}
           className="absolute inset-x-0 bottom-0"
           style={{
-            height: "2.4mm",
-            backgroundColor: secondary,
+            height: `${compactFooterHeight}mm`,
+            background: footerSurface,
             opacity: template === "brief" ? 0.75 : 0.92,
           }}
           aria-hidden="true"
@@ -175,42 +209,69 @@ export function DossierHeaderFooterChrome({
           data-dossier-footer-height-mm={detailsHeight}
           data-letter-footer={letter ? "attachments" : undefined}
           data-letter-footer-height-mm={letter ? detailsHeight : undefined}
-          className="absolute inset-x-0 bottom-0 flex items-start gap-[8mm] text-[8.5pt] leading-[1.3]"
+          className="absolute inset-x-0 bottom-0 text-[8.5pt] leading-[1.3]"
           style={{
             height: `${detailsHeight}mm`,
             padding: "2.2mm 23mm 2.2mm 24mm",
             boxSizing: "border-box",
-            backgroundColor: secondary,
+            background: footerSurface,
             color: footerRoles.ink,
+            overflow: "hidden",
           }}
         >
           {footerLabel && footerDetails.length ? (
-            <div
-              data-letter-footer-attachments={letter ? "" : undefined}
-              className="flex h-full min-w-0 flex-1 items-start gap-[8mm]"
-            >
+            options.footerTextLayout === "inline" ? (
               <div
-                data-letter-pdf-text={letter ? "attachments-heading" : undefined}
-                className="shrink-0 font-semibold"
+                data-letter-footer-attachments={letter ? "" : undefined}
+                className="flex h-full min-w-0 items-center gap-[3mm]"
               >
-                {footerLabel}
+                <span
+                  data-letter-pdf-text={letter ? "attachments-heading" : undefined}
+                  className="shrink-0 font-semibold"
+                >
+                  {footerLabel}
+                </span>
+                <span
+                  data-letter-pdf-text={letter ? "attachments-body" : undefined}
+                  className="min-w-0 opacity-95"
+                  style={{ overflowWrap: "anywhere" }}
+                >
+                  {footerDetails.join(" · ")}
+                </span>
               </div>
+            ) : (
               <div
-                data-letter-pdf-text={letter ? "attachments-body" : undefined}
-                className="min-w-0 flex-1"
-                style={{ overflowWrap: "anywhere" }}
+                data-letter-footer-attachments={letter ? "" : undefined}
+                className="flex h-full min-w-0 items-start gap-[8mm]"
               >
-                <div>
+                <div
+                  data-letter-pdf-text={letter ? "attachments-heading" : undefined}
+                  className="shrink-0 font-semibold"
+                >
+                  {footerLabel}
+                </div>
+                <div
+                  data-letter-pdf-text={letter ? "attachments-body" : undefined}
+                  className="min-w-0 flex-1"
+                  style={{ overflowWrap: "anywhere" }}
+                >
                   {footerDetails.map((value) => (
                     <div key={value}>{value}</div>
                   ))}
                 </div>
               </div>
+            )
+          ) : options.footerTextLayout === "stacked" ? (
+            <div className="flex h-full min-w-0 flex-col justify-center">
+              {footerValues.map((value) => (
+                <div key={value} className="truncate">
+                  {value}
+                </div>
+              ))}
             </div>
           ) : (
-            <div className="flex h-full min-w-0 flex-1 items-center justify-between gap-[8mm]">
-              <span className="truncate">{resolvedFooterLeft}</span>
-              {resolvedFooterRight ? <span className="shrink-0">{resolvedFooterRight}</span> : null}
+            <div className="flex h-full min-w-0 items-center justify-between gap-[8mm]">
+              <span className="min-w-0 truncate">{footerValues.join(" · ")}</span>
             </div>
           )}
         </div>
