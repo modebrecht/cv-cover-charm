@@ -43,8 +43,8 @@ function footerHeight(markup: string): number {
 
 describe("compact letter presentation", () => {
   test("letter canvas renders shared dossier paper for every template", () => {
-    expect(TEMPLATES.length).toBe(39);
-    expect(LETTER_TEMPLATE_IDS.length).toBe(39);
+    expect(TEMPLATES.length).toBe(37);
+    expect(LETTER_TEMPLATE_IDS.length).toBe(37);
     for (const template of LETTER_TEMPLATE_IDS) {
       const markup = markupFor(template, "compact");
       expect(markup).toContain('data-letter-header-mode="compact"');
@@ -187,6 +187,11 @@ describe("compact letter presentation", () => {
     expect(legacy.headerShowPhone).toBe(true);
     expect(legacy.headerShowEmail).toBe(true);
     expect(legacy.footerMode).toBe("compact");
+  });
+
+  test("retired Edel blockig and Bogen saves fall back instead of reviving removed templates", () => {
+    expect(normalizeLetterDesign({ template: "edelBlockig" }).template).toBe("brief");
+    expect(normalizeLetterDesign({ template: "sonnig" }).template).toBe("brief");
   });
 
   test("contact header uses automatic readable contrast on a light header color", () => {
