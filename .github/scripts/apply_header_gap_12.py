@@ -10,6 +10,15 @@ def replace_once(path: str, old: str, new: str) -> None:
     file.write_text(text.replace(old, new, 1))
 
 
+def replace_count(path: str, old: str, new: str, expected: int) -> None:
+    file = Path(path)
+    text = file.read_text()
+    count = text.count(old)
+    if count != expected:
+        raise SystemExit(f"{path}: expected {expected} matches for {old!r}, found {count}")
+    file.write_text(text.replace(old, new))
+
+
 path = "src/lib/dossier-chrome.ts"
 replace_once(path, "  headerGapMm: 6,", "  headerGapMm: 12,")
 replace_once(path, "?? fallback.headerGapMm ?? 6", "?? fallback.headerGapMm ?? 12")
@@ -116,3 +125,31 @@ replace_once(
     "toMatchObject({ top: 37, bottom: 20 })",
     "toMatchObject({ top: 43, bottom: 20 })",
 )
+
+path = "tests/unit/dossier-sheet-background.test.tsx"
+replace_once(
+    path,
+    "// common chrome plus the default 6 mm post-header gap owns the text top.",
+    "// common chrome plus the default 12 mm post-header gap owns the text top.",
+)
+replace_once(
+    path,
+    'expect(letterLayoutFor("modern").top).toBe(27);',
+    'expect(letterLayoutFor("modern").top).toBe(33);',
+)
+replace_once(
+    path,
+    'expect(letterLayoutFor("freundlich").top).toBe(27);',
+    'expect(letterLayoutFor("freundlich").top).toBe(33);',
+)
+
+path = "tests/unit/dossier-chrome-customization.test.tsx"
+replace_once(
+    path,
+    "expect(dossierHeaderContentTopMmForOptions(options)).toBe(45);",
+    "expect(dossierHeaderContentTopMmForOptions(options)).toBe(51);",
+)
+
+path = "tests/unit/letter-compact-header.test.tsx"
+replace_count(path, 'expect(contact).toContain("top:37mm");', 'expect(contact).toContain("top:43mm");', 1)
+replace_count(path, 'expect(markup).toContain("top:37mm");', 'expect(markup).toContain("top:43mm");', 1)
