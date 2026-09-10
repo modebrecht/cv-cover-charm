@@ -110,7 +110,7 @@ test.describe("M1/M2 compact letter header", () => {
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCount(1);
     expect(
       await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top),
-    ).toBe("27mm");
+    ).toBe("33mm");
 
     await select.selectOption("contact");
     await expect(preview).toHaveAttribute("data-letter-header-mode", "contact");
@@ -122,7 +122,7 @@ test.describe("M1/M2 compact letter header", () => {
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCount(0);
     expect(
       await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top),
-    ).toBe("37mm");
+    ).toBe("43mm");
 
     const headerBox = await preview.locator("[data-letter-integrated-contact]").boundingBox();
     const recipientBox = await preview.locator('[data-letter-section="recipient"]').boundingBox();
