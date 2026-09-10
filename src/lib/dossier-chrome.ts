@@ -14,11 +14,17 @@ export type DossierChromeOptions = {
   headerHeightMm: number | null;
   /** Additional whitespace between the shared header zone and document content. */
   headerGapMm?: number;
+  /** Signed vertical nudge for header/contact content. Does not move the header surface. */
+  headerContentOffsetYMm?: number;
+  /** Motivation-letter-only recipient nudge. Ignored by CV rendering. */
+  letterRecipientOffsetYMm?: number;
   headerTextLayout: DossierChromeTextLayout;
   headerBackgroundColor: string | null;
   headerGradientColor: string | null;
   footerMode: DossierFooterMode;
   footerHeightMm: number | null;
+  /** Signed vertical nudge for footer details. Does not move the footer surface. */
+  footerContentOffsetYMm?: number;
   footerTextLayout: DossierChromeTextLayout;
   footerBackgroundColor: string | null;
   footerGradientColor: string | null;
@@ -62,11 +68,14 @@ export const DEFAULT_DOSSIER_CHROME_OPTIONS: DossierChromeOptions = {
   headerShowEmail: true,
   headerHeightMm: null,
   headerGapMm: 6,
+  headerContentOffsetYMm: 0,
+  letterRecipientOffsetYMm: 0,
   headerTextLayout: "stacked",
   headerBackgroundColor: null,
   headerGradientColor: null,
   footerMode: "compact",
   footerHeightMm: null,
+  footerContentOffsetYMm: 0,
   footerTextLayout: "inline",
   footerBackgroundColor: null,
   footerGradientColor: null,
@@ -93,6 +102,12 @@ function normalizedMm(value: unknown, min: number, max: number): number | null {
   if (value === null || value === undefined || value === "") return null;
   const numeric = typeof value === "number" ? value : Number(value);
   if (!Number.isFinite(numeric)) return null;
+  return Math.min(max, Math.max(min, Math.round(numeric * 10) / 10));
+}
+
+function normalizedOffsetMm(value: unknown, min: number, max: number, fallback = 0): number {
+  const numeric = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(numeric)) return fallback;
   return Math.min(max, Math.max(min, Math.round(numeric * 10) / 10));
 }
 
@@ -125,12 +140,30 @@ function normalizeOptions(
     headerShowEmail: value.headerShowEmail !== false,
     headerHeightMm: normalizedMm(value.headerHeightMm, 1, 40),
     headerGapMm: normalizedMm(value.headerGapMm, 0, 40) ?? fallback.headerGapMm ?? 6,
+    headerContentOffsetYMm: normalizedOffsetMm(
+      value.headerContentOffsetYMm,
+      -12,
+      12,
+      fallback.headerContentOffsetYMm ?? 0,
+    ),
+    letterRecipientOffsetYMm: normalizedOffsetMm(
+      value.letterRecipientOffsetYMm,
+      -12,
+      12,
+      fallback.letterRecipientOffsetYMm ?? 0,
+    ),
     headerTextLayout: value.headerTextLayout === "inline" ? "inline" : "stacked",
     headerBackgroundColor: normalizedColor(value.headerBackgroundColor),
     headerGradientColor: normalizedColor(value.headerGradientColor),
     footerMode:
       value.footerMode === "details" || value.footerMode === "none" ? value.footerMode : "compact",
     footerHeightMm: normalizedMm(value.footerHeightMm, 1, 40),
+    footerContentOffsetYMm: normalizedOffsetMm(
+      value.footerContentOffsetYMm,
+      -8,
+      8,
+      fallback.footerContentOffsetYMm ?? 0,
+    ),
     footerTextLayout: value.footerTextLayout === "stacked" ? "stacked" : "inline",
     footerBackgroundColor: normalizedColor(value.footerBackgroundColor),
     footerGradientColor: normalizedColor(value.footerGradientColor),

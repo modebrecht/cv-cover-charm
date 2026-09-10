@@ -1,0 +1,54 @@
+import { describe, expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
+import { normalizeDossierChromeState } from "../../src/lib/dossier-chrome";
+
+const controls = readFileSync(
+  new URL("../../src/components/dossier/DossierChromeControls.tsx", import.meta.url),
+  "utf8",
+);
+const chrome = readFileSync(
+  new URL("../../src/components/dossier/DossierHeaderFooterChrome.tsx", import.meta.url),
+  "utf8",
+);
+const letter = readFileSync(
+  new URL("../../src/components/letter/LetterCanvas.tsx", import.meta.url),
+  "utf8",
+);
+
+describe("dossier vertical positioning", () => {
+  test("signed offsets default to zero and clamp to safe ranges", () => {
+    const defaults = normalizeDossierChromeState(null);
+    expect(defaults.shared.headerContentOffsetYMm).toBe(0);
+    expect(defaults.shared.footerContentOffsetYMm).toBe(0);
+    expect(defaults.shared.letterRecipientOffsetYMm).toBe(0);
+
+    const state = normalizeDossierChromeState({
+      sync: true,
+      shared: {
+        headerContentOffsetYMm: 99,
+        footerContentOffsetYMm: -99,
+        letterRecipientOffsetYMm: 4.4,
+      },
+    });
+    expect(state.shared.headerContentOffsetYMm).toBe(12);
+    expect(state.shared.footerContentOffsetYMm).toBe(-8);
+    expect(state.shared.letterRecipientOffsetYMm).toBe(4.4);
+  });
+
+  test("controls expose sender/recipient and shared footer positioning", () => {
+    expect(controls).toContain("Eigene Anschrift – vertikale Position");
+    expect(controls).toContain("Firma / Lehrbetrieb – vertikale Position");
+    expect(controls).toContain("Header-Inhalt – vertikale Position");
+    expect(controls).toContain("Footer-Inhalt – vertikale Position");
+    expect(controls).toContain("Standardposition");
+  });
+
+  test("renderers move content rather than header/footer surfaces", () => {
+    expect(chrome).toContain("headerContentTransform");
+    expect(chrome).toContain("footerContentTransform");
+    expect(letter).toContain("senderTransform");
+    expect(letter).toContain("recipientTransform");
+    expect(letter).toContain("transform: senderTransform");
+    expect(letter).toContain("transform: recipientTransform");
+  });
+});

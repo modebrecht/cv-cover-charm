@@ -171,6 +171,11 @@ export function LetterCanvas({
     warmPrimary,
     design.colors.secondary ?? design.colors.accent ?? sourcePalette.accent,
   ).ink;
+  const senderOffsetY = chrome.headerContentOffsetYMm ?? 0;
+  const recipientOffsetY = chrome.letterRecipientOffsetYMm ?? 0;
+  const senderTransform = senderOffsetY === 0 ? undefined : `translateY(${senderOffsetY}mm)`;
+  const recipientTransform =
+    recipientOffsetY === 0 ? undefined : `translateY(${recipientOffsetY}mm)`;
   const recipientTopMargin = senderIntegrated
     ? "mt-[1mm]"
     : warmCompactHeader
@@ -265,6 +270,7 @@ export function LetterCanvas({
             boxSizing: "border-box",
             color: warmHeaderInk,
             textAlign: senderAlign,
+            transform: senderTransform,
           }}
         >
           <div data-letter-pdf-text="sender" className="w-full min-w-0">
@@ -305,7 +311,7 @@ export function LetterCanvas({
             <div
               data-letter-section="sender"
               className="text-[9.5pt] leading-[1.45]"
-              style={{ textAlign: senderAlign }}
+              style={{ textAlign: senderAlign, transform: senderTransform }}
             >
               <div data-letter-pdf-text="sender">
                 <Lines
@@ -327,7 +333,7 @@ export function LetterCanvas({
         <div
           data-letter-section="recipient"
           className={`${recipientTopMargin} min-h-[24mm] text-[10pt] leading-[1.45]`}
-          style={{ textAlign: recipientAlign }}
+          style={{ textAlign: recipientAlign, transform: recipientTransform }}
         >
           <div data-letter-pdf-text="recipient">
             <Lines
