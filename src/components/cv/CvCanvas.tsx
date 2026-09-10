@@ -10,6 +10,7 @@ import type { CvData, CvDesign } from "./types";
 import "@/components/dossier/edel-stationery.css";
 import "./full-section-rules.css";
 import "./fresh-modern-sidebar-geometry.css";
+import "./default-pagination-density.css";
 import "./user-typography.css";
 
 export type { CvLayoutWarning } from "./CvCanvasBase";

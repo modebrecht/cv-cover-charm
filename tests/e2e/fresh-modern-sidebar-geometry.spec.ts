@@ -19,6 +19,10 @@ async function loadDemo(page: Page) {
 }
 
 async function applyTemplate(page: Page, template: string, sidebarPct: number) {
+  // Leave the CV route before mutating its persisted payload. The editor has an
+  // intentional autosave loop; changing localStorage while that loop is mounted
+  // can race with the current React state and restore the previous template.
+  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
     ({ templateId, pct }) => {
       const saved = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null");
@@ -30,7 +34,7 @@ async function applyTemplate(page: Page, template: string, sidebarPct: number) {
     },
     { templateId: template, pct: sidebarPct },
   );
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
   await waitEditorReady(page);
 }
 
