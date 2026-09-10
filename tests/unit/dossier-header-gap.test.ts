@@ -16,8 +16,8 @@ const letterCanvas = readFileSync(
 );
 
 describe("dossier header spacing", () => {
-  test("defaults to 6 mm and clamps persisted values to 0–40 mm", () => {
-    expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerGapMm).toBe(6);
+  test("defaults to 12 mm and clamps persisted values to 0–40 mm", () => {
+    expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerGapMm).toBe(12);
 
     const low = normalizeDossierChromeState({
       shared: { ...DEFAULT_DOSSIER_CHROME_OPTIONS, headerGapMm: -4 },
@@ -31,7 +31,7 @@ describe("dossier header spacing", () => {
 
     expect(low.shared.headerGapMm).toBe(0);
     expect(high.shared.headerGapMm).toBe(40);
-    expect(legacy.shared.headerGapMm).toBe(6);
+    expect(legacy.shared.headerGapMm).toBe(12);
   });
 
   test("adds the selected whitespace after an enabled header", () => {
@@ -53,15 +53,17 @@ describe("dossier header spacing", () => {
 
   test("exposes a 0–40 mm range control in the shared chrome UI", () => {
     expect(controls).toContain("data-dossier-header-gap-control");
-    expect(controls).toContain("<span>Abstand nach Header</span>");
+    expect(controls).toContain("<span>Freiraum unter dem Header</span>");
     expect(controls).toContain("min={0}");
     expect(controls).toContain("max={40}");
-    expect(controls).toContain("headerGapMm: 6");
+    expect(controls).toContain("headerGapMm: 12");
   });
 
   test("applies the shared gap to motivation-letter content geometry", () => {
-    expect(letterCanvas).toContain("chrome.headerGapMm ?? 6");
+    expect(letterCanvas).toContain("chrome.headerGapMm ?? 12");
     expect(letterCanvas).toContain("top: baseGeometry.content.top + headerGapMm");
-    expect(letterCanvas).toContain("height: Math.max(0, baseGeometry.content.height - headerGapMm)");
+    expect(letterCanvas).toContain(
+      "height: Math.max(0, baseGeometry.content.height - headerGapMm)",
+    );
   });
 });
