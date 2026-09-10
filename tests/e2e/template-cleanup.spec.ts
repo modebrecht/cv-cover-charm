@@ -98,7 +98,7 @@ test.describe("template cleanup", () => {
     );
   });
 
-  test("Blockig CV keeps only the full-height grey rail from the cleaned background", async ({
+  test("Blockig CV keeps only the narrow full-height grey rail from the cleaned background", async ({
     page,
   }) => {
     await seedCv(page, "blockig");
@@ -153,7 +153,7 @@ test.describe("template cleanup", () => {
     expect(geometry).not.toBeNull();
     if (!geometry) return;
 
-    expect(geometry.greyWidth / geometry.pageWidth).toBeCloseTo(66 / 210, 2);
+    expect(geometry.greyWidth / geometry.pageWidth).toBeCloseTo(19 / 210, 2);
     expect(geometry.greyHeight / geometry.pageHeight).toBeCloseTo(1, 2);
     expect(geometry.greyColor).toBe("rgb(31, 41, 55)");
     expect(geometry.orangeBackgroundFragments).toBe(0);
