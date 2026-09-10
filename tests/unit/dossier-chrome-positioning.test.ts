@@ -1,6 +1,9 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
-import { normalizeDossierChromeState } from "../../src/lib/dossier-chrome";
+import {
+  normalizeDossierChromeState,
+  setDossierChromeSyncState,
+} from "../../src/lib/dossier-chrome";
 
 const controls = readFileSync(
   new URL("../../src/components/dossier/DossierChromeControls.tsx", import.meta.url),
@@ -33,6 +36,17 @@ describe("dossier vertical positioning", () => {
     expect(state.shared.headerContentOffsetYMm).toBe(12);
     expect(state.shared.footerContentOffsetYMm).toBe(-8);
     expect(state.shared.letterRecipientOffsetYMm).toBe(4.4);
+  });
+
+  test("letter recipient offset survives re-enabling sync from the CV", () => {
+    const split = normalizeDossierChromeState({
+      sync: false,
+      shared: {},
+      cv: { letterRecipientOffsetYMm: 0 },
+      letter: { letterRecipientOffsetYMm: 7 },
+    });
+    const synced = setDossierChromeSyncState(split, "cv", true);
+    expect(synced.shared.letterRecipientOffsetYMm).toBe(7);
   });
 
   test("controls expose sender/recipient and shared footer positioning", () => {

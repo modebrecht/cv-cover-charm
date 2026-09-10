@@ -440,7 +440,16 @@ export function setDossierChromeSyncState(
   if (state.sync === sync) return state;
   if (sync) {
     const source = state[scope];
-    return { ...state, sync: true, shared: { ...source } };
+    // Recipient placement belongs to the motivation letter, not to the shared
+    // header/footer topology. Re-enabling sync from the CV must therefore keep
+    // the letter branch's recipient offset instead of reviving the CV's dormant copy.
+    const letterRecipientOffsetYMm =
+      state.letter.letterRecipientOffsetYMm ?? state.shared.letterRecipientOffsetYMm ?? 0;
+    return {
+      ...state,
+      sync: true,
+      shared: { ...source, letterRecipientOffsetYMm },
+    };
   }
   return {
     ...state,
