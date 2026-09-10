@@ -17,6 +17,11 @@ const letter = readFileSync(
   new URL("../../src/components/letter/LetterCanvas.tsx", import.meta.url),
   "utf8",
 );
+const cvRoute = readFileSync(new URL("../../src/routes/lebenslauf.tsx", import.meta.url), "utf8");
+const letterRoute = readFileSync(
+  new URL("../../src/routes/anschreiben.tsx", import.meta.url),
+  "utf8",
+);
 
 describe("dossier vertical positioning", () => {
   test("signed offsets default to zero and clamp to safe ranges", () => {
@@ -55,6 +60,15 @@ describe("dossier vertical positioning", () => {
     expect(controls).toContain("Header-Inhalt – vertikale Position");
     expect(controls).toContain("Footer-Inhalt – vertikale Position");
     expect(controls).toContain("Standardposition");
+  });
+
+  test("both editors expose their vertical-position controls in the visible UI", () => {
+    expect(letterRoute).toContain("<LetterLayoutControls");
+    expect(cvRoute).toContain(
+      'import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";',
+    );
+    expect(cvRoute).toContain('title="Header & Footer"');
+    expect(cvRoute).toContain('<DossierChromeControls scope="cv" />');
   });
 
   test("renderers move content rather than header/footer surfaces", () => {
