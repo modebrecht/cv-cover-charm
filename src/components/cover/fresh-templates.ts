@@ -22,6 +22,7 @@ import "./templatefix-prism.css";
 import "./templatefix-32-36.css";
 import "./templatefix-32-36-cv-masthead.css";
 import "./templatefix-glow-density.css";
+import "./warm2-redesign.css";
 
 export { FRESH_TEMPLATE_IDS, type FreshTemplateId } from "./fresh-template-registry";
 

@@ -138,13 +138,13 @@ export const FRESH_TEMPLATE_REGISTRY = [
   {
     id: "warm2",
     name: "Warm 2",
-    description: "Peach und Apricot in grossen, weichen Farbräumen",
+    description: "Weiterentwicklung von Warm: Teal-Kopffläche, Amber-Kreis und organische Kante",
     slots: [
-      { key: "bg", label: "Papier", default: "#fff7f0" },
-      { key: "primary", label: "Coral", default: "#d95f4c" },
-      { key: "secondary", label: "Apricot", default: "#f6b26b" },
-      { key: "accent", label: "Sage", default: "#7f9b76" },
-      { key: "ink", label: "Text", default: "#3a2521" },
+      { key: "bg", label: "Papier", default: "#fffaf2" },
+      { key: "primary", label: "Teal", default: "#0f766e" },
+      { key: "secondary", label: "Amber", default: "#f3b24d" },
+      { key: "accent", label: "Coral", default: "#d96c50" },
+      { key: "ink", label: "Text", default: "#16312d" },
     ],
   },
   {

@@ -1,0 +1,137 @@
+/* -------------------------------------------------------------------------- */
+/* WARM 2 — direct evolution of Warm                                           */
+/* -------------------------------------------------------------------------- */
+/*
+ * Warm 2 deliberately keeps Warm's proven content geometry and friendly,
+ * centered hierarchy. Its identity comes from one asymmetric curved teal
+ * header, one large amber circle and one quiet coral echo. No translated text
+ * blocks, floating micro-decoration or dashboard-like cards are introduced.
+ */
+
+/* Cover: curved teal field + two generous soft shapes. */
+html:root[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-background="warm2"]
+  > [data-fresh-cover-field="primary"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 94mm !important;
+  border-radius: 0 0 72mm 0 !important;
+  opacity: 1 !important;
+  background: linear-gradient(128deg, rgb(255 255 255 / 0.07), transparent 58%),
+    var(--cover-primary) !important;
+}
+
+html:root[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-background="warm2"]
+  [data-fresh-cover-field="secondary"] {
+  left: auto !important;
+  right: -18mm !important;
+  top: 34mm !important;
+  bottom: auto !important;
+  width: 92mm !important;
+  height: 92mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.94 !important;
+  filter: none !important;
+  background: var(--cover-secondary) !important;
+}
+
+html:root[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-background="warm2"]
+  [data-fresh-cover-field="accent"] {
+  left: -28mm !important;
+  right: auto !important;
+  top: 66mm !important;
+  bottom: auto !important;
+  width: 70mm !important;
+  height: 70mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.24 !important;
+  filter: none !important;
+  background: var(--cover-accent) !important;
+}
+
+/* Reuse Warm's native content coordinates. The previous Warm 2 translated the
+ * photo/title stack after layout, which made editing and PDF geometry harder to
+ * reason about. */
+html:root[data-dossier-template="warm2"]
+  [data-dossier-document="cover"]
+  :is(
+    [data-block-id="foto"],
+    [data-block-id="name"],
+    [data-block-id="beruf"],
+    [data-block-id="lehrbeginn"]
+  ) {
+  transform: none !important;
+}
+
+/* Interior stationery: the same curved-header language at much lower weight.
+ * Child 2 carries primary/teal, child 1 carries secondary/amber, child 3 the
+ * coral accent. z-index keeps the amber circle visibly docked to the header. */
+html:root[data-dossier-template="warm2"] [data-dossier-sheet-background="warm2"] > div:nth-child(2) {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: 16mm !important;
+  border-radius: 0 0 13mm 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  z-index: 0;
+}
+
+html:root[data-dossier-template="warm2"] [data-dossier-sheet-background="warm2"] > div:nth-child(1) {
+  left: auto !important;
+  right: -7mm !important;
+  top: 3mm !important;
+  bottom: auto !important;
+  width: 28mm !important;
+  height: 28mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.82 !important;
+  filter: none !important;
+  z-index: 1;
+}
+
+html:root[data-dossier-template="warm2"] [data-dossier-sheet-background="warm2"] > div:nth-child(3) {
+  left: 25mm !important;
+  right: auto !important;
+  top: 20mm !important;
+  bottom: auto !important;
+  width: 30mm !important;
+  height: 1.2mm !important;
+  border-radius: 999px !important;
+  opacity: 0.9 !important;
+  z-index: 2;
+}
+
+/* CV stays flat and document-like, closer to Warm than the former floating
+ * card treatment. */
+html:root[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+html:root[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-main] {
+  left: 22mm !important;
+  right: 22mm !important;
+  top: 25mm !important;
+  bottom: 19mm !important;
+}
+
+html:root[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-section-title] {
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
