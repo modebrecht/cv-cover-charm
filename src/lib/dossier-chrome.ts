@@ -67,7 +67,7 @@ export const DEFAULT_DOSSIER_CHROME_OPTIONS: DossierChromeOptions = {
   headerShowPhone: true,
   headerShowEmail: true,
   headerHeightMm: null,
-  headerGapMm: 6,
+  headerGapMm: 12,
   headerContentOffsetYMm: 0,
   letterRecipientOffsetYMm: 0,
   headerTextLayout: "stacked",
@@ -139,7 +139,7 @@ function normalizeOptions(
     headerShowPhone: value.headerShowPhone !== false,
     headerShowEmail: value.headerShowEmail !== false,
     headerHeightMm: normalizedMm(value.headerHeightMm, 1, 40),
-    headerGapMm: normalizedMm(value.headerGapMm, 0, 40) ?? fallback.headerGapMm ?? 6,
+    headerGapMm: normalizedMm(value.headerGapMm, 0, 40) ?? fallback.headerGapMm ?? 12,
     headerContentOffsetYMm: normalizedOffsetMm(
       value.headerContentOffsetYMm,
       -12,
@@ -334,7 +334,7 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
       design.headerShowPhone === options.headerShowPhone &&
       design.headerShowEmail === options.headerShowEmail &&
       design.headerHeightMm === options.headerHeightMm &&
-      design.headerGapMm === (options.headerGapMm ?? 6) &&
+      design.headerGapMm === (options.headerGapMm ?? 12) &&
       design.headerTextLayout === options.headerTextLayout &&
       design.headerBackgroundColor === options.headerBackgroundColor &&
       design.headerGradientColor === options.headerGradientColor &&
@@ -359,7 +359,7 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
         headerShowPhone: options.headerShowPhone,
         headerShowEmail: options.headerShowEmail,
         headerHeightMm: options.headerHeightMm,
-        headerGapMm: options.headerGapMm ?? 6,
+        headerGapMm: options.headerGapMm ?? 12,
         headerTextLayout: options.headerTextLayout,
         headerBackgroundColor: options.headerBackgroundColor,
         headerGradientColor: options.headerGradientColor,
@@ -548,7 +548,7 @@ export function dossierHeaderContentTopMmForOptions(
   if (mode === "none") return pageIndex > 0 ? 16 : 18;
 
   const height = dossierHeaderVisualHeightMmForOptions(options, pageIndex);
-  const gap = Math.min(40, Math.max(0, options.headerGapMm ?? 6));
+  const gap = Math.min(40, Math.max(0, options.headerGapMm ?? 12));
   if (pageIndex > 0) {
     const base =
       options.headerMode === "contact" ? Math.max(18, height + 10) : Math.max(18, height + 15);
