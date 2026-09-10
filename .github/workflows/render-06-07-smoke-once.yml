@@ -1,0 +1,82 @@
+name: Render 06-07 Smoke Once
+
+on:
+  push:
+    branches:
+      - noop-temp
+
+permissions:
+  contents: read
+
+jobs:
+  gallery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+
+      - name: Production build
+        run: bun run build
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start application
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/cv-cover-charm.log 2>&1 &
+          echo $! > /tmp/cv-cover-charm.pid
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/cv-cover-charm.log
+          exit 1
+
+      - name: Generate gallery batch containing 06-07
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf artifacts/review-06-07
+          mkdir -p artifacts/review-06-07
+          GALLERY_BATCH_INDEX=1 GALLERY_DIR="artifacts/review-06-07" \
+            npx playwright test tests/e2e/dossier-gallery.spec.ts --reporter=line --workers=1
+          count="$(find artifacts/review-06-07 -maxdepth 1 -type f -name '*.pdf' | wc -l | tr -d ' ')"
+          echo "Batch PDFs: $count"
+          test "$count" -eq 4
+          test -f artifacts/review-06-07/06-Colorful.pdf
+          test -f artifacts/review-06-07/07-Blockig.pdf
+          {
+            echo "Colorful + Blockig visual smoke"
+            echo "Source render commit: 163239bbbaa0b4e7ca735bc7587dea3955c162a4"
+            echo "QA commit: $GITHUB_SHA"
+            echo "PDF count: $count"
+          } > artifacts/review-06-07/SMOKE.txt
+
+      - name: Upload review PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: render-06-07-postfix
+          path: artifacts/review-06-07
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Show app log on failure
+        if: failure()
+        run: cat /tmp/cv-cover-charm.log || true
+
+      - name: Stop application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi
