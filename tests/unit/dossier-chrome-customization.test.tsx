@@ -89,7 +89,7 @@ describe("dossier chrome customization", () => {
       footerHeightMm: 18,
     };
 
-    expect(dossierHeaderContentTopMmForOptions(options)).toBe(39);
+    expect(dossierHeaderContentTopMmForOptions(options)).toBe(45);
     expect(dossierFooterContentBottomMmForOptions(options)).toBe(28);
   });
 
