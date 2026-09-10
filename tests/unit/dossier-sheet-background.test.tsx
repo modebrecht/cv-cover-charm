@@ -43,7 +43,7 @@ describe("shared dossier sheet background", () => {
     expect(markupFor("freundlich")).toContain("height:52mm");
     expect(markupFor("colorful")).toContain("height:40mm");
     expect(markupFor("colorful")).toContain("height:8mm");
-    expect(markupFor("blockig")).toContain("width:66mm");
+    expect(markupFor("blockig")).toContain("width:19mm");
     expect(markupFor("terracotta")).toContain("width:70mm");
     expect(markupFor("studio")).toContain("width:72mm");
     expect(markupFor("studio")).toContain("height:38mm");
@@ -52,7 +52,7 @@ describe("shared dossier sheet background", () => {
     // common chrome plus the default 12 mm post-header gap owns the text top.
     expect(letterLayoutFor("modern").top).toBe(33);
     expect(letterLayoutFor("freundlich").top).toBe(33);
-    expect(letterLayoutFor("blockig").left).toBe(74);
+    expect(letterLayoutFor("blockig").left).toBe(27);
     expect(letterLayoutFor("studio").left).toBe(80);
     expect(letterLayoutFor("edel").left).toBe(19);
   });
