@@ -187,3 +187,18 @@ html[data-dossier-template="forestFlow"]
   [data-cv-accent="section"] {
   display: none !important;
 }
+
+/* 06 COLORFUL — the 40 mm CV band is too deep for a text-heavy letter.
+ * Keep the same edge-to-edge color language but use the intentionally quieter
+ * letter proportions so the sender starts fully on paper, never across the band edge. */
+[data-letter-template="colorful"]
+  > [data-dossier-sheet-background="colorful"]
+  > .absolute.inset-x-0.top-0 {
+  height: 13mm !important;
+}
+
+[data-letter-template="colorful"]
+  > [data-dossier-sheet-background="colorful"]
+  > .absolute.inset-x-0.bottom-0 {
+  height: 4mm !important;
+}
