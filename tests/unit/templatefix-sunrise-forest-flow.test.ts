@@ -9,6 +9,10 @@ const acceptanceCss = readFileSync(
   new URL("../../src/components/cover/fresh-cover-visual-cleanup.css", import.meta.url),
   "utf8",
 );
+const gradientCss = readFileSync(
+  new URL("../../src/components/cover/gradient-templates.css", import.meta.url),
+  "utf8",
+);
 const freshTemplates = readFileSync(
   new URL("../../src/components/cover/fresh-templates.ts", import.meta.url),
   "utf8",
@@ -24,7 +28,7 @@ describe("templateFIX Sunrise + Forest Flow", () => {
     expect(css).toContain("display: none !important;");
   });
 
-  test("Forest Flow no longer uses a permanent full-height rail", () => {
+  test("Forest Flow has one geometry owner and no permanent full-height rail", () => {
     expect(css).toContain('html[data-dossier-template="forestFlow"]');
     expect(css).toContain("height: 24mm !important;");
     expect(css).toContain('[data-letter-motif="rail"]');
@@ -32,10 +36,11 @@ describe("templateFIX Sunrise + Forest Flow", () => {
     expect(css).toContain("height: 10mm !important;");
     expect(css).toContain('[data-letter-motif="rail-rule"]');
 
-    // A later M10 acceptance patch once re-expanded the dedicated 24/25 canopy
-    // back into a 56 mm vertical rail. Forest Flow now has one owner only.
+    // Both older stylesheets previously reintroduced a large vertical rail.
+    // The dedicated 24/25 stylesheet is now the only Forest Flow geometry owner.
     expect(acceptanceCss).not.toContain('[data-fresh-cover-background="forestFlow"]');
     expect(acceptanceCss).not.toContain('data-dossier-template="forestFlow"');
+    expect(gradientCss).not.toContain('data-dossier-template="forestFlow"');
   });
 
   test("Forest Flow CV targets the three direct signature siblings", () => {
