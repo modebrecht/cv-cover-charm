@@ -89,14 +89,8 @@ describe("central motivation-letter layout system", () => {
   });
 
   test("Warm compact first page reserves its real visual masthead", () => {
-    const compact = letterPageGeometry(
-      DEMO_LETTER,
-      designFor("freundlich", "compact", "compact"),
-    );
-    const contact = letterPageGeometry(
-      DEMO_LETTER,
-      designFor("freundlich", "contact", "compact"),
-    );
+    const compact = letterPageGeometry(DEMO_LETTER, designFor("freundlich", "compact", "compact"));
+    const contact = letterPageGeometry(DEMO_LETTER, designFor("freundlich", "contact", "compact"));
     const continuation = letterPageGeometry(
       DEMO_LETTER,
       designFor("freundlich", "compact", "compact"),
