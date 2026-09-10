@@ -121,7 +121,7 @@ describe("central motivation-letter layout system", () => {
 
   test("fresh structural references are deterministic and independent of import order", () => {
     expect(letterArchetypeFor("glow" as LetterTemplateId)).toBe("fresh");
-    expect(letterArchetypeFor("edge" as LetterTemplateId)).toBe("sidebar");
+    expect(letterArchetypeFor("edge" as LetterTemplateId)).toBe("band");
     expect(letterArchetypeFor("horizon" as LetterTemplateId)).toBe("band");
     expect(letterArchetypeFor("frame" as LetterTemplateId)).toBe("frame");
   });
