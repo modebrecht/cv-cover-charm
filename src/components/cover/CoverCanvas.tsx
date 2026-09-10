@@ -91,6 +91,11 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     liveFont && liveFont !== dossierDefaultFontKey(template) ? liveFont : null;
   const resolvedOverride = fontOverride === undefined ? inferredOverride : fontOverride;
   const dossierFont = effectiveDossierFont(template, resolvedOverride);
+  const paper = colors.bg ?? "#ffffff";
+  const primary = colors.primary ?? colors.accent ?? colors.ink ?? paper;
+  const secondary = colors.secondary ?? colors.accent ?? primary;
+  const accent = colors.accent ?? secondary;
+  const ink = colors.ink ?? "#111111";
 
   return (
     <div
@@ -102,8 +107,15 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
       style={{
         width: `${PAGE_W}px`,
         height: `${PAGE_H}px`,
-        backgroundColor: colors.bg ?? "#ffffff",
+        backgroundColor: paper,
         ["--dossier-font" as string]: dossierFont,
+        // Palette roles live on the common cover ancestor so acceptance CSS can
+        // repair contrast without freezing a template to one hard-coded colour.
+        ["--cover-paper" as string]: paper,
+        ["--cover-primary" as string]: primary,
+        ["--cover-secondary" as string]: secondary,
+        ["--cover-accent" as string]: accent,
+        ["--cover-ink" as string]: ink,
         // Photo initials are not a semantic text role, but still belong to the
         // dossier type system. Keep one unshadowed token for that renderer edge.
         ["--dossier-resolved-font" as string]: dossierFont,
