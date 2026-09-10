@@ -86,6 +86,26 @@ html:root[data-dossier-template="glow"]
   background: var(--cover-accent) !important;
 }
 
+/* Glow's old inherited contact colours assumed a dark lower field. The rebuilt
+ * cover deliberately uses light paper there, so keep the label in the template
+ * primary and the actual contact data in the editable ink role. Palette roles
+ * live on CoverCanvas, therefore custom user colours remain authoritative. */
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cover"]
+  [data-block-id="kontaktTitel"]
+  > div {
+  color: var(--cover-primary) !important;
+  opacity: 1 !important;
+}
+
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cover"]
+  [data-block-id="kontakt"]
+  > div {
+  color: var(--cover-ink) !important;
+  opacity: 0.9 !important;
+}
+
 /* The same Glow signature must remain visible on stationery, but never become
  * a second large decorative field. */
 html:root[data-dossier-template="glow"]
