@@ -37,6 +37,10 @@ describe("templateFIX Warm motivation letter header", () => {
     expect(canvas).not.toContain("translateY(");
   });
 
+  test("Warm sender PDF text owns the full masthead text width", () => {
+    expect(canvas).toContain('data-letter-pdf-text="sender" className="w-full min-w-0"');
+  });
+
   test("Warm masthead height has one shared geometry source", () => {
     expect(warmLayout).toContain("WARM_FIRST_PAGE_HEADER_HEIGHT_MM = 52");
     expect(layout).toContain("return WARM_FIRST_PAGE_HEADER_HEIGHT_MM;");

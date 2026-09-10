@@ -267,7 +267,7 @@ export function LetterCanvas({
             textAlign: senderAlign,
           }}
         >
-          <div data-letter-pdf-text="sender">
+          <div data-letter-pdf-text="sender" className="w-full min-w-0">
             {data.absenderName?.trim() ? (
               <div className="mb-[1mm] text-[11pt] font-semibold leading-[1.25]">
                 {data.absenderName}
