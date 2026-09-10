@@ -79,7 +79,9 @@ const quiet = (borderInsetMm: number, extra: Partial<CvFrame> = {}): CvFrame => 
 const FRAMES: Record<TemplateId, CvFrame> = {
   studio: column(72, { footMm: 6, headFirstMm: 38, headRestMm: 13 }),
   terracotta: column(70),
-  blockig: column(66),
+  // Blockig keeps the narrow structural rail used by its letter instead of
+  // reserving a 66 mm pseudo-sidebar with no content in the classic CV layout.
+  blockig: column(19),
 
   sonne: band(54, { bandMotif: true }),
   freundlich: band(52, { bandMotif: true }),
