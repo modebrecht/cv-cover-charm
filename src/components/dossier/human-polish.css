@@ -1,11 +1,11 @@
 /*
  * Human dossier polish.
  *
- * The legacy continuation pages only had two large clipped ellipses. Reuse
- * those live template-colour surfaces, but turn them into a consistent small
- * corner wash + accent stem + quiet lower echo. This keeps custom palette
- * choices working because every generated shape inherits an existing inline
- * template colour instead of hard-coding a brown/beige value here.
+ * Keep continuation pages quiet: one clipped corner wash plus one soft lower
+ * echo. The previous stem + dot motif read as a stray fragment in the PDF
+ * gallery, so the second live template-colour surface is used directly as the
+ * lower echo instead. Custom palette choices still work because both shapes
+ * inherit the existing inline template colours.
  */
 html[data-dossier-template="human"] [data-dossier-sheet-background="human"] > div:nth-of-type(1) {
   right: -22mm !important;
@@ -19,42 +19,23 @@ html[data-dossier-template="human"] [data-dossier-sheet-background="human"] > di
 }
 
 html[data-dossier-template="human"] [data-dossier-sheet-background="human"] > div:nth-of-type(2) {
-  left: 17mm !important;
+  left: -18mm !important;
   right: auto !important;
-  top: 18mm !important;
-  bottom: auto !important;
-  width: 2mm !important;
-  height: 42mm !important;
-  border-radius: 999px !important;
-  opacity: 0.78 !important;
+  top: auto !important;
+  bottom: 15mm !important;
+  width: 58mm !important;
+  height: 40mm !important;
+  border-radius: 50% !important;
+  opacity: 0.14 !important;
 }
 
+html[data-dossier-template="human"]
+  [data-dossier-sheet-background="human"]
+  > div:nth-of-type(2)::before,
 html[data-dossier-template="human"]
   [data-dossier-sheet-background="human"]
   > div:nth-of-type(2)::after {
-  content: "";
-  position: absolute;
-  left: -35mm;
-  top: 224mm;
-  width: 58mm;
-  height: 40mm;
-  border-radius: 50%;
-  background: inherit;
-  opacity: 0.14;
-}
-
-html[data-dossier-template="human"]
-  [data-dossier-sheet-background="human"]
-  > div:nth-of-type(2)::before {
-  content: "";
-  position: absolute;
-  left: -0.8mm;
-  top: 48mm;
-  width: 3.6mm;
-  height: 3.6mm;
-  border-radius: 999px;
-  background: inherit;
-  opacity: 0.34;
+  content: none !important;
 }
 
 /* Human should read as warm and contemporary, not as an unfinished editorial
