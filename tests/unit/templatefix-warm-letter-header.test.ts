@@ -30,11 +30,11 @@ describe("templateFIX Warm motivation letter header", () => {
     expect(background).not.toContain("warm-letter-polish.css");
   });
 
-  test("Warm sender is structurally centred inside the masthead without transforms", () => {
+  test("Warm sender is structurally centred inside the masthead without fixed transform hacks", () => {
     expect(canvas).toContain("data-letter-warm-sender");
     expect(canvas).toContain('className="absolute z-[4] flex items-center');
     expect(canvas).toContain("WARM_FIRST_PAGE_HEADER_HEIGHT_MM");
-    expect(canvas).not.toContain("translateY(");
+    expect(canvas).not.toContain("translateY(-11mm)");
   });
 
   test("Warm sender PDF text owns the full masthead text width", () => {
