@@ -1,0 +1,148 @@
+/* -------------------------------------------------------------------------- */
+/* 32-36 CV masthead DOM repair                                               */
+/* -------------------------------------------------------------------------- */
+/*
+ * DossierSheetSignature renders three sibling divs. The first 32-36 cleanup
+ * accidentally targeted nested children, so most secondary caps never moved
+ * into the masthead and Orbit's bordered circle was stretched into a giant
+ * outlined rectangle. Target the real sibling contract directly here.
+ */
+
+/* Primary masthead: solid 10 mm strip for the families whose first signature
+ * node already carries a background colour. */
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > [data-dossier-sheet-background]
+  > div:nth-child(1) {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: 10mm !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* Orbit's first node is a border-only ring. Reuse its existing inline
+ * borderColor as a solid midnight strip instead of inventing a new colour. */
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > [data-dossier-sheet-background="orbit"]
+  > div:nth-child(1) {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: 0 !important;
+  border-width: 10mm 0 0 0 !important;
+  border-style: solid !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* Real direct sibling #2 = the secondary family signal. */
+html[data-dossier-template="prism"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > [data-dossier-sheet-background="prism"]
+  > div:nth-child(2) {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 58mm !important;
+  height: 10mm !important;
+  border-radius: 0 !important;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%) !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="gallery"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > [data-dossier-sheet-background="gallery"]
+  > div:nth-child(2) {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 52mm !important;
+  height: 10mm !important;
+  border-radius: 0 0 0 6mm !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="orbit"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > [data-dossier-sheet-background="orbit"]
+  > div:nth-child(2) {
+  left: auto !important;
+  right: 8mm !important;
+  top: -6mm !important;
+  bottom: auto !important;
+  width: 22mm !important;
+  height: 22mm !important;
+  border-width: 2mm !important;
+  border-style: solid !important;
+  border-radius: 9999px !important;
+  opacity: 0.52 !important;
+}
+
+html[data-dossier-template="ribbon"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > [data-dossier-sheet-background="ribbon"]
+  > div:nth-child(2) {
+  left: 0 !important;
+  right: auto !important;
+  top: 7mm !important;
+  bottom: auto !important;
+  width: 84mm !important;
+  height: 3mm !important;
+  border-radius: 0 1.5mm 1.5mm 0 !important;
+  opacity: 1 !important;
+}
+
+html[data-dossier-template="cove"]
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > [data-dossier-sheet-background="cove"]
+  > div:nth-child(2) {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 50mm !important;
+  height: 10mm !important;
+  border-radius: 0 0 0 8mm !important;
+  opacity: 0.92 !important;
+}
+
+/* The third signature node is the retired third-colour accent. */
+html:is(
+    [data-dossier-template="prism"],
+    [data-dossier-template="gallery"],
+    [data-dossier-template="orbit"],
+    [data-dossier-template="ribbon"],
+    [data-dossier-template="cove"]
+  )
+  [data-dossier-document="cv"]
+  [data-cv-background="motif"]
+  > [data-dossier-sheet-background]
+  > div:nth-child(3) {
+  display: none !important;
+}

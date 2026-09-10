@@ -135,11 +135,15 @@ test.describe("M7 dossier state roundtrip", () => {
             headerShowPhone: true,
             headerShowEmail: true,
             headerHeightMm: null,
+            headerGapMm: 6,
+            headerContentOffsetYMm: 0,
+            letterRecipientOffsetYMm: 0,
             headerTextLayout: "stacked",
             headerBackgroundColor: null,
             headerGradientColor: null,
             footerMode: "compact",
             footerHeightMm: null,
+            footerContentOffsetYMm: 0,
             footerTextLayout: "inline",
             footerBackgroundColor: null,
             footerGradientColor: null,
@@ -155,11 +159,15 @@ test.describe("M7 dossier state roundtrip", () => {
             headerShowPhone: false,
             headerShowEmail: true,
             headerHeightMm: 26,
+            headerGapMm: 9,
+            headerContentOffsetYMm: 4,
+            letterRecipientOffsetYMm: 0,
             headerTextLayout: "inline",
             headerBackgroundColor: "#123456",
             headerGradientColor: "#abcdef",
             footerMode: "details",
             footerHeightMm: 14,
+            footerContentOffsetYMm: -2,
             footerTextLayout: "stacked",
             footerBackgroundColor: "#654321",
             footerGradientColor: null,
@@ -175,11 +183,15 @@ test.describe("M7 dossier state roundtrip", () => {
             headerShowPhone: true,
             headerShowEmail: false,
             headerHeightMm: null,
+            headerGapMm: 5,
+            headerContentOffsetYMm: -3,
+            letterRecipientOffsetYMm: 5,
             headerTextLayout: "stacked",
             headerBackgroundColor: null,
             headerGradientColor: null,
             footerMode: "none",
             footerHeightMm: null,
+            footerContentOffsetYMm: 2,
             footerTextLayout: "inline",
             footerBackgroundColor: null,
             footerGradientColor: null,
@@ -217,14 +229,21 @@ test.describe("M7 dossier state roundtrip", () => {
     expect(before.chrome?.sync).toBe(false);
     expect(before.chrome?.cv?.headerMode).toBe("contact");
     expect(before.chrome?.cv?.headerHeightMm).toBe(26);
+    expect(before.chrome?.cv?.headerGapMm).toBe(9);
+    expect(before.chrome?.cv?.headerContentOffsetYMm).toBe(4);
     expect(before.chrome?.cv?.headerBackgroundColor).toBe("#123456");
     expect(before.chrome?.cv?.headerGradientColor).toBe("#abcdef");
     expect(before.chrome?.cv?.footerHeightMm).toBe(14);
+    expect(before.chrome?.cv?.footerContentOffsetYMm).toBe(-2);
     expect(before.chrome?.cv?.borderEnabled).toBe(true);
     expect(before.chrome?.cv?.borderColor).toBe("#fedcba");
     expect(before.chrome?.cv?.borderWidthMm).toBe(1.1);
     expect(before.chrome?.cv?.textFont).toBe("freundlich");
     expect(before.chrome?.letter?.headerMode).toBe("none");
+    expect(before.chrome?.letter?.headerGapMm).toBe(5);
+    expect(before.chrome?.letter?.headerContentOffsetYMm).toBe(-3);
+    expect(before.chrome?.letter?.letterRecipientOffsetYMm).toBe(5);
+    expect(before.chrome?.letter?.footerContentOffsetYMm).toBe(2);
     expect(before.chrome?.letter?.borderEnabled).toBe(false);
 
     await page.evaluate(() => localStorage.clear());

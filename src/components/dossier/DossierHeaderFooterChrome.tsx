@@ -148,6 +148,12 @@ export function DossierHeaderFooterChrome({
     (value): value is string => !!value?.trim(),
   );
   const stackedHeader = options.headerTextLayout === "stacked";
+  const headerContentOffsetY = options.headerContentOffsetYMm ?? 0;
+  const footerContentOffsetY = options.footerContentOffsetYMm ?? 0;
+  const headerContentTransform =
+    headerContentOffsetY === 0 ? undefined : `translateY(${headerContentOffsetY}mm)`;
+  const footerContentTransform =
+    footerContentOffsetY === 0 ? undefined : `translateY(${footerContentOffsetY}mm)`;
 
   return (
     <div
@@ -180,19 +186,6 @@ export function DossierHeaderFooterChrome({
         />
       ) : null}
 
-      {warmLetterOwnsFirstPageHeader && options.borderEnabled ? (
-        <div
-          data-dossier-header-border
-          className="absolute inset-x-0"
-          style={{
-            top: `${Math.max(0, headerVisualHeight - options.borderWidthMm)}mm`,
-            height: `${options.borderWidthMm}mm`,
-            background: borderColor,
-          }}
-          aria-hidden="true"
-        />
-      ) : null}
-
       {headerMode === "contact" ? (
         continuationContact ? (
           <div
@@ -215,6 +208,7 @@ export function DossierHeaderFooterChrome({
             <div
               data-dossier-continuation-contact
               className="min-w-0 flex-1 truncate text-center opacity-95"
+              style={{ transform: headerContentTransform }}
             >
               {continuationBits.join(" · ")}
             </div>
@@ -248,7 +242,10 @@ export function DossierHeaderFooterChrome({
               }}
             >
               {stackedHeader ? (
-                <div className="my-auto min-w-0" style={{ overflowWrap: "anywhere" }}>
+                <div
+                  className="my-auto min-w-0"
+                  style={{ overflowWrap: "anywhere", transform: headerContentTransform }}
+                >
                   {contactRows.map((row) => (
                     <div
                       key={row.key}
@@ -262,7 +259,7 @@ export function DossierHeaderFooterChrome({
               ) : (
                 <div
                   className="my-auto min-w-0 flex-1 text-center opacity-95"
-                  style={{ overflowWrap: "anywhere" }}
+                  style={{ overflowWrap: "anywhere", transform: headerContentTransform }}
                 >
                   {contactRows.map((row) => row.value).join(" · ")}
                 </div>
@@ -312,6 +309,7 @@ export function DossierHeaderFooterChrome({
               <div
                 data-letter-footer-attachments={letter ? "" : undefined}
                 className="flex h-full min-w-0 items-center gap-[3mm]"
+                style={{ transform: footerContentTransform }}
               >
                 <span
                   data-letter-pdf-text={letter ? "attachments-heading" : undefined}
@@ -338,6 +336,7 @@ export function DossierHeaderFooterChrome({
               <div
                 data-letter-footer-attachments={letter ? "" : undefined}
                 className="flex h-full min-w-0 items-start gap-[8mm]"
+                style={{ transform: footerContentTransform }}
               >
                 <div
                   data-letter-pdf-text={letter ? "attachments-heading" : undefined}
@@ -359,7 +358,10 @@ export function DossierHeaderFooterChrome({
               </div>
             )
           ) : options.footerTextLayout === "stacked" ? (
-            <div className="flex h-full min-w-0 flex-col justify-center">
+            <div
+              className="flex h-full min-w-0 flex-col justify-center"
+              style={{ transform: footerContentTransform }}
+            >
               {footerValues.map((value) => (
                 <div key={value} className="truncate">
                   {value}
@@ -367,7 +369,10 @@ export function DossierHeaderFooterChrome({
               ))}
             </div>
           ) : (
-            <div className="flex h-full min-w-0 items-center justify-between gap-[8mm]">
+            <div
+              className="flex h-full min-w-0 items-center justify-between gap-[8mm]"
+              style={{ transform: footerContentTransform }}
+            >
               <span className="min-w-0 truncate">{footerValues.join(" · ")}</span>
             </div>
           )}

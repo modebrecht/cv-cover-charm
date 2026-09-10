@@ -17,6 +17,52 @@ const selectClass =
 const smallButtonClass =
   "rounded border border-input bg-background px-2 py-1 text-[11px] font-medium hover:bg-accent";
 
+function VerticalOffsetControl({
+  label,
+  value,
+  min,
+  max,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  onChange: (value: number) => void;
+}) {
+  return (
+    <label className="grid gap-1 text-xs">
+      <span className="flex items-center justify-between gap-2 text-muted-foreground">
+        <span>{label}</span>
+        <span>
+          {value === 0
+            ? "0 mm · zentriert"
+            : `${value > 0 ? "+" : ""}${value.toFixed(value % 1 ? 1 : 0)} mm`}
+        </span>
+      </span>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={1}
+        value={Math.min(max, Math.max(min, value))}
+        onChange={(event) => onChange(Number(event.target.value))}
+        className="w-full accent-primary"
+        aria-label={label}
+      />
+      {value !== 0 ? (
+        <button
+          type="button"
+          className={`${smallButtonClass} justify-self-start`}
+          onClick={() => onChange(0)}
+        >
+          Zentrierte Standardposition
+        </button>
+      ) : null}
+    </label>
+  );
+}
+
 function BackgroundControl({
   label,
   color,
@@ -119,11 +165,14 @@ export function DossierChromeControls({
   const headerDefaultHeight = options.headerMode === "contact" ? 22 : 3;
   const headerHeight = options.headerHeightMm ?? headerDefaultHeight;
   const headerGap = options.headerGapMm ?? 6;
+  const headerContentOffsetY = options.headerContentOffsetYMm ?? 0;
+  const recipientOffsetY = options.letterRecipientOffsetYMm ?? 0;
   const headerMin =
     options.headerMode === "contact" ? (options.headerTextLayout === "stacked" ? 18 : 10) : 1;
   const headerMax = options.headerMode === "contact" ? 40 : 18;
   const footerDefaultHeight = options.footerMode === "details" ? 10 : 2.4;
   const footerHeight = options.footerHeightMm ?? footerDefaultHeight;
+  const footerContentOffsetY = options.footerContentOffsetYMm ?? 0;
   const footerMin = options.footerMode === "details" ? 4 : 1;
   const footerMax = options.footerMode === "details" ? 40 : 18;
 
@@ -182,7 +231,10 @@ export function DossierChromeControls({
           </select>
         </label>
 
-        <div data-dossier-border-controls className="grid gap-2 rounded-md border bg-muted/20 p-2.5">
+        <div
+          data-dossier-border-controls
+          className="grid gap-2 rounded-md border bg-muted/20 p-2.5"
+        >
           <label className="flex items-center gap-2 text-xs font-medium">
             <input
               data-dossier-border-enabled-control
@@ -274,9 +326,33 @@ export function DossierChromeControls({
           </label>
 
           <span className="text-[11px] leading-relaxed text-muted-foreground">
-            Kompakt zeigt nur das Designband. Mit Kontaktdaten werden Name, Adresse/Wohnort,
-            Telefon und E-Mail integriert; auf Folgeseiten in einer kleineren Variante.
+            Kompakt zeigt nur das Designband. Mit Kontaktdaten werden Name, Adresse/Wohnort, Telefon
+            und E-Mail integriert; auf Folgeseiten in einer kleineren Variante.
           </span>
+
+          {scope === "letter" || options.headerMode === "contact" ? (
+            <VerticalOffsetControl
+              label={
+                scope === "letter"
+                  ? "Eigene Anschrift – vertikale Position"
+                  : "Header-Inhalt – vertikale Position"
+              }
+              value={headerContentOffsetY}
+              min={-12}
+              max={12}
+              onChange={(headerContentOffsetYMm) => patchOptions({ headerContentOffsetYMm })}
+            />
+          ) : null}
+
+          {scope === "letter" ? (
+            <VerticalOffsetControl
+              label="Firma / Lehrbetrieb – vertikale Position"
+              value={recipientOffsetY}
+              min={-12}
+              max={12}
+              onChange={(letterRecipientOffsetYMm) => patchOptions({ letterRecipientOffsetYMm })}
+            />
+          ) : null}
 
           {options.headerMode !== "none" ? (
             <>
@@ -341,8 +417,7 @@ export function DossierChromeControls({
                       value={options.headerTextLayout}
                       onChange={(event) =>
                         patchOptions({
-                          headerTextLayout:
-                            event.target.value === "inline" ? "inline" : "stacked",
+                          headerTextLayout: event.target.value === "inline" ? "inline" : "stacked",
                         })
                       }
                       className={selectClass}
@@ -407,12 +482,22 @@ export function DossierChromeControls({
             </select>
           </label>
           <span className="text-[11px] leading-relaxed text-muted-foreground">
-            Kompakt zeigt nur das Designband. Mit Details bleibt die Gestaltung synchron; der
-            Inhalt ist dokumentgerecht: Beilagen im Motivationsschreiben, Identität im Lebenslauf.
+            Kompakt zeigt nur das Designband. Mit Details bleibt die Gestaltung synchron; der Inhalt
+            ist dokumentgerecht: Beilagen im Motivationsschreiben, Identität im Lebenslauf.
           </span>
 
           {options.footerMode !== "none" ? (
             <>
+              {options.footerMode === "details" ? (
+                <VerticalOffsetControl
+                  label="Footer-Inhalt – vertikale Position"
+                  value={footerContentOffsetY}
+                  min={-8}
+                  max={8}
+                  onChange={(footerContentOffsetYMm) => patchOptions({ footerContentOffsetYMm })}
+                />
+              ) : null}
+
               <label className="grid gap-1 text-xs">
                 <span className="flex items-center justify-between gap-2 text-muted-foreground">
                   <span>Footerhöhe</span>
@@ -447,8 +532,7 @@ export function DossierChromeControls({
                     value={options.footerTextLayout}
                     onChange={(event) =>
                       patchOptions({
-                        footerTextLayout:
-                          event.target.value === "stacked" ? "stacked" : "inline",
+                        footerTextLayout: event.target.value === "stacked" ? "stacked" : "inline",
                       })
                     }
                     className={selectClass}

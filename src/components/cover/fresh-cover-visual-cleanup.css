@@ -10,6 +10,143 @@
  * `:first-child` / `:nth-child` selectors.
  */
 
+/* -------------------------------------------------------------------------- */
+/* 19-22 shared cover repair: Edge · Glow · Frame · Mono Luxe                  */
+/* -------------------------------------------------------------------------- */
+/*
+ * These four Fresh covers reuse the proven Warm content skeleton. Their first
+ * redesign then shifted the shared title stack another 34 mm to the left with
+ * template CSS. Because the base stack already begins at x=20 mm, that placed
+ * the actual content at x=-14 mm and clipped name, profession and start date.
+ *
+ * Keep the safe base coordinates as the single positioning source. Dragged
+ * editor coordinates continue to work because we remove only the template
+ * transform; we do not hard-code left/top positions here.
+ */
+html:root[data-dossier-template="edge"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]),
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]),
+html:root[data-dossier-template="frame"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]),
+html:root[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: none !important;
+}
+
+/* Glow: the previous 16%-opacity capsule left the white Fresh metadata almost
+ * invisible. Turn the top into one saturated, bounded gradient masthead. The
+ * page remains mostly white; the secondary capsule is now only a quiet depth
+ * layer and the accent line starts below the masthead. */
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-background="glow"]
+  > [data-fresh-cover-field="primary"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 30mm !important;
+  border-radius: 0 0 16mm 0 !important;
+  opacity: 1 !important;
+  background: linear-gradient(100deg, var(--cover-primary), var(--cover-secondary)) !important;
+}
+
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-background="glow"]
+  [data-fresh-cover-field="secondary"] {
+  left: auto !important;
+  right: 12mm !important;
+  top: 4mm !important;
+  bottom: auto !important;
+  width: 48mm !important;
+  height: 18mm !important;
+  border-radius: 9mm !important;
+  opacity: 0.28 !important;
+  background: var(--cover-secondary) !important;
+}
+
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-background="glow"]
+  [data-fresh-cover-field="accent"] {
+  left: 20mm !important;
+  right: auto !important;
+  top: 31.5mm !important;
+  bottom: auto !important;
+  width: 46mm !important;
+  height: 1.4mm !important;
+  border-radius: 999px !important;
+  opacity: 0.96 !important;
+  background: var(--cover-accent) !important;
+}
+
+/* Glow's old inherited contact colours assumed a dark lower field. The rebuilt
+ * cover deliberately uses light paper there, so keep the label in the template
+ * primary and the actual contact data in the editable ink role. Palette roles
+ * live on CoverCanvas, therefore custom user colours remain authoritative. */
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cover"]
+  [data-block-id="kontaktTitel"]
+  > div {
+  color: var(--cover-primary) !important;
+  opacity: 1 !important;
+}
+
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cover"]
+  [data-block-id="kontakt"]
+  > div {
+  color: var(--cover-ink) !important;
+  opacity: 0.9 !important;
+}
+
+/* The same Glow signature must remain visible on stationery, but never become
+ * a second large decorative field. */
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="glow"]
+  > div:nth-child(1) {
+  opacity: 0.2 !important;
+}
+
+html:root[data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="glow"]
+  > div:nth-child(2) {
+  opacity: 0.22 !important;
+}
+
+[data-letter-fresh-template="glow"] [data-letter-motif="glow-capsule"] {
+  opacity: 0.22 !important;
+}
+
+[data-letter-fresh-template="glow"] [data-letter-motif="glow-orb"] {
+  opacity: 0.24 !important;
+}
+
+/* Frame: Warm's top metadata is intentionally light because most Fresh covers
+ * place it on colour. Give Frame a restrained dark inner masthead instead of
+ * changing text colours per element. It lives inside the architectural frame
+ * and uses the same primary colour as the outline. */
+html:root[data-dossier-template="frame"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-background="frame"]
+  > [data-fresh-cover-field="primary"] {
+  background: linear-gradient(
+    to bottom,
+    var(--cover-primary) 0,
+    var(--cover-primary) 18mm,
+    transparent 18mm,
+    transparent 100%
+  ) !important;
+}
+
 /* FRAME: the architectural crossbar must separate content, never strike
  * through the contact/attachments footer. */
 html:root[data-dossier-template="frame"]
@@ -22,51 +159,9 @@ html:root[data-dossier-template="frame"]
   opacity: 0.88 !important;
 }
 
-/* FOREST FLOW: the vertical colour rail is a motif, not a clipping mask for
- * metadata. Give the cover rail enough width for BEWERBUNG + place/date while
- * keeping the identity/contact column fully on the paper field. CV geometry is
- * intentionally not touched. */
-html:root[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  [data-fresh-cover-background="forestFlow"]
-  > [data-fresh-cover-field="primary"] {
-  width: 56mm !important;
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  [data-block-id="eyebrow"] {
-  width: 44mm !important;
-  transform: translate(-8mm, 0);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  [data-block-id="ortDatum"] {
-  width: 44mm !important;
-  transform: translate(-96mm, 15mm);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  [data-block-id="name"] {
-  width: 116mm !important;
-  transform: translate(40mm, -18mm);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
-  width: 116mm !important;
-  transform: translate(40mm, -15mm);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"]) {
-  width: 60mm !important;
-  transform: translate(40mm, 0);
-}
+/* Forest Flow used to live here as a one-off clipping repair. That later
+ * override contradicted the dedicated 24/25 family rebuild and reintroduced
+ * the full-height rail. Forest Flow is now owned only by templatefix-24-25.css. */
 
 /* GALLERY: keep the date in the portrait tower but below the photo rather than
  * allowing the circular portrait to cover the date. */
