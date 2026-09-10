@@ -25,9 +25,9 @@ jobs:
       - name: Install
         run: bun install --frozen-lockfile
       - name: Format
-        run: bunx prettier --write src/lib/dossier-chrome.ts src/components/letter/LetterCanvas.tsx src/components/dossier/DossierChromeControls.tsx tests/unit/dossier-header-gap.test.ts tests/unit/dossier-chrome-geometry.test.ts
+        run: bunx prettier --write src/lib/dossier-chrome.ts src/components/letter/LetterCanvas.tsx src/components/dossier/DossierChromeControls.tsx tests/unit/dossier-header-gap.test.ts tests/unit/dossier-chrome-geometry.test.ts tests/unit/dossier-sheet-background.test.tsx tests/unit/dossier-chrome-customization.test.tsx tests/unit/letter-compact-header.test.tsx
       - name: Focused tests
-        run: bun test tests/unit/dossier-header-gap.test.ts tests/unit/dossier-chrome-geometry.test.ts
+        run: bun test tests/unit/dossier-header-gap.test.ts tests/unit/dossier-chrome-geometry.test.ts tests/unit/dossier-sheet-background.test.tsx tests/unit/dossier-chrome-customization.test.tsx tests/unit/letter-compact-header.test.tsx
       - name: Unit tests
         run: bun test tests/unit
       - name: Typecheck
