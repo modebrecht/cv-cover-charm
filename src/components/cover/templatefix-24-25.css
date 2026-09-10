@@ -72,23 +72,13 @@ html[data-dossier-template="forestFlow"]
   transform-origin: top left;
 }
 
+/* Fresh currently reuses the safe Warm title geometry (x=20mm, width=170mm).
+ * Earlier Forest-specific negative translations moved that stack to x=-14mm
+ * and clipped the application title. Keep the stored/base coordinates intact. */
 html[data-dossier-template="forestFlow"]
   [data-dossier-document="cover"]
-  [data-block-id="name"] {
-  transform: translate(-34mm, -26mm) !important;
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
-  transform: translate(-34mm, -22mm) !important;
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
-  > div {
-  text-align: left !important;
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: none !important;
 }
 
 /* Letter: repeat the compact canopy without a permanent rail. */
