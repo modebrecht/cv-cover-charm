@@ -35,8 +35,9 @@ function VerticalOffsetControl({
       <span className="flex items-center justify-between gap-2 text-muted-foreground">
         <span>{label}</span>
         <span>
-          {value > 0 ? "+" : ""}
-          {value.toFixed(value % 1 ? 1 : 0)} mm
+          {value === 0
+            ? "0 mm · zentriert"
+            : `${value > 0 ? "+" : ""}${value.toFixed(value % 1 ? 1 : 0)} mm`}
         </span>
       </span>
       <input
@@ -55,7 +56,7 @@ function VerticalOffsetControl({
           className={`${smallButtonClass} justify-self-start`}
           onClick={() => onChange(0)}
         >
-          Standardposition
+          Zentrierte Standardposition
         </button>
       ) : null}
     </label>
