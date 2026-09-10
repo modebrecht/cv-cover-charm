@@ -58,9 +58,8 @@ describe("central motivation-letter layout system", () => {
           expect(geometry.content.top).toBeGreaterThanOrEqual(16);
           expect(geometry.content.bottom).toBeGreaterThanOrEqual(10);
           expect(geometry.content.width).toBeGreaterThan(140);
-          const minimumContentHeight =
-            template === "freundlich" && headerMode === "compact" ? 220 : 240;
-          expect(geometry.content.height).toBeGreaterThan(minimumContentHeight);
+          const warmCompact = template === "freundlich" && headerMode === "compact";
+          expect(geometry.content.height).toBeGreaterThan(warmCompact ? 220 : 240);
           expect(geometry.content.left + geometry.content.width + geometry.content.right).toBe(
             LETTER_PAGE_MM.width,
           );
@@ -75,9 +74,9 @@ describe("central motivation-letter layout system", () => {
   test("established templates stay archetype-based without copying per-template CV dimensions", () => {
     const groups = new Map<LetterArchetype, Set<string>>();
 
-    for (const template of LETTER_TEMPLATE_IDS.filter(
-      (id) => !FRESH_IDS.has(id) && id !== "freundlich",
-    )) {
+    for (const template of LETTER_TEMPLATE_IDS) {
+      if (FRESH_IDS.has(template) || template === "freundlich") continue;
+
       const archetype = letterArchetypeFor(template);
       const geometry = letterPageGeometry(DEMO_LETTER, designFor(template, "compact", "compact"));
       const signature = `${geometry.content.left}/${geometry.content.right}/${geometry.content.top}/${geometry.content.bottom}`;
