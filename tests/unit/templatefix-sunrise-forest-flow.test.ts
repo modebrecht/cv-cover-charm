@@ -43,6 +43,13 @@ describe("templateFIX Sunrise + Forest Flow", () => {
     expect(gradientCss).not.toContain('data-dossier-template="forestFlow"');
   });
 
+  test("Forest Flow cover keeps the shared title stack on the paper", () => {
+    expect(css).toContain(
+      ':is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])',
+    );
+    expect(css).not.toContain("translate(-34mm");
+  });
+
   test("Forest Flow CV targets the three direct signature siblings", () => {
     expect(css).toContain(
       '> [data-dossier-sheet-background="forestFlow"]\n  > div:nth-child(1)',
