@@ -1,7 +1,7 @@
 /*
  * Default one-column CV pagination density.
  *
- * The shared dossier header now owns an explicit 6 mm gap. Keep that whitespace
+ * The shared dossier header now owns an explicit 12 mm gap. Keep that whitespace
  * intact and recover the space inside the CV content itself instead of shrinking
  * the header gap or special-casing individual templates. These rules apply to
  * both the hidden measurement page and the rendered/exported pages so pagination
@@ -12,20 +12,20 @@
 [data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-header] {
-  margin-bottom: 2.2mm !important;
+  margin-bottom: 1.6mm !important;
 }
 
 [data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section]:not([data-cv-user-section-margin="true"]) {
-  margin-top: 2.7mm !important;
-  margin-bottom: 1.2mm !important;
+  margin-top: 2.2mm !important;
+  margin-bottom: 1mm !important;
 }
 
 [data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-entry] {
-  margin-bottom: 1.65mm !important;
+  margin-bottom: 1.5mm !important;
 }
 
 /*
