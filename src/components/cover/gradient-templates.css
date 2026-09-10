@@ -7,6 +7,10 @@
  * motif at the page edge and use a quiet paper surface for long-form reading.
  * The colored nodes come from CoverBackground, so user-edited primary and
  * secondary colors continue to flow through the composition.
+ *
+ * Forest Flow was rebuilt later as a restrained canopy family. Its geometry
+ * now lives exclusively in templatefix-24-25.css; keeping the old 48 mm rail
+ * here caused the legacy design to win again depending on CSS bundle order.
  */
 
 /* Shared: soften the secondary nodes into a continuous two-color field. */
@@ -14,9 +18,6 @@ html[data-dossier-template="horizon"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
 html[data-dossier-template="sunrise"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
-  > div:first-child,
-html[data-dossier-template="forestFlow"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
 html[data-dossier-template="violetPulse"]
@@ -198,85 +199,8 @@ html[data-dossier-template="sunrise"] [data-dossier-document="cv"] [data-cv-acce
 }
 
 /* -------------------------------------------------------------------------- */
-/* FOREST FLOW — vertical green -> teal flow                                  */
+/* FOREST FLOW — rebuilt in templatefix-24-25.css                             */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="forestFlow"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
-  > div:first-child {
-  left: 0 !important;
-  right: auto !important;
-  top: 0 !important;
-  width: 48mm !important;
-  height: 100% !important;
-  border-radius: 0 !important;
-  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.02), rgb(255 255 255 / 0.12), transparent) !important;
-}
-
-html[data-dossier-template="forestFlow"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
-  > div:first-child
-  > div:first-child {
-  width: 70mm !important;
-  height: 142mm !important;
-  left: -11mm !important;
-  right: auto !important;
-  top: 72mm !important;
-  border-radius: 36mm !important;
-  opacity: 0.82 !important;
-  filter: blur(12mm);
-}
-
-html[data-dossier-template="forestFlow"]
-  :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
-  > div:first-child
-  > div:nth-child(2) {
-  width: 64mm !important;
-  height: 100mm !important;
-  left: -8mm !important;
-  right: auto !important;
-  bottom: -18mm !important;
-  top: auto !important;
-  border-radius: 32mm !important;
-  opacity: 0.54 !important;
-  filter: blur(10mm);
-}
-
-html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
-  transform: translate(-92mm, 15mm);
-  width: 38mm !important;
-}
-
-html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="foto"] {
-  transform: translate(54mm, -31mm) scale(0.78);
-  transform-origin: top left;
-}
-
-html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="name"] {
-  transform: translate(18mm, -18mm);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
-  transform: translate(18mm, -15mm);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
-  > div {
-  text-align: left !important;
-}
-
-html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-surface] {
-  left: 13mm !important;
-  border-radius: 0 6mm 6mm 0 !important;
-  box-shadow: 0 3mm 14mm rgb(31 77 67 / 0.055);
-}
-
-html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-section-title] {
-  letter-spacing: 0.04em !important;
-}
 
 /* -------------------------------------------------------------------------- */
 /* VIOLET PULSE — indigo -> violet energy, diagonal rather than noisy         */
