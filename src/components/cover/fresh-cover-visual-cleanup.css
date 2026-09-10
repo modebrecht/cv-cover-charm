@@ -159,51 +159,9 @@ html:root[data-dossier-template="frame"]
   opacity: 0.88 !important;
 }
 
-/* FOREST FLOW: the vertical colour rail is a motif, not a clipping mask for
- * metadata. Give the cover rail enough width for BEWERBUNG + place/date while
- * keeping the identity/contact column fully on the paper field. CV geometry is
- * intentionally not touched. */
-html:root[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  [data-fresh-cover-background="forestFlow"]
-  > [data-fresh-cover-field="primary"] {
-  width: 56mm !important;
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  [data-block-id="eyebrow"] {
-  width: 44mm !important;
-  transform: translate(-8mm, 0);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  [data-block-id="ortDatum"] {
-  width: 44mm !important;
-  transform: translate(-96mm, 15mm);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  [data-block-id="name"] {
-  width: 116mm !important;
-  transform: translate(40mm, -18mm);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
-  width: 116mm !important;
-  transform: translate(40mm, -15mm);
-}
-
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
-  :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"]) {
-  width: 60mm !important;
-  transform: translate(40mm, 0);
-}
+/* Forest Flow used to live here as a one-off clipping repair. That later
+ * override contradicted the dedicated 24/25 family rebuild and reintroduced
+ * the full-height rail. Forest Flow is now owned only by templatefix-24-25.css. */
 
 /* GALLERY: keep the date in the portrait tower but below the photo rather than
  * allowing the circular portrait to cover the date. */
