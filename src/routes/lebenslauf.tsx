@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
+import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import { Section } from "@/components/cover/Section";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import { ColorChooser } from "@/components/cover/ColorChooser";
@@ -291,6 +292,7 @@ function Lebenslauf() {
   const [open, setOpen] = useState<Record<string, boolean>>({
     uebernehmen: true,
     vorlage: false,
+    chrome: false,
     farben: false,
     typo: false,
     rubriken: false,
@@ -1985,6 +1987,10 @@ function Lebenslauf() {
                     />
                   </div>
                 </div>
+              </Section>
+
+              <Section title="Header & Footer" open={open.chrome} onToggle={() => toggle("chrome")}>
+                <DossierChromeControls scope="cv" />
               </Section>
 
               <Section

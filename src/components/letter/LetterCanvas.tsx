@@ -9,6 +9,10 @@ import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
 import { letterRichHtml, plainTextToRichHtml } from "./rich-text";
 import { LetterFlowImages } from "./LetterFlowImages";
 import { LetterSheetBackground } from "./LetterSheetBackground";
+import {
+  isWarmFirstPageCompactHeader,
+  WARM_FIRST_PAGE_HEADER_HEIGHT_MM,
+} from "./warm-letter-layout";
 
 function Lines({
   values,
@@ -153,10 +157,11 @@ export function LetterCanvas({
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
   const senderIntegrated = geometry.effectiveHeaderMode === "contact";
-  const warmCompactHeader =
-    design.template === "freundlich" &&
-    geometry.effectiveHeaderMode === "compact" &&
-    geometry.pageIndex === 0;
+  const warmCompactHeader = isWarmFirstPageCompactHeader(
+    design.template,
+    geometry.effectiveHeaderMode,
+    geometry.pageIndex,
+  );
   const warmPrimary =
     design.colors.primary ??
     design.colors.accent ??
@@ -166,10 +171,15 @@ export function LetterCanvas({
     warmPrimary,
     design.colors.secondary ?? design.colors.accent ?? sourcePalette.accent,
   ).ink;
+  const senderOffsetY = chrome.headerContentOffsetYMm ?? 0;
+  const recipientOffsetY = chrome.letterRecipientOffsetYMm ?? 0;
+  const senderTransform = senderOffsetY === 0 ? undefined : `translateY(${senderOffsetY}mm)`;
+  const recipientTransform =
+    recipientOffsetY === 0 ? undefined : `translateY(${recipientOffsetY}mm)`;
   const recipientTopMargin = senderIntegrated
     ? "mt-[1mm]"
     : warmCompactHeader
-      ? "mt-[6mm]"
+      ? "mt-0"
       : "mt-[6mm]";
   const beilagen = visibleLetterAttachments(data);
   const showBeilagen = data.showBeilagen !== false && beilagen.length > 0;
@@ -247,6 +257,41 @@ export function LetterCanvas({
         footerDetails={geometry.footer.showAttachments ? beilagen : []}
       />
 
+      {warmCompactHeader ? (
+        <div
+          data-letter-warm-sender
+          data-letter-section="sender"
+          className="absolute z-[4] flex items-center text-[9.3pt] leading-[1.42]"
+          style={{
+            left: `${geometry.content.left}mm`,
+            top: 0,
+            width: "82mm",
+            height: `${WARM_FIRST_PAGE_HEADER_HEIGHT_MM}mm`,
+            boxSizing: "border-box",
+            color: warmHeaderInk,
+            textAlign: senderAlign,
+            transform: senderTransform,
+          }}
+        >
+          <div data-letter-pdf-text="sender" className="w-full min-w-0">
+            {data.absenderName?.trim() ? (
+              <div className="mb-[1mm] text-[11pt] font-semibold leading-[1.25]">
+                {data.absenderName}
+              </div>
+            ) : null}
+            <Lines
+              values={[
+                data.absenderAdresse,
+                data.absenderPlzOrt,
+                data.absenderTelefon,
+                data.absenderEmail,
+              ]}
+              align={senderAlign}
+            />
+          </div>
+        </div>
+      ) : null}
+
       <div
         ref={textLayerRef}
         data-letter-text-layer
@@ -261,55 +306,24 @@ export function LetterCanvas({
           lineHeight: 1.48,
         }}
       >
-        {!senderIntegrated ? (
+        {!senderIntegrated && !warmCompactHeader ? (
           <>
             <div
               data-letter-section="sender"
-              data-letter-warm-sender={warmCompactHeader ? "" : undefined}
-              className={
-                warmCompactHeader ? "text-[9.3pt] leading-[1.42]" : "text-[9.5pt] leading-[1.45]"
-              }
-              style={{
-                textAlign: senderAlign,
-                ...(warmCompactHeader
-                  ? {
-                      width: "82mm",
-                      boxSizing: "border-box",
-                      color: warmHeaderInk,
-                    }
-                  : {}),
-              }}
+              className="text-[9.5pt] leading-[1.45]"
+              style={{ textAlign: senderAlign, transform: senderTransform }}
             >
               <div data-letter-pdf-text="sender">
-                {warmCompactHeader ? (
-                  <>
-                    {data.absenderName?.trim() ? (
-                      <div className="mb-[1mm] text-[11pt] font-semibold leading-[1.25]">
-                        {data.absenderName}
-                      </div>
-                    ) : null}
-                    <Lines
-                      values={[
-                        data.absenderAdresse,
-                        data.absenderPlzOrt,
-                        data.absenderTelefon,
-                        data.absenderEmail,
-                      ]}
-                      align={senderAlign}
-                    />
-                  </>
-                ) : (
-                  <Lines
-                    values={[
-                      data.absenderName,
-                      data.absenderAdresse,
-                      data.absenderPlzOrt,
-                      data.absenderTelefon,
-                      data.absenderEmail,
-                    ]}
-                    align={senderAlign}
-                  />
-                )}
+                <Lines
+                  values={[
+                    data.absenderName,
+                    data.absenderAdresse,
+                    data.absenderPlzOrt,
+                    data.absenderTelefon,
+                    data.absenderEmail,
+                  ]}
+                  align={senderAlign}
+                />
               </div>
             </div>
             {design.ruleAfterSender ? <Separator color={palette.accent} marker="sender" /> : null}
@@ -319,7 +333,7 @@ export function LetterCanvas({
         <div
           data-letter-section="recipient"
           className={`${recipientTopMargin} min-h-[24mm] text-[10pt] leading-[1.45]`}
-          style={{ textAlign: recipientAlign }}
+          style={{ textAlign: recipientAlign, transform: recipientTransform }}
         >
           <div data-letter-pdf-text="recipient">
             <Lines
