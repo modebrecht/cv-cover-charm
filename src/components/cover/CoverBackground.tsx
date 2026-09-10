@@ -229,7 +229,7 @@ export function CoverBackground({
   // All remaining legacy templates are composed from the plain page surface
   // plus editable primitives from template-decorations.ts. There is deliberately
   // no second background copy of those primitives here. The color variables are
-  // exposed for CV-only archetype adaptations (for example Blockig's 66 mm rail)
+  // exposed for CV-only archetype adaptations (for example Blockig's narrow rail)
   // without duplicating those editor primitives on the title page.
   return (
     <>
@@ -295,7 +295,7 @@ export function CoverBackground({
             left: 0;
             top: 0;
             bottom: 0;
-            width: 66mm;
+            width: 19mm;
             background: var(--cover-primary);
             pointer-events: none;
           }
@@ -304,7 +304,7 @@ export function CoverBackground({
             position: absolute;
             left: 0;
             top: 46mm;
-            width: 66mm;
+            width: 19mm;
             height: 72mm;
             background: var(--cover-accent);
             opacity: 0.9;
