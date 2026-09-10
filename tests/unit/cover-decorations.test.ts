@@ -69,7 +69,6 @@ describe("cover decoration single source", () => {
       ["welle", "decor-bottom-field"],
       ["sonne", "decor-top-field"],
       ["aurora", "decor-bottom-band"],
-      ["pastell", "decor-top-band"],
       ["freundlich", "decor-top-field"],
     ] as const satisfies ReadonlyArray<readonly [TemplateId, string]>;
 
@@ -102,13 +101,18 @@ describe("cover decoration single source", () => {
       ["terracotta", "decor-side-column"],
       ["sonne", "decor-top-field"],
       ["studio", "decor-side-column"],
-      ["pastell", "decor-top-band"],
       ["freundlich", "decor-top-field"],
     ] as const satisfies ReadonlyArray<readonly [TemplateId, string]>;
 
     for (const [template, id] of topBound) {
       expect(decoration(template, id).style.y).toBe(0);
     }
+
+    // Rahmen/Pastell deliberately uses an inset signature instead of touching A4 edges.
+    const pastellBand = decoration("pastell", "decor-top-band");
+    expect(pastellBand.style.x).toBe(12);
+    expect(pastellBand.style.x + pastellBand.style.w).toBe(198);
+    expect(pastellBand.style.y).toBe(12);
   });
 
   test("Warm and Colorful CVs keep real header fields and print-safe geometry", () => {
