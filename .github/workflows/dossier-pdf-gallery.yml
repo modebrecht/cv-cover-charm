@@ -2,13 +2,12 @@ name: Dossier PDF Gallery
 
 # Reproducible visual QA: every complete dossier PDF is rendered, but the expensive
 # PDF work is split into 4-document batches and aggregated back into one artifact.
-# M13's visual-acceptance branch runs this gate automatically; production main remains automatic.
+# Run the full gallery manually during QA; production main remains automatic.
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-      - m13-visual-acceptance
 
 permissions:
   contents: read
