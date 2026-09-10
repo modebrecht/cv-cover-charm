@@ -1,20 +1,15 @@
-/* Warm motivation-letter corner motif.
+/* Warm first-page motivation-letter header alignment.
  *
- * Keep the large secondary circle fully legible instead of clipping it on two
- * page edges. The smaller nested dot is intentionally removed so the motif
- * reads as one calm, deliberate shape against the Warm header band.
+ * Warm owns its complete 52 mm header composition. Do not let the generic
+ * dossier chrome add a stray border inside that surface, and lift the sender
+ * block into the visual centre without changing the document-flow footprint.
  */
-[data-letter-page][data-letter-template="freundlich"]
-  [data-dossier-sheet-background="freundlich"]
-  > div:nth-child(2) {
-  right: 8mm !important;
-  top: 0 !important;
-  width: 42mm !important;
-  height: 42mm !important;
+[data-letter-page][data-letter-template="freundlich"][data-letter-page-index="0"][data-letter-header-mode="compact"]
+  [data-dossier-header-border] {
+  display: none !important;
 }
 
-[data-letter-page][data-letter-template="freundlich"]
-  [data-dossier-sheet-background="freundlich"]
-  > div:nth-child(3) {
-  display: none !important;
+[data-letter-page][data-letter-template="freundlich"][data-letter-page-index="0"][data-letter-header-mode="compact"]
+  [data-letter-warm-sender] {
+  transform: translateY(-11mm);
 }
