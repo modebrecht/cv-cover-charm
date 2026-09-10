@@ -3,9 +3,9 @@ import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackgro
 import { cvPalette } from "@/components/cv/palette";
 import "@/components/dossier/edel-stationery.css";
 import "@/components/cover/templatefix-24-25.css";
-import "./warm-letter-polish.css";
 import { freshLetterSpec, type FreshLetterColorRole } from "./fresh-letter-system";
 import type { LetterTemplateId } from "./types";
+import { WARM_FIRST_PAGE_HEADER_HEIGHT_MM } from "./warm-letter-layout";
 
 function pick(colors: Record<string, string>, ...keys: string[]): string {
   for (const key of keys) {
@@ -50,7 +50,10 @@ function WarmLetterBackground({
       <div
         data-letter-warm-band
         className="absolute inset-x-0 top-0"
-        style={{ height: firstPage ? "52mm" : "14mm", backgroundColor: primary }}
+        style={{
+          height: firstPage ? `${WARM_FIRST_PAGE_HEADER_HEIGHT_MM}mm` : "14mm",
+          backgroundColor: primary,
+        }}
       />
 
       {firstPage ? (

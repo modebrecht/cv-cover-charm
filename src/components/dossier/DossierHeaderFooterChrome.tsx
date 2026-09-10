@@ -180,19 +180,6 @@ export function DossierHeaderFooterChrome({
         />
       ) : null}
 
-      {warmLetterOwnsFirstPageHeader && options.borderEnabled ? (
-        <div
-          data-dossier-header-border
-          className="absolute inset-x-0"
-          style={{
-            top: `${Math.max(0, headerVisualHeight - options.borderWidthMm)}mm`,
-            height: `${options.borderWidthMm}mm`,
-            background: borderColor,
-          }}
-          aria-hidden="true"
-        />
-      ) : null}
-
       {headerMode === "contact" ? (
         continuationContact ? (
           <div

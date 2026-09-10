@@ -17,6 +17,7 @@ import {
   type LetterHeaderMode,
   type LetterTemplateId,
 } from "../../src/components/letter/types";
+import { WARM_FIRST_PAGE_HEADER_HEIGHT_MM } from "../../src/components/letter/warm-letter-layout";
 
 const headerModes: LetterHeaderMode[] = ["compact", "contact", "none"];
 const footerModes: LetterFooterMode[] = ["compact", "attachments", "none"];
@@ -57,7 +58,9 @@ describe("central motivation-letter layout system", () => {
           expect(geometry.content.top).toBeGreaterThanOrEqual(16);
           expect(geometry.content.bottom).toBeGreaterThanOrEqual(10);
           expect(geometry.content.width).toBeGreaterThan(140);
-          expect(geometry.content.height).toBeGreaterThan(240);
+          const minimumContentHeight =
+            template === "freundlich" && headerMode === "compact" ? 220 : 240;
+          expect(geometry.content.height).toBeGreaterThan(minimumContentHeight);
           expect(geometry.content.left + geometry.content.width + geometry.content.right).toBe(
             LETTER_PAGE_MM.width,
           );
@@ -72,7 +75,9 @@ describe("central motivation-letter layout system", () => {
   test("established templates stay archetype-based without copying per-template CV dimensions", () => {
     const groups = new Map<LetterArchetype, Set<string>>();
 
-    for (const template of LETTER_TEMPLATE_IDS.filter((id) => !FRESH_IDS.has(id))) {
+    for (const template of LETTER_TEMPLATE_IDS.filter(
+      (id) => !FRESH_IDS.has(id) && id !== "freundlich",
+    )) {
       const archetype = letterArchetypeFor(template);
       const geometry = letterPageGeometry(DEMO_LETTER, designFor(template, "compact", "compact"));
       const signature = `${geometry.content.left}/${geometry.content.right}/${geometry.content.top}/${geometry.content.bottom}`;
@@ -82,6 +87,26 @@ describe("central motivation-letter layout system", () => {
     }
 
     for (const signatures of groups.values()) expect(signatures.size).toBe(1);
+  });
+
+  test("Warm compact first page reserves its real visual masthead", () => {
+    const compact = letterPageGeometry(
+      DEMO_LETTER,
+      designFor("freundlich", "compact", "compact"),
+    );
+    const contact = letterPageGeometry(
+      DEMO_LETTER,
+      designFor("freundlich", "contact", "compact"),
+    );
+    const continuation = letterPageGeometry(
+      DEMO_LETTER,
+      designFor("freundlich", "compact", "compact"),
+      { pageIndex: 1 },
+    );
+
+    expect(compact.content.top).toBe(WARM_FIRST_PAGE_HEADER_HEIGHT_MM);
+    expect(contact.content.top).toBeLessThan(compact.content.top);
+    expect(continuation.content.top).toBeLessThan(compact.content.top);
   });
 
   test("Fresh templates use their explicit letter insets instead of a legacy CV fallback", () => {

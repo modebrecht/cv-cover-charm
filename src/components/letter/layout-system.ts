@@ -10,6 +10,10 @@ import {
   type LetterHeaderMode,
   type LetterTemplateId,
 } from "./types";
+import {
+  isWarmFirstPageCompactHeader,
+  WARM_FIRST_PAGE_HEADER_HEIGHT_MM,
+} from "./warm-letter-layout";
 
 export const LETTER_PAGE_MM = { width: 210, height: 297 } as const;
 
@@ -169,6 +173,15 @@ function letterContentTopMm(
   mode: LetterHeaderMode,
 ): number {
   if (mode === "none") return pageIndex > 0 ? 16 : 18;
+
+  // Warm's first page deliberately owns a 52 mm masthead. The old generic compact
+  // calculation started body flow around 21 mm and then visually dragged the sender
+  // upward with a transform. Reserve the real masthead instead so the sender can be
+  // centred inside it while recipient/body flow starts naturally below it.
+  if (isWarmFirstPageCompactHeader(design.template, mode, pageIndex)) {
+    return WARM_FIRST_PAGE_HEADER_HEIGHT_MM;
+  }
+
   const height = letterHeaderVisualHeightMm(design, pageIndex, mode);
   if (pageIndex > 0) {
     return mode === "contact" ? Math.max(18, height + 10) : Math.max(18, height + 15);
