@@ -1,4 +1,4 @@
-name: Header gap smoke
+name: Apply shared header spacing
 
 on:
   push:
@@ -7,8 +7,40 @@ on:
     paths:
       - .github/workflows/tmp-header-gap-12.yml
 
+permissions:
+  contents: write
+
 jobs:
-  smoke:
+  apply:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
-      - run: echo "header gap workflow is valid"
+      - uses: actions/checkout@v4
+        with:
+          ref: templateFIX
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+      - name: Apply patch
+        run: python .github/scripts/apply_header_gap_12.py
+      - name: Install
+        run: bun install --frozen-lockfile
+      - name: Format
+        run: bunx prettier --write src/lib/dossier-chrome.ts src/components/letter/LetterCanvas.tsx src/components/dossier/DossierChromeControls.tsx tests/unit/dossier-header-gap.test.ts tests/unit/dossier-chrome-geometry.test.ts
+      - name: Focused tests
+        run: bun test tests/unit/dossier-header-gap.test.ts tests/unit/dossier-chrome-geometry.test.ts
+      - name: Unit tests
+        run: bun test tests/unit
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Build
+        run: bun run build
+      - name: Commit
+        run: |
+          rm -f .github/workflows/tmp-header-gap-12.yml
+          rm -f .github/workflows/header-gap-default-once.yml
+          rm -f .github/scripts/apply_header_gap_12.py
+          git config user.name modebrecht
+          git config user.email '137332207+modebrecht@users.noreply.github.com'
+          git add -A
+          git commit -m 'Set 12 mm default spacing below header'
+          git push origin HEAD:templateFIX
