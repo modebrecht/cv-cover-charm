@@ -1,0 +1,136 @@
+name: Temp Header Gap 12
+
+on:
+  push:
+    branches:
+      - templateFIX
+    paths:
+      - ".github/workflows/tmp-header-gap-12.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch-test-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout templateFIX
+        uses: actions/checkout@v4
+        with:
+          ref: templateFIX
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Patch 12 mm default and clearer UI copy
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              Path("src/lib/dossier-chrome.ts"): [
+                  ("  headerGapMm: 6,", "  headerGapMm: 12,"),
+                  ("?? fallback.headerGapMm ?? 6", "?? fallback.headerGapMm ?? 12"),
+                  ("design.headerGapMm === (options.headerGapMm ?? 6)", "design.headerGapMm === (options.headerGapMm ?? 12)"),
+                  ("headerGapMm: options.headerGapMm ?? 6,", "headerGapMm: options.headerGapMm ?? 12,"),
+                  ("options.headerGapMm ?? 6", "options.headerGapMm ?? 12"),
+              ],
+              Path("src/components/letter/LetterCanvas.tsx"): [
+                  ("    headerGapMm: 6,", "    headerGapMm: 12,"),
+                  ("chrome.headerGapMm ?? 6", "chrome.headerGapMm ?? 12"),
+              ],
+              Path("src/components/dossier/DossierChromeControls.tsx"): [
+                  ("  const headerGap = options.headerGapMm ?? 6;", "  const headerGap = options.headerGapMm ?? 12;"),
+                  ("                  <span>Abstand nach Header</span>", "                  <span>Freiraum unter dem Header</span>"),
+                  ("                {headerGap !== 6 ? (", "                {headerGap !== 12 ? ("),
+                  ("                    onClick={() => patchOptions({ headerGapMm: 6 })}", "                    onClick={() => patchOptions({ headerGapMm: 12 })}"),
+                  ("                    Standardabstand", "                    Standardabstand (12 mm)"),
+              ],
+              Path("tests/unit/dossier-header-gap.test.ts"): [
+                  ("defaults to 6 mm and clamps persisted values to 0–40 mm", "defaults to 12 mm and clamps persisted values to 0–40 mm"),
+                  ("expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerGapMm).toBe(6);", "expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerGapMm).toBe(12);"),
+                  ("expect(legacy.shared.headerGapMm).toBe(6);", "expect(legacy.shared.headerGapMm).toBe(12);"),
+                  ("expect(controls).toContain(\"<span>Abstand nach Header</span>\");", "expect(controls).toContain(\"<span>Freiraum unter dem Header</span>\");"),
+                  ("expect(controls).toContain(\"headerGapMm: 6\");", "expect(controls).toContain(\"headerGapMm: 12\");"),
+                  ("expect(letterCanvas).toContain(\"chrome.headerGapMm ?? 6\");", "expect(letterCanvas).toContain(\"chrome.headerGapMm ?? 12\");"),
+              ],
+              Path("tests/unit/dossier-chrome-geometry.test.ts"): [
+                  ("expect(dossierHeaderContentTopMmForOptions(contact, 0)).toBe(37);", "expect(dossierHeaderContentTopMmForOptions(contact, 0)).toBe(43);"),
+                  ("toMatchObject({ top: 37, bottom: 20 })", "toMatchObject({ top: 43, bottom: 20 })"),
+              ],
+          }
+
+          for path, pairs in replacements.items():
+              text = path.read_text()
+              for old, new in pairs:
+                  count = text.count(old)
+                  if count != 1:
+                      raise SystemExit(f"Expected exactly one match in {path}: {old!r}; found {count}")
+                  text = text.replace(old, new, 1)
+              path.write_text(text)
+
+          controls = Path("src/components/dossier/DossierChromeControls.tsx")
+          text = controls.read_text()
+          marker = '''                <input
+                  data-dossier-header-gap-control
+                  type="range"
+                  min={0}
+                  max={40}
+                  step={1}
+                  value={Math.min(40, Math.max(0, headerGap))}
+                  onChange={(event) => patchOptions({ headerGapMm: Number(event.target.value) })}
+                  className="w-full accent-primary"
+                />
+'''
+          addition = marker + '''                <span className="text-[11px] leading-relaxed text-muted-foreground">
+                  Abstand zwischen Header-Ende und dem ersten Inhalt.
+                </span>
+'''
+          if text.count(marker) != 1:
+              raise SystemExit("Could not locate header gap slider for helper copy")
+          controls.write_text(text.replace(marker, addition, 1))
+
+          stale_patterns = (
+              "headerGapMm: 6,",
+              "headerGapMm ?? 6",
+              "fallback.headerGapMm ?? 6",
+          )
+          for path in Path("src").rglob("*"):
+              if not path.is_file() or path.suffix not in {".ts", ".tsx"}:
+                  continue
+              text = path.read_text()
+              for pattern in stale_patterns:
+                  if pattern in text:
+                      raise SystemExit(f"Stale 6 mm runtime fallback remains in {path}: {pattern}")
+          PY
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Format touched files
+        run: bunx prettier --write src/lib/dossier-chrome.ts src/components/letter/LetterCanvas.tsx src/components/dossier/DossierChromeControls.tsx tests/unit/dossier-header-gap.test.ts tests/unit/dossier-chrome-geometry.test.ts
+
+      - name: Unit tests
+        run: bun test tests/unit
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Lint touched files
+        run: bunx eslint src/lib/dossier-chrome.ts src/components/letter/LetterCanvas.tsx src/components/dossier/DossierChromeControls.tsx tests/unit/dossier-header-gap.test.ts tests/unit/dossier-chrome-geometry.test.ts
+
+      - name: Production build
+        run: bun run build
+
+      - name: Commit implementation and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/tmp-header-gap-12.yml
+          git add src/lib/dossier-chrome.ts src/components/letter/LetterCanvas.tsx src/components/dossier/DossierChromeControls.tsx tests/unit/dossier-header-gap.test.ts tests/unit/dossier-chrome-geometry.test.ts
+          git commit -m "Set 12 mm default spacing below header"
+          git push origin HEAD:templateFIX
