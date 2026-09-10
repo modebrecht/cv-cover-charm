@@ -49,9 +49,9 @@ describe("shared dossier sheet background", () => {
     expect(markupFor("studio")).toContain("height:38mm");
 
     // Compact is the dossier default in both CV and motivation letter. The
-    // common chrome, not the historic per-template head band, owns the text top.
-    expect(letterLayoutFor("modern").top).toBe(21);
-    expect(letterLayoutFor("freundlich").top).toBe(21);
+    // common chrome plus the default 6 mm post-header gap owns the text top.
+    expect(letterLayoutFor("modern").top).toBe(27);
+    expect(letterLayoutFor("freundlich").top).toBe(27);
     expect(letterLayoutFor("blockig").left).toBe(74);
     expect(letterLayoutFor("studio").left).toBe(80);
     expect(letterLayoutFor("edel").left).toBe(19);

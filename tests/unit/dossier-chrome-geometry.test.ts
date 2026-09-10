@@ -21,7 +21,7 @@ const none: DossierChromeOptions = {
 
 describe("pure dossier chrome geometry", () => {
   test("option helpers need no browser/store state", () => {
-    expect(dossierHeaderContentTopMmForOptions(contact, 0)).toBe(31);
+    expect(dossierHeaderContentTopMmForOptions(contact, 0)).toBe(37);
     expect(dossierHeaderContentTopMmForOptions(none, 0)).toBe(18);
     expect(dossierFooterContentBottomMmForOptions(contact)).toBe(20);
     expect(dossierFooterContentBottomMmForOptions(none)).toBe(10);
@@ -29,7 +29,7 @@ describe("pure dossier chrome geometry", () => {
 
   test("CV geometry follows the explicit chrome snapshot", () => {
     const frame = cvFrameFor("modern");
-    expect(cvContentBox(frame, 0, "classic", 0.3, contact)).toMatchObject({ top: 31, bottom: 20 });
+    expect(cvContentBox(frame, 0, "classic", 0.3, contact)).toMatchObject({ top: 37, bottom: 20 });
     expect(cvContentBox(frame, 0, "classic", 0.3, none)).toMatchObject({ top: 18, bottom: 10 });
     expect(cvSurface(frame, 0, "classic", 0.3, contact)).toMatchObject({ top: 22, bottom: 10 });
     expect(cvSurface(frame, 0, "classic", 0.3, none)).toMatchObject({ top: 0, bottom: 0 });
