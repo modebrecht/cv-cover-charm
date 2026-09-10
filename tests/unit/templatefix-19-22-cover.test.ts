@@ -13,7 +13,7 @@ const legacyFresh = readFileSync(
 describe("Fresh 19-22 cover acceptance repair", () => {
   test("the late acceptance layer neutralizes the shared negative title transforms", () => {
     for (const template of ["edge", "glow", "frame", "monoLuxe"]) {
-      expect(cleanup).toContain(`data-dossier-template=\"${template}\"`);
+      expect(cleanup).toContain(`data-dossier-template="${template}"`);
     }
     expect(cleanup).toContain(
       ':is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])',
