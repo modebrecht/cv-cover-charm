@@ -1,0 +1,220 @@
+name: Apply dossier vertical positioning once
+
+on:
+  push:
+    branches:
+      - templateFIX
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Apply vertical-position feature
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected exactly one match, found {count}\n--- old ---\n{old}")
+              p.write_text(text.replace(old, new, 1))
+
+          # Shared persistent chrome state: header/footer content offsets are shared
+          # between CV + letter when sync is enabled. The recipient offset is stored
+          # alongside them for backwards-compatible persistence but only rendered by
+          # the motivation letter.
+          path = "src/lib/dossier-chrome.ts"
+          replace_once(
+              path,
+              '''  /** Additional whitespace between the shared header zone and document content. */\n  headerGapMm?: number;\n  headerTextLayout: DossierChromeTextLayout;''',
+              '''  /** Additional whitespace between the shared header zone and document content. */\n  headerGapMm?: number;\n  /** Signed vertical nudge for header/contact content. Does not move the header surface. */\n  headerContentOffsetYMm?: number;\n  /** Motivation-letter-only recipient nudge. Ignored by CV rendering. */\n  letterRecipientOffsetYMm?: number;\n  headerTextLayout: DossierChromeTextLayout;''',
+          )
+          replace_once(
+              path,
+              '''  footerMode: DossierFooterMode;\n  footerHeightMm: number | null;\n  footerTextLayout: DossierChromeTextLayout;''',
+              '''  footerMode: DossierFooterMode;\n  footerHeightMm: number | null;\n  /** Signed vertical nudge for footer details. Does not move the footer surface. */\n  footerContentOffsetYMm?: number;\n  footerTextLayout: DossierChromeTextLayout;''',
+          )
+          replace_once(
+              path,
+              '''  headerHeightMm: null,\n  headerGapMm: 6,\n  headerTextLayout: "stacked",''',
+              '''  headerHeightMm: null,\n  headerGapMm: 6,\n  headerContentOffsetYMm: 0,\n  letterRecipientOffsetYMm: 0,\n  headerTextLayout: "stacked",''',
+          )
+          replace_once(
+              path,
+              '''  footerMode: "compact",\n  footerHeightMm: null,\n  footerTextLayout: "inline",''',
+              '''  footerMode: "compact",\n  footerHeightMm: null,\n  footerContentOffsetYMm: 0,\n  footerTextLayout: "inline",''',
+          )
+          replace_once(
+              path,
+              '''function normalizedColor(value: unknown): string | null {''',
+              '''function normalizedOffsetMm(\n  value: unknown,\n  min: number,\n  max: number,\n  fallback = 0,\n): number {\n  const numeric = typeof value === "number" ? value : Number(value);\n  if (!Number.isFinite(numeric)) return fallback;\n  return Math.min(max, Math.max(min, Math.round(numeric * 10) / 10));\n}\n\nfunction normalizedColor(value: unknown): string | null {''',
+          )
+          replace_once(
+              path,
+              '''    headerHeightMm: normalizedMm(value.headerHeightMm, 1, 40),\n    headerGapMm: normalizedMm(value.headerGapMm, 0, 40) ?? fallback.headerGapMm ?? 6,\n    headerTextLayout: value.headerTextLayout === "inline" ? "inline" : "stacked",''',
+              '''    headerHeightMm: normalizedMm(value.headerHeightMm, 1, 40),\n    headerGapMm: normalizedMm(value.headerGapMm, 0, 40) ?? fallback.headerGapMm ?? 6,\n    headerContentOffsetYMm: normalizedOffsetMm(\n      value.headerContentOffsetYMm,\n      -12,\n      12,\n      fallback.headerContentOffsetYMm ?? 0,\n    ),\n    letterRecipientOffsetYMm: normalizedOffsetMm(\n      value.letterRecipientOffsetYMm,\n      -12,\n      12,\n      fallback.letterRecipientOffsetYMm ?? 0,\n    ),\n    headerTextLayout: value.headerTextLayout === "inline" ? "inline" : "stacked",''',
+          )
+          replace_once(
+              path,
+              '''    footerHeightMm: normalizedMm(value.footerHeightMm, 1, 40),\n    footerTextLayout: value.footerTextLayout === "stacked" ? "stacked" : "inline",''',
+              '''    footerHeightMm: normalizedMm(value.footerHeightMm, 1, 40),\n    footerContentOffsetYMm: normalizedOffsetMm(\n      value.footerContentOffsetYMm,\n      -8,\n      8,\n      fallback.footerContentOffsetYMm ?? 0,\n    ),\n    footerTextLayout: value.footerTextLayout === "stacked" ? "stacked" : "inline",''',
+          )
+
+          # Shared UI controls.
+          path = "src/components/dossier/DossierChromeControls.tsx"
+          replace_once(
+              path,
+              '''function BackgroundControl({''',
+              '''function VerticalOffsetControl({\n  label,\n  value,\n  min,\n  max,\n  onChange,\n}: {\n  label: string;\n  value: number;\n  min: number;\n  max: number;\n  onChange: (value: number) => void;\n}) {\n  return (\n    <label className="grid gap-1 text-xs">\n      <span className="flex items-center justify-between gap-2 text-muted-foreground">\n        <span>{label}</span>\n        <span>{value > 0 ? "+" : ""}{value.toFixed(value % 1 ? 1 : 0)} mm</span>\n      </span>\n      <input\n        type="range"\n        min={min}\n        max={max}\n        step={1}\n        value={Math.min(max, Math.max(min, value))}\n        onChange={(event) => onChange(Number(event.target.value))}\n        className="w-full accent-primary"\n        aria-label={label}\n      />\n      {value !== 0 ? (\n        <button\n          type="button"\n          className={`${smallButtonClass} justify-self-start`}\n          onClick={() => onChange(0)}\n        >\n          Standardposition\n        </button>\n      ) : null}\n    </label>\n  );\n}\n\nfunction BackgroundControl({''',
+          )
+          replace_once(
+              path,
+              '''  const headerHeight = options.headerHeightMm ?? headerDefaultHeight;\n  const headerGap = options.headerGapMm ?? 6;''',
+              '''  const headerHeight = options.headerHeightMm ?? headerDefaultHeight;\n  const headerGap = options.headerGapMm ?? 6;\n  const headerContentOffsetY = options.headerContentOffsetYMm ?? 0;\n  const recipientOffsetY = options.letterRecipientOffsetYMm ?? 0;''',
+          )
+          replace_once(
+              path,
+              '''  const footerHeight = options.footerHeightMm ?? footerDefaultHeight;\n  const footerMin = options.footerMode === "details" ? 4 : 1;''',
+              '''  const footerHeight = options.footerHeightMm ?? footerDefaultHeight;\n  const footerContentOffsetY = options.footerContentOffsetYMm ?? 0;\n  const footerMin = options.footerMode === "details" ? 4 : 1;''',
+          )
+          replace_once(
+              path,
+              '''          <span className="text-[11px] leading-relaxed text-muted-foreground">\n            Kompakt zeigt nur das Designband. Mit Kontaktdaten werden Name, Adresse/Wohnort,\n            Telefon und E-Mail integriert; auf Folgeseiten in einer kleineren Variante.\n          </span>\n\n          {options.headerMode !== "none" ? (''',
+              '''          <span className="text-[11px] leading-relaxed text-muted-foreground">\n            Kompakt zeigt nur das Designband. Mit Kontaktdaten werden Name, Adresse/Wohnort,\n            Telefon und E-Mail integriert; auf Folgeseiten in einer kleineren Variante.\n          </span>\n\n          {scope === "letter" || options.headerMode === "contact" ? (\n            <VerticalOffsetControl\n              label={\n                scope === "letter"\n                  ? "Eigene Anschrift – vertikale Position"\n                  : "Header-Inhalt – vertikale Position"\n              }\n              value={headerContentOffsetY}\n              min={-12}\n              max={12}\n              onChange={(headerContentOffsetYMm) => patchOptions({ headerContentOffsetYMm })}\n            />\n          ) : null}\n\n          {scope === "letter" ? (\n            <VerticalOffsetControl\n              label="Firma / Lehrbetrieb – vertikale Position"\n              value={recipientOffsetY}\n              min={-12}\n              max={12}\n              onChange={(letterRecipientOffsetYMm) => patchOptions({ letterRecipientOffsetYMm })}\n            />\n          ) : null}\n\n          {options.headerMode !== "none" ? (''',
+          )
+          replace_once(
+              path,
+              '''          {options.footerMode !== "none" ? (\n            <>\n              <label className="grid gap-1 text-xs">''',
+              '''          {options.footerMode !== "none" ? (\n            <>\n              {options.footerMode === "details" ? (\n                <VerticalOffsetControl\n                  label="Footer-Inhalt – vertikale Position"\n                  value={footerContentOffsetY}\n                  min={-8}\n                  max={8}\n                  onChange={(footerContentOffsetYMm) => patchOptions({ footerContentOffsetYMm })}\n                />\n              ) : null}\n\n              <label className="grid gap-1 text-xs">''',
+          )
+
+          # Render shared header/footer content offsets without moving their surfaces.
+          path = "src/components/dossier/DossierHeaderFooterChrome.tsx"
+          replace_once(
+              path,
+              '''  const stackedHeader = options.headerTextLayout === "stacked";\n\n  return (''',
+              '''  const stackedHeader = options.headerTextLayout === "stacked";\n  const headerContentOffsetY = options.headerContentOffsetYMm ?? 0;\n  const footerContentOffsetY = options.footerContentOffsetYMm ?? 0;\n  const headerContentTransform =\n    headerContentOffsetY === 0 ? undefined : `translateY(${headerContentOffsetY}mm)`;\n  const footerContentTransform =\n    footerContentOffsetY === 0 ? undefined : `translateY(${footerContentOffsetY}mm)`;\n\n  return (''',
+          )
+          replace_once(
+              path,
+              '''              data-dossier-continuation-contact\n              className="min-w-0 flex-1 truncate text-center opacity-95"\n            >''',
+              '''              data-dossier-continuation-contact\n              className="min-w-0 flex-1 truncate text-center opacity-95"\n              style={{ transform: headerContentTransform }}\n            >''',
+          )
+          replace_once(
+              path,
+              '''                <div className="my-auto min-w-0" style={{ overflowWrap: "anywhere" }}>''',
+              '''                <div\n                  className="my-auto min-w-0"\n                  style={{ overflowWrap: "anywhere", transform: headerContentTransform }}\n                >''',
+          )
+          replace_once(
+              path,
+              '''                  className="my-auto min-w-0 flex-1 text-center opacity-95"\n                  style={{ overflowWrap: "anywhere" }}''',
+              '''                  className="my-auto min-w-0 flex-1 text-center opacity-95"\n                  style={{ overflowWrap: "anywhere", transform: headerContentTransform }}''',
+          )
+          replace_once(
+              path,
+              '''                className="flex h-full min-w-0 items-center gap-[3mm]"\n              >''',
+              '''                className="flex h-full min-w-0 items-center gap-[3mm]"\n                style={{ transform: footerContentTransform }}\n              >''',
+          )
+          replace_once(
+              path,
+              '''                className="flex h-full min-w-0 items-start gap-[8mm]"\n              >''',
+              '''                className="flex h-full min-w-0 items-start gap-[8mm]"\n                style={{ transform: footerContentTransform }}\n              >''',
+          )
+          replace_once(
+              path,
+              '''            <div className="flex h-full min-w-0 flex-col justify-center">''',
+              '''            <div\n              className="flex h-full min-w-0 flex-col justify-center"\n              style={{ transform: footerContentTransform }}\n            >''',
+          )
+          replace_once(
+              path,
+              '''            <div className="flex h-full min-w-0 items-center justify-between gap-[8mm]">''',
+              '''            <div\n              className="flex h-full min-w-0 items-center justify-between gap-[8mm]"\n              style={{ transform: footerContentTransform }}\n            >''',
+          )
+
+          # Letter-specific placement: sender follows the shared header-content nudge
+          # even in compact/no-header layouts; recipient has its own independent nudge.
+          path = "src/components/letter/LetterCanvas.tsx"
+          replace_once(
+              path,
+              '''  const warmHeaderInk = onColorRoles(\n    warmPrimary,\n    design.colors.secondary ?? design.colors.accent ?? sourcePalette.accent,\n  ).ink;\n  const recipientTopMargin = senderIntegrated''',
+              '''  const warmHeaderInk = onColorRoles(\n    warmPrimary,\n    design.colors.secondary ?? design.colors.accent ?? sourcePalette.accent,\n  ).ink;\n  const senderOffsetY = chrome.headerContentOffsetYMm ?? 0;\n  const recipientOffsetY = chrome.letterRecipientOffsetYMm ?? 0;\n  const senderTransform = senderOffsetY === 0 ? undefined : `translateY(${senderOffsetY}mm)`;\n  const recipientTransform =\n    recipientOffsetY === 0 ? undefined : `translateY(${recipientOffsetY}mm)`;\n  const recipientTopMargin = senderIntegrated''',
+          )
+          replace_once(
+              path,
+              '''            color: warmHeaderInk,\n            textAlign: senderAlign,\n          }}''',
+              '''            color: warmHeaderInk,\n            textAlign: senderAlign,\n            transform: senderTransform,\n          }}''',
+          )
+          replace_once(
+              path,
+              '''              style={{ textAlign: senderAlign }}''',
+              '''              style={{ textAlign: senderAlign, transform: senderTransform }}''',
+          )
+          replace_once(
+              path,
+              '''          style={{ textAlign: recipientAlign }}''',
+              '''          style={{ textAlign: recipientAlign, transform: recipientTransform }}''',
+          )
+
+          # Focused regression tests for persistence, clamping and render/UI wiring.
+          Path("tests/unit/dossier-chrome-positioning.test.ts").write_text('''import { describe, expect, test } from "bun:test";\nimport { readFileSync } from "node:fs";\nimport { normalizeDossierChromeState } from "../../src/lib/dossier-chrome";\n\nconst controls = readFileSync(\n  new URL("../../src/components/dossier/DossierChromeControls.tsx", import.meta.url),\n  "utf8",\n);\nconst chrome = readFileSync(\n  new URL("../../src/components/dossier/DossierHeaderFooterChrome.tsx", import.meta.url),\n  "utf8",\n);\nconst letter = readFileSync(\n  new URL("../../src/components/letter/LetterCanvas.tsx", import.meta.url),\n  "utf8",\n);\n\ndescribe("dossier vertical positioning", () => {\n  test("signed offsets default to zero and clamp to safe ranges", () => {\n    const defaults = normalizeDossierChromeState(null);\n    expect(defaults.shared.headerContentOffsetYMm).toBe(0);\n    expect(defaults.shared.footerContentOffsetYMm).toBe(0);\n    expect(defaults.shared.letterRecipientOffsetYMm).toBe(0);\n\n    const state = normalizeDossierChromeState({\n      sync: true,\n      shared: {\n        headerContentOffsetYMm: 99,\n        footerContentOffsetYMm: -99,\n        letterRecipientOffsetYMm: 4.4,\n      },\n    });\n    expect(state.shared.headerContentOffsetYMm).toBe(12);\n    expect(state.shared.footerContentOffsetYMm).toBe(-8);\n    expect(state.shared.letterRecipientOffsetYMm).toBe(4.4);\n  });\n\n  test("controls expose sender/recipient and shared footer positioning", () => {\n    expect(controls).toContain("Eigene Anschrift – vertikale Position");\n    expect(controls).toContain("Firma / Lehrbetrieb – vertikale Position");\n    expect(controls).toContain("Header-Inhalt – vertikale Position");\n    expect(controls).toContain("Footer-Inhalt – vertikale Position");\n    expect(controls).toContain("Standardposition");\n  });\n\n  test("renderers move content rather than header/footer surfaces", () => {\n    expect(chrome).toContain("headerContentTransform");\n    expect(chrome).toContain("footerContentTransform");\n    expect(letter).toContain("senderTransform");\n    expect(letter).toContain("recipientTransform");\n    expect(letter).toContain("transform: senderTransform");\n    expect(letter).toContain("transform: recipientTransform");\n  });\n});\n''')
+
+          # Remove this one-off workflow from the resulting product commit.
+          Path(".github/workflows/apply-dossier-y-position-once.yml").unlink()
+          PY
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Format touched files
+        run: >-
+          bunx prettier --write
+          src/lib/dossier-chrome.ts
+          src/components/dossier/DossierChromeControls.tsx
+          src/components/dossier/DossierHeaderFooterChrome.tsx
+          src/components/letter/LetterCanvas.tsx
+          tests/unit/dossier-chrome-positioning.test.ts
+
+      - name: Unit tests
+        run: bun test tests/unit
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Lint touched surface
+        run: >-
+          bunx eslint
+          src/lib/dossier-chrome.ts
+          src/components/dossier/DossierChromeControls.tsx
+          src/components/dossier/DossierHeaderFooterChrome.tsx
+          src/components/letter/LetterCanvas.tsx
+          tests/unit/dossier-chrome-positioning.test.ts
+
+      - name: Production build
+        run: bun run build
+
+      - name: Commit feature
+        shell: bash
+        run: |
+          git config user.name "modebrecht"
+          git config user.email "137332207+modebrecht@users.noreply.github.com"
+          git add -A
+          git commit -m "Add configurable dossier vertical positioning"
+          git push origin HEAD:templateFIX
