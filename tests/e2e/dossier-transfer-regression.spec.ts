@@ -235,7 +235,9 @@ test.describe("M7 dossier transfer regression", () => {
   });
 
   test("Lebenslauf uses one dossier takeover and preserves CV-only content", async ({ page }) => {
-    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+    // Seed on the neutral overview page. Seeding after the CV editor has mounted
+    // races its autosave and can overwrite the fixture before reload.
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
     await page.evaluate(
       ({ cover, cv }) => {
         localStorage.clear();
@@ -244,7 +246,7 @@ test.describe("M7 dossier transfer regression", () => {
       },
       { cover: coverPayload(), cv: cvPayload() },
     );
-    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
     await expect
       .poll(() =>
         page.evaluate(() => JSON.parse(localStorage.getItem("titelblatt:v3") ?? "null")?.template),
@@ -298,7 +300,8 @@ test.describe("M7 dossier transfer regression", () => {
         font: "sans",
       },
     };
-    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    // Same fixture rule as the CV takeover: write before the editor mounts.
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
     await page.evaluate(
       ({ cv, letterSave }) => {
         localStorage.clear();
@@ -307,7 +310,7 @@ test.describe("M7 dossier transfer regression", () => {
       },
       { cv: cvPayload(), letterSave: letter },
     );
-    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     await expect
       .poll(() =>
         page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.data?.person?.vorname),
