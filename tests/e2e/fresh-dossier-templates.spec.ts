@@ -309,7 +309,7 @@ const hash = (buffer: Buffer) => createHash("sha256").update(buffer).digest("hex
 test.describe("Fresh dossier templates", () => {
   test.setTimeout(240_000);
 
-  test("all sixteen templates are selectable", async ({ page }) => {
+  test("all live Fresh templates are selectable", async ({ page }) => {
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
     await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
     const templateSection = page.getByRole("button", { name: /^Vorlage(?:\s|$)/ }).first();
@@ -318,9 +318,11 @@ test.describe("Fresh dossier templates", () => {
       await templateSection.click();
     }
 
-    for (const template of FRESH) {
+    for (const template of FRESH.filter(({ id }) => id !== "warm4" && id !== "warm5")) {
       await expect(page.getByRole("button", { name: template.name, exact: true })).toBeVisible();
     }
+    await expect(page.getByRole("button", { name: "Warm 4", exact: true })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Warm 5", exact: true })).toHaveCount(0);
   });
 
   test("all sixteen title pages render as distinct full dossiers", async ({ page }) => {
