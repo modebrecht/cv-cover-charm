@@ -8,7 +8,7 @@ export type FreshTemplateRegistryEntry = {
 };
 
 /**
- * Canonical, side-effect-free definitions for dossier templates 21-38.
+ * Canonical, side-effect-free definitions for dossier templates 21-40.
  *
  * Runtime registration, renderers, contracts and Node-side tests all derive
  * their Fresh ids/names/default palettes from this module. Keep CSS imports and
@@ -157,6 +157,30 @@ export const FRESH_TEMPLATE_REGISTRY = [
       { key: "secondary", label: "Amber", default: "#e5a84f" },
       { key: "accent", label: "Terracotta", default: "#c86648" },
       { key: "ink", label: "Text", default: "#24312e" },
+    ],
+  },
+  {
+    id: "warm4",
+    name: "Warm 4",
+    description: "Rosé und Sand mit asymmetrischem Portrait-Fokus",
+    slots: [
+      { key: "bg", label: "Papier", default: "#fff8f5" },
+      { key: "primary", label: "Rosé", default: "#a84f62" },
+      { key: "secondary", label: "Sand", default: "#e6b89c" },
+      { key: "accent", label: "Clay", default: "#c77a5b" },
+      { key: "ink", label: "Text", default: "#37272c" },
+    ],
+  },
+  {
+    id: "warm5",
+    name: "Warm 5",
+    description: "Olive, Honig und Clay in einer ruhigen, modernen Warm-Komposition",
+    slots: [
+      { key: "bg", label: "Papier", default: "#fbf8ee" },
+      { key: "primary", label: "Olive", default: "#687454" },
+      { key: "secondary", label: "Honig", default: "#d7aa52" },
+      { key: "accent", label: "Clay", default: "#b8674f" },
+      { key: "ink", label: "Text", default: "#2b3026" },
     ],
   },
   {
