@@ -139,6 +139,7 @@ function letterPayload() {
 async function openSection(page: Page, name: RegExp) {
   const header = page.getByRole("button", { name });
   if ((await header.getAttribute("aria-expanded")) !== "true") await header.click();
+  await expect(header).toHaveAttribute("aria-expanded", "true");
   const panelId = await header.getAttribute("aria-controls");
   if (!panelId) throw new Error(`Section ${name} has no aria-controls`);
   return page.locator(`[id="${panelId}"]`);
@@ -234,7 +235,8 @@ test.describe("M7 dossier transfer regression", () => {
   });
 
   test("Lebenslauf uses one dossier takeover and preserves CV-only content", async ({ page }) => {
-    await page.addInitScript(
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+    await page.evaluate(
       ({ cover, cv }) => {
         localStorage.clear();
         localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
@@ -242,8 +244,13 @@ test.describe("M7 dossier transfer regression", () => {
       },
       { cover: coverPayload(), cv: cvPayload() },
     );
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await expect
+      .poll(() =>
+        page.evaluate(() => JSON.parse(localStorage.getItem("titelblatt:v3") ?? "null")?.template),
+      )
+      .toBe("pastell");
 
-    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
     const takeover = await openSection(page, /^Vom Dossier übernehmen/);
     const takeAll = takeover.getByRole("button", { name: "Alles übernehmen", exact: true });
     await expect(takeAll).toBeVisible();
@@ -291,7 +298,8 @@ test.describe("M7 dossier transfer regression", () => {
         font: "sans",
       },
     };
-    await page.addInitScript(
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
+    await page.evaluate(
       ({ cv, letterSave }) => {
         localStorage.clear();
         localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
@@ -299,8 +307,13 @@ test.describe("M7 dossier transfer regression", () => {
       },
       { cv: cvPayload(), letterSave: letter },
     );
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await expect
+      .poll(() =>
+        page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.data?.person?.vorname),
+      )
+      .toBe("Mia");
 
-    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     const takeover = await openSection(page, /^Vom Dossier übernehmen/);
     await expect(
       takeover.getByText("Persönliche Angaben: Lebenslauf", { exact: true }),
