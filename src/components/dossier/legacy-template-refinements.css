@@ -84,22 +84,22 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-a
 /* Kolumne already owns a vertical rail. Generic compact header/footer bars
  * read as accidental horizontal scratches across the page, so they disappear
  * for this template in both the CV and the motivation letter. */
-html[data-dossier-template="terracotta"] [data-dossier-compact-header],
-html[data-dossier-template="terracotta"] [data-dossier-footer="compact"] {
+html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-dossier-compact-header],
+html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
+[data-letter-page][data-letter-template="terracotta"] [data-dossier-compact-header],
+[data-letter-page][data-letter-template="terracotta"] [data-dossier-footer="compact"] {
   display: none !important;
 }
 
 /* The normal contact header stays on the warm paper to the right of the narrow
- * letter rail. It must not become a second full-width colour band. */
-html[data-dossier-template="terracotta"]
-  [data-dossier-chrome="letter"]
-  [data-dossier-contact-header-background] {
+ * letter rail. It must not become a second full-width colour band. Letter
+ * export does not depend on the global html template marker, so these rules
+ * scope to the page itself. */
+[data-letter-page][data-letter-template="terracotta"] [data-dossier-contact-header-background] {
   display: none !important;
 }
 
-html[data-dossier-template="terracotta"]
-  [data-dossier-chrome="letter"]
-  [data-dossier-integrated-contact] {
+[data-letter-page][data-letter-template="terracotta"] [data-dossier-integrated-contact] {
   left: 28mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -108,9 +108,7 @@ html[data-dossier-template="terracotta"]
   color: var(--cover-ink) !important;
 }
 
-html[data-dossier-template="terracotta"]
-  [data-dossier-chrome="letter"]
-  [data-dossier-continuation-contact-header] {
+[data-letter-page][data-letter-template="terracotta"] [data-dossier-continuation-contact-header] {
   left: 28mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -120,15 +118,13 @@ html[data-dossier-template="terracotta"]
   color: var(--cover-ink) !important;
 }
 
-html[data-dossier-template="terracotta"]
-  [data-dossier-chrome="letter"]
-  [data-dossier-continuation-contact] {
+[data-letter-page][data-letter-template="terracotta"] [data-dossier-continuation-contact] {
   text-align: left !important;
 }
 
 /* The little hairline inside the letter rail added no information and looked
  * like another stray rule when the page was exported. The solid rail is enough. */
-html[data-dossier-template="terracotta"]
+[data-letter-page][data-letter-template="terracotta"]
   [data-letter-background-variant="quiet-column"]
   [data-letter-motif="rail-rule"] {
   display: none !important;
