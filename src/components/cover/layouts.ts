@@ -129,6 +129,99 @@ function templateDefaultAdjustment(
     };
   }
 
+  // Studio had split one semantic phrase across two unrelated zones: the
+  // profession lived in the yellow band while "Bewerbung um eine Lehrstelle
+  // als" floated much lower on the white page. Keep the application statement
+  // together inside the band, then give the applicant name its own clear level
+  // below. These are defaults only; explicit editor moves still win.
+  if (template === "studio") {
+    const custom = overrides[block.id] ?? {};
+    const withDefaults = (patch: Partial<BlockStyle>) => {
+      const next: Partial<BlockStyle> = {};
+      for (const [key, value] of Object.entries(patch) as Array<
+        [keyof BlockStyle, BlockStyle[keyof BlockStyle]]
+      >) {
+        if (custom[key] === undefined) (next as Record<string, unknown>)[key] = value;
+      }
+      adjusted = { ...adjusted, style: { ...adjusted.style, ...next } };
+    };
+
+    if (block.id === "kicker") {
+      withDefaults({
+        x: 84,
+        y: 31,
+        w: 100,
+        size: 8.5,
+        color: "primary",
+        uppercase: true,
+        weight: 700,
+        tracking: 0.18,
+        lineHeight: 1.15,
+        follows: null,
+        above: null,
+        anchorBottom: false,
+        maxLines: 2,
+      });
+    } else if (block.id === "beruf") {
+      withDefaults({
+        x: 84,
+        y: 40,
+        w: 100,
+        size: 18,
+        color: "ink",
+        weight: 700,
+        tracking: 0.04,
+        lineHeight: 1.08,
+        follows: null,
+        above: null,
+        anchorBottom: false,
+        maxLines: 2,
+      });
+    } else if (block.id === "name") {
+      withDefaults({
+        x: 84,
+        y: 72,
+        w: 100,
+        size: 22,
+        color: "ink",
+        weight: 800,
+        uppercase: true,
+        tracking: 0.02,
+        lineHeight: 1.05,
+        follows: null,
+        above: null,
+        anchorBottom: false,
+      });
+    } else if (block.id === "lehrbeginn") {
+      withDefaults({
+        x: 84,
+        y: 88,
+        w: 100,
+        size: 10,
+        color: "ink",
+        weight: 700,
+        bg: "accent",
+        padX: 5,
+        padY: 1.8,
+        follows: null,
+        above: null,
+        anchorBottom: false,
+      });
+    } else if (block.id === "ortDatum") {
+      withDefaults({
+        x: 84,
+        y: 104,
+        w: 100,
+        size: 9,
+        color: "ink",
+        opacity: 0.6,
+        follows: null,
+        above: null,
+        anchorBottom: false,
+      });
+    }
+  }
+
   if ((template === "blockig" || template === "colorful") && block.id === "kicker") {
     adjusted = {
       ...adjusted,
