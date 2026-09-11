@@ -234,8 +234,7 @@ test.describe("M7 dossier transfer regression", () => {
   });
 
   test("Lebenslauf uses one dossier takeover and preserves CV-only content", async ({ page }) => {
-    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
-    await page.evaluate(
+    await page.addInitScript(
       ({ cover, cv }) => {
         localStorage.clear();
         localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
@@ -246,13 +245,13 @@ test.describe("M7 dossier transfer regression", () => {
 
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
     const takeover = await openSection(page, /^Vom Dossier übernehmen/);
-    await expect(
-      takeover.getByRole("button", { name: "Alles übernehmen", exact: true }),
-    ).toBeVisible();
+    const takeAll = takeover.getByRole("button", { name: "Alles übernehmen", exact: true });
+    await expect(takeAll).toBeVisible();
+    await expect(takeAll).toBeEnabled();
     await expect(takeover.getByText("Auswahl anpassen", { exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: "Angaben vom Titelblatt holen" })).toHaveCount(0);
 
-    await takeover.getByRole("button", { name: "Alles übernehmen", exact: true }).click();
+    await takeAll.click();
     await expect
       .poll(() =>
         page.evaluate(() => {
@@ -278,28 +277,28 @@ test.describe("M7 dossier transfer regression", () => {
   test("Motivationsschreiben falls back to CV data and keeps its own brief text", async ({
     page,
   }) => {
-    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
-    await page.evaluate((cv) => {
-      localStorage.clear();
-      localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
-      localStorage.setItem(
-        "anschreiben:v1",
-        JSON.stringify({
-          version: 1,
-          data: {
-            absenderName: "Alter Name",
-            text: "Mein eigener Brieftext bleibt erhalten.",
-            anrede: "Guten Tag",
-            gruss: "Freundliche Grüsse",
-          },
-          design: {
-            template: "brief",
-            colors: { bg: "#ffffff", primary: "#111111", accent: "#111111" },
-            font: "sans",
-          },
-        }),
-      );
-    }, cvPayload());
+    const letter = {
+      version: 1,
+      data: {
+        absenderName: "Alter Name",
+        text: "Mein eigener Brieftext bleibt erhalten.",
+        anrede: "Guten Tag",
+        gruss: "Freundliche Grüsse",
+      },
+      design: {
+        template: "brief",
+        colors: { bg: "#ffffff", primary: "#111111", accent: "#111111" },
+        font: "sans",
+      },
+    };
+    await page.addInitScript(
+      ({ cv, letterSave }) => {
+        localStorage.clear();
+        localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
+        localStorage.setItem("anschreiben:v1", JSON.stringify(letterSave));
+      },
+      { cv: cvPayload(), letterSave: letter },
+    );
 
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     const takeover = await openSection(page, /^Vom Dossier übernehmen/);
