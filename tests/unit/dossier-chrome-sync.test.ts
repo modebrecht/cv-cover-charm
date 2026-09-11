@@ -12,7 +12,7 @@ describe("shared CV and motivation-letter header/footer settings", () => {
   test("synchronization is enabled by default", () => {
     const state = normalizeDossierChromeState(null);
     expect(state.sync).toBe(true);
-    expect(state.shared.headerMode).toBe("compact");
+    expect(state.shared.headerMode).toBe("contact");
     expect(state.shared.footerMode).toBe("compact");
   });
 
@@ -46,7 +46,7 @@ describe("shared CV and motivation-letter header/footer settings", () => {
     const cv = patchDossierChromeState(split, "cv", { headerMode: "none" });
 
     expect(cv.cv.headerMode).toBe("none");
-    expect(cv.letter.headerMode).toBe("compact");
+    expect(cv.letter.headerMode).toBe("contact");
   });
 
   test("turning sync back on uses the document where the checkbox was enabled", () => {

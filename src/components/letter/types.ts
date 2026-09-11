@@ -191,7 +191,7 @@ export function emptyLetterDesign(): LetterDesign {
     ruleAfterSender: false,
     ruleAfterRecipient: false,
     ruleAfterSubject: false,
-    headerMode: "compact",
+    headerMode: "contact",
     headerShowName: true,
     headerShowAddress: true,
     headerShowPhone: true,
@@ -240,9 +240,11 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
       ? { ...defaultLetterColors(template), ...incoming.colors }
       : defaultLetterColors(template);
   const headerMode: LetterHeaderMode =
-    incoming.headerMode === "contact" || incoming.headerMode === "none"
+    incoming.headerMode === "compact" ||
+    incoming.headerMode === "contact" ||
+    incoming.headerMode === "none"
       ? incoming.headerMode
-      : "compact";
+      : fallback.headerMode ?? "contact";
   const footerMode: LetterFooterMode =
     incoming.footerMode === "attachments" || incoming.footerMode === "none"
       ? incoming.footerMode

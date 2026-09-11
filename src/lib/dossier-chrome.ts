@@ -61,7 +61,7 @@ const LETTER_STORAGE_KEY = "anschreiben:v1";
 const EVENT = "bewerbungsdossier-chrome-change";
 
 export const DEFAULT_DOSSIER_CHROME_OPTIONS: DossierChromeOptions = {
-  headerMode: "compact",
+  headerMode: "contact",
   headerShowName: true,
   headerShowAddress: true,
   headerShowPhone: true,
@@ -133,7 +133,11 @@ function normalizeOptions(
   if (!isRecord(value)) return { ...fallback };
   return {
     headerMode:
-      value.headerMode === "contact" || value.headerMode === "none" ? value.headerMode : "compact",
+      value.headerMode === "compact" ||
+      value.headerMode === "contact" ||
+      value.headerMode === "none"
+        ? value.headerMode
+        : fallback.headerMode,
     headerShowName: value.headerShowName !== false,
     headerShowAddress: value.headerShowAddress !== false,
     headerShowPhone: value.headerShowPhone !== false,
