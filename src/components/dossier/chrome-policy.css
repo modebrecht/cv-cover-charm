@@ -1,0 +1,41 @@
+/* -------------------------------------------------------------------------- */
+/* GLOBAL DOSSIER CHROME POLICY                                               */
+/* -------------------------------------------------------------------------- */
+/*
+ * Shared header/footer chrome owns document structure. Template backgrounds
+ * may keep one strong signature, but detached decorative micro-rules are not
+ * allowed to sit beside or below that chrome. This prevents the recurring
+ * double-line / orphan-line regressions across CV and motivation-letter pages.
+ */
+
+/* Fresh motivation-letter micro-rules that add no structural information. */
+[data-letter-fresh-template] :is(
+    [data-letter-motif="edge-rule"],
+    [data-letter-motif="glow-rule"],
+    [data-letter-motif="mono-bottom-rule"],
+    [data-letter-motif="top-rule"],
+    [data-letter-motif="rail-rule"],
+    [data-letter-motif="clay-rule"],
+    [data-letter-motif="cool-rule"],
+    [data-letter-motif="warm-rule"]
+  ) {
+  display: none !important;
+}
+
+/* Matching Fresh CV/shared-sheet micro-rules. Strong motifs remain intact. */
+[data-dossier-sheet-background="edge"] > div:nth-child(3),
+[data-dossier-sheet-background="glow"] > div:nth-child(3),
+[data-dossier-sheet-background="monoLuxe"] > div:nth-child(3),
+[data-dossier-sheet-background="horizon"] > div:nth-child(2),
+[data-dossier-sheet-background="forestFlow"] > div:nth-child(3),
+[data-dossier-sheet-background="violetPulse"] > div:nth-child(2),
+[data-dossier-sheet-background="studio2"] > div:nth-child(3),
+[data-dossier-sheet-background="studio3"] > div:nth-child(3),
+[data-dossier-sheet-background="warm2"] > div:nth-child(3),
+[data-dossier-sheet-background="warm3"] > div:nth-child(3),
+[data-dossier-sheet-background="ledger"] > div:nth-child(3),
+[data-dossier-sheet-background="prism"] > div:nth-child(3),
+[data-dossier-sheet-background="orbit"] > div:nth-child(3),
+[data-dossier-sheet-background="cove"] > div:nth-child(3) {
+  display: none !important;
+}
