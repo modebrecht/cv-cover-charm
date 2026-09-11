@@ -1,3 +1,4 @@
+# Triggered after registration on dev.
 name: One-time contact default regression cleanup
 
 on:
@@ -32,34 +33,24 @@ jobs:
                   raise SystemExit(f"Expected block not found in {path}: {old!r}")
               p.write_text(text.replace(old, new, 1))
 
-          # Shared chrome E2E: target the canonical shared control instead of
-          # the legacy letter-only alias.
           replace_once(
               "tests/e2e/dossier-chrome-sync.spec.ts",
               '    await page.getByRole("button", { name: "Layout", exact: true }).click();\n    await expect(page.locator("[data-letter-header-mode-control]")).toHaveValue("contact");\n',
               '    await page.getByRole("button", { name: "Layout", exact: true }).click();\n    const letterChrome = page.locator(\'[data-dossier-chrome-controls="letter"]\');\n    await expect(letterChrome).toBeVisible();\n    await expect(letterChrome.locator("[data-dossier-header-mode-control]")).toHaveValue("contact");\n',
           )
 
-          # This test specifically exercises the separate sender/recipient
-          # alignment controls. Explicitly choose compact so the sender remains
-          # a body section; contact is tested elsewhere as the default.
           replace_once(
               "tests/e2e/dossier-regression.spec.ts",
               '    await page.getByRole("button", { name: "Layout", exact: true }).click();\n\n    await page.getByRole("button", { name: "Meine Kontaktdaten Rechts" }).click();\n',
               '    await page.getByRole("button", { name: "Layout", exact: true }).click();\n    await page\n      .locator(\'[data-dossier-chrome-controls="letter"] [data-dossier-header-mode-control]\')\n      .selectOption("compact");\n\n    await page.getByRole("button", { name: "Meine Kontaktdaten Rechts" }).click();\n',
           )
 
-          # Under the new contact default the applicant name intentionally lives
-          # in shared header chrome, not duplicated in the CV body. Wait for the
-          # visible canonical name instead of the hidden body placeholder.
           replace_once(
               "tests/e2e/dossier-typography-regression.spec.ts",
               '  await expect(\n    page\n      .locator(\n        \'[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"] [data-cv-name]\',\n      )\n      .first(),\n  ).toContainText("Lea Müller");\n',
               '  await expect(\n    page\n      .locator(\n        \'[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"] [data-dossier-integrated-contact]\',\n      )\n      .first(),\n  ).toContainText("Lea Müller");\n',
           )
 
-          # Pagination is measured from scaled browser geometry. Keep a tiny
-          # reserve so fractional-pixel rounding can never clip the final row.
           replace_once(
               "src/components/cv/CvCanvasBase.tsx",
               '    const heightFor = (pageIndex: number) => {\n      if (pageIndex === 0) return measured;\n      const b = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);\n      const deltaMm = b.top - first.top + (b.bottom - first.bottom);\n      return measured - deltaMm * PX_PER_MM;\n    };\n',
