@@ -1,0 +1,127 @@
+/*
+ * 22 Mono Luxe — one premium system, not three stacked ones.
+ *
+ * Cover: black masthead + one brass hairline. The small brass square used to
+ * sit inside the word BEWERBUNG and looked like a rendering defect, so it is
+ * removed.
+ *
+ * Letter/CV: keep only a slim black top bar and one brass hairline. The shared
+ * contact/footer chrome still reserves its pagination geometry, but its own
+ * surfaces/borders are transparent so it cannot add a second set of lines.
+ */
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"] {
+  display: none !important;
+}
+
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"] {
+  left: 28mm !important;
+  right: 28mm !important;
+  top: 31.2mm !important;
+  width: auto !important;
+  height: 0.55mm !important;
+  opacity: 0.82 !important;
+}
+
+/* One restrained interior signature: 3 mm black cap + brass hairline. */
+[data-dossier-sheet-background="monoLuxe"] > div:nth-child(1) {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: 3mm !important;
+  background: var(--cover-primary) !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+[data-dossier-sheet-background="monoLuxe"] > div:nth-child(2) {
+  left: 27mm !important;
+  right: 27mm !important;
+  top: 3mm !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: 0.45mm !important;
+  background: var(--cover-secondary) !important;
+  border-radius: 0 !important;
+  opacity: 0.78 !important;
+}
+
+[data-dossier-sheet-background="monoLuxe"] > div:nth-child(3) {
+  display: none !important;
+}
+
+/* Shared chrome must not draw another masthead/footer on top of Mono Luxe. */
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossier-compact-header],
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cv"]
+  [data-dossier-contact-header-background],
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
+[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-compact-header],
+[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-contact-header-background],
+[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-footer="compact"] {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cv"]
+  [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-continuation-contact-header] {
+  background: transparent !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Contact information belongs on the cream paper, aligned to the content grid. */
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossier-integrated-contact],
+[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-integrated-contact] {
+  left: 27mm !important;
+  right: 27mm !important;
+  width: auto !important;
+  padding: 5mm 0 1mm !important;
+  color: var(--cover-ink) !important;
+  align-items: flex-start !important;
+}
+
+html[data-dossier-template="monoLuxe"]
+  [data-dossier-document="cv"]
+  [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-continuation-contact-header] {
+  left: 27mm !important;
+  right: 27mm !important;
+  width: auto !important;
+  padding: 0 !important;
+  color: var(--cover-ink) !important;
+}
+
+/* No extra inner card/frame or micro-square on the CV. Typography and the
+ * single brass rule provide enough hierarchy. */
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 3.5mm !important;
+  bottom: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-accent="header"] {
+  display: none !important;
+}
+
+/* Section hairlines stay subtle and singular; they should never read as a
+ * second page frame. */
+html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  height: 0.22mm !important;
+  opacity: 0.32 !important;
+  border-radius: 0 !important;
+}
