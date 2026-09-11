@@ -121,7 +121,7 @@ test.describe("complete dossier end-to-end", () => {
     await downloadCompleteDossier(page);
   });
 
-  test("alle 37 Motivationsschreiben-Vorlagen sind auswählbar und Fresh-Designs bleiben gespeichert", async ({
+  test("alle 41 Motivationsschreiben-Vorlagen sind auswählbar und Fresh-Designs bleiben gespeichert", async ({
     page,
   }) => {
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
@@ -141,9 +141,9 @@ test.describe("complete dossier end-to-end", () => {
     const panel = page.locator(`[id="${panelId}"]`);
     const buttons = panel.getByRole("button");
 
-    await expect(buttons).toHaveCount(37);
+    await expect(buttons).toHaveCount(41);
     const labels = (await buttons.allTextContents()).map((value) => value.trim()).filter(Boolean);
-    expect(new Set(labels).size).toBe(37);
+    expect(new Set(labels).size).toBe(41);
     for (const required of [
       "Brief",
       "Colorful",
@@ -151,7 +151,12 @@ test.describe("complete dossier end-to-end", () => {
       "Glow",
       "Mono Luxe",
       "Cove",
+      "Edel",
       "Edel Dark",
+      "Warm 4",
+      "Warm 5",
+      "Verlauf 2",
+      "Verlauf 3",
     ]) {
       expect(labels).toContain(required);
     }
@@ -160,7 +165,7 @@ test.describe("complete dossier end-to-end", () => {
 
     const preview = page.getByLabel("Vorschau Motivationsschreiben");
     await expect(preview).toBeVisible();
-    for (let index = 0; index < 37; index += 1) {
+    for (let index = 0; index < 41; index += 1) {
       const button = buttons.nth(index);
       await button.click();
       await expect(button).toHaveAttribute("aria-pressed", "true");
