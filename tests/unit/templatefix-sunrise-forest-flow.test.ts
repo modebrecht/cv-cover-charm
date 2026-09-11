@@ -5,6 +5,10 @@ const css = readFileSync(
   new URL("../../src/components/cover/templatefix-24-25.css", import.meta.url),
   "utf8",
 );
+const chromePolicy = readFileSync(
+  new URL("../../src/components/dossier/chrome-policy.css", import.meta.url),
+  "utf8",
+);
 const acceptanceCss = readFileSync(
   new URL("../../src/components/cover/fresh-cover-visual-cleanup.css", import.meta.url),
   "utf8",
@@ -23,60 +27,52 @@ const letterBackground = readFileSync(
 );
 
 describe("templateFIX Sunrise + Forest Flow", () => {
-  test("Sunrise motivation letter has no orphan top rule", () => {
-    expect(css).toContain('[data-letter-fresh-template="sunrise"] [data-letter-motif="top-rule"]');
-    expect(css).toContain("display: none !important;");
+  test("Sunrise orphan-rule suppression is global, not a local template patch", () => {
+    expect(css).not.toContain('[data-letter-template="sunrise"] [data-letter-motif="top-rule"]');
+    expect(css).not.toContain('[data-letter-fresh-template="sunrise"] [data-letter-motif="top-rule"]');
+    expect(chromePolicy).toContain('[data-letter-motif="top-rule"]');
   });
 
-  test("Forest Flow has one geometry owner and no permanent full-height rail", () => {
+  test("Forest Flow has one final vertical-grove geometry owner", () => {
     expect(css).toContain('html[data-dossier-template="forestFlow"]');
-    expect(css).toContain("height: 24mm !important;");
+    expect(css).toContain("width: 52mm !important;");
     expect(css).toContain('[data-letter-motif="rail"]');
-    expect(css).toContain("width: 210mm !important;");
-    expect(css).toContain("height: 10mm !important;");
-    expect(css).toContain('[data-letter-motif="rail-rule"]');
+    expect(css).toContain("width: 12mm !important;");
+    expect(css).toContain("height: 297mm !important;");
+    expect(css).not.toContain('[data-letter-fresh-template="forestFlow"] [data-letter-motif="rail-rule"]');
+    expect(chromePolicy).toContain('[data-letter-motif="rail-rule"]');
 
-    // Both older stylesheets previously reintroduced a large vertical rail.
-    // The dedicated 24/25 stylesheet is now the only Forest Flow geometry owner.
+    // Older stylesheets must not reintroduce another Forest Flow geometry owner.
     expect(acceptanceCss).not.toContain('[data-fresh-cover-background="forestFlow"]');
     expect(acceptanceCss).not.toContain('data-dossier-template="forestFlow"');
     expect(gradientCss).not.toContain('data-dossier-template="forestFlow"');
   });
 
-  test("Forest Flow cover keeps the shared title stack on the paper", () => {
-    expect(css).toContain(
-      ':is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])',
-    );
+  test("Forest Flow cover keeps its deliberate grove/content grid", () => {
+    expect(css).toContain('[data-block-id="name"]');
+    expect(css).toContain("left: 72mm !important;");
+    expect(css).toContain('[data-block-id="kontakt"]');
+    expect(css).toContain("left: 7mm !important;");
     expect(css).not.toContain("translate(-34mm");
   });
 
-  test("Forest Flow CV targets the three direct signature siblings", () => {
-    expect(css).toContain(
-      '> [data-dossier-sheet-background="forestFlow"]\n  > div:nth-child(1)',
-    );
-    expect(css).toContain(
-      '> [data-dossier-sheet-background="forestFlow"]\n  > div:nth-child(2)',
-    );
-    expect(css).toContain(
-      '> [data-dossier-sheet-background="forestFlow"]\n  > div:nth-child(3)',
-    );
-    expect(css).not.toContain(
-      '> div:first-child\n  > div:first-child\n  > div:first-child',
-    );
+  test("Forest Flow CV owns only its two strong direct signature siblings", () => {
+    expect(css).toContain('[data-dossier-sheet-background="forestFlow"]\n  > div:nth-child(1)');
+    expect(css).toContain('[data-dossier-sheet-background="forestFlow"]\n  > div:nth-child(2)');
+    expect(css).not.toContain('[data-dossier-sheet-background="forestFlow"]\n  > div:nth-child(3)');
+    expect(chromePolicy).toContain('[data-dossier-sheet-background="forestFlow"] > div:nth-child(3)');
   });
 
-  test("Forest Flow CV is a quiet top-canopy family and does not force layout", () => {
+  test("Forest Flow CV is a quiet vertical-grove family and does not force layout", () => {
     expect(css).toContain('[data-dossier-document="cv"]');
-    expect(css).toContain("height: 9mm !important;");
+    expect(css).toContain("height: 297mm !important;");
     expect(css).toContain("background: transparent !important;");
-    expect(css).toContain('[data-cv-accent="section"]');
+    expect(css).toContain('[data-cv-accent]');
     expect(css).not.toContain('data-cv-layout="modern"');
   });
 
   test("override stylesheet loads in cover/CV and letter render paths", () => {
     expect(freshTemplates).toContain('import "./templatefix-24-25.css";');
-    expect(letterBackground).toContain(
-      'import "@/components/cover/templatefix-24-25.css";',
-    );
+    expect(letterBackground).toContain('import "@/components/cover/templatefix-24-25.css";');
   });
 });
