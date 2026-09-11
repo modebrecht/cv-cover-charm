@@ -817,6 +817,9 @@ test.describe("M5.8 dossier regression", () => {
       "true",
     );
     await page.getByRole("button", { name: "Layout", exact: true }).click();
+    await page
+      .locator('[data-dossier-chrome-controls="letter"] [data-dossier-header-mode-control]')
+      .selectOption("compact");
 
     await page.getByRole("button", { name: "Meine Kontaktdaten Rechts" }).click();
     await page.getByRole("button", { name: "Firma / Lehrbetrieb Rechts" }).click();

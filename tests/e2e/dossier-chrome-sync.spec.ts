@@ -121,7 +121,9 @@ test.describe("shared CV / motivation-letter chrome", () => {
     );
 
     await page.getByRole("button", { name: "Layout", exact: true }).click();
-    await expect(page.locator("[data-letter-header-mode-control]")).toHaveValue("contact");
+    const letterChrome = page.locator('[data-dossier-chrome-controls="letter"]');
+    await expect(letterChrome).toBeVisible();
+    await expect(letterChrome.locator("[data-dossier-header-mode-control]")).toHaveValue("contact");
   });
 
   test("a stale chrome snapshot nested in the letter cannot roll back the canonical dossier state", async ({

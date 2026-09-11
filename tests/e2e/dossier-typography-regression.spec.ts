@@ -116,7 +116,7 @@ async function dossierFonts(page: Page, template: string, font?: string) {
   await expect(
     page
       .locator(
-        '[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"] [data-cv-name]',
+        '[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"] [data-dossier-integrated-contact]',
       )
       .first(),
   ).toContainText("Lea Müller");

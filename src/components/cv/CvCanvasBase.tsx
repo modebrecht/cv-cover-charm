@@ -1293,11 +1293,12 @@ export function CvCanvas({
      * ändert: das kürzere Kopfband und die Fusszeile.
      */
     const first = cvContentBox(frame, 0, layout, sidebarPct, chromeOptions);
+    const paginationSafetyPx = 2;
     const heightFor = (pageIndex: number) => {
-      if (pageIndex === 0) return measured;
+      if (pageIndex === 0) return Math.max(0, measured - paginationSafetyPx);
       const b = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);
       const deltaMm = b.top - first.top + (b.bottom - first.bottom);
-      return measured - deltaMm * PX_PER_MM;
+      return Math.max(0, measured - deltaMm * PX_PER_MM - paginationSafetyPx);
     };
 
     const kids = Array.from(box.children) as HTMLElement[];
