@@ -87,6 +87,15 @@ const previewCv = (page: Page) =>
 const cvControls = (page: Page) =>
   page.locator('[data-dossier-chrome-host] [data-dossier-chrome-controls="cv"]');
 
+async function openLetterLayout(page: Page) {
+  const layout = page.getByRole("button", { name: "Layout", exact: true });
+  await expect(layout).toBeVisible();
+  if ((await layout.getAttribute("aria-expanded")) !== "true") await layout.click();
+  const controls = page.locator('[data-dossier-chrome-controls="letter"]');
+  await expect(controls).toBeVisible();
+  return controls;
+}
+
 test.describe("shared CV / motivation-letter chrome", () => {
   test.setTimeout(120_000);
 
@@ -120,9 +129,7 @@ test.describe("shared CV / motivation-letter chrome", () => {
       "contact",
     );
 
-    await page.getByRole("button", { name: "Layout", exact: true }).click();
-    const letterChrome = page.locator('[data-dossier-chrome-controls="letter"]');
-    await expect(letterChrome).toBeVisible();
+    const letterChrome = await openLetterLayout(page);
     await expect(letterChrome.locator("[data-dossier-header-mode-control]")).toHaveValue("contact");
   });
 
@@ -210,8 +217,7 @@ test.describe("shared CV / motivation-letter chrome", () => {
     await expect(letterHeader).toContainText("Lea Müller");
     await expect(letterHeader).not.toContainText("Andere Person");
 
-    await page.getByRole("button", { name: "Layout", exact: true }).click();
-    const letterControls = page.locator('[data-dossier-chrome-controls="letter"]');
+    const letterControls = await openLetterLayout(page);
     await letterControls.locator("[data-dossier-chrome-sync]").uncheck();
     await expect(letterHeader).toContainText("Andere Person");
     await letterControls.locator("[data-letter-header-mode-control]").selectOption("none");
