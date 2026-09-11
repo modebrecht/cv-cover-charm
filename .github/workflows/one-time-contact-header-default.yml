@@ -1,3 +1,4 @@
+# Triggered after the workflow existed on dev so the one-time migration can run.
 name: One-time contact header default migration
 
 on:
