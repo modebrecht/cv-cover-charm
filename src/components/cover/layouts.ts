@@ -129,6 +129,67 @@ function templateDefaultAdjustment(
     };
   }
 
+  // Blockig is a true modular grid rather than a full-width stripe with loose
+  // content underneath. Every default remains an ordinary editor block: a user
+  // move/resize/color override always wins over these starting coordinates.
+  if (template === "blockig") {
+    const custom = overrides[block.id] ?? {};
+    const withDefaults = (patch: Partial<BlockStyle>) => {
+      const next: Partial<BlockStyle> = {};
+      for (const [key, value] of Object.entries(patch) as Array<
+        [keyof BlockStyle, BlockStyle[keyof BlockStyle]]
+      >) {
+        if (custom[key] === undefined) (next as Record<string, unknown>)[key] = value;
+      }
+      adjusted = { ...adjusted, style: { ...adjusted.style, ...next } };
+    };
+
+    if (block.id === "decor-top-block") {
+      withDefaults({ x: 0, y: 0, w: 72, ratio: 105 / 72, opacity: 1 });
+    } else if (block.id === "decor-accent-band") {
+      withDefaults({ x: 72, y: 0, w: 44, ratio: 52 / 44, opacity: 1 });
+    } else if (block.id === "eyebrow") {
+      withDefaults({ x: 15, y: 17, w: 44, size: 9, color: "bg", tracking: 0.28 });
+    } else if (block.id === "ortDatum") {
+      withDefaults({ x: 126, y: 18, w: 66, size: 9, color: "ink", align: "right" });
+    } else if (block.id === "foto") {
+      withDefaults({ x: 132, y: 38, w: 48, ratio: 1, radius: 0, color: "accent" });
+    } else if (block.id === "kicker") {
+      withDefaults({ x: 86, y: 96, w: 104, size: 9, color: "accent", tracking: 0.18 });
+    } else if (block.id === "beruf") {
+      withDefaults({
+        x: 86,
+        y: 106,
+        w: 108,
+        size: 29,
+        color: "ink",
+        weight: 800,
+        uppercase: true,
+        tracking: -0.025,
+        lineHeight: 1.02,
+      });
+    } else if (block.id === "name") {
+      withDefaults({
+        x: 86,
+        y: 164,
+        w: 104,
+        size: 15,
+        color: "primary",
+        weight: 800,
+        uppercase: true,
+        tracking: 0.1,
+      });
+    } else if (block.id === "lehrbeginn") {
+      withDefaults({ x: 86, y: 176, w: 104, size: 9.5, color: "ink", weight: 600 });
+    } else if (block.id === "kontaktTitel") {
+      withDefaults({ x: 15, w: 48, color: "accent", tracking: 0.22 });
+    } else if (block.id === "kontakt") {
+      withDefaults({ x: 15, y: 283, w: 48, color: "bg", opacity: 0.95, lineHeight: 1.45 });
+    } else if (block.id === "trenner") {
+      withDefaults({ hidden: true });
+    }
+  }
+
   // Human used to look like unrelated legacy blocks dropped onto two giant
   // circles. Keep every user override intact, but give untouched blocks a
   // deliberate two-column hero, a stable title hierarchy and a calmer lower
