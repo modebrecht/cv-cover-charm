@@ -9,6 +9,7 @@ import { TEMPLATES, type TemplateDefinition, type TemplateId } from "./types";
 import "./gradient-templates.css";
 import "./studio-warm-variants.css";
 import "./warm-4-5.css";
+import "./verlauf-2-3.css";
 import "./studio-rework.css";
 import "./cv-card-refresh.css";
 import "./studio-cv-redesign.css";
