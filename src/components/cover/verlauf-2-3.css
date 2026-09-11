@@ -102,8 +102,10 @@ html[data-dossier-template="verlauf2"] [data-dossier-document="cv"] [data-cv-sur
   box-shadow: 0 4mm 18mm rgb(36 71 184 / 0.07);
 }
 
+/* Keep the pill signature horizontal-only so it does not consume extra A4
+ * vertical rhythm or push the final CV section onto a continuation page. */
 html[data-dossier-template="verlauf2"] [data-dossier-document="cv"] [data-cv-section-title] {
-  padding: 0.8mm 2.4mm;
+  padding: 0 2.4mm;
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 9%, transparent);
 }
@@ -204,7 +206,7 @@ html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-sur
 }
 
 html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-section-title] {
-  padding: 0.8mm 2.4mm;
+  padding: 0 2.4mm;
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 9%, transparent);
 }
