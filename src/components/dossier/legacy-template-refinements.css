@@ -191,3 +191,71 @@ html[data-dossier-template="citrus"]
   border-bottom: 0 !important;
   box-shadow: none !important;
 }
+
+/* 19 Edge — the template already owns a strong vertical navy/blue rail and a
+ * short horizontal accent. A second full-width generic header/footer bar makes
+ * the interior pages look like two unrelated templates stacked together. Keep
+ * the shared header geometry for pagination, but let the Edge signature own the
+ * surface and place contact text directly on the paper. */
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-compact-header],
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-contact-header-background],
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
+[data-letter-page][data-letter-template="edge"] [data-dossier-compact-header],
+[data-letter-page][data-letter-template="edge"] [data-dossier-contact-header-background],
+[data-letter-page][data-letter-template="edge"] [data-dossier-footer="compact"] {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-integrated-contact],
+[data-letter-page][data-letter-template="edge"] [data-dossier-integrated-contact] {
+  left: 32mm !important;
+  right: 23mm !important;
+  width: auto !important;
+  padding: 3mm 0 1mm !important;
+  align-items: flex-start !important;
+  color: var(--cover-ink) !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html[data-dossier-template="edge"]
+  [data-dossier-document="cv"]
+  [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="edge"] [data-dossier-continuation-contact-header] {
+  left: 32mm !important;
+  right: 23mm !important;
+  width: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  color: var(--cover-ink) !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-continuation-contact],
+[data-letter-page][data-letter-template="edge"] [data-dossier-continuation-contact] {
+  text-align: left !important;
+}
+
+/* Edge cover is already sans/geometric. Keep the interior hierarchy in the
+ * same family instead of falling back to the serif-heavy generic CV look. */
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-doc-title],
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-name],
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-subtitle],
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-section-title] {
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-doc-title],
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-section-title] {
+  color: var(--cover-primary) !important;
+  font-weight: 800 !important;
+}
+
+html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-name] {
+  color: var(--cover-ink) !important;
+  font-weight: 820 !important;
+  letter-spacing: -0.025em !important;
+}
