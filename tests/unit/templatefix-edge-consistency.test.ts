@@ -6,8 +6,16 @@ const letter = readFileSync(
   new URL("../../src/components/letter/fresh-letter-system.ts", import.meta.url),
   "utf8",
 );
+const letterSheet = readFileSync(
+  new URL("../../src/components/letter/LetterSheetBackground.tsx", import.meta.url),
+  "utf8",
+);
 const freshCss = readFileSync(
   new URL("../../src/components/cover/fresh-templates.css", import.meta.url),
+  "utf8",
+);
+const legacyCss = readFileSync(
+  new URL("../../src/components/dossier/legacy-template-refinements.css", import.meta.url),
   "utf8",
 );
 
@@ -17,6 +25,15 @@ describe("Fresh 19-22 dossier rebuild", () => {
     expect(layout).toContain('return template === "terracotta" ? "modern" : DEFAULT_LAYOUT;');
     expect(layout).toContain('if (template === "terracotta") return "modern";');
     expect(layout).toContain("return valid(saved) ? saved : fallback;");
+  });
+
+  test("Kolumne uses the rail instead of accidental horizontal chrome rules", () => {
+    expect(letterSheet).toContain('import "@/components/dossier/legacy-template-refinements.css";');
+    expect(legacyCss).toContain('html[data-dossier-template="terracotta"] [data-dossier-compact-header]');
+    expect(legacyCss).toContain('html[data-dossier-template="terracotta"] [data-dossier-footer="compact"]');
+    expect(legacyCss).toContain("border-bottom: 0 !important;");
+    expect(legacyCss).toContain('[data-letter-motif="rail-rule"]');
+    expect(legacyCss).toContain("color: var(--cover-ink) !important;");
   });
 
   test("Edge uses one compact masthead signature across cover, letter and CV", () => {
