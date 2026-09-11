@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { resolveCvLayoutChoice } from "../../src/components/cv/layout";
 import {
   CV_LAYOUT_SECTION_ORDER,
   customSectionKey,
@@ -73,5 +74,11 @@ describe("CV rubric layout", () => {
       widthMm: 190,
       heightMm: 10,
     });
+  });
+
+  test("Kolumne keeps Sidebar even when another template stored Standard", () => {
+    expect(resolveCvLayoutChoice("terracotta", "classic")).toBe("modern");
+    expect(resolveCvLayoutChoice("terracotta", "editorial")).toBe("modern");
+    expect(resolveCvLayoutChoice("modern", "editorial")).toBe("editorial");
   });
 });
