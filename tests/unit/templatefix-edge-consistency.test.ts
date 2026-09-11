@@ -29,8 +29,12 @@ describe("Fresh 19-22 dossier rebuild", () => {
 
   test("Kolumne uses the rail instead of accidental horizontal chrome rules", () => {
     expect(letterSheet).toContain('import "@/components/dossier/legacy-template-refinements.css";');
-    expect(legacyCss).toContain('html[data-dossier-template="terracotta"] [data-dossier-compact-header]');
-    expect(legacyCss).toContain('html[data-dossier-template="terracotta"] [data-dossier-footer="compact"]');
+    expect(legacyCss).toContain(
+      '[data-letter-page][data-letter-template="terracotta"] [data-dossier-compact-header]',
+    );
+    expect(legacyCss).toContain(
+      '[data-letter-page][data-letter-template="terracotta"] [data-dossier-footer="compact"]',
+    );
     expect(legacyCss).toContain("border-bottom: 0 !important;");
     expect(legacyCss).toContain('[data-letter-motif="rail-rule"]');
     expect(legacyCss).toContain("color: var(--cover-ink) !important;");
