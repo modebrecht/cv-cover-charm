@@ -29,16 +29,38 @@
 }
 
 /*
- * The Magazin variant sits closest to the pagination threshold with adversarial
- * long content. Keep its print rhythm, but reserve a small safety margin in both
- * measurement and rendered pages so the final row never lands fractionally
- * below the page box after font metrics settle.
+ * Magazin is the densest classic-renderer variant and therefore the closest to
+ * the page edge with adversarial long copy. Its paginator measures row boxes,
+ * while browser font metrics can still settle a fraction taller in the final
+ * page. Tighten the actual text boxes slightly (not just their outer margins),
+ * identically in measurement and output, so the last row keeps real headroom.
  */
 html[data-cv-variant="editorial"]
   [data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-entry] {
   margin-bottom: 0.8mm !important;
+}
+
+html[data-cv-variant="editorial"]
+  [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-body] {
+  line-height: 1.26 !important;
+}
+
+html[data-cv-variant="editorial"]
+  [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-muted] {
+  line-height: 1.22 !important;
+}
+
+html[data-cv-variant="editorial"]
+  [data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-entry-title] {
+  line-height: 1.15 !important;
 }
 
 /*
