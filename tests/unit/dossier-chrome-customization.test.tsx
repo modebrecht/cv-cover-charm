@@ -20,7 +20,7 @@ const contact = {
 };
 
 describe("dossier chrome customization", () => {
-  test("new defaults use stacked header text, inline footer text and an enabled shared border", () => {
+  test("new defaults use stacked header text, inline footer text and no automatic border", () => {
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerTextLayout).toBe("stacked");
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.footerTextLayout).toBe("inline");
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerHeightMm).toBeNull();
@@ -29,13 +29,13 @@ describe("dossier chrome customization", () => {
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerGradientColor).toBeNull();
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.footerBackgroundColor).toBeNull();
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.footerGradientColor).toBeNull();
-    expect(DEFAULT_DOSSIER_CHROME_OPTIONS.borderEnabled).toBe(true);
+    expect(DEFAULT_DOSSIER_CHROME_OPTIONS.borderEnabled).toBe(false);
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.borderColor).toBeNull();
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.borderWidthMm).toBe(0.6);
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.textFont).toBeNull();
   });
 
-  test("normalization keeps customization and lets old branches inherit shared border thickness", () => {
+  test("normalization keeps customization and lets old branches inherit shared border settings", () => {
     const state = normalizeDossierChromeState({
       sync: true,
       shared: {
@@ -75,7 +75,7 @@ describe("dossier chrome customization", () => {
     expect(state.shared.borderColor).toBe("#fedcba");
     expect(state.shared.borderWidthMm).toBe(1.2);
     expect(state.shared.textFont).toBe("freundlich");
-    expect(state.cv.borderEnabled).toBe(true);
+    expect(state.cv.borderEnabled).toBe(false);
     expect(state.cv.borderColor).toBeNull();
     expect(state.cv.borderWidthMm).toBe(1.2);
   });
@@ -108,7 +108,7 @@ describe("dossier chrome customization", () => {
     expect(geometry.content.bottom).toBe(25);
   });
 
-  test("renderer applies font, gradients and the same custom border to header and footer", () => {
+  test("renderer applies font, gradients and an explicitly enabled custom border", () => {
     const options = {
       ...DEFAULT_DOSSIER_CHROME_OPTIONS,
       headerMode: "contact" as const,
@@ -172,6 +172,7 @@ describe("dossier chrome customization", () => {
       }),
     );
 
+    expect(markup).toContain('data-dossier-border-enabled="false"');
     expect(markup).toContain('data-dossier-border-color="#444444"');
     expect(markup).not.toContain('data-dossier-border-color="#111111"');
     expect(markup).not.toContain('data-dossier-border-color="#333333"');
