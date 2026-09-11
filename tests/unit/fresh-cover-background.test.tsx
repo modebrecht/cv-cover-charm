@@ -17,9 +17,9 @@ function defaultColors(template: TemplateId) {
 
 describe("Fresh title-page background contract", () => {
   test("canonical Fresh registry remains complete after retired legacy templates are removed", () => {
-    expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(18);
-    expect(FRESH_TEMPLATE_IDS).toHaveLength(18);
-    expect(TEMPLATES).toHaveLength(37);
+    expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(20);
+    expect(FRESH_TEMPLATE_IDS).toHaveLength(20);
+    expect(TEMPLATES).toHaveLength(39);
     expect(TEMPLATES.map(({ id }) => id as string)).not.toContain("edelBlockig");
     expect(TEMPLATES.map(({ id }) => id as string)).not.toContain("sonnig");
     expect(
