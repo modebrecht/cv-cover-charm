@@ -39,7 +39,7 @@ export const CV_LAYOUTS: Array<{
 
 const STORAGE_KEY = "lebenslauf:layout:v1";
 const MIRROR_STORAGE_KEY = "lebenslauf:layout-mirror:v1";
-const EVENT = "lebenslauf-layout-change";
+export const CV_LAYOUT_EVENT = "lebenslauf-layout-change";
 const DEFAULT_LAYOUT: CvLayoutId = "classic";
 
 function valid(value: string | null): value is CvLayoutId {
@@ -53,13 +53,25 @@ function valid(value: string | null): value is CvLayoutId {
   );
 }
 
+/**
+ * A template may have one natural starting structure without taking the choice
+ * away from the user. Kolumne is built around a real side column, so a fresh
+ * document starts in Sidebar. Any explicitly stored layout still wins.
+ */
+export function defaultCvLayoutForTemplate(template?: string | null): CvLayoutId {
+  return template === "terracotta" ? "modern" : DEFAULT_LAYOUT;
+}
+
 function readChoice(): CvLayoutId {
-  if (typeof window === "undefined") return DEFAULT_LAYOUT;
+  const template =
+    typeof document === "undefined" ? null : document.documentElement.dataset.dossierTemplate;
+  const fallback = defaultCvLayoutForTemplate(template);
+  if (typeof window === "undefined") return fallback;
   try {
     const value = window.localStorage.getItem(STORAGE_KEY);
-    return valid(value) ? value : DEFAULT_LAYOUT;
+    return valid(value) ? value : fallback;
   } catch {
-    return DEFAULT_LAYOUT;
+    return fallback;
   }
 }
 
@@ -121,7 +133,7 @@ export function setCvLayout(layout: CvLayoutId) {
     // Aufbauwahl funktioniert für die laufende Seite trotzdem über das Event.
   }
   applyVariant(layout);
-  window.dispatchEvent(new CustomEvent<CvLayoutId>(EVENT, { detail: layout }));
+  window.dispatchEvent(new CustomEvent<CvLayoutId>(CV_LAYOUT_EVENT, { detail: layout }));
 }
 
 export function setCvLayoutMirror(mirrored: boolean) {
@@ -132,11 +144,12 @@ export function setCvLayoutMirror(mirrored: boolean) {
     // Die laufende Seite reagiert trotzdem über das Event.
   }
   applyVariant(readChoice());
-  window.dispatchEvent(new CustomEvent(EVENT));
+  window.dispatchEvent(new CustomEvent(CV_LAYOUT_EVENT));
 }
 
 export function subscribeCvLayout(onChange: () => void) {
   if (typeof window === "undefined") return () => {};
+
   const local = () => onChange();
   const storage = (event: StorageEvent) => {
     if (event.key === STORAGE_KEY || event.key === MIRROR_STORAGE_KEY) {
@@ -144,10 +157,10 @@ export function subscribeCvLayout(onChange: () => void) {
       onChange();
     }
   };
-  window.addEventListener(EVENT, local);
+  window.addEventListener(CV_LAYOUT_EVENT, local);
   window.addEventListener("storage", storage);
   return () => {
-    window.removeEventListener(EVENT, local);
+    window.removeEventListener(CV_LAYOUT_EVENT, local);
     window.removeEventListener("storage", storage);
   };
 }
