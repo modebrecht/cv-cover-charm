@@ -1222,7 +1222,7 @@ test.describe("M5.8 dossier regression", () => {
   });
 
   test("all dossier design templates are selectable in all three workspaces", async ({ page }) => {
-    const expectedDesigns = 37;
+    const expectedDesigns = 41;
 
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => localStorage.clear());
@@ -1254,7 +1254,7 @@ test.describe("M5.8 dossier regression", () => {
       await cvTemplateHeader.click();
     const cvPanelId = await cvTemplateHeader.getAttribute("aria-controls");
     const cvPanel = page.locator(`[id="${cvPanelId}"]`);
-    // 37 design buttons plus the separate CV layout cards.
+    // 41 design buttons plus the separate CV layout cards.
     await expect(cvPanel.getByRole("button", { name: "Brief", exact: true })).toBeVisible();
     await cvPanel.getByRole("button", { name: "Brief", exact: true }).click();
     await page.waitForTimeout(400);
