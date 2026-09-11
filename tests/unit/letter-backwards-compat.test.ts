@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { EMPTY_LETTER, normalizeLetterDesign } from "@/components/letter/types";
 
 describe("M7 legacy motivation-letter compatibility", () => {
-  test("old designs without compact header/footer fields receive current safe defaults", () => {
+  test("old designs without header/footer fields receive current safe defaults", () => {
     const legacy = normalizeLetterDesign({
       template: "brief",
       colors: {
@@ -23,7 +23,7 @@ describe("M7 legacy motivation-letter compatibility", () => {
       ruleAfterSender: false,
       ruleAfterRecipient: false,
       ruleAfterSubject: false,
-      headerMode: "compact",
+      headerMode: "contact",
       headerShowName: true,
       headerShowAddress: true,
       headerShowPhone: true,
@@ -69,5 +69,16 @@ describe("M7 legacy motivation-letter compatibility", () => {
     expect(current.headerShowPhone).toBe(true);
     expect(current.headerShowEmail).toBe(false);
     expect(current.footerMode).toBe("attachments");
+  });
+
+  test("an explicitly saved compact header remains compact", () => {
+    const compact = normalizeLetterDesign({
+      template: "brief",
+      colors: {},
+      font: "freundlich",
+      headerMode: "compact",
+    });
+
+    expect(compact.headerMode).toBe("compact");
   });
 });
