@@ -7,7 +7,7 @@ import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 const BASE_URL = "http://127.0.0.1:4173";
 const GALLERY_DIR = process.env.GALLERY_DIR ?? "artifacts/dossier-gallery";
 const GALLERY_BATCH_SIZE = 4;
-const GALLERY_BATCH_COUNT = 11;
+const GALLERY_BATCH_COUNT = 10;
 
 function galleryBatchIndex(): number | null {
   const raw = process.env.GALLERY_BATCH_INDEX;
@@ -21,14 +21,16 @@ function galleryBatchIndex(): number | null {
 
 // Keep this Node-side catalogue data-only: importing fresh-templates.ts would
 // pull CSS into Playwright's test transform. Mirror the live product boundary
-// explicitly instead: retired legacy ids are excluded, Fresh remains complete,
-// and Edel Dark is the final registered non-Fresh template.
-const RETIRED_TEMPLATE_IDS = new Set(["edelBlockig", "sonnig"]);
+// explicitly: retired legacy/Fresh ids stay render-compatible but are excluded
+// from the review gallery, and Edel Dark remains the final registered non-Fresh template.
+const RETIRED_TEMPLATE_IDS = new Set(["edelBlockig", "sonnig", "warm4", "warm5"]);
 const ALL_GALLERY_TEMPLATES = [
   ...TEMPLATES.filter((template) => !RETIRED_TEMPLATE_IDS.has(template.id as string)).map(
     (template) => ({ id: template.id, name: template.name }),
   ),
-  ...FRESH_TEMPLATE_REGISTRY,
+  ...FRESH_TEMPLATE_REGISTRY.filter(
+    (template) => !RETIRED_TEMPLATE_IDS.has(template.id as string),
+  ),
   { id: "edelDark", name: "Edel Dark" },
 ];
 
@@ -117,7 +119,7 @@ function safeName(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-test("UI sample dossier downloads and all motivation-letter templates produce review PDFs", async ({
+test("UI sample dossier downloads and all live motivation-letter templates produce review PDFs", async ({
   page,
 }) => {
   test.setTimeout(15 * 60_000);
@@ -155,18 +157,19 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
 
   const galleryIds = ALL_GALLERY_TEMPLATES.map(({ id }) => id as string);
   expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(22);
-  expect(ALL_GALLERY_TEMPLATES).toHaveLength(41);
-  expect(cases).toHaveLength(41);
+  expect(ALL_GALLERY_TEMPLATES).toHaveLength(39);
+  expect(cases).toHaveLength(39);
   expect(cases.at(-1)?.label).toBe("Edel Dark");
-  expect(galleryIds).not.toContain("edelBlockig");
-  expect(galleryIds).not.toContain("sonnig");
-  for (const requiredId of ["edel", "edelDark", "warm4", "warm5", "verlauf2", "verlauf3"]) {
+  for (const retiredId of ["edelBlockig", "sonnig", "warm4", "warm5"]) {
+    expect(galleryIds).not.toContain(retiredId);
+  }
+  for (const requiredId of ["edel", "edelDark", "warm2", "warm3", "verlauf2", "verlauf3"]) {
     expect(galleryIds).toContain(requiredId);
   }
-  expect(new Set(galleryIds).size).toBe(41);
+  expect(new Set(galleryIds).size).toBe(39);
 
-  const totalPdfCount = cases.length + 1; // UI example + 41 dossier template cases.
-  expect(totalPdfCount).toBe(42);
+  const totalPdfCount = cases.length + 1; // UI example + 39 live dossier template cases.
+  expect(totalPdfCount).toBe(40);
   expect(Math.ceil(totalPdfCount / GALLERY_BATCH_SIZE)).toBe(GALLERY_BATCH_COUNT);
 
   const batchStart = batchIndex === null ? 0 : batchIndex * GALLERY_BATCH_SIZE;
