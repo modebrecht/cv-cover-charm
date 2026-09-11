@@ -11,9 +11,11 @@ async function openLetterTypography(page: Page) {
   await expect(toggle).toBeVisible();
   if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  const panelId = await toggle.getAttribute("aria-controls");
-  expect(panelId).toBeTruthy();
-  const select = page.locator(`[id="${panelId}"]`).getByLabel("Schriftart", { exact: true });
+
+  // Scope to the stable section shell instead of React's useId-generated panel id.
+  // Hydration can replace that id between the toggle assertion and the lookup.
+  const section = toggle.locator("xpath=ancestor::section[1]");
+  const select = section.getByLabel("Schriftart", { exact: true });
   await expect(select).toBeVisible();
   return select;
 }
