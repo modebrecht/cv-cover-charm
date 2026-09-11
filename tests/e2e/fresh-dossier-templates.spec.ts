@@ -136,6 +136,28 @@ const FRESH = [
       ink: "#24312e",
     },
   },
+  {
+    id: "warm4",
+    name: "Warm 4",
+    colors: {
+      bg: "#fff8f5",
+      primary: "#a84f62",
+      secondary: "#e6b89c",
+      accent: "#c77a5b",
+      ink: "#37272c",
+    },
+  },
+  {
+    id: "warm5",
+    name: "Warm 5",
+    colors: {
+      bg: "#fbf8ee",
+      primary: "#687454",
+      secondary: "#d7aa52",
+      accent: "#b8674f",
+      ink: "#2b3026",
+    },
+  },
 ] as const;
 
 const coverData = {
@@ -265,7 +287,7 @@ const hash = (buffer: Buffer) => createHash("sha256").update(buffer).digest("hex
 test.describe("Fresh dossier templates", () => {
   test.setTimeout(240_000);
 
-  test("all twelve templates are selectable", async ({ page }) => {
+  test("all fourteen templates are selectable", async ({ page }) => {
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
     await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
     const templateSection = page.getByRole("button", { name: /^Vorlage(?:\s|$)/ }).first();
@@ -279,7 +301,7 @@ test.describe("Fresh dossier templates", () => {
     }
   });
 
-  test("all twelve title pages render as distinct full dossiers", async ({ page }) => {
+  test("all fourteen title pages render as distinct full dossiers", async ({ page }) => {
     await page.setViewportSize({ width: 1137, height: 913 });
     const hashes = new Set<string>();
 
@@ -302,7 +324,7 @@ test.describe("Fresh dossier templates", () => {
     expect(hashes.size).toBe(FRESH.length);
   });
 
-  test("all twelve CVs render and stay visually paired with their template", async ({ page }) => {
+  test("all fourteen CVs render and stay visually paired with their template", async ({ page }) => {
     await page.setViewportSize({ width: 1137, height: 913 });
     const hashes = new Set<string>();
 
