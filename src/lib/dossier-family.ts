@@ -62,7 +62,10 @@ const TEMPLATE_FAMILY: Record<string, DossierFamilyId> = {
   human: "classic",
   sonnig: "executive",
   welle: "executive",
-  terracotta: "executive",
+  // Kolumne's visual system is a geometric side rail with sans cover type. Keep
+  // its content headers in the same modern family instead of switching to the
+  // old executive serif treatment on CV and letter pages.
+  terracotta: "modern",
   pastell: "executive",
   sonne: "modern",
   studio: "modern",
