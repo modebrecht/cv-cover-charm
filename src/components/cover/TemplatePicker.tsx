@@ -18,9 +18,10 @@ import "../cv/layout-options.css";
 import "../dossier-theme.css";
 import "./fresh-templates.css";
 
-const SELECTABLE_TEMPLATES = [...TEMPLATES].sort((a, b) =>
-  a.name.localeCompare(b.name, "de", { sensitivity: "base" }),
-);
+const RETIRED_TEMPLATE_IDS = new Set(["warm4", "warm5"]);
+const SELECTABLE_TEMPLATES = [...TEMPLATES]
+  .filter((template) => !RETIRED_TEMPLATE_IDS.has(template.id as string))
+  .sort((a, b) => a.name.localeCompare(b.name, "de", { sensitivity: "base" }));
 
 type Props = {
   value: TemplateId;
