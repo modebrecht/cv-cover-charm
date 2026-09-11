@@ -205,7 +205,7 @@ export function emptyLetterDesign(): LetterDesign {
     footerTextLayout: "inline",
     footerBackgroundColor: null,
     footerGradientColor: null,
-    chromeBorderEnabled: true,
+    chromeBorderEnabled: false,
     chromeBorderColor: null,
     chromeBorderWidthMm: 0.6,
     chromeTextFont: null,
@@ -274,7 +274,10 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     footerTextLayout: incoming.footerTextLayout === "stacked" ? "stacked" : "inline",
     footerBackgroundColor: normalizedColor(incoming.footerBackgroundColor),
     footerGradientColor: normalizedColor(incoming.footerGradientColor),
-    chromeBorderEnabled: incoming.chromeBorderEnabled !== false,
+    chromeBorderEnabled:
+      typeof incoming.chromeBorderEnabled === "boolean"
+        ? incoming.chromeBorderEnabled
+        : (fallback.chromeBorderEnabled ?? false),
     chromeBorderColor: normalizedColor(incoming.chromeBorderColor),
     chromeBorderWidthMm: normalizedBorderWidth(incoming.chromeBorderWidthMm),
     chromeTextFont,
