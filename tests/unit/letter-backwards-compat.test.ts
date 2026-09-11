@@ -29,6 +29,7 @@ describe("M7 legacy motivation-letter compatibility", () => {
       headerShowPhone: true,
       headerShowEmail: true,
       footerMode: "compact",
+      chromeBorderEnabled: false,
     });
   });
 
@@ -61,6 +62,7 @@ describe("M7 legacy motivation-letter compatibility", () => {
       headerShowAddress: false,
       headerShowEmail: false,
       footerMode: "attachments",
+      chromeBorderEnabled: true,
     });
 
     expect(current.headerMode).toBe("contact");
@@ -69,6 +71,7 @@ describe("M7 legacy motivation-letter compatibility", () => {
     expect(current.headerShowPhone).toBe(true);
     expect(current.headerShowEmail).toBe(false);
     expect(current.footerMode).toBe("attachments");
+    expect(current.chromeBorderEnabled).toBe(true);
   });
 
   test("an explicitly saved compact header remains compact", () => {
