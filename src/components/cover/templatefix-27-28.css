@@ -1,9 +1,10 @@
 /* -------------------------------------------------------------------------- */
 /* templateFIX — 27 Studio 2 / 28 Studio 3 interiors only                    */
 /* -------------------------------------------------------------------------- */
-/* Cover pages intentionally stay untouched. Interior pages now use one clear
+/* Cover pages intentionally stay untouched. Interior pages use one clear
  * system: a proper contact masthead that repeats the cover split, clean paper,
- * no orphan rules, no decorative footer stripe and restrained section marks. */
+ * no decorative footer stripe and restrained section marks. Detached Fresh
+ * micro-rules are owned centrally by dossier/chrome-policy.css. */
 
 /* Shared interior cleanup. */
 [data-letter-template="studio2"] [data-letter-text-layer],
@@ -25,7 +26,6 @@
 [data-cv-template="studio3"] [data-dossier-compact-header],
 [data-cv-template="studio3"] [data-dossier-continuation-contact-header] {
   background: transparent !important;
-  border-bottom: 0 !important;
 }
 
 [data-letter-template="studio2"] [data-dossier-integrated-contact],
@@ -106,10 +106,6 @@
   opacity: 1 !important;
 }
 
-[data-letter-fresh-template="studio2"] [data-letter-motif="rail-rule"] {
-  display: none !important;
-}
-
 [data-cv-template="studio2"] [data-dossier-sheet-background="studio2"] > div:nth-child(1) {
   left: 0 !important;
   right: 0 !important;
@@ -130,10 +126,6 @@
   height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-}
-
-[data-cv-template="studio2"] [data-dossier-sheet-background="studio2"] > div:nth-child(3) {
-  display: none !important;
 }
 
 [data-cv-template="studio2"] [data-cv-section-title] {
@@ -166,10 +158,6 @@
   opacity: 1 !important;
 }
 
-[data-letter-fresh-template="studio3"] [data-letter-motif="top-rule"] {
-  display: none !important;
-}
-
 [data-cv-template="studio3"] [data-dossier-sheet-background="studio3"] > div:nth-child(1) {
   left: 0 !important;
   right: 0 !important;
@@ -190,10 +178,6 @@
   height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-}
-
-[data-cv-template="studio3"] [data-dossier-sheet-background="studio3"] > div:nth-child(3) {
-  display: none !important;
 }
 
 [data-cv-template="studio3"] [data-cv-section-title] {
