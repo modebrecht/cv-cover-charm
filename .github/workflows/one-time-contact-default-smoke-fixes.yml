@@ -1,0 +1,77 @@
+name: One-time contact default regression cleanup
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - .github/workflows/one-time-contact-default-smoke-fixes.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Align regression suite with contact default
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p = Path(path)
+              text = p.read_text()
+              if old not in text:
+                  raise SystemExit(f"Expected block not found in {path}: {old!r}")
+              p.write_text(text.replace(old, new, 1))
+
+          # Shared chrome E2E: target the canonical shared control instead of
+          # the legacy letter-only alias.
+          replace_once(
+              "tests/e2e/dossier-chrome-sync.spec.ts",
+              '    await page.getByRole("button", { name: "Layout", exact: true }).click();\n    await expect(page.locator("[data-letter-header-mode-control]")).toHaveValue("contact");\n',
+              '    await page.getByRole("button", { name: "Layout", exact: true }).click();\n    const letterChrome = page.locator(\'[data-dossier-chrome-controls="letter"]\');\n    await expect(letterChrome).toBeVisible();\n    await expect(letterChrome.locator("[data-dossier-header-mode-control]")).toHaveValue("contact");\n',
+          )
+
+          # This test specifically exercises the separate sender/recipient
+          # alignment controls. Explicitly choose compact so the sender remains
+          # a body section; contact is tested elsewhere as the default.
+          replace_once(
+              "tests/e2e/dossier-regression.spec.ts",
+              '    await page.getByRole("button", { name: "Layout", exact: true }).click();\n\n    await page.getByRole("button", { name: "Meine Kontaktdaten Rechts" }).click();\n',
+              '    await page.getByRole("button", { name: "Layout", exact: true }).click();\n    await page\n      .locator(\'[data-dossier-chrome-controls="letter"] [data-dossier-header-mode-control]\')\n      .selectOption("compact");\n\n    await page.getByRole("button", { name: "Meine Kontaktdaten Rechts" }).click();\n',
+          )
+
+          # Under the new contact default the applicant name intentionally lives
+          # in shared header chrome, not duplicated in the CV body. Wait for the
+          # visible canonical name instead of the hidden body placeholder.
+          replace_once(
+              "tests/e2e/dossier-typography-regression.spec.ts",
+              '  await expect(\n    page\n      .locator(\n        \'[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"] [data-cv-name]\',\n      )\n      .first(),\n  ).toContainText("Lea Müller");\n',
+              '  await expect(\n    page\n      .locator(\n        \'[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page="0"] [data-dossier-integrated-contact]\',\n      )\n      .first(),\n  ).toContainText("Lea Müller");\n',
+          )
+
+          # Pagination is measured from scaled browser geometry. Keep a tiny
+          # reserve so fractional-pixel rounding can never clip the final row.
+          replace_once(
+              "src/components/cv/CvCanvasBase.tsx",
+              '    const heightFor = (pageIndex: number) => {\n      if (pageIndex === 0) return measured;\n      const b = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);\n      const deltaMm = b.top - first.top + (b.bottom - first.bottom);\n      return measured - deltaMm * PX_PER_MM;\n    };\n',
+              '    const paginationSafetyPx = 2;\n    const heightFor = (pageIndex: number) => {\n      if (pageIndex === 0) return Math.max(0, measured - paginationSafetyPx);\n      const b = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);\n      const deltaMm = b.top - first.top + (b.bottom - first.bottom);\n      return Math.max(0, measured - deltaMm * PX_PER_MM - paginationSafetyPx);\n    };\n',
+          )
+          PY
+
+      - name: Commit fixes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/cv/CvCanvasBase.tsx tests/e2e/dossier-chrome-sync.spec.ts tests/e2e/dossier-regression.spec.ts tests/e2e/dossier-typography-regression.spec.ts
+          git commit -m "Align regression suite with contact header default"
+          git push origin HEAD:dev
