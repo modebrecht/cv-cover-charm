@@ -42,7 +42,7 @@ function identityFor(id: FreshTemplateId): FreshDossierIdentity {
 }
 
 /**
- * Cross-document identity for Fresh templates 21-40.
+ * Cross-document identity for Fresh templates 21-42.
  *
  * This deliberately does not duplicate renderer geometry. It binds each Fresh
  * template to the existing canonical palette, dossier typography and restrained
