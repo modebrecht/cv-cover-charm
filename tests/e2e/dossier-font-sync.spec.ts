@@ -4,18 +4,16 @@ const BASE_URL = "http://127.0.0.1:4173";
 
 async function openLetterTypography(page: Page) {
   await page.locator('button[data-editor-ready="true"]').waitFor({ state: "visible" });
-  const toggle = page
-    .locator("[data-editor-section-toggle]")
-    .filter({ hasText: "Schrift" })
-    .first();
+  const toggle = page.getByRole("button", { name: "Schrift", exact: true });
   await expect(toggle).toBeVisible();
   if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
 
   // Scope to the stable section shell instead of React's useId-generated panel id.
-  // Hydration can replace that id between the toggle assertion and the lookup.
+  // This section has exactly one select, so we do not depend on wrapping-label
+  // accessible-name timing while hydration settles.
   const section = toggle.locator("xpath=ancestor::section[1]");
-  const select = section.getByLabel("Schriftart", { exact: true });
+  const select = section.locator("select").first();
   await expect(select).toBeVisible();
   return select;
 }
