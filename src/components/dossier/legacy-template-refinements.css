@@ -81,14 +81,18 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-a
   opacity: 0.72 !important;
 }
 
-/* Kolumne already owns a vertical rail. Generic compact header/footer bars
- * read as accidental horizontal scratches across the page, so they disappear
- * for this template in both the CV and the motivation letter. */
+/* Kolumne already owns a vertical rail. Keep the generic compact zones in the
+ * layout so pagination still reserves their space, but make their surfaces and
+ * borders invisible. That removes the accidental horizontal scratches without
+ * turning their geometry into a 0×0 box. */
 html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-dossier-compact-header],
 html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
 [data-letter-page][data-letter-template="terracotta"] [data-dossier-compact-header],
 [data-letter-page][data-letter-template="terracotta"] [data-dossier-footer="compact"] {
-  display: none !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
 }
 
 /* The normal contact header stays on the warm paper to the right of the narrow
