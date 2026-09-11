@@ -1,0 +1,82 @@
+/*
+ * Targeted legacy-template refinements from the 2026-09 PDF review.
+ *
+ * These selectors only adjust the CV presentation layer. Template colours are
+ * supplied by CvCanvas as CSS variables, so user palette changes remain live.
+ */
+
+/* 06 Colorful — the old CV started with a detached colour bar and then fell
+ * back to a generic document header. Turn the actual header into a compact,
+ * geometric card that belongs to the red/blue/yellow cover family. */
+html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-header] {
+  position: relative;
+  margin-bottom: 6mm !important;
+  padding: 4.5mm 6mm 4.5mm 7mm;
+  border-left: 2.2mm solid var(--cover-secondary);
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--cover-primary) 10%, white),
+    color-mix(in srgb, var(--cover-tertiary) 7%, white) 72%,
+    transparent 100%
+  );
+}
+
+html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-header]::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 32mm;
+  height: 2.4mm;
+  background: linear-gradient(
+    90deg,
+    var(--cover-secondary) 0 62%,
+    var(--cover-tertiary) 62% 100%
+  );
+}
+
+html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-doc-title],
+html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-name],
+html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-subtitle] {
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-doc-title] {
+  color: var(--cover-primary) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.14em !important;
+}
+
+html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-name] {
+  color: var(--cover-ink) !important;
+  font-weight: 820 !important;
+  letter-spacing: -0.03em !important;
+}
+
+/* 11 Kolumne — once Sidebar owns the content structure, all heading levels use
+ * the same crisp sans hierarchy as the cover instead of the former executive
+ * serif treatment. The rail remains the strong visual anchor. */
+html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-header] {
+  margin-bottom: 5.5mm !important;
+  padding-bottom: 3.6mm;
+  border-bottom: 0.45mm solid var(--cover-primary);
+}
+
+html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-doc-title],
+html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-name],
+html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-subtitle],
+html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-section-title] {
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-section-title] {
+  color: var(--cover-primary) !important;
+  font-weight: 780 !important;
+  letter-spacing: 0.035em !important;
+  text-transform: none !important;
+}
+
+html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  background: var(--cover-primary) !important;
+  opacity: 0.72 !important;
+}
