@@ -1,0 +1,212 @@
+/* -------------------------------------------------------------------------- */
+/* WARM 4 + 5                                                                 */
+/* -------------------------------------------------------------------------- */
+/*
+ * Two deliberate descendants of the established Warm cover schema.
+ * Warm 4 is a rose/sand portrait composition: portrait left, copy right.
+ * Warm 5 is an olive/honey composition with the hierarchy mirrored: copy left,
+ * portrait right. Both keep the familiar soft geometry while avoiding a second
+ * copy of Warm 2/3.
+ */
+
+/* ========================================================================== */
+/* WARM 4 — rose/sand, portrait left + copy right                              */
+/* ========================================================================== */
+html[data-dossier-template="warm4"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 66mm !important;
+  border-radius: 0 0 76mm 0 !important;
+  opacity: 1 !important;
+  background-image: linear-gradient(118deg, rgb(255 255 255 / 0.04), transparent 62%) !important;
+}
+
+html[data-dossier-template="warm4"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"] {
+  left: -18mm !important;
+  right: auto !important;
+  top: 34mm !important;
+  bottom: auto !important;
+  width: 128mm !important;
+  height: 72mm !important;
+  border-radius: 0 42mm 42mm 0 !important;
+  opacity: 0.64 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm4"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"] {
+  left: 151mm !important;
+  right: auto !important;
+  top: 43mm !important;
+  bottom: auto !important;
+  width: 72mm !important;
+  height: 72mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.2 !important;
+  filter: blur(4mm);
+}
+
+html[data-dossier-template="warm4"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(-44mm, -18mm) scale(0.78);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="warm4"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  left: 86mm !important;
+  width: 104mm !important;
+}
+
+html[data-dossier-template="warm4"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translateY(-49mm);
+}
+
+html[data-dossier-template="warm4"] [data-dossier-document="cover"] [data-block-id="beruf"] {
+  transform: translateY(-46mm);
+}
+
+html[data-dossier-template="warm4"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  transform: translateY(-43mm);
+}
+
+html[data-dossier-template="warm4"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="warm4"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 11mm !important;
+  right: 11mm !important;
+  top: 12mm !important;
+  bottom: 12mm !important;
+  border-radius: 12mm 4mm 12mm 12mm !important;
+  box-shadow: 0 4mm 17mm rgb(91 47 58 / 0.055);
+}
+
+html[data-dossier-template="warm4"] [data-dossier-document="cv"] [data-cv-main] {
+  left: 22mm !important;
+  right: 21mm !important;
+  top: 21mm !important;
+  bottom: 19mm !important;
+}
+
+html[data-dossier-template="warm4"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="warm4"] [data-dossier-document="cv"] [data-cv-section-title] {
+  padding: 0.8mm 2.4mm;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+/* ========================================================================== */
+/* WARM 5 — olive/honey, copy left + portrait right                            */
+/* ========================================================================== */
+html[data-dossier-template="warm5"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"] {
+  left: -8mm !important;
+  right: -8mm !important;
+  top: -18mm !important;
+  width: calc(100% + 16mm) !important;
+  height: 82mm !important;
+  border-radius: 0 0 20mm 88mm !important;
+  opacity: 1 !important;
+  background-image: linear-gradient(120deg, rgb(255 255 255 / 0.025), rgb(255 255 255 / 0.1), transparent 70%) !important;
+}
+
+html[data-dossier-template="warm5"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"] {
+  left: 112mm !important;
+  right: auto !important;
+  top: 39mm !important;
+  bottom: auto !important;
+  width: 122mm !important;
+  height: 78mm !important;
+  border-radius: 48mm 0 0 48mm !important;
+  opacity: 0.58 !important;
+  filter: none !important;
+}
+
+html[data-dossier-template="warm5"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"] {
+  left: 12mm !important;
+  right: auto !important;
+  top: 57mm !important;
+  bottom: auto !important;
+  width: 46mm !important;
+  height: 46mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.28 !important;
+  filter: blur(3mm);
+}
+
+html[data-dossier-template="warm5"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(50mm, -31mm) scale(0.76);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="warm5"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  left: 20mm !important;
+  width: 102mm !important;
+}
+
+html[data-dossier-template="warm5"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translateY(-45mm);
+}
+
+html[data-dossier-template="warm5"] [data-dossier-document="cover"] [data-block-id="beruf"] {
+  transform: translateY(-42mm);
+}
+
+html[data-dossier-template="warm5"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+  transform: translateY(-39mm);
+}
+
+html[data-dossier-template="warm5"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="warm5"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 10mm !important;
+  right: 10mm !important;
+  top: 12mm !important;
+  bottom: 12mm !important;
+  border-radius: 5mm 12mm 12mm 12mm !important;
+  box-shadow: 0 4mm 17mm rgb(53 60 43 / 0.055);
+}
+
+html[data-dossier-template="warm5"] [data-dossier-document="cv"] [data-cv-main] {
+  left: 21mm !important;
+  right: 21mm !important;
+  top: 21mm !important;
+  bottom: 19mm !important;
+}
+
+html[data-dossier-template="warm5"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+html[data-dossier-template="warm5"] [data-dossier-document="cv"] [data-cv-section-title] {
+  padding: 0.8mm 2.4mm;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}

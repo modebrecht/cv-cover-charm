@@ -8,9 +8,9 @@ import {
 } from "../../src/components/letter/fresh-letter-system";
 
 describe("Fresh motivation-letter visual system", () => {
-  test("all 18 Fresh templates have one dedicated letter specification", () => {
-    expect(FRESH_TEMPLATE_IDS).toHaveLength(18);
-    expect(Object.keys(FRESH_LETTER_SPECS)).toHaveLength(18);
+  test("all 22 Fresh templates have one dedicated letter specification", () => {
+    expect(FRESH_TEMPLATE_IDS).toHaveLength(22);
+    expect(Object.keys(FRESH_LETTER_SPECS)).toHaveLength(22);
 
     for (const id of FRESH_TEMPLATE_IDS) {
       const spec = freshLetterSpec(id);

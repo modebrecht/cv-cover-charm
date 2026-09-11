@@ -170,6 +170,46 @@ export const FRESH_LETTER_SPECS: Record<FreshTemplateId, FreshLetterSpec> = {
       rect("top-rule", 27, 16.2, 18, 1.1, "accent"),
     ],
   },
+  warm4: {
+    archetype: "fresh",
+    left: 27,
+    right: 24,
+    motifs: [
+      rect("rose-band", 0, 0, 210, 8, "primary"),
+      rect("sand-orb", 182, 0, 28, 18, "secondary", { opacity: 0.34, radiusMm: 9 }),
+      rect("clay-rule", 27, 16.2, 21, 1.1, "accent", { radiusMm: 0.55 }),
+    ],
+  },
+  warm5: {
+    archetype: "fresh",
+    left: 26,
+    right: 24,
+    motifs: [
+      rect("olive-band", 0, 0, 210, 8, "primary"),
+      rect("honey-pill", 172, 0, 38, 12, "secondary", { opacity: 0.34, radiusMm: 6 }),
+      rect("clay-rule", 26, 16.2, 20, 1.1, "accent", { radiusMm: 0.55 }),
+    ],
+  },
+  verlauf2: {
+    archetype: "fresh",
+    left: 26,
+    right: 24,
+    motifs: [
+      rect("cool-gradient-band", 0, 0, 210, 9, "primary", { gradientTo: "secondary" }),
+      rect("cool-light", 178, 0, 32, 16, "accent", { opacity: 0.28, radiusMm: 8 }),
+      rect("cool-rule", 26, 16.2, 22, 1.1, "accent", { radiusMm: 0.55 }),
+    ],
+  },
+  verlauf3: {
+    archetype: "fresh",
+    left: 26,
+    right: 24,
+    motifs: [
+      rect("warm-gradient-band", 0, 0, 210, 9, "primary", { gradientTo: "secondary" }),
+      rect("warm-light", 184, 0, 26, 17, "accent", { opacity: 0.3, radiusMm: 8.5 }),
+      rect("warm-rule", 26, 16.2, 22, 1.1, "accent", { radiusMm: 0.55 }),
+    ],
+  },
   ledger: {
     archetype: "sidebar",
     left: 33,

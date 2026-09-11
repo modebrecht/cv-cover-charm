@@ -11,19 +11,32 @@ const colorsFor = (id: string) => {
   return Object.fromEntries(template.slots.map((slot) => [slot.key, slot.default]));
 };
 
-describe("Edel Dark dossier contract", () => {
-  test("is registered after the established template catalogue", () => {
+describe("Edel light/dark dossier contract", () => {
+  test("registers Edel Dark after the established template catalogue", () => {
     const dark = TEMPLATES.find(({ id }) => (id as string) === "edelDark");
     expect(dark?.name).toBe("Edel Dark");
     expect(TEMPLATES.at(-1)?.id as string).toBe("edelDark");
   });
 
-  test("keeps Edel light inside while Edel Dark owns a true dark writing surface", () => {
-    const edel = cvPalette(colorsFor("edel"));
-    const dark = cvPalette(colorsFor("edelDark"));
+  test("makes Edel the warm-white counterpart to the true dark variant", () => {
+    expect(colorsFor("edel")).toEqual({
+      bg: "#fcfbf8",
+      ink: "#181817",
+      accent: "#8d6b2d",
+    });
+    expect(colorsFor("edelDark")).toEqual({
+      bg: "#171716",
+      sheet: "#171716",
+      ink: "#f3eee5",
+      accent: "#c7a35a",
+    });
 
-    expect(edel.paper).toBe("#ffffff");
+    const light = cvPalette(colorsFor("edel"));
+    const dark = cvPalette(colorsFor("edelDark"));
+    expect(light.paper).toBe("#fcfbf8");
     expect(dark.paper).toBe("#171716");
+    expect(readable(colorsFor("edel").ink, colorsFor("edel").bg, 7)).toBe(true);
+    expect(readable(colorsFor("edel").accent, colorsFor("edel").bg, 4.5)).toBe(true);
     expect(readable(dark.ink, dark.paper, 7)).toBe(true);
     expect(readable(dark.accent, dark.paper, 4.5)).toBe(true);
   });
