@@ -82,12 +82,13 @@ test.describe("M9 demo CV pagination", () => {
       exercisedTemplateIds.add(templateId!);
 
       // Visible section rules are a global CV contract: the title keeps its natural width and
-      // the rule consumes every remaining pixel in that heading row. Measure the user-visible
-      // result instead of merely checking the stored design enum so legacy `short` saves cannot
-      // silently bring back the old 15/18 mm dash.
+      // the rule consumes every remaining pixel in that heading row. Sidebar sections may
+      // intentionally suppress their rules, so measure only the rules that are actually visible
+      // to the user. This keeps the gate aligned with the presentation contract while still
+      // catching legacy `short` saves or truncated main-column separators.
       const ruleGeometry = await pages
         .first()
-        .locator('[data-cv-accent="section"]')
+        .locator('[data-cv-accent="section"]:visible')
         .evaluateAll((nodes) =>
           nodes.map((node) => {
             const row = node.parentElement;
@@ -140,7 +141,7 @@ test.describe("M9 demo CV pagination", () => {
         );
       expect(
         ruleGeometry.length,
-        `${templateId}: demo CV should render section rules`,
+        `${templateId}: demo CV should render visible section rules`,
       ).toBeGreaterThan(0);
       for (const geometry of ruleGeometry) {
         expect(
@@ -188,7 +189,9 @@ test.describe("M9 demo CV pagination", () => {
       exercisedTemplateIds.size,
       "runtime template picker must exercise 41 unique CV templates",
     ).toBe(41);
-    // Report all spillers together so one density fix can cover the complete runtime matrix.
-    expect(spillages, "normal demo CV spill templates").toEqual([]);
+    expect(
+      spillages,
+      `normal demo CV should stay on one page for every template; spillages=${spillages.join(" | ")}`,
+    ).toEqual([]);
   });
 });
