@@ -202,3 +202,391 @@ html[data-dossier-template="forestFlow"]
   > .absolute.inset-x-0.bottom-0 {
   height: 4mm !important;
 }
+
+/* ========================================================================== */
+/* 23 HORIZON — one horizon, not several unrelated scratches                  */
+/* ========================================================================== */
+
+/* The broad blue horizon is the signature. The detached cyan dash and generic
+ * chrome rules only duplicate it, so remove them in preview and PDF. */
+[data-letter-fresh-template="horizon"] [data-letter-motif="top-rule"],
+[data-letter-page][data-letter-template="horizon"] [data-letter-motif="top-rule"],
+html[data-dossier-template="horizon"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="horizon"]
+  > div:nth-child(2) {
+  display: none !important;
+}
+
+html[data-dossier-template="horizon"] [data-dossier-chrome="cv"] [data-dossier-compact-header],
+html[data-dossier-template="horizon"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-contact-header-background],
+html[data-dossier-template="horizon"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="horizon"] [data-dossier-compact-header],
+[data-letter-page][data-letter-template="horizon"] [data-dossier-contact-header-background],
+[data-letter-page][data-letter-template="horizon"] [data-dossier-continuation-contact-header] {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+/* New documents use the shared contact header. Make that header deliberately
+ * belong to Horizon instead of looking like a generic bar pasted on top. */
+html[data-dossier-template="horizon"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-contact-header-background],
+html[data-dossier-template="horizon"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="horizon"] [data-dossier-contact-header-background],
+[data-letter-page][data-letter-template="horizon"] [data-dossier-continuation-contact-header] {
+  background: linear-gradient(90deg, var(--cover-primary), var(--cover-secondary)) !important;
+}
+
+html[data-dossier-template="horizon"] [data-dossier-chrome="cv"] [data-dossier-integrated-contact],
+html[data-dossier-template="horizon"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="horizon"] [data-dossier-integrated-contact],
+[data-letter-page][data-letter-template="horizon"] [data-dossier-continuation-contact-header] {
+  color: #fff !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+/* Horizon does not need a second blue scratch at the bottom. Preserve footer
+ * geometry for pagination but make the compact surface invisible. */
+html[data-dossier-template="horizon"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
+[data-letter-page][data-letter-template="horizon"] [data-dossier-footer="compact"] {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+}
+
+/* ========================================================================== */
+/* 24 SUNRISE — same clean chrome treatment as Verlauf                        */
+/* ========================================================================== */
+[data-letter-page][data-letter-template="sunrise"] [data-letter-motif="top-rule"] {
+  display: none !important;
+}
+
+html[data-dossier-template="sunrise"] [data-dossier-chrome="cv"] [data-dossier-compact-header],
+html[data-dossier-template="sunrise"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-contact-header-background],
+html[data-dossier-template="sunrise"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="sunrise"] [data-dossier-compact-header],
+[data-letter-page][data-letter-template="sunrise"] [data-dossier-contact-header-background],
+[data-letter-page][data-letter-template="sunrise"] [data-dossier-continuation-contact-header] {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ========================================================================== */
+/* 25 FOREST FLOW — complete rebuild: vertical grove + calm paper             */
+/* ========================================================================== */
+
+/* Cover: replace the old horizontal band/corner-patch composition completely.
+ * A deep vertical grove anchors the page; one large sage canopy opens into the
+ * paper. No circles, floating pills or micro-rules. */
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"] {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 52mm !important;
+  height: 297mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"] {
+  left: 52mm !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 158mm !important;
+  height: 82mm !important;
+  border-radius: 0 0 0 38mm !important;
+  opacity: 0.3 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"] {
+  left: 51mm !important;
+  right: auto !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 1.4mm !important;
+  height: 82mm !important;
+  border-radius: 0 !important;
+  opacity: 0.9 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
+  left: 7mm !important;
+  top: 17mm !important;
+  width: 38mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+  left: 7mm !important;
+  top: 268mm !important;
+  width: 38mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  left: 143mm !important;
+  top: 27mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="name"] {
+  left: 72mm !important;
+  top: 111mm !important;
+  width: 112mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-block-id="beruf"] {
+  left: 72mm !important;
+  top: 137mm !important;
+  width: 112mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-block-id="lehrbeginn"] {
+  left: 72mm !important;
+  top: 159mm !important;
+  width: 112mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
+  > div {
+  text-align: left !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  [data-block-id="kontaktTitel"] {
+  left: 7mm !important;
+  top: 192mm !important;
+  width: 38mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="kontakt"] {
+  left: 7mm !important;
+  top: 203mm !important;
+  width: 38mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="anTitel"] {
+  left: 72mm !important;
+  top: 239mm !important;
+  width: 112mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="empfaenger"] {
+  left: 72mm !important;
+  top: 250mm !important;
+  width: 112mm !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="eyebrow"], [data-block-id="ortDatum"], [data-block-id="kontaktTitel"], [data-block-id="kontakt"])
+  > div {
+  color: #f7faf8 !important;
+  text-align: left !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="eyebrow"], [data-block-id="ortDatum"])
+  > div {
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cover"] [data-block-id="kontakt"] > div {
+  font-size: 8.2pt !important;
+  line-height: 1.42 !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="anTitel"], [data-block-id="empfaenger"])
+  > div {
+  text-align: right !important;
+}
+
+/* Letter: the same grove becomes a slim vertical rail and one top-right sage
+ * canopy. The shared contact header stays on paper instead of becoming another
+ * full-width green bar. */
+[data-letter-fresh-template="forestFlow"] [data-letter-motif="rail"] {
+  left: 0 !important;
+  top: 0 !important;
+  width: 12mm !important;
+  height: 297mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+}
+
+[data-letter-fresh-template="forestFlow"] [data-letter-motif="soft-orb"] {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 52mm !important;
+  height: 18mm !important;
+  border-radius: 0 0 0 18mm !important;
+  opacity: 0.24 !important;
+}
+
+[data-letter-fresh-template="forestFlow"] [data-letter-motif="rail-rule"] {
+  display: none !important;
+}
+
+[data-letter-page][data-letter-template="forestFlow"] [data-dossier-contact-header-background],
+[data-letter-page][data-letter-template="forestFlow"] [data-dossier-compact-header],
+[data-letter-page][data-letter-template="forestFlow"] [data-dossier-continuation-contact-header] {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-letter-page][data-letter-template="forestFlow"] [data-dossier-integrated-contact],
+[data-letter-page][data-letter-template="forestFlow"] [data-dossier-continuation-contact-header] {
+  left: 24mm !important;
+  right: 23mm !important;
+  width: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  color: var(--cover-ink) !important;
+}
+
+[data-letter-page][data-letter-template="forestFlow"] [data-dossier-footer="compact"] {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+}
+
+/* CV: same vertical grove, no page frame and no old circle/rule leftovers. */
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="forestFlow"]
+  > div:nth-child(1) {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 12mm !important;
+  height: 297mm !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="forestFlow"]
+  > div:nth-child(2) {
+  left: auto !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: auto !important;
+  width: 52mm !important;
+  height: 18mm !important;
+  border-radius: 0 0 0 18mm !important;
+  opacity: 0.24 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-document="cv"]
+  [data-dossier-sheet-background="forestFlow"]
+  > div:nth-child(3) {
+  display: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+html[data-dossier-template="forestFlow"]
+  [data-dossier-chrome="cv"]
+  :is([data-dossier-contact-header-background], [data-dossier-compact-header], [data-dossier-continuation-contact-header]) {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-chrome="cv"] [data-dossier-integrated-contact],
+html[data-dossier-template="forestFlow"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-continuation-contact-header] {
+  left: 24mm !important;
+  right: 23mm !important;
+  width: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  color: var(--cover-ink) !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-dossier-footer="compact"] {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-accent] {
+  display: none !important;
+}
+
+html[data-dossier-template="forestFlow"] [data-dossier-document="cv"] [data-cv-section-title] {
+  border-left: 1mm solid var(--cover-secondary) !important;
+  padding-left: 2.5mm !important;
+  color: var(--cover-primary) !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.025em !important;
+  text-transform: none !important;
+}
