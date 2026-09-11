@@ -6,6 +6,9 @@
  * each. The third palette role remains available to users, but no longer owns
  * a large decorative field. Covers, letters and CVs therefore read as one
  * family instead of three unrelated pages.
+ *
+ * Detached Fresh micro-rules and the default chrome-border policy are owned
+ * centrally by dossier/chrome-policy.css and dossier-chrome.ts.
  */
 
 /* ========================================================================== */
@@ -52,7 +55,7 @@ html[data-dossier-template="warm2"]
   display: none !important;
 }
 
-/* Letter: compact stationery band, no dots/orbs/rules. */
+/* Letter: compact stationery band; detached rule suppression is global. */
 [data-letter-fresh-template="warm2"] [data-letter-motif="signal-dot"] {
   left: 0 !important;
   right: 0 !important;
@@ -71,10 +74,6 @@ html[data-dossier-template="warm2"]
   height: 7mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-}
-
-[data-letter-fresh-template="warm2"] [data-letter-motif="top-rule"] {
-  display: none !important;
 }
 
 /* CV: same two-tone cap, otherwise clean paper. */
@@ -194,10 +193,6 @@ html[data-dossier-template="warm3"]
   opacity: 1 !important;
 }
 
-[data-letter-fresh-template="warm3"] [data-letter-motif="top-rule"] {
-  display: none !important;
-}
-
 html[data-dossier-template="warm3"]
   [data-dossier-document="cv"]
   [data-cv-background="motif"]
@@ -294,7 +289,7 @@ html[data-dossier-template="ledger"]
   display: none !important;
 }
 
-/* Letter: one editorial masthead, sand index cap; no full-height rail/rule. */
+/* Letter: one editorial masthead, sand index cap; detached rule suppression is global. */
 [data-letter-fresh-template="ledger"] [data-letter-motif="index-strip"] {
   left: 0 !important;
   right: auto !important;
@@ -313,10 +308,6 @@ html[data-dossier-template="ledger"]
   height: 8mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-}
-
-[data-letter-fresh-template="ledger"] [data-letter-motif="top-rule"] {
-  display: none !important;
 }
 
 /* CV: full-width reading sheet. The index becomes only a small top cap. */
@@ -413,36 +404,4 @@ html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-sideba
 html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-sidebar-tint],
 html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
   opacity: 0.045 !important;
-}
-
-/* Warm 2 / Warm 3: the template bands already provide the top signature.
- * Never add a second chrome hairline on top of them. Keep the chrome geometry
- * intact so contact/header spacing and pagination stay unchanged. */
-html[data-dossier-template="warm2"]
-  :is([data-dossier-document="cv"], [data-letter-page])
-  :is(
-    [data-dossier-compact-header],
-    [data-dossier-contact-header-background],
-    [data-dossier-continuation-contact-header]
-  ),
-html[data-dossier-template="warm3"]
-  :is([data-dossier-document="cv"], [data-letter-page])
-  :is(
-    [data-dossier-compact-header],
-    [data-dossier-contact-header-background],
-    [data-dossier-continuation-contact-header]
-  ) {
-  border-top: 0 !important;
-  border-bottom: 0 !important;
-  box-shadow: none !important;
-}
-
-html[data-dossier-template="warm2"]
-  :is([data-dossier-document="cv"], [data-letter-page])
-  [data-dossier-footer],
-html[data-dossier-template="warm3"]
-  :is([data-dossier-document="cv"], [data-letter-page])
-  [data-dossier-footer] {
-  border-top: 0 !important;
-  box-shadow: none !important;
 }
