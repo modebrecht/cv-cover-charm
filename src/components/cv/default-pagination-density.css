@@ -29,38 +29,20 @@
 }
 
 /*
- * Magazin is the densest classic-renderer variant and therefore the closest to
- * the page edge with adversarial long copy. Its paginator measures row boxes,
- * while browser font metrics can still settle a fraction taller in the final
- * page. Tighten the actual text boxes slightly (not just their outer margins),
- * identically in measurement and output, so the last row keeps real headroom.
+ * Magazin is the densest classic-renderer variant and the closest to a page
+ * boundary with adversarial long copy. Browser font settling can leave the
+ * rendered row a fraction taller than the row used for the packing decision.
+ * Reserve headroom in the hidden measurement wrappers only; the visible/PDF
+ * typography keeps the normal rhythm while the paginator breaks a little
+ * earlier instead of clipping the final row.
  */
 html[data-cv-variant="editorial"]
   [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-entry] {
-  margin-bottom: 0.8mm !important;
-}
-
-html[data-cv-variant="editorial"]
-  [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-body] {
-  line-height: 1.26 !important;
-}
-
-html[data-cv-variant="editorial"]
-  [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-muted] {
-  line-height: 1.22 !important;
-}
-
-html[data-cv-variant="editorial"]
-  [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-entry-title] {
-  line-height: 1.15 !important;
+  [data-cv-measure-page]
+  [data-cv-main]
+  > div {
+  padding-bottom: 0.5mm;
+  box-sizing: border-box;
 }
 
 /*
