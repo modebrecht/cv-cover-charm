@@ -149,3 +149,35 @@ html[data-dossier-template="terracotta"]
   [data-dossier-continuation-contact-header] {
   display: none !important;
 }
+
+/* 16 Aurora — the blue/violet header is deliberately saturated. Automatic
+ * contrast selection can choose dark ink from the cyan end of the gradient,
+ * which reads muddy over the full band. Keep the header typography in the
+ * template's clean sans family and use white text across the complete surface. */
+html[data-dossier-template="aurora"] [data-dossier-chrome="cv"] [data-dossier-integrated-contact],
+html[data-dossier-template="aurora"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="aurora"] [data-dossier-integrated-contact],
+[data-letter-page][data-letter-template="aurora"] [data-dossier-continuation-contact-header] {
+  color: #fff !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
+}
+
+/* 17 Verlauf — the surrounding gradient/card is already a complete frame. A
+ * generic chrome border adds a thin technical-looking rule across the top.
+ * Keep the header zone and its spacing, but remove that extra rule in preview
+ * and PDF for compact, contact and continuation headers. */
+html[data-dossier-template="verlauf"] [data-dossier-chrome="cv"] [data-dossier-compact-header],
+html[data-dossier-template="verlauf"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-contact-header-background],
+html[data-dossier-template="verlauf"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="verlauf"] [data-dossier-compact-header],
+[data-letter-page][data-letter-template="verlauf"] [data-dossier-contact-header-background],
+[data-letter-page][data-letter-template="verlauf"] [data-dossier-continuation-contact-header] {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
