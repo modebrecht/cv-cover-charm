@@ -210,3 +210,49 @@ html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-sec
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 9%, transparent);
 }
+
+/* -------------------------------------------------------------------------- */
+/* Interior cleanup — keep the colour band, remove stray chrome/rule lines.   */
+/* -------------------------------------------------------------------------- */
+[data-letter-fresh-template="verlauf2"] [data-letter-motif="cool-rule"],
+[data-letter-fresh-template="verlauf3"] [data-letter-motif="warm-rule"] {
+  display: none !important;
+}
+
+[data-letter-template="verlauf2"]
+  [data-dossier-chrome="letter"]
+  :is(
+    [data-dossier-compact-header],
+    [data-dossier-contact-header-background],
+    [data-dossier-continuation-contact-header],
+    [data-dossier-footer]
+  ),
+[data-letter-template="verlauf3"]
+  [data-dossier-chrome="letter"]
+  :is(
+    [data-dossier-compact-header],
+    [data-dossier-contact-header-background],
+    [data-dossier-continuation-contact-header],
+    [data-dossier-footer]
+  ),
+html[data-dossier-template="verlauf2"]
+  [data-dossier-document="cv"]
+  [data-dossier-chrome="cv"]
+  :is(
+    [data-dossier-compact-header],
+    [data-dossier-contact-header-background],
+    [data-dossier-continuation-contact-header],
+    [data-dossier-footer]
+  ),
+html[data-dossier-template="verlauf3"]
+  [data-dossier-document="cv"]
+  [data-dossier-chrome="cv"]
+  :is(
+    [data-dossier-compact-header],
+    [data-dossier-contact-header-background],
+    [data-dossier-continuation-contact-header],
+    [data-dossier-footer]
+  ) {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
