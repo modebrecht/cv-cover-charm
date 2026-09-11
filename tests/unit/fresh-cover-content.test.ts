@@ -16,7 +16,7 @@ const candidateData = {
 };
 
 describe("Fresh cover content contract", () => {
-  test("all templates 21-38 use a stable cover label instead of leaking legacy eyebrow copy", () => {
+  test("all templates 21-40 use a stable cover label instead of leaking legacy eyebrow copy", () => {
     for (const id of FRESH_TEMPLATE_IDS) {
       const template = id as TemplateId;
       const blocks = buildBlocks(template, candidateData, [], {}, slotsFor(template));
@@ -27,7 +27,7 @@ describe("Fresh cover content contract", () => {
     }
   });
 
-  test("all templates 21-38 keep application kicker and profession on separate logical lines", () => {
+  test("all templates 21-40 keep application kicker and profession on separate logical lines", () => {
     for (const id of FRESH_TEMPLATE_IDS) {
       const template = id as TemplateId;
       const blocks = buildBlocks(template, candidateData, [], {}, slotsFor(template));
