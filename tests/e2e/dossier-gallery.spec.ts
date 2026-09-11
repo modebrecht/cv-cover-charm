@@ -7,7 +7,7 @@ import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 const BASE_URL = "http://127.0.0.1:4173";
 const GALLERY_DIR = process.env.GALLERY_DIR ?? "artifacts/dossier-gallery";
 const GALLERY_BATCH_SIZE = 4;
-const GALLERY_BATCH_COUNT = 10;
+const GALLERY_BATCH_COUNT = 11;
 
 function galleryBatchIndex(): number | null {
   const raw = process.env.GALLERY_BATCH_INDEX;
@@ -153,15 +153,20 @@ test("UI sample dossier downloads and all motivation-letter templates produce re
     cvTemplate: template.id as TemplateId,
   }));
 
-  expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(18);
-  expect(ALL_GALLERY_TEMPLATES).toHaveLength(37);
-  expect(cases).toHaveLength(37);
+  const galleryIds = ALL_GALLERY_TEMPLATES.map(({ id }) => id as string);
+  expect(FRESH_TEMPLATE_REGISTRY).toHaveLength(22);
+  expect(ALL_GALLERY_TEMPLATES).toHaveLength(41);
+  expect(cases).toHaveLength(41);
   expect(cases.at(-1)?.label).toBe("Edel Dark");
-  expect(ALL_GALLERY_TEMPLATES.map(({ id }) => id as string)).not.toContain("edelBlockig");
-  expect(ALL_GALLERY_TEMPLATES.map(({ id }) => id as string)).not.toContain("sonnig");
+  expect(galleryIds).not.toContain("edelBlockig");
+  expect(galleryIds).not.toContain("sonnig");
+  for (const requiredId of ["edel", "edelDark", "warm4", "warm5", "verlauf2", "verlauf3"]) {
+    expect(galleryIds).toContain(requiredId);
+  }
+  expect(new Set(galleryIds).size).toBe(41);
 
-  const totalPdfCount = cases.length + 1; // UI example + 37 dossier template cases.
-  expect(totalPdfCount).toBe(38);
+  const totalPdfCount = cases.length + 1; // UI example + 41 dossier template cases.
+  expect(totalPdfCount).toBe(42);
   expect(Math.ceil(totalPdfCount / GALLERY_BATCH_SIZE)).toBe(GALLERY_BATCH_COUNT);
 
   const batchStart = batchIndex === null ? 0 : batchIndex * GALLERY_BATCH_SIZE;
