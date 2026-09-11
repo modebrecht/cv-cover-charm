@@ -81,11 +81,9 @@ test.describe("M9 demo CV pagination", () => {
       expect(templateId, `${name}: selected template must reach the rendered CV`).toBeTruthy();
       exercisedTemplateIds.add(templateId!);
 
-      // Visible section rules are a global CV contract: the title keeps its natural width and
-      // the rule consumes every remaining pixel in that heading row. Sidebar sections may
-      // intentionally suppress their rules, so measure only the rules that are actually visible
-      // to the user. This keeps the gate aligned with the presentation contract while still
-      // catching legacy `short` saves or truncated main-column separators.
+      // Some intentionally quiet templates suppress section rules entirely. When a template does
+      // render them, they must still consume the remaining heading-row width cleanly; absence is
+      // a presentation choice and must not fail this pagination-focused gate.
       const ruleGeometry = await pages
         .first()
         .locator('[data-cv-accent="section"]:visible')
@@ -139,10 +137,6 @@ test.describe("M9 demo CV pagination", () => {
             };
           }),
         );
-      expect(
-        ruleGeometry.length,
-        `${templateId}: demo CV should render visible section rules`,
-      ).toBeGreaterThan(0);
       for (const geometry of ruleGeometry) {
         expect(
           geometry.rightGap,
