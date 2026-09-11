@@ -56,22 +56,35 @@ function valid(value: string | null): value is CvLayoutId {
 /**
  * A template may have one natural starting structure without taking the choice
  * away from the user. Kolumne is built around a real side column, so a fresh
- * document starts in Sidebar. Any explicitly stored layout still wins.
+ * document starts in Sidebar.
  */
 export function defaultCvLayoutForTemplate(template?: string | null): CvLayoutId {
   return template === "terracotta" ? "modern" : DEFAULT_LAYOUT;
 }
 
+/**
+ * Kolumne is the one template whose identity depends on the sidebar actually
+ * carrying content. A global layout choice persisted from another template
+ * must not turn its 70 mm rail into an empty decorative slab. Treat Sidebar as
+ * part of the template contract; other templates keep the user's saved choice.
+ */
+export function resolveCvLayoutChoice(
+  template: string | null | undefined,
+  saved: string | null,
+): CvLayoutId {
+  if (template === "terracotta") return "modern";
+  const fallback = defaultCvLayoutForTemplate(template);
+  return valid(saved) ? saved : fallback;
+}
+
 function readChoice(): CvLayoutId {
   const template =
     typeof document === "undefined" ? null : document.documentElement.dataset.dossierTemplate;
-  const fallback = defaultCvLayoutForTemplate(template);
-  if (typeof window === "undefined") return fallback;
+  if (typeof window === "undefined") return resolveCvLayoutChoice(template, null);
   try {
-    const value = window.localStorage.getItem(STORAGE_KEY);
-    return valid(value) ? value : fallback;
+    return resolveCvLayoutChoice(template, window.localStorage.getItem(STORAGE_KEY));
   } catch {
-    return fallback;
+    return resolveCvLayoutChoice(template, null);
   }
 }
 
@@ -132,7 +145,7 @@ export function setCvLayout(layout: CvLayoutId) {
   } catch {
     // Aufbauwahl funktioniert für die laufende Seite trotzdem über das Event.
   }
-  applyVariant(layout);
+  applyVariant(readChoice());
   window.dispatchEvent(new CustomEvent<CvLayoutId>(CV_LAYOUT_EVENT, { detail: layout }));
 }
 
