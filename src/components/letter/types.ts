@@ -244,7 +244,7 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
     incoming.headerMode === "contact" ||
     incoming.headerMode === "none"
       ? incoming.headerMode
-      : fallback.headerMode ?? "contact";
+      : (fallback.headerMode ?? "contact");
   const footerMode: LetterFooterMode =
     incoming.footerMode === "attachments" || incoming.footerMode === "none"
       ? incoming.footerMode
