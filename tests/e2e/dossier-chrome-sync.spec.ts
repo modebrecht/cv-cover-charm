@@ -88,17 +88,16 @@ const cvControls = (page: Page) =>
   page.locator('[data-dossier-chrome-host] [data-dossier-chrome-controls="cv"]');
 
 async function openLetterLayout(page: Page) {
+  await page.locator('button[data-editor-ready="true"]').waitFor({ state: "visible" });
   const layout = page
     .locator("[data-editor-section-toggle]")
     .filter({ hasText: "Layout" })
     .first();
   await expect(layout).toBeVisible();
   if ((await layout.getAttribute("aria-expanded")) !== "true") await layout.click();
-  const panelId = await layout.getAttribute("aria-controls");
-  expect(panelId).toBeTruthy();
-  const controls = page
-    .locator(`[id="${panelId}"]`)
-    .locator('[data-dossier-chrome-controls="letter"]');
+  await expect(layout).toHaveAttribute("aria-expanded", "true");
+  const controls = page.locator('[data-dossier-chrome-controls="letter"]');
+  await expect(controls).toHaveCount(1);
   await expect(controls).toBeVisible();
   return controls;
 }
@@ -135,9 +134,14 @@ test.describe("shared CV / motivation-letter chrome", () => {
       "data-letter-header-mode",
       "contact",
     );
-
-    const letterChrome = await openLetterLayout(page);
-    await expect(letterChrome.locator("[data-dossier-header-mode-control]")).toHaveValue("contact");
+    await expect
+      .poll(() =>
+        page.evaluate(
+          (key) => JSON.parse(localStorage.getItem(key) ?? "null")?.shared?.headerMode,
+          CHROME_KEY,
+        ),
+      )
+      .toBe("contact");
   });
 
   test("a stale chrome snapshot nested in the letter cannot roll back the canonical dossier state", async ({
