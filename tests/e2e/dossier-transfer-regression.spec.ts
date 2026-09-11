@@ -137,12 +137,15 @@ function letterPayload() {
 }
 
 async function openSection(page: Page, name: RegExp) {
+  // All three editors publish this marker only after their storage hydration has
+  // run. Waiting here keeps transfer tests from clicking SSR controls whose
+  // source snapshots are still intentionally empty.
+  await page.locator('button[data-editor-ready="true"]').waitFor({ state: "visible" });
   const header = page.getByRole("button", { name });
+  await expect(header).toBeVisible();
   if ((await header.getAttribute("aria-expanded")) !== "true") await header.click();
   await expect(header).toHaveAttribute("aria-expanded", "true");
-  const panelId = await header.getAttribute("aria-controls");
-  if (!panelId) throw new Error(`Section ${name} has no aria-controls`);
-  return page.locator(`[id="${panelId}"]`);
+  return header.locator("xpath=ancestor::section[1]");
 }
 
 test.describe("M7 dossier transfer regression", () => {
@@ -235,8 +238,6 @@ test.describe("M7 dossier transfer regression", () => {
   });
 
   test("Lebenslauf uses one dossier takeover and preserves CV-only content", async ({ page }) => {
-    // Seed on the neutral overview page. Seeding after the CV editor has mounted
-    // races its autosave and can overwrite the fixture before reload.
     await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
     await page.evaluate(
       ({ cover, cv }) => {
@@ -300,7 +301,6 @@ test.describe("M7 dossier transfer regression", () => {
         font: "sans",
       },
     };
-    // Same fixture rule as the CV takeover: write before the editor mounts.
     await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
     await page.evaluate(
       ({ cv, letterSave }) => {
@@ -313,7 +313,9 @@ test.describe("M7 dossier transfer regression", () => {
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     await expect
       .poll(() =>
-        page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.data?.person?.vorname),
+        page.evaluate(() =>
+          JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.data?.person?.vorname,
+        ),
       )
       .toBe("Mia");
 
