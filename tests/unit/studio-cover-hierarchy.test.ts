@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
-import { buildBlocks } from "../../src/components/cover/layouts";
+import { buildBlocks, type StyleOverrides } from "../../src/components/cover/layouts";
 import { DEMO_DATA, TEMPLATES } from "../../src/components/cover/types";
 
 const slots = TEMPLATES.find(({ id }) => id === "studio")?.slots;
 if (!slots) throw new Error("Missing Studio template definition");
 
-function studio(overrides: Record<string, Record<string, unknown>> = {}) {
+function studio(overrides: StyleOverrides = {}) {
   return buildBlocks("studio", DEMO_DATA, [], overrides, slots);
 }
 
