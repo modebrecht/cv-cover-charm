@@ -1,13 +1,16 @@
-import { useMemo, type ComponentProps, type CSSProperties } from "react";
+import { useLayoutEffect, useMemo, type ComponentProps, type CSSProperties } from "react";
 import {
   DEFAULT_DOSSIER_CHROME_OPTIONS,
   type DossierChromeContact,
   type DossierChromeOptions,
 } from "@/lib/dossier-chrome";
 import { cvContentBox, cvFrameFor } from "./archetype";
+import { CV_LAYOUT_EVENT } from "./layout";
 import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
 import type { CvData, CvDesign } from "./types";
 import "@/components/dossier/edel-stationery.css";
+import "@/components/dossier/human-polish.css";
+import "@/components/dossier/legacy-template-refinements.css";
 import "./full-section-rules.css";
 import "./fresh-modern-sidebar-geometry.css";
 import "./default-pagination-density.css";
@@ -69,6 +72,24 @@ export function CvCanvas({
   const localContact = useMemo(() => contactFromCv(props.data), [props.data]);
   const data = useMemo(() => cvBodyData(props.data, chromeOptions), [props.data, chromeOptions]);
   const design = useMemo(() => cvDesignWithFullSectionRules(props.design), [props.design]);
+
+  // Layout defaults are template-aware, but an explicit student choice remains
+  // in localStorage. Update the active template before paint and notify the
+  // external-store subscribers so Kolumne can start in Sidebar without writing
+  // a permanent layout choice that would leak into the next template.
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    const previous = root.dataset.dossierTemplate;
+    root.dataset.dossierTemplate = design.template as string;
+    window.dispatchEvent(new CustomEvent(CV_LAYOUT_EVENT));
+
+    return () => {
+      if (previous === undefined) delete root.dataset.dossierTemplate;
+      else root.dataset.dossierTemplate = previous;
+      window.dispatchEvent(new CustomEvent(CV_LAYOUT_EVENT));
+    };
+  }, [design.template]);
+
   const modernBox = cvContentBox(
     cvFrameFor(design.template),
     0,
@@ -76,10 +97,18 @@ export function CvCanvas({
     design.sidebarPct,
     chromeOptions,
   );
+  const primary = design.colors.primary ?? design.colors.accent ?? design.colors.ink ?? "#111111";
+  const secondary = design.colors.secondary ?? design.colors.accent ?? primary;
+  const tertiary = design.colors.tertiary ?? design.colors.accent ?? secondary;
   const geometryStyle = {
     display: "contents",
     "--cv-modern-main-left": `${modernBox.left}mm`,
     "--cv-modern-main-right": `${modernBox.right}mm`,
+    "--cover-primary": primary,
+    "--cover-secondary": secondary,
+    "--cover-tertiary": tertiary,
+    "--cover-accent": design.colors.accent ?? secondary,
+    "--cover-ink": design.colors.ink ?? "#111111",
   } as CSSProperties;
 
   return (
