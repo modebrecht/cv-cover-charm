@@ -27,6 +27,63 @@ import "./templatefix-glow-density.css";
 
 export { FRESH_TEMPLATE_IDS, type FreshTemplateId } from "./fresh-template-registry";
 
+const EDEL_LIGHT_COLORS = {
+  bg: "#fcfbf8",
+  ink: "#181817",
+  accent: "#8d6b2d",
+} as const;
+
+const LEGACY_EDEL_DEFAULT = {
+  bg: "#12131a",
+  ink: "#f2eee6",
+  accent: "#c9a24a",
+} as const;
+
+/**
+ * Edel and Edel Dark are one deliberate light/dark pair. They share the same
+ * established geometry, while Edel uses warm-white paper, dark serif type and
+ * a readable muted-gold accent. Edel Dark keeps the true charcoal surface.
+ */
+const edelDefinition = TEMPLATES.find(({ id }) => id === "edel");
+if (edelDefinition) {
+  edelDefinition.description = "Warmweisses Papier, dunkle Serif, feine Goldlinien";
+  edelDefinition.slots = [
+    { key: "bg", label: "Papier", default: EDEL_LIGHT_COLORS.bg },
+    { key: "ink", label: "Text", default: EDEL_LIGHT_COLORS.ink },
+    { key: "accent", label: "Gold", default: EDEL_LIGHT_COLORS.accent },
+  ];
+}
+
+/**
+ * Existing browsers may still carry the untouched historical dark Edel palette
+ * in the title-page draft. Migrate only that exact old default. Any deliberate
+ * user colour choice stays untouched.
+ */
+if (typeof window !== "undefined") {
+  try {
+    const storageKey = "titelblatt:v3";
+    const raw = window.localStorage.getItem(storageKey);
+    if (raw) {
+      const payload = JSON.parse(raw) as {
+        colors?: Record<string, Record<string, string> | undefined>;
+      };
+      const savedEdel = payload.colors?.edel;
+      const isLegacyDefault =
+        savedEdel?.bg?.toLowerCase() === LEGACY_EDEL_DEFAULT.bg &&
+        savedEdel?.ink?.toLowerCase() === LEGACY_EDEL_DEFAULT.ink &&
+        savedEdel?.accent?.toLowerCase() === LEGACY_EDEL_DEFAULT.accent;
+
+      if (isLegacyDefault && payload.colors) {
+        payload.colors.edel = { ...savedEdel, ...EDEL_LIGHT_COLORS };
+        window.localStorage.setItem(storageKey, JSON.stringify(payload));
+      }
+    }
+  } catch {
+    // Storage can be unavailable or contain an older malformed draft. The
+    // normal route loader already handles those cases safely.
+  }
+}
+
 /**
  * Runtime registration for the Fresh dossier templates.
  *
