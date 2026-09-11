@@ -1,6 +1,6 @@
 name: Dossier PDF Gallery
 
-# Reproducible visual QA: every complete dossier PDF is rendered, but the expensive
+# Reproducible visual QA: every live complete dossier PDF is rendered, but the expensive
 # PDF work is split into 4-document batches and aggregated back into one artifact.
 # The render branch is a release-candidate surface, so its full gallery runs automatically.
 on:
@@ -139,7 +139,7 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        batch: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        batch: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     steps:
       - uses: actions/checkout@v4
@@ -183,7 +183,6 @@ jobs:
           dir="artifacts/dossier-gallery-batch-${{ matrix.batch }}"
           count="$(find "$dir" -maxdepth 1 -type f -name '*.pdf' | wc -l | tr -d ' ')"
           expected=4
-          if [ "${{ matrix.batch }}" = "10" ]; then expected=2; fi
           echo "Batch ${{ matrix.batch }} generated $count/$expected complete PDFs"
           test "$count" -eq "$expected"
           part="$(printf '%02d' '${{ matrix.batch }}')"
@@ -208,7 +207,7 @@ jobs:
           if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi
 
   aggregate:
-    name: Aggregate 42/42 PDF gallery
+    name: Aggregate 40/40 PDF gallery
     needs:
       - checks
       - pdf-batch
@@ -222,7 +221,7 @@ jobs:
           pattern: dossier-pdf-batch-*
           path: artifacts/batches
 
-      - name: Verify and aggregate all 42 PDFs
+      - name: Verify and aggregate all 40 PDFs
         shell: bash
         run: |
           pdf_count="$(find artifacts/batches -type f -name '*.pdf' | wc -l | tr -d ' ')"
@@ -230,9 +229,9 @@ jobs:
           part_count="$(find artifacts/batches -type f -name 'MANIFEST.part-*.txt' | wc -l | tr -d ' ')"
 
           echo "PDFs: $pdf_count total, $unique_count unique; manifest parts: $part_count"
-          test "$pdf_count" -eq 42
-          test "$unique_count" -eq 42
-          test "$part_count" -eq 11
+          test "$pdf_count" -eq 40
+          test "$unique_count" -eq 40
+          test "$part_count" -eq 10
 
           mkdir -p artifacts/dossier-gallery
           while IFS= read -r -d '' pdf; do
@@ -251,13 +250,13 @@ jobs:
 
           final_count="$(find artifacts/dossier-gallery -maxdepth 1 -type f -name '*.pdf' | wc -l | tr -d ' ')"
           manifest_count="$(grep -c '\.pdf |' artifacts/dossier-gallery/MANIFEST.txt)"
-          test "$final_count" -eq 42
-          test "$manifest_count" -eq 42
+          test "$final_count" -eq 40
+          test "$manifest_count" -eq 40
           test -f artifacts/dossier-gallery/00-Beispieldossier-E2E.pdf
           test -f artifacts/dossier-gallery/MANIFEST.txt
           find artifacts/dossier-gallery -maxdepth 1 -type f -printf '%f\n' | sort
 
-      - name: Upload final 42-PDF gallery ZIP
+      - name: Upload final 40-PDF gallery ZIP
         uses: actions/upload-artifact@v4
         with:
           name: gesamtdossier-pdf-galerie
