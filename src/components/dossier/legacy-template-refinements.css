@@ -164,10 +164,10 @@ html[data-dossier-template="aurora"]
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
 
-/* 17 Verlauf — the surrounding gradient/card is already a complete frame. A
- * generic chrome border adds a thin technical-looking rule across the top.
- * Keep the header zone and its spacing, but remove that extra rule in preview
- * and PDF for compact, contact and continuation headers. */
+/* 17 Verlauf + 18 Citrus — the surrounding gradient/card is already a complete
+ * frame. A generic chrome border adds a thin technical-looking rule across the
+ * top. Keep the header zone and its spacing, but remove that extra rule in
+ * preview and PDF for compact, contact and continuation headers. */
 html[data-dossier-template="verlauf"] [data-dossier-chrome="cv"] [data-dossier-compact-header],
 html[data-dossier-template="verlauf"]
   [data-dossier-chrome="cv"]
@@ -175,9 +175,19 @@ html[data-dossier-template="verlauf"]
 html[data-dossier-template="verlauf"]
   [data-dossier-chrome="cv"]
   [data-dossier-continuation-contact-header],
+html[data-dossier-template="citrus"] [data-dossier-chrome="cv"] [data-dossier-compact-header],
+html[data-dossier-template="citrus"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-contact-header-background],
+html[data-dossier-template="citrus"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-continuation-contact-header],
 [data-letter-page][data-letter-template="verlauf"] [data-dossier-compact-header],
 [data-letter-page][data-letter-template="verlauf"] [data-dossier-contact-header-background],
-[data-letter-page][data-letter-template="verlauf"] [data-dossier-continuation-contact-header] {
+[data-letter-page][data-letter-template="verlauf"] [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="citrus"] [data-dossier-compact-header],
+[data-letter-page][data-letter-template="citrus"] [data-dossier-contact-header-background],
+[data-letter-page][data-letter-template="citrus"] [data-dossier-continuation-contact-header] {
   border-bottom: 0 !important;
   box-shadow: none !important;
 }
