@@ -1,0 +1,210 @@
+/* -------------------------------------------------------------------------- */
+/* VERLAUF 2 + 3                                                              */
+/* -------------------------------------------------------------------------- */
+/*
+ * Full-page gradient descendants of the established Verlauf idea. The cover
+ * stays expressive; CV/letter surfaces remain light and readable via the shared
+ * Fresh dossier system.
+ */
+
+/* ========================================================================== */
+/* VERLAUF 2 — deep blue -> cyan, cool light depth                            */
+/* ========================================================================== */
+html[data-dossier-template="verlauf2"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"] {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  background: linear-gradient(148deg, var(--cover-primary) 2%, var(--cover-secondary) 68%, var(--cover-accent) 118%) !important;
+}
+
+html[data-dossier-template="verlauf2"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"] {
+  left: 116mm !important;
+  top: -22mm !important;
+  width: 126mm !important;
+  height: 126mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.22 !important;
+  filter: blur(12mm);
+  background: #ffffff !important;
+}
+
+html[data-dossier-template="verlauf2"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"] {
+  left: -42mm !important;
+  top: 192mm !important;
+  width: 142mm !important;
+  height: 142mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.14 !important;
+  filter: blur(10mm);
+  background: #ffffff !important;
+}
+
+html[data-dossier-template="verlauf2"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(49mm, -22mm) scale(0.8);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="verlauf2"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translateY(-11mm);
+}
+
+html[data-dossier-template="verlauf2"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: translateY(-8mm);
+}
+
+html[data-dossier-template="verlauf2"]
+  [data-dossier-document="cover"]
+  :is(
+    [data-block-id="eyebrow"],
+    [data-block-id="ortDatum"],
+    [data-block-id="kicker"],
+    [data-block-id="beruf"],
+    [data-block-id="name"],
+    [data-block-id="lehrbeginn"],
+    [data-block-id="kontaktTitel"],
+    [data-block-id="kontakt"],
+    [data-block-id="anTitel"],
+    [data-block-id="empfaenger"],
+    [data-block-id="beilagenTitel"],
+    [data-block-id="beilagen"]
+  ),
+html[data-dossier-template="verlauf2"]
+  [data-dossier-document="cover"]
+  :is(
+    [data-block-id="eyebrow"],
+    [data-block-id="ortDatum"],
+    [data-block-id="kicker"],
+    [data-block-id="beruf"],
+    [data-block-id="name"],
+    [data-block-id="lehrbeginn"],
+    [data-block-id="kontaktTitel"],
+    [data-block-id="kontakt"],
+    [data-block-id="anTitel"],
+    [data-block-id="empfaenger"],
+    [data-block-id="beilagenTitel"],
+    [data-block-id="beilagen"]
+  ) * {
+  color: #ffffff !important;
+}
+
+html[data-dossier-template="verlauf2"] [data-dossier-document="cv"] [data-cv-surface] {
+  border-radius: 9mm !important;
+  box-shadow: 0 4mm 18mm rgb(36 71 184 / 0.07);
+}
+
+html[data-dossier-template="verlauf2"] [data-dossier-document="cv"] [data-cv-section-title] {
+  padding: 0.8mm 2.4mm;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 9%, transparent);
+}
+
+/* ========================================================================== */
+/* VERLAUF 3 — berry -> orange, richer warm editorial gradient                */
+/* ========================================================================== */
+html[data-dossier-template="verlauf3"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="primary"] {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  background: linear-gradient(162deg, var(--cover-primary) 0%, var(--cover-secondary) 72%, var(--cover-accent) 125%) !important;
+}
+
+html[data-dossier-template="verlauf3"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="secondary"] {
+  left: -28mm !important;
+  top: -30mm !important;
+  width: 118mm !important;
+  height: 118mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.13 !important;
+  filter: blur(11mm);
+  background: #ffffff !important;
+}
+
+html[data-dossier-template="verlauf3"]
+  [data-dossier-document="cover"]
+  [data-fresh-cover-field="accent"] {
+  left: 126mm !important;
+  top: 184mm !important;
+  width: 128mm !important;
+  height: 128mm !important;
+  border-radius: 9999px !important;
+  opacity: 0.16 !important;
+  filter: blur(12mm);
+  background: #ffffff !important;
+}
+
+html[data-dossier-template="verlauf3"] [data-dossier-document="cover"] [data-block-id="foto"] {
+  transform: translate(47mm, -20mm) scale(0.81);
+  transform-origin: top left;
+}
+
+html[data-dossier-template="verlauf3"] [data-dossier-document="cover"] [data-block-id="name"] {
+  transform: translateY(-10mm);
+}
+
+html[data-dossier-template="verlauf3"]
+  [data-dossier-document="cover"]
+  :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
+  transform: translateY(-7mm);
+}
+
+html[data-dossier-template="verlauf3"]
+  [data-dossier-document="cover"]
+  :is(
+    [data-block-id="eyebrow"],
+    [data-block-id="ortDatum"],
+    [data-block-id="kicker"],
+    [data-block-id="beruf"],
+    [data-block-id="name"],
+    [data-block-id="lehrbeginn"],
+    [data-block-id="kontaktTitel"],
+    [data-block-id="kontakt"],
+    [data-block-id="anTitel"],
+    [data-block-id="empfaenger"],
+    [data-block-id="beilagenTitel"],
+    [data-block-id="beilagen"]
+  ),
+html[data-dossier-template="verlauf3"]
+  [data-dossier-document="cover"]
+  :is(
+    [data-block-id="eyebrow"],
+    [data-block-id="ortDatum"],
+    [data-block-id="kicker"],
+    [data-block-id="beruf"],
+    [data-block-id="name"],
+    [data-block-id="lehrbeginn"],
+    [data-block-id="kontaktTitel"],
+    [data-block-id="kontakt"],
+    [data-block-id="anTitel"],
+    [data-block-id="empfaenger"],
+    [data-block-id="beilagenTitel"],
+    [data-block-id="beilagen"]
+  ) * {
+  color: #ffffff !important;
+}
+
+html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-surface] {
+  border-radius: 9mm !important;
+  box-shadow: 0 4mm 18mm rgb(123 49 93 / 0.07);
+}
+
+html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-section-title] {
+  padding: 0.8mm 2.4mm;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 9%, transparent);
+}
