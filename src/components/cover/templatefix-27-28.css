@@ -1,14 +1,88 @@
 /* -------------------------------------------------------------------------- */
 /* templateFIX — 27 Studio 2 / 28 Studio 3 interiors only                    */
 /* -------------------------------------------------------------------------- */
-/*
- * The title pages are intentionally untouched. Their large-scale compositions
- * already work. Motivation letters and CVs instead use a reduced stationery
- * signature: one compact two-tone masthead, clean paper, and no orphan rules.
- */
+/* Cover pages intentionally stay untouched. Interior pages now use one clear
+ * system: a proper contact masthead that repeats the cover split, clean paper,
+ * no orphan rules, no decorative footer stripe and restrained section marks. */
+
+/* Shared interior cleanup. */
+[data-letter-template="studio2"] [data-letter-text-layer],
+[data-letter-template="studio3"] [data-letter-text-layer] {
+  left: 25mm !important;
+  right: 24mm !important;
+}
+
+[data-letter-template="studio2"] [data-dossier-contact-header-background],
+[data-letter-template="studio2"] [data-dossier-compact-header],
+[data-letter-template="studio2"] [data-dossier-continuation-contact-header],
+[data-letter-template="studio3"] [data-dossier-contact-header-background],
+[data-letter-template="studio3"] [data-dossier-compact-header],
+[data-letter-template="studio3"] [data-dossier-continuation-contact-header],
+[data-cv-template="studio2"] [data-dossier-contact-header-background],
+[data-cv-template="studio2"] [data-dossier-compact-header],
+[data-cv-template="studio2"] [data-dossier-continuation-contact-header],
+[data-cv-template="studio3"] [data-dossier-contact-header-background],
+[data-cv-template="studio3"] [data-dossier-compact-header],
+[data-cv-template="studio3"] [data-dossier-continuation-contact-header] {
+  background: transparent !important;
+  border-bottom: 0 !important;
+}
+
+[data-letter-template="studio2"] [data-dossier-integrated-contact],
+[data-letter-template="studio2"] [data-dossier-continuation-contact-header],
+[data-letter-template="studio3"] [data-dossier-integrated-contact],
+[data-letter-template="studio3"] [data-dossier-continuation-contact-header],
+[data-cv-template="studio2"] [data-dossier-integrated-contact],
+[data-cv-template="studio2"] [data-dossier-continuation-contact-header],
+[data-cv-template="studio3"] [data-dossier-integrated-contact],
+[data-cv-template="studio3"] [data-dossier-continuation-contact-header] {
+  color: #ffffff !important;
+  font-family: var(--dossier-font, Arial, sans-serif) !important;
+}
+
+[data-letter-template="studio2"] [data-dossier-footer],
+[data-letter-template="studio3"] [data-dossier-footer],
+[data-cv-template="studio2"] [data-dossier-footer],
+[data-cv-template="studio3"] [data-dossier-footer] {
+  background: transparent !important;
+  border-top: 0 !important;
+  opacity: 0 !important;
+}
+
+[data-cv-template="studio2"] [data-cv-surface],
+[data-cv-template="studio3"] [data-cv-surface] {
+  left: 0 !important;
+  right: 0 !important;
+  top: 22mm !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+[data-cv-template="studio2"] [data-cv-accent="header"],
+[data-cv-template="studio2"] [data-cv-accent="section"],
+[data-cv-template="studio3"] [data-cv-accent="header"],
+[data-cv-template="studio3"] [data-cv-accent="section"] {
+  display: none !important;
+}
+
+[data-cv-template="studio2"] [data-cv-section-title],
+[data-cv-template="studio3"] [data-cv-section-title],
+[data-cv-template="studio2"] [data-cv-name],
+[data-cv-template="studio3"] [data-cv-name] {
+  font-family: var(--dossier-font, Arial, sans-serif) !important;
+}
+
+[data-cv-template="studio2"] [data-cv-section-title],
+[data-cv-template="studio3"] [data-cv-section-title] {
+  border-bottom: 0 !important;
+  letter-spacing: 0.055em !important;
+  padding-left: 2.4mm !important;
+}
 
 /* -------------------------------------------------------------------------- */
-/* 27 STUDIO 2 — navy masthead + yellow signal cap                            */
+/* 27 STUDIO 2 — navy contact masthead + clean yellow signal block           */
 /* -------------------------------------------------------------------------- */
 [data-letter-fresh-template="studio2"] [data-letter-motif="rail"] {
   left: 0 !important;
@@ -16,18 +90,18 @@
   top: 0 !important;
   bottom: auto !important;
   width: 210mm !important;
-  height: 8mm !important;
+  height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
 }
 
 [data-letter-fresh-template="studio2"] [data-letter-motif="signal"] {
-  left: 152mm !important;
+  left: auto !important;
   right: 0 !important;
   top: 0 !important;
   bottom: auto !important;
   width: 58mm !important;
-  height: 8mm !important;
+  height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
 }
@@ -36,80 +110,39 @@
   display: none !important;
 }
 
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child {
+[data-cv-template="studio2"] [data-dossier-sheet-background="studio2"] > div:nth-child(1) {
   left: 0 !important;
   right: 0 !important;
   top: 0 !important;
   bottom: auto !important;
   width: 100% !important;
-  height: 10mm !important;
+  height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-  filter: none !important;
-  overflow: hidden !important;
 }
 
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:first-child {
+[data-cv-template="studio2"] [data-dossier-sheet-background="studio2"] > div:nth-child(2) {
   left: auto !important;
   right: 0 !important;
   top: 0 !important;
   bottom: auto !important;
   width: 58mm !important;
-  height: 10mm !important;
+  height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-  filter: none !important;
 }
 
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:nth-child(2) {
+[data-cv-template="studio2"] [data-dossier-sheet-background="studio2"] > div:nth-child(3) {
   display: none !important;
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-surface] {
-  left: 0 !important;
-  right: 0 !important;
-  top: 10mm !important;
-  bottom: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-main],
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-measure-page]
-  [data-cv-main] {
-  left: 20mm !important;
-  right: 20mm !important;
-}
-
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
-  opacity: 0.055 !important;
-}
-
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-accent="header"],
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-accent="section"] {
-  display: none !important;
+[data-cv-template="studio2"] [data-cv-section-title] {
+  color: #202a3b !important;
+  border-left: 1.1mm solid #f2c84b !important;
 }
 
 /* -------------------------------------------------------------------------- */
-/* 28 STUDIO 3 — deep green masthead + mint cap                               */
+/* 28 STUDIO 3 — deep-green contact masthead + mint signal block             */
 /* -------------------------------------------------------------------------- */
 [data-letter-fresh-template="studio3"] [data-letter-motif="rail"] {
   left: 0 !important;
@@ -117,18 +150,18 @@ html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-acce
   top: 0 !important;
   bottom: auto !important;
   width: 210mm !important;
-  height: 9mm !important;
+  height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
 }
 
 [data-letter-fresh-template="studio3"] [data-letter-motif="top-field"] {
-  left: 146mm !important;
+  left: auto !important;
   right: 0 !important;
   top: 0 !important;
   bottom: auto !important;
   width: 64mm !important;
-  height: 9mm !important;
+  height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
 }
@@ -137,74 +170,33 @@ html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-acce
   display: none !important;
 }
 
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child {
+[data-cv-template="studio3"] [data-dossier-sheet-background="studio3"] > div:nth-child(1) {
   left: 0 !important;
   right: 0 !important;
   top: 0 !important;
   bottom: auto !important;
   width: 100% !important;
-  height: 12mm !important;
+  height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-  filter: none !important;
-  overflow: hidden !important;
 }
 
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:first-child {
+[data-cv-template="studio3"] [data-dossier-sheet-background="studio3"] > div:nth-child(2) {
   left: auto !important;
   right: 0 !important;
   top: 0 !important;
   bottom: auto !important;
   width: 64mm !important;
-  height: 12mm !important;
+  height: 22mm !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-  filter: none !important;
 }
 
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"]
-  [data-cv-background="motif"]
-  > div
-  > div:first-child
-  > div:nth-child(2) {
+[data-cv-template="studio3"] [data-dossier-sheet-background="studio3"] > div:nth-child(3) {
   display: none !important;
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-surface] {
-  left: 0 !important;
-  right: 0 !important;
-  top: 12mm !important;
-  bottom: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-main],
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-measure-page]
-  [data-cv-main] {
-  left: 20mm !important;
-  right: 20mm !important;
-}
-
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
-  opacity: 0.055 !important;
-}
-
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-accent="header"],
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-accent="section"] {
-  display: none !important;
+[data-cv-template="studio3"] [data-cv-section-title] {
+  color: #173d3a !important;
+  border-left: 1.1mm solid #5ec6b6 !important;
 }
