@@ -118,6 +118,17 @@ function templateDefaultAdjustment(
     }
   }
 
+  // Sonne used to stop its lower information cluster around 196mm, leaving a
+  // large accidental empty area below it. Match the rest of the catalogue:
+  // contact sits on the shared print-safe lower anchor and Beilagen inherits
+  // the same anchor from the contact block. Explicit user moves still win.
+  if (template === "sonne" && block.id === "kontakt" && overrides[block.id]?.y === undefined) {
+    adjusted = {
+      ...adjusted,
+      style: { ...adjusted.style, y: COVER_BEILAGEN_MAX_BOTTOM_MM, anchorBottom: true },
+    };
+  }
+
   if ((template === "blockig" || template === "colorful") && block.id === "kicker") {
     adjusted = {
       ...adjusted,
