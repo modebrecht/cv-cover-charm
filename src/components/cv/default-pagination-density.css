@@ -30,15 +30,15 @@
 
 /*
  * The Magazin variant sits closest to the pagination threshold with adversarial
- * long content. Keep its print rhythm, but reserve a sub-millimetre safety
- * margin in both measurement and rendered pages so the final row never lands
- * fractionally below the page box after font metrics settle.
+ * long content. Keep its print rhythm, but reserve a small safety margin in both
+ * measurement and rendered pages so the final row never lands fractionally
+ * below the page box after font metrics settle.
  */
 html[data-cv-variant="editorial"]
   [data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-entry] {
-  margin-bottom: 1.3mm !important;
+  margin-bottom: 0.8mm !important;
 }
 
 /*
