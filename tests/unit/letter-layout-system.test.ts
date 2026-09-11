@@ -42,8 +42,8 @@ function designFor(
 
 describe("central motivation-letter layout system", () => {
   test("every selectable letter style and every header/footer mode yields one usable content box", () => {
-    expect(TEMPLATES.length).toBe(37);
-    expect(LETTER_TEMPLATE_IDS.length).toBe(37);
+    expect(TEMPLATES.length).toBe(39);
+    expect(LETTER_TEMPLATE_IDS.length).toBe(39);
 
     for (const template of LETTER_TEMPLATE_IDS) {
       for (const headerMode of headerModes) {
