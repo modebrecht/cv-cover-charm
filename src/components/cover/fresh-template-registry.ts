@@ -8,7 +8,7 @@ export type FreshTemplateRegistryEntry = {
 };
 
 /**
- * Canonical, side-effect-free definitions for dossier templates 21-40.
+ * Canonical, side-effect-free definitions for dossier templates 21-42.
  *
  * Runtime registration, renderers, contracts and Node-side tests all derive
  * their Fresh ids/names/default palettes from this module. Keep CSS imports and
@@ -181,6 +181,30 @@ export const FRESH_TEMPLATE_REGISTRY = [
       { key: "secondary", label: "Honig", default: "#d7aa52" },
       { key: "accent", label: "Clay", default: "#b8674f" },
       { key: "ink", label: "Text", default: "#2b3026" },
+    ],
+  },
+  {
+    id: "verlauf2",
+    name: "Verlauf 2",
+    description: "Kühler Blau-Cyan-Verlauf mit ruhiger Lichttiefe",
+    slots: [
+      { key: "bg", label: "Papier", default: "#f5f9ff" },
+      { key: "primary", label: "Tiefblau", default: "#2447b8" },
+      { key: "secondary", label: "Cyan", default: "#35b7c8" },
+      { key: "accent", label: "Licht", default: "#9be7e5" },
+      { key: "ink", label: "Text", default: "#ffffff" },
+    ],
+  },
+  {
+    id: "verlauf3",
+    name: "Verlauf 3",
+    description: "Satter Berry-Orange-Verlauf mit warmer Tiefe",
+    slots: [
+      { key: "bg", label: "Papier", default: "#fff8f5" },
+      { key: "primary", label: "Berry", default: "#7b315d" },
+      { key: "secondary", label: "Orange", default: "#e77b52" },
+      { key: "accent", label: "Pfirsich", default: "#f4bb8a" },
+      { key: "ink", label: "Text", default: "#ffffff" },
     ],
   },
   {
