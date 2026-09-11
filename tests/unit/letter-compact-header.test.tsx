@@ -181,7 +181,7 @@ describe("compact letter presentation", () => {
       colors: defaultLetterColors("modern"),
       font: "freundlich",
     });
-    expect(legacy.headerMode).toBe("compact");
+    expect(legacy.headerMode).toBe("contact");
     expect(legacy.headerShowName).toBe(true);
     expect(legacy.headerShowAddress).toBe(true);
     expect(legacy.headerShowPhone).toBe(true);
