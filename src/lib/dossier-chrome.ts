@@ -79,7 +79,7 @@ export const DEFAULT_DOSSIER_CHROME_OPTIONS: DossierChromeOptions = {
   footerTextLayout: "inline",
   footerBackgroundColor: null,
   footerGradientColor: null,
-  borderEnabled: true,
+  borderEnabled: false,
   borderColor: null,
   borderWidthMm: 0.6,
   textFont: null,
@@ -171,7 +171,8 @@ function normalizeOptions(
     footerTextLayout: value.footerTextLayout === "stacked" ? "stacked" : "inline",
     footerBackgroundColor: normalizedColor(value.footerBackgroundColor),
     footerGradientColor: normalizedColor(value.footerGradientColor),
-    borderEnabled: value.borderEnabled !== false,
+    borderEnabled:
+      typeof value.borderEnabled === "boolean" ? value.borderEnabled : fallback.borderEnabled,
     borderColor: normalizedColor(value.borderColor),
     borderWidthMm: normalizedBorderWidth(value.borderWidthMm, fallback.borderWidthMm),
     textFont: normalizedFont(value.textFont),
