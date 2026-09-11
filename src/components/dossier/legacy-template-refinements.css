@@ -80,3 +80,56 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-a
   background: var(--cover-primary) !important;
   opacity: 0.72 !important;
 }
+
+/* Kolumne already owns a full-height 70 mm rail. Generic compact header/footer
+ * bars therefore look like accidental horizontal scratches across the page.
+ * Let the rail be the chrome instead of layering another motif on top. */
+html[data-dossier-template="terracotta"] [data-dossier-compact-header],
+html[data-dossier-template="terracotta"] [data-dossier-footer="compact"] {
+  display: none !important;
+}
+
+/* With the normal contact header, the motivation letter places the sender in
+ * the rail rather than drawing a full-width band that fights the column. The
+ * renderer already computes a readable on-primary text colour, so custom user
+ * palettes remain safe. */
+html[data-dossier-template="terracotta"]
+  [data-dossier-chrome="letter"]
+  [data-dossier-contact-header-background] {
+  display: none !important;
+}
+
+html[data-dossier-template="terracotta"]
+  [data-dossier-chrome="letter"]
+  [data-dossier-integrated-contact] {
+  left: 0 !important;
+  right: auto !important;
+  width: 70mm !important;
+  padding: 2.6mm 9mm 1.4mm 10mm !important;
+  align-items: flex-start !important;
+}
+
+html[data-dossier-template="terracotta"]
+  [data-dossier-chrome="letter"]
+  [data-dossier-continuation-contact-header] {
+  left: 0 !important;
+  right: auto !important;
+  width: 70mm !important;
+  border-bottom: 0 !important;
+}
+
+/* The Sidebar CV already carries Contact, Languages, Strengths and Hobbies in
+ * the rail. A second integrated contact band would duplicate the same data and
+ * recreate the unwanted top stripe, so the CV keeps the rail as its sole
+ * header surface. */
+html[data-dossier-template="terracotta"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-contact-header-background],
+html[data-dossier-template="terracotta"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-integrated-contact],
+html[data-dossier-template="terracotta"]
+  [data-dossier-chrome="cv"]
+  [data-dossier-continuation-contact-header] {
+  display: none !important;
+}
