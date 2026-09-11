@@ -134,8 +134,12 @@ const DECORATIONS: Partial<Record<string, DecorSpec[]>> = {
   ],
 
   blockig: [
-    rect("decor-top-block", "Kopfblock", 0, 0, 110, 30, "primary"),
-    rect("decor-accent-band", "Akzentband", 0, 104, 210, 14, "accent", 0.96),
+    // Four independent modules instead of the former top strip + full-width
+    // orange bar. They form an asymmetric grid while staying fully editable.
+    rect("decor-top-block", "Kopfblock", 0, 0, 72, 105, "primary"),
+    rect("decor-accent-band", "Akzentblock", 72, 0, 44, 52, "accent"),
+    rect("decor-top-right", "Eckblock", 174, 0, 36, 18, "primary"),
+    rect("decor-bottom-block", "Kontaktblock", 0, 244, 72, 53, "primary"),
   ],
 
   edelBlockig: [
