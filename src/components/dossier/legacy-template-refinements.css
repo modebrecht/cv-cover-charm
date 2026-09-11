@@ -1,8 +1,8 @@
 /*
  * Targeted legacy-template refinements from the 2026-09 PDF review.
  *
- * These selectors only adjust the CV presentation layer. Template colours are
- * supplied by CvCanvas as CSS variables, so user palette changes remain live.
+ * These selectors only adjust the CV/letter presentation layer. Template
+ * colours are supplied as CSS variables, so user palette changes remain live.
  */
 
 /* 06 Colorful — the old CV started with a detached colour bar and then fell
@@ -53,13 +53,13 @@ html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-nam
   letter-spacing: -0.03em !important;
 }
 
-/* 11 Kolumne — once Sidebar owns the content structure, all heading levels use
- * the same crisp sans hierarchy as the cover instead of the former executive
- * serif treatment. The rail remains the strong visual anchor. */
+/* 11 Kolumne — Sidebar owns the content structure. Keep the heading hierarchy
+ * crisp and sans, but do not add an extra horizontal rule: the strong vertical
+ * rail is already the template signature. */
 html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-header] {
   margin-bottom: 5.5mm !important;
-  padding-bottom: 3.6mm;
-  border-bottom: 0.45mm solid var(--cover-primary);
+  padding-bottom: 0;
+  border-bottom: 0 !important;
 }
 
 html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-doc-title],
@@ -81,18 +81,16 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-a
   opacity: 0.72 !important;
 }
 
-/* Kolumne already owns a full-height 70 mm rail. Generic compact header/footer
- * bars therefore look like accidental horizontal scratches across the page.
- * Let the rail be the chrome instead of layering another motif on top. */
+/* Kolumne already owns a vertical rail. Generic compact header/footer bars
+ * read as accidental horizontal scratches across the page, so they disappear
+ * for this template in both the CV and the motivation letter. */
 html[data-dossier-template="terracotta"] [data-dossier-compact-header],
 html[data-dossier-template="terracotta"] [data-dossier-footer="compact"] {
   display: none !important;
 }
 
-/* With the normal contact header, the motivation letter places the sender in
- * the rail rather than drawing a full-width band that fights the column. The
- * renderer already computes a readable on-primary text colour, so custom user
- * palettes remain safe. */
+/* The normal contact header stays on the warm paper to the right of the narrow
+ * letter rail. It must not become a second full-width colour band. */
 html[data-dossier-template="terracotta"]
   [data-dossier-chrome="letter"]
   [data-dossier-contact-header-background] {
@@ -102,20 +100,38 @@ html[data-dossier-template="terracotta"]
 html[data-dossier-template="terracotta"]
   [data-dossier-chrome="letter"]
   [data-dossier-integrated-contact] {
-  left: 0 !important;
-  right: auto !important;
-  width: 70mm !important;
-  padding: 2.6mm 9mm 1.4mm 10mm !important;
+  left: 28mm !important;
+  right: 23mm !important;
+  width: auto !important;
+  padding: 2mm 0 !important;
   align-items: flex-start !important;
+  color: var(--cover-ink) !important;
 }
 
 html[data-dossier-template="terracotta"]
   [data-dossier-chrome="letter"]
   [data-dossier-continuation-contact-header] {
-  left: 0 !important;
-  right: auto !important;
-  width: 70mm !important;
+  left: 28mm !important;
+  right: 23mm !important;
+  width: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
   border-bottom: 0 !important;
+  color: var(--cover-ink) !important;
+}
+
+html[data-dossier-template="terracotta"]
+  [data-dossier-chrome="letter"]
+  [data-dossier-continuation-contact] {
+  text-align: left !important;
+}
+
+/* The little hairline inside the letter rail added no information and looked
+ * like another stray rule when the page was exported. The solid rail is enough. */
+html[data-dossier-template="terracotta"]
+  [data-letter-background-variant="quiet-column"]
+  [data-letter-motif="rail-rule"] {
+  display: none !important;
 }
 
 /* The Sidebar CV already carries Contact, Languages, Strengths and Hobbies in
