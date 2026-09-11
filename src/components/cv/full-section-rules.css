@@ -95,3 +95,17 @@ html[data-dossier-template="neon"]
   > .left-\[6mm\].top-\[20mm\].h-\[38mm\].w-\[1px\] {
   display: none !important;
 }
+
+/*
+ * Glow is intentionally the calm light/gradient template. Long rules after
+ * every heading and the short header dash turned that calm idea into a page of
+ * repeated strokes. Let typography + whitespace carry the hierarchy instead.
+ */
+html[data-dossier-template="glow"][data-dossier-template="glow"][data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-cv-accent="section"],
+html[data-dossier-template="glow"][data-dossier-template="glow"][data-dossier-template="glow"]
+  [data-dossier-document="cv"]
+  [data-cv-accent="header"] {
+  display: none !important;
+}
