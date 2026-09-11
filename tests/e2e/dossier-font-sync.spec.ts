@@ -1,6 +1,22 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 const BASE_URL = "http://127.0.0.1:4173";
+
+async function openLetterTypography(page: Page) {
+  await page.locator('button[data-editor-ready="true"]').waitFor({ state: "visible" });
+  const toggle = page
+    .locator("[data-editor-section-toggle]")
+    .filter({ hasText: "Schrift" })
+    .first();
+  await expect(toggle).toBeVisible();
+  if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  const panelId = await toggle.getAttribute("aria-controls");
+  expect(panelId).toBeTruthy();
+  const select = page.locator(`[id="${panelId}"]`).getByLabel("Schriftart", { exact: true });
+  await expect(select).toBeVisible();
+  return select;
+}
 
 test.describe("shared CV and motivation-letter font", () => {
   test("propagates font changes both ways between CV and motivation letter", async ({ page }) => {
@@ -51,9 +67,7 @@ test.describe("shared CV and motivation-letter font", () => {
       )
       .toBe("times");
 
-    const typographySection = page.getByRole("button", { name: "Schrift", exact: true });
-    await typographySection.click();
-    const fontSelect = page.locator("label").filter({ hasText: "Schriftart" }).locator("select");
+    const fontSelect = await openLetterTypography(page);
     await expect(fontSelect).toHaveValue("times");
 
     // Motivation letter -> CV.
@@ -104,12 +118,7 @@ test.describe("shared CV and motivation-letter font", () => {
       .toBe("sans");
 
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
-    await page.locator('button[data-editor-ready="true"]').waitFor({ state: "visible" });
-    await page.getByRole("button", { name: "Schrift", exact: true }).click();
-    const syncedLetterSelect = page
-      .locator("label")
-      .filter({ hasText: "Schriftart" })
-      .locator("select");
+    const syncedLetterSelect = await openLetterTypography(page);
     await expect(syncedLetterSelect).toHaveValue("sans");
     await expect(page.locator("[data-letter-page]").first()).toHaveAttribute("data-letter-font", "sans");
   });
