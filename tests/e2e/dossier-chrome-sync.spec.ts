@@ -88,10 +88,17 @@ const cvControls = (page: Page) =>
   page.locator('[data-dossier-chrome-host] [data-dossier-chrome-controls="cv"]');
 
 async function openLetterLayout(page: Page) {
-  const layout = page.getByRole("button", { name: "Layout", exact: true });
+  const layout = page
+    .locator("[data-editor-section-toggle]")
+    .filter({ hasText: "Layout" })
+    .first();
   await expect(layout).toBeVisible();
   if ((await layout.getAttribute("aria-expanded")) !== "true") await layout.click();
-  const controls = page.locator('[data-dossier-chrome-controls="letter"]');
+  const panelId = await layout.getAttribute("aria-controls");
+  expect(panelId).toBeTruthy();
+  const controls = page
+    .locator(`[id="${panelId}"]`)
+    .locator('[data-dossier-chrome-controls="letter"]');
   await expect(controls).toBeVisible();
   return controls;
 }
