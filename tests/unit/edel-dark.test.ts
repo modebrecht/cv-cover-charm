@@ -33,7 +33,7 @@ describe("Edel light/dark dossier contract", () => {
 
     const light = cvPalette(colorsFor("edel"));
     const dark = cvPalette(colorsFor("edelDark"));
-    expect(light.paper).toBe("#ffffff");
+    expect(light.paper).toBe("#fcfbf8");
     expect(dark.paper).toBe("#171716");
     expect(readable(colorsFor("edel").ink, colorsFor("edel").bg, 7)).toBe(true);
     expect(readable(colorsFor("edel").accent, colorsFor("edel").bg, 4.5)).toBe(true);
