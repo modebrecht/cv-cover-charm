@@ -12,10 +12,11 @@ const freshCss = readFileSync(
 );
 
 describe("Fresh 19-22 dossier rebuild", () => {
-  test("unsaved CVs default to Standard except Kolumne's intentional Sidebar default", () => {
+  test("unsaved CVs default to Standard while Kolumne always keeps Sidebar", () => {
     expect(layout).toContain('const DEFAULT_LAYOUT: CvLayoutId = "classic";');
     expect(layout).toContain('return template === "terracotta" ? "modern" : DEFAULT_LAYOUT;');
-    expect(layout).toContain("return valid(value) ? value : fallback;");
+    expect(layout).toContain('if (template === "terracotta") return "modern";');
+    expect(layout).toContain("return valid(saved) ? saved : fallback;");
   });
 
   test("Edge uses one compact masthead signature across cover, letter and CV", () => {
