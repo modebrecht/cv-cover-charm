@@ -71,7 +71,7 @@ const TEMPLATE_FAMILY: Record<string, DossierFamilyId> = {
   verlauf: "modern",
   citrus: "modern",
 
-  // Fresh 21-40
+  // Fresh 21-42
   edge: "modern",
   glow: "modern",
   frame: "executive",
@@ -86,6 +86,8 @@ const TEMPLATE_FAMILY: Record<string, DossierFamilyId> = {
   warm3: "modern",
   warm4: "modern",
   warm5: "modern",
+  verlauf2: "modern",
+  verlauf3: "modern",
   ledger: "modern",
   prism: "modern",
   gallery: "modern",
@@ -93,7 +95,7 @@ const TEMPLATE_FAMILY: Record<string, DossierFamilyId> = {
   ribbon: "modern",
   cove: "modern",
 
-  // 41: same premium typography family as Edel, but with a true dark sheet.
+  // Dark Edel variant: same premium typography family as Edel, with a true dark sheet.
   edelDark: "executive",
 };
 
