@@ -7,6 +7,7 @@ import {
   type DossierChromeOptions,
   type DossierChromeScope,
 } from "@/lib/dossier-chrome";
+import "./chrome-policy.css";
 
 function surfaceBackground(first: string, second: string | null): string {
   return second ? `linear-gradient(90deg, ${first}, ${second})` : first;
