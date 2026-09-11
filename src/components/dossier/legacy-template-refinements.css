@@ -259,3 +259,51 @@ html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-name] {
   font-weight: 820 !important;
   letter-spacing: -0.025em !important;
 }
+
+/* 20 Glow — less is more. The old interior repeated three independent motifs:
+ * two literal circles, a short gradient dash, plus the generic header/footer
+ * chrome. Keep one very soft ambient glow only; it should read as light, not as
+ * another visible shape competing with the application content. */
+[data-dossier-sheet-background="glow"] > div:nth-child(1) {
+  right: -24mm !important;
+  top: -22mm !important;
+  width: 112mm !important;
+  height: 52mm !important;
+  border-radius: 50% !important;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--cover-primary) 34%, transparent) 0%,
+    color-mix(in srgb, var(--cover-secondary) 16%, transparent) 44%,
+    transparent 76%
+  ) !important;
+  opacity: 0.38 !important;
+  filter: blur(7mm);
+}
+
+[data-dossier-sheet-background="glow"] > div:nth-child(2),
+[data-dossier-sheet-background="glow"] > div:nth-child(3) {
+  display: none !important;
+}
+
+html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-compact-header],
+html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-contact-header-background],
+html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-continuation-contact-header],
+[data-letter-page][data-letter-template="glow"] [data-dossier-compact-header],
+[data-letter-page][data-letter-template="glow"] [data-dossier-contact-header-background],
+[data-letter-page][data-letter-template="glow"] [data-dossier-continuation-contact-header] {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
+[data-letter-page][data-letter-template="glow"] [data-dossier-footer="compact"] {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+}
+
+html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-surface] {
+  border: 0 !important;
+  box-shadow: none !important;
+}
