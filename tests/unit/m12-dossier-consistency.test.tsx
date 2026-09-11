@@ -62,9 +62,9 @@ function options(
 }
 
 describe("M12 Fresh dossier consistency", () => {
-  test("all 18 Fresh templates have one cross-document identity contract", () => {
-    expect(FRESH_TEMPLATE_IDS).toHaveLength(18);
-    expect(Object.keys(FRESH_DOSSIER_IDENTITIES)).toHaveLength(18);
+  test("all 20 Fresh templates have one cross-document identity contract", () => {
+    expect(FRESH_TEMPLATE_IDS).toHaveLength(20);
+    expect(Object.keys(FRESH_DOSSIER_IDENTITIES)).toHaveLength(20);
 
     for (const id of FRESH_TEMPLATE_IDS) {
       const identity = freshDossierIdentity(id);
