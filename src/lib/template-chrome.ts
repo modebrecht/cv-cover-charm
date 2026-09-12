@@ -56,14 +56,14 @@ export function defaultHeaderModeForTemplate(template: string): DossierHeaderMod
 /**
  * Default whitespace after the selected template header. Contact mastheads
  * already carry substantial visual height, so they normally need much less
- * additional whitespace than the compact signature band. Warm is the exception:
- * its reviewed 52 mm background composition relies on the original 12 mm flow
- * clearance while the 22 mm shared contact surface masks the upper motif.
+ * additional whitespace than the compact signature band. Warm and Aurora are
+ * exceptions: their reviewed deep first-page fields rely on the original 12 mm
+ * flow clearance so recipient text starts below the decorative masthead.
  * Values are written only when a template is selected; users remain free to
  * change them afterwards.
  */
 export function defaultHeaderGapMmForTemplate(template: string): number {
-  if (template === "freundlich") return 12;
+  if (template === "freundlich" || template === "aurora") return 12;
   return defaultHeaderModeForTemplate(template) === "contact" ? 4 : 12;
 }
 
