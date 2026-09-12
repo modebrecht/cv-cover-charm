@@ -252,9 +252,7 @@ async function addRasterPage(
   normalizeCvZoom = false,
 ) {
   const cvPageId = normalizeCvZoom ? page.dataset.cvPage : undefined;
-  const cvFlow = normalizeCvZoom
-    ? page.querySelector<HTMLElement>("[data-cv-main] > div")
-    : null;
+  const cvFlow = normalizeCvZoom ? page.querySelector<HTMLElement>("[data-cv-main] > div") : null;
   const rawZoom = cvFlow
     ? Number.parseFloat(window.getComputedStyle(cvFlow).getPropertyValue("zoom"))
     : 1;
