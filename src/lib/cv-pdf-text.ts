@@ -22,17 +22,12 @@ function installRasterTextMask() {
 
   const style = document.createElement("style");
   style.id = MASK_STYLE_ID;
-  style.textContent = `
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-export-mode="true"] [data-cv-page],
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-export-mode="true"] [data-cv-page] * {
-  color: transparent !important;
-  -webkit-text-fill-color: transparent !important;
-  text-decoration-color: transparent !important;
-  text-shadow: none !important;
-}
-`;
+  // Keep this stable hook for existing preview/PDF parity diagnostics, but do
+  // not hide the browser-rendered CV typography anymore. The motivation letter
+  // already proves the reliable strategy: html2canvas owns the visible glyphs
+  // so Cabin looks exactly like it does in the browser, while the native PDF
+  // text layer below is invisible and exists only for search/copy.
+  style.textContent = "";
   document.head.appendChild(style);
 }
 
@@ -157,11 +152,8 @@ function fittedHorizontalScale(pdf: JsPdf, text: string, targetWidthMm: number):
   const renderedWidthMm = pdf.getTextWidth(text);
   if (!Number.isFinite(renderedWidthMm) || renderedWidthMm <= 0 || targetWidthMm <= 0) return 1;
 
-  // Browser and jsPDF can use different physical fonts for the same logical
-  // family (notably Palatino/Georgia -> PDF Times). Keep the browser-measured
-  // token width so neighbouring words retain the whitespace seen in preview.
-  // The clamp is only a corruption guard; normal font substitutions stay close
-  // to 1 and therefore keep their original vertical typography untouched.
+  // The native layer is invisible, but matching the browser token width keeps
+  // selection/search geometry aligned with the visible raster typography.
   return Math.max(0.5, Math.min(1.5, targetWidthMm / renderedWidthMm));
 }
 
@@ -243,18 +235,14 @@ function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
           rects.length === 1
             ? fittedHorizontalScale(pdf, fragment.text, fragment.rect.width * mmX)
             : 1;
-        pdf.text(fragment.text, x, baseline, { horizontalScale });
-
-        if (style.textDecorationLine.includes("underline")) {
-          pdf.setDrawColor(red, green, blue);
-          pdf.setLineWidth(0.18);
-          pdf.line(
-            x,
-            baseline + 0.55,
-            x + fragment.rect.width * mmX,
-            baseline + 0.55,
-          );
-        }
+        // Visible CV typography now comes from the browser/html2canvas raster,
+        // exactly like the motivation letter. Keep this native Cabin layer only
+        // for search, selection and copy so jsPDF glyph metrics can never alter
+        // the visual font or word spacing.
+        pdf.text(fragment.text, x, baseline, {
+          horizontalScale,
+          renderingMode: "invisible",
+        });
       }
     }
 
@@ -263,9 +251,9 @@ function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
 }
 
 /**
- * Zeichnet den sichtbaren CV-Text deterministisch auf die aktuell aktive PDF-Seite.
- * Die Raster-Maske wird dafür kurz deaktiviert, damit echte Textfarben und Geometrie
- * aus dem Browserlayout gelesen werden können.
+ * Ergänzt die aktuell sichtbare CV-Seite um eine unsichtbare, durchsuchbare
+ * PDF-Textebene. Die sichtbare Typografie selbst bleibt Browser-Raster und ist
+ * damit identisch zur Vorschau und zum Motivationsschreiben.
  */
 export function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
   withRasterTextVisible(() => drawCvTextLayer(pdf, page));
