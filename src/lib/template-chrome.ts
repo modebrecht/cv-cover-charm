@@ -1,6 +1,15 @@
 import type { DossierChromeOptions, DossierHeaderMode } from "@/lib/dossier-chrome";
 
-const COMPACT_HEADER_DEFAULT_TEMPLATES = new Set(["modern", "edel", "edelDark"]);
+// Warm already owns a purpose-built first-page compact header treatment in the
+// letter renderer. Keep it on that intended path instead of falling back to the
+// generic contact header. Modern / Edel / Edel Dark likewise use compact as
+// their template default; this remains a default, never a renderer override.
+const COMPACT_HEADER_DEFAULT_TEMPLATES = new Set([
+  "freundlich",
+  "modern",
+  "edel",
+  "edelDark",
+]);
 
 /**
  * Header mode chosen when a template is selected for the first time.
