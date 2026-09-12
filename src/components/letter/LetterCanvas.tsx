@@ -258,7 +258,7 @@ export function LetterCanvas({
         pageIndex={geometry.pageIndex}
         options={chrome}
         footerHeightMm={geometry.footer.height}
-        footerLabel="Beilagen:"
+        footerLabel="Beilagen"
         footerDetails={geometry.footer.showAttachments ? beilagen : []}
       />
 
@@ -410,7 +410,7 @@ export function LetterCanvas({
             {showBeilagenInBody ? (
               <div className="mt-[9mm] text-[10pt] leading-[1.45]">
                 <div data-letter-pdf-text="attachments-heading" className="font-semibold">
-                  Beilagen:
+                  Beilagen
                 </div>
                 <div data-letter-pdf-text="attachments-body" className="mt-[1.5mm]">
                   <Lines values={beilagen} />
