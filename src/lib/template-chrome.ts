@@ -5,12 +5,14 @@ import type { DossierChromeOptions, DossierHeaderMode } from "@/lib/dossier-chro
  * templates whose design genuinely benefits from an integrated contact masthead
  * opt into contact by default.
  *
- * `freundlich` (Warm 1) is intentionally not listed here: its visually rich
- * 52 mm contact-like masthead is implemented by the dedicated Warm compact
- * renderer. Switching that template to the generic contact mode would bypass
- * the good Warm composition.
+ * `freundlich` (Warm 1) deliberately uses contact by default. Its 52 mm
+ * template-owned teal field sits behind the shared contact masthead: the shared
+ * primary-colour contact surface masks the upper part of the oversized amber
+ * motif and keeps the sender high on the page. This is the reviewed Warm
+ * composition from the 2026-09-12 PDF gallery.
  */
 const CONTACT_HEADER_DEFAULT_TEMPLATES = new Set([
+  "freundlich",
   "horizon",
   "violetPulse",
   "studio",
@@ -48,11 +50,15 @@ export function defaultHeaderModeForTemplate(template: string): DossierHeaderMod
 
 /**
  * Default whitespace after the selected template header. Contact mastheads
- * already carry substantial visual height, so they need much less additional
- * whitespace than the compact signature band. The value is written only when a
- * template is selected; users remain free to change it afterwards.
+ * already carry substantial visual height, so they normally need much less
+ * additional whitespace than the compact signature band. Warm is the exception:
+ * its reviewed 52 mm background composition relies on the original 12 mm flow
+ * clearance while the 22 mm shared contact surface masks the upper motif.
+ * Values are written only when a template is selected; users remain free to
+ * change them afterwards.
  */
 export function defaultHeaderGapMmForTemplate(template: string): number {
+  if (template === "freundlich") return 12;
   return defaultHeaderModeForTemplate(template) === "contact" ? 4 : 12;
 }
 
