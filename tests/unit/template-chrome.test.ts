@@ -1,8 +1,23 @@
 import { describe, expect, test } from "bun:test";
 import { DEFAULT_DOSSIER_CHROME_OPTIONS } from "../../src/lib/dossier-chrome";
-import { resolveTemplateChromeOptions } from "../../src/lib/template-chrome";
+import {
+  defaultHeaderModeForTemplate,
+  resolveTemplateChromeOptions,
+} from "../../src/lib/template-chrome";
 
 describe("template-owned dossier chrome", () => {
+  test("Modern, Edel and Edel Dark default to compact headers", () => {
+    for (const template of ["modern", "edel", "edelDark"]) {
+      expect(defaultHeaderModeForTemplate(template)).toBe("compact");
+    }
+  });
+
+  test("other templates keep the normal contact-header default", () => {
+    for (const template of ["brief", "colorful", "freundlich", "edge", "ribbon"]) {
+      expect(defaultHeaderModeForTemplate(template)).toBe("contact");
+    }
+  });
+
   test("Modern mirrors compact header and footer without changing their geometry", () => {
     const source = {
       ...DEFAULT_DOSSIER_CHROME_OPTIONS,
