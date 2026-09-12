@@ -109,13 +109,7 @@ function addRichLetterText(
       pdf.setFont(font, pdfFontStyle(style));
       pdf.setFontSize(fontSizePt);
       pdf.setTextColor(red, green, blue);
-      pdf.text(token, x, baseline);
-
-      if (style.textDecorationLine.includes("underline")) {
-        pdf.setDrawColor(red, green, blue);
-        pdf.setLineWidth(0.18);
-        pdf.line(x, baseline + 0.55, x + rect.width * mmX, baseline + 0.55);
-      }
+      pdf.text(token, x, baseline, { renderingMode: "invisible" });
     }
     node = walker.nextNode();
   }
@@ -151,7 +145,7 @@ function addLetterListMarkers(
     pdf.setFont(font, "normal");
     pdf.setFontSize(fontSizePt);
     pdf.setTextColor(red, green, blue);
-    pdf.text(marker, x, baseline);
+    pdf.text(marker, x, baseline, { renderingMode: "invisible" });
   }
 }
 
@@ -200,7 +194,7 @@ function addLetterRules(pdf: JsPdf, page: HTMLElement, mmX: number, mmY: number)
   }
 }
 
-/** Browserlayout vermessen, Glyphen und Rich-Text-Stile aber als echte PDF-Objekte zeichnen. */
+/** Browserlayout vermessen und eine unsichtbare, durchsuchbare PDF-Textebene ergänzen. */
 function addLetterTextLayer(pdf: JsPdf, page: HTMLElement) {
   const pageRect = page.getBoundingClientRect();
   if (pageRect.width <= 0 || pageRect.height <= 0) {
@@ -233,7 +227,11 @@ function addLetterTextLayer(pdf: JsPdf, page: HTMLElement) {
     pdf.setFont(font, pdfFontStyle(style));
     pdf.setFontSize(fontSizePt);
     pdf.setTextColor(red, green, blue);
-    pdf.text(wrapLetterText(pdf, text, width), x, baseline, { align, lineHeightFactor });
+    pdf.text(wrapLetterText(pdf, text, width), x, baseline, {
+      align,
+      lineHeightFactor,
+      renderingMode: "invisible",
+    });
   }
 
   const richBody = page.querySelector<HTMLElement>("[data-letter-pdf-richtext]");
@@ -249,7 +247,7 @@ async function addRasterPage(
   pdf: JsPdf,
   html2canvas: Html2Canvas,
   page: HTMLElement,
-  hideLetterText = false,
+  rebuildLetterVectors = false,
 ) {
   const canvas = await html2canvas(page, {
     scale: PDF.SCALE,
@@ -261,16 +259,11 @@ async function addRasterPage(
     windowHeight: PAGE.HEIGHT,
     scrollX: 0,
     scrollY: 0,
-    onclone: hideLetterText
+    onclone: rebuildLetterVectors
       ? (clonedDocument) => {
-          for (const node of clonedDocument.querySelectorAll<HTMLElement>(
-            "[data-letter-text-layer], [data-letter-text-layer] *, [data-letter-pdf-text], [data-letter-pdf-text] *",
-          )) {
-            node.style.setProperty("color", "transparent", "important");
-            node.style.setProperty("-webkit-text-fill-color", "transparent", "important");
-            node.style.setProperty("text-decoration-color", "transparent", "important");
-            node.style.setProperty("text-shadow", "none", "important");
-          }
+          // Text stays visible in the raster so its browser typography is exact.
+          // Only rules and table borders are removed here because they are rebuilt
+          // below as crisp vector geometry.
           for (const rule of clonedDocument.querySelectorAll<HTMLElement>(
             "[data-letter-pdf-rule], [data-letter-pdf-richtext] hr",
           )) {
