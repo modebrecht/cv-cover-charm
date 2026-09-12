@@ -4,6 +4,7 @@ import {
   type DossierChromeContact,
   type DossierChromeOptions,
 } from "@/lib/dossier-chrome";
+import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
 import { cvContentBox, cvFrameFor } from "./archetype";
 import { CV_LAYOUT_EVENT } from "./layout";
 import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
@@ -70,8 +71,15 @@ export function CvCanvas({
   ...props
 }: Props) {
   const localContact = useMemo(() => contactFromCv(props.data), [props.data]);
-  const data = useMemo(() => cvBodyData(props.data, chromeOptions), [props.data, chromeOptions]);
   const design = useMemo(() => cvDesignWithFullSectionRules(props.design), [props.design]);
+  const resolvedChromeOptions = useMemo(
+    () => resolveTemplateChromeOptions(design.template, design.colors, chromeOptions),
+    [chromeOptions, design.colors, design.template],
+  );
+  const data = useMemo(
+    () => cvBodyData(props.data, resolvedChromeOptions),
+    [props.data, resolvedChromeOptions],
+  );
 
   // Layout defaults are template-aware, but an explicit student choice remains
   // in localStorage. Update the active template before paint and notify the
@@ -95,7 +103,7 @@ export function CvCanvas({
     0,
     "modern",
     design.sidebarPct,
-    chromeOptions,
+    resolvedChromeOptions,
   );
   const primary = design.colors.primary ?? design.colors.accent ?? design.colors.ink ?? "#111111";
   const secondary = design.colors.secondary ?? design.colors.accent ?? primary;
@@ -117,7 +125,7 @@ export function CvCanvas({
         {...props}
         data={data}
         design={design}
-        chromeOptions={chromeOptions}
+        chromeOptions={resolvedChromeOptions}
         chromeContact={chromeContact ?? localContact}
       />
     </div>
