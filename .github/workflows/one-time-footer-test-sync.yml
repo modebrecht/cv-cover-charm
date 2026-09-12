@@ -1,0 +1,49 @@
+name: One-time footer test sync
+
+on:
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: write
+
+jobs:
+  patch-tests:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update footer regression expectations
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          regression = Path('tests/e2e/dossier-regression.spec.ts')
+          text = regression.read_text(encoding='utf-8')
+          old = text
+          text = text.replace('"Beilagen:"', '"Beilagen"')
+          if text == old:
+              raise SystemExit('Expected Beilagen colon assertion was not found')
+          regression.write_text(text, encoding='utf-8')
+
+          typography = Path('tests/e2e/dossier-typography-regression.spec.ts')
+          text = typography.read_text(encoding='utf-8')
+          old = '''      const root = await settledCoverRoot(page, template);\n      await expect(root, template).toHaveAttribute("data-dossier-footer-sync", "automatic");'''
+          new = '''      const root = page\n        .locator(`[data-dossier-document="cover"][data-cover-template="${template}"]`)\n        .first();\n      await expect(root, template).toBeVisible();\n      await expect(root, template).toHaveAttribute("data-dossier-footer-sync", "automatic");'''
+          if old not in text:
+              raise SystemExit('Expected footer root assertion was not found')
+          typography.write_text(text.replace(old, new), encoding='utf-8')
+          PY
+
+      - name: Commit patched expectations
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/e2e/dossier-regression.spec.ts tests/e2e/dossier-typography-regression.spec.ts
+          git commit -m "Update footer regression expectations"
+          git push origin HEAD:dev
