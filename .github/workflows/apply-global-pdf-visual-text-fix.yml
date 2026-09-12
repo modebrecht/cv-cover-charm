@@ -1,0 +1,198 @@
+name: Apply global PDF visual typography fix
+
+on:
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+      - name: Keep browser typography visible in PDFs
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          def replace_once(path: str, old: str, new: str):
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected one match, got {count}: {old[:100]!r}")
+              p.write_text(text.replace(old, new, 1))
+
+          cv = Path("src/lib/cv-pdf-text.ts")
+          text = cv.read_text()
+          text, count = re.subn(
+              r'const MASK_STYLE_ID = "cv-pdf-raster-text-mask";\n',
+              '',
+              text,
+              count=1,
+          )
+          if count != 1:
+              raise SystemExit("cv-pdf-text.ts: missing MASK_STYLE_ID")
+          text, count = re.subn(
+              r'function installRasterTextMask\(\) \{.*?\n\}\n\nfunction withRasterTextVisible<T>\(run: \(\) => T\): T \{.*?\n\}\n\n',
+              '',
+              text,
+              count=1,
+              flags=re.S,
+          )
+          if count != 1:
+              raise SystemExit("cv-pdf-text.ts: could not remove raster text mask helpers")
+          old = '        pdf.text(fragment.text, x, baseline, { horizontalScale });'
+          new = '''        // Browser rendering is the visual source of truth. This native PDF text
+          // remains searchable/selectable, but must never change the visible typography.
+          pdf.text(fragment.text, x, baseline, {
+            horizontalScale,
+            renderingMode: "invisible",
+          });'''
+          if text.count(old) != 1:
+              raise SystemExit("cv-pdf-text.ts: visible pdf.text call changed unexpectedly")
+          text = text.replace(old, new, 1)
+          text, count = re.subn(
+              r'\n        if \(style\.textDecorationLine\.includes\("underline"\)\) \{.*?\n        \}',
+              '',
+              text,
+              count=1,
+              flags=re.S,
+          )
+          if count != 1:
+              raise SystemExit("cv-pdf-text.ts: underline block changed unexpectedly")
+          old = '''/**
+ * Zeichnet den sichtbaren CV-Text deterministisch auf die aktuell aktive PDF-Seite.
+ * Die Raster-Maske wird dafür kurz deaktiviert, damit echte Textfarben und Geometrie
+ * aus dem Browserlayout gelesen werden können.
+ */
+export function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
+  withRasterTextVisible(() => drawCvTextLayer(pdf, page));
+}'''
+          new = '''/**
+ * Ergänzt eine unsichtbare, durchsuchbare CV-Textebene. Die sichtbare Typografie
+ * kommt vollständig aus dem browsergerenderten Raster und bleibt dadurch über
+ * Titelblatt, Motivationsschreiben und Lebenslauf pixelgetreu konsistent.
+ */
+export function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
+  drawCvTextLayer(pdf, page);
+}'''
+          if text.count(old) != 1:
+              raise SystemExit("cv-pdf-text.ts: addCvTextLayer block changed unexpectedly")
+          text = text.replace(old, new, 1)
+          if text.count('  installRasterTextMask();\n') != 1:
+              raise SystemExit("cv-pdf-text.ts: installRasterTextMask call changed unexpectedly")
+          text = text.replace('  installRasterTextMask();\n', '', 1)
+          cv.write_text(text)
+
+          dossier = Path("src/lib/dossier-pdf.ts")
+          text = dossier.read_text()
+          replacements = [
+              (
+                  '      pdf.text(token, x, baseline);',
+                  '      pdf.text(token, x, baseline, { renderingMode: "invisible" });',
+              ),
+              (
+                  '    pdf.text(marker, x, baseline);',
+                  '    pdf.text(marker, x, baseline, { renderingMode: "invisible" });',
+              ),
+              (
+                  '    pdf.text(wrapLetterText(pdf, text, width), x, baseline, { align, lineHeightFactor });',
+                  '''    pdf.text(wrapLetterText(pdf, text, width), x, baseline, {
+      align,
+      lineHeightFactor,
+      renderingMode: "invisible",
+    });''',
+              ),
+          ]
+          for old, new in replacements:
+              if text.count(old) != 1:
+                  raise SystemExit(f"dossier-pdf.ts: expected one text call: {old}")
+              text = text.replace(old, new, 1)
+
+          # Browser raster now carries underlines exactly as previewed. Do not draw
+          # a second jsPDF underline over the same glyphs.
+          text, count = re.subn(
+              r'\n      if \(style\.textDecorationLine\.includes\("underline"\)\) \{.*?\n      \}',
+              '',
+              text,
+              count=1,
+              flags=re.S,
+          )
+          if count != 1:
+              raise SystemExit("dossier-pdf.ts: rich-text underline block changed unexpectedly")
+
+          # Keep browser-rendered letter glyphs in the raster. Rules/table borders
+          # are still rebuilt as vectors, so their existing clone masking remains.
+          text, count = re.subn(
+              r'\n          for \(const node of clonedDocument\.querySelectorAll<HTMLElement>\(\n            "\[data-letter-text-layer\], \[data-letter-text-layer\] \*, \[data-letter-pdf-text\], \[data-letter-pdf-text\] \*",\n          \)\) \{.*?\n          \}',
+              '',
+              text,
+              count=1,
+              flags=re.S,
+          )
+          if count != 1:
+              raise SystemExit("dossier-pdf.ts: letter raster text mask changed unexpectedly")
+          text = text.replace(
+              '/** Browserlayout vermessen, Glyphen und Rich-Text-Stile aber als echte PDF-Objekte zeichnen. */',
+              '/** Browserlayout vermessen und eine unsichtbare, durchsuchbare PDF-Textebene ergänzen. */',
+              1,
+          )
+          dossier.write_text(text)
+
+          cv_test = Path("tests/e2e/cv-pdf-text.spec.ts")
+          text = cv_test.read_text()
+          old = '''    await expect
+      .poll(async () => exportText.evaluate((element) => getComputedStyle(element).color))
+      .toMatch(/rgba\\([^)]*,\\s*0\\)|transparent/i);'''
+          new = '''    // Export raster keeps the browser glyphs visible; the native PDF text
+    // layer is now invisible and exists only for search/copy.
+    await expect
+      .poll(async () => exportText.evaluate((element) => getComputedStyle(element).color))
+      .toMatch(/rgb/i);
+    await expect
+      .poll(async () => exportText.evaluate((element) => getComputedStyle(element).fontFamily))
+      .toContain("Cabin");'''
+          if text.count(old) != 1:
+              raise SystemExit("cv-pdf-text.spec.ts: transparent export assertion changed unexpectedly")
+          cv_test.write_text(text.replace(old, new, 1))
+
+          sync = Path("tests/e2e/dossier-font-sync.spec.ts")
+          text = sync.read_text()
+          old = '''    const coverBlock = page.locator('[data-dossier-document="cover"] [data-block-id]').first();
+    await expect(coverBlock).toBeVisible();
+    await expect
+      .poll(() =>
+        coverBlock.evaluate((element) =>
+          getComputedStyle(element).getPropertyValue("--dossier-font"),
+        ),
+      )
+      .toContain("Cabin");'''
+          new = '''    const coverName = page
+      .locator('[data-dossier-document="cover"] [data-block-id="name"] > div')
+      .first();
+    await expect(coverName).toBeVisible();
+    // Check the rendered glyph source, not merely the inherited CSS token.
+    await expect
+      .poll(() => coverName.evaluate((element) => getComputedStyle(element).fontFamily))
+      .toContain("Cabin");'''
+          if text.count(old) != 1:
+              raise SystemExit("dossier-font-sync.spec.ts: cover font assertion changed unexpectedly")
+          sync.write_text(text.replace(old, new, 1))
+          PY
+
+          rm .github/workflows/apply-global-pdf-visual-text-fix.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src tests .github/workflows/apply-global-pdf-visual-text-fix.yml
+          git commit -m 'Keep dossier PDF typography browser-faithful'
+          git push origin HEAD:dev
