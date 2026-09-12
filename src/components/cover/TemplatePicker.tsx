@@ -5,6 +5,11 @@ import { freshFamilyForTemplate } from "./fresh-templates";
 import { applyDossierTheme } from "@/lib/dossier-theme";
 import { familyForTemplate } from "@/lib/dossier-family";
 import {
+  DOSSIER_CHROME_STORAGE_KEY,
+  patchDossierChrome,
+} from "@/lib/dossier-chrome";
+import { defaultHeaderModeForTemplate } from "@/lib/template-chrome";
+import {
   CV_LAYOUTS,
   getCvLayoutChoice,
   getCvLayoutMirror,
@@ -22,6 +27,8 @@ const RETIRED_TEMPLATE_IDS = new Set(["warm4", "warm5"]);
 const SELECTABLE_TEMPLATES = [...TEMPLATES]
   .filter((template) => !RETIRED_TEMPLATE_IDS.has(template.id as string))
   .sort((a, b) => a.name.localeCompare(b.name, "de", { sensitivity: "base" }));
+
+const EXISTING_DOSSIER_KEYS = ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"] as const;
 
 type Props = {
   value: TemplateId;
@@ -116,6 +123,13 @@ function mirrorHint(layout: CvLayoutId): string {
   return "Foto und Datumsseite tauschen die Seite";
 }
 
+function applyTemplateHeaderDefault(template: TemplateId) {
+  const headerMode = defaultHeaderModeForTemplate(template);
+  const cvOnly = window.location.pathname.includes("lebenslauf");
+  patchDossierChrome("cv", { headerMode });
+  if (!cvOnly) patchDossierChrome("letter", { headerMode });
+}
+
 export function TemplatePicker({ value, onChange }: Props) {
   const cvLayout = useSyncExternalStore<CvLayoutId>(
     subscribeCvLayoutChoice,
@@ -133,6 +147,23 @@ export function TemplatePicker({ value, onChange }: Props) {
     applyDossierTheme(value, freshFamilyForTemplate(value) ?? familyForTemplate(value));
   }, [value]);
 
+  // Brand-new dossiers start on Modern. Establish its template default once,
+  // but never overwrite an existing canonical chrome state or legacy draft.
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem(DOSSIER_CHROME_STORAGE_KEY)) return;
+      if (EXISTING_DOSSIER_KEYS.some((key) => window.localStorage.getItem(key))) return;
+    } catch {
+      return;
+    }
+    applyTemplateHeaderDefault(value);
+  }, [value]);
+
+  const chooseTemplate = (template: TemplateId) => {
+    applyTemplateHeaderDefault(template);
+    onChange(template);
+  };
+
   return (
     <div>
       <div className="grid grid-cols-3 gap-2">
@@ -145,7 +176,7 @@ export function TemplatePicker({ value, onChange }: Props) {
             <button
               key={t.id}
               type="button"
-              onClick={() => onChange(t.id)}
+              onClick={() => chooseTemplate(t.id)}
               aria-pressed={active}
               title={t.description}
               className={`flex min-h-10 items-center justify-center rounded-md border px-2 py-2 text-center text-xs font-medium leading-tight transition ${base}`}
