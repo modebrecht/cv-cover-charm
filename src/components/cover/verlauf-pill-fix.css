@@ -102,3 +102,40 @@ html:is(
 html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-main] > div {
   zoom: 0.895;
 }
+
+/* Verlauf's original CV refresh assumed its document title/name/subtitle lived
+ * directly on the gradient hero. The reviewed dossier now uses Contact chrome:
+ * the sender owns that gradient masthead, while the CV identity row sits on the
+ * light reading surface below it. Keep those default identity colours readable
+ * on paper instead of inheriting the old white-on-gradient override. */
+html[data-dossier-template="verlauf"]
+  [data-dossier-document="cv"]
+  [data-cv-page="0"]
+  [data-cv-doc-title]:not([data-cv-user-doc-color="true"]) {
+  color: color-mix(in srgb, var(--cover-primary) 56%, #111827) !important;
+  text-shadow: none !important;
+}
+
+html[data-dossier-template="verlauf"]
+  [data-dossier-document="cv"]
+  [data-cv-page="0"]
+  [data-cv-doc-title][data-cv-user-doc-color="true"] {
+  color: var(--cv-user-doc-color) !important;
+  text-shadow: none !important;
+}
+
+html[data-dossier-template="verlauf"]
+  [data-dossier-document="cv"]
+  [data-cv-page="0"]
+  [data-cv-name] {
+  color: color-mix(in srgb, var(--cover-primary) 24%, #111827) !important;
+  text-shadow: none !important;
+}
+
+html[data-dossier-template="verlauf"]
+  [data-dossier-document="cv"]
+  [data-cv-page="0"]
+  [data-cv-subtitle] {
+  color: color-mix(in srgb, var(--cover-primary) 18%, #374151) !important;
+  text-shadow: none !important;
+}
