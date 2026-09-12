@@ -41,8 +41,9 @@ function rgb(cssColor: string): [number, number, number] {
     .match(/[\d.]+/g)
     ?.slice(0, 3)
     .map(Number);
-  if (values?.length === 3 && values.every(Number.isFinite))
+  if (values?.length === 3 && values.every(Number.isFinite)) {
     return [values[0], values[1], values[2]];
+  }
   const hex = cssColor.match(/^#([0-9a-f]{6})$/i)?.[1];
   if (hex) {
     return [
@@ -248,11 +249,13 @@ async function addRasterPage(
   html2canvas: Html2Canvas,
   page: HTMLElement,
   rebuildLetterVectors = false,
+  browserNativeText = false,
 ) {
   const canvas = await html2canvas(page, {
     scale: PDF.SCALE,
     backgroundColor: "#ffffff",
     useCORS: true,
+    foreignObjectRendering: browserNativeText,
     width: PAGE.WIDTH,
     height: PAGE.HEIGHT,
     windowWidth: PAGE.WIDTH,
@@ -334,7 +337,11 @@ export async function downloadCombinedDossierPdf(
   addLetterTextLayer(pdf, letter);
   for (const cvPage of cvPages) {
     pdf.addPage("a4", "portrait");
-    await addRasterPage(pdf, html2canvas, cvPage);
+    // CV pages use CSS zoom for pagination. html2canvas' normal renderer can
+    // distort word spacing under zoom, while ForeignObject delegates the text
+    // painting to the browser and therefore preserves the same Cabin glyphs
+    // and spacing that are visible in the editor and motivation letter.
+    await addRasterPage(pdf, html2canvas, cvPage, false, true);
     addCvTextLayer(pdf, cvPage);
   }
 
