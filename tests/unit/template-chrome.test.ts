@@ -1,21 +1,87 @@
 import { describe, expect, test } from "bun:test";
 import { DEFAULT_DOSSIER_CHROME_OPTIONS } from "../../src/lib/dossier-chrome";
 import {
+  defaultHeaderGapMmForTemplate,
   defaultHeaderModeForTemplate,
   resolveTemplateChromeOptions,
 } from "../../src/lib/template-chrome";
 
 describe("template-owned dossier chrome", () => {
-  test("Warm, Modern, Edel and Edel Dark default to compact headers", () => {
-    for (const template of ["freundlich", "modern", "edel", "edelDark"]) {
+  test("ordinary templates default to compact headers", () => {
+    for (const template of [
+      "brief",
+      "klassisch",
+      "modern",
+      "freundlich",
+      "edel",
+      "edelDark",
+      "colorful",
+      "blockig",
+      "serioes",
+      "human",
+      "welle",
+      "edge",
+      "ribbon",
+    ]) {
       expect(defaultHeaderModeForTemplate(template)).toBe("compact");
+      expect(defaultHeaderGapMmForTemplate(template)).toBe(12);
     }
   });
 
-  test("other templates keep the normal contact-header default", () => {
-    for (const template of ["brief", "colorful", "edge", "ribbon"]) {
+  test("designed masthead families opt into contact headers", () => {
+    for (const template of [
+      "horizon",
+      "violetPulse",
+      "studio",
+      "studio2",
+      "studio3",
+      "warm2",
+      "warm3",
+      "warm4",
+      "warm5",
+      "verlauf",
+      "verlauf2",
+      "verlauf3",
+      "prism",
+    ]) {
       expect(defaultHeaderModeForTemplate(template)).toBe("contact");
+      expect(defaultHeaderGapMmForTemplate(template)).toBe(4);
     }
+  });
+
+  test("contact gradient families inherit both template colours", () => {
+    const source = {
+      ...DEFAULT_DOSSIER_CHROME_OPTIONS,
+      headerMode: "contact" as const,
+      headerBackgroundColor: null,
+      headerGradientColor: null,
+    };
+
+    for (const template of ["horizon", "violetPulse", "verlauf", "verlauf2", "verlauf3", "prism"]) {
+      const resolved = resolveTemplateChromeOptions(
+        template,
+        { primary: "#123456", secondary: "#abcdef", accent: "#fedcba" },
+        source,
+      );
+      expect(resolved.headerBackgroundColor).toBe("#123456");
+      expect(resolved.headerGradientColor).toBe("#abcdef");
+    }
+  });
+
+  test("explicit contact background colours remain authoritative", () => {
+    const source = {
+      ...DEFAULT_DOSSIER_CHROME_OPTIONS,
+      headerMode: "contact" as const,
+      headerBackgroundColor: "#111111",
+      headerGradientColor: null,
+    };
+    expect(
+      resolveTemplateChromeOptions(
+        "verlauf",
+        { primary: "#123456", secondary: "#abcdef" },
+        source,
+      ),
+    ).toBe(source);
   });
 
   test("Modern mirrors compact header and footer without changing their geometry", () => {
@@ -93,7 +159,7 @@ describe("template-owned dossier chrome", () => {
     }
   });
 
-  test("other templates keep the shared chrome contract unchanged", () => {
+  test("ordinary templates keep the shared chrome contract unchanged", () => {
     const source = { ...DEFAULT_DOSSIER_CHROME_OPTIONS, headerMode: "contact" as const };
     const resolved = resolveTemplateChromeOptions(
       "colorful",
