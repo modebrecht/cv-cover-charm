@@ -4,6 +4,7 @@ import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import { effectiveDossierFont } from "@/lib/dossier-theme";
+import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
 import { letterPageGeometry, visibleLetterAttachments } from "./layout-system";
 import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
 import { letterRichHtml, plainTextToRichHtml } from "./rich-text";
@@ -45,7 +46,7 @@ function Separator({ color, marker }: { color: string; marker: string }) {
 /** Legacy/SSR adapter only. Live DossierChromeState is the single source of truth. */
 function legacyChromeFromDesign(design: LetterDesign): DossierChromeOptions {
   return {
-    headerMode: design.headerMode ?? "compact",
+    headerMode: design.headerMode ?? "contact",
     headerShowName: design.headerShowName !== false,
     headerShowAddress: design.headerShowAddress !== false,
     headerShowPhone: design.headerShowPhone !== false,
@@ -65,7 +66,7 @@ function legacyChromeFromDesign(design: LetterDesign): DossierChromeOptions {
     footerTextLayout: design.footerTextLayout === "stacked" ? "stacked" : "inline",
     footerBackgroundColor: design.footerBackgroundColor ?? null,
     footerGradientColor: design.footerGradientColor ?? null,
-    borderEnabled: design.chromeBorderEnabled !== false,
+    borderEnabled: design.chromeBorderEnabled === true,
     borderColor: design.chromeBorderColor ?? null,
     borderWidthMm: design.chromeBorderWidthMm ?? 0.6,
     textFont: design.chromeTextFont ?? null,
@@ -93,7 +94,11 @@ export function LetterCanvas({
   onImageRemove?: (id: string) => void;
   ariaLabel?: string;
 }) {
-  const chrome = chromeOptions ?? legacyChromeFromDesign(design);
+  const chrome = resolveTemplateChromeOptions(
+    design.template,
+    design.colors,
+    chromeOptions ?? legacyChromeFromDesign(design),
+  );
   const effectiveDesign = useMemo<LetterDesign>(
     () => ({
       ...design,
@@ -152,7 +157,7 @@ export function LetterCanvas({
   const fontFamily =
     design.template === "brief"
       ? FONT_STACKS[design.font]
-      : effectiveDossierFont(design.template, design.fontOverride);
+      : effectiveDossierFont(design.template, design.fontOverride ?? design.font);
   const senderAlign = design.senderAlign ?? "left";
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
@@ -225,7 +230,7 @@ export function LetterCanvas({
       data-letter-final-page={geometry.finalPage ? "true" : "false"}
       data-letter-font={design.fontOverride ?? design.font}
       data-letter-font-source={
-        design.template === "brief" ? "standalone" : design.fontOverride ? "override" : "family"
+        design.template === "brief" ? "standalone" : design.fontOverride ? "override" : "dossier"
       }
       className="relative h-[1123px] w-[794px] overflow-hidden bg-white shadow-xl"
       style={{ color: palette.ink, fontFamily, backgroundColor: palette.paper }}
