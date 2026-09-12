@@ -22,12 +22,35 @@ function installRasterTextMask() {
 
   const style = document.createElement("style");
   style.id = MASK_STYLE_ID;
-  // Keep this stable hook for existing preview/PDF parity diagnostics, but do
-  // not hide the browser-rendered CV typography anymore. The motivation letter
-  // already proves the reliable strategy: html2canvas owns the visible glyphs
-  // so Cabin looks exactly like it does in the browser, while the native PDF
-  // text layer below is invisible and exists only for search/copy.
-  style.textContent = "";
+  style.textContent = `
+html[data-dossier-template][data-dossier-template][data-dossier-template]
+  [data-dossier-document="cv"][data-export-mode="true"] [data-cv-page],
+html[data-dossier-template][data-dossier-template][data-dossier-template]
+  [data-dossier-document="cv"][data-export-mode="true"] [data-cv-page] * {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-decoration-color: transparent !important;
+  text-shadow: none !important;
+}
+
+/*
+ * The motivation letter and CV must use the same visible PDF font. Hide only
+ * letter nodes that are rebuilt by addLetterTextLayer; header/background chrome
+ * stays in the raster so template geometry (especially Warm) is preserved.
+ * visibility keeps the measured browser colour and geometry intact for the
+ * native PDF layer while preventing html2canvas from painting a second glyph.
+ */
+[data-dossier-document="letter"] [data-letter-pdf-text],
+[data-dossier-document="letter"] [data-letter-pdf-text] *,
+[data-dossier-document="letter"] [data-letter-pdf-richtext],
+[data-dossier-document="letter"] [data-letter-pdf-richtext] *,
+[data-letter-standalone-export] [data-letter-pdf-text],
+[data-letter-standalone-export] [data-letter-pdf-text] *,
+[data-letter-standalone-export] [data-letter-pdf-richtext],
+[data-letter-standalone-export] [data-letter-pdf-richtext] * {
+  visibility: hidden !important;
+}
+`;
   document.head.appendChild(style);
 }
 
@@ -152,8 +175,9 @@ function fittedHorizontalScale(pdf: JsPdf, text: string, targetWidthMm: number):
   const renderedWidthMm = pdf.getTextWidth(text);
   if (!Number.isFinite(renderedWidthMm) || renderedWidthMm <= 0 || targetWidthMm <= 0) return 1;
 
-  // The native layer is invisible, but matching the browser token width keeps
-  // selection/search geometry aligned with the visible raster typography.
+  // Browser and jsPDF can use different physical fonts for the same logical
+  // family. Keep the browser-measured token width so neighbouring words retain
+  // the whitespace seen in preview. The clamp is only a corruption guard.
   return Math.max(0.5, Math.min(1.5, targetWidthMm / renderedWidthMm));
 }
 
@@ -235,14 +259,18 @@ function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
           rects.length === 1
             ? fittedHorizontalScale(pdf, fragment.text, fragment.rect.width * mmX)
             : 1;
-        // Visible CV typography now comes from the browser/html2canvas raster,
-        // exactly like the motivation letter. Keep this native Cabin layer only
-        // for search, selection and copy so jsPDF glyph metrics can never alter
-        // the visual font or word spacing.
-        pdf.text(fragment.text, x, baseline, {
-          horizontalScale,
-          renderingMode: "invisible",
-        });
+        pdf.text(fragment.text, x, baseline, { horizontalScale });
+
+        if (style.textDecorationLine.includes("underline")) {
+          pdf.setDrawColor(red, green, blue);
+          pdf.setLineWidth(0.18);
+          pdf.line(
+            x,
+            baseline + 0.55,
+            x + fragment.rect.width * mmX,
+            baseline + 0.55,
+          );
+        }
       }
     }
 
@@ -251,9 +279,9 @@ function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
 }
 
 /**
- * Ergänzt die aktuell sichtbare CV-Seite um eine unsichtbare, durchsuchbare
- * PDF-Textebene. Die sichtbare Typografie selbst bleibt Browser-Raster und ist
- * damit identisch zur Vorschau und zum Motivationsschreiben.
+ * Zeichnet den sichtbaren CV-Text deterministisch auf die aktuell aktive PDF-Seite.
+ * Die Raster-Maske wird dafür kurz deaktiviert, damit echte Textfarben und Geometrie
+ * aus dem Browserlayout gelesen werden können.
  */
 export function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
   withRasterTextVisible(() => drawCvTextLayer(pdf, page));
@@ -309,6 +337,11 @@ function applyStandaloneTextLayer(pdf: JsPdf): boolean {
   return true;
 }
 
+function shouldExposeNativeText(pdf: JsPdf): boolean {
+  const subject = subjects.get(pdf) ?? "";
+  return /(?:Bewerbungsdossier|Motivationsschreiben|Lebenslauf)/i.test(subject);
+}
+
 /**
  * Der separate CV-Download benutzt noch den bestehenden jsPDF-Ausgabepunkt.
  * Das Gesamtdossier ruft addCvTextLayer dagegen direkt im Exportpfad auf und
@@ -324,11 +357,31 @@ function installJsPdfPlugin() {
     function initializedCvPdfTextPlugin(this: JsPdf) {
       const originalSetProperties = this.setProperties as unknown as UnknownFn;
       const originalOutput = this.output as unknown as UnknownFn;
+      const originalText = this.text as unknown as UnknownFn;
 
       (this as unknown as { setProperties: UnknownFn }).setProperties = (...args: unknown[]) => {
         const properties = (args[0] ?? {}) as PdfProperties;
         if (typeof properties.subject === "string") subjects.set(this, properties.subject);
         return Reflect.apply(originalSetProperties, this, args);
+      };
+
+      // Letter text layers historically used renderingMode="invisible" because
+      // html2canvas owned their visible glyphs. For dossier PDFs we now expose
+      // that same native text layer, matching the CV's native Cabin exactly.
+      (this as unknown as { text: UnknownFn }).text = (...args: unknown[]) => {
+        const options = args[3];
+        if (
+          shouldExposeNativeText(this) &&
+          options &&
+          typeof options === "object" &&
+          !Array.isArray(options) &&
+          (options as { renderingMode?: string }).renderingMode === "invisible"
+        ) {
+          const nextArgs = [...args];
+          nextArgs[3] = { ...(options as Record<string, unknown>), renderingMode: "fill" };
+          return Reflect.apply(originalText, this, nextArgs);
+        }
+        return Reflect.apply(originalText, this, args);
       };
 
       (this as unknown as { output: UnknownFn }).output = (...args: unknown[]) => {
