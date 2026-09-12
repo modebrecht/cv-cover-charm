@@ -39,3 +39,81 @@
 [data-dossier-sheet-background="cove"] > div:nth-child(3) {
   display: none !important;
 }
+
+/* -------------------------------------------------------------------------- */
+/* FINAL GALLERY COLLISION GUARDS                                              */
+/* -------------------------------------------------------------------------- */
+/*
+ * These are deliberately narrow template fixes for the final PDF review.
+ * They do not change shared chrome dimensions or the user's header/footer
+ * controls. Instead they give template-owned decorative fields enough local
+ * breathing room around the shared contact chrome.
+ */
+
+/* Warm and Aurora keep a deeper first-page motif than the 22 mm contact chrome.
+ * Move only the flowing recipient block below that motif; the user's explicit
+ * recipient transform remains additive and untouched. */
+[data-letter-page][data-letter-template="freundlich"][data-letter-page-index="0"][data-letter-header-mode="contact"]
+  [data-letter-section="recipient"] {
+  margin-top: 12mm !important;
+}
+
+[data-letter-page][data-letter-template="aurora"][data-letter-page-index="0"][data-letter-header-mode="contact"]
+  [data-letter-section="recipient"] {
+  margin-top: 16mm !important;
+}
+
+/* Neon, Verlauf and Citrus deliberately place the CV heading in their hero.
+ * The old hero refresh starts the main flow at 14–15 mm, which is now inside
+ * the shared 22 mm contact header. A small first-flow margin preserves the hero
+ * composition while clearing contact text. Mirror it in the hidden measure page
+ * so pagination and the exported page use the same geometry. */
+[data-cv-template="neon"] :is([data-cv-page="0"], [data-cv-measure-page]) [data-cv-header],
+[data-cv-template="verlauf"] :is([data-cv-page="0"], [data-cv-measure-page]) [data-cv-header] {
+  margin-top: 11mm !important;
+}
+
+[data-cv-template="citrus"] :is([data-cv-page="0"], [data-cv-measure-page]) [data-cv-header] {
+  margin-top: 12mm !important;
+}
+
+/* Studio 3 has the same stale pre-chrome 12 mm main offset. Keep its title and
+ * personal metadata inside the 60 mm teal hero, but begin them below contact. */
+[data-cv-template="studio3"] :is([data-cv-page="0"], [data-cv-measure-page]) [data-cv-header] {
+  margin-top: 14mm !important;
+}
+
+/* Edge's motivation-letter signature intentionally owns a 9 mm dark top band.
+ * Contact text must begin underneath it rather than straddling dark and paper.
+ * The chrome wrapper spans the whole page, so allowing the 22 mm contact block
+ * to overflow is safe and still leaves ample clearance before letter content. */
+[data-letter-page][data-letter-template="edge"] [data-dossier-chrome="letter"]
+  [data-dossier-integrated-contact] {
+  padding-top: 10mm !important;
+  padding-bottom: 0 !important;
+  overflow: visible !important;
+}
+
+/* CV export does not rely on the transient html[data-dossier-template] marker.
+ * Scope these Fresh overrides to the persistent CV root as well, so the shared
+ * contact surface cannot reappear over Edge / Mono Luxe during gallery export. */
+[data-cv-template="edge"] [data-dossier-contact-header-background],
+[data-cv-template="edge"] [data-dossier-compact-header],
+[data-cv-template="monoLuxe"] [data-dossier-contact-header-background],
+[data-cv-template="monoLuxe"] [data-dossier-compact-header] {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-cv-template="edge"] [data-dossier-integrated-contact],
+[data-cv-template="monoLuxe"] [data-dossier-integrated-contact] {
+  color: var(--cover-ink) !important;
+}
+
+/* Ribbon's Fresh content contract supplies the nine-letter label BEWERBUNG,
+ * while its inherited Warm eyebrow box is narrower. Widen only that display
+ * box; the block's position, font controls and user text remain untouched. */
+html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
+  width: 44mm !important;
+}
