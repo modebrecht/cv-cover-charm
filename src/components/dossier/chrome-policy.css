@@ -118,9 +118,11 @@
   color: var(--cover-ink) !important;
 }
 
-/* Ribbon's Fresh content contract supplies the nine-letter label BEWERBUNG,
- * while its inherited Warm eyebrow box is narrower. Widen only that display
- * box; the block's position, font controls and user text remain untouched. */
+/* Ribbon's Fresh content contract supplies the nine-letter label BEWERBUNG.
+ * Its display box crosses the dark sidebar/paper seam, so white template text
+ * otherwise disappears on the paper. Extend the template-owned dark surface
+ * behind that one label; block position, font and user text stay untouched. */
 html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
   width: 44mm !important;
+  background: var(--cover-ink) !important;
 }
