@@ -139,8 +139,9 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
    * was still visibly misaligned.
    *
    * Kontakt is the visual anchor. In the untouched automatic footer state move
-   * only Beilagen to the same *actual* top edge after all template CSS has been
-   * applied. This preserves each template's intentional Kontakt placement and
+   * the complete Beilagen column by the same render-time delta: its heading lands
+   * on the exact Kontakt baseline and the body keeps its intended gap below the
+   * heading. This preserves each template's intentional Kontakt placement and
    * also covers future CSS transforms. Explicitly dragged Beilagen opt out via
    * `usesAutomaticFooterPair` above.
    */
@@ -150,24 +151,38 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     if (!root) return;
 
     const contact = root.querySelector<HTMLElement>('[data-block-id="kontaktTitel"]');
-    const attachments = root.querySelector<HTMLElement>('[data-block-id="beilagenTitel"]');
-    if (!contact || !attachments) return;
+    const attachmentsTitle = root.querySelector<HTMLElement>('[data-block-id="beilagenTitel"]');
+    const attachmentsBody = root.querySelector<HTMLElement>('[data-block-id="beilagen"]');
+    if (!contact || !attachmentsTitle || !attachmentsBody) return;
 
     const rootRect = root.getBoundingClientRect();
     const scale = rootRect.width > 0 ? rootRect.width / PAGE_W : 1;
     const contactRect = contact.getBoundingClientRect();
-    const attachmentsRect = attachments.getBoundingClientRect();
-    const computedTop = Number.parseFloat(getComputedStyle(attachments).top);
-    if (!Number.isFinite(computedTop) || scale <= 0) return;
+    const titleRect = attachmentsTitle.getBoundingClientRect();
+    const titleTop = Number.parseFloat(getComputedStyle(attachmentsTitle).top);
+    const bodyTop = Number.parseFloat(getComputedStyle(attachmentsBody).top);
+    if (!Number.isFinite(titleTop) || !Number.isFinite(bodyTop) || scale <= 0) return;
 
-    const previousTop = attachments.style.getPropertyValue("top");
-    const previousPriority = attachments.style.getPropertyPriority("top");
-    const deltaCssPx = (contactRect.top - attachmentsRect.top) / scale;
-    attachments.style.setProperty("top", `${computedTop + deltaCssPx}px`, "important");
+    const deltaCssPx = (contactRect.top - titleRect.top) / scale;
+    const previousTitleTop = attachmentsTitle.style.getPropertyValue("top");
+    const previousTitlePriority = attachmentsTitle.style.getPropertyPriority("top");
+    const previousBodyTop = attachmentsBody.style.getPropertyValue("top");
+    const previousBodyPriority = attachmentsBody.style.getPropertyPriority("top");
+
+    attachmentsTitle.style.setProperty("top", `${titleTop + deltaCssPx}px`, "important");
+    attachmentsBody.style.setProperty("top", `${bodyTop + deltaCssPx}px`, "important");
 
     return () => {
-      if (previousTop) attachments.style.setProperty("top", previousTop, previousPriority);
-      else attachments.style.removeProperty("top");
+      if (previousTitleTop) {
+        attachmentsTitle.style.setProperty("top", previousTitleTop, previousTitlePriority);
+      } else {
+        attachmentsTitle.style.removeProperty("top");
+      }
+      if (previousBodyTop) {
+        attachmentsBody.style.setProperty("top", previousBodyTop, previousBodyPriority);
+      } else {
+        attachmentsBody.style.removeProperty("top");
+      }
     };
   }, [automaticFooterPair, fontScale, renderBlocks, template]);
 
