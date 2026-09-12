@@ -180,8 +180,15 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
 
       const nameBox = await sheet.locator("[data-cv-name]").first().boundingBox();
       expect(nameBox).not.toBeNull();
-      if (nameBox)
+      if (nameBox) {
         expect(nameBox.y, `${template.id} name belongs in the hero`).toBeLessThan(surfaceBox.y);
+        if (template.id === "neon") {
+          expect(
+            nameBox.y + nameBox.height,
+            "neon name must stay fully above the light paper boundary",
+          ).toBeLessThanOrEqual(surfaceBox.y - 1);
+        }
+      }
 
       const sectionRule = sheet.locator('[data-cv-accent="section"]').first();
       await expect(sectionRule).toBeVisible();
