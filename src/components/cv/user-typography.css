@@ -96,3 +96,36 @@ html[data-dossier-template]
   [data-cv-accent="section"][data-cv-user-section-color="true"] {
   background: var(--cv-user-section-color) !important;
 }
+
+/*
+ * Global dossier-font contract for native CV content.
+ *
+ * The CV renderer already exposes the effective dossier font as
+ * `--dossier-font` (explicit user choice first, template family otherwise).
+ * Several older CV nodes still carried hard-coded family stacks, so the PDF
+ * text layer could end up in Times while title page / motivation letter used
+ * Cabin or Helvetica. Force only the native CV text roles onto the shared font;
+ * custom user elements keep their own explicit element font declarations.
+ */
+[data-dossier-document="cv"] :is([data-cv-page], [data-cv-measure-page]) {
+  font-family: var(--dossier-font) !important;
+}
+
+[data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  :is(
+    [data-cv-main],
+    [data-cv-band-header],
+    [data-cv-footer],
+    [data-cv-doc-title],
+    [data-cv-name],
+    [data-cv-subtitle],
+    [data-cv-section-title],
+    [data-cv-entry],
+    [data-cv-entry-title],
+    [data-cv-date],
+    [data-cv-body],
+    [data-cv-muted]
+  ) {
+  font-family: var(--dossier-font) !important;
+}
