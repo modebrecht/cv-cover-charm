@@ -205,10 +205,11 @@ test.describe("dossier typography regression", () => {
     }
 
     // Kontakt and Beilagen deliberately use the same global footer convention,
-    // independent of the surrounding template heading treatment.
+    // independent of the surrounding template heading treatment. Chromium may
+    // serialize zero letter-spacing as either `normal` or `0px`.
     for (const id of ["kontaktTitel", "beilagenTitel"]) {
       expect(styles[id].textTransform).toBe("uppercase");
-      expect(styles[id].letterSpacing).toBe("0px");
+      expect(styles[id].letterSpacing).toMatch(/^(normal|0px)$/);
       expect(Number(styles[id].fontWeight)).toBeGreaterThanOrEqual(600);
     }
 
