@@ -199,8 +199,16 @@ test.describe("dossier typography regression", () => {
     expect(styles.lehrbeginn.fontStyle).toBe("normal");
     expect(styles.name.fontStyle).toBe("normal");
 
-    for (const id of ["eyebrow", "kicker", "kontaktTitel", "beilagenTitel"]) {
+    for (const id of ["eyebrow", "kicker"]) {
       expect(styles[id].textTransform).toBe("none");
+      expect(Number(styles[id].fontWeight)).toBeGreaterThanOrEqual(600);
+    }
+
+    // Kontakt and Beilagen deliberately use the same global footer convention,
+    // independent of the surrounding template heading treatment.
+    for (const id of ["kontaktTitel", "beilagenTitel"]) {
+      expect(styles[id].textTransform).toBe("uppercase");
+      expect(styles[id].letterSpacing).toBe("0px");
       expect(Number(styles[id].fontWeight)).toBeGreaterThanOrEqual(600);
     }
 
