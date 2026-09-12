@@ -81,5 +81,42 @@ export function resolveLayout(
   };
 
   for (const b of blocks) resolve(b.id);
+
+  /*
+   * Kontakt + Beilagen are one semantic footer pair. Historically both bodies
+   * were bottom-anchored independently, so their headings started at different
+   * heights whenever the columns contained a different number of lines.
+   *
+   * The generated default attachment layout is identifiable by the title being
+   * `above: "beilagen"` and the body still owning its bottom anchor. Only that
+   * untouched automatic state is synchronized here: explicit editor moves clear
+   * those links/anchors and therefore continue to win.
+   */
+  const contactTitleBlock = byId.get("kontaktTitel");
+  const attachmentsTitleBlock = byId.get("beilagenTitel");
+  const attachmentsBodyBlock = byId.get("beilagen");
+  const contactTitle = out.kontaktTitel;
+  const attachmentsTitle = out.beilagenTitel;
+  const attachmentsBody = out.beilagen;
+
+  if (
+    contactTitleBlock &&
+    attachmentsTitleBlock &&
+    attachmentsBodyBlock &&
+    contactTitle &&
+    attachmentsTitle &&
+    attachmentsBody &&
+    attachmentsTitleBlock.style.above === "beilagen" &&
+    !attachmentsTitleBlock.style.follows &&
+    attachmentsBodyBlock.style.anchorBottom === true
+  ) {
+    const gap = (attachmentsTitleBlock.style.gap ?? 2) * spacingDensity;
+    out.beilagenTitel = { ...attachmentsTitle, y: contactTitle.y };
+    out.beilagen = {
+      ...attachmentsBody,
+      y: contactTitle.y + attachmentsTitle.height + gap,
+    };
+  }
+
   return out;
 }
