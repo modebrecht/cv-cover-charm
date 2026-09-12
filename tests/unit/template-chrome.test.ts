@@ -6,14 +6,14 @@ import {
 } from "../../src/lib/template-chrome";
 
 describe("template-owned dossier chrome", () => {
-  test("Modern, Edel and Edel Dark default to compact headers", () => {
-    for (const template of ["modern", "edel", "edelDark"]) {
+  test("Warm, Modern, Edel and Edel Dark default to compact headers", () => {
+    for (const template of ["freundlich", "modern", "edel", "edelDark"]) {
       expect(defaultHeaderModeForTemplate(template)).toBe("compact");
     }
   });
 
   test("other templates keep the normal contact-header default", () => {
-    for (const template of ["brief", "colorful", "freundlich", "edge", "ribbon"]) {
+    for (const template of ["brief", "colorful", "edge", "ribbon"]) {
       expect(defaultHeaderModeForTemplate(template)).toBe("contact");
     }
   });
