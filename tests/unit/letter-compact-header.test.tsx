@@ -61,7 +61,7 @@ describe("compact letter presentation", () => {
     }
   });
 
-  test("all header modes work for every selectable letter style", () => {
+  test("all header modes work for selectable letter styles except fixed-chrome Modern", () => {
     for (const template of LETTER_TEMPLATE_IDS) {
       const compact = markupFor(template, "compact");
       const contact = markupFor(template, "contact");
@@ -69,6 +69,15 @@ describe("compact letter presentation", () => {
 
       expect(compact).toContain('data-letter-header-mode="compact"');
       expect(compact).toContain('data-letter-section="sender"');
+
+      if (template === "modern") {
+        // Modern deliberately owns a symmetric compact top/bottom signature.
+        expect(contact).toContain('data-letter-header-mode="compact"');
+        expect(none).toContain('data-letter-header-mode="compact"');
+        expect(contact).not.toContain("data-letter-integrated-contact");
+        expect(none).not.toContain("data-letter-integrated-contact");
+        continue;
+      }
 
       expect(contact).toContain('data-letter-header-mode="contact"');
       expect(contact).toContain("data-letter-integrated-contact");
@@ -82,7 +91,7 @@ describe("compact letter presentation", () => {
     }
   });
 
-  test("all footer modes work for every selectable letter style without duplicating attachments", () => {
+  test("all footer modes work except Modern's deliberately fixed mirrored compact footer", () => {
     for (const template of LETTER_TEMPLATE_IDS) {
       const compact = markupFor(template, "compact", "compact");
       const attachments = markupFor(template, "compact", "attachments");
@@ -91,6 +100,14 @@ describe("compact letter presentation", () => {
       expect(compact).toContain('data-letter-footer-mode="compact"');
       expect(compact).toContain('data-letter-footer="compact"');
       expect(compact).toContain('data-letter-pdf-text="attachments-heading"');
+
+      if (template === "modern") {
+        expect(attachments).toContain('data-letter-footer-mode="compact"');
+        expect(none).toContain('data-letter-footer-mode="compact"');
+        expect(attachments).not.toContain("data-letter-footer-attachments");
+        expect(attachments).toContain('data-letter-pdf-text="attachments-heading"');
+        continue;
+      }
 
       expect(attachments).toContain('data-letter-footer-mode="attachments"');
       expect(attachments).toContain('data-letter-footer="attachments"');
@@ -105,8 +122,8 @@ describe("compact letter presentation", () => {
   });
 
   test("attachments footer grows with its editable attachment content", () => {
-    const shortMarkup = markupFor("modern", "compact", "attachments");
-    const longMarkup = markupFor("modern", "compact", "attachments", {
+    const shortMarkup = markupFor("serioes", "compact", "attachments");
+    const longMarkup = markupFor("serioes", "compact", "attachments", {
       ...DEMO_LETTER,
       beilagen: ["Lebenslauf", "Zeugnis", "Schnupperbericht", "Kursbestätigung"],
     });
@@ -118,11 +135,11 @@ describe("compact letter presentation", () => {
   });
 
   test("attachments footer also grows when the item count stays the same but a label wraps", () => {
-    const shortMarkup = markupFor("modern", "compact", "attachments", {
+    const shortMarkup = markupFor("serioes", "compact", "attachments", {
       ...DEMO_LETTER,
       beilagen: ["Lebenslauf", "Zeugnis"],
     });
-    const wrappedMarkup = markupFor("modern", "compact", "attachments", {
+    const wrappedMarkup = markupFor("serioes", "compact", "attachments", {
       ...DEMO_LETTER,
       beilagen: [
         "Lebenslauf",
@@ -134,7 +151,7 @@ describe("compact letter presentation", () => {
   });
 
   test("contact header keeps long real-world contact values wrap-capable instead of truncating them", () => {
-    const markup = markupFor("modern", "contact", "compact", {
+    const markup = markupFor("serioes", "contact", "compact", {
       ...DEMO_LETTER,
       absenderName: "Lea Sophie Alexandra Müller-Winterberger-Schneider",
       absenderAdresse: "Sehrlangebeispielstrasse 123a Hinterhaus",
@@ -148,7 +165,7 @@ describe("compact letter presentation", () => {
   });
 
   test("meaningful contact and attachment chrome stays in the accessibility tree", () => {
-    const markup = markupFor("modern", "contact", "attachments");
+    const markup = markupFor("serioes", "contact", "attachments");
     const chromeTag = markup.match(/<div[^>]*data-letter-chrome[^>]*>/)?.[0];
 
     expect(chromeTag).toBeDefined();
@@ -197,8 +214,8 @@ describe("compact letter presentation", () => {
   test("contact header uses automatic readable contrast on a light header color", () => {
     const design = {
       ...emptyLetterDesign(),
-      template: "modern" as const,
-      colors: { ...defaultLetterColors("modern"), primary: "#ffffff", accent: "#ffffff" },
+      template: "serioes" as const,
+      colors: { ...defaultLetterColors("serioes"), primary: "#ffffff", accent: "#ffffff" },
       headerMode: "contact" as const,
     };
     const markup = renderToStaticMarkup(createElement(LetterCanvas, { data: DEMO_LETTER, design }));
