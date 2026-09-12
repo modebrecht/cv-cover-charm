@@ -3,11 +3,13 @@ import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { FRESH_TEMPLATE_REGISTRY } from "../../src/components/cover/fresh-template-registry";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
+import { defaultHeaderModeForTemplate } from "../../src/lib/template-chrome";
 
 const BASE_URL = "http://127.0.0.1:4173";
 const GALLERY_DIR = process.env.GALLERY_DIR ?? "artifacts/dossier-gallery";
 const GALLERY_BATCH_SIZE = 4;
 const GALLERY_BATCH_COUNT = 10;
+const CHROME_STORAGE_KEY = "bewerbungsdossier:chrome:v1";
 
 function galleryBatchIndex(): number | null {
   const raw = process.env.GALLERY_BATCH_INDEX;
@@ -134,14 +136,16 @@ test("UI sample dossier downloads and all live motivation-letter templates produ
   await loadDemoThroughUi(page, "/anschreiben");
   await loadDemoThroughUi(page, "/lebenslauf");
 
-  const stored = await page.evaluate(() => ({
+  const stored = await page.evaluate((chromeStorageKey) => ({
     cover: JSON.parse(localStorage.getItem("titelblatt:v3") ?? "null"),
     letter: JSON.parse(localStorage.getItem("anschreiben:v1") ?? "null"),
     cv: JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null"),
-  }));
+    chrome: JSON.parse(localStorage.getItem(chromeStorageKey) ?? "null"),
+  }), CHROME_STORAGE_KEY);
   expect(stored.cover?.data?.vorname).toBe("Lea");
   expect(stored.letter?.data?.unterschrift).toBe("Lea Müller");
   expect(stored.cv?.data?.person?.vorname).toBe("Lea");
+  expect(stored.chrome?.shared?.headerMode).toBe("compact");
 
   const cases: Array<{
     label: string;
@@ -193,11 +197,13 @@ test("UI sample dossier downloads and all live motivation-letter templates produ
   }
 
   for (const { item, globalIndex } of selectedCases) {
+    const headerMode = defaultHeaderModeForTemplate(item.coverTemplate);
     await page.evaluate(
-      ({ base, letterTemplate, coverTemplate, cvTemplate }) => {
+      ({ base, letterTemplate, coverTemplate, cvTemplate, headerMode, chromeStorageKey }) => {
         const cover = structuredClone(base.cover);
         const letter = structuredClone(base.letter);
         const cv = structuredClone(base.cv);
+        const chrome = structuredClone(base.chrome);
 
         cover.template = coverTemplate;
         letter.design.template = letterTemplate;
@@ -217,15 +223,25 @@ test("UI sample dossier downloads and all live motivation-letter templates produ
         cv.design.template = cvTemplate;
         cv.design.colors = { ...(cover.colors?.[cvTemplate] ?? cv.design.colors) };
 
+        // The review gallery represents product defaults, not one global chrome
+        // mode inherited from whichever template happened to initialize first.
+        chrome.shared.headerMode = headerMode;
+        chrome.cv.headerMode = headerMode;
+        chrome.letter.headerMode = headerMode;
+        letter.design.headerMode = headerMode;
+
         localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
         localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
         localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
+        localStorage.setItem(chromeStorageKey, JSON.stringify(chrome));
       },
       {
         base: stored,
         letterTemplate: item.letterTemplate,
         coverTemplate: item.coverTemplate,
         cvTemplate: item.cvTemplate,
+        headerMode,
+        chromeStorageKey: CHROME_STORAGE_KEY,
       },
     );
 
