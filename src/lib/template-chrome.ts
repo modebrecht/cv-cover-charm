@@ -5,18 +5,16 @@ import type { DossierChromeOptions, DossierHeaderMode } from "@/lib/dossier-chro
  * templates whose design genuinely benefits from an integrated contact masthead
  * opt into contact by default.
  *
- * `freundlich` (Warm 1) deliberately uses contact by default. Its 52 mm
- * template-owned teal field sits behind the shared contact masthead: the shared
- * primary-colour contact surface masks the upper part of the oversized amber
- * motif and keeps the sender high on the page. This is the reviewed Warm
- * composition from the 2026-09-12 PDF gallery.
+ * `freundlich` (Warm 1) intentionally stays out of this set. Its dedicated
+ * compact renderer owns the reviewed 52 mm teal / mustard first-page masthead,
+ * while the CV keeps the quiet Warm continuation edge. Routing Warm through the
+ * generic contact masthead creates a second, visually unrelated header system.
  *
- * `aurora` also owns a deep cyan/violet first-page field. Its reviewed gallery
+ * `aurora` owns a deep cyan/violet first-page field. Its reviewed gallery
  * composition uses the shared contact masthead as the clean cyan sender strip;
  * Compact would drop normal black sender text into the decorative gradient.
  */
 const CONTACT_HEADER_DEFAULT_TEMPLATES = new Set([
-  "freundlich",
   "aurora",
   "horizon",
   "violetPulse",
@@ -56,14 +54,14 @@ export function defaultHeaderModeForTemplate(template: string): DossierHeaderMod
 /**
  * Default whitespace after the selected template header. Contact mastheads
  * already carry substantial visual height, so they normally need much less
- * additional whitespace than the compact signature band. Warm and Aurora are
- * exceptions: their reviewed deep first-page fields rely on the original 12 mm
+ * additional whitespace than the compact signature band. Aurora is the
+ * exception: its reviewed deep first-page field relies on the original 12 mm
  * flow clearance so recipient text starts below the decorative masthead.
  * Values are written only when a template is selected; users remain free to
  * change them afterwards.
  */
 export function defaultHeaderGapMmForTemplate(template: string): number {
-  if (template === "freundlich" || template === "aurora") return 12;
+  if (template === "aurora") return 12;
   return defaultHeaderModeForTemplate(template) === "contact" ? 4 : 12;
 }
 
