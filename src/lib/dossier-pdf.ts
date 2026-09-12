@@ -272,9 +272,17 @@ async function addRasterPage(
       rebuildLetterVectors || normalizeCvZoom
         ? (clonedDocument) => {
             if (rebuildLetterVectors) {
-              // Text stays visible in the raster so its browser typography is exact.
-              // Only rules and table borders are removed here because they are rebuilt
-              // below as crisp vector geometry.
+              // Letter glyphs are rebuilt below as native PDF text. Hide them
+              // only inside html2canvas' clone so preview/export DOM, geometry and
+              // visual QA screenshots remain unchanged. Template chrome (including
+              // Warm's masthead sender) stays rasterized unless explicitly tagged.
+              for (const text of clonedDocument.querySelectorAll<HTMLElement>(
+                "[data-letter-pdf-text], [data-letter-pdf-richtext]",
+              )) {
+                text.style.setProperty("visibility", "hidden", "important");
+              }
+
+              // Rules and table borders are rebuilt below as crisp vector geometry.
               for (const rule of clonedDocument.querySelectorAll<HTMLElement>(
                 "[data-letter-pdf-rule], [data-letter-pdf-richtext] hr",
               )) {
