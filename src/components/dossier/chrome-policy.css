@@ -84,14 +84,13 @@
 }
 
 /* Edge's motivation-letter signature intentionally owns a 9 mm dark top band.
- * Contact text must begin underneath it rather than straddling dark and paper.
- * The chrome wrapper spans the whole page, so allowing the 22 mm contact block
- * to overflow is safe and still leaves ample clearance before letter content. */
+ * Keep the normal 22 mm contact box intact for wrapping/clipping calculations,
+ * but place that whole box below the signature. This preserves user-selected
+ * contact offsets and the shared geometry contract while removing dark-on-dark
+ * text. */
 [data-letter-page][data-letter-template="edge"] [data-dossier-chrome="letter"]
   [data-dossier-integrated-contact] {
-  padding-top: 10mm !important;
-  padding-bottom: 0 !important;
-  overflow: visible !important;
+  top: 10mm !important;
 }
 
 /* CV export does not rely on the transient html[data-dossier-template] marker.
