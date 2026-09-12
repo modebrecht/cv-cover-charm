@@ -68,14 +68,16 @@ function rgb(cssColor: string): [number, number, number] {
   return values as [number, number, number];
 }
 
-function pdfFontFor(style: CSSStyleDeclaration): PdfFont {
-  const family = style.fontFamily.toLowerCase();
+function pdfFontForFamily(value: string): PdfFont {
+  const family = value.toLowerCase();
   if (family.includes("cabin")) return "Cabin";
   if (
     family.includes("serif") ||
     family.includes("georgia") ||
     family.includes("times") ||
-    family.includes("garamond")
+    family.includes("garamond") ||
+    family.includes("palatino") ||
+    family.includes("book antiqua")
   ) {
     return "times";
   }
@@ -87,6 +89,27 @@ function pdfFontFor(style: CSSStyleDeclaration): PdfFont {
     return "courier";
   }
   return "helvetica";
+}
+
+function pdfFontFor(style: CSSStyleDeclaration): PdfFont {
+  return pdfFontForFamily(style.fontFamily);
+}
+
+function pdfFontForText(
+  parent: HTMLElement,
+  page: HTMLElement,
+  style: CSSStyleDeclaration,
+): PdfFont {
+  // Custom BlockLayer text may deliberately use a per-element font. Chrome can
+  // also carry an explicit user-selected text font. Preserve both. Everything
+  // else is native CV content and must use the one synchronized dossier font,
+  // even if a legacy/Fresh heading has a stronger local family declaration.
+  if (parent.closest("[data-block-id]") || parent.closest("[data-dossier-chrome]")) {
+    return pdfFontFor(style);
+  }
+
+  const dossierFamily = window.getComputedStyle(page).getPropertyValue("--dossier-font").trim();
+  return dossierFamily ? pdfFontForFamily(dossierFamily) : pdfFontFor(style);
 }
 
 function pdfFontStyle(style: CSSStyleDeclaration): PdfFontStyle {
@@ -171,7 +194,7 @@ function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
     const fontSizePx = Number.parseFloat(style.fontSize) || 14;
     const fontSizePt = fontSizePx * (72 / 96);
     const [red, green, blue] = rgb(style.color);
-    const font = pdfFontFor(style);
+    const font = pdfFontForText(parent, page, style);
     const fontStyle = pdfFontStyle(style);
 
     for (const match of raw.matchAll(/\S+/gu)) {
