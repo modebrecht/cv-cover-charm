@@ -1,10 +1,7 @@
 import "@/components/cover/fresh-templates";
 import { TEMPLATES } from "@/components/cover/types";
 import { patchDossierChrome } from "@/lib/dossier-chrome";
-import {
-  defaultHeaderGapMmForTemplate,
-  defaultHeaderModeForTemplate,
-} from "@/lib/template-chrome";
+import { defaultHeaderGapMmForTemplate, defaultHeaderModeForTemplate } from "@/lib/template-chrome";
 import type { LetterTemplateId } from "./types";
 
 const RETIRED_TEMPLATE_IDS = new Set(["warm4", "warm5"]);
