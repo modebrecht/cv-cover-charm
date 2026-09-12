@@ -194,7 +194,9 @@ async function downloadStandaloneCv(page: import("@playwright/test").Page) {
 test.describe("CV PDF real text layer", () => {
   test.setTimeout(120_000);
 
-  test("standalone CV keeps design raster but exports searchable/selectable text", async ({ page }) => {
+  test("standalone CV keeps browser typography visible and exports searchable/selectable text", async ({
+    page,
+  }) => {
     await seedCv(page);
 
     const preview = page.locator(
@@ -211,7 +213,7 @@ test.describe("CV PDF real text layer", () => {
       .first();
     await expect
       .poll(async () => exportText.evaluate((element) => getComputedStyle(element).color))
-      .toMatch(/rgba\([^)]*,\s*0\)|transparent/i);
+      .not.toMatch(/rgba\([^)]*,\s*0\)|transparent/i);
 
     const download = await downloadStandaloneCv(page);
     const path = await download.path();
