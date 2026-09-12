@@ -32,24 +32,6 @@ html[data-dossier-template][data-dossier-template][data-dossier-template]
   text-decoration-color: transparent !important;
   text-shadow: none !important;
 }
-
-/*
- * The motivation letter and CV must use the same visible PDF font. Hide only
- * letter nodes that are rebuilt by addLetterTextLayer; header/background chrome
- * stays in the raster so template geometry (especially Warm) is preserved.
- * visibility keeps the measured browser colour and geometry intact for the
- * native PDF layer while preventing html2canvas from painting a second glyph.
- */
-[data-dossier-document="letter"] [data-letter-pdf-text],
-[data-dossier-document="letter"] [data-letter-pdf-text] *,
-[data-dossier-document="letter"] [data-letter-pdf-richtext],
-[data-dossier-document="letter"] [data-letter-pdf-richtext] *,
-[data-letter-standalone-export] [data-letter-pdf-text],
-[data-letter-standalone-export] [data-letter-pdf-text] *,
-[data-letter-standalone-export] [data-letter-pdf-richtext],
-[data-letter-standalone-export] [data-letter-pdf-richtext] * {
-  visibility: hidden !important;
-}
 `;
   document.head.appendChild(style);
 }
