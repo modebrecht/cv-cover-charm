@@ -34,6 +34,7 @@ describe("template-owned dossier chrome", () => {
 
   test("designed masthead families opt into contact headers", () => {
     for (const template of [
+      "aurora",
       "horizon",
       "violetPulse",
       "studio",
