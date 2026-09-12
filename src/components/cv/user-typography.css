@@ -129,3 +129,48 @@ html[data-dossier-template]
   ) {
   font-family: var(--dossier-font) !important;
 }
+
+/*
+ * The vector PDF layer reads the computed font from the immediate parent of
+ * each text node. Some legacy/Fresh templates wrap native labels in extra
+ * spans/divs with their own family stack, so forcing only the role container
+ * is not enough. Carry the dossier font through native text-role descendants
+ * as well. Custom BlockLayer elements live outside these native roles and keep
+ * their explicit per-element font settings.
+ */
+[data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  :is(
+    [data-cv-band-header],
+    [data-cv-footer],
+    [data-cv-doc-title],
+    [data-cv-name],
+    [data-cv-subtitle],
+    [data-cv-section-title],
+    [data-cv-entry],
+    [data-cv-entry-title],
+    [data-cv-date],
+    [data-cv-body],
+    [data-cv-muted],
+    [data-dossier-integrated-contact],
+    [data-dossier-continuation-contact]
+  ),
+[data-dossier-document="cv"]
+  :is([data-cv-page], [data-cv-measure-page])
+  :is(
+    [data-cv-band-header],
+    [data-cv-footer],
+    [data-cv-doc-title],
+    [data-cv-name],
+    [data-cv-subtitle],
+    [data-cv-section-title],
+    [data-cv-entry],
+    [data-cv-entry-title],
+    [data-cv-date],
+    [data-cv-body],
+    [data-cv-muted],
+    [data-dossier-integrated-contact],
+    [data-dossier-continuation-contact]
+  ) * {
+  font-family: var(--dossier-font) !important;
+}
