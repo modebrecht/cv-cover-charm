@@ -37,7 +37,7 @@ html[data-dossier-template="gallery"]
  *
  * Do not enlarge the child width to compensate for zoom: dossier-flow checks
  * physical A4 bounds, and a width above 100% is real horizontal overflow.
- * Keeping the normal width lets hidden pagination, preview and PDF share the
+ * Keeping the normal width lets hidden pagination, preview and PDF share this
  * same compact flow without crossing the content box.
  */
 html:is(
@@ -138,4 +138,16 @@ html[data-dossier-template="verlauf"]
   [data-cv-subtitle] {
   color: color-mix(in srgb, var(--cover-primary) 18%, #374151) !important;
   text-shadow: none !important;
+}
+
+/* Neon real-PDF QA: the previous 43 mm paper boundary cut through the white
+ * name, so its lower pixels disappeared against the white reading plane even
+ * though DOM visibility checks passed. Reveal four more millimetres of the
+ * existing dark hero (the native gradient already extends beyond this point)
+ * so the complete name remains on dark background without moving content. */
+html[data-dossier-template="neon"]
+  [data-dossier-document="cv"]
+  [data-cv-page="0"]
+  [data-cv-surface] {
+  top: 47mm !important;
 }
