@@ -7,11 +7,13 @@
 
 /* 06 Colorful — the old CV started with a detached colour bar and then fell
  * back to a generic document header. Turn the actual header into a compact,
- * geometric card that belongs to the red/blue/yellow cover family. */
+ * geometric card that belongs to the red/blue/yellow cover family. Keep the
+ * vertical treatment deliberately tight so the normal demo CV remains a true
+ * one-page document when Compact is the template default. */
 html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-header] {
   position: relative;
-  margin-bottom: 4mm !important;
-  padding: 3.5mm 6mm 3.5mm 7mm;
+  margin-bottom: 2mm !important;
+  padding: 2mm 6mm 2mm 7mm;
   border-left: 2.2mm solid var(--cover-secondary);
   background: linear-gradient(
     100deg,
