@@ -1,5 +1,7 @@
 import "@/components/cover/fresh-templates";
 import { TEMPLATES } from "@/components/cover/types";
+import { patchDossierChrome } from "@/lib/dossier-chrome";
+import { defaultHeaderModeForTemplate } from "@/lib/template-chrome";
 import type { LetterTemplateId } from "./types";
 
 const RETIRED_TEMPLATE_IDS = new Set(["warm4", "warm5"]);
@@ -16,6 +18,11 @@ const baseClass =
   "flex min-h-10 items-center justify-center rounded-md border px-2 py-2 text-center text-xs font-medium leading-tight transition";
 
 export function LetterTemplatePicker({ value, onChange }: Props) {
+  const chooseTemplate = (template: LetterTemplateId) => {
+    patchDossierChrome("letter", { headerMode: defaultHeaderModeForTemplate(template) });
+    onChange(template);
+  };
+
   return (
     <div className="grid grid-cols-3 gap-2">
       {SELECTABLE_TEMPLATES.map((template) => {
@@ -24,7 +31,7 @@ export function LetterTemplatePicker({ value, onChange }: Props) {
           <button
             key={template.id}
             type="button"
-            onClick={() => onChange(template.id)}
+            onClick={() => chooseTemplate(template.id)}
             aria-pressed={active}
             title={template.description}
             className={`${baseClass} ${
