@@ -249,37 +249,66 @@ async function addRasterPage(
   html2canvas: Html2Canvas,
   page: HTMLElement,
   rebuildLetterVectors = false,
-  browserNativeText = false,
+  normalizeCvZoom = false,
 ) {
+  const cvPageId = normalizeCvZoom ? page.dataset.cvPage : undefined;
+  const cvFlow = normalizeCvZoom
+    ? page.querySelector<HTMLElement>("[data-cv-main] > div")
+    : null;
+  const rawZoom = cvFlow
+    ? Number.parseFloat(window.getComputedStyle(cvFlow).getPropertyValue("zoom"))
+    : 1;
+  const cvZoom = Number.isFinite(rawZoom) && rawZoom > 0 ? rawZoom : 1;
+
   const canvas = await html2canvas(page, {
     scale: PDF.SCALE,
     backgroundColor: "#ffffff",
     useCORS: true,
-    foreignObjectRendering: browserNativeText,
     width: PAGE.WIDTH,
     height: PAGE.HEIGHT,
     windowWidth: PAGE.WIDTH,
     windowHeight: PAGE.HEIGHT,
     scrollX: 0,
     scrollY: 0,
-    onclone: rebuildLetterVectors
-      ? (clonedDocument) => {
-          // Text stays visible in the raster so its browser typography is exact.
-          // Only rules and table borders are removed here because they are rebuilt
-          // below as crisp vector geometry.
-          for (const rule of clonedDocument.querySelectorAll<HTMLElement>(
-            "[data-letter-pdf-rule], [data-letter-pdf-richtext] hr",
-          )) {
-            rule.style.setProperty("border-color", "transparent", "important");
-            rule.style.setProperty("background", "transparent", "important");
+    onclone:
+      rebuildLetterVectors || normalizeCvZoom
+        ? (clonedDocument) => {
+            if (rebuildLetterVectors) {
+              // Text stays visible in the raster so its browser typography is exact.
+              // Only rules and table borders are removed here because they are rebuilt
+              // below as crisp vector geometry.
+              for (const rule of clonedDocument.querySelectorAll<HTMLElement>(
+                "[data-letter-pdf-rule], [data-letter-pdf-richtext] hr",
+              )) {
+                rule.style.setProperty("border-color", "transparent", "important");
+                rule.style.setProperty("background", "transparent", "important");
+              }
+              for (const cell of clonedDocument.querySelectorAll<HTMLElement>(
+                "[data-letter-pdf-richtext] table[data-letter-table] td",
+              )) {
+                cell.style.setProperty("border-color", "transparent", "important");
+              }
+            }
+
+            if (normalizeCvZoom && cvZoom !== 1) {
+              const clonedPage = Array.from(
+                clonedDocument.querySelectorAll<HTMLElement>("[data-cv-page]"),
+              ).find((candidate) => candidate.dataset.cvPage === cvPageId);
+              const clonedFlow = clonedPage?.querySelector<HTMLElement>("[data-cv-main] > div");
+              if (clonedFlow) {
+                // CSS zoom is part of the live pagination contract, but html2canvas
+                // can squeeze word spacing when it paints text under zoom. Recreate
+                // the same effective geometry in the cloned PDF DOM with a wider
+                // unzoomed layout and a normal transform. The live editor and all
+                // pagination measurements remain untouched.
+                clonedFlow.style.setProperty("zoom", "1", "important");
+                clonedFlow.style.setProperty("width", `${100 / cvZoom}%`, "important");
+                clonedFlow.style.setProperty("transform", `scale(${cvZoom})`, "important");
+                clonedFlow.style.setProperty("transform-origin", "top left", "important");
+              }
+            }
           }
-          for (const cell of clonedDocument.querySelectorAll<HTMLElement>(
-            "[data-letter-pdf-richtext] table[data-letter-table] td",
-          )) {
-            cell.style.setProperty("border-color", "transparent", "important");
-          }
-        }
-      : undefined,
+        : undefined,
   });
   pdf.addImage(
     canvas.toDataURL("image/jpeg", PDF.QUALITY),
@@ -337,10 +366,6 @@ export async function downloadCombinedDossierPdf(
   addLetterTextLayer(pdf, letter);
   for (const cvPage of cvPages) {
     pdf.addPage("a4", "portrait");
-    // CV pages use CSS zoom for pagination. html2canvas' normal renderer can
-    // distort word spacing under zoom, while ForeignObject delegates the text
-    // painting to the browser and therefore preserves the same Cabin glyphs
-    // and spacing that are visible in the editor and motivation letter.
     await addRasterPage(pdf, html2canvas, cvPage, false, true);
     addCvTextLayer(pdf, cvPage);
   }
