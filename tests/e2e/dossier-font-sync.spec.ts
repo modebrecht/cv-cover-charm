@@ -117,13 +117,23 @@ test.describe("shared CV and motivation-letter font", () => {
       )
       .toBe("sans");
 
+    const cvName = page.locator('[data-dossier-document="cv"] [data-cv-name]').first();
+    await expect(cvName).toBeVisible();
+    await expect
+      .poll(() => cvName.evaluate((element) => getComputedStyle(element).fontFamily))
+      .toMatch(/Helvetica|Arial|sans-serif/i);
+
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     const syncedLetterSelect = await openLetterTypography(page);
     await expect(syncedLetterSelect).toHaveValue("sans");
-    await expect(page.locator("[data-letter-page]").first()).toHaveAttribute("data-letter-font", "sans");
+    const syncedLetterPage = page.locator("[data-letter-page]").first();
+    await expect(syncedLetterPage).toHaveAttribute("data-letter-font", "sans");
+    await expect
+      .poll(() => syncedLetterPage.evaluate((element) => getComputedStyle(element).fontFamily))
+      .toMatch(/Helvetica|Arial|sans-serif/i);
   });
 
-  test("new cover, CV and letter previews use Cabin as the default dossier family", async ({ page }) => {
+  test("new cover, CV and letter native text all render in Cabin", async ({ page }) => {
     await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: "domcontentloaded" });
@@ -148,10 +158,19 @@ test.describe("shared CV and motivation-letter font", () => {
 
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
     const cvPage = page.locator('[data-dossier-document="cv"] [data-cv-page]').first();
+    await expect(cvPage).toBeVisible();
     await expect
       .poll(() =>
         cvPage.evaluate((element) => getComputedStyle(element).getPropertyValue("--dossier-font")),
       )
+      .toContain("Cabin");
+
+    // Protect the real PDF text source, not just the custom property on the page.
+    // addCvTextLayer() reads these computed node styles when choosing PDF fonts.
+    const cvName = cvPage.locator("[data-cv-name]").first();
+    await expect(cvName).toBeVisible();
+    await expect
+      .poll(() => cvName.evaluate((element) => getComputedStyle(element).fontFamily))
       .toContain("Cabin");
   });
 });
