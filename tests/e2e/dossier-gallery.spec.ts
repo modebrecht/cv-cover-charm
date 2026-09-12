@@ -4,7 +4,10 @@ import { join } from "node:path";
 import { FRESH_TEMPLATE_REGISTRY } from "../../src/components/cover/fresh-template-registry";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../../src/lib/dossier-chrome";
-import { defaultHeaderModeForTemplate } from "../../src/lib/template-chrome";
+import {
+  defaultHeaderGapMmForTemplate,
+  defaultHeaderModeForTemplate,
+} from "../../src/lib/template-chrome";
 
 const BASE_URL = "http://127.0.0.1:4173";
 const GALLERY_DIR = process.env.GALLERY_DIR ?? "artifacts/dossier-gallery";
@@ -203,8 +206,18 @@ test("UI sample dossier downloads and all live motivation-letter templates produ
 
   for (const { item, globalIndex } of selectedCases) {
     const headerMode = defaultHeaderModeForTemplate(item.coverTemplate);
+    const headerGapMm = defaultHeaderGapMmForTemplate(item.coverTemplate);
     await page.evaluate(
-      ({ base, baseChrome, letterTemplate, coverTemplate, cvTemplate, headerMode, chromeStorageKey }) => {
+      ({
+        base,
+        baseChrome,
+        letterTemplate,
+        coverTemplate,
+        cvTemplate,
+        headerMode,
+        headerGapMm,
+        chromeStorageKey,
+      }) => {
         const cover = structuredClone(base.cover);
         const letter = structuredClone(base.letter);
         const cv = structuredClone(base.cv);
@@ -231,8 +244,11 @@ test("UI sample dossier downloads and all live motivation-letter templates produ
         // The review gallery represents product defaults, not one global chrome
         // mode inherited from whichever template happened to initialize first.
         chrome.shared.headerMode = headerMode;
+        chrome.shared.headerGapMm = headerGapMm;
         chrome.cv.headerMode = headerMode;
+        chrome.cv.headerGapMm = headerGapMm;
         chrome.letter.headerMode = headerMode;
+        chrome.letter.headerGapMm = headerGapMm;
         letter.design.headerMode = headerMode;
 
         localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
@@ -247,6 +263,7 @@ test("UI sample dossier downloads and all live motivation-letter templates produ
         coverTemplate: item.coverTemplate,
         cvTemplate: item.cvTemplate,
         headerMode,
+        headerGapMm,
         chromeStorageKey: CHROME_STORAGE_KEY,
       },
     );
