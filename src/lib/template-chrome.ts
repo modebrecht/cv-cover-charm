@@ -10,9 +10,14 @@ import type { DossierChromeOptions, DossierHeaderMode } from "@/lib/dossier-chro
  * primary-colour contact surface masks the upper part of the oversized amber
  * motif and keeps the sender high on the page. This is the reviewed Warm
  * composition from the 2026-09-12 PDF gallery.
+ *
+ * `aurora` also owns a deep cyan/violet first-page field. Its reviewed gallery
+ * composition uses the shared contact masthead as the clean cyan sender strip;
+ * Compact would drop normal black sender text into the decorative gradient.
  */
 const CONTACT_HEADER_DEFAULT_TEMPLATES = new Set([
   "freundlich",
+  "aurora",
   "horizon",
   "violetPulse",
   "studio",
