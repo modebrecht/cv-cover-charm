@@ -37,15 +37,24 @@ function sharedDossierBlockFont(blocks: Block[]): FontKey | null {
 }
 
 /**
- * Kontakt + Beilagen are one semantic footer pair. The generated title used to
- * contain a colon while Kontakt did not, which made the global uppercase rule
- * look inconsistent even though the typography itself was already shared.
- * Normalize only the generated default string; a future explicit/custom label
- * remains untouched.
+ * Kontakt + Beilagen are one semantic footer pair. Legacy templates used
+ * different default copy (for example "So erreichen Sie mich") and Beilagen
+ * carried a colon while Kontakt did not. Normalize the generated defaults at
+ * the shared cover boundary so all templates render one convention.
+ *
+ * A user-supplied Kontakt label remains authoritative.
  */
-function normalizedFooterBlocks(blocks: Block[]): Block[] {
+function normalizedFooterBlocks(blocks: Block[], data: CoverData): Block[] {
+  const hasCustomContactLabel = Boolean(data.labelKontakt?.trim());
+
   return blocks.map((block) => {
-    if (block.id !== "beilagenTitel" || block.kind !== "text") return block;
+    if (block.kind !== "text") return block;
+
+    if (block.id === "kontaktTitel" && !hasCustomContactLabel) {
+      return { ...block, lines: ["Kontakt"] };
+    }
+
+    if (block.id !== "beilagenTitel") return block;
 
     let changed = false;
     const lines = block.lines.map((line) => {
@@ -106,7 +115,10 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
 ) {
   const { editable = true, drawing = false, fontScale = 1 } = rest;
   const canvasRef = useRef<HTMLDivElement | null>(null);
-  const renderBlocks = useMemo(() => normalizedFooterBlocks(blocks), [blocks]);
+  const renderBlocks = useMemo(
+    () => normalizedFooterBlocks(blocks, data),
+    [blocks, data.labelKontakt],
+  );
   const automaticFooterPair = usesAutomaticFooterPair(renderBlocks);
 
   const setCanvasRef = (node: HTMLDivElement | null) => {
