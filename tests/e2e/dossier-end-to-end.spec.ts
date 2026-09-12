@@ -153,8 +153,6 @@ test.describe("complete dossier end-to-end", () => {
       "Cove",
       "Edel",
       "Edel Dark",
-      "Warm 4",
-      "Warm 5",
       "Verlauf 2",
       "Verlauf 3",
     ]) {
@@ -162,6 +160,8 @@ test.describe("complete dossier end-to-end", () => {
     }
     expect(labels).not.toContain("Edel blockig");
     expect(labels).not.toContain("Bogen");
+    expect(labels).not.toContain("Warm 4");
+    expect(labels).not.toContain("Warm 5");
 
     const preview = page.getByLabel("Vorschau Motivationsschreiben");
     await expect(preview).toBeVisible();
