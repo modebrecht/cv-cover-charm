@@ -1,6 +1,18 @@
 import { expect, test, type Page } from "@playwright/test";
+import { FRESH_TEMPLATE_REGISTRY } from "../../src/components/cover/fresh-template-registry";
+import { TEMPLATES } from "../../src/components/cover/types";
 
 const BASE_URL = "http://127.0.0.1:4173";
+const RETIRED_TEMPLATE_IDS = new Set(["edelBlockig", "sonnig", "warm4", "warm5"]);
+const LIVE_COVER_TEMPLATE_IDS = [
+  ...TEMPLATES.filter((template) => !RETIRED_TEMPLATE_IDS.has(template.id as string)).map(
+    (template) => template.id as string,
+  ),
+  ...FRESH_TEMPLATE_REGISTRY.filter((template) => !RETIRED_TEMPLATE_IDS.has(template.id)).map(
+    (template) => template.id,
+  ),
+  "edelDark",
+].filter((id, index, all) => all.indexOf(id) === index);
 
 const FAMILY_CASES = [
   { family: "editorial", template: "klassisch", expected: "Georgia" },
@@ -214,6 +226,71 @@ test.describe("dossier typography regression", () => {
     }
 
     expect(Number(styles.name.fontWeight)).toBeGreaterThanOrEqual(700);
+  });
+
+  test("all live covers render one aligned KONTAKT / BEILAGEN footer pair", async ({ page }) => {
+    test.setTimeout(300_000);
+    expect(LIVE_COVER_TEMPLATE_IDS).toHaveLength(39);
+    expect(LIVE_COVER_TEMPLATE_IDS).toContain("forestFlow");
+
+    for (const template of LIVE_COVER_TEMPLATE_IDS) {
+      await seedCover(page, template);
+      await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
+      const root = await settledCoverRoot(page, template);
+      await expect(root, template).toHaveAttribute("data-dossier-footer-sync", "automatic");
+
+      const contact = root.locator('[data-block-id="kontaktTitel"]').first();
+      const attachments = root.locator('[data-block-id="beilagenTitel"]').first();
+      const attachmentsBody = root.locator('[data-block-id="beilagen"]').first();
+      await expect(contact, `${template}: Kontakt`).toBeVisible();
+      await expect(attachments, `${template}: Beilagen`).toBeVisible();
+      await expect(attachmentsBody, `${template}: Beilagen body`).toBeVisible();
+
+      const labelState = await Promise.all(
+        [contact, attachments].map((locator) =>
+          locator.evaluate((element) => {
+            const textNode = element.firstElementChild as HTMLElement | null;
+            if (!textNode) return null;
+            const style = getComputedStyle(textNode);
+            return {
+              text: textNode.textContent?.trim() ?? "",
+              transform: style.textTransform,
+              spacing: style.letterSpacing,
+            };
+          }),
+        ),
+      );
+      expect(labelState[0]?.text, `${template}: Kontakt source label`).toBe("Kontakt");
+      expect(labelState[1]?.text, `${template}: Beilagen source label`).toBe("Beilagen");
+      for (const state of labelState) {
+        expect(state?.transform, template).toBe("uppercase");
+        expect(state?.spacing, template).toMatch(/^(normal|0px)$/);
+      }
+
+      await expect
+        .poll(
+          async () => {
+            const [contactBox, attachmentsBox] = await Promise.all([
+              contact.boundingBox(),
+              attachments.boundingBox(),
+            ]);
+            if (!contactBox || !attachmentsBox) return Number.POSITIVE_INFINITY;
+            return Math.abs(contactBox.y - attachmentsBox.y);
+          },
+          { message: `${template}: rendered footer headings must share one top edge` },
+        )
+        .toBeLessThanOrEqual(0.75);
+
+      const [attachmentsBox, bodyBox] = await Promise.all([
+        attachments.boundingBox(),
+        attachmentsBody.boundingBox(),
+      ]);
+      expect(attachmentsBox, `${template}: attachment title box`).not.toBeNull();
+      expect(bodyBox, `${template}: attachment body box`).not.toBeNull();
+      expect(bodyBox!.y, `${template}: attachment body follows its heading`).toBeGreaterThan(
+        attachmentsBox!.y,
+      );
+    }
   });
 
   test("Fresh Executive applicant initials use the resolved Palatino dossier font", async ({ page }) => {
