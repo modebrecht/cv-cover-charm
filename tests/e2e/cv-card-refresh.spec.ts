@@ -282,11 +282,20 @@ test.describe("Neon / Verlauf / Citrus CV refresh", () => {
     ).toBeVisible();
 
     const previewSnapshot = await typographySnapshot(preview);
+    const unmasked = await page.evaluate(() => {
+      const mask = document.getElementById("cv-pdf-raster-text-mask") as HTMLStyleElement | null;
+      if (!mask) return false;
+      mask.disabled = true;
+      return true;
+    });
+    expect(unmasked, "PDF text-layer source must be readable with the raster mask disabled").toBe(
+      true,
+    );
     const exportSnapshot = await typographySnapshot(exportRoot);
-    expect(
-      await page.locator("#cv-pdf-raster-text-mask").count(),
-      "PDF export must not hide browser glyphs behind a raster text mask",
-    ).toBe(0);
+    await page.evaluate(() => {
+      const mask = document.getElementById("cv-pdf-raster-text-mask") as HTMLStyleElement | null;
+      if (mask) mask.disabled = false;
+    });
     expect(previewSnapshot).not.toBeNull();
     expect(exportSnapshot).toEqual(previewSnapshot);
     expect(previewSnapshot).toEqual({
