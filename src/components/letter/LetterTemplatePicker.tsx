@@ -1,7 +1,10 @@
 import "@/components/cover/fresh-templates";
 import { TEMPLATES } from "@/components/cover/types";
 import { patchDossierChrome } from "@/lib/dossier-chrome";
-import { defaultHeaderModeForTemplate } from "@/lib/template-chrome";
+import {
+  defaultHeaderGapMmForTemplate,
+  defaultHeaderModeForTemplate,
+} from "@/lib/template-chrome";
 import type { LetterTemplateId } from "./types";
 
 const RETIRED_TEMPLATE_IDS = new Set(["warm4", "warm5"]);
@@ -19,7 +22,10 @@ const baseClass =
 
 export function LetterTemplatePicker({ value, onChange }: Props) {
   const chooseTemplate = (template: LetterTemplateId) => {
-    patchDossierChrome("letter", { headerMode: defaultHeaderModeForTemplate(template) });
+    patchDossierChrome("letter", {
+      headerMode: defaultHeaderModeForTemplate(template),
+      headerGapMm: defaultHeaderGapMmForTemplate(template),
+    });
     onChange(template);
   };
 
