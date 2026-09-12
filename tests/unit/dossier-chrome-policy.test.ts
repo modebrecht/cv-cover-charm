@@ -38,4 +38,12 @@ describe("global quiet chrome policy", () => {
     expect(css).toContain('[data-cv-template="edge"] [data-dossier-integrated-contact]');
     expect(css).toContain("top: 9mm !important;");
   });
+
+  test("Ribbon eyebrow stays readable across the sidebar seam", () => {
+    expect(css).toContain(
+      'html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="eyebrow"]',
+    );
+    expect(css).toContain("width: 44mm !important;");
+    expect(css).toContain("background: var(--cover-ink) !important;");
+  });
 });
