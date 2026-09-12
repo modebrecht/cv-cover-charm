@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useState, useSyncExternalStore } from "react";
 import type { TemplateId } from "./types";
 import { TEMPLATES } from "./types";
 import { freshFamilyForTemplate } from "./fresh-templates";
@@ -147,9 +147,10 @@ export function TemplatePicker({ value, onChange }: Props) {
     applyDossierTheme(value, freshFamilyForTemplate(value) ?? familyForTemplate(value));
   }, [value]);
 
-  // Brand-new dossiers start on Modern. Establish its template default once,
-  // but never overwrite an existing canonical chrome state or legacy draft.
-  useEffect(() => {
+  // Brand-new dossiers start on Modern. Establish its template default before
+  // parent autosave effects can create a draft key. Existing canonical chrome
+  // or legacy drafts remain authoritative and are never overwritten here.
+  useLayoutEffect(() => {
     try {
       if (window.localStorage.getItem(DOSSIER_CHROME_STORAGE_KEY)) return;
       if (EXISTING_DOSSIER_KEYS.some((key) => window.localStorage.getItem(key))) return;
