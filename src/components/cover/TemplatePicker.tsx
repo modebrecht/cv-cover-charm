@@ -8,7 +8,10 @@ import {
   DOSSIER_CHROME_STORAGE_KEY,
   patchDossierChrome,
 } from "@/lib/dossier-chrome";
-import { defaultHeaderModeForTemplate } from "@/lib/template-chrome";
+import {
+  defaultHeaderGapMmForTemplate,
+  defaultHeaderModeForTemplate,
+} from "@/lib/template-chrome";
 import {
   CV_LAYOUTS,
   getCvLayoutChoice,
@@ -125,9 +128,10 @@ function mirrorHint(layout: CvLayoutId): string {
 
 function applyTemplateHeaderDefault(template: TemplateId) {
   const headerMode = defaultHeaderModeForTemplate(template);
+  const headerGapMm = defaultHeaderGapMmForTemplate(template);
   const cvOnly = window.location.pathname.includes("lebenslauf");
-  patchDossierChrome("cv", { headerMode });
-  if (!cvOnly) patchDossierChrome("letter", { headerMode });
+  patchDossierChrome("cv", { headerMode, headerGapMm });
+  if (!cvOnly) patchDossierChrome("letter", { headerMode, headerGapMm });
 }
 
 export function TemplatePicker({ value, onChange }: Props) {
