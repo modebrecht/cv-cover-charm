@@ -117,10 +117,16 @@ test.describe("shared CV and motivation-letter font", () => {
       )
       .toBe("sans");
 
-    const cvName = page.locator('[data-dossier-document="cv"] [data-cv-name]').first();
-    await expect(cvName).toBeVisible();
+    // In Contact-header mode the visible name lives in the integrated chrome;
+    // the body keeps a zero-width placeholder to avoid rendering the name twice.
+    // Assert the actual visible native CV text that the PDF text layer reads.
+    const cvContact = page
+      .locator('[data-dossier-document="cv"] [data-dossier-integrated-contact]')
+      .first();
+    await expect(cvContact).toBeVisible();
+    await expect(cvContact).toContainText("Lea Müller");
     await expect
-      .poll(() => cvName.evaluate((element) => getComputedStyle(element).fontFamily))
+      .poll(() => cvContact.evaluate((element) => getComputedStyle(element).fontFamily))
       .toMatch(/Helvetica|Arial|sans-serif/i);
 
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });

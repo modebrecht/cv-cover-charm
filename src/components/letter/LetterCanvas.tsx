@@ -157,7 +157,7 @@ export function LetterCanvas({
   const fontFamily =
     design.template === "brief"
       ? FONT_STACKS[design.font]
-      : effectiveDossierFont(design.template, design.fontOverride ?? design.font);
+      : effectiveDossierFont(design.template, design.fontOverride);
   const senderAlign = design.senderAlign ?? "left";
   const recipientAlign = design.recipientAlign ?? "left";
   const dateAlign = design.dateAlign ?? "left";
