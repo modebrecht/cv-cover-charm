@@ -21,6 +21,17 @@ html[data-dossier-template="klassisch"] [data-dossier-document="cover"] {
   --dossier-muted-opacity: 0.75;
 }
 
+/* Kontakt + Beilagen are one semantic footer pair on every cover. Do not let
+ * template-era tracking/case choices produce "K O N T A K T" next to
+ * "B e i l a g e n". Their colour/font/size remain template-owned; only the
+ * label convention is global and intentionally quiet. */
+[data-dossier-document="cover"]
+  :is([data-block-id="kontaktTitel"], [data-block-id="beilagenTitel"])
+  > div {
+  text-transform: uppercase !important;
+  letter-spacing: 0 !important;
+}
+
 /* Applicant initials are content, not a separate typeface. BlockLayer keeps a
  * local editable font token on the photo wrapper, so use the cover's resolved
  * dossier token here to avoid Georgia initials inside Palatino Fresh dossiers. */
