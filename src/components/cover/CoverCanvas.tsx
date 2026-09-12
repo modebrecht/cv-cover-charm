@@ -1,4 +1,4 @@
-import { forwardRef, useLayoutEffect } from "react";
+import { forwardRef, useLayoutEffect, useMemo, useRef } from "react";
 import type { Block, BlockStyle, CoverData, FontKey, TemplateId } from "./types";
 import { CoverBackground } from "./CoverBackground";
 import { BlockLayer, type Point } from "./BlockLayer";
@@ -36,6 +36,46 @@ function sharedDossierBlockFont(blocks: Block[]): FontKey | null {
   return [...fonts][0];
 }
 
+/**
+ * Kontakt + Beilagen are one semantic footer pair. The generated title used to
+ * contain a colon while Kontakt did not, which made the global uppercase rule
+ * look inconsistent even though the typography itself was already shared.
+ * Normalize only the generated default string; a future explicit/custom label
+ * remains untouched.
+ */
+function normalizedFooterBlocks(blocks: Block[]): Block[] {
+  return blocks.map((block) => {
+    if (block.id !== "beilagenTitel" || block.kind !== "text") return block;
+
+    let changed = false;
+    const lines = block.lines.map((line) => {
+      if (typeof line !== "string" || line.trim().toLocaleLowerCase("de-CH") !== "beilagen:") {
+        return line;
+      }
+      changed = true;
+      return line.replace(/:\s*$/, "");
+    });
+
+    return changed ? { ...block, lines } : block;
+  });
+}
+
+/**
+ * The automatic pair is deliberately opt-out. Dragging Beilagen in the editor
+ * clears these links/anchors, after which the user's explicit Y position wins.
+ */
+function usesAutomaticFooterPair(blocks: Block[]): boolean {
+  const title = blocks.find((block) => block.id === "beilagenTitel");
+  const body = blocks.find((block) => block.id === "beilagen");
+  return Boolean(
+    title &&
+      body &&
+      title.style.above === "beilagen" &&
+      !title.style.follows &&
+      body.style.anchorBottom === true,
+  );
+}
+
 type Props = {
   template: TemplateId;
   data: CoverData;
@@ -64,7 +104,16 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
   { template, data, colors, blocks, selected, onSelect, onMove, fontOverride, ...rest },
   ref,
 ) {
-  const { editable = true, drawing = false } = rest;
+  const { editable = true, drawing = false, fontScale = 1 } = rest;
+  const canvasRef = useRef<HTMLDivElement | null>(null);
+  const renderBlocks = useMemo(() => normalizedFooterBlocks(blocks), [blocks]);
+  const automaticFooterPair = usesAutomaticFooterPair(renderBlocks);
+
+  const setCanvasRef = (node: HTMLDivElement | null) => {
+    canvasRef.current = node;
+    if (typeof ref === "function") ref(node);
+    else if (ref) ref.current = node;
+  };
 
   // Fresh cover CSS historically scopes itself through html[data-dossier-template].
   // The visible editor already establishes that route-level scope, but the hidden
@@ -82,11 +131,51 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     };
   }, [template]);
 
+  /*
+   * Resolve the final rendered geometry, not only the data-model geometry.
+   * A few legacy/Fresh template styles still move Kontakt with late CSS
+   * `top`/transform rules (Forest Flow was the visible regression). The earlier
+   * resolver-level sync could therefore be correct numerically while the PDF
+   * was still visibly misaligned.
+   *
+   * Kontakt is the visual anchor. In the untouched automatic footer state move
+   * only Beilagen to the same *actual* top edge after all template CSS has been
+   * applied. This preserves each template's intentional Kontakt placement and
+   * also covers future CSS transforms. Explicitly dragged Beilagen opt out via
+   * `usesAutomaticFooterPair` above.
+   */
+  useLayoutEffect(() => {
+    if (!automaticFooterPair) return;
+    const root = canvasRef.current;
+    if (!root) return;
+
+    const contact = root.querySelector<HTMLElement>('[data-block-id="kontaktTitel"]');
+    const attachments = root.querySelector<HTMLElement>('[data-block-id="beilagenTitel"]');
+    if (!contact || !attachments) return;
+
+    const rootRect = root.getBoundingClientRect();
+    const scale = rootRect.width > 0 ? rootRect.width / PAGE_W : 1;
+    const contactRect = contact.getBoundingClientRect();
+    const attachmentsRect = attachments.getBoundingClientRect();
+    const computedTop = Number.parseFloat(getComputedStyle(attachments).top);
+    if (!Number.isFinite(computedTop) || scale <= 0) return;
+
+    const previousTop = attachments.style.getPropertyValue("top");
+    const previousPriority = attachments.style.getPropertyPriority("top");
+    const deltaCssPx = (contactRect.top - attachmentsRect.top) / scale;
+    attachments.style.setProperty("top", `${computedTop + deltaCssPx}px`, "important");
+
+    return () => {
+      if (previousTop) attachments.style.setProperty("top", previousTop, previousPriority);
+      else attachments.style.removeProperty("top");
+    };
+  }, [automaticFooterPair, fontScale, renderBlocks, template]);
+
   // Die Titelblatt-Route trägt eine bewusst gewählte globale Schrift bereits
   // in alle Standardblöcke ein. Ein von der Familienvorgabe abweichender
   // gemeinsamer Block-Font ist deshalb der laufende Dossier-Override. Ohne
   // Override entscheidet ausschliesslich die zentrale Dossier-Familie.
-  const liveFont = sharedDossierBlockFont(blocks);
+  const liveFont = sharedDossierBlockFont(renderBlocks);
   const inferredOverride =
     liveFont && liveFont !== dossierDefaultFontKey(template) ? liveFont : null;
   const resolvedOverride = fontOverride === undefined ? inferredOverride : fontOverride;
@@ -99,10 +188,11 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
 
   return (
     <div
-      ref={ref}
+      ref={setCanvasRef}
       data-dossier-document="cover"
       data-cover-template={template}
       data-dossier-font-source={resolvedOverride ? "override" : "family"}
+      data-dossier-footer-sync={automaticFooterPair ? "automatic" : "manual"}
       className="relative overflow-hidden shadow-2xl"
       style={{
         width: `${PAGE_W}px`,
@@ -129,7 +219,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     >
       <CoverBackground template={template} colors={colors} />
       <BlockLayer
-        blocks={blocks}
+        blocks={renderBlocks}
         colors={colors}
         selected={selected}
         onSelect={onSelect}
