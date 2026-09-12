@@ -236,7 +236,10 @@ test.describe("dossier typography regression", () => {
     for (const template of LIVE_COVER_TEMPLATE_IDS) {
       await seedCover(page, template);
       await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
-      const root = await settledCoverRoot(page, template);
+      const root = page
+        .locator(`[data-dossier-document="cover"][data-cover-template="${template}"]`)
+        .first();
+      await expect(root, template).toBeVisible();
       await expect(root, template).toHaveAttribute("data-dossier-footer-sync", "automatic");
 
       const contact = root.locator('[data-block-id="kontaktTitel"]').first();

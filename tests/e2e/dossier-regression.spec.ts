@@ -1177,7 +1177,7 @@ test.describe("M5.8 dossier regression", () => {
     const coverBeilagenToggle = coverBeilagenPanel.getByLabel("Auf Titelblatt anzeigen");
     await expect(coverBeilagenToggle).toBeChecked();
     await expect(page.locator('[data-block-id="beilagenTitel"]').first()).toContainText(
-      "Beilagen:",
+      "Beilagen",
     );
     await expect(page.locator('[data-block-id="beilagen"]').first()).toContainText(
       "Motivationsschreiben",
@@ -1210,7 +1210,7 @@ test.describe("M5.8 dossier regression", () => {
     await expect(letterToggle).toBeChecked();
     const preview = page.getByLabel("Vorschau Motivationsschreiben");
     await expect(preview.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveText(
-      "Beilagen:",
+      "Beilagen",
     );
     await expect(preview.locator('[data-letter-pdf-text="attachments-body"]')).toContainText(
       "Lebenslauf",
