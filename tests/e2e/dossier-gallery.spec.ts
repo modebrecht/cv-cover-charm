@@ -3,6 +3,7 @@ import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { FRESH_TEMPLATE_REGISTRY } from "../../src/components/cover/fresh-template-registry";
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
+import { DEFAULT_DOSSIER_CHROME_STATE } from "../../src/lib/dossier-chrome";
 import { defaultHeaderModeForTemplate } from "../../src/lib/template-chrome";
 
 const BASE_URL = "http://127.0.0.1:4173";
@@ -145,7 +146,11 @@ test("UI sample dossier downloads and all live motivation-letter templates produ
   expect(stored.cover?.data?.vorname).toBe("Lea");
   expect(stored.letter?.data?.unterschrift).toBe("Lea Müller");
   expect(stored.cv?.data?.person?.vorname).toBe("Lea");
-  expect(stored.chrome?.shared?.headerMode).toBe("compact");
+
+  // The gallery renders each template with its own product default. It must not
+  // depend on whether an unopened chrome control happened to persist canonical
+  // state during the demo-data setup path.
+  const galleryBaseChrome = stored.chrome ?? DEFAULT_DOSSIER_CHROME_STATE;
 
   const cases: Array<{
     label: string;
@@ -199,11 +204,11 @@ test("UI sample dossier downloads and all live motivation-letter templates produ
   for (const { item, globalIndex } of selectedCases) {
     const headerMode = defaultHeaderModeForTemplate(item.coverTemplate);
     await page.evaluate(
-      ({ base, letterTemplate, coverTemplate, cvTemplate, headerMode, chromeStorageKey }) => {
+      ({ base, baseChrome, letterTemplate, coverTemplate, cvTemplate, headerMode, chromeStorageKey }) => {
         const cover = structuredClone(base.cover);
         const letter = structuredClone(base.letter);
         const cv = structuredClone(base.cv);
-        const chrome = structuredClone(base.chrome);
+        const chrome = structuredClone(baseChrome);
 
         cover.template = coverTemplate;
         letter.design.template = letterTemplate;
@@ -237,6 +242,7 @@ test("UI sample dossier downloads and all live motivation-letter templates produ
       },
       {
         base: stored,
+        baseChrome: galleryBaseChrome,
         letterTemplate: item.letterTemplate,
         coverTemplate: item.coverTemplate,
         cvTemplate: item.cvTemplate,
