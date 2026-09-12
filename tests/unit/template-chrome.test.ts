@@ -12,7 +12,6 @@ describe("template-owned dossier chrome", () => {
       "brief",
       "klassisch",
       "modern",
-      "freundlich",
       "edel",
       "edelDark",
       "colorful",
@@ -26,6 +25,11 @@ describe("template-owned dossier chrome", () => {
       expect(defaultHeaderModeForTemplate(template)).toBe("compact");
       expect(defaultHeaderGapMmForTemplate(template)).toBe(12);
     }
+  });
+
+  test("Warm restores the reviewed contact masthead with deep-header clearance", () => {
+    expect(defaultHeaderModeForTemplate("freundlich")).toBe("contact");
+    expect(defaultHeaderGapMmForTemplate("freundlich")).toBe(12);
   });
 
   test("designed masthead families opt into contact headers", () => {
