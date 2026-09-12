@@ -7,7 +7,7 @@ import {
 } from "../../src/lib/template-chrome";
 
 describe("template-owned dossier chrome", () => {
-  test("ordinary templates default to compact headers", () => {
+  test("ordinary templates and Warm default to compact headers", () => {
     for (const template of [
       "brief",
       "klassisch",
@@ -21,17 +21,16 @@ describe("template-owned dossier chrome", () => {
       "welle",
       "edge",
       "ribbon",
+      "freundlich",
     ]) {
       expect(defaultHeaderModeForTemplate(template)).toBe("compact");
       expect(defaultHeaderGapMmForTemplate(template)).toBe(12);
     }
   });
 
-  test("deep Warm and Aurora mastheads keep the reviewed contact clearance", () => {
-    for (const template of ["freundlich", "aurora"]) {
-      expect(defaultHeaderModeForTemplate(template)).toBe("contact");
-      expect(defaultHeaderGapMmForTemplate(template)).toBe(12);
-    }
+  test("Aurora keeps the reviewed deep contact clearance", () => {
+    expect(defaultHeaderModeForTemplate("aurora")).toBe("contact");
+    expect(defaultHeaderGapMmForTemplate("aurora")).toBe(12);
   });
 
   test("designed masthead families opt into contact headers", () => {
