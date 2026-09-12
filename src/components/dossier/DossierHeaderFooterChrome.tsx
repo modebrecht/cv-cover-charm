@@ -84,11 +84,14 @@ export function DossierHeaderFooterChrome({
   footerRight?: string;
 }) {
   const resolvedContact = contact;
-  // Resolve template-owned *visual* defaults here as the common last mile for
-  // both motivation letter and CV. Geometry and the user's canonical controls
-  // still come from `options`; this only supplies template colours/borders while
-  // those controls remain on "Wie Vorlage".
-  const visualOptions = resolveTemplateChromeOptions(template, colors, options);
+  // Contact-mode template gradients must render identically in motivation
+  // letter and CV. Compact snapshots stay untouched here: their document-level
+  // resolver (not this generic shared renderer) owns special treatments such as
+  // Modern's mirrored dark/pink pair, so explicit chrome snapshots remain authoritative.
+  const visualOptions =
+    options.headerMode === "contact"
+      ? resolveTemplateChromeOptions(template, colors, options)
+      : options;
   const headerMode = options.headerMode;
   const continuationContact = pageIndex > 0 && headerMode === "contact";
   const sourcePalette = cvPalette(colors);
