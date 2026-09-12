@@ -1,7 +1,6 @@
 import { jsPDF } from "jspdf";
 import type { jsPDF as JsPdf } from "jspdf";
 
-const MASK_STYLE_ID = "cv-pdf-raster-text-mask";
 const PLUGIN_FLAG = "__cvPdfTextPluginInstalled";
 const MM_PER_PT = 25.4 / 72;
 
@@ -16,39 +15,6 @@ type JsPdfApiRegistry = {
 
 const subjects = new WeakMap<object, string>();
 const textLayerApplied = new WeakSet<object>();
-
-function installRasterTextMask() {
-  if (typeof document === "undefined" || document.getElementById(MASK_STYLE_ID)) return;
-
-  const style = document.createElement("style");
-  style.id = MASK_STYLE_ID;
-  style.textContent = `
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-export-mode="true"] [data-cv-page],
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-export-mode="true"] [data-cv-page] * {
-  color: transparent !important;
-  -webkit-text-fill-color: transparent !important;
-  text-decoration-color: transparent !important;
-  text-shadow: none !important;
-}
-`;
-  document.head.appendChild(style);
-}
-
-function withRasterTextVisible<T>(run: () => T): T {
-  const mask =
-    typeof document === "undefined"
-      ? null
-      : (document.getElementById(MASK_STYLE_ID) as HTMLStyleElement | null);
-  const wasDisabled = mask?.disabled ?? false;
-  if (mask) mask.disabled = true;
-  try {
-    return run();
-  } finally {
-    if (mask) mask.disabled = wasDisabled;
-  }
-}
 
 function rgb(cssColor: string): [number, number, number] {
   const hex = cssColor.match(/^#([0-9a-f]{6})$/i)?.[1];
@@ -243,18 +209,12 @@ function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
           rects.length === 1
             ? fittedHorizontalScale(pdf, fragment.text, fragment.rect.width * mmX)
             : 1;
-        pdf.text(fragment.text, x, baseline, { horizontalScale });
-
-        if (style.textDecorationLine.includes("underline")) {
-          pdf.setDrawColor(red, green, blue);
-          pdf.setLineWidth(0.18);
-          pdf.line(
-            x,
-            baseline + 0.55,
-            x + fragment.rect.width * mmX,
-            baseline + 0.55,
-          );
-        }
+        // Browser rendering is the visual source of truth. This native PDF text
+        // remains searchable/selectable, but must never change visible typography.
+        pdf.text(fragment.text, x, baseline, {
+          horizontalScale,
+          renderingMode: "invisible",
+        });
       }
     }
 
@@ -263,12 +223,12 @@ function drawCvTextLayer(pdf: JsPdf, page: HTMLElement) {
 }
 
 /**
- * Zeichnet den sichtbaren CV-Text deterministisch auf die aktuell aktive PDF-Seite.
- * Die Raster-Maske wird dafür kurz deaktiviert, damit echte Textfarben und Geometrie
- * aus dem Browserlayout gelesen werden können.
+ * Ergänzt eine unsichtbare, durchsuchbare CV-Textebene. Die sichtbare Typografie
+ * kommt vollständig aus dem browsergerenderten Raster und bleibt dadurch über
+ * Titelblatt, Motivationsschreiben und Lebenslauf pixelgetreu konsistent.
  */
 export function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
-  withRasterTextVisible(() => drawCvTextLayer(pdf, page));
+  drawCvTextLayer(pdf, page);
 }
 
 function exportRoots(): HTMLElement[] {
@@ -351,8 +311,6 @@ function installJsPdfPlugin() {
       };
     },
   ]);
-
-  installRasterTextMask();
 }
 
 if (typeof window !== "undefined") installJsPdfPlugin();
