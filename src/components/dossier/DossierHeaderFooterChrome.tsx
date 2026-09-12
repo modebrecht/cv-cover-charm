@@ -7,6 +7,7 @@ import {
   type DossierChromeOptions,
   type DossierChromeScope,
 } from "@/lib/dossier-chrome";
+import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
 import "./chrome-policy.css";
 
 function surfaceBackground(first: string, second: string | null): string {
@@ -83,6 +84,11 @@ export function DossierHeaderFooterChrome({
   footerRight?: string;
 }) {
   const resolvedContact = contact;
+  // Resolve template-owned *visual* defaults here as the common last mile for
+  // both motivation letter and CV. Geometry and the user's canonical controls
+  // still come from `options`; this only supplies template colours/borders while
+  // those controls remain on "Wie Vorlage".
+  const visualOptions = resolveTemplateChromeOptions(template, colors, options);
   const headerMode = options.headerMode;
   const continuationContact = pageIndex > 0 && headerMode === "contact";
   const sourcePalette = cvPalette(colors);
@@ -92,26 +98,26 @@ export function DossierHeaderFooterChrome({
       : (colors.primary ?? colors.accent ?? colors.secondary ?? sourcePalette.accent);
   const secondary =
     template === "brief" ? "#4b5563" : (colors.accent ?? colors.secondary ?? sourcePalette.accent);
-  const headerBackground = options.headerBackgroundColor ?? primary;
-  const footerBackground = options.footerBackgroundColor ?? secondary;
-  const headerRoles = onColorRoles(headerBackground, options.headerGradientColor ?? secondary);
-  const footerRoles = onColorRoles(footerBackground, options.footerGradientColor ?? primary);
-  const headerSurface = surfaceBackground(headerBackground, options.headerGradientColor);
-  const footerSurface = surfaceBackground(footerBackground, options.footerGradientColor);
+  const headerBackground = visualOptions.headerBackgroundColor ?? primary;
+  const footerBackground = visualOptions.footerBackgroundColor ?? secondary;
+  const headerRoles = onColorRoles(headerBackground, visualOptions.headerGradientColor ?? secondary);
+  const footerRoles = onColorRoles(footerBackground, visualOptions.footerGradientColor ?? primary);
+  const headerSurface = surfaceBackground(headerBackground, visualOptions.headerGradientColor);
+  const footerSurface = surfaceBackground(footerBackground, visualOptions.footerGradientColor);
   const borderColor =
-    options.borderColor ??
+    visualOptions.borderColor ??
     automaticBorderColor({
       colors,
       headerBackground,
-      headerGradient: options.headerGradientColor,
+      headerGradient: visualOptions.headerGradientColor,
       footerBackground,
-      footerGradient: options.footerGradientColor,
+      footerGradient: visualOptions.footerGradientColor,
       palette: sourcePalette,
     });
-  const borderStyle = options.borderEnabled
-    ? `${options.borderWidthMm}mm solid ${borderColor}`
+  const borderStyle = visualOptions.borderEnabled
+    ? `${visualOptions.borderWidthMm}mm solid ${borderColor}`
     : undefined;
-  const textFontFamily = options.textFont ? FONT_STACKS[options.textFont] : undefined;
+  const textFontFamily = visualOptions.textFont ? FONT_STACKS[visualOptions.textFont] : undefined;
   const headerVisualHeight = dossierHeaderVisualHeightMmForOptions(options, pageIndex);
   const compactFooterHeight = dossierFooterVisualHeightMmForOptions(options);
   const detailsHeight = options.footerHeightMm ?? footerHeightMm ?? 10;
@@ -163,10 +169,10 @@ export function DossierHeaderFooterChrome({
       data-dossier-footer-mode={options.footerMode}
       data-dossier-header-text-layout={options.headerTextLayout}
       data-dossier-footer-text-layout={options.footerTextLayout}
-      data-dossier-border-enabled={options.borderEnabled ? "true" : "false"}
+      data-dossier-border-enabled={visualOptions.borderEnabled ? "true" : "false"}
       data-dossier-border-color={borderColor}
-      data-dossier-border-width-mm={options.borderWidthMm}
-      data-dossier-chrome-font={options.textFont ?? "template"}
+      data-dossier-border-width-mm={visualOptions.borderWidthMm}
+      data-dossier-chrome-font={visualOptions.textFont ?? "template"}
       data-letter-chrome={letter ? "" : undefined}
       data-letter-header-mode={letter ? headerMode : undefined}
       className="pointer-events-none absolute inset-0 z-[3] overflow-hidden"
