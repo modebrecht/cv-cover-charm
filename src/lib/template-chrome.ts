@@ -1,4 +1,16 @@
-import type { DossierChromeOptions } from "@/lib/dossier-chrome";
+import type { DossierChromeOptions, DossierHeaderMode } from "@/lib/dossier-chrome";
+
+const COMPACT_HEADER_DEFAULT_TEMPLATES = new Set(["modern", "edel", "edelDark"]);
+
+/**
+ * Header mode chosen when a template is selected for the first time.
+ *
+ * This is a default, not a renderer override: users can still switch any of
+ * these templates to contact / none afterwards through the shared controls.
+ */
+export function defaultHeaderModeForTemplate(template: string): DossierHeaderMode {
+  return COMPACT_HEADER_DEFAULT_TEMPLATES.has(template) ? "compact" : "contact";
+}
 
 /**
  * Template-owned chrome styling without disabling the shared chrome controls.
