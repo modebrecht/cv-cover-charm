@@ -105,7 +105,15 @@
   box-shadow: none !important;
 }
 
-[data-cv-template="edge"] [data-dossier-integrated-contact],
+/* Edge keeps its own dark signature band at the top of every dossier sheet.
+ * The shared contact surface is transparent here, so move only the contact box
+ * below that 9 mm band. Keeping the box height unchanged preserves wrapping,
+ * PDF text geometry and user-selected chrome settings. */
+[data-cv-template="edge"] [data-dossier-integrated-contact] {
+  top: 9mm !important;
+  color: var(--cover-ink) !important;
+}
+
 [data-cv-template="monoLuxe"] [data-dossier-integrated-contact] {
   color: var(--cover-ink) !important;
 }
