@@ -33,4 +33,9 @@ describe("global quiet chrome policy", () => {
     expect(css).toContain('[data-dossier-sheet-background="orbit"] > div:nth-child(3)');
     expect(css).toContain("display: none !important;");
   });
+
+  test("Edge CV contact text clears its template-owned top signature", () => {
+    expect(css).toContain('[data-cv-template="edge"] [data-dossier-integrated-contact]');
+    expect(css).toContain("top: 9mm !important;");
+  });
 });
