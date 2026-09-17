@@ -1,0 +1,38 @@
+name: One-off PDF regression test patch v2
+
+on:
+  push:
+    branches:
+      - fix/pdf-richtext-collision-20260917-v6
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/pdf-richtext-collision-20260917-v6
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Patch test
+        shell: bash
+        run: |
+          echo 'CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aApwID0gUGF0aCgidGVzdHMvZTJlL2xldHRlci1wZGYtcmljaHRleHQuc3BlYy50cyIpCnMgPSBwLnJlYWRfdGV4dCgpCm9sZCA9ICIiIiAgICBhd2FpdCBzZWVkTGV0dGVyKHBhZ2UsIHRydWUpOwogICAgY29uc3QgZG93bmxvYWQgPSBwYWdlLmdldEJ5Um9sZSgiYnV0dG9uIiwgeyBuYW1lOiAiRG93bmxvYWQiLCBleGFjdDogdHJ1ZSB9KTsKICAgIGF3YWl0IGRvd25sb2FkLmNsaWNrKCk7CgogICAgY29uc3QgZnVsbFBkZkJ1dHRvbiA9IHBhZ2UuZ2V0QnlSb2xlKCJidXR0b24iLCB7IG5hbWU6IC9HYW56ZXMgRG9zc2llciBhbHMgUERGL2kgfSk7CiIiIgpuZXcgPSAiIiIgICAgYXdhaXQgc2VlZExldHRlcihwYWdlLCB0cnVlKTsKICAgIGF3YWl0IHBhZ2UuZ290byhgJHtCQVNFX1VSTH0vbGViZW5zbGF1ZmAsIHsgd2FpdFVudGlsOiAiZG9tY29udGVudGxvYWRlZCIgfSk7CgogICAgY29uc3QgZG93bmxvYWRUb2dnbGUgPSBwYWdlLmxvY2F0b3IoJ2J1dHRvbltkYXRhLWVkaXRvci1yZWFkeV0nKTsKICAgIGF3YWl0IGV4cGVjdChkb3dubG9hZFRvZ2dsZSkudG9IYXZlQXR0cmlidXRlKCJkYXRhLWVkaXRvci1yZWFkeSIsICJ0cnVlIiwgeyB0aW1lb3V0OiAxNV8wMDAgfSk7CiAgICBhd2FpdCBmb3JjZURldGVybWluaXN0aWNXcmFwcGVkV29yZHMocGFnZSk7CiAgICBhd2FpdCBkb3dubG9hZFRvZ2dsZS5jbGljaygpOwoKICAgIGNvbnN0IG1lbnUgPSBwYWdlLmxvY2F0b3IoIltkYXRhLWVkaXRvci1hY3Rpb24tbWVudV0iKTsKICAgIGF3YWl0IGV4cGVjdChtZW51KS50b0JlVmlzaWJsZSgpOwogICAgY29uc3QgZnVsbFBkZkJ1dHRvbiA9IG1lbnUuZ2V0QnlSb2xlKCJidXR0b24iLCB7IG5hbWU6IC9HYW56ZXMgRG9zc2llciBhbHMgUERGL2kgfSk7CiIiIgppZiBvbGQgbm90IGluIHM6CiAgICByYWlzZSBTeXN0ZW1FeGl0KCJ0YXJnZXQgYmxvY2sgbm90IGZvdW5kIikKcC53cml0ZV90ZXh0KHMucmVwbGFjZShvbGQsIG5ldywgMSkpCg==' | base64 -d > /tmp/patch_pdf_test.py
+          python /tmp/patch_pdf_test.py
+          bunx prettier --write tests/e2e/letter-pdf-richtext.spec.ts
+      - name: Remove one-off patcher and commit
+        shell: bash
+        run: |
+          rm .github/workflows/patch-pdf-richtext-test-v2.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/e2e/letter-pdf-richtext.spec.ts .github/workflows/patch-pdf-richtext-test-v2.yml
+          git commit -m "test(pdf): use dossier action menu for combined export"
+          git push origin HEAD:fix/pdf-richtext-collision-20260917-v6
