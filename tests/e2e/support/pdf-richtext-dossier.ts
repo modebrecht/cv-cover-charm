@@ -269,3 +269,20 @@ export async function pdfPageStrokeCount(path: string, pageNumber = LETTER_PDF_P
   if (strokeOp === undefined) return operators.fnArray.length;
   return operators.fnArray.filter((operation) => operation === strokeOp).length;
 }
+
+export async function pdfPageOperatorSummary(path: string, pageNumber = LETTER_PDF_PAGE) {
+  const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const data = new Uint8Array(await readFile(path));
+  const document = await pdfjs.getDocument({ data, disableFontFace: true }).promise;
+  const pdfPage = await document.getPage(pageNumber);
+  const operators = await pdfPage.getOperatorList();
+  const ops = (pdfjs as unknown as { OPS?: Record<string, number> }).OPS ?? {};
+  const names = new Map<number, string>();
+  for (const [name, value] of Object.entries(ops)) names.set(value, name);
+  const counts: Record<string, number> = {};
+  for (const operation of operators.fnArray) {
+    const name = names.get(operation) ?? `op:${operation}`;
+    counts[name] = (counts[name] ?? 0) + 1;
+  }
+  return counts;
+}
