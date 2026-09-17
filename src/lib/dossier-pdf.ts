@@ -77,7 +77,9 @@ function wrapLetterText(pdf: JsPdf, text: string, widthMm: number): string[] {
 }
 
 function visibleRangeRects(range: Range): DOMRect[] {
-  return Array.from(range.getClientRects()).filter((rect) => rect.width > 0 && rect.height > 0);
+  return Array.from(range.getClientRects()).filter(
+    (rect) => rect.width > 0 && rect.height > 0,
+  );
 }
 
 function nextCodePointOffset(text: string, offset: number, end: number): number {
@@ -129,7 +131,9 @@ function richTokenFragments(
 
   if (fragmentTop === null) {
     const first = tokenRects[0];
-    return first ? [{ text: raw.slice(start, end).replace(/\u00ad/g, ""), rect: first }] : [];
+    return first
+      ? [{ text: raw.slice(start, end).replace(/\u00ad/g, ""), rect: first }]
+      : [];
   }
   slices.push({ start: fragmentStart, end, top: fragmentTop });
 
