@@ -10,7 +10,8 @@ import {
 } from "./support/pdf-richtext-dossier";
 
 const REAL_TARGETS = ["Bauernhofspielgruppe", "Allgemeinbildung", "kennenzulernen"] as const;
-const EXPORT_RICH_BODY = '[data-dossier-document="letter"] [data-letter-pdf-richtext="body"]';
+const EXPORT_RICH_BODY =
+  '[data-dossier-document="letter"] [data-letter-document-pages] [data-letter-pdf-richtext="body"]';
 
 const SANDRO_PARAGRAPHS = [
   "Vielen Dank für das Telefongespräch vom 13. November. Wie besprochen, erhalten Sie hiermit meine aktuellen Bewerbungsunterlagen.",
