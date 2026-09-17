@@ -160,10 +160,22 @@ function richTokenFragments(
   });
 }
 
-function hasUnderline(style: CSSStyleDeclaration): boolean {
-  return style.textDecorationLine
-    .split(/\s+/)
-    .some((value) => value.trim().toLowerCase() === "underline");
+function hasUnderline(element: Element | null, root: HTMLElement): boolean {
+  let current = element;
+  while (current) {
+    if (current.tagName.toLowerCase() === "u") return true;
+    const decoration = window.getComputedStyle(current).textDecorationLine;
+    if (
+      decoration
+        .split(/\s+/)
+        .some((value) => value.trim().toLowerCase() === "underline")
+    ) {
+      return true;
+    }
+    if (current === root) break;
+    current = current.parentElement;
+  }
+  return false;
 }
 
 function addRichLetterText(
@@ -186,7 +198,7 @@ function addRichLetterText(
     const fontSizePx = Number.parseFloat(style.fontSize) || 14;
     const fontSizePt = fontSizePx * (72 / 96);
     const [red, green, blue] = rgb(style.color);
-    const underline = hasUnderline(style);
+    const underline = hasUnderline(parent, root);
 
     for (const match of raw.matchAll(/\S+/g)) {
       const token = match[0];
