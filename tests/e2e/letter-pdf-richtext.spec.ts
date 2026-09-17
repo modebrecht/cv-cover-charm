@@ -308,7 +308,6 @@ test.describe("Motivation-letter PDF rich-text wrap regression", () => {
 
     const downloadToggle = page.locator("button[data-editor-ready]");
     await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true", { timeout: 15_000 });
-    await forceDeterministicWrappedWords(page);
     await downloadToggle.click();
 
     const menu = page.locator("[data-editor-action-menu]");
