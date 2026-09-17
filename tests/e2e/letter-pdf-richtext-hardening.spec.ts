@@ -4,6 +4,7 @@ import {
   downloadCombinedDossierPdf,
   extractPdfPageItems,
   normalizePdfText,
+  pdfPageOperatorSummary,
   pdfPageStrokeCount,
   richtextLetterPayload,
   seedRichtextDossier,
@@ -195,6 +196,7 @@ test.describe("Motivation-letter PDF rich-text hardening", () => {
     );
     const plainPath = await downloadCombinedDossierPdf(page);
     const plainStrokes = await pdfPageStrokeCount(plainPath);
+    const plainOperators = await pdfPageOperatorSummary(plainPath);
 
     await seedRichtextDossier(
       page,
@@ -222,11 +224,15 @@ test.describe("Motivation-letter PDF rich-text hardening", () => {
     });
     const underlinedItems = await extractPdfPageItems(underlinedPath);
     const underlinedStrokes = await pdfPageStrokeCount(underlinedPath);
+    const underlinedOperators = await pdfPageOperatorSummary(underlinedPath);
 
+    console.log(
+      `underline operator diff plain=${JSON.stringify(plainOperators)} underlined=${JSON.stringify(underlinedOperators)}`,
+    );
     expect(contributingPdfBaselines(underlinedItems, marker).length).toBeGreaterThan(0);
     expect(
       underlinedStrokes,
-      "underlined export must add a native vector stroke after raster text is hidden",
+      `underlined export must add a native vector stroke after raster text is hidden; plain=${JSON.stringify(plainOperators)} underlined=${JSON.stringify(underlinedOperators)}`,
     ).toBeGreaterThan(plainStrokes);
   });
 });
