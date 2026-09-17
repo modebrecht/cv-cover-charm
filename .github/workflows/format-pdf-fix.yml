@@ -1,0 +1,37 @@
+name: One-off PDF fix formatter
+
+on:
+  push:
+    branches:
+      - fix/pdf-richtext-collision-20260917-v6
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/pdf-richtext-collision-20260917-v6
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Format patch
+        run: bunx prettier --write src/lib/dossier-pdf.ts tests/e2e/letter-pdf-richtext.spec.ts .github/workflows/dossier-regression.yml
+      - name: Remove one-off formatter and commit
+        shell: bash
+        run: |
+          rm .github/workflows/format-pdf-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/lib/dossier-pdf.ts tests/e2e/letter-pdf-richtext.spec.ts .github/workflows/dossier-regression.yml .github/workflows/format-pdf-fix.yml
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "chore(pdf): format richtext regression patch"
+          git push origin HEAD:fix/pdf-richtext-collision-20260917-v6
