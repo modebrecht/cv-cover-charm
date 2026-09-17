@@ -9,6 +9,7 @@ on:
       - dev
       - render
       - main
+      - fix/pdf-richtext-integrated-dev-20260917
     paths-ignore:
       - "History/**"
 
@@ -100,6 +101,8 @@ jobs:
           - group: letter-m8-edge
             files: >-
               tests/e2e/letter-adversarial-content.spec.ts
+              tests/e2e/letter-pdf-richtext.spec.ts
+              tests/e2e/letter-pdf-richtext-hardening.spec.ts
           - group: cv-pdf
             files: >-
               tests/e2e/element-ratio-lock.spec.ts
