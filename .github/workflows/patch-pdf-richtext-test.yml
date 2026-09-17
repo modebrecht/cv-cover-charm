@@ -1,0 +1,81 @@
+name: One-off PDF regression test patch
+
+on:
+  push:
+    branches:
+      - fix/pdf-richtext-collision-20260917-v6
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/pdf-richtext-collision-20260917-v6
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Patch combined-dossier route and action menu
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('tests/e2e/letter-pdf-richtext.spec.ts')
+          s = p.read_text()
+          old = '''  test("combined dossier uses the same fragment-safe letter text layer", async ({ page }) => {
+            await seedLetter(page, true);
+            const download = page.getByRole("button", { name: "Download", exact: true });
+            await download.click();
+
+            const fullPdfButton = page.getByRole("button", { name: /Ganzes Dossier als PDF/i });
+            await expect(fullPdfButton).toBeEnabled({ timeout: 15_000 });
+            await fullPdfButton.click();
+
+            const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+            await expect(dialog).toBeVisible();
+            await forceDeterministicWrappedWords(page);
+            const confirm = dialog.getByRole("button", { name: "Dossier herunterladen" });
+            await expect(confirm).toBeEnabled({ timeout: 15_000 });
+'''
+          new = '''  test("combined dossier uses the same fragment-safe letter text layer", async ({ page }) => {
+            await seedLetter(page, true);
+            await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
+
+            const downloadToggle = page.locator('button[data-editor-ready]');
+            await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true", {
+              timeout: 15_000,
+            });
+            await forceDeterministicWrappedWords(page);
+            await downloadToggle.click();
+
+            const menu = page.locator("[data-editor-action-menu]");
+            await expect(menu).toBeVisible();
+            const fullPdfButton = menu.getByRole("button", { name: /Ganzes Dossier als PDF/i });
+            await expect(fullPdfButton).toBeEnabled({ timeout: 15_000 });
+            await fullPdfButton.click();
+
+            const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+            await expect(dialog).toBeVisible();
+            const confirm = dialog.getByRole("button", { name: "Dossier herunterladen" });
+            await expect(confirm).toBeEnabled({ timeout: 15_000 });
+'''
+          if old not in s:
+              raise SystemExit('target block not found')
+          p.write_text(s.replace(old, new, 1))
+          PY
+          bunx prettier --write tests/e2e/letter-pdf-richtext.spec.ts
+      - name: Remove one-off patcher and commit
+        shell: bash
+        run: |
+          rm .github/workflows/patch-pdf-richtext-test.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/e2e/letter-pdf-richtext.spec.ts .github/workflows/patch-pdf-richtext-test.yml
+          git commit -m "test(pdf): use dossier action menu for combined export"
+          git push origin HEAD:fix/pdf-richtext-collision-20260917-v6
