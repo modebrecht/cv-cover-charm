@@ -9,6 +9,7 @@ on:
       - dev
       - render
       - main
+      - fix/pdf-richtext-collision-20260917-v6
     paths-ignore:
       - "History/**"
 
