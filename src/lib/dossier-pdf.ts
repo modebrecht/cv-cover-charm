@@ -15,6 +15,7 @@ export type DossierPdfMeta = {
 type Html2Canvas = (typeof import("html2canvas-pro"))["default"];
 type PdfFont = "helvetica" | "times" | "courier" | "Cabin";
 type PdfFontStyle = "normal" | "bold" | "italic" | "bolditalic";
+type RichTextFragment = { text: string; rect: DOMRect };
 
 const MM_PER_PT = 25.4 / 72;
 
@@ -75,6 +76,96 @@ function wrapLetterText(pdf: JsPdf, text: string, widthMm: number): string[] {
   return lines;
 }
 
+function visibleRangeRects(range: Range): DOMRect[] {
+  return Array.from(range.getClientRects()).filter((rect) => rect.width > 0 && rect.height > 0);
+}
+
+function nextCodePointOffset(text: string, offset: number, end: number): number {
+  const codePoint = text.codePointAt(offset);
+  if (codePoint === undefined) return Math.min(end, offset + 1);
+  return Math.min(end, offset + (codePoint > 0xffff ? 2 : 1));
+}
+
+function richTokenFragments(
+  node: Node,
+  raw: string,
+  start: number,
+  end: number,
+  range: Range,
+  style: CSSStyleDeclaration,
+): RichTextFragment[] {
+  range.setStart(node, start);
+  range.setEnd(node, end);
+  const tokenRects = visibleRangeRects(range);
+  if (tokenRects.length <= 1) {
+    const rect = tokenRects[0] ?? range.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return [];
+    return [{ text: raw.slice(start, end).replace(/\u00ad/g, ""), rect }];
+  }
+
+  const fontSizePx = Number.parseFloat(style.fontSize) || 14;
+  const lineTolerancePx = Math.max(0.75, fontSizePx * 0.15);
+  const slices: Array<{ start: number; end: number; top: number }> = [];
+  let fragmentStart = start;
+  let fragmentTop: number | null = null;
+  let offset = start;
+
+  while (offset < end) {
+    const next = nextCodePointOffset(raw, offset, end);
+    range.setStart(node, offset);
+    range.setEnd(node, next);
+    const charRect = visibleRangeRects(range)[0] ?? range.getBoundingClientRect();
+    if (charRect.width > 0 && charRect.height > 0) {
+      if (fragmentTop === null) {
+        fragmentTop = charRect.top;
+      } else if (Math.abs(charRect.top - fragmentTop) > lineTolerancePx) {
+        slices.push({ start: fragmentStart, end: offset, top: fragmentTop });
+        fragmentStart = offset;
+        fragmentTop = charRect.top;
+      }
+    }
+    offset = next;
+  }
+
+  if (fragmentTop === null) {
+    const first = tokenRects[0];
+    return first ? [{ text: raw.slice(start, end).replace(/\u00ad/g, ""), rect: first }] : [];
+  }
+  slices.push({ start: fragmentStart, end, top: fragmentTop });
+
+  return slices.flatMap((slice, index) => {
+    if (slice.start >= slice.end) return [];
+    range.setStart(node, slice.start);
+    range.setEnd(node, slice.end);
+    const rects = visibleRangeRects(range);
+    const rect =
+      rects.find((candidate) => Math.abs(candidate.top - slice.top) <= lineTolerancePx) ??
+      rects[0] ??
+      range.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return [];
+
+    const sourceText = raw.slice(slice.start, slice.end);
+    const explicitSoftHyphen = sourceText.endsWith("\u00ad");
+    let text = sourceText.replace(/\u00ad/g, "");
+    const hasFollowingFragment = index < slices.length - 1;
+    if (
+      hasFollowingFragment &&
+      text &&
+      !text.endsWith("-") &&
+      (explicitSoftHyphen || style.hyphens === "auto")
+    ) {
+      text += "-";
+    }
+    return text ? [{ text, rect }] : [];
+  });
+}
+
+function hasUnderline(style: CSSStyleDeclaration): boolean {
+  return style.textDecorationLine
+    .split(/\s+/)
+    .some((value) => value.trim().toLowerCase() === "underline");
+}
+
 function addRichLetterText(
   pdf: JsPdf,
   page: HTMLElement,
@@ -95,22 +186,30 @@ function addRichLetterText(
     const fontSizePx = Number.parseFloat(style.fontSize) || 14;
     const fontSizePt = fontSizePx * (72 / 96);
     const [red, green, blue] = rgb(style.color);
+    const underline = hasUnderline(style);
 
     for (const match of raw.matchAll(/\S+/g)) {
       const token = match[0];
       const start = match.index ?? 0;
-      range.setStart(node, start);
-      range.setEnd(node, start + token.length);
-      const rect = range.getBoundingClientRect();
-      if (rect.width <= 0 || rect.height <= 0) continue;
+      const fragments = richTokenFragments(node, raw, start, start + token.length, range, style);
 
-      const x = (rect.left - pageRect.left) * mmX;
-      const top = (rect.top - pageRect.top) * mmY;
-      const baseline = top + fontSizePt * MM_PER_PT * 0.82;
-      pdf.setFont(font, pdfFontStyle(style));
-      pdf.setFontSize(fontSizePt);
-      pdf.setTextColor(red, green, blue);
-      pdf.text(token, x, baseline);
+      for (const fragment of fragments) {
+        const x = (fragment.rect.left - pageRect.left) * mmX;
+        const top = (fragment.rect.top - pageRect.top) * mmY;
+        const baseline = top + fontSizePt * MM_PER_PT * 0.82;
+        pdf.setFont(font, pdfFontStyle(style));
+        pdf.setFontSize(fontSizePt);
+        pdf.setTextColor(red, green, blue);
+        pdf.text(fragment.text, x, baseline);
+
+        if (underline) {
+          const underlineY = baseline + Math.max(0.18, fontSizePt * MM_PER_PT * 0.07);
+          const underlineWidth = fragment.rect.width * mmX;
+          pdf.setDrawColor(red, green, blue);
+          pdf.setLineWidth(Math.max(0.1, fontSizePt * MM_PER_PT * 0.035));
+          pdf.line(x, underlineY, x + underlineWidth, underlineY);
+        }
+      }
     }
     node = walker.nextNode();
   }
