@@ -186,38 +186,41 @@ async function seedLetter(page: Page, fullDossier = false) {
 async function forceDeterministicWrappedWords(page: Page) {
   const roots = page.locator("[data-letter-pdf-richtext]");
   await expect.poll(() => roots.count()).toBeGreaterThan(0);
-  const fragmentCounts = await roots.evaluateAll((elements, targetWords) => {
-    const counts: number[] = [];
-    for (const element of elements as HTMLElement[]) {
-      element.style.width = "56px";
-      element.style.maxWidth = "56px";
-      element.style.overflowWrap = "anywhere";
-      element.style.wordBreak = "normal";
-      element.style.hyphens = "none";
+  const fragmentCounts = await roots.evaluateAll(
+    (elements, targetWords) => {
+      const counts: number[] = [];
+      for (const element of elements as HTMLElement[]) {
+        element.style.width = "56px";
+        element.style.maxWidth = "56px";
+        element.style.overflowWrap = "anywhere";
+        element.style.wordBreak = "normal";
+        element.style.hyphens = "none";
 
-      for (const target of targetWords as string[]) {
-        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-        let node = walker.nextNode();
-        let count = 0;
-        while (node) {
-          const raw = node.nodeValue ?? "";
-          const start = raw.indexOf(target);
-          if (start >= 0) {
-            const range = document.createRange();
-            range.setStart(node, start);
-            range.setEnd(node, start + target.length);
-            count = Array.from(range.getClientRects()).filter(
-              (rect) => rect.width > 0 && rect.height > 0,
-            ).length;
-            break;
+        for (const target of targetWords as string[]) {
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          let node = walker.nextNode();
+          let count = 0;
+          while (node) {
+            const raw = node.nodeValue ?? "";
+            const start = raw.indexOf(target);
+            if (start >= 0) {
+              const range = document.createRange();
+              range.setStart(node, start);
+              range.setEnd(node, start + target.length);
+              count = Array.from(range.getClientRects()).filter(
+                (rect) => rect.width > 0 && rect.height > 0,
+              ).length;
+              break;
+            }
+            node = walker.nextNode();
           }
-          node = walker.nextNode();
+          counts.push(count);
         }
-        counts.push(count);
       }
-    }
-    return counts;
-  }, [...TARGET_WORDS]);
+      return counts;
+    },
+    [...TARGET_WORDS],
+  );
 
   expect(
     Math.max(...fragmentCounts),
@@ -255,9 +258,10 @@ function expectWordUsesMultiplePdfBaselines(items: PositionedPdfText[], target: 
   }
 
   const targetStart = stream.indexOf(target);
-  expect(targetStart, `${target} must remain extractable from the PDF text layer`).toBeGreaterThanOrEqual(
-    0,
-  );
+  expect(
+    targetStart,
+    `${target} must remain extractable from the PDF text layer`,
+  ).toBeGreaterThanOrEqual(0);
   const targetEnd = targetStart + target.length;
   const baselines = spans
     .filter((span) => span.end > targetStart && span.start < targetEnd)
