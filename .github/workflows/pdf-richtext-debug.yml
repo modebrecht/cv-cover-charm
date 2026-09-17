@@ -1,0 +1,36 @@
+name: PDF Richtext Debug
+
+on:
+  push:
+    branches:
+      - fix/pdf-richtext-integrated-dev-20260917
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: bun install --frozen-lockfile
+      - run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Start application
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/cv-cover-charm.log 2>&1 &
+          echo $! > /tmp/cv-cover-charm.pid
+          for attempt in {1..60}; do
+            if curl --fail --silent http://127.0.0.1:4173/anschreiben > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/cv-cover-charm.log
+          exit 1
+      - run: npx playwright test tests/e2e/letter-pdf-richtext-hardening.spec.ts --reporter=line --workers=1
+      - if: failure()
+        run: cat /tmp/cv-cover-charm.log || true
