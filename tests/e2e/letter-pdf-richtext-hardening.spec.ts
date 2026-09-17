@@ -50,14 +50,15 @@ test("debug standalone motivation-letter PDF export error", async ({ page }) => 
   await expect(pdfButton).toBeVisible();
   await expect(pdfButton).toBeEnabled({ timeout: 15_000 });
 
-  const download = page.waitForEvent("download", { timeout: 15_000 }).catch(() => null);
+  const download = page.waitForEvent("download", { timeout: 12_000 }).catch(() => null);
   await pdfButton.click();
   const file = await download;
   if (!file) {
-    const status = page.getByRole("status");
-    const statusText = (await status.count()) ? await status.first().textContent() : null;
+    const statuses = await page.getByRole("status").allTextContents();
+    const alerts = await page.getByRole("alert").allTextContents();
+    const destructive = await page.locator(".text-destructive").allTextContents();
     throw new Error(
-      `No download. PDF status=${JSON.stringify(statusText)}; browser=${JSON.stringify(browserMessages)}`,
+      `No download. statuses=${JSON.stringify(statuses)} alerts=${JSON.stringify(alerts)} destructive=${JSON.stringify(destructive)} browser=${JSON.stringify(browserMessages)}`,
     );
   }
   expect(await file.path()).not.toBeNull();
