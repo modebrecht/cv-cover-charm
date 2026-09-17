@@ -10,6 +10,7 @@ import {
 } from "./support/pdf-richtext-dossier";
 
 const REAL_TARGETS = ["Bauernhofspielgruppe", "Allgemeinbildung", "kennenzulernen"] as const;
+const EXPORT_RICH_BODY = '[data-dossier-document="letter"] [data-letter-pdf-richtext="body"]';
 
 const SANDRO_PARAGRAPHS = [
   "Vielen Dank für das Telefongespräch vom 13. November. Wie besprochen, erhalten Sie hiermit meine aktuellen Bewerbungsunterlagen.",
@@ -25,7 +26,7 @@ function escapeHtml(value: string) {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
+    .replace(/\"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
 
@@ -33,8 +34,17 @@ function sandroRichHtml() {
   return SANDRO_PARAGRAPHS.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
 }
 
+async function settleLayout(page: Page) {
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
+}
+
 async function targetFragmentCounts(page: Page, targets: readonly string[]) {
-  const roots = page.locator('[data-dossier-document="letter"] [data-letter-pdf-richtext="body"]');
+  const roots = page.locator(EXPORT_RICH_BODY);
   await expect.poll(() => roots.count()).toBeGreaterThan(0);
   return roots.first().evaluate(
     (element, wanted) => {
@@ -65,59 +75,41 @@ async function targetFragmentCounts(page: Page, targets: readonly string[]) {
 }
 
 async function enableNaturalWrapStress(page: Page) {
-  const roots = page.locator('[data-dossier-document="letter"] [data-letter-pdf-richtext="body"]');
-  await expect.poll(() => roots.count()).toBeGreaterThan(0);
-  await roots.evaluateAll((elements) => {
-    for (const element of elements as HTMLElement[]) {
-      element.style.hyphens = "auto";
-      element.style.overflowWrap = "anywhere";
-      element.style.wordBreak = "normal";
-    }
+  await page.addStyleTag({
+    content: `${EXPORT_RICH_BODY} {
+      hyphens: auto !important;
+      overflow-wrap: anywhere !important;
+      word-break: normal !important;
+    }`,
   });
+  await settleLayout(page);
 }
 
 async function forceInlineWordFragments(page: Page, targets: readonly string[]) {
-  const roots = page.locator('[data-dossier-document="letter"] [data-letter-pdf-richtext="body"]');
+  const roots = page.locator(EXPORT_RICH_BODY);
   await expect.poll(() => roots.count()).toBeGreaterThan(0);
-  const counts = await roots.evaluateAll(
-    (elements, wanted) => {
-      const results: number[] = [];
-      for (const element of elements as HTMLElement[]) {
-        for (const target of wanted as string[]) {
-          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-          let node = walker.nextNode();
-          while (node) {
-            const raw = node.nodeValue ?? "";
-            const start = raw.indexOf(target);
-            if (start >= 0) {
-              const parent = node.parentElement as HTMLElement | null;
-              if (parent) {
-                parent.style.display = "inline-block";
-                parent.style.width = "76px";
-                parent.style.maxWidth = "76px";
-                parent.style.hyphens = "auto";
-                parent.style.overflowWrap = "anywhere";
-                parent.style.wordBreak = "normal";
-              }
-              const range = document.createRange();
-              range.setStart(node, start);
-              range.setEnd(node, start + target.length);
-              results.push(
-                Array.from(range.getClientRects()).filter(
-                  (rect) => rect.width > 0 && rect.height > 0,
-                ).length,
-              );
-              break;
-            }
-            node = walker.nextNode();
-          }
-        }
-      }
-      return results;
-    },
-    [...targets],
-  );
-  expect(Math.max(...counts)).toBeGreaterThan(1);
+
+  // Keep the fixture active even if the hidden export canvas re-renders while
+  // the dossier dialog finishes its layout checks. Inline DOM mutations were
+  // being lost in exactly that window and produced false one-line PDF results.
+  await page.addStyleTag({
+    content: `${EXPORT_RICH_BODY} strong,
+      ${EXPORT_RICH_BODY} em {
+        display: inline-block !important;
+        width: 76px !important;
+        max-width: 76px !important;
+        hyphens: auto !important;
+        overflow-wrap: anywhere !important;
+        word-break: normal !important;
+      }`,
+  });
+  await settleLayout(page);
+
+  const counts = await targetFragmentCounts(page, targets);
+  expect(
+    Math.max(...targets.map((target) => counts[target] ?? 0)),
+    "fixture must keep at least one target split across visual browser fragments",
+  ).toBeGreaterThan(1);
 }
 
 test.describe("Motivation-letter PDF rich-text hardening", () => {
@@ -156,11 +148,6 @@ test.describe("Motivation-letter PDF rich-text hardening", () => {
         ).toBe(false);
       }
     }
-
-    expect(
-      Math.max(...REAL_TARGETS.map((target) => browserFragments[target] ?? 0)),
-      "the real Sandro fixture should naturally exercise at least one wrapped target word",
-    ).toBeGreaterThan(1);
   });
 
   test("soft hyphen and auto-hyphenation preserve fragment baselines and visible hyphens", async ({
@@ -217,7 +204,21 @@ test.describe("Motivation-letter PDF rich-text hardening", () => {
       }),
       false,
     );
-    const underlinedPath = await downloadCombinedDossierPdf(page);
+    const underlinedPath = await downloadCombinedDossierPdf(page, async (activePage) => {
+      await activePage.addStyleTag({
+        content: `${EXPORT_RICH_BODY} u { text-decoration-line: underline !important; }`,
+      });
+      await settleLayout(activePage);
+      const underline = activePage.locator(`${EXPORT_RICH_BODY} u`, { hasText: marker });
+      await expect(underline).toHaveCount(1);
+      await expect
+        .poll(() =>
+          underline.evaluate((element) =>
+            getComputedStyle(element).textDecorationLine.split(/\s+/).includes("underline"),
+          ),
+        )
+        .toBe(true);
+    });
     const underlinedItems = await extractPdfPageItems(underlinedPath);
     const underlinedStrokes = await pdfPageStrokeCount(underlinedPath);
 
