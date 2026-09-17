@@ -165,11 +165,7 @@ function hasUnderline(element: Element | null, root: HTMLElement): boolean {
   while (current) {
     if (current.tagName.toLowerCase() === "u") return true;
     const decoration = window.getComputedStyle(current).textDecorationLine;
-    if (
-      decoration
-        .split(/\s+/)
-        .some((value) => value.trim().toLowerCase() === "underline")
-    ) {
+    if (decoration.split(/\s+/).some((value) => value.trim().toLowerCase() === "underline")) {
       return true;
     }
     if (current === root) break;
