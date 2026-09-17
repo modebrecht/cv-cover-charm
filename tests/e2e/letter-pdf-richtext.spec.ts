@@ -304,10 +304,16 @@ test.describe("Motivation-letter PDF rich-text wrap regression", () => {
 
   test("combined dossier uses the same fragment-safe letter text layer", async ({ page }) => {
     await seedLetter(page, true);
-    const download = page.getByRole("button", { name: "Download", exact: true });
-    await download.click();
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
 
-    const fullPdfButton = page.getByRole("button", { name: /Ganzes Dossier als PDF/i });
+    const downloadToggle = page.locator("button[data-editor-ready]");
+    await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true", { timeout: 15_000 });
+    await forceDeterministicWrappedWords(page);
+    await downloadToggle.click();
+
+    const menu = page.locator("[data-editor-action-menu]");
+    await expect(menu).toBeVisible();
+    const fullPdfButton = menu.getByRole("button", { name: /Ganzes Dossier als PDF/i });
     await expect(fullPdfButton).toBeEnabled({ timeout: 15_000 });
     await fullPdfButton.click();
 
