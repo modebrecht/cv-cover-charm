@@ -18,7 +18,9 @@ jobs:
           ref: tmp-letter-context-font-sizes
       - uses: oven-sh/setup-bun@v2
       - name: Apply patch
-        run: python scripts/tmp-letter-local-fonts.py
+        run: |
+          python scripts/tmp-letter-local-fonts.py
+          python scripts/tmp-letter-local-fonts-fix.py
       - name: Install dependencies
         run: bun install --frozen-lockfile
       - name: Focused tests
