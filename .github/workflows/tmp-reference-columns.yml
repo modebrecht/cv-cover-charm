@@ -1,0 +1,202 @@
+name: Temporary reference columns patch
+
+on:
+  push:
+    branches:
+      - tmp-reference-columns-auto
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+      - name: Apply focused reference layout patch
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          # 1) Persisted CV setting. Missing in old JSON intentionally means ON.
+          path = Path('src/components/cv/types.ts')
+          text = path.read_text()
+          old = '  referenzen: CvReferenz[];\n  /** Frei benannte Rubriken wie Kurse, Projekte oder Auszeichnungen. */'
+          new = '  referenzen: CvReferenz[];\n  /** Zwei Referenzen pro Zeile bei voller Rubrikbreite; fehlend in alten Saves = an. */\n  referencesSideBySide?: boolean;\n  /** Frei benannte Rubriken wie Kurse, Projekte oder Auszeichnungen. */'
+          assert old in text, 'CvData insertion point changed'
+          text = text.replace(old, new, 1)
+          old = '  referenzen: [],\n  customSections: [fixedFamilySection()],'
+          new = '  referenzen: [],\n  referencesSideBySide: true,\n  customSections: [fixedFamilySection()],'
+          assert old in text, 'emptyCv insertion point changed'
+          text = text.replace(old, new, 1)
+          path.write_text(text)
+
+          # 2) One pupil-facing checkbox directly after Position & Layout.
+          path = Path('src/routes/lebenslauf.tsx')
+          text = path.read_text()
+          old = '''                {opts("referenzen")}
+                <FormCvReferenzen
+                  list={data.referenzen}
+                  onChange={(referenzen) => patchData({ referenzen })}
+                />'''
+          new = '''                {opts("referenzen")}
+                <label
+                  data-cv-reference-columns-control
+                  className="mb-3 flex items-start gap-2 rounded-md border bg-muted/20 px-2.5 py-2 text-xs"
+                >
+                  <input
+                    type="checkbox"
+                    className="mt-0.5"
+                    checked={data.referencesSideBySide !== false}
+                    onChange={(event) =>
+                      patchData({ referencesSideBySide: event.target.checked })
+                    }
+                  />
+                  <span>
+                    <span className="block font-medium">Referenzen nebeneinander</span>
+                    <span className="mt-0.5 block leading-relaxed text-muted-foreground">
+                      Bei voller Breite stehen jeweils 2 Referenzen nebeneinander. Bei halber Breite
+                      werden sie automatisch untereinander dargestellt.
+                    </span>
+                  </span>
+                </label>
+                <FormCvReferenzen
+                  list={data.referenzen}
+                  onChange={(referenzen) => patchData({ referenzen })}
+                />'''
+          assert old in text, 'reference form insertion point changed'
+          text = text.replace(old, new, 1)
+          path.write_text(text)
+
+          # 3) Pair reference cards only when the section has enough horizontal room.
+          path = Path('src/components/cv/CvCanvasBase.tsx')
+          text = path.read_text()
+          pattern = re.compile(r'  const referenceRows = \(\): Row\[\] => \{.*?\n  \};\n\n  const languageRows =', re.S)
+          match = pattern.search(text)
+          assert match, 'referenceRows function changed'
+          replacement = '''  const referenceRows = (): Row[] => {
+    const list = data.referenzen.filter(
+      (r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim(),
+    );
+    if (!list.length || data.hidden.referenzen) return [];
+
+    const referenceCard = (
+      r: CvData["referenzen"][number],
+      sideBySide: boolean,
+    ): React.ReactNode => (
+      <div
+        key={r.id}
+        data-cv-entry
+        data-cv-reference-card
+        style={{ minWidth: 0, marginBottom: sideBySide ? undefined : "2.1mm" }}
+      >
+        {r.name && (
+          <div
+            data-cv-entry-title
+            style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
+          >
+            {r.name}
+          </div>
+        )}
+        {r.funktion && (
+          <div
+            data-cv-muted
+            style={{
+              fontSize: pt(9.7),
+              color: pal.muted,
+              marginTop: "0.3mm",
+              lineHeight: 1.3,
+            }}
+          >
+            {r.funktion}
+          </div>
+        )}
+        {r.kontakt && (
+          <div
+            data-cv-body
+            style={{
+              fontSize: pt(9.7),
+              color: pal.ink,
+              marginTop: "0.35mm",
+              lineHeight: 1.3,
+              overflowWrap: "anywhere",
+            }}
+          >
+            {r.kontakt}
+          </div>
+        )}
+      </div>
+    );
+
+    const sideBySide =
+      data.referencesSideBySide !== false &&
+      cvSectionLayout(data, "referenzen").width === "full" &&
+      (layout !== "modern" || resolveCvPlacement(placements, "referenzen") === "main");
+
+    if (!sideBySide) {
+      return [
+        heading("referenzen"),
+        ...list.map(
+          (r): Row => ({
+            id: r.id,
+            node: referenceCard(r, false),
+          }),
+        ),
+      ];
+    }
+
+    const pairs: Row[] = [];
+    for (let index = 0; index < list.length; index += 2) {
+      const pair = list.slice(index, index + 2);
+      pairs.push({
+        id: `references-${pair.map((reference) => reference.id).join("-")}`,
+        node: (
+          <div
+            data-cv-reference-grid
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              columnGap: "6mm",
+              rowGap: "2.1mm",
+              marginBottom: "2.1mm",
+              alignItems: "start",
+            }}
+          >
+            {pair.map((reference) => referenceCard(reference, true))}
+          </div>
+        ),
+      });
+    }
+
+    return [heading("referenzen"), ...pairs];
+  };
+
+  const languageRows ='''
+          text = pattern.sub(replacement, text, count=1)
+          path.write_text(text)
+
+          # 4) Regression guard.
+          test = Path('tests/unit/cv-reference-columns.test.ts')
+          test.write_text('''import { describe, expect, test } from "bun:test";\nimport { readFileSync } from "node:fs";\nimport { emptyCv } from "../../src/components/cv/types";\n\nconst route = readFileSync(\n  new URL("../../src/routes/lebenslauf.tsx", import.meta.url),\n  "utf8",\n);\nconst canvas = readFileSync(\n  new URL("../../src/components/cv/CvCanvasBase.tsx", import.meta.url),\n  "utf8",\n);\n\ndescribe("CV reference columns", () => {\n  test("defaults side-by-side references to on", () => {\n    expect(emptyCv.referencesSideBySide).toBe(true);\n    expect(route).toContain("checked={data.referencesSideBySide !== false}");\n  });\n\n  test("places the control in the references section and explains the half-width fallback", () => {\n    expect(route).toContain("data-cv-reference-columns-control");\n    expect(route).toContain("Referenzen nebeneinander");\n    expect(route).toContain("Bei halber Breite");\n  });\n\n  test("renders pairs only when references have full section width", () => {\n    expect(canvas).toContain('data.referencesSideBySide !== false');\n    expect(canvas).toContain('cvSectionLayout(data, "referenzen").width === "full"');\n    expect(canvas).toContain("data-cv-reference-grid");\n    expect(canvas).toContain('gridTemplateColumns: "repeat(2, minmax(0, 1fr))"');\n  });\n});\n''')
+          PY
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Test focused regression
+        run: bun test tests/unit/cv-reference-columns.test.ts
+      - name: Build
+        run: bun run build
+      - name: Commit patched tree and remove temporary workflow
+        shell: bash
+        run: |
+          rm -f .github/workflows/tmp-reference-columns.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat(cv): show references side by side"
+          git push origin HEAD:tmp-reference-columns-auto
