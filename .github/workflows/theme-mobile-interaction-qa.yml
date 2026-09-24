@@ -1,0 +1,155 @@
+name: Theme Mobile Interaction QA
+
+on:
+  push:
+    branches:
+      - qa/theme-mobile-interaction-20260924
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Install Playwright runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Start application
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/theme-mobile-qa.log 2>&1 &
+          echo $! > /tmp/theme-mobile-qa.pid
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/theme-mobile-qa.log
+          exit 1
+      - name: Run mobile and interaction QA
+        shell: bash
+        run: |
+          mkdir -p artifacts/theme-mobile-interaction-qa
+          node <<'NODE'
+          const fs = require('fs');
+          const { chromium } = require('@playwright/test');
+
+          const themes = ['light', 'grey', 'dark'];
+          const routes = [
+            ['dashboard', '/'],
+            ['titelblatt', '/titelblatt'],
+            ['anschreiben', '/anschreiben'],
+            ['lebenslauf', '/lebenslauf'],
+          ];
+
+          async function assertTheme(page, expected, label) {
+            const state = await page.evaluate(() => ({
+              mode: document.documentElement.dataset.themeMode,
+              classes: document.documentElement.className,
+              bodyBackground: getComputedStyle(document.body).backgroundColor,
+              bodyColor: getComputedStyle(document.body).color,
+            }));
+            if (state.mode !== expected) throw new Error(`${label}: expected ${expected}, got ${state.mode}`);
+            if (expected === 'dark' && !state.classes.includes('dark')) throw new Error(`${label}: missing dark class`);
+            if (expected === 'grey' && !state.classes.includes('grey')) throw new Error(`${label}: missing grey class`);
+            if (expected === 'light' && /(dark|grey)/.test(state.classes)) throw new Error(`${label}: light retained class ${state.classes}`);
+            if (state.classes.includes('dark') && state.classes.includes('grey')) throw new Error(`${label}: competing theme classes`);
+            return state;
+          }
+
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const manifest = [];
+
+            for (const theme of themes) {
+              for (const [name, route] of routes) {
+                const context = await browser.newContext({
+                  viewport: { width: 390, height: 844 },
+                  deviceScaleFactor: 1,
+                  reducedMotion: 'reduce',
+                });
+                const page = await context.newPage();
+                await page.addInitScript((value) => localStorage.setItem('theme', value), theme);
+                await page.goto(`http://127.0.0.1:4173${route}`, { waitUntil: 'networkidle' });
+                await page.waitForTimeout(250);
+                const state = await assertTheme(page, theme, `mobile ${route}`);
+                const file = `artifacts/theme-mobile-interaction-qa/mobile-${theme}-${name}-top.png`;
+                await page.screenshot({ path: file, fullPage: false });
+                manifest.push({ viewport: 'mobile', theme, name, route, view: 'top', file, ...state });
+
+                if (name !== 'dashboard' && theme === 'dark') {
+                  const formScroll = page.locator('[data-editor-form-scroll]');
+                  if (await formScroll.count() !== 1) throw new Error(`mobile ${route}: editor form scroll missing`);
+                  await formScroll.evaluate((el) => { el.scrollTop = Math.min(600, el.scrollHeight - el.clientHeight); });
+                  await page.waitForTimeout(200);
+                  const scrollTop = await formScroll.evaluate((el) => el.scrollTop);
+                  const toolbar = page.locator('[data-editor-panel-toolbar]');
+                  const toolbarState = await toolbar.getAttribute('data-scrolled');
+                  if (scrollTop <= 6 || toolbarState !== 'true') throw new Error(`mobile ${route}: sticky scroll state failed`);
+                  const scrolled = `artifacts/theme-mobile-interaction-qa/mobile-dark-${name}-scroll.png`;
+                  await page.screenshot({ path: scrolled, fullPage: false });
+                  manifest.push({ viewport: 'mobile', theme, name, route, view: 'scroll', file: scrolled, scrollTop, toolbarState });
+                }
+                await context.close();
+              }
+            }
+
+            // Button cycle and persistence: do not inject localStorage on every navigation,
+            // otherwise reload would overwrite the value under test.
+            const interaction = await browser.newContext({ viewport: { width: 1280, height: 800 }, colorScheme: 'light' });
+            const page = await interaction.newPage();
+            await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+            await assertTheme(page, 'light', 'initial system light');
+            const toggle = page.locator('[data-editor-theme-toggle]');
+            if (await toggle.count() !== 1) throw new Error('theme toggle missing on dashboard');
+            for (const expected of ['grey', 'dark', 'light']) {
+              await toggle.click();
+              await page.waitForTimeout(80);
+              await assertTheme(page, expected, `button cycle ${expected}`);
+            }
+            await toggle.click();
+            await assertTheme(page, 'grey', 'persistence before reload');
+            const storedBefore = await page.evaluate(() => localStorage.getItem('theme'));
+            if (storedBefore !== 'grey') throw new Error(`expected persisted grey, got ${storedBefore}`);
+            await page.reload({ waitUntil: 'networkidle' });
+            await assertTheme(page, 'grey', 'persistence after reload');
+            const storedAfter = await page.evaluate(() => localStorage.getItem('theme'));
+            if (storedAfter !== 'grey') throw new Error(`expected stored grey after reload, got ${storedAfter}`);
+            manifest.push({ interaction: 'cycle+persistence', status: 'pass', storedBefore, storedAfter });
+            await interaction.close();
+
+            // System fallback with empty storage.
+            const fallback = await browser.newContext({ viewport: { width: 1280, height: 800 }, colorScheme: 'dark' });
+            const fallbackPage = await fallback.newPage();
+            await fallbackPage.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+            await assertTheme(fallbackPage, 'dark', 'system dark fallback');
+            manifest.push({ interaction: 'system-dark-fallback', status: 'pass' });
+            await fallback.close();
+
+            fs.writeFileSync('artifacts/theme-mobile-interaction-qa/manifest.json', JSON.stringify(manifest, null, 2));
+            await browser.close();
+          })().catch((error) => { console.error(error); process.exit(1); });
+          NODE
+      - name: Upload QA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: theme-mobile-interaction-qa
+          path: artifacts/theme-mobile-interaction-qa
+          if-no-files-found: error
+          retention-days: 2
+      - name: App log on failure
+        if: failure()
+        run: cat /tmp/theme-mobile-qa.log || true
+      - name: Stop application
+        if: always()
+        run: |
+          if [ -f /tmp/theme-mobile-qa.pid ]; then kill "$(cat /tmp/theme-mobile-qa.pid)" || true; fi
