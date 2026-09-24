@@ -35,7 +35,7 @@ jobs:
           done
           cat /tmp/theme-qa-app.log
           exit 1
-      - name: Capture light grey dark matrix
+      - name: Capture visual matrix and interaction smoke
         shell: bash
         run: |
           mkdir -p artifacts/theme-visual-qa
@@ -51,65 +51,115 @@ jobs:
             ['lebenslauf', '/lebenslauf'],
           ];
 
+          async function assertTheme(page, expected, label) {
+            const state = await page.evaluate(() => ({
+              mode: document.documentElement.dataset.themeMode,
+              classes: document.documentElement.className,
+              bodyBackground: getComputedStyle(document.body).backgroundColor,
+              bodyColor: getComputedStyle(document.body).color,
+            }));
+            if (state.mode !== expected) throw new Error(`${label}: expected ${expected}, got ${state.mode}`);
+            if (expected === 'dark' && !state.classes.includes('dark')) throw new Error(`${label}: missing dark class`);
+            if (expected === 'grey' && !state.classes.includes('grey')) throw new Error(`${label}: missing grey class`);
+            if (expected === 'light' && /(dark|grey)/.test(state.classes)) throw new Error(`${label}: light retained class ${state.classes}`);
+            if (state.classes.includes('dark') && state.classes.includes('grey')) throw new Error(`${label}: competing theme classes`);
+            return state;
+          }
+
           (async () => {
             const browser = await chromium.launch({ headless: true });
             const manifest = [];
+
+            // Desktop: all routes x all themes, including scrolled editor panels.
             for (const theme of themes) {
               for (const [name, route] of routes) {
-                const context = await browser.newContext({
-                  viewport: { width: 1440, height: 1000 },
-                  deviceScaleFactor: 1,
-                  reducedMotion: 'reduce',
-                });
+                const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
                 const page = await context.newPage();
                 await page.addInitScript((value) => localStorage.setItem('theme', value), theme);
                 await page.goto(`http://127.0.0.1:4173${route}`, { waitUntil: 'networkidle' });
-                await page.waitForTimeout(350);
-
-                const state = await page.evaluate(() => ({
-                  mode: document.documentElement.dataset.themeMode,
-                  classes: document.documentElement.className,
-                  bodyBackground: getComputedStyle(document.body).backgroundColor,
-                  bodyColor: getComputedStyle(document.body).color,
-                }));
-                if (state.mode !== theme) throw new Error(`${route}: expected ${theme}, got ${state.mode}`);
-                if (theme === 'dark' && !state.classes.includes('dark')) throw new Error(`${route}: missing dark class`);
-                if (theme === 'grey' && !state.classes.includes('grey')) throw new Error(`${route}: missing grey class`);
-                if (theme === 'light' && /(dark|grey)/.test(state.classes)) throw new Error(`${route}: light retained theme class ${state.classes}`);
-                if (state.classes.includes('dark') && state.classes.includes('grey')) throw new Error(`${route}: competing theme classes`);
-
-                const top = `artifacts/theme-visual-qa/${theme}-${name}-top.png`;
+                await page.waitForTimeout(300);
+                const state = await assertTheme(page, theme, `desktop ${route}`);
+                const top = `artifacts/theme-visual-qa/desktop-${theme}-${name}-top.png`;
                 await page.screenshot({ path: top, fullPage: false });
-                manifest.push({ theme, name, route, view: 'top', file: top, ...state });
+                manifest.push({ viewport: 'desktop', theme, name, route, view: 'top', file: top, ...state });
 
                 if (name !== 'dashboard') {
                   const formScroll = page.locator('[data-editor-form-scroll]');
                   if (await formScroll.count() !== 1) throw new Error(`${route}: editor form scroll container missing`);
                   await formScroll.evaluate((el) => { el.scrollTop = Math.min(760, el.scrollHeight - el.clientHeight); });
-                  await page.waitForTimeout(300);
-                  const scrollState = await formScroll.evaluate((el) => ({
-                    scrollTop: el.scrollTop,
-                    scrollHeight: el.scrollHeight,
-                    clientHeight: el.clientHeight,
-                  }));
+                  await page.waitForTimeout(250);
+                  const scrollState = await formScroll.evaluate((el) => ({ scrollTop: el.scrollTop, scrollHeight: el.scrollHeight, clientHeight: el.clientHeight }));
                   if (scrollState.scrollTop <= 6) throw new Error(`${route}: form panel did not scroll`);
                   const toolbar = page.locator('[data-editor-panel-toolbar]');
                   if (await toolbar.count() !== 1) throw new Error(`${route}: sticky toolbar missing`);
                   const toolbarState = await toolbar.getAttribute('data-scrolled');
                   if (toolbarState !== 'true') throw new Error(`${route}: sticky toolbar did not enter scrolled state`);
-                  const scrolled = `artifacts/theme-visual-qa/${theme}-${name}-scroll.png`;
+                  const scrolled = `artifacts/theme-visual-qa/desktop-${theme}-${name}-scroll.png`;
                   await page.screenshot({ path: scrolled, fullPage: false });
-                  manifest.push({ theme, name, route, view: 'scroll', file: scrolled, toolbarState, ...scrollState });
+                  manifest.push({ viewport: 'desktop', theme, name, route, view: 'scroll', file: scrolled, toolbarState, ...scrollState });
                 }
                 await context.close();
               }
             }
+
+            // Mobile/narrow: all routes x all themes.
+            for (const theme of themes) {
+              for (const [name, route] of routes) {
+                const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+                const page = await context.newPage();
+                await page.addInitScript((value) => localStorage.setItem('theme', value), theme);
+                await page.goto(`http://127.0.0.1:4173${route}`, { waitUntil: 'networkidle' });
+                await page.waitForTimeout(300);
+                const state = await assertTheme(page, theme, `mobile ${route}`);
+                const top = `artifacts/theme-visual-qa/mobile-${theme}-${name}-top.png`;
+                await page.screenshot({ path: top, fullPage: false });
+                manifest.push({ viewport: 'mobile', theme, name, route, view: 'top', file: top, ...state });
+                if (name !== 'dashboard' && theme === 'dark') {
+                  const formScroll = page.locator('[data-editor-form-scroll]');
+                  if (await formScroll.count() !== 1) throw new Error(`mobile ${route}: editor form scroll missing`);
+                  await formScroll.evaluate((el) => { el.scrollTop = Math.min(600, el.scrollHeight - el.clientHeight); });
+                  await page.waitForTimeout(200);
+                  const scrollTop = await formScroll.evaluate((el) => el.scrollTop);
+                  const toolbarState = await page.locator('[data-editor-panel-toolbar]').getAttribute('data-scrolled');
+                  if (scrollTop <= 6 || toolbarState !== 'true') throw new Error(`mobile ${route}: sticky scroll state failed`);
+                  const file = `artifacts/theme-visual-qa/mobile-${theme}-${name}-scroll.png`;
+                  await page.screenshot({ path: file, fullPage: false });
+                  manifest.push({ viewport: 'mobile', theme, name, route, view: 'scroll', file, scrollTop, toolbarState });
+                }
+                await context.close();
+              }
+            }
+
+            // Real button cycle + persistence.
+            const interaction = await browser.newContext({ viewport: { width: 1280, height: 800 }, colorScheme: 'light' });
+            const page = await interaction.newPage();
+            await page.addInitScript(() => localStorage.setItem('theme', 'light'));
+            await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+            const toggle = page.locator('[data-editor-theme-toggle]');
+            if (await toggle.count() !== 1) throw new Error('theme toggle missing on dashboard');
+            for (const expected of ['grey', 'dark', 'light']) {
+              await toggle.click();
+              await page.waitForTimeout(100);
+              await assertTheme(page, expected, `button cycle ${expected}`);
+            }
+            await toggle.click();
+            await assertTheme(page, 'grey', 'persistence before reload');
+            await page.reload({ waitUntil: 'networkidle' });
+            await assertTheme(page, 'grey', 'persistence after reload');
+            manifest.push({ interaction: 'cycle+persistence', status: 'pass' });
+            await interaction.close();
+
+            // No stored mode: system dark fallback must be honored.
+            const fallback = await browser.newContext({ viewport: { width: 1280, height: 800 }, colorScheme: 'dark' });
+            const fallbackPage = await fallback.newPage();
+            await fallbackPage.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+            await assertTheme(fallbackPage, 'dark', 'system dark fallback');
+            manifest.push({ interaction: 'system-dark-fallback', status: 'pass' });
+            await fallback.close();
+
             fs.writeFileSync('artifacts/theme-visual-qa/manifest.json', JSON.stringify(manifest, null, 2));
             await browser.close();
-          })().catch((error) => {
-            console.error(error);
-            process.exit(1);
-          });
+          })().catch((error) => { console.error(error); process.exit(1); });
           NODE
       - name: Upload theme QA screenshots
         uses: actions/upload-artifact@v4
