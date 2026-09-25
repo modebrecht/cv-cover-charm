@@ -45,7 +45,7 @@ describe("M8 adversarial motivation-letter boundaries", () => {
 
     expect(letterFooterHeightMm(data, "attachments")).toBe(30);
     expect(geometry.footer.height).toBe(30);
-    expect(geometry.content.bottom).toBe(37);
+    expect(geometry.content.bottom).toBe(31);
     expect(geometry.content.height).toBeGreaterThan(220);
     expect(geometry.content.top + geometry.content.height + geometry.content.bottom).toBe(297);
   });
