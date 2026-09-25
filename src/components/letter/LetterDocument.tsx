@@ -8,6 +8,7 @@ import {
   type LetterPageFragment,
   type LetterPaginationIssue,
 } from "./letter-pagination";
+import { letterPageOverflows } from "./preflight";
 import { letterRichHtml, plainTextToRichHtml, richHtmlToPlainText } from "./rich-text";
 import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
 import "./letter-pagination.css";
@@ -219,6 +220,7 @@ export function LetterDocument({
     () => allImages.filter((image) => typeof image.xMm !== "number" || !Number.isFinite(image.xMm)),
     [allImages],
   );
+  const documentRootRef = useRef<HTMLDivElement>(null);
   const measurementRef = useRef<HTMLDivElement>(null);
   const fallback = useMemo<LetterPageFragment[]>(
     () => [
@@ -281,8 +283,8 @@ export function LetterDocument({
 
       if (result.issue) {
         // A pagination heuristic failure is not proof that the A4 output is bad.
-        // Render the complete fallback page and let LetterCanvas perform the final
-        // physical overflow check. If that page fits, export stays available.
+        // Render the complete fallback page and let the final rendered-page
+        // geometry decide whether PDF export is actually unsafe.
         setAlgorithmIssue(result.issue);
         setPages(fallback);
         setPagination({ ready: false, pageCount: fallback.length, issue: null, warning: null });
@@ -319,7 +321,11 @@ export function LetterDocument({
     }));
   }, [allImages, pages]);
 
-  const recordPageOverflow = useCallback((pageIndex: number, overflow: boolean) => {
+  const recordPageOverflow = useCallback((pageIndex: number, reportedOverflow: boolean) => {
+    const page = documentRootRef.current?.querySelector<HTMLElement>(
+      `[data-letter-document-page-index="${pageIndex}"] [data-letter-page]`,
+    );
+    const overflow = page ? letterPageOverflows(page) : reportedOverflow;
     setPageOverflow((current) =>
       current[pageIndex] === overflow ? current : { ...current, [pageIndex]: overflow },
     );
@@ -336,7 +342,7 @@ export function LetterDocument({
       ? {
           code: "physical-overflow",
           message:
-            "Mindestens eine A4-Seite enthält Inhalt ausserhalb des nutzbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abstände an.",
+            "Mindestens eine A4-Seite enthält sichtbaren Inhalt ausserhalb des verfügbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abstände an.",
         }
       : null;
     const warning = issue ? null : algorithmIssue;
@@ -361,6 +367,7 @@ export function LetterDocument({
 
   return (
     <div
+      ref={documentRootRef}
       data-letter-document-root
       data-letter-pagination-ready={pagination.ready ? "true" : "false"}
       data-letter-page-count={renderedPages.length}
