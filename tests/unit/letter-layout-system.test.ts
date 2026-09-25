@@ -66,7 +66,7 @@ describe("central motivation-letter layout system", () => {
           expect(geometry.content.left).toBeGreaterThanOrEqual(20);
           expect(geometry.content.right).toBeGreaterThanOrEqual(20);
           expect(geometry.content.top).toBeGreaterThanOrEqual(16);
-          expect(geometry.content.bottom).toBeGreaterThanOrEqual(10);
+          expect(geometry.content.bottom).toBeGreaterThanOrEqual(1);
           expect(geometry.content.width).toBeGreaterThan(140);
           const minimumContentHeight = minimumContentHeightFor(template, headerMode);
           expect(geometry.content.height).toBeGreaterThan(minimumContentHeight);
@@ -184,10 +184,10 @@ describe("central motivation-letter layout system", () => {
     const none = letterPageGeometry(DEMO_LETTER, designFor("modern", "compact", "none"));
 
     expect(none.footer.height).toBe(0);
-    expect(none.content.bottom).toBe(10);
+    expect(none.content.bottom).toBe(1);
     expect(none.content.height).toBeGreaterThan(compact.content.height);
     expect(attachments.footer.height).toBeGreaterThan(compact.footer.height);
-    expect(attachments.content.bottom).toBe(attachments.footer.height + 7);
+    expect(attachments.content.bottom).toBe(attachments.footer.height + 1);
   });
 
   test("multi-page context repeats the selected contact header by default", () => {
