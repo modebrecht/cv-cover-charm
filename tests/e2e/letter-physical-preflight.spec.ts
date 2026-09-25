@@ -131,7 +131,12 @@ test.describe("letter physical PDF preflight", () => {
     expect(legacyScrollMetricWouldBlock).toBe(true);
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
-    await expect(page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i })).toBeEnabled();
+    const pdfButton = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i });
+    await expect(pdfButton).toBeEnabled();
+    const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
+    await pdfButton.click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/i);
   });
 
   test("real rendered overflow still blocks PDF export", async ({ page }) => {
