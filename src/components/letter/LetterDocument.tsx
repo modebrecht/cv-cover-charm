@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import { LetterCanvas } from "./LetterCanvas";
@@ -17,10 +17,21 @@ const PLACEHOLDER =
 const PROBE_BODY_HTML = '<div data-align="justify">Messzeile für den Seitenumbruch</div>';
 const EMPTY_BODY_HTML = '<div data-align="justify"><br></div>';
 
+type LetterPhysicalOverflowIssue = {
+  code: "physical-overflow";
+  message: string;
+  blockType?: string;
+};
+
+type LetterBlockingIssue = LetterPaginationIssue | LetterPhysicalOverflowIssue;
+
 export type LetterPaginationState = {
   ready: boolean;
   pageCount: number;
-  issue: LetterPaginationIssue | null;
+  /** Only a measured physical overflow blocks PDF export. */
+  issue: LetterBlockingIssue | null;
+  /** Pagination uncertainty is advisory when the rendered A4 page itself fits. */
+  warning?: LetterPaginationIssue | null;
 };
 
 type Props = {
@@ -81,6 +92,7 @@ function LetterPageShell({
   chromeOptions,
   chromeContact,
   exportMode,
+  onOverflowChange,
   onImageChange,
   onImageRemove,
   ariaLabel,
@@ -91,6 +103,7 @@ function LetterPageShell({
   chromeOptions?: DossierChromeOptions;
   chromeContact?: DossierChromeContact;
   exportMode: boolean;
+  onOverflowChange?: (pageIndex: number, overflow: boolean) => void;
   onImageChange?: (id: string, patch: Partial<LetterFlowImage>) => void;
   onImageRemove?: (id: string) => void;
   ariaLabel: string;
@@ -98,6 +111,10 @@ function LetterPageShell({
   const contextualDesign = pageDesign(design, fragment.pageIndex, fragment.finalPage);
   const contextualChrome = pageChromeOptions(chromeOptions, fragment.finalPage);
   const contextualData = pageData(data, fragment.bodyHtml, fragment.images, fragment.finalPage);
+  const reportOverflow = useCallback(
+    (overflow: boolean) => onOverflowChange?.(fragment.pageIndex, overflow),
+    [fragment.pageIndex, onOverflowChange],
+  );
 
   return (
     <div
@@ -113,6 +130,7 @@ function LetterPageShell({
         chromeOptions={contextualChrome}
         chromeContact={chromeContact}
         exportMode={exportMode}
+        onOverflowChange={onOverflowChange ? reportOverflow : undefined}
         onImageChange={onImageChange}
         onImageRemove={onImageRemove}
         ariaLabel={ariaLabel}
@@ -214,10 +232,13 @@ export function LetterDocument({
     [allImages, bodyHtml],
   );
   const [pages, setPages] = useState<LetterPageFragment[]>(fallback);
+  const [algorithmIssue, setAlgorithmIssue] = useState<LetterPaginationIssue | null>(null);
+  const [pageOverflow, setPageOverflow] = useState<Record<number, boolean>>({});
   const [pagination, setPagination] = useState<LetterPaginationState>({
     ready: false,
     pageCount: fallback.length,
     issue: null,
+    warning: null,
   });
 
   useEffect(() => {
@@ -226,9 +247,11 @@ export function LetterDocument({
 
   useLayoutEffect(() => {
     let cancelled = false;
+    setAlgorithmIssue(null);
+    setPageOverflow({});
     setPagination((current) =>
-      current.ready || current.issue
-        ? { ready: false, pageCount: current.pageCount, issue: null }
+      current.ready || current.issue || current.warning
+        ? { ready: false, pageCount: current.pageCount, issue: null, warning: null }
         : current,
     );
 
@@ -254,9 +277,15 @@ export function LetterDocument({
       // reduce text capacity; free images stay on the first page at their x/y.
       const result = paginateMeasuredLetter(root, flowImages);
       if (cancelled) return;
+      setPageOverflow({});
+
       if (result.issue) {
+        // A pagination heuristic failure is not proof that the A4 output is bad.
+        // Render the complete fallback page and let LetterCanvas perform the final
+        // physical overflow check. If that page fits, export stays available.
+        setAlgorithmIssue(result.issue);
         setPages(fallback);
-        setPagination({ ready: true, pageCount: fallback.length, issue: result.issue });
+        setPagination({ ready: false, pageCount: fallback.length, issue: null, warning: null });
         return;
       }
 
@@ -265,8 +294,9 @@ export function LetterDocument({
           ? { ...fragment, images: [...fragment.images, ...freeImages] }
           : fragment,
       );
+      setAlgorithmIssue(null);
       setPages(resolvedPages);
-      setPagination({ ready: true, pageCount: resolvedPages.length, issue: null });
+      setPagination({ ready: false, pageCount: resolvedPages.length, issue: null, warning: null });
     };
 
     void measure();
@@ -275,18 +305,10 @@ export function LetterDocument({
     };
   }, [bodyHtml, chromeContact, chromeOptions, data, design, fallback, flowImages, freeImages]);
 
-  // Keep the last valid page set mounted while a new measurement is running.
-  // Replacing a two-page preview with the one-page fallback on every keystroke
-  // shrinks the scroll container, clamps its scroll position and makes page 2
-  // visibly jump. `pages` already starts with the fallback and is replaced by
-  // the fallback on an actual pagination error, so readiness alone must not
-  // decide which page set is rendered.
+  // Pagination owns the page assignment, while interactive image geometry must
+  // follow pointer updates immediately. Keep each image on its last valid page
+  // during measurement, but render its newest saved geometry.
   const renderedPages = useMemo(() => {
-    if (pagination.issue) return fallback;
-
-    // Pagination owns the page assignment, while interactive image geometry
-    // must follow pointer updates immediately. Keep each image on its last
-    // valid page during measurement, but render its newest saved geometry.
     const latestImages = new Map(allImages.map((image) => [image.id, image]));
     return pages.map((fragment) => ({
       ...fragment,
@@ -295,7 +317,47 @@ export function LetterDocument({
         return latest ? [latest] : [];
       }),
     }));
-  }, [allImages, fallback, pages, pagination.issue]);
+  }, [allImages, pages]);
+
+  const recordPageOverflow = useCallback((pageIndex: number, overflow: boolean) => {
+    setPageOverflow((current) =>
+      current[pageIndex] === overflow ? current : { ...current, [pageIndex]: overflow },
+    );
+  }, []);
+
+  useEffect(() => {
+    const pageIndexes = renderedPages.map((fragment) => fragment.pageIndex);
+    if (!pageIndexes.length || pageIndexes.some((pageIndex) => pageOverflow[pageIndex] === undefined)) {
+      return;
+    }
+
+    const physicallyOverflows = pageIndexes.some((pageIndex) => pageOverflow[pageIndex]);
+    const issue: LetterBlockingIssue | null = physicallyOverflows
+      ? {
+          code: "physical-overflow",
+          message:
+            "Mindestens eine A4-Seite enthält Inhalt ausserhalb des nutzbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abstände an.",
+        }
+      : null;
+    const warning = issue ? null : algorithmIssue;
+    const next: LetterPaginationState = {
+      ready: true,
+      pageCount: renderedPages.length,
+      issue,
+      warning,
+    };
+
+    setPagination((current) =>
+      current.ready === next.ready &&
+      current.pageCount === next.pageCount &&
+      current.issue?.code === next.issue?.code &&
+      current.issue?.message === next.issue?.message &&
+      current.warning?.code === next.warning?.code &&
+      current.warning?.message === next.warning?.message
+        ? current
+        : next,
+    );
+  }, [algorithmIssue, pageOverflow, renderedPages]);
 
   return (
     <div
@@ -304,6 +366,11 @@ export function LetterDocument({
       data-letter-page-count={renderedPages.length}
       data-letter-pagination-error={pagination.issue?.code}
       data-letter-pagination-error-message={pagination.issue?.message}
+      data-letter-pagination-warning={pagination.warning?.code}
+      data-letter-pagination-warning-message={pagination.warning?.message}
+      data-letter-physical-overflow={
+        pagination.issue?.code === "physical-overflow" ? "true" : undefined
+      }
     >
       <div data-letter-document-pages className={scaledPreview ? "grid w-full gap-6" : undefined}>
         {renderedPages.map((fragment) => {
@@ -316,6 +383,7 @@ export function LetterDocument({
               chromeOptions={chromeOptions}
               chromeContact={chromeContact}
               exportMode={exportMode}
+              onOverflowChange={recordPageOverflow}
               onImageChange={onImageChange}
               onImageRemove={onImageRemove}
               ariaLabel={`${ariaLabel} – Seite ${fragment.pageIndex + 1}`}
