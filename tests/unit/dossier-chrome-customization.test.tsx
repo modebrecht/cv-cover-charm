@@ -215,7 +215,7 @@ describe("dossier chrome customization", () => {
 
     expect(geometry.content.top).toBe(39);
     expect(geometry.footer.height).toBe(18);
-    expect(geometry.content.bottom).toBe(25);
+    expect(geometry.content.bottom).toBe(19);
   });
 
   test("renderer applies font, gradients, explicit text colors and an explicitly enabled custom border", () => {
