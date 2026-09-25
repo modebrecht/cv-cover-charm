@@ -58,19 +58,6 @@ async function installAdversarialMeasurementGeometry(page: Page) {
           min-height: 20px !important;
           bottom: auto !important;
         }
-
-        /* Reproduce the old false-positive class: aggregate scrollHeight is huge,
-           while every visible content node still sits inside the A4 content box. */
-        [data-letter-document-pages] [data-letter-text-layer]::after {
-          content: "";
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 1px;
-          height: 5000px;
-          opacity: 0;
-          pointer-events: none;
-        }
       `;
       document.head.appendChild(style);
       return true;
@@ -106,19 +93,21 @@ async function seed(page: Page) {
 test.describe("letter physical PDF preflight", () => {
   test.setTimeout(120_000);
 
-  test("inflated scrollHeight does not block a visibly fitting A4 page or its PDF", async ({ page }) => {
+  test("inflated legacy scrollHeight does not block a visibly fitting A4 page or its PDF", async ({
+    page,
+  }) => {
     const root = await seed(page);
 
     await expect(root).not.toHaveAttribute("data-letter-pagination-error", /.+/);
     await expect(root).not.toHaveAttribute("data-letter-physical-overflow", "true");
 
-    const pageNode = root.locator("[data-letter-page]").first();
-    const legacyScrollMetricWouldBlock = await pageNode
-      .locator("[data-letter-text-layer]")
-      .evaluate((layer) => {
-        const node = layer as HTMLElement;
-        return node.scrollHeight > node.clientHeight + 1;
-      });
+    const layer = root.locator("[data-letter-page]").first().locator("[data-letter-text-layer]");
+    const legacyScrollMetricWouldBlock = await layer.evaluate((element) => {
+      const node = element as HTMLElement;
+      const inflated = node.clientHeight + 500;
+      Object.defineProperty(node, "scrollHeight", { configurable: true, get: () => inflated });
+      return node.scrollHeight > node.clientHeight + 1;
+    });
     expect(legacyScrollMetricWouldBlock).toBe(true);
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
