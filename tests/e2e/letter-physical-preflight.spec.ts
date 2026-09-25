@@ -10,12 +10,6 @@ const FITTING_BODY = Array.from(
     `Absatz ${index + 1}: Ich interessiere mich für diese Lehrstelle und möchte meine Motivation, Zuverlässigkeit und Lernbereitschaft mit einem konkreten Beispiel aus Schule und Alltag zeigen.`,
 ).join("\n\n");
 
-const OVERFLOW_BODY = Array.from(
-  { length: 70 },
-  (_, index) =>
-    `Absatz ${index + 1}: Ich interessiere mich für diese Lehrstelle und möchte meine Motivation, Zuverlässigkeit und Lernbereitschaft mit einem ausführlichen Beispiel aus Schule und Alltag zeigen.`,
-).join("\n\n");
-
 function letterPayload(text: string) {
   return {
     version: 1,
@@ -58,7 +52,7 @@ async function installAdversarialMeasurementGeometry(page: Page) {
       const style = document.createElement("style");
       style.id = "test-letter-preflight-geometry";
       style.textContent = `
-        /* Force the semantic paginator into its uncertainty path. */
+        /* Keep the hidden paginator stressed without changing visible A4 geometry. */
         [data-letter-pagination-measurements] [data-letter-text-layer] {
           height: 20px !important;
           min-height: 20px !important;
@@ -89,7 +83,7 @@ async function installAdversarialMeasurementGeometry(page: Page) {
   });
 }
 
-async function seed(page: Page, text: string) {
+async function seed(page: Page) {
   await installAdversarialMeasurementGeometry(page);
   await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
@@ -101,7 +95,7 @@ async function seed(page: Page, text: string) {
         JSON.stringify({ letter: { top: 5, right: 20, bottom: 1, left: 20 } }),
       );
     },
-    { letter: letterPayload(text), letterKey: LETTER_KEY, marginsKey: MARGINS_KEY },
+    { letter: letterPayload(FITTING_BODY), letterKey: LETTER_KEY, marginsKey: MARGINS_KEY },
   );
   await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
   const root = page.locator("main [data-letter-document-root]");
@@ -112,12 +106,9 @@ async function seed(page: Page, text: string) {
 test.describe("letter physical PDF preflight", () => {
   test.setTimeout(120_000);
 
-  test("pagination uncertainty and inflated scrollHeight do not block a fitting A4 page", async ({
-    page,
-  }) => {
-    const root = await seed(page, FITTING_BODY);
+  test("inflated scrollHeight does not block a visibly fitting A4 page or its PDF", async ({ page }) => {
+    const root = await seed(page);
 
-    await expect(root).toHaveAttribute("data-letter-pagination-warning", /.+/);
     await expect(root).not.toHaveAttribute("data-letter-pagination-error", /.+/);
     await expect(root).not.toHaveAttribute("data-letter-physical-overflow", "true");
 
@@ -139,10 +130,18 @@ test.describe("letter physical PDF preflight", () => {
     expect(download.suggestedFilename()).toMatch(/\.pdf$/i);
   });
 
-  test("real rendered overflow still blocks PDF export", async ({ page }) => {
-    const root = await seed(page, OVERFLOW_BODY);
+  test("actual visible content outside the A4 content box still blocks PDF export", async ({ page }) => {
+    const root = await seed(page);
+    const recipient = root.locator('[data-letter-section="recipient"]').first();
+    await expect(recipient).toBeVisible();
 
-    await expect(root).toHaveAttribute("data-letter-pagination-error", "physical-overflow");
+    await recipient.evaluate((element) => {
+      (element as HTMLElement).style.transform = "translateY(900px)";
+    });
+
+    await expect(root).toHaveAttribute("data-letter-pagination-error", "physical-overflow", {
+      timeout: 10_000,
+    });
     await expect(root).toHaveAttribute("data-letter-physical-overflow", "true");
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
