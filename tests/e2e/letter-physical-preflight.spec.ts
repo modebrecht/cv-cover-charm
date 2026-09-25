@@ -51,17 +51,31 @@ function letterPayload(text: string) {
   };
 }
 
-async function installBrokenProbeGeometry(page: Page) {
+async function installAdversarialMeasurementGeometry(page: Page) {
   await page.addInitScript(() => {
     const install = () => {
-      if (!document.head || document.getElementById("test-broken-letter-probe")) return false;
+      if (!document.head || document.getElementById("test-letter-preflight-geometry")) return false;
       const style = document.createElement("style");
-      style.id = "test-broken-letter-probe";
+      style.id = "test-letter-preflight-geometry";
       style.textContent = `
+        /* Force the semantic paginator into its uncertainty path. */
         [data-letter-pagination-measurements] [data-letter-text-layer] {
           height: 20px !important;
           min-height: 20px !important;
           bottom: auto !important;
+        }
+
+        /* Reproduce the old false-positive class: aggregate scrollHeight is huge,
+           while every visible content node still sits inside the A4 content box. */
+        [data-letter-document-pages] [data-letter-text-layer]::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 1px;
+          height: 5000px;
+          opacity: 0;
+          pointer-events: none;
         }
       `;
       document.head.appendChild(style);
@@ -76,7 +90,7 @@ async function installBrokenProbeGeometry(page: Page) {
 }
 
 async function seed(page: Page, text: string) {
-  await installBrokenProbeGeometry(page);
+  await installAdversarialMeasurementGeometry(page);
   await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
     ({ letter, letterKey, marginsKey }) => {
@@ -98,19 +112,23 @@ async function seed(page: Page, text: string) {
 test.describe("letter physical PDF preflight", () => {
   test.setTimeout(120_000);
 
-  test("pagination uncertainty does not block a physically fitting A4 page", async ({ page }) => {
+  test("pagination uncertainty and inflated scrollHeight do not block a fitting A4 page", async ({
+    page,
+  }) => {
     const root = await seed(page, FITTING_BODY);
 
-    await expect(root).toHaveAttribute("data-letter-pagination-warning");
+    await expect(root).toHaveAttribute("data-letter-pagination-warning", /.+/);
     await expect(root).not.toHaveAttribute("data-letter-pagination-error", /.+/);
     await expect(root).not.toHaveAttribute("data-letter-physical-overflow", "true");
 
     const pageNode = root.locator("[data-letter-page]").first();
-    const fits = await pageNode.locator("[data-letter-text-layer]").evaluate((layer) => {
-      const node = layer as HTMLElement;
-      return node.scrollHeight <= node.clientHeight + 1;
-    });
-    expect(fits).toBe(true);
+    const legacyScrollMetricWouldBlock = await pageNode
+      .locator("[data-letter-text-layer]")
+      .evaluate((layer) => {
+        const node = layer as HTMLElement;
+        return node.scrollHeight > node.clientHeight + 1;
+      });
+    expect(legacyScrollMetricWouldBlock).toBe(true);
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
     await expect(page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i })).toBeEnabled();
