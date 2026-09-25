@@ -12,7 +12,7 @@ export type DossierPageMarginsState = Partial<Record<DossierPageMarginScope, Dos
 export const DOSSIER_PAGE_MARGINS_STORAGE_KEY = "bewerbungsdossier:page-margins:v1";
 export const DOSSIER_PAGE_MARGINS_EVENT = "bewerbungsdossier-page-margins-change";
 export const DOSSIER_PAGE_MARGIN_MIN_MM = 5;
-/** CVs deliberately keep the physical bottom margin tiny so the final rubric can still print. */
+/** Physical bottom margins may be tiny; footer/chrome reserve is composed separately. */
 export const CV_PAGE_MARGIN_BOTTOM_MM = 1;
 export const DOSSIER_PAGE_MARGIN_MAX_MM = 80;
 export const DOSSIER_PAGE_MARGIN_HARD_MAX_MM = 120;
@@ -59,7 +59,18 @@ export function normalizeDossierPageMargins(value: unknown): DossierPageMargins 
 }
 
 function normalizeStoredDossierPageMargins(value: unknown): DossierPageMargins | null {
-  return normalizeDossierPageMarginsWithMax(value, DOSSIER_PAGE_MARGIN_HARD_MAX_MM);
+  if (!value || typeof value !== "object") return null;
+  const incoming = value as Partial<DossierPageMargins>;
+  const top = normalizedSide(incoming.top, DOSSIER_PAGE_MARGIN_HARD_MAX_MM);
+  const right = normalizedSide(incoming.right, DOSSIER_PAGE_MARGIN_HARD_MAX_MM);
+  const bottom = normalizedSide(
+    incoming.bottom,
+    DOSSIER_PAGE_MARGIN_HARD_MAX_MM,
+    CV_PAGE_MARGIN_BOTTOM_MM,
+  );
+  const left = normalizedSide(incoming.left, DOSSIER_PAGE_MARGIN_HARD_MAX_MM);
+  if (top === null || right === null || bottom === null || left === null) return null;
+  return { top, right, bottom, left };
 }
 
 function normalizeStoredCvPageMargins(value: unknown): DossierPageMargins | null {
