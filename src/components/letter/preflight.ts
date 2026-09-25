@@ -106,6 +106,11 @@ export function letterRenderedTextLayerOverflows(layer: HTMLElement): boolean {
   const layerRect = layer.getBoundingClientRect();
   if (layerRect.width <= 0 || layerRect.height <= 0) return letterTextLayerOverflows(layer);
 
+  // Export/preflight unit tests deliberately use a lightweight HTMLElement-like
+  // metric object. Keep that deterministic fallback while real browser pages use
+  // descendant geometry as the final authority.
+  if (typeof layer.querySelectorAll !== "function") return letterTextLayerOverflows(layer);
+
   const meaningful = layer.querySelectorAll<HTMLElement>(
     "[data-letter-section], [data-letter-pdf-text], [data-letter-pdf-richtext], [data-letter-flow-image]",
   );
