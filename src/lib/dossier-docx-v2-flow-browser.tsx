@@ -299,9 +299,9 @@ async function settleImages(root: HTMLElement) {
 
 async function waitForLetter(root: HTMLElement) {
   for (let frame = 0; frame < 180; frame += 1) {
-    const issue = root.dataset.letterPaginationErrorMessage?.trim();
-    if (issue) return issue;
-    if (root.dataset.letterPaginationReady === "true" && root.querySelector("[data-letter-page]")) return null;
+    if (root.dataset.letterPaginationReady === "true" && root.querySelector("[data-letter-page]")) {
+      return root.dataset.letterPaginationErrorMessage?.trim() || null;
+    }
     await nextFrame();
   }
   return "Motivationsschreiben-Seitenumbruch wurde im DOCX-V2-Messlauf nicht rechtzeitig stabil.";
