@@ -1,6 +1,5 @@
 import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { LetterDocument } from "@/components/letter/LetterDocument";
-import { letterPageOverflows } from "@/components/letter/preflight";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import type { CvPdfDocument, LetterPdfDocument } from "@/lib/dossier-pdf-document";
 import type {
@@ -334,15 +333,11 @@ async function waitForLetter(root: HTMLElement) {
 
     if (stableFrames < LETTER_SETTLE_STABLE_FRAMES) continue;
 
-    // LetterDocument can briefly expose the initial one-page fallback as ready
-    // before its async paginator commits the final fragments. Re-check the same
-    // shared physical preflight against the now-stable rendered pages instead of
-    // freezing a transient fallback error into the DOCX-V2 measurement result.
-    const physicallyOverflows = pages.some((page) => letterPageOverflows(page));
-    return physicallyOverflows
-      ? error ||
-          "Mindestens eine A4-Seite enthält sichtbaren Inhalt ausserhalb des verfügbaren Seitenbereichs."
-      : null;
+    // LetterDocument owns physical A4 validation and only marks pagination ready
+    // after every rendered page has reported its final overflow state. Keep the
+    // settle window here to avoid transient fallback pages, then trust that one
+    // canonical preflight result instead of re-measuring the same DOM a second time.
+    return error || null;
   }
 
   return "Motivationsschreiben-Seitenumbruch wurde im DOCX-V2-Messlauf nicht rechtzeitig stabil.";
