@@ -138,7 +138,11 @@ export function letterRenderedTextLayerOverflowReason(layer: HTMLElement): strin
     }
   }
 
-  return measured ? null : letterTextLayerOverflows(layer) ? "text-layer:scroll-overflow" : null;
+  return measured
+    ? null
+    : letterTextLayerOverflows(layer)
+      ? "text-layer:scroll-overflow"
+      : null;
 }
 
 /**
