@@ -225,6 +225,7 @@ export function letterPageOverflows(page: ParentNode): boolean {
   const reason = letterPageOverflowReason(page);
   if (
     reason &&
+    typeof Element !== "undefined" &&
     page instanceof Element &&
     page.closest("[data-docx-v2-letter-measurement]")
   ) {
