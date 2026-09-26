@@ -97,19 +97,24 @@ function visible(element: HTMLElement): boolean {
   return rect.width > 0 || rect.height > 0;
 }
 
-/**
- * Judge the visible letter text, not the text layer's aggregate scrollHeight.
- * Images are validated separately below because freely positioned images may
- * intentionally leave the text content box while still remaining printable on A4.
- */
-export function letterRenderedTextLayerOverflows(layer: HTMLElement): boolean {
-  const layerRect = layer.getBoundingClientRect();
-  if (layerRect.width <= 0 || layerRect.height <= 0) return letterTextLayerOverflows(layer);
+function semanticLabel(element: HTMLElement): string {
+  return (
+    element.dataset.letterSection ??
+    element.dataset.letterPdfText ??
+    element.dataset.letterPdfRichtext ??
+    element.tagName.toLowerCase()
+  );
+}
 
-  // Export/preflight unit tests deliberately use a lightweight HTMLElement-like
-  // metric object. Keep that deterministic fallback while real browser pages use
-  // descendant geometry as the final authority.
-  if (typeof layer.querySelectorAll !== "function") return letterTextLayerOverflows(layer);
+export function letterRenderedTextLayerOverflowReason(layer: HTMLElement): string | null {
+  const layerRect = layer.getBoundingClientRect();
+  if (layerRect.width <= 0 || layerRect.height <= 0) {
+    return letterTextLayerOverflows(layer) ? "text-layer:scroll-overflow" : null;
+  }
+
+  if (typeof layer.querySelectorAll !== "function") {
+    return letterTextLayerOverflows(layer) ? "text-layer:scroll-overflow" : null;
+  }
 
   const meaningful = layer.querySelectorAll<HTMLElement>(
     "[data-letter-section], [data-letter-pdf-text], [data-letter-pdf-richtext]",
@@ -118,33 +123,39 @@ export function letterRenderedTextLayerOverflows(layer: HTMLElement): boolean {
   for (const element of Array.from(meaningful)) {
     if (!visible(element)) continue;
     measured = true;
+    const label = semanticLabel(element);
     const rect = element.getBoundingClientRect();
-    if (rectOutside(rect, layerRect)) return true;
+    if (rectOutside(rect, layerRect)) return `text:${label}:outside-layer`;
 
-    // Width clipping on a real content node is meaningful. Height clipping on
-    // auto-sized blocks is normally equal; fixed-size content nodes must not hide text.
-    if (element.scrollWidth > element.clientWidth + 1) return true;
+    if (element.scrollWidth > element.clientWidth + 1) return `text:${label}:width-clipped`;
     const style = window.getComputedStyle(element);
     if (
       style.overflowY !== "visible" &&
       style.overflowY !== "clip" &&
       element.scrollHeight > element.clientHeight + 1
     ) {
-      return true;
+      return `text:${label}:height-clipped`;
     }
   }
 
-  // Empty/mock layers do not expose meaningful descendants, so preserve the
-  // deterministic scroll-metric fallback used by non-browser tests.
-  return measured ? false : letterTextLayerOverflows(layer);
+  return measured ? null : letterTextLayerOverflows(layer) ? "text-layer:scroll-overflow" : null;
 }
 
 /**
- * Vollständige Seitenprüfung. Nicht nur der Brieftext, sondern auch der
- * integrierte Kontaktkopf, Footer und frei platzierte Bilder gehören zur
- * sichtbaren Wahrheit. Nichts davon darf still ausserhalb oder geclippt sein.
+ * Judge the visible letter text, not the text layer's aggregate scrollHeight.
+ * Images are validated separately below because freely positioned images may
+ * intentionally leave the text content box while still remaining printable on A4.
  */
-export function letterPageOverflows(page: ParentNode): boolean {
+export function letterRenderedTextLayerOverflows(layer: HTMLElement): boolean {
+  return letterRenderedTextLayerOverflowReason(layer) !== null;
+}
+
+/**
+ * Return the exact physical reason a rendered letter page is unsafe. The public
+ * boolean wrapper below intentionally stays stable for production callers while
+ * DOCX/browser QA can surface a precise reason instead of a generic blocker.
+ */
+export function letterPageOverflowReason(page: ParentNode): string | null {
   const layer = page.querySelector<HTMLElement>("[data-letter-text-layer]");
   if (!layer) {
     throw new Error("Motivationsschreiben konnte für die Layoutprüfung nicht vermessen werden");
@@ -155,9 +166,11 @@ export function letterPageOverflows(page: ParentNode): boolean {
     querySelectorAll?: <T extends Element = Element>(selectors: string) => NodeListOf<T>;
   };
   if (typeof measurablePage.getBoundingClientRect !== "function") {
-    return letterTextLayerOverflows(layer);
+    return letterTextLayerOverflows(layer) ? "text-layer:scroll-overflow" : null;
   }
-  if (letterRenderedTextLayerOverflows(layer)) return true;
+
+  const textReason = letterRenderedTextLayerOverflowReason(layer);
+  if (textReason) return textReason;
 
   const pageRect = measurablePage.getBoundingClientRect();
   const layerRect = layer.getBoundingClientRect();
@@ -165,9 +178,13 @@ export function letterPageOverflows(page: ParentNode): boolean {
   const recipient = page.querySelector<HTMLElement>('[data-letter-section="recipient"]');
   const footer = page.querySelector<HTMLElement>("[data-letter-footer]");
 
-  for (const element of [contact, footer]) {
+  for (const [label, element] of [
+    ["contact", contact],
+    ["footer", footer],
+  ] as const) {
     if (!element) continue;
-    if (clipsOwnBox(element) || rectOutside(element.getBoundingClientRect(), pageRect)) return true;
+    if (clipsOwnBox(element)) return `${label}:clipped`;
+    if (rectOutside(element.getBoundingClientRect(), pageRect)) return `${label}:outside-page`;
   }
 
   if (
@@ -175,7 +192,7 @@ export function letterPageOverflows(page: ParentNode): boolean {
     recipient &&
     overlaps(contact.getBoundingClientRect(), recipient.getBoundingClientRect())
   ) {
-    return true;
+    return "contact:recipient-overlap";
   }
 
   const images = measurablePage.querySelectorAll?.<HTMLElement>("[data-letter-flow-image]") ?? [];
@@ -191,14 +208,19 @@ export function letterPageOverflows(page: ParentNode): boolean {
     const imageRect = printableImage.getBoundingClientRect();
     const free = imageLike.dataset?.letterImagePlacement === "free";
 
-    // Free images are positioned from the text box coordinate system, but users
-    // may deliberately place them in the surrounding printable page area. Flow
-    // images, on the other hand, must stay inside the text layer they wrap.
-    if (rectOutside(imageRect, pageRect) || (!free && rectOutside(imageRect, layerRect))) {
-      return true;
-    }
-    if (footer && overlaps(imageRect, footer.getBoundingClientRect())) return true;
+    if (rectOutside(imageRect, pageRect)) return "image:outside-page";
+    if (!free && rectOutside(imageRect, layerRect)) return "flow-image:outside-text-layer";
+    if (footer && overlaps(imageRect, footer.getBoundingClientRect())) return "image:footer-overlap";
   }
 
-  return false;
+  return null;
+}
+
+/**
+ * Vollständige Seitenprüfung. Nicht nur der Brieftext, sondern auch der
+ * integrierte Kontaktkopf, Footer und frei platzierte Bilder gehören zur
+ * sichtbaren Wahrheit. Nichts davon darf still ausserhalb oder geclippt sein.
+ */
+export function letterPageOverflows(page: ParentNode): boolean {
+  return letterPageOverflowReason(page) !== null;
 }
