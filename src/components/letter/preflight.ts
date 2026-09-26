@@ -180,17 +180,21 @@ export function letterPageOverflows(page: ParentNode): boolean {
 
   const images = measurablePage.querySelectorAll?.<HTMLElement>("[data-letter-flow-image]") ?? [];
   for (const image of Array.from(images)) {
-    const printableImage = image.querySelector<HTMLElement>("img") ?? image;
+    const imageLike = image as HTMLElement & {
+      querySelector?: <T extends Element = Element>(selector: string) => T | null;
+      dataset?: DOMStringMap;
+    };
+    const printableImage =
+      typeof imageLike.querySelector === "function"
+        ? (imageLike.querySelector<HTMLElement>("img") ?? image)
+        : image;
     const imageRect = printableImage.getBoundingClientRect();
-    const free = image.dataset.letterImagePlacement === "free";
+    const free = imageLike.dataset?.letterImagePlacement === "free";
 
     // Free images are positioned from the text box coordinate system, but users
     // may deliberately place them in the surrounding printable page area. Flow
     // images, on the other hand, must stay inside the text layer they wrap.
-    if (
-      rectOutside(imageRect, pageRect) ||
-      (!free && rectOutside(imageRect, layerRect))
-    ) {
+    if (rectOutside(imageRect, pageRect) || (!free && rectOutside(imageRect, layerRect))) {
       return true;
     }
     if (footer && overlaps(imageRect, footer.getBoundingClientRect())) return true;
