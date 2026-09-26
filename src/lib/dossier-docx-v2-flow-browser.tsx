@@ -16,6 +16,7 @@ import { createRoot } from "react-dom/client";
 
 const PAGE_MM = { width: 210, height: 297 } as const;
 const PX_TO_PT = 72 / 96;
+const LETTER_SETTLE_TIMEOUT_MS = 20_000;
 
 export type DossierDocxV2MeasuredRect = {
   pageIndex: number;
@@ -298,7 +299,8 @@ async function settleImages(root: HTMLElement) {
 }
 
 async function waitForLetter(root: HTMLElement) {
-  for (let frame = 0; frame < 180; frame += 1) {
+  const deadline = performance.now() + LETTER_SETTLE_TIMEOUT_MS;
+  while (performance.now() < deadline) {
     if (root.dataset.letterPaginationReady === "true" && root.querySelector("[data-letter-page]")) {
       return root.dataset.letterPaginationErrorMessage?.trim() || null;
     }
