@@ -222,5 +222,13 @@ export function letterPageOverflowReason(page: ParentNode): string | null {
  * sichtbaren Wahrheit. Nichts davon darf still ausserhalb oder geclippt sein.
  */
 export function letterPageOverflows(page: ParentNode): boolean {
-  return letterPageOverflowReason(page) !== null;
+  const reason = letterPageOverflowReason(page);
+  if (
+    reason &&
+    page instanceof Element &&
+    page.closest("[data-docx-v2-letter-measurement]")
+  ) {
+    throw new Error(`DOCX V2 letter physical overflow: ${reason}`);
+  }
+  return reason !== null;
 }
