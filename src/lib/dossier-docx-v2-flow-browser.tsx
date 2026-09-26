@@ -1,5 +1,6 @@
 import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { LetterDocument } from "@/components/letter/LetterDocument";
+import { letterPageOverflows } from "@/components/letter/preflight";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import type { CvPdfDocument, LetterPdfDocument } from "@/lib/dossier-pdf-document";
 import type {
@@ -17,6 +18,7 @@ import { createRoot } from "react-dom/client";
 const PAGE_MM = { width: 210, height: 297 } as const;
 const PX_TO_PT = 72 / 96;
 const LETTER_SETTLE_TIMEOUT_MS = 20_000;
+const LETTER_SETTLE_STABLE_FRAMES = 6;
 
 export type DossierDocxV2MeasuredRect = {
   pageIndex: number;
@@ -300,12 +302,49 @@ async function settleImages(root: HTMLElement) {
 
 async function waitForLetter(root: HTMLElement) {
   const deadline = performance.now() + LETTER_SETTLE_TIMEOUT_MS;
+  let stableSignature = "";
+  let stableFrames = 0;
+
   while (performance.now() < deadline) {
-    if (root.dataset.letterPaginationReady === "true" && root.querySelector("[data-letter-page]")) {
-      return root.dataset.letterPaginationErrorMessage?.trim() || null;
-    }
     await nextFrame();
+
+    const ready = root.dataset.letterPaginationReady === "true";
+    const declaredPageCount = Number.parseInt(root.dataset.letterPageCount ?? "", 10);
+    const pages = Array.from(root.querySelectorAll<HTMLElement>("[data-letter-page]"));
+    const error = root.dataset.letterPaginationErrorMessage?.trim() ?? "";
+    const warning = root.dataset.letterPaginationWarningMessage?.trim() ?? "";
+    const coherent =
+      ready &&
+      pages.length > 0 &&
+      Number.isFinite(declaredPageCount) &&
+      declaredPageCount === pages.length;
+
+    if (!coherent) {
+      stableSignature = "";
+      stableFrames = 0;
+      continue;
+    }
+
+    const signature = `${declaredPageCount}|${error}|${warning}`;
+    if (signature === stableSignature) stableFrames += 1;
+    else {
+      stableSignature = signature;
+      stableFrames = 1;
+    }
+
+    if (stableFrames < LETTER_SETTLE_STABLE_FRAMES) continue;
+
+    // LetterDocument can briefly expose the initial one-page fallback as ready
+    // before its async paginator commits the final fragments. Re-check the same
+    // shared physical preflight against the now-stable rendered pages instead of
+    // freezing a transient fallback error into the DOCX-V2 measurement result.
+    const physicallyOverflows = pages.some((page) => letterPageOverflows(page));
+    return physicallyOverflows
+      ? error ||
+          "Mindestens eine A4-Seite enthält sichtbaren Inhalt ausserhalb des verfügbaren Seitenbereichs."
+      : null;
   }
+
   return "Motivationsschreiben-Seitenumbruch wurde im DOCX-V2-Messlauf nicht rechtzeitig stabil.";
 }
 
