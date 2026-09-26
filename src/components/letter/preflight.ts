@@ -98,9 +98,9 @@ function visible(element: HTMLElement): boolean {
 }
 
 /**
- * Judge the visible letter content, not the text layer's aggregate scrollHeight.
- * The latter can be larger because of flex min-content, probes or transformed
- * descendants even while the actual rendered content stays inside A4.
+ * Judge the visible letter text, not the text layer's aggregate scrollHeight.
+ * Images are validated separately below because freely positioned images may
+ * intentionally leave the text content box while still remaining printable on A4.
  */
 export function letterRenderedTextLayerOverflows(layer: HTMLElement): boolean {
   const layerRect = layer.getBoundingClientRect();
@@ -112,7 +112,7 @@ export function letterRenderedTextLayerOverflows(layer: HTMLElement): boolean {
   if (typeof layer.querySelectorAll !== "function") return letterTextLayerOverflows(layer);
 
   const meaningful = layer.querySelectorAll<HTMLElement>(
-    "[data-letter-section], [data-letter-pdf-text], [data-letter-pdf-richtext], [data-letter-flow-image]",
+    "[data-letter-section], [data-letter-pdf-text], [data-letter-pdf-richtext]",
   );
   let measured = false;
   for (const element of Array.from(meaningful)) {
@@ -180,11 +180,16 @@ export function letterPageOverflows(page: ParentNode): boolean {
 
   const images = measurablePage.querySelectorAll?.<HTMLElement>("[data-letter-flow-image]") ?? [];
   for (const image of Array.from(images)) {
-    const imageRect = image.getBoundingClientRect();
+    const printableImage = image.querySelector<HTMLElement>("img") ?? image;
+    const imageRect = printableImage.getBoundingClientRect();
+    const free = image.dataset.letterImagePlacement === "free";
+
+    // Free images are positioned from the text box coordinate system, but users
+    // may deliberately place them in the surrounding printable page area. Flow
+    // images, on the other hand, must stay inside the text layer they wrap.
     if (
-      clipsOwnBox(image) ||
       rectOutside(imageRect, pageRect) ||
-      rectOutside(imageRect, layerRect)
+      (!free && rectOutside(imageRect, layerRect))
     ) {
       return true;
     }
