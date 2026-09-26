@@ -29,6 +29,11 @@ export function assertDossierDocxV2FlowAccepted(
   const report = auditDossierDocxV2Flow(letter, cv);
   if (report.accepted) return report;
   throw new Error(
-    `DOCX V2 Flow QA blockiert den Shadow-Export: ${report.blockers.map((issue) => `${issue.scope}/${issue.code}${issue.id ? `:${issue.id}` : ""}`).join(", ")}`,
+    `DOCX V2 Flow QA blockiert den Shadow-Export: ${report.blockers
+      .map(
+        (issue) =>
+          `${issue.scope}/${issue.code}${issue.id ? `:${issue.id}` : ""}${issue.message ? ` — ${issue.message}` : ""}`,
+      )
+      .join(", ")}`,
   );
 }
