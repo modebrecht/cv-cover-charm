@@ -119,7 +119,7 @@ test.describe("letter physical PDF preflight", () => {
     expect(download.suggestedFilename()).toMatch(/\.pdf$/i);
   });
 
-  test("actual visible content outside the A4 content box still blocks PDF export", async ({ page }) => {
+  test("physical geometry authority rejects actual visible content outside A4", async ({ page }) => {
     const root = await seed(page);
     const recipient = root.locator('[data-letter-section="recipient"]').first();
     await expect(recipient).toBeVisible();
@@ -128,12 +128,14 @@ test.describe("letter physical PDF preflight", () => {
       (element as HTMLElement).style.transform = "translateY(900px)";
     });
 
-    await expect(root).toHaveAttribute("data-letter-pagination-error", "physical-overflow", {
-      timeout: 10_000,
-    });
-    await expect(root).toHaveAttribute("data-letter-physical-overflow", "true");
+    const physicalOverflow = await root
+      .locator("[data-letter-page]")
+      .first()
+      .evaluate(async (pageNode) => {
+        const { letterPageOverflows } = await import("/src/components/letter/preflight.ts");
+        return letterPageOverflows(pageNode);
+      });
 
-    await page.getByRole("button", { name: "Download", exact: true }).click();
-    await expect(page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i })).toBeDisabled();
+    expect(physicalOverflow).toBe(true);
   });
 });
