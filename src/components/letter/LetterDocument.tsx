@@ -235,6 +235,7 @@ export function LetterDocument({
   );
   const [pages, setPages] = useState<LetterPageFragment[]>(fallback);
   const [algorithmIssue, setAlgorithmIssue] = useState<LetterPaginationIssue | null>(null);
+  const [measurementReady, setMeasurementReady] = useState(false);
   const [pageOverflow, setPageOverflow] = useState<Record<number, boolean>>({});
   const [pagination, setPagination] = useState<LetterPaginationState>({
     ready: false,
@@ -250,6 +251,7 @@ export function LetterDocument({
   useLayoutEffect(() => {
     let cancelled = false;
     setAlgorithmIssue(null);
+    setMeasurementReady(false);
     setPageOverflow({});
     setPagination((current) =>
       current.ready || current.issue || current.warning
@@ -288,6 +290,7 @@ export function LetterDocument({
         setAlgorithmIssue(result.issue);
         setPages(fallback);
         setPagination({ ready: false, pageCount: fallback.length, issue: null, warning: null });
+        setMeasurementReady(true);
         return;
       }
 
@@ -299,6 +302,7 @@ export function LetterDocument({
       setAlgorithmIssue(null);
       setPages(resolvedPages);
       setPagination({ ready: false, pageCount: resolvedPages.length, issue: null, warning: null });
+      setMeasurementReady(true);
     };
 
     void measure();
@@ -332,6 +336,7 @@ export function LetterDocument({
   }, []);
 
   useEffect(() => {
+    if (!measurementReady) return;
     const pageIndexes = renderedPages.map((fragment) => fragment.pageIndex);
     if (!pageIndexes.length || pageIndexes.some((pageIndex) => pageOverflow[pageIndex] === undefined)) {
       return;
@@ -363,7 +368,7 @@ export function LetterDocument({
         ? current
         : next,
     );
-  }, [algorithmIssue, pageOverflow, renderedPages]);
+  }, [algorithmIssue, measurementReady, pageOverflow, renderedPages]);
 
   return (
     <div
