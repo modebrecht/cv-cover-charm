@@ -36,6 +36,13 @@ export const CV_ENTRY_FIELDS = {
   ort: "place",
   beschreibung: "description",
 } as const;
+export function dossierChromeFieldId(
+  scope: "cv" | "letter",
+  surface: "header" | "footer",
+  field: "title" | "text",
+): string {
+  return `${scope}.${surface}.${field}`;
+}
 export function cvEntryFieldId(section: string, entryId: string, field: string): string {
   return `cv.entry.${section}:${entryId}.${field}`;
 }
@@ -57,6 +64,7 @@ export function semanticListItemIds(length: number, ids?: readonly string[]): st
   });
 }
 let nextListId = 0;
+const CHROME_FIELD_ID = /^(cv|letter)\.(?:header|footer)\.(?:title|text)$/;
 /** Called only by editor add actions; never by deterministic model construction. */
 export function newSemanticListItemId(): string {
   return typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
@@ -77,6 +85,7 @@ export function referenceContactFields(reference: {
   return { contact: lines.join("\n").trim(), email, extra };
 }
 export function isSemanticDossierFieldId(scope: "cv" | "letter", id: string): boolean {
+  if (CHROME_FIELD_ID.exec(id)?.[1] === scope) return true;
   if (scope === "letter")
     return (
       Object.values(LETTER_FIELD_IDS).some((value) => value === id) ||

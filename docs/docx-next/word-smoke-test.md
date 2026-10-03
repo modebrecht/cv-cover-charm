@@ -4,7 +4,7 @@ Status: **PENDING**. No Windows/macOS Microsoft Word environment was available d
 
 Record application version, OS, fixture name, tester and date for each result.
 
-- [ ] Windows Word opens `normal`, `long-letter`, `long-cv`, `png`, `icc-jpeg`, `half-sections`, `rich-letter`, `rich-table-lists`, `positioned-images`, `photo-left`, `photo-right`, `photo-free`, `photo-circle`, `photo-zoom`, `columns-two`, `columns-three`, `columns-long`, `columns-chrome`, `columns-long-chrome` and `editor-roundtrip` without repair prompt.
+- [ ] Windows Word opens `normal`, `long-letter`, `long-cv`, `png`, `icc-jpeg`, `half-sections`, `rich-letter`, `rich-table-lists`, `positioned-images`, `photo-left`, `photo-right`, `photo-free`, `photo-circle`, `photo-zoom`, `columns-two`, `columns-three`, `columns-long`, `columns-chrome`, `columns-long-chrome`, `chrome-custom`, `chrome-custom-stacked` and `editor-roundtrip` without repair prompt.
 - [ ] macOS Word opens those fixtures if available.
 - [ ] All three dossier parts and all pictures are visible.
 - [ ] Text is selectable and editable; `ä ö ü Ä Ö Ü é è à – — ·` survives edits.
@@ -15,6 +15,7 @@ Record application version, OS, fixture name, tester and date for each result.
 - [ ] Confirm editor-roundtrip's renamed first school title is italic and the second repeated title is underlined, independently.
 - [ ] Edit paragraphs inside nested/ragged tables and confirm native list markers survive reflow.
 - [ ] Add/delete text in the two/three-column letter block; verify balancing, continuation columns and the return to full-width paragraphs.
+- [ ] Change one custom chrome field with repeated values; verify independent styles in first/continuation headers and inline/stacked footers, then save/reopen.
 - [ ] Save as DOCX, close Word, reopen without repair or missing content.
 - [ ] Review candidate DOCX-oriented reference snapshots and record approval separately from browser/PDF similarity.
 

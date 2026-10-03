@@ -146,6 +146,14 @@ def render(file, folder, format='pdf'):
     return result_file
 
 
+def check_custom_footers(document, key):
+    if not key.startswith('chrome-custom'):
+        return
+    for index, page in enumerate(document[1:], start=2):
+        footer = page.get_text(clip=fitz.Rect(0, page.rect.height - 60, page.rect.width, page.rect.height))
+        assert compact(footer).count(compact('Wiederholter Text')) == 2, f'{key}: missing custom footer on page {index}'
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('directory', type=Path)
 parser.add_argument('--fixtures', nargs='*')
@@ -183,6 +191,7 @@ for fixture in manifest:
     elif key not in ['custom-sections']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
     check_semantic_text(document, fixture)
+    check_custom_footers(document, key)
     if key.startswith('columns-'):
         check_columns(document, key)
     image_occurrences = 0
@@ -246,6 +255,7 @@ for fixture in manifest:
         with fitz.open(reopened_pdf) as reopened:
             assert len(reopened) == len(document), f'{key}: save/reopen changed pagination'
             check_semantic_text(reopened, fixture)
+            check_custom_footers(reopened, key)
             if key.startswith('columns-'):
                 check_columns(reopened, key)
     row = {'fixture': key, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}

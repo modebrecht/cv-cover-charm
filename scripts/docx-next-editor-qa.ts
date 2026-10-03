@@ -2,12 +2,9 @@
 import { createRequire } from "node:module";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { briefFixture } from "../tests/fixtures/docx-next/brief";
+import { briefFixture, briefChromeFixture } from "../tests/fixtures/docx-next/brief";
 import { COVER_STORAGE_KEY, CV_STORAGE_KEY, LETTER_STORAGE_KEY } from "../src/lib/dossier-project";
-import {
-  DEFAULT_DOSSIER_CHROME_STATE,
-  DOSSIER_CHROME_STORAGE_KEY,
-} from "../src/lib/dossier-chrome";
+import { DOSSIER_CHROME_STORAGE_KEY } from "../src/lib/dossier-chrome";
 
 const out = path.resolve(process.argv[2] ?? "/tmp/cv-docx-next-editor-qa");
 await mkdir(out, { recursive: true });
@@ -55,6 +52,12 @@ try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const errors: string[] = [];
   page.on("pageerror", (error: Error) => errors.push(error.message));
+  page.on("console", (message: { type: () => string; text: () => string }) => {
+    if (message.text().includes("Maximum update depth") && !errors.includes(message.text())) {
+      console.error(message.text());
+      errors.push(message.text());
+    }
+  });
   await page.goto(base, { waitUntil: "networkidle" });
   if (
     (await page.locator("vite-error-overlay").count()) ||
@@ -68,9 +71,10 @@ try {
     "Dev server verified: home loads, meaningful controls render, no page errors/overlay.",
   );
   const fixture = briefFixture("repeated-values");
-  const chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
-  chrome.shared.headerMode = "none";
-  chrome.shared.footerMode = "none";
+  const chromeInput = briefChromeFixture();
+  fixture.cv.design.chromeContent = chromeInput.cv.design.chromeContent;
+  fixture.letter.design.chromeContent = chromeInput.letter.design.chromeContent;
+  const chrome = chromeInput.settings.chrome!;
   await page.evaluate(
     ({
       cover,
@@ -111,7 +115,7 @@ try {
   const school = page.locator('[data-editor-section-title="Schulbildung"]');
   const toggle = school.locator("[data-editor-section-toggle]");
   if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
-  const field = (id: string) => page.locator(`input[data-dossier-field-id="${id}"]`);
+  const field = (id: string) => page.locator(`:is(input,textarea)[data-dossier-field-id="${id}"]`);
   const first = field("cv.entry.schule:one.title"),
     second = field("cv.entry.schule:two.title");
   await first.waitFor();
@@ -149,6 +153,63 @@ try {
   )
     throw new Error("Repeated-value style ownership failed after reload");
   await page.screenshot({ path: path.join(out, "cv-semantic-styles.png") });
+  console.log("CV entry styles survive editing and reload.");
+  const chromeStyles = {
+    "cv.header.title": "Kursiv",
+    "cv.header.text": "Unterstrichen",
+    "cv.footer.title": "Fett",
+    "cv.footer.text": "Kursiv",
+    "letter.header.title": "Fett",
+    "letter.header.text": "Kursiv",
+    "letter.footer.title": "Unterstrichen",
+    "letter.footer.text": "Kursiv",
+  };
+  for (const scope of ["cv", "letter"] as const) {
+    console.log(`Checking ${scope} chrome controls.`);
+    if (scope === "letter") await page.goto(base + "/anschreiben", { waitUntil: "networkidle" });
+    const section = page.locator('[data-editor-section-title="Header & Footer"]');
+    const toggle = section.locator("[data-editor-section-toggle]");
+    if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
+    console.log(`${scope} chrome controls opened.`);
+    for (const [id, action] of Object.entries(chromeStyles).filter(([id]) =>
+      id.startsWith(scope + "."),
+    )) {
+      await field(id).focus();
+      await field(id).press("ControlOrMeta+A");
+      await page
+        .locator(`[data-dossier-field-selection-toolbar] button[aria-label="${action}"]`)
+        .click();
+      console.log(`${id}: ${action} applied.`);
+    }
+    await field(`${scope}.header.title`).fill(`${scope} header after styling`);
+    await page.waitForFunction(
+      ({ scope }) => {
+        const saved = localStorage.getItem(scope === "cv" ? "lebenslauf:v1" : "anschreiben:v1");
+        return (
+          saved &&
+          JSON.parse(saved).design.chromeContent.headerTitle === `${scope} header after styling`
+        );
+      },
+      { scope },
+    );
+    console.log(`${scope} chrome edit persisted.`);
+    await page.reload({ waitUntil: "networkidle" });
+    for (const [id, action] of Object.entries(chromeStyles).filter(([id]) =>
+      id.startsWith(scope + "."),
+    )) {
+      const property = action === "Fett" ? "bold" : action === "Kursiv" ? "italic" : "underline";
+      await page.waitForFunction(
+        ({ id, property }) =>
+          document
+            .querySelector(`[data-dossier-document] [data-dossier-field-id="${id}"]`)
+            ?.getAttribute(`data-dossier-field-${property}`) === "true",
+        { id, property },
+      );
+    }
+    await page.screenshot({ path: path.join(out, `${scope}-chrome-semantic-styles.png`) });
+    console.log(`${scope} chrome styles survive editing and reload.`);
+  }
+  await page.goto(base + "/lebenslauf", { waitUntil: "networkidle" });
   const result = await page.evaluate(async () => {
     const projectModule = await import("/src/lib/dossier-project.ts");
     const docModule = await import("/src/lib/dossier-pdf-document.ts");
@@ -181,6 +242,11 @@ try {
     !result.styles["cv.entry.schule:two.title"]?.underline
   )
     throw new Error("Canonical export lost portable styles");
+  for (const [id, action] of Object.entries(chromeStyles)) {
+    const property = action === "Fett" ? "bold" : action === "Kursiv" ? "italic" : "underline";
+    if (!result.styles[id]?.[property])
+      throw new Error(`Canonical export lost custom chrome style: ${id}`);
+  }
   await writeFile(path.join(out, "editor-roundtrip.docx"), Uint8Array.from(result.bytes));
   await writeFile(path.join(out, "project.json"), JSON.stringify(result.project, null, 2));
   if (errors.length) throw new Error(errors.join("; "));

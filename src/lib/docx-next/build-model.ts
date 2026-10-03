@@ -3,6 +3,7 @@ import {
   semanticListItemIds,
   CV_PERSON_FIELD_IDS,
   referenceContactFields,
+  dossierChromeFieldId,
 } from "@/lib/dossier-semantic-fields";
 import type {
   CoverPdfDocument,
@@ -691,8 +692,53 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   if (settings.chrome) {
     const resolved = resolveDossierChromeSnapshot({ cover, letter, cv }, settings.chrome);
     for (const target of [letterPart, cvPart]) {
-      const { options, contact, content } = resolved[target.id as "letter" | "cv"];
+      const scope = target.id as "letter" | "cv";
+      const { options, contact, content } = resolved[scope];
       const font = wordFont(options.textFont ?? undefined, theme.font);
+      const customParagraph = (
+        surface: "header" | "footer",
+        key: "title" | "text",
+        value: string,
+        suffix = "",
+      ): Paragraph => {
+        const fieldId = dossierChromeFieldId(scope, surface, key);
+        const result = p(
+          `${scope}.${surface}${suffix}.${key}`,
+          value,
+          {
+            font,
+            sizePt:
+              (surface === "header" ? options.headerFontSizePt : options.footerFontSizePt) ??
+              (surface === "header" ? 10 : 8),
+            color: color(
+              surface === "header" ? options.headerTextColor : options.footerTextColor,
+              theme.ink,
+            ),
+            bold: key === "title",
+            ...settings.fieldStyles?.[fieldId],
+          },
+          { role: "contact", afterMm: 0.5 },
+        );
+        result.runs.forEach((run) => {
+          run.fieldId = fieldId;
+        });
+        return result;
+      };
+      const inlineContact = (
+        id: string,
+        fields: Paragraph[],
+        typography: Partial<TextStyle>,
+        separator: string,
+      ): Paragraph => {
+        const result = p(id, "", typography, { role: "contact", afterMm: 0.5 });
+        result.runs = fields.flatMap((field, index) => [
+          ...(index
+            ? [{ id: `${id}.separator:${index}`, text: separator, style: style(id, typography) }]
+            : []),
+          ...field.runs,
+        ]);
+        return result;
+      };
       const headerFields = {
         name: options.headerShowName ? contact.name : "",
         address: options.headerShowAddress ? contact.address : "",
@@ -714,14 +760,9 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           sizePt: options.headerFontSizePt ?? 10,
           color: color(options.headerTextColor, theme.ink),
         };
-        const custom = Object.entries(headerFields)
-          .filter(([key, value]) => ["title", "text"].includes(key) && value.trim())
-          .map(([key, value]) =>
-            p(`${target.id}.header${suffix}.${key}`, value, typography, {
-              role: "contact",
-              afterMm: 0.5,
-            }),
-          );
+        const custom = (["title", "text"] as const)
+          .filter((key) => headerFields[key].trim())
+          .map((key) => customParagraph("header", key, headerFields[key], suffix));
         if (mode === "compact")
           return custom.length
             ? custom
@@ -734,38 +775,31 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         const rows = Object.entries(headerFields).filter(
           ([key, value]) => !["title", "text"].includes(key) && value.trim(),
         );
+        const contactFields = rows.map(([key, value]) => {
+          const paragraph = p(
+            `${target.id}.header${suffix}.${key}`,
+            value,
+            { ...typography, ...settings.fieldStyles?.[headerSourceId(key)] },
+            { role: "contact", afterMm: 0.5 },
+          );
+          paragraph.runs.forEach((run) => {
+            run.fieldId = headerSourceId(key);
+          });
+          return paragraph;
+        });
         if (options.headerTextLayout === "inline") {
           const separators = { dot: " · ", icons: " · ", slash: " / ", pipe: " | ", space: "   " };
-          const paragraph = p(`${target.id}.header${suffix}.contact`, "", typography, {
-            role: "contact",
-            afterMm: 0.5,
-          });
-          paragraph.runs = rows.map(([key, value], index) => ({
-            id: `${target.id}.header${suffix}.${key}`,
-            text: (index ? separators[options.headerInlineSeparator ?? "dot"] : "") + value,
-            fieldId: headerSourceId(key),
-            style: style(`${target.id}.header.${key}`, {
-              ...typography,
-              ...settings.fieldStyles?.[headerSourceId(key)],
-            }),
-          }));
-          return [...custom, paragraph];
+          return [
+            ...custom,
+            inlineContact(
+              `${scope}.header${suffix}.contact`,
+              contactFields,
+              typography,
+              separators[options.headerInlineSeparator ?? "dot"],
+            ),
+          ];
         }
-        return [
-          ...custom,
-          ...rows.map(([key, value]) => {
-            const paragraph = p(
-              `${target.id}.header${suffix}.${key}`,
-              value,
-              { ...typography, ...settings.fieldStyles?.[headerSourceId(key)] },
-              { role: "contact", afterMm: 0.5 },
-            );
-            paragraph.runs.forEach((run) => {
-              run.fieldId = headerSourceId(key);
-            });
-            return paragraph;
-          }),
-        ];
+        return [...custom, ...contactFields];
       };
       const firstMode = options.headerDifferentFirstPage
         ? options.headerMode
@@ -827,25 +861,31 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       target.header = header(options.headerContinuationMode ?? options.headerMode, "");
       if (options.headerDifferentFirstPage)
         target.firstHeader = header(options.headerMode, ".first");
-      if (options.footerMode !== "none")
-        target.footer = Object.entries({
-          name: contact.name,
-          title: content.footerTitle ?? "",
-          text: content.footerText ?? "",
-        })
-          .filter(([, value]) => value.trim())
-          .map(([key, text]) =>
-            p(
-              `${target.id}.footer.${key}`,
-              text,
-              {
-                font,
-                sizePt: options.footerFontSizePt ?? 8,
-                color: color(options.footerTextColor, theme.ink),
-              },
-              { role: "contact", afterMm: 0.5 },
-            ),
-          );
+      if (options.footerMode !== "none") {
+        const typography = {
+          font,
+          sizePt: options.footerFontSizePt ?? 8,
+          color: color(options.footerTextColor, theme.ink),
+        };
+        const customFields = (["title", "text"] as const).flatMap((key) => {
+          const value = key === "title" ? content.footerTitle : content.footerText;
+          return value?.trim() ? [customParagraph("footer", key, value)] : [];
+        });
+        const fields = customFields.length
+          ? customFields
+          : contact.name
+            ? [
+                p(`${scope}.footer.name`, contact.name, typography, {
+                  role: "contact",
+                  afterMm: 0.5,
+                }),
+              ]
+            : [];
+        target.footer =
+          options.footerTextLayout === "inline" && fields.length
+            ? [inlineContact(`${scope}.footer.content`, fields, typography, " · ")]
+            : fields;
+      }
       target.chrome = {
         headerBackground: options.headerBackgroundColor
           ? color(options.headerBackgroundColor, theme.paper)

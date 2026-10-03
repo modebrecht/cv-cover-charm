@@ -154,9 +154,13 @@ export function LetterCanvas({
     () => resolveDossierChromeDocumentContent(design.chromeContent, "Motivationsschreiben"),
     [design.chromeContent],
   );
-  const chrome = withDossierChromeDocumentContent(
-    resolveLetterChrome(design, chromeOptions),
-    chromeDocumentContent,
+  const chrome = useMemo(
+    () =>
+      withDossierChromeDocumentContent(
+        resolveLetterChrome(design, chromeOptions),
+        chromeDocumentContent,
+      ),
+    [design, chromeOptions, chromeDocumentContent],
   );
   const effectiveDesign = useMemo<LetterDesign>(
     () => ({
@@ -266,13 +270,20 @@ export function LetterCanvas({
     const textLayer = textLayerRef.current;
     if (!textLayer) return;
 
-    const measure = () => onOverflowChange(textLayer.scrollHeight > textLayer.clientHeight + 1);
-    const frame = requestAnimationFrame(() => requestAnimationFrame(measure));
+    let cancelled = false;
+    let frame: number;
+    const measure = () => {
+      if (!cancelled) onOverflowChange(textLayer.scrollHeight > textLayer.clientHeight + 1);
+    };
+    frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(measure);
+    });
     const observer = new ResizeObserver(measure);
     observer.observe(textLayer);
     void document.fonts?.ready.then(measure);
 
     return () => {
+      cancelled = true;
       cancelAnimationFrame(frame);
       observer.disconnect();
     };

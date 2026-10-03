@@ -54,6 +54,7 @@ import { readPhoto } from "@/lib/image";
 import { readDossierContact } from "@/lib/dossier-contact";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
+  type DossierChromeOptions,
   applyPortableDossierChromeState,
   getDossierChromeState,
   patchDossierChrome,
@@ -237,6 +238,14 @@ function Anschreiben() {
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
   const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.letter;
+  const syncLegacyChromeDesign = useCallback((patch: Partial<DossierChromeOptions>) => {
+    const values = legacyLetterChromePatch(patch);
+    setDesign((current) =>
+      Object.entries(values).every(([key, value]) => current[key as keyof LetterDesign] === value)
+        ? current
+        : { ...current, ...values },
+    );
+  }, []);
   const [hydrated, setHydrated] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
@@ -1485,13 +1494,9 @@ function Anschreiben() {
             </Section>
 
             <Section title="Header & Footer" open={open.chrome} onToggle={() => toggle("chrome")}>
-              <DossierChromeControls
-                scope="letter"
-                onOptionsChange={(patch) =>
-                  setDesign((current) => ({ ...current, ...legacyLetterChromePatch(patch) }))
-                }
-              />
+              <DossierChromeControls scope="letter" onOptionsChange={syncLegacyChromeDesign} />
               <DossierChromeDocumentContentControls
+                scope="letter"
                 value={design.chromeContent}
                 defaultTitle="Motivationsschreiben"
                 onChange={(chromeContent) =>

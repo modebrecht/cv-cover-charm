@@ -15,6 +15,7 @@ import {
 import { getDossierPageMargins } from "@/lib/dossier-page-margins";
 import type { DossierChromeDocumentContent } from "@/lib/dossier-chrome-content";
 import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
+import { dossierChromeFieldId } from "@/lib/dossier-semantic-fields";
 import "./chrome-policy.css";
 
 function surfaceBackground(first: string, second: string | null): string {
@@ -223,8 +224,12 @@ export function DossierHeaderFooterChrome({
     ? `${visualOptions.borderWidthMm}mm solid ${borderColor}`
     : undefined;
   const textFontFamily = visualOptions.textFont ? FONT_STACKS[visualOptions.textFont] : undefined;
-  const headerTextFontFamily = headerFontOverride ? FONT_STACKS[headerFontOverride] : textFontFamily;
-  const footerTextFontFamily = footerFontOverride ? FONT_STACKS[footerFontOverride] : textFontFamily;
+  const headerTextFontFamily = headerFontOverride
+    ? FONT_STACKS[headerFontOverride]
+    : textFontFamily;
+  const footerTextFontFamily = footerFontOverride
+    ? FONT_STACKS[footerFontOverride]
+    : textFontFamily;
   const headerVisualHeight = dossierHeaderVisualHeightMmForOptions(options, pageIndex);
   const compactFooterHeight = dossierFooterVisualHeightMmForOptions(options);
   const detailsHeight = options.footerHeightMm ?? footerHeightMm ?? 10;
@@ -543,6 +548,7 @@ export function DossierHeaderFooterChrome({
           {headerTitle ? (
             <div
               data-dossier-header-title
+              data-dossier-field-id={dossierChromeFieldId(scope, "header", "title")}
               className="truncate font-semibold"
               style={{ fontSize: `${headerFontSizePt ?? 7.6}pt` }}
             >
@@ -552,6 +558,7 @@ export function DossierHeaderFooterChrome({
           {headerText ? (
             <div
               data-dossier-header-custom-text
+              data-dossier-field-id={dossierChromeFieldId(scope, "header", "text")}
               className="truncate opacity-95"
               style={{ fontSize: `${headerFontSizePt ?? 6.6}pt` }}
             >
@@ -594,9 +601,23 @@ export function DossierHeaderFooterChrome({
             transform: footerContentTransform,
           }}
         >
-          {footerTitle ? <span className="shrink-0 font-semibold">{footerTitle}</span> : null}
+          {footerTitle ? (
+            <span
+              data-dossier-field-id={dossierChromeFieldId(scope, "footer", "title")}
+              className="shrink-0 font-semibold"
+            >
+              {footerTitle}
+            </span>
+          ) : null}
           {footerTitle && footerText ? <span className="mx-[1.2mm] opacity-60">·</span> : null}
-          {footerText ? <span className="min-w-0 truncate opacity-95">{footerText}</span> : null}
+          {footerText ? (
+            <span
+              data-dossier-field-id={dossierChromeFieldId(scope, "footer", "text")}
+              className="min-w-0 truncate opacity-95"
+            >
+              {footerText}
+            </span>
+          ) : null}
         </div>
       ) : null}
 
@@ -626,9 +647,21 @@ export function DossierHeaderFooterChrome({
                 className="flex h-full min-w-0 flex-col justify-center"
                 style={{ transform: footerContentTransform }}
               >
-                {footerTitle ? <div className="font-semibold">{footerTitle}</div> : null}
+                {footerTitle ? (
+                  <div
+                    data-dossier-field-id={dossierChromeFieldId(scope, "footer", "title")}
+                    className="font-semibold"
+                  >
+                    {footerTitle}
+                  </div>
+                ) : null}
                 {footerText ? (
-                  <div className="min-w-0 break-words opacity-95">{footerText}</div>
+                  <div
+                    data-dossier-field-id={dossierChromeFieldId(scope, "footer", "text")}
+                    className="min-w-0 break-words opacity-95"
+                  >
+                    {footerText}
+                  </div>
                 ) : null}
               </div>
             ) : (
@@ -637,10 +670,22 @@ export function DossierHeaderFooterChrome({
                 className="flex h-full min-w-0 items-center"
                 style={{ transform: footerContentTransform }}
               >
-                {footerTitle ? <span className="shrink-0 font-semibold">{footerTitle}</span> : null}
+                {footerTitle ? (
+                  <span
+                    data-dossier-field-id={dossierChromeFieldId(scope, "footer", "title")}
+                    className="shrink-0 font-semibold"
+                  >
+                    {footerTitle}
+                  </span>
+                ) : null}
                 {footerTitle && footerText ? <span className="mx-[2mm] opacity-60">·</span> : null}
                 {footerText ? (
-                  <span className="min-w-0 break-words opacity-95">{footerText}</span>
+                  <span
+                    data-dossier-field-id={dossierChromeFieldId(scope, "footer", "text")}
+                    className="min-w-0 break-words opacity-95"
+                  >
+                    {footerText}
+                  </span>
                 ) : null}
               </div>
             )

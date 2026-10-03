@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
 import { LetterCanvas } from "./LetterCanvas";
@@ -109,9 +109,18 @@ function LetterPageShell({
   onImageRemove?: (id: string) => void;
   ariaLabel: string;
 }) {
-  const contextualDesign = pageDesign(design, fragment.pageIndex, fragment.finalPage);
-  const contextualChrome = pageChromeOptions(chromeOptions, fragment.finalPage);
-  const contextualData = pageData(data, fragment.bodyHtml, fragment.images, fragment.finalPage);
+  const contextualDesign = useMemo(
+    () => pageDesign(design, fragment.pageIndex, fragment.finalPage),
+    [design, fragment.pageIndex, fragment.finalPage],
+  );
+  const contextualChrome = useMemo(
+    () => pageChromeOptions(chromeOptions, fragment.finalPage),
+    [chromeOptions, fragment.finalPage],
+  );
+  const contextualData = useMemo(
+    () => pageData(data, fragment.bodyHtml, fragment.images, fragment.finalPage),
+    [data, fragment.bodyHtml, fragment.images, fragment.finalPage],
+  );
   const reportOverflow = useCallback(
     (overflow: boolean) => onOverflowChange?.(fragment.pageIndex, overflow),
     [fragment.pageIndex, onOverflowChange],
@@ -237,27 +246,14 @@ export function LetterDocument({
   const [algorithmIssue, setAlgorithmIssue] = useState<LetterPaginationIssue | null>(null);
   const [measurementReady, setMeasurementReady] = useState(false);
   const [pageOverflow, setPageOverflow] = useState<Record<number, boolean>>({});
-  const [pagination, setPagination] = useState<LetterPaginationState>({
-    ready: false,
-    pageCount: fallback.length,
-    issue: null,
-    warning: null,
-  });
-
+  // Measurement already waits for fonts, images and two animation frames.
+  // Invalidate after commit so reporting pagination cannot replay a parent's
+  // pending design update inside a synchronous layout-effect render loop.
   useEffect(() => {
-    onPaginationChange?.(pagination);
-  }, [onPaginationChange, pagination]);
-
-  useLayoutEffect(() => {
     let cancelled = false;
     setAlgorithmIssue(null);
     setMeasurementReady(false);
     setPageOverflow({});
-    setPagination((current) =>
-      current.ready || current.issue || current.warning
-        ? { ready: false, pageCount: current.pageCount, issue: null, warning: null }
-        : current,
-    );
 
     const measure = async () => {
       const root = measurementRef.current;
@@ -289,7 +285,6 @@ export function LetterDocument({
         // geometry decide whether PDF export is actually unsafe.
         setAlgorithmIssue(result.issue);
         setPages(fallback);
-        setPagination({ ready: false, pageCount: fallback.length, issue: null, warning: null });
         setMeasurementReady(true);
         return;
       }
@@ -301,7 +296,6 @@ export function LetterDocument({
       );
       setAlgorithmIssue(null);
       setPages(resolvedPages);
-      setPagination({ ready: false, pageCount: resolvedPages.length, issue: null, warning: null });
       setMeasurementReady(true);
     };
 
@@ -335,40 +329,51 @@ export function LetterDocument({
     );
   }, []);
 
-  useEffect(() => {
-    if (!measurementReady) return;
+  // Readiness is derived from the measured pages rather than maintained by a
+  // second effect that can invalidate and re-enable itself in the same commit.
+  const pagination = useMemo<LetterPaginationState>(() => {
+    const pending = { ready: false, pageCount: renderedPages.length, issue: null, warning: null };
+    if (!measurementReady) return pending;
     const pageIndexes = renderedPages.map((fragment) => fragment.pageIndex);
-    if (!pageIndexes.length || pageIndexes.some((pageIndex) => pageOverflow[pageIndex] === undefined)) {
-      return;
-    }
-
-    const physicallyOverflows = pageIndexes.some((pageIndex) => pageOverflow[pageIndex]);
-    const issue: LetterBlockingIssue | null = physicallyOverflows
+    if (
+      !pageIndexes.length ||
+      pageIndexes.some((pageIndex) => pageOverflow[pageIndex] === undefined)
+    )
+      return pending;
+    const issue: LetterBlockingIssue | null = pageIndexes.some(
+      (pageIndex) => pageOverflow[pageIndex],
+    )
       ? {
           code: "physical-overflow",
           message:
             "Mindestens eine A4-Seite enthält sichtbaren Inhalt ausserhalb des verfügbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abstände an.",
         }
       : null;
-    const warning = issue ? null : algorithmIssue;
-    const next: LetterPaginationState = {
+    return {
       ready: true,
       pageCount: renderedPages.length,
       issue,
-      warning,
+      warning: issue ? null : algorithmIssue,
     };
-
-    setPagination((current) =>
-      current.ready === next.ready &&
-      current.pageCount === next.pageCount &&
-      current.issue?.code === next.issue?.code &&
-      current.issue?.message === next.issue?.message &&
-      current.warning?.code === next.warning?.code &&
-      current.warning?.message === next.warning?.message
-        ? current
-        : next,
-    );
   }, [algorithmIssue, measurementReady, pageOverflow, renderedPages]);
+
+  const reportedPagination = useRef<LetterPaginationState | null>(null);
+  useEffect(() => {
+    if (!onPaginationChange) return;
+    const current = reportedPagination.current;
+    if (
+      current &&
+      current.ready === pagination.ready &&
+      current.pageCount === pagination.pageCount &&
+      current.issue?.code === pagination.issue?.code &&
+      current.issue?.message === pagination.issue?.message &&
+      current.warning?.code === pagination.warning?.code &&
+      current.warning?.message === pagination.warning?.message
+    )
+      return;
+    reportedPagination.current = pagination;
+    onPaginationChange(pagination);
+  }, [onPaginationChange, pagination]);
 
   return (
     <div

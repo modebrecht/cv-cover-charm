@@ -253,7 +253,12 @@ export async function renderDossierDocx(
     // Even empty headers/footers explicitly break inheritance between dossier parts.
     references += chrome(part, "header");
     references += chrome(part, "footer");
-    if (part.firstHeader && planned.logicalStart) references += chrome(part, "header", true);
+    if (part.firstHeader && planned.logicalStart) {
+      references += chrome(part, "header", true);
+      // titlePg selects both first-page stories. Reuse the known footer part
+      // explicitly so a different first header does not leave its footer blank.
+      references += `<w:footerReference w:type="first" r:id="${part.id}-footer"/>`;
+    }
     return `<w:sectPr>${references}<w:type w:val="${planned.breakBefore}"/><w:pgSz w:w="${twips(part.page.widthMm)}" w:h="${twips(part.page.heightMm)}"/><w:pgMar w:top="${twips(m.top)}" w:right="${twips(m.right)}" w:bottom="${twips(m.bottom)}" w:left="${twips(m.left)}" w:header="${twips(4)}" w:footer="${twips(4)}" w:gutter="0"/>${part.chrome.borderColor ? `<w:pgBorders w:offsetFrom="page">${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} w:val="single" w:sz="${Math.max(1, Math.round(((part.chrome.borderWidthMm * 72) / 25.4) * 8))}" w:space="12" w:color="${part.chrome.borderColor}"/>`).join("")}</w:pgBorders>` : ""}<w:cols w:equalWidth="1" w:num="${planned.columns.count}" w:space="${twips(planned.columns.gapMm)}"/>${part.firstHeader && planned.logicalStart ? "<w:titlePg/>" : ""}</w:sectPr>`;
   }
   const parts = [model.cover, model.letter, model.cv];

@@ -2168,6 +2168,7 @@ function Lebenslauf() {
               <Section title="Header & Footer" open={open.chrome} onToggle={() => toggle("chrome")}>
                 <DossierChromeControls scope="cv" />
                 <DossierChromeDocumentContentControls
+                  scope="cv"
                   value={design.chromeContent}
                   defaultTitle={data.titel?.trim() || DEFAULT_CV_TITLE}
                   onChange={(chromeContent) =>

@@ -7,7 +7,11 @@ import { renderDossierDocx } from "../src/lib/docx-next/renderer";
 import { walkBlocks } from "../src/lib/docx-next/model";
 import { planPartSections } from "../src/lib/docx-next/section-plan";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../src/lib/dossier-chrome";
-import { BRIEF_FIXTURES, briefFixture } from "../tests/fixtures/docx-next/brief";
+import {
+  BRIEF_FIXTURES,
+  briefFixture,
+  briefChromeFixture,
+} from "../tests/fixtures/docx-next/brief";
 
 const out = path.resolve(process.argv[2] ?? "/tmp/cv-docx-next-qa");
 await mkdir(out, { recursive: true });
@@ -88,18 +92,22 @@ const fixtureNames = [
   "columns-long",
   "columns-chrome",
   "columns-long-chrome",
+  "chrome-custom",
+  "chrome-custom-stacked",
 ];
 const manifest = [];
 for (const fixture of fixtureNames) {
-  const input = briefFixture(
-    fixture === "photo-long-name"
-      ? "long-values"
-      : fixture === "photo-long-cv"
-        ? "long-cv"
-        : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
-          ? (fixture as (typeof BRIEF_FIXTURES)[number])
-          : "normal",
-  );
+  const input = fixture.startsWith("chrome-custom")
+    ? briefChromeFixture(fixture.endsWith("stacked"))
+    : briefFixture(
+        fixture === "photo-long-name"
+          ? "long-values"
+          : fixture === "photo-long-cv"
+            ? "long-cv"
+            : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
+              ? (fixture as (typeof BRIEF_FIXTURES)[number])
+              : "normal",
+      );
   if (images[fixture]) {
     input.cover.data.foto = images[fixture];
     input.cv.data.person.foto = images[fixture];

@@ -3,6 +3,7 @@ import { DEMO_CV, emptyCv } from "../../../src/components/cv/types";
 import { DEMO_LETTER, emptyLetterDesign } from "../../../src/components/letter/types";
 import { coverPdfDocumentFromSaved } from "../../../src/lib/dossier-pdf-document";
 import type { DossierAppSnapshot } from "../../../src/lib/docx-next/build-model";
+import { DEFAULT_DOSSIER_CHROME_STATE } from "../../../src/lib/dossier-chrome";
 
 export const BRIEF_FIXTURES = [
   "minimal",
@@ -16,6 +17,40 @@ export const BRIEF_FIXTURES = [
   "custom-sections",
 ] as const;
 export type BriefFixture = (typeof BRIEF_FIXTURES)[number];
+export function briefChromeFixture(stackedFooter = false): DossierAppSnapshot {
+  const input = briefFixture();
+  input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+  Object.assign(input.settings.chrome.shared, {
+    headerMode: "contact",
+    headerDifferentFirstPage: true,
+    headerContinuationMode: "compact",
+    headerTextLayout: "inline",
+    footerMode: "details",
+    footerTextLayout: stackedFooter ? "stacked" : "inline",
+  });
+  for (const part of [input.letter, input.cv])
+    part.design.chromeContent = {
+      headerTitleEnabled: true,
+      headerTitle: "Wiederholter Text",
+      headerTextEnabled: true,
+      headerText: "Wiederholter Text",
+      footerTitleEnabled: true,
+      footerTitle: "Wiederholter Text",
+      footerTextEnabled: true,
+      footerText: "Wiederholter Text",
+    };
+  input.settings.fieldStyles = {
+    "letter.header.title": { bold: false, italic: true, color: "123456", sizePt: 11 },
+    "letter.header.text": { bold: false, underline: true, color: "345678", sizePt: 9 },
+    "letter.footer.title": { bold: true, color: "654321", sizePt: 9 },
+    "letter.footer.text": { italic: true, color: "876543", sizePt: 8 },
+    "cv.header.title": { bold: true, color: "456789", sizePt: 10 },
+    "cv.header.text": { italic: true, underline: true, color: "56789A", sizePt: 9 },
+    "cv.footer.title": { italic: true, color: "987654", sizePt: 9 },
+    "cv.footer.text": { underline: true, color: "A98765", sizePt: 8 },
+  };
+  return input;
+}
 export function briefFixture(kind: BriefFixture = "normal"): DossierAppSnapshot {
   const cover = coverPdfDocumentFromSaved({
     template: "brief",
