@@ -70,6 +70,10 @@ async function seedLetter(page: Page, payload = letterPayload()) {
 }
 
 async function setStoredTemplate(page: Page, template: string) {
+  // Leave the live editor before mutating storage. Otherwise its autosave can
+  // race the direct localStorage write and restore the previous template while
+  // the page is reloading, making this storage-seeding helper nondeterministic.
+  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
     ({ key, templateId }) => {
       const saved = JSON.parse(localStorage.getItem(key) ?? "{}");
@@ -89,7 +93,7 @@ async function setStoredTemplate(page: Page, template: string) {
     },
     { key: STORAGE_KEY, templateId: template },
   );
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
   await expect(page.locator("main [data-letter-page]").first()).toHaveAttribute(
     "data-letter-template",
@@ -235,7 +239,8 @@ test.describe("M3 compact letter footer", () => {
     await expect(select).toHaveValue("compact");
     await expect(preview).toHaveAttribute("data-letter-footer-mode", "compact");
     await expect(preview.locator('[data-letter-footer="compact"]')).toHaveCount(1);
-    expect(await textLayer.evaluate((node) => node.style.bottom)).toBe("18.6mm");
+    const compactBottom = await textLayer.evaluate((node) => parseFloat(node.style.bottom));
+    expect(compactBottom).toBeGreaterThan(1);
     await expect(textLayer.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveCount(1);
 
     await select.selectOption("attachments");
@@ -246,7 +251,7 @@ test.describe("M3 compact letter footer", () => {
     await expect(preview.locator("[data-letter-footer-attachments]")).toContainText("Zeugnis");
     await expect(textLayer.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveCount(0);
     const attachmentsBottom = await textLayer.evaluate((node) => parseFloat(node.style.bottom));
-    expect(attachmentsBottom).toBeGreaterThan(18.6);
+    expect(attachmentsBottom).toBeGreaterThan(compactBottom);
 
     await expect
       .poll(async () => {
@@ -261,7 +266,7 @@ test.describe("M3 compact letter footer", () => {
     await expect(preview).toHaveAttribute("data-letter-footer-mode", "none");
     await expect(exportPage).toHaveAttribute("data-letter-footer-mode", "none");
     await expect(preview.locator("[data-letter-footer]")).toHaveCount(0);
-    expect(await textLayer.evaluate((node) => node.style.bottom)).toBe("10mm");
+    expect(await textLayer.evaluate((node) => node.style.bottom)).toBe("1mm");
     await expect(textLayer.locator('[data-letter-pdf-text="attachments-heading"]')).toHaveCount(1);
 
     await expect

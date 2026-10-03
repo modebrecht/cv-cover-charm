@@ -105,6 +105,7 @@ jobs:
             files: >-
               tests/e2e/letter-adversarial-content.spec.ts
               tests/e2e/letter-pdf-richtext.spec.ts
+              tests/e2e/letter-physical-preflight.spec.ts
           - group: cv-pdf
             files: >-
               tests/e2e/element-ratio-lock.spec.ts

@@ -63,18 +63,18 @@ export function DossierPageMarginsControl({
   const scopeMinimums = useMemo(
     () => ({
       ...GLOBAL_MINIMUMS,
-      bottom: scope === "cv" ? CV_PAGE_MARGIN_BOTTOM_MM : DOSSIER_PAGE_MARGIN_MIN_MM,
+      bottom: CV_PAGE_MARGIN_BOTTOM_MM,
     }),
-    [scope],
+    [],
   );
-  const minimums = useMemo(
-    () =>
+  const minimums = useMemo(() => {
+    const clamped =
       clampDossierPageMarginsToMinimums(
         scopeMinimums,
         minimumMargins ?? scopeMinimums,
-      ) ?? scopeMinimums,
-    [minimumMargins, scopeMinimums],
-  );
+      ) ?? scopeMinimums;
+    return { ...clamped, bottom: CV_PAGE_MARGIN_BOTTOM_MM };
+  }, [minimumMargins, scopeMinimums]);
   const defaults = useMemo(
     () => clampDossierPageMarginsToMinimums(defaultMargins, minimums) ?? defaultMargins,
     [defaultMargins, minimums],
@@ -210,8 +210,8 @@ export function DossierPageMarginsControl({
             </>
           ) : (
             <>
-              Ohne eigene Werte bleibt die bewährte Geometrie der gewählten Vorlage unverändert.
-              Mindestwerte schützen Header, Footer und tragende Vorlagenelemente.
+              Der Standard unten ist 1 mm, damit beim Drucken bzw. Exportieren ins PDF kein unnötiger
+              Leerraum entsteht. Footer-Abstand und Vorlagenschutz werden separat berücksichtigt.
             </>
           )}
         </p>

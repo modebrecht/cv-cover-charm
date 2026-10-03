@@ -15,6 +15,7 @@ import {
   type DossierPageReserves,
 } from "@/lib/dossier-page-geometry";
 import {
+  CV_PAGE_MARGIN_BOTTOM_MM,
   DOSSIER_PAGE_MARGIN_MIN_MM,
   getDossierPageMargins,
   type DossierPageMargins,
@@ -372,21 +373,16 @@ export function letterDefaultPageMargins(
     top:
       letterContentTopMm(design, pageIndex, headerMode, context) +
       letterHeaderGapMm(headerMode, context),
-    bottom:
-      footerMode === "none"
-        ? 10
-        : footerMode === "attachments"
-          ? footerHeight + 7
-          : footerHeight + 14.6,
+    bottom: CV_PAGE_MARGIN_BOTTOM_MM + footerHeight,
   };
   const minimums = letterSafePageMarginMinimums(data, design, context);
-  return (
+  const defaults =
     dossierPageMarginsFromContentMargins(
       contentMargins,
-      minimums,
+      { ...minimums, bottom: CV_PAGE_MARGIN_BOTTOM_MM },
       letterPageReservesMm(data, design, context),
-    ) ?? minimums
-  );
+    ) ?? minimums;
+  return { ...defaults, bottom: CV_PAGE_MARGIN_BOTTOM_MM };
 }
 
 export function letterPageGeometry(
@@ -412,12 +408,7 @@ export function letterPageGeometry(
     : CONTENT_INSETS[archetype];
   const headerGapMm = letterHeaderGapMm(headerMode, context);
   const defaultTop = letterContentTopMm(design, pageIndex, headerMode, context) + headerGapMm;
-  const defaultBottom =
-    footerMode === "none"
-      ? 10
-      : footerMode === "attachments"
-        ? footerHeight + 7
-        : footerHeight + 14.6;
+  const defaultBottom = CV_PAGE_MARGIN_BOTTOM_MM + footerHeight;
   const storedCustomMargins = getDossierPageMargins("letter");
   const customContentMargins = storedCustomMargins
     ? resolveDossierContentMargins(
