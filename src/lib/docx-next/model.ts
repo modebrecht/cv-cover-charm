@@ -8,7 +8,7 @@ export type TextStyle = {
   underline: boolean;
 };
 export type Alignment = "left" | "center" | "right" | "justify";
-export type TextRun = { id: string; text: string; style: TextStyle };
+export type TextRun = { id: string; fieldId?: string; text: string; style: TextStyle };
 export type Paragraph = {
   kind: "paragraph";
   id: string;

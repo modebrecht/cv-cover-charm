@@ -1,0 +1,283 @@
+import type {
+  DossierDocModel,
+  DocumentPart,
+  DocBlock,
+  Paragraph,
+  TableBlock,
+  ImageBlock,
+  TextRun,
+} from "./model";
+import { walkBlocks } from "./model";
+import { WordPackage, WORD_PART_TYPES } from "./package";
+import { DECL, W, R, namespaces, xml, twips, emu } from "./xml";
+import {
+  normalizeBrowserImage,
+  imageCache,
+  type ImageNormalizer,
+  type NormalizedImage,
+} from "./images";
+import { stylesXml, fontTableXml, numberingXml } from "./styles";
+import { validateWordPackage } from "./validation";
+
+export type RenderOptions = {
+  normalizeImage?: ImageNormalizer;
+  allowUnacceptedModelIssues?: boolean;
+};
+function control(id: string, content: string) {
+  return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
+}
+function run(value: TextRun): string {
+  const style = value.style;
+  const properties = `<w:rPr><w:rFonts w:ascii="${xml(style.font)}" w:hAnsi="${xml(style.font)}"/><w:b w:val="${style.bold ? 1 : 0}"/><w:i w:val="${style.italic ? 1 : 0}"/><w:color w:val="${xml(style.color)}"/><w:sz w:val="${Math.round(style.sizePt * 2)}"/><w:szCs w:val="${Math.round(style.sizePt * 2)}"/><w:u w:val="${style.underline ? "single" : "none"}"/></w:rPr>`;
+  const tokens = value.text
+    .replace(/\r/g, "")
+    .split(/(\n|\t)/)
+    .map((token) =>
+      token === "\n"
+        ? "<w:br/>"
+        : token === "\t"
+          ? "<w:tab/>"
+          : `<w:t xml:space="preserve">${xml(token)}</w:t>`,
+    )
+    .join("");
+  return `<w:r>${properties}${tokens}</w:r>`;
+}
+function paragraph(value: Paragraph, background?: string, drawingRuns = ""): string {
+  const style = value.role === "heading" ? "Heading1" : value.role === "title" ? "Title" : "Normal";
+  const rule = value.ruleColor
+    ? `<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="2" w:color="${xml(value.ruleColor)}"/></w:pBdr>`
+    : "";
+  // Follow schema ordering (numPr, borders/shading, spacing, alignment) for Word compatibility.
+  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/><w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${value.list === "bullet" ? 1 : 2}"/></w:numPr>` : ""}${rule}${background ? `<w:shd w:val="clear" w:fill="${xml(background)}"/>` : ""}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/><w:jc w:val="${value.align === "justify" ? "both" : value.align}"/></w:pPr>`;
+  return control(
+    value.id,
+    `<w:p>${props}${drawingRuns}${value.runs.map(run).join("") || "<w:r/>"}</w:p>`,
+  );
+}
+const emptyParagraph =
+  '<w:p><w:pPr><w:spacing w:after="0" w:line="20" w:lineRule="exact"/></w:pPr></w:p>';
+const pageBreak = '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+
+/** One renderer for all semantic blocks. Templates never generate XML. */
+export async function renderDossierDocx(
+  model: DossierDocModel,
+  options: RenderOptions = {},
+): Promise<Blob> {
+  if (model.issues.length && !options.allowUnacceptedModelIssues)
+    throw new Error(
+      `DOCX Next has unaccepted model issues: ${model.issues.map((issue) => issue.code).join(", ")}`,
+    );
+  if (model.cv.layout.mode !== "classic")
+    throw new Error(
+      "DOCX Next sidebar has not passed Gate 8; no legacy reconstruction fallback is allowed.",
+    );
+  const pkg = new WordPackage();
+  const normalize = imageCache(options.normalizeImage ?? normalizeBrowserImage);
+  const sources = new Map<string, { asset: NormalizedImage; rid: string; file: string }>();
+  const blocks = [model.cover, model.letter, model.cv].flatMap((part) => walkBlocks(part.blocks));
+  for (const block of blocks)
+    if (block.kind === "image" && !sources.has(block.source)) {
+      const asset = await normalize(block.source),
+        index = sources.size + 1;
+      const file = `media/image-${index}.png`,
+        rid = `image${index}`;
+      sources.set(block.source, { asset, rid, file });
+      pkg.add(`word/${file}`, asset.contentType, asset.bytes);
+      pkg.relate("word/document.xml", rid, "image", file);
+    }
+  let drawingId = 0;
+  function imageRun(value: ImageBlock, widthMm: number): string {
+    const media = sources.get(value.source)!;
+    const requestedWidth = Math.min(value.widthMm, widthMm);
+    const aspect = media.asset.widthPx / media.asset.heightPx;
+    const finalWidth = Math.min(requestedWidth, value.maxHeightMm * aspect);
+    const finalHeight = finalWidth / aspect;
+    const cx = emu(finalWidth),
+      cy = emu(finalHeight),
+      id = ++drawingId;
+    const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${media.rid}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic>`;
+    const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/>`;
+    const properties = `<wp:docPr id="${id}" name="${xml(value.id)}" descr="${xml(value.alt)}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>`;
+    const distances = `distT="${emu(value.gapMm)}" distB="${emu(value.gapMm)}" distL="${emu(value.gapMm)}" distR="${emu(value.gapMm)}"`;
+    let drawing: string;
+    if (value.placement === "inline")
+      drawing = `<wp:inline ${distances}>${extent}${properties}${picture}</wp:inline>`;
+    else {
+      const x =
+        value.placement === "free"
+          ? Math.max(0, Math.min(widthMm - finalWidth, value.xMm))
+          : value.placement === "right"
+            ? widthMm - finalWidth
+            : 0;
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${id}" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="0"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="column"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="paragraph"><wp:posOffset>${emu(Math.max(0, value.yMm))}</wp:posOffset></wp:positionV>${extent}<wp:wrapSquare wrapText="bothSides"/>${properties}${picture}</wp:anchor>`;
+    }
+    return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
+  }
+  function image(value: ImageBlock, widthMm: number): string {
+    return control(
+      value.id,
+      `<w:p><w:pPr><w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm)}</w:p>`,
+    );
+  }
+  function table(value: TableBlock, widthMm: number): string {
+    const total = value.widths.reduce((sum, width) => sum + width, 0);
+    const widths = value.widths.map((width) => (widthMm * width) / total);
+    const rows = value.rows
+      .map(
+        (row) =>
+          `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells.map((cell, index) => `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/><w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, widths[index] - 4))}${emptyParagraph}</w:tc>`).join("")}</w:tr>`,
+      )
+      .join("");
+    return `<w:tbl><w:tblPr><w:tblW w:w="${twips(widthMm)}" w:type="dxa"/><w:tblBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/><w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="${twips(2)}" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="${twips(2)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>`;
+  }
+  function renderBlock(block: DocBlock, widthMm: number): string {
+    if (block.kind === "paragraph") return paragraph(block);
+    if (block.kind === "image") return image(block, widthMm);
+    if (block.kind === "spacer")
+      return control(
+        block.id,
+        `<w:p><w:pPr><w:spacing w:after="${twips(block.heightMm)}" w:line="20" w:lineRule="exact"/></w:pPr></w:p>`,
+      );
+    if (block.kind === "page-break") return pageBreak;
+    if (block.kind === "table") return table(block, widthMm);
+    if (block.kind === "columns")
+      return table(
+        {
+          kind: "table",
+          id: block.id,
+          widths: block.widths,
+          rows: [{ cells: block.columns, keepTogether: false }],
+        },
+        widthMm,
+      );
+    if (block.kind === "entry") return renderBlocks(block.blocks, widthMm);
+    return `${block.heading ? paragraph(block.heading) : ""}${renderBlocks(block.blocks, widthMm)}`;
+  }
+  function renderBlocks(values: DocBlock[], widthMm: number): string {
+    let result = "",
+      page2Started = false;
+    for (let index = 0; index < values.length; index++) {
+      const block = values[index];
+      // Floating image geometry is relative to one known paragraph anchor. Do not
+      // insert separate anchor paragraphs that move each image's origin downwards.
+      if (block.kind === "image" && block.placement !== "inline") {
+        const images: ImageBlock[] = [];
+        let cursor = index;
+        while (
+          values[cursor]?.kind === "image" &&
+          (values[cursor] as ImageBlock).placement !== "inline"
+        ) {
+          images.push(values[cursor] as ImageBlock);
+          cursor++;
+        }
+        const anchor = values[cursor];
+        if (anchor?.kind === "paragraph") {
+          result += paragraph(
+            anchor,
+            undefined,
+            images.map((value) => imageRun(value, widthMm)).join(""),
+          );
+          index = cursor;
+          continue;
+        }
+      }
+      if (block.kind === "section" && block.startPage === 2 && !page2Started) {
+        result += pageBreak;
+        page2Started = true;
+      }
+      if (block.kind === "section" && block.width === "half") {
+        const next = values[index + 1];
+        const cells: DocBlock[][] = [[{ ...block, width: "full" }], []];
+        if (
+          next?.kind === "section" &&
+          next.width === "half" &&
+          next.startPage === block.startPage
+        ) {
+          cells[1] = [{ ...next, width: "full" }];
+          index++;
+        }
+        result += table(
+          {
+            kind: "table",
+            id: `${block.id}.half-row`,
+            widths: [1, 1],
+            rows: [{ cells, keepTogether: false }],
+          },
+          widthMm,
+        );
+      } else result += renderBlock(block, widthMm);
+    }
+    return result;
+  }
+  function chrome(part: DocumentPart, scope: "header" | "footer", first = false): string {
+    const id = `${part.id}-${scope}${first ? "-first" : ""}`;
+    const content = first ? part.firstHeader! : part[scope];
+    const background =
+      scope === "header" ? part.chrome.headerBackground : part.chrome.footerBackground;
+    pkg.add(
+      `word/${id}.xml`,
+      WORD_PART_TYPES[scope],
+      `${DECL}<w:${scope === "header" ? "hdr" : "ftr"} ${namespaces}>${content.map((value) => paragraph(value, background)).join("") || emptyParagraph}</w:${scope === "header" ? "hdr" : "ftr"}>`,
+    );
+    pkg.relate("word/document.xml", id, scope, `${id}.xml`);
+    return `<w:${scope}Reference w:type="${first ? "first" : "default"}" r:id="${id}"/>`;
+  }
+  function section(part: DocumentPart): string {
+    const m = part.page.margins;
+    let references = "";
+    // Even empty headers/footers explicitly break inheritance between dossier parts.
+    references += chrome(part, "header");
+    references += chrome(part, "footer");
+    if (part.firstHeader) references += chrome(part, "header", true);
+    return `<w:sectPr>${references}<w:type w:val="nextPage"/><w:pgSz w:w="${twips(part.page.widthMm)}" w:h="${twips(part.page.heightMm)}"/><w:pgMar w:top="${twips(m.top)}" w:right="${twips(m.right)}" w:bottom="${twips(m.bottom)}" w:left="${twips(m.left)}" w:header="${twips(4)}" w:footer="${twips(4)}" w:gutter="0"/>${part.chrome.borderColor ? `<w:pgBorders w:offsetFrom="page">${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} w:val="single" w:sz="${Math.max(1, Math.round(((part.chrome.borderWidthMm * 72) / 25.4) * 8))}" w:space="12" w:color="${part.chrome.borderColor}"/>`).join("")}</w:pgBorders>` : ""}${part.firstHeader ? "<w:titlePg/>" : ""}</w:sectPr>`;
+  }
+  const parts = [model.cover, model.letter, model.cv];
+  const body = parts
+    .map((part, index) => {
+      const widthMm = part.page.widthMm - part.page.margins.left - part.page.margins.right;
+      const content = renderBlocks(part.blocks, widthMm);
+      return (
+        content +
+        (index < parts.length - 1 ? `<w:p><w:pPr>${section(part)}</w:pPr></w:p>` : section(part))
+      );
+    })
+    .join("");
+  pkg.add(
+    "word/document.xml",
+    WORD_PART_TYPES.document,
+    `${DECL}<w:document ${namespaces}><w:body>${body}</w:body></w:document>`,
+  );
+  pkg.add("word/styles.xml", WORD_PART_TYPES.styles, stylesXml(model));
+  pkg.add(
+    "word/settings.xml",
+    WORD_PART_TYPES.settings,
+    `${DECL}<w:settings xmlns:w="${W}"><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`,
+  );
+  const fonts = new Set<string>([model.theme.font]);
+  for (const part of parts)
+    for (const block of walkBlocks([
+      ...part.blocks,
+      ...part.header,
+      ...(part.firstHeader ?? []),
+      ...part.footer,
+    ]))
+      if (block.kind === "paragraph") block.runs.forEach((value) => fonts.add(value.style.font));
+  pkg.add("word/fontTable.xml", WORD_PART_TYPES.fontTable, fontTableXml(fonts));
+  pkg.add("word/numbering.xml", WORD_PART_TYPES.numbering, numberingXml());
+  for (const type of ["styles", "settings", "fontTable", "numbering"])
+    pkg.relate("word/document.xml", type, type, `${type}.xml`);
+  pkg.add(
+    "docProps/core.xml",
+    "application/vnd.openxmlformats-package.core-properties+xml",
+    `${DECL}<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>${xml(model.metadata.title)}</dc:title><dc:creator>${xml(model.metadata.author)}</dc:creator><dc:subject>${xml(model.metadata.subject)}</dc:subject><cp:keywords>${xml(model.metadata.keywords)}</cp:keywords></cp:coreProperties>`,
+  );
+  pkg.relate("", "document", "officeDocument", "word/document.xml");
+  pkg.relationships.push({
+    source: "",
+    id: "core",
+    type: "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties",
+    target: "docProps/core.xml",
+  });
+  validateWordPackage(pkg, model);
+  return pkg.blob();
+}

@@ -5,6 +5,7 @@ import { walkBlocks } from "../../src/lib/docx-next/model";
 import { BRIEF, NEXT_TEMPLATES } from "../../src/lib/docx-next/templates";
 import { WORD_FONTS } from "../../src/lib/docx-next/fonts";
 import { FONT_LABELS } from "../../src/components/cover/types";
+import { DEFAULT_DOSSIER_CHROME_STATE } from "../../src/lib/dossier-chrome";
 import { richLetterBlocks } from "../../src/lib/docx-next/rich-text";
 import { BRIEF_FIXTURES, briefFixture } from "../fixtures/docx-next/brief";
 
@@ -68,6 +69,46 @@ describe("DOCX Next canonical model", () => {
     const input = briefFixture();
     input.settings.unresolvedTypography = ["old-random-field-id"];
     expect(buildDossierDocModel(input).issues[0].code).toBe("unresolved-legacy-typography");
+  });
+  test("unmapped paper and CV element content remain explicit migration blockers", () => {
+    const input = briefFixture();
+    input.letter.design.paperColor = "#123456";
+    input.cv.design.useElements = true;
+    input.cv.elements = [structuredClone(input.cover.blocks[0])];
+    const codes = buildDossierDocModel(input).issues.map((issue) => issue.code);
+    expect(codes).toContain("page-paper-artwork-pending");
+    expect(codes).toContain("cv-elements-pending");
+  });
+  test("absent framed photos disappear cleanly, while unsupported actual framing blocks export", () => {
+    const input = briefFixture("no-photo");
+    const photo = input.cover.blocks.find((block) => block.kind === "photo")!;
+    photo.style.imgZoom = 2;
+    photo.style.radius = 999;
+    expect(buildDossierDocModel(input).issues).toEqual([]);
+    input.cover.data.foto = "data:image/png;base64,fixture";
+    expect(buildDossierDocModel(input).issues.map((issue) => issue.code)).toContain(
+      "photo-framing-pending",
+    );
+  });
+  test("contact chrome owns duplicate source fields and preserves their semantic typography", () => {
+    const input = briefFixture();
+    input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+    input.settings.chrome.shared.headerMode = "contact";
+    input.settings.fieldStyles = { "letter.sender.email": { underline: true } };
+    const model = buildDossierDocModel(input);
+    expect(model.letter.blocks.some((block) => block.id === "letter.sender.email")).toBe(false);
+    const email = model.letter.header.find((block) => block.id === "letter.header.email")!;
+    expect(email.runs[0].fieldId).toBe("letter.sender.email");
+    expect(email.runs[0].style.underline).toBe(true);
+    expect(model.letter.page.margins.top).toBeGreaterThan(BRIEF.margins.top);
+  });
+  test("compact chrome and absent optional content never fabricate contact fields", () => {
+    const input = briefFixture("empty-optional");
+    input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+    input.settings.chrome.shared.headerMode = "compact";
+    const model = buildDossierDocModel(input);
+    expect(model.letter.header.every((paragraph) => !paragraph.runs.length)).toBe(true);
+    expect(model.letter.blocks.some((block) => block.id === "letter.sender.name")).toBe(true);
   });
   test("supported font keys all have documented deterministic fallbacks", () => {
     expect(Object.keys(WORD_FONTS).sort()).toEqual(Object.keys(FONT_LABELS).sort());

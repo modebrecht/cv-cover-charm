@@ -75,6 +75,23 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     fieldId: id,
     message: "Legacy field identity needs explicit semantic binding before migration.",
   }));
+  if (
+    theme.paper !== "FFFFFF" ||
+    [letter.design.paperColor, cv.design.paperColor].some(
+      (value) => value && color(value, "FFFFFF") !== "FFFFFF",
+    )
+  )
+    issues.push({
+      code: "page-paper-artwork-pending",
+      message:
+        "Per-part paper backgrounds need a reviewed Word-native/artwork primitive before migration.",
+    });
+  if (cv.design.useElements && cv.elements.length)
+    issues.push({
+      code: "cv-elements-pending",
+      message:
+        "CV custom artwork/text elements require explicit semantic mapping; they must not disappear silently.",
+    });
   const style = (id: string, patch: Partial<TextStyle> = {}): TextStyle => {
     const result = {
       font: theme.font,
@@ -157,6 +174,16 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     }
     if (block.kind === "photo" || block.kind === "image") {
       const source = block.kind === "photo" ? cover.data.foto : block.src;
+      if (
+        source &&
+        block.kind === "photo" &&
+        ((block.style.imgZoom ?? 1) !== 1 || (block.style.radius ?? 0) >= 999)
+      )
+        issues.push({
+          code: "photo-framing-pending",
+          fieldId: id,
+          message: "Zoom/circle photo framing needs an accepted native Word picture primitive.",
+        });
       if (source)
         coverPart.blocks.push({
           kind: "image",
@@ -588,31 +615,135 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       const font = wordFont(options.textFont ?? undefined, theme.font);
       const headerFields = {
         name: options.headerShowName ? contact.name : "",
-        address: options.headerShowAddress
-          ? [contact.address, contact.place].filter(Boolean).join(", ")
-          : "",
+        address: options.headerShowAddress ? contact.address : "",
+        place: options.headerShowAddress ? contact.place : "",
         phone: options.headerShowPhone ? contact.phone : "",
         email: options.headerShowEmail ? contact.email : "",
         title: content.headerTitle ?? "",
         text: content.headerText ?? "",
       };
-      const header = (mode: "compact" | "contact" | "none", suffix: string) =>
-        mode === "none"
-          ? []
-          : Object.entries(headerFields)
-              .filter(([, value]) => value.trim())
-              .map(([key, value]) =>
-                p(
-                  `${target.id}.header${suffix}.${key}`,
-                  value,
-                  {
-                    font,
-                    sizePt: options.headerFontSizePt ?? 10,
-                    color: color(options.headerTextColor, theme.ink),
-                  },
-                  { role: "contact", afterMm: 0.5 },
-                ),
-              );
+      const headerSourceId = (key: string) => {
+        if (["name", "address", "place", "phone", "email"].includes(key))
+          return target.id === "letter" ? `letter.sender.${key}` : `cv.person.${key}`;
+        return `${target.id}.header.${key}`;
+      };
+      const header = (mode: "compact" | "contact" | "none", suffix: string): Paragraph[] => {
+        if (mode === "none") return [];
+        const typography = {
+          font,
+          sizePt: options.headerFontSizePt ?? 10,
+          color: color(options.headerTextColor, theme.ink),
+        };
+        const custom = Object.entries(headerFields)
+          .filter(([key, value]) => ["title", "text"].includes(key) && value.trim())
+          .map(([key, value]) =>
+            p(`${target.id}.header${suffix}.${key}`, value, typography, {
+              role: "contact",
+              afterMm: 0.5,
+            }),
+          );
+        if (mode === "compact")
+          return custom.length
+            ? custom
+            : [
+                p(`${target.id}.header${suffix}.surface`, "", typography, {
+                  role: "caption",
+                  afterMm: 0,
+                }),
+              ];
+        const rows = Object.entries(headerFields).filter(
+          ([key, value]) => !["title", "text"].includes(key) && value.trim(),
+        );
+        if (options.headerTextLayout === "inline") {
+          const separators = { dot: " · ", icons: " · ", slash: " / ", pipe: " | ", space: "   " };
+          const paragraph = p(`${target.id}.header${suffix}.contact`, "", typography, {
+            role: "contact",
+            afterMm: 0.5,
+          });
+          paragraph.runs = rows.map(([key, value], index) => ({
+            id: `${target.id}.header${suffix}.${key}`,
+            text: (index ? separators[options.headerInlineSeparator ?? "dot"] : "") + value,
+            fieldId: headerSourceId(key),
+            style: style(`${target.id}.header.${key}`, {
+              ...typography,
+              ...settings.fieldStyles?.[headerSourceId(key)],
+            }),
+          }));
+          return [...custom, paragraph];
+        }
+        return [
+          ...custom,
+          ...rows.map(([key, value]) => {
+            const paragraph = p(
+              `${target.id}.header${suffix}.${key}`,
+              value,
+              { ...typography, ...settings.fieldStyles?.[headerSourceId(key)] },
+              { role: "contact", afterMm: 0.5 },
+            );
+            paragraph.runs.forEach((run) => {
+              run.fieldId = headerSourceId(key);
+            });
+            return paragraph;
+          }),
+        ];
+      };
+      const firstMode = options.headerDifferentFirstPage
+        ? options.headerMode
+        : (options.headerContinuationMode ?? options.headerMode);
+      if (firstMode === "contact") {
+        const coveredIds = new Set<string>();
+        const coverField = (
+          id: string,
+          enabled: boolean,
+          bodyValue: string,
+          headerValue: string,
+        ) => {
+          if (enabled && bodyValue === headerValue) coveredIds.add(id);
+        };
+        if (target.id === "letter") {
+          coverField("letter.sender.name", options.headerShowName, ld.absenderName, contact.name);
+          coverField(
+            "letter.sender.address",
+            options.headerShowAddress,
+            ld.absenderAdresse,
+            contact.address,
+          );
+          coverField(
+            "letter.sender.place",
+            options.headerShowAddress,
+            ld.absenderPlzOrt,
+            contact.place,
+          );
+          coverField(
+            "letter.sender.phone",
+            options.headerShowPhone,
+            ld.absenderTelefon,
+            contact.phone,
+          );
+          coverField(
+            "letter.sender.email",
+            options.headerShowEmail,
+            ld.absenderEmail,
+            contact.email,
+          );
+          target.blocks = target.blocks.filter((block) => !coveredIds.has(block.id));
+        } else {
+          coverField(
+            "cv.person.address",
+            options.headerShowAddress,
+            person.adresse,
+            contact.address,
+          );
+          coverField("cv.person.place", options.headerShowAddress, person.plzOrt, contact.place);
+          coverField("cv.person.phone", options.headerShowPhone, person.telefon, contact.phone);
+          coverField("cv.person.email", options.headerShowEmail, person.email, contact.email);
+          target.blocks = target.blocks.flatMap((block) => {
+            if (block.kind !== "section" || block.id !== "cv.section.person") return [block];
+            const remaining = block.blocks.filter((child) => !coveredIds.has(child.id));
+            return remaining.length ? [{ ...block, blocks: remaining }] : [];
+          });
+        }
+      }
       target.header = header(options.headerContinuationMode ?? options.headerMode, "");
       if (options.headerDifferentFirstPage)
         target.firstHeader = header(options.headerMode, ".first");
@@ -655,6 +786,16 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       target.page.margins.bottom += target.footer.length
         ? Math.max(options.footerHeightMm ?? 0, target.footer.length * 4 + 3)
         : 0;
+      if (
+        options.headerContentOffsetYMm ||
+        options.footerContentOffsetYMm ||
+        options.letterRecipientOffsetYMm
+      )
+        issues.push({
+          code: "chrome-offset-pending",
+          fieldId: `${target.id}.chrome`,
+          message: "Signed chrome offsets need a reviewed Word primitive before migration.",
+        });
       if (options.headerGradientColor || options.footerGradientColor)
         issues.push({
           code: "chrome-gradient-needs-artwork",

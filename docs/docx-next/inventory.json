@@ -13,10 +13,7 @@
         "@/lib/dossier-resolved-chrome",
         "@/lib/dossier-docx-package"
       ],
-      "exports": [
-        "dossierDocxInlineHeaderText",
-        "applyDossierChromeToDocx"
-      ]
+      "exports": ["dossierDocxInlineHeaderText", "applyDossierChromeToDocx"]
     },
     {
       "path": "src/lib/dossier-docx-cv-alignment.ts",
@@ -29,9 +26,7 @@
         "@/components/cv/types",
         "@/lib/text-alignment"
       ],
-      "exports": [
-        "applyCvTextAlignmentToDocx"
-      ]
+      "exports": ["applyCvTextAlignmentToDocx"]
     },
     {
       "path": "src/lib/dossier-docx-cv-section-order.ts",
@@ -42,10 +37,7 @@
         "@/lib/dossier-docx-package",
         "@/lib/dossier-pdf-document"
       ],
-      "exports": [
-        "applyCvSectionOrderToDocumentXml",
-        "applyCvSectionOrderToDocx"
-      ]
+      "exports": ["applyCvSectionOrderToDocumentXml", "applyCvSectionOrderToDocx"]
     },
     {
       "path": "src/lib/dossier-docx-cv-section-titles.ts",
@@ -56,10 +48,7 @@
         "@/lib/dossier-docx-package",
         "@/lib/dossier-pdf-document"
       ],
-      "exports": [
-        "applyCvSectionTitleStyleToDocumentXml",
-        "applyCvSectionTitleStyleToDocx"
-      ]
+      "exports": ["applyCvSectionTitleStyleToDocumentXml", "applyCvSectionTitleStyleToDocx"]
     },
     {
       "path": "src/lib/dossier-docx-document-colors.ts",
@@ -70,10 +59,7 @@
         "@/lib/dossier-docx-package",
         "@/lib/dossier-pdf-document"
       ],
-      "exports": [
-        "applyDossierDocumentColorsToDocumentXml",
-        "applyDossierDocumentColorsToDocx"
-      ]
+      "exports": ["applyDossierDocumentColorsToDocumentXml", "applyDossierDocumentColorsToDocx"]
     },
     {
       "path": "src/lib/dossier-docx-export.ts",
@@ -147,36 +133,21 @@
       "path": "src/lib/dossier-docx-field-typography.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "field typography",
-      "imports": [
-        "@/lib/dossier-field-typography",
-        "@/lib/dossier-docx-package"
-      ],
-      "exports": [
-        "applyDossierFieldTypographyToDocumentXml",
-        "applyDossierFieldTypographyToDocx"
-      ]
+      "imports": ["@/lib/dossier-field-typography", "@/lib/dossier-docx-package"],
+      "exports": ["applyDossierFieldTypographyToDocumentXml", "applyDossierFieldTypographyToDocx"]
     },
     {
       "path": "src/lib/dossier-docx-font-embed.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "font embed",
-      "imports": [
-        "@/lib/dossier-docx-package"
-      ],
-      "exports": [
-        "DossierDocxFontLoader",
-        "obfuscateOoxmlFont",
-        "embedCabinFontsInDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-package"],
+      "exports": ["DossierDocxFontLoader", "obfuscateOoxmlFont", "embedCabinFontsInDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-hyphenation.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "hyphenation",
-      "imports": [
-        "@/lib/dossier-pdf-document",
-        "@/lib/dossier-docx-package"
-      ],
+      "imports": ["@/lib/dossier-pdf-document", "@/lib/dossier-docx-package"],
       "exports": [
         "patchDossierDocxHyphenationXml",
         "patchDossierDocxHyphenationSettings",
@@ -195,11 +166,7 @@
         "@/lib/dossier-docx-package",
         "@/lib/cv-personal-info"
       ],
-      "exports": [
-        "fitDocxTablesToSection",
-        "applyDocxSidebarXml",
-        "applyDossierDocxSidebar"
-      ]
+      "exports": ["fitDocxTablesToSection", "applyDocxSidebarXml", "applyDossierDocxSidebar"]
     },
     {
       "path": "src/lib/dossier-docx-legacy-recipe-polish.ts",
@@ -212,9 +179,7 @@
         "@/lib/dossier-docx-template-recipes",
         "@/lib/cv-personal-info"
       ],
-      "exports": [
-        "createPolishedLegacyRecipeDossierDocxBlob"
-      ]
+      "exports": ["createPolishedLegacyRecipeDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-legacy-recipe-renderer.ts",
@@ -227,10 +192,7 @@
         "@/lib/dossier-docx-template-recipes",
         "@/lib/dossier-docx-template-recipe"
       ],
-      "exports": [
-        "legacyRecipeDossierDocxSupported",
-        "createLegacyRecipeDossierDocxBlob"
-      ]
+      "exports": ["legacyRecipeDossierDocxSupported", "createLegacyRecipeDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-letter-alignment.ts",
@@ -259,9 +221,7 @@
         "@/lib/dossier-pdf-document",
         "@/lib/dossier-docx-package"
       ],
-      "exports": [
-        "applyLetterImagesToDocx"
-      ]
+      "exports": ["applyLetterImagesToDocx"]
     },
     {
       "path": "src/lib/dossier-docx-package.ts",
@@ -310,10 +270,7 @@
         "@/lib/download",
         "@/lib/cv-personal-info"
       ],
-      "exports": [
-        "createPolishedStudio3DossierDocxBlob",
-        "downloadPolishedStudio3DossierDocx"
-      ]
+      "exports": ["createPolishedStudio3DossierDocxBlob", "downloadPolishedStudio3DossierDocx"]
     },
     {
       "path": "src/lib/dossier-docx-studio3.ts",
@@ -397,20 +354,14 @@
         "@/components/letter/fresh-letter-system",
         "@/lib/dossier-docx-template-recipe"
       ],
-      "exports": [
-        "FRESH_DOSSIER_DOCX_RECIPES"
-      ]
+      "exports": ["FRESH_DOSSIER_DOCX_RECIPES"]
     },
     {
       "path": "src/lib/dossier-docx-template-recipe-legacy-extra.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "template recipe legacy extra",
-      "imports": [
-        "@/lib/dossier-docx-template-recipe"
-      ],
-      "exports": [
-        "LEGACY_EXTRA_DOCX_RECIPES"
-      ]
+      "imports": ["@/lib/dossier-docx-template-recipe"],
+      "exports": ["LEGACY_EXTRA_DOCX_RECIPES"]
     },
     {
       "path": "src/lib/dossier-docx-template-recipe.ts",
@@ -435,10 +386,7 @@
         "@/lib/dossier-docx-template-recipe-fresh",
         "@/lib/dossier-docx-template-recipe-legacy-extra"
       ],
-      "exports": [
-        "ALL_DOSSIER_DOCX_TEMPLATE_RECIPES",
-        "dossierDocxTemplateRecipe"
-      ]
+      "exports": ["ALL_DOSSIER_DOCX_TEMPLATE_RECIPES", "dossierDocxTemplateRecipe"]
     },
     {
       "path": "src/lib/dossier-docx-template-renderer.ts",
@@ -450,22 +398,14 @@
         "@/lib/dossier-docx-package",
         "@/lib/dossier-docx-template-recipe"
       ],
-      "exports": [
-        "individualRecipeDossierDocxSupported",
-        "createIndividualRecipeDossierDocxBlob"
-      ]
+      "exports": ["individualRecipeDossierDocxSupported", "createIndividualRecipeDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-template-types.ts",
       "classification": "REUSE / ADAPT",
       "responsibility": "template types",
-      "imports": [
-        "@/lib/dossier-pdf-document"
-      ],
-      "exports": [
-        "DossierDocxDocuments",
-        "DossierDocxTemplateModule"
-      ]
+      "imports": ["@/lib/dossier-pdf-document"],
+      "exports": ["DossierDocxDocuments", "DossierDocxTemplateModule"]
     },
     {
       "path": "src/lib/dossier-docx-v2-cover-gallery.ts",
@@ -496,17 +436,13 @@
         "@/lib/dossier-docx-v2-image-asset",
         "@/lib/dossier-docx-v2-cover-browser"
       ],
-      "exports": [
-        "applyDossierDocxV2CoverToDocx"
-      ]
+      "exports": ["applyDossierDocxV2CoverToDocx"]
     },
     {
       "path": "src/lib/dossier-docx-v2-cover-qa.ts",
       "classification": "REUSE / ADAPT",
       "responsibility": "v2 cover qa",
-      "imports": [
-        "@/lib/dossier-docx-v2-cover-scene"
-      ],
+      "imports": ["@/lib/dossier-docx-v2-cover-scene"],
       "exports": [
         "DossierDocxV2QaSeverity",
         "DossierDocxV2QaCode",
@@ -521,14 +457,8 @@
       "path": "src/lib/dossier-docx-v2-cover-renderer.ts",
       "classification": "DELETE AFTER MIGRATION",
       "responsibility": "v2 cover renderer",
-      "imports": [
-        "@/default-config",
-        "@/lib/dossier-docx-v2-cover-scene"
-      ],
-      "exports": [
-        "DossierDocxV2MediaRef",
-        "renderDossierDocxV2CoverScene"
-      ]
+      "imports": ["@/default-config", "@/lib/dossier-docx-v2-cover-scene"],
+      "exports": ["DossierDocxV2MediaRef", "renderDossierDocxV2CoverScene"]
     },
     {
       "path": "src/lib/dossier-docx-v2-cover-scene.ts",
@@ -554,10 +484,7 @@
       "path": "src/lib/dossier-docx-v2-flow-calibration.ts",
       "classification": "DELETE AFTER MIGRATION",
       "responsibility": "v2 flow calibration",
-      "imports": [
-        "@/lib/dossier-docx-v2-flow-browser",
-        "@/lib/dossier-docx-v2-flow-scene"
-      ],
+      "imports": ["@/lib/dossier-docx-v2-flow-browser", "@/lib/dossier-docx-v2-flow-scene"],
       "exports": [
         "calibrateDossierDocxV2LetterFlowScene",
         "calibrateDossierDocxV2CvFlowScene",
@@ -586,9 +513,7 @@
       "path": "src/lib/dossier-docx-v2-flow-qa.ts",
       "classification": "REUSE / ADAPT",
       "responsibility": "v2 flow qa",
-      "imports": [
-        "@/lib/dossier-docx-v2-flow-scene"
-      ],
+      "imports": ["@/lib/dossier-docx-v2-flow-scene"],
       "exports": [
         "DossierDocxV2FlowQaReport",
         "auditDossierDocxV2Flow",
@@ -599,9 +524,7 @@
       "path": "src/lib/dossier-docx-v2-flow-renderer.ts",
       "classification": "REUSE / ADAPT",
       "responsibility": "v2 flow renderer",
-      "imports": [
-        "@/lib/dossier-docx-v2-flow-scene"
-      ],
+      "imports": ["@/lib/dossier-docx-v2-flow-scene"],
       "exports": [
         "renderDossierDocxV2FlowParagraph",
         "renderDossierDocxV2PageBreak",
@@ -681,10 +604,7 @@
         "@/lib/dossier-docx-package",
         "@/lib/dossier-pdf-document"
       ],
-      "exports": [
-        "patchDossierDocxV2CorePropertiesXml",
-        "applyDossierDocxV2Metadata"
-      ]
+      "exports": ["patchDossierDocxV2CorePropertiesXml", "applyDossierDocxV2Metadata"]
     },
     {
       "path": "src/lib/dossier-docx-v2-preview.ts",
@@ -708,10 +628,7 @@
         "@/lib/dossier-pdf-document",
         "@/lib/dossier-resolved-chrome"
       ],
-      "exports": [
-        "createDossierDocxV2PreviewBlob",
-        "createDossierDocxV2FlowPreviewBlob"
-      ]
+      "exports": ["createDossierDocxV2PreviewBlob", "createDossierDocxV2FlowPreviewBlob"]
     },
     {
       "path": "src/lib/dossier-docx-warm-polish.ts",
@@ -723,10 +640,7 @@
         "@/lib/dossier-docx-warm",
         "@/lib/dossier-docx-package"
       ],
-      "exports": [
-        "createPolishedWarmDossierDocxBlob",
-        "downloadPolishedWarmDossierDocx"
-      ]
+      "exports": ["createPolishedWarmDossierDocxBlob", "downloadPolishedWarmDossierDocx"]
     },
     {
       "path": "src/lib/dossier-docx-warm.ts",
@@ -780,10 +694,7 @@
         "react-dom/client",
         "html2canvas-pro"
       ],
-      "exports": [
-        "DossierDocxV2RenderedCover",
-        "resolveDossierDocxV2RenderedCover"
-      ]
+      "exports": ["DossierDocxV2RenderedCover", "resolveDossierDocxV2RenderedCover"]
     },
     {
       "path": "src/lib/dossier-docx-v2-flow-browser.tsx",
@@ -822,286 +733,182 @@
         "@/lib/dossier-docx-templates/shared",
         "@/lib/dossier-docx-template-types"
       ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/blockig.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/brief.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx",
-        "@/lib/dossier-docx-template-types"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx", "@/lib/dossier-docx-template-types"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/citrus.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/colorful.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/cove.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/diagonal.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/edel.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/edelDark.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/edge.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/forestFlow.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/freundlich.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-warm-polish",
-        "@/lib/dossier-docx-template-types"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-warm-polish", "@/lib/dossier-docx-template-types"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/gallery.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/glow.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/horizon.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/human.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/klassisch.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/ledger.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/modern.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/monoLuxe.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/neon.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/orbit.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/pastell.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/prism.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/ribbon.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/serioes.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/shared.ts",
@@ -1112,9 +919,7 @@
         "@/lib/dossier-docx-template-types",
         "@/lib/dossier-docx-family-renderer"
       ],
-      "exports": [
-        "recipeTemplate"
-      ]
+      "exports": ["recipeTemplate"]
     },
     {
       "path": "src/lib/dossier-docx-templates/sonne.ts",
@@ -1126,9 +931,7 @@
         "@/lib/dossier-pdf-document",
         "@/lib/dossier-docx-template-types"
       ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/studio.ts",
@@ -1139,9 +942,7 @@
         "@/lib/dossier-docx-templates/shared",
         "@/lib/dossier-docx-template-types"
       ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/studio2-refined.ts",
@@ -1152,9 +953,7 @@
         "@/lib/dossier-docx-template-types",
         "@/lib/dossier-docx-templates/studio2"
       ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/studio2.ts",
@@ -1166,43 +965,28 @@
         "@/lib/dossier-docx-template-types",
         "@/lib/dossier-pdf-document"
       ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/studio3.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-studio3-polish",
-        "@/lib/dossier-docx-template-types"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-studio3-polish", "@/lib/dossier-docx-template-types"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/sunrise.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/terracotta.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/verlauf.ts",
@@ -1213,9 +997,7 @@
         "@/lib/dossier-docx-templates/shared",
         "@/lib/dossier-docx-template-types"
       ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/verlauf2.ts",
@@ -1226,9 +1008,7 @@
         "@/lib/dossier-docx-templates/shared",
         "@/lib/dossier-docx-template-types"
       ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/verlauf3.ts",
@@ -1239,20 +1019,14 @@
         "@/lib/dossier-docx-templates/shared",
         "@/lib/dossier-docx-template-types"
       ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/violetPulse.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/warm2.ts",
@@ -1263,53 +1037,35 @@
         "@/lib/dossier-docx-templates/shared",
         "@/lib/dossier-docx-template-types"
       ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/warm3.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/warm4.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/warm5.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     },
     {
       "path": "src/lib/dossier-docx-templates/welle.ts",
       "classification": "TEMPORARY LEGACY",
       "responsibility": "Template wrapper and local XML refinements",
-      "imports": [
-        "@/lib/dossier-docx-templates/shared"
-      ],
-      "exports": [
-        "createDossierDocxBlob"
-      ]
+      "imports": ["@/lib/dossier-docx-templates/shared"],
+      "exports": ["createDossierDocxBlob"]
     }
   ],
   "tests": [
