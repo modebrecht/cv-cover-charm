@@ -1,3 +1,11 @@
+import {
+  CV_PERSON_FIELD_IDS,
+  CV_ENTRY_FIELDS,
+  cvEntryFieldId,
+  cvLineFieldId,
+  semanticListItemIds,
+  newSemanticListItemId,
+} from "@/lib/dossier-semantic-fields";
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { readPhoto } from "@/lib/image";
 import { readCoverPhoto } from "@/lib/dossier";
@@ -533,6 +541,7 @@ export function FormCvPerson({
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <Field label="Vorname">
           <input
+            data-dossier-field-id={CV_PERSON_FIELD_IDS.vorname}
             className={inputCls}
             value={person.vorname}
             onChange={(e) => onChange({ vorname: e.target.value })}
@@ -540,6 +549,7 @@ export function FormCvPerson({
         </Field>
         <Field label="Nachname">
           <input
+            data-dossier-field-id={CV_PERSON_FIELD_IDS.nachname}
             className={inputCls}
             value={person.nachname}
             onChange={(e) => onChange({ nachname: e.target.value })}
@@ -549,6 +559,7 @@ export function FormCvPerson({
       <CvNameTypographyControls person={person} onChange={onChange} />
       <Field label="Zeile unter dem Namen">
         <input
+          data-dossier-field-id={CV_PERSON_FIELD_IDS.untertitel}
           className={inputCls}
           placeholder="z. B. Schülerin, 3. Sekundarklasse"
           value={person.untertitel}
@@ -557,6 +568,7 @@ export function FormCvPerson({
       </Field>
       <Field label="Adresse">
         <input
+          data-dossier-field-id={CV_PERSON_FIELD_IDS.adresse}
           className={inputCls}
           value={person.adresse}
           onChange={(e) => onChange({ adresse: e.target.value })}
@@ -564,6 +576,7 @@ export function FormCvPerson({
       </Field>
       <Field label="PLZ und Ort">
         <input
+          data-dossier-field-id={CV_PERSON_FIELD_IDS.plzOrt}
           className={inputCls}
           value={person.plzOrt}
           onChange={(e) => onChange({ plzOrt: e.target.value })}
@@ -572,6 +585,7 @@ export function FormCvPerson({
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <Field label="Telefon">
           <input
+            data-dossier-field-id={CV_PERSON_FIELD_IDS.telefon}
             className={inputCls}
             value={person.telefon}
             onChange={(e) => onChange({ telefon: e.target.value })}
@@ -579,6 +593,7 @@ export function FormCvPerson({
         </Field>
         <Field label="E-Mail">
           <input
+            data-dossier-field-id={CV_PERSON_FIELD_IDS.email}
             className={inputCls}
             value={person.email}
             onChange={(e) => onChange({ email: e.target.value })}
@@ -588,6 +603,7 @@ export function FormCvPerson({
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <Field label="Geburtsdatum">
           <input
+            data-dossier-field-id={CV_PERSON_FIELD_IDS.geburtsdatum}
             className={inputCls}
             value={person.geburtsdatum}
             onChange={(e) => onChange({ geburtsdatum: e.target.value })}
@@ -595,6 +611,7 @@ export function FormCvPerson({
         </Field>
         <Field label="Geburtsort">
           <input
+            data-dossier-field-id={CV_PERSON_FIELD_IDS.geburtsort}
             className={inputCls}
             value={person.geburtsort ?? ""}
             onChange={(e) => onChange({ geburtsort: e.target.value })}
@@ -603,6 +620,7 @@ export function FormCvPerson({
         <div className="sm:col-span-2">
           <Field label="Heimatort (Schweizer Staatsbürger)">
             <input
+              data-dossier-field-id={CV_PERSON_FIELD_IDS.heimatort}
               className={inputCls}
               value={person.heimatort ?? ""}
               onChange={(e) => onChange({ heimatort: e.target.value })}
@@ -611,6 +629,7 @@ export function FormCvPerson({
         </div>
         <Field label="Nationalität">
           <input
+            data-dossier-field-id={CV_PERSON_FIELD_IDS.nationalitaet}
             className={inputCls}
             value={person.nationalitaet}
             onChange={(e) => onChange({ nationalitaet: e.target.value })}
@@ -651,12 +670,14 @@ export function FormCvEntries({
   onChange,
   titelLabel,
   ortLabel,
+  sectionId,
   placement,
 }: {
   entries: CvEntry[];
   onChange: (list: CvEntry[]) => void;
   titelLabel: string;
   ortLabel: string;
+  sectionId: string;
   /** `null` bei eigenen Rubriken; dort gibt es bewusst kein Side/Main. */
   placement?: CvPlacementKey | null;
 }) {
@@ -728,6 +749,7 @@ export function FormCvEntries({
               {!isFamily && (
                 <Field label="Zeitraum">
                   <input
+                    data-dossier-field-id={cvEntryFieldId(sectionId, e.id, CV_ENTRY_FIELDS.zeit)}
                     className={inputCls}
                     placeholder="2023 – heute"
                     value={e.zeit}
@@ -740,6 +762,7 @@ export function FormCvEntries({
               )}
               <Field label={titelLabel}>
                 <input
+                  data-dossier-field-id={cvEntryFieldId(sectionId, e.id, CV_ENTRY_FIELDS.titel)}
                   className={inputCls}
                   placeholder={isFamily ? "z. B. Mutter, Vater, Schwester" : undefined}
                   value={e.titel}
@@ -748,6 +771,7 @@ export function FormCvEntries({
               </Field>
               <Field label={ortLabel}>
                 <input
+                  data-dossier-field-id={cvEntryFieldId(sectionId, e.id, CV_ENTRY_FIELDS.ort)}
                   className={inputCls}
                   placeholder={isFamily ? "z. B. Evelyn Flückiger, Kauffrau" : undefined}
                   value={e.ort}
@@ -756,6 +780,11 @@ export function FormCvEntries({
               </Field>
               <Field label="Ergänzung (optional)">
                 <input
+                  data-dossier-field-id={cvEntryFieldId(
+                    sectionId,
+                    e.id,
+                    CV_ENTRY_FIELDS.beschreibung,
+                  )}
                   className={inputCls}
                   value={e.beschreibung}
                   onChange={(ev) => patch(e.id, { beschreibung: ev.target.value })}
@@ -877,6 +906,7 @@ export function FormCvSprachen({
           <div className="grid min-w-0 flex-1 grid-cols-2 gap-2">
             <Field label="Sprache">
               <input
+                data-dossier-field-id={cvEntryFieldId("sprachen", s.id, "name")}
                 className={inputCls}
                 value={s.name}
                 onChange={(e) => patch(s.id, { name: e.target.value })}
@@ -884,6 +914,7 @@ export function FormCvSprachen({
             </Field>
             <Field label="Niveau">
               <input
+                data-dossier-field-id={cvEntryFieldId("sprachen", s.id, "level")}
                 className={inputCls}
                 placeholder="Muttersprache, B1 …"
                 value={s.niveau}
@@ -910,43 +941,75 @@ export function FormCvSprachen({
 /** Hobbys und Stärken sind schlichte Zeilenlisten. */
 export function FormCvLines({
   list,
+  ids,
+  sectionId,
   onChange,
   placeholder,
   addLabel,
 }: {
   list: string[];
-  onChange: (l: string[]) => void;
+  ids?: string[];
+  sectionId: "hobbys" | "staerken";
+  onChange: (l: string[], ids: string[]) => void;
   placeholder: string;
   addLabel: string;
 }) {
-  const block: CvPlacementKey = addLabel.includes("Hobby") ? "hobbys" : "staerken";
+  const block = sectionId;
+  const itemIds = semanticListItemIds(list.length, ids);
 
   return (
     <div className="flex flex-col gap-2">
       {list.map((v, i) => (
         <div
-          key={i}
+          key={itemIds[i]}
           className="flex items-center gap-1"
           onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => dropReorder(e, block, i, list, onChange)}
+          onDrop={(e) =>
+            dropReorder(
+              e,
+              block,
+              i,
+              list.map((text, index) => ({ text, id: itemIds[index] })),
+              (next) =>
+                onChange(
+                  next.map((item) => item.text),
+                  next.map((item) => item.id),
+                ),
+            )
+          }
         >
           <DragHandle scope={block} index={i} />
           <input
+            data-dossier-field-id={cvLineFieldId(block, i, itemIds)}
             className={inputCls}
             placeholder={placeholder}
             value={v}
-            onChange={(e) => onChange(list.map((x, j) => (j === i ? e.target.value : x)))}
+            onChange={(e) =>
+              onChange(
+                list.map((x, j) => (j === i ? e.target.value : x)),
+                itemIds,
+              )
+            }
           />
           <button
             type="button"
             className={delBtn}
-            onClick={() => onChange(list.filter((_, j) => j !== i))}
+            onClick={() =>
+              onChange(
+                list.filter((_, j) => j !== i),
+                itemIds.filter((_, j) => j !== i),
+              )
+            }
           >
             ✕
           </button>
         </div>
       ))}
-      <button type="button" className={addBtn} onClick={() => onChange([...list, ""])}>
+      <button
+        type="button"
+        className={addBtn}
+        onClick={() => onChange([...list, ""], [...itemIds, newSemanticListItemId()])}
+      >
         {addLabel}
       </button>
     </div>
@@ -991,6 +1054,7 @@ export function FormCvReferenzen({
             <Item onRemove={() => onChange(list.filter((x) => x.id !== r.id))}>
               <Field label="Name">
                 <input
+                  data-dossier-field-id={cvEntryFieldId("referenzen", r.id, "name")}
                   className={inputCls}
                   value={r.name}
                   onChange={(e) => patch(r.id, { name: e.target.value })}
@@ -998,6 +1062,7 @@ export function FormCvReferenzen({
               </Field>
               <Field label="Funktion">
                 <input
+                  data-dossier-field-id={cvEntryFieldId("referenzen", r.id, "role")}
                   className={inputCls}
                   placeholder="Klassenlehrer, Schulhaus Feld"
                   value={r.funktion}
@@ -1006,6 +1071,7 @@ export function FormCvReferenzen({
               </Field>
               <Field label="Telefon / Kontakt (optional)">
                 <input
+                  data-dossier-field-id={cvEntryFieldId("referenzen", r.id, "contact")}
                   className={inputCls}
                   value={referencePrimaryContact(r)}
                   onChange={(e) => patch(r.id, { kontakt: e.target.value })}
@@ -1013,6 +1079,7 @@ export function FormCvReferenzen({
               </Field>
               <Field label="E-Mail (optional)">
                 <input
+                  data-dossier-field-id={cvEntryFieldId("referenzen", r.id, "email")}
                   type="email"
                   className={inputCls}
                   value={r.email ?? ""}
@@ -1021,6 +1088,7 @@ export function FormCvReferenzen({
               </Field>
               <Field label="Zusatz (optional)">
                 <input
+                  data-dossier-field-id={cvEntryFieldId("referenzen", r.id, "extra")}
                   className={inputCls}
                   placeholder="z. B. Betreuung im Berufswahlprozess"
                   value={r.zusatz ?? ""}
@@ -1230,6 +1298,7 @@ export function SectionOptions({
         <input
           className={`${inputCls} flex-1`}
           placeholder={placeholder}
+          data-dossier-field-id={`cv.section.${section === "person" ? "person" : section}.heading`}
           value={value}
           onChange={(e) => onLabel(e.target.value)}
           aria-label="Überschrift"

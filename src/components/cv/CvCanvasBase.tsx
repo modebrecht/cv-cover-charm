@@ -1,3 +1,8 @@
+import {
+  CV_PERSON_FIELD_IDS,
+  cvLineFieldId,
+  referenceContactFields,
+} from "@/lib/dossier-semantic-fields";
 import { Fragment, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { PAGE } from "@/default-config";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
@@ -344,6 +349,17 @@ export function CvCanvas({
 
   const p = cvBodyData(data, chromeOptions).person;
   const name = [p.vorname, p.nachname].filter(Boolean).join(" ");
+  const nameContent = [
+    [CV_PERSON_FIELD_IDS.vorname, p.vorname],
+    [CV_PERSON_FIELD_IDS.nachname, p.nachname],
+  ]
+    .filter(([, text]) => text)
+    .map(([fieldId, text], index) => (
+      <Fragment key={fieldId}>
+        {index ? " " : ""}
+        <span data-dossier-field-id={fieldId}>{text}</span>
+      </Fragment>
+    ));
   const contactPairs = [
     { key: "address", left: p.adresse, right: p.plzOrt },
     { key: "contact", left: p.telefon, right: p.email },
@@ -360,8 +376,18 @@ export function CvCanvas({
         if (left && right) {
           return (
             <Fragment key={key}>
-              <span style={{ ...cellStyle, minWidth: 0, overflowWrap: "anywhere" }}>{left}</span>
               <span
+                data-dossier-field-id={
+                  key === "address" ? CV_PERSON_FIELD_IDS.adresse : CV_PERSON_FIELD_IDS.telefon
+                }
+                style={{ ...cellStyle, minWidth: 0, overflowWrap: "anywhere" }}
+              >
+                {left}
+              </span>
+              <span
+                data-dossier-field-id={
+                  key === "address" ? CV_PERSON_FIELD_IDS.plzOrt : CV_PERSON_FIELD_IDS.email
+                }
                 data-cv-contact-value={key}
                 style={{ ...cellStyle, minWidth: 0, overflowWrap: "anywhere" }}
               >
@@ -380,7 +406,19 @@ export function CvCanvas({
               overflowWrap: "anywhere",
             }}
           >
-            {left || right}
+            <span
+              data-dossier-field-id={
+                key === "address"
+                  ? left
+                    ? CV_PERSON_FIELD_IDS.adresse
+                    : CV_PERSON_FIELD_IDS.plzOrt
+                  : left
+                    ? CV_PERSON_FIELD_IDS.telefon
+                    : CV_PERSON_FIELD_IDS.email
+              }
+            >
+              {left || right}
+            </span>
           </div>
         );
       }
@@ -390,10 +428,20 @@ export function CvCanvas({
           style={{ ...cellStyle, display: "flex", flexWrap: "wrap", columnGap: "2.5mm" }}
         >
           {left && (
-            <span style={{ ...cellStyle, minWidth: 0, overflowWrap: "anywhere" }}>{left}</span>
+            <span
+              data-dossier-field-id={
+                key === "address" ? CV_PERSON_FIELD_IDS.adresse : CV_PERSON_FIELD_IDS.telefon
+              }
+              style={{ ...cellStyle, minWidth: 0, overflowWrap: "anywhere" }}
+            >
+              {left}
+            </span>
           )}
           {right && (
             <span
+              data-dossier-field-id={
+                key === "address" ? CV_PERSON_FIELD_IDS.plzOrt : CV_PERSON_FIELD_IDS.email
+              }
               data-cv-contact-value={key}
               style={{ ...cellStyle, minWidth: 0, overflowWrap: "anywhere" }}
             >
@@ -412,6 +460,7 @@ export function CvCanvas({
             {personalInfoColons ? ":" : ""}
           </span>
           <span
+            data-dossier-field-id={CV_PERSON_FIELD_IDS[row.key]}
             data-cv-personal-value={row.key}
             style={{ ...cellStyle, minWidth: 0, overflowWrap: "anywhere" }}
           >
@@ -419,7 +468,12 @@ export function CvCanvas({
           </span>
         </Fragment>
       ) : (
-        <div key={row.key} data-cv-personal-value={row.key} style={cellStyle}>
+        <div
+          key={row.key}
+          data-dossier-field-id={CV_PERSON_FIELD_IDS[row.key]}
+          data-cv-personal-value={row.key}
+          style={cellStyle}
+        >
           {row.label}
           {personalInfoColons ? ":" : ""} {row.value}
         </div>
@@ -545,6 +599,7 @@ export function CvCanvas({
       >
         <div style={{ display: "flex", alignItems: "center", gap: "3mm" }}>
           <div
+            data-dossier-field-id={`cv.section.${id === "kontakt" ? "person" : id}.heading`}
             data-cv-section-title
             data-cv-user-section-size={sectionTitleFontSizePx === null ? undefined : "true"}
             data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
@@ -628,6 +683,7 @@ export function CvCanvas({
     const customColor = design.docTitleColor?.trim();
     return (
       <div
+        data-dossier-field-id="cv.documentTitle"
         data-cv-doc-title
         data-cv-user-doc-size={
           typeof design.docTitleFontSizePx === "number" &&
@@ -672,7 +728,14 @@ export function CvCanvas({
     );
   };
 
-  const entryRow = (id: string, zeit: string, titel: string, ort: string, text: string): Row => ({
+  const entryRow = (
+    id: string,
+    zeit: string,
+    titel: string,
+    ort: string,
+    text: string,
+    fieldBase: string,
+  ): Row => ({
     id,
     node: (
       <div
@@ -680,6 +743,7 @@ export function CvCanvas({
         style={{ display: "flex", gap: layout === "modern" ? "4mm" : "5mm", marginBottom: "2.4mm" }}
       >
         <div
+          data-dossier-field-id={`${fieldBase}.date`}
           data-cv-date
           data-cv-rail
           data-cv-muted
@@ -697,6 +761,7 @@ export function CvCanvas({
         <div style={{ flex: 1, minWidth: 0 }}>
           {titel && (
             <div
+              data-dossier-field-id={`${fieldBase}.title`}
               data-cv-entry-title
               style={{
                 fontSize: pt(layout === "modern" ? 11.4 : 11.5),
@@ -711,6 +776,7 @@ export function CvCanvas({
           )}
           {ort && (
             <div
+              data-dossier-field-id={`${fieldBase}.place`}
               data-cv-muted
               style={{ fontSize: pt(9.7), color: pal.muted, marginTop: "0.35mm", lineHeight: 1.3 }}
             >
@@ -719,6 +785,7 @@ export function CvCanvas({
           )}
           {text && (
             <div
+              data-dossier-field-id={`${fieldBase}.description`}
               data-cv-body
               style={{ fontSize: pt(9.9), color: pal.ink, marginTop: "0.75mm", lineHeight: 1.35 }}
             >
@@ -736,6 +803,7 @@ export function CvCanvas({
     nameAndJob: string,
     extra: string,
     rowLayout: CvStructuredRowLayout,
+    fieldBase: string,
   ): Row => {
     const aligned = rowLayout.aligned !== false;
     const showColons = rowLayout.showColons !== false;
@@ -760,18 +828,26 @@ export function CvCanvas({
           }}
         >
           {relation && (
-            <div data-cv-entry-title style={{ minWidth: 0, fontWeight: 700, color: pal.ink }}>
+            <div
+              data-dossier-field-id={`${fieldBase}.title`}
+              data-cv-entry-title
+              style={{ minWidth: 0, fontWeight: 700, color: pal.ink }}
+            >
               {relation}
               {nameAndJob && showColons ? ":" : ""}
             </div>
           )}
           {nameAndJob && (
-            <div style={{ minWidth: 0, gridColumn: relation ? undefined : "1 / -1" }}>
+            <div
+              data-dossier-field-id={`${fieldBase}.place`}
+              style={{ minWidth: 0, gridColumn: relation ? undefined : "1 / -1" }}
+            >
               {nameAndJob}
             </div>
           )}
           {extra && (
             <div
+              data-dossier-field-id={`${fieldBase}.description`}
               data-cv-muted
               style={{
                 gridColumn: "1 / -1",
@@ -807,6 +883,7 @@ export function CvCanvas({
       >
         {r.name && (
           <div
+            data-dossier-field-id={`cv.entry.referenzen:${r.id}.name`}
             data-cv-entry-title
             style={{ fontSize: pt(10.8), fontWeight: 700, color: pal.ink, lineHeight: 1.25 }}
           >
@@ -815,6 +892,7 @@ export function CvCanvas({
         )}
         {r.funktion && (
           <div
+            data-dossier-field-id={`cv.entry.referenzen:${r.id}.role`}
             data-cv-muted
             style={{ fontSize: pt(9.7), color: pal.muted, marginTop: "0.3mm", lineHeight: 1.3 }}
           >
@@ -832,7 +910,13 @@ export function CvCanvas({
               overflowWrap: "anywhere",
             }}
           >
-            {r.kontakt}
+            {Object.entries(referenceContactFields(r))
+              .filter(([, text]) => text)
+              .map(([field, text]) => (
+                <div key={field} data-dossier-field-id={`cv.entry.referenzen:${r.id}.${field}`}>
+                  {text}
+                </div>
+              ))}
           </div>
         )}
       </div>
@@ -880,66 +964,66 @@ export function CvCanvas({
     if (!list.length || data.hidden.sprachen) return [];
     return [
       heading("sprachen"),
-      ...list.map(
-        (s): Row => ({
-          id: `main-${s.id}`,
-          node: (
-            <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
-              <div
-                data-cv-rail
-                data-cv-entry-title
-                style={{
-                  width: layout === "modern" ? "23mm" : "27mm",
-                  flexShrink: 0,
-                  fontSize: pt(10.2),
-                  fontWeight: 650,
-                  color: pal.ink,
-                  lineHeight: 1.3,
-                }}
-              >
-                {s.name}
-              </div>
-              <div
-                data-cv-muted
-                style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
-              >
-                {s.niveau}
-              </div>
+      ...list.map((s): Row => ({
+        id: `main-${s.id}`,
+        node: (
+          <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
+            <div
+              data-dossier-field-id={`cv.entry.sprachen:${s.id}.name`}
+              data-cv-rail
+              data-cv-entry-title
+              style={{
+                width: layout === "modern" ? "23mm" : "27mm",
+                flexShrink: 0,
+                fontSize: pt(10.2),
+                fontWeight: 650,
+                color: pal.ink,
+                lineHeight: 1.3,
+              }}
+            >
+              {s.name}
             </div>
-          ),
-        }),
-      ),
+            <div
+              data-dossier-field-id={`cv.entry.sprachen:${s.id}.level`}
+              data-cv-muted
+              style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
+            >
+              {s.niveau}
+            </div>
+          </div>
+        ),
+      })),
     ];
   };
 
   const simpleListRows = (key: "staerken" | "hobbys"): Row[] => {
     if (data.hidden[key]) return [];
-    const list = data[key].filter((v) => v.trim());
+    const list = data[key]
+      .map((text, index) => ({ text, index }))
+      .filter(({ text }) => text.trim());
     if (!list.length) return [];
     return [
       heading(key),
-      ...list.map(
-        (v, i): Row => ({
-          id: `main-${key}-${i}`,
-          node: (
-            <div
-              data-cv-entry
-              data-cv-body
-              style={{
-                display: "flex",
-                gap: "2.6mm",
-                marginBottom: "1.35mm",
-                fontSize: pt(9.9),
-                lineHeight: 1.35,
-                color: pal.ink,
-              }}
-            >
-              <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
-              <span>{v}</span>
-            </div>
-          ),
-        }),
-      ),
+      ...list.map(({ text: v, index: i }): Row => ({
+        id: `main-${key}-${i}`,
+        node: (
+          <div
+            data-cv-entry
+            data-cv-body
+            style={{
+              display: "flex",
+              gap: "2.6mm",
+              marginBottom: "1.35mm",
+              fontSize: pt(9.9),
+              lineHeight: 1.35,
+              color: pal.ink,
+            }}
+          >
+            <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
+            <span data-dossier-field-id={cvLineFieldId(key, i, data.lineIds?.[key])}>{v}</span>
+          </div>
+        ),
+      })),
     ];
   };
 
@@ -980,6 +1064,7 @@ export function CvCanvas({
                 entry.ort,
                 entry.beschreibung,
                 normalizeCvStructuredRowLayout(custom.rowLayout),
+                `cv.entry.${key}:${entry.id}`,
               )
             : entryRow(
                 `${key}-${entry.id}`,
@@ -987,6 +1072,7 @@ export function CvCanvas({
                 entry.titel,
                 entry.ort,
                 entry.beschreibung,
+                `cv.entry.${key}:${entry.id}`,
               ),
         ),
       ];
@@ -998,7 +1084,14 @@ export function CvCanvas({
       return [
         heading(key),
         ...list.map((entry) =>
-          entryRow(entry.id, entry.zeit, entry.titel, entry.ort, entry.beschreibung),
+          entryRow(
+            entry.id,
+            entry.zeit,
+            entry.titel,
+            entry.ort,
+            entry.beschreibung,
+            `cv.entry.${key}:${entry.id}`,
+          ),
         ),
       ];
     }
@@ -1053,6 +1146,7 @@ export function CvCanvas({
             </div>
             {p.untertitel && (
               <div
+                data-dossier-field-id={CV_PERSON_FIELD_IDS.untertitel}
                 data-cv-subtitle
                 style={{
                   fontSize: ptHead(11.2),
@@ -1275,6 +1369,7 @@ export function CvCanvas({
             )}
             {withName && p.untertitel && (
               <div
+                data-dossier-field-id={CV_PERSON_FIELD_IDS.untertitel}
                 data-cv-subtitle
                 style={{
                   fontSize: ptHead(11.2),
@@ -1344,6 +1439,7 @@ export function CvCanvas({
               </div>
               {p.untertitel && (
                 <div
+                  data-dossier-field-id={CV_PERSON_FIELD_IDS.untertitel}
                   data-cv-subtitle
                   style={{
                     marginTop: "1.4mm",
@@ -1887,6 +1983,7 @@ export function CvCanvas({
         >
           {e.zeit && (
             <div
+              data-dossier-field-id={`cv.entry.${key}:${e.id}.date`}
               data-cv-date
               data-cv-muted
               style={{ fontSize: `${sideSmall}pt`, color: side.muted, lineHeight: 1.25 }}
@@ -1896,6 +1993,7 @@ export function CvCanvas({
           )}
           {e.titel && (
             <div
+              data-dossier-field-id={`cv.entry.${key}:${e.id}.title`}
               data-cv-entry-title
               style={{
                 marginTop: "0.25mm",
@@ -1910,6 +2008,7 @@ export function CvCanvas({
           )}
           {e.ort && (
             <div
+              data-dossier-field-id={`cv.entry.${key}:${e.id}.place`}
               data-cv-muted
               style={{
                 marginTop: "0.2mm",
@@ -1923,6 +2022,7 @@ export function CvCanvas({
           )}
           {e.beschreibung && (
             <div
+              data-dossier-field-id={`cv.entry.${key}:${e.id}.description`}
               data-cv-body
               style={{
                 marginTop: "0.35mm",
@@ -1963,6 +2063,7 @@ export function CvCanvas({
         >
           {entry.titel ? (
             <div
+              data-dossier-field-id={`cv.entry.${key}:${entry.id}.title`}
               data-cv-entry-title
               style={{ minWidth: 0, fontSize: `${sideBody}pt`, fontWeight: 700, color: side.ink }}
             >
@@ -1972,6 +2073,7 @@ export function CvCanvas({
           ) : null}
           {entry.ort ? (
             <div
+              data-dossier-field-id={`cv.entry.${key}:${entry.id}.place`}
               style={{
                 minWidth: 0,
                 gridColumn: entry.titel ? undefined : "1 / -1",
@@ -1984,6 +2086,7 @@ export function CvCanvas({
           ) : null}
           {entry.beschreibung ? (
             <div
+              data-dossier-field-id={`cv.entry.${key}:${entry.id}.description`}
               data-cv-muted
               style={{
                 gridColumn: "1 / -1",
@@ -2007,6 +2110,7 @@ export function CvCanvas({
       >
         {entry.zeit ? (
           <div
+            data-dossier-field-id={`cv.entry.${key}:${entry.id}.date`}
             data-cv-date
             data-cv-muted
             style={{ fontSize: `${sideSmall}pt`, color: side.muted, lineHeight: 1.25 }}
@@ -2016,6 +2120,7 @@ export function CvCanvas({
         ) : null}
         {entry.titel ? (
           <div
+            data-dossier-field-id={`cv.entry.${key}:${entry.id}.title`}
             data-cv-entry-title
             style={{
               marginTop: "0.25mm",
@@ -2030,6 +2135,7 @@ export function CvCanvas({
         ) : null}
         {entry.ort ? (
           <div
+            data-dossier-field-id={`cv.entry.${key}:${entry.id}.place`}
             data-cv-muted
             style={{
               marginTop: "0.2mm",
@@ -2043,6 +2149,7 @@ export function CvCanvas({
         ) : null}
         {entry.beschreibung ? (
           <div
+            data-dossier-field-id={`cv.entry.${key}:${entry.id}.description`}
             data-cv-body
             style={{
               marginTop: "0.35mm",
@@ -2621,14 +2728,23 @@ export function CvCanvas({
                       overflowWrap: "anywhere",
                     }}
                   >
-                    {p.adresse && <div>{p.adresse}</div>}
-                    {p.plzOrt && <div>{p.plzOrt}</div>}
+                    {p.adresse && (
+                      <div data-dossier-field-id={CV_PERSON_FIELD_IDS.adresse}>{p.adresse}</div>
+                    )}
+                    {p.plzOrt && (
+                      <div data-dossier-field-id={CV_PERSON_FIELD_IDS.plzOrt}>{p.plzOrt}</div>
+                    )}
                     {p.telefon && (
-                      <div style={{ marginTop: sidePlan.compact ? "1mm" : "1.7mm" }}>
+                      <div
+                        data-dossier-field-id={CV_PERSON_FIELD_IDS.telefon}
+                        style={{ marginTop: sidePlan.compact ? "1mm" : "1.7mm" }}
+                      >
                         {p.telefon}
                       </div>
                     )}
-                    {p.email && <div>{p.email}</div>}
+                    {p.email && (
+                      <div data-dossier-field-id={CV_PERSON_FIELD_IDS.email}>{p.email}</div>
+                    )}
                     {angaben.length > 0 && (
                       <div
                         data-cv-date
@@ -2677,6 +2793,7 @@ export function CvCanvas({
                         }}
                       >
                         <div
+                          data-dossier-field-id={`cv.entry.sprachen:${s.id}.name`}
                           data-cv-entry-title
                           style={{
                             fontSize: `${sideBody + 0.1}pt`,
@@ -2688,6 +2805,7 @@ export function CvCanvas({
                         </div>
                         {s.niveau && (
                           <div
+                            data-dossier-field-id={`cv.entry.sprachen:${s.id}.level`}
                             data-cv-muted
                             style={{
                               fontSize: `${sideSmall}pt`,
@@ -2706,8 +2824,9 @@ export function CvCanvas({
                 <div style={sideSectionStyle("staerken")}>
                   {sideHeading(label(data, "staerken"), firstSide === "strengths")}
                   {data.staerken
-                    .filter((v) => v.trim())
-                    .map((v, i) => (
+                    .map((text, index) => ({ text, index }))
+                    .filter(({ text }) => text.trim())
+                    .map(({ text: v, index: i }) => (
                       <div
                         data-cv-entry
                         data-cv-body
@@ -2724,6 +2843,11 @@ export function CvCanvas({
                       >
                         <span style={{ color: side.accent, fontWeight: 800 }}>•</span>
                         <span
+                          data-dossier-field-id={cvLineFieldId(
+                            "staerken",
+                            i,
+                            data.lineIds?.staerken,
+                          )}
                           style={{
                             fontSize: `${sideBody - 0.2}pt`,
                             lineHeight: 1.34,
@@ -2740,9 +2864,11 @@ export function CvCanvas({
                 <div style={sideSectionStyle("hobbys")}>
                   {sideHeading(label(data, "hobbys"), firstSide === "hobbies")}
                   {data.hobbys
-                    .filter((v) => v.trim())
-                    .map((v, i) => (
+                    .map((text, index) => ({ text, index }))
+                    .filter(({ text }) => text.trim())
+                    .map(({ text: v, index: i }) => (
                       <div
+                        data-dossier-field-id={cvLineFieldId("hobbys", i, data.lineIds?.hobbys)}
                         data-cv-entry
                         data-cv-body
                         key={`side-hobby-${i}`}
@@ -2775,6 +2901,7 @@ export function CvCanvas({
                       >
                         {r.name && (
                           <div
+                            data-dossier-field-id={`cv.entry.referenzen:${r.id}.name`}
                             data-cv-entry-title
                             style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: side.ink }}
                           >
@@ -2783,6 +2910,7 @@ export function CvCanvas({
                         )}
                         {r.funktion && (
                           <div
+                            data-dossier-field-id={`cv.entry.referenzen:${r.id}.role`}
                             data-cv-muted
                             style={{
                               marginTop: "0.2mm",
@@ -2805,7 +2933,16 @@ export function CvCanvas({
                               overflowWrap: "anywhere",
                             }}
                           >
-                            {r.kontakt}
+                            {Object.entries(referenceContactFields(r))
+                              .filter(([, text]) => text)
+                              .map(([field, text]) => (
+                                <div
+                                  key={field}
+                                  data-dossier-field-id={`cv.entry.referenzen:${r.id}.${field}`}
+                                >
+                                  {text}
+                                </div>
+                              ))}
                           </div>
                         )}
                       </div>
@@ -2895,6 +3032,7 @@ export function CvCanvas({
             </div>
             {p.untertitel && (
               <div
+                data-dossier-field-id={CV_PERSON_FIELD_IDS.untertitel}
                 data-cv-subtitle
                 style={{
                   marginTop: "1.6mm",

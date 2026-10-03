@@ -1,3 +1,9 @@
+import {
+  cvLineFieldId,
+  semanticListItemIds,
+  CV_PERSON_FIELD_IDS,
+  referenceContactFields,
+} from "@/lib/dossier-semantic-fields";
 import type {
   CoverPdfDocument,
   CvPdfDocument,
@@ -30,6 +36,18 @@ import type {
 import { nextTemplate } from "./templates";
 import { wordFont } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
+import { walkBlocks } from "./model";
+import {
+  dossierPhotoRatio,
+  dossierPhotoStyleFromBlockStyle,
+  normalizeDossierPhotoStyle,
+  type DossierPhotoStyle,
+} from "@/lib/dossier-photo";
+import {
+  normalizeCvPhotoPlacement,
+  resolveCvPhotoPosition,
+  type CvPhotoPlacement,
+} from "@/components/cv/photo-place";
 
 export type DossierAppSnapshot = {
   cover: CoverPdfDocument;
@@ -42,6 +60,8 @@ export type DossierAppSnapshot = {
     sidebarSide?: "left" | "right";
     placements?: Partial<CvPlacements>;
     cvAlignment?: Alignment;
+    cvPhotoStyle?: DossierPhotoStyle;
+    cvPhotoPlacement?: CvPhotoPlacement;
     /** Canonical paths only; no visible-value or occurrence matching. */
     fieldStyles?: Record<string, Partial<TextStyle>>;
     unresolvedTypography?: string[];
@@ -120,7 +140,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     kind: "paragraph",
     id,
     role: "body",
-    runs: text ? [{ id: `${id}.value`, text, style: style(id, patch) }] : [],
+    runs: text ? [{ id: `${id}.value`, fieldId: id, text, style: style(id, patch) }] : [],
     align: "left",
     beforeMm: 0,
     afterMm: 1.5,
@@ -129,6 +149,27 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     keepLines: false,
     ...layout,
   });
+  const compound = (
+    paragraph: Paragraph,
+    fields: { id: string; text: string }[],
+    separator: string,
+  ): Paragraph => {
+    const baseStyle = paragraph.runs[0]?.style ?? style(paragraph.id);
+    paragraph.runs = fields
+      .filter((field) => field.text.trim())
+      .flatMap((field, index) => [
+        ...(index
+          ? [{ id: `${paragraph.id}.separator:${index}`, text: separator, style: baseStyle }]
+          : []),
+        {
+          id: `${field.id}.value`,
+          fieldId: field.id,
+          text: field.text,
+          style: style(field.id, baseStyle),
+        },
+      ]);
+    return paragraph;
+  };
   const part = (id: DocumentPart["id"]): DocumentPart => ({
     id,
     blocks: [],
@@ -174,16 +215,6 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     }
     if (block.kind === "photo" || block.kind === "image") {
       const source = block.kind === "photo" ? cover.data.foto : block.src;
-      if (
-        source &&
-        block.kind === "photo" &&
-        ((block.style.imgZoom ?? 1) !== 1 || (block.style.radius ?? 0) >= 999)
-      )
-        issues.push({
-          code: "photo-framing-pending",
-          fieldId: id,
-          message: "Zoom/circle photo framing needs an accepted native Word picture primitive.",
-        });
       if (source)
         coverPart.blocks.push({
           kind: "image",
@@ -196,6 +227,18 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           xMm: 0,
           yMm: 0,
           gapMm: 3,
+          frame: {
+            heightRatio: block.style.ratio ?? 1.25,
+            radiusMm: block.style.radius ?? 0,
+            zoom: block.style.imgZoom ?? 1,
+            xPct: block.style.imgX ?? 50,
+            yPct: block.style.imgY ?? 50,
+            borderWidthMm: block.style.borderWidth ?? 0,
+            borderColor: color(
+              cover.colors[block.style.borderColor ?? ""] ?? block.style.borderColor,
+              theme.accent,
+            ),
+          },
         });
       continue;
     }
@@ -308,15 +351,22 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     ),
   );
   letterPart.blocks.push(
-    p(
-      "letter.date",
-      [ld.ort, ld.datum].filter(Boolean).join(", "),
-      {
-        color: letterInk,
-        font: wordFont(design.dateFont, theme.font),
-        sizePt: design.dateFontSizePt ?? 10.5,
-      },
-      { align: design.dateAlign ?? "right", afterMm: 5 },
+    compound(
+      p(
+        "letter.date",
+        [ld.ort, ld.datum].filter(Boolean).join(", "),
+        {
+          color: letterInk,
+          font: wordFont(design.dateFont, theme.font),
+          sizePt: design.dateFontSizePt ?? 10.5,
+        },
+        { align: design.dateAlign ?? "right", afterMm: 5 },
+      ),
+      [
+        { id: "letter.date.place", text: ld.ort },
+        { id: "letter.date.value", text: ld.datum },
+      ],
+      ", ",
     ),
   );
   if (ld.betreff)
@@ -360,15 +410,22 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       gapMm: image.gapMm,
     })),
   );
-  letterPart.blocks.push(
-    ...richLetterBlocks(
-      ld.richTextHtml,
-      ld.text,
-      bodyStyle,
-      template.letter.paragraphSpaceMm,
-      template.letter.lineHeight,
-    ),
+  const letterBody = richLetterBlocks(
+    ld.richTextHtml,
+    ld.text,
+    bodyStyle,
+    template.letter.paragraphSpaceMm,
+    template.letter.lineHeight,
   );
+  for (const block of walkBlocks(letterBody))
+    if (block.kind === "columns")
+      issues.push({
+        code: "letter-column-flow-pending",
+        fieldId: block.id,
+        message:
+          "Balanced letter columns need native Word flow acceptance; a table substitute is not yet accepted.",
+      });
+  letterPart.blocks.push(...letterBody);
   if (ld.gruss)
     letterPart.blocks.push(
       p(
@@ -397,14 +454,19 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     );
   if (ld.showBeilagen !== false)
     (ld.beilagen ?? ["Lebenslauf", "Zeugnis"])
-      .filter((text) => text.trim())
-      .forEach((text, index) =>
+      .map((text, index) => ({ text, index }))
+      .filter(({ text }) => text.trim())
+      .forEach(({ text, index }) =>
         letterPart.blocks.push(
-          p(`letter.attachment:${index}`, text, {
-            color: letterInk,
-            font: wordFont(design.attachmentsFont, theme.font),
-            sizePt: design.attachmentsFontSizePt ?? 9,
-          }),
+          p(
+            `letter.attachment:${semanticListItemIds((ld.beilagen ?? ["Lebenslauf", "Zeugnis"]).length, ld.attachmentIds)[index]}`,
+            text,
+            {
+              color: letterInk,
+              font: wordFont(design.attachmentsFont, theme.font),
+              sizePt: design.attachmentsFontSizePt ?? 9,
+            },
+          ),
         ),
       );
 
@@ -453,36 +515,64 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       ),
     );
   cvPart.blocks.push(
-    p(
-      "cv.person.name",
-      name(person.vorname, person.nachname),
-      {
-        ...body,
-        bold: true,
-        sizePt: template.typography.namePt * (cd.titleScale ?? 1),
-        ...person.nameStyle,
-        font: wordFont(person.nameStyle?.font, theme.font),
-        ...(person.nameStyle?.fontSizePt !== undefined
-          ? { sizePt: person.nameStyle.fontSizePt }
-          : {}),
-      },
-      { role: "heading", keepNext: !!person.untertitel },
+    compound(
+      p(
+        "cv.person.name",
+        name(person.vorname, person.nachname),
+        {
+          ...body,
+          bold: true,
+          sizePt: template.typography.namePt * (cd.titleScale ?? 1),
+          ...person.nameStyle,
+          font: wordFont(person.nameStyle?.font, theme.font),
+          ...(person.nameStyle?.fontSizePt !== undefined
+            ? { sizePt: person.nameStyle.fontSizePt }
+            : {}),
+        },
+        { role: "heading", keepNext: !!person.untertitel },
+      ),
+      [
+        { id: CV_PERSON_FIELD_IDS.vorname, text: person.vorname },
+        { id: CV_PERSON_FIELD_IDS.nachname, text: person.nachname },
+      ],
+      " ",
     ),
   );
   if (person.untertitel) cvPart.blocks.push(p("cv.person.subtitle", person.untertitel, body));
-  if (person.foto)
-    cvPart.blocks.push({
+  if (person.foto) {
+    const coverPhoto = cover.blocks.find((block) => block.kind === "photo");
+    const photoStyle = normalizeDossierPhotoStyle(
+      settings.cvPhotoStyle ?? dossierPhotoStyleFromBlockStyle(coverPhoto?.style),
+    );
+    const photoPlacement = normalizeCvPhotoPlacement(settings.cvPhotoPlacement);
+    const position = resolveCvPhotoPosition(photoPlacement, {
+      template: template.id,
+      layout: cvPart.layout.mode === "sidebar" ? "modern" : "classic",
+      legacyMirrored: settings.sidebarSide === "right",
+    });
+    cvPart.blocks.unshift({
       kind: "image",
       id: "cv.person.photo",
       source: person.foto,
       alt: "CV portrait",
-      widthMm: 32,
-      maxHeightMm: 45,
-      placement: "inline",
-      xMm: 0,
-      yMm: 0,
+      widthMm: photoPlacement.widthMm,
+      maxHeightMm: cvPart.page.heightMm - cvPart.page.margins.top - cvPart.page.margins.bottom,
+      placement: position,
+      coordinateOrigin: position === "free" ? "page" : "content",
+      xMm: photoPlacement.xMm,
+      yMm: position === "free" ? photoPlacement.yMm : 0,
       gapMm: 3,
+      frame: {
+        heightRatio: dossierPhotoRatio(photoStyle.shape),
+        radiusMm: photoStyle.shape === "circle" ? 999 : 1.5,
+        zoom: photoStyle.zoom,
+        xPct: photoStyle.x,
+        yPct: photoStyle.y,
+        borderWidthMm: photoStyle.borderWidth,
+        borderColor: color(photoPlacement.frameColor, cvAccent),
+      },
     });
+  }
   const entries = (values: CvEntry[], section: string): DocBlock[] =>
     values.filter(entryFilled).map((entry) => {
       const id = `cv.entry.${section}:${entry.id}`;
@@ -561,8 +651,9 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           }));
       if (key === "hobbys" || key === "staerken")
         blocks = data[key]
-          .filter((text) => text.trim())
-          .map((text, index) => p(`cv.entry.${key}:${index}`, text, body));
+          .map((text, index) => ({ text, index }))
+          .filter(({ text }) => text.trim())
+          .map(({ text, index }) => p(cvLineFieldId(key, index, data.lineIds?.[key]), text, body));
       if (key === "referenzen")
         blocks = data.referenzen
           .filter((e) =>
@@ -574,9 +665,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
             blocks: Object.entries({
               name: e.name,
               role: e.funktion,
-              contact: e.kontakt,
-              email: e.email ?? "",
-              extra: e.zusatz ?? "",
+              ...referenceContactFields(e),
             })
               .filter(([, text]) => text.trim())
               .map(([field, text], index) =>

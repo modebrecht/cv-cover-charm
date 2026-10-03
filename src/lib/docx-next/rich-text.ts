@@ -1,4 +1,5 @@
 import type { Alignment, DocBlock, Paragraph, TextRun, TextStyle } from "./model";
+import { SEMANTIC_LIST_KINDS } from "./model";
 
 /** Parse the editor's sanitized HTML grammar without a DOM or browser measurements. */
 type Node = { tag: string; attrs: Record<string, string>; children: (Node | string)[] };
@@ -101,15 +102,25 @@ export function richLetterBlocks(
         widths: Array(count).fill(1 / count),
         rows: rows.map((row, r) => ({
           keepTogether: false,
-          cells: row.children
-            .filter(
+          cells: Array.from({ length: count }, (_, c) => {
+            const cell = row.children.filter(
               (child): child is Node =>
                 typeof child !== "string" && ["td", "th"].includes(child.tag),
-            )
-            .map((cell, c) => [make(cell, `${id}.row:${r}.cell:${c}`)]),
+            )[c];
+            return cell ? cellBlocks(cell, `${id}.row:${r}.cell:${c}`) : [];
+          }),
         })),
       };
     }
+    if (
+      typeof node !== "string" &&
+      ["div", "p"].includes(node.tag) &&
+      !node.attrs["data-columns"] &&
+      node.children.some(
+        (child) => typeof child !== "string" && ["div", "p", "table", "hr"].includes(child.tag),
+      )
+    )
+      return { kind: "group", id, blocks: cellBlocks(node, id) };
     const content: TextRun[] = [];
     runs(node, style, id, content);
     const align = typeof node !== "string" ? node.attrs["data-align"] : undefined;
@@ -128,7 +139,11 @@ export function richLetterBlocks(
       keepLines: false,
     };
     if (typeof node !== "string" && node.tag === "hr") paragraph.ruleColor = style.color;
-    if (typeof node !== "string" && node.attrs["data-list"]) paragraph.list = "bullet";
+    if (
+      typeof node !== "string" &&
+      SEMANTIC_LIST_KINDS.includes(node.attrs["data-list"] as NonNullable<Paragraph["list"]>)
+    )
+      paragraph.list = node.attrs["data-list"] as Paragraph["list"];
     // Word table cells are a stable editable equivalent for an editor-local columns block.
     const columns = typeof node !== "string" ? Number(node.attrs["data-columns"]) : 0;
     if (columns === 2 || columns === 3) {
@@ -145,6 +160,23 @@ export function richLetterBlocks(
       return { kind: "columns", id, widths: Array(columns).fill(1 / columns), columns: groups };
     }
     return paragraph;
+  };
+  const cellBlocks = (cell: Node, id: string): DocBlock[] => {
+    const blocks: DocBlock[] = [];
+    let inline: (Node | string)[] = [];
+    const flush = () => {
+      if (!inline.length) return;
+      blocks.push(make({ ...cell, children: inline }, `${id}.paragraph:${blocks.length}`));
+      inline = [];
+    };
+    for (const child of cell.children) {
+      if (typeof child !== "string" && ["div", "p", "table", "hr"].includes(child.tag)) {
+        flush();
+        blocks.push(make(child, `${id}.block:${blocks.length}`));
+      } else inline.push(child);
+    }
+    flush();
+    return blocks;
   };
   return nodes
     .filter((node) => typeof node !== "string" || !!node.trim())

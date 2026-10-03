@@ -98,7 +98,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key == 'long-letter' or key == 'long-cv':
+    if key in ('long-letter', 'long-cv', 'photo-long-cv'):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key not in ['custom-sections']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
@@ -136,6 +136,28 @@ for fixture in manifest:
     if media_count:
         assert sum(len(page.get_images()) for page in document) >= media_count, f'{key}: missing rendered image'
     assert image_occurrences == fixture['expectedImages'], f'{key}: expected {fixture["expectedImages"]} placed images, rendered {image_occurrences}'
+    if key.startswith('photo-'):
+        pictures = document[2].get_image_info()
+        assert len(pictures) == 1, f'{key}: photo must occur once on the first CV page'
+        bounds = fitz.Rect(pictures[0]['bbox'])
+        expected_width = 35 * 72 / 25.4
+        expected_height = expected_width * (1 if key == 'photo-circle' else 1.25)
+        assert abs(bounds.width - expected_width) < 1 and abs(bounds.height - expected_height) < 1, f'{key}: frame dimensions lost during rendering'
+        if key == 'photo-free':
+            assert abs(bounds.x0 - 155 * 72 / 25.4) < 1 and abs(bounds.y0 - 25 * 72 / 25.4) < 1, 'Page-relative placement lost'
+        # Check rendered page pixels rather than the unmodified reusable media asset.
+        raster = document[2].get_pixmap(matrix=fitz.Matrix(2, 2), clip=bounds)
+        pixels = Image.frombytes('RGB', [raster.width, raster.height], raster.samples)
+        channels = pixels.tobytes()
+        red = blue = 0
+        for r, g, b in zip(channels[0::3], channels[1::3], channels[2::3]):
+            red += r > 150 and r > g * 2 and r > b * 1.5
+            blue += b > 150 and b > r * 1.5
+        assert red and blue, f'{key}: cropped picture content disappeared'
+        if key == 'photo-zoom':
+            assert red / (red + blue) > 0.65, 'Zoom/pan crop was not applied to the Word picture'
+        if key == 'photo-circle':
+            assert all(channel > 240 for channel in pixels.getpixel((5, 5))), 'Circular picture clipping was lost'
     row = {'fixture': key, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
     report.append(row)
     print(json.dumps(row), flush=True)

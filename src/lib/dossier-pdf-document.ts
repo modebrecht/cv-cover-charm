@@ -20,6 +20,7 @@ import {
 } from "@/components/letter/types";
 import { emptyCoverDraft } from "@/lib/dossier";
 import { DEFAULTS } from "@/default-config";
+import { normalizeDossierChromeDocumentContentSettings } from "@/lib/dossier-chrome-content";
 
 export type CoverPdfDocument = {
   template: TemplateId;
@@ -253,6 +254,36 @@ export function cvPdfDocumentFromSaved(raw: unknown): CvPdfDocument | null {
       ? { sidebarPct: incomingDesign.sidebarPct }
       : {}),
   };
+
+  // Document-specific typography/content must survive saved-project export too.
+  for (const key of [
+    "docTitleFontSizePx",
+    "docTitleMarginBottomPx",
+    "sectionTitleFontSizePx",
+    "sectionTitleMarginBottomPx",
+  ] as const)
+    if (typeof incomingDesign[key] === "number" && Number.isFinite(incomingDesign[key]))
+      design[key] = incomingDesign[key];
+  for (const key of [
+    "showDocumentTitle",
+    "docTitleBold",
+    "docTitleItalic",
+    "docTitleUnderline",
+    "sectionTitleBold",
+    "sectionTitleItalic",
+    "sectionTitleUnderline",
+  ] as const)
+    if (typeof incomingDesign[key] === "boolean") design[key] = incomingDesign[key];
+  for (const key of ["docTitleColor", "sectionTitleColor"] as const)
+    if (
+      typeof incomingDesign[key] === "string" &&
+      /^#[\da-f]{3}(?:[\da-f]{3})?$/i.test(incomingDesign[key])
+    )
+      design[key] = incomingDesign[key];
+  if (isRecord(incomingDesign.chromeContent))
+    design.chromeContent = normalizeDossierChromeDocumentContentSettings(
+      incomingDesign.chromeContent,
+    );
 
   return {
     data,

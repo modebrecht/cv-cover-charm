@@ -74,13 +74,25 @@ const fixtureNames = [
   "half-sections",
   "rich-letter",
   "positioned-images",
+  "photo-left",
+  "photo-right",
+  "photo-free",
+  "photo-circle",
+  "photo-zoom",
+  "photo-long-name",
+  "photo-long-cv",
+  "rich-table-lists",
 ];
 const manifest = [];
 for (const fixture of fixtureNames) {
   const input = briefFixture(
-    (BRIEF_FIXTURES as readonly string[]).includes(fixture)
-      ? (fixture as (typeof BRIEF_FIXTURES)[number])
-      : "normal",
+    fixture === "photo-long-name"
+      ? "long-values"
+      : fixture === "photo-long-cv"
+        ? "long-cv"
+        : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
+          ? (fixture as (typeof BRIEF_FIXTURES)[number])
+          : "normal",
   );
   if (images[fixture]) {
     input.cover.data.foto = images[fixture];
@@ -104,11 +116,60 @@ for (const fixture of fixtureNames) {
     input.settings.chrome.shared.headerBackgroundColor = "#e9eff4";
     input.settings.chrome.shared.footerMode = "details";
   }
+  if (fixture.startsWith("photo-")) {
+    input.cover.data.foto = images.jpeg;
+    input.cv.data.person.foto = images.jpeg;
+    const photo = input.cover.blocks.find((block) => block.kind === "photo");
+    if (!photo) throw new Error("Brief photo definition missing");
+    photo.style = {
+      ...photo.style,
+      hidden: false,
+      w: 35,
+      ratio: 1.25,
+      radius: 1.5,
+      borderWidth: 0.6,
+      borderColor: "#244a61",
+    };
+    input.settings.cvPhotoPlacement = {
+      mode:
+        fixture === "photo-left" || fixture === "photo-long-name"
+          ? "left"
+          : fixture === "photo-free"
+            ? "frei"
+            : "right",
+      widthMm: 35,
+      xMm: 155,
+      yMm: 25,
+      frameColor: "#244a61",
+    };
+    input.settings.cvPhotoStyle = {
+      shape: fixture === "photo-circle" ? "circle" : "portrait",
+      zoom: fixture === "photo-zoom" ? 2 : 1,
+      x: 25,
+      y: 70,
+      borderWidth: 0.6,
+    };
+    if (fixture === "photo-circle") {
+      photo.style.ratio = 1;
+      photo.style.radius = 999;
+    }
+    if (fixture === "photo-zoom") {
+      photo.style.imgZoom = 2;
+      photo.style.imgX = 25;
+      photo.style.imgY = 70;
+    }
+  }
   if (fixture === "half-sections")
     input.cv.data.sectionLayouts = { sprachen: { width: "half" }, hobbys: { width: "half" } };
   if (fixture === "rich-letter")
     input.letter.data.richTextHtml =
       '<div data-align="right"><strong>Fett ä ö ü</strong> und <u>unterstrichen é è à</u></div><div data-align="justify">Ein normaler Absatz mit <em>Kursiv</em> und <span data-letter-text-color="#123456">Farbe</span>.</div><div data-list="bullet">Native Aufzählung</div><table><tbody><tr><td>Linke Zelle</td><td>Rechte Zelle</td></tr></tbody></table>';
+  if (fixture === "rich-table-lists")
+    input.letter.data.richTextHtml =
+      ["bullet", "dash", "plus", "dot"]
+        .map((kind) => `<div data-list="${kind}">Liste ${kind}</div>`)
+        .join("") +
+      "<table><tbody><tr><td><div>Erster Zellabsatz</div><div><strong>Zweiter Zellabsatz</strong></div><table><tbody><tr><td>Verschachtelte Zelle</td></tr></tbody></table></td><td>Rechte Zelle</td></tr><tr><td>Kurze Tabellenzeile</td></tr></tbody></table>";
   if (fixture === "positioned-images")
     input.letter.data.images = [
       { id: "left", src: images.png, side: "left", topMm: 0, widthMm: 20, gapMm: 3 },
@@ -147,7 +208,7 @@ for (const fixture of fixtureNames) {
     expectedPages:
       fixture === "minimal" || fixture === "empty-optional"
         ? 3
-        : fixture === "long-letter" || fixture === "long-cv"
+        : fixture === "long-letter" || fixture === "long-cv" || fixture === "photo-long-cv"
           ? 11
           : fixture === "custom-sections"
             ? 5

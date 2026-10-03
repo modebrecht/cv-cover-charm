@@ -8,9 +8,12 @@ import { getDossierPageMarginsState } from "@/lib/dossier-page-margins";
 import { getCvLayoutChoiceForTemplate, getCvInfoPosition } from "@/components/cv/layout";
 import { getCvPlacements } from "@/components/cv/placement";
 import { getCvTextAlignment } from "@/components/cv/text-alignment";
+import { getCvPhotoStyle } from "@/components/cv/photo";
+import { getCvPhotoPlacement } from "@/components/cv/photo-place";
 import { readPortableDossierFieldTypographyState } from "@/lib/dossier-field-typography";
 import type { DossierAppSnapshot } from "./build-model";
 import type { TextStyle } from "./model";
+import { isSemanticDossierFieldId } from "@/lib/dossier-semantic-fields";
 
 /** Capture ambient state once. Old anonymous field IDs require explicit semantic bindings. */
 export function captureDossierDocxNextSnapshot(
@@ -29,8 +32,9 @@ export function captureDossierDocxNextSnapshot(
     for (const [key, entry] of Object.entries(bucket)) {
       const sourceId = entry.fieldId ?? key;
       const semanticId =
-        bindings[sourceId] ?? (sourceId.startsWith(`${scope}.`) ? sourceId : undefined);
-      if (semanticId) fieldStyles[semanticId] = { ...entry.style };
+        bindings[sourceId] ?? (isSemanticDossierFieldId(scope, sourceId) ? sourceId : undefined);
+      if (semanticId && isSemanticDossierFieldId(scope, semanticId))
+        fieldStyles[semanticId] = { ...entry.style };
       else unresolvedTypography.push(sourceId);
     }
   }
@@ -46,6 +50,8 @@ export function captureDossierDocxNextSnapshot(
       sidebarSide: getCvInfoPosition() === "mirrored" ? "right" : "left",
       placements: getCvPlacements(),
       cvAlignment: getCvTextAlignment(),
+      cvPhotoStyle: getCvPhotoStyle(),
+      cvPhotoPlacement: getCvPhotoPlacement(),
       fieldStyles,
       unresolvedTypography,
     },

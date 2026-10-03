@@ -1,3 +1,4 @@
+import { isSemanticDossierFieldId } from "./dossier-semantic-fields";
 export type DossierFieldTypographyScope = "cv" | "letter";
 
 export type DossierFieldTypographyStyle = {
@@ -34,10 +35,7 @@ export type DossierFieldTypographyEntry = DossierFieldTypographyMeta & {
   style: DossierFieldTypographyStyle;
 };
 
-export type DossierFieldTypographyStoredEntry = Omit<
-  DossierFieldTypographyEntry,
-  "key" | "scope"
->;
+export type DossierFieldTypographyStoredEntry = Omit<DossierFieldTypographyEntry, "key" | "scope">;
 
 export type PortableDossierFieldTypographyState = {
   version: 1;
@@ -45,8 +43,7 @@ export type PortableDossierFieldTypographyState = {
   letter: Record<string, DossierFieldTypographyStoredEntry>;
 };
 
-export const DOSSIER_FIELD_TYPOGRAPHY_STORAGE_KEY =
-  "bewerbungsdossier:field-typography:v1";
+export const DOSSIER_FIELD_TYPOGRAPHY_STORAGE_KEY = "bewerbungsdossier:field-typography:v1";
 export const DOSSIER_FIELD_TYPOGRAPHY_EVENT = "dossier-field-typography-change";
 
 const EMPTY_STATE: PortableDossierFieldTypographyState = {
@@ -136,9 +133,7 @@ export function dossierFieldTypographyKey(meta: DossierFieldTypographyMeta): str
     : legacyDossierFieldTypographyKey(clean);
 }
 
-export function newDossierFieldTypographyFieldId(
-  scope: DossierFieldTypographyScope,
-): string {
+export function newDossierFieldTypographyFieldId(scope: DossierFieldTypographyScope): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
     return `${scope}-${crypto.randomUUID()}`;
   }
@@ -164,9 +159,7 @@ function hasStyle(style: DossierFieldTypographyStyle): boolean {
   );
 }
 
-function normalizeBucket(
-  value: unknown,
-): Record<string, DossierFieldTypographyStoredEntry> {
+function normalizeBucket(value: unknown): Record<string, DossierFieldTypographyStoredEntry> {
   if (!value || typeof value !== "object") return {};
   const result: Record<string, DossierFieldTypographyStoredEntry> = {};
 
@@ -175,9 +168,16 @@ function normalizeBucket(
     const entry = raw as Record<string, unknown>;
     const style = normalizeStyle(entry.style);
     const valueText = normalizeDossierFieldText(String(entry.value ?? ""));
-    if (!valueText || !hasStyle(style)) continue;
-
     const fieldId = cleanFieldId(entry.fieldId);
+    if (
+      (!valueText &&
+        !(
+          fieldId &&
+          (isSemanticDossierFieldId("cv", fieldId) || isSemanticDossierFieldId("letter", fieldId))
+        )) ||
+      !hasStyle(style)
+    )
+      continue;
     const contextValues = cleanContextValues(entry.contextValues, valueText);
     const docxOccurrence = cleanOccurrence(entry.docxOccurrence);
 
@@ -227,9 +227,7 @@ function writeState(state: PortableDossierFieldTypographyState) {
   window.dispatchEvent(new CustomEvent(DOSSIER_FIELD_TYPOGRAPHY_EVENT));
 }
 
-export function readPortableDossierFieldTypographyState():
-  | PortableDossierFieldTypographyState
-  | null {
+export function readPortableDossierFieldTypographyState(): PortableDossierFieldTypographyState | null {
   const state = readState();
   return Object.keys(state.cv).length || Object.keys(state.letter).length ? state : null;
 }
@@ -290,19 +288,26 @@ function entryMatchScore(
 }
 
 /**
- * Resolves a formatted field after reload/re-render without depending on its
- * current DOM position. Visible value + nearby sibling values identify the
- * field; occurrence is only a final tie-breaker.
+ * Canonical editor controls resolve by persisted semantic identity. Anonymous
+ * legacy entries retain their temporary preview compatibility matcher.
  */
 export function findDossierFieldTypographyEntry(
   meta: DossierFieldTypographyMeta,
 ): DossierFieldTypographyEntry | null {
+  return resolveDossierFieldTypographyEntry(meta, getDossierFieldTypographyEntries(meta.scope));
+}
+export function resolveDossierFieldTypographyEntry(
+  meta: DossierFieldTypographyMeta,
+  entries: DossierFieldTypographyEntry[],
+): DossierFieldTypographyEntry | null {
   const clean = cleanMeta(meta);
-  const entries = getDossierFieldTypographyEntries(clean.scope);
+  entries = entries.filter((entry) => entry.scope === clean.scope);
 
   if (clean.fieldId) {
     const direct = entries.find((entry) => entry.fieldId === clean.fieldId);
     if (direct) return direct;
+    // Canonical controls must never inherit another field's formatting because its text happens to match.
+    if (isSemanticDossierFieldId(clean.scope, clean.fieldId)) return null;
   }
 
   const ranked = entries
@@ -332,7 +337,10 @@ export function setDossierFieldTypography(
   if (previousKey && previousKey !== key) delete bucket[previousKey];
 
   const normalizedStyle = normalizeStyle(style);
-  if (!clean.value || !hasStyle(normalizedStyle)) {
+  if (
+    (!clean.value && !(clean.fieldId && isSemanticDossierFieldId(clean.scope, clean.fieldId))) ||
+    !hasStyle(normalizedStyle)
+  ) {
     delete bucket[key];
   } else {
     bucket[key] = {
@@ -341,9 +349,7 @@ export function setDossierFieldTypography(
       value: clean.value,
       ...(clean.fieldId ? { fieldId: clean.fieldId } : {}),
       ...(clean.contextValues ? { contextValues: clean.contextValues } : {}),
-      ...(clean.docxOccurrence !== undefined
-        ? { docxOccurrence: clean.docxOccurrence }
-        : {}),
+      ...(clean.docxOccurrence !== undefined ? { docxOccurrence: clean.docxOccurrence } : {}),
       style: normalizedStyle,
     };
   }
@@ -352,10 +358,7 @@ export function setDossierFieldTypography(
   return key;
 }
 
-export function clearDossierFieldTypography(
-  scope: DossierFieldTypographyScope,
-  key: string,
-) {
+export function clearDossierFieldTypography(scope: DossierFieldTypographyScope, key: string) {
   const state = readState();
   if (!state[scope][key]) return;
   const bucket = { ...state[scope] };

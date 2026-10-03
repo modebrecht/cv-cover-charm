@@ -55,6 +55,8 @@ export type LetterFlowImage = {
 };
 
 export type LetterData = {
+  /** Stable identities travel with the existing attachment strings through JSON saves. */
+  attachmentIds?: string[];
   absenderName: string;
   absenderAdresse: string;
   absenderPlzOrt: string;

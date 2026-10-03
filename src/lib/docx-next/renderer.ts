@@ -16,8 +16,9 @@ import {
   type ImageNormalizer,
   type NormalizedImage,
 } from "./images";
-import { stylesXml, fontTableXml, numberingXml } from "./styles";
+import { stylesXml, fontTableXml, numberingXml, LIST_DEFINITIONS } from "./styles";
 import { validateWordPackage } from "./validation";
+import { pictureGeometry } from "./picture-geometry";
 
 export type RenderOptions = {
   normalizeImage?: ImageNormalizer;
@@ -48,7 +49,7 @@ function paragraph(value: Paragraph, background?: string, drawingRuns = ""): str
     ? `<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="2" w:color="${xml(value.ruleColor)}"/></w:pBdr>`
     : "";
   // Follow schema ordering (numPr, borders/shading, spacing, alignment) for Word compatibility.
-  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/><w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${value.list === "bullet" ? 1 : 2}"/></w:numPr>` : ""}${rule}${background ? `<w:shd w:val="clear" w:fill="${xml(background)}"/>` : ""}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/><w:jc w:val="${value.align === "justify" ? "both" : value.align}"/></w:pPr>`;
+  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/><w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${LIST_DEFINITIONS[value.list].id}"/></w:numPr>` : ""}${rule}${background ? `<w:shd w:val="clear" w:fill="${xml(background)}"/>` : ""}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/><w:jc w:val="${value.align === "justify" ? "both" : value.align}"/></w:pPr>`;
   return control(
     value.id,
     `<w:p>${props}${drawingRuns}${value.runs.map(run).join("") || "<w:r/>"}</w:p>`,
@@ -86,16 +87,23 @@ export async function renderDossierDocx(
       pkg.relate("word/document.xml", rid, "image", file);
     }
   let drawingId = 0;
-  function imageRun(value: ImageBlock, widthMm: number): string {
+  function imageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
     const media = sources.get(value.source)!;
-    const requestedWidth = Math.min(value.widthMm, widthMm);
-    const aspect = media.asset.widthPx / media.asset.heightPx;
-    const finalWidth = Math.min(requestedWidth, value.maxHeightMm * aspect);
-    const finalHeight = finalWidth / aspect;
+    const geometry = pictureGeometry(value, media.asset, widthMm);
+    const finalWidth = geometry.widthMm,
+      finalHeight = geometry.heightMm;
     const cx = emu(finalWidth),
       cy = emu(finalHeight),
       id = ++drawingId;
-    const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${media.rid}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic>`;
+    const crop = geometry.crop;
+    const outline = geometry.borderWidthMm
+      ? `<a:ln w="${emu(geometry.borderWidthMm)}"><a:solidFill><a:srgbClr val="${geometry.borderColor}"/></a:solidFill></a:ln>`
+      : "";
+    const corners =
+      geometry.shape === "roundRect"
+        ? `<a:gd name="adj" fmla="val ${geometry.cornerAdjustment}"/>`
+        : "";
+    const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${media.rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
     const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/>`;
     const properties = `<wp:docPr id="${id}" name="${xml(value.id)}" descr="${xml(value.alt)}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>`;
     const distances = `distT="${emu(value.gapMm)}" distB="${emu(value.gapMm)}" distL="${emu(value.gapMm)}" distR="${emu(value.gapMm)}"`;
@@ -103,43 +111,50 @@ export async function renderDossierDocx(
     if (value.placement === "inline")
       drawing = `<wp:inline ${distances}>${extent}${properties}${picture}</wp:inline>`;
     else {
+      const pageOrigin = value.coordinateOrigin === "page";
+      const originWidth = pageOrigin ? page.widthMm : widthMm;
+      const inset = geometry.borderWidthMm / 2;
       const x =
         value.placement === "free"
-          ? Math.max(0, Math.min(widthMm - finalWidth, value.xMm))
+          ? Math.max(inset, Math.min(originWidth - finalWidth - inset, value.xMm))
           : value.placement === "right"
             ? widthMm - finalWidth
             : 0;
-      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${id}" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="0"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="column"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="paragraph"><wp:posOffset>${emu(Math.max(0, value.yMm))}</wp:posOffset></wp:positionV>${extent}<wp:wrapSquare wrapText="bothSides"/>${properties}${picture}</wp:anchor>`;
+      const y = Math.max(
+        pageOrigin ? inset : 0,
+        Math.min(page.heightMm - finalHeight - inset, value.yMm),
+      );
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${id}" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="0"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}<wp:wrapSquare wrapText="bothSides"/>${properties}${picture}</wp:anchor>`;
     }
     return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
   }
-  function image(value: ImageBlock, widthMm: number): string {
+  function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
     return control(
       value.id,
-      `<w:p><w:pPr><w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm)}</w:p>`,
+      `<w:p><w:pPr><w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
     );
   }
-  function table(value: TableBlock, widthMm: number): string {
+  function table(value: TableBlock, widthMm: number, page: DocumentPart["page"]): string {
     const total = value.widths.reduce((sum, width) => sum + width, 0);
     const widths = value.widths.map((width) => (widthMm * width) / total);
     const rows = value.rows
       .map(
         (row) =>
-          `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells.map((cell, index) => `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/><w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, widths[index] - 4))}${emptyParagraph}</w:tc>`).join("")}</w:tr>`,
+          `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells.map((cell, index) => `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/><w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, widths[index] - 4), page)}${emptyParagraph}</w:tc>`).join("")}</w:tr>`,
       )
       .join("");
     return `<w:tbl><w:tblPr><w:tblW w:w="${twips(widthMm)}" w:type="dxa"/><w:tblBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/><w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="${twips(2)}" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="${twips(2)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>`;
   }
-  function renderBlock(block: DocBlock, widthMm: number): string {
+  function renderBlock(block: DocBlock, widthMm: number, page: DocumentPart["page"]): string {
     if (block.kind === "paragraph") return paragraph(block);
-    if (block.kind === "image") return image(block, widthMm);
+    if (block.kind === "image") return image(block, widthMm, page);
     if (block.kind === "spacer")
       return control(
         block.id,
         `<w:p><w:pPr><w:spacing w:after="${twips(block.heightMm)}" w:line="20" w:lineRule="exact"/></w:pPr></w:p>`,
       );
     if (block.kind === "page-break") return pageBreak;
-    if (block.kind === "table") return table(block, widthMm);
+    if (block.kind === "table") return table(block, widthMm, page);
     if (block.kind === "columns")
       return table(
         {
@@ -149,11 +164,13 @@ export async function renderDossierDocx(
           rows: [{ cells: block.columns, keepTogether: false }],
         },
         widthMm,
+        page,
       );
-    if (block.kind === "entry") return renderBlocks(block.blocks, widthMm);
-    return `${block.heading ? paragraph(block.heading) : ""}${renderBlocks(block.blocks, widthMm)}`;
+    if (block.kind === "entry" || block.kind === "group")
+      return renderBlocks(block.blocks, widthMm, page);
+    return `${block.heading ? paragraph(block.heading) : ""}${renderBlocks(block.blocks, widthMm, page)}`;
   }
-  function renderBlocks(values: DocBlock[], widthMm: number): string {
+  function renderBlocks(values: DocBlock[], widthMm: number, page: DocumentPart["page"]): string {
     let result = "",
       page2Started = false;
     for (let index = 0; index < values.length; index++) {
@@ -175,7 +192,7 @@ export async function renderDossierDocx(
           result += paragraph(
             anchor,
             undefined,
-            images.map((value) => imageRun(value, widthMm)).join(""),
+            images.map((value) => imageRun(value, widthMm, page)).join(""),
           );
           index = cursor;
           continue;
@@ -204,8 +221,9 @@ export async function renderDossierDocx(
             rows: [{ cells, keepTogether: false }],
           },
           widthMm,
+          page,
         );
-      } else result += renderBlock(block, widthMm);
+      } else result += renderBlock(block, widthMm, page);
     }
     return result;
   }
@@ -235,7 +253,7 @@ export async function renderDossierDocx(
   const body = parts
     .map((part, index) => {
       const widthMm = part.page.widthMm - part.page.margins.left - part.page.margins.right;
-      const content = renderBlocks(part.blocks, widthMm);
+      const content = renderBlocks(part.blocks, widthMm, part.page);
       return (
         content +
         (index < parts.length - 1 ? `<w:p><w:pPr>${section(part)}</w:pPr></w:p>` : section(part))

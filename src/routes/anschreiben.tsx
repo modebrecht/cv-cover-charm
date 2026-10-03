@@ -1,17 +1,10 @@
+import { LETTER_FIELD_IDS } from "@/lib/dossier-semantic-fields";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { Section } from "@/components/cover/Section";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import {
-  FileDown,
-  Files,
-  FolderOpen,
-  History,
-  RotateCcw,
-  Save,
-  Sparkles,
-} from "lucide-react";
+import { FileDown, Files, FolderOpen, History, RotateCcw, Save, Sparkles } from "lucide-react";
 import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import { DossierChromeDocumentContentControls } from "@/components/dossier/DossierChromeDocumentContentControls";
@@ -136,12 +129,14 @@ function dossierHasMeaningfulSource(source: LetterDossierSource | null): boolean
 }
 
 function Field({
+  fieldId,
   label,
   value,
   onChange,
   placeholder,
   type = "text",
 }: {
+  fieldId: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -153,6 +148,7 @@ function Field({
       {label}
       <input
         type={type}
+        data-dossier-field-id={fieldId}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
@@ -468,8 +464,7 @@ function Anschreiben() {
   const cvReadyForDossier = !!storedCvDocument && cvPdfHasContent(storedCvDocument.data);
   const letterReadyForDossier =
     letterHasStarted(data) && letterPagination.ready && !letterPagination.issue;
-  const canDownloadDossierPdf =
-    coverReadyForDossier && letterReadyForDossier && cvReadyForDossier;
+  const canDownloadDossierPdf = coverReadyForDossier && letterReadyForDossier && cvReadyForDossier;
   const dossierPdfHint = !coverReadyForDossier
     ? cvReadyForDossier
       ? "Zuerst das Titelblatt bearbeiten."
@@ -576,7 +571,9 @@ function Anschreiben() {
       );
       setTransferNote({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
     } catch (error) {
-      setPdfError(error instanceof Error ? error.message : "Dossier-PDF konnte nicht erstellt werden.");
+      setPdfError(
+        error instanceof Error ? error.message : "Dossier-PDF konnte nicht erstellt werden.",
+      );
     } finally {
       setPdfDownloading(false);
     }
@@ -806,7 +803,11 @@ function Anschreiben() {
                 type="button"
                 onClick={() => void downloadWholeDossier()}
                 disabled={!canDownloadDossierPdf}
-                title={canDownloadDossierPdf ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen" : dossierPdfHint}
+                title={
+                  canDownloadDossierPdf
+                    ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen"
+                    : dossierPdfHint
+                }
                 className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
               >
                 <EditorMenuLabel icon={Files}>Ganzes Dossier als PDF</EditorMenuLabel>
@@ -1132,9 +1133,7 @@ function Anschreiben() {
                     onChange={(dateFontSizePt) =>
                       setDesign((current) => ({ ...current, dateFontSizePt }))
                     }
-                    onFontChange={(dateFont) =>
-                      setDesign((current) => ({ ...current, dateFont }))
-                    }
+                    onFontChange={(dateFont) => setDesign((current) => ({ ...current, dateFont }))}
                   />
                   <LetterFontSizeControl
                     label="Titel / Betreff"
@@ -1177,9 +1176,7 @@ function Anschreiben() {
                     onChange={(bodyFontSizePt) =>
                       setDesign((current) => ({ ...current, bodyFontSizePt }))
                     }
-                    onFontChange={(bodyFont) =>
-                      setDesign((current) => ({ ...current, bodyFont }))
-                    }
+                    onFontChange={(bodyFont) => setDesign((current) => ({ ...current, bodyFont }))}
                   />
                   <LetterFontSizeControl
                     label="Grussformel"
@@ -1207,9 +1204,15 @@ function Anschreiben() {
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <Field label="Ort" value={data.ort} onChange={(value) => patch({ ort: value })} />
+                  <Field
+                    label="Ort"
+                    fieldId={LETTER_FIELD_IDS.ort}
+                    value={data.ort}
+                    onChange={(value) => patch({ ort: value })}
+                  />
                   <Field
                     label="Datum"
+                    fieldId={LETTER_FIELD_IDS.datum}
                     value={data.datum}
                     onChange={(value) => patch({ datum: value })}
                     placeholder="25.08.2026"
@@ -1217,12 +1220,14 @@ function Anschreiben() {
                 </div>
                 <Field
                   label="Titel / Betreff"
+                  fieldId={LETTER_FIELD_IDS.betreff}
                   value={data.betreff}
                   onChange={(value) => patch({ betreff: value })}
                   placeholder="Bewerbung um eine Lehrstelle als …"
                 />
                 <Field
                   label="Anrede"
+                  fieldId={LETTER_FIELD_IDS.anrede}
                   value={data.anrede}
                   onChange={(value) => patch({ anrede: value })}
                 />
@@ -1251,11 +1256,13 @@ function Anschreiben() {
                 </div>
                 <Field
                   label="Grussformel"
+                  fieldId={LETTER_FIELD_IDS.gruss}
                   value={data.gruss}
                   onChange={(value) => patch({ gruss: value })}
                 />
                 <Field
                   label="Name unter der Unterschrift"
+                  fieldId={LETTER_FIELD_IDS.unterschrift}
                   value={data.unterschrift}
                   onChange={(value) => patch({ unterschrift: value })}
                 />
@@ -1322,27 +1329,32 @@ function Anschreiben() {
                 />
                 <Field
                   label="Vorname und Nachname"
+                  fieldId={LETTER_FIELD_IDS.absenderName}
                   value={data.absenderName}
                   onChange={(value) => patch({ absenderName: value })}
                 />
                 <Field
                   label="Adresse"
+                  fieldId={LETTER_FIELD_IDS.absenderAdresse}
                   value={data.absenderAdresse}
                   onChange={(value) => patch({ absenderAdresse: value })}
                 />
                 <Field
                   label="PLZ und Ort"
+                  fieldId={LETTER_FIELD_IDS.absenderPlzOrt}
                   value={data.absenderPlzOrt}
                   onChange={(value) => patch({ absenderPlzOrt: value })}
                 />
                 <Field
                   label="Telefon"
+                  fieldId={LETTER_FIELD_IDS.absenderTelefon}
                   value={data.absenderTelefon}
                   onChange={(value) => patch({ absenderTelefon: value })}
                   type="tel"
                 />
                 <Field
                   label="E-Mail"
+                  fieldId={LETTER_FIELD_IDS.absenderEmail}
                   value={data.absenderEmail}
                   onChange={(value) => patch({ absenderEmail: value })}
                   type="email"
@@ -1379,22 +1391,26 @@ function Anschreiben() {
                 />
                 <Field
                   label="Lehrbetrieb"
+                  fieldId={LETTER_FIELD_IDS.empfaengerFirma}
                   value={data.empfaengerFirma}
                   onChange={(value) => patch({ empfaengerFirma: value })}
                 />
                 <Field
                   label="Ansprechperson"
+                  fieldId={LETTER_FIELD_IDS.empfaengerName}
                   value={data.empfaengerName}
                   onChange={(value) => patch({ empfaengerName: value })}
                   placeholder="z. B. Frau Anna Muster"
                 />
                 <Field
                   label="Adresse"
+                  fieldId={LETTER_FIELD_IDS.empfaengerAdresse}
                   value={data.empfaengerAdresse}
                   onChange={(value) => patch({ empfaengerAdresse: value })}
                 />
                 <Field
                   label="PLZ und Ort"
+                  fieldId={LETTER_FIELD_IDS.empfaengerPlzOrt}
                   value={data.empfaengerPlzOrt}
                   onChange={(value) => patch({ empfaengerPlzOrt: value })}
                 />
@@ -1449,8 +1465,10 @@ function Anschreiben() {
                   <span>Im Motivationsschreiben anzeigen</span>
                 </label>
                 <AttachmentListEditor
+                  fieldIdPrefix="letter.attachment"
+                  ids={data.attachmentIds}
                   values={letterAttachmentValues(data)}
-                  onChange={(beilagen) => patch({ beilagen })}
+                  onChange={(beilagen, attachmentIds) => patch({ beilagen, attachmentIds })}
                 />
               </div>
             </Section>
@@ -1560,7 +1578,6 @@ function Anschreiben() {
                 ) : null}
               </div>
             </Section>
-
           </div>
         </ResizableEditorPanel>
 

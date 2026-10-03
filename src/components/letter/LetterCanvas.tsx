@@ -1,3 +1,4 @@
+import { LETTER_FIELD_IDS, semanticListItemIds } from "@/lib/dossier-semantic-fields";
 import { useEffect, useMemo, useRef } from "react";
 import { FONT_STACKS } from "@/components/cover/types";
 import { onColorRoles } from "@/components/cv/palette";
@@ -23,6 +24,7 @@ import {
   LETTER_ROLE_FONT_SIZE_MIN,
   normalizeLetterMotifOpacity,
   normalizeLetterSpacingMm,
+  letterAttachmentValues,
   type LetterData,
   type LetterDesign,
   type LetterFlowImage,
@@ -44,17 +46,23 @@ import "./letter-user-typography.css";
 
 function Lines({
   values,
+  fieldIds,
   align = "left",
 }: {
   values: Array<string | undefined>;
+  fieldIds?: string[];
   align?: "left" | "right";
 }) {
-  const visible = values.filter((value): value is string => !!value?.trim());
+  const visible = values
+    .map((value, index) => ({ value, fieldId: fieldIds?.[index] }))
+    .filter(({ value }) => !!value?.trim());
   if (!visible.length) return null;
   return (
     <div style={{ textAlign: align }}>
-      {visible.map((value, index) => (
-        <div key={`${value}-${index}`}>{value}</div>
+      {visible.map(({ value, fieldId }, index) => (
+        <div key={fieldId ?? index} data-dossier-field-id={fieldId}>
+          {value}
+        </div>
       ))}
     </div>
   );
@@ -450,7 +458,10 @@ export function LetterCanvas({
         >
           <div data-letter-pdf-text="sender" className="w-full min-w-0">
             {data.absenderName?.trim() ? (
-              <div className="mb-[1mm] text-[11pt] font-semibold leading-[1.25]">
+              <div
+                data-dossier-field-id={LETTER_FIELD_IDS.absenderName}
+                className="mb-[1mm] text-[11pt] font-semibold leading-[1.25]"
+              >
                 {data.absenderName}
               </div>
             ) : null}
@@ -512,6 +523,12 @@ export function LetterCanvas({
         >
           <div data-letter-pdf-text="recipient">
             <Lines
+              fieldIds={[
+                LETTER_FIELD_IDS.empfaengerFirma,
+                LETTER_FIELD_IDS.empfaengerName,
+                LETTER_FIELD_IDS.empfaengerAdresse,
+                LETTER_FIELD_IDS.empfaengerPlzOrt,
+              ]}
               values={[
                 data.empfaengerFirma,
                 data.empfaengerName,
@@ -537,16 +554,19 @@ export function LetterCanvas({
               design.dateFontSizePt !== undefined ? `${design.dateFontSizePt}pt` : undefined,
           }}
         >
-          <Lines
-            values={[
-              data.ort && data.datum ? `${data.ort}, ${data.datum}` : data.ort || data.datum,
-            ]}
-            align={dateAlign}
-          />
+          <div>
+            <span data-dossier-field-id={LETTER_FIELD_IDS.ort}>{data.ort}</span>
+            {data.ort && data.datum ? ", " : ""}
+            <span data-dossier-field-id={LETTER_FIELD_IDS.datum}>{data.datum}</span>
+          </div>
         </div>
 
         <div className="mt-[7mm]">
-          <div data-letter-pdf-text="subject" className="text-[12pt] font-semibold leading-tight">
+          <div
+            data-dossier-field-id={LETTER_FIELD_IDS.betreff}
+            data-letter-pdf-text="subject"
+            className="text-[12pt] font-semibold leading-tight"
+          >
             {data.betreff || (exportMode ? "" : "Bewerbung um eine Lehrstelle als …")}
           </div>
           {design.ruleAfterSubject ? (
@@ -557,6 +577,7 @@ export function LetterCanvas({
 
           <div data-letter-flow-zone>
             <p
+              data-dossier-field-id={LETTER_FIELD_IDS.anrede}
               data-letter-pdf-text="salutation"
               className="mb-[5mm]"
               style={{
@@ -589,6 +610,7 @@ export function LetterCanvas({
               style={{ marginTop: `${closingGapMm}mm` }}
             >
               <div
+                data-dossier-field-id={LETTER_FIELD_IDS.gruss}
                 data-letter-pdf-text="closing"
                 style={{
                   fontFamily: design.closingFont ? FONT_STACKS[design.closingFont] : undefined,
@@ -601,6 +623,7 @@ export function LetterCanvas({
                 {data.gruss || (exportMode ? "" : "Freundliche Grüsse")}
               </div>
               <div
+                data-dossier-field-id={LETTER_FIELD_IDS.unterschrift}
                 data-letter-pdf-text="signature"
                 data-letter-signature-gap-mm={signatureGapMm}
                 className="font-medium"
@@ -634,7 +657,15 @@ export function LetterCanvas({
                   Beilagen
                 </div>
                 <div data-letter-pdf-text="attachments-body" className="mt-[1.5mm]">
-                  <Lines values={beilagen} />
+                  <Lines
+                    fieldIds={semanticListItemIds(
+                      letterAttachmentValues(data).length,
+                      data.attachmentIds,
+                    )
+                      .filter((_, index) => letterAttachmentValues(data)[index].trim())
+                      .map((id) => `letter.attachment:${id}`)}
+                    values={beilagen}
+                  />
                 </div>
               </div>
             ) : null}

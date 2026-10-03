@@ -1600,6 +1600,7 @@ function Lebenslauf() {
                     <span className="text-muted-foreground">Titel des Dokuments</span>
                     <input
                       type="text"
+                      data-dossier-field-id="cv.documentTitle"
                       value={data.titel ?? ""}
                       placeholder={DEFAULT_CV_TITLE}
                       onChange={(e) => patchData({ titel: e.target.value })}
@@ -1781,6 +1782,7 @@ function Lebenslauf() {
               >
                 {opts("schule")}
                 <FormCvEntries
+                  sectionId="schule"
                   entries={data.schule}
                   onChange={(schule) => patchData({ schule })}
                   titelLabel="Schule / Stufe"
@@ -1798,6 +1800,7 @@ function Lebenslauf() {
               >
                 {opts("erfahrung")}
                 <FormCvEntries
+                  sectionId="erfahrung"
                   entries={data.erfahrung}
                   onChange={(erfahrung) => patchData({ erfahrung })}
                   titelLabel="Was hast du gemacht?"
@@ -1830,8 +1833,12 @@ function Lebenslauf() {
               >
                 {opts("staerken")}
                 <FormCvLines
+                  sectionId="staerken"
+                  ids={data.lineIds?.staerken}
                   list={data.staerken}
-                  onChange={(staerken) => patchData({ staerken })}
+                  onChange={(staerken, ids) =>
+                    patchData({ staerken, lineIds: { ...data.lineIds, staerken: ids } })
+                  }
                   placeholder="z. B. Zuverlässig und pünktlich"
                   addLabel="+ Stärke"
                 />
@@ -1847,8 +1854,12 @@ function Lebenslauf() {
               >
                 {opts("hobbys")}
                 <FormCvLines
+                  sectionId="hobbys"
+                  ids={data.lineIds?.hobbys}
                   list={data.hobbys}
-                  onChange={(hobbys) => patchData({ hobbys })}
+                  onChange={(hobbys, ids) =>
+                    patchData({ hobbys, lineIds: { ...data.lineIds, hobbys: ids } })
+                  }
                   placeholder="z. B. Volleyball im Verein"
                   addLabel="+ Hobby"
                 />
@@ -1916,6 +1927,7 @@ function Lebenslauf() {
                       <label className="flex flex-col gap-1 text-xs">
                         <span className="text-muted-foreground">Rubriktitel</span>
                         <input
+                          data-dossier-field-id={`cv.section.${key}.heading`}
                           value={section.title}
                           onChange={(event) =>
                             patchCustomSection(section.id, { title: event.target.value })
@@ -1957,6 +1969,7 @@ function Lebenslauf() {
                       </p>
                     ) : null}
                     <FormCvEntries
+                      sectionId={key}
                       entries={section.entries}
                       onChange={(entries) => patchCustomSection(section.id, { entries })}
                       titelLabel={

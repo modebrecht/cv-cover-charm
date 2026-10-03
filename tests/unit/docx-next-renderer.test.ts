@@ -64,6 +64,16 @@ describe("DOCX Next independent renderer", () => {
       xMm: 0,
       yMm: 0,
       gapMm: 2,
+      frame: {
+        heightRatio: 1,
+        radiusMm: 999,
+        zoom: 2,
+        xPct: 50,
+        yPct: 50,
+        borderWidthMm: 0.5,
+        borderColor: "123456",
+      },
+      coordinateOrigin: "page",
     });
     let calls = 0;
     const pkg = await parts(
@@ -83,7 +93,13 @@ describe("DOCX Next independent renderer", () => {
     expect(calls).toBe(1);
     expect(Object.keys(pkg).filter((path) => path.startsWith("word/media/"))).toHaveLength(1);
     expect(pkg["word/document.xml"]).toContain('cx="1440000" cy="720000"');
-    expect(pkg["word/document.xml"]).toContain('cx="720000" cy="360000"');
+    expect(pkg["word/document.xml"]).toContain('cx="720000" cy="720000"');
+    expect(pkg["word/document.xml"]).toContain(
+      '<a:srcRect l="37500" t="25000" r="37500" b="25000"/>',
+    );
+    expect(pkg["word/document.xml"]).toContain('prst="ellipse"');
+    expect(pkg["word/document.xml"]).toContain('<a:ln w="18000">');
+    expect(pkg["word/document.xml"]).toContain('relativeFrom="page"');
     expect(pkg["word/document.xml"]).toContain("<wp:anchor");
     expect(pkg["word/_rels/document.xml.rels"]).toContain('Target="media/image-1.png"');
   });

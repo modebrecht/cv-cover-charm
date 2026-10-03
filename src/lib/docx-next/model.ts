@@ -8,6 +8,7 @@ export type TextStyle = {
   underline: boolean;
 };
 export type Alignment = "left" | "center" | "right" | "justify";
+export const SEMANTIC_LIST_KINDS = ["bullet", "number", "dash", "plus", "dot"] as const;
 export type TextRun = { id: string; fieldId?: string; text: string; style: TextStyle };
 export type Paragraph = {
   kind: "paragraph";
@@ -20,7 +21,7 @@ export type Paragraph = {
   lineHeight: number;
   keepNext: boolean;
   keepLines: boolean;
-  list?: "bullet" | "number";
+  list?: (typeof SEMANTIC_LIST_KINDS)[number];
   ruleColor?: string;
 };
 export type ImageBlock = {
@@ -34,6 +35,17 @@ export type ImageBlock = {
   xMm: number;
   yMm: number;
   gapMm: number;
+  /** Framing is geometry; normalized pixels are reused independently. */
+  frame?: {
+    heightRatio: number;
+    radiusMm: number;
+    zoom: number;
+    xPct: number;
+    yPct: number;
+    borderWidthMm: number;
+    borderColor: string;
+  };
+  coordinateOrigin?: "content" | "page";
 };
 export type SectionBlock = {
   kind: "section";
@@ -56,6 +68,7 @@ export type DocBlock =
   | SectionBlock
   | TableBlock
   | { kind: "entry"; id: string; blocks: DocBlock[] }
+  | { kind: "group"; id: string; blocks: DocBlock[] }
   | { kind: "columns"; id: string; columns: DocBlock[][]; widths: number[] }
   | { kind: "spacer"; id: string; heightMm: number }
   | { kind: "page-break"; id: string };
@@ -91,7 +104,7 @@ export function walkBlocks(blocks: DocBlock[]): DocBlock[] {
     block,
     ...(block.kind === "section"
       ? [...(block.heading ? [block.heading] : []), ...walkBlocks(block.blocks)]
-      : block.kind === "entry"
+      : block.kind === "entry" || block.kind === "group"
         ? walkBlocks(block.blocks)
         : block.kind === "columns"
           ? block.columns.flatMap(walkBlocks)

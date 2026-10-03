@@ -67,12 +67,7 @@ export type CvPerson = {
 
 /** Welche Abschnitte gibt es und wie heissen sie in der Vorgabe? */
 export type CvSectionKey =
-  | "schule"
-  | "erfahrung"
-  | "sprachen"
-  | "hobbys"
-  | "staerken"
-  | "referenzen";
+  "schule" | "erfahrung" | "sprachen" | "hobbys" | "staerken" | "referenzen";
 
 export const CV_SECTION_LABELS: Record<CvSectionKey, string> = {
   schule: "Schulbildung",
@@ -337,6 +332,8 @@ export const DEFAULT_CV_PLACEMENTS: CvPlacements = {
 };
 
 export type CvData = {
+  /** Stable identities for legacy string-list items; text arrays remain backwards compatible. */
+  lineIds?: Partial<Record<"hobbys" | "staerken", string[]>>;
   person: CvPerson;
   schule: CvEntry[];
   erfahrung: CvEntry[];

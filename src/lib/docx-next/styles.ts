@@ -17,5 +17,19 @@ export function fontTableXml(fonts: Set<string>) {
     .join("")}</w:fonts>`;
 }
 export function numberingXml() {
-  return `${DECL}<w:numbering xmlns:w="${W}"><w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="singleLevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="bullet"/><w:lvlText w:val="•"/><w:lvlJc w:val="left"/><w:pPr><w:tabs><w:tab w:val="num" w:pos="240"/></w:tabs><w:ind w:left="240" w:hanging="240"/></w:pPr></w:lvl></w:abstractNum><w:abstractNum w:abstractNumId="1"><w:multiLevelType w:val="singleLevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="decimal"/><w:lvlText w:val="%1."/><w:lvlJc w:val="left"/></w:lvl></w:abstractNum><w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num><w:num w:numId="2"><w:abstractNumId w:val="1"/></w:num></w:numbering>`;
+  return `${DECL}<w:numbering xmlns:w="${W}">${Object.values(LIST_DEFINITIONS)
+    .map(
+      ({ id, format, text }) =>
+        `<w:abstractNum w:abstractNumId="${id - 1}"><w:multiLevelType w:val="singleLevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="${format}"/><w:lvlText w:val="${text}"/><w:lvlJc w:val="left"/><w:pPr><w:tabs><w:tab w:val="num" w:pos="240"/></w:tabs><w:ind w:left="240" w:hanging="240"/></w:pPr></w:lvl></w:abstractNum>`,
+    )
+    .join("")}${Object.values(LIST_DEFINITIONS)
+    .map(({ id }) => `<w:num w:numId="${id}"><w:abstractNumId w:val="${id - 1}"/></w:num>`)
+    .join("")}</w:numbering>`;
 }
+export const LIST_DEFINITIONS = {
+  bullet: { id: 1, format: "bullet", text: "•" },
+  number: { id: 2, format: "decimal", text: "%1." },
+  dash: { id: 3, format: "bullet", text: "–" },
+  plus: { id: 4, format: "bullet", text: "+" },
+  dot: { id: 5, format: "bullet", text: "·" },
+} as const;

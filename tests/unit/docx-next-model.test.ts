@@ -79,16 +79,18 @@ describe("DOCX Next canonical model", () => {
     expect(codes).toContain("page-paper-artwork-pending");
     expect(codes).toContain("cv-elements-pending");
   });
-  test("absent framed photos disappear cleanly, while unsupported actual framing blocks export", () => {
+  test("absent photos disappear and present photos retain semantic native frame geometry", () => {
     const input = briefFixture("no-photo");
     const photo = input.cover.blocks.find((block) => block.kind === "photo")!;
     photo.style.imgZoom = 2;
     photo.style.radius = 999;
     expect(buildDossierDocModel(input).issues).toEqual([]);
     input.cover.data.foto = "data:image/png;base64,fixture";
-    expect(buildDossierDocModel(input).issues.map((issue) => issue.code)).toContain(
-      "photo-framing-pending",
-    );
+    const model = buildDossierDocModel(input);
+    expect(model.issues).toEqual([]);
+    const image = model.cover.blocks.find((block) => block.kind === "image");
+    expect(image?.kind === "image" && image.frame?.zoom).toBe(2);
+    expect(image?.kind === "image" && image.frame?.radiusMm).toBe(999);
   });
   test("contact chrome owns duplicate source fields and preserves their semantic typography", () => {
     const input = briefFixture();
@@ -143,5 +145,49 @@ describe("DOCX Next canonical model", () => {
     expect(blocks[1].kind === "paragraph" && blocks[1].list).toBe("bullet");
     expect(blocks[2].kind).toBe("table");
     expect(JSON.stringify(blocks)).toContain("123456");
+  });
+  test("rich table cells preserve paragraph boundaries, nested tables and padded short rows", () => {
+    const blocks = richLetterBlocks(
+      '<table><tbody><tr><td><div>First</div><div data-list="dash">Second</div><table><tbody><tr><td>Nested</td></tr></tbody></table></td><td>Right</td></tr><tr><td>Short row</td></tr></tbody></table>',
+      "",
+      textStyle,
+      3,
+      1.2,
+    );
+    const table = blocks[0];
+    expect(table.kind).toBe("table");
+    if (table.kind !== "table") throw new Error("Missing table");
+    expect(table.rows[0].cells[0].map((block) => block.kind)).toEqual([
+      "paragraph",
+      "paragraph",
+      "table",
+    ]);
+    expect(table.rows[1].cells).toHaveLength(2);
+    expect(table.rows[1].cells[1]).toEqual([]);
+    expect(table.rows[0].cells[0][1]).toMatchObject({ list: "dash" });
+  });
+  test("all editor list variants retain their semantic kind", () => {
+    const blocks = richLetterBlocks(
+      ["bullet", "dash", "plus", "dot"]
+        .map((kind) => `<div data-list="${kind}">${kind}</div>`)
+        .join(""),
+      "",
+      textStyle,
+      3,
+      1.2,
+    );
+    expect(blocks.map((block) => block.kind === "paragraph" && block.list)).toEqual([
+      "bullet",
+      "dash",
+      "plus",
+      "dot",
+    ]);
+  });
+  test("unaccepted balanced column flow blocks export instead of silently accepting a table substitute", () => {
+    const input = briefFixture();
+    input.letter.data.richTextHtml = '<div data-columns="2">A long flowing paragraph</div>';
+    expect(buildDossierDocModel(input).issues).toContainEqual(
+      expect.objectContaining({ code: "letter-column-flow-pending" }),
+    );
   });
 });
