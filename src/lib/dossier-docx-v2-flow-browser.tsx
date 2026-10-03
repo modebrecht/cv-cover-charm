@@ -16,6 +16,8 @@ import { createRoot } from "react-dom/client";
 
 const PAGE_MM = { width: 210, height: 297 } as const;
 const PX_TO_PT = 72 / 96;
+const LETTER_SETTLE_TIMEOUT_MS = 20_000;
+const LETTER_SETTLE_STABLE_FRAMES = 6;
 
 export type DossierDocxV2MeasuredRect = {
   pageIndex: number;
@@ -298,12 +300,46 @@ async function settleImages(root: HTMLElement) {
 }
 
 async function waitForLetter(root: HTMLElement) {
-  for (let frame = 0; frame < 180; frame += 1) {
-    const issue = root.dataset.letterPaginationErrorMessage?.trim();
-    if (issue) return issue;
-    if (root.dataset.letterPaginationReady === "true" && root.querySelector("[data-letter-page]")) return null;
+  const deadline = performance.now() + LETTER_SETTLE_TIMEOUT_MS;
+  let stableSignature = "";
+  let stableFrames = 0;
+
+  while (performance.now() < deadline) {
     await nextFrame();
+
+    const ready = root.dataset.letterPaginationReady === "true";
+    const declaredPageCount = Number.parseInt(root.dataset.letterPageCount ?? "", 10);
+    const pages = Array.from(root.querySelectorAll<HTMLElement>("[data-letter-page]"));
+    const error = root.dataset.letterPaginationErrorMessage?.trim() ?? "";
+    const warning = root.dataset.letterPaginationWarningMessage?.trim() ?? "";
+    const coherent =
+      ready &&
+      pages.length > 0 &&
+      Number.isFinite(declaredPageCount) &&
+      declaredPageCount === pages.length;
+
+    if (!coherent) {
+      stableSignature = "";
+      stableFrames = 0;
+      continue;
+    }
+
+    const signature = `${declaredPageCount}|${error}|${warning}`;
+    if (signature === stableSignature) stableFrames += 1;
+    else {
+      stableSignature = signature;
+      stableFrames = 1;
+    }
+
+    if (stableFrames < LETTER_SETTLE_STABLE_FRAMES) continue;
+
+    // LetterDocument owns physical A4 validation and only marks pagination ready
+    // after every rendered page has reported its final overflow state. Keep the
+    // settle window here to avoid transient fallback pages, then trust that one
+    // canonical preflight result instead of re-measuring the same DOM a second time.
+    return error || null;
   }
+
   return "Motivationsschreiben-Seitenumbruch wurde im DOCX-V2-Messlauf nicht rechtzeitig stabil.";
 }
 

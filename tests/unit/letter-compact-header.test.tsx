@@ -94,7 +94,7 @@ describe("compact letter presentation", () => {
       expect(attachments.match(/data-letter-pdf-text="attachments-heading"/g)?.length).toBe(1);
       expect(none).toContain('data-letter-footer-mode="none"');
       expect(none).not.toContain("data-letter-footer=");
-      expect(none).toContain("bottom:10mm");
+      expect(none).toContain("bottom:1mm");
       expect(none).toContain('data-letter-pdf-text="attachments-heading"');
     }
   });

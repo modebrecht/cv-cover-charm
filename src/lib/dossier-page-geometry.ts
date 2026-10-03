@@ -1,4 +1,5 @@
 import {
+  CV_PAGE_MARGIN_BOTTOM_MM,
   DOSSIER_PAGE_MARGIN_MIN_MM,
   clampDossierPageMarginsToMinimums,
   type DossierPageMargins,
@@ -29,13 +30,21 @@ export function normalizeDossierPageReserves(
  * Compose user-owned physical page margins with shared header/footer reserves.
  * Horizontal page margins are the readable boundaries. Vertical chrome reserve
  * is added exactly once on top of those physical margins.
+ *
+ * The physical bottom edge is the one deliberate exception to the general
+ * 5 mm floor: both CV and motivation letter may use 1 mm there. Footer/chrome
+ * reserve is composed separately, so printable content still stays clear while
+ * browser/PDF export does not lose the final line at an artificial 5+ mm floor.
  */
 export function resolveDossierContentMargins(
   pageMargins: DossierPageMargins,
   minimumPageMargins: Partial<DossierPageMargins>,
   reserves: DossierPageReserves,
 ): DossierPageMargins | null {
-  const safePageMargins = clampDossierPageMarginsToMinimums(pageMargins, minimumPageMargins);
+  const safePageMargins = clampDossierPageMarginsToMinimums(pageMargins, {
+    ...minimumPageMargins,
+    bottom: CV_PAGE_MARGIN_BOTTOM_MM,
+  });
   if (!safePageMargins) return null;
   const resolved = normalizeDossierPageReserves(reserves);
   return {
