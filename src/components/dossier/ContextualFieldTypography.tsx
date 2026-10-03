@@ -41,6 +41,16 @@ function isTextControl(target: EventTarget | null): target is TextControl {
   if (!(target instanceof HTMLInputElement)) return false;
   return ["text", "email", "tel", "url", "search"].includes(target.type);
 }
+function isTypographyControl(
+  target: EventTarget | null,
+  scope: DossierFieldTypographyScope,
+): target is TextControl {
+  return (
+    isTextControl(target) &&
+    (!!target.closest("[data-editor-panel]") ||
+      isSemanticDossierFieldId(scope, target.dataset.dossierFieldId ?? ""))
+  );
+}
 
 function labelText(control: TextControl): string {
   const label = control.closest("label");
@@ -330,9 +340,9 @@ function resolveControlTypography(
 }
 
 function syncInputTypography(scope: DossierFieldTypographyScope) {
-  const panel = document.querySelector<HTMLElement>("[data-editor-panel]");
-  if (!panel) return;
-  for (const control of textControls(panel)) {
+  for (const control of textControls(document).filter((control) =>
+    isTypographyControl(control, scope),
+  )) {
     clearTypographyAttributes(control);
     const resolved = resolveControlTypography(control, scope);
     if (resolved && hasExplicitStyle(resolved.style)) {
@@ -364,7 +374,7 @@ export function ContextualFieldTypography() {
   const readSelection = useCallback(() => {
     if (!scope) return;
     const control = document.activeElement;
-    if (!isTextControl(control) || !control.closest("[data-editor-panel]")) {
+    if (!isTypographyControl(control, scope)) {
       setBubble(null);
       setActiveKey(null);
       return;
@@ -452,7 +462,7 @@ export function ContextualFieldTypography() {
     if (!scope) return;
 
     const onInput = (event: Event) => {
-      if (!isTextControl(event.target) || !event.target.closest("[data-editor-panel]")) return;
+      if (!isTypographyControl(event.target, scope)) return;
       const control = event.target;
       const previousKey = keyByControlRef.current.get(control);
       let meta = fieldMeta(control, scope);

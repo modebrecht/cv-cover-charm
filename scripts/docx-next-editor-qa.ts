@@ -73,6 +73,24 @@ try {
   const fixture = briefFixture("repeated-values");
   const chromeInput = briefChromeFixture();
   fixture.cv.design.chromeContent = chromeInput.cv.design.chromeContent;
+  fixture.cv.design.useElements = true;
+  fixture.cv.elements = [
+    { id: "custom-editor-a", kind: "text", label: "Zusatz A", text: "Identischer Zusatz", page: 2 },
+    { id: "custom-editor-b", kind: "text", label: "Zusatz B", text: "Identischer Zusatz", page: 2 },
+    {
+      id: "custom-editor-circle",
+      kind: "shape",
+      label: "Kreis",
+      text: "",
+      shape: "circle",
+      page: 2,
+    },
+  ];
+  fixture.cv.elementStyles = {
+    "custom-editor-a": { x: 20, y: 40, w: 160, size: 12 },
+    "custom-editor-b": { x: 20, y: 60, w: 160, size: 12 },
+    "custom-editor-circle": { x: 5, y: 80, w: 12, ratio: 1, fill: "#cc6600", strokeWidth: 0 },
+  };
   fixture.letter.design.chromeContent = chromeInput.letter.design.chromeContent;
   fixture.cover.colors.bg = "#f4e9da";
   fixture.letter.design.paperColor = "#e8f0f4";
@@ -115,9 +133,17 @@ try {
           brief: {
             name: { uppercase: true, tracking: 0.08, lineHeight: 1.7 },
             beilagen: { list: "number" },
+            "custom-cover-note": { x: 20, y: 260, w: 170, size: 11, bg: "#e6edf3" },
           },
         },
-        customs: [],
+        customs: [
+          {
+            id: "custom-cover-note",
+            kind: "text",
+            label: "Zusatz",
+            text: "Deckblatt Zusatz ä ö ü",
+          },
+        ],
       },
       cv: fixture.cv,
       letter: fixture.letter,
@@ -177,6 +203,43 @@ try {
     throw new Error("Repeated-value style ownership failed after reload");
   await page.screenshot({ path: path.join(out, "cv-semantic-styles.png") });
   console.log("CV entry styles survive editing and reload.");
+  for (const [elementId, action] of [
+    ["custom-editor-a", "Fett"],
+    ["custom-editor-b", "Unterstrichen"],
+  ]) {
+    await page
+      .locator(`[data-cv-elements] [data-block-id="${elementId}"]`)
+      .first()
+      .click({ position: { x: 20, y: 8 } });
+    await selectField(`cv.element:${elementId}`);
+    await page
+      .locator(`[data-dossier-field-selection-toolbar] button[aria-label="${action}"]`)
+      .click();
+    if (elementId === "custom-editor-a") {
+      await field(`cv.element:${elementId}`).fill("Custom changed after styling");
+      await page.waitForFunction(() => {
+        const raw = localStorage.getItem("lebenslauf:v1");
+        return !!raw && JSON.parse(raw).elements[0].text === "Custom changed after styling";
+      });
+    }
+  }
+  await page.reload({ waitUntil: "networkidle" });
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector(
+          '[data-dossier-document="cv"] [data-dossier-field-id="cv.element:custom-editor-b"]',
+        )
+        ?.getAttribute("data-dossier-field-underline") === "true",
+  );
+  if (
+    (await preview("cv.element:custom-editor-a").getAttribute("data-dossier-field-bold")) !==
+      "true" ||
+    (await preview("cv.element:custom-editor-b").getAttribute("data-dossier-field-bold")) === "true"
+  )
+    throw new Error("Custom repeated-value styling lost semantic ownership after rename/reload");
+  await page.screenshot({ path: path.join(out, "cv-custom-semantic-styles.png") });
+  console.log("Custom CV element styles survive independent selection, rename and reload.");
   const chromeStyles = {
     "cv.header.title": "Kursiv",
     "cv.header.text": "Unterstrichen",
@@ -281,7 +344,9 @@ try {
   });
   if (
     !result.styles["cv.entry.schule:one.title"]?.italic ||
-    !result.styles["cv.entry.schule:two.title"]?.underline
+    !result.styles["cv.entry.schule:two.title"]?.underline ||
+    !result.styles["cv.element:custom-editor-a"]?.bold ||
+    !result.styles["cv.element:custom-editor-b"]?.underline
   )
     throw new Error("Canonical export lost portable styles");
   for (const [id, action] of Object.entries(chromeStyles)) {

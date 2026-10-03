@@ -70,15 +70,21 @@ describe("DOCX Next canonical model", () => {
     input.settings.unresolvedTypography = ["old-random-field-id"];
     expect(buildDossierDocModel(input).issues[0].code).toBe("unresolved-legacy-typography");
   });
-  test("paper is mapped without accepting unmapped CV element content", () => {
+  test("paper and saved CV custom text have explicit semantic identities", () => {
     const input = briefFixture();
     input.letter.design.paperColor = "#123456";
     input.cv.design.useElements = true;
-    input.cv.elements = [structuredClone(input.cover.blocks[0])];
+    input.cv.elements = [{ id: "custom-note", label: "Notiz", text: "Eigenes Feld" }];
     const model = buildDossierDocModel(input);
     const codes = model.issues.map((issue) => issue.code);
     expect(model.letter.artwork[0]?.fill.color).toBe("123456");
-    expect(codes).toContain("cv-elements-pending");
+    expect(codes).toEqual([]);
+    expect(
+      walkBlocks(model.cv.blocks).find((block) => block.id === "cv.element:custom-note"),
+    ).toMatchObject({
+      kind: "paragraph",
+      runs: [{ fieldId: "cv.element:custom-note", text: "Eigenes Feld" }],
+    });
   });
   test("absent photos disappear and present photos retain semantic native frame geometry", () => {
     const input = briefFixture("no-photo");

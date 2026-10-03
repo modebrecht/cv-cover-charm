@@ -13,6 +13,7 @@ type Props = {
   onReset: () => void;
   onClose: () => void;
   custom?: CustomField;
+  dossierFieldId?: string;
   onCustomChange?: (patch: Partial<CustomField>) => void;
   /** Im Lebenslauf dürfen freie Elemente unabhängig Seite 1 oder 2 zugewiesen werden. */
   allowPagePlacement?: boolean;
@@ -186,6 +187,7 @@ export function ElementBar({
   onReset,
   onClose,
   custom,
+  dossierFieldId,
   onCustomChange,
   allowPagePlacement = false,
   onDelete,
@@ -445,6 +447,8 @@ export function ElementBar({
             {custom && onCustomChange ? (
               <Ctl label="Inhalt" grow>
                 <textarea
+                  data-dossier-field-id={dossierFieldId}
+                  aria-label={custom.label || "Inhalt"}
                   className={`${inputCls} h-9 w-full max-w-md resize-y`}
                   rows={1}
                   value={custom.text}

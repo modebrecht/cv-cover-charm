@@ -1733,6 +1733,7 @@ export function CvCanvas({
       >
         <BlockLayer
           blocks={shown}
+          semanticScope="cv"
           colors={design.colors}
           selected={exportMode ? null : selected}
           onSelect={onSelect ?? (() => {})}

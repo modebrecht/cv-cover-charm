@@ -7,6 +7,7 @@ import { resolveLayout } from "./resolve";
 import { clampBlockDragPosition } from "./drag-bounds";
 import { hasUserStyle } from "./user-style-precedence";
 import { FRAME, PAGE } from "@/default-config";
+import { dossierElementFieldId } from "@/lib/dossier-semantic-fields";
 
 const MM = 96 / 25.4; // px pro mm bei 96dpi
 const { WIDTH: PAGE_W } = PAGE;
@@ -172,6 +173,7 @@ type Props = {
   onMove: (id: string, patch: Partial<BlockStyle>) => void;
   /** Gemeinsame berechnete Dossier-Schrift für semantische Titelblattrollen. */
   dossierFont?: string;
+  semanticScope?: "cv";
   /** Globale Schriftskalierung (1 = Vorlagen-Standard). */
   fontScale?: number;
   editable?: boolean;
@@ -200,6 +202,7 @@ export function BlockLayer({
   onSelect,
   onMove,
   dossierFont,
+  semanticScope,
   fontScale = 1,
   editable = true,
   drawing = false,
@@ -634,6 +637,9 @@ export function BlockLayer({
               )
             ) : (
               <div
+                data-dossier-field-id={
+                  semanticScope ? dossierElementFieldId(semanticScope, b.id) : undefined
+                }
                 style={{
                   ...textStyle(st, size, colors),
                   boxSizing: "border-box",

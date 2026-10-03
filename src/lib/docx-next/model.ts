@@ -50,6 +50,7 @@ export type ImageBlock = {
     borderColor: string;
   };
   coordinateOrigin?: "content" | "page";
+  sourceLayout?: ElementSourceLayout;
 };
 export type SectionBlock = {
   kind: "section";
@@ -65,14 +66,55 @@ export type TableBlock = {
   id: string;
   widths: number[];
   rows: { cells: DocBlock[][]; keepTogether: boolean }[];
+  /** Flowing boxes keep width/padding, with no fixed height or text clipping. */
+  widthMm?: number;
+  indentMm?: number;
+  sourceLayout?: ElementSourceLayout;
+  decoration?: {
+    fillColor?: string;
+    borderColor: string;
+    borderWidthMm: number;
+    paddingXMm: number;
+    paddingYMm: number;
+  };
+};
+/** Source geometry remains inspectable; semantic text/images use natural Word flow. */
+export type ElementSourceLayout = {
+  xMm: number;
+  yMm: number;
+  widthMm: number;
+  minimumHeightMm?: number;
+};
+/** Nonsemantic shape assets. No text, SVG markup or package parts in the model. */
+export type DecorativeShape = {
+  kind: "decorative-shape";
+  id: string;
+  semanticText: false;
+  shape: "rect" | "circle" | "line" | "path";
+  path?: string;
+  xMm: number;
+  yMm: number;
+  widthMm: number;
+  heightMm: number;
+  radiusMm: number;
+  opacity: number;
+  fill?: {
+    color: string;
+    endColor?: string;
+    angleDeg?: number;
+    startPct?: number;
+    endPct?: number;
+  };
+  stroke: { color: string; widthMm: number };
 };
 export type DocBlock =
   | Paragraph
   | ImageBlock
   | SectionBlock
   | TableBlock
+  | DecorativeShape
   | { kind: "entry"; id: string; blocks: DocBlock[] }
-  | { kind: "group"; id: string; blocks: DocBlock[] }
+  | { kind: "group"; id: string; blocks: DocBlock[]; startPage?: 1 | 2 }
   | { kind: "columns"; id: string; columns: DocBlock[][]; widths: number[] }
   | { kind: "column-flow"; id: string; count: 2 | 3; gapMm: number; blocks: DocBlock[] }
   | { kind: "spacer"; id: string; heightMm: number }

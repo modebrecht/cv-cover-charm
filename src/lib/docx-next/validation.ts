@@ -1,5 +1,6 @@
 import { walkBlocks, type DossierDocModel } from "./model";
 import type { WordPackage } from "./package";
+import { validateDecoration } from "./decoration";
 
 /** Validate known semantic structures and package parts, never visible text occurrence. */
 export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): void {
@@ -19,6 +20,9 @@ export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): v
     if (!pkg.parts.has(base + rel.target))
       throw new Error(`DOCX Next relationship target missing ${base + rel.target}`);
   }
+  validateDossierDocModel(model);
+}
+export function validateDossierDocModel(model: DossierDocModel): void {
   const ids = new Set<string>();
   for (const part of [model.cover, model.letter, model.cv]) {
     const margins = part.page.margins;
@@ -68,6 +72,23 @@ export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): v
     ])) {
       if (ids.has(block.id)) throw new Error(`DOCX Next duplicate semantic identity ${block.id}`);
       ids.add(block.id);
+      if (
+        (block.kind === "table" || block.kind === "image") &&
+        block.sourceLayout &&
+        (!Object.values(block.sourceLayout).every(Number.isFinite) ||
+          block.sourceLayout.widthMm <= 0 ||
+          (block.sourceLayout.minimumHeightMm !== undefined &&
+            block.sourceLayout.minimumHeightMm < 0))
+      )
+        throw new Error(`DOCX Next invalid element source geometry ${block.id}`);
+      if (block.kind === "decorative-shape") {
+        validateDecoration(block);
+        if (
+          block.xMm + block.widthMm > part.page.widthMm ||
+          block.yMm + block.heightMm > part.page.heightMm
+        )
+          throw new Error(`DOCX Next decoration outside page ${block.id}`);
+      }
       if (block.kind === "paragraph") {
         if (
           ![block.beforeMm, block.afterMm, block.lineHeight].every(Number.isFinite) ||
@@ -104,6 +125,24 @@ export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): v
           block.rows.some((row) => row.cells.length !== block.widths.length))
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
+      if (block.kind === "table") {
+        const box = block.decoration;
+        if (
+          (block.widthMm !== undefined &&
+            (!Number.isFinite(block.widthMm) || block.widthMm < 10)) ||
+          (block.indentMm !== undefined &&
+            (!Number.isFinite(block.indentMm) || block.indentMm < 0)) ||
+          (box &&
+            (!/^[0-9A-F]{6}$/.test(box.fillColor ?? "FFFFFF") ||
+              !/^[0-9A-F]{6}$/.test(box.borderColor) ||
+              ![box.borderWidthMm, box.paddingXMm, box.paddingYMm].every(Number.isFinite) ||
+              Math.min(box.borderWidthMm, box.paddingXMm, box.paddingYMm) < 0 ||
+              box.borderWidthMm > 6 ||
+              box.paddingXMm * 2 >=
+                (block.widthMm ?? part.page.widthMm - margins.left - margins.right)))
+        )
+          throw new Error(`DOCX Next invalid flow box ${block.id}`);
+      }
       if (
         block.kind === "column-flow" &&
         (![2, 3].includes(block.count) ||

@@ -28,6 +28,8 @@ export type CoverPdfDocument = {
   colors: Record<string, string>;
   blocks: Block[];
   fontScale: number;
+  /** Saved custom identity, independent of its current visible value. */
+  customFieldIds?: string[];
 };
 
 export type LetterPdfDocument = {
@@ -182,7 +184,14 @@ export function coverPdfDocumentFromSaved(raw: unknown): CoverPdfDocument | null
       )
     : built;
 
-  return { template, data, colors, blocks, fontScale };
+  return {
+    template,
+    data,
+    colors,
+    blocks,
+    fontScale,
+    customFieldIds: customs.map((field) => field.id),
+  };
 }
 
 /** Baut die druckbare Anschreibenansicht aus dem gespeicherten Projektteil. */

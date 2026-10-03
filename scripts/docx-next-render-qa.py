@@ -259,6 +259,62 @@ def check_cover_features(document, fixture):
         assert compact(f'{number}. {name}') in letter, 'Separated letter or table-cell list did not restart'
 
 
+def check_element_features(document, fixture):
+    if not fixture['fixture'].startswith('elements-'):
+        return
+    start = 0
+    scale = 72 / 25.4
+    for part in fixture['parts']:
+        # Measure known fixture border paths to catch adjacent-table merging.
+        expected_edges = {}
+        for box in part.get('flowBoxes', []):
+            width = round(box['widthMm'], 2)
+            expected_edges[width] = expected_edges.get(width, 0) + 2
+        for width, count in expected_edges.items():
+            edges = set()
+            for page_index in range(start, start + part['expectedPages']):
+                for drawing in document[page_index].get_drawings():
+                    if drawing.get('fill') or not drawing.get('color'):
+                        continue
+                    for item in drawing['items']:
+                        if item[0] == 'l':
+                            a, b = item[1], item[2]
+                            if abs(a.y - b.y) < 0.1 and abs(abs(a.x - b.x) - width * scale) < 1.5:
+                                edges.add((page_index, round(a.y, 1), round(min(a.x, b.x), 1)))
+            assert len(edges) >= count, f'{part["id"]}: adjacent boxes lost {width}mm borders/width: {len(edges)} < {count}'
+        paper = next((paint['fill']['color'] for paint in part.get('artwork', []) if paint['id'].endswith('.paper')), 'FFFFFF')
+        background = tuple(int(paper[index:index + 2], 16) for index in (0, 2, 4))
+        for shape in part.get('shapes', []):
+            page = document[start + shape['expectedRelativePage']]
+            expected = fitz.Rect(shape['xMm'] * scale, shape['yMm'] * scale,
+                                 (shape['xMm'] + shape['widthMm']) * scale,
+                                 (shape['yMm'] + shape['heightMm']) * scale)
+            matches = [info for info in page.get_image_info() if all(abs(a - b) < 0.8 for a, b in zip(info['bbox'], expected))]
+            assert len(matches) == 1, f'{shape["id"]}: missing/wrong page-relative body artwork'
+            # Fixture artwork sits in the left margin, away from editable text.
+            pixels = page.get_pixmap(matrix=fitz.Matrix(2, 2))
+            def sample(x, y):
+                return pixels.pixel(round(x * scale * 2), round(y * scale * 2))[:3]
+            x, y = shape['xMm'], shape['yMm']
+            if shape['shape'] == 'rect':
+                rgb = sample(x + shape['widthMm'] / 2, y + shape['heightMm'] / 2)
+                blended = tuple(round(a * shape['opacity'] + b * (1 - shape['opacity'])) for a, b in zip((204, 102, 0), background))
+                assert all(abs(a - b) < 6 for a, b in zip(rgb, blended)), f'{shape["id"]}: fill/opacity lost: {rgb}'
+            elif shape['shape'] == 'circle':
+                left, right = sample(x + 3, y + 7), sample(x + 11, y + 7)
+                assert left[0] > 180 and left[2] < 70 and right[2] > 180 and right[0] < 70, f'{shape["id"]}: gradient angle/stops lost: {left}/{right}'
+                assert all(abs(a - b) < 6 for a, b in zip(sample(x + 0.5, y + 0.5), background)), f'{shape["id"]}: transparent circular corner lost'
+            elif shape['shape'] == 'line':
+                rgb = sample(x + 7, y + 0.4)
+                assert all(abs(a - b) < 6 for a, b in zip(rgb, (34, 153, 34))), f'{shape["id"]}: line color/thickness lost'
+            elif shape['shape'] == 'path':
+                rgb = sample(x + 7, y + shape['heightMm'] * 0.75)
+                assert rgb[0] > 120 and rgb[1] < 100 and rgb[2] > 120, f'{shape["id"]}: freehand stroke lost: {rgb}'
+        start += part['expectedPages']
+    if fixture['fixture'] == 'elements-page-two':
+        assert 'Eigenes Feld' in document[3].get_text() and 'Zweite CV-Zone' in document[3].get_text(), 'Custom/section page-two boundaries produced a blank or duplicate break'
+
+
 def fixture_line_bounds(page, text):
     # Large native tracking makes PDF extraction insert spaces between glyphs.
     # Measure the known QA line's original character boxes, without a word-search assumption.
@@ -332,12 +388,13 @@ for fixture in manifest:
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
     if key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv') or key.startswith('columns-long'):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
-    elif key not in ['custom-sections', 'cover-long-list']:
+    elif key not in ['custom-sections', 'cover-long-list', 'elements-long']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
     check_semantic_text(document, fixture)
     check_custom_footers(document, key)
     check_artwork(document, fixture)
     check_cover_features(document, fixture)
+    check_element_features(document, fixture)
     if key.startswith('columns-'):
         check_columns(document, key)
     image_occurrences = 0
@@ -404,6 +461,7 @@ for fixture in manifest:
             check_custom_footers(reopened, key)
             check_artwork(reopened, fixture)
             check_cover_features(reopened, fixture)
+            check_element_features(reopened, fixture)
             if key.startswith('columns-'):
                 check_columns(reopened, key)
     row = {'fixture': key, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}

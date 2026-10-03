@@ -135,9 +135,11 @@ App snapshot → deterministic Word-independent `DossierDocModel` → declarativ
 
 The 88-module table above remains the historical production/legacy baseline. New isolated modules have the following ownership:
 
-| Module                   | Disposition | Responsibility                                                               |
-| ------------------------ | ----------- | ---------------------------------------------------------------------------- |
-| `docx-next/numbering.ts` | KEEP        | One deterministic semantic list-group plan and central native numbering part |
-| `docx-next/artwork.ts`   | KEEP        | Deterministic nonsemantic paint assets; no user text or package repair       |
+| Module                    | Disposition | Responsibility                                                                         |
+| ------------------------- | ----------- | -------------------------------------------------------------------------------------- |
+| `docx-next/numbering.ts`  | KEEP        | One deterministic semantic list-group plan and central native numbering part           |
+| `docx-next/elements.ts`   | KEEP        | Shared semantic mapping of saved custom text, image/frame, flow-box and shape geometry |
+| `docx-next/decoration.ts` | KEEP        | Bounded nonsemantic shape rasterizer and paint asset identity; no user text or XML     |
+| `docx-next/artwork.ts`    | KEEP        | Deterministic nonsemantic paint assets; no user text or package repair                 |
 
 Cover and rich-letter model builders own semantic list identity. The renderer consumes known counters and styles directly; no legacy dependency or visible-text matching is introduced.

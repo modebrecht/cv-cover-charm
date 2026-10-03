@@ -4,6 +4,7 @@ import {
   CV_PERSON_FIELD_IDS,
   referenceContactFields,
   dossierChromeFieldId,
+  dossierElementFieldId,
 } from "@/lib/dossier-semantic-fields";
 import type {
   CoverPdfDocument,
@@ -21,7 +22,8 @@ import {
   type CvPlacements,
 } from "@/components/cv/types";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
-import { coverAttachmentValues } from "@/components/cover/types";
+import { coverAttachmentValues, TEMPLATES } from "@/components/cover/types";
+import { buildCustomBlocks } from "@/components/cover/layouts";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import type { DossierChromeState } from "@/lib/dossier-chrome";
 import type {
@@ -37,6 +39,7 @@ import type {
 import { nextTemplate } from "./templates";
 import { wordFont } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
+import { textElement, imageElement, shapeElement, flowingElementBox } from "./elements";
 import {
   dossierPhotoRatio,
   dossierPhotoStyleFromBlockStyle,
@@ -113,12 +116,6 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     fieldId: id,
     message: "Legacy field identity needs explicit semantic binding before migration.",
   }));
-  if (cv.design.useElements && cv.elements.length)
-    issues.push({
-      code: "cv-elements-pending",
-      message:
-        "CV custom artwork/text elements require explicit semantic mapping; they must not disappear silently.",
-    });
   const style = (id: string, patch: Partial<TextStyle> = {}): TextStyle => {
     const result = {
       font: theme.font,
@@ -200,27 +197,42 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   const coverPart = part("cover"),
     letterPart = part("letter"),
     cvPart = part("cv");
+  const elementContext = (colors: Record<string, string>, font: string, fontScale = 1) => ({
+    colors,
+    font,
+    fontScale,
+    ink: theme.ink,
+    color,
+    style,
+    fieldStyles: settings.fieldStyles,
+  });
+  const coverContext = elementContext(cover.colors, theme.font, cover.fontScale);
+  const coverDecoration: DocBlock[] = [];
   // Cover fields come with semantic block IDs before any rendering. Geometry becomes flowing composition.
   const aliases: Record<string, string> = { name: "fullName", foto: "photo", beruf: "profession" };
+  const customCoverIds = new Set(cover.customFieldIds ?? []);
   const rank = (id: string) => {
     const index = template.cover.order.indexOf(id);
-    return index < 0 ? 1000 : index;
+    return index < 0 ? (customCoverIds.has(id) ? 1001 : 1000) : index;
   };
   const coverBlocks = cover.blocks
     .filter((block) => !block.style.hidden)
     .map((block, index) => ({ block, index }))
-    .sort((a, b) => rank(a.block.id) - rank(b.block.id) || a.index - b.index);
+    .sort(
+      (a, b) =>
+        rank(a.block.id) - rank(b.block.id) ||
+        (customCoverIds.has(a.block.id) && customCoverIds.has(b.block.id)
+          ? a.block.style.y - b.block.style.y
+          : 0) ||
+        a.index - b.index,
+    );
   const seenCover = new Set<string>();
   for (const { block } of coverBlocks) {
     const id = `cover.${aliases[block.id] ?? block.id}`;
     if (seenCover.has(id)) throw new Error(`Duplicate cover field identity: ${id}`);
     seenCover.add(id);
     if (block.kind === "shape") {
-      issues.push({
-        code: "unmapped-cover-artwork",
-        fieldId: id,
-        message: "Decoration needs a reviewed nonsemantic artwork definition.",
-      });
+      coverDecoration.push(shapeElement(block, id, coverContext));
       continue;
     }
     if (block.kind === "photo" || block.kind === "image") {
@@ -256,76 +268,31 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       typeof line === "string" ? line : line.map((segment) => segment.t).join(""),
     );
     const text = lines.join("\n");
-    if (!text.trim()) continue;
+    if (!text.trim() && !block.src) continue;
     if (block.id === "empfaenger" && cover.data.showBetriebOnCover === false) continue;
     if (
       ["beilagen", "beilagenTitel"].includes(block.id) &&
       cover.data.showBeilagenOnCover === false
     )
       continue;
-    const fontStyle = {
-      font: wordFont(block.style.font, theme.font),
-      sizePt: block.style.size * cover.fontScale,
-      color: color(cover.colors[block.style.color] ?? block.style.color, theme.ink),
-      bold: block.style.weight >= 600,
-      italic: block.style.italic,
-      underline: block.style.underline,
-      allCaps: block.style.uppercase,
-    };
-    const paragraph = p(id, text, fontStyle, {
-      align: block.style.align === "justify" ? "justify" : block.style.align,
+    const paragraphs = textElement(block, id, coverContext, {
       role: block.id === "beruf" ? "title" : block.id === "name" ? "heading" : "body",
       beforeMm: block.id === "kicker" ? template.cover.heroSpaceMm : 0,
       afterMm: block.id === "name" ? 5 : 2,
-      lineHeight: block.style.lineHeight,
       keepNext: ["kicker", "kontaktTitel", "empfaengerTitel", "beilagenTitel"].includes(block.id),
     });
-    const lineRuns = (line: (typeof block.lines)[number], lineIndex: number) => {
-      const segments = typeof line === "string" ? [{ t: line }] : line;
-      return segments.map((segment, segmentIndex) => {
-        const runStyle = style(id, {
-          ...fontStyle,
-          ...(segment.color
-            ? { color: color(cover.colors[segment.color] ?? segment.color, fontStyle.color) }
-            : {}),
-          ...(segment.weight !== undefined ? { bold: segment.weight >= 600 } : {}),
-        });
-        runStyle.trackingPt =
-          settings.fieldStyles?.[id]?.trackingPt ?? block.style.tracking * runStyle.sizePt;
-        return {
-          id: `${id}.line:${lineIndex}.run:${segmentIndex}`,
-          fieldId: id,
-          text: segment.t,
-          style: runStyle,
-        };
-      });
-    };
-    if (block.style.list !== "none") {
-      const items = block.lines.flatMap((line, index) =>
-        lines[index].trim() ? [{ line, index }] : [],
-      );
-      coverPart.blocks.push(
-        ...items.map(({ line, index }, itemIndex) => ({
-          ...paragraph,
-          id: `${id}.item:${index}`,
-          runs: lineRuns(line, index),
-          list: block.style.list as NonNullable<Paragraph["list"]>,
-          listGroupId: id,
-          beforeMm: itemIndex === 0 ? paragraph.beforeMm : 0,
-          afterMm: itemIndex === items.length - 1 ? paragraph.afterMm : 0.5,
-          keepNext: false,
-        })),
-      );
-    } else {
-      paragraph.runs = block.lines.flatMap((line, index) =>
-        lineRuns(line, index).map((run, runIndex) => ({
-          ...run,
-          text: (index > 0 && runIndex === 0 ? "\n" : "") + run.text,
-        })),
-      );
-      coverPart.blocks.push(paragraph);
-    }
+    const boxed =
+      cover.customFieldIds?.includes(block.id) ||
+      block.style.bg ||
+      (block.style.borderWidth ?? 0) > 0 ||
+      block.src;
+    coverPart.blocks.push(
+      ...(boxed
+        ? flowingElementBox(block, id, paragraphs, coverContext, coverPart.page)
+        : paragraphs),
+    );
   }
+  coverPart.blocks.unshift(...coverDecoration);
   if (!coverPart.blocks.length)
     coverPart.blocks.push(
       p("cover.fullName", name(cover.data.vorname, cover.data.nachname), {
@@ -730,6 +697,65 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       width: layout.width,
       startPage: layout.page,
     });
+  }
+  if (cv.design.useElements) {
+    const slots = TEMPLATES.find((item) => item.id === cv.design.template)?.slots ?? [];
+    const customBlocks = buildCustomBlocks(
+      cv.design.template,
+      cv.elements,
+      cv.elementStyles,
+      slots,
+    );
+    const context = elementContext(cv.design.colors, wordFont(cv.design.font, theme.font));
+    const firstPage: DocBlock[] = [],
+      secondPage: DocBlock[] = [],
+      firstArtwork: DocBlock[] = [],
+      secondArtwork: DocBlock[] = [];
+    const pages = new Map(cv.elements.map((element) => [element.id, element.page ?? 1]));
+    for (const original of customBlocks) {
+      if (original.style.hidden) continue;
+      const block =
+        cv.design.font && !cv.elementStyles[original.id]?.font
+          ? { ...original, style: { ...original.style, font: cv.design.font } }
+          : original;
+      const id = dossierElementFieldId("cv", block.id);
+      const target = pages.get(block.id) === 2 ? secondPage : firstPage;
+      if (block.kind === "shape") {
+        (target === firstPage ? firstArtwork : secondArtwork).push(
+          shapeElement(block, id, context),
+        );
+      } else if (block.kind === "image") {
+        const image = imageElement(block, id, context.colors, color, theme.accent);
+        if (image) target.push(image);
+      } else {
+        target.push(
+          ...flowingElementBox(block, id, textElement(block, id, context), context, cvPart.page),
+        );
+      }
+    }
+    const firstSection = cvPart.blocks.findIndex((block) => block.kind === "section");
+    const sourceY = (block: DocBlock) =>
+      block.kind === "table" || block.kind === "image" ? (block.sourceLayout?.yMm ?? 0) : 0;
+    firstPage.sort((a, b) => sourceY(a) - sourceY(b));
+    secondPage.sort((a, b) => sourceY(a) - sourceY(b));
+    if (firstPage.length)
+      cvPart.blocks.splice(firstSection < 0 ? cvPart.blocks.length : firstSection, 0, {
+        kind: "group",
+        id: "cv.elements.page:1",
+        blocks: firstPage,
+      });
+    cvPart.blocks.unshift(...firstArtwork);
+    if (secondPage.length || secondArtwork.length) {
+      const nextPage = cvPart.blocks.findIndex(
+        (block) => block.kind === "section" && block.startPage === 2,
+      );
+      cvPart.blocks.splice(nextPage < 0 ? cvPart.blocks.length : nextPage, 0, {
+        kind: "group",
+        id: "cv.elements.page:2",
+        blocks: [...secondArtwork, ...secondPage],
+        startPage: 2,
+      });
+    }
   }
   if (settings.chrome) {
     const resolved = resolveDossierChromeSnapshot({ cover, letter, cv }, settings.chrome);

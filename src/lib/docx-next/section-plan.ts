@@ -26,7 +26,7 @@ export function planPartSections(part: DocumentPart): PlannedSection[] {
     normal = [];
   };
   const visit = (block: DocBlock) => {
-    if (block.kind === "group") {
+    if (block.kind === "group" && !block.startPage) {
       block.blocks.forEach(visit);
       return;
     }

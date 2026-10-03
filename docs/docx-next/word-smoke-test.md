@@ -4,7 +4,7 @@ Status: **PENDING**. No Windows/macOS Microsoft Word environment was available d
 
 Record application version, OS, fixture name, tester and date for each result.
 
-- [ ] Windows Word opens `normal`, `long-letter`, `long-cv`, `png`, `icc-jpeg`, `half-sections`, `rich-letter`, `rich-table-lists`, `positioned-images`, `photo-left`, `photo-right`, `photo-free`, `photo-circle`, `photo-zoom`, `columns-two`, `columns-three`, `columns-long`, `columns-chrome`, `columns-long-chrome`, `chrome-custom`, `chrome-custom-stacked`, `paper-colors`, `paint-gradient`, `paint-long-letter`, `paint-long-cv`, `offsets-negative`, `offsets-zero`, `offsets-positive` `cover-typography`, `cover-lists`, `cover-long-list`, `cover-tracking-zero`, `cover-tracking-wide`, `cover-line-single`, `cover-line-double` and `editor-roundtrip` without repair prompt.
+- [ ] Windows Word opens `normal`, `long-letter`, `long-cv`, `png`, `icc-jpeg`, `half-sections`, `rich-letter`, `rich-table-lists`, `positioned-images`, `photo-left`, `photo-right`, `photo-free`, `photo-circle`, `photo-zoom`, `columns-two`, `columns-three`, `columns-long`, `columns-chrome`, `columns-long-chrome`, `chrome-custom`, `chrome-custom-stacked`, `paper-colors`, `paint-gradient`, `paint-long-letter`, `paint-long-cv`, `offsets-negative`, `offsets-zero`, `offsets-positive` `cover-typography`, `cover-lists`, `cover-long-list`, `cover-tracking-zero`, `cover-tracking-wide`, `cover-line-single`, `cover-line-double` `elements-short`, `elements-long`, `elements-page-two`, `elements-images`, `elements-shapes`, `elements-shapes-paper`, `elements-artwork-failure`, `elements-empty-disabled` and `editor-roundtrip` without repair prompt.
 - [ ] macOS Word opens those fixtures if available.
 - [ ] All three dossier parts and all pictures are visible.
 - [ ] Text is selectable and editable; `ä ö ü Ä Ö Ü é è à – — ·` survives edits.
@@ -21,6 +21,12 @@ Record application version, OS, fixture name, tester and date for each result.
 - [ ] Edit the uppercase cover name and toggle Word's All Caps formatting; original mixed-case Unicode remains editable.
 - [ ] Compare cover tracking/line-spacing probes and confirm styles survive save/reopen.
 - [ ] Add/delete list items; cover, separated letter and table-cell counters stay independent. The 55-item cover list continues on page 2 without losing content.
+- [ ] Rename one custom CV text element with a repeated value; its independent bold/underline style survives edits and save/reopen.
+- [ ] Add/delete paragraphs inside a custom flow box. Its native fill/padding/borders and text remain editable, long text crosses pages without clipping, and deletion leaves no empty fixed-height text container.
+- [ ] Inspect custom image/caption content and change the caption independently of the picture. Aspect/crop and shared pixels survive save/reopen.
+- [ ] Confirm page-2 custom elements and page-2 sections share one continuation break. When main CV flow exceeds one page, this zone starts after that flow rather than overlaying physical page 2.
+- [ ] Confirm shapes sit behind text over white/colored paper, with opacity, outlines, gradients and transparent corners. Body decorations occur only in their target zone, while paper/chrome repeat. Deleting text does not leave corrupt drawing fragments.
+- [ ] Open the failed-artwork fixture: all native text remains and no orphan media relationship or artwork-only blank page appears.
 - [ ] Save as DOCX, close Word, reopen without repair or missing content.
 - [ ] Review candidate DOCX-oriented reference snapshots and record approval separately from browser/PDF similarity.
 

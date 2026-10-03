@@ -46,6 +46,9 @@ export function dossierChromeFieldId(
 export function cvEntryFieldId(section: string, entryId: string, field: string): string {
   return `cv.entry.${section}:${entryId}.${field}`;
 }
+export function dossierElementFieldId(scope: "cv" | "cover", elementId: string): string {
+  return scope === "cover" ? `cover.${elementId}` : `cv.element:${elementId}`;
+}
 export function cvLineFieldId(
   section: "hobbys" | "staerken",
   index: number,
@@ -95,6 +98,7 @@ export function isSemanticDossierFieldId(scope: "cv" | "letter", id: string): bo
     Object.values(CV_PERSON_FIELD_IDS).some((value) => value === id) ||
     id === "cv.person.name" ||
     id === "cv.documentTitle" ||
+    /^cv\.element:.+$/.test(id) ||
     /^cv\.section\..+\.heading$/.test(id) ||
     /^cv\.entry\.(?:hobbys|staerken):.+$/.test(id) ||
     /^cv\.entry\.(?:schule|erfahrung|sprachen|referenzen|custom:.+):.+\.(?:date|title|place|description|name|level|role|contact|email|extra)$/.test(

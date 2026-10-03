@@ -7,6 +7,7 @@ import type {
   ImageBlock,
   TextRun,
   DecorativeArtwork,
+  DecorativeShape,
 } from "./model";
 import { walkBlocks } from "./model";
 import { WordPackage, WORD_PART_TYPES } from "./package";
@@ -19,7 +20,8 @@ import {
 } from "./images";
 import { stylesXml, fontTableXml } from "./styles";
 import { planNumbering } from "./numbering";
-import { validateWordPackage } from "./validation";
+import { validateWordPackage, validateDossierDocModel } from "./validation";
+import { rasterizeDecoration, decorationAssetKey, type DecorationRasterizer } from "./decoration";
 import { pictureGeometry } from "./picture-geometry";
 import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
@@ -27,6 +29,8 @@ import { planPartSections, type PlannedSection } from "./section-plan";
 export type RenderOptions = {
   normalizeImage?: ImageNormalizer;
   allowUnacceptedModelIssues?: boolean;
+  rasterizeDecoration?: DecorationRasterizer;
+  onDecorationFailure?: (id: string, error: unknown) => void;
 };
 function control(id: string, content: string) {
   return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
@@ -80,6 +84,7 @@ export async function renderDossierDocx(
     throw new Error(
       "DOCX Next sidebar has not passed Gate 8; no legacy reconstruction fallback is allowed.",
     );
+  validateDossierDocModel(model);
   const numbering = planNumbering(model);
   const renderParagraph = (value: Paragraph, drawings = "") =>
     paragraph(value, drawings, numbering.ids.get(value.id));
@@ -97,6 +102,29 @@ export async function renderDossierDocx(
       pkg.add(`word/${file}`, asset.contentType, asset.bytes);
       pkg.relate("word/document.xml", rid, "image", file);
     }
+  const decorationSources = new Map<string, { rid: string; file: string }>();
+  const decorationIds = new Map<string, string>();
+  const rasterize = options.rasterizeDecoration ?? rasterizeDecoration;
+  const normalizeDecoration = imageCache((key) => rasterize(JSON.parse(key) as DecorativeShape));
+  for (const block of blocks) {
+    if (block.kind !== "decorative-shape") continue;
+    const key = decorationAssetKey(block);
+    try {
+      if (!decorationSources.has(key)) {
+        const asset = await normalizeDecoration(key);
+        const index = decorationSources.size + 1;
+        const rid = `decoration${index}`,
+          file = `media/decoration-${index}.png`;
+        pkg.add(`word/${file}`, asset.contentType, asset.bytes);
+        pkg.relate("word/document.xml", rid, "image", file);
+        decorationSources.set(key, { rid, file });
+      }
+      decorationIds.set(block.id, decorationSources.get(key)!.rid);
+    } catch (error) {
+      if (options.onDecorationFailure) options.onDecorationFailure(block.id, error);
+      else console.warn(`DOCX Next omitted nonsemantic decoration ${block.id}:`, error);
+    }
+  }
   let drawingId = 0;
   function pictureRun(
     value: ImageBlock,
@@ -154,6 +182,38 @@ export async function renderDossierDocx(
       page,
     );
   }
+  function decorationRun(value: DecorativeShape, page: DocumentPart["page"]): string {
+    const rid = decorationIds.get(value.id);
+    if (!rid) return "";
+    return pictureRun(
+      {
+        kind: "image",
+        id: value.id,
+        source: "",
+        alt: "",
+        widthMm: value.widthMm,
+        maxHeightMm: value.heightMm,
+        placement: "free",
+        coordinateOrigin: "page",
+        xMm: value.xMm,
+        yMm: value.yMm,
+        gapMm: 0,
+      },
+      rid,
+      {
+        widthMm: value.widthMm,
+        heightMm: value.heightMm,
+        crop: { left: 0, top: 0, right: 0, bottom: 0 },
+        shape: "rect",
+        cornerAdjustment: 0,
+        borderWidthMm: 0,
+        borderColor: "000000",
+      },
+      page.widthMm,
+      page,
+      true,
+    );
+  }
   const paints = new Map<string, string>();
   function artwork(value: DecorativeArtwork, part: DocumentPart, story: string): string {
     const key = `${value.fill.color}:${value.fill.endColor ?? value.fill.color}`;
@@ -200,19 +260,34 @@ export async function renderDossierDocx(
     );
   }
   function table(value: TableBlock, widthMm: number, page: DocumentPart["page"]): string {
+    const tableWidth = value.widthMm ?? widthMm;
+    if (tableWidth + (value.indentMm ?? 0) > widthMm + 0.001)
+      throw new Error(`DOCX Next flow box exceeds available width ${value.id}`);
+    const d = value.decoration;
+    const paddingX = d?.paddingXMm ?? 2,
+      paddingY = d?.paddingYMm ?? 0;
+    const shading = d?.fillColor
+      ? `<w:shd w:val="clear" w:color="auto" w:fill="${d.fillColor}"/>`
+      : "";
+    const border = d?.borderWidthMm
+      ? `w:val="single" w:sz="${Math.min(96, Math.max(2, Math.round(((d.borderWidthMm * 72) / 25.4) * 8)))}" w:color="${d.borderColor}"`
+      : 'w:val="nil"';
     const total = value.widths.reduce((sum, width) => sum + width, 0);
-    const widths = value.widths.map((width) => (widthMm * width) / total);
+    const widths = value.widths.map((width) => (tableWidth * width) / total);
     const rows = value.rows
       .map(
         (row) =>
-          `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells.map((cell, index) => `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/><w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, widths[index] - 4), page)}${emptyParagraph}</w:tc>`).join("")}</w:tr>`,
+          `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells.map((cell, index) => `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/>${shading}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, widths[index] - paddingX * 2), page)}${emptyParagraph}</w:tc>`).join("")}</w:tr>`,
       )
       .join("");
-    return `<w:tbl><w:tblPr><w:tblW w:w="${twips(widthMm)}" w:type="dxa"/><w:tblBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/><w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="${twips(2)}" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="${twips(2)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>`;
+    // A paragraph boundary keeps adjacent semantic tables independently editable.
+    return `<w:tbl><w:tblPr><w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${border}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${emptyParagraph}`;
   }
   function renderBlock(block: DocBlock, widthMm: number, page: DocumentPart["page"]): string {
     if (block.kind === "paragraph") return renderParagraph(block);
     if (block.kind === "image") return image(block, widthMm, page);
+    if (block.kind === "decorative-shape")
+      return emptyParagraphWithRuns(decorationRun(block, page));
     if (block.kind === "spacer")
       return control(
         block.id,
@@ -237,34 +312,54 @@ export async function renderDossierDocx(
       throw new Error("Column flow must be planned before Word rendering.");
     return `${block.heading ? renderParagraph(block.heading) : ""}${renderBlocks(block.blocks, widthMm, page)}`;
   }
+  const rendersContent = (value: DocBlock): boolean =>
+    value.kind === "decorative-shape"
+      ? decorationIds.has(value.id)
+      : value.kind === "group"
+        ? value.blocks.some(rendersContent)
+        : true;
   function renderBlocks(values: DocBlock[], widthMm: number, page: DocumentPart["page"]): string {
     let result = "",
       page2Started = false;
     for (let index = 0; index < values.length; index++) {
       const block = values[index];
+      if (block.kind === "group" && !rendersContent(block)) continue;
       // Floating image geometry is relative to one known paragraph anchor. Do not
       // insert separate anchor paragraphs that move each image's origin downwards.
-      if (block.kind === "image" && block.placement !== "inline") {
-        const images: ImageBlock[] = [];
+      if (
+        block.kind === "decorative-shape" ||
+        (block.kind === "image" && block.placement !== "inline")
+      ) {
+        const drawings: string[] = [];
         let cursor = index;
         while (
-          values[cursor]?.kind === "image" &&
-          (values[cursor] as ImageBlock).placement !== "inline"
+          values[cursor]?.kind === "decorative-shape" ||
+          (values[cursor]?.kind === "image" &&
+            (values[cursor] as ImageBlock).placement !== "inline")
         ) {
-          images.push(values[cursor] as ImageBlock);
+          const value = values[cursor];
+          drawings.push(
+            value.kind === "decorative-shape"
+              ? decorationRun(value, page)
+              : imageRun(value as ImageBlock, widthMm, page),
+          );
           cursor++;
         }
         const anchor = values[cursor];
         if (anchor?.kind === "paragraph") {
-          result += renderParagraph(
-            anchor,
-            images.map((value) => imageRun(value, widthMm, page)).join(""),
-          );
+          result += renderParagraph(anchor, drawings.join(""));
           index = cursor;
           continue;
         }
+        if (drawings.some(Boolean)) result += emptyParagraphWithRuns(drawings.join(""));
+        index = cursor - 1;
+        continue;
       }
-      if (block.kind === "section" && block.startPage === 2 && !page2Started) {
+      if (
+        (block.kind === "section" || block.kind === "group") &&
+        block.startPage === 2 &&
+        !page2Started
+      ) {
         result += pageBreak;
         page2Started = true;
       }

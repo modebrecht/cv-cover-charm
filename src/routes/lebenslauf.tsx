@@ -25,6 +25,7 @@ import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { CvPageMarginsControl } from "@/components/cv/CvPageMarginsControl";
 import { CitrusRubricControls } from "@/components/cv/CitrusRubricControls";
 import { ElementBar } from "@/components/cover/ElementBar";
+import { dossierElementFieldId } from "@/lib/dossier-semantic-fields";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
 import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
@@ -2601,6 +2602,9 @@ function Lebenslauf() {
                   onReset={() => resetElement(selectedBlock.id)}
                   onClose={() => setSelected(null)}
                   custom={selectedCustom ?? undefined}
+                  dossierFieldId={
+                    selectedCustom ? dossierElementFieldId("cv", selectedCustom.id) : undefined
+                  }
                   onCustomChange={
                     selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
                   }

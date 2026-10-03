@@ -3,6 +3,8 @@ import { DEMO_CV, emptyCv } from "../../../src/components/cv/types";
 import { DEMO_LETTER, emptyLetterDesign } from "../../../src/components/letter/types";
 import { coverPdfDocumentFromSaved } from "../../../src/lib/dossier-pdf-document";
 import type { DossierAppSnapshot } from "../../../src/lib/docx-next/build-model";
+import { buildCustomBlocks } from "../../../src/components/cover/layouts-base";
+import { TEMPLATES, type CustomField } from "../../../src/components/cover/types";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../../../src/lib/dossier-chrome";
 
 export const BRIEF_FIXTURES = [
@@ -17,6 +19,143 @@ export const BRIEF_FIXTURES = [
   "custom-sections",
 ] as const;
 export type BriefFixture = (typeof BRIEF_FIXTURES)[number];
+export function briefElementsFixture(
+  kind:
+    | "short"
+    | "long"
+    | "page-two"
+    | "images"
+    | "shapes"
+    | "shapes-paper"
+    | "empty-disabled" = "short",
+): DossierAppSnapshot {
+  const input = briefFixture(kind === "page-two" ? "minimal" : "normal");
+  const slots = TEMPLATES.find((template) => template.id === "brief")!.slots;
+  const fields: CustomField[] = [
+    { id: "custom-a", kind: "text", label: "Eigenes Feld A", text: "Eigenes Feld ä ö ü é è à" },
+    { id: "custom-b", kind: "text", label: "Eigenes Feld B", text: "Eigenes Feld ä ö ü é è à" },
+  ];
+  const styles = {
+    "custom-a": {
+      x: 25,
+      y: 210,
+      w: 145,
+      size: 12,
+      font: "times" as const,
+      tracking: 0.02,
+      color: "#123456",
+    },
+    "custom-b": {
+      x: 35,
+      y: 235,
+      w: 120,
+      size: 12,
+      italic: true,
+      underline: true,
+      bg: "#e6edf3",
+      padX: 2,
+      padY: 1,
+      borderWidth: 0.3,
+      borderColor: "#244a61",
+    },
+  };
+  if (kind === "long")
+    fields[0].text = Array.from(
+      { length: 70 },
+      (_, index) => `Zusatz ${index + 1}: Native editierbare Zeile ä ö ü é è à.`,
+    ).join("\n");
+  if (kind === "page-two") {
+    fields[1].page = 2;
+    input.cv.data.schule = [
+      {
+        id: "continuation",
+        zeit: "2024 – 2026",
+        titel: "Zweite CV-Zone",
+        ort: "Zürich",
+        beschreibung: "Bleibt mit dem Zusatzfeld auf der Fortsetzungsseite.",
+      },
+    ];
+    input.cv.data.sectionLayouts = { schule: { page: 2 } };
+  }
+  if (kind === "empty-disabled") {
+    fields[0].text = "";
+    fields.push({ id: "missing-image", kind: "image", label: "Leer", text: "", src: null });
+    styles["custom-b"].bg = "#e6edf3";
+  }
+  input.cover.blocks.push(...buildCustomBlocks("brief", fields, styles, slots));
+  input.cover.customFieldIds = fields.map((field) => field.id);
+  input.cv.design.useElements = kind !== "empty-disabled";
+  input.cv.elements = structuredClone(fields);
+  input.cv.elementStyles = structuredClone(styles);
+  input.settings.fieldStyles = {
+    "cv.element:custom-a": { bold: true, color: "234567" },
+    "cv.element:custom-b": { italic: true, underline: true },
+  };
+  if (kind === "shapes" || kind === "shapes-paper") {
+    const shapes: CustomField[] = [
+      { id: "art-rect", kind: "shape", label: "Rechteck", text: "", shape: "rect" },
+      { id: "art-circle", kind: "shape", label: "Kreis", text: "", shape: "circle" },
+      { id: "art-line", kind: "shape", label: "Linie", text: "", shape: "line" },
+      {
+        id: "art-path",
+        kind: "shape",
+        label: "Pfad",
+        text: "",
+        shape: "path",
+        path: "M0 100 L25 25 L50 75 L100 0",
+      },
+    ];
+    const shapeStyles = {
+      "art-rect": {
+        x: 5,
+        y: 5,
+        w: 14,
+        ratio: 1.5,
+        fill: "#cc6600",
+        color: "#244a61",
+        strokeWidth: 0.4,
+        bgRadius: 2,
+        opacity: 0.5,
+      },
+      "art-circle": {
+        x: 5,
+        y: 40,
+        w: 14,
+        ratio: 1,
+        gradFrom: "#ff0000",
+        gradTo: "#0000ff",
+        gradAngle: 90,
+        gradStart: 20,
+        gradEnd: 80,
+        strokeWidth: 0,
+        opacity: 1,
+      },
+      "art-line": { x: 5, y: 80, w: 14, strokeWidth: 0.8, color: "#229922", opacity: 1 },
+      "art-path": {
+        x: 5,
+        y: 110,
+        w: 14,
+        ratio: 1.5,
+        fill: null,
+        color: "#aa00aa",
+        strokeWidth: 0.6,
+        opacity: 1,
+      },
+    };
+    input.cover.blocks.push(...buildCustomBlocks("brief", shapes, shapeStyles, slots));
+    input.cover.customFieldIds.push(...shapes.map((shape) => shape.id));
+    input.cv.elements.push(...structuredClone(shapes));
+    Object.assign(input.cv.elementStyles, structuredClone(shapeStyles));
+    input.cv.elements.push({ ...shapes[1], id: "art-circle-page2", page: 2 });
+    input.cv.elementStyles["art-circle-page2"] = { ...shapeStyles["art-circle"], y: 180 };
+  }
+  if (kind === "shapes-paper") {
+    input.cover.colors.bg = "#f4e9da";
+    input.cv.design.paperColor = "#eaf2e5";
+    input.letter.design.paperColor = "#e8f0f4";
+  }
+  return input;
+}
 export function briefCoverTypographyFixture(
   kind:
     | "typography"
