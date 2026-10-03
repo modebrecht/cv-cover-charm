@@ -41,16 +41,11 @@ type ImagePlacement = {
 };
 
 const FIT_EPSILON_PX = 1;
-const TEXT_FIT_SAFETY_PX = 2;
 const EMPTY_BODY_HTML = '<div data-align="justify"><br></div>';
 
 function numericCss(value: string): number {
   const parsed = Number.parseFloat(value);
   return Number.isFinite(parsed) ? parsed : 0;
-}
-
-function textFits(measuredPx: number, capacityPx: number): boolean {
-  return measuredPx <= Math.max(0, capacityPx - TEXT_FIT_SAFETY_PX);
 }
 
 function visibleElementRect(element: Element): DOMRect | null {
@@ -273,7 +268,7 @@ function splitBlockToFit(
       high = mid - 1;
       continue;
     }
-    if (textFits(measure(split.prefixHtml), capacityPx)) {
+    if (measure(split.prefixHtml) <= capacityPx + FIT_EPSILON_PX) {
       best = split;
       low = mid + 1;
     } else {
@@ -310,7 +305,7 @@ function takePage(
   while (remaining.length) {
     const next = remaining[0];
     const candidate = [...taken, next];
-    if (textFits(measure(serializeUnits(candidate)), capacityPx)) {
+    if (measure(serializeUnits(candidate)) <= capacityPx + FIT_EPSILON_PX) {
       taken.push(remaining.shift()!);
       continue;
     }
@@ -459,7 +454,8 @@ export function paginateMeasuredLetter(
       return Math.max(0, base - imageCostForPage(placements, pageIndex));
     };
     const fits = (candidate: PaginationUnit[], pageIndex: number, finalPage: boolean) =>
-      textFits(measurer.measure(serializeUnits(candidate)), capacity(pageIndex, finalPage));
+      measurer.measure(serializeUnits(candidate)) <=
+      capacity(pageIndex, finalPage) + FIT_EPSILON_PX;
 
     // Preserve the exact legacy one-page contract whenever body + final tail
     // fit on page 1 and no image had to move to a continuation page.
@@ -519,7 +515,8 @@ export function paginateMeasuredLetter(
         const split = splitBlockToFit(taken[0], capacity(pageIndex, false), measurer.measure);
         if (
           split &&
-          textFits(measurer.measure(serializeUnits([split.suffix])), capacity(pageIndex + 1, true))
+          measurer.measure(serializeUnits([split.suffix])) <=
+            capacity(pageIndex + 1, true) + FIT_EPSILON_PX
         ) {
           taken = [split.prefix];
           nextRemaining = [split.suffix];
