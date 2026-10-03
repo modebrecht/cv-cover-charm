@@ -36,7 +36,6 @@ import type {
 import { nextTemplate } from "./templates";
 import { wordFont } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
-import { walkBlocks } from "./model";
 import {
   dossierPhotoRatio,
   dossierPhotoStyleFromBlockStyle,
@@ -417,14 +416,6 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     template.letter.paragraphSpaceMm,
     template.letter.lineHeight,
   );
-  for (const block of walkBlocks(letterBody))
-    if (block.kind === "columns")
-      issues.push({
-        code: "letter-column-flow-pending",
-        fieldId: block.id,
-        message:
-          "Balanced letter columns need native Word flow acceptance; a table substitute is not yet accepted.",
-      });
   letterPart.blocks.push(...letterBody);
   if (ld.gruss)
     letterPart.blocks.push(

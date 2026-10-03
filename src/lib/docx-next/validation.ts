@@ -63,6 +63,16 @@ export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): v
           block.rows.some((row) => row.cells.length !== block.widths.length))
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
+      if (
+        block.kind === "column-flow" &&
+        (![2, 3].includes(block.count) ||
+          !Number.isFinite(block.gapMm) ||
+          block.gapMm < 0 ||
+          (part.page.widthMm - margins.left - margins.right - (block.count - 1) * block.gapMm) /
+            block.count <
+            20)
+      )
+        throw new Error(`DOCX Next invalid column geometry ${block.id}`);
     }
   }
 }

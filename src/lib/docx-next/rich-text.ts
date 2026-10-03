@@ -81,6 +81,19 @@ export function richLetterBlocks(
         .split("\n")
         .map((value) => ({ tag: "p", attrs: {}, children: [value] }));
   const make = (node: Node | string, id: string): DocBlock => {
+    const columns = typeof node !== "string" ? Number(node.attrs["data-columns"]) : 0;
+    if (typeof node !== "string" && (columns === 2 || columns === 3)) {
+      const attrs = { ...node.attrs };
+      delete attrs["data-columns"];
+      attrs["data-align"] = "left";
+      return {
+        kind: "column-flow",
+        id,
+        count: columns,
+        gapMm: 5,
+        blocks: [make({ ...node, attrs }, `${id}.content`)],
+      };
+    }
     if (typeof node !== "string" && node.tag === "table") {
       const rows = node.children
         .flatMap((child) =>
@@ -144,21 +157,6 @@ export function richLetterBlocks(
       SEMANTIC_LIST_KINDS.includes(node.attrs["data-list"] as NonNullable<Paragraph["list"]>)
     )
       paragraph.list = node.attrs["data-list"] as Paragraph["list"];
-    // Word table cells are a stable editable equivalent for an editor-local columns block.
-    const columns = typeof node !== "string" ? Number(node.attrs["data-columns"]) : 0;
-    if (columns === 2 || columns === 3) {
-      const groups = Array.from({ length: columns }, () => [] as DocBlock[]);
-      const childNodes =
-        typeof node === "string"
-          ? []
-          : node.children.filter((child) => typeof child !== "string" || !!child.trim());
-      childNodes.forEach((child, index) =>
-        groups[
-          Math.min(columns - 1, Math.floor((index * columns) / Math.max(1, childNodes.length)))
-        ].push(make(child, `${id}.column-item:${index}`)),
-      );
-      return { kind: "columns", id, widths: Array(columns).fill(1 / columns), columns: groups };
-    }
     return paragraph;
   };
   const cellBlocks = (cell: Node, id: string): DocBlock[] => {

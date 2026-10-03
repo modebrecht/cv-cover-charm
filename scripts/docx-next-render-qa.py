@@ -19,17 +19,20 @@ CT = '{http://schemas.openxmlformats.org/package/2006/content-types}'
 R = '{http://schemas.openxmlformats.org/officeDocument/2006/relationships}'
 
 
-def check_package(file):
+def check_package(file, expected_sections=3, next_package=True):
     with ZipFile(file) as z:
         assert z.testzip() is None, f'{file}: ZIP CRC failed'
         names = set(z.namelist())
         assert len(names) == len(z.namelist()), 'Duplicate ZIP member'
-        required = {'[Content_Types].xml', '_rels/.rels', 'word/document.xml', 'word/styles.xml', 'word/settings.xml', 'word/fontTable.xml', 'word/numbering.xml'}
+        required = {'[Content_Types].xml', '_rels/.rels', 'word/document.xml'}
+        if next_package:
+            required |= {'word/styles.xml', 'word/settings.xml', 'word/fontTable.xml', 'word/numbering.xml'}
         assert required <= names, 'Missing required parts'
         trees = {name: ET.fromstring(z.read(name)) for name in names if name.endswith(('.xml', '.rels'))}
         types = trees['[Content_Types].xml']
         overrides = {node.attrib['PartName'].lstrip('/') for node in types.findall(CT + 'Override')}
-        assert {name for name in names if not name.endswith('.rels') and name != '[Content_Types].xml'} <= overrides, 'Missing content type'
+        defaults = {node.attrib['Extension'] for node in types.findall(CT + 'Default')}
+        assert all(name in overrides or name.rsplit('.', 1)[-1] in defaults for name in names if name != '[Content_Types].xml'), 'Missing content type'
         for part, tree in trees.items():
             if not part.endswith('.rels'):
                 continue
@@ -40,7 +43,7 @@ def check_package(file):
                 target = posixpath.normpath(base + node.attrib['Target'])
                 assert target in names, f'{part}: missing target {target}'
         document = trees['word/document.xml']
-        assert len(document.findall('.//' + W + 'sectPr')) == 3, 'Expected cover/letter/CV sections'
+        assert len(document.findall('.//' + W + 'sectPr')) == expected_sections, 'Unexpected physical section count'
         relationships = {node.attrib['Id'] for node in trees['word/_rels/document.xml.rels']}
         for node in document.iter():
             for key in (R + 'id', R + 'embed', R + 'link'):
@@ -56,20 +59,97 @@ def compact(value):
     return re.sub(r'\s+', '', unicodedata.normalize('NFKC', value).replace('\u00ad', ''))
 
 
-def render(file, folder):
+def check_columns(document, key):
+    def visible_lines(page):
+        for block in page.get_text('rawdict')['blocks']:
+            if block['type'] != 0:
+                continue
+            for line in block['lines']:
+                chars = [char for span in line['spans'] for char in span['chars']]
+                visible = [char for char in chars if not char['c'].isspace()]
+                if visible:
+                    rect = fitz.Rect(visible[0]['bbox'])
+                    for char in visible[1:]: rect |= fitz.Rect(char['bbox'])
+                    yield ''.join(char['c'] for char in chars), rect
+    count = 3 if key == 'columns-three' else 2
+    before = document[1].search_for('Vor dem Spaltenabschnitt')[0]
+    after_page, after = next((page, page.search_for('Nach dem Spaltenabschnitt')[0])
+                            for page in document if page.search_for('Nach dem Spaltenabschnitt'))
+    left = before.x0
+    # Brief fixture margins are 20 mm; physical Word column gap is 5 mm.
+    full_width = document[1].rect.width - 2 * left
+    gap = 5 * 72 / 25.4
+    width = (full_width - (count - 1) * gap) / count
+    starts = [left + index * (width + gap) for index in range(count)]
+    assert abs(after.x0 - left) < 1, f'{key}: full-width flow did not resume'
+    seen = set()
+    for page in document[1:after_page.number + 1]:
+        for text, rect in visible_lines(page):
+            if page.number == 1 and rect.y0 < before.y1:
+                continue
+            if page.number == after_page.number and rect.y1 > after.y0:
+                continue
+            # Footer/header content is excluded by matching a known fixture sentence.
+            if not any(fragment in text for fragment in ('Native', 'Spalten', 'Aufgaben', 'sorgfältig', 'Neues', 'zuverlässig', 'editierbar', 'gerne', 'Ä ö ü', 'é è à')):
+                continue
+            column = min(range(count), key=lambda index: abs(rect.x0 - starts[index]))
+            assert abs(rect.x0 - starts[column]) < 1, f'{key}: column start shifted'
+            assert rect.x1 <= starts[column] + width + 1, f'{key}: text crossed its column'
+            seen.add(column)
+    assert seen == set(range(count)), f'{key}: one or more columns did not render'
+    for page, marker in [(document[1], 'Vor dem Spaltenabschnitt'), (after_page, 'Nach dem Spaltenabschnitt')]:
+        lines = [rect for text, rect in visible_lines(page) if marker in text]
+        assert lines and lines[0].width > width + 10, f'{key}: normal paragraph retained column width'
+    if key.endswith('chrome'):
+        assert 'lea.mueller@example.ch' in document[1].get_text(), f'{key}: first-page contact header missing'
+        for page in document[1:after_page.number + 1]:
+            assert 'Letter header' in page.get_text(), f'{key}: logical letter header lost'
+            assert 'CV header' not in page.get_text(), f'{key}: CV header leaked into letter'
+            if page.number > 1:
+                assert 'lea.mueller@example.ch' not in page.get_text(), f'{key}: first-page contact repeated'
+        assert 'CV header' in document[after_page.number + 1].get_text(), f'{key}: CV header not restored'
+
+
+def check_semantic_text(document, fixture):
+    key = fixture['fixture']
+    full_text = compact(''.join(page.get_text() for page in document))
+    body_text = ''
+    start = 0
+    for part in fixture.get('parts', []):
+        part_text = ''
+        for page in document[start:start + part['expectedPages']]:
+            margins = part['contentBoxMm']
+            # Allow for font ascender bounds at the native body boundary; exclude
+            # running chrome so it cannot interrupt a paragraph crossing pages.
+            clip = fitz.Rect(0, max(0, (margins['top'] - 3) * 72 / 25.4),
+                             page.rect.width, min(page.rect.height, page.rect.height - (margins['bottom'] - 3) * 72 / 25.4))
+            part_text += page.get_text(clip=clip)
+        part_text = compact(part_text)
+        for text in part['semanticText']:
+            assert compact(text) in part_text, f'{key}: missing {part["id"]} body text {text[:100]}'
+        body_text += part_text
+        start += part['expectedPages']
+    if fixture.get('parts'):
+        assert start == len(document), f'{key}: incorrect logical part page count'
+    for text in fixture['semanticText']:
+        assert compact(text) in full_text or compact(text) in body_text, f'{key}: missing rendered text {text[:100]}'
+
+
+def render(file, folder, format='pdf'):
     folder.mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='docx-next-lo-') as profile:
-        command = ['soffice', '-env:UserInstallation=' + Path(profile).as_uri(), '--headless', '--norestore', '--convert-to', 'pdf', '--outdir', str(folder), str(file)]
+        command = ['soffice', '-env:UserInstallation=' + Path(profile).as_uri(), '--headless', '--norestore', '--convert-to', format, '--outdir', str(folder), str(file)]
         result = subprocess.run(command, capture_output=True, text=True, timeout=90)
         assert result.returncode == 0 and not re.search(r'error|warning', result.stderr, re.I), result.stdout + result.stderr
-    pdf = folder / (file.stem + '.pdf')
-    assert pdf.is_file(), 'LibreOffice produced no PDF'
-    return pdf
+    result_file = folder / (file.stem + ('.pdf' if format == 'pdf' else '.docx'))
+    assert result_file.is_file(), f'LibreOffice produced no {format} output'
+    return result_file
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument('directory', type=Path)
 parser.add_argument('--fixtures', nargs='*')
+parser.add_argument('--roundtrip', action='store_true', help='Save as DOCX in LibreOffice, reopen and repeat text/column/page-count checks')
 parser.add_argument('--snapshots', type=Path, help='Optional approved DOCX render baseline directory')
 args = parser.parse_args()
 manifest = json.loads((args.directory / 'manifest.json').read_text())
@@ -92,19 +172,19 @@ for fixture in manifest:
     if args.fixtures and key not in args.fixtures:
         continue
     file = args.directory / (key + '.docx')
-    media_count = check_package(file)
+    media_count = check_package(file, fixture.get('expectedSections', 3))
     folder = args.directory / (key + '-qa')
     pdf = render(file, folder)
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key in ('long-letter', 'long-cv', 'photo-long-cv'):
+    if key in ('long-letter', 'long-cv', 'photo-long-cv') or key.startswith('columns-long'):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key not in ['custom-sections']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
-    full_text = compact(''.join(page.get_text() for page in document))
-    for text in fixture['semanticText']:
-        assert compact(text) in full_text, f'{key}: missing rendered text {text[:100]}'
+    check_semantic_text(document, fixture)
+    if key.startswith('columns-'):
+        check_columns(document, key)
     image_occurrences = 0
     for index, page in enumerate(document):
         assert page.get_text().strip() or page.get_images(), f'{key}: blank page {index + 1}'
@@ -158,7 +238,17 @@ for fixture in manifest:
             assert red / (red + blue) > 0.65, 'Zoom/pan crop was not applied to the Word picture'
         if key == 'photo-circle':
             assert all(channel > 240 for channel in pixels.getpixel((5, 5))), 'Circular picture clipping was lost'
-    row = {'fixture': key, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
+    if args.roundtrip:
+        saved = render(file, folder / 'roundtrip', 'docx:Office Open XML Text')
+        # Other editors may remove unused optional parts such as numbering.xml.
+        check_package(saved, fixture.get('expectedSections', 3), next_package=False)
+        reopened_pdf = render(saved, folder / 'roundtrip-pdf')
+        with fitz.open(reopened_pdf) as reopened:
+            assert len(reopened) == len(document), f'{key}: save/reopen changed pagination'
+            check_semantic_text(reopened, fixture)
+            if key.startswith('columns-'):
+                check_columns(reopened, key)
+    row = {'fixture': key, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
     report.append(row)
     print(json.dumps(row), flush=True)
     document.close()

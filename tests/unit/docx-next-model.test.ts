@@ -183,11 +183,15 @@ describe("DOCX Next canonical model", () => {
       "dot",
     ]);
   });
-  test("unaccepted balanced column flow blocks export instead of silently accepting a table substitute", () => {
+  test("balanced column flow retains native semantic content instead of splitting text into table cells", () => {
     const input = briefFixture();
     input.letter.data.richTextHtml = '<div data-columns="2">A long flowing paragraph</div>';
-    expect(buildDossierDocModel(input).issues).toContainEqual(
-      expect.objectContaining({ code: "letter-column-flow-pending" }),
-    );
+    const model = buildDossierDocModel(input);
+    expect(model.issues).toEqual([]);
+    expect(model.letter.blocks.find((block) => block.kind === "column-flow")).toMatchObject({
+      count: 2,
+      gapMm: 5,
+      blocks: [{ kind: "paragraph", align: "left" }],
+    });
   });
 });

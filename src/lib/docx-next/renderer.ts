@@ -19,6 +19,7 @@ import {
 import { stylesXml, fontTableXml, numberingXml, LIST_DEFINITIONS } from "./styles";
 import { validateWordPackage } from "./validation";
 import { pictureGeometry } from "./picture-geometry";
+import { planPartSections, type PlannedSection } from "./section-plan";
 
 export type RenderOptions = {
   normalizeImage?: ImageNormalizer;
@@ -168,6 +169,8 @@ export async function renderDossierDocx(
       );
     if (block.kind === "entry" || block.kind === "group")
       return renderBlocks(block.blocks, widthMm, page);
+    if (block.kind === "column-flow")
+      throw new Error("Column flow must be planned before Word rendering.");
     return `${block.heading ? paragraph(block.heading) : ""}${renderBlocks(block.blocks, widthMm, page)}`;
   }
   function renderBlocks(values: DocBlock[], widthMm: number, page: DocumentPart["page"]): string {
@@ -227,8 +230,10 @@ export async function renderDossierDocx(
     }
     return result;
   }
+  const chromeReferences = new Map<string, string>();
   function chrome(part: DocumentPart, scope: "header" | "footer", first = false): string {
     const id = `${part.id}-${scope}${first ? "-first" : ""}`;
+    if (chromeReferences.has(id)) return chromeReferences.get(id)!;
     const content = first ? part.firstHeader! : part[scope];
     const background =
       scope === "header" ? part.chrome.headerBackground : part.chrome.footerBackground;
@@ -238,25 +243,37 @@ export async function renderDossierDocx(
       `${DECL}<w:${scope === "header" ? "hdr" : "ftr"} ${namespaces}>${content.map((value) => paragraph(value, background)).join("") || emptyParagraph}</w:${scope === "header" ? "hdr" : "ftr"}>`,
     );
     pkg.relate("word/document.xml", id, scope, `${id}.xml`);
-    return `<w:${scope}Reference w:type="${first ? "first" : "default"}" r:id="${id}"/>`;
+    const reference = `<w:${scope}Reference w:type="${first ? "first" : "default"}" r:id="${id}"/>`;
+    chromeReferences.set(id, reference);
+    return reference;
   }
-  function section(part: DocumentPart): string {
+  function section(part: DocumentPart, planned: PlannedSection): string {
     const m = part.page.margins;
     let references = "";
     // Even empty headers/footers explicitly break inheritance between dossier parts.
     references += chrome(part, "header");
     references += chrome(part, "footer");
-    if (part.firstHeader) references += chrome(part, "header", true);
-    return `<w:sectPr>${references}<w:type w:val="nextPage"/><w:pgSz w:w="${twips(part.page.widthMm)}" w:h="${twips(part.page.heightMm)}"/><w:pgMar w:top="${twips(m.top)}" w:right="${twips(m.right)}" w:bottom="${twips(m.bottom)}" w:left="${twips(m.left)}" w:header="${twips(4)}" w:footer="${twips(4)}" w:gutter="0"/>${part.chrome.borderColor ? `<w:pgBorders w:offsetFrom="page">${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} w:val="single" w:sz="${Math.max(1, Math.round(((part.chrome.borderWidthMm * 72) / 25.4) * 8))}" w:space="12" w:color="${part.chrome.borderColor}"/>`).join("")}</w:pgBorders>` : ""}${part.firstHeader ? "<w:titlePg/>" : ""}</w:sectPr>`;
+    if (part.firstHeader && planned.logicalStart) references += chrome(part, "header", true);
+    return `<w:sectPr>${references}<w:type w:val="${planned.breakBefore}"/><w:pgSz w:w="${twips(part.page.widthMm)}" w:h="${twips(part.page.heightMm)}"/><w:pgMar w:top="${twips(m.top)}" w:right="${twips(m.right)}" w:bottom="${twips(m.bottom)}" w:left="${twips(m.left)}" w:header="${twips(4)}" w:footer="${twips(4)}" w:gutter="0"/>${part.chrome.borderColor ? `<w:pgBorders w:offsetFrom="page">${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} w:val="single" w:sz="${Math.max(1, Math.round(((part.chrome.borderWidthMm * 72) / 25.4) * 8))}" w:space="12" w:color="${part.chrome.borderColor}"/>`).join("")}</w:pgBorders>` : ""}<w:cols w:equalWidth="1" w:num="${planned.columns.count}" w:space="${twips(planned.columns.gapMm)}"/>${part.firstHeader && planned.logicalStart ? "<w:titlePg/>" : ""}</w:sectPr>`;
   }
   const parts = [model.cover, model.letter, model.cv];
-  const body = parts
-    .map((part, index) => {
-      const widthMm = part.page.widthMm - part.page.margins.left - part.page.margins.right;
-      const content = renderBlocks(part.blocks, widthMm, part.page);
+  const physicalSections = parts.flatMap((part) =>
+    planPartSections(part).map((planned) => ({ part, planned })),
+  );
+  const body = physicalSections
+    .map(({ part, planned }, index) => {
+      const widthMm =
+        (part.page.widthMm -
+          part.page.margins.left -
+          part.page.margins.right -
+          (planned.columns.count - 1) * planned.columns.gapMm) /
+        planned.columns.count;
+      const content = renderBlocks(planned.blocks, widthMm, part.page);
       return (
         content +
-        (index < parts.length - 1 ? `<w:p><w:pPr>${section(part)}</w:pPr></w:p>` : section(part))
+        (index < physicalSections.length - 1
+          ? `<w:p><w:pPr>${section(part, planned)}</w:pPr></w:p>`
+          : section(part, planned))
       );
     })
     .join("");

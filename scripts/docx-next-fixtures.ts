@@ -5,6 +5,7 @@ import path from "node:path";
 import { buildDossierDocModel } from "../src/lib/docx-next/build-model";
 import { renderDossierDocx } from "../src/lib/docx-next/renderer";
 import { walkBlocks } from "../src/lib/docx-next/model";
+import { planPartSections } from "../src/lib/docx-next/section-plan";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../src/lib/dossier-chrome";
 import { BRIEF_FIXTURES, briefFixture } from "../tests/fixtures/docx-next/brief";
 
@@ -82,6 +83,11 @@ const fixtureNames = [
   "photo-long-name",
   "photo-long-cv",
   "rich-table-lists",
+  "columns-two",
+  "columns-three",
+  "columns-long",
+  "columns-chrome",
+  "columns-long-chrome",
 ];
 const manifest = [];
 for (const fixture of fixtureNames) {
@@ -115,6 +121,23 @@ for (const fixture of fixtureNames) {
     input.settings.chrome.shared.headerContinuationMode = "compact";
     input.settings.chrome.shared.headerBackgroundColor = "#e9eff4";
     input.settings.chrome.shared.footerMode = "details";
+  }
+  if (fixture.startsWith("columns-")) {
+    const sentence =
+      "Native Spalten bleiben editierbar. Ä ö ü é è à – — ·. Ich plane Aufgaben sorgfältig, arbeite zuverlässig und lerne gerne Neues. ";
+    input.letter.data.richTextHtml = `<div data-align="left">Vor dem Spaltenabschnitt fliesst dieser Absatz über die volle Textbreite der Seite.</div><div data-columns="${fixture === "columns-three" ? 3 : 2}">${sentence.repeat(fixture.startsWith("columns-long") ? 90 : 6)}</div><div>Nach dem Spaltenabschnitt fliesst dieser Absatz wieder über die volle Textbreite der Seite.</div>`;
+    if (fixture.endsWith("chrome")) {
+      input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+      input.settings.chrome.shared.headerMode = "contact";
+      input.settings.chrome.shared.headerDifferentFirstPage = true;
+      input.settings.chrome.shared.headerContinuationMode = "compact";
+      input.settings.chrome.shared.headerTextLayout = "inline";
+      input.letter.design.chromeContent = {
+        headerTitleEnabled: true,
+        headerTitle: "Letter header",
+      };
+      input.cv.design.chromeContent = { headerTitleEnabled: true, headerTitle: "CV header" };
+    }
   }
   if (fixture.startsWith("photo-")) {
     input.cover.data.foto = images.jpeg;
@@ -200,19 +223,41 @@ for (const fixture of fixtureNames) {
     )
     .filter((block) => block.kind === "paragraph")
     .flatMap((block) => (block.kind === "paragraph" ? block.runs.map((run) => run.text) : []));
+  const cvPages =
+    fixture === "minimal" || fixture === "empty-optional"
+      ? 1
+      : fixture === "long-cv" || fixture === "photo-long-cv"
+        ? 9
+        : fixture === "custom-sections"
+          ? 3
+          : 2;
+  const letterPages =
+    fixture === "long-letter"
+      ? 8
+      : fixture === "columns-long-chrome"
+        ? 4
+        : fixture === "columns-long"
+          ? 3
+          : 1;
+  const parts = [model.cover, model.letter, model.cv].map((part, index) => ({
+    id: part.id,
+    expectedPages: [1, letterPages, cvPages][index],
+    contentBoxMm: part.page.margins,
+    semanticText: walkBlocks(part.blocks).flatMap((block) =>
+      block.kind === "paragraph" ? block.runs.map((run) => run.text) : [],
+    ),
+  }));
   manifest.push({
     fixture,
+    expectedSections: [model.cover, model.letter, model.cv].reduce(
+      (sum, part) => sum + planPartSections(part).length,
+      0,
+    ),
     expectedImages: [model.cover, model.letter, model.cv]
       .flatMap((part) => walkBlocks(part.blocks))
       .filter((block) => block.kind === "image").length,
-    expectedPages:
-      fixture === "minimal" || fixture === "empty-optional"
-        ? 3
-        : fixture === "long-letter" || fixture === "long-cv" || fixture === "photo-long-cv"
-          ? 11
-          : fixture === "custom-sections"
-            ? 5
-            : 4,
+    expectedPages: 1 + letterPages + cvPages,
+    parts,
     bytes: blob.size,
     durationMs: Math.round(performance.now() - started),
     semanticText,

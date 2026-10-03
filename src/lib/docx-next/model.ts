@@ -70,6 +70,7 @@ export type DocBlock =
   | { kind: "entry"; id: string; blocks: DocBlock[] }
   | { kind: "group"; id: string; blocks: DocBlock[] }
   | { kind: "columns"; id: string; columns: DocBlock[][]; widths: number[] }
+  | { kind: "column-flow"; id: string; count: 2 | 3; gapMm: number; blocks: DocBlock[] }
   | { kind: "spacer"; id: string; heightMm: number }
   | { kind: "page-break"; id: string };
 export type PageMargins = { top: number; right: number; bottom: number; left: number };
@@ -104,7 +105,7 @@ export function walkBlocks(blocks: DocBlock[]): DocBlock[] {
     block,
     ...(block.kind === "section"
       ? [...(block.heading ? [block.heading] : []), ...walkBlocks(block.blocks)]
-      : block.kind === "entry" || block.kind === "group"
+      : block.kind === "entry" || block.kind === "group" || block.kind === "column-flow"
         ? walkBlocks(block.blocks)
         : block.kind === "columns"
           ? block.columns.flatMap(walkBlocks)
