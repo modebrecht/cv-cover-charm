@@ -17,7 +17,8 @@ import {
   type ImageNormalizer,
   type NormalizedImage,
 } from "./images";
-import { stylesXml, fontTableXml, numberingXml, LIST_DEFINITIONS } from "./styles";
+import { stylesXml, fontTableXml } from "./styles";
+import { planNumbering } from "./numbering";
 import { validateWordPackage } from "./validation";
 import { pictureGeometry } from "./picture-geometry";
 import { paintPng } from "./artwork";
@@ -30,9 +31,10 @@ export type RenderOptions = {
 function control(id: string, content: string) {
   return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
 }
+function runProperties(style: TextRun["style"]): string {
+  return `<w:rPr><w:rFonts w:ascii="${xml(style.font)}" w:hAnsi="${xml(style.font)}"/><w:b w:val="${style.bold ? 1 : 0}"/><w:i w:val="${style.italic ? 1 : 0}"/>${style.allCaps !== undefined ? `<w:caps w:val="${style.allCaps ? 1 : 0}"/>` : ""}<w:color w:val="${xml(style.color)}"/>${style.trackingPt !== undefined ? `<w:spacing w:val="${Math.round(style.trackingPt * 20)}"/>` : ""}<w:sz w:val="${Math.round(style.sizePt * 2)}"/><w:szCs w:val="${Math.round(style.sizePt * 2)}"/><w:u w:val="${style.underline ? "single" : "none"}"/></w:rPr>`;
+}
 function run(value: TextRun): string {
-  const style = value.style;
-  const properties = `<w:rPr><w:rFonts w:ascii="${xml(style.font)}" w:hAnsi="${xml(style.font)}"/><w:b w:val="${style.bold ? 1 : 0}"/><w:i w:val="${style.italic ? 1 : 0}"/><w:color w:val="${xml(style.color)}"/><w:sz w:val="${Math.round(style.sizePt * 2)}"/><w:szCs w:val="${Math.round(style.sizePt * 2)}"/><w:u w:val="${style.underline ? "single" : "none"}"/></w:rPr>`;
   const tokens = value.text
     .replace(/\r/g, "")
     .split(/(\n|\t)/)
@@ -44,15 +46,16 @@ function run(value: TextRun): string {
           : `<w:t xml:space="preserve">${xml(token)}</w:t>`,
     )
     .join("");
-  return `<w:r>${properties}${tokens}</w:r>`;
+  return `<w:r>${runProperties(value.style)}${tokens}</w:r>`;
 }
-function paragraph(value: Paragraph, drawingRuns = ""): string {
+function paragraph(value: Paragraph, drawingRuns = "", numberingId?: number): string {
+  if (value.list && !numberingId) throw new Error(`DOCX Next unplanned list ${value.id}`);
   const style = value.role === "heading" ? "Heading1" : value.role === "title" ? "Title" : "Normal";
   const rule = value.ruleColor
     ? `<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="2" w:color="${xml(value.ruleColor)}"/></w:pBdr>`
     : "";
   // Follow schema ordering (numPr, borders/shading, spacing, alignment) for Word compatibility.
-  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/><w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${LIST_DEFINITIONS[value.list].id}"/></w:numPr>` : ""}${rule}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/><w:jc w:val="${value.align === "justify" ? "both" : value.align}"/></w:pPr>`;
+  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/><w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numberingId}"/></w:numPr>` : ""}${rule}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/><w:jc w:val="${value.align === "justify" ? "both" : value.align}"/>${value.list && value.runs[0] ? runProperties(value.runs[0].style) : ""}</w:pPr>`;
   return control(
     value.id,
     `<w:p>${props}${drawingRuns}${value.runs.map(run).join("") || "<w:r/>"}</w:p>`,
@@ -77,6 +80,9 @@ export async function renderDossierDocx(
     throw new Error(
       "DOCX Next sidebar has not passed Gate 8; no legacy reconstruction fallback is allowed.",
     );
+  const numbering = planNumbering(model);
+  const renderParagraph = (value: Paragraph, drawings = "") =>
+    paragraph(value, drawings, numbering.ids.get(value.id));
   const pkg = new WordPackage();
   const normalize = imageCache(options.normalizeImage ?? normalizeBrowserImage);
   const sources = new Map<string, { asset: NormalizedImage; rid: string; file: string }>();
@@ -205,7 +211,7 @@ export async function renderDossierDocx(
     return `<w:tbl><w:tblPr><w:tblW w:w="${twips(widthMm)}" w:type="dxa"/><w:tblBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/><w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="${twips(2)}" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="${twips(2)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>`;
   }
   function renderBlock(block: DocBlock, widthMm: number, page: DocumentPart["page"]): string {
-    if (block.kind === "paragraph") return paragraph(block);
+    if (block.kind === "paragraph") return renderParagraph(block);
     if (block.kind === "image") return image(block, widthMm, page);
     if (block.kind === "spacer")
       return control(
@@ -229,7 +235,7 @@ export async function renderDossierDocx(
       return renderBlocks(block.blocks, widthMm, page);
     if (block.kind === "column-flow")
       throw new Error("Column flow must be planned before Word rendering.");
-    return `${block.heading ? paragraph(block.heading) : ""}${renderBlocks(block.blocks, widthMm, page)}`;
+    return `${block.heading ? renderParagraph(block.heading) : ""}${renderBlocks(block.blocks, widthMm, page)}`;
   }
   function renderBlocks(values: DocBlock[], widthMm: number, page: DocumentPart["page"]): string {
     let result = "",
@@ -250,7 +256,7 @@ export async function renderDossierDocx(
         }
         const anchor = values[cursor];
         if (anchor?.kind === "paragraph") {
-          result += paragraph(
+          result += renderParagraph(
             anchor,
             images.map((value) => imageRun(value, widthMm, page)).join(""),
           );
@@ -296,7 +302,7 @@ export async function renderDossierDocx(
     const drawings =
       scope === "header" ? part.artwork.map((value) => artwork(value, part, story)).join("") : "";
     const paragraphs = content.length
-      ? content.map((value, index) => paragraph(value, index === 0 ? drawings : "")).join("")
+      ? content.map((value, index) => renderParagraph(value, index === 0 ? drawings : "")).join("")
       : emptyParagraphWithRuns(drawings);
     pkg.add(
       story,
@@ -364,7 +370,7 @@ export async function renderDossierDocx(
     ]))
       if (block.kind === "paragraph") block.runs.forEach((value) => fonts.add(value.style.font));
   pkg.add("word/fontTable.xml", WORD_PART_TYPES.fontTable, fontTableXml(fonts));
-  pkg.add("word/numbering.xml", WORD_PART_TYPES.numbering, numberingXml());
+  pkg.add("word/numbering.xml", WORD_PART_TYPES.numbering, numbering.xml);
   for (const type of ["styles", "settings", "fontTable", "numbering"])
     pkg.relate("word/document.xml", type, type, `${type}.xml`);
   pkg.add(

@@ -44,6 +44,18 @@ def check_package(file, expected_sections=3, next_package=True):
                 assert target in names, f'{part}: missing target {target}'
         document = trees['word/document.xml']
         assert len(document.findall('.//' + W + 'sectPr')) == expected_sections, 'Unexpected physical section count'
+        numbering = trees.get('word/numbering.xml')
+        if numbering is not None:
+            abstract_ids = [node.attrib[W + 'abstractNumId'] for node in numbering.findall(W + 'abstractNum')]
+            assert len(set(abstract_ids)) == len(abstract_ids), 'Duplicate abstract numbering ID'
+            num_ids = [node.attrib[W + 'numId'] for node in numbering.findall(W + 'num')]
+            assert len(set(num_ids)) == len(num_ids), 'Duplicate numbering instance ID'
+            for node in numbering.findall(W + 'num'):
+                assert node.find(W + 'abstractNumId').attrib[W + 'val'] in abstract_ids, 'Missing abstract numbering definition'
+            for part, tree in trees.items():
+                if part.startswith('word/') and part.endswith('.xml'):
+                    for node in tree.findall('.//' + W + 'numPr/' + W + 'numId'):
+                        assert node.attrib[W + 'val'] == '0' or node.attrib[W + 'val'] in num_ids, f'{part}: missing numbering instance'
         for part, tree in trees.items():
             if not part.startswith('word/') or not part.endswith('.xml'):
                 continue
@@ -62,6 +74,13 @@ def check_package(file, expected_sections=3, next_package=True):
 
 def compact(value):
     return re.sub(r'\s+', '', unicodedata.normalize('NFKC', value).replace('\u00ad', ''))
+
+
+def text_variants(value):
+    if isinstance(value, str):
+        return [compact(value)]
+    text = compact(value['text'])
+    return [text, text.upper()] if value.get('allCaps') else [text]
 
 
 def check_columns(document, key):
@@ -131,13 +150,13 @@ def check_semantic_text(document, fixture):
             part_text += page.get_text(clip=clip)
         part_text = compact(part_text)
         for text in part['semanticText']:
-            assert compact(text) in part_text, f'{key}: missing {part["id"]} body text {text[:100]}'
+            assert any(variant in part_text for variant in text_variants(text)), f'{key}: missing {part["id"]} body text {str(text)[:100]}'
         body_text += part_text
         start += part['expectedPages']
     if fixture.get('parts'):
         assert start == len(document), f'{key}: incorrect logical part page count'
     for text in fixture['semanticText']:
-        assert compact(text) in full_text or compact(text) in body_text, f'{key}: missing rendered text {text[:100]}'
+        assert any(variant in full_text or variant in body_text for variant in text_variants(text)), f'{key}: missing rendered text {str(text)[:100]}'
 
 
 def render(file, folder, format='pdf'):
@@ -183,24 +202,30 @@ def check_artwork(document, fixture):
         start += part['expectedPages']
 
 
+def comparison_paths(directory, keys, saved):
+    initial = {key: directory / (key + '-qa') / (key + '.pdf') for key in keys}
+    if not all(path.is_file() for path in initial.values()):
+        return None  # A deliberately selected fixture subset need not contain both probes.
+    paths = {key: path.parent / 'roundtrip-pdf' / path.name if saved else path for key, path in initial.items()}
+    assert all(path.is_file() for path in paths.values()), 'Missing saved comparison rendering'
+    return paths
+
+
 def check_offset_distances(manifest, directory, roundtrip):
     keys = ['offsets-negative', 'offsets-zero', 'offsets-positive']
     fixtures = {fixture['fixture']: fixture for fixture in manifest if fixture['fixture'] in keys}
     if len(fixtures) != 3:
         return
     for saved in ([False, True] if roundtrip else [False]):
+        paths = comparison_paths(directory, keys, saved)
+        if paths is None:
+            continue
         measurements = {}
         for key in keys:
-            folder = directory / (key + '-qa')
-            path = folder / ('reopened-pdf' if saved else '') / (key + '.pdf')
-            if not path.is_file():
-                break
-            with fitz.open(path) as doc:
+            with fitz.open(paths[key]) as doc:
                 part = fixtures[key]['parts'][1]
                 repeated = doc[1].search_for('Wiederholter Text')
                 measurements[key] = (min(rect.y0 for rect in repeated), max(rect.y0 for rect in repeated), doc[1].search_for(part['recipientText'])[0].y0)
-        if len(measurements) != 3:
-            continue
         baseline = fixtures['offsets-zero']['parts'][1]
         for key in (keys[0], keys[2]):
             part = fixtures[key]['parts'][1]
@@ -209,6 +234,68 @@ def check_offset_distances(manifest, directory, roundtrip):
                         part['recipientGapMm'] - baseline['recipientGapMm'] + part['contentBoxMm']['top'] - baseline['contentBoxMm']['top']]
             actual = [a - b for a, b in zip(measurements[key], measurements['offsets-zero'])]
             assert all(abs(a - b * 72 / 25.4) < 1 for a, b in zip(actual, expected)), f'{key}: signed offsets did not move native content by the declared distance; saved={saved}, actual={actual}, expectedMm={expected}'
+
+
+def check_cover_features(document, fixture):
+    key = fixture['fixture']
+    if key == 'cover-typography':
+        assert compact('ÉVA MÜLLER') in compact(document[0].get_text()), 'Cover caps did not render as uppercase'
+    if key not in ('cover-lists', 'cover-long-list'):
+        return
+    cover_pages = fixture['parts'][0]['expectedPages']
+    text = compact(''.join(page.get_text() for page in document[:cover_pages]))
+    for number, name in [(1, 'Neue Liste Eins'), (2, 'Neue Liste Zwei')]:
+        assert compact(f'{number}. {name}') in text, f'{key}: independent cover list did not restart'
+    if key == 'cover-lists':
+        for number, name in [(1, 'Beilage Eins'), (2, 'Beilage Zwei'), (3, 'Beilage Drei')]:
+            assert compact(f'{number}. {name}') in text, 'Cover list counter or empty-item handling failed'
+    else:
+        for number in range(1, 56):
+            assert compact(f'{number}. Unterlage {number}:') in text, 'Long cover list lost counter/content during reflow'
+    letter = compact(document[cover_pages].get_text())
+    for number, name in [(1, 'Letter list one'), (2, 'Letter list two')]:
+        assert compact(f'{number}. {name}') in letter, 'Letter list inherited a cover counter'
+    for number, name in [(1, 'Second letter list one'), (1, 'Left cell one'), (2, 'Left cell two'), (1, 'Right cell one'), (2, 'Right cell two')]:
+        assert compact(f'{number}. {name}') in letter, 'Separated letter or table-cell list did not restart'
+
+
+def fixture_line_bounds(page, text):
+    # Large native tracking makes PDF extraction insert spaces between glyphs.
+    # Measure the known QA line's original character boxes, without a word-search assumption.
+    matches = []
+    for block in page.get_text('rawdict')['blocks']:
+        if block['type'] != 0:
+            continue
+        for line in block['lines']:
+            chars = [char for span in line['spans'] for char in span['chars']]
+            if compact(''.join(char['c'] for char in chars)) == compact(text):
+                boxes = [fitz.Rect(char['bbox']) for char in chars if char['c'].strip()]
+                bounds = boxes[0]
+                for box in boxes[1:]:
+                    bounds |= box
+                matches.append(bounds)
+    assert len(matches) == 1, f'Expected one fixture line: {text}; found {len(matches)}'
+    return matches[0]
+
+
+def check_cover_spacing(directory, roundtrip):
+    for saved in ([False, True] if roundtrip else [False]):
+        keys = ('cover-tracking-zero', 'cover-tracking-wide')
+        paths = comparison_paths(directory, keys, saved)
+        if paths is not None:
+            widths = []
+            for key in keys:
+                with fitz.open(paths[key]) as doc:
+                    widths.append(fixture_line_bounds(doc[0], 'Tracking Probe').width)
+            assert widths[1] - widths[0] > 40, f'Native cover tracking did not visibly expand text; saved={saved}: {widths}'
+        keys = ('cover-line-single', 'cover-line-double')
+        paths = comparison_paths(directory, keys, saved)
+        if paths is not None:
+            spacing = []
+            for key in keys:
+                with fitz.open(paths[key]) as doc:
+                    spacing.append(fixture_line_bounds(doc[0], 'Line Probe Two').y0 - fixture_line_bounds(doc[0], 'Line Probe One').y0)
+            assert spacing[1] > spacing[0] * 1.7, f'Native cover line spacing did not transfer; saved={saved}: {spacing}'
 
 
 parser = argparse.ArgumentParser()
@@ -245,11 +332,12 @@ for fixture in manifest:
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
     if key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv') or key.startswith('columns-long'):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
-    elif key not in ['custom-sections']:
+    elif key not in ['custom-sections', 'cover-long-list']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
     check_semantic_text(document, fixture)
     check_custom_footers(document, key)
     check_artwork(document, fixture)
+    check_cover_features(document, fixture)
     if key.startswith('columns-'):
         check_columns(document, key)
     image_occurrences = 0
@@ -315,6 +403,7 @@ for fixture in manifest:
             check_semantic_text(reopened, fixture)
             check_custom_footers(reopened, key)
             check_artwork(reopened, fixture)
+            check_cover_features(reopened, fixture)
             if key.startswith('columns-'):
                 check_columns(reopened, key)
     row = {'fixture': key, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
@@ -322,6 +411,7 @@ for fixture in manifest:
     print(json.dumps(row), flush=True)
     document.close()
 check_offset_distances(manifest, args.directory, args.roundtrip)
+check_cover_spacing(args.directory, args.roundtrip)
 report_path = args.directory / 'render-report.json'
 previous = json.loads(report_path.read_text()) if report_path.exists() else []
 combined = {row['fixture']: row for row in previous}

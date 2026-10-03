@@ -1,6 +1,6 @@
 # DOCX Next checkpoint — 2026-10-03
 
-This is a continued reference implementation, **not the completed rebuild**. The latest continuation started from freshly fetched `dev` commit `246997edb4d152d1af61b774def75d969524fcde`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
+This is a continued reference implementation, **not the completed rebuild**. The latest continuation started from freshly fetched `dev` commit `50b02d4fa703aae2e66cc3da75790d1a979251b4`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
 
 ## Architecture evidence
 
@@ -13,16 +13,16 @@ This is a continued reference implementation, **not the completed rebuild**. The
 
 | Check                                                                                                  | Result                                                                                       |
 | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
-| Full unit suite                                                                                        | 767 passed, 0 failed; 169 files (Bun `--isolate`)                                            |
-| Next model/package tests                                                                               | 65 passed, including editor identity, geometry, deterministic models and dependency boundary |
+| Full unit suite                                                                                        | 773 passed, 0 failed; 170 files (Bun `--isolate`)                                            |
+| Next model/package tests                                                                               | 71 passed, including editor identity, geometry, deterministic models and dependency boundary |
 | Typecheck                                                                                              | Passed                                                                                       |
 | ESLint                                                                                                 | 0 errors; 21 existing warnings                                                               |
 | Production build                                                                                       | Passed                                                                                       |
-| Independent Brief fixtures                                                                             | 41 generated; 206 rendered pages                                                             |
-| ZIP CRC, XML, required parts/content types/relationships, planned physical sections                    | All 41 passed                                                                                |
-| LibreOffice conversion, expected page count, text/media preservation, blank pages, text bounds/overlap | All 41 passed                                                                                |
+| Independent Brief fixtures                                                                             | 48 generated; 235 rendered pages                                                             |
+| ZIP CRC, XML, required parts/content types/relationships, planned physical sections                    | All 48 passed                                                                                |
+| LibreOffice conversion, expected page count, text/media preservation, blank pages, text bounds/overlap | All 48 passed                                                                                |
 | Browser image normalization                                                                            | Transparent PNG, RGB/ICC/CMYK/EXIF/large JPEG; corrupt-input failure passed                  |
-| LibreOffice save/reopen                                                                                | All 41 fixtures saved as DOCX and reopened; package/text/page-count/column checks passed     |
+| LibreOffice save/reopen                                                                                | All 48 fixtures saved as DOCX and reopened; package/text/page-count/column checks passed     |
 | Microsoft Word open/edit/save/reopen                                                                   | **Pending**; no Windows/macOS Word environment available                                     |
 | Approved visual snapshots                                                                              | **Pending**; generated images are candidates                                                 |
 | Modern/sidebar fixture and 39-template Next gallery                                                    | **Pending**; intentionally blocked before those migration gates                              |
@@ -78,3 +78,13 @@ Signed chrome offsets now become native section distances around the descriptor'
 Seven new fixtures cover independent paper with photos, gradient chrome, long painted letter/CV and negative/zero/positive offsets. All 41 fixtures pass ZIP/XML/story relationships, text/media/page/bounds checks, LibreOffice conversion and DOCX save/reopen. QA samples page paint colors on every page and verifies actual signed movement before/after save/reopen. Colored long-letter and long-CV dossiers have 12/13 pages with content on every page; the larger running chrome reservations account for their extra pages. Candidate images were inspected.
 
 The expanded browser smoke passes colors/offsets through portable JSON and independent Next export, while retaining the combined production PDF. Automation now waits for the formatting toolbar's canonical field key before clicking, preventing a stale selection from formatting the previous field. The final renderer generates byte-identical output for all 41 validated fixtures after cleanup. Typecheck/build pass; lint has 0 errors/21 existing warnings; 767 isolated unit tests and 65 targeted Next tests pass. Stable LibreOffice, Microsoft Word and approved snapshots remain pending; Gates 5/6 remain open and 0/39 migrations are accepted.
+
+## Continued checkpoint from `50b02d4`
+
+Cover uppercase, em tracking and line height are resolved before rendering. Native `w:caps` preserves the original editable Unicode text; tracking uses the final user-selected font size unless an explicit point override exists. Rich cover segments retain canonical field identity, color and emphasis. Native paragraph/run formatting carries these settings without text replacement or post-render patches.
+
+Cover lists now use one flowing native paragraph per nonempty source item. A central semantic numbering plan assigns counters before XML: separate cover lists, letter lists and table-cell lists restart independently; contiguous letter items share a group. List markers inherit the item's font, size and color through paragraph-mark properties. Missing/mixed semantic groups fail explicitly. The 55-item cover fixture flows across two cover pages, followed by the letter and CV.
+
+Seven new fixtures cover Unicode casing/emphasis, short/long native lists, tracking and line-height comparisons. All 48 fixtures render across 235 pages and survive LibreOffice DOCX save/reopen. Render QA measures known probe character bounds because native tracking can add spaces to PDF extraction. Tracking expands the probe from about 131 to 201 points, including save/reopen; double line spacing increases the baseline gap. The QA comparison paths were corrected to use actual saved-PDF folders and require their presence when both initial probes exist; signed chrome offsets were rechecked after save/reopen as well.
+
+The expanded editor smoke preserves cover casing/tracking/line-height/list settings through portable JSON and independent Next export, and production combined PDF export still passes. All 773 isolated unit tests and 71 targeted Next tests pass; typecheck/build pass and lint reports 0 errors/21 existing warnings. Candidate pages were visually inspected. Stable LibreOffice, Microsoft Word editing and approved snapshots remain pending; Gates 5/6 stay open and 0/39 migrations are accepted.

@@ -111,7 +111,12 @@ try {
         font: "sans",
         fontScale: 1,
         colors: { brief: fixture.cover.colors },
-        layout: { brief: {} },
+        layout: {
+          brief: {
+            name: { uppercase: true, tracking: 0.08, lineHeight: 1.7 },
+            beilagen: { list: "number" },
+          },
+        },
         customs: [],
       },
       cv: fixture.cv,
@@ -248,6 +253,17 @@ try {
     if (snapshot.settings.unresolvedTypography.length)
       throw new Error("Fresh semantic styles became unresolved after JSON save");
     const model = modelModule.buildDossierDocModel(snapshot);
+    const coverName = model.cover.blocks.find((block) => block.id === "cover.fullName");
+    if (
+      coverName?.kind !== "paragraph" ||
+      !coverName.runs[0]?.style.allCaps ||
+      !((coverName.runs[0]?.style.trackingPt ?? 0) > 0) ||
+      coverName.lineHeight !== 1.7 ||
+      !model.cover.blocks.some(
+        (block) => block.kind === "paragraph" && block.listGroupId === "cover.beilagen",
+      )
+    )
+      throw new Error("Portable JSON/canonical model lost cover typography/list settings");
     if (
       model.cover.artwork[0]?.fill.color !== "F4E9DA" ||
       model.letter.artwork[0]?.fill.color !== "E8F0F4" ||

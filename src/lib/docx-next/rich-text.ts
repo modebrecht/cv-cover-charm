@@ -67,6 +67,25 @@ function runs(node: Node | string, style: TextStyle, id: string, output: TextRun
   }
   node.children.forEach((child) => runs(child, next, id, output));
 }
+/** Adjacent items share a list; intervening blocks and separate cells start a new group. */
+function groupLists(blocks: DocBlock[]): DocBlock[] {
+  let previousKind: Paragraph["list"];
+  let groupId: string | undefined;
+  for (const block of blocks) {
+    if (block.kind === "paragraph" && block.list) {
+      if (block.list !== previousKind) groupId = `${block.id}.list`;
+      block.listGroupId = groupId;
+      previousKind = block.list;
+    } else {
+      previousKind = undefined;
+      groupId = undefined;
+    }
+    if (block.kind === "table") block.rows.forEach((row) => row.cells.forEach(groupLists));
+    else if (block.kind === "columns") block.columns.forEach(groupLists);
+    else if ("blocks" in block) groupLists(block.blocks);
+  }
+  return blocks;
+}
 export function richLetterBlocks(
   html: string | undefined,
   text: string,
@@ -176,7 +195,9 @@ export function richLetterBlocks(
     flush();
     return blocks;
   };
-  return nodes
-    .filter((node) => typeof node !== "string" || !!node.trim())
-    .map((node, index) => make(node, `letter.body.paragraph:${index}`));
+  return groupLists(
+    nodes
+      .filter((node) => typeof node !== "string" || !!node.trim())
+      .map((node, index) => make(node, `letter.body.paragraph:${index}`)),
+  );
 }

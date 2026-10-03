@@ -17,6 +17,75 @@ export const BRIEF_FIXTURES = [
   "custom-sections",
 ] as const;
 export type BriefFixture = (typeof BRIEF_FIXTURES)[number];
+export function briefCoverTypographyFixture(
+  kind:
+    | "typography"
+    | "lists"
+    | "long-list"
+    | "tracking-zero"
+    | "tracking-wide"
+    | "line-single"
+    | "line-double" = "typography",
+): DossierAppSnapshot {
+  const input = briefFixture();
+  const name = input.cover.blocks.find((block) => block.id === "name")!;
+  const contact = input.cover.blocks.find((block) => block.id === "kontakt")!;
+  const attachments = input.cover.blocks.find((block) => block.id === "beilagen")!;
+  if (kind === "typography") {
+    name.lines = ["Éva Müller ä ö ü é è à – — ·"];
+    Object.assign(name.style, {
+      uppercase: true,
+      tracking: 0.08,
+      lineHeight: 1.7,
+      size: 18,
+      italic: true,
+      underline: true,
+    });
+    contact.lines = [[{ t: "Kontakt mit Farbe", color: "#123456", weight: 700 }], "Zweite Zeile"];
+    contact.style.lineHeight = 1.8;
+  }
+  if (kind === "lists" || kind === "long-list") {
+    attachments.lines =
+      kind === "long-list"
+        ? Array.from({ length: 55 }, (_, index) => `Unterlage ${index + 1}: ä ö ü é è à`)
+        : [
+            "Beilage Eins",
+            "",
+            [{ t: "Beilage Zwei", color: "#123456", weight: 700 }],
+            "Beilage Drei",
+          ];
+    attachments.style.list = "number";
+    contact.style.list = "dash";
+    input.cover.blocks.push({
+      ...structuredClone(attachments),
+      id: "extra-list",
+      label: "Weitere Unterlagen",
+      lines: ["Neue Liste Eins", "Neue Liste Zwei"],
+    });
+    input.letter.data.richTextHtml =
+      '<div data-list="number">Letter list one</div><div data-list="number">Letter list two</div>' +
+      '<div>Between lists.</div><div data-list="number">Second letter list one</div>' +
+      '<table><tbody><tr><td><div data-list="number">Left cell one</div><div data-list="number">Left cell two</div></td>' +
+      '<td><div data-list="number">Right cell one</div><div data-list="number">Right cell two</div></td></tr></tbody></table>';
+  }
+  if (kind.startsWith("tracking-")) {
+    name.lines = ["Tracking Probe"];
+    Object.assign(name.style, {
+      size: 18,
+      uppercase: false,
+      tracking: kind === "tracking-wide" ? 0.3 : 0,
+    });
+  }
+  if (kind.startsWith("line-")) {
+    contact.lines = ["Line Probe One", "Line Probe Two"];
+    Object.assign(contact.style, {
+      size: 12,
+      tracking: 0,
+      lineHeight: kind === "line-double" ? 2 : 1,
+    });
+  }
+  return input;
+}
 export function briefPaintFixture(
   kind: "normal" | "long-letter" | "long-cv" = "normal",
 ): DossierAppSnapshot {

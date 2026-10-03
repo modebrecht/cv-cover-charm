@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { buildDossierDocModel } from "../src/lib/docx-next/build-model";
 import { renderDossierDocx } from "../src/lib/docx-next/renderer";
-import { walkBlocks } from "../src/lib/docx-next/model";
+import { walkBlocks, type TextRun } from "../src/lib/docx-next/model";
 import { planPartSections } from "../src/lib/docx-next/section-plan";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../src/lib/dossier-chrome";
 import {
@@ -12,6 +12,7 @@ import {
   briefFixture,
   briefChromeFixture,
   briefPaintFixture,
+  briefCoverTypographyFixture,
 } from "../tests/fixtures/docx-next/brief";
 
 const out = path.resolve(process.argv[2] ?? "/tmp/cv-docx-next-qa");
@@ -102,28 +103,41 @@ const fixtureNames = [
   "offsets-negative",
   "offsets-zero",
   "offsets-positive",
+  "cover-typography",
+  "cover-lists",
+  "cover-long-list",
+  "cover-tracking-zero",
+  "cover-tracking-wide",
+  "cover-line-single",
+  "cover-line-double",
 ];
 const manifest = [];
+const expectedText = (run: TextRun) =>
+  run.style.allCaps ? { text: run.text, allCaps: true } : run.text;
 for (const fixture of fixtureNames) {
-  const input = fixture.startsWith("paint-")
-    ? briefPaintFixture(
-        fixture === "paint-long-letter"
-          ? "long-letter"
-          : fixture === "paint-long-cv"
-            ? "long-cv"
-            : "normal",
+  const input = fixture.startsWith("cover-")
+    ? briefCoverTypographyFixture(
+        fixture.slice(6) as Parameters<typeof briefCoverTypographyFixture>[0],
       )
-    : fixture.startsWith("chrome-custom") || fixture.startsWith("offsets-")
-      ? briefChromeFixture(fixture.endsWith("stacked"))
-      : briefFixture(
-          fixture === "photo-long-name"
-            ? "long-values"
-            : fixture === "photo-long-cv"
+    : fixture.startsWith("paint-")
+      ? briefPaintFixture(
+          fixture === "paint-long-letter"
+            ? "long-letter"
+            : fixture === "paint-long-cv"
               ? "long-cv"
-              : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
-                ? (fixture as (typeof BRIEF_FIXTURES)[number])
-                : "normal",
-        );
+              : "normal",
+        )
+      : fixture.startsWith("chrome-custom") || fixture.startsWith("offsets-")
+        ? briefChromeFixture(fixture.endsWith("stacked"))
+        : briefFixture(
+            fixture === "photo-long-name"
+              ? "long-values"
+              : fixture === "photo-long-cv"
+                ? "long-cv"
+                : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
+                  ? (fixture as (typeof BRIEF_FIXTURES)[number])
+                  : "normal",
+          );
   if (fixture === "paper-colors") {
     input.cover.colors.bg = "#f4e9da";
     input.letter.design.paperColor = "#e8f0f4";
@@ -261,7 +275,7 @@ for (const fixture of fixtureNames) {
       walkBlocks([...part.blocks, ...part.header, ...(part.firstHeader ?? []), ...part.footer]),
     )
     .filter((block) => block.kind === "paragraph")
-    .flatMap((block) => (block.kind === "paragraph" ? block.runs.map((run) => run.text) : []));
+    .flatMap((block) => (block.kind === "paragraph" ? block.runs.map(expectedText) : []));
   const cvPages =
     fixture === "minimal" || fixture === "empty-optional"
       ? 1
@@ -282,9 +296,10 @@ for (const fixture of fixtureNames) {
           : fixture === "columns-long"
             ? 3
             : 1;
+  const coverPages = fixture === "cover-long-list" ? 2 : 1;
   const parts = [model.cover, model.letter, model.cv].map((part, index) => ({
     id: part.id,
-    expectedPages: [1, letterPages, cvPages][index],
+    expectedPages: [coverPages, letterPages, cvPages][index],
     contentBoxMm: part.page.margins,
     headerDistanceMm: part.page.headerDistanceMm,
     footerDistanceMm: part.page.footerDistanceMm,
@@ -297,7 +312,7 @@ for (const fixture of fixtureNames) {
         ?.runs.map((run) => run.text)
         .join("") ?? "",
     semanticText: walkBlocks(part.blocks).flatMap((block) =>
-      block.kind === "paragraph" ? block.runs.map((run) => run.text) : [],
+      block.kind === "paragraph" ? block.runs.map(expectedText) : [],
     ),
     artwork: part.artwork,
   }));
@@ -312,7 +327,7 @@ for (const fixture of fixtureNames) {
         .flatMap((part) => walkBlocks(part.blocks))
         .filter((block) => block.kind === "image").length +
       parts.reduce((sum, part) => sum + part.artwork.length * part.expectedPages, 0),
-    expectedPages: 1 + letterPages + cvPages,
+    expectedPages: coverPages + letterPages + cvPages,
     parts,
     bytes: blob.size,
     durationMs: Math.round(performance.now() - started),

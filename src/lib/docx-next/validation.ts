@@ -68,15 +68,26 @@ export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): v
     ])) {
       if (ids.has(block.id)) throw new Error(`DOCX Next duplicate semantic identity ${block.id}`);
       ids.add(block.id);
-      if (block.kind === "paragraph")
+      if (block.kind === "paragraph") {
+        if (
+          ![block.beforeMm, block.afterMm, block.lineHeight].every(Number.isFinite) ||
+          Math.min(block.beforeMm, block.afterMm) < 0 ||
+          block.lineHeight <= 0
+        )
+          throw new Error(`DOCX Next invalid paragraph geometry ${block.id}`);
         for (const run of block.runs) {
           if (
             !Number.isFinite(run.style.sizePt) ||
             run.style.sizePt <= 0 ||
-            !/^[0-9A-F]{6}$/.test(run.style.color)
+            !/^[0-9A-F]{6}$/.test(run.style.color) ||
+            (run.style.allCaps !== undefined && typeof run.style.allCaps !== "boolean") ||
+            (run.style.trackingPt !== undefined &&
+              (!Number.isFinite(run.style.trackingPt) ||
+                Math.abs(run.style.trackingPt) > run.style.sizePt))
           )
             throw new Error(`DOCX Next invalid typography ${run.id}`);
         }
+      }
       if (
         block.kind === "image" &&
         (![block.widthMm, block.maxHeightMm, block.xMm, block.yMm, block.gapMm].every(

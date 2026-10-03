@@ -270,29 +270,61 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       bold: block.style.weight >= 600,
       italic: block.style.italic,
       underline: block.style.underline,
+      allCaps: block.style.uppercase,
     };
     const paragraph = p(id, text, fontStyle, {
       align: block.style.align === "justify" ? "justify" : block.style.align,
       role: block.id === "beruf" ? "title" : block.id === "name" ? "heading" : "body",
       beforeMm: block.id === "kicker" ? template.cover.heroSpaceMm : 0,
       afterMm: block.id === "name" ? 5 : 2,
+      lineHeight: block.style.lineHeight,
       keepNext: ["kicker", "kontaktTitel", "empfaengerTitel", "beilagenTitel"].includes(block.id),
     });
-    paragraph.runs = block.lines.flatMap((line, lineIndex) => {
+    const lineRuns = (line: (typeof block.lines)[number], lineIndex: number) => {
       const segments = typeof line === "string" ? [{ t: line }] : line;
-      return segments.map((segment, segmentIndex) => ({
-        id: `${id}.line:${lineIndex}.run:${segmentIndex}`,
-        text: (lineIndex > 0 && segmentIndex === 0 ? "\n" : "") + segment.t,
-        style: style(id, {
+      return segments.map((segment, segmentIndex) => {
+        const runStyle = style(id, {
           ...fontStyle,
           ...(segment.color
             ? { color: color(cover.colors[segment.color] ?? segment.color, fontStyle.color) }
             : {}),
           ...(segment.weight !== undefined ? { bold: segment.weight >= 600 } : {}),
-        }),
-      }));
-    });
-    coverPart.blocks.push(paragraph);
+        });
+        runStyle.trackingPt =
+          settings.fieldStyles?.[id]?.trackingPt ?? block.style.tracking * runStyle.sizePt;
+        return {
+          id: `${id}.line:${lineIndex}.run:${segmentIndex}`,
+          fieldId: id,
+          text: segment.t,
+          style: runStyle,
+        };
+      });
+    };
+    if (block.style.list !== "none") {
+      const items = block.lines.flatMap((line, index) =>
+        lines[index].trim() ? [{ line, index }] : [],
+      );
+      coverPart.blocks.push(
+        ...items.map(({ line, index }, itemIndex) => ({
+          ...paragraph,
+          id: `${id}.item:${index}`,
+          runs: lineRuns(line, index),
+          list: block.style.list as NonNullable<Paragraph["list"]>,
+          listGroupId: id,
+          beforeMm: itemIndex === 0 ? paragraph.beforeMm : 0,
+          afterMm: itemIndex === items.length - 1 ? paragraph.afterMm : 0.5,
+          keepNext: false,
+        })),
+      );
+    } else {
+      paragraph.runs = block.lines.flatMap((line, index) =>
+        lineRuns(line, index).map((run, runIndex) => ({
+          ...run,
+          text: (index > 0 && runIndex === 0 ? "\n" : "") + run.text,
+        })),
+      );
+      coverPart.blocks.push(paragraph);
+    }
   }
   if (!coverPart.blocks.length)
     coverPart.blocks.push(

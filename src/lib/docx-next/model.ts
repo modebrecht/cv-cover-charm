@@ -6,6 +6,9 @@ export type TextStyle = {
   bold: boolean;
   italic: boolean;
   underline: boolean;
+  /** Formatting only: preserve the original editable text. */
+  allCaps?: boolean;
+  trackingPt?: number;
 };
 export type Alignment = "left" | "center" | "right" | "justify";
 export const SEMANTIC_LIST_KINDS = ["bullet", "number", "dash", "plus", "dot"] as const;
@@ -22,6 +25,7 @@ export type Paragraph = {
   keepNext: boolean;
   keepLines: boolean;
   list?: (typeof SEMANTIC_LIST_KINDS)[number];
+  listGroupId?: string;
   ruleColor?: string;
 };
 export type ImageBlock = {

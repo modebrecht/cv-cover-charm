@@ -130,3 +130,14 @@ The inventory JSON lists every DOCX-specific and DOCX-importing unit/e2e test. E
 ## Proposed architecture and Gate 0 decision
 
 App snapshot → deterministic Word-independent `DossierDocModel` → declarative template descriptor → one native Word renderer → centrally generated package parts → validation. No legacy renderer, template wrapper, text matching or post-render patch imports inside Next. Begin with Brief only. Normal export stays legacy during comparison. Gate 0 passed by source/import inventory; later migration gates require real rendered fixtures and explicit Word manual evidence. LibreOffice cannot substitute for a Windows/macOS Word edit/save/reopen smoke test.
+
+## New Next modules since the baseline inventory
+
+The 88-module table above remains the historical production/legacy baseline. New isolated modules have the following ownership:
+
+| Module                   | Disposition | Responsibility                                                               |
+| ------------------------ | ----------- | ---------------------------------------------------------------------------- |
+| `docx-next/numbering.ts` | KEEP        | One deterministic semantic list-group plan and central native numbering part |
+| `docx-next/artwork.ts`   | KEEP        | Deterministic nonsemantic paint assets; no user text or package repair       |
+
+Cover and rich-letter model builders own semantic list identity. The renderer consumes known counters and styles directly; no legacy dependency or visible-text matching is introduced.
