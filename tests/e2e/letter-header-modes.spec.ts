@@ -70,6 +70,10 @@ async function seedLetter(page: Page, payload = letterPayload()) {
 }
 
 async function setStoredTemplate(page: Page, template: string) {
+  // Leave the live editor before mutating storage. Otherwise its autosave can
+  // race the direct localStorage write and restore the previous template while
+  // the page is reloading, making this storage-seeding helper nondeterministic.
+  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await page.evaluate(
     ({ key, templateId }) => {
       const saved = JSON.parse(localStorage.getItem(key) ?? "{}");
@@ -89,7 +93,7 @@ async function setStoredTemplate(page: Page, template: string) {
     },
     { key: STORAGE_KEY, templateId: template },
   );
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
   await expect(page.locator("main [data-letter-page]").first()).toHaveAttribute(
     "data-letter-template",
