@@ -78,6 +78,24 @@ export function color(value: string | null | undefined, fallback: string): strin
 }
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
+/** Conservative flow reservation uses actual run sizes and explicit line breaks. */
+function chromeTextHeight(paragraphs: Paragraph[], widthMm: number): number {
+  return paragraphs.reduce((sum, paragraph) => {
+    const sizePt = Math.max(10, ...paragraph.runs.map((run) => run.style.sizePt));
+    const text = paragraph.runs.map((run) => run.text).join("");
+    const charactersPerLine = Math.max(1, widthMm / (((sizePt * 25.4) / 72) * 0.6));
+    const lines = text
+      .split("\n")
+      .reduce((count, line) => count + Math.max(1, Math.ceil(line.length / charactersPerLine)), 0);
+    return (
+      sum +
+      paragraph.beforeMm +
+      paragraph.afterMm +
+      ((lines * sizePt * 25.4) / 72) * paragraph.lineHeight
+    );
+  }, 0);
+}
+
 /** Pure and synchronous: all ambient editor state must be captured before calling. */
 export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel {
   const { cover, letter, cv, settings } = input;
@@ -95,17 +113,6 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     fieldId: id,
     message: "Legacy field identity needs explicit semantic binding before migration.",
   }));
-  if (
-    theme.paper !== "FFFFFF" ||
-    [letter.design.paperColor, cv.design.paperColor].some(
-      (value) => value && color(value, "FFFFFF") !== "FFFFFF",
-    )
-  )
-    issues.push({
-      code: "page-paper-artwork-pending",
-      message:
-        "Per-part paper backgrounds need a reviewed Word-native/artwork primitive before migration.",
-    });
   if (cv.design.useElements && cv.elements.length)
     issues.push({
       code: "cv-elements-pending",
@@ -177,7 +184,10 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       widthMm: 210,
       heightMm: 297,
       margins: { ...template.margins, ...(id !== "cover" ? settings.margins?.[id] : {}) },
+      headerDistanceMm: template.chrome.headerDistanceMm,
+      footerDistanceMm: template.chrome.footerDistanceMm,
     },
+    artwork: [],
     header: [],
     footer: [],
     chrome: { borderWidthMm: 0 },
@@ -896,33 +906,76 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         borderColor: options.borderEnabled ? color(options.borderColor, theme.accent) : undefined,
         borderWidthMm: options.borderWidthMm,
       };
-      const headerLines = Math.max(target.header.length, target.firstHeader?.length ?? 0);
-      target.page.margins.top += headerLines
-        ? Math.max(
-            options.headerHeightMm ?? 0,
-            ((headerLines * (options.headerFontSizePt ?? 10) * 25.4) / 72) * 1.2 + 3,
-          ) + (options.headerGapMm ?? 4)
-        : 0;
-      target.page.margins.bottom += target.footer.length
-        ? Math.max(options.footerHeightMm ?? 0, target.footer.length * 4 + 3)
-        : 0;
-      if (
-        options.headerContentOffsetYMm ||
-        options.footerContentOffsetYMm ||
-        options.letterRecipientOffsetYMm
-      )
-        issues.push({
-          code: "chrome-offset-pending",
-          fieldId: `${target.id}.chrome`,
-          message: "Signed chrome offsets need a reviewed Word primitive before migration.",
+      const width = target.page.widthMm - target.page.margins.left - target.page.margins.right;
+      const headerHeight = Math.max(
+        options.headerHeightMm ?? 0,
+        chromeTextHeight(target.header, width),
+        chromeTextHeight(target.firstHeader ?? [], width),
+      );
+      const footerHeight = Math.max(
+        options.footerHeightMm ?? 0,
+        chromeTextHeight(target.footer, width),
+      );
+      target.page.headerDistanceMm += options.headerContentOffsetYMm ?? 0;
+      target.page.footerDistanceMm -= options.footerContentOffsetYMm ?? 0;
+      if (headerHeight)
+        target.page.margins.top =
+          Math.max(target.page.margins.top, target.page.headerDistanceMm) +
+          headerHeight +
+          (options.headerGapMm ?? 4);
+      if (footerHeight)
+        target.page.margins.bottom =
+          Math.max(target.page.margins.bottom, target.page.footerDistanceMm) + footerHeight;
+      const band = (surface: "header" | "footer", heightMm: number) => {
+        const start = target.chrome[`${surface}Background`];
+        const end = options[surface === "header" ? "headerGradientColor" : "footerGradientColor"];
+        if (!heightMm || (!start && !end)) return;
+        const distance =
+          target.page[surface === "header" ? "headerDistanceMm" : "footerDistanceMm"];
+        target.artwork.push({
+          kind: "decorative-artwork",
+          id: `${scope}.artwork.${surface}`,
+          semanticText: false,
+          fill: {
+            color: start ?? theme.paper,
+            ...(end ? { endColor: color(end, theme.paper) } : {}),
+          },
+          xMm: 0,
+          yMm: surface === "header" ? 0 : target.page.heightMm - distance - heightMm,
+          widthMm: target.page.widthMm,
+          heightMm: distance + heightMm,
         });
-      if (options.headerGradientColor || options.footerGradientColor)
-        issues.push({
-          code: "chrome-gradient-needs-artwork",
-          fieldId: `${target.id}.chrome`,
-          message: "Gradient reduced to native solid shading pending artwork acceptance.",
-        });
+      };
+      band("header", headerHeight);
+      band("footer", footerHeight);
+      if (scope === "letter") {
+        const recipient = target.blocks.findIndex((block) =>
+          block.id.startsWith("letter.recipient."),
+        );
+        const gapMm = template.letter.recipientGapMm + (options.letterRecipientOffsetYMm ?? 0);
+        if (recipient >= 0 && gapMm > 0)
+          target.blocks.splice(recipient, 0, {
+            kind: "spacer",
+            id: "letter.recipient.gap",
+            heightMm: gapMm,
+          });
+      }
     }
+  }
+  for (const target of [coverPart, letterPart, cvPart]) {
+    const paper =
+      target.id === "cover" ? theme.paper : color(input[target.id].design.paperColor, theme.paper);
+    if (paper !== "FFFFFF")
+      target.artwork.unshift({
+        kind: "decorative-artwork",
+        id: `${target.id}.artwork.paper`,
+        semanticText: false,
+        fill: { color: paper },
+        xMm: 0,
+        yMm: 0,
+        widthMm: target.page.widthMm,
+        heightMm: target.page.heightMm,
+      });
   }
   return {
     version: 1,

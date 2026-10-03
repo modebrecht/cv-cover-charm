@@ -17,6 +17,32 @@ export const BRIEF_FIXTURES = [
   "custom-sections",
 ] as const;
 export type BriefFixture = (typeof BRIEF_FIXTURES)[number];
+export function briefPaintFixture(
+  kind: "normal" | "long-letter" | "long-cv" = "normal",
+): DossierAppSnapshot {
+  const input = briefFixture(kind);
+  input.cover.colors.bg = "#f4e9da";
+  input.letter.design.paperColor = "#e8f0f4";
+  input.cv.design.paperColor = "#eaf2e5";
+  input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+  Object.assign(input.settings.chrome.shared, {
+    headerMode: "contact",
+    headerDifferentFirstPage: true,
+    headerContinuationMode: "compact",
+    headerTextLayout: "inline",
+    headerBackgroundColor: "#bed6e4",
+    headerGradientColor: "#e8f0f4",
+    footerMode: "details",
+    footerBackgroundColor: "#e8f0f4",
+    footerGradientColor: "#bed6e4",
+  });
+  input.letter.design.chromeContent = {
+    headerTitleEnabled: true,
+    headerTitle: "Letter paint header",
+  };
+  input.cv.design.chromeContent = { headerTitleEnabled: true, headerTitle: "CV paint header" };
+  return input;
+}
 export function briefChromeFixture(stackedFooter = false): DossierAppSnapshot {
   const input = briefFixture();
   input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);

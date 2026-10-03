@@ -6,6 +6,7 @@ import type {
   TableBlock,
   ImageBlock,
   TextRun,
+  DecorativeArtwork,
 } from "./model";
 import { walkBlocks } from "./model";
 import { WordPackage, WORD_PART_TYPES } from "./package";
@@ -19,6 +20,7 @@ import {
 import { stylesXml, fontTableXml, numberingXml, LIST_DEFINITIONS } from "./styles";
 import { validateWordPackage } from "./validation";
 import { pictureGeometry } from "./picture-geometry";
+import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 
 export type RenderOptions = {
@@ -44,20 +46,22 @@ function run(value: TextRun): string {
     .join("");
   return `<w:r>${properties}${tokens}</w:r>`;
 }
-function paragraph(value: Paragraph, background?: string, drawingRuns = ""): string {
+function paragraph(value: Paragraph, drawingRuns = ""): string {
   const style = value.role === "heading" ? "Heading1" : value.role === "title" ? "Title" : "Normal";
   const rule = value.ruleColor
     ? `<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="2" w:color="${xml(value.ruleColor)}"/></w:pBdr>`
     : "";
   // Follow schema ordering (numPr, borders/shading, spacing, alignment) for Word compatibility.
-  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/><w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${LIST_DEFINITIONS[value.list].id}"/></w:numPr>` : ""}${rule}${background ? `<w:shd w:val="clear" w:fill="${xml(background)}"/>` : ""}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/><w:jc w:val="${value.align === "justify" ? "both" : value.align}"/></w:pPr>`;
+  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/><w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${LIST_DEFINITIONS[value.list].id}"/></w:numPr>` : ""}${rule}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/><w:jc w:val="${value.align === "justify" ? "both" : value.align}"/></w:pPr>`;
   return control(
     value.id,
     `<w:p>${props}${drawingRuns}${value.runs.map(run).join("") || "<w:r/>"}</w:p>`,
   );
 }
-const emptyParagraph =
-  '<w:p><w:pPr><w:spacing w:after="0" w:line="20" w:lineRule="exact"/></w:pPr></w:p>';
+function emptyParagraphWithRuns(runs = "") {
+  return `<w:p><w:pPr><w:spacing w:after="0" w:line="20" w:lineRule="exact"/></w:pPr>${runs}</w:p>`;
+}
+const emptyParagraph = emptyParagraphWithRuns();
 const pageBreak = '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
 
 /** One renderer for all semantic blocks. Templates never generate XML. */
@@ -88,9 +92,14 @@ export async function renderDossierDocx(
       pkg.relate("word/document.xml", rid, "image", file);
     }
   let drawingId = 0;
-  function imageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
-    const media = sources.get(value.source)!;
-    const geometry = pictureGeometry(value, media.asset, widthMm);
+  function pictureRun(
+    value: ImageBlock,
+    rid: string,
+    geometry: ReturnType<typeof pictureGeometry>,
+    widthMm: number,
+    page: DocumentPart["page"],
+    behind = false,
+  ): string {
     const finalWidth = geometry.widthMm,
       finalHeight = geometry.heightMm;
     const cx = emu(finalWidth),
@@ -104,7 +113,7 @@ export async function renderDossierDocx(
       geometry.shape === "roundRect"
         ? `<a:gd name="adj" fmla="val ${geometry.cornerAdjustment}"/>`
         : "";
-    const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${media.rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
+    const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
     const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/>`;
     const properties = `<wp:docPr id="${id}" name="${xml(value.id)}" descr="${xml(value.alt)}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>`;
     const distances = `distT="${emu(value.gapMm)}" distB="${emu(value.gapMm)}" distL="${emu(value.gapMm)}" distR="${emu(value.gapMm)}"`;
@@ -125,9 +134,58 @@ export async function renderDossierDocx(
         pageOrigin ? inset : 0,
         Math.min(page.heightMm - finalHeight - inset, value.yMm),
       );
-      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${id}" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="0"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}<wp:wrapSquare wrapText="bothSides"/>${properties}${picture}</wp:anchor>`;
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="1" allowOverlap="${behind ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
     }
     return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
+  }
+  function imageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
+    const media = sources.get(value.source)!;
+    return pictureRun(
+      value,
+      media.rid,
+      pictureGeometry(value, media.asset, widthMm),
+      widthMm,
+      page,
+    );
+  }
+  const paints = new Map<string, string>();
+  function artwork(value: DecorativeArtwork, part: DocumentPart, story: string): string {
+    const key = `${value.fill.color}:${value.fill.endColor ?? value.fill.color}`;
+    if (!paints.has(key)) {
+      const file = `media/paint-${paints.size + 1}.png`;
+      pkg.add(`word/${file}`, "image/png", paintPng(value.fill));
+      paints.set(key, file);
+    }
+    const rid = `paint-${value.id}`;
+    pkg.relate(story, rid, "image", paints.get(key)!);
+    return pictureRun(
+      {
+        kind: "image",
+        id: value.id,
+        source: key,
+        alt: "",
+        widthMm: value.widthMm,
+        maxHeightMm: value.heightMm,
+        placement: "free",
+        xMm: value.xMm,
+        yMm: value.yMm,
+        gapMm: 0,
+        coordinateOrigin: "page",
+      },
+      rid,
+      {
+        widthMm: value.widthMm,
+        heightMm: value.heightMm,
+        crop: { left: 0, top: 0, right: 0, bottom: 0 },
+        shape: "rect",
+        cornerAdjustment: 0,
+        borderWidthMm: 0,
+        borderColor: "000000",
+      },
+      part.page.widthMm,
+      part.page,
+      true,
+    );
   }
   function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
     return control(
@@ -152,7 +210,7 @@ export async function renderDossierDocx(
     if (block.kind === "spacer")
       return control(
         block.id,
-        `<w:p><w:pPr><w:spacing w:after="${twips(block.heightMm)}" w:line="20" w:lineRule="exact"/></w:pPr></w:p>`,
+        `<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="${Math.max(1, twips(block.heightMm))}" w:lineRule="exact"/></w:pPr></w:p>`,
       );
     if (block.kind === "page-break") return pageBreak;
     if (block.kind === "table") return table(block, widthMm, page);
@@ -194,7 +252,6 @@ export async function renderDossierDocx(
         if (anchor?.kind === "paragraph") {
           result += paragraph(
             anchor,
-            undefined,
             images.map((value) => imageRun(value, widthMm, page)).join(""),
           );
           index = cursor;
@@ -235,12 +292,16 @@ export async function renderDossierDocx(
     const id = `${part.id}-${scope}${first ? "-first" : ""}`;
     if (chromeReferences.has(id)) return chromeReferences.get(id)!;
     const content = first ? part.firstHeader! : part[scope];
-    const background =
-      scope === "header" ? part.chrome.headerBackground : part.chrome.footerBackground;
+    const story = `word/${id}.xml`;
+    const drawings =
+      scope === "header" ? part.artwork.map((value) => artwork(value, part, story)).join("") : "";
+    const paragraphs = content.length
+      ? content.map((value, index) => paragraph(value, index === 0 ? drawings : "")).join("")
+      : emptyParagraphWithRuns(drawings);
     pkg.add(
-      `word/${id}.xml`,
+      story,
       WORD_PART_TYPES[scope],
-      `${DECL}<w:${scope === "header" ? "hdr" : "ftr"} ${namespaces}>${content.map((value) => paragraph(value, background)).join("") || emptyParagraph}</w:${scope === "header" ? "hdr" : "ftr"}>`,
+      `${DECL}<w:${scope === "header" ? "hdr" : "ftr"} ${namespaces}>${paragraphs}</w:${scope === "header" ? "hdr" : "ftr"}>`,
     );
     pkg.relate("word/document.xml", id, scope, `${id}.xml`);
     const reference = `<w:${scope}Reference w:type="${first ? "first" : "default"}" r:id="${id}"/>`;
@@ -259,7 +320,7 @@ export async function renderDossierDocx(
       // explicitly so a different first header does not leave its footer blank.
       references += `<w:footerReference w:type="first" r:id="${part.id}-footer"/>`;
     }
-    return `<w:sectPr>${references}<w:type w:val="${planned.breakBefore}"/><w:pgSz w:w="${twips(part.page.widthMm)}" w:h="${twips(part.page.heightMm)}"/><w:pgMar w:top="${twips(m.top)}" w:right="${twips(m.right)}" w:bottom="${twips(m.bottom)}" w:left="${twips(m.left)}" w:header="${twips(4)}" w:footer="${twips(4)}" w:gutter="0"/>${part.chrome.borderColor ? `<w:pgBorders w:offsetFrom="page">${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} w:val="single" w:sz="${Math.max(1, Math.round(((part.chrome.borderWidthMm * 72) / 25.4) * 8))}" w:space="12" w:color="${part.chrome.borderColor}"/>`).join("")}</w:pgBorders>` : ""}<w:cols w:equalWidth="1" w:num="${planned.columns.count}" w:space="${twips(planned.columns.gapMm)}"/>${part.firstHeader && planned.logicalStart ? "<w:titlePg/>" : ""}</w:sectPr>`;
+    return `<w:sectPr>${references}<w:type w:val="${planned.breakBefore}"/><w:pgSz w:w="${twips(part.page.widthMm)}" w:h="${twips(part.page.heightMm)}"/><w:pgMar w:top="${twips(m.top)}" w:right="${twips(m.right)}" w:bottom="${twips(m.bottom)}" w:left="${twips(m.left)}" w:header="${twips(part.page.headerDistanceMm)}" w:footer="${twips(part.page.footerDistanceMm)}" w:gutter="0"/>${part.chrome.borderColor ? `<w:pgBorders w:offsetFrom="page">${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} w:val="single" w:sz="${Math.max(1, Math.round(((part.chrome.borderWidthMm * 72) / 25.4) * 8))}" w:space="12" w:color="${part.chrome.borderColor}"/>`).join("")}</w:pgBorders>` : ""}<w:cols w:equalWidth="1" w:num="${planned.columns.count}" w:space="${twips(planned.columns.gapMm)}"/>${part.firstHeader && planned.logicalStart ? "<w:titlePg/>" : ""}</w:sectPr>`;
   }
   const parts = [model.cover, model.letter, model.cv];
   const physicalSections = parts.flatMap((part) =>

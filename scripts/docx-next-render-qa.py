@@ -44,11 +44,16 @@ def check_package(file, expected_sections=3, next_package=True):
                 assert target in names, f'{part}: missing target {target}'
         document = trees['word/document.xml']
         assert len(document.findall('.//' + W + 'sectPr')) == expected_sections, 'Unexpected physical section count'
-        relationships = {node.attrib['Id'] for node in trees['word/_rels/document.xml.rels']}
-        for node in document.iter():
-            for key in (R + 'id', R + 'embed', R + 'link'):
-                if key in node.attrib:
-                    assert node.attrib[key] in relationships, f'Missing relationship for {node.tag}'
+        for part, tree in trees.items():
+            if not part.startswith('word/') or not part.endswith('.xml'):
+                continue
+            folder, name = part.rsplit('/', 1)
+            rels = trees.get(f'{folder}/_rels/{name}.rels')
+            relationships = {node.attrib['Id'] for node in rels} if rels is not None else set()
+            for node in tree.iter():
+                for key in (R + 'id', R + 'embed', R + 'link'):
+                    if key in node.attrib:
+                        assert node.attrib[key] in relationships, f'{part}: missing relationship for {node.tag}'
         assert not document.findall('.//' + W + 'txbxContent'), 'Editable content placed in text boxes'
         for control in document.findall('.//' + W + 'sdt'):
             assert not control.findall('.//' + W + 'sdt'), 'Nested controls break LibreOffice flow'
@@ -147,11 +152,63 @@ def render(file, folder, format='pdf'):
 
 
 def check_custom_footers(document, key):
-    if not key.startswith('chrome-custom'):
+    if not key.startswith(('chrome-custom', 'offsets-')):
         return
     for index, page in enumerate(document[1:], start=2):
-        footer = page.get_text(clip=fitz.Rect(0, page.rect.height - 60, page.rect.width, page.rect.height))
+        footer = page.get_text(clip=fitz.Rect(0, page.rect.height - 100, page.rect.width, page.rect.height))
         assert compact(footer).count(compact('Wiederholter Text')) == 2, f'{key}: missing custom footer on page {index}'
+
+
+def check_artwork(document, fixture):
+    start = 0
+    scale = 72 / 25.4
+    for part in fixture.get('parts', []):
+        artwork = part.get('artwork', [])
+        for page in document[start:start + part['expectedPages']]:
+            if not artwork:
+                continue
+            pixmap = page.get_pixmap()
+            for target in artwork:
+                x, y = 1, target['yMm'] + target['heightMm'] / 2
+                layers = [paint for paint in artwork if paint['xMm'] <= x < paint['xMm'] + paint['widthMm'] and paint['yMm'] <= y < paint['yMm'] + paint['heightMm']]
+                assert layers, 'Artwork sample outside known rectangle'
+                paint = layers[-1]
+                ratio = (y - paint['yMm']) / paint['heightMm']
+                fill = paint['fill']
+                rgb = lambda value: tuple(int(value[index:index + 2], 16) for index in (0, 2, 4))
+                first, last = rgb(fill['color']), rgb(fill.get('endColor', fill['color']))
+                expected = tuple(round(a + (b - a) * ratio) for a, b in zip(first, last))
+                actual = pixmap.pixel(round(x * scale), round(y * scale))[:3]
+                assert max(abs(a - b) for a, b in zip(actual, expected)) <= 4, f'{fixture["fixture"]}: missing/incorrect {paint["id"]} on page {page.number + 1}: {actual} != {expected}'
+        start += part['expectedPages']
+
+
+def check_offset_distances(manifest, directory, roundtrip):
+    keys = ['offsets-negative', 'offsets-zero', 'offsets-positive']
+    fixtures = {fixture['fixture']: fixture for fixture in manifest if fixture['fixture'] in keys}
+    if len(fixtures) != 3:
+        return
+    for saved in ([False, True] if roundtrip else [False]):
+        measurements = {}
+        for key in keys:
+            folder = directory / (key + '-qa')
+            path = folder / ('reopened-pdf' if saved else '') / (key + '.pdf')
+            if not path.is_file():
+                break
+            with fitz.open(path) as doc:
+                part = fixtures[key]['parts'][1]
+                repeated = doc[1].search_for('Wiederholter Text')
+                measurements[key] = (min(rect.y0 for rect in repeated), max(rect.y0 for rect in repeated), doc[1].search_for(part['recipientText'])[0].y0)
+        if len(measurements) != 3:
+            continue
+        baseline = fixtures['offsets-zero']['parts'][1]
+        for key in (keys[0], keys[2]):
+            part = fixtures[key]['parts'][1]
+            expected = [part['headerDistanceMm'] - baseline['headerDistanceMm'],
+                        baseline['footerDistanceMm'] - part['footerDistanceMm'],
+                        part['recipientGapMm'] - baseline['recipientGapMm'] + part['contentBoxMm']['top'] - baseline['contentBoxMm']['top']]
+            actual = [a - b for a, b in zip(measurements[key], measurements['offsets-zero'])]
+            assert all(abs(a - b * 72 / 25.4) < 1 for a, b in zip(actual, expected)), f'{key}: signed offsets did not move native content by the declared distance; saved={saved}, actual={actual}, expectedMm={expected}'
 
 
 parser = argparse.ArgumentParser()
@@ -186,12 +243,13 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key in ('long-letter', 'long-cv', 'photo-long-cv') or key.startswith('columns-long'):
+    if key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv') or key.startswith('columns-long'):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key not in ['custom-sections']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
     check_semantic_text(document, fixture)
     check_custom_footers(document, key)
+    check_artwork(document, fixture)
     if key.startswith('columns-'):
         check_columns(document, key)
     image_occurrences = 0
@@ -256,12 +314,14 @@ for fixture in manifest:
             assert len(reopened) == len(document), f'{key}: save/reopen changed pagination'
             check_semantic_text(reopened, fixture)
             check_custom_footers(reopened, key)
+            check_artwork(reopened, fixture)
             if key.startswith('columns-'):
                 check_columns(reopened, key)
     row = {'fixture': key, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
     report.append(row)
     print(json.dumps(row), flush=True)
     document.close()
+check_offset_distances(manifest, args.directory, args.roundtrip)
 report_path = args.directory / 'render-report.json'
 previous = json.loads(report_path.read_text()) if report_path.exists() else []
 combined = {row['fixture']: row for row in previous}

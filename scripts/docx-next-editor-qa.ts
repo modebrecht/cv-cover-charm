@@ -74,7 +74,17 @@ try {
   const chromeInput = briefChromeFixture();
   fixture.cv.design.chromeContent = chromeInput.cv.design.chromeContent;
   fixture.letter.design.chromeContent = chromeInput.letter.design.chromeContent;
+  fixture.cover.colors.bg = "#f4e9da";
+  fixture.letter.design.paperColor = "#e8f0f4";
+  fixture.cv.design.paperColor = "#eaf2e5";
   const chrome = chromeInput.settings.chrome!;
+  Object.assign(chrome.shared, {
+    headerContentOffsetYMm: 6,
+    footerContentOffsetYMm: -4,
+    letterRecipientOffsetYMm: 6,
+    headerBackgroundColor: "#bed6e4",
+    headerGradientColor: "#e8f0f4",
+  });
   await page.evaluate(
     ({
       cover,
@@ -116,15 +126,23 @@ try {
   const toggle = school.locator("[data-editor-section-toggle]");
   if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
   const field = (id: string) => page.locator(`:is(input,textarea)[data-dossier-field-id="${id}"]`);
+  const selectField = async (id: string) => {
+    await field(id).focus();
+    await field(id).press("ControlOrMeta+A");
+    const scope = id.split(".")[0];
+    await page
+      .locator(
+        `[data-dossier-field-selection-toolbar][data-dossier-field-key="field:${scope}:${id}"]`,
+      )
+      .waitFor();
+  };
   const first = field("cv.entry.schule:one.title"),
     second = field("cv.entry.schule:two.title");
   await first.waitFor();
   await second.waitFor();
-  await first.focus();
-  await first.press("ControlOrMeta+A");
+  await selectField("cv.entry.schule:one.title");
   await page.locator('[data-dossier-field-selection-toolbar] button[aria-label="Kursiv"]').click();
-  await second.focus();
-  await second.press("ControlOrMeta+A");
+  await selectField("cv.entry.schule:two.title");
   await page
     .locator('[data-dossier-field-selection-toolbar] button[aria-label="Unterstrichen"]')
     .click();
@@ -174,8 +192,7 @@ try {
     for (const [id, action] of Object.entries(chromeStyles).filter(([id]) =>
       id.startsWith(scope + "."),
     )) {
-      await field(id).focus();
-      await field(id).press("ControlOrMeta+A");
+      await selectField(id);
       await page
         .locator(`[data-dossier-field-selection-toolbar] button[aria-label="${action}"]`)
         .click();
@@ -230,7 +247,16 @@ try {
     );
     if (snapshot.settings.unresolvedTypography.length)
       throw new Error("Fresh semantic styles became unresolved after JSON save");
-    const blob = await rendererModule.renderDossierDocx(modelModule.buildDossierDocModel(snapshot));
+    const model = modelModule.buildDossierDocModel(snapshot);
+    if (
+      model.cover.artwork[0]?.fill.color !== "F4E9DA" ||
+      model.letter.artwork[0]?.fill.color !== "E8F0F4" ||
+      model.cv.artwork[0]?.fill.color !== "EAF2E5" ||
+      model.letter.page.headerDistanceMm !== 22 ||
+      model.cv.page.footerDistanceMm !== 16
+    )
+      throw new Error("Portable JSON/canonical model lost paper or signed chrome settings");
+    const blob = await rendererModule.renderDossierDocx(model);
     return {
       project: restored,
       styles: snapshot.settings.fieldStyles,

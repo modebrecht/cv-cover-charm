@@ -74,10 +74,28 @@ export type DocBlock =
   | { kind: "spacer"; id: string; heightMm: number }
   | { kind: "page-break"; id: string };
 export type PageMargins = { top: number; right: number; bottom: number; left: number };
+/** Nonsemantic paint only. Geometry is page-relative; user text never enters an asset. */
+export type DecorativeArtwork = {
+  kind: "decorative-artwork";
+  id: string;
+  semanticText: false;
+  fill: { color: string; endColor?: string };
+  xMm: number;
+  yMm: number;
+  widthMm: number;
+  heightMm: number;
+};
 export type DocumentPart = {
   id: "cover" | "letter" | "cv";
   blocks: DocBlock[];
-  page: { widthMm: number; heightMm: number; margins: PageMargins };
+  page: {
+    widthMm: number;
+    heightMm: number;
+    margins: PageMargins;
+    headerDistanceMm: number;
+    footerDistanceMm: number;
+  };
+  artwork: DecorativeArtwork[];
   header: Paragraph[];
   firstHeader?: Paragraph[];
   footer: Paragraph[];

@@ -8,7 +8,8 @@ export type TemplateDefinition = {
   colors: { ink: string; accent: string; paper: string };
   margins: PageMargins;
   cover: { order: readonly string[]; align: Alignment; heroSpaceMm: number; photoWidthMm: number };
-  letter: { paragraphSpaceMm: number; lineHeight: number };
+  letter: { paragraphSpaceMm: number; lineHeight: number; recipientGapMm: number };
+  chrome: { headerDistanceMm: number; footerDistanceMm: number };
   cv: { sectionSpaceMm: number; headingRule: boolean; sidebarFraction: number };
   artwork: readonly { asset: string; semanticText: false }[];
 };
@@ -38,7 +39,8 @@ export const BRIEF: TemplateDefinition = {
     heroSpaceMm: 12,
     photoWidthMm: 40,
   },
-  letter: { paragraphSpaceMm: 3, lineHeight: 1.2 },
+  letter: { paragraphSpaceMm: 3, lineHeight: 1.2, recipientGapMm: 12 },
+  chrome: { headerDistanceMm: 16, footerDistanceMm: 12 },
   cv: { sectionSpaceMm: 4, headingRule: true, sidebarFraction: 0.3 },
   artwork: [],
 };

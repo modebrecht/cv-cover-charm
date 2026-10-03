@@ -22,7 +22,15 @@ export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): v
   const ids = new Set<string>();
   for (const part of [model.cover, model.letter, model.cv]) {
     const margins = part.page.margins;
-    if (![...Object.values(margins), part.page.widthMm, part.page.heightMm].every(Number.isFinite))
+    if (
+      ![
+        ...Object.values(margins),
+        part.page.widthMm,
+        part.page.heightMm,
+        part.page.headerDistanceMm,
+        part.page.footerDistanceMm,
+      ].every(Number.isFinite)
+    )
       throw new Error("DOCX Next invalid page geometry");
     if (
       Math.min(...Object.values(margins)) < 0 ||
@@ -30,6 +38,28 @@ export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): v
       part.page.heightMm - margins.top - margins.bottom < 30
     )
       throw new Error("DOCX Next page has no usable content area");
+    if (
+      Math.min(part.page.headerDistanceMm, part.page.footerDistanceMm) < 0 ||
+      Math.max(part.page.headerDistanceMm, part.page.footerDistanceMm) >= part.page.heightMm
+    )
+      throw new Error("DOCX Next invalid chrome geometry");
+    for (const artwork of part.artwork) {
+      if (ids.has(artwork.id))
+        throw new Error(`DOCX Next duplicate semantic identity ${artwork.id}`);
+      ids.add(artwork.id);
+      if (
+        artwork.semanticText !== false ||
+        ![artwork.xMm, artwork.yMm, artwork.widthMm, artwork.heightMm].every(Number.isFinite) ||
+        Math.min(artwork.xMm, artwork.yMm) < 0 ||
+        Math.min(artwork.widthMm, artwork.heightMm) <= 0 ||
+        artwork.xMm + artwork.widthMm > part.page.widthMm ||
+        artwork.yMm + artwork.heightMm > part.page.heightMm ||
+        ![artwork.fill.color, artwork.fill.endColor ?? artwork.fill.color].every((value) =>
+          /^[0-9A-F]{6}$/.test(value),
+        )
+      )
+        throw new Error(`DOCX Next invalid artwork ${artwork.id}`);
+    }
     for (const block of walkBlocks([
       ...part.blocks,
       ...part.header,

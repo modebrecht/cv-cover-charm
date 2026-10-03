@@ -70,13 +70,14 @@ describe("DOCX Next canonical model", () => {
     input.settings.unresolvedTypography = ["old-random-field-id"];
     expect(buildDossierDocModel(input).issues[0].code).toBe("unresolved-legacy-typography");
   });
-  test("unmapped paper and CV element content remain explicit migration blockers", () => {
+  test("paper is mapped without accepting unmapped CV element content", () => {
     const input = briefFixture();
     input.letter.design.paperColor = "#123456";
     input.cv.design.useElements = true;
     input.cv.elements = [structuredClone(input.cover.blocks[0])];
-    const codes = buildDossierDocModel(input).issues.map((issue) => issue.code);
-    expect(codes).toContain("page-paper-artwork-pending");
+    const model = buildDossierDocModel(input);
+    const codes = model.issues.map((issue) => issue.code);
+    expect(model.letter.artwork[0]?.fill.color).toBe("123456");
     expect(codes).toContain("cv-elements-pending");
   });
   test("absent photos disappear and present photos retain semantic native frame geometry", () => {

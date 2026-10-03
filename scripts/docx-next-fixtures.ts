@@ -11,6 +11,7 @@ import {
   BRIEF_FIXTURES,
   briefFixture,
   briefChromeFixture,
+  briefPaintFixture,
 } from "../tests/fixtures/docx-next/brief";
 
 const out = path.resolve(process.argv[2] ?? "/tmp/cv-docx-next-qa");
@@ -94,20 +95,50 @@ const fixtureNames = [
   "columns-long-chrome",
   "chrome-custom",
   "chrome-custom-stacked",
+  "paper-colors",
+  "paint-gradient",
+  "paint-long-letter",
+  "paint-long-cv",
+  "offsets-negative",
+  "offsets-zero",
+  "offsets-positive",
 ];
 const manifest = [];
 for (const fixture of fixtureNames) {
-  const input = fixture.startsWith("chrome-custom")
-    ? briefChromeFixture(fixture.endsWith("stacked"))
-    : briefFixture(
-        fixture === "photo-long-name"
-          ? "long-values"
-          : fixture === "photo-long-cv"
+  const input = fixture.startsWith("paint-")
+    ? briefPaintFixture(
+        fixture === "paint-long-letter"
+          ? "long-letter"
+          : fixture === "paint-long-cv"
             ? "long-cv"
-            : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
-              ? (fixture as (typeof BRIEF_FIXTURES)[number])
-              : "normal",
-      );
+            : "normal",
+      )
+    : fixture.startsWith("chrome-custom") || fixture.startsWith("offsets-")
+      ? briefChromeFixture(fixture.endsWith("stacked"))
+      : briefFixture(
+          fixture === "photo-long-name"
+            ? "long-values"
+            : fixture === "photo-long-cv"
+              ? "long-cv"
+              : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
+                ? (fixture as (typeof BRIEF_FIXTURES)[number])
+                : "normal",
+        );
+  if (fixture === "paper-colors") {
+    input.cover.colors.bg = "#f4e9da";
+    input.letter.design.paperColor = "#e8f0f4";
+    input.cv.design.paperColor = "#eaf2e5";
+    input.cover.data.foto = images.png;
+    input.cv.data.person.foto = images.png;
+  }
+  if (fixture.startsWith("offsets-")) {
+    const sign = fixture.endsWith("negative") ? -1 : fixture.endsWith("positive") ? 1 : 0;
+    Object.assign(input.settings.chrome!.shared, {
+      headerContentOffsetYMm: sign * 12,
+      footerContentOffsetYMm: sign * 8,
+      letterRecipientOffsetYMm: sign * 12,
+    });
+  }
   if (images[fixture]) {
     input.cover.data.foto = images[fixture];
     input.cv.data.person.foto = images[fixture];
@@ -234,26 +265,41 @@ for (const fixture of fixtureNames) {
   const cvPages =
     fixture === "minimal" || fixture === "empty-optional"
       ? 1
-      : fixture === "long-cv" || fixture === "photo-long-cv"
-        ? 9
-        : fixture === "custom-sections"
-          ? 3
-          : 2;
+      : fixture === "paint-long-cv"
+        ? 11
+        : fixture === "long-cv" || fixture === "photo-long-cv"
+          ? 9
+          : fixture === "custom-sections"
+            ? 3
+            : 2;
   const letterPages =
-    fixture === "long-letter"
-      ? 8
-      : fixture === "columns-long-chrome"
-        ? 4
-        : fixture === "columns-long"
-          ? 3
-          : 1;
+    fixture === "paint-long-letter"
+      ? 9
+      : fixture === "long-letter"
+        ? 8
+        : fixture === "columns-long-chrome"
+          ? 4
+          : fixture === "columns-long"
+            ? 3
+            : 1;
   const parts = [model.cover, model.letter, model.cv].map((part, index) => ({
     id: part.id,
     expectedPages: [1, letterPages, cvPages][index],
     contentBoxMm: part.page.margins,
+    headerDistanceMm: part.page.headerDistanceMm,
+    footerDistanceMm: part.page.footerDistanceMm,
+    recipientGapMm:
+      part.blocks.find((block) => block.kind === "spacer" && block.id === "letter.recipient.gap")
+        ?.heightMm ?? 0,
+    recipientText:
+      part.blocks
+        .find((block) => block.kind === "paragraph" && block.id.startsWith("letter.recipient."))
+        ?.runs.map((run) => run.text)
+        .join("") ?? "",
     semanticText: walkBlocks(part.blocks).flatMap((block) =>
       block.kind === "paragraph" ? block.runs.map((run) => run.text) : [],
     ),
+    artwork: part.artwork,
   }));
   manifest.push({
     fixture,
@@ -261,9 +307,11 @@ for (const fixture of fixtureNames) {
       (sum, part) => sum + planPartSections(part).length,
       0,
     ),
-    expectedImages: [model.cover, model.letter, model.cv]
-      .flatMap((part) => walkBlocks(part.blocks))
-      .filter((block) => block.kind === "image").length,
+    expectedImages:
+      [model.cover, model.letter, model.cv]
+        .flatMap((part) => walkBlocks(part.blocks))
+        .filter((block) => block.kind === "image").length +
+      parts.reduce((sum, part) => sum + part.artwork.length * part.expectedPages, 0),
     expectedPages: 1 + letterPages + cvPages,
     parts,
     bytes: blob.size,

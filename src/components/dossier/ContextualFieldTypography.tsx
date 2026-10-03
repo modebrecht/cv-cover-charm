@@ -534,6 +534,7 @@ export function ContextualFieldTypography() {
         <div
           data-dossier-field-selection-toolbar
           data-dossier-field-scope={scope}
+          data-dossier-field-key={activeKey}
           role="toolbar"
           aria-label="Textfeld formatieren"
           className="fixed z-[90] flex items-center gap-1 rounded-xl border bg-popover p-1 shadow-xl"
