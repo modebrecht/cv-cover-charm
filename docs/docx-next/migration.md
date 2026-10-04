@@ -4,7 +4,7 @@
 
 | Template      | Archetype           | Status                                   | Primitive                                                        | QA                                                          |
 | ------------- | ------------------- | ---------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------- |
-| `brief`       | Minimal             | Prototype; Gate 5 pending                | Native flow / tables / columns / paint / lists / custom elements | 71 automated render and LO roundtrip fixtures; Word pending |
+| `brief`       | Minimal             | Prototype; Gate 5 pending                | Native flow / tables / columns / paint / lists / custom elements | 84 automated render and LO roundtrip fixtures; Word pending |
 | `klassisch`   | Editorial           | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `modern`      | Graphic             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `freundlich`  | Organic / Editorial | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |

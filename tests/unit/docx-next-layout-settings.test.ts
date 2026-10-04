@@ -187,7 +187,7 @@ describe("native Brief CV presentation and letter separators", () => {
   });
   test("invalid shared geometry fails before packaging", async () => {
     const model = buildDossierDocModel(briefLayoutFixture("rubrics-short"));
-    section(model, "person").contentIndentMm = 13;
+    section(model, "person").contentIndentMm = 200;
     await expect(renderDossierDocx(model)).rejects.toThrow("invalid section indentation");
     section(model, "person").contentIndentMm = 0;
     const rule = section(model, "person").blocks[0];

@@ -21,6 +21,76 @@ export const BRIEF_FIXTURES = [
   "custom-sections",
 ] as const;
 export type BriefFixture = (typeof BRIEF_FIXTURES)[number];
+export const BRIEF_VARIANT_FIXTURES = [
+  "minimal-short",
+  "minimal-long",
+  "minimal-image",
+  "timeline-short",
+  "timeline-long",
+  "timeline-image",
+  "editorial-short",
+  "editorial-long",
+  "editorial-image",
+] as const;
+export function briefVariantFixture(kind: (typeof BRIEF_VARIANT_FIXTURES)[number]) {
+  const [variant, length] = kind.split("-");
+  const input = briefFixture(
+    length === "long" ? "long-cv" : length === "short" ? "minimal" : "normal",
+  );
+  input.settings.cvLayout = variant as "minimal" | "timeline" | "editorial";
+  if (length === "short")
+    input.cv.data.schule = [
+      {
+        id: "variant-school",
+        zeit: "2024–2026",
+        titel: "Native Ausbildung",
+        ort: "Zürich",
+        beschreibung: "Editierbare Beschreibung mit ä ö ü Ä Ö Ü é è à – — ·",
+      },
+    ];
+  input.cv.data.customSections = ["alpha", "beta"].map((id) => ({
+    id: `variant-${id}`,
+    title: `Eigene Rubrik ${id}`,
+    entries: [
+      {
+        id: `variant-entry-${id}`,
+        zeit: "2025–2026",
+        titel: `Projekt ${id}`,
+        ort: "Bern",
+        beschreibung: "Native Inhalte in halber Breite bleiben editierbar.",
+      },
+    ],
+  }));
+  input.cv.data.sectionLayouts = Object.fromEntries(
+    ["alpha", "beta"].map((id) => [`custom:variant-${id}`, { width: "half", page: 1 }]),
+  );
+  if (length === "long")
+    input.cv.data.schule.push({
+      id: "variant-overflow",
+      zeit: "2020–2026",
+      titel: "Mehrseitiger Layout-Eintrag",
+      ort: "Zürich",
+      beschreibung: "Lange editierbare Beschreibung mit Projekten und Aufgaben. ".repeat(200),
+    });
+  return input;
+}
+export const BRIEF_PAGINATION_FIXTURES = ["zero", "ten", "forty", "chrome"] as const;
+export function briefPaginationFixture(kind: (typeof BRIEF_PAGINATION_FIXTURES)[number]) {
+  const input = briefFixture("long-cv");
+  const top = kind === "forty" ? 40 : 20;
+  input.settings.margins = { cv: { top, right: 20, bottom: 20, left: 20 } };
+  input.settings.cvContinuationTopMarginMm = kind === "zero" ? 0 : kind === "forty" ? 40 : 10;
+  if (kind === "chrome") {
+    input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+    input.settings.chrome.cv = {
+      ...input.settings.chrome.cv,
+      headerMode: "contact",
+      headerFollowMode: "compact",
+      footerMode: "compact",
+    };
+  }
+  return input;
+}
 export const BRIEF_LAYOUT_FIXTURES = [
   "contact-aligned",
   "contact-plain",

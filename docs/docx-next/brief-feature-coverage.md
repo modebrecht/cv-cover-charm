@@ -21,24 +21,29 @@
 | Margins, chrome, colors and artwork                         | Native section/header/footer properties; pixels behind editable text                | Chrome/paint/offset fixtures; known contact cells pruned before XML             |
 | Photos, letter/custom images                                | Shared normalized media, native drawings, independent framing                       | Six image inputs; crop/aspect/placement/frame fixtures                          |
 
+| Standard / Luftig / Timeline / Magazin CV choices | Shared flow configurations; native date tracks and entry-owned axis where applicable | Nine short/long/image fixtures; fixed-width/date attachment/half-section checks |
+| Continuation-only CV top margin | Native continuation section margin plus one first-page spacer; explicit pagination metadata | 0/10/40 mm and chrome fixtures; geometry/save-reopen checks |
+
 ## Word-oriented choices
 
 Text flows when edited. Absolute source text coordinates and fixed heights do not create fixed text containers. Half-width headings cannot indent left across another cell: negative offsets clamp to zero there. Badges use rectangular native text shading rather than rounded browser pills. Short rules align with their heading even when the body has a different indent. Long paired reference rows may split; a reference name stays attached to its first detail where possible. Contact chrome removes only known source fields that it owns, including aligned cells; empty tables and orphan rules disappear.
+
+Timeline uses an entry-owned native border; absolute browser axes and dots are omitted. Dated short rows stay together, while oversized descriptions continue through native pagination. The first-page margin is preserved by a flow spacer when it is at least the continuation margin; real chrome adds its reservation. Empty header distance is zero in this case.
 
 These are shared semantic primitives, not template repair transforms. Decoration contains no user text. QA searches unique fixture probes to measure rendered output; production styling resolves IDs before XML.
 
 ## Outstanding before acceptance
 
-| Item                                                            | State                                                                                                                                                |
-| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Windows Word open/edit/save/reopen                              | Not run: Word unavailable in this environment                                                                                                        |
-| macOS Word smoke test                                           | Not run; record if available                                                                                                                         |
-| Stable LibreOffice                                              | Pending: available renderer is LibreOfficeDev 26.8 alpha                                                                                             |
-| Approved Word-oriented snapshots                                | Candidate renderings only                                                                                                                            |
-| Older anonymous saved typography                                | Explicit identity bindings supported; ambiguous identities remain blocked                                                                            |
-| Free CV section positioning                                     | Explicit model issue; Word flow conversion requires acceptance                                                                                       |
-| Alternate classic variants; continuation-only CV top margin/gap | Not fully mapped; current native body geometry is consistent throughout a logical part; resolve the product contract before accepting these controls |
-| Enabled font embedding                                          | Unsupported under the current disabled-embedding policy                                                                                              |
-| Modern/sidebar, remaining templates, production switchover      | Later gates; blocked rather than silently simulated                                                                                                  |
+| Item                                                       | State                                                                                                                            |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Windows Word open/edit/save/reopen                         | Not run: Word unavailable in this environment                                                                                    |
+| macOS Word smoke test                                      | Not run; record if available                                                                                                     |
+| Stable LibreOffice                                         | Pending: available renderer is LibreOfficeDev 26.8 alpha                                                                         |
+| Approved Word-oriented snapshots                           | Candidate renderings only                                                                                                        |
+| Older anonymous saved typography                           | Explicit identity bindings supported; ambiguous identities remain blocked                                                        |
+| Free CV section positioning                                | Explicit model issue; Word flow conversion requires acceptance                                                                   |
+| Continuation margin larger than first-page margin          | Explicit blocking model issue: one flowing section cannot preserve a smaller first-page margin with a larger continuation margin |
+| Enabled font embedding                                     | Unsupported under the current disabled-embedding policy                                                                          |
+| Modern/sidebar, remaining templates, production switchover | Later gates; blocked rather than silently simulated                                                                              |
 
 Completion still requires all template migrations, production comparison/switchover on `dev`, import-audited legacy removal, and final regression/Word acceptance. Automated Brief progress alone does not pass those gates.

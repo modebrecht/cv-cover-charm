@@ -9,6 +9,7 @@ import {
   getCvLayoutChoiceForTemplate,
   getCvInfoPosition,
   getCvSectionGapMm,
+  getCvContinuationTopMarginMm,
 } from "@/components/cv/layout";
 import { getCvPlacements } from "@/components/cv/placement";
 import { getCvTextAlignment } from "@/components/cv/text-alignment";
@@ -18,6 +19,7 @@ import { readPortableDossierFieldTypographyState } from "@/lib/dossier-field-typ
 import type { DossierAppSnapshot } from "./build-model";
 import type { TextStyle } from "./model";
 import { isSemanticDossierFieldId } from "@/lib/dossier-semantic-fields";
+import { cvWordLayout } from "./layouts";
 
 /** Capture ambient state once. Old anonymous field IDs require explicit semantic bindings. */
 export function captureDossierDocxNextSnapshot(
@@ -49,12 +51,12 @@ export function captureDossierDocxNextSnapshot(
     settings: {
       chrome: getDossierChromeState(),
       margins: getDossierPageMarginsState(),
-      cvLayout:
-        getCvLayoutChoiceForTemplate(cv.design.template) === "modern" ? "sidebar" : "classic",
+      cvLayout: cvWordLayout(getCvLayoutChoiceForTemplate(cv.design.template)),
       sidebarSide: getCvInfoPosition() === "mirrored" ? "right" : "left",
       placements: getCvPlacements(),
       cvAlignment: getCvTextAlignment(),
       cvSectionGapMm: getCvSectionGapMm(),
+      cvContinuationTopMarginMm: getCvContinuationTopMarginMm(),
       cvPhotoStyle: getCvPhotoStyle(),
       cvPhotoPlacement: getCvPhotoPlacement(),
       fieldStyles,

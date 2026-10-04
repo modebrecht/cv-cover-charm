@@ -191,6 +191,36 @@ def check_entry_attachment(document, fixture):
         start += part['expectedPages']
 
 
+def check_cv_composition(document, fixture):
+    start = 0
+    for part in fixture['parts']:
+        pages = document[start:start + part['expectedPages']]
+        for probe in part.get('dateRailProbes', []):
+            dates = [(index, box) for index, page in enumerate(pages) for box in page.search_for(probe['date'])]
+            titles = [(index, box) for index, page in enumerate(pages) for box in page.search_for(probe['title'])]
+            # Deliberately unique fixture probes only; user field identity is
+            # resolved in the model, never by this render QA measurement.
+            if len(dates) != 1 or len(titles) != 1:
+                continue
+            date_page, date = dates[0]
+            title_page, title = titles[0]
+            assert date_page == title_page and abs(date.y0 - title.y0) < 12, f'{fixture["fixture"]}: date detached from native entry title'
+            expected = probe['distanceMm'] * 72 / 25.4
+            assert abs((title.x0 - date.x0) - expected) < 2, f'{fixture["fixture"]}: fixed date track changed width'
+        pagination = part.get('pagination')
+        if pagination:
+            first = pages[0].search_for(part['firstBodyText'])
+            expected = (part['contentBoxMm']['top'] + pagination['firstPageLeadMm']) * 72 / 25.4
+            assert any(expected - 2 <= box.y0 <= expected + 18 for box in first), f'{fixture["fixture"]}: first-page margin/spacer lost'
+            if len(pages) > 1:
+                lines = [span['bbox'][1] for block in pages[1].get_text('dict')['blocks'] if 'lines' in block for line in block['lines'] for span in line['spans'] if span['text'].strip()]
+                # Running chrome is excluded from the body by its reservation.
+                top = part['contentBoxMm']['top'] * 72 / 25.4
+                body = [y for y in lines if y >= top - 2]
+                assert body and min(body) < top + 35, f'{fixture["fixture"]}: continuation margin/spacer repeated'
+        start += part['expectedPages']
+
+
 def render(file, folder, format='pdf'):
     folder.mkdir(exist_ok=True)
     result_file = folder / (file.stem + ('.pdf' if format == 'pdf' else '.docx'))
@@ -485,12 +515,13 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long'):
+    if key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key not in ['custom-sections', 'cover-long-list', 'elements-long', 'fonts-long-letter', 'fonts-long-cv']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
     check_semantic_text(document, fixture)
     check_entry_attachment(document, fixture)
+    check_cv_composition(document, fixture)
     check_fonts(document, fixture)
     check_custom_footers(document, key)
     check_artwork(document, fixture)
@@ -561,6 +592,7 @@ for fixture in manifest:
             assert len(reopened) == len(document), f'{key}: save/reopen changed pagination'
             check_semantic_text(reopened, fixture)
             check_entry_attachment(reopened, fixture)
+            check_cv_composition(reopened, fixture)
             check_custom_footers(reopened, key)
             check_artwork(reopened, fixture)
             check_cover_features(reopened, fixture)

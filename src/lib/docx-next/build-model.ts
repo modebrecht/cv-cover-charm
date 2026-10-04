@@ -38,6 +38,7 @@ import type {
   ModelIssue,
 } from "./model";
 import { nextTemplate } from "./templates";
+import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks, type CvLayoutInput } from "./layouts";
 import { wordFont as fontForKey, createFontResolver, type FontPolicy } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
 import { textElement, imageElement, shapeElement, flowingElementBox } from "./elements";
@@ -60,11 +61,12 @@ export type DossierAppSnapshot = {
   settings: {
     chrome?: DossierChromeState;
     margins?: Partial<Record<"letter" | "cv", PageMargins>>;
-    cvLayout?: "classic" | "sidebar";
+    cvLayout?: CvLayoutInput;
     sidebarSide?: "left" | "right";
     placements?: Partial<CvPlacements>;
     cvAlignment?: Alignment;
     cvSectionGapMm?: number | null;
+    cvContinuationTopMarginMm?: number;
     cvPhotoStyle?: DossierPhotoStyle;
     cvPhotoPlacement?: CvPhotoPlacement;
     /** Canonical paths only; no visible-value or occurrence matching. */
@@ -105,6 +107,8 @@ function chromeTextHeight(paragraphs: Paragraph[], widthMm: number): number {
 /** Pure and synchronous: all ambient editor state must be captured before calling. */
 export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel {
   const { cover, letter, cv, settings } = input;
+  const cvVariant = cvWordLayout(settings.cvLayout);
+  const cvFlow = CV_FLOW_LAYOUTS[cvVariant === "sidebar" ? "classic" : cvVariant];
   const template = nextTemplate(String(cover.template));
   if (String(letter.design.template) !== template.id || String(cv.design.template) !== template.id)
     throw new Error("DOCX Next requires matching dossier templates.");
@@ -200,7 +204,8 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     footer: [],
     chrome: { borderWidthMm: 0 },
     layout: {
-      mode: id === "cv" ? (settings.cvLayout ?? "classic") : "classic",
+      mode: id === "cv" && cvVariant === "sidebar" ? "sidebar" : "classic",
+      ...(id === "cv" ? { variant: cvVariant } : {}),
       side: settings.sidebarSide ?? "left",
       sidebarFraction: cv.design.sidebarPct ?? template.cv.sidebarFraction,
     },
@@ -208,6 +213,8 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   const coverPart = part("cover"),
     letterPart = part("letter"),
     cvPart = part("cv");
+  const cvFirstTopMargin = cvPart.page.margins.top;
+  let cvHeaderReserveMm = 0;
   const elementContext = (colors: Record<string, string>, font: string, fontScale = 1) => ({
     colors,
     font,
@@ -502,7 +509,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   const sectionGapMm =
     typeof settings.cvSectionGapMm === "number" && Number.isFinite(settings.cvSectionGapMm)
       ? Math.max(0, Math.min(12, settings.cvSectionGapMm))
-      : template.cv.sectionSpaceMm;
+      : (cvFlow.sectionGapMm ?? template.cv.sectionSpaceMm);
   const heading = (id: string, text: string) =>
     p(
       id,
@@ -538,7 +545,12 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           italic: cd.docTitleItalic ?? false,
           underline: cd.docTitleUnderline ?? false,
         },
-        { role: "title", keepNext: true, afterMm: ((cd.docTitleMarginBottomPx ?? 10) * 25.4) / 96 },
+        {
+          role: "title",
+          keepNext: true,
+          afterMm: ((cd.docTitleMarginBottomPx ?? 10) * 25.4) / 96,
+          indentMm: cvFlow.indentMm,
+        },
       ),
     );
   cvPart.blocks.push(
@@ -556,7 +568,12 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
             ? { sizePt: person.nameStyle.fontSizePt }
             : {}),
         },
-        { role: "heading", keepNext: !!person.untertitel },
+        {
+          role: "heading",
+          keepNext: !!person.untertitel,
+          indentMm: cvFlow.indentMm,
+          afterMm: person.untertitel ? 1.5 : cvFlow.headerGapMm,
+        },
       ),
       [
         { id: CV_PERSON_FIELD_IDS.vorname, text: person.vorname },
@@ -565,7 +582,13 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       " ",
     ),
   );
-  if (person.untertitel) cvPart.blocks.push(p("cv.person.subtitle", person.untertitel, body));
+  if (person.untertitel)
+    cvPart.blocks.push(
+      p("cv.person.subtitle", person.untertitel, body, {
+        indentMm: cvFlow.indentMm,
+        afterMm: cvFlow.headerGapMm,
+      }),
+    );
   if (person.foto) {
     const coverPhoto = cover.blocks.find((block) => block.kind === "photo");
     const photoStyle = normalizeDossierPhotoStyle(
@@ -612,22 +635,27 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       return {
         kind: "entry",
         id,
-        blocks: fields.map(([key, text], index) =>
-          p(
-            `${id}.${key}`,
-            text,
-            { ...body, bold: key === "title", italic: key === "date" },
-            {
-              align:
-                key === "description" || key === "place"
-                  ? (settings.cvAlignment ?? "left")
-                  : "left",
-              // Keep entry metadata with the start of its description. The final
-              // paragraph still has keepLines=false so long descriptions flow.
-              keepNext: index < fields.length - 1,
-              afterMm: index === fields.length - 1 ? 3 : 0.5,
-            },
+        blocks: datedEntryBlocks(
+          id,
+          fields.map(([key, text], index) =>
+            p(
+              `${id}.${key}`,
+              text,
+              { ...body, bold: key === "title", italic: key === "date" },
+              {
+                align:
+                  key === "description" || key === "place"
+                    ? (settings.cvAlignment ?? "left")
+                    : "left",
+                // Keep entry metadata with the start of its description. The final
+                // paragraph still has keepLines=false so long descriptions flow.
+                keepNext: index < fields.length - 1,
+                afterMm: index === fields.length - 1 ? cvFlow.entryGapMm : 0.5,
+              },
+            ),
           ),
+          cvFlow,
+          cvAccent,
         ),
       };
     });
@@ -789,7 +817,8 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       });
     const sectionHeading = heading(`cv.section.${key}.heading`, title);
     sectionHeading.indentMm =
-      layout.width === "half" ? Math.max(0, rubric.horizontalMm) : rubric.horizontalMm;
+      cvFlow.indentMm +
+      (layout.width === "half" ? Math.max(0, rubric.horizontalMm) : rubric.horizontalMm);
     if (rubric.pill) {
       for (const run of sectionHeading.runs) {
         const ink = run.style.color;
@@ -818,7 +847,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         lengthMm: 18,
         afterMm,
         keepNext: true,
-        indentMm: (sectionHeading.indentMm ?? 0) - rubric.contentIndentMm,
+        indentMm: (sectionHeading.indentMm ?? 0) - cvFlow.indentMm - rubric.contentIndentMm,
       });
     }
     cvPart.blocks.push({
@@ -829,7 +858,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       placement: settings.placements?.[key === "person" ? "kontakt" : key] ?? "main",
       width: layout.width,
       startPage: layout.page,
-      contentIndentMm: rubric.contentIndentMm,
+      contentIndentMm: cvFlow.indentMm + rubric.contentIndentMm,
     });
   }
   if (cv.design.useElements) {
@@ -1130,6 +1159,8 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           Math.max(target.page.margins.top, target.page.headerDistanceMm) +
           headerHeight +
           (options.headerGapMm ?? 4);
+      if (scope === "cv" && headerHeight)
+        cvHeaderReserveMm = headerHeight + (options.headerGapMm ?? 4);
       if (footerHeight)
         target.page.margins.bottom =
           Math.max(target.page.margins.bottom, target.page.footerDistanceMm) + footerHeight;
@@ -1168,6 +1199,33 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           });
       }
     }
+  }
+  if (settings.cvContinuationTopMarginMm !== undefined) {
+    const requested = settings.cvContinuationTopMarginMm;
+    if (!Number.isFinite(requested) || requested < 0 || requested > 40)
+      throw new Error("DOCX Next invalid CV continuation top margin");
+    // An empty header still owns a boundary paragraph. Place it at the page
+    // edge so its distance cannot impose an unrelated minimum body margin.
+    if (!cvHeaderReserveMm) cvPart.page.headerDistanceMm = 0;
+    const continuationTop = cvHeaderReserveMm
+      ? Math.max(requested, cvPart.page.headerDistanceMm) + cvHeaderReserveMm
+      : requested;
+    const firstTop = cvPart.page.margins.top;
+    const lead = Math.max(0, firstTop - continuationTop);
+    cvPart.layout.pagination = {
+      firstTopMarginMm: cvFirstTopMargin,
+      continuationTopMarginMm: requested,
+      firstPageLeadMm: lead,
+    };
+    cvPart.page.margins.top = continuationTop;
+    if (continuationTop > firstTop)
+      issues.push({
+        code: "continuation-margin-exceeds-first-page",
+        fieldId: "cv.layout.pagination",
+        message:
+          "Word uses one flowing section margin: a larger continuation margin cannot preserve the smaller first-page margin. Use a continuation margin no larger than the first-page margin.",
+      });
+    if (lead) cvPart.blocks.unshift({ kind: "spacer", id: "cv.firstPageLead", heightMm: lead });
   }
   for (const target of [coverPart, letterPart, cvPart]) {
     const paper =

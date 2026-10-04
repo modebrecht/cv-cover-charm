@@ -17,6 +17,10 @@ import {
   briefFontsFixture,
   BRIEF_LAYOUT_FIXTURES,
   briefLayoutFixture,
+  BRIEF_VARIANT_FIXTURES,
+  briefVariantFixture,
+  BRIEF_PAGINATION_FIXTURES,
+  briefPaginationFixture,
 } from "../tests/fixtures/docx-next/brief";
 
 const out = path.resolve(process.argv[2] ?? "/tmp/cv-docx-next-qa");
@@ -80,6 +84,8 @@ try {
   if (!invalid) throw new Error("Corrupt image did not fail visibly");
   const fixtureNames = [
     ...BRIEF_FIXTURES,
+    ...BRIEF_VARIANT_FIXTURES.map((kind) => `variant-${kind}`),
+    ...BRIEF_PAGINATION_FIXTURES.map((kind) => `pagination-${kind}`),
     ...BRIEF_LAYOUT_FIXTURES.map((kind) => `layout-${kind}`),
     ...Object.keys(images),
     "chrome",
@@ -133,39 +139,47 @@ try {
   const expectedText = (run: TextRun) =>
     run.style.allCaps ? { text: run.text, allCaps: true } : run.text;
   for (const fixture of fixtureNames) {
-    const input = fixture.startsWith("layout-")
-      ? briefLayoutFixture(fixture.slice(7) as Parameters<typeof briefLayoutFixture>[0])
-      : fixture.startsWith("fonts-")
-        ? briefFontsFixture(fixture.slice(6) as Parameters<typeof briefFontsFixture>[0])
-        : fixture.startsWith("elements-")
-          ? briefElementsFixture(
-              (fixture === "elements-artwork-failure" ? "shapes" : fixture.slice(9)) as Parameters<
-                typeof briefElementsFixture
-              >[0],
-            )
-          : fixture.startsWith("cover-")
-            ? briefCoverTypographyFixture(
-                fixture.slice(6) as Parameters<typeof briefCoverTypographyFixture>[0],
-              )
-            : fixture.startsWith("paint-")
-              ? briefPaintFixture(
-                  fixture === "paint-long-letter"
-                    ? "long-letter"
-                    : fixture === "paint-long-cv"
-                      ? "long-cv"
-                      : "normal",
+    const input = fixture.startsWith("variant-")
+      ? briefVariantFixture(fixture.slice(8) as Parameters<typeof briefVariantFixture>[0])
+      : fixture.startsWith("pagination-")
+        ? briefPaginationFixture(fixture.slice(11) as Parameters<typeof briefPaginationFixture>[0])
+        : fixture.startsWith("layout-")
+          ? briefLayoutFixture(fixture.slice(7) as Parameters<typeof briefLayoutFixture>[0])
+          : fixture.startsWith("fonts-")
+            ? briefFontsFixture(fixture.slice(6) as Parameters<typeof briefFontsFixture>[0])
+            : fixture.startsWith("elements-")
+              ? briefElementsFixture(
+                  (fixture === "elements-artwork-failure"
+                    ? "shapes"
+                    : fixture.slice(9)) as Parameters<typeof briefElementsFixture>[0],
                 )
-              : fixture.startsWith("chrome-custom") || fixture.startsWith("offsets-")
-                ? briefChromeFixture(fixture.endsWith("stacked"))
-                : briefFixture(
-                    fixture === "photo-long-name"
-                      ? "long-values"
-                      : fixture === "photo-long-cv"
-                        ? "long-cv"
-                        : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
-                          ? (fixture as (typeof BRIEF_FIXTURES)[number])
+              : fixture.startsWith("cover-")
+                ? briefCoverTypographyFixture(
+                    fixture.slice(6) as Parameters<typeof briefCoverTypographyFixture>[0],
+                  )
+                : fixture.startsWith("paint-")
+                  ? briefPaintFixture(
+                      fixture === "paint-long-letter"
+                        ? "long-letter"
+                        : fixture === "paint-long-cv"
+                          ? "long-cv"
                           : "normal",
-                  );
+                    )
+                  : fixture.startsWith("chrome-custom") || fixture.startsWith("offsets-")
+                    ? briefChromeFixture(fixture.endsWith("stacked"))
+                    : briefFixture(
+                        fixture === "photo-long-name"
+                          ? "long-values"
+                          : fixture === "photo-long-cv"
+                            ? "long-cv"
+                            : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
+                              ? (fixture as (typeof BRIEF_FIXTURES)[number])
+                              : "normal",
+                      );
+    if (fixture.startsWith("variant-") && fixture.endsWith("-image")) {
+      input.cover.data.foto = images.png;
+      input.cv.data.person.foto = images.png;
+    }
     if (fixture === "elements-images") {
       const field = {
         id: "custom-picture",
@@ -351,33 +365,45 @@ try {
       )
       .filter((block) => block.kind === "paragraph")
       .flatMap((block) => (block.kind === "paragraph" ? block.runs.map(expectedText) : []));
-    const cvPages = fixture.startsWith("layout-")
-      ? fixture === "layout-settings-long"
-        ? 16
-        : fixture === "layout-entry-overflow"
-          ? 4
-          : fixture === "layout-references-stacked"
-            ? 2
-            : 1
-      : ["fonts-mixed", "fonts-unavailable", "fonts-offline"].includes(fixture)
-        ? 1
-        : fixture === "fonts-long-cv"
-          ? 8
-          : fixture === "elements-long"
-            ? 4
-            : fixture === "elements-shapes" || fixture === "elements-shapes-paper"
-              ? 3
-              : fixture === "elements-page-two"
+    const cvPages = fixture.startsWith("variant-")
+      ? fixture.endsWith("-long")
+        ? fixture === "variant-minimal-long"
+          ? 13
+          : 12
+        : fixture.endsWith("-short")
+          ? 1
+          : 2
+      : fixture.startsWith("pagination-")
+        ? ["pagination-zero", "pagination-ten"].includes(fixture)
+          ? 9
+          : 10
+        : fixture.startsWith("layout-")
+          ? fixture === "layout-settings-long"
+            ? 16
+            : fixture === "layout-entry-overflow"
+              ? 4
+              : fixture === "layout-references-stacked"
                 ? 2
-                : fixture === "minimal" || fixture === "empty-optional"
-                  ? 1
-                  : fixture === "paint-long-cv"
-                    ? 11
-                    : fixture === "long-cv" || fixture === "photo-long-cv"
-                      ? 10
-                      : fixture === "custom-sections"
-                        ? 3
-                        : 2;
+                : 1
+          : ["fonts-mixed", "fonts-unavailable", "fonts-offline"].includes(fixture)
+            ? 1
+            : fixture === "fonts-long-cv"
+              ? 8
+              : fixture === "elements-long"
+                ? 4
+                : fixture === "elements-shapes" || fixture === "elements-shapes-paper"
+                  ? 3
+                  : fixture === "elements-page-two"
+                    ? 2
+                    : fixture === "minimal" || fixture === "empty-optional"
+                      ? 1
+                      : fixture === "paint-long-cv"
+                        ? 11
+                        : fixture === "long-cv" || fixture === "photo-long-cv"
+                          ? 10
+                          : fixture === "custom-sections"
+                            ? 3
+                            : 2;
     const letterPages =
       fixture === "fonts-long-letter"
         ? 7
@@ -410,10 +436,11 @@ try {
       ),
       entryProbes: walkBlocks(part.blocks).flatMap((block) => {
         if (block.kind !== "entry") return [];
-        const title = block.blocks.find(
+        const children = walkBlocks(block.blocks);
+        const title = children.find(
           (child) => child.kind === "paragraph" && child.id.endsWith(".title"),
         );
-        const description = block.blocks.find(
+        const description = children.find(
           (child) => child.kind === "paragraph" && child.id.endsWith(".description"),
         );
         if (title?.kind !== "paragraph" || description?.kind !== "paragraph") return [];
@@ -430,6 +457,26 @@ try {
             ]
           : [];
       }),
+      dateRailProbes: walkBlocks(part.blocks).flatMap((block) => {
+        if (block.kind !== "table" || !block.id.endsWith(".dateRail")) return [];
+        const cells = block.rows[0].cells;
+        const date = cells[0][0],
+          title = cells[1][0];
+        return date?.kind === "paragraph" && title?.kind === "paragraph"
+          ? [
+              {
+                date: date.runs.map((run) => run.text).join(""),
+                title: title.runs.map((run) => run.text).join(""),
+                distanceMm: block.columnWidthsMm![0],
+              },
+            ]
+          : [];
+      }),
+      pagination: part.layout.pagination,
+      firstBodyText: part.blocks
+        .find((block) => block.kind === "paragraph")
+        ?.runs.map((run) => run.text)
+        .join(""),
       artwork: part.artwork,
       fontProbes:
         fixture === "fonts-unavailable"

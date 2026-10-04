@@ -125,7 +125,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         block.contentIndentMm !== undefined &&
         (!Number.isFinite(block.contentIndentMm) ||
           block.contentIndentMm < 0 ||
-          block.contentIndentMm > 12)
+          block.contentIndentMm >= part.page.widthMm - margins.left - margins.right - 10)
       )
         throw new Error(`DOCX Next invalid section indentation ${block.id}`);
       if (
@@ -151,6 +151,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         block.kind === "table" &&
         (!block.widths.length ||
           block.widths.some((width) => !Number.isFinite(width) || width <= 0) ||
+          (block.columnWidthsMm &&
+            (block.columnWidthsMm.length !== block.widths.length ||
+              block.columnWidthsMm.some(
+                (width) => width !== null && (!Number.isFinite(width) || width <= 0),
+              ))) ||
           block.rows.some((row) => row.cells.length !== block.widths.length))
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
@@ -167,6 +172,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
               ![box.borderWidthMm, box.paddingXMm, box.paddingYMm].every(Number.isFinite) ||
               Math.min(box.borderWidthMm, box.paddingXMm, box.paddingYMm) < 0 ||
               box.borderWidthMm > 6 ||
+              (box.borderSides &&
+                (new Set(box.borderSides).size !== box.borderSides.length ||
+                  box.borderSides.some(
+                    (side) => !["top", "left", "bottom", "right"].includes(side),
+                  ))) ||
               box.paddingXMm * 2 >=
                 (block.widthMm ?? part.page.widthMm - margins.left - margins.right)))
         )

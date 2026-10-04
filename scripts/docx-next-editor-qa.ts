@@ -367,6 +367,41 @@ try {
     const snapshotModule = await import("/src/lib/docx-next/snapshot.ts");
     const modelModule = await import("/src/lib/docx-next/build-model.ts");
     const rendererModule = await import("/src/lib/docx-next/renderer.ts");
+    const layoutKey = "lebenslauf:layout:v1";
+    const marginKey = "lebenslauf:continuation-top-margin:v1";
+    const originalLayout = localStorage.getItem(layoutKey);
+    const originalMargin = localStorage.getItem(marginKey);
+    try {
+      for (const choice of ["classic", "minimal", "timeline", "editorial", "modern", "executive"]) {
+        localStorage.setItem(layoutKey, choice);
+        localStorage.setItem(marginKey, "10");
+        const saved = projectModule.createDossierProject({
+          cover: projectModule.readStoredDossierPart(projectModule.COVER_STORAGE_KEY),
+          cv: projectModule.readStoredDossierPart(projectModule.CV_STORAGE_KEY),
+          letter: projectModule.readStoredDossierPart(projectModule.LETTER_STORAGE_KEY),
+        });
+        const loaded = projectModule.parseDossierProject(JSON.parse(JSON.stringify(saved)));
+        const captured = snapshotModule.captureDossierDocxNextSnapshot(
+          docModule.coverPdfDocumentFromSaved(loaded.cover),
+          docModule.letterPdfDocumentFromSaved(loaded.letter),
+          docModule.cvPdfDocumentFromSaved(loaded.cv),
+        );
+        const expected = choice === "modern" || choice === "executive" ? "sidebar" : choice;
+        if (
+          loaded.cv.portableState.layout !== (choice === "executive" ? "modern" : choice) ||
+          loaded.cv.portableState.continuationTopMarginMm !== 10 ||
+          captured.settings.cvLayout !== expected ||
+          captured.settings.cvContinuationTopMarginMm !== 10 ||
+          modelModule.buildDossierDocModel(captured).cv.layout.variant !== expected
+        )
+          throw new Error(`Portable JSON/snapshot lost CV composition ${choice}`);
+      }
+    } finally {
+      if (originalLayout === null) localStorage.removeItem(layoutKey);
+      else localStorage.setItem(layoutKey, originalLayout);
+      if (originalMargin === null) localStorage.removeItem(marginKey);
+      else localStorage.setItem(marginKey, originalMargin);
+    }
     const project = projectModule.createDossierProject({
       cover: projectModule.readStoredDossierPart(projectModule.COVER_STORAGE_KEY),
       cv: projectModule.readStoredDossierPart(projectModule.CV_STORAGE_KEY),

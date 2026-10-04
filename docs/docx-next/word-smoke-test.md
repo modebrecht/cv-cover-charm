@@ -2,6 +2,8 @@
 
 Presentation cases: open `layout-contact-aligned`, `layout-references-paired`, `layout-references-stacked`, `layout-rubrics-short`, `layout-letter-rules` and `layout-settings-long`. Edit an aligned value and a paired reference, add/delete an entry, then save/reopen. Verify the odd reference stays left, long rows reflow, short rules stay with headings, badges remain editable text, indents remain within the page and removing contact data leaves no empty decoration. Candidate PDFs are review aids, not approved Word references.
 
+CV composition cases: open `variant-minimal-short`, `variant-timeline-short`, `variant-editorial-short`, their long/image counterparts, and `pagination-zero`, `pagination-ten`, `pagination-forty`, `pagination-chrome`. Add/delete a dated entry and edit a long description. Verify fixed date widths, short-entry attachment, oversized-entry continuation, editable half-width custom sections and entry-owned borders. Confirm the first-page spacer occurs only once and actual chrome keeps body text clear. A larger continuation margin than the first-page margin is blocked rather than silently adapted.
+
 Status: **PENDING**. No Windows/macOS Microsoft Word environment was available during this checkpoint. LibreOffice output is automated evidence only.
 
 Record application version, OS, fixture name, tester and date for each result.

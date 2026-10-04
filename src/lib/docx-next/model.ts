@@ -1,5 +1,6 @@
 /** Word-independent document data. Units are millimetres and typographic points. */
 import type { FontPolicyResult } from "./fonts";
+import type { CvWordLayout } from "./layouts";
 export type TextStyle = {
   font: string;
   sizePt: number;
@@ -70,6 +71,8 @@ export type TableBlock = {
   kind: "table";
   id: string;
   widths: number[];
+  /** Fixed millimetre tracks; null tracks share remaining width by weights. */
+  columnWidthsMm?: (number | null)[];
   rows: { cells: DocBlock[][]; keepTogether: boolean }[];
   /** Flowing boxes keep width/padding, with no fixed height or text clipping. */
   widthMm?: number;
@@ -79,6 +82,7 @@ export type TableBlock = {
     fillColor?: string;
     borderColor: string;
     borderWidthMm: number;
+    borderSides?: ("top" | "left" | "bottom" | "right")[];
     paddingXMm: number;
     paddingYMm: number;
   };
@@ -165,7 +169,17 @@ export type DocumentPart = {
     borderColor?: string;
     borderWidthMm: number;
   };
-  layout: { mode: "classic" | "sidebar"; side: "left" | "right"; sidebarFraction: number };
+  layout: {
+    mode: "classic" | "sidebar";
+    variant?: CvWordLayout;
+    side: "left" | "right";
+    sidebarFraction: number;
+    pagination?: {
+      firstTopMarginMm: number;
+      continuationTopMarginMm: number;
+      firstPageLeadMm: number;
+    };
+  };
 };
 export type ModelIssue = { code: string; fieldId?: string; message: string };
 export type DossierDocModel = {
