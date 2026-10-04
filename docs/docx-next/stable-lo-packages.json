@@ -1,7 +1,6 @@
 {
   "source": "Ubuntu noble snapshot 20260828, noble-backports",
   "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
-  "conversion": "pending: exit 1, no PDF",
   "packages": [
     {
       "package": "fonts-opensymbol",
@@ -296,6 +295,12 @@
       "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
       "architecture": "amd64",
       "sha256": "30bfe07bea913c3bff1b3dd32f7cb8c9c05696a8350473d80e5c8472911aac87"
+    },
+    {
+      "package": "libreofficekit-dev",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "all",
+      "sha256": "b65df586e82223c02875e70d4ba6ea8a6f70d1d1c0e0d89f2a430dff2b028fc7"
     }
   ]
 }

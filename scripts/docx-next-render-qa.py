@@ -228,9 +228,13 @@ def render(file, folder, format='pdf'):
     # Isolate converter output as well as the user profile. Existing render
     # evidence must not affect export or be mistaken for a fresh successful file.
     with tempfile.TemporaryDirectory(prefix='docx-next-lo-') as profile, tempfile.TemporaryDirectory(prefix='docx-next-convert-') as output:
-        command = [args.soffice, '-env:UserInstallation=' + Path(profile).as_uri(), '--invisible', '--headless', '--norestore', '--convert-to', format, '--outdir', output, str(file.resolve())]
+        if args.libreofficekit:
+            command = [args.libreofficekit, Path(profile).as_uri(), file.resolve().as_uri(),
+                       (Path(output) / result_file.name).as_uri(), format.split(':', 1)[0]]
+        else:
+            command = [args.soffice, '-env:UserInstallation=' + Path(profile).as_uri(), '--invisible', '--headless', '--norestore', '--convert-to', format, '--outdir', output, str(file.resolve())]
         result = subprocess.run(command, capture_output=True, text=True, timeout=90)
-        assert result.returncode == 0 and not re.search(r'error|warning', result.stderr, re.I), f'LibreOffice conversion failed (exit {result.returncode}, {args.soffice}):\n' + result.stdout + result.stderr
+        assert result.returncode == 0 and not re.search(r'error|warning', result.stderr, re.I), f'LibreOffice conversion failed (exit {result.returncode}, {command[0]}):\n' + result.stdout + result.stderr
         converted = Path(output) / result_file.name
         assert converted.is_file(), f'LibreOffice produced no new {format}'
         converted.replace(result_file)
@@ -495,7 +499,9 @@ def check_native_opacity(document, fixture):
 parser = argparse.ArgumentParser()
 parser.add_argument('directory', type=Path)
 parser.add_argument('--fixtures', nargs='*')
-parser.add_argument('--soffice', default='soffice', help='Explicit LibreOffice executable/wrapper; version is recorded, never implicitly approved')
+renderer = parser.add_mutually_exclusive_group()
+renderer.add_argument('--soffice', default='soffice', help='Explicit LibreOffice executable/wrapper; version is recorded, never implicitly approved')
+renderer.add_argument('--libreofficekit', help='Explicit QA-only LibreOfficeKit adapter from docx-next-lo-kit-setup.py')
 parser.add_argument('--require-stable', action='store_true', help='Reject LibreOfficeDev/alpha/beta/RC builds')
 parser.add_argument('--roundtrip', action='store_true', help='Save as DOCX in LibreOffice, reopen and repeat text/column/page-count checks')
 parser.add_argument('--snapshots', type=Path, help='Optional approved DOCX render baseline directory')
@@ -514,12 +520,20 @@ for key in ['png', 'jpeg', 'icc-jpeg', 'cmyk-jpeg', 'exif-jpeg', 'large-jpeg']:
             assert image.size == (180, 120), 'EXIF orientation lost'
         else:
             assert abs(image.width / image.height - 2 / 3) < 0.001, f'{key}: intrinsic aspect ratio changed'
-version = subprocess.run([args.soffice, '--version'], capture_output=True, text=True, timeout=30)
+executable = args.libreofficekit or args.soffice
+interface = 'LibreOfficeKit' if args.libreofficekit else 'soffice CLI'
+with tempfile.TemporaryDirectory(prefix='docx-next-lo-version-') as profile:
+    version_command = [executable, '--version'] + ([Path(profile).as_uri()] if args.libreofficekit else [])
+    version = subprocess.run(version_command, capture_output=True, text=True, timeout=30)
 assert version.returncode == 0 and version.stdout.strip(), 'LibreOffice version query failed: ' + version.stderr
-lo_version = version.stdout.strip()
+if args.libreofficekit:
+    info = json.loads(version.stdout)
+    lo_version = f'{info["ProductName"]} {info["ProductVersion"]}{info["ProductExtension"]} {info["BuildId"]}'
+else:
+    lo_version = version.stdout.strip()
 if args.require_stable:
     assert not re.search(r'Dev|alpha|beta|(?:^|[.\s])rc[0-9]*', lo_version, re.I), 'Stable LibreOffice required; available renderer is ' + lo_version
-print(json.dumps({'libreOfficeVersion': lo_version, 'executable': args.soffice}), flush=True)
+print(json.dumps({'libreOfficeVersion': lo_version, 'libreOfficeInterface': interface, 'executable': executable}), flush=True)
 report = []
 for fixture in manifest:
     key = fixture['fixture']
@@ -620,7 +634,7 @@ for fixture in manifest:
             check_fonts(reopened, fixture)
             if key.startswith('columns-'):
                 check_columns(reopened, fixture)
-    row = {'fixture': key, 'libreOfficeVersion': lo_version, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
+    row = {'fixture': key, 'libreOfficeVersion': lo_version, 'libreOfficeInterface': interface, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
     report.append(row)
     print(json.dumps(row), flush=True)
     document.close()

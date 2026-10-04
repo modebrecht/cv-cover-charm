@@ -2,7 +2,7 @@
 
 ## Review package
 
-The current package contains twelve editable DOCX candidates, matching candidate PDFs, SHA-256 hashes, source commit and a blank `WORD_REVIEW_RECORD.json`. Start with `01-normal`; then review long Letter, long CV, Timeline, Magazin, ICC photo, custom elements/images, rich tables/lists, long columns/chrome, continuation margins, styled chrome and text opacity. These twelve representative cases are the minimum review pass; the additional fixtures below cover specific settings in depth.
+The current package contains twelve editable DOCX candidates, matching stable LibreOffice 25.8.7.3 **Kit API** candidate PDFs, DOCX/PDF SHA-256 hashes, separate generation/QA-tool commits, runtime/package/font records and a blank `WORD_REVIEW_RECORD.json`. Start with `01-normal`; then review long Letter, long CV, Timeline, Magazin, ICC photo, custom elements/images, rich tables/lists, long columns/chrome, continuation margins, styled chrome and text opacity. These twelve representative cases are the minimum review pass; the additional fixtures below cover specific settings in depth.
 
 Keep the original candidates and save edited copies. Record tester, date, OS, exact Word version, fixture, repair prompts, edit/reflow results and save/close/reopen results. Any failed case blocks acceptance until addressed. PDF/PNG candidates aid inspection; generated references are never automatically approved.
 
