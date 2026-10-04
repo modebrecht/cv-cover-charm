@@ -2,6 +2,7 @@ import type { Block } from "@/components/cover/types";
 import type { DocBlock, Paragraph, TextStyle, DecorativeShape, ImageBlock } from "./model";
 import { wordFont } from "./fonts";
 import { compositeTextColor } from "./colors";
+import { nativeTextHeightMm } from "./layouts";
 
 type ElementContext = {
   fontScale: number;
@@ -147,6 +148,7 @@ export function shapeElement(
     kind: "decorative-shape",
     id,
     semanticText: false,
+    clipToPage: true,
     shape: block.shape ?? "rect",
     ...(block.shape === "path" ? { path: block.path } : {}),
     xMm: s.x,
@@ -203,7 +205,19 @@ export function flowingElementBox(
         paddingXMm: block.style.bg ? block.style.padX : 0,
         paddingYMm: block.style.bg ? block.style.padY : 0,
       },
-      rows: [{ cells: [[...(figure ? [figure] : []), ...paragraphs]], keepTogether: false }],
+      // Keep short text with its terminal paragraph/padding. Long rows remain
+      // splittable so they start in the available space rather than on a new page.
+      rows: [
+        {
+          cells: [[...(figure ? [figure] : []), ...paragraphs]],
+          keepTogether:
+            !figure &&
+            nativeTextHeightMm(
+              paragraphs,
+              Math.max(10, widthMm - (block.style.bg ? block.style.padX * 2 : 0)),
+            ) <= 80,
+        },
+      ],
     },
   ];
 }

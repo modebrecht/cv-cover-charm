@@ -316,13 +316,14 @@ def check_artwork(document, fixture):
     scale = 72 / 25.4
     for part in fixture.get('parts', []):
         artwork = part.get('artwork', [])
-        for page in document[start:start + part['expectedPages']]:
-            if not artwork:
+        for relative_page, page in enumerate(document[start:start + part['expectedPages']]):
+            scoped_artwork = [paint for paint in artwork if paint.get('repeat') in (None, 'first' if relative_page == 0 else 'continuation')]
+            if not scoped_artwork:
                 continue
             pixmap = page.get_pixmap()
-            for target in artwork:
+            for target in scoped_artwork:
                 x, y = 1, target['yMm'] + target['heightMm'] / 2
-                layers = [paint for paint in artwork if paint['xMm'] <= x < paint['xMm'] + paint['widthMm'] and paint['yMm'] <= y < paint['yMm'] + paint['heightMm']]
+                layers = [paint for paint in scoped_artwork if paint['xMm'] <= x < paint['xMm'] + paint['widthMm'] and paint['yMm'] <= y < paint['yMm'] + paint['heightMm']]
                 assert layers, 'Artwork sample outside known rectangle'
                 paint = layers[-1]
                 ratio = (y - paint['yMm']) / paint['heightMm']
@@ -334,6 +335,49 @@ def check_artwork(document, fixture):
                 assert max(abs(a - b) for a, b in zip(actual, expected)) <= 4, f'{fixture["fixture"]}: missing/incorrect {paint["id"]} on page {page.number + 1}: {actual} != {expected}'
         start += part['expectedPages']
 
+
+
+def check_scoped_shapes(document, fixture):
+    start = 0
+    scale = 72 / 25.4
+    for part in fixture['parts']:
+        for relative_page, page in enumerate(document[start:start + part['expectedPages']]):
+            pictures = page.get_image_info()
+            for shape in part.get('pageScopedShapes', []):
+                x, y = max(0, shape['xMm']), max(0, shape['yMm'])
+                right = min(page.rect.width / scale, shape['xMm'] + shape['widthMm'])
+                bottom = min(page.rect.height / scale, shape['yMm'] + shape['heightMm'])
+                bounds = [value * scale for value in (x, y, right, bottom)]
+                matches = [picture for picture in pictures if max(abs(a-b) for a,b in zip(picture['bbox'],bounds)) < 1]
+                expected = shape.get('repeat') in (None, 'first' if relative_page == 0 else 'continuation')
+                assert len(matches) == int(expected), f'{fixture["fixture"]}: incorrect clipped/scoped paint {shape["id"]} on page {relative_page+1}'
+        start += part['expectedPages']
+
+def check_header_paint_coverage(document, fixture):
+    """Authored header ink stays on its declared paint, including wrapped contact lines."""
+    start, scale = 0, 72 / 25.4
+    for part in fixture['parts']:
+        for relative_page, page in enumerate(document[start:start + part['expectedPages']]):
+            repeat = 'first' if relative_page == 0 else 'continuation'
+            colors = {int(c, 16) for c in part.get('headerPaintColors', {}).get(repeat, [])}
+            bands = [p for p in part.get('artwork', [])
+                     if ('.artwork.band.' in p['id'] or p['id'].endswith('.artwork.header'))
+                     and p.get('repeat') in (None, repeat)]
+            if not colors or not bands:
+                continue
+            bounds = [fitz.Rect(p['xMm'] * scale, p['yMm'] * scale,
+                       (p['xMm'] + p['widthMm']) * scale, (p['yMm'] + p['heightMm']) * scale)
+                      for p in bands]
+            limit = max(part['contentBoxMm']['top'] * scale, *(b.y1 for b in bounds))
+            spans = [s for b in page.get_text('dict')['blocks'] if 'lines' in b
+                     for line in b['lines'] for s in line['spans']
+                     if s['text'].strip() and s['color'] in colors and s['bbox'][1] < limit]
+            assert spans, f'{fixture["fixture"]}: missing painted header ink on {part["id"]} page {relative_page+1}'
+            for span in spans:
+                rect = fitz.Rect(span['bbox'])
+                assert any(fitz.Rect(b.x0-0.5,b.y0-0.5,b.x1+0.5,b.y1+0.5).contains(rect) for b in bounds), \
+                    f'{fixture["fixture"]}: header ink outside its paint on {part["id"]} page {relative_page+1}: {span["text"]}'
+        start += part['expectedPages']
 
 def comparison_paths(directory, keys, saved):
     initial = {key: directory / (key + '-qa') / (key + '.pdf') for key in keys}
@@ -546,7 +590,9 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
+    if key.startswith('warm-') and any(part['expectedPages'] > 2 for part in fixture['parts']):
+        assert len(document) > 3, f'{key}: long fixture did not paginate'
+    elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key not in ['custom-sections', 'cover-long-list', 'elements-long', 'fonts-long-letter', 'fonts-long-cv']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
@@ -556,6 +602,8 @@ for fixture in manifest:
     check_fonts(document, fixture)
     check_custom_footers(document, key)
     check_artwork(document, fixture)
+    check_scoped_shapes(document, fixture)
+    check_header_paint_coverage(document, fixture)
     check_cover_features(document, fixture)
     check_element_features(document, fixture)
     check_native_opacity(document, fixture)
@@ -627,6 +675,8 @@ for fixture in manifest:
             check_cv_composition(reopened, fixture)
             check_custom_footers(reopened, key)
             check_artwork(reopened, fixture)
+            check_scoped_shapes(reopened, fixture)
+            check_header_paint_coverage(reopened, fixture)
             check_cover_features(reopened, fixture)
             check_element_features(reopened, fixture)
             check_native_opacity(reopened, fixture)

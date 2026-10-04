@@ -6,22 +6,26 @@ export function applyContinuationMargin(
   requested: number | undefined,
   firstTopMargin: number,
   headerReserveMm: number,
+  minimumFirstTopMm?: number,
 ): ModelIssue[] {
   const issues: ModelIssue[] = [];
-  if (requested !== undefined) {
-    if (!Number.isFinite(requested) || requested < 0 || requested > 40)
+  if (requested !== undefined || minimumFirstTopMm !== undefined) {
+    if (requested !== undefined && (!Number.isFinite(requested) || requested < 0 || requested > 40))
       throw new Error("DOCX Next invalid CV continuation top margin");
     // An empty header still owns a boundary paragraph. Place it at the page
     // edge so its distance cannot impose an unrelated minimum body margin.
     if (!headerReserveMm) part.page.headerDistanceMm = 0;
-    const continuationTop = headerReserveMm
-      ? Math.max(requested, part.page.headerDistanceMm) + headerReserveMm
-      : requested;
-    const firstTop = part.page.margins.top;
+    const continuationTop =
+      requested === undefined
+        ? part.page.margins.top
+        : headerReserveMm
+          ? Math.max(requested, part.page.headerDistanceMm) + headerReserveMm
+          : requested;
+    const firstTop = Math.max(part.page.margins.top, minimumFirstTopMm ?? 0);
     const lead = Math.max(0, firstTop - continuationTop);
     part.layout.pagination = {
       firstTopMarginMm: firstTopMargin,
-      continuationTopMarginMm: requested,
+      continuationTopMarginMm: requested ?? continuationTop,
       firstPageLeadMm: lead,
     };
     part.page.margins.top = continuationTop;

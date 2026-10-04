@@ -43,6 +43,7 @@ export type ImageBlock = {
   widthMm: number;
   maxHeightMm: number;
   placement: "left" | "right" | "inline" | "free";
+  align?: Alignment;
   xMm: number;
   yMm: number;
   gapMm: number;
@@ -98,6 +99,9 @@ export type ElementSourceLayout = {
 };
 /** Nonsemantic shape assets. No text, SVG markup or package parts in the model. */
 export type DecorativeShape = {
+  /** Explicit page intersection; only visible nonsemantic paint is rasterized. */
+  clipToPage?: boolean;
+  repeat?: "first" | "continuation";
   kind: "decorative-shape";
   id: string;
   semanticText: false;
@@ -142,6 +146,7 @@ export type DocBlock =
 export type PageMargins = { top: number; right: number; bottom: number; left: number };
 /** Nonsemantic paint only. Geometry is page-relative; user text never enters an asset. */
 export type DecorativeArtwork = {
+  repeat?: "first" | "continuation";
   kind: "decorative-artwork";
   id: string;
   semanticText: false;
@@ -162,6 +167,7 @@ export type DocumentPart = {
     footerDistanceMm: number;
   };
   artwork: DecorativeArtwork[];
+  headerShapes?: DecorativeShape[];
   header: Paragraph[];
   firstHeader?: Paragraph[];
   footer: Paragraph[];

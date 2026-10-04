@@ -25,6 +25,7 @@ import { pictureGeometry } from "./picture-geometry";
 import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
+import { artworkApplies, decorationPageGeometry } from "./page-artwork";
 import {
   control,
   paragraph,
@@ -63,7 +64,10 @@ export async function renderDossierDocx(
   const pkg = new WordPackage();
   const normalize = imageCache(options.normalizeImage ?? normalizeBrowserImage);
   const sources = new Map<string, { asset: NormalizedImage; rid: string; file: string }>();
-  const blocks = [model.cover, model.letter, model.cv].flatMap((part) => walkBlocks(part.blocks));
+  const blocks = [model.cover, model.letter, model.cv].flatMap((part) => [
+    ...walkBlocks(part.blocks),
+    ...(part.headerShapes ?? []),
+  ]);
   for (const block of blocks)
     if (block.kind === "image" && !sources.has(block.source)) {
       const asset = await normalize(block.source),
@@ -75,28 +79,42 @@ export async function renderDossierDocx(
       pkg.relate("word/document.xml", rid, "image", file);
     }
   const decorationSources = new Map<string, { rid: string; file: string }>();
-  const decorationIds = new Map<string, string>();
+  const decorationIds = new Map<string, { rid: string; file: string }>();
   const rasterize = options.rasterizeDecoration ?? rasterizeDecoration;
   const normalizeDecoration = imageCache((key) => rasterize(JSON.parse(key) as DecorativeShape));
-  for (const block of blocks) {
-    if (block.kind !== "decorative-shape") continue;
-    const key = decorationAssetKey(block);
-    try {
-      if (!decorationSources.has(key)) {
-        const asset = await normalizeDecoration(key);
-        const index = decorationSources.size + 1;
-        const rid = `decoration${index}`,
-          file = `media/decoration-${index}.png`;
-        pkg.add(`word/${file}`, asset.contentType, asset.bytes);
-        pkg.relate("word/document.xml", rid, "image", file);
-        decorationSources.set(key, { rid, file });
+  for (const part of [model.cover, model.letter, model.cv])
+    for (const block of [...walkBlocks(part.blocks), ...(part.headerShapes ?? [])]) {
+      if (block.kind !== "decorative-shape") continue;
+      const bounds = decorationPageGeometry(block, part.page);
+      const key = decorationAssetKey({
+        ...block,
+        ...(block.clipToPage
+          ? {
+              viewport: {
+                leftMm: bounds.xMm - block.xMm,
+                topMm: bounds.yMm - block.yMm,
+                widthMm: bounds.widthMm,
+                heightMm: bounds.heightMm,
+              },
+            }
+          : {}),
+      });
+      try {
+        if (!decorationSources.has(key)) {
+          const asset = await normalizeDecoration(key);
+          const index = decorationSources.size + 1;
+          const rid = `decoration${index}`,
+            file = `media/decoration-${index}.png`;
+          pkg.add(`word/${file}`, asset.contentType, asset.bytes);
+          pkg.relate("word/document.xml", rid, "image", file);
+          decorationSources.set(key, { rid, file });
+        }
+        decorationIds.set(block.id, decorationSources.get(key)!);
+      } catch (error) {
+        if (options.onDecorationFailure) options.onDecorationFailure(block.id, error);
+        else console.warn(`DOCX Next omitted nonsemantic decoration ${block.id}:`, error);
       }
-      decorationIds.set(block.id, decorationSources.get(key)!.rid);
-    } catch (error) {
-      if (options.onDecorationFailure) options.onDecorationFailure(block.id, error);
-      else console.warn(`DOCX Next omitted nonsemantic decoration ${block.id}:`, error);
     }
-  }
   let drawingId = 0;
   function pictureRun(
     value: ImageBlock,
@@ -154,9 +172,20 @@ export async function renderDossierDocx(
       page,
     );
   }
-  function decorationRun(value: DecorativeShape, page: DocumentPart["page"]): string {
-    const rid = decorationIds.get(value.id);
-    if (!rid) return "";
+  function decorationRun(
+    value: DecorativeShape,
+    page: DocumentPart["page"],
+    story = "word/document.xml",
+  ): string {
+    const media = decorationIds.get(value.id);
+    if (!media) return "";
+    const { rid } = media;
+    const geometry = decorationPageGeometry(value, page);
+    if (
+      story !== "word/document.xml" &&
+      !pkg.relationships.some((rel) => rel.source === story && rel.id === rid)
+    )
+      pkg.relate(story, rid, "image", media.file);
     return pictureRun(
       {
         kind: "image",
@@ -167,14 +196,14 @@ export async function renderDossierDocx(
         maxHeightMm: value.heightMm,
         placement: "free",
         coordinateOrigin: "page",
-        xMm: value.xMm,
-        yMm: value.yMm,
+        xMm: geometry.xMm,
+        yMm: geometry.yMm,
         gapMm: 0,
       },
       rid,
       {
-        widthMm: value.widthMm,
-        heightMm: value.heightMm,
+        widthMm: geometry.widthMm,
+        heightMm: geometry.heightMm,
         crop: { left: 0, top: 0, right: 0, bottom: 0 },
         shape: "rect",
         cornerAdjustment: 0,
@@ -228,7 +257,7 @@ export async function renderDossierDocx(
   function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
     return control(
       value.id,
-      `<w:p><w:pPr><w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
+      `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}<w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
     );
   }
   function table(value: TableBlock, widthMm: number, page: DocumentPart["page"]): string {
@@ -389,7 +418,16 @@ export async function renderDossierDocx(
     const content = first ? part.firstHeader! : part[scope];
     const story = `word/${id}.xml`;
     const drawings =
-      scope === "header" ? part.artwork.map((value) => artwork(value, part, story)).join("") : "";
+      scope === "header"
+        ? [
+            ...part.artwork
+              .filter((value) => artworkApplies(value, first))
+              .map((value) => artwork(value, part, story)),
+            ...(part.headerShapes ?? [])
+              .filter((value) => artworkApplies(value, first))
+              .map((value) => decorationRun(value, part.page, story)),
+          ].join("")
+        : "";
     const paragraphs = content.length
       ? content.map((value, index) => renderParagraph(value, index === 0 ? drawings : "")).join("")
       : emptyParagraphWithRuns(drawings);

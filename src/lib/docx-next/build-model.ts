@@ -35,6 +35,14 @@ import { color } from "./colors";
 export { color } from "./colors";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin } from "./continuation-margin";
+import {
+  chromeTextHeight,
+  composeCompactMasthead,
+  composeHeaderBands,
+  templateBandInk,
+} from "./template-composition";
+import { ensureFirstHeader } from "./page-artwork";
+import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks } from "./layouts";
 import { wordFont as fontForKey, createFontResolver } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
@@ -49,24 +57,6 @@ import { normalizeCvPhotoPlacement, resolveCvPhotoPosition } from "@/components/
 import type { DossierAppSnapshot } from "./source";
 export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
-
-/** Conservative flow reservation uses actual run sizes and explicit line breaks. */
-function chromeTextHeight(paragraphs: Paragraph[], widthMm: number): number {
-  return paragraphs.reduce((sum, paragraph) => {
-    const sizePt = Math.max(10, ...paragraph.runs.map((run) => run.style.sizePt));
-    const text = paragraph.runs.map((run) => run.text).join("");
-    const charactersPerLine = Math.max(1, widthMm / (((sizePt * 25.4) / 72) * 0.6));
-    const lines = text
-      .split("\n")
-      .reduce((count, line) => count + Math.max(1, Math.ceil(line.length / charactersPerLine)), 0);
-    return (
-      sum +
-      paragraph.beforeMm +
-      paragraph.afterMm +
-      ((lines * sizePt * 25.4) / 72) * paragraph.lineHeight
-    );
-  }, 0);
-}
 
 /** Pure and synchronous: all ambient editor state must be captured before calling. */
 export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel {
@@ -86,7 +76,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     paper: color(cover.colors.bg, template.colors.paper),
   };
   const letterFont = wordFont(
-    letter.design.template === "brief" ? letter.design.font : letter.design.fontOverride,
+    template.letter.fontSource === "standalone" ? letter.design.font : letter.design.fontOverride,
     theme.font,
   );
   const issues: ModelIssue[] = (settings.unresolvedTypography ?? []).map((id) => ({
@@ -179,6 +169,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     cvPart = part("cv");
   const cvFirstTopMargin = cvPart.page.margins.top;
   let cvHeaderReserveMm = 0;
+  let cvMinimumFirstTopMm: number | undefined;
   const elementContext = (
     colors: Record<string, string>,
     font: string,
@@ -207,6 +198,13 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     }),
   );
 
+  if (template.cover.decorationPlacement === "first-header") {
+    coverPart.headerShapes = coverPart.blocks.flatMap((block) =>
+      block.kind === "decorative-shape" ? [{ ...block, repeat: "first" as const }] : [],
+    );
+    coverPart.blocks = coverPart.blocks.filter((block) => block.kind !== "decorative-shape");
+    ensureFirstHeader(coverPart);
+  }
   const ld = letter.data,
     design = letter.design;
   const letterInk = color(design.textColor ?? design.colors.ink, theme.ink);
@@ -813,11 +811,32 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       });
     }
   }
-  if (settings.chrome) {
-    const resolved = resolveDossierChromeSnapshot({ cover, letter, cv }, settings.chrome);
+  const defaultChrome = template.chrome.defaultContact;
+  const chromeState =
+    settings.chrome ??
+    (defaultChrome
+      ? {
+          ...structuredClone(DEFAULT_DOSSIER_CHROME_STATE),
+          shared: {
+            ...DEFAULT_DOSSIER_CHROME_STATE.shared,
+            headerMode: "contact" as const,
+            headerHeightMm: defaultChrome.heightMm,
+            headerGapMm: defaultChrome.gapMm,
+          },
+        }
+      : undefined);
+  if (chromeState) {
+    const resolved = resolveDossierChromeSnapshot({ cover, letter, cv }, chromeState);
     for (const target of [letterPart, cvPart]) {
       const scope = target.id as "letter" | "cv";
       const { options, contact, content } = resolved[scope];
+      const bandPolicy = template.chrome.band;
+      const partColors = input[scope].design.colors;
+      const bandFill = color(
+        options.headerBackgroundColor ?? (bandPolicy ? partColors[bandPolicy.fillSlot] : undefined),
+        theme.accent,
+      );
+      const headerInk = bandPolicy ? templateBandInk(bandFill, theme.paper) : theme.ink;
       const font = wordFont(
         options.textFont ?? undefined,
         scope === "letter" ? letterFont : theme.font,
@@ -839,7 +858,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
               (surface === "header" ? 10 : 8),
             color: color(
               surface === "header" ? options.headerTextColor : options.footerTextColor,
-              theme.ink,
+              surface === "header" ? headerInk : theme.ink,
             ),
             bold: key === "title",
             ...settings.fieldStyles?.[fieldId],
@@ -885,7 +904,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         const typography = {
           font,
           sizePt: options.headerFontSizePt ?? 10,
-          color: color(options.headerTextColor, theme.ink),
+          color: color(options.headerTextColor, headerInk),
         };
         const custom = (["title", "text"] as const)
           .filter((key) => headerFields[key].trim())
@@ -1036,15 +1055,30 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         borderWidthMm: options.borderWidthMm,
       };
       const width = target.page.widthMm - target.page.margins.left - target.page.margins.right;
-      const headerHeight = Math.max(
-        options.headerHeightMm ?? 0,
-        chromeTextHeight(target.header, width),
-        chromeTextHeight(target.firstHeader ?? [], width),
-      );
-      const footerHeight = Math.max(
-        options.footerHeightMm ?? 0,
-        chromeTextHeight(target.footer, width),
-      );
+      const headerHeight =
+        firstMode === "none" && (options.headerContinuationMode ?? options.headerMode) === "none"
+          ? 0
+          : Math.max(
+              options.headerHeightMm ?? 0,
+              chromeTextHeight(
+                template.chrome.ignoreEmptyHeader
+                  ? target.header.filter((p) => p.runs.length)
+                  : target.header,
+                width,
+                template.chrome.lineMetricFactor,
+              ),
+              chromeTextHeight(
+                template.chrome.ignoreEmptyHeader
+                  ? (target.firstHeader ?? []).filter((p) => p.runs.length)
+                  : (target.firstHeader ?? []),
+                width,
+                template.chrome.lineMetricFactor,
+              ),
+            );
+      const footerHeight =
+        options.footerMode === "none"
+          ? 0
+          : Math.max(options.footerHeightMm ?? 0, chromeTextHeight(target.footer, width));
       target.page.headerDistanceMm += options.headerContentOffsetYMm ?? 0;
       target.page.footerDistanceMm -= options.footerContentOffsetYMm ?? 0;
       if (headerHeight)
@@ -1079,6 +1113,44 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       };
       band("header", headerHeight);
       band("footer", footerHeight);
+      if (bandPolicy)
+        composeHeaderBands(
+          target,
+          bandPolicy,
+          partColors,
+          theme.accent,
+          firstMode,
+          options.headerContinuationMode ?? options.headerMode,
+          headerHeight,
+          !!(options.headerBackgroundColor || options.headerGradientColor),
+        );
+      if (scope === "cv" && firstMode === "compact" && bandPolicy) {
+        const firstBand = target.artwork.find((paint) => paint.repeat === "first");
+        if (firstBand) cvMinimumFirstTopMm = firstBand.heightMm + (options.headerGapMm ?? 4);
+      }
+      if (scope === "letter" && firstMode === "compact" && template.letter.compactMasthead) {
+        const masthead = template.letter.compactMasthead;
+        const fill = color(
+          options.headerBackgroundColor ?? partColors[masthead.fillSlot],
+          theme.accent,
+        );
+        composeCompactMasthead(target, masthead, fill, (p) => ({
+          ...p,
+          runs: p.runs.map((run) => ({
+            ...run,
+            style: {
+              ...run.style,
+              ...(!design.senderTypography?.color && !settings.fieldStyles?.[p.id]?.color
+                ? { color: templateBandInk(fill, theme.paper) }
+                : {}),
+              ...(!design.senderTypography?.fontSizePt && !settings.fieldStyles?.[p.id]?.sizePt
+                ? { sizePt: p.id.endsWith(".name") ? 11 : 9.3 }
+                : {}),
+            },
+          })),
+        }));
+      }
+
       if (scope === "letter") {
         const recipient = target.blocks.findIndex((block) =>
           block.id.startsWith("letter.recipient."),
@@ -1099,6 +1171,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       settings.cvContinuationTopMarginMm,
       cvFirstTopMargin,
       cvHeaderReserveMm,
+      cvMinimumFirstTopMm,
     ),
   );
   for (const target of [coverPart, letterPart, cvPart]) {

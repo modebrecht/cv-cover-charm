@@ -1,6 +1,6 @@
 # Brief implementation coverage
 
-**1/39 templates configured (Brief); 0/39 Word-accepted migrations.** The independent model, renderer and package foundation is implemented through Gate 4. Gates 5/6 remain open. The other descriptors cannot silently use a family fallback.
+**2/39 templates configured (Brief, Warm); 0/39 Word-accepted migrations.** This page covers Brief; [Warm coverage](warm-feature-coverage.md) is separate. The independent model, renderer and package foundation is implemented through Gate 4. Gates 5/6 remain open. The other descriptors cannot silently use a family fallback.
 
 ## Mapped editor inputs
 
@@ -38,17 +38,17 @@ The [source audit](source-boundary.md) records each consumed field group and the
 
 ## Outstanding before acceptance
 
-| Item                                                       | State                                                                                                                                      |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Windows Word open/edit/save/reopen                         | Not run: Word unavailable in this environment                                                                                              |
-| macOS Word smoke test                                      | Not run; record if available                                                                                                               |
-| Stable LibreOffice                                         | Pending: 25.8.7.3 version query succeeds, but native conversion exits 1 before producing output; see [runtime evidence](libreoffice-qa.md) |
-| Approved Word-oriented snapshots                           | Candidate renderings only                                                                                                                  |
-| Older anonymous saved typography                           | Explicit identity bindings supported; ambiguous identities remain blocked                                                                  |
-| Free CV section positioning                                | Explicit model issue; Word flow conversion requires acceptance                                                                             |
-| Continuation margin larger than first-page margin          | Explicit blocking model issue: one flowing section cannot preserve a smaller first-page margin with a larger continuation margin           |
-| Enabled font embedding                                     | Unsupported under the current disabled-embedding policy                                                                                    |
-| Translucent semantic images                                | Explicit blocking issue; the attempted native alpha was ignored by LibreOfficeDev, so no opaque fallback is exported                       |
-| Modern/sidebar, remaining templates, production switchover | Later gates; blocked rather than silently simulated                                                                                        |
+| Item                                                       | State                                                                                                                            |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Windows Word open/edit/save/reopen                         | Not run: Word unavailable in this environment                                                                                    |
+| macOS Word smoke test                                      | Not run; record if available                                                                                                     |
+| Stable LibreOffice                                         | Complete: stable 25.8.7.3 Kit API, 85/85 fixtures and 472 pages including save/reopen; [runtime evidence](libreoffice-qa.md)     |
+| Approved Word-oriented snapshots                           | Candidate renderings only                                                                                                        |
+| Older anonymous saved typography                           | Explicit identity bindings supported; ambiguous identities remain blocked                                                        |
+| Free CV section positioning                                | Explicit model issue; Word flow conversion requires acceptance                                                                   |
+| Continuation margin larger than first-page margin          | Explicit blocking model issue: one flowing section cannot preserve a smaller first-page margin with a larger continuation margin |
+| Enabled font embedding                                     | Unsupported under the current disabled-embedding policy                                                                          |
+| Translucent semantic images                                | Explicit blocking issue; the attempted native alpha was ignored by LibreOfficeDev, so no opaque fallback is exported             |
+| Modern/sidebar, remaining templates, production switchover | Later gates; blocked rather than silently simulated                                                                              |
 
 Completion still requires all template migrations, production comparison/switchover on `dev`, import-audited legacy removal, and final regression/Word acceptance. Automated Brief progress alone does not pass those gates.

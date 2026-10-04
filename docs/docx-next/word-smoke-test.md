@@ -1,5 +1,22 @@
 # Microsoft Word smoke acceptance
 
+## Separate Warm review package
+
+The Warm package contains thirteen editable `warm-*` candidates with stable LibreOffice candidate PDFs/PNGs. Complete the general checklist below for Warm as well as Brief. Record Word/OS version, tester, date and the source commit independently. **Both templates remain unaccepted; 0/39 migrations have Microsoft Word evidence.**
+
+- [ ] Open `warm-normal` without repair; inspect cover, letter and CV, including the default 44 mm contact header and 4 mm gap.
+- [ ] Compare `warm-compact`, `warm-none` and `warm-custom-colors`; check readable editable sender/header text and preserved user colors.
+- [ ] Inspect cover with/without photo (`warm-images`); crop/frame/centering and native masthead rows remain coherent.
+- [ ] Check clipped circles stay within the page and appear only in first-page header stories. Cover continuation retains custom text without repeating the first-page motif.
+- [ ] In `warm-compact-long`, edit/add/delete sender and body text. Verify compact sender cell fill grows with text, first/following bands stay correct and no body text hides under chrome.
+- [ ] In `warm-long-sender`, lengthen and shorten the address; verify readable cell fill beyond the decorative band and healthy page reflow.
+- [ ] Edit both repeated custom cover/CV fields independently in `warm-custom`, including its cover continuation. Verify short box content, frame and padding stay together; no empty box-only page appears.
+- [ ] Edit the rich paragraph, copy/paste formatting, list items and table cells in `warm-custom`; add an extra paragraph and delete text.
+- [ ] Edit a CV description and add/delete an entry in `warm-timeline` and `warm-magazin`; verify date tracks, oversized entries and half-width sections reflow.
+- [ ] Inspect all pages of `warm-continuation`, including signed offsets, distinct first/following chrome, footers and the single first-page CV spacer.
+- [ ] Save edited copies, close Word completely and reopen. Verify content, pictures, lists, tables, headers/footers and formatting remain healthy, with no repair warning.
+- [ ] Record visual-reference approval separately; candidate PNGs/PDFs never approve themselves.
+
 ## Review package
 
 The current package contains twelve editable DOCX candidates, matching stable LibreOffice 25.8.7.3 **Kit API** candidate PDFs, DOCX/PDF SHA-256 hashes, separate generation/QA-tool commits, runtime/package/font records and a blank `WORD_REVIEW_RECORD.json`. Start with `01-normal`; then review long Letter, long CV, Timeline, Magazin, ICC photo, custom elements/images, rich tables/lists, long columns/chrome, continuation margins, styled chrome and text opacity. These twelve representative cases are the minimum review pass; the additional fixtures below cover specific settings in depth.

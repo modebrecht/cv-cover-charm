@@ -67,7 +67,7 @@ describe("semantic custom elements and nonsemantic decoration", () => {
       widthMm: 120,
       indentMm: 15,
       decoration: { fillColor: "E6EDF3", paddingXMm: 2, paddingYMm: 1, borderWidthMm: 0.3 },
-      rows: [{ keepTogether: false }],
+      rows: [{ keepTogether: true }],
     });
     const xml = (await parts(model)).get("word/document.xml")!;
     expect(xml).toContain('w:tblCaption w:val="cv.element:custom-b.flow-box"');

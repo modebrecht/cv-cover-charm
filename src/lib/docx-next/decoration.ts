@@ -1,14 +1,19 @@
 import type { DecorativeShape } from "./model";
 import type { NormalizedImage } from "./images";
 
-export type DecorationRasterizer = (shape: DecorativeShape) => Promise<NormalizedImage>;
+export type DecorationPaint = DecorativeShape & {
+  viewport?: { leftMm: number; topMm: number; widthMm: number; heightMm: number };
+};
+export type DecorationRasterizer = (shape: DecorationPaint) => Promise<NormalizedImage>;
 /** Position/identity and unused shape properties never duplicate identical paint assets. */
-export function decorationAssetKey(shape: DecorativeShape): string {
+export function decorationAssetKey(shape: DecorationPaint): string {
   return JSON.stringify({
     ...shape,
     id: "",
     xMm: 0,
     yMm: 0,
+    clipToPage: undefined,
+    repeat: undefined,
     radiusMm: shape.shape === "rect" ? shape.radiusMm : 0,
     stroke: { ...shape.stroke, color: shape.stroke.widthMm ? shape.stroke.color : "000000" },
   });
@@ -33,7 +38,7 @@ export function shapePathPoints(path: string): { x: number; y: number }[] {
     throw new Error("DOCX Next invalid decorative path");
   return matches.map((match) => ({ x: Number(match[2]), y: Number(match[3]) }));
 }
-export function validateDecoration(shape: DecorativeShape): void {
+export function validateDecoration(shape: DecorationPaint): void {
   const fill = shape.fill;
   if (
     shape.semanticText !== false ||
@@ -47,7 +52,10 @@ export function validateDecoration(shape: DecorativeShape): void {
       shape.opacity,
       shape.stroke.widthMm,
     ].every(Number.isFinite) ||
-    Math.min(shape.xMm, shape.yMm, shape.radiusMm, shape.stroke.widthMm, shape.opacity) < 0 ||
+    (!shape.clipToPage && Math.min(shape.xMm, shape.yMm) < 0) ||
+    (shape.clipToPage !== undefined && shape.clipToPage !== true) ||
+    (shape.repeat !== undefined && !["first", "continuation"].includes(shape.repeat)) ||
+    Math.min(shape.radiusMm, shape.stroke.widthMm, shape.opacity) < 0 ||
     Math.min(shape.widthMm, shape.heightMm) <= 0 ||
     shape.opacity > 1 ||
     shape.stroke.widthMm >= Math.min(shape.widthMm, shape.heightMm) ||
@@ -61,6 +69,16 @@ export function validateDecoration(shape: DecorativeShape): void {
         (fill.startPct ?? 0) > (fill.endPct ?? 100)))
   )
     throw new Error(`DOCX Next invalid decoration ${shape.id}`);
+  const viewport = shape.viewport;
+  if (
+    viewport &&
+    (!Object.values(viewport).every(Number.isFinite) ||
+      Math.min(viewport.leftMm, viewport.topMm) < 0 ||
+      Math.min(viewport.widthMm, viewport.heightMm) <= 0 ||
+      viewport.leftMm + viewport.widthMm > shape.widthMm + 0.001 ||
+      viewport.topMm + viewport.heightMm > shape.heightMm + 0.001)
+  )
+    throw new Error(`DOCX Next invalid decoration viewport ${shape.id}`);
   if (shape.shape === "path") shapePathPoints(shape.path ?? "");
   else if (shape.path !== undefined) throw new Error(`DOCX Next unexpected path ${shape.id}`);
 }
@@ -69,13 +87,20 @@ export const rasterizeDecoration: DecorationRasterizer = async (shape) => {
   validateDecoration(shape);
   if (typeof document === "undefined")
     throw new Error("DOCX Next decoration requires a browser or explicit raster adapter.");
-  const scale = Math.min(8, 1600 / Math.max(shape.widthMm, shape.heightMm));
+  const viewport = shape.viewport ?? {
+    leftMm: 0,
+    topMm: 0,
+    widthMm: shape.widthMm,
+    heightMm: shape.heightMm,
+  };
+  const scale = Math.min(8, 1600 / Math.max(viewport.widthMm, viewport.heightMm));
   const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(shape.widthMm * scale));
-  canvas.height = Math.max(1, Math.round(shape.heightMm * scale));
+  canvas.width = Math.max(1, Math.round(viewport.widthMm * scale));
+  canvas.height = Math.max(1, Math.round(viewport.heightMm * scale));
   const context = canvas.getContext("2d", { colorSpace: "srgb" });
   if (!context) throw new Error("DOCX Next could not allocate decoration canvas.");
-  context.scale(canvas.width / shape.widthMm, canvas.height / shape.heightMm);
+  context.scale(canvas.width / viewport.widthMm, canvas.height / viewport.heightMm);
+  context.translate(-viewport.leftMm, -viewport.topMm);
   context.globalAlpha = shape.opacity;
   let paint: string | CanvasGradient = "transparent";
   if (shape.fill) {

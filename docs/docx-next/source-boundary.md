@@ -32,3 +32,5 @@ Older anonymous typography binds only through an explicit saved key/field ID to 
 - Existing geometry/numbering/sections/elements/images/decoration modules retain their shared ownership.
 
 Letter/CV/chrome mapping remains in the orchestrator because it shares style factories and field ownership. Further extraction is reasonable when diverse templates expose a coherent missing primitive; file length alone is not a reason to invent another architecture. Renderer primitives remain template-ID-free. Future templates configure shared primitives; they never generate OOXML.
+
+Warm configures shared native cover rows, photo alignment, a growing compact sender cell, scoped header paint and explicit decorative page intersection. Authored shape geometry enters the neutral source; measured browser rectangles/page assignments do not. The shared native text reservation lives in `layouts.ts`; chrome composition uses a configured conservative line-metric factor for Word auto spacing, without changing authored run sizes or line-height properties. No template IDs enter the renderer. See [Warm flow policy](warm-feature-coverage.md).

@@ -1,5 +1,25 @@
 import type { DocBlock, Paragraph, TableBlock } from "./model";
 
+/** Conservative authored-text reservation; no browser/PDF measurements. */
+export function nativeTextHeightMm(
+  paragraphs: Paragraph[],
+  widthMm: number,
+  lineMetricFactor = 1,
+): number {
+  return paragraphs.reduce((sum, p) => {
+    const pt = Math.max(10, ...p.runs.map((run) => run.style.sizePt));
+    const chars = Math.max(1, widthMm / (((pt * 25.4) / 72) * 0.6));
+    const lines = p.runs
+      .map((run) => run.text)
+      .join("")
+      .split("\n")
+      .reduce((n, line) => n + Math.max(1, Math.ceil(line.length / chars)), 0);
+    return (
+      sum + p.beforeMm + p.afterMm + ((lines * pt * 25.4) / 72) * p.lineHeight * lineMetricFactor
+    );
+  }, 0);
+}
+
 export type CvWordLayout = "classic" | "minimal" | "timeline" | "editorial" | "sidebar";
 export type CvLayoutInput = CvWordLayout | "modern" | "executive";
 export type CvFlowDefinition = {

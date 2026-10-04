@@ -2,6 +2,7 @@ import { walkBlocks, type DossierDocModel } from "./model";
 import type { WordPackage } from "./package";
 import { validateDecoration } from "./decoration";
 import { fontDefinition } from "./fonts";
+import { decorationPageGeometry } from "./page-artwork";
 
 /** Validate known semantic structures and package parts, never visible text occurrence. */
 export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): void {
@@ -31,6 +32,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
   for (const part of [model.cover, model.letter, model.cv]) {
     const margins = part.page.margins;
     if (
+      [...part.artwork, ...(part.headerShapes ?? [])].some((value) => value.repeat) &&
+      !part.firstHeader
+    )
+      throw new Error(`DOCX Next scoped artwork needs an explicit first header ${part.id}`);
+    if (
       ![
         ...Object.values(margins),
         part.page.widthMm,
@@ -57,6 +63,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       ids.add(artwork.id);
       if (
         artwork.semanticText !== false ||
+        (artwork.repeat !== undefined && !["first", "continuation"].includes(artwork.repeat)) ||
         ![artwork.xMm, artwork.yMm, artwork.widthMm, artwork.heightMm].every(Number.isFinite) ||
         Math.min(artwork.xMm, artwork.yMm) < 0 ||
         Math.min(artwork.widthMm, artwork.heightMm) <= 0 ||
@@ -73,6 +80,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       ...part.header,
       ...(part.firstHeader ?? []),
       ...part.footer,
+      ...(part.headerShapes ?? []),
     ])) {
       if (ids.has(block.id)) throw new Error(`DOCX Next duplicate semantic identity ${block.id}`);
       ids.add(block.id);
@@ -87,11 +95,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next invalid element source geometry ${block.id}`);
       if (block.kind === "decorative-shape") {
         validateDecoration(block);
-        if (
-          block.xMm + block.widthMm > part.page.widthMm ||
-          block.yMm + block.heightMm > part.page.heightMm
-        )
-          throw new Error(`DOCX Next decoration outside page ${block.id}`);
+        decorationPageGeometry(block, part.page);
       }
       if (block.kind === "paragraph") {
         block.runs.forEach((run) => fontDefinition(run.style.font));
@@ -138,6 +142,12 @@ export function validateDossierDocModel(model: DossierDocModel): void {
             (!Number.isFinite(block.indentMm) || Math.abs(block.indentMm) > part.page.widthMm)))
       )
         throw new Error(`DOCX Next invalid rule geometry ${block.id}`);
+      if (
+        block.kind === "image" &&
+        block.align !== undefined &&
+        !["left", "center", "right", "justify"].includes(block.align)
+      )
+        throw new Error(`DOCX Next invalid image alignment ${block.id}`);
       if (
         block.kind === "image" &&
         block.opacity !== undefined &&

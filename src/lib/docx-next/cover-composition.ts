@@ -55,6 +55,9 @@ export function composeCover(
           widthMm: Math.min(80, block.style.w || template.cover.photoWidthMm),
           maxHeightMm: 80,
           placement: "inline",
+          ...(block.kind === "photo" && template.cover.photoAlign
+            ? { align: template.cover.photoAlign }
+            : {}),
           opacity: block.style.opacity,
           xMm: 0,
           yMm: 0,
@@ -85,7 +88,11 @@ export function composeCover(
       cover.data.showBeilagenOnCover === false
     )
       continue;
-    const paragraphs = textElement(block, id, coverContext, {
+    const rowFill = template.cover.rows?.find((row) => row.fields.includes(block.id))?.fillSlot;
+    const fieldContext = rowFill
+      ? { ...coverContext, paper: color(cover.colors[rowFill], accent) }
+      : coverContext;
+    const paragraphs = textElement(block, id, fieldContext, {
       role: block.id === "beruf" ? "title" : block.id === "name" ? "heading" : "body",
       beforeMm: block.id === "kicker" ? template.cover.heroSpaceMm : 0,
       afterMm: block.id === "name" ? 5 : 2,
@@ -99,6 +106,44 @@ export function composeCover(
     blocks.push(
       ...(boxed ? flowingElementBox(block, id, paragraphs, coverContext, page) : paragraphs),
     );
+  }
+  for (const [index, row] of (template.cover.rows ?? []).entries()) {
+    const ids = row.fields.map((field) => `cover.${aliases[field] ?? field}`);
+    const matches = (block: DocBlock, id: string) =>
+      block.id === id || block.id.startsWith(`${id}.`);
+    const position = blocks.findIndex((block) => ids.some((id) => matches(block, id)));
+    if (position < 0) continue;
+    const cells = ids.map((id) => blocks.filter((block) => matches(block, id)));
+    const selected = new Set(cells.flat());
+    const table: DocBlock = {
+      kind: "table",
+      id: `cover.composition.row:${index}`,
+      widths: [...row.widths],
+      rows: [{ cells, keepTogether: false }],
+      decoration: {
+        fillColor: row.fillSlot ? color(cover.colors[row.fillSlot], accent) : undefined,
+        borderColor: accent,
+        borderWidthMm: 0,
+        paddingXMm: 0,
+        paddingYMm: 0,
+      },
+    };
+    blocks.splice(position, 0, table);
+    for (let cursor = blocks.length - 1; cursor >= 0; cursor--)
+      if (selected.has(blocks[cursor])) blocks.splice(cursor, 1);
+  }
+  if (template.cover.heroLeadMm) {
+    const hero = blocks.findIndex(
+      (block) => block.id === "cover.photo" || block.id === "cover.fullName",
+    );
+    if (hero >= 0)
+      blocks.splice(hero, 0, {
+        kind: "spacer",
+        id: "cover.heroLead",
+        heightMm: !blocks.some((block) => block.id === "cover.photo")
+          ? (template.cover.photoAbsentLeadMm ?? template.cover.heroLeadMm)
+          : template.cover.heroLeadMm,
+      });
   }
   blocks.unshift(...coverDecoration);
   if (!blocks.length) blocks.push(fallbackName);

@@ -1,0 +1,208 @@
+import { describe, test, expect } from "bun:test";
+import {
+  decorationPageGeometry,
+  ensureFirstHeader,
+  artworkApplies,
+} from "../../src/lib/docx-next/page-artwork";
+import { decorationAssetKey, validateDecoration } from "../../src/lib/docx-next/decoration";
+import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
+import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
+import { readZipEntries } from "../../src/lib/docx-next/zip";
+import { walkBlocks, type DecorativeShape, type Paragraph } from "../../src/lib/docx-next/model";
+import { paintPng } from "../../src/lib/docx-next/artwork";
+import { briefFixture, briefElementsFixture } from "../fixtures/docx-next/brief";
+import { WARM_FIXTURES, warmFixture } from "../fixtures/docx-next/warm";
+const asset = {
+  bytes: paintPng({ color: "123456" }),
+  widthPx: 1,
+  heightPx: 1,
+  contentType: "image/png" as const,
+  extension: "png" as const,
+};
+const shape: DecorativeShape = {
+  kind: "decorative-shape",
+  id: "test.edge",
+  semanticText: false,
+  clipToPage: true,
+  shape: "circle",
+  xMm: 170,
+  yMm: -20,
+  widthMm: 80,
+  heightMm: 80,
+  radiusMm: 0,
+  opacity: 0.7,
+  fill: { color: "123456" },
+  stroke: { color: "123456", widthMm: 0 },
+};
+async function parts(model: ReturnType<typeof buildDossierDocModel>) {
+  return new Map(
+    readZipEntries(
+      new Uint8Array(
+        await (
+          await renderDossierDocx(model, { rasterizeDecoration: async () => asset })
+        ).arrayBuffer(),
+      ),
+    ).map((p) => [p.name, new TextDecoder().decode(p.bytes)]),
+  );
+}
+describe("shared native template primitives", () => {
+  test("page intersection retains visible circle viewport and rejects unspecified clipping", () => {
+    const page = buildDossierDocModel(briefFixture()).cover.page;
+    validateDecoration(shape);
+    expect(decorationPageGeometry(shape, page)).toEqual({
+      xMm: 170,
+      yMm: 0,
+      widthMm: 40,
+      heightMm: 60,
+      crop: { left: 0, top: 25000, right: 50000, bottom: 0 },
+    });
+    expect(() => decorationPageGeometry({ ...shape, clipToPage: undefined }, page)).toThrow(
+      "outside page",
+    );
+    expect(() => decorationPageGeometry({ ...shape, xMm: 210 }, page)).toThrow(
+      "no page intersection",
+    );
+    expect(() => validateDecoration({ ...shape, opacity: 2 })).toThrow("invalid decoration");
+    expect(decorationAssetKey(shape)).toBe(
+      decorationAssetKey({ ...shape, id: "other", xMm: 0, yMm: 0, repeat: "first" }),
+    );
+  });
+  test("scoped paint creates explicit stories with reusable assets and owned relationships", async () => {
+    const model = buildDossierDocModel(briefFixture());
+    model.letter.headerShapes = [
+      { ...shape, repeat: "first" },
+      { ...shape, id: "test.edge.two", repeat: "first", xMm: -20 },
+      { ...shape, id: "test.edge.three", repeat: "first" },
+    ];
+    ensureFirstHeader(model.letter);
+    const xml = await parts(model);
+    expect(xml.get("word/letter-header-first.xml")).toContain('r:embed="decoration1"');
+    expect(xml.get("word/letter-header-first.xml")).toContain('cx="1440000" cy="2160000"');
+    expect(xml.get("word/letter-header.xml")).not.toContain("decoration1");
+    expect(
+      xml.get("word/_rels/letter-header-first.xml.rels")!.match(/Id="decoration1"/g),
+    ).toHaveLength(1);
+    expect(xml.get("word/document.xml")).toContain("<w:titlePg/>");
+    expect(artworkApplies({ repeat: "continuation" }, true)).toBe(false);
+    expect(artworkApplies({}, false)).toBe(true);
+  });
+  test("Warm scenarios preserve identities and portable deterministic models", () => {
+    for (const kind of WARM_FIXTURES) {
+      const input = warmFixture(kind),
+        model = buildDossierDocModel(input);
+      expect(model).toEqual(buildDossierDocModel(JSON.parse(JSON.stringify(input))));
+      expect(model.issues).toEqual([]);
+      expect(model.templateId).toBe("freundlich");
+      const text = walkBlocks([
+        ...model.letter.blocks,
+        ...model.letter.header,
+        ...model.letter.firstHeader!,
+      ])
+        .filter((block) => block.kind === "paragraph")
+        .flatMap((block) => block.runs);
+      expect(
+        text.some(
+          (run) =>
+            run.fieldId === "letter.sender.name" && run.text === input.letter.data.absenderName,
+        ),
+      ).toBe(true);
+    }
+  });
+  test("compact sender stays native and growing with saved style and dossier font", async () => {
+    const input = warmFixture("compact");
+    input.settings.fieldStyles = {
+      "letter.sender.name": { color: "ABCDEF", sizePt: 18, italic: true },
+    };
+    input.letter.design.font = "humanist";
+    input.letter.design.fontOverride = "times";
+    const model = buildDossierDocModel(input);
+    const sender = walkBlocks(model.letter.blocks).find(
+      (block) => block.id === "letter.sender.name",
+    ) as Paragraph;
+    expect(sender.runs[0].style).toMatchObject({
+      color: "ABCDEF",
+      sizePt: 18,
+      italic: true,
+      font: "Times New Roman",
+    });
+    const xml = await parts(model);
+    expect(xml.get("word/document.xml")).toContain('w:val="letter.sender.masthead"');
+    expect(xml.get("word/document.xml")).not.toContain("txbxContent");
+    expect(xml.get("word/document.xml")).not.toContain("w:trHeight");
+  });
+  test("default contact keeps reviewed 44mm policy and none keeps sender flow", () => {
+    const normal = buildDossierDocModel(warmFixture());
+    expect(normal.letter.page.margins.top).toBe(68);
+    expect(
+      normal.letter.header.some((p) => p.runs.some((run) => run.fieldId === "letter.sender.name")),
+    ).toBe(true);
+    const none = buildDossierDocModel(warmFixture("none"));
+    expect(none.letter.headerShapes).toBeUndefined();
+    expect(none.letter.artwork.every((art) => !art.id.includes(".band."))).toBe(true);
+    expect(none.letter.blocks.some((block) => block.id === "letter.sender.name")).toBe(true);
+  });
+  test("cover rows are native and light palette chrome has readable editable ink", async () => {
+    const model = buildDossierDocModel(warmFixture("custom-colors"));
+    expect(
+      model.cover.blocks.filter(
+        (block) => block.kind === "table" && block.id.startsWith("cover.composition"),
+      ),
+    ).toHaveLength(3);
+    const xml = await parts(model);
+    expect(xml.get("word/document.xml")).toContain('w:val="cover.composition.row:0"');
+    expect(model.letter.header[0].runs[0].style.color).not.toBe("FFFFFF");
+  });
+  test("first paint clearance and continuation margin use one spacer", () => {
+    const input = warmFixture("compact");
+    input.settings.cvContinuationTopMarginMm = 10;
+    const model = buildDossierDocModel(input);
+    expect(model.cv.page.margins.top).toBe(10);
+    expect(model.cv.layout.pagination?.firstPageLeadMm).toBe(46);
+    expect(
+      model.cv.blocks.filter((block) => block.kind === "spacer" && block.id === "cv.firstPageLead"),
+    ).toHaveLength(1);
+  });
+  test("wrapped contact chrome with signed offsets reserves native text safety", () => {
+    const model = buildDossierDocModel(warmFixture("continuation"));
+    for (const part of [model.letter, model.cv]) {
+      const follow = part.artwork.find((paint) => paint.repeat === "continuation")!;
+      expect(follow.heightMm).toBeGreaterThan(35);
+      expect(part.page.margins.top).toBeGreaterThan(follow.heightMm);
+    }
+  });
+  test("custom flow boxes keep content and native padding in one row at a page boundary", async () => {
+    const model = buildDossierDocModel(warmFixture("custom"));
+    const boxes = walkBlocks(model.cover.blocks).filter(
+      (block) =>
+        block.kind === "table" &&
+        block.id.startsWith("cover.custom-") &&
+        block.id.endsWith(".flow-box"),
+    );
+    expect(boxes).toHaveLength(2);
+    for (const box of boxes) if (box.kind === "table") expect(box.rows[0].keepTogether).toBe(true);
+    const xml = (await parts(model)).get("word/document.xml")!;
+    expect(xml).toContain("<w:trPr><w:cantSplit/></w:trPr>");
+    expect(xml).not.toContain("w:trHeight");
+    const longBox = walkBlocks(buildDossierDocModel(briefElementsFixture("long")).cv.blocks).find(
+      (block) => block.id === "cv.element:custom-a.flow-box",
+    );
+    expect(longBox).toMatchObject({ kind: "table", rows: [{ keepTogether: false }] });
+  });
+  test("disabled chrome ignores dormant height and unsupported inputs block", async () => {
+    const input = warmFixture("none");
+    Object.assign(input.settings.chrome!.shared, {
+      headerHeightMm: 44,
+      footerMode: "none",
+      footerHeightMm: 30,
+    });
+    const model = buildDossierDocModel(input);
+    expect(model.letter.page.margins).toEqual({ top: 20, right: 22, bottom: 22, left: 24 });
+    input.settings.cvLayout = "sidebar";
+    await expect(renderDossierDocx(buildDossierDocModel(input))).rejects.toThrow(
+      "sidebar has not passed",
+    );
+    input.settings.cvLayout = "classic";
+    input.cv.design.font = "unknown" as typeof input.cv.design.font;
+    expect(() => buildDossierDocModel(input)).toThrow("unsupported font key");
+  });
+});

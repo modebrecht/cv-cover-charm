@@ -25,7 +25,18 @@ parser.add_argument('output', type=Path)
 parser.add_argument('--source-commit', required=True, help='Commit used to generate the validated candidates')
 parser.add_argument('--qa-commit', help='Commit containing the QA tools, if different from candidate generation')
 parser.add_argument('--runtime-record', type=Path, help='Pinned runtime build evidence to include with stable QA')
+parser.add_argument('--warm', action='store_true', help='Package the isolated Warm architecture stress cases')
 args = parser.parse_args()
+if args.warm:
+    CASES = [('warm-' + key, purpose) for key, purpose in [
+        ('normal', 'Default contact masthead'), ('long-letter', 'Long letter'),
+        ('long-cv', 'Long CV'), ('compact', 'Compact first-page sender'),
+        ('compact-long', 'Compact sender and long letter continuation'), ('none', 'Disabled header'),
+        ('timeline', 'Timeline and oversized entry'), ('magazin', 'Magazin and half sections'),
+        ('images', 'Circular photo and letter image'), ('custom', 'Custom fields and rich native content'),
+        ('continuation', 'Distinct chrome, signed offsets and continuation margin'),
+        ('custom-colors', 'Light palette and readable native ink'), ('long-sender', 'Growing sender cell'),
+    ]]
 assert len(args.source_commit) == 40 and all(c in '0123456789abcdef' for c in args.source_commit)
 qa_commit = args.qa_commit or args.source_commit
 assert len(qa_commit) == 40 and all(c in '0123456789abcdef' for c in qa_commit)
@@ -41,6 +52,11 @@ with ZipFile(args.output, 'w', ZIP_DEFLATED) as archive:
         stem = f'{index:02d}-{key}'
         archive.write(docx, 'editable-docx/' + stem + '.docx')
         archive.write(pdf, 'candidate-pdf/' + stem + '.candidate.pdf')
+        if args.warm:
+            for page in range(1, report['pages'] + 1):
+                png = pdf.parent / f'page-{page}.png'
+                assert png.is_file(), png
+                archive.write(png, f'candidate-png/{stem}/page-{page}.candidate.png')
         manifest.append({**report, 'sourceCommit': args.source_commit, 'qaToolCommit': qa_commit, 'purpose': purpose, 'docx': 'editable-docx/' + stem + '.docx',
                          'docxSha256': hashlib.sha256(docx.read_bytes()).hexdigest(),
                          'candidatePdfSha256': hashlib.sha256(pdf.read_bytes()).hexdigest(),
@@ -52,7 +68,10 @@ with ZipFile(args.output, 'w', ZIP_DEFLATED) as archive:
                 for key, _ in CASES]}, indent=2))
     archive.write('docs/docx-next/word-smoke-test.md', 'WORD_CHECKLIST.md')
     archive.write('docs/docx-next/source-boundary.md', 'SOURCE_AND_FLOW_POLICY.md')
-    archive.write('docs/docx-next/stabilization-report.md', 'AUTOMATED_EVIDENCE.md')
+    archive.write('docs/docx-next/warm-stress-report.md' if args.warm else 'docs/docx-next/stabilization-report.md', 'AUTOMATED_EVIDENCE.md')
+    if args.warm:
+        archive.write('docs/docx-next/warm-feature-coverage.md', 'WARM_COVERAGE.md')
+        archive.write('docs/docx-next/warm-stress-evidence.json', 'MACHINE_EVIDENCE.json')
     archive.write('docs/docx-next/libreoffice-qa.md', 'LIBREOFFICE_QA.md')
     archive.write('docs/docx-next/stable-lo-packages.json', 'STABLE_LO_PACKAGES.json')
     archive.write('docs/docx-next/stable-lo-fonts.json', 'STABLE_LO_FONTS.json')
@@ -60,10 +79,10 @@ with ZipFile(args.output, 'w', ZIP_DEFLATED) as archive:
         archive.write(args.runtime_record, 'STABLE_LO_RUNTIME.json')
     archive.write(args.directory / 'render-report.json', 'ALL_FIXTURES_QA.json')
     archive.writestr('START_HERE.txt',
-      'DOCX Next / Brief — editable review candidates, not accepted migrations.\n'
-      'Start with editable-docx/01-normal.docx. Then follow WORD_CHECKLIST.md.\n'
+      f'DOCX Next / {"Warm" if args.warm else "Brief"} — editable review candidates, not accepted migrations.\n'
+      f'Start with editable-docx/01-{"warm-" if args.warm else ""}normal.docx. Then follow WORD_CHECKLIST.md.\n'
       'Candidate PDFs are LibreOffice aids. They are not approved Word references.\n'
       'Record OS, Word version, date, tester and each result in WORD_REVIEW_RECORD.json.\n'
       'Keep the original files; save edited copies, close Word and reopen them.\n'
-      'Do not mark Brief migrated or switch production based on this package alone.\n')
+      'Do not mark any template migrated or switch production based on this package alone.\n')
 print(f'Packed {len(CASES)} editable DOCX + {len(CASES)} candidate PDFs: {args.output}')
