@@ -291,6 +291,7 @@ export function LetterCanvas({
 
   return (
     <article
+      data-letter-canvas
       data-letter-page
       data-letter-template={design.template}
       data-letter-header-mode={geometry.effectiveHeaderMode}

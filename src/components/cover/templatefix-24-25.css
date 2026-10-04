@@ -30,8 +30,8 @@ html[data-dossier-template="horizon"]
 html[data-dossier-template="horizon"]
   [data-dossier-chrome="cv"]
   [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="horizon"] [data-dossier-contact-header-background],
-[data-letter-page][data-letter-template="horizon"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="horizon"] [data-dossier-contact-header-background],
+[data-letter-canvas][data-letter-template="horizon"] [data-dossier-continuation-contact-header] {
   background: linear-gradient(90deg, var(--cover-primary), var(--cover-secondary)) !important;
 }
 
@@ -39,8 +39,8 @@ html[data-dossier-template="horizon"] [data-dossier-chrome="cv"] [data-dossier-i
 html[data-dossier-template="horizon"]
   [data-dossier-chrome="cv"]
   [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="horizon"] [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="horizon"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="horizon"] [data-dossier-integrated-contact],
+[data-letter-canvas][data-letter-template="horizon"] [data-dossier-continuation-contact-header] {
   color: #fff !important;
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
@@ -48,7 +48,7 @@ html[data-dossier-template="horizon"]
 /* Horizon does not need a second blue scratch at the bottom. Preserve footer
  * geometry for pagination but make the compact surface invisible. */
 html[data-dossier-template="horizon"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
-[data-letter-page][data-letter-template="horizon"] [data-dossier-footer="compact"] {
+[data-letter-canvas][data-letter-template="horizon"] [data-dossier-footer="compact"] {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
@@ -181,15 +181,15 @@ html[data-dossier-template="forestFlow"]
   opacity: 0.24 !important;
 }
 
-[data-letter-page][data-letter-template="forestFlow"] [data-dossier-contact-header-background],
-[data-letter-page][data-letter-template="forestFlow"] [data-dossier-compact-header],
-[data-letter-page][data-letter-template="forestFlow"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="forestFlow"] [data-dossier-contact-header-background],
+[data-letter-canvas][data-letter-template="forestFlow"] [data-dossier-compact-header],
+[data-letter-canvas][data-letter-template="forestFlow"] [data-dossier-continuation-contact-header] {
   background: transparent !important;
   box-shadow: none !important;
 }
 
-[data-letter-page][data-letter-template="forestFlow"] [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="forestFlow"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="forestFlow"] [data-dossier-integrated-contact],
+[data-letter-canvas][data-letter-template="forestFlow"] [data-dossier-continuation-contact-header] {
   left: 24mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -198,7 +198,7 @@ html[data-dossier-template="forestFlow"]
   color: var(--cover-ink) !important;
 }
 
-[data-letter-page][data-letter-template="forestFlow"] [data-dossier-footer="compact"] {
+[data-letter-canvas][data-letter-template="forestFlow"] [data-dossier-footer="compact"] {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;

@@ -61,9 +61,9 @@ html[data-dossier-template="monoLuxe"]
   [data-dossier-document="cv"]
   [data-dossier-contact-header-background],
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
-[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-compact-header],
-[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-contact-header-background],
-[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-footer="compact"] {
+[data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-compact-header],
+[data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-contact-header-background],
+[data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-footer="compact"] {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
@@ -72,7 +72,7 @@ html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossie
 html[data-dossier-template="monoLuxe"]
   [data-dossier-document="cv"]
   [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-continuation-contact-header] {
   background: transparent !important;
   border-bottom: 0 !important;
   box-shadow: none !important;
@@ -80,7 +80,7 @@ html[data-dossier-template="monoLuxe"]
 
 /* Contact information belongs on the cream paper, aligned to the content grid. */
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-integrated-contact] {
+[data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-integrated-contact] {
   left: 27mm !important;
   right: 27mm !important;
   width: auto !important;
@@ -92,7 +92,7 @@ html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossie
 html[data-dossier-template="monoLuxe"]
   [data-dossier-document="cv"]
   [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="monoLuxe"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-continuation-contact-header] {
   left: 27mm !important;
   right: 27mm !important;
   width: auto !important;

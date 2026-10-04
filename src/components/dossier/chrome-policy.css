@@ -53,12 +53,12 @@
 /* Warm and Aurora keep a deeper first-page motif than the 22 mm contact chrome.
  * Move only the flowing recipient block below that motif; the user's explicit
  * recipient transform remains additive and untouched. */
-[data-letter-page][data-letter-template="freundlich"][data-letter-page-index="0"][data-letter-header-mode="contact"]
+[data-letter-canvas][data-letter-template="freundlich"][data-letter-page-index="0"][data-letter-header-mode="contact"]
   [data-letter-section="recipient"] {
   margin-top: 12mm !important;
 }
 
-[data-letter-page][data-letter-template="aurora"][data-letter-page-index="0"][data-letter-header-mode="contact"]
+[data-letter-canvas][data-letter-template="aurora"][data-letter-page-index="0"][data-letter-header-mode="contact"]
   [data-letter-section="recipient"] {
   margin-top: 16mm !important;
 }
@@ -87,7 +87,7 @@
  * but place that whole box below the signature. This preserves user-selected
  * contact offsets and the shared geometry contract while removing dark-on-dark
  * text. */
-[data-letter-page][data-letter-template="edge"] [data-dossier-chrome="letter"]
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-chrome="letter"]
   [data-dossier-integrated-contact] {
   top: 10mm !important;
 }
@@ -253,7 +253,7 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
  * the duplicated sheet-top planes in that case, then reuse one coherent coral
  * bay shape in compact and contact states. With header=none the original Cove
  * sheet motif remains untouched. */
-:is([data-cv-template="cove"], [data-letter-page][data-letter-template="cove"])
+:is([data-cv-template="cove"], [data-letter-canvas][data-letter-template="cove"])
   :has(
     [data-dossier-template-chrome="cove"]:is(
         [data-dossier-effective-header-mode="compact"],
@@ -470,7 +470,7 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
 
 /* The Edge rail no longer occupies the top edge, so contact stays at its
  * canonical top position instead of retaining the obsolete 9–10 mm offset. */
-[data-letter-page][data-letter-template="edge"]
+[data-letter-canvas][data-letter-template="edge"]
   [data-dossier-chrome="letter"]
   [data-dossier-integrated-contact],
 [data-cv-template="edge"] [data-dossier-integrated-contact] {
@@ -582,8 +582,8 @@ html[data-dossier-template="forestFlow"]
 html[data-dossier-template="forestFlow"]
   [data-dossier-chrome="cv"]
   [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="forestFlow"] [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="forestFlow"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="forestFlow"] [data-dossier-integrated-contact],
+[data-letter-canvas][data-letter-template="forestFlow"] [data-dossier-continuation-contact-header] {
   left: 34mm !important;
 }
 

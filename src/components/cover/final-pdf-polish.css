@@ -10,7 +10,7 @@
 /* Horizon's stacked contact block is taller than the old 10 mm motif band.
  * When contact mode is active, extend that existing blue surface so every
  * white sender row remains on colour instead of spilling onto white paper. */
-[data-letter-page][data-letter-template="horizon"][data-letter-header-mode="contact"]
+[data-letter-canvas][data-letter-template="horizon"][data-letter-header-mode="contact"]
   [data-dossier-sheet-background="horizon"]
   > div:nth-child(1) {
   height: 22mm !important;

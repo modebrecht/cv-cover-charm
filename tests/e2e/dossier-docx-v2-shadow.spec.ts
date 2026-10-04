@@ -69,8 +69,10 @@ async function seed(page: import("@playwright/test").Page, template: Template, l
         }),
       );
 
-      const longParagraphs = Array.from({ length: 22 }, (_, index) =>
-        `Absatz ${index + 1}: Die Informatik begeistert mich, weil ich gerne logisch denke, Probleme löse und neue Lösungen sorgfältig umsetze.`,
+      const longParagraphs = Array.from(
+        { length: 22 },
+        (_, index) =>
+          `Absatz ${index + 1}: Die Informatik begeistert mich, weil ich gerne logisch denke, Probleme löse und neue Lösungen sorgfältig umsetze.`,
       ).join("\n\n");
       localStorage.setItem(
         "anschreiben:v1",
@@ -247,7 +249,9 @@ test.describe("DOCX V2 shadow browser contract", () => {
     expect(result.coreXml).not.toContain("Bewerbungsdossier – Warm");
   });
 
-  test("measured multi-page Letter/CV emits explicit browser-derived Word page breaks", async ({ page }) => {
+  test("measured multi-page Letter/CV emits explicit browser-derived Word page breaks", async ({
+    page,
+  }) => {
     await seed(page, "freundlich", true);
     const result = await generateShadow(page);
     await saveShadow(result, "warm-long-shadow.docx");
@@ -257,7 +261,56 @@ test.describe("DOCX V2 shadow browser contract", () => {
     expect(result.documentXml).toContain("Schule / Projekt 13");
   });
 
-  test("Modern half-width CV grid stays two-column and owns its browser artwork layer", async ({ page }) => {
+  test("measurement canvases retain template and user typography without becoming export pages", async ({
+    page,
+  }) => {
+    await seed(page, "freundlich", true);
+    await page.evaluate(() => {
+      const saved = JSON.parse(localStorage.getItem("anschreiben:v1")!);
+      saved.design.bodyFont = "maschine";
+      saved.design.bodyFontSizePt = 13;
+      saved.design.recipientTypography = { font: "times", fontSizePt: 15 };
+      localStorage.setItem("anschreiben:v1", JSON.stringify(saved));
+    });
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "networkidle" });
+    const root = page.locator("main [data-letter-document-root]");
+    await expect(root).toHaveAttribute("data-letter-pagination-ready", "true");
+    const evidence = await root.evaluate(async (root) => {
+      const { letterPageOverflows } = await import("/src/components/letter/preflight.ts");
+      const pages = Array.from(
+        root.querySelectorAll<HTMLElement>("[data-letter-document-pages] [data-letter-page]"),
+      );
+      const probe = root.querySelector<HTMLElement>(
+        '[data-letter-pagination-probe="first-flow"] [data-letter-measurement-page]',
+      )!;
+      const typography = (canvas: HTMLElement, selector: string) => {
+        const style = getComputedStyle(canvas.querySelector<HTMLElement>(selector)!);
+        return [style.fontFamily, style.fontSize, style.lineHeight];
+      };
+      return {
+        pageCount: pages.length,
+        allPagesFit: pages.every((p) => !letterPageOverflows(p)),
+        collectedPages: root.querySelectorAll("[data-letter-page]").length,
+        probeIsCanvas: probe.hasAttribute("data-letter-canvas"),
+        probeIsExportPage: probe.hasAttribute("data-letter-page"),
+        probeBody: typography(probe, '[data-letter-pdf-richtext="body"] > div'),
+        body: typography(pages[0], '[data-letter-pdf-richtext="body"] > div'),
+        probeRecipient: typography(probe, '[data-letter-pdf-text="recipient"]'),
+        recipient: typography(pages[0], '[data-letter-pdf-text="recipient"]'),
+      };
+    });
+    expect(evidence.pageCount).toBeGreaterThan(1);
+    expect(evidence.allPagesFit).toBe(true);
+    expect(evidence.collectedPages).toBe(evidence.pageCount);
+    expect(evidence.probeIsCanvas).toBe(true);
+    expect(evidence.probeIsExportPage).toBe(false);
+    expect(evidence.probeBody).toEqual(evidence.body);
+    expect(evidence.probeRecipient).toEqual(evidence.recipient);
+  });
+
+  test("Modern half-width CV grid stays two-column and owns its browser artwork layer", async ({
+    page,
+  }) => {
     await seed(page, "freundlich");
     await page.evaluate(() => {
       localStorage.setItem("lebenslauf:layout:v1", "modern");

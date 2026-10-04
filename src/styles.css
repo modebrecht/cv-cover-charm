@@ -412,7 +412,7 @@ html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block
     align-items: center;
   }
 
-  body:has([data-letter-page]) [data-editor-panel] > aside > div > div:first-child,
+  body:has([data-letter-canvas]) [data-editor-panel] > aside > div > div:first-child,
   body:has([data-cv-page]) [data-editor-panel] > aside > div > div:first-child {
     display: none !important;
   }

@@ -156,7 +156,8 @@ function createHeightMeasurer(sourceBody: HTMLElement) {
   const sourceRect = sourceBody.getBoundingClientRect();
   const sourceStyle = window.getComputedStyle(sourceBody);
   const sandbox = document.createElement("div");
-  sandbox.dataset.letterPdfRichtext = "pagination-measure";
+  sandbox.dataset.letterPdfRichtext = "body";
+  sandbox.dataset.letterHeightMeasurer = "true";
   sandbox.className = sourceBody.className;
   Object.assign(sandbox.style, {
     position: "fixed",
@@ -177,7 +178,9 @@ function createHeightMeasurer(sourceBody: HTMLElement) {
     letterSpacing: sourceStyle.letterSpacing,
     color: sourceStyle.color,
   });
-  document.body.appendChild(sandbox);
+  // Keep the authored template/body selectors, including role overrides, in scope.
+  // The sandbox is hidden/fixed and removed before page collection or preflight.
+  sourceBody.parentElement!.appendChild(sandbox);
 
   const measure = (html: string): number => {
     if (!html.trim()) return 0;

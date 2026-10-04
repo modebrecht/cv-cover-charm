@@ -102,8 +102,8 @@ html[data-dossier-template="terracotta"]
  * turning their geometry into a 0×0 box. */
 html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-dossier-compact-header],
 html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-compact-header],
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-footer="compact"] {
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-compact-header],
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-footer="compact"] {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
@@ -114,11 +114,11 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-doss
  * letter rail. It must not become a second full-width colour band. Letter
  * export does not depend on the global html template marker, so these rules
  * scope to the page itself. */
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-contact-header-background] {
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-contact-header-background] {
   display: none !important;
 }
 
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-integrated-contact] {
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-integrated-contact] {
   left: 28mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -127,7 +127,7 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-doss
   color: var(--cover-ink) !important;
 }
 
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-continuation-contact-header] {
   left: 28mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -137,13 +137,13 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-doss
   color: var(--cover-ink) !important;
 }
 
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-continuation-contact] {
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-continuation-contact] {
   text-align: left !important;
 }
 
 /* The little hairline inside the letter rail added no information and looked
  * like another stray rule when the page was exported. The solid rail is enough. */
-[data-letter-page][data-letter-template="terracotta"]
+[data-letter-canvas][data-letter-template="terracotta"]
   [data-letter-background-variant="quiet-column"]
   [data-letter-motif="rail-rule"] {
   display: none !important;
@@ -173,8 +173,8 @@ html[data-dossier-template="aurora"] [data-dossier-chrome="cv"] [data-dossier-in
 html[data-dossier-template="aurora"]
   [data-dossier-chrome="cv"]
   [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="aurora"] [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="aurora"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="aurora"] [data-dossier-integrated-contact],
+[data-letter-canvas][data-letter-template="aurora"] [data-dossier-continuation-contact-header] {
   color: #fff !important;
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
@@ -191,16 +191,16 @@ html[data-dossier-template="aurora"]
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-compact-header],
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-contact-header-background],
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
-[data-letter-page][data-letter-template="edge"] [data-dossier-compact-header],
-[data-letter-page][data-letter-template="edge"] [data-dossier-contact-header-background],
-[data-letter-page][data-letter-template="edge"] [data-dossier-footer="compact"] {
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-compact-header],
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-contact-header-background],
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-footer="compact"] {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="edge"] [data-dossier-integrated-contact] {
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-integrated-contact] {
   left: 32mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -213,7 +213,7 @@ html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-in
 html[data-dossier-template="edge"]
   [data-dossier-document="cv"]
   [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="edge"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-continuation-contact-header] {
   left: 32mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -226,7 +226,7 @@ html[data-dossier-template="edge"]
 }
 
 html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-continuation-contact],
-[data-letter-page][data-letter-template="edge"] [data-dossier-continuation-contact] {
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-continuation-contact] {
   text-align: left !important;
 }
 
@@ -279,15 +279,15 @@ html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-name] {
 html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-compact-header],
 html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-contact-header-background],
 html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="glow"] [data-dossier-compact-header],
-[data-letter-page][data-letter-template="glow"] [data-dossier-contact-header-background],
-[data-letter-page][data-letter-template="glow"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="glow"] [data-dossier-compact-header],
+[data-letter-canvas][data-letter-template="glow"] [data-dossier-contact-header-background],
+[data-letter-canvas][data-letter-template="glow"] [data-dossier-continuation-contact-header] {
   border-bottom: 0 !important;
   box-shadow: none !important;
 }
 
 html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
-[data-letter-page][data-letter-template="glow"] [data-dossier-footer="compact"] {
+[data-letter-canvas][data-letter-template="glow"] [data-dossier-footer="compact"] {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;

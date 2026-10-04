@@ -252,7 +252,7 @@ html:is(
     [data-dossier-contact-header-background],
     [data-dossier-continuation-contact-header]
   ),
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-dossier-template-chrome="gallery"][data-dossier-header-custom-surface="false"]
   :is(
     [data-dossier-compact-header],
@@ -299,7 +299,7 @@ html:is(
 [data-dossier-document="cv"][data-cv-template="gallery"][data-cv-template="gallery"]
   [data-dossier-template-chrome="gallery"][data-dossier-footer-custom-surface="false"]
   [data-dossier-footer],
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-dossier-template-chrome="gallery"][data-dossier-footer-custom-surface="false"]
   [data-dossier-footer] {
   background: transparent !important;
@@ -311,7 +311,7 @@ html:is(
 /* Letter uses FreshLetterBackground, not DossierSheetBackground. Target its
  * named motifs directly so later legacy integrity rules cannot recreate the
  * old tiny top-left block + detached Sand card hybrid. */
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-letter-fresh-template="gallery"]
   [data-letter-motif="rail"] {
   display: block !important;
@@ -327,7 +327,7 @@ html:is(
   opacity: 1 !important;
 }
 
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-letter-fresh-template="gallery"]
   [data-letter-motif="portrait-block"] {
   display: block !important;
@@ -343,16 +343,16 @@ html:is(
   opacity: 0.68 !important;
 }
 
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-letter-fresh-template="gallery"]
   [data-letter-motif="signal"] {
   display: none !important;
 }
 
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-dossier-template-chrome="gallery"]
   [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-dossier-template-chrome="gallery"]
   [data-dossier-continuation-contact-header] {
   padding-right: 20mm !important;

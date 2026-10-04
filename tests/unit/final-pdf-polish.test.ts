@@ -20,7 +20,7 @@ describe("final 39-PDF visual polish", () => {
 
   test("keeps Horizon contact rows on a full-height colour surface", () => {
     expect(css).toContain(
-      '[data-letter-page][data-letter-template="horizon"][data-letter-header-mode="contact"]',
+      '[data-letter-canvas][data-letter-template="horizon"][data-letter-header-mode="contact"]',
     );
     expect(css).toContain('[data-dossier-sheet-background="horizon"]');
     expect(css).toContain("height: 22mm !important;");
