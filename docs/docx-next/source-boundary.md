@@ -1,0 +1,34 @@
+# DOCX Next source and ownership boundary
+
+The public compatibility snapshot still accepts `CoverPdfDocument`, `LetterPdfDocument` and `CvPdfDocument`. Their historical names do **not** imply measured PDF pages: Letter/CV contain saved app data/design, and Cover contains authored template blocks. No DOM rectangles, browser line breaks, browser page assignments or print pagination are consumed by Next.
+
+`source-adapter.ts` explicitly copies these fields into neutral `DossierCoverSource`, `DossierLetterSource` and `DossierCvSource`. `source.ts`, model composition, layout policies and the single Word renderer import no PDF document types. This is an adapter boundary, not an app-wide data rewrite. Neutral sources remain structurally compatible with the shared semantic contact/chrome helper; that helper resolves saved contact and chrome values without browser measurement.
+
+| Source             | Fields consumed                                                                                                                                              | Policy                                                                                                                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cover              | template; colors; fontScale; customFieldIds; data.meta/name/photo/visibility; authored block id/kind/label/lines/src/shape/path/style                        | Template order and native text flow. Custom Y orders items; X/width define flow-box indent/width. Photo dimensions/crops and nonsemantic artwork positions are authored design intent. |
+| Cover text style   | font/size/color/weight/italic/underline/uppercase/tracking/lineHeight/list; bg/padding/border; opacity                                                       | Editable runs/lists/tables. Opacity composites native ink against declared solid paper/cell fill. User field styles resolve before this color policy.                                  |
+| Letter data        | sender/recipient/date/subject/salutation/body/richTextHtml/closing/signature; closing/signature gaps; images; attachment strings/IDs/visibility              | Native paragraphs/runs/lists/tables/pictures. No browser page fragments enter Word pagination.                                                                                         |
+| Letter design      | template/colors/paper/text/font overrides; sender/recipient/date alignment; role fonts/sizes/colors/emphasis; separators; document chrome content            | Authored presentation. Canonical chrome settings come from captured dossier state, not stale nested snapshots.                                                                         |
+| CV data            | person and name style; title; entries/IDs; languages; list strings/IDs; references; custom sections; labels/hidden/order/sectionLayouts/referencesSideBySide | Shared native Standard/Luftig/Timeline/Magazin composition. Free section coordinates require acceptance and remain blocking.                                                           |
+| CV design          | colors/paper/font/scales; document/section typography and gaps; rubric aliases; aligned info/colons; heading rules; useElements                              | Semantic style/layout policy. Sidebar geometry is intentionally blocked. Brief has no template background motif, so motif opacity has no artwork to modify.                            |
+| CV custom elements | elements and authored elementStyles                                                                                                                          | Text/images stay native; shapes contain no user text. Logical page-2 zones follow native main flow rather than a measured browser page.                                                |
+| Captured sidecars  | chrome, page margins, CV layout/placement/alignment/gap/continuation margin/photo frame/placement, typography IDs and explicit bindings, font policy         | Captured once before asynchronous rendering. No ambient getters inside the model builder.                                                                                              |
+
+`coverFingerprint` and any future top-level PDF/measurement properties are excluded by the adapter. Boundary tests inject bogus `pages`, `pagination` and `measuredRows`, verify exclusion/immutable copies and verify an identical semantic model.
+
+Browser text X/Y, fixed/minimum height, `follows`/`above`/bottom anchors and `maxLines` do not constrain native text pagination or cause browser auto-fit. Word-oriented flow keeps the selected font size and permits additional lines/pages. This explicit conversion policy needs visual/edit acceptance; it is not a promise of browser geometry parity. Text badge corners become native rectangular fill/borders. Translucent semantic images are blocking until native alpha has actual render/edit acceptance: LibreOfficeDev ignored `alphaModFix` in the attempted proof fixture. No opaque substitute is silently exported.
+
+Older anonymous typography binds only through an explicit saved key/field ID to a canonical semantic ID. Unique visible values, labels and occurrence metadata never choose a target. Canonical IDs cannot be redirected; conflicting duplicate bindings throw before rendering. Missing/ambiguous bindings remain model issues that block the candidate.
+
+## Cohesive ownership
+
+- `build-model.ts`: dossier orchestration, letter/CV field mapping and semantic chrome mapping.
+- `cover-composition.ts`: authored cover mapping, including known visibility and custom field flow.
+- `continuation-margin.ts`: one native section margin/first-page lead policy after chrome reservation.
+- `colors.ts`, `typography-bindings.ts`, `source-adapter.ts`: explicit color/source/identity normalization.
+- `renderer.ts`: **one** renderer entrypoint, native block traversal and package/story ownership.
+- `native-text.ts`: generic run/paragraph/list-mark/control primitives used by that renderer.
+- Existing geometry/numbering/sections/elements/images/decoration modules retain their shared ownership.
+
+Letter/CV/chrome mapping remains in the orchestrator because it shares style factories and field ownership. Further extraction is reasonable when diverse templates expose a coherent missing primitive; file length alone is not a reason to invent another architecture. Renderer primitives remain template-ID-free. Future templates configure shared primitives; they never generate OOXML.

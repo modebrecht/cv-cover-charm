@@ -134,6 +134,7 @@ try {
     "fonts-long-letter",
     "fonts-long-cv",
     "fonts-offline",
+    "opacity-native",
   ];
   const manifest = [];
   const expectedText = (run: TextRun) =>
@@ -176,6 +177,12 @@ try {
                               ? (fixture as (typeof BRIEF_FIXTURES)[number])
                               : "normal",
                       );
+    if (fixture === "opacity-native") {
+      input.cover.colors.bg = "#F0F0F0";
+      const name = input.cover.blocks.find((block) => block.id === "name")!;
+      name.style.color = "#000000";
+      name.style.opacity = 0.5;
+    }
     if (fixture.startsWith("variant-") && fixture.endsWith("-image")) {
       input.cover.data.foto = images.png;
       input.cv.data.person.foto = images.png;

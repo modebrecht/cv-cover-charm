@@ -1,0 +1,301 @@
+{
+  "source": "Ubuntu noble snapshot 20260828, noble-backports",
+  "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+  "conversion": "pending: exit 1, no PDF",
+  "packages": [
+    {
+      "package": "fonts-opensymbol",
+      "version": "4:102.12+LibO25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "all",
+      "sha256": "6005a2bfc732f69966b40c023b3740aeac7c7dd263ee4807c1229e7483f69554"
+    },
+    {
+      "package": "iso-codes",
+      "version": "4.16.0-1",
+      "architecture": "all",
+      "sha256": "cafca0a3a1f07b44fbba53ab7a1f1d9755e6b80cc041173afe2b52e53bed97a7"
+    },
+    {
+      "package": "libabsl20220623t64",
+      "version": "20220623.1-3.1ubuntu3.2",
+      "architecture": "amd64",
+      "sha256": "dec97687bc3bc4edbd1c26bc9182f7584e3ff1c36a9bb7ce80211951e5a5893d"
+    },
+    {
+      "package": "libabw-0.1-1",
+      "version": "0.1.3-1build4",
+      "architecture": "amd64",
+      "sha256": "0cd3d19507cfd9834802bd519fcc25ba8bdaf8130f4c4747a71ca3f501dbac87"
+    },
+    {
+      "package": "libboost-iostreams1.83.0",
+      "version": "1.83.0-2.1ubuntu3.2",
+      "architecture": "amd64",
+      "sha256": "614e516fc34d3a9f4b39149c79bde94160631b6486943d9782e264ab475fcdc3"
+    },
+    {
+      "package": "libboost-locale1.83.0",
+      "version": "1.83.0-2.1ubuntu3.2",
+      "architecture": "amd64",
+      "sha256": "7af19becd12c27e23af2c0cfd05ed35dfb3c6758cd25bb2d8c1eeff4a5883e3b"
+    },
+    {
+      "package": "libboost-thread1.83.0",
+      "version": "1.83.0-2.1ubuntu3.2",
+      "architecture": "amd64",
+      "sha256": "d6b7411fd5368a49ffe88ad66d471bc57a43c2bb4eb105ee3f5fb921bfdf8924"
+    },
+    {
+      "package": "libclucene-contribs1t64",
+      "version": "2.3.3.4+dfsg-1.2ubuntu2",
+      "architecture": "amd64",
+      "sha256": "bcac82381af3323e98df22a52530397398bd7ea3a27e2cf09b153d51d0791a01"
+    },
+    {
+      "package": "libclucene-core1t64",
+      "version": "2.3.3.4+dfsg-1.2ubuntu2",
+      "architecture": "amd64",
+      "sha256": "97cd9bbe78b64e0b9c73642f2ec1819b23b3e6f1dcb64a861ff7fe60cd4c6404"
+    },
+    {
+      "package": "libdw1t64",
+      "version": "0.190-1.1ubuntu0.1",
+      "architecture": "amd64",
+      "sha256": "edaa9ce4221d95f4bd72a9805100902e313092a2f31a7a51e7186be97734714d"
+    },
+    {
+      "package": "libe-book-0.1-1",
+      "version": "0.1.3-2build6",
+      "architecture": "amd64",
+      "sha256": "15c52818d50b2cc915eddd637863eceb32601a47f3d29eb018ae47c0449585bc"
+    },
+    {
+      "package": "libeot0",
+      "version": "0.01-5build3",
+      "architecture": "amd64",
+      "sha256": "86c4503d21589e205e2bd8739a6d5e354cda83fcdbefd7e0290438b2a6434567"
+    },
+    {
+      "package": "libepubgen-0.1-1",
+      "version": "0.1.1-1ubuntu6",
+      "architecture": "amd64",
+      "sha256": "4076ec1b49e4122d105d8a0aa825091b580718b27045d8035c4fd46c6485bc38"
+    },
+    {
+      "package": "libexttextcat-2.0-0",
+      "version": "3.4.7-1build1",
+      "architecture": "amd64",
+      "sha256": "0fcb796934d3dff056a360792534fbc9acc7febcede0dc24a44be96ca5e48c9c"
+    },
+    {
+      "package": "libexttextcat-data",
+      "version": "3.4.7-1build1",
+      "architecture": "all",
+      "sha256": "f38630c6c497f33fc29b9b87dcc5d50460127083f903308fbf152afb5d507bc6"
+    },
+    {
+      "package": "libgpgme11t64",
+      "version": "1.18.0-4.1ubuntu4",
+      "architecture": "amd64",
+      "sha256": "b3640068e8af3becf16faec886ff139880736ed23a7fc605c1f0cece405a5606"
+    },
+    {
+      "package": "libgpgmepp6t64",
+      "version": "1.18.0-4.1ubuntu4",
+      "architecture": "amd64",
+      "sha256": "52d1d13d77303d55db140409c2c352b667ce32102e651ab095419094459d043f"
+    },
+    {
+      "package": "libgstreamer-plugins-base1.0-0",
+      "version": "1.24.2-1ubuntu0.4",
+      "architecture": "amd64",
+      "sha256": "508f0a23fab878be69390cd3f5d94024541875dc7034b64becb1c72241508afc"
+    },
+    {
+      "package": "libgstreamer1.0-0",
+      "version": "1.24.2-1ubuntu0.1",
+      "architecture": "amd64",
+      "sha256": "306a6a5cff08630b79b8a68e5f888da7d8e209a452e9b5e24449cca95d8e71f5"
+    },
+    {
+      "package": "libharfbuzz-icu0",
+      "version": "8.3.0-2build2",
+      "architecture": "amd64",
+      "sha256": "9098670758e60b190d7edf367ad57e954bfc1b2a616def3f4e281062e036a843"
+    },
+    {
+      "package": "libhyphen0",
+      "version": "2.8.8-7build3",
+      "architecture": "amd64",
+      "sha256": "b508d3a5da168ddb2ae6e79ea0521ba64cd121285db0ece438d0bd56ba628556"
+    },
+    {
+      "package": "liblangtag-common",
+      "version": "0.6.7-1build2",
+      "architecture": "all",
+      "sha256": "789db6b96fe17df191b99cb12cf62453d32e75b29800a0ffb0cfa1777dec2632"
+    },
+    {
+      "package": "liblangtag1",
+      "version": "0.6.7-1build2",
+      "architecture": "amd64",
+      "sha256": "08e7831e34cf7e96f7869ec21cbd8e9274f1664460cff3c99d6ed155d757ee7d"
+    },
+    {
+      "package": "libmhash2",
+      "version": "0.9.9.9-9build3",
+      "architecture": "amd64",
+      "sha256": "1545cc31a6e9b51faf9fc3e88078c53af1c96351cc6fbbb91cf7bb2b20b0faf4"
+    },
+    {
+      "package": "libmwaw-0.3-3",
+      "version": "0.3.22-1build1",
+      "architecture": "amd64",
+      "sha256": "a1feb9937e05651fb1f128a9679233d5fce6b859d5a1eda3e7d57cc9323402b9"
+    },
+    {
+      "package": "libmythes-1.2-0",
+      "version": "2:1.2.5-1build1",
+      "architecture": "amd64",
+      "sha256": "8dd739d9f30df7e5fbc65b1d8d170529b6cdc30d103dd291cb54e2fb16c2991b"
+    },
+    {
+      "package": "libodfgen-0.1-1",
+      "version": "0.1.8-2build3",
+      "architecture": "amd64",
+      "sha256": "ea84eb73587b0f505ee6d01d44411acf35b577d253d4e5d57c63254a7cf868e3"
+    },
+    {
+      "package": "liborc-0.4-0t64",
+      "version": "1:0.4.38-1ubuntu0.1",
+      "architecture": "amd64",
+      "sha256": "a546ca6e237748693596ba469e84a2e0581bc39113abc62b718931df00a4c682"
+    },
+    {
+      "package": "libraptor2-0",
+      "version": "2.0.16-3ubuntu0.1",
+      "architecture": "amd64",
+      "sha256": "27dd8775272765954117c81b763838b62eda8cac22a74a1e190ec39a806e4a15"
+    },
+    {
+      "package": "librasqal3t64",
+      "version": "0.9.33-2.1build1",
+      "architecture": "amd64",
+      "sha256": "c6714b7d1be5c6defa1ab13665b6340c522ddfb4cd4347de56eef4e1daa1b646"
+    },
+    {
+      "package": "librdf0t64",
+      "version": "1.0.17-3.1ubuntu3",
+      "architecture": "amd64",
+      "sha256": "0c286ced65bb41ef6b5e7ac058f846043cf3d7dccac0f0281c55ac5b55cdb8b7"
+    },
+    {
+      "package": "libreoffice-base-core",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "57b9f45cccebbe82d44d3c8e63a0a8a541207feb9385ffbd04721a1aef7e5ea1"
+    },
+    {
+      "package": "libreoffice-common",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "all",
+      "sha256": "86b057b9dbf8524ec839e088dc7440537af50bd53cff31e64e3132a501099c20"
+    },
+    {
+      "package": "libreoffice-core",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "a5b7582578fb9997263255587962ce91de50eedddcba8510f1fe7578ac5b90d5"
+    },
+    {
+      "package": "libreoffice-style-colibre",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "all",
+      "sha256": "236e3191f087929c7ad97c8f8b52a8556d75b568fbad6a4b6b9cb5450ba7addc"
+    },
+    {
+      "package": "libreoffice-uiconfig-common",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "all",
+      "sha256": "4c043f17942c4842d39fb746271be5cd40ce58c8e99a9a54058bbb08849fd163"
+    },
+    {
+      "package": "libreoffice-uiconfig-writer",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "all",
+      "sha256": "2d48faaf4e20761f5fc68eb90c64a56eda22b5d52cf3d92516afab52607941b1"
+    },
+    {
+      "package": "libreoffice-writer",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "2b7b0611a80448fa6de1407dc67106f1477d82f90b525852183053dd5dee0626"
+    },
+    {
+      "package": "libuno-cppu3t64",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "e2f03d7f5d516cbbcf5935e2de7ec86ca88236230bbf81c668f7f76db0bbcd65"
+    },
+    {
+      "package": "libuno-cppuhelpergcc3-3t64",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "0fe5d0228ec8f73ed6e9b8178d8f431de37873f8d6f0f8e0dab1a7c21adc4ec8"
+    },
+    {
+      "package": "libuno-purpenvhelpergcc3-3t64",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "16934d2e6dbb2776c651ad51bdc60d32a1967872d07ea8107e3f9fbc35588945"
+    },
+    {
+      "package": "libuno-sal3t64",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "c1814e31d9a1924f60ff3c9ded1786eea7f5169fc4e703e75af5b5b3a22f7d1d"
+    },
+    {
+      "package": "libuno-salhelpergcc3-3t64",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "2840a268638c593429b0de6026453fd475bad294581c265813f9045a5907b455"
+    },
+    {
+      "package": "libwps-0.4-4",
+      "version": "0.4.14-2build1",
+      "architecture": "amd64",
+      "sha256": "759145a05957c8d9b5d1c0a08c7f4454aebde213b7b0715d2eaff8e65a2aeffd"
+    },
+    {
+      "package": "libxmlsec1t64-nss",
+      "version": "1.2.39-5build2",
+      "architecture": "amd64",
+      "sha256": "233651eb2d56a207934efa740c05af77db0ebbab4b1fc55c81400d0638b89fda"
+    },
+    {
+      "package": "libxmlsec1t64",
+      "version": "1.2.39-5build2",
+      "architecture": "amd64",
+      "sha256": "a1125b307f582fc583bb14c0fc3d903d8afbf0a6d1bb3e41ac5f30751faadebb"
+    },
+    {
+      "package": "libyajl2",
+      "version": "2.1.0-5build1",
+      "architecture": "amd64",
+      "sha256": "faa268c632f7d2931509cf7b8b7ddd810aa775adc26ead88ea158e2ede5208f8"
+    },
+    {
+      "package": "uno-libs-private",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "82eed2eca30e6d09fc8d03803865243cf0481d9ae4630c9eca7450b265d64ae5"
+    },
+    {
+      "package": "ure",
+      "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+      "architecture": "amd64",
+      "sha256": "30bfe07bea913c3bff1b3dd32f7cb8c9c05696a8350473d80e5c8472911aac87"
+    }
+  ]
+}

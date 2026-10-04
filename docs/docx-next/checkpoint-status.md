@@ -1,5 +1,7 @@
 # DOCX Next checkpoint — 2026-10-04
 
+**Latest stabilization:** see [the report from freshly fetched `d664317`](stabilization-report.md). Its test counts, dossier-flow fix, source boundary and Word-review readiness supersede the historical checkpoint evidence below. Microsoft Word, stable LibreOffice conversion and approved visual references remain pending; no migrated-template or production status changed.
+
 This is a continued reference implementation, **not the completed rebuild**. Progress: **1/39 configured candidates (Brief), 0/39 Word-accepted migrations**. The independent foundation is implemented through Gate 4; [Brief coverage](brief-feature-coverage.md) records the remaining inputs and acceptance work. The latest continuation started from freshly fetched `dev` commit `a4690bd713368e3dc1e0c2577e3e17311756a04b`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
 
 ## Architecture evidence

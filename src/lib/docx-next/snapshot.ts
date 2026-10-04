@@ -16,9 +16,9 @@ import { getCvTextAlignment } from "@/components/cv/text-alignment";
 import { getCvPhotoStyle } from "@/components/cv/photo";
 import { getCvPhotoPlacement } from "@/components/cv/photo-place";
 import { readPortableDossierFieldTypographyState } from "@/lib/dossier-field-typography";
-import type { DossierAppSnapshot } from "./build-model";
-import type { TextStyle } from "./model";
-import { isSemanticDossierFieldId } from "@/lib/dossier-semantic-fields";
+import type { DossierAppSnapshot } from "./source";
+import { toDossierSource } from "./source-adapter";
+import { bindSavedTypography } from "./typography-bindings";
 import { cvWordLayout } from "./layouts";
 
 /** Capture ambient state once. Old anonymous field IDs require explicit semantic bindings. */
@@ -28,26 +28,14 @@ export function captureDossierDocxNextSnapshot(
   cv: CvPdfDocument,
   bindings: Record<string, string> = {},
 ): DossierAppSnapshot {
-  const typography = readPortableDossierFieldTypographyState() ?? { cv: {}, letter: {} };
-  const fieldStyles: Record<string, Partial<TextStyle>> = {};
-  const unresolvedTypography: string[] = [];
-  for (const [scope, bucket] of [
-    ["cv", typography.cv],
-    ["letter", typography.letter],
-  ] as const) {
-    for (const [key, entry] of Object.entries(bucket)) {
-      const sourceId = entry.fieldId ?? key;
-      const semanticId =
-        bindings[sourceId] ?? (isSemanticDossierFieldId(scope, sourceId) ? sourceId : undefined);
-      if (semanticId && isSemanticDossierFieldId(scope, semanticId))
-        fieldStyles[semanticId] = { ...entry.style };
-      else unresolvedTypography.push(sourceId);
-    }
-  }
+  const typography = readPortableDossierFieldTypographyState() ?? {
+    version: 1,
+    cv: {},
+    letter: {},
+  };
+  const { fieldStyles, unresolvedTypography } = bindSavedTypography(typography, bindings);
   return structuredClone({
-    cover,
-    letter,
-    cv,
+    ...toDossierSource(cover, letter, cv),
     settings: {
       chrome: getDossierChromeState(),
       margins: getDossierPageMarginsState(),

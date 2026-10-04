@@ -6,11 +6,6 @@ import {
   dossierChromeFieldId,
   dossierElementFieldId,
 } from "@/lib/dossier-semantic-fields";
-import type {
-  CoverPdfDocument,
-  CvPdfDocument,
-  LetterPdfDocument,
-} from "@/lib/dossier-pdf-document";
 import {
   CV_SECTION_LABELS,
   cvSectionOrder,
@@ -19,14 +14,12 @@ import {
   entryFilled,
   isCustomSectionKey,
   type CvEntry,
-  type CvPlacements,
 } from "@/components/cv/types";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
 import { coverAttachmentValues, TEMPLATES } from "@/components/cover/types";
 import { buildCustomBlocks } from "@/components/cover/layouts";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
-import type { DossierChromeState } from "@/lib/dossier-chrome";
 import type {
   DossierDocModel,
   DocumentPart,
@@ -34,56 +27,27 @@ import type {
   Paragraph,
   TextStyle,
   Alignment,
-  PageMargins,
   ModelIssue,
 } from "./model";
+import { walkBlocks } from "./model";
 import { nextTemplate } from "./templates";
-import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks, type CvLayoutInput } from "./layouts";
-import { wordFont as fontForKey, createFontResolver, type FontPolicy } from "./fonts";
+import { color } from "./colors";
+export { color } from "./colors";
+import { composeCover } from "./cover-composition";
+import { applyContinuationMargin } from "./continuation-margin";
+import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks } from "./layouts";
+import { wordFont as fontForKey, createFontResolver } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
 import { textElement, imageElement, shapeElement, flowingElementBox } from "./elements";
 import {
   dossierPhotoRatio,
   dossierPhotoStyleFromBlockStyle,
   normalizeDossierPhotoStyle,
-  type DossierPhotoStyle,
 } from "@/lib/dossier-photo";
-import {
-  normalizeCvPhotoPlacement,
-  resolveCvPhotoPosition,
-  type CvPhotoPlacement,
-} from "@/components/cv/photo-place";
+import { normalizeCvPhotoPlacement, resolveCvPhotoPosition } from "@/components/cv/photo-place";
 
-export type DossierAppSnapshot = {
-  cover: CoverPdfDocument;
-  letter: LetterPdfDocument;
-  cv: CvPdfDocument;
-  settings: {
-    chrome?: DossierChromeState;
-    margins?: Partial<Record<"letter" | "cv", PageMargins>>;
-    cvLayout?: CvLayoutInput;
-    sidebarSide?: "left" | "right";
-    placements?: Partial<CvPlacements>;
-    cvAlignment?: Alignment;
-    cvSectionGapMm?: number | null;
-    cvContinuationTopMarginMm?: number;
-    cvPhotoStyle?: DossierPhotoStyle;
-    cvPhotoPlacement?: CvPhotoPlacement;
-    /** Canonical paths only; no visible-value or occurrence matching. */
-    fieldStyles?: Record<string, Partial<TextStyle>>;
-    unresolvedTypography?: string[];
-    fontPolicy?: FontPolicy;
-  };
-};
-export function color(value: string | null | undefined, fallback: string): string {
-  const text = value?.replace(/^#/, "");
-  if (text && /^[\da-f]{3}$/i.test(text))
-    return [...text]
-      .map((c) => c + c)
-      .join("")
-      .toUpperCase();
-  return text && /^[\da-f]{6}$/i.test(text) ? text.toUpperCase() : fallback;
-}
+import type { DossierAppSnapshot } from "./source";
+export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 /** Conservative flow reservation uses actual run sizes and explicit line breaks. */
@@ -215,109 +179,33 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     cvPart = part("cv");
   const cvFirstTopMargin = cvPart.page.margins.top;
   let cvHeaderReserveMm = 0;
-  const elementContext = (colors: Record<string, string>, font: string, fontScale = 1) => ({
+  const elementContext = (
+    colors: Record<string, string>,
+    font: string,
+    fontScale = 1,
+    paper = theme.paper,
+  ) => ({
     colors,
     font,
     fontScale,
+    paper,
     ink: theme.ink,
     color,
     style,
     fieldStyles: settings.fieldStyles,
   });
-  const coverContext = elementContext(cover.colors, theme.font, cover.fontScale);
-  const coverDecoration: DocBlock[] = [];
-  // Cover fields come with semantic block IDs before any rendering. Geometry becomes flowing composition.
-  const aliases: Record<string, string> = { name: "fullName", foto: "photo", beruf: "profession" };
-  const customCoverIds = new Set(cover.customFieldIds ?? []);
-  const rank = (id: string) => {
-    const index = template.cover.order.indexOf(id);
-    return index < 0 ? (customCoverIds.has(id) ? 1001 : 1000) : index;
-  };
-  const coverBlocks = cover.blocks
-    .filter((block) => !block.style.hidden)
-    .map((block, index) => ({ block, index }))
-    .sort(
-      (a, b) =>
-        rank(a.block.id) - rank(b.block.id) ||
-        (customCoverIds.has(a.block.id) && customCoverIds.has(b.block.id)
-          ? a.block.style.y - b.block.style.y
-          : 0) ||
-        a.index - b.index,
-    );
-  const seenCover = new Set<string>();
-  for (const { block } of coverBlocks) {
-    const id = `cover.${aliases[block.id] ?? block.id}`;
-    if (seenCover.has(id)) throw new Error(`Duplicate cover field identity: ${id}`);
-    seenCover.add(id);
-    if (block.kind === "shape") {
-      coverDecoration.push(shapeElement(block, id, coverContext));
-      continue;
-    }
-    if (block.kind === "photo" || block.kind === "image") {
-      const source = block.kind === "photo" ? cover.data.foto : block.src;
-      if (source)
-        coverPart.blocks.push({
-          kind: "image",
-          id,
-          source,
-          alt: block.label,
-          widthMm: Math.min(80, block.style.w || template.cover.photoWidthMm),
-          maxHeightMm: 80,
-          placement: "inline",
-          xMm: 0,
-          yMm: 0,
-          gapMm: 3,
-          frame: {
-            heightRatio: block.style.ratio ?? 1.25,
-            radiusMm: block.style.radius ?? 0,
-            zoom: block.style.imgZoom ?? 1,
-            xPct: block.style.imgX ?? 50,
-            yPct: block.style.imgY ?? 50,
-            borderWidthMm: block.style.borderWidth ?? 0,
-            borderColor: color(
-              cover.colors[block.style.borderColor ?? ""] ?? block.style.borderColor,
-              theme.accent,
-            ),
-          },
-        });
-      continue;
-    }
-    const lines = block.lines.map((line) =>
-      typeof line === "string" ? line : line.map((segment) => segment.t).join(""),
-    );
-    const text = lines.join("\n");
-    if (!text.trim() && !block.src) continue;
-    if (block.id === "empfaenger" && cover.data.showBetriebOnCover === false) continue;
-    if (
-      ["beilagen", "beilagenTitel"].includes(block.id) &&
-      cover.data.showBeilagenOnCover === false
-    )
-      continue;
-    const paragraphs = textElement(block, id, coverContext, {
-      role: block.id === "beruf" ? "title" : block.id === "name" ? "heading" : "body",
-      beforeMm: block.id === "kicker" ? template.cover.heroSpaceMm : 0,
-      afterMm: block.id === "name" ? 5 : 2,
-      keepNext: ["kicker", "kontaktTitel", "empfaengerTitel", "beilagenTitel"].includes(block.id),
-    });
-    const boxed =
-      cover.customFieldIds?.includes(block.id) ||
-      block.style.bg ||
-      (block.style.borderWidth ?? 0) > 0 ||
-      block.src;
-    coverPart.blocks.push(
-      ...(boxed
-        ? flowingElementBox(block, id, paragraphs, coverContext, coverPart.page)
-        : paragraphs),
-    );
-  }
-  coverPart.blocks.unshift(...coverDecoration);
-  if (!coverPart.blocks.length)
-    coverPart.blocks.push(
-      p("cover.fullName", name(cover.data.vorname, cover.data.nachname), {
-        sizePt: template.typography.namePt,
-        bold: true,
-      }),
-    );
+  coverPart.blocks = composeCover(
+    cover,
+    template,
+    coverPart.page,
+    elementContext(cover.colors, theme.font, cover.fontScale),
+    theme.accent,
+    color,
+    p("cover.fullName", name(cover.data.vorname, cover.data.nachname), {
+      sizePt: template.typography.namePt,
+      bold: true,
+    }),
+  );
 
   const ld = letter.data,
     design = letter.design;
@@ -869,7 +757,12 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       cv.elementStyles,
       slots,
     );
-    const context = elementContext(cv.design.colors, wordFont(cv.design.font, theme.font));
+    const context = elementContext(
+      cv.design.colors,
+      wordFont(cv.design.font, theme.font),
+      1,
+      color(cv.design.paperColor, theme.paper),
+    );
     const firstPage: DocBlock[] = [],
       secondPage: DocBlock[] = [],
       firstArtwork: DocBlock[] = [],
@@ -1200,33 +1093,14 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       }
     }
   }
-  if (settings.cvContinuationTopMarginMm !== undefined) {
-    const requested = settings.cvContinuationTopMarginMm;
-    if (!Number.isFinite(requested) || requested < 0 || requested > 40)
-      throw new Error("DOCX Next invalid CV continuation top margin");
-    // An empty header still owns a boundary paragraph. Place it at the page
-    // edge so its distance cannot impose an unrelated minimum body margin.
-    if (!cvHeaderReserveMm) cvPart.page.headerDistanceMm = 0;
-    const continuationTop = cvHeaderReserveMm
-      ? Math.max(requested, cvPart.page.headerDistanceMm) + cvHeaderReserveMm
-      : requested;
-    const firstTop = cvPart.page.margins.top;
-    const lead = Math.max(0, firstTop - continuationTop);
-    cvPart.layout.pagination = {
-      firstTopMarginMm: cvFirstTopMargin,
-      continuationTopMarginMm: requested,
-      firstPageLeadMm: lead,
-    };
-    cvPart.page.margins.top = continuationTop;
-    if (continuationTop > firstTop)
-      issues.push({
-        code: "continuation-margin-exceeds-first-page",
-        fieldId: "cv.layout.pagination",
-        message:
-          "Word uses one flowing section margin: a larger continuation margin cannot preserve the smaller first-page margin. Use a continuation margin no larger than the first-page margin.",
-      });
-    if (lead) cvPart.blocks.unshift({ kind: "spacer", id: "cv.firstPageLead", heightMm: lead });
-  }
+  issues.push(
+    ...applyContinuationMargin(
+      cvPart,
+      settings.cvContinuationTopMarginMm,
+      cvFirstTopMargin,
+      cvHeaderReserveMm,
+    ),
+  );
   for (const target of [coverPart, letterPart, cvPart]) {
     const paper =
       target.id === "cover" ? theme.paper : color(input[target.id].design.paperColor, theme.paper);
@@ -1241,6 +1115,17 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         widthMm: target.page.widthMm,
         heightMm: target.page.heightMm,
       });
+  }
+  for (const target of [coverPart, letterPart, cvPart]) {
+    for (const block of walkBlocks(target.blocks)) {
+      if (block.kind === "image" && block.opacity !== undefined && block.opacity !== 1)
+        issues.push({
+          code: "unsupported-image-opacity",
+          fieldId: block.id,
+          message:
+            "Translucent semantic images require native alpha render/edit acceptance. Use full image opacity for this candidate.",
+        });
+    }
   }
   return {
     version: 1,

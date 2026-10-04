@@ -228,9 +228,9 @@ def render(file, folder, format='pdf'):
     # Isolate converter output as well as the user profile. Existing render
     # evidence must not affect export or be mistaken for a fresh successful file.
     with tempfile.TemporaryDirectory(prefix='docx-next-lo-') as profile, tempfile.TemporaryDirectory(prefix='docx-next-convert-') as output:
-        command = ['soffice', '-env:UserInstallation=' + Path(profile).as_uri(), '--invisible', '--headless', '--norestore', '--convert-to', format, '--outdir', output, str(file.resolve())]
+        command = [args.soffice, '-env:UserInstallation=' + Path(profile).as_uri(), '--invisible', '--headless', '--norestore', '--convert-to', format, '--outdir', output, str(file.resolve())]
         result = subprocess.run(command, capture_output=True, text=True, timeout=90)
-        assert result.returncode == 0 and not re.search(r'error|warning', result.stderr, re.I), result.stdout + result.stderr
+        assert result.returncode == 0 and not re.search(r'error|warning', result.stderr, re.I), f'LibreOffice conversion failed (exit {result.returncode}, {args.soffice}):\n' + result.stdout + result.stderr
         converted = Path(output) / result_file.name
         assert converted.is_file(), f'LibreOffice produced no new {format}'
         converted.replace(result_file)
@@ -483,9 +483,20 @@ def check_cover_spacing(directory, roundtrip):
             assert spacing[1] > spacing[0] * 1.7, f'Native cover line spacing did not transfer; saved={saved}: {spacing}'
 
 
+def check_native_opacity(document, fixture):
+    if fixture['fixture'] != 'opacity-native':
+        return
+    cover = document[0]
+    names = [span for block in cover.get_text('dict')['blocks'] if block['type'] == 0
+             for line in block['lines'] for span in line['spans'] if span['text'] == 'Lea Müller']
+    assert len(names) == 1 and names[0]['color'] == 0x787878, 'Editable text opacity/paper compositing lost'
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('directory', type=Path)
 parser.add_argument('--fixtures', nargs='*')
+parser.add_argument('--soffice', default='soffice', help='Explicit LibreOffice executable/wrapper; version is recorded, never implicitly approved')
+parser.add_argument('--require-stable', action='store_true', help='Reject LibreOfficeDev/alpha/beta/RC builds')
 parser.add_argument('--roundtrip', action='store_true', help='Save as DOCX in LibreOffice, reopen and repeat text/column/page-count checks')
 parser.add_argument('--snapshots', type=Path, help='Optional approved DOCX render baseline directory')
 args = parser.parse_args()
@@ -503,6 +514,12 @@ for key in ['png', 'jpeg', 'icc-jpeg', 'cmyk-jpeg', 'exif-jpeg', 'large-jpeg']:
             assert image.size == (180, 120), 'EXIF orientation lost'
         else:
             assert abs(image.width / image.height - 2 / 3) < 0.001, f'{key}: intrinsic aspect ratio changed'
+version = subprocess.run([args.soffice, '--version'], capture_output=True, text=True, timeout=30)
+assert version.returncode == 0 and version.stdout.strip(), 'LibreOffice version query failed: ' + version.stderr
+lo_version = version.stdout.strip()
+if args.require_stable:
+    assert not re.search(r'Dev|alpha|beta|(?:^|[.\s])rc[0-9]*', lo_version, re.I), 'Stable LibreOffice required; available renderer is ' + lo_version
+print(json.dumps({'libreOfficeVersion': lo_version, 'executable': args.soffice}), flush=True)
 report = []
 for fixture in manifest:
     key = fixture['fixture']
@@ -527,6 +544,7 @@ for fixture in manifest:
     check_artwork(document, fixture)
     check_cover_features(document, fixture)
     check_element_features(document, fixture)
+    check_native_opacity(document, fixture)
     check_presentation(document, fixture)
     if key.startswith('columns-'):
         check_columns(document, fixture)
@@ -597,11 +615,12 @@ for fixture in manifest:
             check_artwork(reopened, fixture)
             check_cover_features(reopened, fixture)
             check_element_features(reopened, fixture)
+            check_native_opacity(reopened, fixture)
             check_presentation(reopened, fixture)
             check_fonts(reopened, fixture)
             if key.startswith('columns-'):
                 check_columns(reopened, fixture)
-    row = {'fixture': key, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
+    row = {'fixture': key, 'libreOfficeVersion': lo_version, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
     report.append(row)
     print(json.dumps(row), flush=True)
     document.close()

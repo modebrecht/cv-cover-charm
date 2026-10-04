@@ -1,12 +1,14 @@
 import type { Block } from "@/components/cover/types";
 import type { DocBlock, Paragraph, TextStyle, DecorativeShape, ImageBlock } from "./model";
 import { wordFont } from "./fonts";
+import { compositeTextColor } from "./colors";
 
 type ElementContext = {
   fontScale: number;
   font: string;
   colors: Record<string, string>;
   ink: string;
+  paper?: string;
   color: (value: string | null | undefined, fallback: string) => string;
   style: (id: string, patch?: Partial<TextStyle>) => TextStyle;
   fieldStyles?: Record<string, Partial<TextStyle>>;
@@ -36,6 +38,10 @@ export function textElement(
           : {}),
         ...(segment.weight !== undefined ? { bold: segment.weight >= 600 } : {}),
       });
+      const backdrop = block.style.bg
+        ? context.color(context.colors[block.style.bg] ?? block.style.bg, context.paper ?? "FFFFFF")
+        : (context.paper ?? "FFFFFF");
+      resolved.color = compositeTextColor(resolved.color, backdrop, block.style.opacity);
       resolved.trackingPt =
         context.fieldStyles?.[id]?.trackingPt ?? block.style.tracking * resolved.sizePt;
       return {
@@ -100,6 +106,7 @@ export function imageElement(
     widthMm: block.style.w,
     maxHeightMm: 150,
     placement: "inline",
+    opacity: block.style.opacity,
     xMm: 0,
     yMm: 0,
     gapMm: 3,

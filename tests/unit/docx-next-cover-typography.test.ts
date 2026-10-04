@@ -68,7 +68,7 @@ describe("semantic cover typography and independent list counters", () => {
     expect(items[1].runs[0]).toMatchObject({
       fieldId: "cover.beilagen",
       text: "Beilage Zwei",
-      style: { color: "123456", bold: true },
+      style: { color: "36526F", bold: true },
     });
     expect(items.some((block) => block.runs.some((run) => run.text.includes("\n")))).toBe(false);
   });
@@ -94,7 +94,7 @@ describe("semantic cover typography and independent list counters", () => {
       .split("</w:sdt>")[0];
     const paragraphProperties = styledItem.split("<w:pPr>")[1].split("</w:pPr>")[0];
     expect(paragraphProperties).toContain("<w:rPr>");
-    expect(paragraphProperties).toContain('<w:color w:val="123456"/>');
+    expect(paragraphProperties).toContain('<w:color w:val="36526F"/>');
     const item = model.cover.blocks.find(
       (block) => block.id === "cover.beilagen.item:2",
     ) as Paragraph;

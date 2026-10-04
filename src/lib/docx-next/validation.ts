@@ -140,6 +140,15 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next invalid rule geometry ${block.id}`);
       if (
         block.kind === "image" &&
+        block.opacity !== undefined &&
+        (!Number.isFinite(block.opacity) || block.opacity < 0 || block.opacity > 1)
+      )
+        throw new Error(`DOCX Next invalid image opacity ${block.id}`);
+      if (block.kind === "image" && block.opacity !== undefined && block.opacity !== 1)
+        throw new Error(`DOCX Next unsupported image opacity ${block.id}`);
+
+      if (
+        block.kind === "image" &&
         (![block.widthMm, block.maxHeightMm, block.xMm, block.yMm, block.gapMm].every(
           Number.isFinite,
         ) ||

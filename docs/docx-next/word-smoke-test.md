@@ -1,5 +1,39 @@
 # Microsoft Word smoke acceptance
 
+## Review package
+
+The current package contains twelve editable DOCX candidates, matching candidate PDFs, SHA-256 hashes, source commit and a blank `WORD_REVIEW_RECORD.json`. Start with `01-normal`; then review long Letter, long CV, Timeline, Magazin, ICC photo, custom elements/images, rich tables/lists, long columns/chrome, continuation margins, styled chrome and text opacity. These twelve representative cases are the minimum review pass; the additional fixtures below cover specific settings in depth.
+
+Keep the original candidates and save edited copies. Record tester, date, OS, exact Word version, fixture, repair prompts, edit/reflow results and save/close/reopen results. Any failed case blocks acceptance until addressed. PDF/PNG candidates aid inspection; generated references are never automatically approved.
+
+## Required open/edit/save/reopen pass
+
+- [ ] Open each representative DOCX without a repair dialog or missing content warning.
+- [ ] Cover is visually coherent.
+- [ ] Letter is visually coherent.
+- [ ] CV is visually coherent, including continuation pages.
+- [ ] User text is selectable and editable.
+- [ ] Edit a name; repeated values remain independently styled.
+- [ ] Add text inside an existing letter paragraph.
+- [ ] Delete text inside an existing paragraph.
+- [ ] Add an extra letter paragraph.
+- [ ] Edit a CV description, including an oversized entry.
+- [ ] Copy/paste formatted content and check its resulting formatting.
+- [ ] Check page reflow after adding and deleting content.
+- [ ] Check first/continuation headers and footers.
+- [ ] Check photo, other images, crop/frame and captions.
+- [ ] Check native lists and their independent numbering.
+- [ ] Check native tables, including nested/ragged content.
+- [ ] Check Timeline and Magazin compositions and editable half-width sections.
+- [ ] Save edited copies as DOCX.
+- [ ] Close Word completely.
+- [ ] Reopen the saved copies.
+- [ ] Verify text, formatting, images, lists, tables and page flow remain healthy.
+- [ ] Verify no repair warning appears after save/reopen.
+- [ ] Record visual-reference approval separately, with explicit human review.
+
+## Extended setting checks
+
 Presentation cases: open `layout-contact-aligned`, `layout-references-paired`, `layout-references-stacked`, `layout-rubrics-short`, `layout-letter-rules` and `layout-settings-long`. Edit an aligned value and a paired reference, add/delete an entry, then save/reopen. Verify the odd reference stays left, long rows reflow, short rules stay with headings, badges remain editable text, indents remain within the page and removing contact data leaves no empty decoration. Candidate PDFs are review aids, not approved Word references.
 
 CV composition cases: open `variant-minimal-short`, `variant-timeline-short`, `variant-editorial-short`, their long/image counterparts, and `pagination-zero`, `pagination-ten`, `pagination-forty`, `pagination-chrome`. Add/delete a dated entry and edit a long description. Verify fixed date widths, short-entry attachment, oversized-entry continuation, editable half-width custom sections and entry-owned borders. Confirm the first-page spacer occurs only once and actual chrome keeps body text clear. A larger continuation margin than the first-page margin is blocked rather than silently adapted.
@@ -38,4 +72,4 @@ Record application version, OS, fixture name, tester and date for each result.
 - [ ] Save as DOCX, close Word, reopen without repair or missing content.
 - [ ] Review candidate DOCX-oriented reference snapshots and record approval separately from browser/PDF similarity.
 
-Until these results and the outstanding product settings are accepted, Brief is a prototype and Gates 5/6 remain open.
+Until these results and the outstanding product settings are accepted, Brief remains an isolated candidate and Gates 5/6 remain open. Ambiguous anonymous styles, free CV section positioning, continuation margins larger than the first-page margin, semantic image opacity, enabled font embedding and sidebar/Modern remain explicitly blocked; this package does not certify them.

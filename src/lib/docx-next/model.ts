@@ -34,6 +34,8 @@ export type Paragraph = {
   indentMm?: number;
 };
 export type ImageBlock = {
+  /** Authored alpha is retained; anything except full opacity currently blocks export. */
+  opacity?: number;
   kind: "image";
   id: string;
   source: string;
