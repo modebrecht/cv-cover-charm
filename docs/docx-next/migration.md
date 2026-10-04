@@ -1,10 +1,10 @@
 # DOCX Next migration ledger
 
-39 active templates. **0/39 accepted migrations**; Brief is an independently generated reference candidate. Do not mark a template migrated from package/XML checks alone.
+39 active templates. **1/39 configured candidates (Brief); 0/39 accepted migrations.** The foundation is implemented through Gate 4. [Feature coverage](brief-feature-coverage.md) separates mapped inputs and acceptance gaps. Do not mark a template migrated from package/XML checks alone.
 
 | Template      | Archetype           | Status                                   | Primitive                                                        | QA                                                          |
 | ------------- | ------------------- | ---------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------- |
-| `brief`       | Minimal             | Prototype; Gate 5 pending                | Native flow / tables / columns / paint / lists / custom elements | 61 automated render and LO roundtrip fixtures; Word pending |
+| `brief`       | Minimal             | Prototype; Gate 5 pending                | Native flow / tables / columns / paint / lists / custom elements | 71 automated render and LO roundtrip fixtures; Word pending |
 | `klassisch`   | Editorial           | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `modern`      | Graphic             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `freundlich`  | Organic / Editorial | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |

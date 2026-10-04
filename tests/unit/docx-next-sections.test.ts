@@ -30,7 +30,12 @@ describe("native flowing columns and physical section ownership", () => {
     expect(doc.match(/<w:sectPr>/g)).toHaveLength(5);
     expect(doc).toContain('w:num="3"');
     expect(doc).toContain('w:val="continuous"');
-    expect(doc.match(/<w:tbl>/g)).toBeNull();
+    // CV contact/reference tables are independent of the native letter columns.
+    const letterStart = doc.indexOf('w:tag w:val="letter.sender.');
+    const cvStart = doc.indexOf('w:tag w:val="cv.documentTitle"');
+    expect(letterStart).toBeGreaterThan(0);
+    expect(cvStart).toBeGreaterThan(letterStart);
+    expect(doc.slice(letterStart, cvStart)).not.toContain("<w:tbl>");
     expect(
       parts.filter((p) => /^word\/(?:cover|letter|cv)-(?:header|footer)\.xml$/.test(p.name)),
     ).toHaveLength(6);

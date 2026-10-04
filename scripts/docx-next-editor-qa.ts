@@ -111,6 +111,13 @@ try {
   const fixture = briefFixture("repeated-values");
   fixture.cv.design.font = "times";
   fixture.letter.design.font = "times";
+  Object.assign(fixture.cv.design, {
+    personalInfoAligned: true,
+    sectionTitleOffsetMm: 3,
+    sectionContentIndentMm: 5,
+    sectionTitlePill: true,
+  });
+  fixture.cv.data.referencesSideBySide = true;
   const chromeInput = briefChromeFixture();
   fixture.cv.design.chromeContent = chromeInput.cv.design.chromeContent;
   fixture.cv.design.useElements = true;
@@ -158,6 +165,7 @@ try {
       keys: string[];
     }) => {
       localStorage.clear();
+      localStorage.setItem("lebenslauf:section-gap:v1", "6");
       [cover, cv, letter, chrome].forEach((value, index) =>
         localStorage.setItem(keys[index], JSON.stringify(value)),
       );
@@ -374,6 +382,17 @@ try {
     if (snapshot.settings.unresolvedTypography.length)
       throw new Error("Fresh semantic styles became unresolved after JSON save");
     const model = modelModule.buildDossierDocModel(snapshot);
+    const contactSection = model.cv.blocks.find((block) => block.id === "cv.section.person");
+    if (
+      snapshot.settings.cvSectionGapMm !== 6 ||
+      contactSection?.kind !== "section" ||
+      contactSection.contentIndentMm !== 5 ||
+      contactSection.heading?.indentMm !== 3 ||
+      contactSection.heading.beforeMm !== 6 ||
+      !contactSection.heading.runs[0].style.backgroundColor ||
+      restored.cv?.portableState?.sectionGapMm !== 6
+    )
+      throw new Error("Portable JSON/canonical model lost CV presentation settings");
     const subject = model.letter.blocks.find((block) => block.id === "letter.subject");
     const cvName = model.cv.blocks.find((block) => block.id === "cv.person.name");
     if (

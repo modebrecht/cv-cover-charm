@@ -1,6 +1,6 @@
 # DOCX Next developer guide
 
-The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. Brief is the only configured Next template; **no template is yet accepted as migrated**.
+The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **1/39 configured candidates (Brief); 0/39 Word-accepted migrations.** [Brief coverage](brief-feature-coverage.md) records mapped inputs and outstanding acceptance work.
 
 ## Read the pipeline
 
@@ -37,6 +37,8 @@ Brief uses native header/footer distances of 16/12 mm at zero offset. Header off
 Recipient offsets use a native flowing spacer before the known recipient group: 12 mm plus the selected −12…+12 mm offset. A zero-height or absent recipient needs no spacer. This moves following letter content naturally. These Word-oriented baselines intentionally differ from browser CSS transforms; no negative page distances, floating text boxes or fixed-height text clipping are used.
 
 ## Typography and native lists
+
+CV presentation resolves before XML. The shared rubric resolver supplies heading offsets and body indents; snapshots capture the portable section-gap setting once. Badges use native run shading. Full rules use paragraph borders; short rules use a semantic rule block with length, relative indent and `keepNext`. Sections indent native paragraphs and tables. Contact pairs and personal values use separate grids, while full-width references use paired splittable rows. Empty data/chrome-owned fields are removed from known cells before rendering.
 
 Cover casing, tracking and line height are model data. Uppercase uses native Word run formatting and keeps the original user text editable. Cover tracking converts em values to points using the resolved font size; an explicit semantic point override takes priority. Rich segments retain their field identity, emphasis and color. Paragraph line spacing transfers directly without browser measurements.
 

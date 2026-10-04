@@ -1,5 +1,7 @@
 # Microsoft Word smoke acceptance
 
+Presentation cases: open `layout-contact-aligned`, `layout-references-paired`, `layout-references-stacked`, `layout-rubrics-short`, `layout-letter-rules` and `layout-settings-long`. Edit an aligned value and a paired reference, add/delete an entry, then save/reopen. Verify the odd reference stays left, long rows reflow, short rules stay with headings, badges remain editable text, indents remain within the page and removing contact data leaves no empty decoration. Candidate PDFs are review aids, not approved Word references.
+
 Status: **PENDING**. No Windows/macOS Microsoft Word environment was available during this checkpoint. LibreOffice output is automated evidence only.
 
 Record application version, OS, fixture name, tester and date for each result.

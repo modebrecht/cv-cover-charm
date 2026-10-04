@@ -175,15 +175,98 @@ def check_semantic_text(document, fixture):
         assert any(variant in full_text or variant in body_text for variant in text_variants(text)), f'{key}: missing rendered text {str(text)[:100]}'
 
 
+def check_entry_attachment(document, fixture):
+    start = 0
+    for part in fixture['parts']:
+        pages = document[start:start + part['expectedPages']]
+        for probe in part.get('entryProbes', []):
+            titles = [(page, box) for page in pages for box in page.search_for(probe['title'])]
+            # Repeated user values cannot identify one QA entry. Unique fixture
+            # probes measure output only; renderer identity never uses this.
+            if len(titles) != 1:
+                continue
+            page, title = titles[0]
+            descriptions = page.search_for(probe['descriptionStart'])
+            assert any(title.y0 < box.y0 < title.y1 + 60 for box in descriptions), f'{fixture["fixture"]}: entry description detached from {probe["title"]}'
+        start += part['expectedPages']
+
+
 def render(file, folder, format='pdf'):
     folder.mkdir(exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='docx-next-lo-') as profile:
-        command = ['soffice', '-env:UserInstallation=' + Path(profile).as_uri(), '--headless', '--norestore', '--convert-to', format, '--outdir', str(folder), str(file)]
+    result_file = folder / (file.stem + ('.pdf' if format == 'pdf' else '.docx'))
+    assert result_file.resolve() != file.resolve(), 'QA must never overwrite its source'
+    # Isolate converter output as well as the user profile. Existing render
+    # evidence must not affect export or be mistaken for a fresh successful file.
+    with tempfile.TemporaryDirectory(prefix='docx-next-lo-') as profile, tempfile.TemporaryDirectory(prefix='docx-next-convert-') as output:
+        command = ['soffice', '-env:UserInstallation=' + Path(profile).as_uri(), '--invisible', '--headless', '--norestore', '--convert-to', format, '--outdir', output, str(file.resolve())]
         result = subprocess.run(command, capture_output=True, text=True, timeout=90)
         assert result.returncode == 0 and not re.search(r'error|warning', result.stderr, re.I), result.stdout + result.stderr
-    result_file = folder / (file.stem + ('.pdf' if format == 'pdf' else '.docx'))
+        converted = Path(output) / result_file.name
+        assert converted.is_file(), f'LibreOffice produced no new {format}'
+        converted.replace(result_file)
     assert result_file.is_file(), f'LibreOffice produced no {format} output'
     return result_file
+
+
+def check_presentation(document, fixture):
+    key = fixture['fixture']
+    if not key.startswith('layout-'):
+        return
+    cv = document[2:]
+    def locate(text):
+        matches = [(index, box) for index, page in enumerate(cv) for box in page.search_for(text)]
+        assert len(matches) == 1, f'{key}: missing/ambiguous presentation probe {text}'
+        return matches[0]
+    values = [locate(text) for text in ['14.03.1990', 'Geburtsort Zürich', 'Heimatort Bern', 'Nationalität Schweiz']]
+    xs = [box.x0 for _, box in values]
+    if key == 'layout-contact-plain':
+        assert max(xs) - min(xs) > 10, f'{key}: plain values unexpectedly aligned'
+    else:
+        assert max(xs) - min(xs) < 1, f'{key}: aligned value column drifted'
+    references = [locate('Referenz ' + value) for value in ['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon']]
+    if key == 'layout-references-stacked':
+        assert max(box.x0 for _, box in references) - min(box.x0 for _, box in references) < 1
+        assert all((a[0], a[1].y0) < (b[0], b[1].y0) for a, b in zip(references, references[1:])), f'{key}: stacked reference order lost'
+    elif key != 'layout-settings-long':
+        for left, right in [references[:2], references[2:4]]:
+            assert left[0] == right[0] and abs(left[1].y0 - right[1].y0) < 1, f'{key}: paired reference rows drifted'
+            assert right[1].x0 - left[1].x0 > 180, f'{key}: paired widths lost'
+        assert references[-1][1].x0 == references[0][1].x0, f'{key}: odd reference moved to right cell'
+    if key in ['layout-rubrics-positive', 'layout-rubrics-short']:
+        assert any(path['fill'] and path['rect'].width > 20 for page in cv for path in page.get_drawings()), f'{key}: native heading badge missing'
+    if key == 'layout-rubrics-short':
+        rules = [path['rect'] for page in cv for path in page.get_drawings() if path['color'] and path['rect'].height < 1 and abs(path['rect'].width - 18 * 72 / 25.4) < 1]
+        assert len(rules) >= 3, f'{key}: short native rules missing'
+    if key == 'layout-letter-rules':
+        lines = {(round(path['rect'].x0), round(path['rect'].y0)) for path in document[1].get_drawings() if path['color'] and path['rect'].height < 1 and path['rect'].width > 400}
+        assert len(lines) == 3, f'{key}: sender/recipient/subject separator lost'
+
+
+def check_presentation_offsets(directory, roundtrip):
+    keys = ['layout-contact-aligned', 'layout-rubrics-positive', 'layout-rubrics-negative']
+    def values(key, reopened):
+        folder = directory / (key + '-qa')
+        if reopened:
+            folder /= 'roundtrip-pdf'
+        file = folder / (key + '.pdf')
+        if not file.exists():
+            return None
+        with fitz.open(file) as document:
+            page = document[2]
+            # Largest Kontakt occurrence is the semantic heading, not contact values.
+            heading = max(page.search_for('Kontakt'), key=lambda box: box.height)
+            return heading, page.search_for('14.03.1990')[0]
+    for reopened in ([False, True] if roundtrip else [False]):
+        probes = [values(key, reopened) for key in keys]
+        if any(probe is None for probe in probes):
+            continue
+        baseline, positive, negative = probes
+        mm = 72 / 25.4
+        assert abs(positive[0].x0 - baseline[0].x0 - 6 * mm) < 1, 'Positive native heading offset lost'
+        assert abs(negative[0].x0 - baseline[0].x0 + 6 * mm) < 1, 'Negative native heading offset lost'
+        # Value table shrinks with indent, so a 30% label column moves by 70% of it.
+        assert abs(positive[1].x0 - baseline[1].x0 - 12 * mm * .7) < 1, 'Native content indent lost'
+        assert positive[0].y0 > negative[0].y0 + 20, 'Native section gap lost'
 
 
 def check_custom_footers(document, key):
@@ -402,16 +485,18 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv') or key.startswith('columns-long'):
+    if key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long'):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key not in ['custom-sections', 'cover-long-list', 'elements-long', 'fonts-long-letter', 'fonts-long-cv']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
     check_semantic_text(document, fixture)
+    check_entry_attachment(document, fixture)
     check_fonts(document, fixture)
     check_custom_footers(document, key)
     check_artwork(document, fixture)
     check_cover_features(document, fixture)
     check_element_features(document, fixture)
+    check_presentation(document, fixture)
     if key.startswith('columns-'):
         check_columns(document, fixture)
     image_occurrences = 0
@@ -475,10 +560,12 @@ for fixture in manifest:
         with fitz.open(reopened_pdf) as reopened:
             assert len(reopened) == len(document), f'{key}: save/reopen changed pagination'
             check_semantic_text(reopened, fixture)
+            check_entry_attachment(reopened, fixture)
             check_custom_footers(reopened, key)
             check_artwork(reopened, fixture)
             check_cover_features(reopened, fixture)
             check_element_features(reopened, fixture)
+            check_presentation(reopened, fixture)
             check_fonts(reopened, fixture)
             if key.startswith('columns-'):
                 check_columns(reopened, fixture)
@@ -488,6 +575,7 @@ for fixture in manifest:
     document.close()
 check_offset_distances(manifest, args.directory, args.roundtrip)
 check_cover_spacing(args.directory, args.roundtrip)
+check_presentation_offsets(args.directory, args.roundtrip)
 report_path = args.directory / 'render-report.json'
 previous = json.loads(report_path.read_text()) if report_path.exists() else []
 combined = {row['fixture']: row for row in previous}

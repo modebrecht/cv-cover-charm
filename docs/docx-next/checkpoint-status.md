@@ -1,6 +1,6 @@
 # DOCX Next checkpoint — 2026-10-04
 
-This is a continued reference implementation, **not the completed rebuild**. The latest continuation started from freshly fetched `dev` commit `b63a0af89b683fc4b5cfd0b1970343cd92c59ef6`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
+This is a continued reference implementation, **not the completed rebuild**. Progress: **1/39 configured candidates (Brief), 0/39 Word-accepted migrations**. The independent foundation is implemented through Gate 4; [Brief coverage](brief-feature-coverage.md) records the remaining inputs and acceptance work. The latest continuation started from freshly fetched `dev` commit `d00836227867dfd182328b1853ee2e8a0d77135f`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
 
 ## Architecture evidence
 
@@ -11,25 +11,25 @@ This is a continued reference implementation, **not the completed rebuild**. The
 
 ## Automated validation
 
-| Check                                                                                                  | Result                                                                                       |
-| ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
-| Full unit suite                                                                                        | 793 passed, 0 failed; 172 files (Bun `--isolate`)                                            |
-| Next model/package tests                                                                               | 91 passed, including editor identity, geometry, deterministic models and dependency boundary |
-| Typecheck                                                                                              | Passed                                                                                       |
-| ESLint                                                                                                 | 0 errors; 21 existing warnings                                                               |
-| Production build                                                                                       | Passed                                                                                       |
-| Independent Brief fixtures                                                                             | 61 generated; 307 rendered pages                                                             |
-| ZIP CRC, XML, required parts/content types/relationships, planned physical sections                    | All 61 passed                                                                                |
-| LibreOffice conversion, expected page count, text/media preservation, blank pages, text bounds/overlap | All 61 passed                                                                                |
-| Browser image normalization                                                                            | Transparent PNG, RGB/ICC/CMYK/EXIF/large JPEG; corrupt-input failure passed                  |
-| LibreOffice save/reopen                                                                                | All 61 fixtures saved as DOCX and reopened; package/text/page-count/column checks passed     |
-| Microsoft Word open/edit/save/reopen                                                                   | **Pending**; no Windows/macOS Word environment available                                     |
-| Approved visual snapshots                                                                              | **Pending**; generated images are candidates                                                 |
-| Modern/sidebar fixture and 39-template Next gallery                                                    | **Pending**; intentionally blocked before those migration gates                              |
+| Check                                                                                                  | Result                                                                                        |
+| ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| Full unit suite                                                                                        | 803 passed, 0 failed; 173 files (Bun `--isolate`)                                             |
+| Next model/package tests                                                                               | 101 passed, including editor identity, geometry, deterministic models and dependency boundary |
+| Typecheck                                                                                              | Passed                                                                                        |
+| ESLint                                                                                                 | 0 errors; 21 existing warnings                                                                |
+| Production build                                                                                       | Passed                                                                                        |
+| Independent Brief fixtures                                                                             | 71 generated; 358 rendered pages                                                              |
+| ZIP CRC, XML, required parts/content types/relationships, planned physical sections                    | All 71 passed                                                                                 |
+| LibreOffice conversion, expected page count, text/media preservation, blank pages, text bounds/overlap | All 71 passed                                                                                 |
+| Browser image normalization                                                                            | Transparent PNG, RGB/ICC/CMYK/EXIF/large JPEG; corrupt-input failure passed                   |
+| LibreOffice save/reopen                                                                                | All 71 fixtures saved as DOCX and reopened; package/text/page-count/column checks passed      |
+| Microsoft Word open/edit/save/reopen                                                                   | **Pending**; no Windows/macOS Word environment available                                      |
+| Approved visual snapshots                                                                              | **Pending**; generated images are candidates                                                  |
+| Modern/sidebar fixture and 39-template Next gallery                                                    | **Pending**; intentionally blocked before those migration gates                               |
 
 The reference render used LibreOfficeDev `26.8.0.0.alpha0` and Chromium `153`. Stable LibreOffice and Microsoft Word results must also be recorded before acceptance. Synthetic profile/orientation fixtures do not establish behavior for an unavailable original problematic user JPEG.
 
-The fixture set includes minimal/normal content, 70 letter paragraphs, 65 CV entries, long values, no photo, repeated values, absent optional content, 12 custom sections, six image inputs, first/continuation chrome, half-width sections, rich native letter blocks, nested/ragged tables, all four list markers, left/right/free letter images and seven native CV photo placement/frame/crop cases, including long-name and 65-entry CV combinations, plus five native column-flow cases and two repeated-value custom chrome cases. The latter include two/three columns, long flow and first/continuation chrome. Minimal/empty dossiers have 3 pages; ordinary fixtures 4; custom sections 5; long letter 12 and long CV 11. These counts are candidate QA expectations, not approved Word snapshots.
+The fixture set includes minimal/normal content, 70 letter paragraphs, 65 CV entries, long values, no photo, repeated values, absent optional content, 12 custom sections, six image inputs, first/continuation chrome, half-width sections, rich native letter blocks, nested/ragged tables, all four list markers, left/right/free letter images and seven native CV photo placement/frame/crop cases, including long-name and 65-entry CV combinations, plus five native column-flow cases and two repeated-value custom chrome cases. The latter include two/three columns, long flow and first/continuation chrome. Minimal/empty dossiers have 3 pages; ordinary fixtures 4; custom sections 5; long letter 12 and long CV 12. These counts are candidate QA expectations, not approved Word snapshots.
 
 Representative cover, letter, continuation CV, chrome, half-width, long-value, rich-text and photo pages were visually inspected. Real rendering exposed overlapping nested container controls and shifted separate picture anchors; those were fixed in the generic renderer, not by patching exported XML.
 
@@ -116,3 +116,13 @@ Five new fixtures cover mixed fonts, eight unavailable primary faces, long lette
 All 793 isolated unit tests and 91 targeted Next tests pass; typecheck/build pass, lint has 0 errors/21 existing warnings. The real browser editor/JSON/Next smoke and production combined PDF download pass. All pages of the five new font fixtures and the final editor Next/PDF exports were inspected. Production PDF still uses its existing mixed text/image export policy; user-positioned cover elements may overlap existing cover content, as before this isolated Next change.
 
 The QA engine is LibreOfficeDev 26.8 alpha, not a stable release. Windows/macOS Word, installed/unavailable-font editing behavior and approved snapshots remain pending; Gates 5/6 stay open and 0/39 migrations are accepted. No new template, sidebar, switchover, legacy deletion, deployment or branch promotion was enabled.
+
+## Continued checkpoint from `d008362`
+
+Brief now maps aligned personal information, colons, paired references, shared rubric offsets/body indents/badges, the portable section gap and three letter separator toggles. All use native paragraphs, runs and tables through the existing single renderer. Known chrome-owned contact fields are pruned from aligned cells before XML, including empty tables/orphan rules. Short heading rules are a generic semantic block aligned with the heading independently of the body indent. No template-specific renderer, XML patch or legacy dependency was added.
+
+Visual inspection exposed short entry descriptions moving away from their metadata at a page boundary. Entry metadata now uses `keepNext` through the description start; the final paragraph remains splittable. Standard long-CV and photo-long-CV fixtures consequently use 12 pages rather than 11. The new combined settings fixture has 18 pages, and an oversized single-entry fixture has 6. Render QA checks description attachment before/after save/reopen, aligned values, paired/stacked references, offset/gap positions, native badges and rule lengths. Converter output and user profiles use isolated temporary directories; stale QA output cannot satisfy an export check.
+
+All 803 isolated unit tests and 101 Next tests pass. Typecheck/build pass; lint has 0 errors/21 existing warnings. All 71 independent fixtures pass structural/render/save-reopen checks across 358 pages. The actual browser verifies portable section-gap/presentation settings, semantic formatting, JSON load/save and independent export; its Next PDF has 5 pages and production PDF 4, with edited native CV/custom text retained. Representative final presentation, overflow and 65-entry/long-reference pages were visually inspected. A Word review pack contains four current DOCX files and candidate renderings (30 pages), plus the manual checklist and explicit coverage gaps.
+
+Microsoft Word, stable LibreOffice and approved snapshots remain pending. Alternate classic variants, continuation-only CV geometry, free positioning acceptance and anonymous historical field binding still need closure. Modern/sidebar and the other 38 templates are later gated work. Production stays on legacy DOCX until comparison/switchover succeeds; PDF and JSON remain functional. This checkpoint does not certify Gate 5/6 or a migrated template.

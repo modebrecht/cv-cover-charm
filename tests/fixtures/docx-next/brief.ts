@@ -21,6 +21,84 @@ export const BRIEF_FIXTURES = [
   "custom-sections",
 ] as const;
 export type BriefFixture = (typeof BRIEF_FIXTURES)[number];
+export const BRIEF_LAYOUT_FIXTURES = [
+  "contact-aligned",
+  "contact-plain",
+  "references-paired",
+  "references-stacked",
+  "rubrics-positive",
+  "rubrics-negative",
+  "rubrics-short",
+  "letter-rules",
+  "settings-long",
+  "entry-overflow",
+] as const;
+export function briefLayoutFixture(kind: (typeof BRIEF_LAYOUT_FIXTURES)[number]) {
+  const input = briefFixture(kind === "settings-long" ? "long-cv" : "minimal");
+  Object.assign(input.cv.data.person, {
+    adresse: "Kontaktstrasse 7",
+    plzOrt: "8000 Zürich",
+    telefon: "+41 44 123 45 67",
+    email: "kontakt@example.ch",
+    geburtsdatum: "14.03.1990",
+    geburtsort: "Geburtsort Zürich",
+    heimatort: "Heimatort Bern",
+    nationalitaet: "Nationalität Schweiz",
+  });
+  input.cv.design.personalInfoAligned = kind !== "contact-plain";
+  input.cv.data.referencesSideBySide = kind !== "references-stacked";
+  input.cv.data.referenzen = Array.from({ length: 5 }, (_, index) => ({
+    id: `layout-reference-${index}`,
+    name: `Referenz ${["Alpha", "Beta", "Gamma", "Delta", "Epsilon"][index]}`,
+    funktion: "Ausbildungsleitung",
+    kontakt: "+41 44 987 65 43",
+    email: `referenz${index}@example.ch`,
+    zusatz:
+      kind === "settings-long"
+        ? "Langtext mit editierbaren Referenzangaben. ".repeat(55)
+        : "Auf Anfrage",
+  }));
+  input.cv.data.customSections = [
+    {
+      id: "layout-custom",
+      title: "Eigene Rubrik",
+      entries: [
+        {
+          id: "layout-entry",
+          zeit: "2024–2026",
+          titel: "Eigener Eintrag",
+          ort: "Zürich",
+          beschreibung: "Eigene Beschreibung mit ä ö ü Ä Ö Ü é è à – — ·",
+        },
+      ],
+    },
+  ];
+  if (kind === "entry-overflow")
+    input.cv.data.schule = [
+      {
+        id: "overflow",
+        zeit: "2020–2026",
+        titel: "Mehrseitiger Eintrag",
+        ort: "Zürich",
+        beschreibung: "Lange editierbare Beschreibung mit Projekten und Aufgaben. ".repeat(200),
+      },
+    ];
+  if (kind.startsWith("rubrics-") || kind === "settings-long") {
+    input.cv.design.sectionTitleOffsetMm = kind === "rubrics-negative" ? -6 : 6;
+    input.cv.design.sectionContentIndentMm = kind === "rubrics-negative" ? 0 : 12;
+    input.cv.design.sectionTitlePill = kind !== "rubrics-negative";
+    input.cv.design.headingRule = kind === "rubrics-short" ? "short" : "full";
+    input.settings.cvSectionGapMm = kind === "rubrics-negative" ? 0 : 12;
+  }
+  if (kind === "letter-rules") {
+    Object.assign(input.letter.design, {
+      ruleAfterSender: true,
+      ruleAfterRecipient: true,
+      ruleAfterSubject: true,
+    });
+  }
+  return input;
+}
 export function briefFontsFixture(
   kind: "mixed" | "unavailable" | "long-letter" | "long-cv" | "offline",
 ) {

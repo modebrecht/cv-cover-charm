@@ -98,7 +98,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         if (
           ![block.beforeMm, block.afterMm, block.lineHeight].every(Number.isFinite) ||
           Math.min(block.beforeMm, block.afterMm) < 0 ||
-          block.lineHeight <= 0
+          block.lineHeight <= 0 ||
+          (block.indentMm !== undefined &&
+            (!Number.isFinite(block.indentMm) ||
+              block.indentMm < -margins.left ||
+              block.indentMm >= part.page.widthMm - margins.left - margins.right - 10))
         )
           throw new Error(`DOCX Next invalid paragraph geometry ${block.id}`);
         for (const run of block.runs) {
@@ -106,6 +110,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
             !Number.isFinite(run.style.sizePt) ||
             run.style.sizePt <= 0 ||
             !/^[0-9A-F]{6}$/.test(run.style.color) ||
+            (run.style.backgroundColor !== undefined &&
+              !/^[0-9A-F]{6}$/.test(run.style.backgroundColor)) ||
             (run.style.allCaps !== undefined && typeof run.style.allCaps !== "boolean") ||
             (run.style.trackingPt !== undefined &&
               (!Number.isFinite(run.style.trackingPt) ||
@@ -114,6 +120,24 @@ export function validateDossierDocModel(model: DossierDocModel): void {
             throw new Error(`DOCX Next invalid typography ${run.id}`);
         }
       }
+      if (
+        block.kind === "section" &&
+        block.contentIndentMm !== undefined &&
+        (!Number.isFinite(block.contentIndentMm) ||
+          block.contentIndentMm < 0 ||
+          block.contentIndentMm > 12)
+      )
+        throw new Error(`DOCX Next invalid section indentation ${block.id}`);
+      if (
+        block.kind === "rule" &&
+        (!/^[0-9A-F]{6}$/.test(block.color) ||
+          ![block.lengthMm, block.afterMm].every(Number.isFinite) ||
+          block.lengthMm <= 0 ||
+          block.afterMm < 0 ||
+          (block.indentMm !== undefined &&
+            (!Number.isFinite(block.indentMm) || Math.abs(block.indentMm) > part.page.widthMm)))
+      )
+        throw new Error(`DOCX Next invalid rule geometry ${block.id}`);
       if (
         block.kind === "image" &&
         (![block.widthMm, block.maxHeightMm, block.xMm, block.yMm, block.gapMm].every(

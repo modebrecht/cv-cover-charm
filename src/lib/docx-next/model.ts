@@ -10,6 +10,8 @@ export type TextStyle = {
   /** Formatting only: preserve the original editable text. */
   allCaps?: boolean;
   trackingPt?: number;
+  /** Native editable run shading, used for Word-oriented heading badges. */
+  backgroundColor?: string;
 };
 export type Alignment = "left" | "center" | "right" | "justify";
 export const SEMANTIC_LIST_KINDS = ["bullet", "number", "dash", "plus", "dot"] as const;
@@ -28,6 +30,7 @@ export type Paragraph = {
   list?: (typeof SEMANTIC_LIST_KINDS)[number];
   listGroupId?: string;
   ruleColor?: string;
+  indentMm?: number;
 };
 export type ImageBlock = {
   kind: "image";
@@ -61,6 +64,7 @@ export type SectionBlock = {
   placement: "main" | "side";
   width: "full" | "half";
   startPage: 1 | 2;
+  contentIndentMm?: number;
 };
 export type TableBlock = {
   kind: "table";
@@ -119,6 +123,15 @@ export type DocBlock =
   | { kind: "columns"; id: string; columns: DocBlock[][]; widths: number[] }
   | { kind: "column-flow"; id: string; count: 2 | 3; gapMm: number; blocks: DocBlock[] }
   | { kind: "spacer"; id: string; heightMm: number }
+  | {
+      kind: "rule";
+      id: string;
+      color: string;
+      lengthMm: number;
+      afterMm: number;
+      keepNext: boolean;
+      indentMm?: number;
+    }
   | { kind: "page-break"; id: string };
 export type PageMargins = { top: number; right: number; bottom: number; left: number };
 /** Nonsemantic paint only. Geometry is page-relative; user text never enters an asset. */

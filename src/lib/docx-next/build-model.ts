@@ -22,6 +22,7 @@ import {
   type CvPlacements,
 } from "@/components/cv/types";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
+import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
 import { coverAttachmentValues, TEMPLATES } from "@/components/cover/types";
 import { buildCustomBlocks } from "@/components/cover/layouts";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
@@ -63,6 +64,7 @@ export type DossierAppSnapshot = {
     sidebarSide?: "left" | "right";
     placements?: Partial<CvPlacements>;
     cvAlignment?: Alignment;
+    cvSectionGapMm?: number | null;
     cvPhotoStyle?: DossierPhotoStyle;
     cvPhotoPlacement?: CvPhotoPlacement;
     /** Canonical paths only; no visible-value or occurrence matching. */
@@ -313,6 +315,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   const ld = letter.data,
     design = letter.design;
   const letterInk = color(design.textColor ?? design.colors.ink, theme.ink);
+  const letterAccent = color(design.colors.accent, theme.accent);
   const role = (key: "sender" | "recipient" | "subject"): Partial<TextStyle> => {
     const value = design[`${key}Typography`];
     return {
@@ -338,6 +341,10 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         align: alignment,
         keepNext: index < values.length - 1,
         afterMm: index === values.length - 1 ? 5 : 0.5,
+        ...(index === values.length - 1 &&
+        (prefix === "sender" ? design.ruleAfterSender : design.ruleAfterRecipient)
+          ? { ruleColor: letterAccent }
+          : {}),
       }),
     );
   };
@@ -393,7 +400,12 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         "letter.subject",
         ld.betreff,
         { bold: true, ...role("subject") },
-        { role: "heading", keepNext: true, afterMm: 5 },
+        {
+          role: "heading",
+          keepNext: true,
+          afterMm: 5,
+          ...(design.ruleAfterSubject ? { ruleColor: letterAccent } : {}),
+        },
       ),
     );
   if (ld.anrede)
@@ -486,6 +498,11 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   const cvInk = color(cd.colors.ink, theme.ink),
     cvAccent = color(cd.colors.accent ?? cd.colors.primary, theme.accent);
   const body = { sizePt: template.typography.bodyPt * (cd.bodyScale ?? 1), color: cvInk };
+  const rubric = resolveCvRubricOptions(cd);
+  const sectionGapMm =
+    typeof settings.cvSectionGapMm === "number" && Number.isFinite(settings.cvSectionGapMm)
+      ? Math.max(0, Math.min(12, settings.cvSectionGapMm))
+      : template.cv.sectionSpaceMm;
   const heading = (id: string, text: string) =>
     p(
       id,
@@ -502,7 +519,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       },
       {
         role: "heading",
-        beforeMm: template.cv.sectionSpaceMm,
+        beforeMm: sectionGapMm,
         afterMm: ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
         keepNext: true,
         keepLines: true,
@@ -605,7 +622,9 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
                 key === "description" || key === "place"
                   ? (settings.cvAlignment ?? "left")
                   : "left",
-              keepNext: index < Math.min(2, fields.length - 1),
+              // Keep entry metadata with the start of its description. The final
+              // paragraph still has keepLines=false so long descriptions flow.
+              keepNext: index < fields.length - 1,
               afterMm: index === fields.length - 1 ? 3 : 0.5,
             },
           ),
@@ -634,6 +653,65 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           ),
         ),
       );
+      if (cd.personalInfoAligned !== false) {
+        const contactPairs = [
+          ["address", "place"],
+          ["phone", "email"],
+        ]
+          .map((pair) =>
+            pair
+              .map((field) => blocks.find((block) => block.id === `cv.person.${field}`))
+              .map((block) => (block ? [block] : [])),
+          )
+          .filter((cells) => cells.some((cell) => cell.length));
+        const details = cvPersonalInfoRows(person).map((row) => [
+          [
+            p(
+              `cv.person.${row.key}.label`,
+              row.label + (cd.personalInfoColons === false ? "" : ":"),
+              body,
+            ),
+          ],
+          [p(`cv.person.${row.key}`, row.value, body)],
+        ]);
+        blocks = [
+          ...(contactPairs.length
+            ? [
+                {
+                  kind: "table" as const,
+                  id: "cv.person.contact",
+                  widths: [1, 1],
+                  rows: contactPairs.map((cells) => ({ cells, keepTogether: false })),
+                  decoration: {
+                    borderColor: cvAccent,
+                    borderWidthMm: 0,
+                    paddingXMm: 1.25,
+                    paddingYMm: 0,
+                  },
+                },
+              ]
+            : []),
+          ...(details.length
+            ? [
+                {
+                  kind: "table" as const,
+                  id: "cv.person.details",
+                  widths: [0.3, 0.7],
+                  rows: details.map((cells) => ({
+                    cells,
+                    keepTogether: false,
+                  })),
+                  decoration: {
+                    borderColor: cvAccent,
+                    borderWidthMm: 0,
+                    paddingXMm: 1.25,
+                    paddingYMm: 0,
+                  },
+                },
+              ]
+            : []),
+        ];
+      }
     } else if (isCustomSectionKey(key)) {
       const section = customSectionForKey(data, key);
       if (!section) continue;
@@ -690,6 +768,18 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     }
     if (!blocks.length) continue;
     const layout = cvSectionLayout(data, key);
+    if (key === "referenzen" && data.referencesSideBySide !== false && layout.width === "full") {
+      blocks = Array.from({ length: Math.ceil(blocks.length / 2) }, (_, index) => {
+        const pair = blocks.slice(index * 2, index * 2 + 2);
+        return {
+          kind: "table",
+          id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
+          widths: [1, 1],
+          rows: [{ cells: [pair.slice(0, 1), pair.slice(1)], keepTogether: false }],
+          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 3, paddingYMm: 0 },
+        };
+      });
+    }
     if (layout.positioning === "free")
       issues.push({
         code: "free-section-converted-to-flow",
@@ -697,14 +787,49 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         message:
           "Word CV sections flow to preserve editing; absolute section positioning requires explicit acceptance.",
       });
+    const sectionHeading = heading(`cv.section.${key}.heading`, title);
+    sectionHeading.indentMm =
+      layout.width === "half" ? Math.max(0, rubric.horizontalMm) : rubric.horizontalMm;
+    if (rubric.pill) {
+      for (const run of sectionHeading.runs) {
+        const ink = run.style.color;
+        const paper = color(cd.paperColor, "FFFFFF");
+        run.style.backgroundColor = [0, 2, 4]
+          .map((offset) =>
+            Math.round(
+              parseInt(ink.slice(offset, offset + 2), 16) * 0.14 +
+                parseInt(paper.slice(offset, offset + 2), 16) * 0.86,
+            )
+              .toString(16)
+              .padStart(2, "0"),
+          )
+          .join("")
+          .toUpperCase();
+      }
+    }
+    if (cd.headingRule === "short") {
+      const afterMm = sectionHeading.afterMm;
+      sectionHeading.afterMm = 0;
+      delete sectionHeading.ruleColor;
+      blocks.unshift({
+        kind: "rule",
+        id: `${sectionHeading.id}.rule`,
+        color: cvAccent,
+        lengthMm: 18,
+        afterMm,
+        keepNext: true,
+        indentMm: (sectionHeading.indentMm ?? 0) - rubric.contentIndentMm,
+      });
+    }
     cvPart.blocks.push({
       kind: "section",
       id: `cv.section.${key}`,
-      heading: heading(`cv.section.${key}.heading`, title),
+      heading: sectionHeading,
       blocks,
       placement: settings.placements?.[key === "person" ? "kontakt" : key] ?? "main",
       width: layout.width,
       startPage: layout.page,
+      contentIndentMm: rubric.contentIndentMm,
     });
   }
   if (cv.design.useElements) {
@@ -933,8 +1058,20 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           coverField("cv.person.email", options.headerShowEmail, person.email, contact.email);
           target.blocks = target.blocks.flatMap((block) => {
             if (block.kind !== "section" || block.id !== "cv.section.person") return [block];
-            const remaining = block.blocks.filter((child) => !coveredIds.has(child.id));
-            return remaining.length ? [{ ...block, blocks: remaining }] : [];
+            const remaining = block.blocks.flatMap<DocBlock>((child) => {
+              if (coveredIds.has(child.id)) return [];
+              if (child.kind !== "table") return [child];
+              const rows = child.rows
+                .map((row) => ({
+                  ...row,
+                  cells: row.cells.map((cell) => cell.filter((field) => !coveredIds.has(field.id))),
+                }))
+                .filter((row) => row.cells.some((cell) => cell.length));
+              return rows.length ? [{ ...child, rows }] : [];
+            });
+            return remaining.some((child) => child.kind !== "rule")
+              ? [{ ...block, blocks: remaining }]
+              : [];
           });
         }
       }

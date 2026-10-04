@@ -5,7 +5,11 @@ import type {
 } from "@/lib/dossier-pdf-document";
 import { getDossierChromeState } from "@/lib/dossier-chrome";
 import { getDossierPageMarginsState } from "@/lib/dossier-page-margins";
-import { getCvLayoutChoiceForTemplate, getCvInfoPosition } from "@/components/cv/layout";
+import {
+  getCvLayoutChoiceForTemplate,
+  getCvInfoPosition,
+  getCvSectionGapMm,
+} from "@/components/cv/layout";
 import { getCvPlacements } from "@/components/cv/placement";
 import { getCvTextAlignment } from "@/components/cv/text-alignment";
 import { getCvPhotoStyle } from "@/components/cv/photo";
@@ -50,6 +54,7 @@ export function captureDossierDocxNextSnapshot(
       sidebarSide: getCvInfoPosition() === "mirrored" ? "right" : "left",
       placements: getCvPlacements(),
       cvAlignment: getCvTextAlignment(),
+      cvSectionGapMm: getCvSectionGapMm(),
       cvPhotoStyle: getCvPhotoStyle(),
       cvPhotoPlacement: getCvPhotoPlacement(),
       fieldStyles,

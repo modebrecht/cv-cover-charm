@@ -145,3 +145,5 @@ The 88-module table above remains the historical production/legacy baseline. New
 | `docx-next/artwork.ts`    | KEEP        | Deterministic nonsemantic paint assets; no user text or package repair                 |
 
 Cover and rich-letter model builders own semantic list identity. The renderer consumes known counters and styles directly; no legacy dependency or visible-text matching is introduced.
+
+The Brief presentation continuation reuses `model.ts` (`rule`, shading, indentation), `build-model.ts`, `snapshot.ts`, `renderer.ts` and `validation.ts`; their KEEP/ADAPT classification is unchanged. `docx-next-layout-settings.test.ts` is KEEP for semantic settings, contact ownership, native geometry and pagination regression. The existing rendered QA now measures presentation coordinates and entry attachment through save/reopen; no post-render mutation was introduced.

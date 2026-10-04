@@ -36,7 +36,7 @@ function control(id: string, content: string) {
   return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
 }
 function runProperties(style: TextRun["style"]): string {
-  return `<w:rPr><w:rFonts w:ascii="${xml(style.font)}" w:hAnsi="${xml(style.font)}"/><w:b w:val="${style.bold ? 1 : 0}"/><w:i w:val="${style.italic ? 1 : 0}"/>${style.allCaps !== undefined ? `<w:caps w:val="${style.allCaps ? 1 : 0}"/>` : ""}<w:color w:val="${xml(style.color)}"/>${style.trackingPt !== undefined ? `<w:spacing w:val="${Math.round(style.trackingPt * 20)}"/>` : ""}<w:sz w:val="${Math.round(style.sizePt * 2)}"/><w:szCs w:val="${Math.round(style.sizePt * 2)}"/><w:u w:val="${style.underline ? "single" : "none"}"/></w:rPr>`;
+  return `<w:rPr><w:rFonts w:ascii="${xml(style.font)}" w:hAnsi="${xml(style.font)}"/><w:b w:val="${style.bold ? 1 : 0}"/><w:i w:val="${style.italic ? 1 : 0}"/>${style.allCaps !== undefined ? `<w:caps w:val="${style.allCaps ? 1 : 0}"/>` : ""}<w:color w:val="${xml(style.color)}"/>${style.trackingPt !== undefined ? `<w:spacing w:val="${Math.round(style.trackingPt * 20)}"/>` : ""}<w:sz w:val="${Math.round(style.sizePt * 2)}"/><w:szCs w:val="${Math.round(style.sizePt * 2)}"/><w:u w:val="${style.underline ? "single" : "none"}"/>${style.backgroundColor ? `<w:shd w:val="clear" w:color="auto" w:fill="${style.backgroundColor}"/>` : ""}</w:rPr>`;
 }
 function run(value: TextRun): string {
   const tokens = value.text
@@ -59,7 +59,7 @@ function paragraph(value: Paragraph, drawingRuns = "", numberingId?: number): st
     ? `<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="2" w:color="${xml(value.ruleColor)}"/></w:pBdr>`
     : "";
   // Follow schema ordering (numPr, borders/shading, spacing, alignment) for Word compatibility.
-  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/><w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numberingId}"/></w:numPr>` : ""}${rule}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/><w:jc w:val="${value.align === "justify" ? "both" : value.align}"/>${value.list && value.runs[0] ? runProperties(value.runs[0].style) : ""}</w:pPr>`;
+  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/><w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numberingId}"/></w:numPr>` : ""}${rule}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/>${value.indentMm !== undefined ? `<w:ind w:left="${twips(value.indentMm)}"/>` : ""}<w:jc w:val="${value.align === "justify" ? "both" : value.align}"/>${value.list && value.runs[0] ? runProperties(value.runs[0].style) : ""}</w:pPr>`;
   return control(
     value.id,
     `<w:p>${props}${drawingRuns}${value.runs.map(run).join("") || "<w:r/>"}</w:p>`,
@@ -86,8 +86,12 @@ export async function renderDossierDocx(
     );
   validateDossierDocModel(model);
   const numbering = planNumbering(model);
-  const renderParagraph = (value: Paragraph, drawings = "") =>
-    paragraph(value, drawings, numbering.ids.get(value.id));
+  const renderParagraph = (value: Paragraph, drawings = "", indentMm = 0) =>
+    paragraph(
+      indentMm ? { ...value, indentMm: (value.indentMm ?? 0) + indentMm } : value,
+      drawings,
+      numbering.ids.get(value.id),
+    );
   const pkg = new WordPackage();
   const normalize = imageCache(options.normalizeImage ?? normalizeBrowserImage);
   const sources = new Map<string, { asset: NormalizedImage; rid: string; file: string }>();
@@ -260,8 +264,8 @@ export async function renderDossierDocx(
     );
   }
   function table(value: TableBlock, widthMm: number, page: DocumentPart["page"]): string {
-    const tableWidth = value.widthMm ?? widthMm;
-    if (tableWidth + (value.indentMm ?? 0) > widthMm + 0.001)
+    const tableWidth = value.widthMm ?? widthMm - (value.indentMm ?? 0);
+    if (tableWidth < 10 || tableWidth + (value.indentMm ?? 0) > widthMm + 0.001)
       throw new Error(`DOCX Next flow box exceeds available width ${value.id}`);
     const d = value.decoration;
     const paddingX = d?.paddingXMm ?? 2,
@@ -283,8 +287,13 @@ export async function renderDossierDocx(
     // A paragraph boundary keeps adjacent semantic tables independently editable.
     return `<w:tbl><w:tblPr><w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${border}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${emptyParagraph}`;
   }
-  function renderBlock(block: DocBlock, widthMm: number, page: DocumentPart["page"]): string {
-    if (block.kind === "paragraph") return renderParagraph(block);
+  function renderBlock(
+    block: DocBlock,
+    widthMm: number,
+    page: DocumentPart["page"],
+    indentMm = 0,
+  ): string {
+    if (block.kind === "paragraph") return renderParagraph(block, "", indentMm);
     if (block.kind === "image") return image(block, widthMm, page);
     if (block.kind === "decorative-shape")
       return emptyParagraphWithRuns(decorationRun(block, page));
@@ -294,23 +303,35 @@ export async function renderDossierDocx(
         `<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="${Math.max(1, twips(block.heightMm))}" w:lineRule="exact"/></w:pPr></w:p>`,
       );
     if (block.kind === "page-break") return pageBreak;
-    if (block.kind === "table") return table(block, widthMm, page);
+    if (block.kind === "rule") {
+      indentMm += block.indentMm ?? 0;
+      const length = Math.min(block.lengthMm, widthMm - indentMm);
+      if (length <= 0 || indentMm < -page.margins.left)
+        throw new Error(`DOCX Next rule outside content width ${block.id}`);
+      return control(
+        block.id,
+        `<w:p><w:pPr><w:keepNext w:val="${block.keepNext ? 1 : 0}"/><w:pBdr><w:bottom w:val="single" w:sz="4" w:space="0" w:color="${block.color}"/></w:pBdr><w:spacing w:after="${twips(block.afterMm)}" w:line="20" w:lineRule="exact"/><w:ind w:left="${twips(indentMm)}" w:right="${twips(widthMm - indentMm - length)}"/></w:pPr><w:r/></w:p>`,
+      );
+    }
+    if (block.kind === "table")
+      return table({ ...block, indentMm: (block.indentMm ?? 0) + indentMm }, widthMm, page);
     if (block.kind === "columns")
       return table(
         {
           kind: "table",
           id: block.id,
           widths: block.widths,
+          indentMm,
           rows: [{ cells: block.columns, keepTogether: false }],
         },
         widthMm,
         page,
       );
     if (block.kind === "entry" || block.kind === "group")
-      return renderBlocks(block.blocks, widthMm, page);
+      return renderBlocks(block.blocks, widthMm, page, indentMm);
     if (block.kind === "column-flow")
       throw new Error("Column flow must be planned before Word rendering.");
-    return `${block.heading ? renderParagraph(block.heading) : ""}${renderBlocks(block.blocks, widthMm, page)}`;
+    return `${block.heading ? renderParagraph(block.heading, "", indentMm) : ""}${renderBlocks(block.blocks, widthMm, page, indentMm + (block.contentIndentMm ?? 0))}`;
   }
   const rendersContent = (value: DocBlock): boolean =>
     value.kind === "decorative-shape"
@@ -318,7 +339,12 @@ export async function renderDossierDocx(
       : value.kind === "group"
         ? value.blocks.some(rendersContent)
         : true;
-  function renderBlocks(values: DocBlock[], widthMm: number, page: DocumentPart["page"]): string {
+  function renderBlocks(
+    values: DocBlock[],
+    widthMm: number,
+    page: DocumentPart["page"],
+    indentMm = 0,
+  ): string {
     let result = "",
       page2Started = false;
     for (let index = 0; index < values.length; index++) {
@@ -347,7 +373,7 @@ export async function renderDossierDocx(
         }
         const anchor = values[cursor];
         if (anchor?.kind === "paragraph") {
-          result += renderParagraph(anchor, drawings.join(""));
+          result += renderParagraph(anchor, drawings.join(""), indentMm);
           index = cursor;
           continue;
         }
@@ -379,12 +405,13 @@ export async function renderDossierDocx(
             kind: "table",
             id: `${block.id}.half-row`,
             widths: [1, 1],
+            indentMm,
             rows: [{ cells, keepTogether: false }],
           },
           widthMm,
           page,
         );
-      } else result += renderBlock(block, widthMm, page);
+      } else result += renderBlock(block, widthMm, page, indentMm);
     }
     return result;
   }
