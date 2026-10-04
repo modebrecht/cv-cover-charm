@@ -1,5 +1,20 @@
 import type { Alignment, PageMargins } from "./model";
 
+/** Page-width-relative nonsemantic geometry; absent height follows its chrome band. */
+export type TemplateMotif = {
+  shape: "rect" | "circle" | "path";
+  path?: string;
+  xFraction: number;
+  widthFraction: number;
+  topMm: number;
+  heightMm?: number;
+  fillSlot: string;
+  endSlot?: string;
+  angleDeg?: number;
+  opacity?: number;
+  repeat?: "first" | "continuation";
+};
+
 /** Configuration only: templates never receive XML or a package. */
 export type TemplateDefinition = {
   id: string;
@@ -13,10 +28,16 @@ export type TemplateDefinition = {
     heroSpaceMm: number;
     photoWidthMm: number;
     photoAlign?: Alignment;
-    rows?: readonly { fields: readonly string[]; widths: readonly number[]; fillSlot?: string }[];
+    rows?: readonly {
+      fields: readonly (string | readonly string[])[];
+      widths: readonly number[];
+      fillSlot?: string;
+      beforeMm?: number;
+    }[];
     heroLeadMm?: number;
     photoAbsentLeadMm?: number;
     decorationPlacement?: "first-header";
+    motifs?: readonly TemplateMotif[];
   };
   letter: {
     paragraphSpaceMm: number;
@@ -24,6 +45,7 @@ export type TemplateDefinition = {
     recipientGapMm: number;
     fontSource?: "standalone" | "dossier";
     compactMasthead?: { heightMm: number; widthMm: number; fillSlot: string };
+    keepTailTogether?: boolean;
   };
   chrome: {
     headerDistanceMm: number;
@@ -32,11 +54,14 @@ export type TemplateDefinition = {
     ignoreEmptyHeader?: boolean;
     lineMetricFactor?: number;
     band?: {
+      /** Own semantic descriptor paint instead of the historical browser chrome defaults. */
+      surfaceSource?: "descriptor";
       fillSlot: string;
       accentSlot: string;
       compactFirstMm: number;
       compactContinuationMm: number;
-      circles: readonly {
+      motifs?: readonly TemplateMotif[];
+      circles?: readonly {
         rightMm: number;
         topMm: number;
         diameterMm: number;
@@ -139,9 +164,105 @@ export const WARM: TemplateDefinition = {
   cv: { sectionSpaceMm: 4, headingRule: true, sidebarFraction: 0.3 },
   artwork: [],
 };
+/** Geometric stress candidate: native cover columns and declarative diagonal paint. */
+export const PRISM: TemplateDefinition = {
+  id: "prism",
+  archetype: "graphic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 24 },
+  colors: { ink: "18223A", accent: "6F95F2", paper: "F5F7FC" },
+  margins: { top: 20, right: 20, bottom: 18, left: 20 },
+  cover: {
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "name",
+      "beruf",
+      "lehrbeginn",
+      "foto",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    heroSpaceMm: 0,
+    photoWidthMm: 60,
+    photoAlign: "right",
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1], fillSlot: "primary" },
+      { fields: [["name", "beruf", "lehrbeginn"], "foto"], widths: [0.62, 0.38], beforeMm: 90 },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        beforeMm: 12,
+      },
+    ],
+    motifs: [
+      {
+        shape: "path",
+        path: "M 0 0 L 100 0 L 100 72 L 0 100",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 111,
+        fillSlot: "primary",
+      },
+      {
+        shape: "path",
+        path: "M 28 0 L 100 0 L 100 100 L 0 78",
+        xFraction: 0.51,
+        widthFraction: 0.49,
+        topMm: 0,
+        heightMm: 111,
+        fillSlot: "secondary",
+        opacity: 0.94,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 44, gapMm: 4 },
+    band: {
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+      surfaceSource: "descriptor",
+      motifs: [
+        {
+          shape: "path",
+          path: "M 28 0 L 100 0 L 100 100 L 0 78",
+          xFraction: 0.61,
+          widthFraction: 0.39,
+          topMm: 0,
+          fillSlot: "secondary",
+        },
+      ],
+    },
+  },
+  cv: { sectionSpaceMm: 4, headingRule: true, sidebarFraction: 0.3 },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
+  prism: PRISM,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

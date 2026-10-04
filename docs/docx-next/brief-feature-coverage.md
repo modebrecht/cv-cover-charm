@@ -1,6 +1,6 @@
 # Brief implementation coverage
 
-**2/39 templates configured (Brief, Warm); 0/39 Word-accepted migrations.** This page covers Brief; [Warm coverage](warm-feature-coverage.md) is separate. The independent model, renderer and package foundation is implemented through Gate 4. Gates 5/6 remain open. The other descriptors cannot silently use a family fallback.
+**3/39 templates configured (Brief, Warm, Prism); 0/39 Word-accepted migrations.** This page covers Brief; [Warm coverage](warm-feature-coverage.md) and [Prism coverage](prism-feature-coverage.md) are separate. The independent model, renderer and package foundation is implemented through Gate 4. Gates 5/6 remain open. The other descriptors cannot silently use a family fallback.
 
 ## Mapped editor inputs
 

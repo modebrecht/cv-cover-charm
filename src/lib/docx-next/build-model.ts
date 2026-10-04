@@ -39,9 +39,11 @@ import {
   chromeTextHeight,
   composeCompactMasthead,
   composeHeaderBands,
+  composeLetterTail,
   templateBandInk,
 } from "./template-composition";
 import { ensureFirstHeader } from "./page-artwork";
+import { templateMotifs } from "./template-motifs";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks } from "./layouts";
 import { wordFont as fontForKey, createFontResolver } from "./fonts";
@@ -203,6 +205,13 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       block.kind === "decorative-shape" ? [{ ...block, repeat: "first" as const }] : [],
     );
     coverPart.blocks = coverPart.blocks.filter((block) => block.kind !== "decorative-shape");
+    ensureFirstHeader(coverPart);
+  }
+  if (template.cover.motifs) {
+    coverPart.headerShapes = [
+      ...(coverPart.headerShapes ?? []),
+      ...templateMotifs(coverPart, template.cover.motifs, cover.colors, theme.accent),
+    ];
     ensureFirstHeader(coverPart);
   }
   const ld = letter.data,
@@ -385,6 +394,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         ),
       );
 
+  if (template.letter.keepTailTogether) composeLetterTail(letterPart);
   const data = cv.data,
     cd = cv.design,
     person = data.person;
@@ -831,6 +841,11 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       const scope = target.id as "letter" | "cv";
       const { options, contact, content } = resolved[scope];
       const bandPolicy = template.chrome.band;
+      const authoredChrome = chromeState.sync ? chromeState.shared : chromeState[scope];
+      const explicitHeaderSurface =
+        bandPolicy?.surfaceSource === "descriptor"
+          ? !!(authoredChrome.headerBackgroundColor || authoredChrome.headerGradientColor)
+          : !!(options.headerBackgroundColor || options.headerGradientColor);
       const partColors = input[scope].design.colors;
       const bandFill = color(
         options.headerBackgroundColor ?? (bandPolicy ? partColors[bandPolicy.fillSlot] : undefined),
@@ -1111,7 +1126,8 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           heightMm: distance + heightMm,
         });
       };
-      band("header", headerHeight);
+      if (bandPolicy?.surfaceSource !== "descriptor" || explicitHeaderSurface)
+        band("header", headerHeight);
       band("footer", footerHeight);
       if (bandPolicy)
         composeHeaderBands(
@@ -1122,7 +1138,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           firstMode,
           options.headerContinuationMode ?? options.headerMode,
           headerHeight,
-          !!(options.headerBackgroundColor || options.headerGradientColor),
+          explicitHeaderSurface,
         );
       if (scope === "cv" && firstMode === "compact" && bandPolicy) {
         const firstBand = target.artwork.find((paint) => paint.repeat === "first");

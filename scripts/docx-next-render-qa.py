@@ -343,14 +343,48 @@ def check_scoped_shapes(document, fixture):
     for part in fixture['parts']:
         for relative_page, page in enumerate(document[start:start + part['expectedPages']]):
             pictures = page.get_image_info()
+            groups = {}
             for shape in part.get('pageScopedShapes', []):
                 x, y = max(0, shape['xMm']), max(0, shape['yMm'])
                 right = min(page.rect.width / scale, shape['xMm'] + shape['widthMm'])
                 bottom = min(page.rect.height / scale, shape['yMm'] + shape['heightMm'])
                 bounds = [value * scale for value in (x, y, right, bottom)]
-                matches = [picture for picture in pictures if max(abs(a-b) for a,b in zip(picture['bbox'],bounds)) < 1]
                 expected = shape.get('repeat') in (None, 'first' if relative_page == 0 else 'continuation')
-                assert len(matches) == int(expected), f'{fixture["fixture"]}: incorrect clipped/scoped paint {shape["id"]} on page {relative_page+1}'
+                group = groups.setdefault(tuple(round(v, 4) for v in bounds), {'count': 0, 'ids': []})
+                group['count'] += int(expected)
+                group['ids'].append(shape['id'])
+            for bounds, group in groups.items():
+                matches = [picture for picture in pictures if max(abs(a-b) for a,b in zip(picture['bbox'],bounds)) < 1]
+                assert len(matches) == group['count'], f'{fixture["fixture"]}: incorrect clipped/scoped paint {group["ids"]} on page {relative_page+1}'
+        start += part['expectedPages']
+
+def check_paint_probes(document, fixture):
+    """Independent color/opacity probes verify declared polygon paint and transparent regions."""
+    start, scale = 0, 72 / 25.4
+    rgb = lambda value: tuple(int(value.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
+    for part in fixture['parts']:
+        for relative_page, page in enumerate(document[start:start + part['expectedPages']]):
+            pixmap = page.get_pixmap()
+            for probe in part.get('paintProbes') or []:
+                if probe.get('repeat') not in (None, 'first' if relative_page == 0 else 'continuation'):
+                    continue
+                foreground = rgb(probe['color'])
+                background = rgb(probe.get('backdrop', probe['color']))
+                alpha = probe.get('opacity', 1)
+                expected = tuple(round(a * alpha + b * (1-alpha)) for a,b in zip(foreground, background))
+                actual = pixmap.pixel(round(probe['xMm'] * scale), round(probe['yMm'] * scale))[:3]
+                assert max(abs(a-b) for a,b in zip(actual, expected)) <= 4, f'{fixture["fixture"]}: declared paint lost on {part["id"]} page {relative_page+1}: {actual} != {expected}'
+        start += part['expectedPages']
+
+def check_letter_tail(document, fixture):
+    start = 0
+    for part in fixture['parts']:
+        probe = part.get('tailProbe')
+        if probe and probe['closing'] and probe['lastAttachment']:
+            texts = [compact(page.get_text()) for page in document[start:start + part['expectedPages']]]
+            closing = [i for i,t in enumerate(texts) if compact(probe['closing']) in t]
+            attachments = [i for i,t in enumerate(texts) if compact(probe['lastAttachment']) in t]
+            assert len(closing) == 1 and closing[0] in attachments, f'{fixture["fixture"]}: short closing/attachment tail split across pages'
         start += part['expectedPages']
 
 def check_header_paint_coverage(document, fixture):
@@ -590,7 +624,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key.startswith('warm-') and any(part['expectedPages'] > 2 for part in fixture['parts']):
+    if key.startswith(('warm-', 'prism-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
@@ -603,6 +637,8 @@ for fixture in manifest:
     check_custom_footers(document, key)
     check_artwork(document, fixture)
     check_scoped_shapes(document, fixture)
+    check_paint_probes(document, fixture)
+    check_letter_tail(document, fixture)
     check_header_paint_coverage(document, fixture)
     check_cover_features(document, fixture)
     check_element_features(document, fixture)
@@ -676,6 +712,8 @@ for fixture in manifest:
             check_custom_footers(reopened, key)
             check_artwork(reopened, fixture)
             check_scoped_shapes(reopened, fixture)
+            check_paint_probes(reopened, fixture)
+            check_letter_tail(reopened, fixture)
             check_header_paint_coverage(reopened, fixture)
             check_cover_features(reopened, fixture)
             check_element_features(reopened, fixture)

@@ -1,10 +1,26 @@
-import type { DocumentPart, Paragraph } from "./model";
+import type { DecorativeShape, DocumentPart, Paragraph } from "./model";
 import type { TemplateDefinition } from "./templates";
 import { color } from "./colors";
 import { ensureFirstHeader } from "./page-artwork";
+import { templateMotifs } from "./template-motifs";
 import { onColorRoles } from "@/components/cv/palette";
 import { nativeTextHeightMm as chromeTextHeight } from "./layouts";
 export { chromeTextHeight };
+/** Stable semantic tail IDs keep a short closing/signature/attachment group in native flow. */
+export function composeLetterTail(part: DocumentPart): void {
+  const tail = part.blocks.filter(
+    (b): b is Paragraph =>
+      b.kind === "paragraph" &&
+      (b.id === "letter.closing" ||
+        b.id === "letter.signature" ||
+        b.id.startsWith("letter.attachment:")),
+  );
+  const width = part.page.widthMm - part.page.margins.left - part.page.margins.right;
+  if (chromeTextHeight(tail, width, 1.4) > 80) return;
+  tail.forEach((paragraph, index) => {
+    paragraph.keepNext = index < tail.length - 1;
+  });
+}
 export function templateBandInk(fill: string, paper: string): string {
   return color(onColorRoles(`#${fill}`, `#${paper}`).ink, "FFFFFF");
 }
@@ -84,22 +100,32 @@ export function composeHeaderBands(
         widthMm: part.page.widthMm,
         heightMm,
       });
+      if (policy.motifs)
+        part.headerShapes = [
+          ...(part.headerShapes ?? []),
+          ...templateMotifs(part, policy.motifs, colors, accent, heightMm, repeat),
+        ];
     }
-  if (firstMode !== "none")
-    part.headerShapes = policy.circles.map((circle, index) => ({
-      kind: "decorative-shape",
-      id: `${part.id}.artwork.circle:${index}`,
-      semanticText: false,
-      repeat: "first",
-      clipToPage: true,
-      shape: "circle",
-      xMm: part.page.widthMm - circle.rightMm - circle.diameterMm,
-      yMm: circle.topMm,
-      widthMm: circle.diameterMm,
-      heightMm: circle.diameterMm,
-      radiusMm: 0,
-      opacity: circle.opacity,
-      ...(circle.strokeMm ? {} : { fill: { color: secondary } }),
-      stroke: { color: secondary, widthMm: circle.strokeMm ?? 0 },
-    }));
+  if (firstMode !== "none" && policy.circles)
+    part.headerShapes = [
+      ...(part.headerShapes ?? []),
+      ...policy.circles.map(
+        (circle, index): DecorativeShape => ({
+          kind: "decorative-shape",
+          id: `${part.id}.artwork.circle:${index}`,
+          semanticText: false,
+          repeat: "first",
+          clipToPage: true,
+          shape: "circle",
+          xMm: part.page.widthMm - circle.rightMm - circle.diameterMm,
+          yMm: circle.topMm,
+          widthMm: circle.diameterMm,
+          heightMm: circle.diameterMm,
+          radiusMm: 0,
+          opacity: circle.opacity,
+          ...(circle.strokeMm ? {} : { fill: { color: secondary } }),
+          stroke: { color: secondary, widthMm: circle.strokeMm ?? 0 },
+        }),
+      ),
+    ];
 }

@@ -1,5 +1,22 @@
 # Microsoft Word smoke acceptance
 
+## Separate Prism review package
+
+The Prism package contains fourteen editable `prism-*` candidates, matching stable LibreOffice PDFs and all 95 candidate PNG pages. Record tester, date, OS, exact Word version and source commit separately. **Brief/Warm/Prism remain unaccepted; 0/39 migrations have Word acceptance.** Complete the general checklist below as well as these cases.
+
+- [ ] Open every Prism case without repair and inspect cover, letter and CV.
+- [ ] Edit name/profession/start date in the native cover cells; add/remove photo and check growing rows, circular crop, badge width and preserved text.
+- [ ] Inspect two-tone polygons, overlap and readable label/date backdrops; cover artwork belongs only to its first header story.
+- [ ] Compare contact, compact and none modes. Header text, reserved body area and first/continuation signature remain coherent after editing.
+- [ ] In `prism-custom-surface`, confirm the authored gradient replaces default diagonal chrome; explicit foreground colors remain exact.
+- [ ] In `prism-custom-colors` and `prism-continuation`, check contrast and independent saved typography. Deliberately authored colors are preserved rather than automatically rewritten.
+- [ ] Edit the rich paragraph, copy/paste formatting, add/delete paragraphs, list items and table cells in `prism-custom`; edit repeated custom fields independently.
+- [ ] Add text to the native columns in `prism-columns`; check column balancing, full-width return and the attached closing/signature/attachments. No attachment-only continuation page should appear for the supplied short tail.
+- [ ] Edit CV descriptions and add/delete entries in long CV, Timeline and Magazin cases; verify oversized-entry flow, date rails and half-width sections.
+- [ ] Inspect all `prism-continuation` pages: signed chrome offsets, distinct first/following fields, footer content, body clearance and the single CV first-page lead.
+- [ ] Save edited copies, close Word completely and reopen. Verify text, reflow, pictures, lists, tables, columns and headers/footers remain healthy without repair warnings.
+- [ ] Record visual-reference approval separately; these generated references never approve themselves.
+
 ## Separate Warm review package
 
 The Warm package contains thirteen editable `warm-*` candidates with stable LibreOffice candidate PDFs/PNGs. Complete the general checklist below for Warm as well as Brief. Record Word/OS version, tester, date and the source commit independently. **Both templates remain unaccepted; 0/39 migrations have Microsoft Word evidence.**

@@ -24,8 +24,11 @@ import {
 } from "../tests/fixtures/docx-next/brief";
 
 import { WARM_FIXTURES, warmFixture, type WarmFixture } from "../tests/fixtures/docx-next/warm";
+import { PRISM_FIXTURES, prismFixture, type PrismFixture } from "../tests/fixtures/docx-next/prism";
 import { artworkApplies } from "../src/lib/docx-next/page-artwork";
 const isWarm = process.argv.includes("--warm");
+const isPrism = process.argv.includes("--prism");
+if (isWarm && isPrism) throw new Error("Select one candidate fixture set.");
 const out = path.resolve(process.argv[2] ?? "/tmp/cv-docx-next-qa");
 await mkdir(out, { recursive: true });
 const images: Record<string, string> = JSON.parse(
@@ -85,107 +88,111 @@ try {
     }
   }, moduleCode);
   if (!invalid) throw new Error("Corrupt image did not fail visibly");
-  const fixtureNames = isWarm
-    ? WARM_FIXTURES.map((kind) => `warm-${kind}`)
-    : [
-        ...BRIEF_FIXTURES,
-        ...BRIEF_VARIANT_FIXTURES.map((kind) => `variant-${kind}`),
-        ...BRIEF_PAGINATION_FIXTURES.map((kind) => `pagination-${kind}`),
-        ...BRIEF_LAYOUT_FIXTURES.map((kind) => `layout-${kind}`),
-        ...Object.keys(images),
-        "chrome",
-        "half-sections",
-        "rich-letter",
-        "positioned-images",
-        "photo-left",
-        "photo-right",
-        "photo-free",
-        "photo-circle",
-        "photo-zoom",
-        "photo-long-name",
-        "photo-long-cv",
-        "rich-table-lists",
-        "columns-two",
-        "columns-three",
-        "columns-long",
-        "columns-chrome",
-        "columns-long-chrome",
-        "chrome-custom",
-        "chrome-custom-stacked",
-        "paper-colors",
-        "paint-gradient",
-        "paint-long-letter",
-        "paint-long-cv",
-        "offsets-negative",
-        "offsets-zero",
-        "offsets-positive",
-        "cover-typography",
-        "cover-lists",
-        "cover-long-list",
-        "cover-tracking-zero",
-        "cover-tracking-wide",
-        "cover-line-single",
-        "cover-line-double",
-        "elements-short",
-        "elements-long",
-        "elements-page-two",
-        "elements-images",
-        "elements-shapes",
-        "elements-shapes-paper",
-        "elements-artwork-failure",
-        "elements-empty-disabled",
-        "fonts-mixed",
-        "fonts-unavailable",
-        "fonts-long-letter",
-        "fonts-long-cv",
-        "fonts-offline",
-        "opacity-native",
-      ];
+  const fixtureNames = isPrism
+    ? PRISM_FIXTURES.map((kind) => `prism-${kind}`)
+    : isWarm
+      ? WARM_FIXTURES.map((kind) => `warm-${kind}`)
+      : [
+          ...BRIEF_FIXTURES,
+          ...BRIEF_VARIANT_FIXTURES.map((kind) => `variant-${kind}`),
+          ...BRIEF_PAGINATION_FIXTURES.map((kind) => `pagination-${kind}`),
+          ...BRIEF_LAYOUT_FIXTURES.map((kind) => `layout-${kind}`),
+          ...Object.keys(images),
+          "chrome",
+          "half-sections",
+          "rich-letter",
+          "positioned-images",
+          "photo-left",
+          "photo-right",
+          "photo-free",
+          "photo-circle",
+          "photo-zoom",
+          "photo-long-name",
+          "photo-long-cv",
+          "rich-table-lists",
+          "columns-two",
+          "columns-three",
+          "columns-long",
+          "columns-chrome",
+          "columns-long-chrome",
+          "chrome-custom",
+          "chrome-custom-stacked",
+          "paper-colors",
+          "paint-gradient",
+          "paint-long-letter",
+          "paint-long-cv",
+          "offsets-negative",
+          "offsets-zero",
+          "offsets-positive",
+          "cover-typography",
+          "cover-lists",
+          "cover-long-list",
+          "cover-tracking-zero",
+          "cover-tracking-wide",
+          "cover-line-single",
+          "cover-line-double",
+          "elements-short",
+          "elements-long",
+          "elements-page-two",
+          "elements-images",
+          "elements-shapes",
+          "elements-shapes-paper",
+          "elements-artwork-failure",
+          "elements-empty-disabled",
+          "fonts-mixed",
+          "fonts-unavailable",
+          "fonts-long-letter",
+          "fonts-long-cv",
+          "fonts-offline",
+          "opacity-native",
+        ];
   const manifest = [];
   const expectedText = (run: TextRun) =>
     run.style.allCaps ? { text: run.text, allCaps: true } : run.text;
   for (const fixture of fixtureNames) {
-    const input = isWarm
-      ? warmFixture(fixture.slice(5) as WarmFixture, images.png)
-      : fixture.startsWith("variant-")
-        ? briefVariantFixture(fixture.slice(8) as Parameters<typeof briefVariantFixture>[0])
-        : fixture.startsWith("pagination-")
-          ? briefPaginationFixture(
-              fixture.slice(11) as Parameters<typeof briefPaginationFixture>[0],
-            )
-          : fixture.startsWith("layout-")
-            ? briefLayoutFixture(fixture.slice(7) as Parameters<typeof briefLayoutFixture>[0])
-            : fixture.startsWith("fonts-")
-              ? briefFontsFixture(fixture.slice(6) as Parameters<typeof briefFontsFixture>[0])
-              : fixture.startsWith("elements-")
-                ? briefElementsFixture(
-                    (fixture === "elements-artwork-failure"
-                      ? "shapes"
-                      : fixture.slice(9)) as Parameters<typeof briefElementsFixture>[0],
-                  )
-                : fixture.startsWith("cover-")
-                  ? briefCoverTypographyFixture(
-                      fixture.slice(6) as Parameters<typeof briefCoverTypographyFixture>[0],
+    const input = isPrism
+      ? prismFixture(fixture.slice(6) as PrismFixture, images.png)
+      : isWarm
+        ? warmFixture(fixture.slice(5) as WarmFixture, images.png)
+        : fixture.startsWith("variant-")
+          ? briefVariantFixture(fixture.slice(8) as Parameters<typeof briefVariantFixture>[0])
+          : fixture.startsWith("pagination-")
+            ? briefPaginationFixture(
+                fixture.slice(11) as Parameters<typeof briefPaginationFixture>[0],
+              )
+            : fixture.startsWith("layout-")
+              ? briefLayoutFixture(fixture.slice(7) as Parameters<typeof briefLayoutFixture>[0])
+              : fixture.startsWith("fonts-")
+                ? briefFontsFixture(fixture.slice(6) as Parameters<typeof briefFontsFixture>[0])
+                : fixture.startsWith("elements-")
+                  ? briefElementsFixture(
+                      (fixture === "elements-artwork-failure"
+                        ? "shapes"
+                        : fixture.slice(9)) as Parameters<typeof briefElementsFixture>[0],
                     )
-                  : fixture.startsWith("paint-")
-                    ? briefPaintFixture(
-                        fixture === "paint-long-letter"
-                          ? "long-letter"
-                          : fixture === "paint-long-cv"
-                            ? "long-cv"
-                            : "normal",
+                  : fixture.startsWith("cover-")
+                    ? briefCoverTypographyFixture(
+                        fixture.slice(6) as Parameters<typeof briefCoverTypographyFixture>[0],
                       )
-                    : fixture.startsWith("chrome-custom") || fixture.startsWith("offsets-")
-                      ? briefChromeFixture(fixture.endsWith("stacked"))
-                      : briefFixture(
-                          fixture === "photo-long-name"
-                            ? "long-values"
-                            : fixture === "photo-long-cv"
+                    : fixture.startsWith("paint-")
+                      ? briefPaintFixture(
+                          fixture === "paint-long-letter"
+                            ? "long-letter"
+                            : fixture === "paint-long-cv"
                               ? "long-cv"
-                              : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
-                                ? (fixture as (typeof BRIEF_FIXTURES)[number])
-                                : "normal",
-                        );
+                              : "normal",
+                        )
+                      : fixture.startsWith("chrome-custom") || fixture.startsWith("offsets-")
+                        ? briefChromeFixture(fixture.endsWith("stacked"))
+                        : briefFixture(
+                            fixture === "photo-long-name"
+                              ? "long-values"
+                              : fixture === "photo-long-cv"
+                                ? "long-cv"
+                                : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
+                                  ? (fixture as (typeof BRIEF_FIXTURES)[number])
+                                  : "normal",
+                          );
     if (fixture === "opacity-native") {
       input.cover.colors.bg = "#F0F0F0";
       const name = input.cover.blocks.find((block) => block.id === "name")!;
@@ -381,65 +388,69 @@ try {
       )
       .filter((block) => block.kind === "paragraph")
       .flatMap((block) => (block.kind === "paragraph" ? block.runs.map(expectedText) : []));
-    const cvPages = isWarm
-      ? ({ "warm-long-cv": 15, "warm-timeline": 18, "warm-magazin": 1 }[fixture] ?? 2)
-      : fixture.startsWith("variant-")
-        ? fixture.endsWith("-long")
-          ? fixture === "variant-minimal-long"
-            ? 13
-            : 12
-          : fixture.endsWith("-short")
-            ? 1
-            : 2
-        : fixture.startsWith("pagination-")
-          ? ["pagination-zero", "pagination-ten"].includes(fixture)
-            ? 9
-            : 10
-          : fixture.startsWith("layout-")
-            ? fixture === "layout-settings-long"
-              ? 16
-              : fixture === "layout-entry-overflow"
-                ? 4
-                : fixture === "layout-references-stacked"
-                  ? 2
-                  : 1
-            : ["fonts-mixed", "fonts-unavailable", "fonts-offline"].includes(fixture)
+    const cvPages = isPrism
+      ? ({ "prism-long-cv": 13, "prism-timeline": 15, "prism-magazin": 1 }[fixture] ?? 2)
+      : isWarm
+        ? ({ "warm-long-cv": 15, "warm-timeline": 18, "warm-magazin": 1 }[fixture] ?? 2)
+        : fixture.startsWith("variant-")
+          ? fixture.endsWith("-long")
+            ? fixture === "variant-minimal-long"
+              ? 13
+              : 12
+            : fixture.endsWith("-short")
               ? 1
-              : fixture === "fonts-long-cv"
-                ? 8
-                : fixture === "elements-long"
+              : 2
+          : fixture.startsWith("pagination-")
+            ? ["pagination-zero", "pagination-ten"].includes(fixture)
+              ? 9
+              : 10
+            : fixture.startsWith("layout-")
+              ? fixture === "layout-settings-long"
+                ? 16
+                : fixture === "layout-entry-overflow"
                   ? 4
-                  : fixture === "elements-shapes" || fixture === "elements-shapes-paper"
-                    ? 3
-                    : fixture === "elements-page-two"
-                      ? 2
-                      : fixture === "minimal" || fixture === "empty-optional"
-                        ? 1
-                        : fixture === "paint-long-cv"
-                          ? 11
-                          : fixture === "long-cv" || fixture === "photo-long-cv"
-                            ? 10
-                            : fixture === "custom-sections"
-                              ? 3
-                              : 2;
-    const letterPages = isWarm
-      ? ({
-          "warm-long-letter": 12,
-          "warm-compact-long": 10,
-          "warm-continuation": 8,
-          "warm-long-sender": 2,
-        }[fixture] ?? 1)
-      : fixture === "fonts-long-letter"
-        ? 7
-        : fixture === "paint-long-letter"
-          ? 11
-          : fixture === "long-letter"
-            ? 9
-            : fixture === "columns-long-chrome"
-              ? 5
-              : fixture === "columns-long"
-                ? 4
-                : 1;
+                  : fixture === "layout-references-stacked"
+                    ? 2
+                    : 1
+              : ["fonts-mixed", "fonts-unavailable", "fonts-offline"].includes(fixture)
+                ? 1
+                : fixture === "fonts-long-cv"
+                  ? 8
+                  : fixture === "elements-long"
+                    ? 4
+                    : fixture === "elements-shapes" || fixture === "elements-shapes-paper"
+                      ? 3
+                      : fixture === "elements-page-two"
+                        ? 2
+                        : fixture === "minimal" || fixture === "empty-optional"
+                          ? 1
+                          : fixture === "paint-long-cv"
+                            ? 11
+                            : fixture === "long-cv" || fixture === "photo-long-cv"
+                              ? 10
+                              : fixture === "custom-sections"
+                                ? 3
+                                : 2;
+    const letterPages = isPrism
+      ? ({ "prism-long-letter": 10, "prism-continuation": 6, "prism-columns": 3 }[fixture] ?? 1)
+      : isWarm
+        ? ({
+            "warm-long-letter": 12,
+            "warm-compact-long": 10,
+            "warm-continuation": 8,
+            "warm-long-sender": 2,
+          }[fixture] ?? 1)
+        : fixture === "fonts-long-letter"
+          ? 7
+          : fixture === "paint-long-letter"
+            ? 11
+            : fixture === "long-letter"
+              ? 9
+              : fixture === "columns-long-chrome"
+                ? 5
+                : fixture === "columns-long"
+                  ? 4
+                  : 1;
     const coverPages =
       fixture === "elements-long"
         ? 3
@@ -508,7 +519,7 @@ try {
         .join(""),
       artwork: part.artwork,
       headerPaintColors:
-        isWarm && part.id !== "cover"
+        (isWarm || isPrism) && part.id !== "cover"
           ? {
               first: [
                 ...new Set(
@@ -523,6 +534,48 @@ try {
             }
           : undefined,
       pageScopedShapes: part.headerShapes ?? [],
+      tailProbe:
+        isPrism && part.id === "letter"
+          ? {
+              closing:
+                part.blocks
+                  .find((b) => b.kind === "paragraph" && b.id === "letter.closing")
+                  ?.runs.map((r) => r.text)
+                  .join("") ?? "",
+              lastAttachment:
+                [...part.blocks]
+                  .reverse()
+                  .find((b) => b.kind === "paragraph" && b.id.startsWith("letter.attachment:"))
+                  ?.runs.map((r) => r.text)
+                  .join("") ?? "",
+            }
+          : undefined,
+      paintProbes: isPrism
+        ? part.id === "cover"
+          ? [
+              { xMm: 2, yMm: 40, color: input.cover.colors.primary, repeat: "first" },
+              {
+                xMm: 200,
+                yMm: 20,
+                color: input.cover.colors.secondary,
+                opacity: 0.94,
+                backdrop: input.cover.colors.primary,
+                repeat: "first",
+              },
+              { xMm: 2, yMm: 120, color: input.cover.colors.bg },
+            ]
+          : part.artwork
+              .filter((p) => p.id.includes(".band."))
+              .flatMap((paint) => [
+                { xMm: 2, yMm: 2, color: paint.fill.color, repeat: paint.repeat },
+                {
+                  xMm: 205,
+                  yMm: 2,
+                  color: input[part.id].design.colors.secondary,
+                  repeat: paint.repeat,
+                },
+              ])
+        : undefined,
       fontProbes:
         fixture === "fonts-unavailable"
           ? walkBlocks(part.blocks).flatMap((block) =>
@@ -593,7 +646,7 @@ try {
   }
   await writeFile(path.join(out, "manifest.json"), JSON.stringify(manifest, null, 2));
   console.log(
-    `Generated ${manifest.length} independent ${isWarm ? "Warm" : "Brief"} dossiers; canonical browser image normalization passed ${normalized.size} inputs.`,
+    `Generated ${manifest.length} independent ${isPrism ? "Prism" : isWarm ? "Warm" : "Brief"} dossiers; canonical browser image normalization passed ${normalized.size} inputs.`,
   );
 } finally {
   await browser.close();

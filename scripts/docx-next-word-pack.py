@@ -26,7 +26,24 @@ parser.add_argument('--source-commit', required=True, help='Commit used to gener
 parser.add_argument('--qa-commit', help='Commit containing the QA tools, if different from candidate generation')
 parser.add_argument('--runtime-record', type=Path, help='Pinned runtime build evidence to include with stable QA')
 parser.add_argument('--warm', action='store_true', help='Package the isolated Warm architecture stress cases')
+parser.add_argument('--prism', action='store_true', help='Package the isolated Prism architecture stress cases')
 args = parser.parse_args()
+assert not (args.warm and args.prism), 'Select one candidate set'
+candidate = 'Prism' if args.prism else 'Warm' if args.warm else 'Brief'
+prefix = 'prism-' if args.prism else 'warm-' if args.warm else ''
+if args.prism:
+    CASES = [('prism-' + key, purpose) for key, purpose in [
+        ('normal', 'Native two-tone cover and contact chrome'), ('long-letter', 'Long letter'),
+        ('long-cv', 'Long CV'), ('compact', 'Thin signature and flowing sender'),
+        ('none', 'Disabled interior header'), ('timeline', 'Timeline and oversized entry'),
+        ('magazin', 'Magazin and half-width sections'), ('images', 'Native photos and letter image'),
+        ('custom', 'Independent custom fields, rich text, list and table'),
+        ('continuation', 'Distinct chrome, signed offsets and continuation margin'),
+        ('custom-colors', 'Authored light palette and readable foreground'),
+        ('custom-surface', 'Explicit gradient surface overrides diagonal template paint'),
+        ('long-values', 'Long name, email and recipient'),
+        ('columns', 'Native columns with full-width return and attached letter tail'),
+    ]]
 if args.warm:
     CASES = [('warm-' + key, purpose) for key, purpose in [
         ('normal', 'Default contact masthead'), ('long-letter', 'Long letter'),
@@ -52,7 +69,7 @@ with ZipFile(args.output, 'w', ZIP_DEFLATED) as archive:
         stem = f'{index:02d}-{key}'
         archive.write(docx, 'editable-docx/' + stem + '.docx')
         archive.write(pdf, 'candidate-pdf/' + stem + '.candidate.pdf')
-        if args.warm:
+        if args.warm or args.prism:
             for page in range(1, report['pages'] + 1):
                 png = pdf.parent / f'page-{page}.png'
                 assert png.is_file(), png
@@ -68,7 +85,10 @@ with ZipFile(args.output, 'w', ZIP_DEFLATED) as archive:
                 for key, _ in CASES]}, indent=2))
     archive.write('docs/docx-next/word-smoke-test.md', 'WORD_CHECKLIST.md')
     archive.write('docs/docx-next/source-boundary.md', 'SOURCE_AND_FLOW_POLICY.md')
-    archive.write('docs/docx-next/warm-stress-report.md' if args.warm else 'docs/docx-next/stabilization-report.md', 'AUTOMATED_EVIDENCE.md')
+    archive.write('docs/docx-next/prism-stress-report.md' if args.prism else 'docs/docx-next/warm-stress-report.md' if args.warm else 'docs/docx-next/stabilization-report.md', 'AUTOMATED_EVIDENCE.md')
+    if args.prism:
+        archive.write('docs/docx-next/prism-feature-coverage.md', 'PRISM_COVERAGE.md')
+        archive.write('docs/docx-next/prism-stress-evidence.json', 'MACHINE_EVIDENCE.json')
     if args.warm:
         archive.write('docs/docx-next/warm-feature-coverage.md', 'WARM_COVERAGE.md')
         archive.write('docs/docx-next/warm-stress-evidence.json', 'MACHINE_EVIDENCE.json')
@@ -79,8 +99,8 @@ with ZipFile(args.output, 'w', ZIP_DEFLATED) as archive:
         archive.write(args.runtime_record, 'STABLE_LO_RUNTIME.json')
     archive.write(args.directory / 'render-report.json', 'ALL_FIXTURES_QA.json')
     archive.writestr('START_HERE.txt',
-      f'DOCX Next / {"Warm" if args.warm else "Brief"} — editable review candidates, not accepted migrations.\n'
-      f'Start with editable-docx/01-{"warm-" if args.warm else ""}normal.docx. Then follow WORD_CHECKLIST.md.\n'
+      f'DOCX Next / {candidate} — editable review candidates, not accepted migrations.\n'
+      f'Start with editable-docx/01-{prefix}normal.docx. Then follow WORD_CHECKLIST.md.\n'
       'Candidate PDFs are LibreOffice aids. They are not approved Word references.\n'
       'Record OS, Word version, date, tester and each result in WORD_REVIEW_RECORD.json.\n'
       'Keep the original files; save edited copies, close Word and reopen them.\n'

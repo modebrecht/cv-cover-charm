@@ -88,7 +88,8 @@ export function composeCover(
       cover.data.showBeilagenOnCover === false
     )
       continue;
-    const rowFill = template.cover.rows?.find((row) => row.fields.includes(block.id))?.fillSlot;
+    const ownerRow = template.cover.rows?.find((row) => row.fields.flat().includes(block.id));
+    const rowFill = ownerRow?.fillSlot;
     const fieldContext = rowFill
       ? { ...coverContext, paper: color(cover.colors[rowFill], accent) }
       : coverContext;
@@ -103,17 +104,36 @@ export function composeCover(
       block.style.bg ||
       (block.style.borderWidth ?? 0) > 0 ||
       block.src;
+    const cellIndex = ownerRow?.fields.findIndex((field) =>
+      (typeof field === "string" ? [field] : field).includes(block.id),
+    );
+    const cellPage =
+      ownerRow && cellIndex !== undefined
+        ? {
+            ...page,
+            widthMm:
+              page.margins.left +
+              page.margins.right +
+              ((page.widthMm - page.margins.left - page.margins.right) *
+                ownerRow.widths[cellIndex]) /
+                ownerRow.widths.reduce((sum, value) => sum + value, 0),
+          }
+        : page;
     blocks.push(
-      ...(boxed ? flowingElementBox(block, id, paragraphs, coverContext, page) : paragraphs),
+      ...(boxed ? flowingElementBox(block, id, paragraphs, coverContext, cellPage) : paragraphs),
     );
   }
   for (const [index, row] of (template.cover.rows ?? []).entries()) {
-    const ids = row.fields.map((field) => `cover.${aliases[field] ?? field}`);
+    const ids = row.fields.map((field) =>
+      (typeof field === "string" ? [field] : field).map((id) => `cover.${aliases[id] ?? id}`),
+    );
     const matches = (block: DocBlock, id: string) =>
       block.id === id || block.id.startsWith(`${id}.`);
-    const position = blocks.findIndex((block) => ids.some((id) => matches(block, id)));
+    const position = blocks.findIndex((block) => ids.flat().some((id) => matches(block, id)));
     if (position < 0) continue;
-    const cells = ids.map((id) => blocks.filter((block) => matches(block, id)));
+    const cells = ids.map((group) =>
+      blocks.filter((block) => group.some((id) => matches(block, id))),
+    );
     const selected = new Set(cells.flat());
     const table: DocBlock = {
       kind: "table",
@@ -128,7 +148,20 @@ export function composeCover(
         paddingYMm: 0,
       },
     };
-    blocks.splice(position, 0, table);
+    blocks.splice(
+      position,
+      0,
+      ...(row.beforeMm
+        ? [
+            {
+              kind: "spacer" as const,
+              id: `cover.composition.lead:${index}`,
+              heightMm: row.beforeMm,
+            },
+          ]
+        : []),
+      table,
+    );
     for (let cursor = blocks.length - 1; cursor >= 0; cursor--)
       if (selected.has(blocks[cursor])) blocks.splice(cursor, 1);
   }
