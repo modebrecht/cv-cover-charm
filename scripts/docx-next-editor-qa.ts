@@ -42,6 +42,44 @@ try {
     await Bun.sleep(100);
   }
   if (!ready) throw new Error("Local QA server did not start");
+  if (process.env.DOCX_NEXT_VERIFY_CLI === "1") {
+    const command = async (args: string[]) => {
+      const task = Bun.spawn(
+        [
+          "npx",
+          "--yes",
+          "agent-browser",
+          "--executable-path",
+          process.env.DOCX_NEXT_CHROMIUM_PATH!,
+          ...args,
+        ],
+        { stdout: "pipe", stderr: "pipe" },
+      );
+      const [stdout, stderr, code] = await Promise.all([
+        new Response(task.stdout).text(),
+        new Response(task.stderr).text(),
+        task.exited,
+      ]);
+      console.log(`Browser CLI ${args[0]}: ${code}\n${stdout}${stderr}`);
+      return code;
+    };
+    if ((await command(["open", base])) === 0) {
+      for (const args of [
+        ["wait", "--load", "networkidle"],
+        ["snapshot", "-i"],
+        [
+          "eval",
+          'document.body.innerText.trim().length > 0 && !document.querySelector("vite-error-overlay")',
+        ],
+        ["screenshot", path.join(out, "cli-home.png")],
+      ])
+        if ((await command(args)) !== 0) throw new Error("Browser CLI dev verification failed");
+      await command(["close"]);
+    } else
+      console.log(
+        "Browser CLI could not initialize; verifying the app with scripted Chromium below.",
+      );
+  }
   browser = await chromium.launch({
     headless: true,
     ...(process.env.DOCX_NEXT_CHROMIUM_PATH
@@ -71,6 +109,8 @@ try {
     "Dev server verified: home loads, meaningful controls render, no page errors/overlay.",
   );
   const fixture = briefFixture("repeated-values");
+  fixture.cv.design.font = "times";
+  fixture.letter.design.font = "times";
   const chromeInput = briefChromeFixture();
   fixture.cv.design.chromeContent = chromeInput.cv.design.chromeContent;
   fixture.cv.design.useElements = true;
@@ -158,14 +198,20 @@ try {
   if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
   const field = (id: string) => page.locator(`:is(input,textarea)[data-dossier-field-id="${id}"]`);
   const selectField = async (id: string) => {
+    await field(id).scrollIntoViewIfNeeded();
     await field(id).focus();
     await field(id).press("ControlOrMeta+A");
     const scope = id.split(".")[0];
-    await page
-      .locator(
-        `[data-dossier-field-selection-toolbar][data-dossier-field-key="field:${scope}:${id}"]`,
-      )
-      .waitFor();
+    try {
+      await page
+        .locator(
+          `[data-dossier-field-selection-toolbar][data-dossier-field-key="field:${scope}:${id}"]`,
+        )
+        .waitFor();
+    } catch (error) {
+      await page.screenshot({ path: path.join(out, `selection-${id.replaceAll(".", "-")}.png`) });
+      throw error;
+    }
   };
   const first = field("cv.entry.schule:one.title"),
     second = field("cv.entry.schule:two.title");
@@ -252,7 +298,19 @@ try {
   };
   for (const scope of ["cv", "letter"] as const) {
     console.log(`Checking ${scope} chrome controls.`);
-    if (scope === "letter") await page.goto(base + "/anschreiben", { waitUntil: "networkidle" });
+    if (scope === "letter") {
+      await page.goto(base + "/anschreiben", { waitUntil: "networkidle" });
+      const content = page.locator('[data-editor-section-title="Briefinhalt"]');
+      const contentToggle = content.locator("[data-editor-section-toggle]");
+      if ((await contentToggle.getAttribute("aria-expanded")) !== "true")
+        await contentToggle.click();
+      await page.getByLabel("Titel / Betreff Schriftart", { exact: true }).selectOption("humanist");
+      await page.waitForFunction(
+        () =>
+          JSON.parse(localStorage.getItem("anschreiben:v1")!).design.subjectTypography?.font ===
+          "humanist",
+      );
+    }
     const section = page.locator('[data-editor-section-title="Header & Footer"]');
     const toggle = section.locator("[data-editor-section-toggle]");
     if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
@@ -316,6 +374,25 @@ try {
     if (snapshot.settings.unresolvedTypography.length)
       throw new Error("Fresh semantic styles became unresolved after JSON save");
     const model = modelModule.buildDossierDocModel(snapshot);
+    const subject = model.letter.blocks.find((block) => block.id === "letter.subject");
+    const cvName = model.cv.blocks.find((block) => block.id === "cv.person.name");
+    if (
+      subject?.kind !== "paragraph" ||
+      subject.runs[0].style.font !== "Verdana" ||
+      cvName?.kind !== "paragraph" ||
+      cvName.runs[0].style.font !== "Times New Roman" ||
+      model.fonts.embedding !== "disabled"
+    )
+      throw new Error(
+        "Portable JSON/canonical model lost letter role/CV font settings: " +
+          JSON.stringify({
+            letterDesign: snapshot.letter.design.font,
+            cvDesign: snapshot.cv.design.font,
+            subject,
+            cvName,
+            fonts: model.fonts,
+          }),
+      );
     const coverName = model.cover.blocks.find((block) => block.id === "cover.fullName");
     if (
       coverName?.kind !== "paragraph" ||

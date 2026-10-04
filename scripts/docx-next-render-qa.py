@@ -76,6 +76,19 @@ def compact(value):
     return re.sub(r'\s+', '', unicodedata.normalize('NFKC', value).replace('\u00ad', ''))
 
 
+def check_fonts(document, fixture):
+    start = 0
+    for part in fixture['parts']:
+        spans = [span for page in document[start:start + part['expectedPages']] for block in page.get_text('dict')['blocks'] if block['type'] == 0 for line in block['lines'] for span in line['spans']]
+        for probe in part.get('fontProbes', []):
+            matches = [span for span in spans if compact(span['text']) == compact(probe['text'])]
+            assert len(matches) == 1, f'Font fixture lost unique probe {probe["text"]}'
+            family = re.sub(r'[^a-z]', '', probe['font'].lower())
+            actual = re.sub(r'[^a-z]', '', matches[0]['font'].lower())
+            assert actual.startswith(family), f'Unavailable font did not use selected alternative: {probe["font"]} / {matches[0]["font"]}'
+        start += part['expectedPages']
+
+
 def text_variants(value):
     if isinstance(value, str):
         return [compact(value)]
@@ -83,7 +96,8 @@ def text_variants(value):
     return [text, text.upper()] if value.get('allCaps') else [text]
 
 
-def check_columns(document, key):
+def check_columns(document, fixture):
+    key = fixture['fixture']
     def visible_lines(page):
         for block in page.get_text('rawdict')['blocks']:
             if block['type'] != 0:
@@ -126,12 +140,14 @@ def check_columns(document, key):
         assert lines and lines[0].width > width + 10, f'{key}: normal paragraph retained column width'
     if key.endswith('chrome'):
         assert 'lea.mueller@example.ch' in document[1].get_text(), f'{key}: first-page contact header missing'
-        for page in document[1:after_page.number + 1]:
+        letter_start = fixture['parts'][0]['expectedPages']
+        cv_start = letter_start + fixture['parts'][1]['expectedPages']
+        for page in document[letter_start:cv_start]:
             assert 'Letter header' in page.get_text(), f'{key}: logical letter header lost'
             assert 'CV header' not in page.get_text(), f'{key}: CV header leaked into letter'
             if page.number > 1:
                 assert 'lea.mueller@example.ch' not in page.get_text(), f'{key}: first-page contact repeated'
-        assert 'CV header' in document[after_page.number + 1].get_text(), f'{key}: CV header not restored'
+        assert 'CV header' in document[cv_start].get_text(), f'{key}: CV header not restored'
 
 
 def check_semantic_text(document, fixture):
@@ -388,15 +404,16 @@ for fixture in manifest:
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
     if key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv') or key.startswith('columns-long'):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
-    elif key not in ['custom-sections', 'cover-long-list', 'elements-long']:
+    elif key not in ['custom-sections', 'cover-long-list', 'elements-long', 'fonts-long-letter', 'fonts-long-cv']:
         assert len(document) <= 5, f'{key}: unexpected pagination {len(document)} pages'
     check_semantic_text(document, fixture)
+    check_fonts(document, fixture)
     check_custom_footers(document, key)
     check_artwork(document, fixture)
     check_cover_features(document, fixture)
     check_element_features(document, fixture)
     if key.startswith('columns-'):
-        check_columns(document, key)
+        check_columns(document, fixture)
     image_occurrences = 0
     for index, page in enumerate(document):
         assert page.get_text().strip() or page.get_images(), f'{key}: blank page {index + 1}'
@@ -462,8 +479,9 @@ for fixture in manifest:
             check_artwork(reopened, fixture)
             check_cover_features(reopened, fixture)
             check_element_features(reopened, fixture)
+            check_fonts(reopened, fixture)
             if key.startswith('columns-'):
-                check_columns(reopened, key)
+                check_columns(reopened, fixture)
     row = {'fixture': key, 'pages': len(document), 'media': media_count, 'bytes': fixture['bytes'], 'durationMs': fixture['durationMs'], 'structural': 'pass', 'libreoffice': 'pass', 'libreofficeRoundtrip': 'pass' if args.roundtrip else 'notRun', 'microsoftWord': 'pending', 'snapshot': 'candidate'}
     report.append(row)
     print(json.dumps(row), flush=True)

@@ -453,7 +453,7 @@ export async function renderDossierDocx(
   pkg.add(
     "word/settings.xml",
     WORD_PART_TYPES.settings,
-    `${DECL}<w:settings xmlns:w="${W}"><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`,
+    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`,
   );
   const fonts = new Set<string>([model.theme.font]);
   for (const part of parts)

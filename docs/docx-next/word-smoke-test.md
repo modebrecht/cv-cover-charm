@@ -27,6 +27,10 @@ Record application version, OS, fixture name, tester and date for each result.
 - [ ] Confirm page-2 custom elements and page-2 sections share one continuation break. When main CV flow exceeds one page, this zone starts after that flow rather than overlaying physical page 2.
 - [ ] Confirm shapes sit behind text over white/colored paper, with opacity, outlines, gradients and transparent corners. Body decorations occur only in their target zone, while paper/chrome repeat. Deleting text does not leave corrupt drawing fragments.
 - [ ] Open the failed-artwork fixture: all native text remains and no orphan media relationship or artwork-only blank page appears.
+- [ ] Open `fonts-mixed`, `fonts-unavailable`, `fonts-offline`, `fonts-long-letter` and `fonts-long-cv`; inspect all eight native font probes and long-content pagination without a repair prompt.
+- [ ] With requested fonts installed, confirm letter role and CV fonts remain independently editable; editor-roundtrip's subject is Verdana and CV is Times New Roman.
+- [ ] On a computer missing the requested families, record the actual substitute families and review sensible reflow. The explicitly resolved unavailable-font fixture uses the declared alternatives; if those are also missing, Word controls further substitution.
+- [ ] Edit/save/reopen the font fixtures with embedding disabled and verify readable Unicode, independent field formatting and no missing font asset errors. Enabled embedding is not implemented or certified.
 - [ ] Save as DOCX, close Word, reopen without repair or missing content.
 - [ ] Review candidate DOCX-oriented reference snapshots and record approval separately from browser/PDF similarity.
 

@@ -6,6 +6,8 @@ import type { DossierAppSnapshot } from "../../../src/lib/docx-next/build-model"
 import { buildCustomBlocks } from "../../../src/components/cover/layouts-base";
 import { TEMPLATES, type CustomField } from "../../../src/components/cover/types";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../../../src/lib/dossier-chrome";
+import { FONT_LABELS, type FontKey } from "../../../src/components/cover/types";
+import { WORD_FONTS } from "../../../src/lib/docx-next/fonts";
 
 export const BRIEF_FIXTURES = [
   "minimal",
@@ -19,6 +21,37 @@ export const BRIEF_FIXTURES = [
   "custom-sections",
 ] as const;
 export type BriefFixture = (typeof BRIEF_FIXTURES)[number];
+export function briefFontsFixture(
+  kind: "mixed" | "unavailable" | "long-letter" | "long-cv" | "offline",
+) {
+  const input = briefFixture(kind === "long-letter" || kind === "long-cv" ? kind : "minimal");
+  input.cv.design.font = kind === "offline" ? "freundlich" : "times";
+  input.letter.design.font = "humanist";
+  input.letter.design.fontOverride = "serif";
+  if (kind === "long-letter") input.letter.design.bodyFont = "times";
+  if (kind !== "mixed" && kind !== "offline")
+    input.settings.fontPolicy = {
+      availableFonts: [...new Set(Object.values(WORD_FONTS).map((font) => font.fallback))],
+      embedding: "disabled",
+    };
+  else input.settings.fontPolicy = { embedding: "disabled" };
+  if (kind !== "long-letter" && kind !== "long-cv") {
+    input.cv.design.useElements = true;
+    input.cv.elements = (Object.keys(FONT_LABELS) as FontKey[]).map((key) => ({
+      id: `font-${key}`,
+      kind: "text",
+      label: FONT_LABELS[key],
+      text: `Font ${key}: ä ö ü Ä Ö Ü é è à – — ·`,
+    }));
+    input.cv.elementStyles = Object.fromEntries(
+      (Object.keys(FONT_LABELS) as FontKey[]).map((key, index) => [
+        `font-${key}`,
+        { x: 20, y: 30 + index * 10, w: 170, size: 11, font: key },
+      ]),
+    );
+  }
+  return input;
+}
 export function briefElementsFixture(
   kind:
     | "short"

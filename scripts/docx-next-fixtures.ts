@@ -14,6 +14,7 @@ import {
   briefPaintFixture,
   briefCoverTypographyFixture,
   briefElementsFixture,
+  briefFontsFixture,
 } from "../tests/fixtures/docx-next/brief";
 
 const out = path.resolve(process.argv[2] ?? "/tmp/cv-docx-next-qa");
@@ -119,40 +120,47 @@ try {
     "elements-shapes-paper",
     "elements-artwork-failure",
     "elements-empty-disabled",
+    "fonts-mixed",
+    "fonts-unavailable",
+    "fonts-long-letter",
+    "fonts-long-cv",
+    "fonts-offline",
   ];
   const manifest = [];
   const expectedText = (run: TextRun) =>
     run.style.allCaps ? { text: run.text, allCaps: true } : run.text;
   for (const fixture of fixtureNames) {
-    const input = fixture.startsWith("elements-")
-      ? briefElementsFixture(
-          (fixture === "elements-artwork-failure" ? "shapes" : fixture.slice(9)) as Parameters<
-            typeof briefElementsFixture
-          >[0],
-        )
-      : fixture.startsWith("cover-")
-        ? briefCoverTypographyFixture(
-            fixture.slice(6) as Parameters<typeof briefCoverTypographyFixture>[0],
+    const input = fixture.startsWith("fonts-")
+      ? briefFontsFixture(fixture.slice(6) as Parameters<typeof briefFontsFixture>[0])
+      : fixture.startsWith("elements-")
+        ? briefElementsFixture(
+            (fixture === "elements-artwork-failure" ? "shapes" : fixture.slice(9)) as Parameters<
+              typeof briefElementsFixture
+            >[0],
           )
-        : fixture.startsWith("paint-")
-          ? briefPaintFixture(
-              fixture === "paint-long-letter"
-                ? "long-letter"
-                : fixture === "paint-long-cv"
-                  ? "long-cv"
-                  : "normal",
+        : fixture.startsWith("cover-")
+          ? briefCoverTypographyFixture(
+              fixture.slice(6) as Parameters<typeof briefCoverTypographyFixture>[0],
             )
-          : fixture.startsWith("chrome-custom") || fixture.startsWith("offsets-")
-            ? briefChromeFixture(fixture.endsWith("stacked"))
-            : briefFixture(
-                fixture === "photo-long-name"
-                  ? "long-values"
-                  : fixture === "photo-long-cv"
+          : fixture.startsWith("paint-")
+            ? briefPaintFixture(
+                fixture === "paint-long-letter"
+                  ? "long-letter"
+                  : fixture === "paint-long-cv"
                     ? "long-cv"
-                    : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
-                      ? (fixture as (typeof BRIEF_FIXTURES)[number])
-                      : "normal",
-              );
+                    : "normal",
+              )
+            : fixture.startsWith("chrome-custom") || fixture.startsWith("offsets-")
+              ? briefChromeFixture(fixture.endsWith("stacked"))
+              : briefFixture(
+                  fixture === "photo-long-name"
+                    ? "long-values"
+                    : fixture === "photo-long-cv"
+                      ? "long-cv"
+                      : (BRIEF_FIXTURES as readonly string[]).includes(fixture)
+                        ? (fixture as (typeof BRIEF_FIXTURES)[number])
+                        : "normal",
+                );
     if (fixture === "elements-images") {
       const field = {
         id: "custom-picture",
@@ -338,32 +346,37 @@ try {
       )
       .filter((block) => block.kind === "paragraph")
       .flatMap((block) => (block.kind === "paragraph" ? block.runs.map(expectedText) : []));
-    const cvPages =
-      fixture === "elements-long"
-        ? 4
-        : fixture === "elements-shapes" || fixture === "elements-shapes-paper"
-          ? 3
-          : fixture === "elements-page-two"
-            ? 2
-            : fixture === "minimal" || fixture === "empty-optional"
-              ? 1
-              : fixture === "paint-long-cv"
-                ? 11
-                : fixture === "long-cv" || fixture === "photo-long-cv"
-                  ? 9
-                  : fixture === "custom-sections"
-                    ? 3
-                    : 2;
+    const cvPages = ["fonts-mixed", "fonts-unavailable", "fonts-offline"].includes(fixture)
+      ? 1
+      : fixture === "fonts-long-cv"
+        ? 8
+        : fixture === "elements-long"
+          ? 4
+          : fixture === "elements-shapes" || fixture === "elements-shapes-paper"
+            ? 3
+            : fixture === "elements-page-two"
+              ? 2
+              : fixture === "minimal" || fixture === "empty-optional"
+                ? 1
+                : fixture === "paint-long-cv"
+                  ? 11
+                  : fixture === "long-cv" || fixture === "photo-long-cv"
+                    ? 9
+                    : fixture === "custom-sections"
+                      ? 3
+                      : 2;
     const letterPages =
-      fixture === "paint-long-letter"
-        ? 9
-        : fixture === "long-letter"
-          ? 8
-          : fixture === "columns-long-chrome"
-            ? 4
-            : fixture === "columns-long"
-              ? 3
-              : 1;
+      fixture === "fonts-long-letter"
+        ? 7
+        : fixture === "paint-long-letter"
+          ? 11
+          : fixture === "long-letter"
+            ? 9
+            : fixture === "columns-long-chrome"
+              ? 5
+              : fixture === "columns-long"
+                ? 4
+                : 1;
     const coverPages = fixture === "elements-long" ? 3 : fixture === "cover-long-list" ? 2 : 1;
     const parts = [model.cover, model.letter, model.cv].map((part, index) => ({
       id: part.id,
@@ -383,6 +396,14 @@ try {
         block.kind === "paragraph" ? block.runs.map(expectedText) : [],
       ),
       artwork: part.artwork,
+      fontProbes:
+        fixture === "fonts-unavailable"
+          ? walkBlocks(part.blocks).flatMap((block) =>
+              block.kind === "paragraph" && block.id.startsWith("cv.element:font-")
+                ? block.runs.map((run) => ({ text: run.text, font: run.style.font }))
+                : [],
+            )
+          : [],
       flowBoxes: walkBlocks(part.blocks).flatMap((block) =>
         block.kind === "table" && block.sourceLayout && block.decoration?.borderWidthMm
           ? [
@@ -428,6 +449,7 @@ try {
       durationMs: Math.round(performance.now() - started),
       semanticText,
       modelIssues: model.issues,
+      fontPolicy: model.fonts,
       omittedDecorations,
     });
   }

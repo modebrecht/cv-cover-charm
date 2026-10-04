@@ -1,6 +1,7 @@
 import { walkBlocks, type DossierDocModel } from "./model";
 import type { WordPackage } from "./package";
 import { validateDecoration } from "./decoration";
+import { fontDefinition } from "./fonts";
 
 /** Validate known semantic structures and package parts, never visible text occurrence. */
 export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): void {
@@ -23,6 +24,9 @@ export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): v
   validateDossierDocModel(model);
 }
 export function validateDossierDocModel(model: DossierDocModel): void {
+  fontDefinition(model.theme.font);
+  if (model.fonts.embedding !== "disabled")
+    throw new Error("DOCX Next unsupported font embedding policy");
   const ids = new Set<string>();
   for (const part of [model.cover, model.letter, model.cv]) {
     const margins = part.page.margins;
@@ -90,6 +94,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw new Error(`DOCX Next decoration outside page ${block.id}`);
       }
       if (block.kind === "paragraph") {
+        block.runs.forEach((run) => fontDefinition(run.style.font));
         if (
           ![block.beforeMm, block.afterMm, block.lineHeight].every(Number.isFinite) ||
           Math.min(block.beforeMm, block.afterMm) < 0 ||

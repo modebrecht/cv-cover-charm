@@ -37,7 +37,7 @@ import type {
   ModelIssue,
 } from "./model";
 import { nextTemplate } from "./templates";
-import { wordFont } from "./fonts";
+import { wordFont as fontForKey, createFontResolver, type FontPolicy } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
 import { textElement, imageElement, shapeElement, flowingElementBox } from "./elements";
 import {
@@ -68,6 +68,7 @@ export type DossierAppSnapshot = {
     /** Canonical paths only; no visible-value or occurrence matching. */
     fieldStyles?: Record<string, Partial<TextStyle>>;
     unresolvedTypography?: string[];
+    fontPolicy?: FontPolicy;
   };
 };
 export function color(value: string | null | undefined, fallback: string): string {
@@ -105,12 +106,19 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   const template = nextTemplate(String(cover.template));
   if (String(letter.design.template) !== template.id || String(cv.design.template) !== template.id)
     throw new Error("DOCX Next requires matching dossier templates.");
+  const fonts = createFontResolver(settings.fontPolicy);
+  const wordFont = (key: Parameters<typeof fontForKey>[0], fallback: string) =>
+    fonts.resolve(fontForKey(key, fallback));
   const theme = {
     font: wordFont(cv.design.font ?? letter.design.fontOverride, template.typography.font),
     ink: color(cover.colors.ink, template.colors.ink),
     accent: color(cover.colors.accent ?? cover.colors.primary, template.colors.accent),
     paper: color(cover.colors.bg, template.colors.paper),
   };
+  const letterFont = wordFont(
+    letter.design.template === "brief" ? letter.design.font : letter.design.fontOverride,
+    theme.font,
+  );
   const issues: ModelIssue[] = (settings.unresolvedTypography ?? []).map((id) => ({
     code: "unresolved-legacy-typography",
     fieldId: id,
@@ -118,7 +126,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   }));
   const style = (id: string, patch: Partial<TextStyle> = {}): TextStyle => {
     const result = {
-      font: theme.font,
+      font: id.startsWith("letter.") ? letterFont : theme.font,
       sizePt: template.typography.bodyPt,
       color: theme.ink,
       bold: false,
@@ -129,6 +137,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     };
     return {
       ...result,
+      font: fonts.resolve(result.font),
       sizePt: Number.isFinite(result.sizePt)
         ? Math.max(5, Math.min(72, result.sizePt))
         : template.typography.bodyPt,
@@ -311,7 +320,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       ...(value
         ? {
             ...value,
-            font: wordFont(value.font, theme.font),
+            font: wordFont(value.font, letterFont),
             sizePt: value.fontSizePt ?? template.typography.bodyPt,
           }
         : {}),
@@ -366,7 +375,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         [ld.ort, ld.datum].filter(Boolean).join(", "),
         {
           color: letterInk,
-          font: wordFont(design.dateFont, theme.font),
+          font: wordFont(design.dateFont, letterFont),
           sizePt: design.dateFontSizePt ?? 10.5,
         },
         { align: design.dateAlign ?? "right", afterMm: 5 },
@@ -394,7 +403,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         ld.anrede,
         {
           color: letterInk,
-          font: wordFont(design.salutationFont, theme.font),
+          font: wordFont(design.salutationFont, letterFont),
           sizePt: design.salutationFontSizePt ?? 10.5,
         },
         { keepNext: true, afterMm: 3 },
@@ -402,7 +411,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     );
   const bodyStyle = style("letter.body", {
     color: letterInk,
-    font: wordFont(design.bodyFont, theme.font),
+    font: wordFont(design.bodyFont, letterFont),
     sizePt: design.bodyFontSizePt ?? 10.5,
   });
   letterPart.blocks.push(
@@ -434,7 +443,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         ld.gruss,
         {
           color: letterInk,
-          font: wordFont(design.closingFont, theme.font),
+          font: wordFont(design.closingFont, letterFont),
           sizePt: design.closingFontSizePt ?? 10.5,
         },
         { beforeMm: ld.grussAbstandMm ?? 4, keepNext: true },
@@ -447,7 +456,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         ld.unterschrift,
         {
           color: letterInk,
-          font: wordFont(design.signatureFont, theme.font),
+          font: wordFont(design.signatureFont, letterFont),
           sizePt: design.signatureFontSizePt ?? 10.5,
         },
         { beforeMm: ld.unterschriftAbstandMm ?? 1, afterMm: 5 },
@@ -464,7 +473,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
             text,
             {
               color: letterInk,
-              font: wordFont(design.attachmentsFont, theme.font),
+              font: wordFont(design.attachmentsFont, letterFont),
               sizePt: design.attachmentsFontSizePt ?? 9,
             },
           ),
@@ -762,7 +771,10 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     for (const target of [letterPart, cvPart]) {
       const scope = target.id as "letter" | "cv";
       const { options, contact, content } = resolved[scope];
-      const font = wordFont(options.textFont ?? undefined, theme.font);
+      const font = wordFont(
+        options.textFont ?? undefined,
+        scope === "letter" ? letterFont : theme.font,
+      );
       const customParagraph = (
         surface: "header" | "footer",
         key: "title" | "text",
@@ -1044,6 +1056,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     },
     templateId: template.id,
     theme,
+    fonts: fonts.result(),
     cover: coverPart,
     letter: letterPart,
     cv: cvPart,

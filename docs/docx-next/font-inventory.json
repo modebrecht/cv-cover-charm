@@ -1,0 +1,366 @@
+{
+  "selectionSource": "src/components/cover/TemplatePicker.tsx",
+  "registeredCount": 41,
+  "retiredFromPicker": [
+    "warm4",
+    "warm5"
+  ],
+  "appStacks": {
+    "sans": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+    "serif": "Georgia, 'Times New Roman', Times, serif",
+    "times": "'Times New Roman', Times, Georgia, serif",
+    "humanist": "Verdana, Geneva, 'DejaVu Sans', sans-serif",
+    "freundlich": "Cabin, 'Trebuchet MS', 'Segoe UI', Tahoma, sans-serif",
+    "schmal": "'Arial Narrow', 'Liberation Sans Narrow', 'Helvetica Neue Condensed', Arial, sans-serif",
+    "maschine": "'Courier New', Courier, 'DejaVu Sans Mono', monospace",
+    "plakativ": "Impact, Haettenschweiler, 'Arial Black', 'Franklin Gothic Bold', sans-serif"
+  },
+  "docxMappings": {
+    "sans": {
+      "font": "Arial",
+      "fallback": "Liberation Sans",
+      "reason": "Portable sans serif"
+    },
+    "serif": {
+      "font": "Georgia",
+      "fallback": "Liberation Serif",
+      "reason": "Preserve serif design"
+    },
+    "times": {
+      "font": "Times New Roman",
+      "fallback": "Liberation Serif",
+      "reason": "Native Word serif"
+    },
+    "humanist": {
+      "font": "Verdana",
+      "fallback": "DejaVu Sans",
+      "reason": "Preserve humanist width"
+    },
+    "freundlich": {
+      "font": "Trebuchet MS",
+      "fallback": "Liberation Sans",
+      "reason": "Nonembedded Cabin substitute; local OFL/fsType allow embedding but embedded-font Word acceptance is pending"
+    },
+    "schmal": {
+      "font": "Arial Narrow",
+      "fallback": "Liberation Sans Narrow",
+      "reason": "Preserve condensed design"
+    },
+    "maschine": {
+      "font": "Courier New",
+      "fallback": "Liberation Mono",
+      "reason": "Preserve monospaced metrics"
+    },
+    "plakativ": {
+      "font": "Impact",
+      "fallback": "DejaVu Sans",
+      "reason": "Preserve display face"
+    }
+  },
+  "embedding": "disabled",
+  "localFonts": {
+    "license": "public/fonts/Cabin-OFL.txt",
+    "licenseSha256": "965bf33673aec648a3b399185639e502b58e52693d004fc03f6bbdf21b1a0094",
+    "files": [
+      {
+        "path": "public/fonts/Cabin-Regular.ttf",
+        "bytes": 103092,
+        "fsType": 0,
+        "sha256": "000cb4e6208ed687cc7f8a2ed6cdda5f9e2dcb84ac3eeba4818e1b985516fe6f"
+      },
+      {
+        "path": "public/fonts/Cabin-Bold.ttf",
+        "bytes": 102512,
+        "fsType": 0,
+        "sha256": "6a88be627ca9fd44fa011aada32f5207c3149f026fcaef04bf3ebce2e9798fd9"
+      },
+      {
+        "path": "public/fonts/Cabin-Italic.ttf",
+        "bytes": 93372,
+        "fsType": 0,
+        "sha256": "24970990a2cc8cdb1a75660cab910383afdacfef8daf0563f328d7f034911d2c"
+      },
+      {
+        "path": "public/fonts/Cabin-BoldItalic.ttf",
+        "bytes": 93332,
+        "fsType": 0,
+        "sha256": "9d069ae506f21f0eb7b8856886c951fc9ef26f45413cde93b26791cc3475582f"
+      }
+    ]
+  },
+  "templates": [
+    {
+      "id": "brief",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "klassisch",
+      "familyStack": "Georgia, 'Times New Roman', Times, serif",
+      "coverTextKeys": [
+        "serif"
+      ]
+    },
+    {
+      "id": "modern",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "freundlich",
+      "familyStack": "Georgia, 'Times New Roman', Times, serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "edel",
+      "familyStack": "'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif",
+      "coverTextKeys": [
+        "serif"
+      ]
+    },
+    {
+      "id": "colorful",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "blockig",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "serioes",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "human",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "serif"
+      ]
+    },
+    {
+      "id": "welle",
+      "familyStack": "'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "terracotta",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "pastell",
+      "familyStack": "'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif",
+      "coverTextKeys": [
+        "serif"
+      ]
+    },
+    {
+      "id": "sonne",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "studio",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "neon",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "aurora",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "verlauf",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "citrus",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "edge",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "glow",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "monoLuxe",
+      "familyStack": "Georgia, 'Times New Roman', Times, serif",
+      "coverTextKeys": [
+        "serif"
+      ]
+    },
+    {
+      "id": "horizon",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "sunrise",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "forestFlow",
+      "familyStack": "'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif",
+      "coverTextKeys": [
+        "serif"
+      ]
+    },
+    {
+      "id": "violetPulse",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "studio2",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "studio3",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "warm2",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "warm3",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "verlauf2",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "verlauf3",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "ledger",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "prism",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "gallery",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "orbit",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "ribbon",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "cove",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "diagonal",
+      "familyStack": "'Helvetica Neue', Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "coverTextKeys": [
+        "sans"
+      ]
+    },
+    {
+      "id": "edelDark",
+      "familyStack": "'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif",
+      "coverTextKeys": [
+        "serif"
+      ]
+    }
+  ]
+}

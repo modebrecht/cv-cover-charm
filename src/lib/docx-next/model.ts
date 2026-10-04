@@ -1,4 +1,5 @@
 /** Word-independent document data. Units are millimetres and typographic points. */
+import type { FontPolicyResult } from "./fonts";
 export type TextStyle = {
   font: string;
   sizePt: number;
@@ -159,6 +160,7 @@ export type DossierDocModel = {
   metadata: { title: string; author: string; subject: string; keywords: string };
   templateId: string;
   theme: { font: string; ink: string; accent: string; paper: string };
+  fonts: FontPolicyResult;
   cover: DocumentPart;
   letter: DocumentPart;
   cv: DocumentPart;
