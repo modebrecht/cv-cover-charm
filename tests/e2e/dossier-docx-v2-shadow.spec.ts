@@ -274,7 +274,22 @@ test.describe("DOCX V2 shadow browser contract", () => {
     });
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "networkidle" });
     const root = page.locator("main [data-letter-document-root]");
+    // Initial hydrated defaults can be ready before the saved long body/design
+    // arrives. Wait for this fixture and its measured pages, not network idle.
+    await expect(root.locator("[data-letter-document-pages]")).toContainText("Absatz 22:");
+    await expect
+      .poll(() => root.locator("[data-letter-document-pages] [data-letter-page]").count())
+      .toBeGreaterThan(1);
     await expect(root).toHaveAttribute("data-letter-pagination-ready", "true");
+    const body = root
+      .locator('[data-letter-document-pages] [data-letter-pdf-richtext="body"] > div')
+      .first();
+    await expect
+      .poll(() => body.evaluate((node) => parseFloat(getComputedStyle(node).fontSize)))
+      .toBeCloseTo((13 * 96) / 72, 3);
+    await expect(
+      root.locator('[data-letter-document-pages] [data-letter-pdf-text="recipient"]').first(),
+    ).toHaveCSS("font-size", "20px");
     const evidence = await root.evaluate(async (root) => {
       const { letterPageOverflows } = await import("/src/components/letter/preflight.ts");
       const pages = Array.from(

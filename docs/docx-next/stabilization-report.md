@@ -7,6 +7,8 @@ The final commit is the Git revision containing this report; the downloadable re
 
 The original CI dossier-flow failure was real and reproducible: the measured long Letter exceeded its physical content area. Measurement probes lost template and user typography because CSS used a physical export-page marker that probes deliberately remove. The permanent `data-letter-canvas` styling hook and an in-canvas height sandbox restore the same typography for measurement and actual pages. The overflow guard remains unchanged. [Exact error, geometry and classification](dossier-flow-regression.md).
 
+The first published stabilization run passed the original export assertion but found a readiness race in the newly added test (69 passed, 1 failed). That test now waits for the saved long body, multiple measured pages and authored font sizes instead of treating an initially ready default as the final state. Ten consecutive corrected runs pass (36.9 seconds); typecheck and lint were rechecked with no errors. No app/render change or relaxed assertion was needed. Check the GitHub M6 status of the review manifest's final source SHA for the complete published rerun.
+
 ## Architectural changes
 
 - Neutral authored source DTOs and an explicit historical PDF-type adapter exclude top-level measured/print state. The [field audit](source-boundary.md) distinguishes saved design intent from browser pagination.
