@@ -104,6 +104,8 @@ export type TemplateDefinition = {
   cv: { sectionSpaceMm: number; headingRule: boolean; sidebarFraction: number };
   /** Quiet page paint independent of running contact chrome; repeats in native header stories. */
   pageMotifs?: Partial<Record<"cover" | "letter" | "cv", readonly TemplateMotif[]>>;
+  /** Serialize page paint by declared layers for consistent native importer stacking. */
+  pagePaintOrder?: "layer";
   artwork: readonly { asset: string; semanticText: false }[];
 };
 export const BRIEF: TemplateDefinition = {
@@ -2476,6 +2478,7 @@ export const DIAGONAL: TemplateDefinition = {
 export const KLASSISCH: TemplateDefinition = {
   ...BRIEF,
   id: "klassisch",
+  pagePaintOrder: "layer",
   archetype: "editorial",
   typography: { font: "Georgia", bodyPt: 10.5, namePt: 18, headingPt: 12, heroPt: 24 },
   colors: { ink: "111111", accent: "8A6A3B", paper: "F5EFE4" },
@@ -2574,6 +2577,102 @@ export const KLASSISCH: TemplateDefinition = {
     ],
   },
 };
+/** Light executive stationery, distinct from the separately inventoried Edel Dark. */
+export const EDEL: TemplateDefinition = {
+  ...KLASSISCH,
+  id: "edel",
+  colors: { ink: "181817", accent: "8D6B2D", paper: "FCFBF8" },
+  typography: { font: "Georgia", bodyPt: 10.5, namePt: 12, headingPt: 12, heroPt: 30 },
+  margins: { top: 25, right: 27, bottom: 24, left: 27 },
+  cover: {
+    ...KLASSISCH.cover,
+    margins: { top: 22, right: 25, bottom: 22, left: 25 },
+    photoWidthMm: 42,
+    heroLeadMm: 25,
+    photoAbsentLeadMm: 69,
+    heroSpaceMm: 22,
+    fieldSpaceBeforeMm: { name: 12 },
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["beilagenTitel", "beilagen", "anTitel", "empfaenger"],
+        ],
+        widths: [1, 1],
+        beforeMm: 40,
+      },
+    ],
+  },
+  pageMotifs: {
+    cover: [
+      {
+        shape: "rect",
+        xFraction: 12 / 210,
+        widthFraction: 186 / 210,
+        topMm: 12,
+        heightMm: 273,
+        stroke: { slot: "accent", widthMm: 0.159 },
+        opacity: 0.5,
+        paintLayer: 1,
+      },
+      {
+        shape: "rect",
+        xFraction: 15 / 210,
+        widthFraction: 180 / 210,
+        topMm: 15,
+        heightMm: 267,
+        stroke: { slot: "accent", widthMm: 0.106 },
+        opacity: 0.25,
+        paintLayer: 2,
+      },
+    ],
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 9 / 210,
+        widthFraction: 192 / 210,
+        topMm: 9,
+        heightMm: 279,
+        stroke: { slot: "accent", widthMm: 0.146 },
+        opacity: 0.46,
+        paintLayer: 1,
+      },
+      {
+        shape: "rect",
+        xFraction: 12 / 210,
+        widthFraction: 186 / 210,
+        topMm: 12,
+        heightMm: 273,
+        stroke: { slot: "accent", widthMm: 0.093 },
+        opacity: 0.24,
+        paintLayer: 2,
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 9 / 210,
+        widthFraction: 192 / 210,
+        topMm: 9,
+        heightMm: 279,
+        stroke: { slot: "accent", widthMm: 0.146 },
+        opacity: 0.46,
+        paintLayer: 1,
+      },
+      {
+        shape: "rect",
+        xFraction: 12 / 210,
+        widthFraction: 186 / 210,
+        topMm: 12,
+        heightMm: 273,
+        stroke: { slot: "accent", widthMm: 0.093 },
+        opacity: 0.24,
+        paintLayer: 2,
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2596,6 +2695,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   verlauf3: VERLAUF_3,
   diagonal: DIAGONAL,
   klassisch: KLASSISCH,
+  edel: EDEL,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

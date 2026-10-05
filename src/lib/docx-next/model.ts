@@ -166,6 +166,8 @@ export type DecorativeArtwork = {
   heightMm: number;
 };
 export type DocumentPart = {
+  /** Optional native anchor order; absent retains original package serialization. */
+  paintOrder?: "layer";
   id: "cover" | "letter" | "cv";
   blocks: DocBlock[];
   page: {

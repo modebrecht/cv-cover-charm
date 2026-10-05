@@ -56,12 +56,18 @@ const addedSelections = [
   "verlauf3",
   "diagonal",
   "klassisch",
+  "edel",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  edel: {
+    cv: { "long-cv": 15, timeline: 20, magazin: 1 },
+    letter: { "long-letter": 13, continuation: 11 },
+    cover: { "cover-long": 3 },
+  },
   klassisch: {
     cv: { "long-cv": 15, timeline: 20, magazin: 1, "long-values": 3 },
     letter: { "long-letter": 13, continuation: 10 },
@@ -875,6 +881,22 @@ try {
             }
           : undefined,
       pageScopedShapes: part.headerShapes ?? [],
+      linePaintProbes:
+        part.paintOrder === "layer"
+          ? part.headerShapes
+              ?.filter((shape) => shape.shape === "line" && shape.fill)
+              .map((shape) => ({
+                id: shape.id,
+                xMm: shape.xMm + shape.widthMm / 2,
+                yMm: shape.yMm,
+                heightMm: shape.heightMm,
+                color: shape.fill!.color,
+                opacity: shape.opacity,
+                backdrop:
+                  part.artwork.find((paint) => paint.id.endsWith(".paper"))?.fill.color ?? "FFFFFF",
+                repeat: shape.repeat,
+              }))
+          : undefined,
       tailProbe:
         (isPrism || isHuman) && part.id === "letter"
           ? {

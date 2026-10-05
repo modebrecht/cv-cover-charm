@@ -3,6 +3,7 @@ import {
   decorationPageGeometry,
   ensureFirstHeader,
   artworkApplies,
+  orderedPagePaint,
 } from "../../src/lib/docx-next/page-artwork";
 import { decorationAssetKey, validateDecoration } from "../../src/lib/docx-next/decoration";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
@@ -47,6 +48,58 @@ async function parts(model: ReturnType<typeof buildDossierDocModel>) {
   );
 }
 describe("shared native template primitives", () => {
+  test("opt-in page paint serializes native anchors by layer, scopes stories and keeps earlier packages unchanged", async () => {
+    const model = buildDossierDocModel(briefFixture());
+    model.cover.artwork = [
+      {
+        kind: "decorative-artwork",
+        id: "paper",
+        semanticText: false,
+        paintLayer: 0,
+        fill: { color: "FFFFFF" },
+        xMm: 0,
+        yMm: 0,
+        widthMm: 210,
+        heightMm: 297,
+      },
+    ];
+    model.cover.headerShapes = [
+      { ...shape, id: "foreground", paintLayer: 3, repeat: "first" },
+      { ...shape, id: "frame", paintLayer: 1 },
+      { ...shape, id: "continuation", paintLayer: 2, repeat: "continuation" },
+    ];
+    expect(orderedPagePaint(model.cover, true).map((p) => p.id)).toEqual([
+      "paper",
+      "foreground",
+      "frame",
+    ]);
+    ensureFirstHeader(model.cover);
+    model.cover.paintOrder = "layer";
+    expect(orderedPagePaint(model.cover, true).map((p) => p.id)).toEqual([
+      "paper",
+      "frame",
+      "foreground",
+    ]);
+    expect(orderedPagePaint(model.cover, false).map((p) => p.id)).toEqual([
+      "paper",
+      "frame",
+      "continuation",
+    ]);
+    expect(model.cover.headerShapes[0].id).toBe("foreground");
+    const xml = (await parts(model)).get("word/cover-header.xml")!;
+    expect([...xml.matchAll(/relativeHeight="(\d+)"/g)].map((m) => Number(m[1]))).toEqual([
+      0, 1, 2,
+    ]);
+    model.cover.artwork.push({
+      ...model.cover.artwork[0],
+      id: "authored chrome",
+      paintLayer: undefined,
+    });
+    expect(orderedPagePaint(model.cover, true).at(-1)).toMatchObject({
+      id: "authored chrome",
+      paintLayer: 5,
+    });
+  });
   test("explicit paint stacking is independent of global DrawingML IDs in both native stories", async () => {
     const model = buildDossierDocModel(briefFixture());
     model.cover.blocks.push(

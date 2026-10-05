@@ -419,6 +419,27 @@ def check_paint_probes(document, fixture):
                 assert max(abs(a-b) for a,b in zip(actual, expected)) <= 4, f'{fixture["fixture"]}: declared paint lost on {part["id"]} page {relative_page+1}: {actual} != {expected}'
         start += part['expectedPages']
 
+def check_line_paint(document, fixture):
+    """Pixel evidence catches thin native anchors hidden by an opaque paper underlay."""
+    start, scale = 0, 4 * 72 / 25.4
+    rgb = lambda value: tuple(int(value.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
+    for part in fixture['parts']:
+        for relative_page, page in enumerate(document[start:start + part['expectedPages']]):
+            probes = [probe for probe in part.get('linePaintProbes') or []
+                      if probe.get('repeat') in (None, 'first' if relative_page == 0 else 'continuation')]
+            if not probes:
+                continue
+            pixels = page.get_pixmap(matrix=fitz.Matrix(4, 4))
+            for probe in probes:
+                alpha = probe['opacity']
+                expected = tuple(round(a * alpha + b * (1-alpha)) for a, b in zip(rgb(probe['color']), rgb(probe['backdrop'])))
+                x = round(probe['xMm'] * scale)
+                # Importers may enlarge submillimeter anchor heights. Inspect the bounded ink strip.
+                samples = [pixels.pixel(x, y)[:3] for y in range(round(probe['yMm'] * scale), round((probe['yMm'] + max(probe['heightMm'], 0.5)) * scale) + 1)]
+                assert any(max(abs(a-b) for a,b in zip(sample,expected)) <= 8 for sample in samples), f'{fixture["fixture"]}: missing thin paint {probe["id"]} on page {relative_page+1}'
+        start += part['expectedPages']
+
+
 def check_letter_tail(document, fixture):
     start = 0
     for part in fixture['parts']:
@@ -667,7 +688,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-', 'klassisch-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
+    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-', 'klassisch-', 'edel-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
@@ -681,6 +702,7 @@ for fixture in manifest:
     check_artwork(document, fixture)
     check_scoped_shapes(document, fixture)
     check_paint_probes(document, fixture)
+    check_line_paint(document, fixture)
     check_letter_tail(document, fixture)
     check_header_paint_coverage(document, fixture)
     check_cover_features(document, fixture)
@@ -756,6 +778,7 @@ for fixture in manifest:
             check_artwork(reopened, fixture)
             check_scoped_shapes(reopened, fixture)
             check_paint_probes(reopened, fixture)
+            check_line_paint(reopened, fixture)
             check_letter_tail(reopened, fixture)
             check_header_paint_coverage(reopened, fixture)
             check_cover_features(reopened, fixture)

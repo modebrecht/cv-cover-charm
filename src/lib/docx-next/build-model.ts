@@ -172,6 +172,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       headerDistanceMm: template.chrome.headerDistanceMm,
       footerDistanceMm: template.chrome.footerDistanceMm,
     },
+    ...(template.pagePaintOrder ? { paintOrder: template.pagePaintOrder } : {}),
     artwork: [],
     header: [],
     footer: [],

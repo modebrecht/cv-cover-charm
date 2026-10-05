@@ -1,5 +1,7 @@
 # DOCX Next checkpoint — 2026-10-05
 
+**Latest Edel batch step:** 22/39 configured candidates, 0/39 Word accepted. [Evidence](edel-stress-report.md): 14 fixtures/110 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
+
 **Latest Editorial (Klassisch) batch step:** 21/39 configured candidates, 0/39 Word accepted. [Evidence](klassisch-stress-report.md): 14 fixtures/110 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
 
 **Latest completed local batch:** [Verlauf 2 / Verlauf 3 / Diagonal report](batch-verlauf-diagonal-report.md): 20/39 configured, 0/39 Word accepted; 41 new fixtures/294 pages and 920 full units pass. CI deferred to the single final batch publication. Microsoft Word acceptance: pending.

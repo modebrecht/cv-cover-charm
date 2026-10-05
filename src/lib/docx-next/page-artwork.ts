@@ -41,3 +41,22 @@ export function ensureFirstHeader(part: DocumentPart): void {
     runs: p.runs.map((run) => ({ ...run, id: `${run.id}.first` })),
   }));
 }
+
+/** Native importers must see anchors in the same order as their declared paint layers. */
+export function orderedPagePaint(
+  part: DocumentPart,
+  first: boolean,
+): (DecorativeArtwork | DecorativeShape)[] {
+  const paint = [...part.artwork, ...(part.headerShapes ?? [])].filter((value) =>
+    artworkApplies(value, first),
+  );
+  if (part.paintOrder === undefined) return paint;
+  if (part.paintOrder !== "layer") throw new Error("DOCX Next unsupported page paint ordering");
+  // Authored chrome without a layer remains above descriptor background paint.
+  const top = Math.max(0, ...paint.map((value) => value.paintLayer ?? 0));
+  if (paint.some((value) => value.paintLayer === undefined) && top + paint.length > 0x7fffffff)
+    throw new Error("DOCX Next page paint ordering exceeds native layer range");
+  return paint
+    .map((value, index) => ({ ...value, paintLayer: value.paintLayer ?? top + index + 1 }))
+    .sort((a, b) => a.paintLayer - b.paintLayer);
+}

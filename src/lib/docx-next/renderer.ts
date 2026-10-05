@@ -25,7 +25,7 @@ import { pictureGeometry } from "./picture-geometry";
 import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
-import { artworkApplies, decorationPageGeometry } from "./page-artwork";
+import { decorationPageGeometry, orderedPagePaint } from "./page-artwork";
 import {
   control,
   paragraph,
@@ -427,14 +427,13 @@ export async function renderDossierDocx(
     const story = `word/${id}.xml`;
     const drawings =
       scope === "header"
-        ? [
-            ...part.artwork
-              .filter((value) => artworkApplies(value, first))
-              .map((value) => artwork(value, part, story)),
-            ...(part.headerShapes ?? [])
-              .filter((value) => artworkApplies(value, first))
-              .map((value) => decorationRun(value, part.page, story)),
-          ].join("")
+        ? orderedPagePaint(part, first)
+            .map((value) =>
+              value.kind === "decorative-artwork"
+                ? artwork(value, part, story)
+                : decorationRun(value, part.page, story),
+            )
+            .join("")
         : "";
     const paragraphs = content.length
       ? content.map((value, index) => renderParagraph(value, index === 0 ? drawings : "")).join("")
