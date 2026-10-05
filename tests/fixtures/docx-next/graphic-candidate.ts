@@ -18,7 +18,11 @@ export const GRAPHIC_FIXTURES = [
   "no-motifs",
   "custom-colors",
 ] as const;
-export type GraphicFixture = (typeof GRAPHIC_FIXTURES)[number] | "sidebar-blocked" | "cover-long";
+export type GraphicFixture =
+  | (typeof GRAPHIC_FIXTURES)[number]
+  | "sidebar-blocked"
+  | "cover-long"
+  | "contact-long";
 export function graphicCandidateFixture(
   template: string,
   kind: GraphicFixture = "normal",
@@ -121,6 +125,12 @@ export function graphicCandidateFixture(
       },
     });
     input.cover.customFieldIds = [...(input.cover.customFieldIds ?? []), "continuation-text"];
+  }
+  if (kind === "contact-long") {
+    input.cover.blocks.find((block) => block.id === "kontakt")!.lines = Array.from(
+      { length: 60 },
+      (_, index) => `Kontaktzeile ${index + 1}: editierbarer Kontakt`,
+    );
   }
   if (kind === "sidebar-blocked") input.settings.cvLayout = "sidebar";
   return input;

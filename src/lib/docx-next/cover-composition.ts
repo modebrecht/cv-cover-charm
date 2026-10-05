@@ -1,5 +1,6 @@
 import type { DossierCoverSource } from "./source";
 import type { DocBlock, DocumentPart, Paragraph } from "./model";
+import { walkBlocks } from "./model";
 import type { TemplateDefinition } from "./templates";
 import { compositeTextColor } from "./colors";
 import { hasUserStyle } from "@/components/cover/user-style-precedence";
@@ -23,6 +24,32 @@ export function composeCover(
   )
     throw new Error("DOCX Next invalid semantic cover field lead");
   const blocks: DocBlock[] = [];
+  const surfaceIds = new Set(
+    (template.cover.rows ?? [])
+      .flatMap((row) => [row.surfaceElementId, ...(row.cellSurfaceElementIds ?? [])])
+      .filter((id): id is string => !!id),
+  );
+  const surfaces = new Map<string, string>();
+  for (const id of surfaceIds) {
+    const source = cover.blocks.find((block) => block.id === id);
+    if (!source) throw new Error(`DOCX Next missing authored cover surface ${id}`);
+    if (source.style.hidden) continue;
+    if (
+      source.kind !== "shape" ||
+      source.shape !== "rect" ||
+      source.style.gradFrom ||
+      source.style.gradTo ||
+      !source.style.fill ||
+      source.style.bgRadius ||
+      (source.style.strokeWidth ?? 0) > 0
+    )
+      throw new Error("DOCX Next native cover surfaces require solid unbordered rectangles");
+    const shape = shapeElement(source, `cover.${id}`, coverContext);
+    surfaces.set(
+      id,
+      compositeTextColor(shape.fill!.color, coverContext.paper ?? "FFFFFF", shape.opacity),
+    );
+  }
 
   const coverDecoration: DocBlock[] = [];
   // Cover fields come with semantic block IDs before any rendering. Geometry becomes flowing composition.
@@ -49,6 +76,7 @@ export function composeCover(
     if (seenCover.has(id)) throw new Error(`Duplicate cover field identity: ${id}`);
     seenCover.add(id);
     if (block.kind === "shape") {
+      if (surfaceIds.has(block.id)) continue;
       const rule = template.cover.flowingRules?.[block.id];
       if (rule) {
         if (
@@ -129,9 +157,13 @@ export function composeCover(
     const rowFill =
       (cellIndex !== undefined ? ownerRow?.cellFillSlots?.[cellIndex] : undefined) ??
       ownerRow?.fillSlot;
-    const fieldContext = rowFill
-      ? { ...coverContext, paper: color(cover.colors[rowFill], accent) }
-      : coverContext;
+    const authoredSurface =
+      (cellIndex !== undefined
+        ? surfaces.get(ownerRow?.cellSurfaceElementIds?.[cellIndex] ?? "")
+        : undefined) ?? surfaces.get(ownerRow?.surfaceElementId ?? "");
+    const fieldPaper =
+      authoredSurface ?? (rowFill ? color(cover.colors[rowFill], accent) : undefined);
+    const fieldContext = fieldPaper ? { ...coverContext, paper: fieldPaper } : coverContext;
     const defaultColorSlot = template.cover.fieldColorSlots?.[block.id];
     const styledBlock =
       defaultColorSlot && !hasUserStyle(block, "color")
@@ -192,6 +224,12 @@ export function composeCover(
   for (const [index, row] of (template.cover.rows ?? []).entries()) {
     if (row.cellFillSlots && row.cellFillSlots.length !== row.fields.length)
       throw new Error("DOCX Next cover cell surfaces must match declared columns");
+    if (
+      (row.cellSurfaceElementIds && row.cellSurfaceElementIds.length !== row.fields.length) ||
+      (row.surfaceElementId && row.fillSlot) ||
+      row.cellSurfaceElementIds?.some((id, index) => id && row.cellFillSlots?.[index])
+    )
+      throw new Error("DOCX Next authored cover surfaces require unambiguous matching columns");
     const ids = row.fields.map((field) =>
       (typeof field === "string" ? [field] : field).map((id) => `cover.${aliases[id] ?? id}`),
     );
@@ -205,7 +243,10 @@ export function composeCover(
     const selected = new Set(sourceCells.flat());
     const cells = sourceCells.map((cell, cellIndex): DocBlock[] => {
       const slot = row.cellFillSlots?.[cellIndex];
-      return slot && cell.length
+      const fillColor =
+        surfaces.get(row.cellSurfaceElementIds?.[cellIndex] ?? "") ??
+        (slot ? color(cover.colors[slot], accent) : undefined);
+      return fillColor && cell.length
         ? [
             {
               kind: "table",
@@ -213,7 +254,7 @@ export function composeCover(
               widths: [1],
               rows: [{ cells: [cell], keepTogether: false }],
               decoration: {
-                fillColor: color(cover.colors[slot], accent),
+                fillColor,
                 borderColor: accent,
                 borderWidthMm: 0,
                 paddingXMm: 3,
@@ -229,11 +270,13 @@ export function composeCover(
       widths: [...row.widths],
       rows: [{ cells, keepTogether: false }],
       decoration: {
-        fillColor: row.fillSlot ? color(cover.colors[row.fillSlot], accent) : undefined,
+        fillColor:
+          surfaces.get(row.surfaceElementId ?? "") ??
+          (row.fillSlot ? color(cover.colors[row.fillSlot], accent) : undefined),
         borderColor: accent,
         borderWidthMm: 0,
-        paddingXMm: 0,
-        paddingYMm: 0,
+        paddingXMm: row.surfaceElementId && surfaces.has(row.surfaceElementId) ? 3 : 0,
+        paddingYMm: row.surfaceElementId && surfaces.has(row.surfaceElementId) ? 3 : 0,
       },
     };
     blocks.splice(
@@ -257,15 +300,21 @@ export function composeCover(
     const starts = template.cover.heroStartFields ?? ["name"];
     if (!starts.length || starts.some((id) => !template.cover.order.includes(id)))
       throw new Error("DOCX Next hero starts require declared semantic cover fields");
+    const heroBlocks = template.cover.heroInRows ? walkBlocks(blocks) : blocks;
     const first = starts
       .map((id) => `cover.${aliases[id] ?? id}`)
-      .find((id) => blocks.some((block) => block.id === id));
-    const hero = blocks.findIndex((block) => block.id === "cover.photo" || block.id === first);
+      .find((id) => heroBlocks.some((block) => block.id === id));
+    const photo = heroBlocks.some((block) => block.id === "cover.photo");
+    const hero = blocks.findIndex((block) =>
+      (template.cover.heroInRows ? walkBlocks([block]) : [block]).some(
+        (child) => child.id === "cover.photo" || child.id === first,
+      ),
+    );
     if (hero >= 0)
       blocks.splice(hero, 0, {
         kind: "spacer",
         id: "cover.heroLead",
-        heightMm: !blocks.some((block) => block.id === "cover.photo")
+        heightMm: !photo
           ? (template.cover.photoAbsentLeadMm ?? template.cover.heroLeadMm)
           : template.cover.heroLeadMm,
       });

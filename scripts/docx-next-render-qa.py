@@ -96,6 +96,19 @@ def text_variants(value):
     return [text, text.upper()] if value.get('allCaps') else [text]
 
 
+def check_native_surfaces(document, fixture):
+    for part in fixture['parts']:
+        for probe in part.get('nativeSurfaceProbes', []):
+            matches = [(page, rect) for page in document for rect in page.search_for(probe['text'])]
+            assert len(matches) == 1, f'Missing/ambiguous native surface field {probe["fieldId"]}: {probe["text"]}'
+            page, rect = matches[0]
+            pix = page.get_pixmap(matrix=fitz.Matrix(4, 4), alpha=False)
+            x, y = int((rect.x0 - 72 / 25.4) * 4), int((rect.y0 + rect.y1) * 2)
+            actual = pix.pixel(x, y)[:3]
+            expected = tuple(int(probe['fill'][i:i + 2], 16) for i in (0, 2, 4))
+            assert max(abs(a - b) for a, b in zip(actual, expected)) <= 4, f'Native flowing surface lost behind {probe["text"]} on page {page.number + 1}: {actual} != {expected}'
+
+
 def check_columns(document, fixture):
     key = fixture['fixture']
     def visible_lines(page):
@@ -688,7 +701,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-', 'klassisch-', 'edel-', 'serioes-', 'colorful-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
+    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-', 'klassisch-', 'edel-', 'serioes-', 'colorful-', 'blockig-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
@@ -703,6 +716,7 @@ for fixture in manifest:
     check_scoped_shapes(document, fixture)
     check_paint_probes(document, fixture)
     check_line_paint(document, fixture)
+    check_native_surfaces(document, fixture)
     check_letter_tail(document, fixture)
     check_header_paint_coverage(document, fixture)
     check_cover_features(document, fixture)
@@ -779,6 +793,7 @@ for fixture in manifest:
             check_scoped_shapes(reopened, fixture)
             check_paint_probes(reopened, fixture)
             check_line_paint(reopened, fixture)
+            check_native_surfaces(reopened, fixture)
             check_letter_tail(reopened, fixture)
             check_header_paint_coverage(reopened, fixture)
             check_cover_features(reopened, fixture)

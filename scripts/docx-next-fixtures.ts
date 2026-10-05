@@ -59,12 +59,18 @@ const addedSelections = [
   "edel",
   "serioes",
   "colorful",
+  "blockig",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  blockig: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 9 },
+    cover: { "contact-long": 4 },
+  },
   colorful: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 8 },
@@ -339,6 +345,11 @@ try {
   const fixtureNames = addedCandidate
     ? [
         ...GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`),
+        ...(nextTemplate(addedCandidate).cover.rows?.some(
+          (row) => row.surfaceElementId || row.cellSurfaceElementIds?.some(Boolean),
+        )
+          ? [`${addedCandidate}-contact-long`]
+          : []),
         ...(nextTemplate(addedCandidate).pageMotifs?.cover?.length
           ? [`${addedCandidate}-cover-long`]
           : []),
@@ -970,6 +981,32 @@ try {
             ]
           : [],
       ),
+      nativeSurfaceProbes:
+        addedKind === "contact-long"
+          ? walkBlocks(part.blocks).flatMap((block) => {
+              if (
+                block.kind !== "table" ||
+                !block.decoration?.fillColor ||
+                (block.decoration.paddingXMm ?? 0) < 1
+              )
+                return [];
+              const contact = walkBlocks([block]).find(
+                (child) => child.kind === "paragraph" && child.id === "cover.kontakt",
+              );
+              if (!contact || contact.kind !== "paragraph") return [];
+              const lines = contact.runs
+                .map((run) => run.text)
+                .join("")
+                .split("\n")
+                .filter(Boolean);
+              return [lines[0], lines.at(-1)!].map((line) => ({
+                fieldId: contact.id,
+                surfaceId: block.id,
+                text: line.split(":")[0] + ":",
+                fill: block.decoration!.fillColor,
+              }));
+            })
+          : [],
       shapes: (fixture === "elements-artwork-failure" ? [] : walkBlocks(part.blocks))
         .filter((block) => block.kind === "decorative-shape")
         .map((shape) => ({

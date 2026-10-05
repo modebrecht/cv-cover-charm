@@ -1,5 +1,7 @@
 # DOCX Next checkpoint — 2026-10-05
 
+**Latest Blockig batch step:** 25/39 configured candidates, 0/39 Word accepted. [Evidence](blockig-stress-report.md): 14 fixtures/102 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
+
 **Latest Colorful batch step:** 24/39 configured candidates, 0/39 Word accepted. [Evidence](colorful-stress-report.md): 13 fixtures/94 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
 
 **Latest completed local batch:** [Editorial / Edel / Seriös report](batch-editorial-edel-serioes-report.md): 23/39 configured, 0/39 Word accepted; 41 fixtures/314 pages and 934 full units pass. CI deferred to the single final batch publication. Microsoft Word acceptance: pending.

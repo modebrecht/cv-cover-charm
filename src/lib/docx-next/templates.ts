@@ -57,10 +57,15 @@ export type TemplateDefinition = {
       fillSlot?: string;
       /** Native flowing callout surfaces per cell, independent of absolute page paint. */
       cellFillSlots?: readonly (string | null)[];
+      /** Consume solid authored rectangles as growing native surfaces rather than fixed page paint. */
+      surfaceElementId?: string;
+      cellSurfaceElementIds?: readonly (string | null)[];
       beforeMm?: number;
     }[];
     /** Semantic start of the hero when no photo is present; defaults to the name. */
     heroStartFields?: readonly string[];
+    /** Permit the declared hero fields/photo inside a composed native row. */
+    heroInRows?: boolean;
     /** Solid authored separator lines participate in native flow beside editable text. */
     flowingRules?: Readonly<Record<string, { beforeMm?: number; afterMm: number }>>;
     heroLeadMm?: number;
@@ -2845,6 +2850,91 @@ export const COLORFUL: TemplateDefinition = {
     ],
   },
 };
+/** A decorative edge rail, not a simulated content sidebar. */
+export const BLOCKIG: TemplateDefinition = {
+  ...COLORFUL,
+  id: "blockig",
+  colors: { ink: "111111", accent: "F97316", paper: "F4F4F2" },
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 29 },
+  margins: { top: 24, right: 22, bottom: 22, left: 35 },
+  cover: {
+    ...COLORFUL.cover,
+    margins: { top: 14, right: 18, bottom: 20, left: 15 },
+    photoWidthMm: 48,
+    heroLeadMm: 20,
+    photoAbsentLeadMm: 68,
+    heroInRows: true,
+    fieldSpaceBeforeMm: { ortDatum: 4, kicker: 5, beruf: 3, name: 12 },
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [48, 129], cellFillSlots: ["primary", null] },
+      { fields: [[], ["foto", "kicker", "beruf", "name", "lehrbeginn"]], widths: [71, 106] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [48, 129],
+        cellSurfaceElementIds: ["decor-bottom-block", null],
+        beforeMm: 26,
+      },
+    ],
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 32, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "primary",
+      accentSlot: "accent",
+      compactFirstMm: 19,
+      compactContinuationMm: 19,
+    },
+  },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 19 / 210,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+      },
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 19 / 210,
+        topMm: 46,
+        heightMm: 72,
+        fillSlot: "accent",
+        opacity: 0.9,
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 19 / 210,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+      },
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 19 / 210,
+        topMm: 46,
+        heightMm: 72,
+        fillSlot: "accent",
+        opacity: 0.9,
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2870,6 +2960,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   edel: EDEL,
   serioes: SERIOES,
   colorful: COLORFUL,
+  blockig: BLOCKIG,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];
