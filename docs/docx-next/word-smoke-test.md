@@ -146,3 +146,7 @@ Microsoft Word acceptance: **pending**. Test the thirteen `horizon-*` cases from
 ## Mono Luxe candidate review
 
 Microsoft Word acceptance: pending. Review the 13 cases in [mono-luxe evidence](mono-luxe-stress-report.md), especially editable cover/photos, long letter/CV flow, first/continuation and disabled headers, custom surfaces and palette changes. Open, edit, save, close and reopen in Microsoft Word; approve the explicit flow adaptations in [Mono Luxe coverage](mono-luxe-feature-coverage.md). LibreOffice evidence cannot complete this checklist.
+
+## Ledger candidate review
+
+Microsoft Word acceptance: pending. Review [Ledger coverage](ledger-feature-coverage.md) and the 13 cases in [evidence](ledger-stress-report.md). Open, edit, save, close and reopen native cover groups/photos, long letter/CV, custom content, palettes and first/continuation/off chrome in Microsoft Word. Verify the explicit flow adaptations; reject sidebar simulation. LibreOffice does not complete this checklist.

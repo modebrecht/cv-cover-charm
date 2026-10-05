@@ -323,6 +323,17 @@ def check_artwork(document, fixture):
             pixmap = page.get_pixmap()
             for target in scoped_artwork:
                 x, y = 1, target['yMm'] + target['heightMm'] / 2
+                # A full-page paper layer may be covered by a declared edge rail.
+                # Probe exposed paper, while the separate shape guard checks every overlay.
+                if target['id'].endswith('.artwork.paper'):
+                    overlays = [shape for shape in part.get('pageScopedShapes', [])
+                                if shape.get('repeat') in (None, 'first' if relative_page == 0 else 'continuation')]
+                    candidates = [1, page.rect.width / scale - 1, page.rect.width / scale / 2]
+                    exposed = [px for px in candidates if not any(
+                        shape['xMm'] <= px < shape['xMm'] + shape['widthMm'] and
+                        shape['yMm'] <= y < shape['yMm'] + shape['heightMm'] for shape in overlays)]
+                    assert exposed, f'{fixture["fixture"]}: no exposed paper probe; declare a pixel probe for fully covered paper'
+                    x = exposed[0]
                 layers = [paint for paint in scoped_artwork if paint['xMm'] <= x < paint['xMm'] + paint['widthMm'] and paint['yMm'] <= y < paint['yMm'] + paint['heightMm']]
                 assert layers, 'Artwork sample outside known rectangle'
                 paint = layers[-1]
@@ -626,7 +637,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
+    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
