@@ -1,5 +1,7 @@
 # DOCX Next checkpoint — 2026-10-05
 
+**Latest shared Sidebar checkpoint:** [Brief native Sidebar](sidebar-status.md): 16 supported fixtures / 97 pages plus 4 generic flow proofs / 36 pages; 970 units pass. Running headers, different first/continuation top margins, free photos and explicit track page starts remain blocked after real failed probes. Gate 8 and Microsoft Word acceptance remain pending. Configured count stays 29/39; Word accepted count stays 0/39. CI is deferred to the single final publication. Earlier batch/Sidebar statements below describe their historical checkpoints.
+
 **Latest completed local batch:** [Modern / Rahmen / Sonne report](batch-modern-pastell-sonne-report.md): 29/39 configured, 0/39 Word accepted; 42 fixtures/311 pages and 959 full units pass. CI deferred to the single final batch publication. Microsoft Word acceptance: pending.
 
 **Latest Sonne batch step:** 29/39 configured candidates, 0/39 Word accepted. [Evidence](sonne-stress-report.md): 15 fixtures/108 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
