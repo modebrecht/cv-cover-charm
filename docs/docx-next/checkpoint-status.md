@@ -1,5 +1,7 @@
 # DOCX Next checkpoint — 2026-10-05
 
+**Latest Verlauf 3 batch step:** 19/39 configured candidates, 0/39 Word accepted. [Evidence](verlauf3-stress-report.md): 13 fixtures/95 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
+
 **Latest Verlauf 2 batch step:** 18/39 configured candidates, 0/39 Word accepted. [Evidence](verlauf2-stress-report.md): 13 fixtures/94 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
 
 **Latest Warm 3 step:** 17/39 configured candidates; 0/39 Word accepted. [Evidence](warm3-stress-report.md): 13 fixtures/95 pages pass stable LO render/save-reopen. CI deferred to batch end. Word acceptance pending.

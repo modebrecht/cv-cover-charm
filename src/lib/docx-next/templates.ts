@@ -2237,6 +2237,98 @@ export const VERLAUF_2: TemplateDefinition = {
   },
   artwork: [],
 };
+/** A second, independently configured consumer of the shared palette/gradient primitives. */
+export const VERLAUF_3: TemplateDefinition = {
+  ...VERLAUF_2,
+  id: "verlauf3",
+  colors: { ink: "FFFFFF", accent: "F4BB8A", paper: "FFF8F5" },
+  margins: { top: 24, right: 24, bottom: 22, left: 27 },
+  cover: {
+    ...VERLAUF_2.cover,
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+        angleDeg: 162,
+        gradientStops: [
+          { slot: "primary", offsetPct: 0 },
+          { slot: "secondary", offsetPct: 72 },
+          { slot: "accent", offsetPct: 125 },
+        ],
+      },
+      {
+        shape: "circle",
+        xFraction: -28 / 210,
+        widthFraction: 118 / 210,
+        topMm: -30,
+        heightMm: 118,
+        fillColor: "FFFFFF",
+        opacity: 0.13,
+        radialFade: { innerPct: 0, outerPct: 100 },
+      },
+      {
+        shape: "circle",
+        xFraction: 126 / 210,
+        widthFraction: 128 / 210,
+        topMm: 184,
+        heightMm: 128,
+        fillColor: "FFFFFF",
+        opacity: 0.16,
+        radialFade: { innerPct: 0, outerPct: 100 },
+      },
+    ],
+  },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 9,
+        fillSlot: "primary",
+        endSlot: "secondary",
+        angleDeg: 90,
+      },
+      {
+        shape: "rect",
+        xFraction: 176 / 210,
+        widthFraction: 34 / 210,
+        topMm: 0,
+        heightMm: 16,
+        cornerRadiiMm: [8, 8, 8, 8],
+        fillSlot: "accent",
+        opacity: 0.28,
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 9,
+        fillSlot: "primary",
+        endSlot: "secondary",
+        angleDeg: 90,
+      },
+      {
+        shape: "rect",
+        xFraction: 176 / 210,
+        widthFraction: 34 / 210,
+        topMm: 0,
+        heightMm: 16,
+        cornerRadiiMm: [8, 8, 8, 8],
+        fillSlot: "accent",
+        opacity: 0.28,
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2256,6 +2348,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   warm2: WARM_2,
   warm3: WARM_3,
   verlauf2: VERLAUF_2,
+  verlauf3: VERLAUF_3,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];
