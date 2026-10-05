@@ -1,5 +1,9 @@
 # DOCX Next checkpoint — 2026-10-05
 
+**Latest completed local batch:** [Modern / Rahmen / Sonne report](batch-modern-pastell-sonne-report.md): 29/39 configured, 0/39 Word accepted; 42 fixtures/311 pages and 959 full units pass. CI deferred to the single final batch publication. Microsoft Word acceptance: pending.
+
+**Latest Sonne batch step:** 29/39 configured candidates, 0/39 Word accepted. [Evidence](sonne-stress-report.md): 15 fixtures/108 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
+
 **Latest Rahmen batch step:** 28/39 configured candidates, 0/39 Word accepted. [Evidence](pastell-stress-report.md): 14 fixtures/109 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
 
 **Latest Modern batch step:** 27/39 configured candidates, 0/39 Word accepted. [Evidence](modern-stress-report.md): 13 fixtures/94 pages pass stable LibreOffice render/save-reopen. CI deferred to batch end. Microsoft Word acceptance: pending.
@@ -61,7 +65,7 @@
 
 **Previous stabilization:** see [the report from freshly fetched `d664317`, continued from freshly fetched `32a3e8b`](stabilization-report.md). Its test counts, dossier-flow fix, source boundary and Word-review readiness supersede the historical checkpoint evidence below. Stable LibreOffice 25.8.7.3 now passes all 85 fixtures/472 pages through its official Kit API; [reproduction and limits](libreoffice-qa.md). Microsoft Word and approved visual references remain pending; no migrated-template or production status changed. Older pending-stable statements below describe historical checkpoints.
 
-This is a continued reference implementation, **not the completed rebuild**. Progress: **28/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove, Glow, Horizon, Mono Luxe, Ledger, Ribbon, Sunrise, Forest Flow, Violet Pulse, Studio 3, Warm 2, Warm 3, Verlauf 2, Verlauf 3, Diagonal, Editorial/Klassisch, Edel, Seriös, Colorful, Blockig, Horizont, Modern, Rahmen), 0/39 Word-accepted migrations**. The independent foundation is implemented through Gate 4; [Brief coverage](brief-feature-coverage.md) records the remaining inputs and acceptance work. The latest continuation started from freshly fetched `dev` commit `a4690bd713368e3dc1e0c2577e3e17311756a04b`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
+This is a continued reference implementation, **not the completed rebuild**. Progress: **29/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove, Glow, Horizon, Mono Luxe, Ledger, Ribbon, Sunrise, Forest Flow, Violet Pulse, Studio 3, Warm 2, Warm 3, Verlauf 2, Verlauf 3, Diagonal, Editorial/Klassisch, Edel, Seriös, Colorful, Blockig, Horizont, Modern, Rahmen, Sonne), 0/39 Word-accepted migrations**. The independent foundation is implemented through Gate 4; [Brief coverage](brief-feature-coverage.md) records the remaining inputs and acceptance work. The latest continuation started from freshly fetched `dev` commit `a4690bd713368e3dc1e0c2577e3e17311756a04b`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
 
 ## Architecture evidence
 

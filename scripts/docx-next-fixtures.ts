@@ -63,12 +63,18 @@ const addedSelections = [
   "welle",
   "modern",
   "pastell",
+  "sonne",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  sonne: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: { "contact-long": 3, "hero-long": 5 },
+  },
   pastell: {
     cv: { "long-cv": 15, timeline: 20, magazin: 1 },
     letter: { "long-letter": 13, continuation: 10 },
@@ -379,6 +385,11 @@ try {
           (row) => row.surfaceElementId || row.cellSurfaceElementIds?.some(Boolean),
         )
           ? [`${addedCandidate}-contact-long`]
+          : []),
+        ...(nextTemplate(addedCandidate).cover.rows?.some(
+          (row) => row.surfaceElementId && row.fields.flat().includes("name"),
+        )
+          ? [`${addedCandidate}-hero-long`]
           : []),
         ...(nextTemplate(addedCandidate).pageMotifs?.cover?.length
           ? [`${addedCandidate}-cover-long`]
@@ -1011,32 +1022,33 @@ try {
             ]
           : [],
       ),
-      nativeSurfaceProbes:
-        addedKind === "contact-long"
-          ? walkBlocks(part.blocks).flatMap((block) => {
-              if (
-                block.kind !== "table" ||
-                !block.decoration?.fillColor ||
-                (block.decoration.paddingXMm ?? 0) < 1
-              )
-                return [];
-              const contact = walkBlocks([block]).find(
-                (child) => child.kind === "paragraph" && child.id === "cover.kontakt",
-              );
-              if (!contact || contact.kind !== "paragraph") return [];
-              const lines = contact.runs
-                .map((run) => run.text)
-                .join("")
-                .split("\n")
-                .filter(Boolean);
-              return [lines[0], lines.at(-1)!].map((line) => ({
-                fieldId: contact.id,
-                surfaceId: block.id,
-                text: line.split(":")[0] + ":",
-                fill: block.decoration!.fillColor,
-              }));
-            })
-          : [],
+      nativeSurfaceProbes: ["contact-long", "hero-long"].includes(addedKind)
+        ? walkBlocks(part.blocks).flatMap((block) => {
+            if (
+              block.kind !== "table" ||
+              !block.decoration?.fillColor ||
+              (block.decoration.paddingXMm ?? 0) < 1
+            )
+              return [];
+            const contact = walkBlocks([block]).find(
+              (child) =>
+                child.kind === "paragraph" &&
+                child.id === (addedKind === "hero-long" ? "cover.fullName" : "cover.kontakt"),
+            );
+            if (!contact || contact.kind !== "paragraph") return [];
+            const lines = contact.runs
+              .map((run) => run.text)
+              .join("")
+              .split("\n")
+              .filter(Boolean);
+            return [lines[0], lines.at(-1)!].map((line) => ({
+              fieldId: contact.id,
+              surfaceId: block.id,
+              text: line.split(":")[0] + ":",
+              fill: block.decoration!.fillColor,
+            }));
+          })
+        : [],
       shapes: (fixture === "elements-artwork-failure" ? [] : walkBlocks(part.blocks))
         .filter((block) => block.kind === "decorative-shape")
         .map((shape) => ({

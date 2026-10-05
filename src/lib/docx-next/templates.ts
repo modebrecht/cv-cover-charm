@@ -3218,6 +3218,106 @@ export const PASTELL: TemplateDefinition = {
     ],
   },
 };
+/** A growing authored yellow hero with a native dark image zone and quiet interiors. */
+export const SONNE: TemplateDefinition = {
+  ...BRIEF,
+  id: "sonne",
+  archetype: "graphic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 30, headingPt: 12, heroPt: 17 },
+  colors: { ink: "141414", accent: "FBBF24", paper: "333333" },
+  interiorPaletteSource: "dossier",
+  margins: { top: 24, right: 22, bottom: 24, left: 24 },
+  cover: {
+    margins: { top: 16, right: 18, bottom: 20, left: 20 },
+    fontSource: "dossier",
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "name",
+      "kicker",
+      "beruf",
+      "foto",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    photoAlign: "center",
+    photoWidthMm: 78,
+    heroSpaceMm: 4,
+    heroStartFields: ["name", "kicker", "beruf"],
+    heroInRows: true,
+    heroLeadMm: 0,
+    photoAbsentLeadMm: 0,
+    fieldSpaceBeforeMm: { ortDatum: 3, name: 8, lehrbeginn: 12 },
+    fieldPaletteMode: "uniform",
+    fieldColorSlots: {
+      kontakt: "light",
+      empfaenger: "light",
+      beilagen: "light",
+      beilagenTitel: "primary",
+    },
+    hiddenDecorationIds: ["decor-photo-circle"],
+    decorationPlacement: "first-header",
+    rows: [
+      {
+        fields: [["eyebrow", "ortDatum", "name", "kicker", "beruf"], "foto"],
+        widths: [84, 88],
+        surfaceElementId: "decor-top-field",
+        cellFillSlots: [null, "bg"],
+      },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["beilagenTitel", "beilagen", "anTitel", "empfaenger"],
+        ],
+        widths: [1, 1],
+        beforeMm: 24,
+      },
+    ],
+  },
+  letter: { ...BRIEF.letter, fontSource: "dossier", keepTailTogether: true },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 32, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      fillSlot: "primary",
+      accentSlot: "ink",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 289,
+        heightMm: 8,
+        fillSlot: "primary",
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 289,
+        heightMm: 8,
+        fillSlot: "primary",
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -3247,6 +3347,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   welle: WELLE,
   modern: MODERN,
   pastell: PASTELL,
+  sonne: SONNE,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

@@ -22,7 +22,8 @@ export type GraphicFixture =
   | (typeof GRAPHIC_FIXTURES)[number]
   | "sidebar-blocked"
   | "cover-long"
-  | "contact-long";
+  | "contact-long"
+  | "hero-long";
 export function graphicCandidateFixture(
   template: string,
   kind: GraphicFixture = "normal",
@@ -125,6 +126,12 @@ export function graphicCandidateFixture(
       },
     });
     input.cover.customFieldIds = [...(input.cover.customFieldIds ?? []), "continuation-text"];
+  }
+  if (kind === "hero-long") {
+    input.cover.blocks.find((block) => block.id === "name")!.lines = Array.from(
+      { length: 40 },
+      (_, index) => `Herozeile ${index + 1}: Lea`,
+    );
   }
   if (kind === "contact-long") {
     input.cover.blocks.find((block) => block.id === "kontakt")!.lines = Array.from(
