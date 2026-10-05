@@ -31,8 +31,9 @@ export type CvFlowDefinition = {
 };
 
 /** Shared Word compositions; no template IDs, XML or visible-text matching. */
-export const CV_FLOW_LAYOUTS: Record<Exclude<CvWordLayout, "sidebar">, CvFlowDefinition> = {
+export const CV_FLOW_LAYOUTS: Record<CvWordLayout, CvFlowDefinition> = {
   classic: { headerGapMm: 1.5, entryGapMm: 3, indentMm: 0 },
+  sidebar: { headerGapMm: 4, entryGapMm: 3, indentMm: 0, sectionGapMm: 5 },
   minimal: { headerGapMm: 5.2, entryGapMm: 2.5, indentMm: 0, sectionGapMm: 5.2 },
   timeline: {
     headerGapMm: 1.5,

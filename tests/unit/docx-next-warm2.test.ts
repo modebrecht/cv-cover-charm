@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { WARM_2_FIXTURES, warm2Fixture } from "../fixtures/docx-next/warm2";
 describe("Warm 2 shared curved stationery and native centered hero", () => {
@@ -44,7 +43,7 @@ describe("Warm 2 shared curved stationery and native centered hero", () => {
     }
     expect(buildDossierDocModel(warm2Fixture("no-motifs")).cv.headerShapes).toBeUndefined();
   });
-  test("native photos, rich tables and explicit user typography survive; CV sidebar is blocked", async () => {
+  test("native photos, rich tables and explicit user typography survive; CV sidebar uses shared flow", async () => {
     const input = warm2Fixture("images", "data:image/png;base64/test");
     input.settings.fieldStyles = {
       "cover.fullName": { font: "Georgia", color: "123456", italic: true },
@@ -58,8 +57,10 @@ describe("Warm 2 shared curved stationery and native centered hero", () => {
         (b) => b.kind === "table",
       ),
     ).toBe(true);
-    await expect(
-      renderDossierDocx(buildDossierDocModel(warm2Fixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(warm2Fixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

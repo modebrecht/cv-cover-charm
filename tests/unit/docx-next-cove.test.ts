@@ -1,7 +1,6 @@
 import { describe, test, expect } from "bun:test";
 import { readFileSync } from "node:fs";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { validateDecoration, decorationAssetKey } from "../../src/lib/docx-next/decoration";
 import { COVE_FIXTURES, coveFixture } from "../fixtures/docx-next/cove";
 import { COVE } from "../../src/lib/docx-next/templates";
@@ -44,10 +43,12 @@ describe("Cove shared asymmetric stationery", () => {
       expect(part.headerShapes?.[0].heightMm).toBeGreaterThan(part.headerShapes?.[1].heightMm ?? 0);
     }
   });
-  test("sidebar is explicit and template descriptors cannot inject renderer code", async () => {
-    await expect(
-      renderDossierDocx(buildDossierDocModel(coveFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+  test("sidebar uses shared native flow and template descriptors cannot inject renderer code", async () => {
+    expect(
+      buildDossierDocModel(coveFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
     for (const file of [
       "renderer.ts",
       "build-model.ts",

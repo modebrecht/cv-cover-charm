@@ -5,7 +5,6 @@ import {
   validateDecoration,
   shapePathPoints,
 } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { DIAGONAL_FIXTURES, diagonalFixture } from "../fixtures/docx-next/diagonal";
 describe("Diagonal authored geometry and reusable native callout surfaces", () => {
@@ -92,7 +91,7 @@ describe("Diagonal authored geometry and reusable native callout surfaces", () =
     }
     expect(buildDossierDocModel(diagonalFixture("no-motifs")).cv.headerShapes).toBeUndefined();
   });
-  test("photos and rich tables remain native; sidebar is an explicit blocker", async () => {
+  test("photos and rich tables remain native; sidebar uses shared flow", async () => {
     expect(
       walkBlocks(
         buildDossierDocModel(diagonalFixture("images", "data:image/png;base64/test")).cover.blocks,
@@ -103,8 +102,10 @@ describe("Diagonal authored geometry and reusable native callout surfaces", () =
         (b) => b.kind === "table",
       ),
     ).toBe(true);
-    await expect(
-      renderDossierDocx(buildDossierDocModel(diagonalFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(diagonalFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

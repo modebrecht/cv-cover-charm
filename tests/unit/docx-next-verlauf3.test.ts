@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { VERLAUF_3_FIXTURES, verlauf3Fixture } from "../fixtures/docx-next/verlauf3";
 describe("Verlauf 3 reuse of semantic palettes and multi-stop composition", () => {
@@ -83,8 +82,10 @@ describe("Verlauf 3 reuse of semantic palettes and multi-stop composition", () =
         (b) => b.kind === "table",
       ),
     ).toBe(true);
-    await expect(
-      renderDossierDocx(buildDossierDocModel(verlauf3Fixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(verlauf3Fixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

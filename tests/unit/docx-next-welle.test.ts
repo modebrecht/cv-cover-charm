@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks } from "../../src/lib/docx-next/model";
 import { WELLE_FIXTURES, welleFixture } from "../fixtures/docx-next/welle";
 import { dossierDefaultFontKey } from "../../src/lib/dossier-theme";
@@ -53,7 +52,7 @@ describe("Horizont split hero and native horizon contact surface", () => {
     input.settings.chrome!.shared.footerTextColor = "#123456";
     expect(buildDossierDocModel(input).cv.footer[0].runs[0].style.color).toBe("123456");
   });
-  test("unsupported border gradients/thickness and sidebar requests fail explicitly", async () => {
+  test("unsupported border gradients/thickness and sidebar requests use shared flow", async () => {
     const input = welleFixture(),
       border = input.cover.blocks.find((b) => b.id === "decor-horizon-rule")!;
     border.style.gradTo = "secondary";
@@ -61,8 +60,10 @@ describe("Horizont split hero and native horizon contact surface", () => {
     border.style.gradTo = undefined;
     border.style.strokeWidth = 20;
     expect(() => buildDossierDocModel(input)).toThrow("solid representable lines");
-    await expect(
-      renderDossierDocx(buildDossierDocModel(welleFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(welleFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

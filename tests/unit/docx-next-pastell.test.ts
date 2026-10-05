@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { PASTELL_FIXTURES, pastellFixture } from "../fixtures/docx-next/pastell";
 import { dossierDefaultFontKey } from "../../src/lib/dossier-theme";
@@ -67,8 +66,10 @@ describe("Rahmen shared framed serif composition", () => {
         (b) => b.kind === "table",
       ),
     ).toBe(true);
-    await expect(
-      renderDossierDocx(buildDossierDocModel(pastellFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(pastellFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

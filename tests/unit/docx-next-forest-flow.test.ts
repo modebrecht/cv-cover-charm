@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { FOREST_FLOW_FIXTURES, forestFlowFixture } from "../fixtures/docx-next/forest-flow";
 describe("Forest Flow native cover columns and independent interior gutters", () => {
@@ -80,8 +79,10 @@ describe("Forest Flow native cover columns and independent interior gutters", ()
     expect(buildDossierDocModel(forestFlowFixture("no-motifs")).cv.headerShapes).toBeUndefined();
   });
   test("a decorative rail never masquerades as an accepted CV sidebar", async () => {
-    await expect(
-      renderDossierDocx(buildDossierDocModel(forestFlowFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(forestFlowFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

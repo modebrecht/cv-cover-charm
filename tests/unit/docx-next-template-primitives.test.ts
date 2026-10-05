@@ -383,9 +383,9 @@ describe("shared native template primitives", () => {
     const model = buildDossierDocModel(input);
     expect(model.letter.page.margins).toEqual({ top: 20, right: 22, bottom: 22, left: 24 });
     input.settings.cvLayout = "sidebar";
-    await expect(renderDossierDocx(buildDossierDocModel(input))).rejects.toThrow(
-      "sidebar has not passed",
-    );
+    expect(
+      buildDossierDocModel(input).cv.blocks.some((block) => block.kind === "parallel-flow"),
+    ).toBe(true);
     input.settings.cvLayout = "classic";
     input.cv.design.font = "unknown" as typeof input.cv.design.font;
     expect(() => buildDossierDocModel(input)).toThrow("unsupported font key");

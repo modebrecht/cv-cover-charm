@@ -18,7 +18,7 @@ export const ORBIT_FIXTURES = [
   "no-motifs",
   "custom-colors",
 ] as const;
-export type OrbitFixture = (typeof ORBIT_FIXTURES)[number] | "sidebar-blocked";
+export type OrbitFixture = (typeof ORBIT_FIXTURES)[number] | "sidebar";
 export function orbitFixture(kind: OrbitFixture = "normal", photo?: string) {
   const input =
     kind === "timeline" || kind === "magazin"
@@ -91,6 +91,6 @@ export function orbitFixture(kind: OrbitFixture = "normal", photo?: string) {
       palette.accent = "#6B948C";
     }
   }
-  if (kind === "sidebar-blocked") input.settings.cvLayout = "sidebar";
+  if (kind === "sidebar") input.settings.cvLayout = "sidebar";
   return input;
 }

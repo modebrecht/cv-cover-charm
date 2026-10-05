@@ -155,7 +155,7 @@ export type DocBlock =
   | TableBlock
   | ParallelFlowBlock
   | DecorativeShape
-  | { kind: "entry"; id: string; blocks: DocBlock[] }
+  | { kind: "entry"; id: string; blocks: DocBlock[]; keepTogether?: boolean }
   | { kind: "group"; id: string; blocks: DocBlock[]; startPage?: 1 | 2 }
   | { kind: "columns"; id: string; columns: DocBlock[][]; widths: number[] }
   | { kind: "column-flow"; id: string; count: 2 | 3; gapMm: number; blocks: DocBlock[] }

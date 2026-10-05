@@ -36,6 +36,12 @@ import {
 import { decorationAssetKey, type DecorationPaint } from "../src/lib/docx-next/decoration";
 import type { NormalizedImage } from "../src/lib/docx-next/images";
 import { artworkApplies } from "../src/lib/docx-next/page-artwork";
+import {
+  SIDEBAR_FIXTURES,
+  sidebarFixture,
+  type SidebarFixture,
+} from "../tests/fixtures/docx-next/sidebar";
+const isSidebar = process.argv.includes("--sidebar");
 const isWarm = process.argv.includes("--warm");
 const isPrism = process.argv.includes("--prism");
 const isHuman = process.argv.includes("--human");
@@ -66,6 +72,28 @@ const addedSelections = [
   "sonne",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
+const SIDEBAR_PAGE_COUNTS: Record<string, number> = {
+  "sidebar-left": 1,
+  "sidebar-right": 1,
+  "sidebar-minimal": 1,
+  "sidebar-narrow": 1,
+  "sidebar-wide": 1,
+  "sidebar-main-long": 9,
+  "sidebar-side-long": 7,
+  "sidebar-both-long": 9,
+  "sidebar-paragraph-long": 8,
+  "sidebar-side-paragraph-long": 20,
+  "sidebar-photo-left": 1,
+  "sidebar-photo-right": 1,
+  "sidebar-photo-main": 2,
+  "sidebar-placements": 1,
+  "sidebar-styled": 1,
+  "sidebar-contact": 2,
+  "sidebar-chrome-continuation": 12,
+  "sidebar-continuation": 9,
+  "sidebar-hidden-paint": 1,
+};
+
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
@@ -204,7 +232,7 @@ const addedPageCounts: Record<
   },
 };
 const isOrbit = process.argv.includes("--orbit");
-if ([isWarm, isPrism, isHuman, isOrbit, ...addedSelections].filter(Boolean).length > 1)
+if ([isSidebar, isWarm, isPrism, isHuman, isOrbit, ...addedSelections].filter(Boolean).length > 1)
   throw new Error("Select one candidate fixture set.");
 const out = path.resolve(process.argv[2] ?? "/tmp/cv-docx-next-qa");
 await mkdir(out, { recursive: true });
@@ -378,7 +406,7 @@ try {
     return samples;
   }, decorationCode);
   await writeFile(path.join(out, "gradient-pixel-checks.json"), JSON.stringify(gradientPixels));
-  const fixtureNames = addedCandidate
+  let fixtureNames = addedCandidate
     ? [
         ...GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`),
         ...(nextTemplate(addedCandidate).cover.rows?.some(
@@ -457,6 +485,7 @@ try {
                 "fonts-offline",
                 "opacity-native",
               ];
+  if (isSidebar) fixtureNames = SIDEBAR_FIXTURES.map((kind) => `sidebar-${kind}`);
   const manifest = [];
   const expectedText = (run: TextRun) =>
     run.style.allCaps ? { text: run.text, allCaps: true } : run.text;
@@ -464,7 +493,7 @@ try {
     const addedKind = addedCandidate
       ? (fixture.slice(addedCandidate.length + 1) as GraphicFixture)
       : "normal";
-    const input = addedCandidate
+    let input = addedCandidate
       ? graphicCandidateFixture(addedCandidate, addedKind, images.png)
       : isOrbit
         ? orbitFixture(fixture.slice(6) as OrbitFixture, images.png)
@@ -517,6 +546,7 @@ try {
                                         ? (fixture as (typeof BRIEF_FIXTURES)[number])
                                         : "normal",
                                 );
+    if (isSidebar) input = sidebarFixture(fixture.slice(8) as SidebarFixture, images.png);
     if (fixture === "opacity-native") {
       input.cover.colors.bg = "#F0F0F0";
       const name = input.cover.blocks.find((block) => block.id === "name")!;
@@ -717,7 +747,7 @@ try {
       )
       .filter((block) => block.kind === "paragraph")
       .flatMap((block) => (block.kind === "paragraph" ? block.runs.map(expectedText) : []));
-    const cvPages = addedCandidate
+    let cvPages = addedCandidate
       ? (addedPageCounts[addedCandidate].cv[addedKind] ?? 2)
       : isOrbit
         ? ({
@@ -776,7 +806,8 @@ try {
                                     : fixture === "custom-sections"
                                       ? 3
                                       : 2;
-    const letterPages = addedCandidate
+    if (isSidebar) cvPages = SIDEBAR_PAGE_COUNTS[fixture] ?? 2;
+    let letterPages = addedCandidate
       ? (addedPageCounts[addedCandidate].letter[addedKind] ?? 1)
       : isOrbit
         ? ({ "orbit-long-letter": 11, "orbit-continuation": 8 }[fixture] ?? 1)
@@ -803,6 +834,7 @@ try {
                       : fixture === "columns-long"
                         ? 4
                         : 1;
+    if (isSidebar) letterPages = 1;
     const coverPages = addedCandidate
       ? (addedPageCounts[addedCandidate].cover[addedKind] ?? 1)
       : fixture === "orbit-custom"
@@ -885,6 +917,26 @@ try {
       semanticText: walkBlocks(part.blocks).flatMap((block) =>
         block.kind === "paragraph" ? block.runs.map(expectedText) : [],
       ),
+      parallelTracks: part.blocks.flatMap((block) => {
+        if (block.kind !== "parallel-flow") return [];
+        const width = part.page.widthMm - part.page.margins.left - part.page.margins.right;
+        const available = width - block.gapMm * (block.tracks.length - 1);
+        const weight = block.tracks.reduce((sum, track) => sum + track.weight, 0);
+        let left = part.page.margins.left;
+        return block.tracks.map((track) => {
+          const trackWidth = (available * track.weight) / weight;
+          const padding = track.decoration?.paddingXMm ?? 0;
+          const probe = {
+            leftMm: left + padding,
+            rightMm: left + trackWidth - padding,
+            semanticText: walkBlocks(track.blocks).flatMap((child) =>
+              child.kind === "paragraph" ? child.runs.map(expectedText) : [],
+            ),
+          };
+          left += trackWidth + block.gapMm;
+          return probe;
+        });
+      }),
       entryProbes: walkBlocks(part.blocks).flatMap((block) => {
         if (block.kind !== "entry") return [];
         const children = walkBlocks(block.blocks);
@@ -924,9 +976,15 @@ try {
           : [];
       }),
       pagination: part.layout.pagination,
-      firstBodyText: part.blocks
-        .find((block) => block.kind === "paragraph")
-        ?.runs.map((run) => run.text)
+      firstBodyText: (
+        part.blocks.find((block) => block.kind === "paragraph") ??
+        walkBlocks(part.blocks).find(
+          (block) =>
+            block.kind === "paragraph" && ["cv.documentTitle", "cv.person.name"].includes(block.id),
+        ) ??
+        walkBlocks(part.blocks).find((block) => block.kind === "paragraph")
+      )?.runs
+        .map((run) => run.text)
         .join(""),
       artwork: part.artwork,
       headerPaintColors:

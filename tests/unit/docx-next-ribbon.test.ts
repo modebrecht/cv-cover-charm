@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { RIBBON_FIXTURES, ribbonFixture } from "../fixtures/docx-next/ribbon";
 describe("Ribbon shared native hero and scoped paint", () => {
@@ -87,10 +86,12 @@ describe("Ribbon shared native hero and scoped paint", () => {
     expect(walkBlocks(custom.letter.blocks).some((b) => b.kind === "table")).toBe(true);
     expect(walkBlocks(custom.cv.blocks).some((b) => b.kind === "entry")).toBe(true);
   });
-  test("sidebar remains explicitly blocked and the single renderer has no candidate-ID branches", async () => {
-    await expect(
-      renderDossierDocx(buildDossierDocModel(ribbonFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+  test("sidebar uses shared native flow and the single renderer has no candidate-ID branches", async () => {
+    expect(
+      buildDossierDocModel(ribbonFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
     for (const file of [
       "renderer.ts",
       "build-model.ts",

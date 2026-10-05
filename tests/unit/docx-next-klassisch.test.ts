@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { KLASSISCH_FIXTURES, klassischFixture } from "../fixtures/docx-next/klassisch";
 describe("Editorial native hero and outline stationery", () => {
@@ -45,7 +44,7 @@ describe("Editorial native hero and outline stationery", () => {
     expect(model.cover.blocks[lead + 1].id).toBe("cover.profession");
     expect(walkBlocks(model.cover.blocks).some((b) => b.id === "cover.profession")).toBe(true);
   });
-  test("saved field styles, photos and rich tables stay native; unsupported sidebar fails", async () => {
+  test("saved field styles, photos and rich tables stay native; sidebar uses shared flow", async () => {
     const input = klassischFixture("images", "data:image/png;base64/test");
     input.settings.fieldStyles = {
       "cover.profession": { font: "Arial", color: "123456", italic: false },
@@ -61,8 +60,10 @@ describe("Editorial native hero and outline stationery", () => {
         (b) => b.kind === "table",
       ),
     ).toBe(true);
-    await expect(
-      renderDossierDocx(buildDossierDocModel(klassischFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(klassischFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

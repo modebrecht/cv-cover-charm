@@ -99,10 +99,12 @@ describe("Serioes navy stationery and native flowing separators", () => {
       ),
     ).toBe(true);
   });
-  test("unsupported sidebar and out-of-range native rule widths fail explicitly", async () => {
-    await expect(
-      renderDossierDocx(buildDossierDocModel(serioesFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+  test("native sidebar and out-of-range native rule widths fail explicitly", async () => {
+    expect(
+      buildDossierDocModel(serioesFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
     const model = buildDossierDocModel(serioesFixture());
     const rule = model.cover.blocks.find((b) => b.kind === "rule")!;
     if (rule.kind !== "rule") throw new Error("missing rule");

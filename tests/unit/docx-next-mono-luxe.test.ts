@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { MONO_LUXE_FIXTURES, monoLuxeFixture } from "../fixtures/docx-next/mono-luxe";
 import { composeHeaderBands } from "../../src/lib/docx-next/template-composition";
@@ -85,14 +84,16 @@ describe("motif-only running chrome and Mono Luxe candidate", () => {
       italic: true,
     });
   });
-  test("editable pictures/rich tables remain native and sidebar requests block explicitly", async () => {
+  test("editable pictures/rich tables remain native and sidebar requests use shared flow", async () => {
     const image = buildDossierDocModel(monoLuxeFixture("images", "data:image/png;base64/test"));
     expect(walkBlocks(image.cover.blocks).some((b) => b.kind === "image")).toBe(true);
     const custom = buildDossierDocModel(monoLuxeFixture("custom"));
     expect(walkBlocks(custom.letter.blocks).some((b) => b.kind === "table")).toBe(true);
-    await expect(
-      renderDossierDocx(buildDossierDocModel(monoLuxeFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(monoLuxeFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
     for (const file of [
       "renderer.ts",
       "build-model.ts",

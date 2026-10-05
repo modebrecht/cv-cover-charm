@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { SONNE_FIXTURES, sonneFixture } from "../fixtures/docx-next/sonne";
 describe("Sonne growing native hero and image zone", () => {
@@ -46,7 +45,7 @@ describe("Sonne growing native hero and image zone", () => {
       "141414",
     );
   });
-  test("circular editable pictures survive and unsupported authored surfaces/Sidebar fail explicitly", async () => {
+  test("circular editable pictures survive and unsupported authored surfaces fail explicitly; Sidebar uses shared flow", async () => {
     const input = sonneFixture("images", "data:image/png;base64/test");
     expect(
       walkBlocks(buildDossierDocModel(input).cover.blocks).find((b) => b.id === "cover.photo"),
@@ -55,8 +54,10 @@ describe("Sonne growing native hero and image zone", () => {
     expect(() => buildDossierDocModel(input)).toThrow(
       "native cover surfaces require solid unbordered rectangles",
     );
-    await expect(
-      renderDossierDocx(buildDossierDocModel(sonneFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(sonneFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

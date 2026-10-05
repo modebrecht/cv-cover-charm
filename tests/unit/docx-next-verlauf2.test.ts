@@ -5,7 +5,6 @@ import {
   decorationAssetKey,
   type DecorationPaint,
 } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { VERLAUF_2_FIXTURES, verlauf2Fixture } from "../fixtures/docx-next/verlauf2";
 import { withUserStyleKeys } from "../../src/components/cover/user-style-precedence";
@@ -124,7 +123,7 @@ describe("Verlauf 2 declarative multi-stop paint and semantic interior palettes"
     };
     expect(decorationAssetKey(shape)).not.toBe(decorationAssetKey(changed));
   });
-  test("native images/rich content and independent header visibility survive; sidebar fails explicitly", async () => {
+  test("native images/rich content and independent header visibility survive; sidebar uses shared flow", async () => {
     expect(
       walkBlocks(
         buildDossierDocModel(verlauf2Fixture("images", "data:image/png;base64/test")).cover.blocks,
@@ -137,8 +136,10 @@ describe("Verlauf 2 declarative multi-stop paint and semantic interior palettes"
     ).toBe(true);
     expect(buildDossierDocModel(verlauf2Fixture("none")).letter.headerShapes).toHaveLength(4);
     expect(buildDossierDocModel(verlauf2Fixture("no-motifs")).cv.headerShapes).toBeUndefined();
-    await expect(
-      renderDossierDocx(buildDossierDocModel(verlauf2Fixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(verlauf2Fixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

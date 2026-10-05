@@ -31,6 +31,20 @@ export function validateDossierDocModel(model: DossierDocModel): void {
     throw new Error("DOCX Next unsupported font embedding policy");
   const ids = new Set<string>();
   for (const part of [model.cover, model.letter, model.cv]) {
+    if (
+      part.blocks.some((block) =>
+        walkBlocks([block]).some((child) => child.kind === "parallel-flow"),
+      ) &&
+      (part.header.length > 0 || part.firstHeader !== undefined)
+    )
+      throw new Error(
+        `DOCX Next parallel flow with running headers is unsupported: ${part.id}; native pagination acceptance is pending`,
+      );
+    if (
+      part.layout.mode === "sidebar" &&
+      !part.blocks.some((block) => block.kind === "parallel-flow")
+    )
+      throw new Error(`DOCX Next sidebar requires native parallel flow: ${part.id}`);
     const margins = part.page.margins;
     if (
       [...part.artwork, ...(part.headerShapes ?? [])].some((value) => value.repeat) &&

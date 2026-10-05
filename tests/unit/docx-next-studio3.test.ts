@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { STUDIO_3_FIXTURES, studio3Fixture } from "../fixtures/docx-next/studio3";
 describe("Studio 3 declarative editorial composition", () => {
@@ -46,7 +45,7 @@ describe("Studio 3 declarative editorial composition", () => {
     hidden.cv.design.bgOpacity = 0;
     expect(buildDossierDocModel(hidden).cv.headerShapes).toBeUndefined();
   });
-  test("explicit style overrides and native photos survive; sidebar fails explicitly", async () => {
+  test("explicit style overrides and native photos survive; sidebar uses shared flow", async () => {
     const input = studio3Fixture("images", "data:image/png;base64/test");
     input.settings.fieldStyles = {
       "cover.fullName": { font: "Georgia", color: "123456", italic: true },
@@ -55,8 +54,10 @@ describe("Studio 3 declarative editorial composition", () => {
     const name = walkBlocks(model.cover.blocks).find((b) => b.id === "cover.fullName") as Paragraph;
     expect(name.runs[0].style).toMatchObject({ font: "Georgia", color: "123456", italic: true });
     expect(walkBlocks(model.cover.blocks).some((b) => b.kind === "image")).toBe(true);
-    await expect(
-      renderDossierDocx(buildDossierDocModel(studio3Fixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(studio3Fixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

@@ -46,7 +46,9 @@ describe("shared native CV compositions", () => {
     const input = briefFixture("minimal");
     for (const alias of ["modern", "executive", "sidebar"] as const) {
       input.settings.cvLayout = alias;
-      await expect(renderDossierDocx(buildDossierDocModel(input))).rejects.toThrow("Gate 8");
+      expect(
+        buildDossierDocModel(input).cv.blocks.some((block) => block.kind === "parallel-flow"),
+      ).toBe(true);
     }
     input.settings.cvLayout = "classic";
     expect(

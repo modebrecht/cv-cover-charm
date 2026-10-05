@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
 import { GLOW_FIXTURES, glowFixture } from "../fixtures/docx-next/glow";
 describe("Glow generic luminous stationery", () => {
@@ -70,8 +69,10 @@ describe("Glow generic luminous stationery", () => {
       kind: "image",
       align: "right",
     });
-    await expect(
-      renderDossierDocx(buildDossierDocModel(glowFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(glowFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

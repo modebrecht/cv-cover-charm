@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { HORIZON_FIXTURES, horizonFixture } from "../fixtures/docx-next/horizon";
 import { HORIZON } from "../../src/lib/docx-next/templates";
@@ -58,9 +57,11 @@ describe("Horizon shared gradient stationery", () => {
     expect(walkBlocks(model.cv.blocks).some((b) => b.kind === "entry")).toBe(true);
   });
   test("all three candidate templates remain independent of the single renderer", async () => {
-    await expect(
-      renderDossierDocx(buildDossierDocModel(horizonFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(horizonFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
     for (const file of [
       "renderer.ts",
       "build-model.ts",

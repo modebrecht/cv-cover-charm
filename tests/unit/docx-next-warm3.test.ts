@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { WARM_3_FIXTURES, warm3Fixture } from "../fixtures/docx-next/warm3";
 describe("Warm 3 shared organic counter-field and per-part stationery", () => {
@@ -48,7 +47,7 @@ describe("Warm 3 shared organic counter-field and per-part stationery", () => {
     }
     expect(buildDossierDocModel(warm3Fixture("no-motifs")).cv.headerShapes).toBeUndefined();
   });
-  test("native photos, rich tables and explicit user typography survive; CV sidebar is blocked", async () => {
+  test("native photos, rich tables and explicit user typography survive; CV sidebar uses shared flow", async () => {
     const input = warm3Fixture("images", "data:image/png;base64/test");
     input.settings.fieldStyles = {
       "cover.fullName": { font: "Georgia", color: "123456", italic: true },
@@ -62,8 +61,10 @@ describe("Warm 3 shared organic counter-field and per-part stationery", () => {
         (b) => b.kind === "table",
       ),
     ).toBe(true);
-    await expect(
-      renderDossierDocx(buildDossierDocModel(warm3Fixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(warm3Fixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

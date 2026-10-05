@@ -8,6 +8,7 @@ import {
 } from "@/lib/dossier-semantic-fields";
 import {
   CV_SECTION_LABELS,
+  DEFAULT_CV_PLACEMENTS,
   cvSectionOrder,
   cvSectionLayout,
   customSectionForKey,
@@ -35,6 +36,7 @@ import { color, compositeTextColor } from "./colors";
 export { color } from "./colors";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin } from "./continuation-margin";
+import { composeCvSidebar } from "./cv-sidebar-composition";
 import {
   chromeTextHeight,
   composeCompactMasthead,
@@ -66,7 +68,11 @@ const name = (first: string, last: string) => [first, last].filter(Boolean).join
 export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel {
   const { cover, letter, cv, settings } = input;
   const cvVariant = cvWordLayout(settings.cvLayout);
-  const cvFlow = CV_FLOW_LAYOUTS[cvVariant === "sidebar" ? "classic" : cvVariant];
+  const cvFlow = CV_FLOW_LAYOUTS[cvVariant];
+  const placements =
+    cvVariant === "sidebar"
+      ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
+      : settings.placements;
   const template = nextTemplate(String(cover.template));
   if (String(letter.design.template) !== template.id || String(cv.design.template) !== template.id)
     throw new Error("DOCX Next requires matching dossier templates.");
@@ -549,6 +555,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       return {
         kind: "entry",
         id,
+        ...(cvVariant === "sidebar" ? { keepTogether: true } : {}),
         blocks: datedEntryBlocks(
           id,
           fields.map(([key, text], index) =>
@@ -595,7 +602,10 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           ),
         ),
       );
-      if (cd.personalInfoAligned !== false) {
+      if (
+        cd.personalInfoAligned !== false &&
+        !(cvVariant === "sidebar" && placements?.kontakt === "side")
+      ) {
         const contactPairs = [
           ["address", "place"],
           ["phone", "email"],
@@ -769,7 +779,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       id: `cv.section.${key}`,
       heading: sectionHeading,
       blocks,
-      placement: settings.placements?.[key === "person" ? "kontakt" : key] ?? "main",
+      placement: placements?.[key === "person" ? "kontakt" : key] ?? "main",
       width: layout.width,
       startPage: layout.page,
       contentIndentMm: cvFlow.indentMm + rubric.contentIndentMm,
@@ -1239,6 +1249,12 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       cvHeaderReserveMm,
       cvMinimumFirstTopMm,
     ),
+  );
+  composeCvSidebar(
+    cvPart,
+    cvAccent,
+    color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
+    cv.design.bgOpacity,
   );
   for (const target of [coverPart, letterPart, cvPart]) {
     const policies = template.pageMotifs?.[target.id];

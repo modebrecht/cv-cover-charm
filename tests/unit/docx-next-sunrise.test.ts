@@ -6,7 +6,6 @@ import {
   shapePathPoints,
   validateDecoration,
 } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks } from "../../src/lib/docx-next/model";
 import { SUNRISE_FIXTURES, sunriseFixture } from "../fixtures/docx-next/sunrise";
 
@@ -65,13 +64,15 @@ describe("shared cubic contours and Sunrise candidate", () => {
     hidden.cv.design.bgOpacity = 0;
     expect(buildDossierDocModel(hidden).cv.headerShapes).toBeUndefined();
   });
-  test("authored custom contact surfaces take precedence and sidebar remains explicitly blocked", async () => {
+  test("authored custom contact surfaces take precedence and sidebar uses shared native flow", async () => {
     const input = sunriseFixture("continuation");
     input.settings.chrome!.shared.headerBackgroundColor = "#123456";
     expect(buildDossierDocModel(input).letter.headerShapes).toBeUndefined();
-    await expect(
-      renderDossierDocx(buildDossierDocModel(sunriseFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(sunriseFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
     for (const file of [
       "renderer.ts",
       "build-model.ts",

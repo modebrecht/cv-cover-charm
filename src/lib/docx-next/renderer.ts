@@ -51,10 +51,6 @@ export async function renderDossierDocx(
     throw new Error(
       `DOCX Next has unaccepted model issues: ${model.issues.map((issue) => issue.code).join(", ")}`,
     );
-  if (model.cv.layout.mode !== "classic")
-    throw new Error(
-      "DOCX Next sidebar has not passed Gate 8; no legacy reconstruction fallback is allowed.",
-    );
   validateDossierDocModel(model);
   const numbering = planNumbering(model);
   const renderParagraph = (value: Paragraph, drawings = "", indentMm = 0) =>
@@ -341,6 +337,19 @@ export async function renderDossierDocx(
           widths: block.widths,
           indentMm,
           rows: [{ cells: block.columns, keepTogether: false }],
+        },
+        widthMm,
+        page,
+      );
+    if (block.kind === "entry" && block.keepTogether)
+      return table(
+        {
+          kind: "table",
+          id: block.id,
+          widths: [1],
+          indentMm,
+          rows: [{ cells: [block.blocks], keepTogether: true }],
+          decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
         },
         widthMm,
         page,

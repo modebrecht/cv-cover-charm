@@ -20,7 +20,7 @@ export const GRAPHIC_FIXTURES = [
 ] as const;
 export type GraphicFixture =
   | (typeof GRAPHIC_FIXTURES)[number]
-  | "sidebar-blocked"
+  | "sidebar"
   | "cover-long"
   | "contact-long"
   | "hero-long";
@@ -139,6 +139,6 @@ export function graphicCandidateFixture(
       (_, index) => `Kontaktzeile ${index + 1}: editierbarer Kontakt`,
     );
   }
-  if (kind === "sidebar-blocked") input.settings.cvLayout = "sidebar";
+  if (kind === "sidebar") input.settings.cvLayout = "sidebar";
   return input;
 }

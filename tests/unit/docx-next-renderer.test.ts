@@ -125,10 +125,12 @@ describe("DOCX Next independent renderer", () => {
       }),
     ).rejects.toThrow("image decode failed");
   });
-  test("pending sidebar and unresolved identities cannot leak into production", async () => {
+  test("native sidebar and unresolved identities stay explicit", async () => {
     const input = briefFixture();
     input.settings.cvLayout = "sidebar";
-    await expect(renderDossierDocx(buildDossierDocModel(input))).rejects.toThrow("Gate 8");
+    expect(
+      buildDossierDocModel(input).cv.blocks.some((block) => block.kind === "parallel-flow"),
+    ).toBe(true);
     input.settings.cvLayout = "classic";
     input.settings.unresolvedTypography = ["old-field"];
     await expect(renderDossierDocx(buildDossierDocModel(input))).rejects.toThrow(

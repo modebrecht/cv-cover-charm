@@ -170,6 +170,7 @@ def check_semantic_text(document, fixture):
     start = 0
     for part in fixture.get('parts', []):
         part_text = ''
+        lane_texts = ['' for _ in part.get('parallelTracks', [])]
         for page in document[start:start + part['expectedPages']]:
             margins = part['contentBoxMm']
             # Allow for font ascender bounds at the native body boundary; exclude
@@ -177,6 +178,16 @@ def check_semantic_text(document, fixture):
             clip = fitz.Rect(0, max(0, (margins['top'] - 3) * 72 / 25.4),
                              page.rect.width, min(page.rect.height, page.rect.height - (margins['bottom'] - 3) * 72 / 25.4))
             part_text += page.get_text(clip=clip)
+            for index, track in enumerate(part.get('parallelTracks', [])):
+                lane = fitz.Rect((track['leftMm'] - 0.5) * 72 / 25.4, clip.y0,
+                                 (track['rightMm'] + 0.5) * 72 / 25.4, clip.y1)
+                lane_texts[index] += page.get_text(clip=lane)
+        for track, text in zip(part.get('parallelTracks', []), lane_texts):
+            for expected in track['semanticText']:
+                assert any(v in compact(text) for v in text_variants(expected)), f'{key}: missing native parallel track text {str(expected)[:100]}'
+        # Keep each independent story contiguous across pages; running chrome and
+        # neighbouring stories cannot replace missing content in a track.
+        part_text += ''.join(lane_texts)
         part_text = compact(part_text)
         for text in part['semanticText']:
             assert any(variant in part_text for variant in text_variants(text)), f'{key}: missing {part["id"]} body text {str(text)[:100]}'
@@ -701,7 +712,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-', 'klassisch-', 'edel-', 'serioes-', 'colorful-', 'blockig-', 'welle-', 'modern-', 'pastell-', 'sonne-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
+    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-', 'klassisch-', 'edel-', 'serioes-', 'colorful-', 'blockig-', 'welle-', 'modern-', 'pastell-', 'sonne-', 'sidebar-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'

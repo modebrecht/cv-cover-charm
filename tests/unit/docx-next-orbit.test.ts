@@ -91,10 +91,12 @@ describe("Orbit native candidate and reusable outline paint", () => {
     expect(changed.cv.headerShapes!.find((s) => s.shape === "circle")!.stroke.color).toBe("D48B35");
     expect(buildDossierDocModel(orbitFixture("no-motifs")).cv.headerShapes).toBeUndefined();
   });
-  test("sidebar fails explicitly and shared rendering stays template-ID-free", async () => {
-    await expect(
-      renderDossierDocx(buildDossierDocModel(orbitFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+  test("sidebar uses shared flow and shared rendering stays template-ID-free", async () => {
+    expect(
+      buildDossierDocModel(orbitFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
     for (const file of [
       "renderer.ts",
       "build-model.ts",

@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { MODERN_FIXTURES, modernFixture } from "../fixtures/docx-next/modern";
 describe("Modern template is independent of the blocked Sidebar layout", () => {
@@ -53,7 +52,7 @@ describe("Modern template is independent of the blocked Sidebar layout", () => {
     expect(compact.cv.footer[0].runs[0].style.color).not.toBe("111827");
     expect(plain.cv.footer[0].runs[0].style.color).toBe("18181B");
   });
-  test("circle photo and explicit typography remain native, and Sidebar requests fail", async () => {
+  test("circle photo and explicit typography remain native, and Sidebar requests use shared flow", async () => {
     const input = modernFixture("images", "data:image/png;base64/test");
     input.settings.fieldStyles = {
       "cover.profession": { font: "Georgia", color: "123456", italic: true },
@@ -69,8 +68,10 @@ describe("Modern template is independent of the blocked Sidebar layout", () => {
     expect(
       (blocks.find((b) => b.id === "cover.profession") as Paragraph).runs[0].style,
     ).toMatchObject({ font: "Georgia", color: "123456", italic: true });
-    await expect(
-      renderDossierDocx(buildDossierDocModel(modernFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(modernFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

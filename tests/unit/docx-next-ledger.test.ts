@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { LEDGER_FIXTURES, ledgerFixture } from "../fixtures/docx-next/ledger";
 describe("Ledger native cover columns and quiet index paint", () => {
@@ -59,9 +58,11 @@ describe("Ledger native cover columns and quiet index paint", () => {
     expect(colors.cover.headerShapes?.[0].fill?.color).toBe("385D58");
   });
   test("CV sidebar remains unsupported; date rows and rich content use the single renderer", async () => {
-    await expect(
-      renderDossierDocx(buildDossierDocModel(ledgerFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(ledgerFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
     const model = buildDossierDocModel(ledgerFixture("timeline"));
     expect(walkBlocks(model.cv.blocks).some((b) => b.kind === "entry")).toBe(true);
     expect(

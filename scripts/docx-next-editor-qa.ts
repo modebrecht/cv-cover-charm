@@ -391,10 +391,25 @@ try {
           loaded.cv.portableState.layout !== (choice === "executive" ? "modern" : choice) ||
           loaded.cv.portableState.continuationTopMarginMm !== 10 ||
           captured.settings.cvLayout !== expected ||
-          captured.settings.cvContinuationTopMarginMm !== 10 ||
-          modelModule.buildDossierDocModel(captured).cv.layout.variant !== expected
+          captured.settings.cvContinuationTopMarginMm !== 10
         )
           throw new Error(`Portable JSON/snapshot lost CV composition ${choice}`);
+        if (expected === "sidebar") {
+          let rejectedPageStart = false;
+          try {
+            modelModule.buildDossierDocModel(captured);
+          } catch (error) {
+            rejectedPageStart = String(error).includes(
+              "unsupported parallel-flow content cv.elements.page:2",
+            );
+          }
+          if (!rejectedPageStart)
+            throw new Error(
+              "Sidebar must explicitly reject this editor fixture's page-two custom group",
+            );
+        } else if (modelModule.buildDossierDocModel(captured).cv.layout.variant !== expected) {
+          throw new Error(`Portable JSON/model lost CV composition ${choice}`);
+        }
       }
     } finally {
       if (originalLayout === null) localStorage.removeItem(layoutKey);

@@ -7,6 +7,11 @@ import type { TemplateId } from "../src/components/cover/types";
 import { dossierDefaultFontKey } from "../src/lib/dossier-theme";
 import { nextTemplate } from "../src/lib/docx-next/templates";
 const template = process.env.DOCX_NEXT_EDITOR_TEMPLATE ?? "cove";
+const layout = process.env.DOCX_NEXT_EDITOR_LAYOUT ?? "classic";
+const headerMode = process.env.DOCX_NEXT_EDITOR_HEADER_MODE ?? "contact";
+if (!["none", "contact"].includes(headerMode))
+  throw new Error("Unsupported candidate editor header mode");
+if (!["classic", "modern"].includes(layout)) throw new Error("Unsupported candidate editor layout");
 nextTemplate(template);
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../src/lib/dossier-chrome";
 const out = path.resolve(process.argv[2] ?? "/tmp/docx-next-candidate-editor");
@@ -62,9 +67,9 @@ try {
     : undefined;
   const fixture = graphicCandidateFixture(template, photo ? "images" : "normal", photo);
   const chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
-  Object.assign(chrome.shared, { headerMode: "contact", headerHeightMm: 44, headerGapMm: 4 });
+  Object.assign(chrome.shared, { headerMode, headerHeightMm: 44, headerGapMm: 4 });
   await page.evaluate(
-    ({ fixture, chrome, template, font }) => {
+    ({ fixture, chrome, template, font, layout }) => {
       localStorage.clear();
       localStorage.setItem(
         "titelblatt:v3",
@@ -81,9 +86,14 @@ try {
       localStorage.setItem("lebenslauf:v1", JSON.stringify(fixture.cv));
       localStorage.setItem("anschreiben:v1", JSON.stringify(fixture.letter));
       localStorage.setItem("bewerbungsdossier:chrome:v1", JSON.stringify(chrome));
-      localStorage.setItem("lebenslauf:layout:v1", "classic");
+      localStorage.setItem("lebenslauf:layout:v1", layout);
+      if (layout === "modern")
+        localStorage.setItem(
+          "lebenslauf:photo-place:v1",
+          JSON.stringify({ mode: "auto", widthMm: 34, xMm: 150, yMm: 20 }),
+        );
     },
-    { fixture, chrome, template, font: dossierDefaultFontKey(template as TemplateId) },
+    { fixture, chrome, template, layout, font: dossierDefaultFontKey(template as TemplateId) },
   );
   await page.goto(base + "/lebenslauf", { waitUntil: "networkidle" });
   await page
@@ -122,7 +132,7 @@ try {
     throw new Error("Candidate edit/reload lost name");
   stage = "portable snapshot and independent export";
   const result = await page.evaluate(
-    async ({ template }) => {
+    async ({ template, layout }) => {
       const project = await import("/src/lib/dossier-project.ts"),
         docs = await import("/src/lib/dossier-pdf-document.ts"),
         snapshot = await import("/src/lib/docx-next/snapshot.ts"),
@@ -143,6 +153,7 @@ try {
       const m = model.buildDossierDocModel(captured);
       if (
         m.templateId !== template ||
+        (layout === "modern" && !m.cv.blocks.some((b) => b.kind === "parallel-flow")) ||
         m.issues.length ||
         !blocks
           .walkBlocks(m.cv.blocks)
@@ -159,7 +170,7 @@ try {
         ),
       };
     },
-    { template },
+    { template, layout },
   );
   await writeFile(path.join(out, `${template}-editor.docx`), Uint8Array.from(result.bytes));
   await writeFile(

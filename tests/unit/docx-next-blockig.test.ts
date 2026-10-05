@@ -91,8 +91,10 @@ describe("Blockig native modular flow and decorative rail", () => {
     expect(() => buildDossierDocModel(input)).toThrow("solid unbordered rectangles");
     input.cover.blocks = input.cover.blocks.filter((b) => b.id !== source.id);
     expect(() => buildDossierDocModel(input)).toThrow("missing authored cover surface");
-    await expect(
-      renderDossierDocx(buildDossierDocModel(blockigFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(blockigFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });

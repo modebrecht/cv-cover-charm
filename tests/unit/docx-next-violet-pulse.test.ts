@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
-import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { VIOLET_PULSE_FIXTURES, violetPulseFixture } from "../fixtures/docx-next/violet-pulse";
 describe("Violet Pulse reuses shared contours and native paper chrome", () => {
@@ -40,7 +39,7 @@ describe("Violet Pulse reuses shared contours and native paper chrome", () => {
     }
     expect(buildDossierDocModel(violetPulseFixture("no-motifs")).cv.headerShapes).toBeUndefined();
   });
-  test("native photos, rich tables and explicit user typography survive; CV sidebar is blocked", async () => {
+  test("native photos, rich tables and explicit user typography survive; CV sidebar uses shared flow", async () => {
     const input = violetPulseFixture("images", "data:image/png;base64/test");
     input.settings.fieldStyles = {
       "cover.fullName": { font: "Georgia", color: "123456", italic: true },
@@ -54,8 +53,10 @@ describe("Violet Pulse reuses shared contours and native paper chrome", () => {
         (b) => b.kind === "table",
       ),
     ).toBe(true);
-    await expect(
-      renderDossierDocx(buildDossierDocModel(violetPulseFixture("sidebar-blocked"))),
-    ).rejects.toThrow("sidebar has not passed");
+    expect(
+      buildDossierDocModel(violetPulseFixture("sidebar")).cv.blocks.some(
+        (block) => block.kind === "parallel-flow",
+      ),
+    ).toBe(true);
   });
 });
