@@ -7,6 +7,7 @@ import { nativeTextHeightMm } from "./layouts";
 type ElementContext = {
   fontScale: number;
   font: string;
+  defaultFont?: string;
   colors: Record<string, string>;
   ink: string;
   paper?: string;
@@ -21,7 +22,7 @@ export function textElement(
   layout: Partial<Paragraph> = {},
 ): Paragraph[] {
   const baseStyle: Partial<TextStyle> = {
-    font: wordFont(block.style.font, context.font),
+    font: context.defaultFont ?? wordFont(block.style.font, context.font),
     sizePt: block.style.size * context.fontScale,
     color: context.color(context.colors[block.style.color] ?? block.style.color, context.ink),
     bold: block.style.weight >= 600,

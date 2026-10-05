@@ -151,7 +151,10 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     page: {
       widthMm: 210,
       heightMm: 297,
-      margins: { ...template.margins, ...(id !== "cover" ? settings.margins?.[id] : {}) },
+      margins: {
+        ...template.margins,
+        ...(id === "cover" ? template.cover.margins : settings.margins?.[id]),
+      },
       headerDistanceMm: template.chrome.headerDistanceMm,
       footerDistanceMm: template.chrome.footerDistanceMm,
     },

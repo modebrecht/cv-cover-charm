@@ -158,3 +158,7 @@ Microsoft Word acceptance: pending. Review [Ribbon coverage](ribbon-feature-cove
 ## Sunrise candidate review
 
 Microsoft Word acceptance: pending. Review [Sunrise coverage](sunrise-feature-coverage.md) and the 13 cases in [evidence](sunrise-stress-report.md). Open, edit, save, close and reopen cover groups/photos, long letter/CV, custom content, palettes and first/continuation/off chrome. Verify native flow adaptations and reject sidebar simulation. LibreOffice does not complete Word acceptance.
+
+## Forest Flow candidate review
+
+Microsoft Word acceptance: pending. Review [Forest Flow coverage](forestFlow-feature-coverage.md) and the 13 cases in [evidence](forestFlow-stress-report.md). Open, edit, save, close and reopen cover groups/photos, long letter/CV, custom content, palettes and first/continuation/off chrome. Verify native flow adaptations and reject sidebar simulation. LibreOffice does not complete Word acceptance.

@@ -27,6 +27,10 @@ export type TemplateDefinition = {
   colors: { ink: string; accent: string; paper: string };
   margins: PageMargins;
   cover: {
+    /** Native cover composition can use its own page gutters. Interior margins remain independent. */
+    margins?: PageMargins;
+    /** Built-in semantic roles may inherit the dossier font; explicit/custom fonts keep precedence. */
+    fontSource?: "dossier";
     order: readonly string[];
     align: Alignment;
     heroSpaceMm: number;
@@ -36,6 +40,8 @@ export type TemplateDefinition = {
     fieldAlignments?: Readonly<Record<string, Alignment>>;
     /** Palette roles for native field defaults; explicit saved colors retain precedence. */
     fieldColorSlots?: Readonly<Record<string, string>>;
+    /** Semantic field leads in native flow, including fields grouped in cover cells. */
+    fieldSpaceBeforeMm?: Readonly<Record<string, number>>;
     rows?: readonly {
       fields: readonly (string | readonly string[])[];
       widths: readonly number[];
@@ -1479,6 +1485,188 @@ export const SUNRISE: TemplateDefinition = {
   cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
   artwork: [],
 };
+/** Native cover rail columns and quiet paper chrome, configured without sidebar reconstruction. */
+export const FOREST_FLOW: TemplateDefinition = {
+  id: "forestFlow",
+  archetype: "organic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "1D2B27", accent: "9ABF9C", paper: "F5F8F4" },
+  margins: { top: 32, right: 23, bottom: 23, left: 34 },
+  cover: {
+    fontSource: "dossier",
+    margins: { top: 18, right: 14, bottom: 20, left: 7 },
+    order: [
+      "eyebrow",
+      "foto",
+      "name",
+      "beruf",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+      "ortDatum",
+    ],
+    align: "left",
+    heroSpaceMm: 0,
+    photoWidthMm: 46,
+    photoAlign: "right",
+    fieldAlignments: {
+      eyebrow: "center",
+      ortDatum: "center",
+      kontaktTitel: "center",
+      kontakt: "center",
+      name: "left",
+      beruf: "left",
+      lehrbeginn: "left",
+      anTitel: "right",
+      empfaenger: "right",
+      beilagenTitel: "right",
+      beilagen: "right",
+    },
+    fieldColorSlots: { eyebrow: "bg", ortDatum: "bg", kontaktTitel: "bg", kontakt: "bg" },
+    fieldSpaceBeforeMm: {
+      name: 40,
+      kontaktTitel: 120,
+      ortDatum: 12,
+      anTitel: 18,
+      beilagenTitel: 8,
+    },
+    decorationPlacement: "first-header",
+    rows: [
+      {
+        fields: [
+          ["eyebrow", "kontaktTitel", "kontakt", "ortDatum"],
+          [],
+          [
+            "foto",
+            "name",
+            "beruf",
+            "lehrbeginn",
+            "anTitel",
+            "empfaenger",
+            "beilagenTitel",
+            "beilagen",
+          ],
+        ],
+        widths: [0.2, 0.15, 0.65],
+      },
+    ],
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 52 / 210,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+      },
+      {
+        shape: "rect",
+        xFraction: 52.6 / 210,
+        widthFraction: 157.4 / 210,
+        topMm: 0,
+        heightMm: 82,
+        fillSlot: "secondary",
+        opacity: 0.3,
+        cornerRadiiMm: [0, 0, 0, 38],
+      },
+      {
+        shape: "rect",
+        xFraction: 52 / 210,
+        widthFraction: 0.8 / 210,
+        topMm: 0,
+        heightMm: 82,
+        fillSlot: "accent",
+        opacity: 0.9,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  cv: { sectionSpaceMm: 3.6, headingRule: false, sidebarFraction: 0.3 },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 10 / 210,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+      },
+      {
+        shape: "circle",
+        xFraction: 5 / 210,
+        widthFraction: 24 / 210,
+        topMm: 14,
+        heightMm: 24,
+        fillSlot: "secondary",
+        opacity: 0.2,
+      },
+      {
+        shape: "rect",
+        xFraction: 15 / 210,
+        widthFraction: 15 / 210,
+        topMm: 32,
+        heightMm: 1.2,
+        fillSlot: "accent",
+        cornerRadiiMm: [0, 0.6, 0.6, 0],
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 10 / 210,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+      },
+      {
+        shape: "circle",
+        xFraction: 5 / 210,
+        widthFraction: 24 / 210,
+        topMm: 14,
+        heightMm: 24,
+        fillSlot: "secondary",
+        opacity: 0.2,
+      },
+      {
+        shape: "rect",
+        xFraction: 15 / 210,
+        widthFraction: 15 / 210,
+        topMm: 32,
+        heightMm: 1.2,
+        fillSlot: "accent",
+        cornerRadiiMm: [0, 0.6, 0.6, 0],
+      },
+    ],
+  },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -1492,6 +1680,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   ledger: LEDGER,
   ribbon: RIBBON,
   sunrise: SUNRISE,
+  forestFlow: FOREST_FLOW,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

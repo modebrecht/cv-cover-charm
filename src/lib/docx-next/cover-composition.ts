@@ -15,6 +15,12 @@ export function composeCover(
   color: CoverContext["color"],
   fallbackName: Paragraph,
 ): DocBlock[] {
+  if (
+    Object.values(template.cover.fieldSpaceBeforeMm ?? {}).some(
+      (space) => !Number.isFinite(space) || space < 0,
+    )
+  )
+    throw new Error("DOCX Next invalid semantic cover field lead");
   const blocks: DocBlock[] = [];
 
   const coverDecoration: DocBlock[] = [];
@@ -99,15 +105,29 @@ export function composeCover(
       defaultColorSlot && !hasUserStyle(block, "color")
         ? { ...block, style: { ...block.style, color: defaultColorSlot } }
         : block;
-    const paragraphs = textElement(styledBlock, id, fieldContext, {
-      ...(!hasUserStyle(block, "align") && template.cover.fieldAlignments?.[block.id]
-        ? { align: template.cover.fieldAlignments[block.id] }
-        : {}),
-      role: block.id === "beruf" ? "title" : block.id === "name" ? "heading" : "body",
-      beforeMm: block.id === "kicker" ? template.cover.heroSpaceMm : 0,
-      afterMm: block.id === "name" ? 5 : 2,
-      keepNext: ["kicker", "kontaktTitel", "empfaengerTitel", "beilagenTitel"].includes(block.id),
-    });
+    const paragraphs = textElement(
+      styledBlock,
+      id,
+      {
+        ...fieldContext,
+        ...(template.cover.fontSource === "dossier" &&
+        !customCoverIds.has(block.id) &&
+        !hasUserStyle(block, "font")
+          ? { defaultFont: fieldContext.font }
+          : {}),
+      },
+      {
+        ...(!hasUserStyle(block, "align") && template.cover.fieldAlignments?.[block.id]
+          ? { align: template.cover.fieldAlignments[block.id] }
+          : {}),
+        role: block.id === "beruf" ? "title" : block.id === "name" ? "heading" : "body",
+        beforeMm:
+          template.cover.fieldSpaceBeforeMm?.[block.id] ??
+          (block.id === "kicker" ? template.cover.heroSpaceMm : 0),
+        afterMm: block.id === "name" ? 5 : 2,
+        keepNext: ["kicker", "kontaktTitel", "empfaengerTitel", "beilagenTitel"].includes(block.id),
+      },
+    );
     const boxed =
       cover.customFieldIds?.includes(block.id) ||
       block.style.bg ||
