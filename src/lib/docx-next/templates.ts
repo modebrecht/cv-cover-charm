@@ -3141,6 +3141,83 @@ export const MODERN: TemplateDefinition = {
     ],
   },
 };
+/** Inset paper frame with a native serif hero and growing information columns. */
+export const PASTELL: TemplateDefinition = {
+  ...KLASSISCH,
+  id: "pastell",
+  colors: { ink: "22212B", accent: "4A4E69", paper: "FBFAF8" },
+  typography: { font: "Georgia", bodyPt: 10.5, namePt: 14, headingPt: 12, heroPt: 26 },
+  margins: { top: 24, right: 24, bottom: 24, left: 24 },
+  cover: {
+    ...KLASSISCH.cover,
+    margins: { top: 22, right: 24, bottom: 22, left: 24 },
+    order: [...KLASSISCH.cover.order.slice(0, 7), "trenner", ...KLASSISCH.cover.order.slice(7)],
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["beilagenTitel", "beilagen", "anTitel", "empfaenger"],
+        ],
+        widths: [1, 1],
+        beforeMm: 12,
+      },
+    ],
+    photoWidthMm: 46,
+    heroLeadMm: 13,
+    photoAbsentLeadMm: 70,
+    fieldSpaceBeforeMm: { beruf: 12, name: 18 },
+    flowingRules: { trenner: { beforeMm: 12, afterMm: 6 } },
+  },
+  pageMotifs: {
+    cover: [
+      {
+        shape: "rect",
+        xFraction: 12 / 210,
+        widthFraction: 186 / 210,
+        topMm: 12,
+        heightMm: 273,
+        stroke: { slot: "secondary", widthMm: 0.4 },
+        opacity: 0.35,
+        paintLayer: 1,
+      },
+    ],
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 12 / 210,
+        widthFraction: 186 / 210,
+        topMm: 12,
+        heightMm: 273,
+        stroke: { slot: "secondary", widthMm: 0.4 },
+        opacity: 0.35,
+        paintLayer: 1,
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 12 / 210,
+        widthFraction: 186 / 210,
+        topMm: 12,
+        heightMm: 273,
+        stroke: { slot: "secondary", widthMm: 0.4 },
+        opacity: 0.35,
+        paintLayer: 1,
+      },
+      {
+        shape: "rect",
+        xFraction: 12 / 210,
+        widthFraction: 186 / 210,
+        topMm: 12,
+        heightMm: 3,
+        fillSlot: "secondary",
+        opacity: 0.72,
+        paintLayer: 2,
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -3169,6 +3246,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   blockig: BLOCKIG,
   welle: WELLE,
   modern: MODERN,
+  pastell: PASTELL,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

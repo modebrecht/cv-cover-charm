@@ -152,6 +152,7 @@ describe("DOCX Next canonical model", () => {
       "blockig",
       "welle",
       "modern",
+      "pastell",
     ]);
     expect(JSON.stringify(BRIEF)).not.toContain("<w:");
     const input = briefFixture();

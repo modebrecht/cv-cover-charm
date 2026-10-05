@@ -220,3 +220,7 @@ Use all 14 `--welle` fixtures and record tester, OS, exact Word version and sour
 ## Separate Modern candidate review
 
 Use all 13 `--modern` fixtures and record tester, OS, exact Word version and source commit. Edit native cover text/photo, grow contact/attachment rows, verify long CV/Timeline/Magazin and rich content, then save/close/reopen. Check custom palettes, explicit field colors, compact/off/first/continuation stories and zero CV motifs. Review these adaptations: Absolute footer anchors become flowing native columns; the badge uses editable rectangular Word shading; the Modern template is distinct from the blocked Sidebar CV composition. Approved visual references and Microsoft Word acceptance: **pending**. 27/39 configured candidates; 0/39 Word accepted.
+
+## Separate Rahmen candidate review
+
+Use all 14 `--pastell` fixtures and record tester, OS, exact Word version and source commit. Edit native cover text/photo, grow contact/attachment rows, verify long CV/Timeline/Magazin and rich content, then save/close/reopen. Check custom palettes, explicit field colors, compact/off/first/continuation stories and zero CV motifs. Review these adaptations: Absolute contact/footer anchors become editable flowing columns; Word uses native serif metrics and photo frames without the browser-only outline; rectangular page geometry remains explicit review work. Approved visual references and Microsoft Word acceptance: **pending**. 28/39 configured candidates; 0/39 Word accepted.
