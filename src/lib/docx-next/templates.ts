@@ -1801,6 +1801,122 @@ export const VIOLET_PULSE: TemplateDefinition = {
   },
   artwork: [],
 };
+/** Asymmetric editorial candidate: native split hero and shared two-tone stationery. */
+export const STUDIO_3: TemplateDefinition = {
+  id: "studio3",
+  archetype: "editorial",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "18302D", accent: "E2A94B", paper: "F7FBFA" },
+  margins: { top: 32, right: 23, bottom: 23, left: 25 },
+  cover: {
+    fontSource: "dossier",
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "name",
+      "beruf",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    heroSpaceMm: 0,
+    photoWidthMm: 48,
+    photoAlign: "right",
+    heroLeadMm: 18,
+    photoAbsentLeadMm: 92,
+    fieldAlignments: { name: "left", beruf: "left", lehrbeginn: "left", ortDatum: "right" },
+    fieldColorSlots: { eyebrow: "bg", ortDatum: "bg" },
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        beforeMm: 28,
+      },
+    ],
+    motifs: [
+      {
+        shape: "path",
+        path: "M 0 0 L 100 0 L 100 74 L 64 100 L 0 84",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 124,
+        fillSlot: "primary",
+      },
+      {
+        shape: "rect",
+        xFraction: 126 / 210,
+        widthFraction: 84 / 210,
+        topMm: 0,
+        heightMm: 90,
+        cornerRadiiMm: [0, 0, 0, 36],
+        fillSlot: "secondary",
+        opacity: 0.94,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 22,
+      compactContinuationMm: 22,
+      motifs: [
+        {
+          shape: "rect",
+          xFraction: 146 / 210,
+          widthFraction: 64 / 210,
+          topMm: 0,
+          fillSlot: "secondary",
+        },
+      ],
+      noneMotifs: [
+        {
+          shape: "rect",
+          xFraction: 0,
+          widthFraction: 1,
+          topMm: 0,
+          heightMm: 22,
+          fillSlot: "primary",
+        },
+        {
+          shape: "rect",
+          xFraction: 146 / 210,
+          widthFraction: 64 / 210,
+          topMm: 0,
+          heightMm: 22,
+          fillSlot: "secondary",
+        },
+      ],
+    },
+  },
+  cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -1816,6 +1932,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   sunrise: SUNRISE,
   forestFlow: FOREST_FLOW,
   violetPulse: VIOLET_PULSE,
+  studio3: STUDIO_3,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];
