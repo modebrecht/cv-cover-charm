@@ -101,17 +101,18 @@ export function composeHeaderBands(
       repeat === "first" ? policy.compactFirstMm : policy.compactContinuationMm,
       mode === "contact" || hasText ? part.page.headerDistanceMm + headerHeightMm : 0,
     );
-    part.artwork.push({
-      kind: "decorative-artwork",
-      id: `${part.id}.artwork.band.${repeat}`,
-      semanticText: false,
-      repeat,
-      fill: { color: fill },
-      xMm: 0,
-      yMm: 0,
-      widthMm: part.page.widthMm,
-      heightMm,
-    });
+    if (policy.surface !== "motifs")
+      part.artwork.push({
+        kind: "decorative-artwork",
+        id: `${part.id}.artwork.band.${repeat}`,
+        semanticText: false,
+        repeat,
+        fill: { color: fill },
+        xMm: 0,
+        yMm: 0,
+        widthMm: part.page.widthMm,
+        heightMm,
+      });
     if (policy.motifs)
       part.headerShapes = [
         ...(part.headerShapes ?? []),

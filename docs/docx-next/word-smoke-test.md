@@ -142,3 +142,7 @@ Microsoft Word acceptance: **pending**. Test the thirteen `horizon-*` cases from
 - [ ] Inspect Existing corner, linear-gradient, radial-fade, native-photo and header-off primitives, chrome off/compact/contact and distinct first/continuation paint; check user palette/font/alignment overrides.
 - [ ] Add/remove long letter/CV content and save/close/reopen; verify text, pictures, lists, tables and native reflow.
 - [ ] Review documented Word adaptations: Native centered hero paragraphs stay below the 108 mm masthead, photos preserve authored native size/crop instead of CSS transforms, browser blur uses radial fade, start badges grow as Word cells and native footer content remains editable. Approve visual references separately.
+
+## Mono Luxe candidate review
+
+Microsoft Word acceptance: pending. Review the 13 cases in [mono-luxe evidence](mono-luxe-stress-report.md), especially editable cover/photos, long letter/CV flow, first/continuation and disabled headers, custom surfaces and palette changes. Open, edit, save, close and reopen in Microsoft Word; approve the explicit flow adaptations in [Mono Luxe coverage](mono-luxe-feature-coverage.md). LibreOffice evidence cannot complete this checklist.

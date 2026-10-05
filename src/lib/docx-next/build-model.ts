@@ -851,7 +851,10 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         options.headerBackgroundColor ?? (bandPolicy ? partColors[bandPolicy.fillSlot] : undefined),
         theme.accent,
       );
-      const headerInk = bandPolicy ? templateBandInk(bandFill, theme.paper) : theme.ink;
+      const headerInk =
+        bandPolicy && (bandPolicy.surface !== "motifs" || explicitHeaderSurface)
+          ? templateBandInk(bandFill, theme.paper)
+          : theme.ink;
       const font = wordFont(
         options.textFont ?? undefined,
         scope === "letter" ? letterFont : theme.font,

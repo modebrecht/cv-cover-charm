@@ -1,6 +1,6 @@
 # DOCX Next migration ledger
 
-39 active templates. **8/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove, Glow, Horizon); 0/39 Microsoft Word accepted migrations.** Remote `dev` was freshly fetched and verified at `8d03bb3974990626ae4d4e4d10f5fb9f18ed70b8` at batch start on 2026-10-05, with a clean tree and green M6 CI. The foundation is implemented through Gate 4. Candidate registration is distinct from acceptance. [Brief coverage](brief-feature-coverage.md), [Warm coverage](warm-feature-coverage.md), [Prism coverage](prism-feature-coverage.md), [Human coverage](human-feature-coverage.md) and [Orbit coverage](orbit-feature-coverage.md) record limits and evidence; automated checks do not establish Word acceptance.
+39 active templates. **9/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove, Glow, Horizon, Mono Luxe); 0/39 Microsoft Word accepted migrations.** Remote `dev` was freshly fetched and verified at `0c803de088f86afdc6fc12185acae4273956a51f` at batch start on 2026-10-05, with a clean tree and green M6 CI. The foundation is implemented through Gate 4. Candidate registration is distinct from acceptance. [Brief coverage](brief-feature-coverage.md), [Warm coverage](warm-feature-coverage.md), [Prism coverage](prism-feature-coverage.md), [Human coverage](human-feature-coverage.md) and [Orbit coverage](orbit-feature-coverage.md) record limits and evidence; automated checks do not establish Word acceptance.
 
 | Template      | Archetype           | Status                                      | Primitive                                                                             | QA                                                          |
 | ------------- | ------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -25,7 +25,7 @@
 | `edelDark`    | Editorial           | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
 | `edge`        | Sidebar             | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
 | `glow`        | Graphic / Editorial | Isolated candidate; Word acceptance pending | Independent rectangle corners, radial transparency and header-off motif fallback      | 13 stable LO render/save-reopen fixtures; Word pending      |
-| `monoLuxe`    | Editorial           | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
+| `monoLuxe`    | Editorial           | Isolated candidate; Word acceptance pending | Shared native cover rows, motif-only chrome and palette-bound page paint              | 13 stable LO render/save-reopen fixtures; Word pending      |
 | `horizon`     | Graphic / Editorial | Isolated candidate; Word acceptance pending | Existing corner, linear-gradient, radial-fade, native-photo and header-off primitives | 13 stable LO render/save-reopen fixtures; Word pending      |
 | `sunrise`     | Graphic             | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
 | `forestFlow`  | Graphic             | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
@@ -49,3 +49,5 @@ Cove batch checkpoint: [coverage](cove-feature-coverage.md), [evidence](cove-str
 Glow batch checkpoint: [coverage](glow-feature-coverage.md), [evidence](glow-stress-report.md). CI deferred to the final batch head; Microsoft Word acceptance: pending.
 
 Horizon batch checkpoint: [coverage](horizon-feature-coverage.md), [evidence](horizon-stress-report.md). CI deferred to the final batch head; Microsoft Word acceptance: pending.
+
+Mono Luxe batch checkpoint: [coverage](mono-luxe-feature-coverage.md), [evidence](mono-luxe-stress-report.md). CI deferred to final batch head; Microsoft Word acceptance: pending.
