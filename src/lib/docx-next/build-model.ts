@@ -1139,6 +1139,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           options.headerContinuationMode ?? options.headerMode,
           headerHeight,
           explicitHeaderSurface,
+          scope === "cv" ? cv.design.bgOpacity : 1,
         );
       if (scope === "cv" && firstMode === "compact" && bandPolicy) {
         const firstBand = target.artwork.find((paint) => paint.repeat === "first");

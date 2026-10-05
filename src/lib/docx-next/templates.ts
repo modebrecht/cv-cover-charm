@@ -8,6 +8,7 @@ export type TemplateMotif = {
   widthFraction: number;
   topMm: number;
   heightMm?: number;
+  cornerRadiiMm?: readonly [number, number, number, number];
   /** Omit fill for border-only motifs such as rings. */
   fillSlot?: string;
   stroke?: { slot: string; widthMm: number };
@@ -65,6 +66,8 @@ export type TemplateDefinition = {
       compactFirstMm: number;
       compactContinuationMm: number;
       motifs?: readonly TemplateMotif[];
+      /** Quiet page paint when the running header is disabled. */
+      noneMotifs?: readonly TemplateMotif[];
       circles?: readonly {
         rightMm: number;
         topMm: number;
@@ -486,12 +489,137 @@ export const ORBIT: TemplateDefinition = {
   },
   artwork: [],
 };
+/** Asymmetric rounded masthead and coral bay; semantic content stays in native flow. */
+export const COVE: TemplateDefinition = {
+  id: "cove",
+  archetype: "graphic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "2B1F2A", accent: "B84959", paper: "FFF8F5" },
+  margins: { top: 26, right: 24, bottom: 24, left: 26 },
+  cover: {
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "name",
+      "beruf",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    heroSpaceMm: 0,
+    photoWidthMm: 60,
+    photoAlign: "right",
+    heroLeadMm: 32,
+    photoAbsentLeadMm: 58,
+    fieldAlignments: {
+      eyebrow: "left",
+      ortDatum: "left",
+      name: "left",
+      beruf: "left",
+      lehrbeginn: "left",
+    },
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: [["eyebrow", "ortDatum"], []], widths: [0.65, 0.35] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        beforeMm: 10,
+      },
+    ],
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 76,
+        fillSlot: "primary",
+        cornerRadiiMm: [0, 0, 46, 0],
+      },
+      {
+        shape: "rect",
+        xFraction: 134 / 210,
+        widthFraction: 76 / 210,
+        topMm: 0,
+        heightMm: 108,
+        fillSlot: "secondary",
+        opacity: 0.94,
+        cornerRadiiMm: [0, 0, 0, 48],
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+      motifs: [
+        {
+          shape: "rect",
+          xFraction: 156 / 210,
+          widthFraction: 54 / 210,
+          topMm: 0,
+          fillSlot: "secondary",
+          opacity: 0.94,
+          cornerRadiiMm: [0, 0, 0, 17],
+        },
+      ],
+      noneMotifs: [
+        {
+          shape: "rect",
+          xFraction: 0,
+          widthFraction: 1,
+          topMm: 0,
+          heightMm: 8,
+          fillSlot: "primary",
+        },
+        {
+          shape: "rect",
+          xFraction: 164 / 210,
+          widthFraction: 46 / 210,
+          topMm: 0,
+          heightMm: 18,
+          fillSlot: "secondary",
+          opacity: 0.92,
+          cornerRadiiMm: [0, 0, 0, 9],
+        },
+      ],
+    },
+  },
+  cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
   prism: PRISM,
   human: HUMAN,
   orbit: ORBIT,
+  cove: COVE,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

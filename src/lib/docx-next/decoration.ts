@@ -41,6 +41,13 @@ export function shapePathPoints(path: string): { x: number; y: number }[] {
 export function validateDecoration(shape: DecorationPaint): void {
   const fill = shape.fill;
   if (
+    shape.cornerRadiiMm &&
+    (shape.shape !== "rect" ||
+      shape.cornerRadiiMm.length !== 4 ||
+      shape.cornerRadiiMm.some((radius) => !Number.isFinite(radius) || radius < 0))
+  )
+    throw new Error(`DOCX Next invalid decoration corners ${shape.id}`);
+  if (
     shape.semanticText !== false ||
     !["rect", "circle", "line", "path"].includes(shape.shape) ||
     ![
@@ -148,10 +155,12 @@ export const rasterizeDecoration: DecorationRasterizer = async (shape) => {
         inset,
         shape.widthMm - shape.stroke.widthMm,
         shape.heightMm - shape.stroke.widthMm,
-        Math.min(
-          shape.radiusMm,
-          (Math.min(shape.widthMm, shape.heightMm) - shape.stroke.widthMm) / 2,
-        ),
+        shape.cornerRadiiMm
+          ? [...shape.cornerRadiiMm]
+          : Math.min(
+              shape.radiusMm,
+              (Math.min(shape.widthMm, shape.heightMm) - shape.stroke.widthMm) / 2,
+            ),
       );
     else {
       shapePathPoints(shape.path!).forEach((point, index) => {

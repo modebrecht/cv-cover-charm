@@ -113,6 +113,8 @@ export type DecorativeShape = {
   heightMm: number;
   radiusMm: number;
   opacity: number;
+  /** Clockwise top-left, top-right, bottom-right, bottom-left; nonsemantic rectangles only. */
+  cornerRadiiMm?: readonly [number, number, number, number];
   fill?: {
     color: string;
     endColor?: string;

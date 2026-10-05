@@ -124,7 +124,14 @@ describe("DOCX Next canonical model", () => {
     expect(Object.values(WORD_FONTS).every((entry) => entry.fallback && entry.reason)).toBe(true);
   });
   test("templates are configuration and unreviewed templates cannot silently fallback", () => {
-    expect(Object.keys(NEXT_TEMPLATES)).toEqual(["brief", "freundlich", "prism", "human", "orbit"]);
+    expect(Object.keys(NEXT_TEMPLATES)).toEqual([
+      "brief",
+      "freundlich",
+      "prism",
+      "human",
+      "orbit",
+      "cove",
+    ]);
     expect(JSON.stringify(BRIEF)).not.toContain("<w:");
     const input = briefFixture();
     input.cover.template = "glow" as typeof input.cover.template;

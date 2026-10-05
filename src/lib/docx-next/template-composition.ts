@@ -73,6 +73,7 @@ export function composeHeaderBands(
   followMode: "compact" | "contact" | "none",
   headerHeightMm: number,
   explicitBackground: boolean,
+  noneMotifOpacity = 1,
 ): void {
   const fill = color(colors[policy.fillSlot], accent),
     secondary = color(colors[policy.accentSlot], accent);
@@ -82,7 +83,16 @@ export function composeHeaderBands(
       ["first", firstMode],
       ["continuation", followMode],
     ] as const) {
-      if (mode === "none") continue;
+      if (mode === "none") {
+        if (policy.noneMotifs && noneMotifOpacity)
+          part.headerShapes = [
+            ...(part.headerShapes ?? []),
+            ...templateMotifs(part, policy.noneMotifs, colors, accent, undefined, repeat).map(
+              (shape) => ({ ...shape, opacity: shape.opacity * noneMotifOpacity }),
+            ),
+          ];
+        continue;
+      }
       const text = repeat === "first" ? part.firstHeader! : part.header;
       const hasText = text.some((p) => p.runs.some((run) => run.text.trim()));
       const heightMm = Math.max(

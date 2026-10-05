@@ -35,6 +35,7 @@ export function templateMotifs(
         widthMm: part.page.widthMm * policy.widthFraction,
         heightMm: policy.heightMm ?? bandHeightMm ?? 0,
         radiusMm: 0,
+        ...(policy.cornerRadiiMm ? { cornerRadiiMm: policy.cornerRadiiMm } : {}),
         opacity: policy.opacity ?? 1,
         ...(policy.fillSlot
           ? {

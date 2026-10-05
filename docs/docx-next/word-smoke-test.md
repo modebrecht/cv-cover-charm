@@ -115,3 +115,12 @@ Use the independent `--human` fixture set. Review normal and photo covers, long 
 ## Orbit candidate — Microsoft Word acceptance pending
 
 Use the independent `--orbit` fixture set. Open every candidate without repair, then edit and save/close/reopen in actual Microsoft Word. Review right-aligned label/date and native circular photo, no-photo clearance, left native hero text, explicit saved alignment, growing contact/attachment rows and custom cover continuation. Verify outline transparency, clipped first/continuation page paint, zero CV motifs and changed palette; edit rich content, images, lists/tables and long CV/Timeline/Magazin entries. Check first/continuation chrome and preserved field identities after editing. Candidate LibreOffice pages are review aids; Word acceptance and visual-reference approval must be recorded separately. Sidebar remains explicitly blocked.
+
+## Separate Cove candidate review
+
+Microsoft Word acceptance: **pending**. Test the thirteen `cove-*` cases from the containing source commit and record tester/date/Word version/OS.
+
+- [ ] Open every case without repair; edit cover hero, native photo/crop, letter lists/tables and CV entries.
+- [ ] Inspect Independent rectangle corners and header-off motif fallback, chrome off/compact/contact and distinct first/continuation paint; check user palette/font/alignment overrides.
+- [ ] Add/remove long letter/CV content and save/close/reopen; verify text, pictures, lists, tables and native reflow.
+- [ ] Review documented Word adaptations: Native photos sit in flow below the masthead; the start-date badge is a growing rectangular Word cell, contact/footer fields flow rather than remaining fixed at the browser bottom, and authored fonts may occupy extra CV pages. Approve visual references separately.
