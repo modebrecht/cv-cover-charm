@@ -34,6 +34,8 @@ export type TemplateDefinition = {
     photoAlign?: Alignment;
     /** Native paragraph defaults; explicit saved field alignment keeps precedence. */
     fieldAlignments?: Readonly<Record<string, Alignment>>;
+    /** Palette roles for native field defaults; explicit saved colors retain precedence. */
+    fieldColorSlots?: Readonly<Record<string, string>>;
     rows?: readonly {
       fields: readonly (string | readonly string[])[];
       widths: readonly number[];
@@ -1181,6 +1183,155 @@ export const LEDGER: TemplateDefinition = {
   },
   artwork: [],
 };
+/** Forest rail and growing native gold hero; quiet interior chrome reuses shared motifs. */
+export const RIBBON: TemplateDefinition = {
+  id: "ribbon",
+  archetype: "editorial",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "1A302A", accent: "A57A2D", paper: "FAFBF7" },
+  margins: { top: 33, right: 24, bottom: 25, left: 26 },
+  cover: {
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "name",
+      "beruf",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    heroSpaceMm: 0,
+    photoWidthMm: 60,
+    photoAlign: "left",
+    fieldAlignments: {
+      eyebrow: "left",
+      ortDatum: "right",
+      name: "left",
+      beruf: "left",
+      lehrbeginn: "left",
+      kontaktTitel: "left",
+      kontakt: "left",
+    },
+    fieldColorSlots: { kontaktTitel: "ink", kontakt: "ink" },
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [0.28, 0.72], fillSlot: "primary" },
+      {
+        fields: ["foto", [], ["name", "beruf", "lehrbeginn"]],
+        widths: [0.34, 0.05, 0.61],
+        fillSlot: "secondary",
+        beforeMm: 16,
+      },
+      {
+        fields: [
+          [],
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [0.2, 0.4, 0.4],
+        beforeMm: 20,
+      },
+    ],
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 56 / 210,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+        cornerRadiiMm: [0, 0, 28, 0],
+      },
+      {
+        shape: "rect",
+        xFraction: 44 / 210,
+        widthFraction: 166 / 210,
+        topMm: 28,
+        heightMm: 58,
+        fillSlot: "secondary",
+        opacity: 0.96,
+        cornerRadiiMm: [0, 29, 29, 0],
+      },
+      {
+        shape: "circle",
+        xFraction: -18 / 210,
+        widthFraction: 92 / 210,
+        topMm: 205,
+        heightMm: 92,
+        fillSlot: "secondary",
+        opacity: 0.2,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+      motifs: [
+        {
+          shape: "rect",
+          xFraction: 180 / 210,
+          widthFraction: 30 / 210,
+          topMm: 0,
+          fillSlot: "secondary",
+          opacity: 0.28,
+          cornerRadiiMm: [0, 0, 0, 11],
+        },
+      ],
+      noneMotifs: [
+        {
+          shape: "rect",
+          xFraction: 0,
+          widthFraction: 190 / 210,
+          topMm: 0,
+          heightMm: 11,
+          fillSlot: "primary",
+          cornerRadiiMm: [0, 0, 9, 0],
+        },
+        {
+          shape: "rect",
+          xFraction: 18 / 210,
+          widthFraction: 144 / 210,
+          topMm: 11,
+          heightMm: 5,
+          fillSlot: "secondary",
+          cornerRadiiMm: [0, 0, 5, 5],
+        },
+        {
+          shape: "rect",
+          xFraction: 0,
+          widthFraction: 1,
+          topMm: 294,
+          heightMm: 3,
+          fillSlot: "accent",
+        },
+      ],
+    },
+  },
+  cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -1192,6 +1343,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   horizon: HORIZON,
   monoLuxe: MONO_LUXE,
   ledger: LEDGER,
+  ribbon: RIBBON,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

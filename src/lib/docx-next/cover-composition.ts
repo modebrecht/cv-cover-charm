@@ -94,7 +94,12 @@ export function composeCover(
     const fieldContext = rowFill
       ? { ...coverContext, paper: color(cover.colors[rowFill], accent) }
       : coverContext;
-    const paragraphs = textElement(block, id, fieldContext, {
+    const defaultColorSlot = template.cover.fieldColorSlots?.[block.id];
+    const styledBlock =
+      defaultColorSlot && !hasUserStyle(block, "color")
+        ? { ...block, style: { ...block.style, color: defaultColorSlot } }
+        : block;
+    const paragraphs = textElement(styledBlock, id, fieldContext, {
       ...(!hasUserStyle(block, "align") && template.cover.fieldAlignments?.[block.id]
         ? { align: template.cover.fieldAlignments[block.id] }
         : {}),

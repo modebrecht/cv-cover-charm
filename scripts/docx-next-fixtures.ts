@@ -38,7 +38,7 @@ import { artworkApplies } from "../src/lib/docx-next/page-artwork";
 const isWarm = process.argv.includes("--warm");
 const isPrism = process.argv.includes("--prism");
 const isHuman = process.argv.includes("--human");
-const addedSelections = ["cove", "glow", "horizon", "monoLuxe", "ledger"].filter((id) =>
+const addedSelections = ["cove", "glow", "horizon", "monoLuxe", "ledger", "ribbon"].filter((id) =>
   process.argv.includes(`--${id}`),
 );
 const addedCandidate = addedSelections[0];
@@ -46,6 +46,11 @@ const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  ribbon: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: {},
+  },
   ledger: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 9 },

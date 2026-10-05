@@ -1,6 +1,6 @@
 # DOCX Next migration ledger
 
-39 active templates. **10/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove, Glow, Horizon, Mono Luxe, Ledger); 0/39 Microsoft Word accepted migrations.** Remote `dev` was freshly fetched and verified at `0c803de088f86afdc6fc12185acae4273956a51f` at batch start on 2026-10-05, with a clean tree and green M6 CI. The foundation is implemented through Gate 4. Candidate registration is distinct from acceptance. [Brief coverage](brief-feature-coverage.md), [Warm coverage](warm-feature-coverage.md), [Prism coverage](prism-feature-coverage.md), [Human coverage](human-feature-coverage.md) and [Orbit coverage](orbit-feature-coverage.md) record limits and evidence; automated checks do not establish Word acceptance.
+39 active templates. **11/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove, Glow, Horizon, Mono Luxe, Ledger, Ribbon); 0/39 Microsoft Word accepted migrations.** Remote `dev` was freshly fetched and verified at `0c803de088f86afdc6fc12185acae4273956a51f` at batch start on 2026-10-05, with a clean tree and green M6 CI. The foundation is implemented through Gate 4. Candidate registration is distinct from acceptance. [Brief coverage](brief-feature-coverage.md), [Warm coverage](warm-feature-coverage.md), [Prism coverage](prism-feature-coverage.md), [Human coverage](human-feature-coverage.md) and [Orbit coverage](orbit-feature-coverage.md) record limits and evidence; automated checks do not establish Word acceptance.
 
 | Template      | Archetype           | Status                                      | Primitive                                                                             | QA                                                          |
 | ------------- | ------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -40,7 +40,7 @@
 | `prism`       | Graphic             | Isolated candidate; Word acceptance pending | Grouped native cover cells, declarative polygon motifs                                | 14 stable LO render/save-reopen fixtures; Word pending      |
 | `gallery`     | Sidebar             | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
 | `orbit`       | Graphic             | Isolated candidate; Word acceptance pending | Right native photo, shared cover alignment/clearance, outline page motifs             | 13 stable LO render/save-reopen fixtures; Word pending      |
-| `ribbon`      | Editorial           | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
+| `ribbon`      | Editorial           | Isolated candidate; Word acceptance pending | Native cover columns, shared scoped motifs and running chrome                         | 13 stable LO render/save-reopen fixtures; Word pending      |
 | `cove`        | Graphic / Editorial | Isolated candidate; Word acceptance pending | Independent rectangle corners and header-off motif fallback                           | 13 stable LO render/save-reopen fixtures; Word pending      |
 | `diagonal`    | Graphic             | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
 
@@ -53,3 +53,5 @@ Horizon batch checkpoint: [coverage](horizon-feature-coverage.md), [evidence](ho
 Mono Luxe batch checkpoint: [coverage](mono-luxe-feature-coverage.md), [evidence](mono-luxe-stress-report.md). CI deferred to final batch head; Microsoft Word acceptance: pending.
 
 Ledger batch checkpoint: [coverage](ledger-feature-coverage.md), [evidence](ledger-stress-report.md). CI deferred to final batch head; Microsoft Word acceptance: pending.
+
+Ribbon batch checkpoint: [coverage](ribbon-feature-coverage.md), [evidence](ribbon-stress-report.md). CI deferred to final batch head; Microsoft Word acceptance: pending.

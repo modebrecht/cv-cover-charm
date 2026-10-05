@@ -150,3 +150,7 @@ Microsoft Word acceptance: pending. Review the 13 cases in [mono-luxe evidence](
 ## Ledger candidate review
 
 Microsoft Word acceptance: pending. Review [Ledger coverage](ledger-feature-coverage.md) and the 13 cases in [evidence](ledger-stress-report.md). Open, edit, save, close and reopen native cover groups/photos, long letter/CV, custom content, palettes and first/continuation/off chrome in Microsoft Word. Verify the explicit flow adaptations; reject sidebar simulation. LibreOffice does not complete this checklist.
+
+## Ribbon candidate review
+
+Microsoft Word acceptance: pending. Review [Ribbon coverage](ribbon-feature-coverage.md) and the 13 cases in [evidence](ribbon-stress-report.md). Open, edit, save, close and reopen native cover groups/photos, long letter/CV, custom content, palettes and first/continuation/off chrome in Microsoft Word. Verify the explicit flow adaptations; reject sidebar simulation. LibreOffice does not complete this checklist.
