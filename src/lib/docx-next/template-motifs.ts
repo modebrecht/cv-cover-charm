@@ -15,9 +15,12 @@ export function templateMotifs(
   return policies
     .filter((policy) => !repeat || !policy.repeat || policy.repeat === repeat)
     .map((policy, index) => {
+      const hasFill = !!(policy.fillSlot || policy.fillColor);
       if (
-        (!policy.fillSlot && !(policy.stroke && policy.stroke.widthMm > 0)) ||
-        (!policy.fillSlot && (policy.endSlot || policy.radialFade))
+        (policy.fillSlot && policy.fillColor) ||
+        (policy.fillColor && !/^[0-9A-F]{6}$/.test(policy.fillColor)) ||
+        (!hasFill && !(policy.stroke && policy.stroke.widthMm > 0)) ||
+        (!hasFill && (policy.endSlot || policy.radialFade || policy.gradientStops))
       )
         throw new Error(
           "DOCX Next motif requires a fill or visible outline; gradients require a fill.",
@@ -37,10 +40,19 @@ export function templateMotifs(
         radiusMm: 0,
         ...(policy.cornerRadiiMm ? { cornerRadiiMm: policy.cornerRadiiMm } : {}),
         opacity: policy.opacity ?? 1,
-        ...(policy.fillSlot
+        ...(hasFill
           ? {
               fill: {
-                color: color(colors[policy.fillSlot], fallback),
+                color: policy.fillColor ?? color(colors[policy.fillSlot!], fallback),
+                ...(policy.gradientStops
+                  ? {
+                      stops: policy.gradientStops.map((stop) => ({
+                        color: color(colors[stop.slot], fallback),
+                        offsetPct: stop.offsetPct,
+                      })),
+                      angleDeg: policy.angleDeg ?? 135,
+                    }
+                  : {}),
                 ...(policy.radialFade ? { radialFade: policy.radialFade } : {}),
                 ...(policy.endSlot
                   ? {

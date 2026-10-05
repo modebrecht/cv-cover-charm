@@ -51,12 +51,18 @@ const addedSelections = [
   "studio3",
   "warm2",
   "warm3",
+  "verlauf2",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  verlauf2: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: {},
+  },
   warm3: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 9 },
@@ -246,6 +252,53 @@ try {
     return samples;
   }, decorationCode);
   await writeFile(path.join(out, "decoration-pixel-checks.json"), JSON.stringify(pixelChecks));
+  const gradientPixels = await page.evaluate(async (decorationCode: string) => {
+    const mod = await import(`data:text/javascript;base64,${btoa(decorationCode)}`);
+    const asset = await mod.rasterizeDecoration({
+      kind: "decorative-shape",
+      id: "gradient-probe",
+      semanticText: false,
+      shape: "rect",
+      xMm: 0,
+      yMm: 0,
+      widthMm: 100,
+      heightMm: 20,
+      radiusMm: 0,
+      opacity: 1,
+      stroke: { color: "000000", widthMm: 0 },
+      fill: {
+        color: "000000",
+        angleDeg: 90,
+        stops: [
+          { color: "000000", offsetPct: 0 },
+          { color: "FF0000", offsetPct: 50 },
+          { color: "FFFFFF", offsetPct: 125 },
+        ],
+      },
+    });
+    const bitmap = await createImageBitmap(new Blob([asset.bytes], { type: "image/png" }));
+    const canvas = document.createElement("canvas");
+    canvas.width = asset.widthPx;
+    canvas.height = asset.heightPx;
+    const context = canvas.getContext("2d")!;
+    context.drawImage(bitmap, 0, 0);
+    const samples = [0.25, 0.5, 0.99].map((x) =>
+      Array.from(
+        context.getImageData(Math.floor(x * canvas.width), Math.floor(canvas.height / 2), 1, 1)
+          .data,
+      ).slice(0, 3),
+    );
+    bitmap.close();
+    const expected = [
+      [128, 0, 0],
+      [255, 0, 0],
+      [255, 167, 167],
+    ];
+    if (samples.some((rgb, i) => rgb.some((v, j) => Math.abs(v - expected[i][j]) > 4)))
+      throw new Error(`Multi-stop gradient pixel check failed: ${JSON.stringify(samples)}`);
+    return samples;
+  }, decorationCode);
+  await writeFile(path.join(out, "gradient-pixel-checks.json"), JSON.stringify(gradientPixels));
   const fixtureNames = addedCandidate
     ? GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`)
     : isOrbit
@@ -665,6 +718,59 @@ try {
           : fixture === "cover-long-list" || fixture === "warm-custom"
             ? 2
             : 1;
+    // Independent analytic probes verify full-sheet gradients in rendered/reopened Word output.
+    const gradientProbes = (part: typeof model.cover) => {
+      const shape = part.headerShapes?.find(
+        (s) =>
+          s.shape === "rect" &&
+          s.fill?.stops &&
+          s.opacity === 1 &&
+          s.xMm === 0 &&
+          s.yMm === 0 &&
+          s.widthMm === part.page.widthMm &&
+          s.heightMm === part.page.heightMm &&
+          !s.radiusMm &&
+          !s.cornerRadiiMm,
+      );
+      if (!shape?.fill?.stops) return [];
+      const angle = ((shape.fill.angleDeg ?? 135) * Math.PI) / 180,
+        dx = Math.sin(angle),
+        dy = -Math.cos(angle);
+      const half = (Math.abs(dx) * shape.widthMm + Math.abs(dy) * shape.heightMm) / 2;
+      return [
+        [1, 130],
+        [part.page.widthMm - 1, 150],
+        [part.page.widthMm / 2, part.page.heightMm - 2],
+      ].map(([xMm, yMm]) => {
+        const pct =
+          50 +
+          (((xMm - shape.widthMm / 2) * dx + (yMm - shape.heightMm / 2) * dy) / (2 * half)) * 100;
+        const stops = shape.fill!.stops!,
+          upper = stops.findIndex((s) => s.offsetPct >= pct);
+        const a = stops[upper < 0 ? stops.length - 1 : Math.max(0, upper - 1)],
+          b = stops[upper < 0 ? stops.length - 1 : upper];
+        const ratio =
+          a === b ? 0 : Math.max(0, Math.min(1, (pct - a.offsetPct) / (b.offsetPct - a.offsetPct)));
+        const color = [0, 2, 4]
+          .map((i) =>
+            Math.round(
+              parseInt(a.color.slice(i, i + 2), 16) * (1 - ratio) +
+                parseInt(b.color.slice(i, i + 2), 16) * ratio,
+            )
+              .toString(16)
+              .padStart(2, "0"),
+          )
+          .join("")
+          .toUpperCase();
+        return {
+          xMm,
+          yMm,
+          color,
+          repeat: shape.repeat,
+          coversPaper: part.artwork.find((p) => p.id.endsWith(".artwork.paper"))?.id,
+        };
+      });
+    };
     const parts = [model.cover, model.letter, model.cv].map((part, index) => ({
       id: part.id,
       expectedPages: [coverPages, letterPages, cvPages][index],
@@ -783,7 +889,7 @@ try {
                   repeat: paint.repeat,
                 },
               ])
-        : undefined,
+        : gradientProbes(part),
       fontProbes:
         fixture === "fonts-unavailable"
           ? walkBlocks(part.blocks).flatMap((block) =>

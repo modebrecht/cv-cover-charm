@@ -11,8 +11,11 @@ export type TemplateMotif = {
   cornerRadiiMm?: readonly [number, number, number, number];
   /** Omit fill for border-only motifs such as rings. */
   fillSlot?: string;
+  /** Fixed nonsemantic paint (e.g. a white bloom), independent of editable palette slots. */
+  fillColor?: string;
   stroke?: { slot: string; widthMm: number };
   endSlot?: string;
+  gradientStops?: readonly { slot: string; offsetPct: number }[];
   angleDeg?: number;
   radialFade?: { innerPct: number; outerPct: number };
   opacity?: number;
@@ -26,6 +29,8 @@ export type TemplateDefinition = {
   typography: { font: string; bodyPt: number; namePt: number; headingPt: number; heroPt: number };
   colors: { ink: string; accent: string; paper: string };
   margins: PageMargins;
+  /** Pure app palette rules resolve readable interior ink/paper independently of cover ink. */
+  interiorPaletteSource?: "dossier";
   cover: {
     /** Native cover composition can use its own page gutters. Interior margins remain independent. */
     margins?: PageMargins;
@@ -40,6 +45,8 @@ export type TemplateDefinition = {
     fieldAlignments?: Readonly<Record<string, Alignment>>;
     /** Palette roles for native field defaults; explicit saved colors retain precedence. */
     fieldColorSlots?: Readonly<Record<string, string>>;
+    /** Apply field defaults to palette-bound inline runs; literal authored colors stay explicit. */
+    fieldPaletteMode?: "uniform";
     /** Semantic field leads in native flow, including fields grouped in cover cells. */
     fieldSpaceBeforeMm?: Readonly<Record<string, number>>;
     rows?: readonly {
@@ -2093,6 +2100,143 @@ export const WARM_3: TemplateDefinition = {
   },
   artwork: [],
 };
+/** White cover ink and readable interior palettes are independent declarative choices. */
+export const VERLAUF_2: TemplateDefinition = {
+  id: "verlauf2",
+  archetype: "graphic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "FFFFFF", accent: "9BE7E5", paper: "F5F9FF" },
+  interiorPaletteSource: "dossier",
+  margins: { top: 24, right: 24, bottom: 22, left: 26 },
+  cover: {
+    ...HORIZON.cover,
+    fontSource: "dossier",
+    fieldPaletteMode: "uniform",
+    margins: { top: 20, right: 22, bottom: 20, left: 22 },
+    fieldColorSlots: Object.fromEntries(
+      [
+        "eyebrow",
+        "ortDatum",
+        "kicker",
+        "name",
+        "beruf",
+        "lehrbeginn",
+        "kontaktTitel",
+        "kontakt",
+        "anTitel",
+        "empfaenger",
+        "beilagenTitel",
+        "beilagen",
+      ].map((id) => [id, "ink"]),
+    ),
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+        angleDeg: 148,
+        gradientStops: [
+          { slot: "primary", offsetPct: 2 },
+          { slot: "secondary", offsetPct: 68 },
+          { slot: "accent", offsetPct: 118 },
+        ],
+      },
+      {
+        shape: "circle",
+        xFraction: 116 / 210,
+        widthFraction: 126 / 210,
+        topMm: -22,
+        heightMm: 126,
+        fillColor: "FFFFFF",
+        opacity: 0.22,
+        radialFade: { innerPct: 0, outerPct: 100 },
+      },
+      {
+        shape: "circle",
+        xFraction: -42 / 210,
+        widthFraction: 142 / 210,
+        topMm: 192,
+        heightMm: 142,
+        fillColor: "FFFFFF",
+        opacity: 0.14,
+        radialFade: { innerPct: 0, outerPct: 100 },
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 18,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  cv: { sectionSpaceMm: 4, headingRule: true, sidebarFraction: 0.3 },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 9,
+        fillSlot: "primary",
+        endSlot: "secondary",
+        angleDeg: 90,
+      },
+      {
+        shape: "rect",
+        xFraction: 178 / 210,
+        widthFraction: 32 / 210,
+        topMm: 0,
+        heightMm: 16,
+        cornerRadiiMm: [8, 8, 8, 8],
+        fillSlot: "accent",
+        opacity: 0.28,
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 9,
+        fillSlot: "primary",
+        endSlot: "secondary",
+        angleDeg: 90,
+      },
+      {
+        shape: "rect",
+        xFraction: 178 / 210,
+        widthFraction: 32 / 210,
+        topMm: 0,
+        heightMm: 16,
+        cornerRadiiMm: [8, 8, 8, 8],
+        fillSlot: "accent",
+        opacity: 0.28,
+      },
+    ],
+  },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2111,6 +2255,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   studio3: STUDIO_3,
   warm2: WARM_2,
   warm3: WARM_3,
+  verlauf2: VERLAUF_2,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

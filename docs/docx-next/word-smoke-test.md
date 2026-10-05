@@ -178,3 +178,7 @@ Microsoft Word acceptance: pending. Review [coverage](warm2-feature-coverage.md)
 ## Warm 3 candidate review
 
 Microsoft Word acceptance: pending. Review [coverage](warm3-feature-coverage.md) and all 13 [cases](warm3-stress-report.md). Open/edit/save/close/reopen native cover/photo groups, rich content, long flow, palettes and first/continuation/off chrome. Verify documented visual adaptations and explicit sidebar rejection.
+
+## Separate Verlauf 2 candidate review
+
+Use all thirteen `--verlauf2` fixtures and record tester, OS, exact Word version and source commit. Edit native cover text/photo, grow contact/attachment rows, verify long CV/Timeline/Magazin and rich content, then save/close/reopen. Check custom palettes, explicit field colors, compact/off/first/continuation stories and zero CV motifs. Review these adaptations: Full-sheet three-color paint and native white roles follow the active design. White blooms use radial fades instead of CSS blur. Native photo sizing, flowing hero/contact rows, rectangular start badge and quiet 9 mm interior stationery need visual/Word approval; browser CV cards and title pills are not claimed as exact parity. Approved visual references and Microsoft Word acceptance: **pending**. 18/39 configured candidates; 0/39 Word accepted.

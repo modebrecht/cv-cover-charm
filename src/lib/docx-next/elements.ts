@@ -8,6 +8,7 @@ type ElementContext = {
   fontScale: number;
   font: string;
   defaultFont?: string;
+  paletteColorOverride?: string;
   colors: Record<string, string>;
   ink: string;
   paper?: string;
@@ -36,7 +37,12 @@ export function textElement(
       const resolved = context.style(id, {
         ...baseStyle,
         ...(segment.color
-          ? { color: context.color(context.colors[segment.color] ?? segment.color, context.ink) }
+          ? {
+              color:
+                context.paletteColorOverride && context.colors[segment.color]
+                  ? context.paletteColorOverride
+                  : context.color(context.colors[segment.color] ?? segment.color, context.ink),
+            }
           : {}),
         ...(segment.weight !== undefined ? { bold: segment.weight >= 600 } : {}),
       });

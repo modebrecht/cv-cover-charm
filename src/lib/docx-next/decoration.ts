@@ -70,6 +70,24 @@ export function decorationPathSegments(path: string): DecorationPathSegment[] {
 export function validateDecoration(shape: DecorationPaint): void {
   const fill = shape.fill;
   if (
+    fill?.stops &&
+    (fill.endColor ||
+      fill.radialFade ||
+      fill.startPct !== undefined ||
+      fill.endPct !== undefined ||
+      fill.stops.length < 2 ||
+      fill.stops.length > 32 ||
+      fill.stops.some(
+        (stop, index) =>
+          !hex(stop.color) ||
+          !Number.isFinite(stop.offsetPct) ||
+          stop.offsetPct < -100 ||
+          stop.offsetPct > 200 ||
+          (index > 0 && stop.offsetPct <= fill.stops![index - 1].offsetPct),
+      ))
+  )
+    throw new Error(`DOCX Next invalid gradient stops ${shape.id}`);
+  if (
     fill?.radialFade &&
     (fill.endColor ||
       fill.angleDeg !== undefined ||
@@ -164,6 +182,22 @@ export const rasterizeDecoration: DecorationRasterizer = async (shape) => {
       );
       gradient.addColorStop(shape.fill.radialFade.innerPct / 100, `#${shape.fill.color}`);
       gradient.addColorStop(shape.fill.radialFade.outerPct / 100, `#${shape.fill.color}00`);
+      paint = gradient;
+    } else if (shape.fill.stops) {
+      const angle = ((shape.fill.angleDeg ?? 135) * Math.PI) / 180;
+      const dx = Math.sin(angle),
+        dy = -Math.cos(angle);
+      const half = (Math.abs(dx) * shape.widthMm + Math.abs(dy) * shape.heightMm) / 2;
+      const first = shape.fill.stops[0].offsetPct / 100;
+      const last = shape.fill.stops[shape.fill.stops.length - 1].offsetPct / 100;
+      const gradient = context.createLinearGradient(
+        shape.widthMm / 2 + dx * half * (2 * first - 1),
+        shape.heightMm / 2 + dy * half * (2 * first - 1),
+        shape.widthMm / 2 + dx * half * (2 * last - 1),
+        shape.heightMm / 2 + dy * half * (2 * last - 1),
+      );
+      for (const stop of shape.fill.stops)
+        gradient.addColorStop((stop.offsetPct / 100 - first) / (last - first), `#${stop.color}`);
       paint = gradient;
     } else if (shape.fill.endColor) {
       const angle = ((shape.fill.angleDeg ?? 135) * Math.PI) / 180;

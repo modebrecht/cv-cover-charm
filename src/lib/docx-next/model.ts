@@ -121,6 +121,8 @@ export type DecorativeShape = {
     angleDeg?: number;
     startPct?: number;
     endPct?: number;
+    /** Ordered nonsemantic stops; authored percentages may extend beyond the painted box. */
+    stops?: readonly { color: string; offsetPct: number }[];
     /** Circular, nonsemantic color-to-transparency bloom. */
     radialFade?: { innerPct: number; outerPct: number };
   };

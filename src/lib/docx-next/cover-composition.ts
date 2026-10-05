@@ -110,6 +110,14 @@ export function composeCover(
       id,
       {
         ...fieldContext,
+        ...(defaultColorSlot && template.cover.fieldPaletteMode === "uniform"
+          ? {
+              paletteColorOverride: color(
+                cover.colors[styledBlock.style.color] ?? styledBlock.style.color,
+                fieldContext.ink,
+              ),
+            }
+          : {}),
         ...(template.cover.fontSource === "dossier" &&
         !customCoverIds.has(block.id) &&
         !hasUserStyle(block, "font")

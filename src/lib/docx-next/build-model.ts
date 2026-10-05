@@ -55,6 +55,8 @@ import {
   normalizeDossierPhotoStyle,
 } from "@/lib/dossier-photo";
 import { normalizeCvPhotoPlacement, resolveCvPhotoPosition } from "@/components/cv/photo-place";
+import { resolveLetterPalette, resolveLetterPaperColor } from "@/components/letter/letter-paper";
+import { resolveCvPalette } from "@/components/cv/cv-paper";
 
 import type { DossierAppSnapshot } from "./source";
 export type { DossierAppSnapshot } from "./source";
@@ -77,6 +79,11 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     accent: color(cover.colors.accent ?? cover.colors.primary, template.colors.accent),
     paper: color(cover.colors.bg, template.colors.paper),
   };
+  // These shared app functions consume authored colors only, never browser/PDF geometry.
+  const letterPalette =
+    template.interiorPaletteSource === "dossier" ? resolveLetterPalette(letter.design) : undefined;
+  const cvPalette =
+    template.interiorPaletteSource === "dossier" ? resolveCvPalette(cv.design) : undefined;
   const letterFont = wordFont(
     template.letter.fontSource === "standalone" ? letter.design.font : letter.design.fontOverride,
     theme.font,
@@ -90,7 +97,14 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     const result = {
       font: id.startsWith("letter.") ? letterFont : theme.font,
       sizePt: template.typography.bodyPt,
-      color: theme.ink,
+      color: color(
+        id.startsWith("letter.")
+          ? letterPalette?.ink
+          : id.startsWith("cv.")
+            ? cvPalette?.ink
+            : undefined,
+        theme.ink,
+      ),
       bold: false,
       italic: false,
       underline: false,
@@ -219,8 +233,8 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   }
   const ld = letter.data,
     design = letter.design;
-  const letterInk = color(design.textColor ?? design.colors.ink, theme.ink);
-  const letterAccent = color(design.colors.accent, theme.accent);
+  const letterInk = color(letterPalette?.ink ?? design.textColor ?? design.colors.ink, theme.ink);
+  const letterAccent = color(letterPalette?.accent ?? design.colors.accent, theme.accent);
   const role = (key: "sender" | "recipient" | "subject"): Partial<TextStyle> => {
     const value = design[`${key}Typography`];
     return {
@@ -401,8 +415,8 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   const data = cv.data,
     cd = cv.design,
     person = data.person;
-  const cvInk = color(cd.colors.ink, theme.ink),
-    cvAccent = color(cd.colors.accent ?? cd.colors.primary, theme.accent);
+  const cvInk = color(cvPalette?.ink ?? cd.colors.ink, theme.ink),
+    cvAccent = color(cvPalette?.accent ?? cd.colors.accent ?? cd.colors.primary, theme.accent);
   const body = { sizePt: template.typography.bodyPt * (cd.bodyScale ?? 1), color: cvInk };
   const rubric = resolveCvRubricOptions(cd);
   const sectionGapMm =
@@ -850,6 +864,12 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           ? !!(authoredChrome.headerBackgroundColor || authoredChrome.headerGradientColor)
           : !!(options.headerBackgroundColor || options.headerGradientColor);
       const partColors = input[scope].design.colors;
+      const partInk =
+        template.interiorPaletteSource === "dossier"
+          ? scope === "letter"
+            ? letterInk
+            : cvInk
+          : theme.ink;
       const bandFill = color(
         options.headerBackgroundColor ?? (bandPolicy ? partColors[bandPolicy.fillSlot] : undefined),
         theme.accent,
@@ -857,7 +877,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       const headerInk =
         bandPolicy && (bandPolicy.surface !== "motifs" || explicitHeaderSurface)
           ? templateBandInk(bandFill, theme.paper)
-          : theme.ink;
+          : partInk;
       const font = wordFont(
         options.textFont ?? undefined,
         scope === "letter" ? letterFont : theme.font,
@@ -879,7 +899,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
               (surface === "header" ? 10 : 8),
             color: color(
               surface === "header" ? options.headerTextColor : options.footerTextColor,
-              surface === "header" ? headerInk : theme.ink,
+              surface === "header" ? headerInk : partInk,
             ),
             bold: key === "title",
             ...settings.fieldStyles?.[fieldId],
@@ -1044,7 +1064,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         const typography = {
           font,
           sizePt: options.footerFontSizePt ?? 8,
-          color: color(options.footerTextColor, theme.ink),
+          color: color(options.footerTextColor, partInk),
         };
         const customFields = (["title", "text"] as const).flatMap((key) => {
           const value = key === "title" ? content.footerTitle : content.footerText;
@@ -1210,7 +1230,16 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   }
   for (const target of [coverPart, letterPart, cvPart]) {
     const paper =
-      target.id === "cover" ? theme.paper : color(input[target.id].design.paperColor, theme.paper);
+      target.id === "cover"
+        ? theme.paper
+        : color(
+            template.interiorPaletteSource === "dossier"
+              ? target.id === "letter"
+                ? resolveLetterPaperColor(letter.design)
+                : cvPalette!.paper
+              : input[target.id].design.paperColor,
+            theme.paper,
+          );
     if (paper !== "FFFFFF")
       target.artwork.unshift({
         kind: "decorative-artwork",
