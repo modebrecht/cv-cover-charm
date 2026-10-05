@@ -18,7 +18,7 @@ export const GRAPHIC_FIXTURES = [
   "no-motifs",
   "custom-colors",
 ] as const;
-export type GraphicFixture = (typeof GRAPHIC_FIXTURES)[number] | "sidebar-blocked";
+export type GraphicFixture = (typeof GRAPHIC_FIXTURES)[number] | "sidebar-blocked" | "cover-long";
 export function graphicCandidateFixture(
   template: string,
   kind: GraphicFixture = "normal",
@@ -95,6 +95,32 @@ export function graphicCandidateFixture(
       palette.secondary = "#D48B35";
       palette.accent = "#6B948C";
     }
+  }
+  if (kind === "cover-long") {
+    const base = input.cover.blocks.find((b) => b.id === "kontakt")!;
+    input.cover.blocks.push({
+      ...base,
+      id: "continuation-text",
+      label: "Long editable cover text",
+      lines: Array.from(
+        { length: 50 },
+        (_, i) =>
+          `Deckblattfortsetzung ${i + 1}: Editierbarer Text auf fortgesetztem Seitenhintergrund.`,
+      ),
+      style: {
+        ...base.style,
+        x: 22,
+        y: 250,
+        w: 166,
+        size: 10.5,
+        color: "ink",
+        opacity: 1,
+        align: "left",
+        lineHeight: 1.2,
+        bg: null,
+      },
+    });
+    input.cover.customFieldIds = [...(input.cover.customFieldIds ?? []), "continuation-text"];
   }
   if (kind === "sidebar-blocked") input.settings.cvLayout = "sidebar";
   return input;

@@ -96,7 +96,12 @@ export function composeCover(
     )
       continue;
     const ownerRow = template.cover.rows?.find((row) => row.fields.flat().includes(block.id));
-    const rowFill = ownerRow?.fillSlot;
+    const cellIndex = ownerRow?.fields.findIndex((field) =>
+      (typeof field === "string" ? [field] : field).includes(block.id),
+    );
+    const rowFill =
+      (cellIndex !== undefined ? ownerRow?.cellFillSlots?.[cellIndex] : undefined) ??
+      ownerRow?.fillSlot;
     const fieldContext = rowFill
       ? { ...coverContext, paper: color(cover.colors[rowFill], accent) }
       : coverContext;
@@ -141,9 +146,6 @@ export function composeCover(
       block.style.bg ||
       (block.style.borderWidth ?? 0) > 0 ||
       block.src;
-    const cellIndex = ownerRow?.fields.findIndex((field) =>
-      (typeof field === "string" ? [field] : field).includes(block.id),
-    );
     const cellPage =
       ownerRow && cellIndex !== undefined
         ? {
@@ -161,6 +163,8 @@ export function composeCover(
     );
   }
   for (const [index, row] of (template.cover.rows ?? []).entries()) {
+    if (row.cellFillSlots && row.cellFillSlots.length !== row.fields.length)
+      throw new Error("DOCX Next cover cell surfaces must match declared columns");
     const ids = row.fields.map((field) =>
       (typeof field === "string" ? [field] : field).map((id) => `cover.${aliases[id] ?? id}`),
     );
@@ -168,10 +172,30 @@ export function composeCover(
       block.id === id || block.id.startsWith(`${id}.`);
     const position = blocks.findIndex((block) => ids.flat().some((id) => matches(block, id)));
     if (position < 0) continue;
-    const cells = ids.map((group) =>
+    const sourceCells = ids.map((group) =>
       blocks.filter((block) => group.some((id) => matches(block, id))),
     );
-    const selected = new Set(cells.flat());
+    const selected = new Set(sourceCells.flat());
+    const cells = sourceCells.map((cell, cellIndex): DocBlock[] => {
+      const slot = row.cellFillSlots?.[cellIndex];
+      return slot && cell.length
+        ? [
+            {
+              kind: "table",
+              id: `cover.composition.row:${index}.cell:${cellIndex}.surface`,
+              widths: [1],
+              rows: [{ cells: [cell], keepTogether: false }],
+              decoration: {
+                fillColor: color(cover.colors[slot], accent),
+                borderColor: accent,
+                borderWidthMm: 0,
+                paddingXMm: 3,
+                paddingYMm: 3,
+              },
+            },
+          ]
+        : cell;
+    });
     const table: DocBlock = {
       kind: "table",
       id: `cover.composition.row:${index}`,

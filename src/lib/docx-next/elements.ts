@@ -3,6 +3,7 @@ import type { DocBlock, Paragraph, TextStyle, DecorativeShape, ImageBlock } from
 import { wordFont } from "./fonts";
 import { compositeTextColor } from "./colors";
 import { nativeTextHeightMm } from "./layouts";
+import { authoredPolygonPath } from "./decoration";
 
 type ElementContext = {
   fontScale: number;
@@ -157,7 +158,7 @@ export function shapeElement(
     semanticText: false,
     clipToPage: true,
     shape: block.shape ?? "rect",
-    ...(block.shape === "path" ? { path: block.path } : {}),
+    ...(block.shape === "path" ? { path: authoredPolygonPath(block.path ?? "") } : {}),
     xMm: s.x,
     yMm: s.y,
     widthMm: s.w,

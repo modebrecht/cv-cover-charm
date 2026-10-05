@@ -6,4 +6,6 @@ Remote browser/PDF design, active picker, source defaults, late CSS and actual e
 
 Word flow adaptations and review limits: Full-sheet three-color paint and native white roles follow the active design. White blooms use radial fades instead of CSS blur. Native photo sizing, flowing hero/contact rows, rectangular start badge and quiet 9 mm interior stationery need visual/Word approval; browser CV cards and title pills are not claimed as exact parity. These are documented acceptance work, not approved visual parity. Authored field colors/fonts retain precedence. Modern/sidebar remains explicitly blocked.
 
-Thirteen targeted fixtures include normal, long letter/CV/values, photos/images, custom content, compact/off/different-first chrome, Timeline, Magazin, background visibility and custom palettes. [Evidence](verlauf2-stress-report.md) does not substitute for Word acceptance.
+Fourteen targeted fixtures include normal, long letter/CV/values, photos/images, custom content, compact/off/different-first chrome, Timeline, Magazin, background visibility and custom palettes. [Evidence](verlauf2-stress-report.md) does not substitute for Word acceptance.
+
+Long native cover flow repeats the declared background in first/default Word stories. Shared explicit paint layers make stacking independent of global DrawingML IDs. Both rendered/reopened cover pages have analytic color probes.

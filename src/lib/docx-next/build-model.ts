@@ -1217,13 +1217,13 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       cvMinimumFirstTopMm,
     ),
   );
-  for (const target of [letterPart, cvPart]) {
-    const policies = template.pageMotifs?.[target.id as "letter" | "cv"];
+  for (const target of [coverPart, letterPart, cvPart]) {
+    const policies = template.pageMotifs?.[target.id];
     if (policies)
       composePageMotifs(
         target,
         policies,
-        input[target.id as "letter" | "cv"].design.colors,
+        target.id === "cover" ? cover.colors : input[target.id].design.colors,
         theme.accent,
         target.id === "cv" ? cv.design.bgOpacity : 1,
       );
@@ -1244,6 +1244,9 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       target.artwork.unshift({
         kind: "decorative-artwork",
         id: `${target.id}.artwork.paper`,
+        ...(target.headerShapes?.some((shape) => shape.paintLayer !== undefined)
+          ? { paintLayer: 0 }
+          : {}),
         semanticText: false,
         fill: { color: paper },
         xMm: 0,

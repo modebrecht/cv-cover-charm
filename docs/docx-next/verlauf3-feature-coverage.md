@@ -6,4 +6,6 @@ Remote browser/PDF design, active picker, source defaults, late CSS and actual e
 
 Word flow adaptations and review limits: Native photo/hero/contact flow and rectangular start badge adapt the absolute browser cover. White blooms use radial fades instead of CSS blur; CV cards/title pills and exact chrome parity require design/Word approval. Its 27 mm left gutter yields nine continuation letter pages; prior benchmarks are unchanged. These are documented acceptance work, not approved visual parity. Authored field colors/fonts retain precedence. Modern/sidebar remains explicitly blocked.
 
-Thirteen targeted fixtures include normal, long letter/CV/values, photos/images, custom content, compact/off/different-first chrome, Timeline, Magazin, background visibility and custom palettes. [Evidence](verlauf3-stress-report.md) does not substitute for Word acceptance.
+Fourteen targeted fixtures include normal, long letter/CV/values, photos/images, custom content, compact/off/different-first chrome, Timeline, Magazin, background visibility and custom palettes. [Evidence](verlauf3-stress-report.md) does not substitute for Word acceptance.
+
+Long native cover flow repeats the declared background in first/default Word stories. Shared explicit paint layers make stacking independent of global DrawingML IDs. Both rendered/reopened cover pages have analytic color probes.

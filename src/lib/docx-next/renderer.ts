@@ -123,7 +123,13 @@ export async function renderDossierDocx(
     widthMm: number,
     page: DocumentPart["page"],
     behind = false,
+    paintLayer?: number,
   ): string {
+    if (
+      paintLayer !== undefined &&
+      (!Number.isSafeInteger(paintLayer) || paintLayer < 0 || paintLayer > 2147483647)
+    )
+      throw new Error("DOCX Next invalid native paint layer");
     const finalWidth = geometry.widthMm,
       finalHeight = geometry.heightMm;
     const cx = emu(finalWidth),
@@ -158,7 +164,7 @@ export async function renderDossierDocx(
         pageOrigin ? inset : 0,
         Math.min(page.heightMm - finalHeight - inset, value.yMm),
       );
-      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="1" allowOverlap="${behind ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="1" allowOverlap="${behind ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
     }
     return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
   }
@@ -213,6 +219,7 @@ export async function renderDossierDocx(
       page.widthMm,
       page,
       true,
+      value.paintLayer,
     );
   }
   const paints = new Map<string, string>();
@@ -252,6 +259,7 @@ export async function renderDossierDocx(
       part.page.widthMm,
       part.page,
       true,
+      value.paintLayer,
     );
   }
   function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {

@@ -12,6 +12,18 @@ import { withUserStyleKeys } from "../../src/components/cover/user-style-precede
 const text = (blocks: Parameters<typeof walkBlocks>[0], id: string) =>
   walkBlocks(blocks).find((b) => b.id === id) as Paragraph;
 describe("Verlauf 2 declarative multi-stop paint and semantic interior palettes", () => {
+  test("long editable cover flow owns paint on first and continuation stories", () => {
+    const model = buildDossierDocModel(verlauf2Fixture("cover-long"));
+    expect(model.cover.headerShapes).toHaveLength(6);
+    expect(model.cover.headerShapes?.filter((shape) => shape.repeat === "first")).toHaveLength(3);
+    expect(
+      model.cover.headerShapes?.filter((shape) => shape.repeat === "continuation"),
+    ).toHaveLength(3);
+    expect(model.cover.headerShapes?.[3].fill).toEqual(model.cover.headerShapes?.[0].fill);
+    const paragraph = text(model.cover.blocks, "cover.continuation-text");
+    expect(paragraph.runs).toHaveLength(50);
+    expect(paragraph.runs.every((run) => run.style.color === "FFFFFF")).toBe(true);
+  });
   test("literal inline colors and saved element colors override default palette roles", () => {
     const input = verlauf2Fixture();
     input.cover.blocks = input.cover.blocks.map((block) =>

@@ -99,6 +99,8 @@ export type ElementSourceLayout = {
 };
 /** Nonsemantic shape assets. No text, SVG markup or package parts in the model. */
 export type DecorativeShape = {
+  /** Explicit background stacking independent of global DrawingML identity. */
+  paintLayer?: number;
   /** Explicit page intersection; only visible nonsemantic paint is rasterized. */
   clipToPage?: boolean;
   repeat?: "first" | "continuation";
@@ -152,6 +154,7 @@ export type DocBlock =
 export type PageMargins = { top: number; right: number; bottom: number; left: number };
 /** Nonsemantic paint only. Geometry is page-relative; user text never enters an asset. */
 export type DecorativeArtwork = {
+  paintLayer?: number;
   repeat?: "first" | "continuation";
   kind: "decorative-artwork";
   id: string;

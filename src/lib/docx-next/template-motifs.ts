@@ -27,6 +27,7 @@ export function templateMotifs(
         );
       return {
         kind: "decorative-shape",
+        ...(policy.paintLayer !== undefined ? { paintLayer: policy.paintLayer } : {}),
         id: `${part.id}.artwork.motif.${repeat ?? "first"}:${index}`,
         semanticText: false,
         shape: policy.shape,
@@ -82,6 +83,17 @@ export function composePageMotifs(
   if (!Number.isFinite(opacity) || opacity < 0 || opacity > 1)
     throw new Error("DOCX Next page motif opacity must be between zero and one.");
   if (!opacity || !policies.length) return;
+  const explicitLayers = policies.filter((policy) => policy.paintLayer !== undefined);
+  if (explicitLayers.length) {
+    if (explicitLayers.length !== policies.length)
+      throw new Error("DOCX Next page paint must declare every layer or none");
+    const topLayer = Math.max(...explicitLayers.map((policy) => policy.paintLayer!));
+    // Authored foreground geometry stays above the declared page background.
+    part.headerShapes = part.headerShapes?.map((shape, index) => ({
+      ...shape,
+      paintLayer: shape.paintLayer ?? topLayer + index + 1,
+    }));
+  }
   ensureFirstHeader(part);
   for (const repeat of ["first", "continuation"] as const)
     part.headerShapes = [

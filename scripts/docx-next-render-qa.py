@@ -311,6 +311,24 @@ def check_custom_footers(document, key):
         assert compact(footer).count(compact('Wiederholter Text')) == 2, f'{key}: missing custom footer on page {index}'
 
 
+def covers_probe(shape, x, y):
+    """A polygon's bounding box does not mean it paints the whole rectangle."""
+    if not (shape['xMm'] <= x < shape['xMm'] + shape['widthMm'] and
+            shape['yMm'] <= y < shape['yMm'] + shape['heightMm']):
+        return False
+    if shape.get('shape') != 'path' or 'C' in shape.get('path', ''):
+        return True  # Conservative for curves/radial/rounded paint.
+    points = [(float(a), float(b)) for a, b in re.findall(r'[ML]\s*(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)', shape['path'])]
+    assert len(points) >= 3, 'Paper probe requires a declared polygon'
+    px = (x - shape['xMm']) / shape['widthMm'] * 100
+    py = (y - shape['yMm']) / shape['heightMm'] * 100
+    inside = False
+    for (ax, ay), (bx, by) in zip(points, points[1:] + points[:1]):
+        if (ay > py) != (by > py) and px < (bx - ax) * (py - ay) / (by - ay) + ax:
+            inside = not inside
+    return inside
+
+
 def check_artwork(document, fixture):
     start = 0
     scale = 72 / 25.4
@@ -330,8 +348,7 @@ def check_artwork(document, fixture):
                                 if shape.get('repeat') in (None, 'first' if relative_page == 0 else 'continuation')]
                     candidates = [1, page.rect.width / scale - 1, page.rect.width / scale / 2]
                     exposed = [px for px in candidates if not any(
-                        shape['xMm'] <= px < shape['xMm'] + shape['widthMm'] and
-                        shape['yMm'] <= y < shape['yMm'] + shape['heightMm'] for shape in overlays)]
+                        covers_probe(shape, px, y) for shape in overlays)]
                     if not exposed:
                         probes = [probe for probe in part.get('paintProbes', [])
                                   if probe.get('coversPaper') == target['id'] and
@@ -644,7 +661,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
+    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'

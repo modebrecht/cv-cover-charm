@@ -2,6 +2,8 @@ import type { Alignment, PageMargins } from "./model";
 
 /** Page-width-relative nonsemantic geometry; absent height follows its chrome band. */
 export type TemplateMotif = {
+  /** Same stacking on first/continuation pages; paper underlay is layer zero. */
+  paintLayer?: number;
   shape: "rect" | "circle" | "path";
   path?: string;
   xFraction: number;
@@ -53,6 +55,8 @@ export type TemplateDefinition = {
       fields: readonly (string | readonly string[])[];
       widths: readonly number[];
       fillSlot?: string;
+      /** Native flowing callout surfaces per cell, independent of absolute page paint. */
+      cellFillSlots?: readonly (string | null)[];
       beforeMm?: number;
     }[];
     heroLeadMm?: number;
@@ -97,7 +101,7 @@ export type TemplateDefinition = {
   };
   cv: { sectionSpaceMm: number; headingRule: boolean; sidebarFraction: number };
   /** Quiet page paint independent of running contact chrome; repeats in native header stories. */
-  pageMotifs?: Partial<Record<"letter" | "cv", readonly TemplateMotif[]>>;
+  pageMotifs?: Partial<Record<"cover" | "letter" | "cv", readonly TemplateMotif[]>>;
   artwork: readonly { asset: string; semanticText: false }[];
 };
 export const BRIEF: TemplateDefinition = {
@@ -2110,6 +2114,7 @@ export const VERLAUF_2: TemplateDefinition = {
   margins: { top: 24, right: 24, bottom: 22, left: 26 },
   cover: {
     ...HORIZON.cover,
+    motifs: [],
     fontSource: "dossier",
     fieldPaletteMode: "uniform",
     margins: { top: 20, right: 22, bottom: 20, left: 22 },
@@ -2129,42 +2134,6 @@ export const VERLAUF_2: TemplateDefinition = {
         "beilagen",
       ].map((id) => [id, "ink"]),
     ),
-    motifs: [
-      {
-        shape: "rect",
-        xFraction: 0,
-        widthFraction: 1,
-        topMm: 0,
-        heightMm: 297,
-        fillSlot: "primary",
-        angleDeg: 148,
-        gradientStops: [
-          { slot: "primary", offsetPct: 2 },
-          { slot: "secondary", offsetPct: 68 },
-          { slot: "accent", offsetPct: 118 },
-        ],
-      },
-      {
-        shape: "circle",
-        xFraction: 116 / 210,
-        widthFraction: 126 / 210,
-        topMm: -22,
-        heightMm: 126,
-        fillColor: "FFFFFF",
-        opacity: 0.22,
-        radialFade: { innerPct: 0, outerPct: 100 },
-      },
-      {
-        shape: "circle",
-        xFraction: -42 / 210,
-        widthFraction: 142 / 210,
-        topMm: 192,
-        heightMm: 142,
-        fillColor: "FFFFFF",
-        opacity: 0.14,
-        radialFade: { innerPct: 0, outerPct: 100 },
-      },
-    ],
   },
   letter: {
     paragraphSpaceMm: 3,
@@ -2190,6 +2159,45 @@ export const VERLAUF_2: TemplateDefinition = {
   },
   cv: { sectionSpaceMm: 4, headingRule: true, sidebarFraction: 0.3 },
   pageMotifs: {
+    cover: [
+      {
+        shape: "rect",
+        paintLayer: 1,
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+        angleDeg: 148,
+        gradientStops: [
+          { slot: "primary", offsetPct: 2 },
+          { slot: "secondary", offsetPct: 68 },
+          { slot: "accent", offsetPct: 118 },
+        ],
+      },
+      {
+        shape: "circle",
+        paintLayer: 2,
+        xFraction: 116 / 210,
+        widthFraction: 126 / 210,
+        topMm: -22,
+        heightMm: 126,
+        fillColor: "FFFFFF",
+        opacity: 0.22,
+        radialFade: { innerPct: 0, outerPct: 100 },
+      },
+      {
+        shape: "circle",
+        paintLayer: 3,
+        xFraction: -42 / 210,
+        widthFraction: 142 / 210,
+        topMm: 192,
+        heightMm: 142,
+        fillColor: "FFFFFF",
+        opacity: 0.14,
+        radialFade: { innerPct: 0, outerPct: 100 },
+      },
+    ],
     letter: [
       {
         shape: "rect",
@@ -2245,9 +2253,12 @@ export const VERLAUF_3: TemplateDefinition = {
   margins: { top: 24, right: 24, bottom: 22, left: 27 },
   cover: {
     ...VERLAUF_2.cover,
-    motifs: [
+  },
+  pageMotifs: {
+    cover: [
       {
         shape: "rect",
+        paintLayer: 1,
         xFraction: 0,
         widthFraction: 1,
         topMm: 0,
@@ -2262,6 +2273,7 @@ export const VERLAUF_3: TemplateDefinition = {
       },
       {
         shape: "circle",
+        paintLayer: 2,
         xFraction: -28 / 210,
         widthFraction: 118 / 210,
         topMm: -30,
@@ -2272,6 +2284,7 @@ export const VERLAUF_3: TemplateDefinition = {
       },
       {
         shape: "circle",
+        paintLayer: 3,
         xFraction: 126 / 210,
         widthFraction: 128 / 210,
         topMm: 184,
@@ -2281,8 +2294,6 @@ export const VERLAUF_3: TemplateDefinition = {
         radialFade: { innerPct: 0, outerPct: 100 },
       },
     ],
-  },
-  pageMotifs: {
     letter: [
       {
         shape: "rect",
@@ -2329,6 +2340,136 @@ export const VERLAUF_3: TemplateDefinition = {
     ],
   },
 };
+/** Authored corner blocks plus native asymmetric hero/callout composition. */
+export const DIAGONAL: TemplateDefinition = {
+  id: "diagonal",
+  archetype: "graphic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 27 },
+  colors: { ink: "172033", accent: "2B7A9B", paper: "F8FAFC" },
+  margins: { top: 24, right: 24, bottom: 22, left: 34 },
+  cover: {
+    margins: { top: 20, right: 20, bottom: 20, left: 20 },
+    fontSource: "dossier",
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    heroSpaceMm: 0,
+    photoWidthMm: 34,
+    photoAlign: "right",
+    decorationPlacement: "first-header",
+    fieldAlignments: {
+      name: "left",
+      beruf: "left",
+      lehrbeginn: "left",
+      anTitel: "right",
+      empfaenger: "right",
+      beilagenTitel: "right",
+      beilagen: "right",
+    },
+    fieldColorSlots: {
+      eyebrow: "bg",
+      ortDatum: "bg",
+      anTitel: "bg",
+      empfaenger: "bg",
+      beilagenTitel: "bg",
+      beilagen: "bg",
+    },
+    rows: [
+      { fields: [["eyebrow", "ortDatum"], "foto"], widths: [0.74, 0.26], fillSlot: "primary" },
+      { fields: [[], ["kicker", "beruf", "name", "lehrbeginn"]], widths: [0.4, 0.6], beforeMm: 80 },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        cellFillSlots: [null, "primary"],
+        beforeMm: 12,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "primary",
+      accentSlot: "primary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  cv: { sectionSpaceMm: 4, headingRule: false, sidebarFraction: 0.3 },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "path",
+        path: "M 0 0 L 100 0 L 0 100",
+        xFraction: 0,
+        widthFraction: 22 / 210,
+        topMm: 0,
+        heightMm: 15,
+        fillSlot: "primary",
+        opacity: 0.92,
+      },
+      {
+        shape: "path",
+        path: "M 100 0 L 100 100 L 0 100",
+        xFraction: 188 / 210,
+        widthFraction: 22 / 210,
+        topMm: 282,
+        heightMm: 15,
+        fillSlot: "primary",
+        opacity: 0.92,
+      },
+    ],
+    cv: [
+      {
+        shape: "path",
+        path: "M 0 0 L 100 0 L 0 100",
+        xFraction: 0,
+        widthFraction: 30 / 210,
+        topMm: 0,
+        heightMm: 22,
+        fillSlot: "primary",
+      },
+      {
+        shape: "path",
+        path: "M 100 0 L 100 100 L 0 100",
+        xFraction: 180 / 210,
+        widthFraction: 30 / 210,
+        topMm: 275,
+        heightMm: 22,
+        fillSlot: "primary",
+      },
+    ],
+  },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2349,6 +2490,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   warm3: WARM_3,
   verlauf2: VERLAUF_2,
   verlauf3: VERLAUF_3,
+  diagonal: DIAGONAL,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

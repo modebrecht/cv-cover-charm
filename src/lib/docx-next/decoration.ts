@@ -14,6 +14,7 @@ export function decorationAssetKey(shape: DecorationPaint): string {
     yMm: 0,
     clipToPage: undefined,
     repeat: undefined,
+    paintLayer: undefined,
     radiusMm: shape.shape === "rect" ? shape.radiusMm : 0,
     stroke: { ...shape.stroke, color: shape.stroke.widthMm ? shape.stroke.color : "000000" },
   });
@@ -39,6 +40,48 @@ export function shapePathPoints(path: string): { x: number; y: number }[] {
   return matches.map((match) => ({ x: Number(match[2]), y: Number(match[3]) }));
 }
 export type DecorationPathSegment = { command: "M" | "L" | "C"; coordinates: number[] };
+/** Normalize authored absolute polygon shorthand, retaining semantic identity and saved geometry. */
+export function authoredPolygonPath(path: string): string {
+  if (!/[HVZ]/.test(path)) return path;
+  const tokenPattern = /[MLHVZ]|-?\d+(?:\.\d+)?/g;
+  const tokens = path.match(tokenPattern) ?? [];
+  if (path.replace(tokenPattern, "").trim() || tokens[0] !== "M" || tokens.length > 30000)
+    throw new Error("DOCX Next invalid authored polygon");
+  const points: { x: number; y: number }[] = [];
+  let index = 0,
+    x = 0,
+    y = 0;
+  const coordinate = () => {
+    const token = tokens[index++];
+    if (!token || !/^-?\d+(?:\.\d+)?$/.test(token))
+      throw new Error("DOCX Next invalid authored polygon");
+    const value = Number(token);
+    if (!Number.isFinite(value) || value < 0 || value > 100)
+      throw new Error("DOCX Next invalid authored polygon");
+    return value;
+  };
+  while (index < tokens.length) {
+    const command = tokens[index++];
+    if (command === "Z") {
+      if (index !== tokens.length || points.length < 3)
+        throw new Error("DOCX Next invalid authored polygon");
+      points.push({ ...points[0] });
+    } else {
+      if ((!points.length && command !== "M") || (points.length && command === "M"))
+        throw new Error("DOCX Next invalid authored polygon");
+      if (command === "M" || command === "L") {
+        x = coordinate();
+        y = coordinate();
+      } else if (command === "H") x = coordinate();
+      else if (command === "V") y = coordinate();
+      else throw new Error("DOCX Next invalid authored polygon");
+      points.push({ x, y });
+    }
+  }
+  const result = points.map((point, i) => `${i ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+  shapePathPoints(result);
+  return result;
+}
 /** Bounded absolute geometry only: cubic contours are reusable decoration, never SVG markup. */
 export function decorationPathSegments(path: string): DecorationPathSegment[] {
   if (!path.includes("C"))
@@ -68,6 +111,13 @@ export function decorationPathSegments(path: string): DecorationPathSegment[] {
   return segments;
 }
 export function validateDecoration(shape: DecorationPaint): void {
+  if (
+    shape.paintLayer !== undefined &&
+    (!Number.isSafeInteger(shape.paintLayer) ||
+      shape.paintLayer < 1 ||
+      shape.paintLayer > 2147483647)
+  )
+    throw new Error(`DOCX Next invalid decoration paint layer ${shape.id}`);
   const fill = shape.fill;
   if (
     fill?.stops &&

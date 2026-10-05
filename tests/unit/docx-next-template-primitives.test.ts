@@ -47,6 +47,80 @@ async function parts(model: ReturnType<typeof buildDossierDocModel>) {
   );
 }
 describe("shared native template primitives", () => {
+  test("explicit paint stacking is independent of global DrawingML IDs in both native stories", async () => {
+    const model = buildDossierDocModel(briefFixture());
+    model.cover.blocks.push(
+      ...Array.from({ length: 50 }, (_, index) => ({ ...shape, id: `global-id:${index}` })),
+    );
+    model.cover.artwork = [
+      {
+        kind: "decorative-artwork",
+        id: "cover.paper",
+        semanticText: false,
+        paintLayer: 0,
+        fill: { color: "FFFFFF" },
+        xMm: 0,
+        yMm: 0,
+        widthMm: 210,
+        heightMm: 297,
+      },
+    ];
+    model.cover.headerShapes = [{ ...shape, id: "authored.foreground" }];
+    composePageMotifs(
+      model.cover,
+      [
+        {
+          shape: "rect",
+          xFraction: 0,
+          widthFraction: 1,
+          topMm: 0,
+          heightMm: 297,
+          fillSlot: "primary",
+          paintLayer: 1,
+        },
+      ],
+      { primary: "#123456" },
+      "123456",
+    );
+    expect(model.cover.headerShapes[0].paintLayer).toBe(2);
+    const entries = await parts(model);
+    for (const story of ["word/cover-header.xml", "word/cover-header-first.xml"]) {
+      const xml = entries.get(story)!;
+      expect(xml).toContain('relativeHeight="0"');
+      expect(xml).toContain('relativeHeight="1"');
+      expect(xml).toContain('relativeHeight="2"');
+    }
+    expect(decorationAssetKey({ ...shape, paintLayer: 1 })).toBe(
+      decorationAssetKey({ ...shape, paintLayer: 2 }),
+    );
+    expect(() => validateDecoration({ ...shape, paintLayer: -1 })).toThrow("paint layer");
+    expect(() =>
+      composePageMotifs(
+        model.cover,
+        [
+          {
+            shape: "rect",
+            xFraction: 0,
+            widthFraction: 1,
+            topMm: 0,
+            heightMm: 297,
+            fillSlot: "primary",
+            paintLayer: 1,
+          },
+          {
+            shape: "circle",
+            xFraction: 0,
+            widthFraction: 0.1,
+            topMm: 0,
+            heightMm: 21,
+            fillSlot: "primary",
+          },
+        ],
+        { primary: "#123456" },
+        "123456",
+      ),
+    ).toThrow("every layer or none");
+  });
   test("palette-bound outline motifs retain transparent centers and scoped native stories", () => {
     const part = buildDossierDocModel(briefFixture()).cv;
     composePageMotifs(

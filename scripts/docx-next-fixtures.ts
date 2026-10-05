@@ -5,6 +5,7 @@ import path from "node:path";
 import { buildDossierDocModel } from "../src/lib/docx-next/build-model";
 import { renderDossierDocx } from "../src/lib/docx-next/renderer";
 import { walkBlocks, type TextRun } from "../src/lib/docx-next/model";
+import { nextTemplate } from "../src/lib/docx-next/templates";
 import { planPartSections } from "../src/lib/docx-next/section-plan";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../src/lib/dossier-chrome";
 import {
@@ -53,21 +54,27 @@ const addedSelections = [
   "warm3",
   "verlauf2",
   "verlauf3",
+  "diagonal",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
-  verlauf3: {
+  diagonal: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 9 },
     cover: {},
   },
+  verlauf3: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 9 },
+    cover: { "cover-long": 2 },
+  },
   verlauf2: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 8 },
-    cover: {},
+    cover: { "cover-long": 2 },
   },
   warm3: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
@@ -306,7 +313,12 @@ try {
   }, decorationCode);
   await writeFile(path.join(out, "gradient-pixel-checks.json"), JSON.stringify(gradientPixels));
   const fixtureNames = addedCandidate
-    ? GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`)
+    ? [
+        ...GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`),
+        ...(nextTemplate(addedCandidate).pageMotifs?.cover?.length
+          ? [`${addedCandidate}-cover-long`]
+          : []),
+      ]
     : isOrbit
       ? ORBIT_FIXTURES.map((kind) => `orbit-${kind}`)
       : isHuman
@@ -726,7 +738,7 @@ try {
             : 1;
     // Independent analytic probes verify full-sheet gradients in rendered/reopened Word output.
     const gradientProbes = (part: typeof model.cover) => {
-      const shape = part.headerShapes?.find(
+      const shapes = part.headerShapes?.filter(
         (s) =>
           s.shape === "rect" &&
           s.fill?.stops &&
@@ -738,43 +750,46 @@ try {
           !s.radiusMm &&
           !s.cornerRadiiMm,
       );
-      if (!shape?.fill?.stops) return [];
-      const angle = ((shape.fill.angleDeg ?? 135) * Math.PI) / 180,
-        dx = Math.sin(angle),
-        dy = -Math.cos(angle);
-      const half = (Math.abs(dx) * shape.widthMm + Math.abs(dy) * shape.heightMm) / 2;
-      return [
-        [1, 130],
-        [part.page.widthMm - 1, 150],
-        [part.page.widthMm / 2, part.page.heightMm - 2],
-      ].map(([xMm, yMm]) => {
-        const pct =
-          50 +
-          (((xMm - shape.widthMm / 2) * dx + (yMm - shape.heightMm / 2) * dy) / (2 * half)) * 100;
-        const stops = shape.fill!.stops!,
-          upper = stops.findIndex((s) => s.offsetPct >= pct);
-        const a = stops[upper < 0 ? stops.length - 1 : Math.max(0, upper - 1)],
-          b = stops[upper < 0 ? stops.length - 1 : upper];
-        const ratio =
-          a === b ? 0 : Math.max(0, Math.min(1, (pct - a.offsetPct) / (b.offsetPct - a.offsetPct)));
-        const color = [0, 2, 4]
-          .map((i) =>
-            Math.round(
-              parseInt(a.color.slice(i, i + 2), 16) * (1 - ratio) +
-                parseInt(b.color.slice(i, i + 2), 16) * ratio,
+      return (shapes ?? []).flatMap((shape) => {
+        const angle = ((shape.fill.angleDeg ?? 135) * Math.PI) / 180,
+          dx = Math.sin(angle),
+          dy = -Math.cos(angle);
+        const half = (Math.abs(dx) * shape.widthMm + Math.abs(dy) * shape.heightMm) / 2;
+        return [
+          [1, 130],
+          [part.page.widthMm - 1, 150],
+          [part.page.widthMm / 2, part.page.heightMm - 2],
+        ].map(([xMm, yMm]) => {
+          const pct =
+            50 +
+            (((xMm - shape.widthMm / 2) * dx + (yMm - shape.heightMm / 2) * dy) / (2 * half)) * 100;
+          const stops = shape.fill!.stops!,
+            upper = stops.findIndex((s) => s.offsetPct >= pct);
+          const a = stops[upper < 0 ? stops.length - 1 : Math.max(0, upper - 1)],
+            b = stops[upper < 0 ? stops.length - 1 : upper];
+          const ratio =
+            a === b
+              ? 0
+              : Math.max(0, Math.min(1, (pct - a.offsetPct) / (b.offsetPct - a.offsetPct)));
+          const color = [0, 2, 4]
+            .map((i) =>
+              Math.round(
+                parseInt(a.color.slice(i, i + 2), 16) * (1 - ratio) +
+                  parseInt(b.color.slice(i, i + 2), 16) * ratio,
+              )
+                .toString(16)
+                .padStart(2, "0"),
             )
-              .toString(16)
-              .padStart(2, "0"),
-          )
-          .join("")
-          .toUpperCase();
-        return {
-          xMm,
-          yMm,
-          color,
-          repeat: shape.repeat,
-          coversPaper: part.artwork.find((p) => p.id.endsWith(".artwork.paper"))?.id,
-        };
+            .join("")
+            .toUpperCase();
+          return {
+            xMm,
+            yMm,
+            color,
+            repeat: shape.repeat,
+            coversPaper: part.artwork.find((p) => p.id.endsWith(".artwork.paper"))?.id,
+          };
+        });
       });
     };
     const parts = [model.cover, model.letter, model.cv].map((part, index) => ({
