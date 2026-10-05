@@ -30,6 +30,7 @@ const server = Bun.spawn(
 const output = new Response(server.stdout).text(),
   error = new Response(server.stderr).text();
 let browser;
+let stage = "server startup";
 try {
   const base = "http://127.0.0.1:4173";
   let ready = false;
@@ -99,12 +100,14 @@ try {
     .screenshot({ path: path.join(out, `${template}-browser-cover.png`) });
   await page.goto(base + "/lebenslauf", { waitUntil: "networkidle" });
   const name = page.locator('input[data-dossier-field-id="cv.person.firstName"]');
+  stage = "persist edited name";
   await name.fill("Candidate Editor");
   await page.waitForFunction(
     () =>
       JSON.parse(localStorage.getItem("lebenslauf:v1")!).data.person.vorname === "Candidate Editor",
   );
   await page.reload({ waitUntil: "networkidle" });
+  stage = "reload edited name";
   await page.waitForFunction(
     () =>
       (
@@ -115,6 +118,7 @@ try {
   );
   if ((await name.inputValue()) !== "Candidate Editor")
     throw new Error("Candidate edit/reload lost name");
+  stage = "portable snapshot and independent export";
   const result = await page.evaluate(
     async ({ template }) => {
       const project = await import("/src/lib/dossier-project.ts"),
@@ -165,6 +169,7 @@ try {
   console.log(
     "Candidate editor rename/reload, portable JSON, explicit snapshot and independent native candidate passed.",
   );
+  stage = "combined production PDF";
   await page.getByRole("button", { name: "Download", exact: true }).click();
   await page
     .locator(
@@ -179,6 +184,28 @@ try {
   await (await download).saveAs(path.join(out, `${template}-production-dossier.pdf`));
   if (errors.length) throw new Error(errors.join("; "));
   console.log("Candidate production combined PDF download passed.");
+} catch (failure) {
+  const page = browser?.contexts()[0]?.pages()[0];
+  if (page) {
+    await page.screenshot({ path: path.join(out, `${template}-failure.png`) }).catch(() => {});
+    const state = await page
+      .evaluate(() => ({
+        url: location.href,
+        input: (
+          document.querySelector(
+            'input[data-dossier-field-id="cv.person.firstName"]',
+          ) as HTMLInputElement | null
+        )?.value,
+        savedName: JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.data?.person
+          ?.vorname,
+      }))
+      .catch(() => null);
+    await writeFile(
+      path.join(out, `${template}-failure.json`),
+      JSON.stringify({ stage, state, error: String(failure) }, null, 2),
+    );
+  }
+  throw new Error(`Candidate editor QA failed during ${stage}`, { cause: failure });
 } finally {
   if (browser) await browser.close();
   server.kill();
