@@ -134,11 +134,11 @@ Microsoft Word acceptance: **pending**. Test the thirteen `glow-*` cases from th
 - [ ] Add/remove long letter/CV content and save/close/reopen; verify text, pictures, lists, tables and native reflow.
 - [ ] Review documented Word adaptations: Native photos and semantic fields use growing Word flow; browser CSS blur is represented by an explicit radial fade, start badges are native rectangular cells and running footers retain editable content. Approve visual references separately.
 
-## Separate Glow candidate review
+## Separate Horizon candidate review
 
-Microsoft Word acceptance: **pending**. Test the thirteen `glow-*` cases from the containing source commit and record tester/date/Word version/OS.
+Microsoft Word acceptance: **pending**. Test the thirteen `horizon-*` cases from the containing source commit and record tester/date/Word version/OS.
 
 - [ ] Open every case without repair; edit cover hero, native photo/crop, letter lists/tables and CV entries.
-- [ ] Inspect Independent rectangle corners, radial transparency and header-off motif fallback, chrome off/compact/contact and distinct first/continuation paint; check user palette/font/alignment overrides.
+- [ ] Inspect Existing corner, linear-gradient, radial-fade, native-photo and header-off primitives, chrome off/compact/contact and distinct first/continuation paint; check user palette/font/alignment overrides.
 - [ ] Add/remove long letter/CV content and save/close/reopen; verify text, pictures, lists, tables and native reflow.
-- [ ] Review documented Word adaptations: Native photos and semantic fields use growing Word flow; browser CSS blur is represented by an explicit radial fade, start badges are native rectangular cells and running footers retain editable content. Approve visual references separately.
+- [ ] Review documented Word adaptations: Native centered hero paragraphs stay below the 108 mm masthead, photos preserve authored native size/crop instead of CSS transforms, browser blur uses radial fade, start badges grow as Word cells and native footer content remains editable. Approve visual references separately.

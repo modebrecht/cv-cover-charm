@@ -260,5 +260,29 @@
       "pdfSha256": "979256cab4a8156a70f9b8276fd9cc56faa13217b8ed8a77359f8f21fd09f82c",
       "savedPdfSha256": "dccd9be17703750f28ae10877648f8306be0aa4c5238ec349559940d8545d057"
     }
-  ]
+  ],
+  "batchFinalHashRecheck": {
+    "priorCandidates": 137,
+    "earlierBatchCandidates": 26,
+    "byteIdentical": true
+  },
+  "priorPaintScopeRegression": {
+    "fixtures": 5,
+    "pages": 20,
+    "libreoffice": "pass",
+    "saveReopen": "pass"
+  },
+  "batchFinalEditorRegression": "Existing independent field/entry/custom/chrome styles, rename/reload, portable JSON and combined PDF passed",
+  "batchFinalUnit": {
+    "passed": 862,
+    "failed": 0,
+    "files": 182,
+    "assertions": 14251
+  },
+  "batchFinalTargeted": {
+    "passed": 160,
+    "failed": 0,
+    "files": 20,
+    "assertions": 1356
+  }
 }

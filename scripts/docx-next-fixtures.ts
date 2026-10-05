@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { buildDossierDocModel } from "../src/lib/docx-next/build-model";
 import { renderDossierDocx } from "../src/lib/docx-next/renderer";
-import { walkBlocks, type TextRun, type DecorativeShape } from "../src/lib/docx-next/model";
+import { walkBlocks, type TextRun } from "../src/lib/docx-next/model";
 import { planPartSections } from "../src/lib/docx-next/section-plan";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../src/lib/dossier-chrome";
 import {
@@ -32,17 +32,26 @@ import {
   graphicCandidateFixture,
   type GraphicFixture,
 } from "../tests/fixtures/docx-next/graphic-candidate";
+import { decorationAssetKey, type DecorationPaint } from "../src/lib/docx-next/decoration";
+import type { NormalizedImage } from "../src/lib/docx-next/images";
 import { artworkApplies } from "../src/lib/docx-next/page-artwork";
 const isWarm = process.argv.includes("--warm");
 const isPrism = process.argv.includes("--prism");
 const isHuman = process.argv.includes("--human");
-const addedSelections = ["cove", "glow"].filter((id) => process.argv.includes(`--${id}`));
+const addedSelections = ["cove", "glow", "horizon"].filter((id) =>
+  process.argv.includes(`--${id}`),
+);
 const addedCandidate = addedSelections[0];
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
   cove: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: {},
+  },
+  horizon: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 8 },
     cover: {},
@@ -87,6 +96,7 @@ const browser = await chromium.launch({
 const page = await browser.newPage();
 await page.goto("about:blank");
 const normalized = new Map();
+const decorationCache = new Map<string, NormalizedImage>();
 try {
   for (const [key, source] of Object.entries(images)) {
     const asset = await page.evaluate(
@@ -459,15 +469,20 @@ try {
       rasterizeDecoration: async (shape) => {
         if (fixture === "elements-artwork-failure")
           throw new Error("Intentional QA decoration failure");
+        const key = decorationAssetKey(shape);
+        const cached = decorationCache.get(key);
+        if (cached) return cached;
         const result = await page.evaluate(
-          async ({ shape, decorationCode }: { shape: DecorativeShape; decorationCode: string }) => {
+          async ({ shape, decorationCode }: { shape: DecorationPaint; decorationCode: string }) => {
             const mod = await import(`data:text/javascript;base64,${btoa(decorationCode)}`);
             const asset = await mod.rasterizeDecoration(shape);
             return { ...asset, bytes: Array.from(asset.bytes) };
           },
           { shape, decorationCode },
         );
-        return { ...result, bytes: Uint8Array.from(result.bytes) };
+        const asset = { ...result, bytes: Uint8Array.from(result.bytes) };
+        decorationCache.set(key, asset);
+        return asset;
       },
       onDecorationFailure: (id, error) => {
         if (fixture === "elements-artwork-failure") {
