@@ -1999,6 +1999,100 @@ export const WARM_2: TemplateDefinition = {
   pageMotifs: { letter: WARM_2_PAGE_MOTIFS, cv: WARM_2_PAGE_MOTIFS },
   artwork: [],
 };
+/** Mature organic candidate: independently rounded counter-field and two-tone stationery. */
+export const WARM_3: TemplateDefinition = {
+  id: "warm3",
+  archetype: "organic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "24312E", accent: "C86648", paper: "FBF7EF" },
+  margins: { top: 32, right: 24, bottom: 23, left: 27 },
+  cover: {
+    ...HORIZON.cover,
+    fontSource: "dossier",
+    photoWidthMm: 48,
+    photoAlign: "right",
+    heroLeadMm: 35,
+    photoAbsentLeadMm: 103,
+    fieldColorSlots: { eyebrow: "bg", ortDatum: "bg" },
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 72,
+        cornerRadiiMm: [0, 0, 34, 0],
+        fillSlot: "primary",
+      },
+      {
+        shape: "rect",
+        xFraction: 126 / 210,
+        widthFraction: 84 / 210,
+        topMm: 0,
+        heightMm: 72,
+        cornerRadiiMm: [0, 0, 34, 34],
+        fillSlot: "secondary",
+        opacity: 0.94,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 18,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
+  pageMotifs: {
+    letter: [
+      { shape: "rect", xFraction: 0, widthFraction: 1, topMm: 0, heightMm: 7, fillSlot: "primary" },
+      {
+        shape: "rect",
+        xFraction: 144 / 210,
+        widthFraction: 66 / 210,
+        topMm: 0,
+        heightMm: 7,
+        fillSlot: "secondary",
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 10,
+        fillSlot: "primary",
+      },
+      {
+        shape: "rect",
+        xFraction: 144 / 210,
+        widthFraction: 66 / 210,
+        topMm: 0,
+        heightMm: 10,
+        fillSlot: "secondary",
+        opacity: 0.94,
+      },
+    ],
+  },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2016,6 +2110,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   violetPulse: VIOLET_PULSE,
   studio3: STUDIO_3,
   warm2: WARM_2,
+  warm3: WARM_3,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];
