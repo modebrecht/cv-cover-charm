@@ -151,10 +151,11 @@ describe("DOCX Next canonical model", () => {
       "colorful",
       "blockig",
       "welle",
+      "modern",
     ]);
     expect(JSON.stringify(BRIEF)).not.toContain("<w:");
     const input = briefFixture();
-    input.cover.template = "modern" as typeof input.cover.template;
+    input.cover.template = "unregistered-template" as typeof input.cover.template;
     expect(() => buildDossierDocModel(input)).toThrow("has not passed migration gates");
   });
   test("Next has no dependency on any legacy/V2 DOCX module or post-render text heuristic", () => {

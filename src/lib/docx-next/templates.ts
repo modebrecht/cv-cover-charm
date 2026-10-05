@@ -73,6 +73,8 @@ export type TemplateDefinition = {
     heroLeadMm?: number;
     photoAbsentLeadMm?: number;
     decorationPlacement?: "first-header";
+    /** Suppress default decorative shapes; explicit saved visibility retains precedence. */
+    hiddenDecorationIds?: readonly string[];
     motifs?: readonly TemplateMotif[];
   };
   letter: {
@@ -3056,6 +3058,89 @@ export const WELLE: TemplateDefinition = {
     ],
   },
 };
+/** Quiet halo, editable large hero and source-owned compact chrome. */
+export const MODERN: TemplateDefinition = {
+  ...BRIEF,
+  id: "modern",
+  archetype: "graphic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 15, headingPt: 12, heroPt: 36 },
+  colors: { ink: "111827", accent: "F43F5E", paper: "FAFAFA" },
+  interiorPaletteSource: "dossier",
+  margins: { top: 24, right: 22, bottom: 22, left: 24 },
+  cover: {
+    ...BRIEF.cover,
+    margins: { top: 20, right: 20, bottom: 20, left: 20 },
+    fontSource: "dossier",
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    photoAlign: "center",
+    photoWidthMm: 52,
+    heroSpaceMm: 12,
+    heroStartFields: ["kicker", "beruf", "name"],
+    heroLeadMm: 18,
+    photoAbsentLeadMm: 86,
+    fieldSpaceBeforeMm: { name: 8 },
+    heroInRows: true,
+    hiddenDecorationIds: ["trenner"],
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
+      { fields: [[], "foto"], widths: [100, 70] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["beilagenTitel", "beilagen", "anTitel", "empfaenger"],
+        ],
+        widths: [1, 1],
+        beforeMm: 26,
+      },
+    ],
+  },
+  letter: { ...BRIEF.letter, fontSource: "dossier", keepTailTogether: true },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    footerSurfaceSlot: "bg",
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 32, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "primary",
+      accentSlot: "accent",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  pageMotifs: {
+    cv: [
+      {
+        shape: "circle",
+        xFraction: 164 / 210,
+        widthFraction: 62 / 210,
+        topMm: -16,
+        heightMm: 62,
+        fillSlot: "accent",
+        opacity: 0.08,
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -3083,6 +3168,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   colorful: COLORFUL,
   blockig: BLOCKIG,
   welle: WELLE,
+  modern: MODERN,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

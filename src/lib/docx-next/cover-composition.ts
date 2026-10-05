@@ -23,6 +23,12 @@ export function composeCover(
     )
   )
     throw new Error("DOCX Next invalid semantic cover field lead");
+  const hiddenDecorations = new Set(template.cover.hiddenDecorationIds ?? []);
+  for (const id of hiddenDecorations) {
+    const source = cover.blocks.find((block) => block.id === id);
+    if (!source || source.kind !== "shape")
+      throw new Error(`DOCX Next decoration visibility requires an authored shape ${id}`);
+  }
   const blocks: DocBlock[] = [];
   const surfaceIds = new Set(
     (template.cover.rows ?? [])
@@ -88,7 +94,10 @@ export function composeCover(
     return index < 0 ? (customCoverIds.has(id) ? 1001 : 1000) : index;
   };
   const coverBlocks = cover.blocks
-    .filter((block) => !block.style.hidden)
+    .filter(
+      (block) =>
+        !block.style.hidden && (!hiddenDecorations.has(block.id) || hasUserStyle(block, "hidden")),
+    )
     .map((block, index) => ({ block, index }))
     .sort(
       (a, b) =>
