@@ -58,12 +58,18 @@ const addedSelections = [
   "klassisch",
   "edel",
   "serioes",
+  "colorful",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  colorful: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: {},
+  },
   serioes: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 8 },

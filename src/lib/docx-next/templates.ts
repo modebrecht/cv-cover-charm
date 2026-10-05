@@ -2753,6 +2753,98 @@ export const SERIOES: TemplateDefinition = {
     ],
   },
 };
+/** Saturated geometric candidate; editable cover cells grow independently of page paint. */
+export const COLORFUL: TemplateDefinition = {
+  ...BRIEF,
+  id: "colorful",
+  archetype: "graphic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 34 },
+  colors: { ink: "161616", accent: "EF4444", paper: "FFFDF7" },
+  interiorPaletteSource: "dossier",
+  margins: { top: 30, right: 22, bottom: 22, left: 24 },
+  cover: {
+    margins: { top: 14, right: 18, bottom: 20, left: 18 },
+    fontSource: "dossier",
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    photoAlign: "right",
+    photoWidthMm: 52,
+    heroStartFields: ["kicker", "beruf", "name"],
+    heroLeadMm: 32,
+    photoAbsentLeadMm: 96,
+    heroSpaceMm: 0,
+    fieldSpaceBeforeMm: { name: 10 },
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1], fillSlot: "primary" },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        beforeMm: 18,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 32, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 13,
+      compactContinuationMm: 14,
+    },
+  },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 293,
+        heightMm: 4,
+        fillSlot: "secondary",
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 289,
+        heightMm: 8,
+        fillSlot: "secondary",
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2777,6 +2869,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   klassisch: KLASSISCH,
   edel: EDEL,
   serioes: SERIOES,
+  colorful: COLORFUL,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];
