@@ -59,6 +59,8 @@ export type TemplateDefinition = {
       cellFillSlots?: readonly (string | null)[];
       /** Consume solid authored rectangles as growing native surfaces rather than fixed page paint. */
       surfaceElementId?: string;
+      /** Consume a solid authored line as the native top edge of this growing row. */
+      surfaceBorderElementId?: string;
       cellSurfaceElementIds?: readonly (string | null)[];
       beforeMm?: number;
     }[];
@@ -82,6 +84,8 @@ export type TemplateDefinition = {
     keepTailTogether?: boolean;
   };
   chrome: {
+    /** Readable native footer ink on descriptor-owned footer artwork. Explicit text colors win. */
+    footerSurfaceSlot?: string;
     headerDistanceMm: number;
     footerDistanceMm: number;
     defaultContact?: { heightMm: number; gapMm: number };
@@ -2935,6 +2939,123 @@ export const BLOCKIG: TemplateDefinition = {
     ],
   },
 };
+/** Horizont: native split hero and growing lower contact surface, separate from Fresh Horizon. */
+export const WELLE: TemplateDefinition = {
+  ...BRIEF,
+  id: "welle",
+  archetype: "graphic",
+  typography: { font: "Georgia", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 30 },
+  colors: { ink: "1B232C", accent: "C08457", paper: "FBF8F4" },
+  interiorPaletteSource: "dossier",
+  margins: { top: 24, right: 23, bottom: 31, left: 25 },
+  cover: {
+    margins: { top: 26, right: 24, bottom: 20, left: 22 },
+    fontSource: "dossier",
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "kicker",
+      "beruf",
+      "foto",
+      "name",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    photoAlign: "right",
+    photoWidthMm: 48,
+    heroSpaceMm: 0,
+    heroStartFields: ["kicker", "beruf", "name"],
+    heroInRows: true,
+    heroLeadMm: 23,
+    photoAbsentLeadMm: 48,
+    fieldSpaceBeforeMm: { name: 12 },
+    decorationPlacement: "first-header",
+    fieldColorSlots: { beilagenTitel: "secondary", beilagen: "bg" },
+    fieldPaletteMode: "uniform",
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
+      { fields: [["kicker", "beruf"], "foto"], widths: [106, 58] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        beforeMm: 32,
+        surfaceElementId: "decor-bottom-field",
+        surfaceBorderElementId: "decor-horizon-rule",
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    footerSurfaceSlot: "primary",
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 32, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 16,
+      compactContinuationMm: 14,
+    },
+  },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 282,
+        heightMm: 15,
+        fillSlot: "primary",
+      },
+      {
+        shape: "path",
+        path: "M 0 0 L 50 0 C 78 0 100 30 100 100 L 0 100",
+        xFraction: 0,
+        widthFraction: 0.62,
+        topMm: 279,
+        heightMm: 5,
+        fillSlot: "secondary",
+        opacity: 0.8,
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 273,
+        heightMm: 24,
+        fillSlot: "primary",
+      },
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 273,
+        heightMm: 0.6,
+        fillSlot: "secondary",
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2961,6 +3082,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   serioes: SERIOES,
   colorful: COLORFUL,
   blockig: BLOCKIG,
+  welle: WELLE,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

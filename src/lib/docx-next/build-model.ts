@@ -31,7 +31,7 @@ import type {
 } from "./model";
 import { walkBlocks } from "./model";
 import { nextTemplate } from "./templates";
-import { color } from "./colors";
+import { color, compositeTextColor } from "./colors";
 export { color } from "./colors";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin } from "./continuation-margin";
@@ -879,6 +879,28 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         bandPolicy && (bandPolicy.surface !== "motifs" || explicitHeaderSurface)
           ? templateBandInk(bandFill, theme.paper)
           : partInk;
+      const footerInk =
+        template.chrome.footerSurfaceSlot &&
+        (scope !== "cv" ||
+          (cv.design.bgOpacity ?? 1) > 0 ||
+          options.footerBackgroundColor ||
+          options.footerGradientColor)
+          ? templateBandInk(
+              compositeTextColor(
+                color(
+                  options.footerBackgroundColor ?? partColors[template.chrome.footerSurfaceSlot],
+                  theme.paper,
+                ),
+                scope === "cv"
+                  ? color(cvPalette?.paper, theme.paper)
+                  : color(resolveLetterPaperColor(letter.design), theme.paper),
+                scope === "cv" && !options.footerBackgroundColor && !options.footerGradientColor
+                  ? (cv.design.bgOpacity ?? 1)
+                  : 1,
+              ),
+              theme.paper,
+            )
+          : partInk;
       const font = wordFont(
         options.textFont ?? undefined,
         scope === "letter" ? letterFont : theme.font,
@@ -900,7 +922,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
               (surface === "header" ? 10 : 8),
             color: color(
               surface === "header" ? options.headerTextColor : options.footerTextColor,
-              surface === "header" ? headerInk : partInk,
+              surface === "header" ? headerInk : footerInk,
             ),
             bold: key === "title",
             ...settings.fieldStyles?.[fieldId],
@@ -1065,7 +1087,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         const typography = {
           font,
           sizePt: options.footerFontSizePt ?? 8,
-          color: color(options.footerTextColor, partInk),
+          color: color(options.footerTextColor, footerInk),
         };
         const customFields = (["title", "text"] as const).flatMap((key) => {
           const value = key === "title" ? content.footerTitle : content.footerText;

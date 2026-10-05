@@ -60,12 +60,30 @@ const addedSelections = [
   "serioes",
   "colorful",
   "blockig",
+  "welle",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  welle: {
+    cv: {
+      normal: 3,
+      "long-letter": 3,
+      "long-cv": 15,
+      "long-values": 3,
+      images: 3,
+      custom: 3,
+      timeline: 20,
+      magazin: 1,
+      "no-motifs": 3,
+      "custom-colors": 3,
+      "contact-long": 3,
+    },
+    letter: { "long-letter": 13, continuation: 11 },
+    cover: { "contact-long": 4 },
+  },
   blockig: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 9 },

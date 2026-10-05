@@ -50,6 +50,34 @@ export function composeCover(
       compositeTextColor(shape.fill!.color, coverContext.paper ?? "FFFFFF", shape.opacity),
     );
   }
+  const surfaceBorders = new Map<string, { color: string; widthMm: number }>();
+  const borderIds = new Set(
+    (template.cover.rows ?? []).flatMap((row) =>
+      row.surfaceBorderElementId ? [row.surfaceBorderElementId] : [],
+    ),
+  );
+  for (const id of borderIds) {
+    const source = cover.blocks.find((block) => block.id === id);
+    if (!source) throw new Error(`DOCX Next missing authored cover surface border ${id}`);
+    if (source.style.hidden) continue;
+    const widthMm = source.style.strokeWidth ?? 0.8;
+    const nativeWidth = Math.round(((widthMm * 72) / 25.4) * 8);
+    if (
+      source.kind !== "shape" ||
+      source.shape !== "line" ||
+      source.style.gradFrom ||
+      source.style.gradTo ||
+      !Number.isFinite(widthMm) ||
+      nativeWidth < 2 ||
+      nativeWidth > 96
+    )
+      throw new Error("DOCX Next native cover surface borders require solid representable lines");
+    const shape = shapeElement(source, `cover.${id}`, coverContext);
+    surfaceBorders.set(id, {
+      color: compositeTextColor(shape.fill!.color, coverContext.paper ?? "FFFFFF", shape.opacity),
+      widthMm,
+    });
+  }
 
   const coverDecoration: DocBlock[] = [];
   // Cover fields come with semantic block IDs before any rendering. Geometry becomes flowing composition.
@@ -76,7 +104,7 @@ export function composeCover(
     if (seenCover.has(id)) throw new Error(`Duplicate cover field identity: ${id}`);
     seenCover.add(id);
     if (block.kind === "shape") {
-      if (surfaceIds.has(block.id)) continue;
+      if (surfaceIds.has(block.id) || borderIds.has(block.id)) continue;
       const rule = template.cover.flowingRules?.[block.id];
       if (rule) {
         if (
@@ -273,8 +301,9 @@ export function composeCover(
         fillColor:
           surfaces.get(row.surfaceElementId ?? "") ??
           (row.fillSlot ? color(cover.colors[row.fillSlot], accent) : undefined),
-        borderColor: accent,
-        borderWidthMm: 0,
+        borderColor: surfaceBorders.get(row.surfaceBorderElementId ?? "")?.color ?? accent,
+        borderWidthMm: surfaceBorders.get(row.surfaceBorderElementId ?? "")?.widthMm ?? 0,
+        ...(row.surfaceBorderElementId ? { borderSides: ["top" as const] } : {}),
         paddingXMm: row.surfaceElementId && surfaces.has(row.surfaceElementId) ? 3 : 0,
         paddingYMm: row.surfaceElementId && surfaces.has(row.surfaceElementId) ? 3 : 0,
       },
