@@ -1917,6 +1917,88 @@ export const STUDIO_3: TemplateDefinition = {
   cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
   artwork: [],
 };
+const WARM_2_PAGE_MOTIFS: readonly TemplateMotif[] = [
+  {
+    shape: "rect",
+    xFraction: 0,
+    widthFraction: 1,
+    topMm: 0,
+    heightMm: 16,
+    cornerRadiiMm: [0, 0, 13, 0],
+    fillSlot: "primary",
+  },
+  {
+    shape: "circle",
+    xFraction: 189 / 210,
+    widthFraction: 28 / 210,
+    topMm: 3,
+    heightMm: 28,
+    fillSlot: "secondary",
+    opacity: 0.82,
+  },
+];
+/** Organic candidate: shared centered native hero and quiet curved stationery. */
+export const WARM_2: TemplateDefinition = {
+  id: "warm2",
+  archetype: "organic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "16312D", accent: "D96C50", paper: "FFFAF2" },
+  margins: { top: 32, right: 24, bottom: 23, left: 25 },
+  cover: {
+    ...HORIZON.cover,
+    fontSource: "dossier",
+    photoAlign: "center",
+    heroLeadMm: 40,
+    photoAbsentLeadMm: 105,
+    fieldColorSlots: { eyebrow: "bg", ortDatum: "bg" },
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 94,
+        cornerRadiiMm: [0, 0, 72, 0],
+        fillSlot: "primary",
+      },
+      {
+        shape: "path",
+        path: "M 0 0 L 100 0 L 100 30 C 100 70 83 92 67 100 L 50 100 C 25 100 0 77 0 49 L 0 0",
+        xFraction: 134 / 210,
+        widthFraction: 76 / 210,
+        topMm: 0,
+        heightMm: 74,
+        fillSlot: "secondary",
+        opacity: 0.92,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 22,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
+  pageMotifs: { letter: WARM_2_PAGE_MOTIFS, cv: WARM_2_PAGE_MOTIFS },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -1933,6 +2015,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   forestFlow: FOREST_FLOW,
   violetPulse: VIOLET_PULSE,
   studio3: STUDIO_3,
+  warm2: WARM_2,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

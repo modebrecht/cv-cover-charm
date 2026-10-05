@@ -170,3 +170,7 @@ Microsoft Word acceptance: pending. Review [Violet Pulse coverage](violetPulse-f
 ## Studio 3 candidate review
 
 Microsoft Word acceptance: pending. Review [coverage](studio3-feature-coverage.md) and all 13 [cases](studio3-stress-report.md). Open/edit/save/close/reopen native cover/photo groups, rich content, long flow, palettes and first/continuation/off chrome. Verify documented visual adaptations and explicit sidebar rejection.
+
+## Warm 2 candidate review
+
+Microsoft Word acceptance: pending. Review [coverage](warm2-feature-coverage.md) and all 13 [cases](warm2-stress-report.md). Open/edit/save/close/reopen native cover/photo groups, rich content, long flow, palettes and first/continuation/off chrome. Verify documented visual adaptations and explicit sidebar rejection.
