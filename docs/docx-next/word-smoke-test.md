@@ -124,3 +124,21 @@ Microsoft Word acceptance: **pending**. Test the thirteen `cove-*` cases from th
 - [ ] Inspect Independent rectangle corners and header-off motif fallback, chrome off/compact/contact and distinct first/continuation paint; check user palette/font/alignment overrides.
 - [ ] Add/remove long letter/CV content and save/close/reopen; verify text, pictures, lists, tables and native reflow.
 - [ ] Review documented Word adaptations: Native photos sit in flow below the masthead; the start-date badge is a growing rectangular Word cell, contact/footer fields flow rather than remaining fixed at the browser bottom, and authored fonts may occupy extra CV pages. Approve visual references separately.
+
+## Separate Glow candidate review
+
+Microsoft Word acceptance: **pending**. Test the thirteen `glow-*` cases from the containing source commit and record tester/date/Word version/OS.
+
+- [ ] Open every case without repair; edit cover hero, native photo/crop, letter lists/tables and CV entries.
+- [ ] Inspect Independent rectangle corners, radial transparency and header-off motif fallback, chrome off/compact/contact and distinct first/continuation paint; check user palette/font/alignment overrides.
+- [ ] Add/remove long letter/CV content and save/close/reopen; verify text, pictures, lists, tables and native reflow.
+- [ ] Review documented Word adaptations: Native photos and semantic fields use growing Word flow; browser CSS blur is represented by an explicit radial fade, start badges are native rectangular cells and running footers retain editable content. Approve visual references separately.
+
+## Separate Glow candidate review
+
+Microsoft Word acceptance: **pending**. Test the thirteen `glow-*` cases from the containing source commit and record tester/date/Word version/OS.
+
+- [ ] Open every case without repair; edit cover hero, native photo/crop, letter lists/tables and CV entries.
+- [ ] Inspect Independent rectangle corners, radial transparency and header-off motif fallback, chrome off/compact/contact and distinct first/continuation paint; check user palette/font/alignment overrides.
+- [ ] Add/remove long letter/CV content and save/close/reopen; verify text, pictures, lists, tables and native reflow.
+- [ ] Review documented Word adaptations: Native photos and semantic fields use growing Word flow; browser CSS blur is represented by an explicit radial fade, start badges are native rectangular cells and running footers retain editable content. Approve visual references separately.

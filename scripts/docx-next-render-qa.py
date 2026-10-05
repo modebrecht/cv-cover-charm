@@ -344,7 +344,9 @@ def check_scoped_shapes(document, fixture):
         for relative_page, page in enumerate(document[start:start + part['expectedPages']]):
             pictures = page.get_image_info()
             groups = {}
-            for shape in part.get('pageScopedShapes', []):
+            # Distinct paint layers can share a rectangle (e.g. a tint above a band).
+            # Count every declared paint layer so bounds do not confuse its ownership.
+            for shape in [*part.get('pageScopedShapes', []), *part.get('artwork', [])]:
                 x, y = max(0, shape['xMm']), max(0, shape['yMm'])
                 right = min(page.rect.width / scale, shape['xMm'] + shape['widthMm'])
                 bottom = min(page.rect.height / scale, shape['yMm'] + shape['heightMm'])
@@ -624,7 +626,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
+    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'

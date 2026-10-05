@@ -14,6 +14,7 @@ export type TemplateMotif = {
   stroke?: { slot: string; widthMm: number };
   endSlot?: string;
   angleDeg?: number;
+  radialFade?: { innerPct: number; outerPct: number };
   opacity?: number;
   repeat?: "first" | "continuation";
 };
@@ -613,6 +614,157 @@ export const COVE: TemplateDefinition = {
   cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
   artwork: [],
 };
+/** Rounded luminous stationery: all paint is generic and all fields are native. */
+export const GLOW: TemplateDefinition = {
+  id: "glow",
+  archetype: "organic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "172033", accent: "4F46E5", paper: "F7F9FF" },
+  margins: { top: 27, right: 24, bottom: 23, left: 25 },
+  cover: {
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "name",
+      "beruf",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    heroSpaceMm: 0,
+    photoWidthMm: 60,
+    photoAlign: "right",
+    heroLeadMm: 10,
+    photoAbsentLeadMm: 36,
+    fieldAlignments: {
+      eyebrow: "left",
+      ortDatum: "right",
+      name: "left",
+      beruf: "left",
+      lehrbeginn: "left",
+    },
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [0.5, 0.5] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        beforeMm: 14,
+      },
+    ],
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 30,
+        fillSlot: "primary",
+        endSlot: "secondary",
+        angleDeg: 100,
+        cornerRadiiMm: [0, 0, 16, 0],
+      },
+      {
+        shape: "rect",
+        xFraction: 150 / 210,
+        widthFraction: 48 / 210,
+        topMm: 4,
+        heightMm: 18,
+        fillSlot: "secondary",
+        opacity: 0.28,
+        cornerRadiiMm: [9, 9, 9, 9],
+      },
+      {
+        shape: "rect",
+        xFraction: 20 / 210,
+        widthFraction: 46 / 210,
+        topMm: 31.5,
+        heightMm: 1.4,
+        fillSlot: "accent",
+        opacity: 0.96,
+        cornerRadiiMm: [0.7, 0.7, 0.7, 0.7],
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+      motifs: [
+        {
+          shape: "rect",
+          xFraction: 0,
+          widthFraction: 1,
+          topMm: 0,
+          fillSlot: "primary",
+          endSlot: "secondary",
+          angleDeg: 104,
+          opacity: 0.24,
+        },
+        {
+          shape: "circle",
+          xFraction: 174 / 210,
+          widthFraction: 42 / 210,
+          topMm: 0,
+          heightMm: 42,
+          fillSlot: "secondary",
+          opacity: 0.52,
+          radialFade: { innerPct: 0, outerPct: 90 },
+        },
+        {
+          shape: "rect",
+          xFraction: 161 / 210,
+          widthFraction: 34 / 210,
+          topMm: 10.5,
+          heightMm: 0.7,
+          fillSlot: "bg",
+          endSlot: "secondary",
+          angleDeg: 90,
+          opacity: 0.7,
+          cornerRadiiMm: [0.35, 0.35, 0.35, 0.35],
+        },
+      ],
+      noneMotifs: [
+        {
+          shape: "circle",
+          xFraction: 170 / 210,
+          widthFraction: 54 / 210,
+          topMm: -10,
+          heightMm: 54,
+          fillSlot: "primary",
+          opacity: 0.12,
+          radialFade: { innerPct: 0, outerPct: 100 },
+        },
+      ],
+    },
+  },
+  cv: { sectionSpaceMm: 2.8, headingRule: true, sidebarFraction: 0.3 },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -620,6 +772,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   human: HUMAN,
   orbit: ORBIT,
   cove: COVE,
+  glow: GLOW,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

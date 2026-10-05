@@ -27,14 +27,34 @@ import { WARM_FIXTURES, warmFixture, type WarmFixture } from "../tests/fixtures/
 import { PRISM_FIXTURES, prismFixture, type PrismFixture } from "../tests/fixtures/docx-next/prism";
 import { HUMAN_FIXTURES, humanFixture, type HumanFixture } from "../tests/fixtures/docx-next/human";
 import { ORBIT_FIXTURES, orbitFixture, type OrbitFixture } from "../tests/fixtures/docx-next/orbit";
-import { COVE_FIXTURES, coveFixture, type CoveFixture } from "../tests/fixtures/docx-next/cove";
+import {
+  GRAPHIC_FIXTURES,
+  graphicCandidateFixture,
+  type GraphicFixture,
+} from "../tests/fixtures/docx-next/graphic-candidate";
 import { artworkApplies } from "../src/lib/docx-next/page-artwork";
 const isWarm = process.argv.includes("--warm");
 const isPrism = process.argv.includes("--prism");
 const isHuman = process.argv.includes("--human");
-const isCove = process.argv.includes("--cove");
+const addedSelections = ["cove", "glow"].filter((id) => process.argv.includes(`--${id}`));
+const addedCandidate = addedSelections[0];
+const addedPageCounts: Record<
+  string,
+  { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
+> = {
+  cove: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: {},
+  },
+  glow: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: {},
+  },
+};
 const isOrbit = process.argv.includes("--orbit");
-if ([isWarm, isPrism, isHuman, isOrbit, isCove].filter(Boolean).length > 1)
+if ([isWarm, isPrism, isHuman, isOrbit, ...addedSelections].filter(Boolean).length > 1)
   throw new Error("Select one candidate fixture set.");
 const out = path.resolve(process.argv[2] ?? "/tmp/cv-docx-next-qa");
 await mkdir(out, { recursive: true });
@@ -95,8 +115,63 @@ try {
     }
   }, moduleCode);
   if (!invalid) throw new Error("Corrupt image did not fail visibly");
-  const fixtureNames = isCove
-    ? COVE_FIXTURES.map((kind) => `cove-${kind}`)
+  const pixelChecks = await page.evaluate(async (code: string) => {
+    const mod = await import(`data:text/javascript;base64,${btoa(code)}`);
+    const base = {
+      kind: "decorative-shape",
+      id: "generic-pixel-check",
+      semanticText: false,
+      shape: "rect",
+      xMm: 0,
+      yMm: 0,
+      widthMm: 40,
+      heightMm: 40,
+      radiusMm: 0,
+      opacity: 1,
+      stroke: { color: "000000", widthMm: 0 },
+    };
+    const samples: number[][] = [];
+    for (const paint of [
+      { ...base, cornerRadiiMm: [0, 0, 0, 20], fill: { color: "123456" } },
+      {
+        ...base,
+        shape: "circle",
+        opacity: 0.6,
+        fill: { color: "7DD3FC", radialFade: { innerPct: 0, outerPct: 90 } },
+      },
+    ]) {
+      const asset = await mod.rasterizeDecoration(paint);
+      const bitmap = await createImageBitmap(new Blob([asset.bytes], { type: "image/png" }));
+      const canvas = document.createElement("canvas");
+      canvas.width = asset.widthPx;
+      canvas.height = asset.heightPx;
+      const context = canvas.getContext("2d")!;
+      context.drawImage(bitmap, 0, 0);
+      const alpha = (x: number, y: number) =>
+        context.getImageData(Math.floor(x * canvas.width), Math.floor(y * canvas.height), 1, 1)
+          .data[3];
+      samples.push([
+        alpha(0.01, 0.01),
+        alpha(0.01, 0.99),
+        alpha(0.99, 0.99),
+        alpha(0.5, 0.5),
+        alpha(0.9, 0.5),
+      ]);
+      bitmap.close();
+    }
+    if (
+      samples[0][0] !== 255 ||
+      samples[0][1] !== 0 ||
+      samples[0][2] !== 255 ||
+      samples[1][3] < 145 ||
+      samples[1][4] > 35
+    )
+      throw new Error(`Generic corner/radial raster checks failed: ${JSON.stringify(samples)}`);
+    return samples;
+  }, decorationCode);
+  await writeFile(path.join(out, "decoration-pixel-checks.json"), JSON.stringify(pixelChecks));
+  const fixtureNames = addedCandidate
+    ? GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`)
     : isOrbit
       ? ORBIT_FIXTURES.map((kind) => `orbit-${kind}`)
       : isHuman
@@ -163,8 +238,11 @@ try {
   const expectedText = (run: TextRun) =>
     run.style.allCaps ? { text: run.text, allCaps: true } : run.text;
   for (const fixture of fixtureNames) {
-    const input = isCove
-      ? coveFixture(fixture.slice(5) as CoveFixture, images.png)
+    const addedKind = addedCandidate
+      ? (fixture.slice(addedCandidate.length + 1) as GraphicFixture)
+      : "normal";
+    const input = addedCandidate
+      ? graphicCandidateFixture(addedCandidate, addedKind, images.png)
       : isOrbit
         ? orbitFixture(fixture.slice(6) as OrbitFixture, images.png)
         : isHuman
@@ -411,10 +489,8 @@ try {
       )
       .filter((block) => block.kind === "paragraph")
       .flatMap((block) => (block.kind === "paragraph" ? block.runs.map(expectedText) : []));
-    const cvPages = isCove
-      ? ({ "cove-long-cv": 13, "cove-timeline": 17, "cove-magazin": 1, "cove-long-values": 2 }[
-          fixture
-        ] ?? 2)
+    const cvPages = addedCandidate
+      ? (addedPageCounts[addedCandidate].cv[addedKind] ?? 2)
       : isOrbit
         ? ({
             "orbit-long-cv": 13,
@@ -472,8 +548,8 @@ try {
                                     : fixture === "custom-sections"
                                       ? 3
                                       : 2;
-    const letterPages = isCove
-      ? ({ "cove-long-letter": 11, "cove-continuation": 8 }[fixture] ?? 1)
+    const letterPages = addedCandidate
+      ? (addedPageCounts[addedCandidate].letter[addedKind] ?? 1)
       : isOrbit
         ? ({ "orbit-long-letter": 11, "orbit-continuation": 8 }[fixture] ?? 1)
         : isHuman
@@ -499,8 +575,9 @@ try {
                       : fixture === "columns-long"
                         ? 4
                         : 1;
-    const coverPages =
-      fixture === "orbit-custom"
+    const coverPages = addedCandidate
+      ? (addedPageCounts[addedCandidate].cover[addedKind] ?? 1)
+      : fixture === "orbit-custom"
         ? 2
         : fixture === "elements-long"
           ? 3
@@ -696,7 +773,7 @@ try {
   }
   await writeFile(path.join(out, "manifest.json"), JSON.stringify(manifest, null, 2));
   console.log(
-    `Generated ${manifest.length} independent ${isCove ? "Cove" : isOrbit ? "Orbit" : isHuman ? "Human" : isPrism ? "Prism" : isWarm ? "Warm" : "Brief"} dossiers; canonical browser image normalization passed ${normalized.size} inputs.`,
+    `Generated ${manifest.length} independent ${addedCandidate ? addedCandidate : isOrbit ? "Orbit" : isHuman ? "Human" : isPrism ? "Prism" : isWarm ? "Warm" : "Brief"} dossiers; canonical browser image normalization passed ${normalized.size} inputs.`,
   );
 } finally {
   await browser.close();

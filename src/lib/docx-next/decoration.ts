@@ -41,6 +41,18 @@ export function shapePathPoints(path: string): { x: number; y: number }[] {
 export function validateDecoration(shape: DecorationPaint): void {
   const fill = shape.fill;
   if (
+    fill?.radialFade &&
+    (fill.endColor ||
+      fill.angleDeg !== undefined ||
+      fill.startPct !== undefined ||
+      fill.endPct !== undefined ||
+      ![fill.radialFade.innerPct, fill.radialFade.outerPct].every(Number.isFinite) ||
+      fill.radialFade.innerPct < 0 ||
+      fill.radialFade.outerPct > 100 ||
+      fill.radialFade.innerPct >= fill.radialFade.outerPct)
+  )
+    throw new Error(`DOCX Next invalid radial fade ${shape.id}`);
+  if (
     shape.cornerRadiiMm &&
     (shape.shape !== "rect" ||
       shape.cornerRadiiMm.length !== 4 ||
@@ -112,7 +124,19 @@ export const rasterizeDecoration: DecorationRasterizer = async (shape) => {
   let paint: string | CanvasGradient = "transparent";
   if (shape.fill) {
     paint = `#${shape.fill.color}`;
-    if (shape.fill.endColor) {
+    if (shape.fill.radialFade) {
+      const gradient = context.createRadialGradient(
+        shape.widthMm / 2,
+        shape.heightMm / 2,
+        0,
+        shape.widthMm / 2,
+        shape.heightMm / 2,
+        Math.min(shape.widthMm, shape.heightMm) / 2,
+      );
+      gradient.addColorStop(shape.fill.radialFade.innerPct / 100, `#${shape.fill.color}`);
+      gradient.addColorStop(shape.fill.radialFade.outerPct / 100, `#${shape.fill.color}00`);
+      paint = gradient;
+    } else if (shape.fill.endColor) {
       const angle = ((shape.fill.angleDeg ?? 135) * Math.PI) / 180;
       const dx = Math.sin(angle),
         dy = -Math.cos(angle);

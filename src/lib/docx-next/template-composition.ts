@@ -75,47 +75,49 @@ export function composeHeaderBands(
   explicitBackground: boolean,
   noneMotifOpacity = 1,
 ): void {
+  if (!Number.isFinite(noneMotifOpacity) || noneMotifOpacity < 0 || noneMotifOpacity > 1)
+    throw new Error("DOCX Next page motif opacity must be between zero and one.");
   const fill = color(colors[policy.fillSlot], accent),
     secondary = color(colors[policy.accentSlot], accent);
   ensureFirstHeader(part);
-  if (!explicitBackground)
-    for (const [repeat, mode] of [
-      ["first", firstMode],
-      ["continuation", followMode],
-    ] as const) {
-      if (mode === "none") {
-        if (policy.noneMotifs && noneMotifOpacity)
-          part.headerShapes = [
-            ...(part.headerShapes ?? []),
-            ...templateMotifs(part, policy.noneMotifs, colors, accent, undefined, repeat).map(
-              (shape) => ({ ...shape, opacity: shape.opacity * noneMotifOpacity }),
-            ),
-          ];
-        continue;
-      }
-      const text = repeat === "first" ? part.firstHeader! : part.header;
-      const hasText = text.some((p) => p.runs.some((run) => run.text.trim()));
-      const heightMm = Math.max(
-        repeat === "first" ? policy.compactFirstMm : policy.compactContinuationMm,
-        mode === "contact" || hasText ? part.page.headerDistanceMm + headerHeightMm : 0,
-      );
-      part.artwork.push({
-        kind: "decorative-artwork",
-        id: `${part.id}.artwork.band.${repeat}`,
-        semanticText: false,
-        repeat,
-        fill: { color: fill },
-        xMm: 0,
-        yMm: 0,
-        widthMm: part.page.widthMm,
-        heightMm,
-      });
-      if (policy.motifs)
+  for (const [repeat, mode] of [
+    ["first", firstMode],
+    ["continuation", followMode],
+  ] as const) {
+    if (mode === "none") {
+      if (policy.noneMotifs && noneMotifOpacity)
         part.headerShapes = [
           ...(part.headerShapes ?? []),
-          ...templateMotifs(part, policy.motifs, colors, accent, heightMm, repeat),
+          ...templateMotifs(part, policy.noneMotifs, colors, accent, undefined, repeat).map(
+            (shape) => ({ ...shape, opacity: shape.opacity * noneMotifOpacity }),
+          ),
         ];
+      continue;
     }
+    if (explicitBackground) continue;
+    const text = repeat === "first" ? part.firstHeader! : part.header;
+    const hasText = text.some((p) => p.runs.some((run) => run.text.trim()));
+    const heightMm = Math.max(
+      repeat === "first" ? policy.compactFirstMm : policy.compactContinuationMm,
+      mode === "contact" || hasText ? part.page.headerDistanceMm + headerHeightMm : 0,
+    );
+    part.artwork.push({
+      kind: "decorative-artwork",
+      id: `${part.id}.artwork.band.${repeat}`,
+      semanticText: false,
+      repeat,
+      fill: { color: fill },
+      xMm: 0,
+      yMm: 0,
+      widthMm: part.page.widthMm,
+      heightMm,
+    });
+    if (policy.motifs)
+      part.headerShapes = [
+        ...(part.headerShapes ?? []),
+        ...templateMotifs(part, policy.motifs, colors, accent, heightMm, repeat),
+      ];
+  }
   if (firstMode !== "none" && policy.circles)
     part.headerShapes = [
       ...(part.headerShapes ?? []),

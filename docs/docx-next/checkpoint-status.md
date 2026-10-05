@@ -1,5 +1,9 @@
 # DOCX Next checkpoint — 2026-10-05
 
+**Latest Glow batch step:** 7/39 configured candidates, 0/39 Word accepted. [Evidence](glow-stress-report.md): 13 fixtures/94 pages pass stable LibreOffice render/save-reopen. CI deferred to the batch end. Microsoft Word acceptance: pending.
+
+**Latest Glow batch step:** 7/39 configured candidates, 0/39 Word accepted. [Evidence](glow-stress-report.md): 13 fixtures/94 pages pass stable LibreOffice render/save-reopen. CI deferred to the batch end. Microsoft Word acceptance: pending.
+
 **Latest Cove batch step:** 6/39 configured candidates, 0/39 Word accepted. [Evidence](cove-stress-report.md): 13 fixtures/94 pages pass stable LibreOffice render/save-reopen. CI deferred to the batch end. Microsoft Word acceptance: pending.
 
 **Latest Orbit candidate:** freshly fetched `dev` at `9f594db3ae765e27759846fff2dd317e12e837af`, green M6 CI and clean tree. [Orbit evidence](orbit-stress-report.md): 5/39 configured candidates, 0/39 Word accepted. Thirteen fixtures/95 pages pass stable LibreOfficeKit 25.8.7.3 render/save-reopen. All 124 prior candidate DOCX files regenerate byte-identically. Outline motifs and source-aware native field alignment are shared primitives; the neutral adapter and single renderer remain intact. Microsoft Word acceptance: pending.
@@ -12,7 +16,7 @@
 
 **Previous stabilization:** see [the report from freshly fetched `d664317`, continued from freshly fetched `32a3e8b`](stabilization-report.md). Its test counts, dossier-flow fix, source boundary and Word-review readiness supersede the historical checkpoint evidence below. Stable LibreOffice 25.8.7.3 now passes all 85 fixtures/472 pages through its official Kit API; [reproduction and limits](libreoffice-qa.md). Microsoft Word and approved visual references remain pending; no migrated-template or production status changed. Older pending-stable statements below describe historical checkpoints.
 
-This is a continued reference implementation, **not the completed rebuild**. Progress: **6/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove), 0/39 Word-accepted migrations**. The independent foundation is implemented through Gate 4; [Brief coverage](brief-feature-coverage.md) records the remaining inputs and acceptance work. The latest continuation started from freshly fetched `dev` commit `a4690bd713368e3dc1e0c2577e3e17311756a04b`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
+This is a continued reference implementation, **not the completed rebuild**. Progress: **7/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove, Glow), 0/39 Word-accepted migrations**. The independent foundation is implemented through Gate 4; [Brief coverage](brief-feature-coverage.md) records the remaining inputs and acceptance work. The latest continuation started from freshly fetched `dev` commit `a4690bd713368e3dc1e0c2577e3e17311756a04b`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
 
 ## Architecture evidence
 

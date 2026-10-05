@@ -17,7 +17,7 @@ export function templateMotifs(
     .map((policy, index) => {
       if (
         (!policy.fillSlot && !(policy.stroke && policy.stroke.widthMm > 0)) ||
-        (!policy.fillSlot && policy.endSlot)
+        (!policy.fillSlot && (policy.endSlot || policy.radialFade))
       )
         throw new Error(
           "DOCX Next motif requires a fill or visible outline; gradients require a fill.",
@@ -41,6 +41,7 @@ export function templateMotifs(
           ? {
               fill: {
                 color: color(colors[policy.fillSlot], fallback),
+                ...(policy.radialFade ? { radialFade: policy.radialFade } : {}),
                 ...(policy.endSlot
                   ? {
                       endColor: color(colors[policy.endSlot], fallback),

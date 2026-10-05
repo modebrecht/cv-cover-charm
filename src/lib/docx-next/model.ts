@@ -121,6 +121,8 @@ export type DecorativeShape = {
     angleDeg?: number;
     startPct?: number;
     endPct?: number;
+    /** Circular, nonsemantic color-to-transparency bloom. */
+    radialFade?: { innerPct: number; outerPct: number };
   };
   stroke: { color: string; widthMm: number };
 };
