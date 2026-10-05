@@ -1,5 +1,7 @@
 # Microsoft Word smoke acceptance
 
+For the current Sidebar architecture decision, first follow the [eight-case native pagination investigation](sidebar-pagination-status.md). Record full tail visibility and title/description attachment for `smaller-body` and `paragraph-default-margin` before changing native composition or lifting header/margin guards. LibreOffice observations are diagnostic evidence, not Word acceptance.
+
 ## Separate Prism review package
 
 The Prism package contains fourteen editable `prism-*` candidates, matching stable LibreOffice PDFs and all 95 candidate PNG pages. Record tester, date, OS, exact Word version and source commit separately. **Brief/Warm/Prism remain unaccepted; 0/39 migrations have Word acceptance.** Complete the general checklist below as well as these cases.

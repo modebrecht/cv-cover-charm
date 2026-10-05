@@ -1,5 +1,7 @@
 # DOCX Next checkpoint — 2026-10-05
 
+**Latest Sidebar investigation:** [Native pagination counterexamples](sidebar-pagination-status.md): eight diagnostic dossiers / 101 pages reproduce missing fields even without headers and expose title detachment in paragraph alternatives. No renderer/composition experiment was retained. The original 16 Sidebar packages are byte-identical and still pass their 97-page QA. 971 units pass. Counts remain 29/39 configured, 0/39 Word accepted. Controlled Microsoft Word comparison is the next architecture decision; header and margin guards remain.
+
 **Latest shared Sidebar checkpoint:** [Brief native Sidebar](sidebar-status.md): 16 supported fixtures / 97 pages plus 4 generic flow proofs / 36 pages; 970 units pass. Running headers, different first/continuation top margins, free photos and explicit track page starts remain blocked after real failed probes. Gate 8 and Microsoft Word acceptance remain pending. Configured count stays 29/39; Word accepted count stays 0/39. CI is deferred to the single final publication. Earlier batch/Sidebar statements below describe their historical checkpoints.
 
 **Latest completed local batch:** [Modern / Rahmen / Sonne report](batch-modern-pastell-sonne-report.md): 29/39 configured, 0/39 Word accepted; 42 fixtures/311 pages and 959 full units pass. CI deferred to the single final batch publication. Microsoft Word acceptance: pending.

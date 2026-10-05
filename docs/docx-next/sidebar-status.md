@@ -1,5 +1,7 @@
 # Native Sidebar checkpoint — Brief first
 
+**Latest investigation:** [Native parallel pagination](sidebar-pagination-status.md) reproduces the missing tail without a header when the usable body shrinks. Simply replacing nested entry rows with paragraph flow fails title attachment at other page boundaries. All experimental exporter changes were removed; the restrictions below remain. The 16 fixture packages were reverified byte-identical. Their passing evidence must not be generalized to arbitrary headerless geometry.
+
 Brief is the neutral reference for the first shared native Sidebar candidate. `modern` is also a **CV layout choice**, independent of the registered **Modern template**. Modern's earlier candidate evidence covers a classic CV. No template is newly Word accepted here: **29/39 configured candidates, 0/39 Word accepted. Microsoft Word acceptance: pending.**
 
 The new `parallel-flow` primitive uses one splittable native Word row with independently flowing cells and a gutter. Cell fill, padding and divider borders are native. CV mapping partitions sections by saved placement, merges the app's default placements, mirrors physical track order, and retains semantic IDs and authored run styles. `cv-sidebar-composition.ts` owns this mapping; `native-cell.ts` owns cell properties. One renderer handles every template. There is no template-ID renderer branch, visible-text styling, measured PDF pagination, legacy reconstruction or post-export XML repair.

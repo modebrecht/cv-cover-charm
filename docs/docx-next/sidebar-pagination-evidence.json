@@ -1,0 +1,272 @@
+{
+  "libreOffice": {
+    "ProductName": "LibreOffice",
+    "ProductVersion": "25.8",
+    "ProductExtension": ".7.3",
+    "BuildId": "580(Build:3)"
+  },
+  "microsoftWord": "pending",
+  "purpose": "diagnostic observations, not Sidebar acceptance",
+  "cases": [
+    {
+      "id": "baseline",
+      "header": "none",
+      "entry": "row",
+      "topMm": 20,
+      "source": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "e949dab26bf419dc53b705e2c1bb610d5dba7bcbbfc033d159b151db784ca351",
+      "pdfSha256": "6b906ed7d962ff8b6b3953bf5bbccbf56327902dfd4353734233d0671bdc4061",
+      "reopenedPdfSha256": "a8d587efd2ed6af4004a841d1948522c54578b9a0dcd54a23b6b50a0159b08dd"
+    },
+    {
+      "id": "smaller-body",
+      "header": "none",
+      "entry": "row",
+      "topMm": 60,
+      "source": {
+        "pages": 14,
+        "missingFields": [
+          "cv.entry.erfahrung:demo-p2.date",
+          "cv.entry.erfahrung:demo-p2.title",
+          "cv.entry.erfahrung:demo-p2.place",
+          "cv.entry.erfahrung:demo-p2.description",
+          "cv.section.referenzen.heading",
+          "cv.entry.referenzen:demo-r1.name",
+          "cv.entry.referenzen:demo-r1.role",
+          "cv.entry.referenzen:demo-r1.contact"
+        ],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 14,
+        "missingFields": [
+          "cv.entry.erfahrung:demo-p2.date",
+          "cv.entry.erfahrung:demo-p2.title",
+          "cv.entry.erfahrung:demo-p2.place",
+          "cv.entry.erfahrung:demo-p2.description",
+          "cv.section.referenzen.heading",
+          "cv.entry.referenzen:demo-r1.name",
+          "cv.entry.referenzen:demo-r1.role",
+          "cv.entry.referenzen:demo-r1.contact"
+        ],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "051df654c3174f704f034c4cf740ff6dd4cfb6eb11be410c8ba8d5e454b0a88d",
+      "pdfSha256": "efd72ae4b96d2dc52cecf36438fa4b603e742b50498e8ce4af10d0264b882363",
+      "reopenedPdfSha256": "04c0b8bae139c19d9670b6859361b7970a0f7dab5c6e4795a16a429ea0062d6b"
+    },
+    {
+      "id": "contact-header",
+      "header": "contact",
+      "entry": "row",
+      "topMm": 60,
+      "source": {
+        "pages": 14,
+        "missingFields": [
+          "cv.entry.erfahrung:demo-p2.date",
+          "cv.entry.erfahrung:demo-p2.title",
+          "cv.entry.erfahrung:demo-p2.place",
+          "cv.entry.erfahrung:demo-p2.description",
+          "cv.section.referenzen.heading",
+          "cv.entry.referenzen:demo-r1.name",
+          "cv.entry.referenzen:demo-r1.role",
+          "cv.entry.referenzen:demo-r1.contact"
+        ],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 14,
+        "missingFields": [
+          "cv.entry.erfahrung:demo-p2.date",
+          "cv.entry.erfahrung:demo-p2.title",
+          "cv.entry.erfahrung:demo-p2.place",
+          "cv.entry.erfahrung:demo-p2.description",
+          "cv.section.referenzen.heading",
+          "cv.entry.referenzen:demo-r1.name",
+          "cv.entry.referenzen:demo-r1.role",
+          "cv.entry.referenzen:demo-r1.contact"
+        ],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "824b87c32ca2a96550eb89d84fc3ab2e4123964d26dd9099305218d70522268f",
+      "pdfSha256": "1b947278295a59311a737e53a752b7cbc43ae8aa76d973a3ee3fd7245aa54fc4",
+      "reopenedPdfSha256": "c472c651946ebf66c2991ebba2303a14e8f2a9ec0f6135616c0be52cefc52c9a"
+    },
+    {
+      "id": "first-header",
+      "header": "first",
+      "entry": "row",
+      "topMm": 60,
+      "source": {
+        "pages": 14,
+        "missingFields": [
+          "cv.entry.erfahrung:demo-p2.date",
+          "cv.entry.erfahrung:demo-p2.title",
+          "cv.entry.erfahrung:demo-p2.place",
+          "cv.entry.erfahrung:demo-p2.description",
+          "cv.section.referenzen.heading",
+          "cv.entry.referenzen:demo-r1.name",
+          "cv.entry.referenzen:demo-r1.role",
+          "cv.entry.referenzen:demo-r1.contact"
+        ],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 14,
+        "missingFields": [
+          "cv.entry.erfahrung:demo-p2.date",
+          "cv.entry.erfahrung:demo-p2.title",
+          "cv.entry.erfahrung:demo-p2.place",
+          "cv.entry.erfahrung:demo-p2.description",
+          "cv.section.referenzen.heading",
+          "cv.entry.referenzen:demo-r1.name",
+          "cv.entry.referenzen:demo-r1.role",
+          "cv.entry.referenzen:demo-r1.contact"
+        ],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "f78841d2f7aa917ca0eed120505e15445164bc70b47ba495c9a8769c60467afa",
+      "pdfSha256": "0b329c1ddc89e89f2932def6afa92a7e19db514b1cb0c5ff946a4c788ab15157",
+      "reopenedPdfSha256": "fa2d889f825fa9301f0ea629b299806fd769ff92a048398b2e0f41572850a34a"
+    },
+    {
+      "id": "paragraph-flow",
+      "header": "none",
+      "entry": "paragraph",
+      "topMm": 60,
+      "source": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "0278f80c7f8346121255f19547953724c35cec42656e33c0e6de4e89fd1178cd",
+      "pdfSha256": "31c6749ce28a1b1b52328401419ec9a828e761f2846780060c9aa406dece883e",
+      "reopenedPdfSha256": "c75b55d299dd4f021ffb1d09cf852c0718648469f048639fe3c9dc4acc2c51ac"
+    },
+    {
+      "id": "paragraph-header",
+      "header": "first",
+      "entry": "paragraph",
+      "topMm": 60,
+      "source": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": [
+          "cv.entry.schule:school-11",
+          "cv.entry.schule:school-38",
+          "cv.entry.schule:school-45",
+          "cv.entry.erfahrung:demo-p1"
+        ]
+      },
+      "reopened": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": [
+          "cv.entry.schule:school-11",
+          "cv.entry.schule:school-38",
+          "cv.entry.schule:school-45",
+          "cv.entry.erfahrung:demo-p1"
+        ]
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "74f3816feb1c5040332160320f2bffe569028f6f852c06feaa18d11ceef28485",
+      "pdfSha256": "58a33cbc4fac7ce92cec53d771a4591add6b487ec33fc0fcecb6d2993b4071a4",
+      "reopenedPdfSha256": "b3223f8ed928fd3623c193febc62d15117d6356c176494262ab718390cb9ee57"
+    },
+    {
+      "id": "paragraph-keep-lines",
+      "header": "none",
+      "entry": "paragraph-keep-lines",
+      "topMm": 20,
+      "source": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": [
+          "cv.entry.schule:school-14",
+          "cv.entry.schule:school-39",
+          "cv.entry.schule:school-64"
+        ]
+      },
+      "reopened": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": [
+          "cv.entry.schule:school-14",
+          "cv.entry.schule:school-39",
+          "cv.entry.schule:school-64"
+        ]
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "67ae1eb761669b70e5c1ede73dfc8a3a160f4c0815775db66e5ac756bcf9ec49",
+      "pdfSha256": "8bdb8a013c68975168584890db9fd09cb07548a5faeaefba821543cf3a1cee05",
+      "reopenedPdfSha256": "eebb363b37b8b556360baa2603bee2bf78788805661f20ce5023bf44b77b9532"
+    },
+    {
+      "id": "paragraph-default-margin",
+      "header": "none",
+      "entry": "paragraph",
+      "topMm": 20,
+      "source": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": [
+          "cv.entry.schule:school-14",
+          "cv.entry.schule:school-39",
+          "cv.entry.schule:school-64"
+        ]
+      },
+      "reopened": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": [
+          "cv.entry.schule:school-14",
+          "cv.entry.schule:school-39",
+          "cv.entry.schule:school-64"
+        ]
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "66c869920b7e5b8abb92309398dc1a5961603a295721c4ebbdfac12313a38ccd",
+      "pdfSha256": "c7300590121245609bb8802c7f80d98df54160c278574a40093e30555e4dd31f",
+      "reopenedPdfSha256": "d5b3d66d3e33f9d0ca1355448aa0cfc65e9340e88cbdfbbdb8833b39aca8ba95"
+    }
+  ],
+  "startingDev": "e6184df8eb9495f85b09d936d6c987285028b273",
+  "configuredTemplates": 29,
+  "wordAcceptedTemplates": 0,
+  "regression": {
+    "originalSidebarPackagesByteIdentical": 16,
+    "originalSidebarPages": 97,
+    "fullUnitTests": 971,
+    "unitFiles": 206,
+    "nextTests": 269,
+    "nextTestFiles": 44,
+    "productionCodeChanged": false
+  }
+}
