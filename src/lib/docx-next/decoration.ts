@@ -38,6 +38,35 @@ export function shapePathPoints(path: string): { x: number; y: number }[] {
     throw new Error("DOCX Next invalid decorative path");
   return matches.map((match) => ({ x: Number(match[2]), y: Number(match[3]) }));
 }
+export type DecorationPathSegment = { command: "M" | "L" | "C"; coordinates: number[] };
+/** Bounded absolute geometry only: cubic contours are reusable decoration, never SVG markup. */
+export function decorationPathSegments(path: string): DecorationPathSegment[] {
+  if (!path.includes("C"))
+    return shapePathPoints(path).map((point, index) => ({
+      command: index ? "L" : "M",
+      coordinates: [point.x, point.y],
+    }));
+  const pattern = /([MLC])\s*((?:-?\d+(?:\.\d+)?\s*)+)/g;
+  const matches = [...path.matchAll(pattern)];
+  const segments = matches.map((match) => ({
+    command: match[1] as DecorationPathSegment["command"],
+    coordinates: match[2].trim().split(/\s+/).map(Number),
+  }));
+  if (
+    segments.length < 2 ||
+    segments.length > 10000 ||
+    segments[0].command !== "M" ||
+    path.replace(pattern, "").trim() ||
+    segments.some(
+      (segment, index) =>
+        (index > 0 && segment.command === "M") ||
+        segment.coordinates.length !== (segment.command === "C" ? 6 : 2) ||
+        segment.coordinates.some((value) => !Number.isFinite(value) || value < 0 || value > 100),
+    )
+  )
+    throw new Error("DOCX Next invalid decorative path");
+  return segments;
+}
 export function validateDecoration(shape: DecorationPaint): void {
   const fill = shape.fill;
   if (
@@ -98,7 +127,7 @@ export function validateDecoration(shape: DecorationPaint): void {
       viewport.topMm + viewport.heightMm > shape.heightMm + 0.001)
   )
     throw new Error(`DOCX Next invalid decoration viewport ${shape.id}`);
-  if (shape.shape === "path") shapePathPoints(shape.path ?? "");
+  if (shape.shape === "path") decorationPathSegments(shape.path ?? "");
   else if (shape.path !== undefined) throw new Error(`DOCX Next unexpected path ${shape.id}`);
 }
 /** Only nonsemantic geometry is rasterized; all dossier text stays in Word. */
@@ -187,14 +216,22 @@ export const rasterizeDecoration: DecorationRasterizer = async (shape) => {
             ),
       );
     else {
-      shapePathPoints(shape.path!).forEach((point, index) => {
-        const x = Math.max(inset, Math.min(shape.widthMm - inset, (point.x * shape.widthMm) / 100));
-        const y = Math.max(
-          inset,
-          Math.min(shape.heightMm - inset, (point.y * shape.heightMm) / 100),
-        );
-        if (index) context.lineTo(x, y);
-        else context.moveTo(x, y);
+      decorationPathSegments(shape.path!).forEach((segment) => {
+        const coordinates = segment.coordinates.map((value, index) => {
+          const extent = index % 2 ? shape.heightMm : shape.widthMm;
+          return Math.max(inset, Math.min(extent - inset, (value * extent) / 100));
+        });
+        if (segment.command === "C")
+          context.bezierCurveTo(
+            coordinates[0],
+            coordinates[1],
+            coordinates[2],
+            coordinates[3],
+            coordinates[4],
+            coordinates[5],
+          );
+        else if (segment.command === "L") context.lineTo(coordinates[0], coordinates[1]);
+        else context.moveTo(coordinates[0], coordinates[1]);
       });
       context.lineCap = "round";
       context.lineJoin = "round";

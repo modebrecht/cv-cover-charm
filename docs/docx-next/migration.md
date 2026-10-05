@@ -1,6 +1,6 @@
 # DOCX Next migration ledger
 
-39 active templates. **11/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove, Glow, Horizon, Mono Luxe, Ledger, Ribbon); 0/39 Microsoft Word accepted migrations.** Remote `dev` was freshly fetched and verified at `0c803de088f86afdc6fc12185acae4273956a51f` at batch start on 2026-10-05, with a clean tree and green M6 CI. The foundation is implemented through Gate 4. Candidate registration is distinct from acceptance. [Brief coverage](brief-feature-coverage.md), [Warm coverage](warm-feature-coverage.md), [Prism coverage](prism-feature-coverage.md), [Human coverage](human-feature-coverage.md) and [Orbit coverage](orbit-feature-coverage.md) record limits and evidence; automated checks do not establish Word acceptance.
+39 active templates. **12/39 configured candidates (Brief, Warm, Prism, Human, Orbit, Cove, Glow, Horizon, Mono Luxe, Ledger, Ribbon, Sunrise); 0/39 Microsoft Word accepted migrations.** Remote `dev` was freshly fetched and verified at `4724c595c24399d3e0d97ba6918d6103330b3dfe` at batch start on 2026-10-05, with a clean tree and green M6 CI. The foundation is implemented through Gate 4. Candidate registration is distinct from acceptance. [Brief coverage](brief-feature-coverage.md), [Warm coverage](warm-feature-coverage.md), [Prism coverage](prism-feature-coverage.md), [Human coverage](human-feature-coverage.md) and [Orbit coverage](orbit-feature-coverage.md) record limits and evidence; automated checks do not establish Word acceptance.
 
 | Template      | Archetype           | Status                                      | Primitive                                                                             | QA                                                          |
 | ------------- | ------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -27,7 +27,7 @@
 | `glow`        | Graphic / Editorial | Isolated candidate; Word acceptance pending | Independent rectangle corners, radial transparency and header-off motif fallback      | 13 stable LO render/save-reopen fixtures; Word pending      |
 | `monoLuxe`    | Editorial           | Isolated candidate; Word acceptance pending | Shared native cover rows, motif-only chrome and palette-bound page paint              | 13 stable LO render/save-reopen fixtures; Word pending      |
 | `horizon`     | Graphic / Editorial | Isolated candidate; Word acceptance pending | Existing corner, linear-gradient, radial-fade, native-photo and header-off primitives | 13 stable LO render/save-reopen fixtures; Word pending      |
-| `sunrise`     | Graphic             | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
+| `sunrise`     | Graphic / Editorial | Isolated candidate; Word acceptance pending | Validated cubic contour paint, native cover rows/photos and scoped chrome             | 13 stable LO render/save-reopen fixtures; Word pending      |
 | `forestFlow`  | Graphic             | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
 | `violetPulse` | Graphic             | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
 | `studio2`     | Sidebar             | Inventoried; migration blocked by Gate 5    | Pending                                                                               | Pending                                                     |
@@ -55,3 +55,5 @@ Mono Luxe batch checkpoint: [coverage](mono-luxe-feature-coverage.md), [evidence
 Ledger batch checkpoint: [coverage](ledger-feature-coverage.md), [evidence](ledger-stress-report.md). CI deferred to final batch head; Microsoft Word acceptance: pending.
 
 Ribbon batch checkpoint: [coverage](ribbon-feature-coverage.md), [evidence](ribbon-stress-report.md). CI deferred to final batch head; Microsoft Word acceptance: pending.
+
+Sunrise batch checkpoint: [coverage](sunrise-feature-coverage.md), [evidence](sunrise-stress-report.md). CI deferred to final batch head; Microsoft Word acceptance: pending.

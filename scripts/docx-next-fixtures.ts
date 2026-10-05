@@ -38,14 +38,25 @@ import { artworkApplies } from "../src/lib/docx-next/page-artwork";
 const isWarm = process.argv.includes("--warm");
 const isPrism = process.argv.includes("--prism");
 const isHuman = process.argv.includes("--human");
-const addedSelections = ["cove", "glow", "horizon", "monoLuxe", "ledger", "ribbon"].filter((id) =>
-  process.argv.includes(`--${id}`),
-);
+const addedSelections = [
+  "cove",
+  "glow",
+  "horizon",
+  "monoLuxe",
+  "ledger",
+  "ribbon",
+  "sunrise",
+].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  sunrise: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: {},
+  },
   ribbon: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 8 },
@@ -164,6 +175,12 @@ try {
         opacity: 0.6,
         fill: { color: "7DD3FC", radialFade: { innerPct: 0, outerPct: 90 } },
       },
+      {
+        ...base,
+        shape: "path",
+        path: "M 0 25 C 22 0 76 0 100 28 L 100 100 L 0 100 L 0 25",
+        fill: { color: "123456" },
+      },
     ]) {
       const asset = await mod.rasterizeDecoration(paint);
       const bitmap = await createImageBitmap(new Blob([asset.bytes], { type: "image/png" }));
@@ -189,7 +206,11 @@ try {
       samples[0][1] !== 0 ||
       samples[0][2] !== 255 ||
       samples[1][3] < 145 ||
-      samples[1][4] > 35
+      samples[1][4] > 35 ||
+      samples[2][0] !== 0 ||
+      samples[2][1] !== 255 ||
+      samples[2][2] !== 255 ||
+      samples[2][3] !== 255
     )
       throw new Error(`Generic corner/radial raster checks failed: ${JSON.stringify(samples)}`);
     return samples;
