@@ -107,3 +107,7 @@ Record application version, OS, fixture name, tester and date for each result.
 - [ ] Review candidate DOCX-oriented reference snapshots and record approval separately from browser/PDF similarity.
 
 Until these results and the outstanding product settings are accepted, Brief remains an isolated candidate and Gates 5/6 remain open. Ambiguous anonymous styles, free CV section positioning, continuation margins larger than the first-page margin, semantic image opacity, enabled font embedding and sidebar/Modern remain explicitly blocked; this package does not certify them.
+
+## Human candidate — Microsoft Word acceptance pending
+
+Use the independent `--human` fixture set. Review normal and photo covers, long letter/CV, long values, custom fields, compact/disabled contact heads, signed first/continuation chrome, Timeline, Magazin and zero CV motif visibility. Open/edit/save/close/reopen in actual Microsoft Word; preserve independent field formatting, native photo crop/frame, native tables/lists, logical story ownership and complete text. Inspect photo-left hero reflow, growing earthy contact bands and quiet ellipse paint. Approve visual references separately. LibreOffice evidence does not satisfy this checklist.

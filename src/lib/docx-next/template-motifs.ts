@@ -1,6 +1,7 @@
 import type { DecorativeShape, DocumentPart } from "./model";
 import type { TemplateMotif } from "./templates";
 import { color } from "./colors";
+import { ensureFirstHeader } from "./page-artwork";
 
 /** Configuration becomes existing paint primitives, never XML or semantic pictures. */
 export function templateMotifs(
@@ -35,4 +36,26 @@ export function templateMotifs(
       },
       stroke: { color: fallback, widthMm: 0 },
     }));
+}
+
+/** Paint belongs to each part's native first/default story, independently of header text. */
+export function composePageMotifs(
+  part: DocumentPart,
+  policies: readonly TemplateMotif[],
+  colors: Record<string, string>,
+  fallback: string,
+  opacity = 1,
+): void {
+  if (!Number.isFinite(opacity) || opacity < 0 || opacity > 1)
+    throw new Error("DOCX Next page motif opacity must be between zero and one.");
+  if (!opacity || !policies.length) return;
+  ensureFirstHeader(part);
+  for (const repeat of ["first", "continuation"] as const)
+    part.headerShapes = [
+      ...(part.headerShapes ?? []),
+      ...templateMotifs(part, policies, colors, fallback, undefined, repeat).map((shape) => ({
+        ...shape,
+        opacity: shape.opacity * opacity,
+      })),
+    ];
 }

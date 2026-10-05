@@ -71,6 +71,8 @@ export type TemplateDefinition = {
     };
   };
   cv: { sectionSpaceMm: number; headingRule: boolean; sidebarFraction: number };
+  /** Quiet page paint independent of running contact chrome; repeats in native header stories. */
+  pageMotifs?: Partial<Record<"letter" | "cv", readonly TemplateMotif[]>>;
   artwork: readonly { asset: string; semanticText: false }[];
 };
 export const BRIEF: TemplateDefinition = {
@@ -259,10 +261,108 @@ export const PRISM: TemplateDefinition = {
   cv: { sectionSpaceMm: 4, headingRule: true, sidebarFraction: 0.3 },
   artwork: [],
 };
+/** Organic stress candidate: photo-left cover hero and quiet page paint, native text throughout. */
+export const HUMAN: TemplateDefinition = {
+  id: "human",
+  archetype: "organic",
+  typography: { font: "Trebuchet MS", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "3B2A22", accent: "9C5B3C", paper: "FDF6F0" },
+  margins: { top: 24, right: 23, bottom: 22, left: 25 },
+  cover: {
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+    ],
+    align: "left",
+    heroSpaceMm: 0,
+    photoWidthMm: 46,
+    photoAlign: "left",
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [0.62, 0.38] },
+      { fields: ["foto", ["kicker", "beruf"]], widths: [0.35, 0.65], beforeMm: 14 },
+      { fields: [["name", "lehrbeginn"]], widths: [1], beforeMm: 18 },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger"],
+        ],
+        widths: [1, 1],
+        beforeMm: 28,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "circle",
+        xFraction: 150 / 210,
+        widthFraction: 82 / 210,
+        topMm: -16,
+        heightMm: 62,
+        fillSlot: "secondary",
+        opacity: 0.3,
+      },
+      {
+        shape: "circle",
+        xFraction: -18 / 210,
+        widthFraction: 58 / 210,
+        topMm: 242,
+        heightMm: 40,
+        fillSlot: "primary",
+        opacity: 0.14,
+      },
+    ],
+    cv: [
+      {
+        shape: "circle",
+        xFraction: 150 / 210,
+        widthFraction: 82 / 210,
+        topMm: -16,
+        heightMm: 62,
+        fillSlot: "secondary",
+        opacity: 0.3,
+      },
+    ],
+  },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
   prism: PRISM,
+  human: HUMAN,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

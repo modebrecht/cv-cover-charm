@@ -1,12 +1,14 @@
 # DOCX Next checkpoint — 2026-10-04
 
-**Latest Prism stress checkpoint:** [Prism evidence and gates](prism-stress-report.md), freshly fetched `4a397ca`: 3/39 configured candidates, 0/39 Word accepted. All 112 fixtures/676 pages pass structural, stable render and save/reopen QA; 838 isolated units and all 70 dossier-flow tests pass. Human migration has not started.
+**Latest Human candidate:** freshly fetched `dev` at `e91a9e1f96908d53df91611fbef66ec0903713b8`. [Human coverage](human-feature-coverage.md): 4/39 configured candidates, 0/39 Word accepted. Twelve Human fixtures/99 pages pass stable LibreOfficeKit render/save-reopen. All 112 prior candidate DOCX files regenerate byte-identically. The neutral adapter and single renderer remain intact; production DOCX stays Legacy/V2. Microsoft Word acceptance: pending.
+
+**Latest Prism stress checkpoint:** [Prism evidence and gates](prism-stress-report.md), freshly fetched `4a397ca`: 3/39 configured candidates, 0/39 Word accepted. All 112 fixtures/676 pages pass structural, stable render and save/reopen QA; 838 isolated units and all 70 dossier-flow tests pass. Human candidate work is recorded above; acceptance remains pending.
 
 **Latest Warm stress checkpoint:** see [Warm evidence and gates](warm-stress-report.md): freshly fetched `081a5db`, 2/39 configured candidates, 0/39 Word-accepted migrations. All 13 Warm/109 pages and 85 Brief/472 pages pass stable LibreOffice render/save-reopen; Word and visual approval remain pending. Historical counts below describe their own checkpoints.
 
 **Previous stabilization:** see [the report from freshly fetched `d664317`, continued from freshly fetched `32a3e8b`](stabilization-report.md). Its test counts, dossier-flow fix, source boundary and Word-review readiness supersede the historical checkpoint evidence below. Stable LibreOffice 25.8.7.3 now passes all 85 fixtures/472 pages through its official Kit API; [reproduction and limits](libreoffice-qa.md). Microsoft Word and approved visual references remain pending; no migrated-template or production status changed. Older pending-stable statements below describe historical checkpoints.
 
-This is a continued reference implementation, **not the completed rebuild**. Progress: **3/39 configured candidates (Brief, Warm, Prism), 0/39 Word-accepted migrations**. The independent foundation is implemented through Gate 4; [Brief coverage](brief-feature-coverage.md) records the remaining inputs and acceptance work. The latest continuation started from freshly fetched `dev` commit `a4690bd713368e3dc1e0c2577e3e17311756a04b`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
+This is a continued reference implementation, **not the completed rebuild**. Progress: **4/39 configured candidates (Brief, Warm, Prism, Human), 0/39 Word-accepted migrations**. The independent foundation is implemented through Gate 4; [Brief coverage](brief-feature-coverage.md) records the remaining inputs and acceptance work. The latest continuation started from freshly fetched `dev` commit `a4690bd713368e3dc1e0c2577e3e17311756a04b`. Normal export still calls legacy DOCX. No production UI was switched, no legacy module was removed and no deployment/branch promotion was performed.
 
 ## Architecture evidence
 

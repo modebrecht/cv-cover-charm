@@ -43,7 +43,7 @@ import {
   templateBandInk,
 } from "./template-composition";
 import { ensureFirstHeader } from "./page-artwork";
-import { templateMotifs } from "./template-motifs";
+import { templateMotifs, composePageMotifs } from "./template-motifs";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks } from "./layouts";
 import { wordFont as fontForKey, createFontResolver } from "./fonts";
@@ -1190,6 +1190,17 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       cvMinimumFirstTopMm,
     ),
   );
+  for (const target of [letterPart, cvPart]) {
+    const policies = template.pageMotifs?.[target.id as "letter" | "cv"];
+    if (policies)
+      composePageMotifs(
+        target,
+        policies,
+        input[target.id as "letter" | "cv"].design.colors,
+        theme.accent,
+        target.id === "cv" ? cv.design.bgOpacity : 1,
+      );
+  }
   for (const target of [coverPart, letterPart, cvPart]) {
     const paper =
       target.id === "cover" ? theme.paper : color(input[target.id].design.paperColor, theme.paper);
