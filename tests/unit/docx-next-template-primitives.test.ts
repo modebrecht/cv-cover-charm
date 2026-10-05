@@ -77,6 +77,33 @@ describe("shared native template primitives", () => {
     }
     expect(part.firstHeader).toBeDefined();
   });
+  test("unpainted and fill-less gradient descriptors fail explicitly", () => {
+    const part = buildDossierDocModel(briefFixture()).cv;
+    const policy = {
+      shape: "circle" as const,
+      xFraction: 0,
+      widthFraction: 0.1,
+      topMm: 0,
+      heightMm: 20,
+    };
+    expect(() => composePageMotifs(part, [policy], {}, "111111")).toThrow("visible outline");
+    expect(() =>
+      composePageMotifs(
+        part,
+        [{ ...policy, stroke: { slot: "accent", widthMm: 0 } }],
+        {},
+        "111111",
+      ),
+    ).toThrow("visible outline");
+    expect(() =>
+      composePageMotifs(
+        part,
+        [{ ...policy, stroke: { slot: "accent", widthMm: 2 }, endSlot: "primary" }],
+        {},
+        "111111",
+      ),
+    ).toThrow("gradients require a fill");
+  });
   test("page intersection retains visible circle viewport and rejects unspecified clipping", () => {
     const page = buildDossierDocModel(briefFixture()).cover.page;
     validateDecoration(shape);

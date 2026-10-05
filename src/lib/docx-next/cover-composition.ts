@@ -1,6 +1,7 @@
 import type { DossierCoverSource } from "./source";
 import type { DocBlock, DocumentPart, Paragraph } from "./model";
 import type { TemplateDefinition } from "./templates";
+import { hasUserStyle } from "@/components/cover/user-style-precedence";
 import { textElement, shapeElement, flowingElementBox } from "./elements";
 
 type CoverContext = Parameters<typeof textElement>[2];
@@ -94,6 +95,9 @@ export function composeCover(
       ? { ...coverContext, paper: color(cover.colors[rowFill], accent) }
       : coverContext;
     const paragraphs = textElement(block, id, fieldContext, {
+      ...(!hasUserStyle(block, "align") && template.cover.fieldAlignments?.[block.id]
+        ? { align: template.cover.fieldAlignments[block.id] }
+        : {}),
       role: block.id === "beruf" ? "title" : block.id === "name" ? "heading" : "body",
       beforeMm: block.id === "kicker" ? template.cover.heroSpaceMm : 0,
       afterMm: block.id === "name" ? 5 : 2,

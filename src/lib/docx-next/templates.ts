@@ -30,6 +30,8 @@ export type TemplateDefinition = {
     heroSpaceMm: number;
     photoWidthMm: number;
     photoAlign?: Alignment;
+    /** Native paragraph defaults; explicit saved field alignment keeps precedence. */
+    fieldAlignments?: Readonly<Record<string, Alignment>>;
     rows?: readonly {
       fields: readonly (string | readonly string[])[];
       widths: readonly number[];
@@ -360,11 +362,136 @@ export const HUMAN: TemplateDefinition = {
   },
   artwork: [],
 };
+/** Offset circular cover field and restrained interior stationery, all semantic content native. */
+export const ORBIT: TemplateDefinition = {
+  id: "orbit",
+  archetype: "graphic",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 24, headingPt: 12, heroPt: 26 },
+  colors: { ink: "19182D", accent: "625FE8", paper: "F7F8FC" },
+  margins: { top: 24, right: 25, bottom: 22, left: 26 },
+  cover: {
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "name",
+      "beruf",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    heroSpaceMm: 0,
+    photoWidthMm: 60,
+    photoAlign: "right",
+    heroLeadMm: 36,
+    photoAbsentLeadMm: 102,
+    fieldAlignments: {
+      eyebrow: "right",
+      ortDatum: "right",
+      name: "left",
+      beruf: "left",
+      lehrbeginn: "left",
+    },
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: [[], ["eyebrow", "ortDatum"]], widths: [0.5, 0.5] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        beforeMm: 24,
+      },
+    ],
+    motifs: [
+      {
+        shape: "circle",
+        xFraction: 106 / 210,
+        widthFraction: 138 / 210,
+        topMm: -34,
+        heightMm: 138,
+        fillSlot: "primary",
+      },
+      {
+        shape: "circle",
+        xFraction: 72 / 210,
+        widthFraction: 82 / 210,
+        topMm: 58,
+        heightMm: 82,
+        fillSlot: "secondary",
+        opacity: 0.9,
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 36, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      fillSlot: "primary",
+      accentSlot: "secondary",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
+  pageMotifs: {
+    letter: [
+      { shape: "rect", xFraction: 0, widthFraction: 1, topMm: 0, heightMm: 7, fillSlot: "primary" },
+      {
+        shape: "circle",
+        xFraction: 184 / 210,
+        widthFraction: 18 / 210,
+        topMm: -4,
+        heightMm: 18,
+        fillSlot: "secondary",
+        opacity: 0.34,
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 10,
+        fillSlot: "primary",
+      },
+      {
+        shape: "circle",
+        xFraction: 180 / 210,
+        widthFraction: 22 / 210,
+        topMm: -6,
+        heightMm: 22,
+        stroke: { slot: "secondary", widthMm: 2 },
+        opacity: 0.52,
+      },
+    ],
+  },
+  artwork: [],
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
   prism: PRISM,
   human: HUMAN,
+  orbit: ORBIT,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

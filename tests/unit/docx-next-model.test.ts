@@ -124,10 +124,10 @@ describe("DOCX Next canonical model", () => {
     expect(Object.values(WORD_FONTS).every((entry) => entry.fallback && entry.reason)).toBe(true);
   });
   test("templates are configuration and unreviewed templates cannot silently fallback", () => {
-    expect(Object.keys(NEXT_TEMPLATES)).toEqual(["brief", "freundlich", "prism", "human"]);
+    expect(Object.keys(NEXT_TEMPLATES)).toEqual(["brief", "freundlich", "prism", "human", "orbit"]);
     expect(JSON.stringify(BRIEF)).not.toContain("<w:");
     const input = briefFixture();
-    input.cover.template = "orbit" as typeof input.cover.template;
+    input.cover.template = "glow" as typeof input.cover.template;
     expect(() => buildDossierDocModel(input)).toThrow("has not passed migration gates");
   });
   test("Next has no dependency on any legacy/V2 DOCX module or post-render text heuristic", () => {

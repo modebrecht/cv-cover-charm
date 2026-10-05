@@ -111,3 +111,7 @@ Until these results and the outstanding product settings are accepted, Brief rem
 ## Human candidate — Microsoft Word acceptance pending
 
 Use the independent `--human` fixture set. Review normal and photo covers, long letter/CV, long values, custom fields, compact/disabled contact heads, signed first/continuation chrome, Timeline, Magazin and zero CV motif visibility. Open/edit/save/close/reopen in actual Microsoft Word; preserve independent field formatting, native photo crop/frame, native tables/lists, logical story ownership and complete text. Inspect photo-left hero reflow, growing earthy contact bands and quiet ellipse paint. Approve visual references separately. LibreOffice evidence does not satisfy this checklist.
+
+## Orbit candidate — Microsoft Word acceptance pending
+
+Use the independent `--orbit` fixture set. Open every candidate without repair, then edit and save/close/reopen in actual Microsoft Word. Review right-aligned label/date and native circular photo, no-photo clearance, left native hero text, explicit saved alignment, growing contact/attachment rows and custom cover continuation. Verify outline transparency, clipped first/continuation page paint, zero CV motifs and changed palette; edit rich content, images, lists/tables and long CV/Timeline/Magazin entries. Check first/continuation chrome and preserved field identities after editing. Candidate LibreOffice pages are review aids; Word acceptance and visual-reference approval must be recorded separately. Sidebar remains explicitly blocked.

@@ -14,38 +14,47 @@ export function templateMotifs(
 ): DecorativeShape[] {
   return policies
     .filter((policy) => !repeat || !policy.repeat || policy.repeat === repeat)
-    .map((policy, index) => ({
-      kind: "decorative-shape",
-      id: `${part.id}.artwork.motif.${repeat ?? "first"}:${index}`,
-      semanticText: false,
-      shape: policy.shape,
-      ...(policy.path ? { path: policy.path } : {}),
-      repeat: repeat ?? policy.repeat ?? "first",
-      clipToPage: true,
-      xMm: part.page.widthMm * policy.xFraction,
-      yMm: policy.topMm,
-      widthMm: part.page.widthMm * policy.widthFraction,
-      heightMm: policy.heightMm ?? bandHeightMm ?? 0,
-      radiusMm: 0,
-      opacity: policy.opacity ?? 1,
-      ...(policy.fillSlot
-        ? {
-            fill: {
-              color: color(colors[policy.fillSlot], fallback),
-              ...(policy.endSlot
-                ? {
-                    endColor: color(colors[policy.endSlot], fallback),
-                    angleDeg: policy.angleDeg ?? 135,
-                  }
-                : {}),
-            },
-          }
-        : {}),
-      stroke: {
-        color: policy.stroke ? color(colors[policy.stroke.slot], fallback) : fallback,
-        widthMm: policy.stroke?.widthMm ?? 0,
-      },
-    }));
+    .map((policy, index) => {
+      if (
+        (!policy.fillSlot && !(policy.stroke && policy.stroke.widthMm > 0)) ||
+        (!policy.fillSlot && policy.endSlot)
+      )
+        throw new Error(
+          "DOCX Next motif requires a fill or visible outline; gradients require a fill.",
+        );
+      return {
+        kind: "decorative-shape",
+        id: `${part.id}.artwork.motif.${repeat ?? "first"}:${index}`,
+        semanticText: false,
+        shape: policy.shape,
+        ...(policy.path ? { path: policy.path } : {}),
+        repeat: repeat ?? policy.repeat ?? "first",
+        clipToPage: true,
+        xMm: part.page.widthMm * policy.xFraction,
+        yMm: policy.topMm,
+        widthMm: part.page.widthMm * policy.widthFraction,
+        heightMm: policy.heightMm ?? bandHeightMm ?? 0,
+        radiusMm: 0,
+        opacity: policy.opacity ?? 1,
+        ...(policy.fillSlot
+          ? {
+              fill: {
+                color: color(colors[policy.fillSlot], fallback),
+                ...(policy.endSlot
+                  ? {
+                      endColor: color(colors[policy.endSlot], fallback),
+                      angleDeg: policy.angleDeg ?? 135,
+                    }
+                  : {}),
+              },
+            }
+          : {}),
+        stroke: {
+          color: policy.stroke ? color(colors[policy.stroke.slot], fallback) : fallback,
+          widthMm: policy.stroke?.widthMm ?? 0,
+        },
+      };
+    });
 }
 
 /** Paint belongs to each part's native first/default story, independently of header text. */
