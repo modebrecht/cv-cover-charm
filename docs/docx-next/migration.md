@@ -1,13 +1,13 @@
 # DOCX Next migration ledger
 
-39 active templates. **1/39 configured candidates (Brief); 0/39 accepted migrations.** The foundation is implemented through Gate 4. [Feature coverage](brief-feature-coverage.md) separates mapped inputs and acceptance gaps. Do not mark a template migrated from package/XML checks alone.
+39 active templates. **3/39 configured candidates (Brief, Warm, Prism); 0/39 Microsoft Word accepted migrations.** Remote `dev` was freshly fetched and verified at `e91a9e1f96908d53df91611fbef66ec0903713b8` on 2026-10-04. The foundation is implemented through Gate 4. Candidate registration is distinct from acceptance. [Brief coverage](brief-feature-coverage.md), [Warm coverage](warm-feature-coverage.md) and [Prism coverage](prism-feature-coverage.md) record limits and evidence; do not mark a template migrated from automated checks alone.
 
 | Template      | Archetype           | Status                                   | Primitive                                                        | QA                                                          |
 | ------------- | ------------------- | ---------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------- |
 | `brief`       | Minimal             | Prototype; Gate 5 pending                | Native flow / tables / columns / paint / lists / custom elements | 84 automated render and LO roundtrip fixtures; Word pending |
 | `klassisch`   | Editorial           | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `modern`      | Graphic             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
-| `freundlich`  | Organic / Editorial | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
+| `freundlich`  | Organic / Editorial | Isolated candidate; Word acceptance pending | Native cover rows, compact masthead, scoped circle paint | 13 stable LO render/save-reopen fixtures; Word pending |
 | `edel`        | Editorial           | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `colorful`    | Graphic             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `blockig`     | Graphic             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
@@ -37,7 +37,7 @@
 | `verlauf2`    | Graphic             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `verlauf3`    | Graphic             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `ledger`      | Organic / Editorial | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
-| `prism`       | Graphic             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
+| `prism`       | Graphic             | Isolated candidate; Word acceptance pending | Grouped native cover cells, declarative polygon motifs | 14 stable LO render/save-reopen fixtures; Word pending |
 | `gallery`     | Sidebar             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `orbit`       | Graphic             | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
 | `ribbon`      | Editorial           | Inventoried; migration blocked by Gate 5 | Pending                                                          | Pending                                                     |
