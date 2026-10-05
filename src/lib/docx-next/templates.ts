@@ -8,7 +8,9 @@ export type TemplateMotif = {
   widthFraction: number;
   topMm: number;
   heightMm?: number;
-  fillSlot: string;
+  /** Omit fill for border-only motifs such as rings. */
+  fillSlot?: string;
+  stroke?: { slot: string; widthMm: number };
   endSlot?: string;
   angleDeg?: number;
   opacity?: number;

@@ -12,6 +12,7 @@ import { walkBlocks, type DecorativeShape, type Paragraph } from "../../src/lib/
 import { paintPng } from "../../src/lib/docx-next/artwork";
 import { briefFixture, briefElementsFixture } from "../fixtures/docx-next/brief";
 import { WARM_FIXTURES, warmFixture } from "../fixtures/docx-next/warm";
+import { composePageMotifs } from "../../src/lib/docx-next/template-motifs";
 const asset = {
   bytes: paintPng({ color: "123456" }),
   widthPx: 1,
@@ -46,6 +47,36 @@ async function parts(model: ReturnType<typeof buildDossierDocModel>) {
   );
 }
 describe("shared native template primitives", () => {
+  test("palette-bound outline motifs retain transparent centers and scoped native stories", () => {
+    const part = buildDossierDocModel(briefFixture()).cv;
+    composePageMotifs(
+      part,
+      [
+        {
+          shape: "circle",
+          xFraction: 180 / 210,
+          widthFraction: 22 / 210,
+          topMm: -6,
+          heightMm: 22,
+          stroke: { slot: "secondary", widthMm: 2 },
+          opacity: 0.52,
+        },
+      ],
+      { secondary: "#625fe8" },
+      "111111",
+    );
+    expect(part.headerShapes!.map((s) => s.repeat)).toEqual(["first", "continuation"]);
+    for (const motif of part.headerShapes!) {
+      expect(motif.fill).toBeUndefined();
+      expect(motif.stroke).toEqual({ color: "625FE8", widthMm: 2 });
+      expect(motif.opacity).toBe(0.52);
+      validateDecoration(motif);
+      expect(() =>
+        validateDecoration({ ...motif, stroke: { ...motif.stroke, widthMm: 22 } }),
+      ).toThrow("invalid decoration");
+    }
+    expect(part.firstHeader).toBeDefined();
+  });
   test("page intersection retains visible circle viewport and rejects unspecified clipping", () => {
     const page = buildDossierDocModel(briefFixture()).cover.page;
     validateDecoration(shape);

@@ -28,13 +28,23 @@ export function templateMotifs(
       heightMm: policy.heightMm ?? bandHeightMm ?? 0,
       radiusMm: 0,
       opacity: policy.opacity ?? 1,
-      fill: {
-        color: color(colors[policy.fillSlot], fallback),
-        ...(policy.endSlot
-          ? { endColor: color(colors[policy.endSlot], fallback), angleDeg: policy.angleDeg ?? 135 }
-          : {}),
+      ...(policy.fillSlot
+        ? {
+            fill: {
+              color: color(colors[policy.fillSlot], fallback),
+              ...(policy.endSlot
+                ? {
+                    endColor: color(colors[policy.endSlot], fallback),
+                    angleDeg: policy.angleDeg ?? 135,
+                  }
+                : {}),
+            },
+          }
+        : {}),
+      stroke: {
+        color: policy.stroke ? color(colors[policy.stroke.slot], fallback) : fallback,
+        widthMm: policy.stroke?.widthMm ?? 0,
       },
-      stroke: { color: fallback, widthMm: 0 },
     }));
 }
 
