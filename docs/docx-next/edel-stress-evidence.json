@@ -268,5 +268,29 @@
       "pdfSha256": "55ffbe70a8fda0305360130428dfae403a83daf0ab3219579574adf32b7d9171",
       "savedPdfSha256": "f9a92de9e1d140ace67364d3874446e68945f0de438dc36cc0897b3b7a0f365c"
     }
-  ]
+  ],
+  "batchRegression": {
+    "fullUnits": {
+      "passed": 934,
+      "failed": 0,
+      "files": 197
+    },
+    "finalTargetedNext": {
+      "passed": 232,
+      "failed": 0,
+      "files": 35
+    },
+    "typeScript": "passed",
+    "lint": "0 errors; 21 pre-existing warnings",
+    "productionBuild": "passed",
+    "releaseFormatting": "passed",
+    "previousCandidatePackages": {
+      "byteIdentical": 334,
+      "normalStableRenderSaveReopen": 20,
+      "normalPages": 80
+    },
+    "browserEditor": "Three candidate editor checks plus shared repeated-value/chrome/JSON/Next/PDF smoke passed",
+    "productionPdfSource": "Unchanged",
+    "portableJsonSource": "Unchanged"
+  }
 }

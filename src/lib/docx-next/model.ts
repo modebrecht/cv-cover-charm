@@ -143,6 +143,8 @@ export type DocBlock =
   | { kind: "spacer"; id: string; heightMm: number }
   | {
       kind: "rule";
+      /** Optional authored native border thickness; absent retains the existing half-point rule. */
+      strokeWidthMm?: number;
       id: string;
       color: string;
       lengthMm: number;

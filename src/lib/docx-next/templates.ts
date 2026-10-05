@@ -61,6 +61,8 @@ export type TemplateDefinition = {
     }[];
     /** Semantic start of the hero when no photo is present; defaults to the name. */
     heroStartFields?: readonly string[];
+    /** Solid authored separator lines participate in native flow beside editable text. */
+    flowingRules?: Readonly<Record<string, { beforeMm?: number; afterMm: number }>>;
     heroLeadMm?: number;
     photoAbsentLeadMm?: number;
     decorationPlacement?: "first-header";
@@ -2673,6 +2675,84 @@ export const EDEL: TemplateDefinition = {
     ],
   },
 };
+/** Restrained navy stationery with native flowing footer separation. */
+export const SERIOES: TemplateDefinition = {
+  ...KLASSISCH,
+  id: "serioes",
+  archetype: "minimal",
+  typography: { font: "Arial", bodyPt: 10.5, namePt: 13, headingPt: 12, heroPt: 25 },
+  colors: { ink: "1F2937", accent: "94A3B8", paper: "FFFFFF" },
+  margins: { top: 25, right: 22, bottom: 22, left: 24 },
+  cover: {
+    ...KLASSISCH.cover,
+    margins: { top: 24, right: 20, bottom: 20, left: 20 },
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "trenner",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    photoWidthMm: 46,
+    heroLeadMm: 27,
+    photoAbsentLeadMm: 86,
+    heroSpaceMm: 0,
+    fieldSpaceBeforeMm: { beruf: 9, name: 15 },
+    flowingRules: { trenner: { beforeMm: 25, afterMm: 5 } },
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["beilagenTitel", "beilagen", "anTitel", "empfaenger"],
+        ],
+        widths: [1, 1],
+      },
+    ],
+  },
+  pageMotifs: {
+    letter: [
+      { shape: "rect", xFraction: 0, widthFraction: 1, topMm: 0, heightMm: 6, fillSlot: "primary" },
+      {
+        shape: "rect",
+        xFraction: 24 / 210,
+        widthFraction: 164 / 210,
+        topMm: 22,
+        heightMm: 0.265,
+        fillSlot: "accent",
+        opacity: 0.75,
+      },
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 294,
+        heightMm: 3,
+        fillSlot: "accent",
+      },
+    ],
+    cv: [
+      { shape: "rect", xFraction: 0, widthFraction: 1, topMm: 0, heightMm: 6, fillSlot: "primary" },
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 294,
+        heightMm: 3,
+        fillSlot: "accent",
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2696,6 +2776,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   diagonal: DIAGONAL,
   klassisch: KLASSISCH,
   edel: EDEL,
+  serioes: SERIOES,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

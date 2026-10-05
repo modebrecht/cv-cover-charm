@@ -314,7 +314,7 @@ export async function renderDossierDocx(
         throw new Error(`DOCX Next rule outside content width ${block.id}`);
       return control(
         block.id,
-        `<w:p><w:pPr><w:keepNext w:val="${block.keepNext ? 1 : 0}"/><w:pBdr><w:bottom w:val="single" w:sz="4" w:space="0" w:color="${block.color}"/></w:pBdr><w:spacing w:after="${twips(block.afterMm)}" w:line="20" w:lineRule="exact"/><w:ind w:left="${twips(indentMm)}" w:right="${twips(widthMm - indentMm - length)}"/></w:pPr><w:r/></w:p>`,
+        `<w:p><w:pPr><w:keepNext w:val="${block.keepNext ? 1 : 0}"/><w:pBdr><w:bottom w:val="single" w:sz="${block.strokeWidthMm === undefined ? 4 : Math.round(((block.strokeWidthMm * 72) / 25.4) * 8)}" w:space="0" w:color="${block.color}"/></w:pBdr><w:spacing w:after="${twips(block.afterMm)}" w:line="20" w:lineRule="exact"/><w:ind w:left="${twips(indentMm)}" w:right="${twips(widthMm - indentMm - length)}"/></w:pPr><w:r/></w:p>`,
       );
     }
     if (block.kind === "table")

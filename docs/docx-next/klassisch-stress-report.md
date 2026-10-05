@@ -11,3 +11,5 @@ Freshly fetched clean remote `dev` at `544163a7a5b904fef7a6b6e19c9839757c74e98f`
 [Coverage](klassisch-feature-coverage.md), [hash ledger](klassisch-stress-evidence.json). Microsoft Word acceptance: **pending**. No manual deployment, branch promotion or production DOCX switch.
 
 The shared opt-in page paint ordering corrected a source separator hidden by importer stacking. Analytic thin-line pixel probes pass initially and after save/reopen; all 334 packages from the 20 published candidates remain byte-identical.
+
+Final batch regression: 934 isolated units/197 files, 232 Next tests/35 files, TypeScript, release/changed-file formatting, production build and ESLint (0 errors, 21 existing warnings) pass. All 334 previously published candidate DOCX packages remain byte-identical; 20 normal candidates/80 pages pass stable render/save-reopen. Three candidate editor smokes and shared identity/chrome persistence/portable JSON/Next/PDF smoke pass. CI awaits the single final batch publication.

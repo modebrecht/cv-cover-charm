@@ -138,6 +138,10 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           ![block.lengthMm, block.afterMm].every(Number.isFinite) ||
           block.lengthMm <= 0 ||
           block.afterMm < 0 ||
+          (block.strokeWidthMm !== undefined &&
+            (!Number.isFinite(block.strokeWidthMm) ||
+              Math.round(((block.strokeWidthMm * 72) / 25.4) * 8) < 2 ||
+              Math.round(((block.strokeWidthMm * 72) / 25.4) * 8) > 96)) ||
           (block.indentMm !== undefined &&
             (!Number.isFinite(block.indentMm) || Math.abs(block.indentMm) > part.page.widthMm)))
       )

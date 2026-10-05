@@ -1,6 +1,7 @@
 import type { DossierCoverSource } from "./source";
 import type { DocBlock, DocumentPart, Paragraph } from "./model";
 import type { TemplateDefinition } from "./templates";
+import { compositeTextColor } from "./colors";
 import { hasUserStyle } from "@/components/cover/user-style-precedence";
 import { textElement, shapeElement, flowingElementBox } from "./elements";
 
@@ -48,7 +49,33 @@ export function composeCover(
     if (seenCover.has(id)) throw new Error(`Duplicate cover field identity: ${id}`);
     seenCover.add(id);
     if (block.kind === "shape") {
-      coverDecoration.push(shapeElement(block, id, coverContext));
+      const rule = template.cover.flowingRules?.[block.id];
+      if (rule) {
+        if (
+          block.shape !== "line" ||
+          block.style.gradFrom ||
+          block.style.gradTo ||
+          ![rule.beforeMm ?? 0, rule.afterMm].every((value) => Number.isFinite(value) && value >= 0)
+        )
+          throw new Error("DOCX Next flowing rules require solid authored lines and valid spacing");
+        const shape = shapeElement(block, id, coverContext);
+        if (rule.beforeMm)
+          blocks.push({ kind: "spacer", id: `${id}.lead`, heightMm: rule.beforeMm });
+        blocks.push({
+          kind: "rule",
+          id,
+          color: compositeTextColor(
+            shape.fill!.color,
+            coverContext.paper ?? "FFFFFF",
+            shape.opacity,
+          ),
+          lengthMm: block.style.w,
+          indentMm: block.style.x - page.margins.left,
+          strokeWidthMm: block.style.strokeWidth ?? 0.8,
+          afterMm: rule.afterMm,
+          keepNext: true,
+        });
+      } else coverDecoration.push(shapeElement(block, id, coverContext));
       continue;
     }
     if (block.kind === "photo" || block.kind === "image") {
