@@ -25,6 +25,8 @@ import { pictureGeometry } from "./picture-geometry";
 import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
+import { parallelFlowTable } from "./parallel-flow";
+import { cellProperties } from "./native-cell";
 import { decorationPageGeometry, orderedPagePaint } from "./page-artwork";
 import {
   control,
@@ -285,7 +287,17 @@ export async function renderDossierDocx(
     const rows = value.rows
       .map(
         (row) =>
-          `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells.map((cell, index) => `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/>${shading}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, widths[index] - paddingX * 2), page)}${emptyParagraph}</w:tc>`).join("")}</w:tr>`,
+          `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells
+            .map((cell, index) => {
+              const paint = row.cellDecorations?.[index];
+              const inset = paint?.paddingXMm ?? paddingX;
+              const contentWidth = widths[index] - inset * 2;
+              if (paint && cell.length && contentWidth < 10)
+                throw new Error(`DOCX Next cell leaves insufficient text width ${value.id}`);
+              const props = paint ? cellProperties(paint) : shading;
+              return `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/>${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page)}${emptyParagraph}</w:tc>`;
+            })
+            .join("")}</w:tr>`,
       )
       .join("");
     // A paragraph boundary keeps adjacent semantic tables independently editable.
@@ -319,6 +331,8 @@ export async function renderDossierDocx(
     }
     if (block.kind === "table")
       return table({ ...block, indentMm: (block.indentMm ?? 0) + indentMm }, widthMm, page);
+    if (block.kind === "parallel-flow")
+      return table({ ...parallelFlowTable(block, widthMm - indentMm), indentMm }, widthMm, page);
     if (block.kind === "columns")
       return table(
         {

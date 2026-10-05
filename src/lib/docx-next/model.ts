@@ -76,7 +76,11 @@ export type TableBlock = {
   widths: number[];
   /** Fixed millimetre tracks; null tracks share remaining width by weights. */
   columnWidthsMm?: (number | null)[];
-  rows: { cells: DocBlock[][]; keepTogether: boolean }[];
+  rows: {
+    cells: DocBlock[][];
+    keepTogether: boolean;
+    cellDecorations?: (CellDecoration | undefined)[];
+  }[];
   /** Flowing boxes keep width/padding, with no fixed height or text clipping. */
   widthMm?: number;
   indentMm?: number;
@@ -89,6 +93,20 @@ export type TableBlock = {
     paddingXMm: number;
     paddingYMm: number;
   };
+};
+/** Native cell paint/padding. No user text or absolute page coordinates. */
+export type CellDecoration = {
+  fillColor?: string;
+  paddingXMm: number;
+  paddingYMm: number;
+  border?: { color: string; widthMm: number; side: "left" | "right" };
+};
+/** Independent editable tracks sharing natural Word pagination. */
+export type ParallelFlowBlock = {
+  kind: "parallel-flow";
+  id: string;
+  gapMm: number;
+  tracks: { weight: number; blocks: DocBlock[]; decoration?: CellDecoration }[];
 };
 /** Source geometry remains inspectable; semantic text/images use natural Word flow. */
 export type ElementSourceLayout = {
@@ -135,6 +153,7 @@ export type DocBlock =
   | ImageBlock
   | SectionBlock
   | TableBlock
+  | ParallelFlowBlock
   | DecorativeShape
   | { kind: "entry"; id: string; blocks: DocBlock[] }
   | { kind: "group"; id: string; blocks: DocBlock[]; startPage?: 1 | 2 }
@@ -225,6 +244,8 @@ export function walkBlocks(blocks: DocBlock[]): DocBlock[] {
           ? block.columns.flatMap(walkBlocks)
           : block.kind === "table"
             ? block.rows.flatMap((row) => row.cells.flatMap(walkBlocks))
-            : []),
+            : block.kind === "parallel-flow"
+              ? block.tracks.flatMap((track) => walkBlocks(track.blocks))
+              : []),
   ]);
 }

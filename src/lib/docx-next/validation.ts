@@ -3,6 +3,7 @@ import type { WordPackage } from "./package";
 import { validateDecoration } from "./decoration";
 import { fontDefinition } from "./fonts";
 import { decorationPageGeometry } from "./page-artwork";
+import { parallelFlowTable, validateCellDecoration } from "./parallel-flow";
 
 /** Validate known semantic structures and package parts, never visible text occurrence. */
 export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): void {
@@ -84,6 +85,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
     ])) {
       if (ids.has(block.id)) throw new Error(`DOCX Next duplicate semantic identity ${block.id}`);
       ids.add(block.id);
+      if (block.kind === "parallel-flow")
+        parallelFlowTable(block, part.page.widthMm - margins.left - margins.right);
       if (
         (block.kind === "table" || block.kind === "image") &&
         block.sourceLayout &&
@@ -183,6 +186,13 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
+        for (const row of block.rows) {
+          if (row.cellDecorations && row.cellDecorations.length !== row.cells.length)
+            throw new Error(`DOCX Next invalid cell decoration count ${block.id}`);
+          row.cellDecorations?.forEach((paint) => {
+            if (paint) validateCellDecoration(paint, block.id);
+          });
+        }
         const box = block.decoration;
         if (
           (block.widthMm !== undefined &&
