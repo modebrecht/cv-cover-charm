@@ -3,6 +3,8 @@ import { createRequire } from "node:module";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { graphicCandidateFixture } from "../tests/fixtures/docx-next/graphic-candidate";
+import type { TemplateId } from "../src/components/cover/types";
+import { dossierDefaultFontKey } from "../src/lib/dossier-theme";
 import { nextTemplate } from "../src/lib/docx-next/templates";
 const template = process.env.DOCX_NEXT_EDITOR_TEMPLATE ?? "cove";
 nextTemplate(template);
@@ -62,14 +64,14 @@ try {
   const chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
   Object.assign(chrome.shared, { headerMode: "contact", headerHeightMm: 44, headerGapMm: 4 });
   await page.evaluate(
-    ({ fixture, chrome, template }) => {
+    ({ fixture, chrome, template, font }) => {
       localStorage.clear();
       localStorage.setItem(
         "titelblatt:v3",
         JSON.stringify({
           template,
           data: fixture.cover.data,
-          font: "sans",
+          font,
           fontScale: 1,
           colors: { [template]: fixture.cover.colors },
           layout: {},
@@ -81,7 +83,7 @@ try {
       localStorage.setItem("bewerbungsdossier:chrome:v1", JSON.stringify(chrome));
       localStorage.setItem("lebenslauf:layout:v1", "classic");
     },
-    { fixture, chrome, template },
+    { fixture, chrome, template, font: dossierDefaultFontKey(template as TemplateId) },
   );
   await page.goto(base + "/lebenslauf", { waitUntil: "networkidle" });
   await page

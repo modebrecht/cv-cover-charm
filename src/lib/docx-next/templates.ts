@@ -59,6 +59,8 @@ export type TemplateDefinition = {
       cellFillSlots?: readonly (string | null)[];
       beforeMm?: number;
     }[];
+    /** Semantic start of the hero when no photo is present; defaults to the name. */
+    heroStartFields?: readonly string[];
     heroLeadMm?: number;
     photoAbsentLeadMm?: number;
     decorationPlacement?: "first-header";
@@ -2470,6 +2472,108 @@ export const DIAGONAL: TemplateDefinition = {
   },
   artwork: [],
 };
+/** Quiet serif stationery; the same outline primitive frames all native stories. */
+export const KLASSISCH: TemplateDefinition = {
+  ...BRIEF,
+  id: "klassisch",
+  archetype: "editorial",
+  typography: { font: "Georgia", bodyPt: 10.5, namePt: 18, headingPt: 12, heroPt: 24 },
+  colors: { ink: "111111", accent: "8A6A3B", paper: "F5EFE4" },
+  interiorPaletteSource: "dossier",
+  margins: { top: 24, right: 25, bottom: 22, left: 25 },
+  cover: {
+    margins: { top: 20, right: 20, bottom: 20, left: 20 },
+    fontSource: "dossier",
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "center",
+    photoAlign: "center",
+    heroSpaceMm: 12,
+    photoWidthMm: 48,
+    heroStartFields: ["kicker", "beruf", "name"],
+    heroLeadMm: 28,
+    photoAbsentLeadMm: 92,
+    fieldSpaceBeforeMm: { name: 18 },
+    decorationPlacement: "first-header",
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["beilagenTitel", "beilagen", "anTitel", "empfaenger"],
+        ],
+        widths: [1, 1],
+        beforeMm: 25,
+      },
+    ],
+  },
+  letter: { ...BRIEF.letter, fontSource: "dossier", keepTailTogether: true },
+  chrome: {
+    ...BRIEF.chrome,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 44, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "bg",
+      accentSlot: "accent",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  pageMotifs: {
+    cover: [
+      {
+        shape: "rect",
+        xFraction: 10 / 210,
+        widthFraction: 190 / 210,
+        topMm: 10,
+        heightMm: 277,
+        stroke: { slot: "ink", widthMm: 0.265 },
+        opacity: 0.15,
+        paintLayer: 1,
+      },
+    ],
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 10 / 210,
+        widthFraction: 190 / 210,
+        topMm: 10,
+        heightMm: 277,
+        stroke: { slot: "accent", widthMm: 0.146 },
+        opacity: 0.3,
+        paintLayer: 1,
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 10 / 210,
+        widthFraction: 190 / 210,
+        topMm: 10,
+        heightMm: 277,
+        stroke: { slot: "accent", widthMm: 0.146 },
+        opacity: 0.3,
+        paintLayer: 1,
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -2491,6 +2595,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   verlauf2: VERLAUF_2,
   verlauf3: VERLAUF_3,
   diagonal: DIAGONAL,
+  klassisch: KLASSISCH,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];

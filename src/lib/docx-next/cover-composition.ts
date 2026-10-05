@@ -227,9 +227,13 @@ export function composeCover(
       if (selected.has(blocks[cursor])) blocks.splice(cursor, 1);
   }
   if (template.cover.heroLeadMm) {
-    const hero = blocks.findIndex(
-      (block) => block.id === "cover.photo" || block.id === "cover.fullName",
-    );
+    const starts = template.cover.heroStartFields ?? ["name"];
+    if (!starts.length || starts.some((id) => !template.cover.order.includes(id)))
+      throw new Error("DOCX Next hero starts require declared semantic cover fields");
+    const first = starts
+      .map((id) => `cover.${aliases[id] ?? id}`)
+      .find((id) => blocks.some((block) => block.id === id));
+    const hero = blocks.findIndex((block) => block.id === "cover.photo" || block.id === first);
     if (hero >= 0)
       blocks.splice(hero, 0, {
         kind: "spacer",

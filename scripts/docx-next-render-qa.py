@@ -316,6 +316,12 @@ def covers_probe(shape, x, y):
     if not (shape['xMm'] <= x < shape['xMm'] + shape['widthMm'] and
             shape['yMm'] <= y < shape['yMm'] + shape['heightMm']):
         return False
+    # A border-only rectangle leaves its inner writing surface transparent.
+    if shape.get('shape') == 'rect' and not shape.get('fill'):
+        stroke = shape.get('stroke', {}).get('widthMm', 0)
+        return min(x - shape['xMm'], y - shape['yMm'],
+                   shape['xMm'] + shape['widthMm'] - x,
+                   shape['yMm'] + shape['heightMm'] - y) <= stroke
     if shape.get('shape') != 'path' or 'C' in shape.get('path', ''):
         return True  # Conservative for curves/radial/rounded paint.
     points = [(float(a), float(b)) for a, b in re.findall(r'[ML]\s*(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)', shape['path'])]
@@ -661,7 +667,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
+    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-', 'klassisch-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
