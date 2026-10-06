@@ -91,7 +91,9 @@ const SIDEBAR_PAGE_COUNTS: Record<string, number> = {
   "sidebar-side-entries-smaller-body": 19,
   "sidebar-styled": 1,
   "sidebar-contact": 2,
-  "sidebar-chrome-continuation": 12,
+  "sidebar-contact-long": 11,
+  "sidebar-chrome-continuation": 11,
+  "sidebar-chrome-leading": 11,
   "sidebar-continuation": 9,
   "sidebar-hidden-paint": 1,
 };

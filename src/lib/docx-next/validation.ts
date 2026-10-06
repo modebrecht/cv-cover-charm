@@ -34,7 +34,9 @@ export function validateDossierDocModel(model: DossierDocModel): void {
   for (const part of [model.cover, model.letter, model.cv]) {
     if (
       part.blocks.some((block) =>
-        walkBlocks([block]).some((child) => child.kind === "parallel-flow"),
+        walkBlocks([block]).some(
+          (child) => child.kind === "parallel-flow" && child.rowAlignment !== "semantic",
+        ),
       ) &&
       (part.header.length > 0 || part.firstHeader !== undefined)
     )

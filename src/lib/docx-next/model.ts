@@ -113,6 +113,8 @@ export type ParallelFlowBlock = {
   gapMm: number;
   /** Absent: independent cells. Semantic: pair content groups in native rows. */
   rowAlignment?: "semantic";
+  /** Native top inset owned by the first semantic row, never continuation rows. */
+  leadingInsetMm?: number;
   /** Tracks occupying a continuous cell beside the semantic rows of other tracks. */
   spanningTracks?: number[];
   tracks: { weight: number; blocks: DocBlock[]; decoration?: CellDecoration }[];

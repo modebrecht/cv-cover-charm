@@ -37,6 +37,10 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
   if (
     value.tracks.length < 2 ||
     (value.rowAlignment !== undefined && value.rowAlignment !== "semantic") ||
+    (value.leadingInsetMm !== undefined &&
+      (value.rowAlignment !== "semantic" ||
+        !Number.isFinite(value.leadingInsetMm) ||
+        value.leadingInsetMm < 0)) ||
     (value.spanningTracks !== undefined &&
       (value.rowAlignment !== "semantic" ||
         value.spanningTracks.length >= value.tracks.length ||
@@ -108,11 +112,14 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
             }
           : {}),
         keepTogether: true,
-        cellDecorations: cellDecorations.map((value) => {
-          const paint = value ?? { paddingXMm: 0, paddingYMm: 0 };
+        cellDecorations: cellDecorations.map((decoration) => {
+          const paint = decoration ?? { paddingXMm: 0, paddingYMm: 0 };
           return {
             ...paint,
-            paddingTopMm: index === 0 ? (paint.paddingTopMm ?? paint.paddingYMm) : 0,
+            paddingTopMm:
+              index === 0
+                ? (paint.paddingTopMm ?? paint.paddingYMm) + (value.leadingInsetMm ?? 0)
+                : 0,
             paddingBottomMm: index === count - 1 ? (paint.paddingBottomMm ?? paint.paddingYMm) : 0,
           };
         }),

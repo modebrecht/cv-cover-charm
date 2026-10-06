@@ -91,6 +91,24 @@ test("asymmetric cell padding rejects invalid geometry rather than dropping it",
   expect(() => parallelFlowTable(flow, 170)).toThrow("invalid cell decoration");
 });
 
+test("leading inset belongs only to the first semantic row and rejects unsupported geometry", () => {
+  const flow = parallelFlowFixture("main-long").cv.blocks[0] as ParallelFlowBlock;
+  flow.leadingInsetMm = 10;
+  expect(() => parallelFlowTable(flow, 170)).toThrow("invalid parallel flow");
+  flow.rowAlignment = "semantic";
+  flow.spanningTracks = [0];
+  const table = parallelFlowTable(flow, 170);
+  expect(table.rows[0].cellDecorations![0]!.paddingTopMm).toBe(13);
+  expect(table.rows[0].cellDecorations![2]!.paddingTopMm).toBe(10);
+  expect(
+    table.rows.slice(1).every((row) => row.cellDecorations!.every((p) => p!.paddingTopMm === 0)),
+  ).toBe(true);
+  for (const value of [-1, Infinity, NaN]) {
+    flow.leadingInsetMm = value;
+    expect(() => parallelFlowTable(flow, 170)).toThrow("invalid parallel flow");
+  }
+});
+
 test("a spanning track retains one uninterrupted semantic cell beside native entry rows", async () => {
   const model = parallelFlowFixture("main-long");
   const flow = model.cv.blocks[0] as ParallelFlowBlock;

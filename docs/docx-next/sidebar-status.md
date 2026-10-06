@@ -1,6 +1,6 @@
 # Native Sidebar checkpoint — Brief first
 
-**Current development:** [Native semantic row flow](sidebar-row-flow-status.md) supersedes the old one-row candidate below. Brief now has 18 verified render/save-reopen fixtures / 137 dossier pages. Continuous rails span semantic main rows; atomic rail entries use native paired rows. Microsoft Word acceptance remains pending and is separate from continued development, as explicitly instructed by the user. The earlier failure evidence below remains historical and reproducible.
+**Current development:** [Native semantic row flow](sidebar-row-flow-status.md) supersedes the old one-row candidate below. Brief now has 23 verified render/save-reopen fixtures / 191 dossier pages, including running headers and differing first/continuation margins. Continuous rails span semantic main rows; atomic rail entries use native paired rows. Microsoft Word acceptance remains pending and is separate from continued development, as explicitly instructed by the user. The earlier failure evidence below remains historical and reproducible.
 
 **Historical one-row checkpoint:**
 
@@ -31,6 +31,6 @@ The header restriction follows an actual failed stress probe, not a hypothetical
 
 Reproduce the supported candidate with `bun scripts/docx-next-fixtures.ts OUT --sidebar`, providing the existing canonical `images.json` inputs in `OUT`, followed by `python scripts/docx-next-render-qa.py OUT --roundtrip --require-stable --libreofficekit PATH_TO_PINNED_KIT`. The negative header/page-margin/photo tests run in `tests/unit/docx-next-sidebar.test.ts`. For the actual editor: `DOCX_NEXT_EDITOR_TEMPLATE=brief DOCX_NEXT_EDITOR_LAYOUT=modern DOCX_NEXT_EDITOR_HEADER_MODE=none bun scripts/docx-next-candidate-editor-qa.ts OUT`.
 
-The current next task is **native first-row inset and verified first/continuation margin support**, followed by running-header fixtures and a native free-picture/image-zone policy. Word acceptance and Gate 8 remain pending; actual Word testing is not a prerequisite for these authorized development steps.
+The current next task is **a shared native image zone/free-photo policy**, beginning with Brief's actual Sidebar editor photo data. Native first-row inset, first/continuation margins and running headers now have automated evidence in the linked current report. Word acceptance and Gate 8 remain pending; actual Word testing is not a prerequisite for these authorized development steps.
 
 Starting remote `dev`: `c189563ac054c19e51ea94c9d137f76f005377ae`, independently re-fetched and verified, clean. Prism remains declarative and uses shared primitives. Remote Warm/Freundlich remains a clean candidate; stale local Warm was not restored. No `main`/`render` changes, branch promotion or manual deployment occurred.

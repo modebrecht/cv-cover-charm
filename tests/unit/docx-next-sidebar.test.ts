@@ -88,16 +88,23 @@ test("unsupported free photos, page starts, and widths fail before output", () =
   expect(() => buildDossierDocModel(input)).toThrow("photo exceeds its native track");
 });
 
-test("running header text explicitly blocks parallel flow after the failed long native pagination probe", async () => {
-  for (const kind of ["contact", "chrome-continuation"] as const)
-    await expect(renderDossierDocx(buildDossierDocModel(sidebarFixture(kind)))).rejects.toThrow(
+test("running headers use semantic rows and still reject unsupported independent-cell flow", async () => {
+  for (const kind of ["contact", "chrome-continuation", "chrome-leading"] as const) {
+    const model = buildDossierDocModel(sidebarFixture(kind));
+    const blob = await renderDossierDocx(model);
+    const files = readZipEntries(new Uint8Array(await blob.arrayBuffer()));
+    expect(files.some((file) => file.name === "word/cv-header.xml")).toBe(true);
+    const sidebar = model.cv.blocks.find((block) => block.kind === "parallel-flow")!;
+    sidebar.rowAlignment = undefined;
+    sidebar.spanningTracks = undefined;
+    sidebar.leadingInsetMm = undefined;
+    await expect(renderDossierDocx(model)).rejects.toThrow(
       "parallel flow with running headers is unsupported",
     );
+  }
   const sameHeader = sidebarFixture("chrome-continuation");
   sameHeader.settings.chrome!.shared.headerDifferentFirstPage = false;
-  await expect(renderDossierDocx(buildDossierDocModel(sameHeader))).rejects.toThrow(
-    "parallel flow with running headers is unsupported",
-  );
+  await expect(renderDossierDocx(buildDossierDocModel(sameHeader))).resolves.toBeInstanceOf(Blob);
 });
 
 test("the renderer requires first-class sidebar flow and never accepts a classic substitute", async () => {
@@ -132,10 +139,11 @@ test("native entry grouping keeps short entries together and oversized descripti
   expect(doc).not.toContain("<w:trHeight");
 });
 
-test("unsupported differing page margins fail explicitly and stored field styles remain native", () => {
-  expect(() => buildDossierDocModel(sidebarFixture("continuation"))).toThrow(
-    "differing first/continuation top margins are unsupported",
-  );
+test("differing page margins declare a first-row inset and stored field styles remain native", () => {
+  const model = buildDossierDocModel(sidebarFixture("continuation"));
+  expect(model.cv.page.margins.top).toBe(10);
+  expect(flow("continuation").leadingInsetMm).toBe(10);
+  expect(model.cv.blocks.some((block) => block.id === "cv.firstPageLead")).toBe(false);
   const equal = sidebarFixture();
   equal.settings.cvContinuationTopMarginMm = 20;
   expect(buildDossierDocModel(equal).cv.layout.pagination?.firstPageLeadMm).toBe(0);

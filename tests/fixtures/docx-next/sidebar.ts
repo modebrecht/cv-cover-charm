@@ -14,6 +14,11 @@ export const SIDEBAR_FIXTURES = [
   "side-paragraph-long",
   "side-entries-long",
   "side-entries-smaller-body",
+  "continuation",
+  "contact",
+  "contact-long",
+  "chrome-continuation",
+  "chrome-leading",
   "photo-left",
   "photo-right",
   "photo-main",
@@ -21,11 +26,7 @@ export const SIDEBAR_FIXTURES = [
   "styled",
   "hidden-paint",
 ] as const;
-export type SidebarFixture =
-  | (typeof SIDEBAR_FIXTURES)[number]
-  | "contact"
-  | "chrome-continuation"
-  | "continuation";
+export type SidebarFixture = (typeof SIDEBAR_FIXTURES)[number];
 
 export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
   const input = briefFixture(
@@ -33,6 +34,8 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
       kind === "both-long" ||
       kind === "continuation" ||
       kind === "chrome-continuation" ||
+      kind === "chrome-leading" ||
+      kind === "contact-long" ||
       kind.startsWith("side-entries")
       ? "long-cv"
       : kind === "minimal"
@@ -109,7 +112,7 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
       "cv.person.firstName": { color: "9B2349", italic: true, sizePt: 19 },
       "cv.section.hobbys.heading": { color: "246138", bold: true, sizePt: 13 },
     };
-  if (kind === "contact" || kind === "chrome-continuation") {
+  if (kind.startsWith("contact") || kind.startsWith("chrome")) {
     input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
     Object.assign(input.settings.chrome.shared, {
       headerMode: "contact",
@@ -117,12 +120,16 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
       headerGapMm: 4,
     });
   }
-  if (kind === "chrome-continuation")
+  if (kind.startsWith("chrome"))
     Object.assign(input.settings.chrome!.shared, {
       headerDifferentFirstPage: true,
       headerContinuationMode: "compact",
     });
   if (kind === "continuation") input.settings.cvContinuationTopMarginMm = 10;
+  if (kind === "chrome-leading") {
+    input.settings.margins = { cv: { top: 80, bottom: 20, left: 20, right: 20 } };
+    input.settings.cvContinuationTopMarginMm = 10;
+  }
   if (kind === "hidden-paint") input.cv.design.bgOpacity = 0;
   return input;
 }

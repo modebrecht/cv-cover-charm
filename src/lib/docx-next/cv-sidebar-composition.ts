@@ -23,8 +23,6 @@ export function composeCvSidebar(
     paddingXMm = 3;
   const sideWidth = (width - gapMm) * fraction - 2 * paddingXMm;
   const mainWidth = (width - gapMm) * (1 - fraction);
-  if (part.layout.pagination?.firstPageLeadMm)
-    throw new Error("DOCX Next sidebar differing first/continuation top margins are unsupported");
   for (const block of part.blocks) {
     if (block.id === "cv.firstPageLead") continue;
     if (block.kind === "decorative-shape") {
@@ -74,6 +72,7 @@ export function composeCvSidebar(
     id: "cv.sidebar",
     gapMm,
     rowAlignment: "semantic",
+    leadingInsetMm: part.layout.pagination?.firstPageLeadMm ?? 0,
     spanningTracks: atomicSide ? [] : [part.layout.side === "left" ? 0 : 1],
     tracks: part.layout.side === "left" ? [sideTrack, mainTrack] : [mainTrack, sideTrack],
   };

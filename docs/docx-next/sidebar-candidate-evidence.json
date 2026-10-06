@@ -1,9 +1,9 @@
 {
   "startingDev": "2660a1bf2f297cd52ad45ee6575d7ff5562fc5a8",
-  "composition": "semantic rows; continuous rail spans only without atomic entry groups",
-  "fullUnits": 978,
-  "docxNextUnits": 276,
-  "dossierPages": 137,
+  "composition": "semantic rows; continuous rail spans only without atomic entry groups; first-row leading inset",
+  "fullUnits": 979,
+  "docxNextUnits": 277,
+  "dossierPages": 191,
   "microsoftWord": "pending",
   "fixtures": [
     {
@@ -257,6 +257,102 @@
       "microsoftWord": "pending",
       "snapshot": "candidate",
       "docxSha256": "89b6b69020ab65eeb83d2aa61b51e85817b11c20e5539463b59a7e5686051918"
+    },
+    {
+      "fixture": "sidebar-continuation",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 11,
+      "media": 0,
+      "bytes": 301127,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "d4cb3eb04f78f94f16c8b7d23cbfb9ce7238c09fb905b40e469d05cde68e112a"
+    },
+    {
+      "fixture": "sidebar-contact",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 0,
+      "bytes": 74637,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "1c7d1e70b88a5669b0112ec5ed3ce89e90ec15f4ccd5644ca1413440a7a617c9"
+    },
+    {
+      "fixture": "sidebar-contact-long",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 13,
+      "media": 0,
+      "bytes": 302743,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "4518e9fc30bb6ab053bc620f7b729df48f84c6d12d14dfdc39f5b7619ea2f7e6"
+    },
+    {
+      "fixture": "sidebar-chrome-continuation",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 13,
+      "media": 0,
+      "bytes": 305511,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "5792cefd202a937a8e413b20d28a25dde878821245661bec67625fee98d2b3f1"
+    },
+    {
+      "fixture": "sidebar-chrome-leading",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 13,
+      "media": 0,
+      "bytes": 305518,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "d91d905040e9ea902d95ce6706a4bfbdf19c760b5985a7aff6e8aa449db1d119"
+    }
+  ],
+  "liveEditor": [
+    {
+      "headerMode": "none",
+      "fieldParagraphs": 76,
+      "docxPages": [4, 4],
+      "productionPdfPages": 3,
+      "renameReloadJsonSnapshotNextDocx": "pass",
+      "libreOfficeRenderSaveReopen": "pass",
+      "productionPdfContent": "pass",
+      "docxSha256": "8afd3c074489b098c16b3f5b25f1af52f5ea261026305c57efbad4e86fce5f14",
+      "productionPdfSha256": "1dd8e37688ddbf65d5b32842786b4e96ac5339cb33b386fb6846ce9f21b6b1c2",
+      "microsoftWord": "pending"
+    },
+    {
+      "headerMode": "contact",
+      "fieldParagraphs": 67,
+      "docxPages": [4, 4],
+      "productionPdfPages": 3,
+      "renameReloadJsonSnapshotNextDocx": "pass",
+      "libreOfficeRenderSaveReopen": "pass",
+      "productionPdfContent": "pass",
+      "docxSha256": "811d39281586f901d89aedd1ea39566243441f100e3d1ccb06d0426afbfed9e5",
+      "productionPdfSha256": "df3771356920d9b43f95e7205617377e3f4f5a47a9f64bfbdc7bd196c0db2661",
+      "microsoftWord": "pending"
     }
   ]
 }
