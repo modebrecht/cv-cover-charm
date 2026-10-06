@@ -88,6 +88,23 @@ export async function renderDossierDocx(
     throw new Error(
       "DOCX Next floating table pagination is unaccepted; diagnostic opt-in required",
     );
+  const storyBlocks = [model.cover, model.letter, model.cv].flatMap((part) =>
+    walkBlocks([
+      ...part.blocks,
+      ...part.header,
+      ...(part.firstHeader ?? []),
+      ...part.footer,
+      ...(part.headerShapes ?? []),
+    ]),
+  );
+  if (
+    storyBlocks.some(
+      (block) =>
+        block.kind === "table" && block.rows.some((row) => row.cellEndKeepNext !== undefined),
+    ) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error("DOCX Next cell-ending attachment is unaccepted; diagnostic opt-in required");
   for (const block of blocks)
     if (block.kind === "image" && !sources.has(block.source)) {
       const asset = await normalize(block.source),
@@ -323,7 +340,8 @@ export async function renderDossierDocx(
               if (paint && cell.length && contentWidth < 10)
                 throw new Error(`DOCX Next cell leaves insufficient text width ${value.id}`);
               const props = paint ? cellProperties(paint) : shading;
-              return `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page)}${emptyParagraph}</w:tc>`;
+              const ending = emptyParagraphWithRuns("", row.cellEndKeepNext?.[index] ?? undefined);
+              return `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page)}${ending}</w:tc>`;
             })
             .join("")}</w:tr>`,
       )

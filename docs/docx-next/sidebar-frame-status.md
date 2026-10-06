@@ -1,5 +1,7 @@
 # Sidebar native paragraph frames — early-stop checkpoint
 
+Continued by the [native cell-ending checkpoint](sidebar-cell-ending-status.md): idle/all cell-ending attachment does not improve the opening and regresses the tightest tested boundary. That declarative diagnostic is blocked from normal export.
+
 Starting remote `dev`: **`4502951df7be3857b584945b1a75c62077a5e008`**, freshly fetched and matched to a clean checkout. This follows the [independent floating-table investigation](sidebar-floating-status.md). Registry remains **29/39 configured candidates, 0/39 Word accepted**.
 
 ## Result

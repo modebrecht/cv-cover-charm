@@ -100,6 +100,8 @@ export type TableBlock = {
     cellDecorations?: (CellDecoration | undefined)[];
     /** Semantic vertical cell spans; absent cells each occupy one row. */
     cellRowSpans?: number[];
+    /** Unaccepted diagnostic cell-ending attachment; null preserves the native default. */
+    cellEndKeepNext?: (boolean | null)[];
   }[];
   /** Flowing boxes keep width/padding, with no fixed height or text clipping. */
   widthMm?: number;

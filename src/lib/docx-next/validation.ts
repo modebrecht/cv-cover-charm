@@ -242,6 +242,15 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         }
         planCellRowSpans(block);
         for (const row of block.rows) {
+          if (
+            row.cellEndKeepNext !== undefined &&
+            (!Array.isArray(row.cellEndKeepNext) ||
+              row.cellEndKeepNext.length !== row.cells.length ||
+              Array.from(row.cellEndKeepNext).some(
+                (flag) => flag !== null && typeof flag !== "boolean",
+              ))
+          )
+            throw new Error(`DOCX Next invalid cell-ending attachment ${block.id}`);
           if (row.cellDecorations && row.cellDecorations.length !== row.cells.length)
             throw new Error(`DOCX Next invalid cell decoration count ${block.id}`);
           row.cellDecorations?.forEach((paint) => {
