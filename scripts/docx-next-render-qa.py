@@ -854,7 +854,8 @@ check_cover_spacing(args.directory, args.roundtrip)
 check_presentation_offsets(args.directory, args.roundtrip)
 report_path = args.directory / 'render-report.json'
 previous = json.loads(report_path.read_text()) if report_path.exists() else []
-combined = {row['fixture']: row for row in previous}
+current_fixtures = {row['fixture'] for row in manifest}
+combined = {row['fixture']: row for row in previous if row['fixture'] in current_fixtures}
 combined.update({row['fixture']: row for row in report})
 report_path.write_text(json.dumps(list(combined.values()), indent=2) + '\n')
 print(f'Passed {len(report)} fixtures. Microsoft Word acceptance and snapshot approval remain pending.', flush=True)

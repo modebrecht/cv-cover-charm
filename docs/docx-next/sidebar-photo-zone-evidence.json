@@ -1,9 +1,23 @@
 {
   "startingDev": "03b383c600b01659075cf38078963630aff0e842",
-  "fullUnits": 983,
-  "docxNextUnits": 281,
+  "fullUnits": 984,
+  "docxNextUnits": 282,
+  "configuredCandidates": 29,
+  "wordAccepted": 0,
   "baselineUnchanged": 23,
+  "positiveSidebarFixtures": 31,
+  "positiveSidebarDossierPages": 253,
+  "freePhotoFixtures": 8,
+  "freePhotoDossierPages": 62,
   "microsoftWord": "pending",
+  "unsupported": [
+    {
+      "fixture": "sidebar-photo-free-mirrored-main",
+      "behavior": "explicit model and renderer validation rejection",
+      "reason": "A native picture before a later spanning track creates large blank body regions; both paragraph lowering and label attachment retain the counterexample.",
+      "nextTask": "shared native span/picture pagination; no template renderer or XML repair"
+    }
+  ],
   "fixtures": [
     {
       "fixture": "sidebar-photo-free-main",
@@ -32,6 +46,120 @@
       "microsoftWord": "pending",
       "snapshot": "candidate",
       "docxSha256": "3ad8296ec22ce46efdf85407bfb35efae2acc30df9fc651d116f8b2271a5983d"
+    },
+    {
+      "fixture": "sidebar-photo-free-mirrored-side",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 3,
+      "media": 1,
+      "bytes": 76441,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "7b30f537e2167970e143b423feb143a10f406f998c77f67064057bace91beb89"
+    },
+    {
+      "fixture": "sidebar-photo-free-long",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 12,
+      "media": 1,
+      "bytes": 340178,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "404111bd432de6a1082892296ce18a0309a6382f2b1cdd936639d55ec8d90cdc"
+    },
+    {
+      "fixture": "sidebar-photo-free-side-long",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 11,
+      "media": 1,
+      "bytes": 339050,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "1bc04a95bf6394b569560c3cbda03c2462f313431260c0a7fc2d0ab3820c9db7"
+    },
+    {
+      "fixture": "sidebar-photo-free-low",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 12,
+      "media": 1,
+      "bytes": 305684,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "1a505b9301b74d40cd2652b04adfea9e8d86a6bde6ec192e34a1706eefa1994a"
+    },
+    {
+      "fixture": "sidebar-photo-free-portrait",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 1,
+      "bytes": 77615,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "beb609115f19bbbeb7b69c507dff3eca697f9c60b225a0cfa139fdbe8a56aab5"
+    },
+    {
+      "fixture": "sidebar-photo-free-chrome",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 13,
+      "media": 1,
+      "bytes": 310074,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "c5ccf8260f1547a0816996131d9728df72b0c209c1bd3678fe32fd4f5e02defd"
+    }
+  ],
+  "editor": [
+    {
+      "headerMode": "none",
+      "nativePages": 4,
+      "productionPdfPages": 3,
+      "nativeFieldParagraphs": 76,
+      "nativePhoto": "pass",
+      "semanticText": "pass",
+      "render": "pass",
+      "saveReopen": "pass",
+      "productionPdf": "pass",
+      "portableJson": "pass",
+      "docxSha256": "f3747940fec63828020360f5b7a819473f5db1a6d12b1e174a5364488e0eabf9",
+      "microsoftWord": "pending"
+    },
+    {
+      "headerMode": "contact",
+      "nativePages": 4,
+      "productionPdfPages": 3,
+      "nativeFieldParagraphs": 67,
+      "nativePhoto": "pass",
+      "semanticText": "pass",
+      "render": "pass",
+      "saveReopen": "pass",
+      "productionPdf": "pass",
+      "portableJson": "pass",
+      "docxSha256": "8ae5f04d61644e345cdf1a20a3a0ca83cd26cb75b91a4b42939514f447248d30",
+      "microsoftWord": "pending"
     }
   ]
 }

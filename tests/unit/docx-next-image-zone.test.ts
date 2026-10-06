@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { sidebarFixture } from "../fixtures/docx-next/sidebar";
+import { sidebarFixture, SIDEBAR_UNSUPPORTED_FIXTURES } from "../fixtures/docx-next/sidebar";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { imageZoneFromPage, imageZoneTable } from "../../src/lib/docx-next/image-zone";
 import { parallelFlowTable } from "../../src/lib/docx-next/parallel-flow";
@@ -65,6 +65,10 @@ test("physical mirroring chooses the matching track and below-header photos begi
 });
 
 test("a native picture before a later spanning track rejects the known blank-body counterexample", () => {
+  for (const kind of SIDEBAR_UNSUPPORTED_FIXTURES)
+    expect(() => buildDossierDocModel(sidebarFixture(kind))).toThrow(
+      "picture before a spanning track is unsupported",
+    );
   const input = freeInput();
   input.settings.sidebarSide = "right";
   const before = structuredClone(input);
