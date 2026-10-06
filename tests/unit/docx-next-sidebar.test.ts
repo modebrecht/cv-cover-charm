@@ -4,6 +4,11 @@ import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type ParallelFlowBlock } from "../../src/lib/docx-next/model";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
+import { paintPng } from "../../src/lib/docx-next/artwork";
+import {
+  SIDEBAR_HEADING_CASES,
+  sidebarHeadingAttachmentFixture,
+} from "../fixtures/docx-next/sidebar-heading-attachment";
 
 const flow = (kind: Parameters<typeof sidebarFixture>[0] = "left") =>
   buildDossierDocModel(sidebarFixture(kind)).cv.blocks.find(
@@ -11,6 +16,31 @@ const flow = (kind: Parameters<typeof sidebarFixture>[0] = "left") =>
   )!;
 const ids = (blocks: Parameters<typeof walkBlocks>[0]) =>
   walkBlocks(blocks).map((block) => block.id);
+
+test("native continuation diagnostics survive model JSON roundtrip without changing their packages", async () => {
+  const bytes = paintPng({ color: "E61414", endColor: "1432D2" });
+  const options = {
+    normalizeImage: async () => ({
+      bytes,
+      widthPx: 1,
+      heightPx: 256,
+      extension: "png" as const,
+      contentType: "image/png" as const,
+    }),
+  };
+  for (const value of SIDEBAR_HEADING_CASES) {
+    const { model } = sidebarHeadingAttachmentFixture(value);
+    const before = structuredClone(model);
+    const initial = await renderDossierDocx(model, options);
+    const restored = await renderDossierDocx(JSON.parse(JSON.stringify(model)), options);
+    expect(new Uint8Array(await restored.arrayBuffer())).toEqual(
+      new Uint8Array(await initial.arrayBuffer()),
+    );
+    expect(model).toEqual(before);
+    const semanticIds = ids(model.cv.blocks);
+    expect(new Set(semanticIds).size).toBe(semanticIds.length);
+  }
+});
 
 test("Brief sidebar keeps explicit source data deterministic and immutable", () => {
   for (const kind of SIDEBAR_FIXTURES) {

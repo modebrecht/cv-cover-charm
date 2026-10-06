@@ -1,0 +1,257 @@
+{
+  "startingRemoteDevSha": "b130e08362df292cccac3ff0fce7713d3f79bd52",
+  "registry": {
+    "configuredCandidates": 29,
+    "wordAccepted": 0,
+    "totalTemplates": 39
+  },
+  "retainedProductionChange": "none",
+  "guard": "picture before later spanning track remains unsupported",
+  "diagnostics": {
+    "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "libreOfficeInterface": "soffice CLI",
+    "cases": [
+      {
+        "fixture": "minimum-plain-empty-row",
+        "docxSha256": "cb8a2202ea981118a39d7aa705fc4dbaa0f9891ddbc0f53a90f64a83b3f5ee21",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "minimum-plain-empty-nested",
+        "docxSha256": "89db3e5720bd8c8ba3e5cb79da2f807698d066233ed6015f9db1fb96f3527268",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "minimum-plain-rail-row",
+        "docxSha256": "bce09ee350a27cac6b22bb6c553bc5368fc403365dfad4fd5a25b971957519f1",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "minimum-plain-rail-nested",
+        "docxSha256": "df73240ebcec6b9bd9a9d92f2a5cc9a6e12d387dff167d790442820d674a3ad5",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "minimum-photo-empty-row",
+        "docxSha256": "cd234ea532c48e57b630edc138bf6c934d9dbe2cd62aa42998ba3e370c59f76b",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "minimum-photo-empty-nested",
+        "docxSha256": "59e822d049a9d7e1649237ec241e989d6d18e0f2fe90682c5ead1cdfe4fd62ba",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "minimum-photo-rail-row",
+        "docxSha256": "640b1984ad55d780a8917308bd9dcbe9f841807cc14a7d1cd75b0c8e42f778b8",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "minimum-photo-rail-nested",
+        "docxSha256": "4514858e25f2f1b827017ccbb8815ff13019a20201694ad6d88762db76d60d5a",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "overflow-control",
+        "docxSha256": "8fee7b60240f7763e9c74795c96b4d7cc75ff9e6f4ad0cad54f430d0795dbfcd",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 4,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 4,
+          "detachedFields": [
+            "cv.entry.schule:demo-s1.date",
+            "cv.entry.schule:demo-s1.title",
+            "cv.entry.schule:demo-s1.place",
+            "cv.entry.schule:demo-s1.description"
+          ]
+        },
+        "saveReopen": {
+          "pages": 4,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 4,
+          "detachedFields": [
+            "cv.entry.schule:demo-s1.date",
+            "cv.entry.schule:demo-s1.title",
+            "cv.entry.schule:demo-s1.place",
+            "cv.entry.schule:demo-s1.description"
+          ]
+        }
+      },
+      {
+        "fixture": "oversized-control",
+        "docxSha256": "4b8a83a301556e2e4d7710c370c19a2e8dc6fa9fc1860144a5668ee1875169a9",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "headingAttachment": "orphaned",
+          "cvPagePositions": {
+            "heading": 0,
+            "entry": 1
+          }
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "headingAttachment": "orphaned",
+          "cvPagePositions": {
+            "heading": 0,
+            "entry": 1
+          }
+        }
+      },
+      {
+        "fixture": "overflow-heading-off",
+        "docxSha256": "9b429af7a8f47c6d72bb2ebdbd2b72b2616d765dcacf0bc983a55fb6aad4e92e",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 4,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 4,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "oversized-heading-off",
+        "docxSha256": "3cdeff7307bab5716d311c6d9eea2bc54fd25399b1671132f563a24372bb02e1",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "headingAttachment": "orphaned",
+          "cvPagePositions": {
+            "heading": 0,
+            "entry": 1
+          }
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "headingAttachment": "orphaned",
+          "cvPagePositions": {
+            "heading": 0,
+            "entry": 1
+          }
+        }
+      }
+    ],
+    "architectureAcceptance": "rejected: heading-off fixes short overflow but both controls orphan the oversized entry heading",
+    "productionChange": "none; picture-before-later-span guard unchanged",
+    "microsoftWord": "pending"
+  },
+  "supportedSidebar": {
+    "fixtures": 31,
+    "pages": 253,
+    "packageRenderSaveReopen": "pass",
+    "allSourcePackagesByteIdenticalToStartingCheckout": true
+  },
+  "modelJsonPackageRoundtrips": 12,
+  "sidebarModelJsonRoundtrips": 31,
+  "portableProjectPhotoRestorations": 2,
+  "pythonFlowTests": 7,
+  "limits": {
+    "stableLibreOffice": "unavailable; pinned recheck pending",
+    "microsoftWord": "pending",
+    "supportedFixtureImages": "explicit Pillow adapter; browser decoder not repeated",
+    "localAppTypecheckLint": "offline cache not frozen lock; local release acceptance unavailable",
+    "publicationCI": "commit-specific Bun/locked checks/browser/PDF results reported separately"
+  },
+  "nextTask": "generic heading/first-entry metadata attachment prefix; preserve oversized natural flow; require both gates before unlocking mirrored pictures"
+}

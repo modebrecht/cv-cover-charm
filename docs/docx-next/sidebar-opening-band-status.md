@@ -1,5 +1,7 @@
 # Sidebar opening band — bounded feasibility checkpoint
 
+Subsequent checkpoint: [Heading/entry attachment](sidebar-heading-attachment-status.md) isolates the single-entry controls and the additional oversized-heading gate. The evidence below remains historical.
+
 Starting remote `dev`: `426133e6d0d80fcb94959453e2b95f2cd33a2cb7`, freshly fetched and verified. A new clean checkout has the exact remote Git tree. The Sidebar implementation history from shared semantic rows through image zones, portable/editor evidence and the picture/span guard was reviewed before editing. Registry remains **29/39 configured candidates, 0/39 Word accepted**.
 
 ## Finding

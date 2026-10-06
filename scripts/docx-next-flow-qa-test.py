@@ -3,7 +3,7 @@ import unittest
 
 import fitz
 
-from docx_next_flow_qa import check_first_page_flow
+from docx_next_flow_qa import check_first_page_flow, check_heading_attachment
 
 
 class OpeningFlowTests(unittest.TestCase):
@@ -60,6 +60,29 @@ class OpeningFlowTests(unittest.TestCase):
             })
             with self.assertRaisesRegex(AssertionError, 'first-page flow detached: cv.entry.school.title'):
                 check_first_page_flow(document, fixture)
+
+    def test_entry_heading_attachment_is_an_independent_gate(self):
+        with self.document() as document:
+            fixture = self.fixture()
+            document[0].insert_text((60, 180), 'Entry heading')
+            document[1].insert_text((60, 180), 'Entry title')
+            fixture['parts'][0]['headingAttachmentProbes'] = [{
+                'heading': {'fieldId': 'cv.section.heading', 'text': 'Entry heading', 'leftMm': 20, 'rightMm': 130},
+                'entry': {'fieldId': 'cv.entry.title', 'text': 'Entry title', 'leftMm': 20, 'rightMm': 130},
+            }]
+            with self.assertRaisesRegex(AssertionError, 'entry heading detached: cv.entry.title'):
+                check_heading_attachment(document, fixture)
+
+    def test_entry_heading_passes_in_the_same_owning_body_lane(self):
+        with self.document() as document:
+            fixture = self.fixture()
+            document[0].insert_text((60, 180), 'Entry heading')
+            document[0].insert_text((60, 195), 'Entry title')
+            fixture['parts'][0]['headingAttachmentProbes'] = [{
+                'heading': {'fieldId': 'cv.section.heading', 'text': 'Entry heading', 'leftMm': 20, 'rightMm': 130},
+                'entry': {'fieldId': 'cv.entry.title', 'text': 'Entry title', 'leftMm': 20, 'rightMm': 130},
+            }]
+            check_heading_attachment(document, fixture)
 
     def test_wrapped_body_field_passes_in_own_first_page_track(self):
         with self.document() as document:
