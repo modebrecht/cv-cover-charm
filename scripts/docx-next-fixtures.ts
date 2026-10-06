@@ -86,6 +86,8 @@ const SIDEBAR_PAGE_COUNTS: Record<string, number> = {
   "sidebar-photo-left": 1,
   "sidebar-photo-right": 1,
   "sidebar-photo-main": 2,
+  "sidebar-photo-free-main": 2,
+  "sidebar-photo-free-side": 1,
   "sidebar-placements": 2,
   "sidebar-side-entries-long": 15,
   "sidebar-side-entries-smaller-body": 19,

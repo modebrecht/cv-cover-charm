@@ -70,10 +70,11 @@ test("sidebar photographs become native inline pictures in their selected physic
   }
 });
 
-test("unsupported free photos, page starts, and widths fail before output", () => {
+test("photos crossing tracks, page starts, and widths fail before output", () => {
   const input = sidebarFixture("photo-left");
   input.settings.cvPhotoPlacement!.mode = "frei";
-  expect(() => buildDossierDocModel(input)).toThrow("free photo positioning is unsupported");
+  input.settings.cvPhotoPlacement!.xMm = 60;
+  expect(() => buildDossierDocModel(input)).toThrow("free photo must fit one native track");
   input.cv.data.person.foto = null;
   input.cv.data.sectionLayouts = { schule: { page: 2 } };
   expect(() => buildDossierDocModel(input)).toThrow(

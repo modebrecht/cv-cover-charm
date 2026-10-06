@@ -26,6 +26,7 @@ import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
 import { parallelFlowTable } from "./parallel-flow";
+import { imageZoneTable } from "./image-zone";
 import { cellProperties, planCellRowSpans } from "./native-cell";
 import { decorationPageGeometry, orderedPagePaint } from "./page-artwork";
 import {
@@ -331,6 +332,10 @@ export async function renderDossierDocx(
     }
     if (block.kind === "table")
       return table({ ...block, indentMm: (block.indentMm ?? 0) + indentMm }, widthMm, page);
+    if (block.kind === "image-zone") {
+      const zone = imageZoneTable(block, widthMm - indentMm);
+      return table({ ...zone, indentMm: (zone.indentMm ?? 0) + indentMm }, widthMm, page);
+    }
     if (block.kind === "parallel-flow")
       return table({ ...parallelFlowTable(block, widthMm - indentMm), indentMm }, widthMm, page);
     if (block.kind === "columns")

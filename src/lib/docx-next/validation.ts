@@ -5,6 +5,7 @@ import { fontDefinition } from "./fonts";
 import { decorationPageGeometry } from "./page-artwork";
 import { parallelFlowTable, validateCellDecoration } from "./parallel-flow";
 import { planCellRowSpans } from "./native-cell";
+import { imageZoneTable } from "./image-zone";
 
 /** Validate known semantic structures and package parts, never visible text occurrence. */
 export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): void {
@@ -104,8 +105,10 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       ids.add(block.id);
       if (block.kind === "parallel-flow")
         parallelFlowTable(block, part.page.widthMm - margins.left - margins.right);
+      if (block.kind === "image-zone")
+        imageZoneTable(block, part.page.widthMm - margins.left - margins.right);
       if (
-        (block.kind === "table" || block.kind === "image") &&
+        (block.kind === "table" || block.kind === "image" || block.kind === "image-zone") &&
         block.sourceLayout &&
         (!Object.values(block.sourceLayout).every(Number.isFinite) ||
           block.sourceLayout.widthMm <= 0 ||

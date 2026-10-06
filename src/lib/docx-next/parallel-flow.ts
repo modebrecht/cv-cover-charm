@@ -6,6 +6,7 @@ import {
   type TableBlock,
 } from "./model";
 import { semanticFlowUnits } from "./semantic-flow-units";
+import { imageZoneTable } from "./image-zone";
 
 export function validateCellDecoration(value: CellDecoration, id: string): void {
   if (
@@ -65,6 +66,8 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
     if (width - 2 * (track.decoration?.paddingXMm ?? 0) < 20)
       throw new Error(`DOCX Next parallel track leaves insufficient text width ${value.id}`);
     for (const block of walkBlocks(track.blocks)) {
+      if (block.kind === "image-zone")
+        imageZoneTable(block, width - 2 * (track.decoration?.paddingXMm ?? 0));
       if (
         value.spanningTracks?.includes(index) &&
         ((block.kind === "entry" && block.keepTogether) ||

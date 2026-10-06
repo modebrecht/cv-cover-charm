@@ -22,6 +22,8 @@ export const SIDEBAR_FIXTURES = [
   "photo-left",
   "photo-right",
   "photo-main",
+  "photo-free-main",
+  "photo-free-side",
   "placements",
   "styled",
   "hidden-paint",
@@ -87,6 +89,11 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
       yMm: 20,
     };
     input.settings.cvPhotoStyle = { shape: "circle", zoom: 1.25, x: 42, y: 58, borderWidth: 0.4 };
+    if (kind.startsWith("photo-free"))
+      Object.assign(input.settings.cvPhotoPlacement, {
+        mode: "frei",
+        xMm: kind === "photo-free-side" ? 25 : 150,
+      });
   }
   if (kind === "placements") {
     input.settings.placements = { kontakt: "main", schule: "side", hobbys: "main" };

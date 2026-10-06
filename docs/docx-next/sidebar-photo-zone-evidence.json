@@ -1,0 +1,37 @@
+{
+  "startingDev": "03b383c600b01659075cf38078963630aff0e842",
+  "fullUnits": 983,
+  "docxNextUnits": 281,
+  "baselineUnchanged": 23,
+  "microsoftWord": "pending",
+  "fixtures": [
+    {
+      "fixture": "sidebar-photo-free-main",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 1,
+      "bytes": 77576,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "d6f0c829815d5819e8e6461b4aa3d099a9ab01549ab285eac027054012d822f0"
+    },
+    {
+      "fixture": "sidebar-photo-free-side",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 3,
+      "media": 1,
+      "bytes": 76448,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "docxSha256": "3ad8296ec22ce46efdf85407bfb35efae2acc30df9fc651d116f8b2271a5983d"
+    }
+  ]
+}
