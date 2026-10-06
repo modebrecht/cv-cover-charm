@@ -39,6 +39,7 @@ import { artworkApplies } from "../src/lib/docx-next/page-artwork";
 import {
   SIDEBAR_FIXTURES,
   sidebarFixture,
+  sidebarOpeningFieldIds,
   type SidebarFixture,
 } from "../tests/fixtures/docx-next/sidebar";
 const isSidebar = process.argv.includes("--sidebar");
@@ -1028,6 +1029,40 @@ try {
       pagination: part.layout.pagination,
       imageZoneProbes: imageZoneProbes(part),
       firstBodyImageZone: imageZoneProbes(part).find((probe) => probe.ownsFirstBody)?.id,
+      firstPageFlowProbes:
+        isSidebar && part.id === "cv"
+          ? sidebarOpeningFieldIds(fixture.slice(8) as SidebarFixture).map((fieldId) => {
+              const flow = part.blocks.find((block) => block.kind === "parallel-flow")!;
+              const trackIndex = flow.tracks.findIndex((track) =>
+                walkBlocks(track.blocks).some((child) => child.id === fieldId),
+              );
+              if (trackIndex < 0) throw new Error(`Missing opening fixture field ${fieldId}`);
+              const field = walkBlocks(flow.tracks[trackIndex].blocks).find(
+                (child) => child.id === fieldId && child.kind === "paragraph",
+              )!;
+              if (field.kind !== "paragraph") throw new Error(`Invalid opening field ${fieldId}`);
+              const available =
+                part.page.widthMm -
+                part.page.margins.left -
+                part.page.margins.right -
+                flow.gapMm * (flow.tracks.length - 1);
+              const weight = flow.tracks.reduce((sum, track) => sum + track.weight, 0);
+              const leftMm =
+                part.page.margins.left +
+                flow.tracks
+                  .slice(0, trackIndex)
+                  .reduce(
+                    (sum, track) => sum + (available * track.weight) / weight + flow.gapMm,
+                    0,
+                  );
+              return {
+                fieldId,
+                text: field.runs.map((run) => run.text).join(""),
+                leftMm,
+                rightMm: leftMm + (available * flow.tracks[trackIndex].weight) / weight,
+              };
+            })
+          : [],
       firstBodyText: (
         part.blocks.find((block) => block.kind === "paragraph") ??
         walkBlocks(part.blocks).find(

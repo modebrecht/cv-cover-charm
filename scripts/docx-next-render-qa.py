@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 import fitz
 from PIL import Image, ImageChops
+from docx_next_flow_qa import check_first_page_flow
 
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 PR = '{http://schemas.openxmlformats.org/package/2006/relationships}'
@@ -751,6 +752,7 @@ for fixture in manifest:
     check_entry_attachment(document, fixture)
     check_cv_composition(document, fixture)
     check_image_zones(document, fixture)
+    check_first_page_flow(document, fixture)
     check_fonts(document, fixture)
     check_custom_footers(document, key)
     check_artwork(document, fixture)
@@ -830,6 +832,7 @@ for fixture in manifest:
             check_entry_attachment(reopened, fixture)
             check_cv_composition(reopened, fixture)
             check_image_zones(reopened, fixture)
+            check_first_page_flow(reopened, fixture)
             check_custom_footers(reopened, key)
             check_artwork(reopened, fixture)
             check_scoped_shapes(reopened, fixture)

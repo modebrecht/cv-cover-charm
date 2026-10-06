@@ -1,5 +1,10 @@
 import { expect, test } from "bun:test";
-import { sidebarFixture, SIDEBAR_UNSUPPORTED_FIXTURES } from "../fixtures/docx-next/sidebar";
+import {
+  sidebarFixture,
+  sidebarOpeningFieldIds,
+  SIDEBAR_FIXTURES,
+  SIDEBAR_UNSUPPORTED_FIXTURES,
+} from "../fixtures/docx-next/sidebar";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { imageZoneFromPage, imageZoneTable } from "../../src/lib/docx-next/image-zone";
 import { parallelFlowTable } from "../../src/lib/docx-next/parallel-flow";
@@ -85,6 +90,22 @@ test("a native picture before a later spanning track rejects the known blank-bod
   );
   expect(parallelFlowTable({ ...mirrored, spanningTracks: [] }, 170).rows.length).toBeGreaterThan(
     1,
+  );
+});
+
+test("free-photo render fixtures declare following content fields, beyond an opening label", () => {
+  for (const kind of SIDEBAR_FIXTURES.filter((value) => value.startsWith("photo-free"))) {
+    const fields = walkBlocks(buildDossierDocModel(sidebarFixture(kind)).cv.blocks);
+    const ids = sidebarOpeningFieldIds(kind);
+    expect(ids.length).toBeGreaterThan(2);
+    for (const id of ids) {
+      const matches = fields.filter((field) => field.kind === "paragraph" && field.id === id);
+      expect(matches).toHaveLength(1);
+    }
+  }
+  expect(sidebarOpeningFieldIds("left")).toEqual([]);
+  expect(sidebarOpeningFieldIds("photo-free-mirrored-main")).toContain(
+    "cv.entry.custom:familie:demo-familie.description",
   );
 });
 

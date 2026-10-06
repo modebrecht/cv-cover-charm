@@ -39,6 +39,19 @@ export type SidebarFixture =
   | (typeof SIDEBAR_FIXTURES)[number]
   | (typeof SIDEBAR_UNSUPPORTED_FIXTURES)[number];
 
+/** Sized fixture expectations, not a pagination policy for arbitrary user data. */
+export function sidebarOpeningFieldIds(kind: SidebarFixture): readonly string[] {
+  if (!kind.startsWith("photo-free")) return [];
+  return kind.includes("side")
+    ? ["cv.person.address", "cv.person.place", "cv.person.phone", "cv.person.email"]
+    : [
+        "cv.documentTitle",
+        "cv.section.custom:familie.heading",
+        "cv.entry.custom:familie:demo-familie.place",
+        "cv.entry.custom:familie:demo-familie.description",
+      ];
+}
+
 export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
   const input = briefFixture(
     kind === "main-long" ||
