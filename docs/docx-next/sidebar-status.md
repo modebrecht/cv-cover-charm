@@ -1,6 +1,8 @@
 # Native Sidebar checkpoint — Brief first
 
-**Latest investigation:** [Native parallel pagination](sidebar-pagination-status.md) reproduces the missing tail without a header when the usable body shrinks. Simply replacing nested entry rows with paragraph flow fails title attachment at other page boundaries. All experimental exporter changes were removed; the restrictions below remain. The 16 fixture packages were reverified byte-identical. Their passing evidence must not be generalized to arbitrary headerless geometry.
+**Current development:** [Native semantic row flow](sidebar-row-flow-status.md) supersedes the old one-row candidate below. Brief now has 18 verified render/save-reopen fixtures / 137 dossier pages. Continuous rails span semantic main rows; atomic rail entries use native paired rows. Microsoft Word acceptance remains pending and is separate from continued development, as explicitly instructed by the user. The earlier failure evidence below remains historical and reproducible.
+
+**Historical one-row checkpoint:**
 
 Brief is the neutral reference for the first shared native Sidebar candidate. `modern` is also a **CV layout choice**, independent of the registered **Modern template**. Modern's earlier candidate evidence covers a classic CV. No template is newly Word accepted here: **29/39 configured candidates, 0/39 Word accepted. Microsoft Word acceptance: pending.**
 
@@ -29,6 +31,6 @@ The header restriction follows an actual failed stress probe, not a hypothetical
 
 Reproduce the supported candidate with `bun scripts/docx-next-fixtures.ts OUT --sidebar`, providing the existing canonical `images.json` inputs in `OUT`, followed by `python scripts/docx-next-render-qa.py OUT --roundtrip --require-stable --libreofficekit PATH_TO_PINNED_KIT`. The negative header/page-margin/photo tests run in `tests/unit/docx-next-sidebar.test.ts`. For the actual editor: `DOCX_NEXT_EDITOR_TEMPLATE=brief DOCX_NEXT_EDITOR_LAYOUT=modern DOCX_NEXT_EDITOR_HEADER_MODE=none bun scripts/docx-next-candidate-editor-qa.ts OUT`.
 
-The exact next task is **isolate native parallel-cell pagination with running headers and different page margins, using Brief and a controlled Microsoft Word open/edit/save/reopen comparison**. Determine which native composition preserves the tail before removing either guard. Then design a native free-picture/image-zone policy for the editor's authored geometry. Do not proceed to another Sidebar template or claim Gate 8 passed before resolving these blockers and Word acceptance.
+The current next task is **native first-row inset and verified first/continuation margin support**, followed by running-header fixtures and a native free-picture/image-zone policy. Word acceptance and Gate 8 remain pending; actual Word testing is not a prerequisite for these authorized development steps.
 
 Starting remote `dev`: `c189563ac054c19e51ea94c9d137f76f005377ae`, independently re-fetched and verified, clean. Prism remains declarative and uses shared primitives. Remote Warm/Freundlich remains a clean candidate; stale local Warm was not restored. No `main`/`render` changes, branch promotion or manual deployment occurred.

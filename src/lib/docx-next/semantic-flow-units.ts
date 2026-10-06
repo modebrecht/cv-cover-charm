@@ -9,8 +9,16 @@ export function semanticFlowUnits(blocks: DocBlock[]): DocBlock[][] {
     if (block.kind === "entry") return [[{ ...block, keepTogether: false }]];
     if (block.kind === "section" || block.kind === "group") {
       const children = semanticFlowUnits(block.blocks);
-      const first = { ...block, blocks: children[0] ?? [] };
-      return [[first], ...children.slice(1)];
+      if (!children.length) return [[{ ...block, blocks: [] }]];
+      // Retain section indentation on continuations without repeating its heading.
+      return children.map((unit, index) => [
+        {
+          ...block,
+          id: index ? `${block.id}.flow:${unit[0].id}` : block.id,
+          ...(block.kind === "section" && index ? { heading: undefined } : {}),
+          blocks: unit,
+        },
+      ]);
     }
     return [[block]];
   });

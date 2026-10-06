@@ -12,6 +12,8 @@ export const SIDEBAR_FIXTURES = [
   "both-long",
   "paragraph-long",
   "side-paragraph-long",
+  "side-entries-long",
+  "side-entries-smaller-body",
   "photo-left",
   "photo-right",
   "photo-main",
@@ -30,7 +32,8 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
     kind === "main-long" ||
       kind === "both-long" ||
       kind === "continuation" ||
-      kind === "chrome-continuation"
+      kind === "chrome-continuation" ||
+      kind.startsWith("side-entries")
       ? "long-cv"
       : kind === "minimal"
         ? "minimal"
@@ -39,6 +42,11 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
   input.settings.cvLayout = "sidebar";
   input.settings.sidebarSide = kind === "right" || kind === "photo-right" ? "right" : "left";
   input.cv.design.sidebarPct = kind === "narrow" ? 0.22 : kind === "wide" ? 0.42 : 0.3;
+  if (kind.startsWith("side-entries")) input.settings.placements = { schule: "side" };
+  if (kind === "side-entries-smaller-body")
+    input.settings.margins = {
+      cv: { top: 60, bottom: 20, left: 20, right: 20 },
+    };
   if (kind === "side-long" || kind === "both-long")
     input.cv.data.hobbys = Array.from(
       { length: 55 },

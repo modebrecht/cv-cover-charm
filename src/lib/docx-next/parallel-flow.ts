@@ -62,6 +62,12 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
       throw new Error(`DOCX Next parallel track leaves insufficient text width ${value.id}`);
     for (const block of walkBlocks(track.blocks)) {
       if (
+        value.spanningTracks?.includes(index) &&
+        ((block.kind === "entry" && block.keepTogether) ||
+          (block.kind === "table" && block.rows.some((row) => row.keepTogether)))
+      )
+        throw new Error(`DOCX Next spanning track cannot contain atomic groups ${block.id}`);
+      if (
         block.kind === "column-flow" ||
         block.kind === "parallel-flow" ||
         block.kind === "page-break" ||

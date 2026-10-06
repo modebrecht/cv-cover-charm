@@ -78,6 +78,9 @@ export function parallelPaginationFixture(value: ParallelPaginationCase) {
   const flow = model.cv.blocks.find(
     (block): block is ParallelFlowBlock => block.kind === "parallel-flow",
   )!;
+  // Preserve the original independent-row counterexamples as candidate policy evolves.
+  delete flow.rowAlignment;
+  delete flow.spanningTracks;
   // Declare the comparison explicitly rather than inheriting future entry policy.
   for (const block of walkBlocks(flow.tracks.flatMap((track) => track.blocks))) {
     if (block.kind !== "entry") continue;

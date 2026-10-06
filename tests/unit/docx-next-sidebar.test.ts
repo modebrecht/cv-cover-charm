@@ -26,8 +26,13 @@ test("Brief sidebar keeps explicit source data deterministic and immutable", () 
   }
 });
 
-test("default and custom placements route semantic rubrics into independent tracks", () => {
+test("default and custom placements route semantic rubrics into declared native tracks", () => {
   const left = flow();
+  expect(left.rowAlignment).toBe("semantic");
+  expect(left.spanningTracks).toEqual([0]);
+  expect(flow("right").spanningTracks).toEqual([1]);
+  expect(flow("placements").spanningTracks).toEqual([]);
+  expect(flow("side-paragraph-long").spanningTracks).toEqual([]);
   expect(ids(left.tracks[0].blocks)).toContain("cv.section.person");
   expect(ids(left.tracks[0].blocks)).toContain("cv.section.hobbys");
   expect(ids(left.tracks[1].blocks)).toContain("cv.section.schule");

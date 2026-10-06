@@ -1,6 +1,6 @@
 import { compositeTextColor } from "./colors";
 import { parallelFlowTable } from "./parallel-flow";
-import type { DocBlock, DocumentPart, ParallelFlowBlock } from "./model";
+import { walkBlocks, type DocBlock, type DocumentPart, type ParallelFlowBlock } from "./model";
 
 /** Semantic partition only. Widths use the native content grid, never PDF page plans. */
 export function composeCvSidebar(
@@ -47,6 +47,9 @@ export function composeCvSidebar(
       });
     } else main.push(block);
   }
+  // A continuous cell cannot guarantee atomic entry grouping across pages.
+  // Declare row coupling when the rail contains such groups; never flatten them.
+  const atomicSide = walkBlocks(side).some((block) => block.kind === "entry" && block.keepTogether);
   const sideTrack: ParallelFlowBlock["tracks"][number] = {
     weight: fraction,
     blocks: side,
@@ -70,6 +73,8 @@ export function composeCvSidebar(
     kind: "parallel-flow",
     id: "cv.sidebar",
     gapMm,
+    rowAlignment: "semantic",
+    spanningTracks: atomicSide ? [] : [part.layout.side === "left" ? 0 : 1],
     tracks: part.layout.side === "left" ? [sideTrack, mainTrack] : [mainTrack, sideTrack],
   };
   // Explicit page starts/nested columns/floating semantic content fail at this boundary.

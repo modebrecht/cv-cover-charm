@@ -48,15 +48,9 @@ test("semantic row alignment retains identity, groups entry metadata and leaves 
   expect(table.rows.every((row) => row.keepTogether)).toBe(true);
   expect(table.rows.at(-1)!.cells[0]).toEqual([]);
   expect(table.rows.every((row) => row.cells[1].length === 0)).toBe(true);
-  expect(
-    walkBlocks([table])
-      .map((block) => block.id)
-      .sort(),
-  ).toEqual(
-    walkBlocks([flow])
-      .map((block) => block.id)
-      .sort(),
-  );
+  const renderedIds = walkBlocks([table]).map((block) => block.id);
+  expect(new Set(renderedIds).size).toBe(renderedIds.length);
+  expect(renderedIds).toEqual(expect.arrayContaining(walkBlocks([flow]).map((block) => block.id)));
   expect(
     walkBlocks([table])
       .filter((block) => block.kind === "entry")
@@ -139,4 +133,37 @@ test("spans reject overlapping content, overflow, count mismatches and invalid t
     flow.spanningTracks = tracks;
     expect(() => parallelFlowTable(flow, 170)).toThrow("invalid parallel flow");
   }
+});
+
+test("atomic groups explicitly reject spanning-cell composition instead of losing or ungrouping text", () => {
+  const flow = parallelFlowFixture("short").cv.blocks[0] as ParallelFlowBlock;
+  flow.rowAlignment = "semantic";
+  flow.spanningTracks = [0];
+  flow.tracks[0].blocks = [
+    { kind: "entry", id: "atomic-side", keepTogether: true, blocks: flow.tracks[0].blocks },
+  ];
+  expect(() => parallelFlowTable(flow, 170)).toThrow("spanning track cannot contain atomic groups");
+  flow.spanningTracks = [];
+  expect(parallelFlowTable(flow, 170).rows.every((row) => row.keepTogether)).toBe(true);
+});
+
+test("section continuations retain authored indentation and emit their semantic heading once", () => {
+  const flow = parallelFlowFixture("main-long").cv.blocks[0] as ParallelFlowBlock;
+  const school = flow.tracks[1].blocks.find(
+    (block) => block.kind === "section" && block.id === "cv.section.schule",
+  );
+  if (school?.kind !== "section") throw new Error("Missing school fixture");
+  school.contentIndentMm = 7;
+  flow.rowAlignment = "semantic";
+  const table = parallelFlowTable(flow, 170);
+  const sections = walkBlocks([table]).filter(
+    (block) =>
+      block.kind === "section" &&
+      (block.id === school.id || block.id.startsWith(school.id + ".flow:")),
+  );
+  expect(sections.length).toBe(65);
+  expect(sections.every((block) => block.kind === "section" && block.contentIndentMm === 7)).toBe(
+    true,
+  );
+  expect(sections.filter((block) => block.kind === "section" && block.heading).length).toBe(1);
 });
