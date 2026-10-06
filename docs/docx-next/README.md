@@ -1,6 +1,6 @@
 # DOCX Next developer guide
 
-The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-span-picture-status.md) records the remaining native picture/span blocker and the exact next task. Microsoft Word acceptance is pending and does not block authorized candidate development.
+The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-opening-band-status.md) records the unresolved native picture/continuation boundary, the rejected opening-band experiments and the exact next task. Microsoft Word acceptance is pending and does not block authorized candidate development.
 
 ## Read the pipeline
 

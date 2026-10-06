@@ -1,0 +1,142 @@
+{
+  "startingDev": "426133e6d0d80fcb94959453e2b95f2cd33a2cb7",
+  "configuredCandidates": 29,
+  "wordAccepted": 0,
+  "productionCodeChanged": false,
+  "templatesChanged": [],
+  "rendererTemplateIdHacksAdded": false,
+  "architectureAcceptance": "rejected; shared Sidebar guard unchanged",
+  "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "libreOfficeInterface": "soffice CLI",
+  "supportedControl": {
+    "package": "pass",
+    "render": "pass",
+    "saveReopen": "pass",
+    "firstPageFields": 6
+  },
+  "openingBandCases": [
+    {
+      "fixture": "opening-band-short-span",
+      "architecture": "single native table; unmerged opening band followed by semantic rows with spanning rail",
+      "docxSha256": "ec89117d0a7a0ea9396053be7b074b7b5954fe5002016f4ec3feb15d17651af4",
+      "package": "pass",
+      "saveReopenPackage": "pass",
+      "render": {
+        "pages": 4,
+        "openingFieldsPresent": 4,
+        "continuationRejections": [
+          "opening-band-short-span: first-page flow detached: cv.entry.schule:demo-s1.title",
+          "opening-band-short-span: first-page flow detached: cv.entry.schule:demo-s1.description"
+        ],
+        "semanticTextPreserved": true
+      },
+      "saveReopen": {
+        "pages": 4,
+        "openingFieldsPresent": 4,
+        "continuationRejections": [
+          "opening-band-short-span: first-page flow detached: cv.entry.schule:demo-s1.title",
+          "opening-band-short-span: first-page flow detached: cv.entry.schule:demo-s1.description"
+        ],
+        "semanticTextPreserved": true
+      }
+    },
+    {
+      "fixture": "opening-band-short-rows",
+      "architecture": "single native table; unmerged opening band followed by semantic rows with row-coupled rail",
+      "docxSha256": "5369136d5f9bfdcbd99b9ba253b741d20c1fd513bd59aea3ce240b4d8b9ba32c",
+      "package": "pass",
+      "saveReopenPackage": "pass",
+      "render": {
+        "pages": 4,
+        "openingFieldsPresent": 4,
+        "continuationRejections": [
+          "opening-band-short-rows: first-page flow detached: cv.entry.schule:demo-s1.title",
+          "opening-band-short-rows: first-page flow detached: cv.entry.schule:demo-s1.description"
+        ],
+        "semanticTextPreserved": true
+      },
+      "saveReopen": {
+        "pages": 4,
+        "openingFieldsPresent": 4,
+        "continuationRejections": [
+          "opening-band-short-rows: first-page flow detached: cv.entry.schule:demo-s1.title",
+          "opening-band-short-rows: first-page flow detached: cv.entry.schule:demo-s1.description"
+        ],
+        "semanticTextPreserved": true
+      }
+    },
+    {
+      "fixture": "opening-band-short-span-separate",
+      "architecture": "separate native tables; unmerged opening band followed by semantic rows with spanning rail",
+      "docxSha256": "32fd1baa2586440e016a2ef416488c2e1233002b531be9b18723e80ddf41ba85",
+      "package": "pass",
+      "saveReopenPackage": "pass",
+      "render": {
+        "pages": 4,
+        "openingFieldsPresent": 4,
+        "continuationRejections": [
+          "opening-band-short-span-separate: first-page flow detached: cv.entry.schule:demo-s1.title",
+          "opening-band-short-span-separate: first-page flow detached: cv.entry.schule:demo-s1.description"
+        ],
+        "semanticTextPreserved": true
+      },
+      "saveReopen": {
+        "pages": 4,
+        "openingFieldsPresent": 4,
+        "continuationRejections": [
+          "opening-band-short-span-separate: first-page flow detached: cv.entry.schule:demo-s1.title",
+          "opening-band-short-span-separate: first-page flow detached: cv.entry.schule:demo-s1.description"
+        ],
+        "semanticTextPreserved": true
+      }
+    },
+    {
+      "fixture": "opening-band-short-rows-separate",
+      "architecture": "separate native tables; unmerged opening band followed by semantic rows with row-coupled rail",
+      "docxSha256": "37d90dc608a405f80370e4d56acfe393b69f4b752a0f7432e4e00097bbfc03e6",
+      "package": "pass",
+      "saveReopenPackage": "pass",
+      "render": {
+        "pages": 4,
+        "openingFieldsPresent": 4,
+        "continuationRejections": [
+          "opening-band-short-rows-separate: first-page flow detached: cv.entry.schule:demo-s1.title",
+          "opening-band-short-rows-separate: first-page flow detached: cv.entry.schule:demo-s1.description"
+        ],
+        "semanticTextPreserved": true
+      },
+      "saveReopen": {
+        "pages": 4,
+        "openingFieldsPresent": 4,
+        "continuationRejections": [
+          "opening-band-short-rows-separate: first-page flow detached: cv.entry.schule:demo-s1.title",
+          "opening-band-short-rows-separate: first-page flow detached: cv.entry.schule:demo-s1.description"
+        ],
+        "semanticTextPreserved": true
+      }
+    }
+  ],
+  "longAndChromeCases": "not run; required short case failed",
+  "sidebarRegression": {
+    "fixtures": 31,
+    "dossierPages": 253,
+    "package": "pass",
+    "render": "pass",
+    "saveReopen": "pass",
+    "imageAdapter": "explicit Pillow PNG adapter with unchanged fixture inputs; browser decoder not executed locally"
+  },
+  "checks": {
+    "pythonOpeningFlowTests": 5,
+    "sidebarImmutableModelJsonRoundtrips": 31,
+    "portableProjectPhotoExportImportRestoreCases": 2,
+    "unsupportedMirrorGuard": "pass",
+    "sharedPackageValidator": "AST-identical to starting validator; 31 source and 31 saved packages pass",
+    "changedTsFormatting": "pass",
+    "pythonCompilation": "pass",
+    "diffWhitespace": "pass",
+    "fullUnitsTypecheckLintBuildAndBrowserPdf": "publication CI required; Bun and exact locked dependencies unavailable locally"
+  },
+  "stableLibreOfficeRecheck": "pending; development engine evidence is not stable LibreOffice or Word acceptance",
+  "microsoftWord": "pending",
+  "nextTask": "Reduce the detached continuation to one native entry after the opening band; compare photo/no-photo and rail/no-rail controls in stable LibreOfficeKit with save/reopen before designing a shared continuation primitive."
+}

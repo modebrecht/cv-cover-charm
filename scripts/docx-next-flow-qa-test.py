@@ -46,6 +46,21 @@ class OpeningFlowTests(unittest.TestCase):
                 with self.assertRaisesRegex(AssertionError, 'first-page flow detached'):
                     check_first_page_flow(document, self.fixture())
 
+    def test_opening_band_does_not_replace_track_continuation(self):
+        with self.document() as document:
+            fixture = self.fixture()
+            document[0].insert_text((60, 180), 'Following editable content')
+            check_first_page_flow(document, fixture)
+            document[1].insert_text((60, 180), 'First continuation entry')
+            fixture['parts'][0]['firstPageFlowProbes'].append({
+                'fieldId': 'cv.entry.school.title',
+                'text': 'First continuation entry',
+                'leftMm': 20,
+                'rightMm': 130,
+            })
+            with self.assertRaisesRegex(AssertionError, 'first-page flow detached: cv.entry.school.title'):
+                check_first_page_flow(document, fixture)
+
     def test_wrapped_body_field_passes_in_own_first_page_track(self):
         with self.document() as document:
             document[0].insert_text((60, 180), 'Following editable')

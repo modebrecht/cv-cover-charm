@@ -1,5 +1,7 @@
 # Sidebar picture before a continuous right track
 
+**Subsequent checkpoint:** [Opening-band feasibility](sidebar-opening-band-status.md) executes the next task below. Initial fields pass, but the first continuation entry remains detached in all four bounded variants; the guard remains. This document preserves its original stable-engine evidence.
+
 Starting remote `dev`: `bbee5fd85b81a927e51b85bbf9ddcca73dd08f02`, freshly fetched and independently verified before editing. The working tree was clean. Registry: 29/39 configured candidates, 0/39 Word accepted. Prism remains declarative and Warm/Freundlich remains the remote candidate; neither changed. No template was added in this checkpoint.
 
 ## Architecture decision
