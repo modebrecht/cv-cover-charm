@@ -67,6 +67,13 @@ export async function renderDossierDocx(
     ...walkBlocks(part.blocks),
     ...(part.headerShapes ?? []),
   ]);
+  if (
+    blocks.some((block) => block.kind === "table" && block.position) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error(
+      "DOCX Next floating table pagination is unaccepted; diagnostic opt-in required",
+    );
   for (const block of blocks)
     if (block.kind === "image" && !sources.has(block.source)) {
       const asset = await normalize(block.source),
@@ -269,8 +276,14 @@ export async function renderDossierDocx(
   }
   function table(value: TableBlock, widthMm: number, page: DocumentPart["page"]): string {
     const tableWidth = value.widthMm ?? widthMm - (value.indentMm ?? 0);
-    if (tableWidth < 10 || tableWidth + (value.indentMm ?? 0) > widthMm + 0.001)
+    if (
+      tableWidth < 10 ||
+      (!value.position && tableWidth + (value.indentMm ?? 0) > widthMm + 0.001)
+    )
       throw new Error(`DOCX Next flow box exceeds available width ${value.id}`);
+    const position = value.position
+      ? `<w:tblpPr w:leftFromText="0" w:rightFromText="0" w:topFromText="0" w:bottomFromText="0" w:vertAnchor="page" w:horzAnchor="page" w:tblpX="${twips(value.position.xMm)}" w:tblpY="${twips(value.position.yMm)}"/><w:tblOverlap w:val="never"/>`
+      : "";
     const d = value.decoration;
     const paddingX = d?.paddingXMm ?? 2,
       paddingY = d?.paddingYMm ?? 0;
@@ -302,7 +315,7 @@ export async function renderDossierDocx(
       )
       .join("");
     // A paragraph boundary keeps adjacent semantic tables independently editable.
-    return `<w:tbl><w:tblPr><w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${emptyParagraph}`;
+    return `<w:tbl><w:tblPr>${position}<w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${emptyParagraph}`;
   }
   function renderBlock(
     block: DocBlock,
@@ -524,7 +537,7 @@ export async function renderDossierDocx(
   pkg.add(
     "word/settings.xml",
     WORD_PART_TYPES.settings,
-    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`,
+    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`,
   );
   const fonts = new Set<string>([model.theme.font]);
   for (const part of parts)

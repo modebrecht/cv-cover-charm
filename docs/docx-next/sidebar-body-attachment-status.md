@@ -1,5 +1,7 @@
 # Sidebar body attachment — native ownership checkpoint
 
+Continued by the [independent native floating-table checkpoint](sidebar-floating-status.md): short side content preserves attachment, but long side content still postpones the main flow. The positioned-table experiment is explicitly blocked from normal export.
+
 Starting remote `dev`: **`73423cdaf05bf5eb17486617e95583130dc46aa9`**, freshly fetched and verified against a clean checkout. This continues the [heading/metadata prefix checkpoint](sidebar-heading-prefix-status.md). Registry remains **29/39 configured candidates, 0/39 Word accepted**.
 
 ## Finding

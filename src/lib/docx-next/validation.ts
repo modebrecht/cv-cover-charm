@@ -206,6 +206,20 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
+        if (block.position) {
+          if (!part.blocks.includes(block))
+            throw new Error(`DOCX Next nested positioned table is unsupported ${block.id}`);
+          if (
+            block.widthMm === undefined ||
+            (block.indentMm ?? 0) !== 0 ||
+            ![block.position.xMm, block.position.yMm].every(Number.isFinite) ||
+            block.position.xMm < 0 ||
+            block.position.yMm < 0 ||
+            block.position.xMm + block.widthMm > part.page.widthMm ||
+            block.position.yMm >= part.page.heightMm
+          )
+            throw new Error(`DOCX Next invalid positioned table ${block.id}`);
+        }
         planCellRowSpans(block);
         for (const row of block.rows) {
           if (row.cellDecorations && row.cellDecorations.length !== row.cells.length)

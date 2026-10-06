@@ -95,6 +95,8 @@ export type TableBlock = {
   /** Flowing boxes keep width/padding, with no fixed height or text clipping. */
   widthMm?: number;
   indentMm?: number;
+  /** Unaccepted diagnostic native floating table; physical page coordinates, no fixed height. */
+  position?: { xMm: number; yMm: number };
   sourceLayout?: ElementSourceLayout;
   decoration?: {
     fillColor?: string;
