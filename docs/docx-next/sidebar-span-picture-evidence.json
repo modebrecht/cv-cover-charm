@@ -1,0 +1,129 @@
+{
+  "startingDev": "bbee5fd85b81a927e51b85bbf9ddcca73dd08f02",
+  "configuredCandidates": 29,
+  "wordAccepted": 0,
+  "microsoftWord": "pending",
+  "productionCodeChanged": false,
+  "templatesChanged": [],
+  "genericRendererPrimitivesAdded": [],
+  "rendererTemplateIdHacksAdded": false,
+  "architecture": "picture before later spanning track remains explicitly unsupported",
+  "discardedExperiments": [
+    {
+      "policy": "entry rows atomic; picture-only row splittable",
+      "cases": [
+        {
+          "fixture": "mirrored-short",
+          "dossierPages": 4,
+          "familyOnFirstCvPage": false
+        },
+        {
+          "fixture": "mirrored-long-both-tracks",
+          "dossierPages": 12,
+          "familyOnFirstCvPage": false
+        },
+        {
+          "fixture": "mirrored-running-header-continuation",
+          "dossierPages": 14,
+          "familyOnFirstCvPage": false
+        }
+      ]
+    },
+    {
+      "policy": "native minimum row height",
+      "cases": [
+        {
+          "fixture": "mirrored-short",
+          "dossierPages": 4,
+          "familyOnFirstCvPage": false
+        },
+        {
+          "fixture": "mirrored-long-both-tracks",
+          "dossierPages": 12,
+          "familyOnFirstCvPage": false
+        },
+        {
+          "fixture": "mirrored-running-header-continuation",
+          "dossierPages": 14,
+          "familyOnFirstCvPage": false
+        }
+      ]
+    },
+    {
+      "policy": "separate spanning-track lead row",
+      "cases": [
+        {
+          "fixture": "mirrored-short",
+          "dossierPages": 4,
+          "familyOnFirstCvPage": false
+        },
+        {
+          "fixture": "mirrored-long-both-tracks",
+          "dossierPages": 12,
+          "familyOnFirstCvPage": false
+        },
+        {
+          "fixture": "mirrored-running-header-continuation",
+          "dossierPages": 14,
+          "familyOnFirstCvPage": false
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "fullIsolatedUnits": {
+      "passed": 985,
+      "files": 207
+    },
+    "docxNextIsolatedUnits": {
+      "passed": 283,
+      "files": 45
+    },
+    "pythonOpeningFlowQaTests": 4,
+    "typeScript": "pass",
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 21
+    },
+    "productionBuild": "pass",
+    "releaseFormatting": "pass",
+    "changedFileFormatting": "pass"
+  },
+  "sidebar": {
+    "positiveFixtures": 31,
+    "dossierPages": 253,
+    "byteIdenticalToStartingCheckpoint": 31,
+    "completePackageValidation": "pass",
+    "libreOfficeRender": "pass",
+    "libreOfficeSaveReopen": "pass",
+    "firstPageFollowingContentAssertions": "pass"
+  },
+  "negativeNativeTable": {
+    "libreOfficeVersion": "{ \"ProductName\": \"LibreOffice\", \"ProductVersion\": \"25.8\", \"ProductExtension\": \".7.3\", \"BuildId\": \"580(Build:3)\" }",
+    "render": {
+      "pages": 4,
+      "expectedRejection": "native-picture-before-span: first-page flow detached: cv.documentTitle"
+    },
+    "saveReopen": {
+      "pages": 4,
+      "expectedRejection": "native-picture-before-span: first-page flow detached: cv.documentTitle"
+    },
+    "docxSha256": "4de4726619db74462dca7b30a1f2d3870e249f0a59d631678e41424eaba7165d",
+    "status": "expected failure reproduced; not accepted"
+  },
+  "visualInspection": [
+    "negative first CV page",
+    "late-Y first CV page",
+    "portrait first CV page",
+    "running-header first CV page"
+  ],
+  "editorPdfJson": {
+    "scope": "inherited from starting dev; production code and all 31 positive DOCX packages unchanged",
+    "actualEditor": "pass at starting checkpoint",
+    "productionPdf": "pass at starting checkpoint",
+    "portableJson": "pass at starting checkpoint",
+    "source": "sidebar-photo-zone-evidence.json",
+    "finalCi": "reported after publication"
+  },
+  "nextTask": "Bounded native opening band plus track continuation feasibility on mirrored short, then long and running-header cases; keep guard until all pass. Modern Sidebar afterward."
+}
