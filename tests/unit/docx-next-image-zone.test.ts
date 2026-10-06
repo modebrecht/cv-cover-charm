@@ -49,7 +49,6 @@ test("free photo owns a native zone and retains authored coordinates, frame and 
 test("physical mirroring chooses the matching track and below-header photos begin at its body start", () => {
   for (const [xMm, side, track] of [
     [25, "left", 0],
-    [150, "right", 0],
     [25, "right", 1],
   ] as const) {
     const input = freeInput(xMm);
@@ -63,6 +62,26 @@ test("physical mirroring chooses the matching track and below-header photos begi
     expect(zone.sourceLayout.xMm).toBe(xMm);
     expect(zone.sourceLayout.yMm).toBe(20);
   }
+});
+
+test("a native picture before a later spanning track rejects the known blank-body counterexample", () => {
+  const input = freeInput();
+  input.settings.sidebarSide = "right";
+  const before = structuredClone(input);
+  expect(() => buildDossierDocModel(input)).toThrow(
+    "picture before a spanning track is unsupported",
+  );
+  expect(input).toEqual(before);
+  const flow = buildDossierDocModel(freeInput()).cv.blocks.find(
+    (block): block is ParallelFlowBlock => block.kind === "parallel-flow",
+  )!;
+  const mirrored = { ...flow, tracks: [...flow.tracks].reverse(), spanningTracks: [1] };
+  expect(() => parallelFlowTable(mirrored, 170)).toThrow(
+    "picture before a spanning track is unsupported",
+  );
+  expect(parallelFlowTable({ ...mirrored, spanningTracks: [] }, 170).rows.length).toBeGreaterThan(
+    1,
+  );
 });
 
 test("invalid or unrepresentable image zones fail without resizing, crossing a gutter or losing the picture", () => {

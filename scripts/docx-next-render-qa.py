@@ -232,16 +232,45 @@ def check_cv_composition(document, fixture):
             expected = probe['distanceMm'] * 72 / 25.4
             assert abs((title.x0 - date.x0) - expected) < 2, f'{fixture["fixture"]}: fixed date track changed width'
         pagination = part.get('pagination')
-        if pagination:
+        if pagination and not part.get('firstBodyImageZone'):
             first = pages[0].search_for(part['firstBodyText'])
             expected = (part['contentBoxMm']['top'] + pagination['firstPageLeadMm']) * 72 / 25.4
             assert any(expected - 2 <= box.y0 <= expected + 18 for box in first), f'{fixture["fixture"]}: first-page margin/spacer lost'
+        if pagination:
             if len(pages) > 1:
                 lines = [span['bbox'][1] for block in pages[1].get_text('dict')['blocks'] if 'lines' in block for line in block['lines'] for span in line['spans'] if span['text'].strip()]
                 # Running chrome is excluded from the body by its reservation.
                 top = part['contentBoxMm']['top'] * 72 / 25.4
                 body = [y for y in lines if y >= top - 2]
                 assert body and min(body) < top + 35, f'{fixture["fixture"]}: continuation margin/spacer repeated'
+        start += part['expectedPages']
+
+
+def check_image_zones(document, fixture):
+    """Declared fixture picture frames, independent of any user-visible text lookup."""
+    scale = 72 / 25.4
+    start = 0
+    for part in fixture['parts']:
+        pages = document[start:start + part['expectedPages']]
+        for probe in part.get('imageZoneProbes', []):
+            color = tuple(int(probe['frameColor'][i:i+2], 16) / 255 for i in (0, 2, 4))
+            matches = []
+            for index, page in enumerate(pages):
+                for drawing in page.get_drawings():
+                    actual = drawing.get('color')
+                    if not actual or max(abs(a-b) for a, b in zip(actual, color)) > .01:
+                        continue
+                    box = drawing['rect']
+                    if abs(box.width / scale - probe['widthMm']) < .6 and abs(box.height / scale - probe['heightMm']) < .6:
+                        matches.append((index, box))
+            assert len(matches) == 1 and matches[0][0] == 0, f'{fixture["fixture"]}: image zone missing, repeated or moved to a continuation page: {probe["id"]}'
+            box = matches[0][1]
+            if probe.get('ownsFirstBody'):
+                assert pages[0].search_for(part['firstBodyText']), f'{fixture["fixture"]}: image zone detached from its following first body field'
+            assert abs(box.x0 / scale - probe['leftMm']) < .6, f'{fixture["fixture"]}: image zone horizontal position changed: {probe["id"]}'
+            # Inline picture baselines and cell flow contribute native leading;
+            # the declared Y inset must still be present, including first-page lead.
+            assert probe['topMm'] - 1 <= box.y0 / scale <= probe['topMm'] + 4.5, f'{fixture["fixture"]}: image zone vertical inset lost or repeated: {probe["id"]}'
         start += part['expectedPages']
 
 
@@ -721,6 +750,7 @@ for fixture in manifest:
     check_semantic_text(document, fixture)
     check_entry_attachment(document, fixture)
     check_cv_composition(document, fixture)
+    check_image_zones(document, fixture)
     check_fonts(document, fixture)
     check_custom_footers(document, key)
     check_artwork(document, fixture)
@@ -799,6 +829,7 @@ for fixture in manifest:
             check_semantic_text(reopened, fixture)
             check_entry_attachment(reopened, fixture)
             check_cv_composition(reopened, fixture)
+            check_image_zones(reopened, fixture)
             check_custom_footers(reopened, key)
             check_artwork(reopened, fixture)
             check_scoped_shapes(reopened, fixture)

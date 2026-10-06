@@ -66,6 +66,10 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
     if (width - 2 * (track.decoration?.paddingXMm ?? 0) < 20)
       throw new Error(`DOCX Next parallel track leaves insufficient text width ${value.id}`);
     for (const block of walkBlocks(track.blocks)) {
+      // A preceding picture row with a later vertical span leaves large empty
+      // body regions in LibreOffice. Do not export that known counterexample.
+      if (block.kind === "image" && value.spanningTracks?.some((span) => span > index))
+        throw new Error(`DOCX Next picture before a spanning track is unsupported ${block.id}`);
       if (block.kind === "image-zone")
         imageZoneTable(block, width - 2 * (track.decoration?.paddingXMm ?? 0));
       if (

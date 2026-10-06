@@ -24,11 +24,20 @@ export const SIDEBAR_FIXTURES = [
   "photo-main",
   "photo-free-main",
   "photo-free-side",
+  "photo-free-mirrored-side",
+  "photo-free-long",
+  "photo-free-side-long",
+  "photo-free-low",
+  "photo-free-portrait",
+  "photo-free-chrome",
   "placements",
   "styled",
   "hidden-paint",
 ] as const;
-export type SidebarFixture = (typeof SIDEBAR_FIXTURES)[number];
+export const SIDEBAR_UNSUPPORTED_FIXTURES = ["photo-free-mirrored-main"] as const;
+export type SidebarFixture =
+  | (typeof SIDEBAR_FIXTURES)[number]
+  | (typeof SIDEBAR_UNSUPPORTED_FIXTURES)[number];
 
 export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
   const input = briefFixture(
@@ -38,21 +47,30 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
       kind === "chrome-continuation" ||
       kind === "chrome-leading" ||
       kind === "contact-long" ||
-      kind.startsWith("side-entries")
+      kind.startsWith("side-entries") ||
+      ["photo-free-long", "photo-free-side-long", "photo-free-low", "photo-free-chrome"].includes(
+        kind,
+      )
       ? "long-cv"
       : kind === "minimal"
         ? "minimal"
         : "normal",
   );
   input.settings.cvLayout = "sidebar";
-  input.settings.sidebarSide = kind === "right" || kind === "photo-right" ? "right" : "left";
+  input.settings.sidebarSide =
+    kind === "right" || kind === "photo-right" || kind.includes("mirrored") ? "right" : "left";
   input.cv.design.sidebarPct = kind === "narrow" ? 0.22 : kind === "wide" ? 0.42 : 0.3;
   if (kind.startsWith("side-entries")) input.settings.placements = { schule: "side" };
   if (kind === "side-entries-smaller-body")
     input.settings.margins = {
       cv: { top: 60, bottom: 20, left: 20, right: 20 },
     };
-  if (kind === "side-long" || kind === "both-long")
+  if (
+    kind === "side-long" ||
+    kind === "both-long" ||
+    kind === "photo-free-long" ||
+    kind === "photo-free-side-long"
+  )
     input.cv.data.hobbys = Array.from(
       { length: 55 },
       (_, index) =>
@@ -92,8 +110,20 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
     if (kind.startsWith("photo-free"))
       Object.assign(input.settings.cvPhotoPlacement, {
         mode: "frei",
-        xMm: kind === "photo-free-side" ? 25 : 150,
+        xMm: kind.includes("side") ? 25 : 150,
       });
+    if (kind === "photo-free-low") input.settings.cvPhotoPlacement!.yMm = 160;
+    if (kind === "photo-free-portrait") {
+      input.settings.cvPhotoPlacement!.yMm = 45;
+      input.settings.cvPhotoPlacement!.frameColor = "#b53b4b";
+      Object.assign(input.settings.cvPhotoStyle!, {
+        shape: "portrait",
+        zoom: 1.65,
+        x: 30,
+        y: 70,
+        borderWidth: 1.2,
+      });
+    }
   }
   if (kind === "placements") {
     input.settings.placements = { kontakt: "main", schule: "side", hobbys: "main" };
@@ -119,7 +149,7 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
       "cv.person.firstName": { color: "9B2349", italic: true, sizePt: 19 },
       "cv.section.hobbys.heading": { color: "246138", bold: true, sizePt: 13 },
     };
-  if (kind.startsWith("contact") || kind.startsWith("chrome")) {
+  if (kind.startsWith("contact") || kind.startsWith("chrome") || kind === "photo-free-chrome") {
     input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
     Object.assign(input.settings.chrome.shared, {
       headerMode: "contact",
@@ -127,13 +157,13 @@ export function sidebarFixture(kind: SidebarFixture = "left", image?: string) {
       headerGapMm: 4,
     });
   }
-  if (kind.startsWith("chrome"))
+  if (kind.startsWith("chrome") || kind === "photo-free-chrome")
     Object.assign(input.settings.chrome!.shared, {
       headerDifferentFirstPage: true,
       headerContinuationMode: "compact",
     });
   if (kind === "continuation") input.settings.cvContinuationTopMarginMm = 10;
-  if (kind === "chrome-leading") {
+  if (kind === "chrome-leading" || kind === "photo-free-chrome") {
     input.settings.margins = { cv: { top: 80, bottom: 20, left: 20, right: 20 } };
     input.settings.cvContinuationTopMarginMm = 10;
   }

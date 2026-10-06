@@ -88,6 +88,12 @@ const SIDEBAR_PAGE_COUNTS: Record<string, number> = {
   "sidebar-photo-main": 2,
   "sidebar-photo-free-main": 2,
   "sidebar-photo-free-side": 1,
+  "sidebar-photo-free-mirrored-side": 1,
+  "sidebar-photo-free-long": 10,
+  "sidebar-photo-free-side-long": 9,
+  "sidebar-photo-free-low": 10,
+  "sidebar-photo-free-portrait": 2,
+  "sidebar-photo-free-chrome": 11,
   "sidebar-placements": 2,
   "sidebar-side-entries-long": 15,
   "sidebar-side-entries-smaller-body": 19,
@@ -906,6 +912,44 @@ try {
         });
       });
     };
+    const imageZoneProbes = (part: typeof model.cv) =>
+      part.blocks.flatMap((block) => {
+        if (block.kind !== "parallel-flow") return [];
+        const available =
+          part.page.widthMm -
+          part.page.margins.left -
+          part.page.margins.right -
+          block.gapMm * (block.tracks.length - 1);
+        const weights = block.tracks.reduce((sum, track) => sum + track.weight, 0);
+        let leftMm = part.page.margins.left;
+        return block.tracks.flatMap((track) => {
+          const width = (available * track.weight) / weights;
+          const trackLeft = leftMm + (track.decoration?.paddingXMm ?? 0);
+          leftMm += width + block.gapMm;
+          return track.blocks.flatMap((zone) =>
+            zone.kind === "image-zone" && zone.image.frame!.borderWidthMm > 0
+              ? [
+                  {
+                    id: zone.id,
+                    leftMm: trackLeft + zone.leftInsetMm + zone.image.frame!.borderWidthMm / 2,
+                    topMm:
+                      part.page.margins.top +
+                      (block.leadingInsetMm ?? 0) +
+                      (track.decoration?.paddingTopMm ?? track.decoration?.paddingYMm ?? 0) +
+                      zone.topInsetMm +
+                      zone.image.frame!.borderWidthMm / 2,
+                    widthMm: zone.image.widthMm,
+                    heightMm: zone.image.widthMm * zone.image.frame!.heightRatio,
+                    frameColor: zone.image.frame!.borderColor,
+                    ownsFirstBody: walkBlocks(track.blocks).some(
+                      (child) => child.id === "cv.documentTitle",
+                    ),
+                  },
+                ]
+              : [],
+          );
+        });
+      });
     const parts = [model.cover, model.letter, model.cv].map((part, index) => ({
       id: part.id,
       expectedPages: [coverPages, letterPages, cvPages][index],
@@ -982,6 +1026,8 @@ try {
           : [];
       }),
       pagination: part.layout.pagination,
+      imageZoneProbes: imageZoneProbes(part),
+      firstBodyImageZone: imageZoneProbes(part).find((probe) => probe.ownsFirstBody)?.id,
       firstBodyText: (
         part.blocks.find((block) => block.kind === "paragraph") ??
         walkBlocks(part.blocks).find(
