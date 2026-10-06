@@ -1,5 +1,7 @@
 # Sidebar heading prefix — bounded architecture checkpoint
 
+Continued by the [native body ownership checkpoint](sidebar-body-attachment-status.md), which holds paragraph flags and actual glyph geometry constant while isolating the multi-cell context. The opt-in prefix and its two counterexamples below remain unchanged.
+
 Starting remote `dev`: **`19094554f7c35d26b9a497a4aefd0483c8dd1feb`**, freshly fetched and verified against a clean checkout. This continues the [heading attachment diagnostics](sidebar-heading-attachment-status.md). Registry remains **29/39 configured candidates, 0/39 Word accepted**.
 
 ## Retained generic composition
