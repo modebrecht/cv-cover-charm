@@ -1,4 +1,8 @@
-# DOCX Next checkpoint — 2026-10-05
+# DOCX Next checkpoint — 2026-10-06
+
+**Current Sidebar architecture checkpoint:** [Picture/span boundary](sidebar-span-picture-status.md): starting remote `bbee5fd85b81a927e51b85bbf9ddcca73dd08f02`; three native-table experiments were discarded, and the generic picture-before-later-span rejection remains. Stronger first-page content assertions pass on all 31 supported Sidebar fixtures / 253 pages with render/save-reopen; all 31 DOCX packages are byte-identical. A native table specimen reproduces the expected rejection before and after save/reopen. 985 isolated units / 207 files, including 283 Next units / 45 files, and four Python QA tests pass. Counts remain **29/39 configured candidates, 0/39 Word accepted**. The exact next task is a bounded shared opening-band/track-continuation feasibility check; Modern Sidebar follows after that native boundary is resolved. Microsoft Word acceptance: pending; Word availability does not block development.
+
+The entries below are historical checkpoints. Their older fixture counts, restrictions and next-task recommendations do not override the current status above.
 
 **Latest Sidebar investigation:** [Native pagination counterexamples](sidebar-pagination-status.md): eight diagnostic dossiers / 101 pages reproduce missing fields even without headers and expose title detachment in paragraph alternatives. No renderer/composition experiment was retained. The original 16 Sidebar packages are byte-identical and still pass their 97-page QA. 971 units pass. Counts remain 29/39 configured, 0/39 Word accepted. Controlled Microsoft Word comparison is the next architecture decision; header and margin guards remain.
 

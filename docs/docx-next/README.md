@@ -1,6 +1,6 @@
 # DOCX Next developer guide
 
-The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **1/39 configured candidates (Brief); 0/39 Word-accepted migrations.** [Brief coverage](brief-feature-coverage.md) records mapped inputs and outstanding acceptance work.
+The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-span-picture-status.md) records the remaining native picture/span blocker and the exact next task. Microsoft Word acceptance is pending and does not block authorized candidate development.
 
 ## Read the pipeline
 
@@ -20,7 +20,7 @@ Anonymous legacy typography IDs deliberately block this API. Supply explicit `ol
 
 ## Add a template
 
-Declare a `TemplateDefinition` in `templates.ts`: archetype, font/color tokens, physical margins, cover ordering, spacing, heading rule and artwork configuration. Do not create a renderer or XML patch for it. At present `nextTemplate` rejects every template except Brief because Gate 5 remains open. After Brief is accepted, introduce the diverse reference group and test any new primitive generically before registering more templates. The 39-row migration ledger is in `migration.md`.
+Declare a `TemplateDefinition` in `templates.ts`: archetype, font/color tokens, physical margins, cover ordering, spacing, heading rule and artwork configuration. Do not create a renderer or XML patch for it. `nextTemplate` resolves the 29 registered isolated candidates and explicitly rejects unregistered IDs. Test new primitives generically and supply targeted model/package/render/save-reopen evidence before registering a candidate. Registration does not establish Microsoft Word acceptance or permit a production switchover. The 39-row migration ledger is in `migration.md`.
 
 ## Add a semantic block
 
