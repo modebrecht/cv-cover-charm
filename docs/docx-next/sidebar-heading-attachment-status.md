@@ -1,5 +1,7 @@
 # Sidebar heading attachment — bounded continuation checkpoint
 
+Superseded by the [generic heading/metadata prefix checkpoint](sidebar-heading-prefix-status.md). The findings below describe the unchanged controls; the later opt-in prefix resolves their heading/metadata gates and exposes a tighter description-opening blocker.
+
 Starting remote `dev`: **`b130e08362df292cccac3ff0fce7713d3f79bd52`**, freshly fetched and verified against a clean checkout. This follows the [opening-band checkpoint](sidebar-opening-band-status.md). Registry remains **29/39 configured candidates, 0/39 Word accepted**.
 
 ## Finding

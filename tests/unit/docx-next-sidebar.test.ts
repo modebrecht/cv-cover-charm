@@ -28,18 +28,19 @@ test("native continuation diagnostics survive model JSON roundtrip without chang
       contentType: "image/png" as const,
     }),
   };
-  for (const value of SIDEBAR_HEADING_CASES) {
-    const { model } = sidebarHeadingAttachmentFixture(value);
-    const before = structuredClone(model);
-    const initial = await renderDossierDocx(model, options);
-    const restored = await renderDossierDocx(JSON.parse(JSON.stringify(model)), options);
-    expect(new Uint8Array(await restored.arrayBuffer())).toEqual(
-      new Uint8Array(await initial.arrayBuffer()),
-    );
-    expect(model).toEqual(before);
-    const semanticIds = ids(model.cv.blocks);
-    expect(new Set(semanticIds).size).toBe(semanticIds.length);
-  }
+  for (const value of SIDEBAR_HEADING_CASES)
+    for (const nativePrefix of [false, true]) {
+      const { model } = sidebarHeadingAttachmentFixture(value, nativePrefix);
+      const before = structuredClone(model);
+      const initial = await renderDossierDocx(model, options);
+      const restored = await renderDossierDocx(JSON.parse(JSON.stringify(model)), options);
+      expect(new Uint8Array(await restored.arrayBuffer())).toEqual(
+        new Uint8Array(await initial.arrayBuffer()),
+      );
+      expect(model).toEqual(before);
+      const semanticIds = ids(model.cv.blocks);
+      expect(new Set(semanticIds).size).toBe(semanticIds.length);
+    }
 });
 
 test("Brief sidebar keeps explicit source data deterministic and immutable", () => {

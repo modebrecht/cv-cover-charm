@@ -1,8 +1,8 @@
 # DOCX Next developer guide
 
-Current Sidebar blocker: [Heading/entry attachment checkpoint](sidebar-heading-attachment-status.md).
+Current Sidebar blocker: [Heading/metadata prefix and description boundary](sidebar-heading-prefix-status.md).
 
-The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-heading-attachment-status.md) records the continuation and oversized-heading gates and the exact next task. Microsoft Word acceptance is pending and does not block authorized candidate development.
+The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-heading-prefix-status.md) records the prefix and description-opening gates and the exact next task. Microsoft Word acceptance is pending and does not block authorized candidate development.
 
 ## Read the pipeline
 

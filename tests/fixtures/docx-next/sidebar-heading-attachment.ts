@@ -2,8 +2,14 @@
 import assert from "node:assert/strict";
 import { buildDossierDocModel } from "../../../src/lib/docx-next/build-model";
 import { parallelFlowTable } from "../../../src/lib/docx-next/parallel-flow";
+import { sectionHeadingPrefix } from "../../../src/lib/docx-next/heading-prefix";
 import { semanticFlowUnits } from "../../../src/lib/docx-next/semantic-flow-units";
-import { walkBlocks, type ParallelFlowBlock } from "../../../src/lib/docx-next/model";
+import {
+  walkBlocks,
+  type ParallelFlowBlock,
+  type DocBlock,
+  type Paragraph,
+} from "../../../src/lib/docx-next/model";
 import { briefFixture } from "./brief";
 import { sidebarFixture, sidebarOpeningFieldIds } from "./sidebar";
 
@@ -39,9 +45,24 @@ export const SIDEBAR_HEADING_CASES = [
     },
   ]),
 ];
-export type SidebarHeadingCase = (typeof SIDEBAR_HEADING_CASES)[number];
+export type SidebarHeadingCase = (typeof SIDEBAR_HEADING_CASES)[number] & {
+  boundaryLeadMm?: number;
+  descriptionAttachmentExpected?: boolean;
+};
+export const SIDEBAR_PREFIX_BOUNDARY_CASES: SidebarHeadingCase[] = [
+  220, 224, 226, 228, 230, 234,
+].map((boundaryLeadMm) => ({
+  name: `boundary-${boundaryLeadMm}`,
+  kind: "oversized",
+  photo: false,
+  rail: true,
+  nested: false,
+  disableHeadingAttachment: false,
+  boundaryLeadMm,
+  descriptionAttachmentExpected: boundaryLeadMm >= 226,
+}));
 
-export function sidebarHeadingAttachmentFixture(value: SidebarHeadingCase) {
+export function sidebarHeadingAttachmentFixture(value: SidebarHeadingCase, nativePrefix = false) {
   const source = buildDossierDocModel(
     sidebarFixture(value.kind === "oversized" ? "paragraph-long" : "photo-free-main"),
   );
@@ -60,7 +81,7 @@ export function sidebarHeadingAttachmentFixture(value: SidebarHeadingCase) {
     assert(section?.kind === "section");
     // Authored flow content, not a renderer page measurement or user-text lookup.
     diagnostic.tracks[1].blocks = [
-      { kind: "spacer", id: "probe.boundary-lead", heightMm: 230 },
+      { kind: "spacer", id: "probe.boundary-lead", heightMm: value.boundaryLeadMm ?? 230 },
       section,
     ];
     diagnostic.tracks[0].blocks = [];
@@ -129,6 +150,38 @@ export function sidebarHeadingAttachmentFixture(value: SidebarHeadingCase) {
     mainCell = 0;
     mainWidth = table.widths[mainCell];
   }
+  if (nativePrefix) {
+    // Compose before rendering. These authored fixture boundaries use paragraph attachment,
+    // never visible values, geometry estimates, templates or exported package repair.
+    const lower = (blocks: DocBlock[]): DocBlock[] =>
+      blocks.map((block) => {
+        if (block.kind === "section" && block.heading && block.blocks.length) {
+          const first = block.blocks[0];
+          if (first.kind !== "paragraph" && first.kind !== "entry") return block;
+          if (first.kind === "entry" && first.blocks[0]?.kind !== "paragraph") return block;
+          let count = 1;
+          if (first.kind === "entry") {
+            count = 0;
+            while (
+              first.blocks[count]?.kind === "paragraph" &&
+              (first.blocks[count] as Paragraph).keepNext
+            )
+              count++;
+            count = Math.max(1, count);
+          }
+          return sectionHeadingPrefix(block, count);
+        }
+        if (block.kind === "table")
+          return {
+            ...block,
+            rows: block.rows.map((row) => ({ ...row, cells: row.cells.map(lower) })),
+          };
+        if (block.kind === "entry" || block.kind === "group")
+          return { ...block, blocks: lower(block.blocks) };
+        return block;
+      });
+    model.cv.blocks = lower(model.cv.blocks);
+  }
   const table = model.cv.blocks[0];
   assert(table.kind === "table");
   const leftMm =
@@ -157,7 +210,8 @@ export function sidebarHeadingAttachmentFixture(value: SidebarHeadingCase) {
   return {
     model,
     fixture: {
-      fixture: value.name,
+      fixture: `${nativePrefix ? "prefix-" : ""}${value.name}`,
+      nativePrefix,
       diagnostic: value,
       // Whole units survive model/portable-style JSON serialization unchanged.
       cvSemanticText: paragraphs.map((paragraph) => paragraph.runs.map((run) => run.text).join("")),
