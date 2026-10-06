@@ -1,0 +1,181 @@
+{
+  "libreOffice": {
+    "ProductName": "LibreOffice",
+    "ProductVersion": "25.8",
+    "ProductExtension": ".7.3",
+    "BuildId": "580(Build:3)"
+  },
+  "microsoftWord": "pending",
+  "purpose": "Controlled shared native spanning-row proof; Microsoft Word acceptance pending",
+  "cases": [
+    {
+      "id": "baseline",
+      "header": "none",
+      "entry": "row",
+      "topMm": 20,
+      "source": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "bb1327efea49d009acb3b196ce7c4f6f234ef0ce728fbe192690188370b09066",
+      "pdfSha256": "1565a9913f2c4e97f35124f547a7585e9352f100d606152646b1848c2a9fe606",
+      "reopenedPdfSha256": "4316722cbd9da51695a8be6662c1cadf9d81fb441f5962ecc1d83c6ddea410f2"
+    },
+    {
+      "id": "smaller-body",
+      "header": "none",
+      "entry": "row",
+      "topMm": 60,
+      "source": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "6772587adc638810b4a57e6a6b15ad7a8c85dd36261088f3f4fd0d98052ba487",
+      "pdfSha256": "682f8ad77039a78a552a8ed8a9751f914426e0bc36c1523a945312aea460a680",
+      "reopenedPdfSha256": "7f049c2df6a682f51d1f8789e4a24fe5b06482a869f0b784e9e3cfec830a2f24"
+    },
+    {
+      "id": "contact-header",
+      "header": "contact",
+      "entry": "row",
+      "topMm": 60,
+      "source": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "4f5853aefdeb2a32d62b84c4af2081ceb60917fffc6393b28204abc143e2f5ca",
+      "pdfSha256": "45f6f393e6561ef97acc48908890b6f35989373d186247f670dab7baa1954ce6",
+      "reopenedPdfSha256": "0176af9740eae054c266fb664145b7edd2d0dcb6847ad2d03fb53f169cd97d94"
+    },
+    {
+      "id": "first-header",
+      "header": "first",
+      "entry": "row",
+      "topMm": 60,
+      "source": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "8df2e5d5880a90ee845f881efd3b436881d39285c596bcf5dd1284319394b434",
+      "pdfSha256": "0e3f04881b307089ea381ac3a597686f812d441f7bfb35d3da75392c062eeea8",
+      "reopenedPdfSha256": "012c396b3d5595384d53e2996155b76b1901de3554d0e7ef54eca0954f4c853b"
+    },
+    {
+      "id": "paragraph-flow",
+      "header": "none",
+      "entry": "paragraph",
+      "topMm": 60,
+      "source": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "6772587adc638810b4a57e6a6b15ad7a8c85dd36261088f3f4fd0d98052ba487",
+      "pdfSha256": "50c08a40b0f766911e069c4c44706b4070ff84fc6369040ae570a862cfb21e80",
+      "reopenedPdfSha256": "2d8ce3c7817d789d6a4ac4845079d82e39cb89b8c37b177be0ccac27e5e84e85"
+    },
+    {
+      "id": "paragraph-header",
+      "header": "first",
+      "entry": "paragraph",
+      "topMm": 60,
+      "source": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 13,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "8df2e5d5880a90ee845f881efd3b436881d39285c596bcf5dd1284319394b434",
+      "pdfSha256": "7eddd854c1c6392826d275266b34ad5852836266305fa71a2082da8c6288ac5b",
+      "reopenedPdfSha256": "464289b141297aefa289958af11f46a383261131b8453c736adc1b304a160180"
+    },
+    {
+      "id": "paragraph-keep-lines",
+      "header": "none",
+      "entry": "paragraph-keep-lines",
+      "topMm": 20,
+      "source": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "8607cdc46fe299fc6e404680209c48f887f88e2d32daad9d3b6a73e086371de8",
+      "pdfSha256": "b53bdfa96324c981139d008dd8e7a1869d0f6090509059da19936888ead6e2cf",
+      "reopenedPdfSha256": "d1250dfb0f085043f476279a44410698ba73f15565f63b0cf9e211bd5340fc4e"
+    },
+    {
+      "id": "paragraph-default-margin",
+      "header": "none",
+      "entry": "paragraph",
+      "topMm": 20,
+      "source": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "reopened": {
+        "pages": 11,
+        "missingFields": [],
+        "detachedEntries": []
+      },
+      "sourceContainsAllFields": true,
+      "savedContainsAllFields": true,
+      "docxSha256": "bb1327efea49d009acb3b196ce7c4f6f234ef0ce728fbe192690188370b09066",
+      "pdfSha256": "139700c35b1ee25a7f28917954ec5f1ae303eb10cff4162e42f5ab9d501c6563",
+      "reopenedPdfSha256": "00d8064bd44bb5e6bd2add59dc23cc54b3b593f3f991bfbd5e6fad1357ae3647"
+    }
+  ],
+  "startingDev": "2660a1bf2f297cd52ad45ee6575d7ff5562fc5a8"
+}

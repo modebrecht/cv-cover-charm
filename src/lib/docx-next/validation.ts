@@ -4,6 +4,7 @@ import { validateDecoration } from "./decoration";
 import { fontDefinition } from "./fonts";
 import { decorationPageGeometry } from "./page-artwork";
 import { parallelFlowTable, validateCellDecoration } from "./parallel-flow";
+import { planCellRowSpans } from "./native-cell";
 
 /** Validate known semantic structures and package parts, never visible text occurrence. */
 export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): void {
@@ -200,6 +201,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
+        planCellRowSpans(block);
         for (const row of block.rows) {
           if (row.cellDecorations && row.cellDecorations.length !== row.cells.length)
             throw new Error(`DOCX Next invalid cell decoration count ${block.id}`);

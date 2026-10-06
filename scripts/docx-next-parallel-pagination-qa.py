@@ -100,6 +100,7 @@ def main():
         assert bool(first['detachedEntries']) == case['detached'], 'Attachment observation changed; review it'
         assert first == reopened, 'Save/reopen changed a diagnostic observation; review it'
         row = {key: case[key] for key in ('id', 'header', 'entry', 'topMm')}
+        row['composition'] = case.get('composition', 'independent')
         row.update(source=first, reopened=reopened,
                    sourceContainsAllFields=True,
                    savedContainsAllFields=all(compact(p['text']) in compact(saved_text)

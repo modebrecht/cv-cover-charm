@@ -6,13 +6,23 @@ import {
   parallelPaginationFixture,
 } from "../tests/fixtures/docx-next/parallel-pagination";
 import { walkBlocks } from "../src/lib/docx-next/model";
+import { parallelFlowTable } from "../src/lib/docx-next/parallel-flow";
 import { renderDossierDocx } from "../src/lib/docx-next/renderer";
 
 const folder = path.resolve(process.argv[2] ?? "artifacts/docx-next/parallel-pagination");
+const rowAligned =
+  process.argv.includes("--semantic-rows") || process.argv.includes("--spanning-rows");
+const spanning = process.argv.includes("--spanning-rows");
 await mkdir(folder, { recursive: true });
 const manifest = [];
 for (const value of PARALLEL_PAGINATION_CASES) {
   const { model, flow } = parallelPaginationFixture(value);
+  if (rowAligned) {
+    flow.rowAlignment = "semantic";
+    if (spanning) flow.spanningTracks = [0];
+    const width = model.cv.page.widthMm - model.cv.page.margins.left - model.cv.page.margins.right;
+    model.cv.blocks = [parallelFlowTable(flow, width)];
+  }
   const file = `${value.id}.docx`;
   const blob = await renderDossierDocx(model);
   await writeFile(path.join(folder, file), new Uint8Array(await blob.arrayBuffer()));
@@ -53,7 +63,14 @@ for (const value of PARALLEL_PAGINATION_CASES) {
     left = right + flow.gapMm;
     return result;
   });
-  manifest.push({ ...value, file, page: model.cv.page, tracks });
+  manifest.push({
+    ...value,
+    ...(rowAligned ? { missingTail: false, detached: false } : {}),
+    composition: spanning ? "spanning-rows" : rowAligned ? "semantic-rows" : "independent",
+    file,
+    page: model.cv.page,
+    tracks,
+  });
 }
 await writeFile(path.join(folder, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 console.log(

@@ -26,7 +26,7 @@ import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
 import { parallelFlowTable } from "./parallel-flow";
-import { cellProperties } from "./native-cell";
+import { cellProperties, planCellRowSpans } from "./native-cell";
 import { decorationPageGeometry, orderedPagePaint } from "./page-artwork";
 import {
   control,
@@ -280,18 +280,22 @@ export async function renderDossierDocx(
       ? `w:val="single" w:sz="${Math.min(96, Math.max(2, Math.round(((d.borderWidthMm * 72) / 25.4) * 8)))}" w:color="${d.borderColor}"`
       : 'w:val="nil"';
     const widths = tableColumnWidths(value, tableWidth);
+    const merges = planCellRowSpans(value);
     const rows = value.rows
       .map(
-        (row) =>
+        (row, rowIndex) =>
           `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells
             .map((cell, index) => {
+              const merge = merges[rowIndex][index]
+                ? `<w:vMerge w:val="${merges[rowIndex][index]}"/>`
+                : "";
               const paint = row.cellDecorations?.[index];
               const inset = paint?.paddingXMm ?? paddingX;
               const contentWidth = widths[index] - inset * 2;
               if (paint && cell.length && contentWidth < 10)
                 throw new Error(`DOCX Next cell leaves insufficient text width ${value.id}`);
               const props = paint ? cellProperties(paint) : shading;
-              return `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/>${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page)}${emptyParagraph}</w:tc>`;
+              return `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page)}${emptyParagraph}</w:tc>`;
             })
             .join("")}</w:tr>`,
       )

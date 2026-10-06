@@ -80,6 +80,8 @@ export type TableBlock = {
     cells: DocBlock[][];
     keepTogether: boolean;
     cellDecorations?: (CellDecoration | undefined)[];
+    /** Semantic vertical cell spans; absent cells each occupy one row. */
+    cellRowSpans?: number[];
   }[];
   /** Flowing boxes keep width/padding, with no fixed height or text clipping. */
   widthMm?: number;
@@ -99,13 +101,20 @@ export type CellDecoration = {
   fillColor?: string;
   paddingXMm: number;
   paddingYMm: number;
+  /** Optional asymmetric native cell insets; absent retains symmetric padding. */
+  paddingTopMm?: number;
+  paddingBottomMm?: number;
   border?: { color: string; widthMm: number; side: "left" | "right" };
 };
-/** Independent editable tracks sharing natural Word pagination. */
+/** Editable tracks sharing natural Word pagination, with explicit row alignment. */
 export type ParallelFlowBlock = {
   kind: "parallel-flow";
   id: string;
   gapMm: number;
+  /** Absent: independent cells. Semantic: pair content groups in native rows. */
+  rowAlignment?: "semantic";
+  /** Tracks occupying a continuous cell beside the semantic rows of other tracks. */
+  spanningTracks?: number[];
   tracks: { weight: number; blocks: DocBlock[]; decoration?: CellDecoration }[];
 };
 /** Source geometry remains inspectable; semantic text/images use natural Word flow. */

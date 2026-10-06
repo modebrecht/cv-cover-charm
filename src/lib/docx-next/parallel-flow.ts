@@ -1,9 +1,26 @@
-import { walkBlocks, type CellDecoration, type ParallelFlowBlock, type TableBlock } from "./model";
+import {
+  walkBlocks,
+  type CellDecoration,
+  type DocBlock,
+  type ParallelFlowBlock,
+  type TableBlock,
+} from "./model";
+import { semanticFlowUnits } from "./semantic-flow-units";
 
 export function validateCellDecoration(value: CellDecoration, id: string): void {
   if (
-    ![value.paddingXMm, value.paddingYMm].every(Number.isFinite) ||
-    Math.min(value.paddingXMm, value.paddingYMm) < 0 ||
+    ![
+      value.paddingXMm,
+      value.paddingYMm,
+      value.paddingTopMm ?? 0,
+      value.paddingBottomMm ?? 0,
+    ].every(Number.isFinite) ||
+    Math.min(
+      value.paddingXMm,
+      value.paddingYMm,
+      value.paddingTopMm ?? 0,
+      value.paddingBottomMm ?? 0,
+    ) < 0 ||
     (value.fillColor !== undefined && !/^[0-9A-F]{6}$/.test(value.fillColor)) ||
     (value.border &&
       (!/^[0-9A-F]{6}$/.test(value.border.color) ||
@@ -15,10 +32,18 @@ export function validateCellDecoration(value: CellDecoration, id: string): void 
     throw new Error(`DOCX Next invalid cell decoration ${id}`);
 }
 
-/** Lower semantic parallel flow to a splittable native row, without measuring pages. */
+/** Lower explicit track composition without measuring or reconstructing pages. */
 export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): TableBlock {
   if (
     value.tracks.length < 2 ||
+    (value.rowAlignment !== undefined && value.rowAlignment !== "semantic") ||
+    (value.spanningTracks !== undefined &&
+      (value.rowAlignment !== "semantic" ||
+        value.spanningTracks.length >= value.tracks.length ||
+        new Set(value.spanningTracks).size !== value.spanningTracks.length ||
+        value.spanningTracks.some(
+          (index) => !Number.isInteger(index) || index < 0 || index >= value.tracks.length,
+        ))) ||
     !Number.isFinite(value.gapMm) ||
     value.gapMm < 0 ||
     value.tracks.some((track) => !Number.isFinite(track.weight) || track.weight <= 0)
@@ -29,6 +54,7 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
   const widths: number[] = [],
     cells: TableBlock["rows"][number]["cells"] = [];
   const cellDecorations: NonNullable<TableBlock["rows"][number]["cellDecorations"]> = [];
+  const spanningCells = new Set<number>();
   value.tracks.forEach((track, index) => {
     if (track.decoration) validateCellDecoration(track.decoration, value.id);
     const width = (available * track.weight) / totalWeight;
@@ -51,13 +77,46 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
       cellDecorations.push({ paddingXMm: 0, paddingYMm: 0 });
     }
     widths.push(width);
+    if (value.spanningTracks?.includes(index)) spanningCells.add(cells.length);
     cells.push(track.blocks);
     cellDecorations.push(track.decoration ?? { paddingXMm: 0, paddingYMm: 0 });
   });
+  const rows: TableBlock["rows"] = [{ cells, keepTogether: false, cellDecorations }];
+  if (value.rowAlignment === "semantic") {
+    const units = cells.map((blocks, index) =>
+      spanningCells.has(index) ? [] : semanticFlowUnits(blocks),
+    );
+    const count = Math.max(1, ...units.map((track) => track.length));
+    rows.splice(
+      0,
+      1,
+      ...Array.from({ length: count }, (_, index) => ({
+        cells: units.map((track, cell): DocBlock[] =>
+          spanningCells.has(cell) ? (index === 0 ? cells[cell] : []) : (track[index] ?? []),
+        ),
+        ...(spanningCells.size
+          ? {
+              cellRowSpans: cells.map((_, cell) =>
+                index === 0 && spanningCells.has(cell) ? count : 1,
+              ),
+            }
+          : {}),
+        keepTogether: true,
+        cellDecorations: cellDecorations.map((value) => {
+          const paint = value ?? { paddingXMm: 0, paddingYMm: 0 };
+          return {
+            ...paint,
+            paddingTopMm: index === 0 ? (paint.paddingTopMm ?? paint.paddingYMm) : 0,
+            paddingBottomMm: index === count - 1 ? (paint.paddingBottomMm ?? paint.paddingYMm) : 0,
+          };
+        }),
+      })),
+    );
+  }
   return {
     kind: "table",
     id: value.id,
     widths,
-    rows: [{ cells, keepTogether: false, cellDecorations }],
+    rows,
   };
 }
