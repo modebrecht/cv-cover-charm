@@ -60,6 +60,15 @@ export type ImageBlock = {
   coordinateOrigin?: "content" | "page";
   sourceLayout?: ElementSourceLayout;
 };
+/** Unaccepted automatic-height native paragraph frame; diagnostic flow only. */
+export type ParagraphFrameBlock = {
+  kind: "paragraph-frame";
+  id: string;
+  xMm: number;
+  yMm: number;
+  widthMm: number;
+  paragraphs: Paragraph[];
+};
 /** An editable picture in a native flow zone; authored coordinates remain inspectable. */
 export type ImageZoneBlock = {
   kind: "image-zone";
@@ -176,6 +185,7 @@ export type DocBlock =
   | ImageZoneBlock
   | SectionBlock
   | TableBlock
+  | ParagraphFrameBlock
   | ParallelFlowBlock
   | DecorativeShape
   | { kind: "entry"; id: string; blocks: DocBlock[]; keepTogether?: boolean }
@@ -259,18 +269,20 @@ export type DossierDocModel = {
 export function walkBlocks(blocks: DocBlock[]): DocBlock[] {
   return blocks.flatMap((block) => [
     block,
-    ...(block.kind === "section"
-      ? [...(block.heading ? [block.heading] : []), ...walkBlocks(block.blocks)]
-      : block.kind === "entry" || block.kind === "group" || block.kind === "column-flow"
-        ? walkBlocks(block.blocks)
-        : block.kind === "columns"
-          ? block.columns.flatMap(walkBlocks)
-          : block.kind === "table"
-            ? block.rows.flatMap((row) => row.cells.flatMap(walkBlocks))
-            : block.kind === "parallel-flow"
-              ? block.tracks.flatMap((track) => walkBlocks(track.blocks))
-              : block.kind === "image-zone"
-                ? [block.image]
-                : []),
+    ...(block.kind === "paragraph-frame"
+      ? block.paragraphs
+      : block.kind === "section"
+        ? [...(block.heading ? [block.heading] : []), ...walkBlocks(block.blocks)]
+        : block.kind === "entry" || block.kind === "group" || block.kind === "column-flow"
+          ? walkBlocks(block.blocks)
+          : block.kind === "columns"
+            ? block.columns.flatMap(walkBlocks)
+            : block.kind === "table"
+              ? block.rows.flatMap((row) => row.cells.flatMap(walkBlocks))
+              : block.kind === "parallel-flow"
+                ? block.tracks.flatMap((track) => walkBlocks(track.blocks))
+                : block.kind === "image-zone"
+                  ? [block.image]
+                  : []),
   ]);
 }

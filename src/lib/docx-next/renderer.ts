@@ -7,6 +7,7 @@ import type {
   ImageBlock,
   DecorativeArtwork,
   DecorativeShape,
+  ParagraphFrameBlock,
 } from "./model";
 import { walkBlocks } from "./model";
 import { WordPackage, WORD_PART_TYPES } from "./package";
@@ -54,11 +55,17 @@ export async function renderDossierDocx(
     );
   validateDossierDocModel(model);
   const numbering = planNumbering(model);
-  const renderParagraph = (value: Paragraph, drawings = "", indentMm = 0) =>
+  const renderParagraph = (
+    value: Paragraph,
+    drawings = "",
+    indentMm = 0,
+    frame?: ParagraphFrameBlock,
+  ) =>
     paragraph(
       indentMm ? { ...value, indentMm: (value.indentMm ?? 0) + indentMm } : value,
       drawings,
       numbering.ids.get(value.id),
+      frame,
     );
   const pkg = new WordPackage();
   const normalize = imageCache(options.normalizeImage ?? normalizeBrowserImage);
@@ -67,6 +74,13 @@ export async function renderDossierDocx(
     ...walkBlocks(part.blocks),
     ...(part.headerShapes ?? []),
   ]);
+  if (
+    blocks.some((block) => block.kind === "paragraph-frame") &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error(
+      "DOCX Next paragraph frame pagination is unaccepted; diagnostic opt-in required",
+    );
   if (
     blocks.some((block) => block.kind === "table" && block.position) &&
     !options.allowUnacceptedModelIssues
@@ -324,6 +338,8 @@ export async function renderDossierDocx(
     indentMm = 0,
   ): string {
     if (block.kind === "paragraph") return renderParagraph(block, "", indentMm);
+    if (block.kind === "paragraph-frame")
+      return block.paragraphs.map((value) => renderParagraph(value, "", 0, block)).join("");
     if (block.kind === "image") return image(block, widthMm, page);
     if (block.kind === "decorative-shape")
       return emptyParagraphWithRuns(decorationRun(block, page));

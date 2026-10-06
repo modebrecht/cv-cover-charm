@@ -1,0 +1,456 @@
+{
+  "engine": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "fixtures": 4,
+  "renderedPages": 12,
+  "counterexamples": 2,
+  "cases": [
+    {
+      "fixture": "frame-left-left",
+      "diagnostic": {
+        "name": "frame-left-left",
+        "kind": "left",
+        "orientation": "left"
+      },
+      "sourcePackage": {
+        "nativeFramedParagraphs": 21,
+        "allDeclaredFieldDataPreserved": true,
+        "textboxes": 0
+      },
+      "savedPackage": {
+        "nativeFramedParagraphs": 21,
+        "allDeclaredFieldDataPreserved": true,
+        "textboxes": 0
+      },
+      "source": {
+        "pages": 3,
+        "main": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "side": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "multiPageFlow": "short-control-pass"
+      },
+      "reopened": {
+        "pages": 3,
+        "main": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "side": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "multiPageFlow": "short-control-pass"
+      },
+      "accepted": false
+    },
+    {
+      "fixture": "frame-left-right",
+      "diagnostic": {
+        "name": "frame-left-right",
+        "kind": "left",
+        "orientation": "right"
+      },
+      "sourcePackage": {
+        "nativeFramedParagraphs": 21,
+        "allDeclaredFieldDataPreserved": true,
+        "textboxes": 0
+      },
+      "savedPackage": {
+        "nativeFramedParagraphs": 21,
+        "allDeclaredFieldDataPreserved": true,
+        "textboxes": 0
+      },
+      "source": {
+        "pages": 3,
+        "main": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "side": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "multiPageFlow": "short-control-pass"
+      },
+      "reopened": {
+        "pages": 3,
+        "main": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "side": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "multiPageFlow": "short-control-pass"
+      },
+      "accepted": false
+    },
+    {
+      "fixture": "frame-side-long-left",
+      "diagnostic": {
+        "name": "frame-side-long-left",
+        "kind": "side-long",
+        "orientation": "left"
+      },
+      "sourcePackage": {
+        "nativeFramedParagraphs": 73,
+        "allDeclaredFieldDataPreserved": true,
+        "textboxes": 0
+      },
+      "savedPackage": {
+        "nativeFramedParagraphs": 73,
+        "allDeclaredFieldDataPreserved": true,
+        "textboxes": 0
+      },
+      "source": {
+        "pages": 3,
+        "main": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "side": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [
+            "cv.entry.hobbys:6",
+            "cv.entry.hobbys:7",
+            "cv.entry.hobbys:8",
+            "cv.entry.hobbys:9",
+            "cv.entry.hobbys:10",
+            "cv.entry.hobbys:11",
+            "cv.entry.hobbys:12",
+            "cv.entry.hobbys:13",
+            "cv.entry.hobbys:14",
+            "cv.entry.hobbys:15",
+            "cv.entry.hobbys:16",
+            "cv.entry.hobbys:17",
+            "cv.entry.hobbys:18",
+            "cv.entry.hobbys:19",
+            "cv.entry.hobbys:20",
+            "cv.entry.hobbys:21",
+            "cv.entry.hobbys:22",
+            "cv.entry.hobbys:23",
+            "cv.entry.hobbys:24",
+            "cv.entry.hobbys:25",
+            "cv.entry.hobbys:26",
+            "cv.entry.hobbys:27",
+            "cv.entry.hobbys:28",
+            "cv.entry.hobbys:29",
+            "cv.entry.hobbys:30",
+            "cv.entry.hobbys:31",
+            "cv.entry.hobbys:32",
+            "cv.entry.hobbys:33",
+            "cv.entry.hobbys:34",
+            "cv.entry.hobbys:35",
+            "cv.entry.hobbys:36",
+            "cv.entry.hobbys:37",
+            "cv.entry.hobbys:38",
+            "cv.entry.hobbys:39",
+            "cv.entry.hobbys:40",
+            "cv.entry.hobbys:41",
+            "cv.entry.hobbys:42",
+            "cv.entry.hobbys:43",
+            "cv.entry.hobbys:44",
+            "cv.entry.hobbys:45",
+            "cv.entry.hobbys:46",
+            "cv.entry.hobbys:47",
+            "cv.entry.hobbys:48",
+            "cv.entry.hobbys:49",
+            "cv.entry.hobbys:50",
+            "cv.entry.hobbys:51",
+            "cv.entry.hobbys:52",
+            "cv.entry.hobbys:53",
+            "cv.entry.hobbys:54",
+            "cv.section.staerken.heading",
+            "cv.entry.staerken:0",
+            "cv.entry.staerken:1",
+            "cv.entry.staerken:2"
+          ],
+          "fullTextVisible": false,
+          "spansOutsideBody": 9
+        },
+        "multiPageFlow": "known-negative"
+      },
+      "reopened": {
+        "pages": 3,
+        "main": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "side": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [
+            "cv.entry.hobbys:6",
+            "cv.entry.hobbys:7",
+            "cv.entry.hobbys:8",
+            "cv.entry.hobbys:9",
+            "cv.entry.hobbys:10",
+            "cv.entry.hobbys:11",
+            "cv.entry.hobbys:12",
+            "cv.entry.hobbys:13",
+            "cv.entry.hobbys:14",
+            "cv.entry.hobbys:15",
+            "cv.entry.hobbys:16",
+            "cv.entry.hobbys:17",
+            "cv.entry.hobbys:18",
+            "cv.entry.hobbys:19",
+            "cv.entry.hobbys:20",
+            "cv.entry.hobbys:21",
+            "cv.entry.hobbys:22",
+            "cv.entry.hobbys:23",
+            "cv.entry.hobbys:24",
+            "cv.entry.hobbys:25",
+            "cv.entry.hobbys:26",
+            "cv.entry.hobbys:27",
+            "cv.entry.hobbys:28",
+            "cv.entry.hobbys:29",
+            "cv.entry.hobbys:30",
+            "cv.entry.hobbys:31",
+            "cv.entry.hobbys:32",
+            "cv.entry.hobbys:33",
+            "cv.entry.hobbys:34",
+            "cv.entry.hobbys:35",
+            "cv.entry.hobbys:36",
+            "cv.entry.hobbys:37",
+            "cv.entry.hobbys:38",
+            "cv.entry.hobbys:39",
+            "cv.entry.hobbys:40",
+            "cv.entry.hobbys:41",
+            "cv.entry.hobbys:42",
+            "cv.entry.hobbys:43",
+            "cv.entry.hobbys:44",
+            "cv.entry.hobbys:45",
+            "cv.entry.hobbys:46",
+            "cv.entry.hobbys:47",
+            "cv.entry.hobbys:48",
+            "cv.entry.hobbys:49",
+            "cv.entry.hobbys:50",
+            "cv.entry.hobbys:51",
+            "cv.entry.hobbys:52",
+            "cv.entry.hobbys:53",
+            "cv.entry.hobbys:54",
+            "cv.section.staerken.heading",
+            "cv.entry.staerken:0",
+            "cv.entry.staerken:1",
+            "cv.entry.staerken:2"
+          ],
+          "fullTextVisible": false,
+          "spansOutsideBody": 9
+        },
+        "multiPageFlow": "known-negative"
+      },
+      "accepted": false
+    },
+    {
+      "fixture": "frame-side-long-right",
+      "diagnostic": {
+        "name": "frame-side-long-right",
+        "kind": "side-long",
+        "orientation": "right"
+      },
+      "sourcePackage": {
+        "nativeFramedParagraphs": 73,
+        "allDeclaredFieldDataPreserved": true,
+        "textboxes": 0
+      },
+      "savedPackage": {
+        "nativeFramedParagraphs": 73,
+        "allDeclaredFieldDataPreserved": true,
+        "textboxes": 0
+      },
+      "source": {
+        "pages": 3,
+        "main": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "side": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [
+            "cv.entry.hobbys:6",
+            "cv.entry.hobbys:7",
+            "cv.entry.hobbys:8",
+            "cv.entry.hobbys:9",
+            "cv.entry.hobbys:10",
+            "cv.entry.hobbys:11",
+            "cv.entry.hobbys:12",
+            "cv.entry.hobbys:13",
+            "cv.entry.hobbys:14",
+            "cv.entry.hobbys:15",
+            "cv.entry.hobbys:16",
+            "cv.entry.hobbys:17",
+            "cv.entry.hobbys:18",
+            "cv.entry.hobbys:19",
+            "cv.entry.hobbys:20",
+            "cv.entry.hobbys:21",
+            "cv.entry.hobbys:22",
+            "cv.entry.hobbys:23",
+            "cv.entry.hobbys:24",
+            "cv.entry.hobbys:25",
+            "cv.entry.hobbys:26",
+            "cv.entry.hobbys:27",
+            "cv.entry.hobbys:28",
+            "cv.entry.hobbys:29",
+            "cv.entry.hobbys:30",
+            "cv.entry.hobbys:31",
+            "cv.entry.hobbys:32",
+            "cv.entry.hobbys:33",
+            "cv.entry.hobbys:34",
+            "cv.entry.hobbys:35",
+            "cv.entry.hobbys:36",
+            "cv.entry.hobbys:37",
+            "cv.entry.hobbys:38",
+            "cv.entry.hobbys:39",
+            "cv.entry.hobbys:40",
+            "cv.entry.hobbys:41",
+            "cv.entry.hobbys:42",
+            "cv.entry.hobbys:43",
+            "cv.entry.hobbys:44",
+            "cv.entry.hobbys:45",
+            "cv.entry.hobbys:46",
+            "cv.entry.hobbys:47",
+            "cv.entry.hobbys:48",
+            "cv.entry.hobbys:49",
+            "cv.entry.hobbys:50",
+            "cv.entry.hobbys:51",
+            "cv.entry.hobbys:52",
+            "cv.entry.hobbys:53",
+            "cv.entry.hobbys:54",
+            "cv.section.staerken.heading",
+            "cv.entry.staerken:0",
+            "cv.entry.staerken:1",
+            "cv.entry.staerken:2"
+          ],
+          "fullTextVisible": false,
+          "spansOutsideBody": 9
+        },
+        "multiPageFlow": "known-negative"
+      },
+      "reopened": {
+        "pages": 3,
+        "main": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [],
+          "fullTextVisible": true,
+          "spansOutsideBody": 0
+        },
+        "side": {
+          "firstCvPage": 1,
+          "missingFullFieldIds": [
+            "cv.entry.hobbys:6",
+            "cv.entry.hobbys:7",
+            "cv.entry.hobbys:8",
+            "cv.entry.hobbys:9",
+            "cv.entry.hobbys:10",
+            "cv.entry.hobbys:11",
+            "cv.entry.hobbys:12",
+            "cv.entry.hobbys:13",
+            "cv.entry.hobbys:14",
+            "cv.entry.hobbys:15",
+            "cv.entry.hobbys:16",
+            "cv.entry.hobbys:17",
+            "cv.entry.hobbys:18",
+            "cv.entry.hobbys:19",
+            "cv.entry.hobbys:20",
+            "cv.entry.hobbys:21",
+            "cv.entry.hobbys:22",
+            "cv.entry.hobbys:23",
+            "cv.entry.hobbys:24",
+            "cv.entry.hobbys:25",
+            "cv.entry.hobbys:26",
+            "cv.entry.hobbys:27",
+            "cv.entry.hobbys:28",
+            "cv.entry.hobbys:29",
+            "cv.entry.hobbys:30",
+            "cv.entry.hobbys:31",
+            "cv.entry.hobbys:32",
+            "cv.entry.hobbys:33",
+            "cv.entry.hobbys:34",
+            "cv.entry.hobbys:35",
+            "cv.entry.hobbys:36",
+            "cv.entry.hobbys:37",
+            "cv.entry.hobbys:38",
+            "cv.entry.hobbys:39",
+            "cv.entry.hobbys:40",
+            "cv.entry.hobbys:41",
+            "cv.entry.hobbys:42",
+            "cv.entry.hobbys:43",
+            "cv.entry.hobbys:44",
+            "cv.entry.hobbys:45",
+            "cv.entry.hobbys:46",
+            "cv.entry.hobbys:47",
+            "cv.entry.hobbys:48",
+            "cv.entry.hobbys:49",
+            "cv.entry.hobbys:50",
+            "cv.entry.hobbys:51",
+            "cv.entry.hobbys:52",
+            "cv.entry.hobbys:53",
+            "cv.entry.hobbys:54",
+            "cv.section.staerken.heading",
+            "cv.entry.staerken:0",
+            "cv.entry.staerken:1",
+            "cv.entry.staerken:2"
+          ],
+          "fullTextVisible": false,
+          "spansOutsideBody": 9
+        },
+        "multiPageFlow": "known-negative"
+      },
+      "accepted": false
+    }
+  ],
+  "startingSha": "4502951df7be3857b584945b1a75c62077a5e008",
+  "accepted": false,
+  "defaultExport": "blocked",
+  "earlyStop": true,
+  "supportedSidebar": {
+    "fixtures": 31,
+    "renderedPages": 253,
+    "sourcePackagesByteIdentical": true,
+    "packageRenderSaveReopen": "pass"
+  },
+  "priorFloating": {
+    "fixtures": 20,
+    "sourcePackagesByteIdentical": true,
+    "nativeModelJsonRoundtrip": "pass"
+  },
+  "roundtrips": {
+    "frameNativeModelJsonPackages": 4,
+    "sidebarModels": 31,
+    "actualPortableProjectPhoto": 2,
+    "mirroredPictureGuard": "pass"
+  },
+  "limits": {
+    "stableLibreOffice": "unavailable",
+    "microsoftWord": "unavailable",
+    "explicitPillowImageAdapter": true,
+    "localFrozenLockBunChecks": "unavailable; cache differs",
+    "publicationCI": "commit-specific full units/locked checks/browser/PDF reported separately"
+  }
+}

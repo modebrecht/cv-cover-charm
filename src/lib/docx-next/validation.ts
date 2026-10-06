@@ -103,6 +103,26 @@ export function validateDossierDocModel(model: DossierDocModel): void {
     ])) {
       if (ids.has(block.id)) throw new Error(`DOCX Next duplicate semantic identity ${block.id}`);
       ids.add(block.id);
+      if (block.kind === "paragraph-frame") {
+        if (!part.blocks.includes(block))
+          throw new Error(`DOCX Next nested paragraph frame is unsupported ${block.id}`);
+        if (
+          ![block.xMm, block.yMm, block.widthMm].every(Number.isFinite) ||
+          block.widthMm < 10 ||
+          block.xMm < 0 ||
+          block.yMm < 0 ||
+          block.xMm + block.widthMm > part.page.widthMm ||
+          block.yMm >= part.page.heightMm ||
+          !block.paragraphs.length ||
+          block.paragraphs.some(
+            (paragraph) =>
+              paragraph.kind !== "paragraph" ||
+              (paragraph.indentMm ?? 0) < 0 ||
+              (paragraph.indentMm ?? 0) >= block.widthMm - 10,
+          )
+        )
+          throw new Error(`DOCX Next invalid paragraph frame ${block.id}`);
+      }
       if (block.kind === "parallel-flow")
         parallelFlowTable(block, part.page.widthMm - margins.left - margins.right);
       if (block.kind === "image-zone")

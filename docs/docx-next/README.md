@@ -1,8 +1,8 @@
 # DOCX Next developer guide
 
-Current Sidebar blocker: [Independent native flow and floating-table counterexamples](sidebar-floating-status.md).
+Current Sidebar blocker: [Native paragraph-frame clipping and architecture decision](sidebar-frame-status.md).
 
-The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-floating-status.md) records the separate native flow experiment, its long-side counterexamples, the diagnostic export guard and the exact next task. Microsoft Word acceptance is pending and does not block authorized candidate development.
+The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-frame-status.md) records the failed multi-page paragraph-frame proof, its diagnostic export guard and the exact next table-attachment task. Microsoft Word acceptance is pending and does not block authorized candidate development.
 
 ## Read the pipeline
 

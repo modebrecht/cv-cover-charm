@@ -1,5 +1,7 @@
 # Sidebar independent native flow — floating-table checkpoint
 
+Continued by the [native paragraph-frame early-stop checkpoint](sidebar-frame-status.md): short frames work, but long frames hide 53 complete side fields in the available engine. Both independent-container experiments remain blocked from normal export.
+
 Starting remote `dev`: **`058e4fc929401a75c8654a9e4abcb39692e4ad0d`**, freshly fetched and checked against a clean checkout. The starting commit's Dossier Regression CI is now confirmed successful, including all browser/PDF groups. Registry remains **29/39 configured candidates, 0/39 Word accepted**. This continues the [matched body ownership investigation](sidebar-body-attachment-status.md).
 
 ## Result
