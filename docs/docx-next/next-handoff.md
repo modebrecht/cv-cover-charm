@@ -2,6 +2,10 @@
 
 Latest rendered/control source: `f5b6df2744ffaf48296e8c4fb15775ad7ced4b2c`; its full application and all three stable jobs pass. The following evidence/native-photo audit checkpoint preserves its generated control packages and all production sources. Earlier comprehensive source `8059c16b` and exact-source replay helper `3f23bcdd` remain historical evidence. Production, renderer, model, templates and application exports remain identical. Work stays only on `dev`, with no promotion, force push or manual deployment. `main` remains `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`; `render` remains `4319c20fb85d3971ac355ae8898cdfef86ee7a8c`. Do not cherry-pick historical `2aa6c7c` again.
 
+## Infrastructure follow-up
+
+Source `1ef6f4db` passes the exact minimal picture/native-photo baseline job. Its historical stable-comparison and supported jobs hit Ubuntu snapshot downloads before document tests; the comparison retry times out again at the prior 150-second package-download limit. This is a setup failure, not a newly observed document regression. The successor adds a shared cache for archives/fonts keyed by the unchanged pinned manifests, verifies all cached hashes again, builds a fresh runtime for each job, and bounds a cold update/download at 180/360 seconds with a 12-minute setup step. No package/version/font pin, native gate, baseline or test is relaxed. Exact successor CI is checked separately.
+
 ## Verified CI and validation
 
 - [Stable run 37621549458](https://github.com/modebrecht/cv-cover-charm/actions/runs/37621549458), exact source `8059c16b`: both jobs complete successfully. LibreOffice 25.8.7.3 reproduces every committed diagnostic source package, full-text/bounds/opening result, Save/Reopen and explicit stopped plan with zero changed cases. Green diagnostics do not accept the negative product results.
