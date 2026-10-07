@@ -72,4 +72,27 @@ class MainEndingEvidenceTests(unittest.TestCase):
             for phase in ('render', 'saveReopen'): self.assertEqual(case[phase], before[phase])
 
 
+class RowTogetherEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-row-together-evidence.json').read_text())
+
+    def test_short_row_flag_alone_has_no_visible_effect(self):
+        self.assertTrue(module.compare_baseline(self.baseline, copy.deepcopy(self.baseline))['productGates'].startswith('fail'))
+        for orientation in ('left', 'right'):
+            group = [case for case in self.baseline['cases'] if case['diagnostic']['orientation'] == orientation]
+            self.assertEqual([case['diagnostic']['keepTogether'] for case in group], [True, False])
+            self.assertEqual(group[0]['render'], group[1]['render'])
+            self.assertEqual(group[0]['saveReopen'], group[1]['saveReopen'])
+            self.assertNotEqual(group[0]['docxSha256'], group[1]['docxSha256'])
+            self.assertTrue(all(track['fullTextVisible'] for track in group[0]['render']['tracks']))
+
+    def test_together_controls_retain_previous_main_only_packages(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-main-ending-evidence.json').read_text())
+        for case in self.baseline['cases']:
+            if not case['diagnostic']['keepTogether']: continue
+            before = next(old for old in previous['cases'] if old['fixture'] == case['diagnostic']['orientation'] + '-main-only-220')
+            self.assertEqual(case['docxSha256'], before['docxSha256'])
+            self.assertEqual(case['render'], before['render'])
+
+
 if __name__ == '__main__': unittest.main()

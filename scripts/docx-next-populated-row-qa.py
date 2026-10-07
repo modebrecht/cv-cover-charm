@@ -142,7 +142,7 @@ def compare_baseline(recorded, observed):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory', type=Path)
-    parser.add_argument('--matrix', choices=('populated-row', 'main-ending'), default='populated-row')
+    parser.add_argument('--matrix', choices=('populated-row', 'main-ending', 'row-together'), default='populated-row')
     engine = parser.add_mutually_exclusive_group()
     engine.add_argument('--soffice', default='soffice')
     engine.add_argument('--libreofficekit')
@@ -170,7 +170,7 @@ def main():
             destination.write_bytes(exported.read_bytes())
 
     cases = json.loads((args.directory / (args.matrix + '-manifest.json')).read_text())
-    column, expected = ('policy', CASES) if args.matrix == 'populated-row' else ('scope', MAIN_ENDING_CASES)
+    column, expected = (('policy', CASES) if args.matrix == 'populated-row' else ('scope', MAIN_ENDING_CASES) if args.matrix == 'main-ending' else ('keepTogether', [(orientation, flag) for orientation in ('left', 'right') for flag in (True, False)]))
     assert [(case['orientation'], case[column]) for case in cases] == expected and all(case['leadMm'] == 220 for case in cases)
     if args.matrix == 'main-ending':
         assert all(case['policy'] == 'split-attached' for case in cases)
@@ -179,10 +179,12 @@ def main():
     for case in cases:
         name = case['name']; fixture = json.loads((args.directory / (name + '.json')).read_text())
         assert fixture['diagnostic'] == case
-        if args.matrix == 'main-ending':
+        if args.matrix in ('main-ending', 'row-together'):
             main_cell = fixture['tracks'][0]['cell']
             opening = [case['scope'] == 'all-cells' or cell == main_cell for cell in range(3)]
             assert fixture['cellEndKeepNext'] == [[False] * 3, opening, [False] * 3]
+        if args.matrix == 'row-together':
+            assert fixture['rowKeepTogether'] == [True, case['keepTogether'], False]
         source = args.directory / (name + '.docx'); saved = args.directory / (name + '-saved.docx')
         pdf = args.directory / (name + '-render.pdf'); reopened = args.directory / (name + '-reopened.pdf')
         native = package_result(source, fixture); convert(source, pdf, 'pdf'); convert(source, saved, 'docx')
@@ -211,6 +213,17 @@ def main():
                     assert a['productGates'] == b['productGates'] == 'pass', 'Positive right control regressed'
         result['architectureAcceptance'] = 'blocked: left populated opening remains detached; no export enablement'
         result['attachmentScopeEffect'] = 'none observed: all-cell and main-only endings have identical reviewed visible results'
+    if args.matrix == 'row-together':
+        for orientation in ('left', 'right'):
+            group = [case for case in report if case['diagnostic']['orientation'] == orientation]
+            for phase in ('render', 'saveReopen'):
+                a, b = group[0][phase], group[1][phase]
+                assert {k: v for k, v in a.items() if k != 'tracks'} == {k: v for k, v in b.items() if k != 'tracks'}, 'Changed reviewed cantSplit effect'
+                for old, new in zip(a['tracks'], b['tracks']):
+                    assert {k: v for k, v in old.items() if k != 'metadataMetrics'} == {k: v for k, v in new.items() if k != 'metadataMetrics'}, 'Changed reviewed row text/opening evidence'
+                assert a['productGates'] == ('fail' if orientation == 'left' else 'pass')
+        result['architectureAcceptance'] = 'blocked: left populated opening remains detached; no export enablement'
+        result['rowTogetherEffect'] = 'none observed: short-row cantSplit has identical reviewed visible results'
     if args.baseline: result['stableComparison'] = compare_baseline(json.loads(args.baseline.read_text()), result)
     (args.directory / (args.matrix + '-report.json')).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({key: result[key] for key in ('architectureAcceptance', 'stableComparison') if key in result}), flush=True)

@@ -1,3 +1,7 @@
+import {
+  SIDEBAR_ROW_TOGETHER_CASES,
+  sidebarRowTogetherFixture,
+} from "../fixtures/docx-next/sidebar-row-together";
 import { expect, test } from "bun:test";
 import { walkBlocks } from "../../src/lib/docx-next/model";
 import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
@@ -127,5 +131,33 @@ test("populated native packages retain all ten field IDs through immutable JSON 
     expect(xml).not.toContain("<w:txbxContent>");
     expect(xml).not.toContain("<w:tblpPr");
     expect(xml).not.toContain("<w:framePr");
+  }
+});
+
+test("short-row together controls change only cantSplit while both complete descriptions remain splittable", async () => {
+  for (const value of SIDEBAR_ROW_TOGETHER_CASES) {
+    const current = sidebarRowTogetherFixture(value);
+    const original = sidebarMainEndingFixture(value);
+    const copy = structuredClone(current.model);
+    const table = copy.cv.blocks[0];
+    if (table.kind !== "table") throw Error("Missing native table");
+    expect(table.rows.map((row) => row.keepTogether)).toEqual([true, value.keepTogether, false]);
+    table.rows[1].keepTogether = true;
+    expect(copy).toEqual(original.model);
+    expect(current.fixture.tracks).toEqual(original.fixture.tracks);
+    await expect(renderDossierDocx(current.model)).rejects.toThrow(
+      "cell-ending attachment is unaccepted",
+    );
+    const options = { allowUnacceptedModelIssues: true };
+    const bytes = new Uint8Array(
+      await (await renderDossierDocx(current.model, options)).arrayBuffer(),
+    );
+    const restored = new Uint8Array(
+      await (
+        await renderDossierDocx(JSON.parse(JSON.stringify(current.model)), options)
+      ).arrayBuffer(),
+    );
+    expect(bytes).toEqual(restored);
+    expect(current.model).toEqual(sidebarRowTogetherFixture(value).model);
   }
 });
