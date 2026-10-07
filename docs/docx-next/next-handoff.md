@@ -1,3 +1,46 @@
+# Continuation — 2026-10-07 17:13 UTC
+
+The user resumed work. The reviewed rectangular-frame measurement correction `31de8c1e579073c6101cbbfdc9bb5cada3141aae` is now published on `dev` after the prior internal GitHub failures cleared. The source/evidence checkpoint below remains the dated handoff at interruption; its unpublished state and application failure describe that time, not a new product result. This successor publishes the same evidence and handoff content, with this explicit continuation note. The local checkpoint tree is compared with the published tree before synchronizing the checkout. Exact successor CI and the stable frame matrix still need verification; no later shape/crop render is claimed yet.
+
+Only dev remains in scope. The next action is to obtain exact browser CI and continue the stable frame matrix from the no-crop rectangular control with the corrected PDF-frame measurement.
+
+---
+
+# Current handoff — 2026-10-07 17:04 UTC
+
+This section supersedes the older handoff below. Work stops at the user's handoff request. Only `dev` is in scope; no production renderer/model/export changes, `main`/`render` edits, deployment, force push or export enablement.
+
+## Published and unpublished state
+
+- Remote `dev`, freshly checked: `2234ced8f4c2dbd76d76ff1c3c7835df75ba5edc` (tree `4b965bb589727964b66672d93d4291b57cc770c6`). This publishes four guarded body-photo frame controls and the pixel-loss stop gate.
+- Reviewed measurement correction: commit object `31de8c1e579073c6101cbbfdc9bb5cada3141aae` (tree `07569d94af098e1fe216cf96ea5a1ace273f8d3b`), parent exactly remote `2234ced8`. It is **not published on dev**. GitHub ref updates repeatedly return internal GraphQL errors; a contents update also returns an internal error. A normal CLI push has no credentials. No force push or history rewrite was attempted. The local dev checkpoint includes this correction and this handoff/evidence; fetch/reconcile before any publication.
+- Working checkout: `/workspace/scratch/40bfc6bbb930/cv-cover-charm`. The old checkout at `/workspace/scratch/928b54ce08ec/cv-cover-charm` has an unrelated e2e modification; do not touch or publish it.
+
+## Actual results and limits
+
+[Exact evidence](sidebar-picture-frame-evidence.json) contains all source hashes, original/saved native-photo inventories, the actual stable stop, its read-only PDF measurement review, actual Dev replay and explicit unrendered cases.
+
+The first un-cropped rectangular control uses the original 120×180 RGBA pixels, the same eight native field IDs and complete paragraphs. Its frame is 34×51 mm, zero crop, radius zero, original 0.4-mm colored border. The remaining planned cases are uncropped ellipse, cropped rectangle, cropped ellipse. The final calibration source package is byte-identical to the existing body-photo control.
+
+- **Stable 25.8.7.3 / LibreOfficeKit:** one actual case / three pages, native Save/Reopen and second PDF. 8/8 tagged fields, complete native/PDF text, original pixels, zero crop and native rectangular geometry survive. The original PDF QA stops on image dimensions because the border insets the embedded image. Three later cases remain unrendered.
+- **Measurement review:** inspect the same actual stable PDFs, without modifying or rerendering them. Their four border strokes have the authored color/thickness, expected rectangular outer dimensions and image inset. Corrected QA passes both PDFs. New code requires every edge and rejects missing edges, wrong stroke thickness and wrong image inset; it does not widen the existing geometry tolerance. This is a measured false negative of the initial gate, **not a completed new stable matrix**.
+- **Exact unchanged-source Dev 26.8 / soffice CLI:** one actual case / three pages, Save/Reopen and second PDF. Only 3/8 tags remain: the photo and four following paragraph tags are lost. Complete native/PDF text, original 120×180 pixels, crop and visible geometry pass. It stops immediately on field identity; three later cases remain unrendered. Thus cropping and ellipse shape are not required for the Dev field-loss finding. Engine-versus-interface attribution remains unproven.
+- Visual inspection covers all four unique actual page PNGs across stable/Dev source and save. No visible clipping or missing text. A local pinned-stable bootstrap does not produce a usable runtime; do not claim extra local stable renders.
+
+## CI and checks
+
+- [Stable run 37655462560](https://github.com/modebrecht/cv-cover-charm/actions/runs/37655462560), exact remote `2234ced8`: completed **success**, all three jobs. It preserves historical diagnostic baselines, eight earlier picture controls, and 31 supported fixtures. Observation green records the initial stopped frame case; it does not accept a photo/identity failure.
+- [Application run 37655462578](https://github.com/modebrecht/cv-cover-charm/actions/runs/37655462578), exact remote `2234ced8`: completed **failure**. The returned job listing contains only successful `fast-checks`: 1007 unit tests, release formatting, typecheck, lint (0 errors / 21 existing warnings) and build passed. No successful browser-suite result is claimed; inspect the run and resolve/retry before declaring application CI green. Cause is not established.
+- Local **86 Python QA tests** pass: 43 populated, 7 stable comparison, 8 supported summary, 6 native identity, 17 picture/frame, 5 native photo. TypeScript probe/fixture formatting was checked before the measurement-only correction. Local full Bun/TypeScript checks are not claimed.
+
+## Next bounded action
+
+Fetch actual remote dev and verify/reconcile with the local unpublished checkpoint. Publish the reviewed measurement correction and evidence without rewriting history; resolve the failed application run and obtain exact-commit browser results. Then run the stable frame matrix with corrected measurement, starting at the rectangular no-crop positive control. Only on its full pass proceed to ellipse/crop controls; stop on any complete-text, field-ID, original-pixel, native crop/frame or visible-geometry loss. Preserve full paragraphs and IDs, canonical browser pixels, JSON immutability, and normal export rejection. No XML patches or renderer special cases.
+
+Sidebar remains blocked, 29/39 configured, 0/39 Word accepted. Table-caption identity, original cropped-photo restoration, left long-opening flow, Word and snapshots remain unresolved. Source/model/input JSON photo restoration still passes. All production export gates stay closed.
+
+---
+
 # DOCX Next handoff — 2026-10-07
 
 Latest rendered/control source: `f5b6df2744ffaf48296e8c4fb15775ad7ced4b2c`; its full application and all three stable jobs pass. The following evidence/native-photo audit checkpoint preserves its generated control packages and all production sources. Earlier comprehensive source `8059c16b` and exact-source replay helper `3f23bcdd` remain historical evidence. Production, renderer, model, templates and application exports remain identical. Work stays only on `dev`, with no promotion, force push or manual deployment. `main` remains `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`; `render` remains `4319c20fb85d3971ac355ae8898cdfef86ee7a8c`. Do not cherry-pick historical `2aa6c7c` again.

@@ -1,0 +1,545 @@
+{
+  "sourceCommit": "2234ced8f4c2dbd76d76ff1c3c7835df75ba5edc",
+  "stableRun": 37655462560,
+  "artifactId": 11498745139,
+  "manifest": [
+    {
+      "name": "picture-frame-uncropped-rect",
+      "owner": "body",
+      "photo": true,
+      "crop": false,
+      "ellipse": false,
+      "fixture": "picture-frame-uncropped-rect",
+      "fields": [
+        {
+          "fieldId": "cv.identity.before",
+          "text": "Before picture: editable identity control."
+        },
+        {
+          "fieldId": "cv.identity.after",
+          "text": "After picture: complete field identity survives independently of visible text."
+        },
+        {
+          "fieldId": "cv.identity.description",
+          "text": "A complete description contains accents \u00c4 \u00f6 \u00fc \u00e9 \u00e8 \u00e0, punctuation, and several sentences. Every word must remain editable and visible after native Save/Reopen. This paragraph is never split into new semantic fields."
+        },
+        {
+          "fieldId": "cv.identity.neighbour.before",
+          "text": "Adjacent cell: separate editable field."
+        },
+        {
+          "fieldId": "cv.identity.neighbour.description",
+          "text": "The neighbouring description must retain its original semantic identity even when the picture belongs to another cell. Complete text alone cannot establish this."
+        }
+      ],
+      "expectedPages": 3,
+      "margins": {
+        "top": 20,
+        "right": 20,
+        "bottom": 18,
+        "left": 20
+      },
+      "pictureCell": 0,
+      "cellWidthMm": 170,
+      "pictureId": "cv.person.photo",
+      "pictureGeometry": {
+        "widthMm": 34,
+        "heightMm": 51,
+        "crop": {
+          "left": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "shape": "rect",
+        "cornerAdjustment": 0,
+        "borderWidthMm": 0.4,
+        "borderColor": "244A61"
+      },
+      "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "docxSha256": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df"
+    },
+    {
+      "name": "picture-frame-uncropped-ellipse",
+      "owner": "body",
+      "photo": true,
+      "crop": false,
+      "ellipse": true,
+      "fixture": "picture-frame-uncropped-ellipse",
+      "fields": [
+        {
+          "fieldId": "cv.identity.before",
+          "text": "Before picture: editable identity control."
+        },
+        {
+          "fieldId": "cv.identity.after",
+          "text": "After picture: complete field identity survives independently of visible text."
+        },
+        {
+          "fieldId": "cv.identity.description",
+          "text": "A complete description contains accents \u00c4 \u00f6 \u00fc \u00e9 \u00e8 \u00e0, punctuation, and several sentences. Every word must remain editable and visible after native Save/Reopen. This paragraph is never split into new semantic fields."
+        },
+        {
+          "fieldId": "cv.identity.neighbour.before",
+          "text": "Adjacent cell: separate editable field."
+        },
+        {
+          "fieldId": "cv.identity.neighbour.description",
+          "text": "The neighbouring description must retain its original semantic identity even when the picture belongs to another cell. Complete text alone cannot establish this."
+        }
+      ],
+      "expectedPages": 3,
+      "margins": {
+        "top": 20,
+        "right": 20,
+        "bottom": 18,
+        "left": 20
+      },
+      "pictureCell": 0,
+      "cellWidthMm": 170,
+      "pictureId": "cv.person.photo",
+      "pictureGeometry": {
+        "widthMm": 34,
+        "heightMm": 51,
+        "crop": {
+          "left": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0
+        },
+        "shape": "ellipse",
+        "cornerAdjustment": 50000,
+        "borderWidthMm": 0.4,
+        "borderColor": "244A61"
+      },
+      "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "docxSha256": "0821fbd3763aafad822e36afb0626691167178e4c322a2a35ce499e5e79f4d8d"
+    },
+    {
+      "name": "picture-frame-cropped-rect",
+      "owner": "body",
+      "photo": true,
+      "crop": true,
+      "ellipse": false,
+      "fixture": "picture-frame-cropped-rect",
+      "fields": [
+        {
+          "fieldId": "cv.identity.before",
+          "text": "Before picture: editable identity control."
+        },
+        {
+          "fieldId": "cv.identity.after",
+          "text": "After picture: complete field identity survives independently of visible text."
+        },
+        {
+          "fieldId": "cv.identity.description",
+          "text": "A complete description contains accents \u00c4 \u00f6 \u00fc \u00e9 \u00e8 \u00e0, punctuation, and several sentences. Every word must remain editable and visible after native Save/Reopen. This paragraph is never split into new semantic fields."
+        },
+        {
+          "fieldId": "cv.identity.neighbour.before",
+          "text": "Adjacent cell: separate editable field."
+        },
+        {
+          "fieldId": "cv.identity.neighbour.description",
+          "text": "The neighbouring description must retain its original semantic identity even when the picture belongs to another cell. Complete text alone cannot establish this."
+        }
+      ],
+      "expectedPages": 3,
+      "margins": {
+        "top": 20,
+        "right": 20,
+        "bottom": 18,
+        "left": 20
+      },
+      "pictureCell": 0,
+      "cellWidthMm": 170,
+      "pictureId": "cv.person.photo",
+      "pictureGeometry": {
+        "widthMm": 34,
+        "heightMm": 34,
+        "crop": {
+          "left": 8400,
+          "top": 24400,
+          "right": 11600,
+          "bottom": 22267
+        },
+        "shape": "rect",
+        "cornerAdjustment": 0,
+        "borderWidthMm": 0.4,
+        "borderColor": "244A61"
+      },
+      "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "docxSha256": "8f3ea03dba5d08dff674738da0a7dee82ee5599783e3c471ceb832ada401773b"
+    },
+    {
+      "name": "picture-frame-cropped-ellipse",
+      "owner": "body",
+      "photo": true,
+      "crop": true,
+      "ellipse": true,
+      "fixture": "picture-frame-cropped-ellipse",
+      "fields": [
+        {
+          "fieldId": "cv.identity.before",
+          "text": "Before picture: editable identity control."
+        },
+        {
+          "fieldId": "cv.identity.after",
+          "text": "After picture: complete field identity survives independently of visible text."
+        },
+        {
+          "fieldId": "cv.identity.description",
+          "text": "A complete description contains accents \u00c4 \u00f6 \u00fc \u00e9 \u00e8 \u00e0, punctuation, and several sentences. Every word must remain editable and visible after native Save/Reopen. This paragraph is never split into new semantic fields."
+        },
+        {
+          "fieldId": "cv.identity.neighbour.before",
+          "text": "Adjacent cell: separate editable field."
+        },
+        {
+          "fieldId": "cv.identity.neighbour.description",
+          "text": "The neighbouring description must retain its original semantic identity even when the picture belongs to another cell. Complete text alone cannot establish this."
+        }
+      ],
+      "expectedPages": 3,
+      "margins": {
+        "top": 20,
+        "right": 20,
+        "bottom": 18,
+        "left": 20
+      },
+      "pictureCell": 0,
+      "cellWidthMm": 170,
+      "pictureId": "cv.person.photo",
+      "pictureGeometry": {
+        "widthMm": 34,
+        "heightMm": 34,
+        "crop": {
+          "left": 8400,
+          "top": 24400,
+          "right": 11600,
+          "bottom": 22267
+        },
+        "shape": "ellipse",
+        "cornerAdjustment": 50000,
+        "borderWidthMm": 0.4,
+        "borderColor": "244A61"
+      },
+      "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "docxSha256": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e"
+    }
+  ],
+  "stableInitial": {
+    "runtime": "LibreOffice 25.8.7.3 580(Build:3)",
+    "interface": "LibreOfficeKit",
+    "plannedCases": 4,
+    "actualCases": 1,
+    "pages": 3,
+    "stoppedAfter": "picture-frame-uncropped-rect:pdf-text-or-geometry",
+    "fieldIdentityFailures": 0,
+    "tableIdentityFailures": 0,
+    "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word",
+    "fixtures": [
+      {
+        "fixture": "picture-frame-uncropped-rect",
+        "execution": "rendered",
+        "sourceDocxSha256": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+        "savedDocxSha256": "efb2d84652c7c60af6d9370b4b7d2295bfbe32006480a78598c079db0148290f",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "pass",
+          "missingTableIds": [],
+          "saveReopenIdentity": "pass"
+        },
+        "render": {
+          "status": "fail",
+          "pages": 3,
+          "failures": ["picture-geometry"],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [20.408, 27.499, 53.605, 77.682]
+            }
+          ]
+        },
+        "saveReopen": {
+          "status": "fail",
+          "pages": 3,
+          "failures": ["picture-geometry"],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [20.408, 27.499, 53.605, 77.682]
+            }
+          ]
+        },
+        "nativePhoto": [
+          {
+            "pictureId": "cv.person.photo",
+            "source": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [34.0, 51.0],
+              "crop": {
+                "l": 0,
+                "t": 0,
+                "r": 0,
+                "b": 0
+              },
+              "shape": "rect",
+              "borderMm": 0.4,
+              "borderColor": "244A61",
+              "media": "word/media/image-1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "saved": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [34.007778, 50.994028],
+              "crop": {
+                "l": 0,
+                "t": 0,
+                "r": 0,
+                "b": 0
+              },
+              "shape": "rect",
+              "borderMm": 0.40569444444444447,
+              "borderColor": "244A61",
+              "media": "word/media/image1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "drawingName": "pass",
+            "originalPhotoPixels": "pass",
+            "nativeCropParameters": "unchanged",
+            "nativeFrameGeometry": "pass"
+          }
+        ]
+      },
+      {
+        "fixture": "picture-frame-uncropped-ellipse",
+        "execution": "unrendered",
+        "reason": "stopped after picture-frame-uncropped-rect:pdf-text-or-geometry"
+      },
+      {
+        "fixture": "picture-frame-cropped-rect",
+        "execution": "unrendered",
+        "reason": "stopped after picture-frame-uncropped-rect:pdf-text-or-geometry"
+      },
+      {
+        "fixture": "picture-frame-cropped-ellipse",
+        "execution": "unrendered",
+        "reason": "stopped after picture-frame-uncropped-rect:pdf-text-or-geometry"
+      }
+    ],
+    "matrix": "picture-frame",
+    "originalPixelFailures": 0
+  },
+  "stableMeasurementReview": {
+    "scope": "Read-only reevaluation of the same actual stable PDFs using corrected four-edge rectangular-frame measurement; not a new native rendering or permission to claim later cases rendered.",
+    "fixture": "picture-frame-uncropped-rect",
+    "source": {
+      "status": "pass",
+      "pages": 3,
+      "failures": [],
+      "pictures": [
+        {
+          "page": 3,
+          "boundsMm": [20.408, 27.499, 53.605, 77.682]
+        }
+      ],
+      "rectangularFrames": [
+        {
+          "page": 3,
+          "boundsMm": [20.011, 27.138, 54.001, 78.096]
+        }
+      ]
+    },
+    "saved": {
+      "status": "pass",
+      "pages": 3,
+      "failures": [],
+      "pictures": [
+        {
+          "page": 3,
+          "boundsMm": [20.408, 27.499, 53.605, 77.682]
+        }
+      ],
+      "rectangularFrames": [
+        {
+          "page": 3,
+          "boundsMm": [20.011, 27.138, 54.001, 78.096]
+        }
+      ]
+    }
+  },
+  "dev": {
+    "runtime": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "interface": "soffice CLI",
+    "plannedCases": 4,
+    "actualCases": 1,
+    "pages": 3,
+    "stoppedAfter": "picture-frame-uncropped-rect:field-identity",
+    "fieldIdentityFailures": 1,
+    "tableIdentityFailures": 0,
+    "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word",
+    "fixtures": [
+      {
+        "fixture": "picture-frame-uncropped-rect",
+        "execution": "rendered",
+        "sourceDocxSha256": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+        "savedDocxSha256": "5777165c982634428c79a1b64e47d6e778dea3b2804c0460e8ed47d1fb28486a",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 3,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "fail",
+          "missingOrChangedTaggedFields": [
+            {
+              "fieldId": "cv.identity.after",
+              "characters": 69,
+              "textSha256": "145f6bc9d67293dbb8a8a882ad5ac3e40f082015e6c5b71c3df02f5b4fa78049"
+            },
+            {
+              "fieldId": "cv.identity.description",
+              "characters": 181,
+              "textSha256": "2bd64cb02870d3f64b7b3b9482d90c47ff815458e6d830fad3e91fecae54ac5f"
+            },
+            {
+              "fieldId": "cv.identity.neighbour.before",
+              "characters": 35,
+              "textSha256": "ebe30b89596833d32499a4537dbddc9ca8203e926f838a44b2447299b2816855"
+            },
+            {
+              "fieldId": "cv.identity.neighbour.description",
+              "characters": 139,
+              "textSha256": "8163b5f8fb7c2e28508a7abd518094e8e7ac6b94d98cc7f7921f626992a1b24f"
+            },
+            {
+              "fieldId": "cv.person.photo",
+              "characters": 0,
+              "textSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "tableIdentity": "pass",
+          "missingTableIds": [],
+          "saveReopenIdentity": "fail"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [20.408, 27.499, 53.605, 77.682]
+            }
+          ],
+          "rectangularFrames": [
+            {
+              "page": 3,
+              "boundsMm": [20.011, 27.138, 54.001, 78.096]
+            }
+          ]
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [20.408, 27.499, 53.605, 77.682]
+            }
+          ],
+          "rectangularFrames": [
+            {
+              "page": 3,
+              "boundsMm": [20.011, 27.138, 54.001, 78.096]
+            }
+          ]
+        },
+        "nativePhoto": [
+          {
+            "pictureId": "cv.person.photo",
+            "source": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [34.0, 51.0],
+              "crop": {
+                "l": 0,
+                "t": 0,
+                "r": 0,
+                "b": 0
+              },
+              "shape": "rect",
+              "borderMm": 0.4,
+              "borderColor": "244A61",
+              "media": "word/media/image-1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "saved": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [34.007778, 50.994028],
+              "crop": {
+                "l": 0,
+                "t": 0,
+                "r": 0,
+                "b": 0
+              },
+              "shape": "rect",
+              "borderMm": 0.40569444444444447,
+              "borderColor": "244A61",
+              "media": "word/media/image1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "drawingName": "pass",
+            "originalPhotoPixels": "pass",
+            "nativeCropParameters": "unchanged",
+            "nativeFrameGeometry": "pass"
+          }
+        ]
+      },
+      {
+        "fixture": "picture-frame-uncropped-ellipse",
+        "execution": "unrendered",
+        "reason": "stopped after picture-frame-uncropped-rect:field-identity"
+      },
+      {
+        "fixture": "picture-frame-cropped-rect",
+        "execution": "unrendered",
+        "reason": "stopped after picture-frame-uncropped-rect:field-identity"
+      },
+      {
+        "fixture": "picture-frame-cropped-ellipse",
+        "execution": "unrendered",
+        "reason": "stopped after picture-frame-uncropped-rect:field-identity"
+      }
+    ],
+    "matrix": "picture-frame",
+    "originalPixelFailures": 0
+  },
+  "localTests": 86,
+  "next": "Publish the reviewed PDF-measurement correction, verify exact application CI including browser jobs, then repeat stable frame matrix. Stop on first identity/pixel/text/geometry loss. Three later shape/crop cases remain unrendered in both recorded runs."
+}
