@@ -33,6 +33,6 @@ The exact unchanged no-crop rectangular source, SHA-256 `8dfabf25a4097cc4ce6065e
 
 [Exact chronological evidence](sidebar-picture-frame-evidence.json) preserves the initial stopped gate, both read-only reviews and actual native reports independently. Observation success does not accept strict-crop/identity failures. Sidebar stays blocked, 29/39 configured and 0/39 Word accepted; table captions, left long-opening attachment, Word and snapshots remain open. Application input/model JSON photo restoration still passes.
 
-**Next bounded task:** inspect native crop-window geometry/precision read-only using the existing source/saved packages. Keep the strict exact-crop gate, the stopped fourth case and production export gates intact.
+The [read-only crop precision audit](sidebar-crop-precision-status.md) now quantifies the window changes independently of preserved original pixels, and records the nearest-twip extent arithmetic. The strict exact-crop gate, stopped fourth case and production export gates remain intact. The next bounded task is tracing native crop import/export arithmetic before another variant.
 
 [Exact measurement-source application run 37658539544](https://github.com/modebrecht/cv-cover-charm/actions/runs/37658539544), `77775d93`, is fully successful on attempt 2. The first attempt has one existing list-marker assertion failure in dossier-flow; the unchanged-source repeat passes the entire group. All eight browser groups are successful, with no app/e2e source changes or asserted root cause. Final baseline-publication CI is checked separately.

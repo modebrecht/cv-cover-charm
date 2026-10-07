@@ -35,7 +35,11 @@ Latest stable supported job freshly verifies **31 fixtures / 253 pages**, canoni
 
 ## Next bounded task
 
-Inspect native crop-window geometry/precision **read-only**, using the existing source/saved files and zero-crop controls, before any new variant. Quantify the recorded rectangular crop-value changes independently of lost original pixels. Keep the strict exact-crop gate and fourth case's stopped plan intact; do not infer a production repair or editor acceptance. Preserve source pixels, IDs, complete paragraphs and immutable JSON. Any proposed later native experiment must start from an actually verified positive control and stop on text, identity, source-pixel, exact-crop/frame or visible-geometry loss.
+The [read-only crop precision audit](sidebar-crop-precision-status.md) is completed on the existing stable three-case and Dev one-case packages. Stable originals all survive. The cropped rectangle's pixel window shifts left by 0.0264 px, grows vertically by 0.0288 px and shifts its vertical center by 0.0072 px. Both zero-crop windows remain unchanged. All observed frame extents match nearest whole-twip arithmetic; crop causality remains unproven. Nine new audit tests pass. No new native cases, package repairs or gate relaxations occur.
+
+At `f77c1deb`, application CI 37662295886 succeeds fully, as do supported-sidebar and stable-comparison. Both attempts of picture CI 37662295842 time out in Playwright APT setup on the Azure Ubuntu mirror before generating fixtures. The successor picture workflow uses official Ubuntu HTTPS archives and bounded downloads/browser setup; verify actual successor CI rather than treating setup failures as document observations.
+
+Next: trace stable native crop import/export arithmetic **read-only** against the exact evidence before any variant. Keep the strict exact-crop gate and fourth case's stopped plan intact; do not infer a production repair or editor acceptance. Preserve source pixels, IDs, complete paragraphs and immutable JSON. Any proposed later native experiment must start from an actually verified positive control and stop on text, identity, source-pixel, exact-crop/frame or visible-geometry loss.
 
 Sidebar remains blocked: **29/39 configured, 0/39 Word accepted**. Table-caption identity, original cropped-ellipse photo restoration, left long-opening attachment, Microsoft Word and approved snapshots remain open. Production export gates remain closed.
 

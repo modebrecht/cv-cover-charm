@@ -1,0 +1,357 @@
+{
+  "sourceCommit": "77775d9319a6b53284c5b72612049a38ff387487",
+  "stableRun": 37658539654,
+  "artifactId": 11498923244,
+  "method": "Read-only audit of already rendered source/saved packages; exact fractions before numeric serialization; no new native cases.",
+  "stable": {
+    "runtime": "LibreOffice 25.8.7.3 580(Build:3)",
+    "interface": "LibreOfficeKit",
+    "scope": "Read-only existing native packages; no rendering, package repair, crop acceptance or causal attribution. Nearest-twip arithmetic uses ties-to-even.",
+    "actualPhotoCases": 3,
+    "unrenderedFixtures": ["picture-frame-cropped-ellipse"],
+    "stoppedAfter": "picture-frame-cropped-rect:native-photo-frame-or-crop",
+    "originalPixelFailures": 0,
+    "changedCropCases": 1,
+    "fixtures": [
+      {
+        "fixture": "picture-frame-uncropped-rect",
+        "sourceDocxSha256": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+        "savedDocxSha256": "ceee2df4a46a013b3d4aea6e7e85875d5dce7883de99f17f626af3409318bf4c",
+        "pictureId": "cv.person.photo",
+        "sourcePixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "savedPixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "originalPhotoPixels": "pass",
+        "exactCropParameters": "unchanged",
+        "sourceCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "savedCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "sourceExtentEmu": {
+          "cx": 1224000,
+          "cy": 1836000
+        },
+        "savedExtentEmu": {
+          "cx": 1224280,
+          "cy": 1835785
+        },
+        "extentDeltaMm": {
+          "cx": 0.007777778,
+          "cy": -0.005972222
+        },
+        "sourceNearestTwipEmu": {
+          "cx": 1224280,
+          "cy": 1835785
+        },
+        "savedEqualsSourceNearestTwip": true,
+        "windowComparison": "same-original-pixel-grid",
+        "sourceWindowPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 120.0,
+          "bottom": 180.0,
+          "width": 120.0,
+          "height": 180.0,
+          "centerX": 60.0,
+          "centerY": 90.0
+        },
+        "savedWindowPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 120.0,
+          "bottom": 180.0,
+          "width": 120.0,
+          "height": 180.0,
+          "centerX": 60.0,
+          "centerY": 90.0
+        },
+        "windowDeltaPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 0.0,
+          "bottom": 0.0,
+          "width": 0.0,
+          "height": 0.0,
+          "centerX": 0.0,
+          "centerY": 0.0
+        }
+      },
+      {
+        "fixture": "picture-frame-uncropped-ellipse",
+        "sourceDocxSha256": "0821fbd3763aafad822e36afb0626691167178e4c322a2a35ce499e5e79f4d8d",
+        "savedDocxSha256": "8d6148c2212a9b5acc2196fcc75bac368f14e2b36bce441bd9796fc24395716c",
+        "pictureId": "cv.person.photo",
+        "sourcePixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "savedPixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "originalPhotoPixels": "pass",
+        "exactCropParameters": "unchanged",
+        "sourceCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "savedCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "sourceExtentEmu": {
+          "cx": 1224000,
+          "cy": 1836000
+        },
+        "savedExtentEmu": {
+          "cx": 1224280,
+          "cy": 1835785
+        },
+        "extentDeltaMm": {
+          "cx": 0.007777778,
+          "cy": -0.005972222
+        },
+        "sourceNearestTwipEmu": {
+          "cx": 1224280,
+          "cy": 1835785
+        },
+        "savedEqualsSourceNearestTwip": true,
+        "windowComparison": "same-original-pixel-grid",
+        "sourceWindowPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 120.0,
+          "bottom": 180.0,
+          "width": 120.0,
+          "height": 180.0,
+          "centerX": 60.0,
+          "centerY": 90.0
+        },
+        "savedWindowPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 120.0,
+          "bottom": 180.0,
+          "width": 120.0,
+          "height": 180.0,
+          "centerX": 60.0,
+          "centerY": 90.0
+        },
+        "windowDeltaPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 0.0,
+          "bottom": 0.0,
+          "width": 0.0,
+          "height": 0.0,
+          "centerX": 0.0,
+          "centerY": 0.0
+        }
+      },
+      {
+        "fixture": "picture-frame-cropped-rect",
+        "sourceDocxSha256": "8f3ea03dba5d08dff674738da0a7dee82ee5599783e3c471ceb832ada401773b",
+        "savedDocxSha256": "c83eb6050bc87cae1cc95116c0e7d1718d42ecc9b8a3981965b347f2fef22c51",
+        "pictureId": "cv.person.photo",
+        "sourcePixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "savedPixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "originalPhotoPixels": "pass",
+        "exactCropParameters": "changed",
+        "sourceCrop": {
+          "l": 8400,
+          "t": 24400,
+          "r": 11600,
+          "b": 22267
+        },
+        "savedCrop": {
+          "l": 8378,
+          "t": 24396,
+          "r": 11622,
+          "b": 22255
+        },
+        "sourceExtentEmu": {
+          "cx": 1224000,
+          "cy": 1224000
+        },
+        "savedExtentEmu": {
+          "cx": 1224280,
+          "cy": 1224280
+        },
+        "extentDeltaMm": {
+          "cx": 0.007777778,
+          "cy": 0.007777778
+        },
+        "sourceNearestTwipEmu": {
+          "cx": 1224280,
+          "cy": 1224280
+        },
+        "savedEqualsSourceNearestTwip": true,
+        "windowComparison": "same-original-pixel-grid",
+        "sourceWindowPx": {
+          "left": 10.08,
+          "top": 43.92,
+          "right": 106.08,
+          "bottom": 139.9194,
+          "width": 96.0,
+          "height": 95.9994,
+          "centerX": 58.08,
+          "centerY": 91.9197
+        },
+        "savedWindowPx": {
+          "left": 10.0536,
+          "top": 43.9128,
+          "right": 106.0536,
+          "bottom": 139.941,
+          "width": 96.0,
+          "height": 96.0282,
+          "centerX": 58.0536,
+          "centerY": 91.9269
+        },
+        "windowDeltaPx": {
+          "left": -0.0264,
+          "top": -0.0072,
+          "right": -0.0264,
+          "bottom": 0.0216,
+          "width": 0.0,
+          "height": 0.0288,
+          "centerX": -0.0264,
+          "centerY": 0.0072
+        }
+      }
+    ]
+  },
+  "dev": {
+    "runtime": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "interface": "soffice CLI",
+    "scope": "Read-only existing native packages; no rendering, package repair, crop acceptance or causal attribution. Nearest-twip arithmetic uses ties-to-even.",
+    "actualPhotoCases": 1,
+    "unrenderedFixtures": [
+      "picture-frame-uncropped-ellipse",
+      "picture-frame-cropped-rect",
+      "picture-frame-cropped-ellipse"
+    ],
+    "stoppedAfter": "picture-frame-uncropped-rect:field-identity",
+    "originalPixelFailures": 0,
+    "changedCropCases": 0,
+    "fixtures": [
+      {
+        "fixture": "picture-frame-uncropped-rect",
+        "sourceDocxSha256": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+        "savedDocxSha256": "5777165c982634428c79a1b64e47d6e778dea3b2804c0460e8ed47d1fb28486a",
+        "pictureId": "cv.person.photo",
+        "sourcePixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "savedPixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "originalPhotoPixels": "pass",
+        "exactCropParameters": "unchanged",
+        "sourceCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "savedCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "sourceExtentEmu": {
+          "cx": 1224000,
+          "cy": 1836000
+        },
+        "savedExtentEmu": {
+          "cx": 1224280,
+          "cy": 1835785
+        },
+        "extentDeltaMm": {
+          "cx": 0.007777778,
+          "cy": -0.005972222
+        },
+        "sourceNearestTwipEmu": {
+          "cx": 1224280,
+          "cy": 1835785
+        },
+        "savedEqualsSourceNearestTwip": true,
+        "windowComparison": "same-original-pixel-grid",
+        "sourceWindowPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 120.0,
+          "bottom": 180.0,
+          "width": 120.0,
+          "height": 180.0,
+          "centerX": 60.0,
+          "centerY": 90.0
+        },
+        "savedWindowPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 120.0,
+          "bottom": 180.0,
+          "width": 120.0,
+          "height": 180.0,
+          "centerX": 60.0,
+          "centerY": 90.0
+        },
+        "windowDeltaPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 0.0,
+          "bottom": 0.0,
+          "width": 0.0,
+          "height": 0.0,
+          "centerX": 0.0,
+          "centerY": 0.0
+        }
+      }
+    ]
+  },
+  "inferenceLimit": "All recorded frame extents match nearest-twip arithmetic. This does not establish the crop conversion algorithm, engine/interface causality, restoration of the separate reduced ellipse asset, or Word acceptance.",
+  "strictGate": "Exact native crop equality remains required; the cropped rectangle still stops and the fourth frame remains unrendered.",
+  "setupFailures": {
+    "sourceCommit": "f77c1debf09becd2fa642c679b78eb1ea3ec3b7c",
+    "run": 37662295842,
+    "jobs": [112932599839, 112941286751],
+    "stage": "Playwright OS dependency apt update; Azure Ubuntu mirror stalled before native runtime setup or fixture generation.",
+    "applicationRun": 37662295886,
+    "applicationConclusion": "success",
+    "stableOtherJobs": "supported-sidebar and stable-comparison succeeded"
+  }
+}

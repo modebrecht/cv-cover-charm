@@ -26,6 +26,7 @@ on:
       - docs/docx-next/sidebar-nested-side-evidence.json
       - docs/docx-next/sidebar-picture-identity-evidence.json
       - docs/docx-next/sidebar-picture-frame-evidence.json
+      - docs/docx-next/sidebar-crop-precision-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -210,7 +211,20 @@ jobs:
           python scripts/docx-next-picture-identity-test.py
           python scripts/docx-next-pdf-picture-test.py
           python scripts/docx-next-native-photo-test.py
+          python scripts/docx-next-crop-precision-test.py
           npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - name: Install canonical browser decoder with bounded Ubuntu downloads
+        timeout-minutes: 6
+        run: |
+          # Two actual picture jobs stalled on the runner's Azure mirror before native QA.
+          # Keep the Ubuntu suites/signature checks; use their official HTTPS archives.
+          printf '%s\n' https://archive.ubuntu.com/ubuntu https://security.ubuntu.com/ubuntu | sudo tee /etc/apt/apt-mirrors.txt
+          sudo tee /etc/apt/apt.conf.d/99docx-next-downloads <<'APT'
+          Acquire::http::Timeout "30";
+          Acquire::https::Timeout "30";
+          Acquire::Retries "1";
+          Acquire::Languages "none";
+          APT
           npx playwright install --with-deps chromium
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
@@ -234,6 +248,7 @@ jobs:
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-identity-evidence.json
           python scripts/docx-next-native-photo-qa.py "$QA_ROOT/fixtures" --baseline docs/docx-next/sidebar-picture-identity-evidence.json
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/frames" --frames --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-frame-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/frames" --baseline docs/docx-next/sidebar-crop-precision-evidence.json
       - name: Retain actual picture identity evidence including stopped cases
         if: always()
         uses: actions/upload-artifact@v4
