@@ -1,7 +1,7 @@
 {
-  "sourceCommit": "2234ced8f4c2dbd76d76ff1c3c7835df75ba5edc",
+  "sourceCommit": "77775d9319a6b53284c5b72612049a38ff387487",
   "stableRun": 37658539654,
-  "artifactId": 11498745139,
+  "artifactId": 11498923244,
   "manifest": [
     {
       "name": "picture-frame-uncropped-rect",
@@ -1441,5 +1441,20 @@
     "initialFailure": "Existing letter layout/list-marker assertion: expected bullet pseudo-element content but received empty string; 69/70 dossier-flow tests passed.",
     "repeatedDossierJob": 112922943845,
     "scope": "Same source, no application/e2e changes, entire repeated group passes; cause unproven."
+  },
+  "initialSourceCommit": "2234ced8f4c2dbd76d76ff1c3c7835df75ba5edc",
+  "initialStableRun": 37655462560,
+  "initialArtifactId": 11498745139,
+  "verifiedSuccessor": {
+    "sourceCommit": "5c833690e8c6aa69068d0f07c233f93951dde94a",
+    "stableRun": 37660488912,
+    "stableConclusion": "success",
+    "pictureJob": 112926453273,
+    "supportedJob": 112926453335,
+    "sourcePackages": "Exact baseline source hashes unchanged; actual three-case stop and all native/visible observations match.",
+    "supportedFixtures": 31,
+    "supportedPages": 253,
+    "applicationRun": 37660488916,
+    "applicationStatusAtPublication": "in_progress; six browser groups passed, two still installing Chromium; no final success claimed."
   }
 }
