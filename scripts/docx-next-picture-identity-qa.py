@@ -21,6 +21,43 @@ spec.loader.exec_module(photo)
 MM = 72 / 25.4
 
 
+def rectangular_frame(page, image, geometry):
+    """A rectangular native border can inset the PDF image; measure its four strokes.
+
+    Require the authored color/thickness, all four edges, and the image inset.
+    This is not extra tolerance on image size or an inferred invisible frame.
+    """
+    border = geometry.get('borderWidthMm', 0)
+    if geometry.get('shape') != 'rect' or not border:
+        return image, None
+    color = tuple(int(geometry['borderColor'][index:index + 2], 16) / 255 for index in [0, 2, 4])
+    edges = {'left': [], 'right': [], 'top': [], 'bottom': []}
+    for drawing in page.get_drawings():
+        actual_color = drawing.get('color')
+        if not actual_color or any(abs(a - b) > 0.005 for a, b in zip(actual_color, color)) or abs((drawing.get('width') or 0) / MM - border) > 0.05:
+            continue
+        for item in drawing['items']:
+            if item[0] != 'l':
+                continue
+            a, b = item[1:]
+            half = drawing['width'] / 2
+            if abs(a.x - b.x) < 0.01 and min(a.y, b.y) <= image.y0 + 0.1 * MM and max(a.y, b.y) >= image.y1 - 0.1 * MM:
+                for edge, distance, bound in [('left', image.x0 - a.x, a.x - half), ('right', a.x - image.x1, a.x + half)]:
+                    if -0.02 * MM <= distance <= border * MM:
+                        edges[edge].append(bound)
+            if abs(a.y - b.y) < 0.01 and min(a.x, b.x) <= image.x0 + 0.1 * MM and max(a.x, b.x) >= image.x1 - 0.1 * MM:
+                for edge, distance, bound in [('top', image.y0 - a.y, a.y - half), ('bottom', a.y - image.y1, a.y + half)]:
+                    if -0.02 * MM <= distance <= border * MM:
+                        edges[edge].append(bound)
+    if any(len(values) != 1 for values in edges.values()):
+        return image, 'picture-frame-strokes'
+    outer = fitz.Rect(*(edges[key][0] for key in ['left', 'top', 'right', 'bottom']))
+    insets = [image.x0 - outer.x0, image.y0 - outer.y0, outer.x1 - image.x1, outer.y1 - image.y1]
+    if any(abs(value / MM - border) > 0.15 for value in insets):
+        return outer, 'picture-frame-inset'
+    return outer, None
+
+
 def pdf_result(path, fixture):
     failures = []
     with fitz.open(path) as document:
@@ -34,9 +71,16 @@ def pdf_result(path, fixture):
         expected = 1 if fixture['photo'] else 0
         if len(pictures) != expected:
             failures.append('picture-count')
+        measured = []
         for page_number, image in pictures:
             rect = fitz.Rect(image['bbox'])
             geometry = fixture['pictureGeometry']
+            frame, failure = rectangular_frame(document[page_number], rect, geometry)
+            if failure:
+                failures.append(failure)
+            if frame != rect:
+                measured.append({'page': page_number + 1, 'boundsMm': [round(v / MM, 3) for v in frame]})
+            rect = frame
             if page_number != 2 or abs(rect.width / MM - geometry['widthMm']) > 0.5 or abs(rect.height / MM - geometry['heightMm']) > 0.5:
                 failures.append('picture-geometry')
             left = fixture['margins']['left']
@@ -58,7 +102,10 @@ def pdf_result(path, fixture):
                         if rect.x0 / MM < margins['left'] - 0.7 or rect.x1 / MM > page.rect.width / MM - margins['right'] + 0.7 or rect.y0 / MM < margins['top'] - 3 or rect.y1 / MM > page.rect.height / MM - margins['bottom'] + 3:
                             failures.append('text-body-bounds')
             # Every actual page is retained for visual inspection, including rejected cases.
-        return {'status': 'fail' if failures else 'pass', 'pages': len(document), 'failures': sorted(set(failures)), 'pictures': [{'page': number + 1, 'boundsMm': [round(v / MM, 3) for v in item['bbox']]} for number, item in pictures]}
+        result = {'status': 'fail' if failures else 'pass', 'pages': len(document), 'failures': sorted(set(failures)), 'pictures': [{'page': number + 1, 'boundsMm': [round(v / MM, 3) for v in item['bbox']]} for number, item in pictures]}
+        if measured:
+            result['rectangularFrames'] = measured
+        return result
 
 
 def source_check(source, fixture):

@@ -41,6 +41,33 @@ class PictureIdentityTests(unittest.TestCase):
     def test_preserved_native_photo_allows_next_control(self):
         self.assertIsNone(module.stop_reason(self.photo_result()))
 
+    def framed_image(self, missing=False, thickness=0.4, inset=0.4):
+        document = fitz.open()
+        self.addCleanup(document.close)
+        page = document.new_page()
+        outer = fitz.Rect(20 * module.MM, 30 * module.MM, 54 * module.MM, 81 * module.MM)
+        image = outer + (inset * module.MM, inset * module.MM, -inset * module.MM, -inset * module.MM)
+        center = outer + (0.2 * module.MM, 0.2 * module.MM, -0.2 * module.MM, -0.2 * module.MM)
+        points = [center.tl, center.tr, center.br, center.bl]
+        for index in range(3 if missing else 4):
+            page.draw_line(points[index], points[(index + 1) % 4], color=(36 / 255, 74 / 255, 97 / 255), width=thickness * module.MM)
+        geometry = {'shape': 'rect', 'borderWidthMm': 0.4, 'borderColor': '244A61'}
+        return module.rectangular_frame(page, image, geometry), outer
+
+    def test_rectangular_frame_measures_strokes_and_image_inset(self):
+        (measured, failure), expected = self.framed_image()
+        self.assertIsNone(failure)
+        self.assertTrue(all(abs(a - b) < 0.001 for a, b in zip(measured, expected)))
+
+    def test_missing_frame_edge_cannot_make_small_image_pass(self):
+        self.assertEqual(self.framed_image(missing=True)[0][1], 'picture-frame-strokes')
+
+    def test_wrong_frame_thickness_is_rejected(self):
+        self.assertEqual(self.framed_image(thickness=0.1)[0][1], 'picture-frame-strokes')
+
+    def test_wrong_image_inset_is_rejected(self):
+        self.assertEqual(self.framed_image(inset=0.59)[0][1], 'picture-frame-inset')
+
     def test_baseline_ignores_only_saved_package_metadata(self):
         first = {'fixtures': [{'fixture': 'one', 'sourceDocxSha256': 'source', 'savedDocxSha256': 'old', 'native': self.result()['native']}]}
         second = {'fixtures': [{**first['fixtures'][0], 'savedDocxSha256': 'new'}]}
