@@ -25,3 +25,5 @@ python scripts/docx-next-populated-row-test.py
 ```
 
 Next bounded hypothesis: isolate the first/lead outer row's `keepTogether` / native `cantSplit`, true versus false, both orientations. The earlier short-row experiment changed only the second/opening row; the first row still owns the long spanning side content and the authored main spacer. Preserve the short opening row, main-only attachment, detached semantic/empty side tail, all native ownership and complete text. Stop if the positive right case regresses or text/bounds/Save-Reopen changes. No boundary/photo/chrome expansion until a matched positive result exists.
+
+Follow-up: the [lead-row cantSplit comparison](sidebar-lead-together-status.md) also has no observed effect. The subsequent [cell top-padding comparison](sidebar-lead-padding-status.md) stops on a right-side regression.

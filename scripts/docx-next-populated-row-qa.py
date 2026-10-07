@@ -19,6 +19,18 @@ MAIN_ENDING_CASES = [(orientation, scope) for orientation in ('left', 'right') f
 SIDE_TERMINAL_CASES = [(orientation, variant) for orientation in ('right', 'left')
                        for variant in ('detached', 'semantic-only', 'ending-only')]
 SIDE_ENDING_CASES = [(orientation, flag) for orientation in ('right', 'left') for flag in (False, True)]
+LEAD_TOGETHER_CASES = [(orientation, flag) for orientation in ('right', 'left') for flag in (True, False)]
+LEAD_PADDING_CASES = [(orientation, value) for orientation in ('right', 'left') for value in ('paragraph', 'cell-padding')]
+MATRICES = {
+    'populated-row': ('policy', CASES),
+    'main-ending': ('scope', MAIN_ENDING_CASES),
+    'row-together': ('keepTogether', [(orientation, flag) for orientation in ('left', 'right') for flag in (True, False)]),
+    'side-terminal': ('variant', SIDE_TERMINAL_CASES),
+    'side-ending': ('sideEndingKeepNext', SIDE_ENDING_CASES),
+    'lead-together': ('leadKeepTogether', LEAD_TOGETHER_CASES),
+    'lead-padding': ('leadRepresentation', LEAD_PADDING_CASES),
+}
+ISOLATED_MATRICES = ('side-terminal', 'side-ending', 'lead-together', 'lead-padding')
 
 
 def package_result(source, fixture, saved=False):
@@ -44,6 +56,15 @@ def package_result(source, fixture, saved=False):
         assert len(rows) == len(fixture['cellEndKeepNext'])
         main, side = (track['cell'] for track in fixture['tracks'])
         assert main != side and {main, side} == {0, 2}
+        if 'leadTopPaddingMm' in fixture:
+            lead_cell = rows[0].findall(W + 'tc')[main]
+            top = lead_cell.find(W + 'tcPr/' + W + 'tcMar/' + W + 'top')
+            assert top is not None and top.get(W + 'type') == 'dxa'
+            assert int(top.get(W + 'w')) == round(fixture['leadTopPaddingMm'] * 1440 / 25.4), 'Changed authored lead cell padding'
+            spacers = list(lead_cell.iter(W + 'spacing'))
+            lines = [int(node.get(W + 'line', '0')) for node in spacers if node.get(W + 'lineRule') == 'exact']
+            expected_line = round(fixture['leadSpacerMm'] * 1440 / 25.4)
+            assert (expected_line in lines) if expected_line else all(line < 100 for line in lines), 'Changed authored lead paragraph'
         for index, row in enumerate(rows):
             assert (row.find(W + 'trPr/' + W + 'cantSplit') is not None) == fixture['rowKeepTogether'][index]
             cells = row.findall(W + 'tc')
@@ -132,22 +153,21 @@ def compare_baseline(recorded, observed):
     previous = {case['fixture']: case for case in recorded['cases']}
     current = {case['fixture']: case for case in observed['cases']}
     count = len(recorded['cases'])
-    if recorded.get('matrix') in ('side-terminal', 'side-ending'):
+    if recorded.get('matrix') in ISOLATED_MATRICES:
         assert recorded['matrix'] == observed.get('matrix'), 'Changed terminal matrix identity'
         assert recorded['plannedCases'] == observed.get('plannedCases'), 'Changed planned terminal matrix'
         assert recorded['earlyStop'] == observed.get('earlyStop'), 'Changed terminal stop condition'
         planned = recorded['plannedCases']
-        if recorded['matrix'] == 'side-terminal':
-            assert [(case['orientation'], case['variant']) for case in planned] == SIDE_TERMINAL_CASES, 'Changed planned terminal matrix'
-        else:
-            assert [(case['orientation'], case['sideEndingKeepNext']) for case in planned] == SIDE_ENDING_CASES, 'Changed planned terminal matrix'
+        column, expected = MATRICES[recorded['matrix']]
+        assert [(case['orientation'], case[column]) for case in planned] == expected, 'Changed planned terminal matrix'
+        if recorded['matrix'] != 'side-terminal':
             assert all(not case['sideSemanticKeepNext'] for case in planned), 'Changed semantic tail attachment'
         assert list(previous) == [case['name'] for case in planned[:count]], 'Changed stopped terminal prefix'
         if isinstance(recorded['earlyStop'], dict):
             assert count == 2 and recorded['earlyStop']['fixture'] == planned[1]['name'], 'Changed terminal stop condition'
             assert recorded['cases'][-1]['render']['productGates'] == 'fail', 'Lost terminal counterexample'
         else:
-            assert recorded['matrix'] == 'side-ending' and count == 4, 'Changed bounded matrix'
+            assert recorded['matrix'] != 'side-terminal' and count == 4, 'Changed bounded matrix'
     else:
         assert count == 4, 'Changed bounded matrix'
     assert len(previous) == len(current) == len(observed['cases']) == count and previous.keys() == current.keys(), 'Changed bounded matrix'
@@ -170,7 +190,7 @@ def compare_baseline(recorded, observed):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory', type=Path)
-    parser.add_argument('--matrix', choices=('populated-row', 'main-ending', 'row-together', 'side-terminal', 'side-ending'), default='populated-row')
+    parser.add_argument('--matrix', choices=tuple(MATRICES), default='populated-row')
     engine = parser.add_mutually_exclusive_group()
     engine.add_argument('--soffice', default='soffice')
     engine.add_argument('--libreofficekit')
@@ -199,7 +219,7 @@ def main():
 
     cases = json.loads((args.directory / (args.matrix + '-manifest.json')).read_text())
     baseline = json.loads(args.baseline.read_text()) if args.baseline else None
-    column, expected = (('policy', CASES) if args.matrix == 'populated-row' else ('scope', MAIN_ENDING_CASES) if args.matrix == 'main-ending' else ('variant', SIDE_TERMINAL_CASES) if args.matrix == 'side-terminal' else ('sideEndingKeepNext', SIDE_ENDING_CASES) if args.matrix == 'side-ending' else ('keepTogether', [(orientation, flag) for orientation in ('left', 'right') for flag in (True, False)]))
+    column, expected = MATRICES[args.matrix]
     assert [(case['orientation'], case[column]) for case in cases] == expected and all(case['leadMm'] == 220 for case in cases)
     if args.matrix == 'main-ending':
         assert all(case['policy'] == 'split-attached' for case in cases)
@@ -208,19 +228,23 @@ def main():
     for case in cases:
         name = case['name']; fixture = json.loads((args.directory / (name + '.json')).read_text())
         assert fixture['diagnostic'] == case
-        if args.matrix in ('main-ending', 'row-together', 'side-terminal', 'side-ending'):
+        if args.matrix in ('main-ending', 'row-together', *ISOLATED_MATRICES):
             main_cell = fixture['tracks'][0]['cell']
             opening = [case['scope'] == 'all-cells' or cell == main_cell for cell in range(3)]
             lead = [False] * 3
-            if args.matrix in ('side-terminal', 'side-ending'):
+            if args.matrix in ISOLATED_MATRICES:
                 assert case['scope'] == 'main-only' and case['policy'] == 'split-attached'
                 assert case['sideSemanticKeepNext'] == (case['variant'] == 'semantic-only')
                 assert case['sideEndingKeepNext'] == (case['variant'] == 'ending-only')
                 assert fixture['sideSemanticKeepNext'] == case['sideSemanticKeepNext']
                 lead[fixture['tracks'][1]['cell']] = case['sideEndingKeepNext']
-                assert fixture['rowKeepTogether'] == [True, True, False]
-                if args.matrix == 'side-ending': assert not case['sideSemanticKeepNext']
+                assert fixture['rowKeepTogether'] == [case['leadKeepTogether'] if args.matrix == 'lead-together' else True, True, False]
+                if args.matrix != 'side-terminal': assert not case['sideSemanticKeepNext']
+                if args.matrix in ('lead-together', 'lead-padding'): assert not case['sideEndingKeepNext']
             assert fixture['cellEndKeepNext'] == [lead, opening, [False] * 3]
+        if args.matrix == 'lead-padding':
+            assert fixture['authoredLeadMm'] == fixture['leadSpacerMm'] + fixture['leadTopPaddingMm'] == 220
+            assert fixture['leadTopPaddingMm'] == (220 if case['leadRepresentation'] == 'cell-padding' else 0)
         if args.matrix == 'row-together':
             assert fixture['rowKeepTogether'] == [True, case['keepTogether'], False]
         source = args.directory / (name + '.docx'); saved = args.directory / (name + '-saved.docx')
@@ -234,7 +258,7 @@ def main():
         assert {k: v for k, v in before.items() if k != 'tracks'} == {k: v for k, v in after.items() if k != 'tracks'}
         report.append({'fixture': name, 'diagnostic': case, 'docxSha256': hashlib.sha256(source.read_bytes()).hexdigest(), 'package': native, 'saveReopenPackage': saved_native, 'render': before, 'saveReopen': after})
         print(json.dumps({'fixture': name, 'pages': before['pages'], 'productGates': before['productGates'], 'failures': before['failures'], 'completeNativeFields': 'pass', 'saveReopen': 'same'}), flush=True)
-        if args.matrix in ('side-terminal', 'side-ending') and case['orientation'] == 'right' and before['productGates'] != 'pass':
+        if args.matrix in ISOLATED_MATRICES and case['orientation'] == 'right' and before['productGates'] != 'pass':
             result = {'libreOfficeVersion': version, 'matrix': args.matrix, 'plannedCases': cases, 'cases': report,
                       'architectureAcceptance': 'blocked: positive right control regressed; no export enablement',
                       'earlyStop': {'fixture': name, 'reason': 'positive right control regressed',
@@ -250,7 +274,7 @@ def main():
                                   'stableComparison': result['stableComparison'], 'earlyStop': result['earlyStop']}), flush=True)
                 return
             raise AssertionError('Positive right control regressed; retained actual evidence and stopped')
-        if args.matrix in ('side-terminal', 'side-ending') and baseline and isinstance(baseline['earlyStop'], dict) and name == baseline['earlyStop']['fixture']:
+        if args.matrix in ISOLATED_MATRICES and baseline and isinstance(baseline['earlyStop'], dict) and name == baseline['earlyStop']['fixture']:
             raise AssertionError('Changed terminal stop condition; expected counterexample did not reproduce')
     for orientation in ('left', 'right'):
         group = [case for case in report if case['diagnostic']['orientation'] == orientation]
@@ -298,6 +322,20 @@ def main():
         result['identicalSideEndingObservations'] = {orientation: report[index]['render'] == report[index + 1]['render']
                                     and report[index]['saveReopen'] == report[index + 1]['saveReopen']
                                     for orientation, index in (('right', 0), ('left', 2))}
+    if args.matrix == 'lead-together':
+        result.update(matrix=args.matrix, plannedCases=cases)
+        result['architectureAcceptance'] = 'blocked: bounded lead-row cantSplit experiment; no export enablement'
+        result['earlyStop'] = 'four lead-row controls at 220 mm; short opening row and terminal flags unchanged'
+        result['identicalLeadRowObservations'] = {orientation: report[index]['render'] == report[index + 1]['render']
+                                                and report[index]['saveReopen'] == report[index + 1]['saveReopen']
+                                                for orientation, index in (('right', 0), ('left', 2))}
+    if args.matrix == 'lead-padding':
+        result.update(matrix=args.matrix, plannedCases=cases)
+        result['architectureAcceptance'] = 'blocked: bounded lead representation experiment; no export enablement'
+        result['earlyStop'] = 'four equivalent authored 220 mm lead controls; all attachment and row flags unchanged'
+        result['identicalLeadRepresentationObservations'] = {orientation: report[index]['render'] == report[index + 1]['render']
+                                                            and report[index]['saveReopen'] == report[index + 1]['saveReopen']
+                                                            for orientation, index in (('right', 0), ('left', 2))}
     if baseline: result['stableComparison'] = compare_baseline(baseline, result)
     (args.directory / (args.matrix + '-report.json')).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({key: result[key] for key in ('architectureAcceptance', 'stableComparison') if key in result}), flush=True)

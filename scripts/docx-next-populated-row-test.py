@@ -200,4 +200,78 @@ class SideEndingEvidenceTests(unittest.TestCase):
             module.compare_baseline(self.baseline, self.observed)
 
 
+class LeadTogetherEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-lead-together-evidence.json').read_text())
+
+    def test_lead_row_cantsplit_alone_has_no_observed_effect(self):
+        self.assertTrue(module.compare_baseline(self.baseline, copy.deepcopy(self.baseline))['productGates'].startswith('fail'))
+        for start, orientation in ((0, 'right'), (2, 'left')):
+            a, b = self.baseline['cases'][start:start + 2]
+            self.assertEqual(a['render'], b['render'])
+            self.assertEqual(a['saveReopen'], b['saveReopen'])
+            self.assertNotEqual(a['docxSha256'], b['docxSha256'])
+            self.assertEqual(a['render']['productGates'], 'pass' if orientation == 'right' else 'fail')
+
+    def test_lead_control_retains_original_ownership_package(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-main-ending-evidence.json').read_text())
+        for current in self.baseline['cases']:
+            if not current['diagnostic']['leadKeepTogether']: continue
+            old = next(case for case in previous['cases'] if case['fixture'] == current['diagnostic']['orientation'] + '-main-only-220')
+            self.assertEqual(current['docxSha256'], old['docxSha256'])
+            self.assertEqual(current['render'], old['render'])
+
+    def test_changed_lead_flag_or_native_bytes_require_review(self):
+        observed = copy.deepcopy(self.baseline)
+        observed['cases'][1]['diagnostic']['leadKeepTogether'] = True
+        with self.assertRaisesRegex(AssertionError, 'Changed candidate flags'):
+            module.compare_baseline(self.baseline, observed)
+        observed = copy.deepcopy(self.baseline)
+        observed['cases'][1]['docxSha256'] = '0' * 64
+        with self.assertRaisesRegex(AssertionError, 'Changed candidate package'):
+            module.compare_baseline(self.baseline, observed)
+
+
+class LeadPaddingEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-lead-padding-evidence.json').read_text())
+
+    def test_padding_counterexample_stops_before_left_controls(self):
+        result = module.compare_baseline(self.baseline, copy.deepcopy(self.baseline))
+        self.assertEqual(result['changedCases'], 0)
+        self.assertTrue(result['productGates'].startswith('fail'))
+        self.assertEqual(len(self.baseline['plannedCases']), 4)
+        self.assertEqual(len(self.baseline['cases']), 2)
+        self.assertEqual(self.baseline['earlyStop']['unrenderedCases'], ['left-paragraph-220', 'left-cell-padding-220'])
+        before, after = self.baseline['cases']
+        self.assertEqual(before['render']['productGates'], 'pass')
+        self.assertEqual(after['render']['pages'], 23)
+        self.assertEqual(after['render']['tracks'][1]['openingCvPages'], [2, 2, 2, 2, 3])
+        self.assertEqual(after['render']['failures'], [{'gate': 'openingAttachment', 'role': 'side'}])
+        self.assertTrue(all(track['fullTextVisible'] for track in after['render']['tracks']))
+        for original, saved in zip(after['render']['tracks'], after['saveReopen']['tracks']):
+            module.same_metrics(original['metadataMetrics'], saved['metadataMetrics'])
+            self.assertEqual({k: v for k, v in original.items() if k != 'metadataMetrics'},
+                             {k: v for k, v in saved.items() if k != 'metadataMetrics'})
+        self.assertEqual({k: v for k, v in after['render'].items() if k != 'tracks'},
+                         {k: v for k, v in after['saveReopen'].items() if k != 'tracks'})
+
+    def test_paragraph_lead_is_identical_to_previous_positive_package(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-main-ending-evidence.json').read_text())
+        old = next(case for case in previous['cases'] if case['fixture'] == 'right-main-only-220')
+        current = self.baseline['cases'][0]
+        self.assertEqual(current['docxSha256'], old['docxSha256'])
+        self.assertEqual(current['render'], old['render'])
+
+    def test_source_plan_and_stop_changes_require_review(self):
+        observed = copy.deepcopy(self.baseline)
+        observed['plannedCases'][1]['leadRepresentation'] = 'paragraph'
+        with self.assertRaisesRegex(AssertionError, 'Changed planned terminal matrix'):
+            module.compare_baseline(self.baseline, observed)
+        observed = copy.deepcopy(self.baseline)
+        observed['earlyStop']['unrenderedCases'] = []
+        with self.assertRaisesRegex(AssertionError, 'Changed terminal stop condition'):
+            module.compare_baseline(self.baseline, observed)
+
+
 if __name__ == '__main__': unittest.main()

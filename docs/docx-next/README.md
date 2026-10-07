@@ -1,8 +1,8 @@
 # DOCX Next developer guide
 
-Current Sidebar blocker: [Empty side ending counterproof](sidebar-side-ending-status.md). Its four controls have identical visible results for false/true endings: right passes, left still detaches the main description. The semantic side tail stays false. Next: isolate the first/lead outer row's `cantSplit`, holding the short opening row and all ownership constant.
+Current Sidebar blocker: [Lead representation counterexample](sidebar-lead-padding-status.md). Empty side ending and lead-row `cantSplit` each have no observed effect. Replacing the 220 mm main spacer with native cell top padding regresses the positive right side and was stopped after two renders. The left opening remains detached in the original representation. Next: a matched zero-lead control with ownership and attachment unchanged.
 
-The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-side-ending-status.md) records the empty-ending counterproof, the retained left failure and the next isolated lead-row hypothesis. Microsoft Word acceptance is pending and does not block authorized candidate development.
+The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-lead-padding-status.md) records the stopped right regression and retained native/text/Save-Reopen evidence. Microsoft Word acceptance is pending and does not block authorized candidate development.
 
 ## Read the pipeline
 
