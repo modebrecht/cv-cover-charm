@@ -1,8 +1,8 @@
 # DOCX Next developer guide
 
-Current Sidebar blocker: [Opening-ending scope counterproof](sidebar-main-ending-status.md). Main-only attachment leaves the left populated opening detached; the positive right controls remain intact. Next: isolate opening-row `keepTogether` with both populated orientations.
+Current Sidebar blocker: [Terminal side paragraph regression](sidebar-side-terminal-status.md). Short-row `cantSplit` does not fix the left opening; attaching the final semantic side paragraph regresses the right opening. That probe stopped after two rendered controls. Next: keep the semantic side paragraph detached and isolate only the empty side-cell ending.
 
-The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-main-ending-status.md) records the ruled-out attachment-scope hypothesis, the retained left failure and the next generic opening-row ownership probe. Microsoft Word acceptance is pending and does not block authorized candidate development.
+The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-side-terminal-status.md) records the terminal-paragraph regression, the enforced early stop and the unrendered controls. Microsoft Word acceptance is pending and does not block authorized candidate development.
 
 ## Read the pipeline
 

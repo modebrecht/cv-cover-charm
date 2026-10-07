@@ -1,5 +1,7 @@
 # Short opening row keepTogether — ruled-out hypothesis
 
+Continued by [the terminal side paragraph probe](sidebar-side-terminal-status.md). Its first changed right control regressed, so the experiment stopped before the empty-ending-only and left controls. The stable/application CI runs for this short-row checkpoint passed on `212deafc`; pinned LibreOffice 25.8.7.3 reproduced all 66 controls with zero changed cases.
+
 Starting freshly fetched, clean remote dev: `6f1a38afe160f1948bc0d70309d50f7a4edc6fcc`.
 
 Four matched controls at 220 mm compare only the short opening row's `keepTogether` / native `cantSplit`, true versus false, in both orientations. Main-only cell-ending attachment remains constant. Every semantic paragraph, text, width, span, decoration and lead/tail flag remains identical. Both long descriptions remain splittable. Existing renderer primitives suffice; no product renderer change.

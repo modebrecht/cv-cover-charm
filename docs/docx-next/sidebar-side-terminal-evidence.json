@@ -1,0 +1,582 @@
+{
+  "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "matrix": "side-terminal",
+  "plannedCases": [
+    {
+      "name": "right-detached-220",
+      "orientation": "right",
+      "variant": "detached",
+      "scope": "main-only",
+      "policy": "split-attached",
+      "leadMm": 220,
+      "sideSemanticKeepNext": false,
+      "sideEndingKeepNext": false
+    },
+    {
+      "name": "right-semantic-only-220",
+      "orientation": "right",
+      "variant": "semantic-only",
+      "scope": "main-only",
+      "policy": "split-attached",
+      "leadMm": 220,
+      "sideSemanticKeepNext": true,
+      "sideEndingKeepNext": false
+    },
+    {
+      "name": "right-ending-only-220",
+      "orientation": "right",
+      "variant": "ending-only",
+      "scope": "main-only",
+      "policy": "split-attached",
+      "leadMm": 220,
+      "sideSemanticKeepNext": false,
+      "sideEndingKeepNext": true
+    },
+    {
+      "name": "left-detached-220",
+      "orientation": "left",
+      "variant": "detached",
+      "scope": "main-only",
+      "policy": "split-attached",
+      "leadMm": 220,
+      "sideSemanticKeepNext": false,
+      "sideEndingKeepNext": false
+    },
+    {
+      "name": "left-semantic-only-220",
+      "orientation": "left",
+      "variant": "semantic-only",
+      "scope": "main-only",
+      "policy": "split-attached",
+      "leadMm": 220,
+      "sideSemanticKeepNext": true,
+      "sideEndingKeepNext": false
+    },
+    {
+      "name": "left-ending-only-220",
+      "orientation": "left",
+      "variant": "ending-only",
+      "scope": "main-only",
+      "policy": "split-attached",
+      "leadMm": 220,
+      "sideSemanticKeepNext": false,
+      "sideEndingKeepNext": true
+    }
+  ],
+  "cases": [
+    {
+      "fixture": "right-detached-220",
+      "diagnostic": {
+        "name": "right-detached-220",
+        "orientation": "right",
+        "variant": "detached",
+        "scope": "main-only",
+        "policy": "split-attached",
+        "leadMm": 220,
+        "sideSemanticKeepNext": false,
+        "sideEndingKeepNext": false
+      },
+      "docxSha256": "01370a9234e8847f90b6ed36690552e11d13bd85202b0b696fefbf2223f0d99a",
+      "package": {
+        "completeNativeFields": "pass",
+        "nativeOwnership": "pass"
+      },
+      "saveReopenPackage": {
+        "completeNativeFields": "pass",
+        "nativeOwnership": "source-only"
+      },
+      "render": {
+        "pages": 21,
+        "tracks": [
+          {
+            "role": "main",
+            "fullTextVisible": true,
+            "missingFields": [],
+            "openingCvPages": [2, 2, 2, 2, 2],
+            "openingAttachment": true,
+            "expectedCharacters": 18263,
+            "visibleCharacters": 18263,
+            "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+            "metadataMetrics": [
+              {
+                "fieldId": "cv.section.custom:long-paragraph.heading",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 94.54800796508789
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 52.45798110961914
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 131.11348342895508
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 29.126995086669922
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "role": "side",
+            "fullTextVisible": true,
+            "missingFields": [],
+            "openingCvPages": [1, 1, 1, 1, 1],
+            "openingAttachment": true,
+            "expectedCharacters": 18444,
+            "visibleCharacters": 18444,
+            "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+            "metadataMetrics": [
+              {
+                "fieldId": "cv.section.custom:populated-side.heading",
+                "boxes": [
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 97.89605712890625
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                "boxes": [
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 52.4581298828125
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                "boxes": [
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 69.363037109375
+                  },
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 54.1800537109375
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                "boxes": [
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 22.12353515625
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "visibleBounds": "pass",
+        "boundsFailures": {
+          "outsideBody": 0,
+          "outsideLanes": 0
+        },
+        "productGates": "pass",
+        "failures": []
+      },
+      "saveReopen": {
+        "pages": 21,
+        "tracks": [
+          {
+            "role": "main",
+            "fullTextVisible": true,
+            "missingFields": [],
+            "openingCvPages": [2, 2, 2, 2, 2],
+            "openingAttachment": true,
+            "expectedCharacters": 18263,
+            "visibleCharacters": 18263,
+            "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+            "metadataMetrics": [
+              {
+                "fieldId": "cv.section.custom:long-paragraph.heading",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 94.54800796508789
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 52.45798110961914
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 131.11348342895508
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 29.126995086669922
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "role": "side",
+            "fullTextVisible": true,
+            "missingFields": [],
+            "openingCvPages": [1, 1, 1, 1, 1],
+            "openingAttachment": true,
+            "expectedCharacters": 18444,
+            "visibleCharacters": 18444,
+            "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+            "metadataMetrics": [
+              {
+                "fieldId": "cv.section.custom:populated-side.heading",
+                "boxes": [
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 97.90805053710938
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                "boxes": [
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 52.4581298828125
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                "boxes": [
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 69.363037109375
+                  },
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 54.1800537109375
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                "boxes": [
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 22.12353515625
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "visibleBounds": "pass",
+        "boundsFailures": {
+          "outsideBody": 0,
+          "outsideLanes": 0
+        },
+        "productGates": "pass",
+        "failures": []
+      }
+    },
+    {
+      "fixture": "right-semantic-only-220",
+      "diagnostic": {
+        "name": "right-semantic-only-220",
+        "orientation": "right",
+        "variant": "semantic-only",
+        "scope": "main-only",
+        "policy": "split-attached",
+        "leadMm": 220,
+        "sideSemanticKeepNext": true,
+        "sideEndingKeepNext": false
+      },
+      "docxSha256": "67e48f2f15672ad457c16411fc9826ead9a4fe2b6c1f5027511e822e79d9f41e",
+      "package": {
+        "completeNativeFields": "pass",
+        "nativeOwnership": "pass"
+      },
+      "saveReopenPackage": {
+        "completeNativeFields": "pass",
+        "nativeOwnership": "source-only"
+      },
+      "render": {
+        "pages": 22,
+        "tracks": [
+          {
+            "role": "main",
+            "fullTextVisible": true,
+            "missingFields": [],
+            "openingCvPages": [2, 2, 2, 2, 2],
+            "openingAttachment": true,
+            "expectedCharacters": 18263,
+            "visibleCharacters": 18263,
+            "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+            "metadataMetrics": [
+              {
+                "fieldId": "cv.section.custom:long-paragraph.heading",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 94.54800796508789
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 52.45798110961914
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 131.11348342895508
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 29.126995086669922
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "role": "side",
+            "fullTextVisible": true,
+            "missingFields": [],
+            "openingCvPages": [1, 1, 1, 1, 2],
+            "openingAttachment": false,
+            "expectedCharacters": 18444,
+            "visibleCharacters": 18444,
+            "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+            "metadataMetrics": [
+              {
+                "fieldId": "cv.section.custom:populated-side.heading",
+                "boxes": [
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 97.89605712890625
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                "boxes": [
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 52.4581298828125
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                "boxes": [
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 69.363037109375
+                  },
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 54.1800537109375
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                "boxes": [
+                  {
+                    "leftPt": 407.70001220703125,
+                    "widthPt": 22.12353515625
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "visibleBounds": "pass",
+        "boundsFailures": {
+          "outsideBody": 0,
+          "outsideLanes": 0
+        },
+        "productGates": "fail",
+        "failures": [
+          {
+            "gate": "openingAttachment",
+            "role": "side"
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 22,
+        "tracks": [
+          {
+            "role": "main",
+            "fullTextVisible": true,
+            "missingFields": [],
+            "openingCvPages": [2, 2, 2, 2, 2],
+            "openingAttachment": true,
+            "expectedCharacters": 18263,
+            "visibleCharacters": 18263,
+            "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+            "metadataMetrics": [
+              {
+                "fieldId": "cv.section.custom:long-paragraph.heading",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 94.54800796508789
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 52.45798110961914
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 131.11348342895508
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "boxes": [
+                  {
+                    "leftPt": 56.79999923706055,
+                    "widthPt": 29.126995086669922
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "role": "side",
+            "fullTextVisible": true,
+            "missingFields": [],
+            "openingCvPages": [1, 1, 1, 1, 2],
+            "openingAttachment": false,
+            "expectedCharacters": 18444,
+            "visibleCharacters": 18444,
+            "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+            "metadataMetrics": [
+              {
+                "fieldId": "cv.section.custom:populated-side.heading",
+                "boxes": [
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 97.90805053710938
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                "boxes": [
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 52.4581298828125
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                "boxes": [
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 69.363037109375
+                  },
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 54.1800537109375
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                "boxes": [
+                  {
+                    "leftPt": 407.6499938964844,
+                    "widthPt": 22.12353515625
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "visibleBounds": "pass",
+        "boundsFailures": {
+          "outsideBody": 0,
+          "outsideLanes": 0
+        },
+        "productGates": "fail",
+        "failures": [
+          {
+            "gate": "openingAttachment",
+            "role": "side"
+          }
+        ]
+      }
+    }
+  ],
+  "architectureAcceptance": "blocked: positive right control regressed; no export enablement",
+  "earlyStop": {
+    "fixture": "right-semantic-only-220",
+    "reason": "positive right control regressed",
+    "unrenderedCases": [
+      "right-ending-only-220",
+      "left-detached-220",
+      "left-semantic-only-220",
+      "left-ending-only-220"
+    ]
+  },
+  "microsoftWord": "pending"
+}

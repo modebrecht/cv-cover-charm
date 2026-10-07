@@ -16,6 +16,8 @@ from docx_next_package_qa import check_package
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 CASES = [(orientation, policy) for orientation in ('left', 'right') for policy in ('grid', 'split-attached')]
 MAIN_ENDING_CASES = [(orientation, scope) for orientation in ('left', 'right') for scope in ('all-cells', 'main-only')]
+SIDE_TERMINAL_CASES = [(orientation, variant) for orientation in ('right', 'left')
+                       for variant in ('detached', 'semantic-only', 'ending-only')]
 
 
 def package_result(source, fixture, saved=False):
@@ -52,6 +54,11 @@ def package_result(source, fixture, saved=False):
                 assert (keep is None) if flag is None else (keep is not None and keep.get(W + 'val') == str(int(flag)))
         owned_side = [tag.get(W + 'val') for tag in rows[0].findall(W + 'tc')[side].iter(W + 'tag')]
         assert owned_side == [field['fieldId'] for field in fixture['tracks'][1]['fields']]
+        if 'sideTerminalFieldId' in fixture:
+            terminal = next(node for node in root.iter(W + 'sdt')
+                            if node.find(W + 'sdtPr/' + W + 'tag').get(W + 'val') == fixture['sideTerminalFieldId'])
+            keep = terminal.find('.//' + W + 'pPr/' + W + 'keepNext')
+            assert keep is not None and keep.get(W + 'val') == str(int(fixture['sideSemanticKeepNext'])), 'Changed semantic terminal flag'
         if len(rows) == 3:
             assert [tag.get(W + 'val') for tag in rows[1].findall(W + 'tc')[main].iter(W + 'tag')] == fixture['openingFieldIds']
             assert [tag.get(W + 'val') for tag in rows[2].findall(W + 'tc')[main].iter(W + 'tag')] == [fixture['tracks'][0]['fields'][-1]['fieldId']]
@@ -123,9 +130,21 @@ def same_metrics(left, right):
 def compare_baseline(recorded, observed):
     previous = {case['fixture']: case for case in recorded['cases']}
     current = {case['fixture']: case for case in observed['cases']}
-    assert len(previous) == len(current) == len(recorded['cases']) == len(observed['cases']) == 4 and previous.keys() == current.keys(), 'Changed bounded matrix'
+    count = len(recorded['cases'])
+    if recorded.get('matrix') == 'side-terminal':
+        assert recorded['plannedCases'] == observed.get('plannedCases'), 'Changed planned terminal matrix'
+        assert recorded['earlyStop'] == observed.get('earlyStop'), 'Changed terminal stop condition'
+        planned = recorded['plannedCases']
+        assert [(case['orientation'], case['variant']) for case in planned] == SIDE_TERMINAL_CASES, 'Changed planned terminal matrix'
+        assert list(previous) == [case['name'] for case in planned[:count]], 'Changed stopped terminal prefix'
+        assert count == 2 and recorded['earlyStop']['fixture'] == planned[1]['name'], 'Changed terminal stop condition'
+        assert recorded['cases'][-1]['render']['productGates'] == 'fail', 'Lost terminal counterexample'
+    else:
+        assert count == 4, 'Changed bounded matrix'
+    assert len(previous) == len(current) == len(observed['cases']) == count and previous.keys() == current.keys(), 'Changed bounded matrix'
     for name, now in current.items():
         before = previous[name]
+        assert now['diagnostic'] == before['diagnostic'], 'Changed candidate flags ' + name
         assert now['docxSha256'] == before['docxSha256'], 'Changed candidate package ' + name
         for phase in ('render', 'saveReopen'):
             a, b = before[phase], now[phase]
@@ -142,7 +161,7 @@ def compare_baseline(recorded, observed):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory', type=Path)
-    parser.add_argument('--matrix', choices=('populated-row', 'main-ending', 'row-together'), default='populated-row')
+    parser.add_argument('--matrix', choices=('populated-row', 'main-ending', 'row-together', 'side-terminal'), default='populated-row')
     engine = parser.add_mutually_exclusive_group()
     engine.add_argument('--soffice', default='soffice')
     engine.add_argument('--libreofficekit')
@@ -170,19 +189,28 @@ def main():
             destination.write_bytes(exported.read_bytes())
 
     cases = json.loads((args.directory / (args.matrix + '-manifest.json')).read_text())
-    column, expected = (('policy', CASES) if args.matrix == 'populated-row' else ('scope', MAIN_ENDING_CASES) if args.matrix == 'main-ending' else ('keepTogether', [(orientation, flag) for orientation in ('left', 'right') for flag in (True, False)]))
+    baseline = json.loads(args.baseline.read_text()) if args.baseline else None
+    column, expected = (('policy', CASES) if args.matrix == 'populated-row' else ('scope', MAIN_ENDING_CASES) if args.matrix == 'main-ending' else ('variant', SIDE_TERMINAL_CASES) if args.matrix == 'side-terminal' else ('keepTogether', [(orientation, flag) for orientation in ('left', 'right') for flag in (True, False)]))
     assert [(case['orientation'], case[column]) for case in cases] == expected and all(case['leadMm'] == 220 for case in cases)
     if args.matrix == 'main-ending':
         assert all(case['policy'] == 'split-attached' for case in cases)
-    assert len({case['name'] for case in cases}) == 4
+    assert len({case['name'] for case in cases}) == len(expected)
     report = []
     for case in cases:
         name = case['name']; fixture = json.loads((args.directory / (name + '.json')).read_text())
         assert fixture['diagnostic'] == case
-        if args.matrix in ('main-ending', 'row-together'):
+        if args.matrix in ('main-ending', 'row-together', 'side-terminal'):
             main_cell = fixture['tracks'][0]['cell']
             opening = [case['scope'] == 'all-cells' or cell == main_cell for cell in range(3)]
-            assert fixture['cellEndKeepNext'] == [[False] * 3, opening, [False] * 3]
+            lead = [False] * 3
+            if args.matrix == 'side-terminal':
+                assert case['scope'] == 'main-only' and case['policy'] == 'split-attached'
+                assert case['sideSemanticKeepNext'] == (case['variant'] == 'semantic-only')
+                assert case['sideEndingKeepNext'] == (case['variant'] == 'ending-only')
+                assert fixture['sideSemanticKeepNext'] == case['sideSemanticKeepNext']
+                lead[fixture['tracks'][1]['cell']] = case['sideEndingKeepNext']
+                assert fixture['rowKeepTogether'] == [True, True, False]
+            assert fixture['cellEndKeepNext'] == [lead, opening, [False] * 3]
         if args.matrix == 'row-together':
             assert fixture['rowKeepTogether'] == [True, case['keepTogether'], False]
         source = args.directory / (name + '.docx'); saved = args.directory / (name + '-saved.docx')
@@ -196,10 +224,28 @@ def main():
         assert {k: v for k, v in before.items() if k != 'tracks'} == {k: v for k, v in after.items() if k != 'tracks'}
         report.append({'fixture': name, 'diagnostic': case, 'docxSha256': hashlib.sha256(source.read_bytes()).hexdigest(), 'package': native, 'saveReopenPackage': saved_native, 'render': before, 'saveReopen': after})
         print(json.dumps({'fixture': name, 'pages': before['pages'], 'productGates': before['productGates'], 'failures': before['failures'], 'completeNativeFields': 'pass', 'saveReopen': 'same'}), flush=True)
+        if args.matrix == 'side-terminal' and case['orientation'] == 'right' and before['productGates'] != 'pass':
+            result = {'libreOfficeVersion': version, 'matrix': args.matrix, 'plannedCases': cases, 'cases': report,
+                      'architectureAcceptance': 'blocked: positive right control regressed; no export enablement',
+                      'earlyStop': {'fixture': name, 'reason': 'positive right control regressed',
+                                    'unrenderedCases': [pending['name'] for pending in cases[len(report):]]},
+                      'microsoftWord': 'pending'}
+            (args.directory / 'side-terminal-report.json').write_text(json.dumps(result, indent=2) + '\n')
+            if baseline:
+                result['stableComparison'] = compare_baseline(baseline, result)
+            (args.directory / 'side-terminal-report.json').write_text(json.dumps(result, indent=2) + '\n')
+            if baseline:
+                print(json.dumps({'architectureAcceptance': result['architectureAcceptance'],
+                                  'stableComparison': result['stableComparison'], 'earlyStop': result['earlyStop']}), flush=True)
+                return
+            raise AssertionError('Positive right control regressed; retained actual evidence and stopped')
+        if args.matrix == 'side-terminal' and baseline and name == baseline['earlyStop']['fixture']:
+            raise AssertionError('Changed terminal stop condition; expected counterexample did not reproduce')
     for orientation in ('left', 'right'):
         group = [case for case in report if case['diagnostic']['orientation'] == orientation]
         for phase in ('render', 'saveReopen'):
-            for a, b in zip(group[0][phase]['tracks'], group[1][phase]['tracks']): same_metrics(a['metadataMetrics'], b['metadataMetrics'])
+            for candidate in group[1:]:
+                for a, b in zip(group[0][phase]['tracks'], candidate[phase]['tracks']): same_metrics(a['metadataMetrics'], b['metadataMetrics'])
     result = {'libreOfficeVersion': version, 'cases': report, 'architectureAcceptance': 'blocked: populated-track opening/text failures; no export enablement', 'earlyStop': 'four cases at 220 mm; further boundaries/photos/spans/chrome not expanded', 'microsoftWord': 'pending'}
     if args.matrix == 'main-ending':
         for orientation in ('left', 'right'):
@@ -224,7 +270,17 @@ def main():
                 assert a['productGates'] == ('fail' if orientation == 'left' else 'pass')
         result['architectureAcceptance'] = 'blocked: left populated opening remains detached; no export enablement'
         result['rowTogetherEffect'] = 'none observed: short-row cantSplit has identical reviewed visible results'
-    if args.baseline: result['stableComparison'] = compare_baseline(json.loads(args.baseline.read_text()), result)
+    if args.matrix == 'side-terminal':
+        result['architectureAcceptance'] = 'blocked: bounded side-terminal experiment; no export enablement'
+        result['earlyStop'] = 'six isolated controls at 220 mm; no combined flags or boundary/photo/span/chrome expansion'
+        result['sideTerminalEffect'] = {
+            orientation: [case['fixture'] for case in report
+                          if case['diagnostic']['orientation'] == orientation and
+                          any(case[phase] != next(base[phase] for base in report
+                              if base['diagnostic']['orientation'] == orientation and base['diagnostic']['variant'] == 'detached')
+                              for phase in ('render', 'saveReopen'))]
+            for orientation in ('left', 'right')}
+    if baseline: result['stableComparison'] = compare_baseline(baseline, result)
     (args.directory / (args.matrix + '-report.json')).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({key: result[key] for key in ('architectureAcceptance', 'stableComparison') if key in result}), flush=True)
 
