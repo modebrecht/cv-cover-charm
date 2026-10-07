@@ -22,6 +22,7 @@ on:
       - docs/docx-next/sidebar-lead-boundary-evidence.json
       - docs/docx-next/sidebar-lead-window-evidence.json
       - docs/docx-next/sidebar-description-owner-evidence.json
+      - docs/docx-next/sidebar-split-description-owner-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -73,6 +74,7 @@ jobs:
           bun scripts/docx-next-lead-boundary-probe.ts "$QA_ROOT/lead-boundary"
           bun scripts/docx-next-lead-window-probe.ts "$QA_ROOT/lead-window"
           bun scripts/docx-next-description-owner-probe.ts "$QA_ROOT/description-owner"
+          bun scripts/docx-next-split-description-owner-probe.ts "$QA_ROOT/split-description-owner"
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
@@ -90,6 +92,7 @@ jobs:
           python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-boundary" --matrix lead-boundary --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-boundary-evidence.json
           python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-window" --matrix lead-window --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-window-evidence.json
           python scripts/docx-next-populated-row-qa.py "$QA_ROOT/description-owner" --matrix description-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-description-owner-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/split-description-owner" --matrix split-description-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-split-description-owner-evidence.json
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -112,3 +115,4 @@ jobs:
             ${{ env.QA_ROOT }}/lead-boundary/*
             ${{ env.QA_ROOT }}/lead-window/*
             ${{ env.QA_ROOT }}/description-owner/*
+            ${{ env.QA_ROOT }}/split-description-owner/*

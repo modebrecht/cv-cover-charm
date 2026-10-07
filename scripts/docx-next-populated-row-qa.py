@@ -35,8 +35,9 @@ MATRICES = {
     'lead-boundary': ('leadMm', LEAD_BOUNDARY_CASES),
     'lead-window': ('leadMm', LEAD_WINDOW_CASES),
     'description-owner': ('descriptionOwner', DESCRIPTION_OWNER_CASES),
+    'split-description-owner': ('descriptionOwner', DESCRIPTION_OWNER_CASES),
 }
-ISOLATED_MATRICES = ('side-terminal', 'side-ending', 'lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner')
+ISOLATED_MATRICES = ('side-terminal', 'side-ending', 'lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner')
 
 
 def package_result(source, fixture, saved=False):
@@ -259,9 +260,11 @@ def main():
                 assert case['sideEndingKeepNext'] == (case['variant'] == 'ending-only')
                 assert fixture['sideSemanticKeepNext'] == case['sideSemanticKeepNext']
                 lead[fixture['tracks'][1]['cell']] = case['sideEndingKeepNext']
-                assert fixture['rowKeepTogether'] == [case['leadKeepTogether'] if args.matrix == 'lead-together' else True, True, False]
+                opening_row = False if args.matrix == 'split-description-owner' else True
+                assert fixture['rowKeepTogether'] == [case['leadKeepTogether'] if args.matrix == 'lead-together' else True, opening_row, False]
+                if args.matrix == 'split-description-owner': assert case['openingKeepTogether'] is False
                 if args.matrix != 'side-terminal': assert not case['sideSemanticKeepNext']
-                if args.matrix in ('lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner'): assert not case['sideEndingKeepNext']
+                if args.matrix in ('lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner'): assert not case['sideEndingKeepNext']
             assert fixture['cellEndKeepNext'] == [lead, opening, [False] * 3]
         if args.matrix == 'lead-padding':
             assert fixture['authoredLeadMm'] == fixture['leadSpacerMm'] + fixture['leadTopPaddingMm'] == 220
@@ -269,7 +272,7 @@ def main():
         if args.matrix in ('lead-boundary', 'lead-window'):
             assert fixture['authoredLeadMm'] == fixture['leadSpacerMm'] == case['leadMm']
             assert fixture['leadTopPaddingMm'] == 0
-        if args.matrix == 'description-owner':
+        if args.matrix in ('description-owner', 'split-description-owner'):
             intro = fixture['openingFieldIds']; description = fixture['tracks'][0]['fields'][-1]['fieldId']
             assert fixture['mainNativeFieldRows'] == [[], intro + ([description] if case['descriptionOwner'] == 'opening-cell' else []),
                                                      [] if case['descriptionOwner'] == 'opening-cell' else [description]]
@@ -375,10 +378,13 @@ def main():
             'sideOpeningCvPages': case['render']['tracks'][1]['openingCvPages']}
             for case in report if case['diagnostic']['orientation'] == orientation]
             for orientation in ('right', 'left')}
-    if args.matrix == 'description-owner':
+    if args.matrix in ('description-owner', 'split-description-owner'):
         result.update(matrix=args.matrix, plannedCases=cases)
         result['architectureAcceptance'] = 'blocked: bounded main-description ownership diagnostic; no export enablement'
         result['earlyStop'] = 'four ownership controls at 220 mm; all paragraph, row, side span and terminal flags unchanged'
+        if args.matrix == 'split-description-owner':
+            result['architectureAcceptance'] = 'blocked: bounded split-row main-description ownership diagnostic; no export enablement'
+            result['earlyStop'] = 'four ownership controls at 220 mm; opening row false in both controls; all other flags unchanged'
     if baseline: result['stableComparison'] = compare_baseline(baseline, result)
     (args.directory / (args.matrix + '-report.json')).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({key: result[key] for key in ('architectureAcceptance', 'stableComparison') if key in result}), flush=True)
