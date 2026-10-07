@@ -769,6 +769,7 @@ try {
     const bytes = new Uint8Array(await blob.arrayBuffer());
     if (verifyJson) {
       const restoredInput = JSON.parse(JSON.stringify(input));
+      const restoredInputBefore = structuredClone(restoredInput);
       const restoredModel = JSON.parse(JSON.stringify(model));
       const rebuilt = buildDossierDocModel(restoredInput);
       assert.deepEqual(rebuilt, model, `${fixture}: portable input changed the native model`);
@@ -786,7 +787,11 @@ try {
       }
       assert.deepEqual(input, inputBefore, `${fixture}: original input was mutated`);
       assert.deepEqual(model, modelBefore, `${fixture}: original model was mutated`);
-      assert.deepEqual(restoredInput, input, `${fixture}: portable input was mutated`);
+      assert.deepEqual(
+        restoredInput,
+        restoredInputBefore,
+        `${fixture}: portable input was mutated`,
+      );
       jsonRestorations.push({
         fixture,
         docxSha256: createHash("sha256").update(bytes).digest("hex"),
