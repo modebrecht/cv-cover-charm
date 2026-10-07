@@ -1,0 +1,433 @@
+{
+  "startingRemoteDevSha": "d70f0482c348dfe3a04aae7fff2671fac035fb58",
+  "measuredSourceSha": "6d58a946a950285c235e85576a7ca3d7f7849980",
+  "workflowRun": 37562139049,
+  "artifact": {
+    "id": 11456914172,
+    "sha256": "07b64757c6d337b6caebd52d4b9dd452093e51a64f53d5359c72436c9a1bd19d",
+    "measuredEngineGates": "36 complete; workflow subsequently failed on old nested report schema; corrected reader recomputed locally; full corrected workflow reruns on publication"
+  },
+  "runtime": {
+    "interface": "LibreOfficeKit",
+    "version": {
+      "ProductName": "LibreOffice",
+      "ProductVersion": "25.8",
+      "ProductExtension": ".7.3",
+      "BuildId": "580(Build:3)"
+    },
+    "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+    "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+    "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+    "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "host": "Linux x86_64",
+    "packagesVerified": 50
+  },
+  "fontInventory": "12 exact upstream Liberation 2.1.5 assets; original 128-font setup default unchanged",
+  "comparison": {
+    "architectureAcceptance": "pending: measurements never unlock export",
+    "microsoftWord": "pending",
+    "suites": {
+      "cellEnding": {
+        "cases": [
+          {
+            "fixture": "default-220",
+            "docxSha256": "1bd80767ed4d87e8ed0d45d166873ad080e05abfd6ff408980308f814f0b7d0b",
+            "developmentOpening": [1, 1, 1, 1, 2],
+            "stableOpening": [1, 1, 1, 1, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "detached-220",
+            "docxSha256": "ca61c0f277705d96c3a6622051af07fd3899e5d5a366969573d45787dbb7bf12",
+            "developmentOpening": [1, 1, 1, 1, 2],
+            "stableOpening": [1, 1, 1, 1, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "idle-attached-220",
+            "docxSha256": "e150d77b2a58c43639f8042810e45c6fc4b54195ec749c48066e8e1ac8c8294f",
+            "developmentOpening": [1, 1, 1, 1, 2],
+            "stableOpening": [1, 1, 1, 1, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "shared-attached-220",
+            "docxSha256": "e16d3bdf71619bf872271a4baa0c78540d271c3c967dd01208bc541583d9af61",
+            "developmentOpening": [1, 1, 1, 1, 2],
+            "stableOpening": [1, 1, 1, 1, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "default-228",
+            "docxSha256": "8a54993d0086088d406af1154ffa168c83a4e4f621e69384c9714e8b45f07849",
+            "developmentOpening": [1, 1, 2, 2, 2],
+            "stableOpening": [1, 1, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "detached-228",
+            "docxSha256": "e00cf9dd75ec921a5f045e9e423997e31141953326b431d8767ed4099587b66c",
+            "developmentOpening": [1, 1, 2, 2, 2],
+            "stableOpening": [1, 1, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "idle-attached-228",
+            "docxSha256": "6f06209b7e1bc9fd71ca9f2b74d310b9419bf9d7dfefece25ea3bddb28be60d9",
+            "developmentOpening": [1, 1, 2, 2, 2],
+            "stableOpening": [1, 1, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "shared-attached-228",
+            "docxSha256": "52d5ccf64829264949ccf06b69af5edb35e707da031176c2fe8e7877013bd74b",
+            "developmentOpening": [1, 1, 2, 2, 2],
+            "stableOpening": [1, 1, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "default-234",
+            "docxSha256": "8209986234d7abd5ec4ab7f086730d7a1e5ce6b2f0c82b8a591ee0d3fa4657c1",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "detached-234",
+            "docxSha256": "115007f8b209054e277a2ee4acecf79f54b0a40f3d4ab1d4719f7ddaebf02a48",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "idle-attached-234",
+            "docxSha256": "c884b92ea2164b25dd7fe9dd9a2a893678af5f827ef0697d6e1bed20a4940e88",
+            "developmentOpening": [1, 2, 2, 2, 2],
+            "stableOpening": [1, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "shared-attached-234",
+            "docxSha256": "02c2cf7741cca8dc37c413400e3f9ad6abf5d93434a61d1fcc47c9cdd78c9327",
+            "developmentOpening": [1, 2, 2, 2, 2],
+            "stableOpening": [1, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          }
+        ],
+        "changedCases": 0,
+        "stableNegativeOpenings": 10,
+        "stableVersion": "LibreOffice 25.8.7.3 580(Build:3)"
+      },
+      "ownership": {
+        "cases": [
+          {
+            "fixture": "grid-220",
+            "docxSha256": "1bd80767ed4d87e8ed0d45d166873ad080e05abfd6ff408980308f814f0b7d0b",
+            "developmentOpening": [1, 1, 1, 1, 2],
+            "stableOpening": [1, 1, 1, 1, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "unmerged-220",
+            "docxSha256": "9ce179405b72043c0457312e529b592f5dc2887f42253557d7871dab9af2e1da",
+            "developmentOpening": [1, 1, 1, 1, 2],
+            "stableOpening": [1, 1, 1, 1, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "single-column-220",
+            "docxSha256": "9e905b7e88f5a7f8672bd36a1b1bc5e503123d09fa568928572e6f50577969b3",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "body-220",
+            "docxSha256": "15538dece8fb62cf1eb493e65d22ff3a2d0b3fd44a4e7b74b08fef8247f5a6ce",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "grid-224",
+            "docxSha256": "34ad477f870b048167f7514895573a67e4b656556b3f8e47bc2f7717ff29b167",
+            "developmentOpening": [1, 1, 1, 2, 2],
+            "stableOpening": [1, 1, 1, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "unmerged-224",
+            "docxSha256": "ae738a255d2fc6c985da2a46e9464a00634b5cfb182c051ec63182c99fd8b1bc",
+            "developmentOpening": [1, 1, 1, 2, 2],
+            "stableOpening": [1, 1, 1, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "single-column-224",
+            "docxSha256": "99368c1c70b0c39cd99de32e13c1d8443e323c29f05427970de4479159fd0a97",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "body-224",
+            "docxSha256": "ba2fe6f0ce3acf2b2b39db39168bef758e0d5f5e6c34ace4a81452c2487cb12e",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "grid-226",
+            "docxSha256": "34b4b933f20ffd78aa93876b67c94f222337264337691665e1b3c98daee83336",
+            "developmentOpening": [1, 1, 1, 2, 2],
+            "stableOpening": [1, 1, 1, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "unmerged-226",
+            "docxSha256": "68a1f5be26f2596479fc0cd4437be7d096124272330570c2b2a1dc167a3398e5",
+            "developmentOpening": [1, 1, 1, 2, 2],
+            "stableOpening": [1, 1, 1, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "single-column-226",
+            "docxSha256": "ba70ff20e7e463368449b4f78b12b4f1c4048c495be41e73350e5b76b4ca9315",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "body-226",
+            "docxSha256": "6ccca38cdf5bc985d3d01df6923bb3a3478f0d5aafefb10a130a039af0846b4f",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "grid-228",
+            "docxSha256": "8a54993d0086088d406af1154ffa168c83a4e4f621e69384c9714e8b45f07849",
+            "developmentOpening": [1, 1, 2, 2, 2],
+            "stableOpening": [1, 1, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "unmerged-228",
+            "docxSha256": "a06363e69ee75813e090faf9d9b2809eec6b3baed4b5780dcc26b1005a9a928d",
+            "developmentOpening": [1, 1, 2, 2, 2],
+            "stableOpening": [1, 1, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "single-column-228",
+            "docxSha256": "f8d6f7a9579596ba3ec41db7acce730ea67b4c246394b5430927fdb6b1f0d308",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "body-228",
+            "docxSha256": "7c5b25ba529d2cb97aa0679ff0db3bd7299519aedaea5cc331e4b231e356d8a2",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "grid-230",
+            "docxSha256": "4b8a83a301556e2e4d7710c370c19a2e8dc6fa9fc1860144a5668ee1875169a9",
+            "developmentOpening": [1, 1, 2, 2, 2],
+            "stableOpening": [1, 1, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "unmerged-230",
+            "docxSha256": "6695b1a05b6adc4b22584b83e8417e81499603d9f00c1d7518f6fe9d521075ce",
+            "developmentOpening": [1, 1, 2, 2, 2],
+            "stableOpening": [1, 1, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "known-negative",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "single-column-230",
+            "docxSha256": "9b002381889d950e75a34c68631d32106e5a83b264032d9fc3bb1edbdf4dbf07",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "body-230",
+            "docxSha256": "fb5f56322f93d7ddc3704362ca6791e291824ff1d892f59bddcd70c040c7733f",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "grid-234",
+            "docxSha256": "8209986234d7abd5ec4ab7f086730d7a1e5ce6b2f0c82b8a591ee0d3fa4657c1",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "unmerged-234",
+            "docxSha256": "ad7676cd860858477481e2bd68ac1a302dc3f726859f444a14bd1a4841d95941",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "single-column-234",
+            "docxSha256": "9e20d317ad36c152428dee93fb6cf3f3e0d256727d1a20c859f8b3beb787b3bf",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          },
+          {
+            "fixture": "body-234",
+            "docxSha256": "6747a5595715e504eb22d4ca6227e46a2bde7a4ba58dbd681d4a77791eaefa36",
+            "developmentOpening": [2, 2, 2, 2, 2],
+            "stableOpening": [2, 2, 2, 2, 2],
+            "stablePages": 10,
+            "stableOpeningAttachment": "pass",
+            "fullTextAndSaveReopen": "pass",
+            "differences": []
+          }
+        ],
+        "changedCases": 0,
+        "stableNegativeOpenings": 10,
+        "stableVersion": "LibreOffice 25.8.7.3 580(Build:3)"
+      }
+    },
+    "changedCases": 0,
+    "geometryReviewTolerancePt": 0.6,
+    "maximumObservedMetadataDeltaPt": 0
+  },
+  "validation": {
+    "stableControls": 36,
+    "stableDossierPages": 360,
+    "developmentControlsFreshlyRendered": 36,
+    "developmentDossierPages": 360,
+    "supportedSidebarFixtures": 31,
+    "supportedSidebarPages": 253,
+    "supportedSidebarPackagesByteIdentical": 31,
+    "sidebarModelJsonRoundtrips": 31,
+    "portableProjectPhotoRestorations": 2,
+    "comparisonPythonTests": 7,
+    "flowPythonTests": 7,
+    "publicationCi": "commit-specific complete stable workflow and locked app/browser checks reported separately"
+  },
+  "registry": {
+    "configured": 29,
+    "wordAccepted": 0,
+    "total": 39
+  },
+  "limits": {
+    "microsoftWord": "pending",
+    "wholeCoverLetterFontEquality": "not claimed; matched CV metadata geometry and all dossier field/page gates verified",
+    "newCompositionProof": "not performed; selective outer-row attachment is next bounded task"
+  }
+}

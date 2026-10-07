@@ -5,6 +5,7 @@ from pathlib import Path
 
 
 def compare_suite(baseline, observed, count):
+    baseline = baseline.get('diagnostics', baseline)
     previous = {case['fixture']: case for case in baseline['cases']}
     current = {case['fixture']: case for case in observed['cases']}
     assert len(previous) == len(baseline['cases']) == count, 'Changed/duplicate baseline matrix'

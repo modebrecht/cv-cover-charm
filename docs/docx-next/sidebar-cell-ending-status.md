@@ -1,5 +1,7 @@
 # Sidebar native cell-ending attachment — early stop
 
+Continued by the [pinned stable engine comparison](sidebar-stable-status.md): all 36 native ownership/cell-ending cases reproduce without measured differences in LibreOffice 25.8.7.3. The product attachment blocker remains.
+
 Starting remote `dev`: **`0b263c8609ec9f05f0db793ed0f8fc0628ed9d39`**, freshly fetched and matched to a clean checkout. This follows the [paragraph-frame checkpoint](sidebar-frame-status.md). Registry remains **29/39 configured candidates, 0/39 Word accepted**.
 
 ## Result

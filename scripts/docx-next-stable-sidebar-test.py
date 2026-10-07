@@ -50,6 +50,12 @@ class EvidenceComparisonTests(unittest.TestCase):
         self.assertEqual(result['changedCases'], 1)
         self.assertEqual(result['cases'][0]['differences'][0]['metric'], 'widthPt')
 
+    def test_existing_nested_ownership_checkpoint_is_supported(self):
+        recorded = json.loads((root.parent / 'docs/docx-next/sidebar-body-attachment-evidence.json').read_text())
+        result = module.compare_suite(recorded, copy.deepcopy(recorded['diagnostics']), 24)
+        self.assertEqual(result['changedCases'], 0)
+        self.assertEqual(result['stableNegativeOpenings'], 10)
+
 
 if __name__ == '__main__':
     unittest.main()
