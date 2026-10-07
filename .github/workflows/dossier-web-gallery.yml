@@ -39,7 +39,8 @@ jobs:
       - name: Install Playwright runner
         run: npm install --no-save --no-package-lock @playwright/test@1.55.0
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
       - name: Start application
         shell: bash
         run: |

@@ -110,9 +110,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory', type=Path)
     parser.add_argument('--baseline', type=Path)
+    parser.add_argument('--baseline-section', choices=['stable', 'precision'], default='stable')
     args = parser.parse_args()
     result = audit(args.directory)
     (args.directory / 'crop-precision-report.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result))
     if args.baseline:
-        assert comparable(result) == comparable(json.loads(args.baseline.read_text())['stable']), 'Crop precision observation changed; actual report retained'
+        assert comparable(result) == comparable(json.loads(args.baseline.read_text())[args.baseline_section]), 'Crop precision observation changed; actual report retained'
