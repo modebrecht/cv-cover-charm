@@ -1,5 +1,7 @@
 # Splittable opening cell still loses complete PDF descriptions
 
+Published source `8059c16b` has verified successful [stable 25.8.7.3 comparison](https://github.com/modebrecht/cv-cover-charm/actions/runs/37621549458) and [full application regression](https://github.com/modebrecht/cv-cover-charm/actions/runs/37621549317). Stable reproduces both source packages and the exact stopped PDF/bounds/Save-Reopen observations with zero changed cases. Green diagnostics do not accept the text loss.
+
 Compare the main description's native owner at 220 mm while holding the opening row explicitly splittable in both controls. This follows the [same comparison with cantSplit=true](sidebar-description-owner-status.md). Main-only empty-ending attachment, all three rows, side owner/span/text, semantic IDs, widths and every paragraph/other row/ending flag remain unchanged. The existing generic native table primitive authors the change; no renderer or XML repair changes.
 
 | Sidebar | Description owner | Opening cantSplit | Dossier pages | Result                                                    |

@@ -1,5 +1,7 @@
 # Inner side table clips the visible side description
 
+Published source `8059c16b` has verified successful [stable 25.8.7.3 comparison](https://github.com/modebrecht/cv-cover-charm/actions/runs/37621549458) and [full application regression](https://github.com/modebrecht/cv-cover-charm/actions/runs/37621549317). Stable reproduces the same packages, clipped side field, opening/bounds results and Save/Reopen with zero changed cases and the exact two-case stop. Green diagnostics leave the composition rejected.
+
 After the [splittable main-owner counterproof](sidebar-split-description-owner-status.md), isolate a generic one-cell inner side table. Retain the original main description in row 2 and the side content in its outer spanning row-0 cell. Only wrap the same five complete side paragraphs in an inner table at their exact original text width, with zero padding/borders and a splittable inner row. Its required empty ending is explicitly detached. Outer rows, spans, text owners, main-only attachment, paragraph flags and all existing cell endings are unchanged. The existing table primitive authors this directly; no renderer changes or XML repair.
 
 | Sidebar | Side composition  | Dossier pages | Complete main PDF text | Complete side PDF text              | Bounds/openings |
