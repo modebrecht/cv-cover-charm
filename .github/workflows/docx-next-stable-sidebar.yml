@@ -163,6 +163,7 @@ jobs:
           python scripts/docx-next-render-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --roundtrip
           python scripts/docx-next-native-identity-qa.py "$QA_ROOT/fixtures"
           python scripts/docx-next-supported-summary.py "$QA_ROOT/fixtures"
+          python scripts/docx-next-engine-replay.py "$QA_ROOT/fixtures"
       - name: Retain actual supported Sidebar evidence
         if: always()
         uses: actions/upload-artifact@v4
