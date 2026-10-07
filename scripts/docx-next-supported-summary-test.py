@@ -29,11 +29,17 @@ class SupportedSummaryTests(unittest.TestCase):
             self.restored['fixtures'].append({'fixture': row['fixture'], 'docxSha256': hashlib.sha256(data).hexdigest(),
                                              'input': 'pass', 'model': 'pass', 'immutable': 'pass'})
         self.manifest = [{'fixture': row['fixture']} for row in self.renders]
+        self.identities = {
+            'completeNativeText': 'pass', 'fieldIdentityFailures': 0, 'tableIdentityFailures': 0,
+            'missingOrChangedTaggedFields': 0, 'architectureAcceptance': 'synthetic bounded identity pass',
+            'fixtures': [{'fixture': row['fixture'], 'completeNativeText': 'pass', 'fieldIdentity': 'pass',
+                          'tableIdentity': 'pass', 'missingOrChangedTaggedFields': []} for row in self.renders],
+        }
         self.write()
 
     def write(self):
         for name, value in [('manifest.json', self.manifest), ('render-report.json', self.renders),
-                            ('json-restoration-report.json', self.restored)]:
+                            ('json-restoration-report.json', self.restored), ('native-identity-report.json', self.identities)]:
             (self.directory / name).write_text(json.dumps(value))
 
     def test_complete_synthetic_reports_remain_candidates(self):
@@ -76,6 +82,23 @@ class SupportedSummaryTests(unittest.TestCase):
         self.restored['fixtures'][0]['immutable'] = 'fail'
         self.write()
         with self.assertRaises(AssertionError):
+            module.summarize(self.directory)
+
+    def test_saved_identity_failure_stays_explicit_despite_visible_success(self):
+        self.identities['fieldIdentityFailures'] = 1
+        self.identities['missingOrChangedTaggedFields'] = 1
+        self.identities['fixtures'][0]['fieldIdentity'] = 'fail'
+        self.identities['fixtures'][0]['missingOrChangedTaggedFields'] = [{'fieldId': 'lost.native.field'}]
+        self.identities['architectureAcceptance'] = 'blocked: saved native identities lost; no export enablement'
+        self.write()
+        result = module.summarize(self.directory)
+        self.assertEqual(result['nativeSemanticIdsAfterSaveReopen']['fieldIdentityFailures'], 1)
+        self.assertTrue(result['nativeSemanticIdsAfterSaveReopen']['architectureAcceptance'].startswith('blocked'))
+
+    def test_successful_global_text_summary_cannot_hide_a_native_loss(self):
+        self.identities['fixtures'][0]['completeNativeText'] = 'fail'
+        self.write()
+        with self.assertRaisesRegex(AssertionError, 'Incomplete saved native text'):
             module.summarize(self.directory)
 
 

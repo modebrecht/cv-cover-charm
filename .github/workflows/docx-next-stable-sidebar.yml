@@ -58,6 +58,7 @@ jobs:
           python scripts/docx-next-stable-sidebar-test.py
           python scripts/docx-next-populated-row-test.py
           python scripts/docx-next-supported-summary-test.py
+          python scripts/docx-next-native-identity-test.py
       - name: Set up verified stable engine within five minutes
         timeout-minutes: 5
         run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup"
@@ -144,6 +145,7 @@ jobs:
           bun install --frozen-lockfile
           python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
           python scripts/docx-next-supported-summary-test.py
+          python scripts/docx-next-native-identity-test.py
           npm install --no-save --no-package-lock @playwright/test@1.55.0
       - name: Install canonical browser decoder
         run: npx playwright install --with-deps chromium
@@ -159,6 +161,7 @@ jobs:
         timeout-minutes: 5
         run: |
           python scripts/docx-next-render-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --roundtrip
+          python scripts/docx-next-native-identity-qa.py "$QA_ROOT/fixtures"
           python scripts/docx-next-supported-summary.py "$QA_ROOT/fixtures"
       - name: Retain actual supported Sidebar evidence
         if: always()

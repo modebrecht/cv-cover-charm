@@ -13,10 +13,16 @@ def summarize(directory):
     manifest = json.loads((directory / 'manifest.json').read_text())
     renders = json.loads((directory / 'render-report.json').read_text())
     restorations = json.loads((directory / 'json-restoration-report.json').read_text())
+    identities = json.loads((directory / 'native-identity-report.json').read_text())
     assert len(expected) == len(set(expected)) == 31
-    for rows in (manifest, renders, restorations['fixtures']):
+    for rows in (manifest, renders, restorations['fixtures'], identities['fixtures']):
         assert [row['fixture'] for row in rows] == expected, 'Incomplete or reordered supported Sidebar matrix'
     assert restorations['browserNormalizedInputs'] == 6, 'Missing canonical browser image inputs'
+    assert identities['completeNativeText'] == 'pass', 'Incomplete saved native text'
+    assert all(row['completeNativeText'] == 'pass' for row in identities['fixtures']), 'Incomplete saved native text'
+    assert identities['fieldIdentityFailures'] == sum(row['fieldIdentity'] == 'fail' for row in identities['fixtures']), 'Inconsistent field identity summary'
+    assert identities['tableIdentityFailures'] == sum(row['tableIdentity'] == 'fail' for row in identities['fixtures']), 'Inconsistent table identity summary'
+    assert identities['missingOrChangedTaggedFields'] == sum(len(row['missingOrChangedTaggedFields']) for row in identities['fixtures']), 'Inconsistent lost field count'
     assert sum(row['pages'] for row in renders) == baseline['dossierPageCount'] == 253, 'Changed supported pagination'
     for render, restored, previous in zip(renders, restorations['fixtures'], baseline['fixtures']):
         assert render['pages'] == previous['pages'], 'Changed per-fixture pagination'
@@ -33,6 +39,9 @@ def summarize(directory):
         'browserDecorationPixelChecks': 'pass: canonical fixture generator checks',
         'portableInputAndModelRestoration': 'pass: immutable source and byte-identical packages, including photos',
         'nativeRenderSaveReopen': 'pass: complete text, geometry, images and supported expectations',
+        'nativeSemanticIdsAfterSaveReopen': {
+            key: identities[key] for key in ('fieldIdentityFailures', 'tableIdentityFailures',
+                                            'missingOrChangedTaggedFields', 'architectureAcceptance')},
         'microsoftWord': 'pending', 'snapshotApproval': 'pending',
         'fixtures': renders, 'restorations': restorations,
     }
