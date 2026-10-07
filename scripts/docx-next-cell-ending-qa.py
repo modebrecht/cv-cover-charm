@@ -22,6 +22,7 @@ renderer.add_argument('--soffice', default='soffice')
 renderer.add_argument('--libreofficekit')
 parser.add_argument('--require-stable', action='store_true')
 parser.add_argument('--observe', action='store_true', help='Record engine differences without accepting them or changing baseline gates')
+parser.add_argument('--matrix', choices=['cell-ending', 'selective-row'], default='cell-ending')
 args = parser.parse_args()
 executable = args.libreofficekit or args.soffice
 with tempfile.TemporaryDirectory(prefix='docx-next-cell-version-') as profile:
@@ -67,7 +68,13 @@ def package_result(source, fixture, saved=False):
         assert len(tables) == 1, 'Changed native table ownership'
         rows = tables[0].findall(W + 'tr')
         assert len(rows) == len(fixture['cellEndKeepNext'])
-        for row, flags in zip(rows, fixture['cellEndKeepNext']):
+        if 'openingFieldIds' in fixture and len(rows) == 3:
+            owned = [tag.get(W + 'val') for tag in rows[1].iter(W + 'tag')]
+            assert owned == fixture['openingFieldIds'], 'Changed explicit outer opening ownership'
+            assert [tag.get(W + 'val') for tag in rows[2].iter(W + 'tag')] == [fixture['completeFields'][-1]['fieldId']], 'Description is no longer one native field'
+        for row_index, (row, flags) in enumerate(zip(rows, fixture['cellEndKeepNext'])):
+            if 'rowKeepTogether' in fixture:
+                assert (row.find(W + 'trPr/' + W + 'cantSplit') is not None) == fixture['rowKeepTogether'][row_index], 'Changed native row ownership'
             cells = row.findall(W + 'tc')
             assert len(cells) == len(flags)
             for cell, flag in zip(cells, flags):
@@ -125,8 +132,14 @@ def same_metrics(left, right):
         assert abs(a['leftPt'] - b['leftPt']) < .6 and abs(a['widthPt'] - b['widthPt']) < .6, 'Changed lane or glyph geometry'
 
 
-cases = json.loads((args.directory / 'cell-ending-manifest.json').read_text())
-assert len(cases) == 12, 'Early-stop matrix changed'
+cases = json.loads((args.directory / (args.matrix + '-manifest.json')).read_text())
+expected_cases = (
+    [(lead, policy) for lead in (220, 228, 234) for policy in ('default', 'detached', 'idle-attached', 'shared-attached')]
+    if args.matrix == 'cell-ending' else
+    [(lead, policy) for lead in (220, 224, 226, 228, 230, 234) for policy in ('grid', 'split-detached', 'split-attached')]
+)
+assert [(case['leadMm'], case['policy']) for case in cases] == expected_cases, 'Bounded matrix changed'
+assert len({case['name'] for case in cases}) == len(cases), 'Duplicate control'
 report = []
 for case in cases:
     name = case['name']
@@ -147,15 +160,18 @@ for case in cases:
     print(json.dumps({'fixture': name, 'openingCvPages': before['openingCvPages'], 'fullText': 'pass', 'saveReopen': 'pass'}), flush=True)
 for lead in sorted({case['leadMm'] for case in cases}):
     group = [case for case in report if case['diagnostic']['leadMm'] == lead]
-    assert len(group) == 4
+    assert len(group) == (4 if args.matrix == 'cell-ending' else 3)
     for case in group[1:]:
         same_metrics(group[0]['render']['metadataMetrics'], case['render']['metadataMetrics'])
         same_metrics(group[0]['saveReopen']['metadataMetrics'], case['saveReopen']['metadataMetrics'])
-if not args.observe:
+if not args.observe and args.matrix == 'cell-ending':
     assert sum(case['render']['openingAttachment'] == 'known-negative' for case in report) == 10
+if not args.observe and args.matrix == 'selective-row':
+    assert all(case['render']['openingAttachment'] == 'pass' for case in report if case['diagnostic']['policy'] == 'split-attached'), 'Selective opening row detached'
+    assert sum(case['render']['openingAttachment'] == 'known-negative' for case in report) == 6, 'Changed reviewed control counterexamples'
 result = {'libreOfficeVersion': version, 'libreOfficeInterface': 'LibreOfficeKit' if args.libreofficekit else 'soffice CLI', 'cases': report,
-          'architectureAcceptance': 'observation-only: differences require review; no export enablement' if args.observe else 'blocked: cell-ending attachment gives no improvement and regresses the 234 mm boundary',
-          'earlyStop': '12 cases, three boundaries; remaining boundaries/populated tracks/photos/chrome not expanded',
+          'architectureAcceptance': 'observation-only: differences require review; no export enablement' if args.observe else 'blocked: diagnostic outcomes are not application acceptance',
+          'earlyStop': 'bounded matrix only; populated tracks/photos/chrome not expanded',
           'microsoftWord': 'pending'}
-(args.directory / 'cell-ending-report.json').write_text(json.dumps(result, indent=2) + '\n')
+(args.directory / (args.matrix + '-report.json')).write_text(json.dumps(result, indent=2) + '\n')
 print(result['architectureAcceptance'], flush=True)

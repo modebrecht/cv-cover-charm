@@ -1,8 +1,8 @@
 # DOCX Next developer guide
 
-Current Sidebar blocker: [Pinned stable Sidebar attachment comparison](sidebar-stable-status.md).
+Current Sidebar blocker: [Selective outer-row proof and independent-track stress](sidebar-selective-row-status.md).
 
-The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-stable-status.md) records the stable/development engine comparison, unchanged attachment blockers and the exact next selective row-attachment task. Microsoft Word acceptance is pending and does not block authorized candidate development.
+The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-selective-row-status.md) records the bounded positive row-ownership proof, guarded stable CI comparison and the next independent-track stress task. Microsoft Word acceptance is pending and does not block authorized candidate development.
 
 ## Read the pipeline
 

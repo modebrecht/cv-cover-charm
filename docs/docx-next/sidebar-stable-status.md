@@ -1,5 +1,7 @@
 # Sidebar attachment — pinned stable engine comparison
 
+Continued by the [selective outer-row checkpoint](sidebar-selective-row-status.md): the bounded six-boundary proof now attaches every opening locally using existing generic primitives. Populated independent tracks and stable publication gates remain distinct acceptance work.
+
 Starting remote `dev`: **`d70f0482c348dfe3a04aae7fff2671fac035fb58`**, freshly fetched and matched to a clean checkout. This follows the [cell-ending early stop](sidebar-cell-ending-status.md). Registry remains **29/39 configured candidates, 0/39 Word accepted**.
 
 ## Result

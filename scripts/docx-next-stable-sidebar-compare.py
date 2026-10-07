@@ -39,13 +39,17 @@ def compare_suite(baseline, observed, count):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory', type=Path)
+    parser.add_argument('--include-selective-row', action='store_true')
     args = parser.parse_args()
     repository = Path(__file__).resolve().parent.parent
     result = {'architectureAcceptance': 'pending: measurements never unlock export', 'microsoftWord': 'pending', 'suites': {}}
-    for suite, report, baseline, count in [
+    suites = [
         ('cellEnding', 'cell-ending/cell-ending-report.json', 'sidebar-cell-ending-evidence.json', 12),
         ('ownership', 'body/body-attachment-report.json', 'sidebar-body-attachment-evidence.json', 24),
-    ]:
+    ]
+    if args.include_selective_row:
+        suites.append(('selectiveRow', 'selective-row/selective-row-report.json', 'sidebar-selective-row-evidence.json', 18))
+    for suite, report, baseline, count in suites:
         observed = json.loads((args.directory / report).read_text())
         recorded = json.loads((repository / 'docs/docx-next' / baseline).read_text())
         result['suites'][suite] = compare_suite(recorded, observed, count)

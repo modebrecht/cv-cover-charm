@@ -12,6 +12,7 @@ on:
       - docs/docx-next/stable-*.json
       - docs/docx-next/sidebar-body-attachment-evidence.json
       - docs/docx-next/sidebar-cell-ending-evidence.json
+      - docs/docx-next/sidebar-selective-row-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
 
@@ -45,16 +46,18 @@ jobs:
       - name: Set up verified stable engine within five minutes
         timeout-minutes: 5
         run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup"
-      - name: Generate the same 36 immutable native controls
+      - name: Generate 36 ownership controls and 18 selective outer-row controls
         run: |
           bun scripts/docx-next-cell-ending-probe.ts "$QA_ROOT/cell-ending"
           bun scripts/docx-next-body-attachment-probe.ts "$QA_ROOT/body"
+          bun scripts/docx-next-selective-row-probe.ts "$QA_ROOT/selective-row"
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
           python scripts/docx-next-cell-ending-qa.py "$QA_ROOT/cell-ending" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
           python scripts/docx-next-body-attachment-qa.py "$QA_ROOT/body" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
-          python scripts/docx-next-stable-sidebar-compare.py "$QA_ROOT"
+          python scripts/docx-next-cell-ending-qa.py "$QA_ROOT/selective-row" --matrix selective-row --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable
+          python scripts/docx-next-stable-sidebar-compare.py "$QA_ROOT" --include-selective-row
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -66,3 +69,4 @@ jobs:
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/cell-ending/*
             ${{ env.QA_ROOT }}/body/*
+            ${{ env.QA_ROOT }}/selective-row/*
