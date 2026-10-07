@@ -1,5 +1,7 @@
 # Moving the description into the opening cell loses visible text
 
+Published source revision `e7e03c26`: [stable 25.8.7.3 comparison](https://github.com/modebrecht/cv-cover-charm/actions/runs/37615545128) and [full application regression](https://github.com/modebrecht/cv-cover-charm/actions/runs/37615545185) were verified successful. Stable reproduces the exact stopped right counterexample with identical source packages and zero changed cases. The [next handoff](next-handoff.md) records the complete verified result and bounded follow-up.
+
 After the [lead window](sidebar-lead-window-status.md) narrowed the left failure to a sampled page boundary, compare only the main description's native owning cell at the original 220 mm lead. The tail-cell control owns four metadata paragraphs in row 1 and the complete description in row 2. The opening-cell variant moves that same description paragraph into row 1 and leaves row 2 empty. All three rows, side text/ownership/spans, widths, semantic IDs/text and paragraph/row/empty-ending flags remain unchanged. In particular row 1 retains `cantSplit=true` and becomes oversized in the moved variant. This is authored through the existing generic table primitive; no renderer or XML repair changes.
 
 | Sidebar | Main description owner | Main opening CV pages | Side opening CV pages | Dossier pages | Product gate                                       |

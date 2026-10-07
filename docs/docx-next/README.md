@@ -1,5 +1,7 @@
 # DOCX Next developer guide
 
+Latest [next handoff](next-handoff.md) records the verified source revision, exact CI links, actual render counts and bounded next comparison.
+
 Current Sidebar blocker: [Stopped description ownership comparison](sidebar-description-owner-status.md). The [lead window](sidebar-lead-window-status.md) reproduces the left opening split at 215/220 mm, with positive controls at 0/205/210 mm. Moving the complete main description into the opening cell with unchanged row flags then loses both visible PDF descriptions in the positive right control, so the experiment stops. Native data and Save/Reopen survive. Next: isolate ownership while holding the opening row explicitly splittable in both controls.
 
 The rebuild is an isolated candidate on `dev`. Normal DOCX export still uses the existing implementation. Existing PDF and JSON export paths remain active; the saved CV adapter also preserves document-specific title/heading/chrome settings. **29/39 configured candidates; 0/39 Word-accepted migrations.** The [migration ledger](migration.md) lists registrations; the [current Sidebar architecture checkpoint](sidebar-description-owner-status.md) records the stopped right visible-text regression, retained native fields and exact Save/Reopen evidence. Microsoft Word acceptance is pending and does not block authorized candidate development.
