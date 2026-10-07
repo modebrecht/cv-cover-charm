@@ -27,9 +27,23 @@ export const PICTURE_FRAME_CASES = [
   { name: "picture-frame-cropped-ellipse", owner: "body", photo: true, crop: true, ellipse: true },
 ] as const;
 export type PictureFrameCase = (typeof PICTURE_FRAME_CASES)[number];
+// Separate prospective control; the original four-case stopped matrix stays unchanged.
+// These declarative values describe the measured window, not a renderer correction.
+export const PICTURE_PRECISION_CASES = [
+  PICTURE_FRAME_CASES[0],
+  {
+    name: "picture-precision-declared-crop-rect",
+    owner: "body",
+    photo: true,
+    crop: true,
+    ellipse: false,
+    precision: true,
+  },
+] as const;
+export type PicturePrecisionCase = (typeof PICTURE_PRECISION_CASES)[number];
 
 export function pictureIdentityFixture(
-  value: PictureIdentityCase | PictureFrameCase,
+  value: PictureIdentityCase | PictureFrameCase | PicturePrecisionCase,
   source: string,
 ) {
   const model = buildDossierDocModel(briefFixture("normal"));
@@ -53,6 +67,17 @@ export function pictureIdentityFixture(
       ...(!value.crop ? { heightRatio: 1.5, zoom: 1, xPct: 50, yPct: 50 } : {}),
     };
     if (!value.crop) image.maxHeightMm = Math.max(image.maxHeightMm, image.widthMm * 1.5);
+    if ("precision" in value) {
+      // 120×180 original grid: retain 80% width and 53.349% height.
+      const ratio = (1.5 * 0.53349) / 0.8;
+      image.frame = {
+        ...image.frame,
+        heightRatio: ratio,
+        zoom: 1.25,
+        xPct: 41.89,
+        yPct: ((0.24396 - (1.5 - ratio) / 3) * 750) / ratio,
+      };
+    }
   }
   const style = walkBlocks(model.cv.blocks).find(
     (block): block is Paragraph => block.kind === "paragraph",

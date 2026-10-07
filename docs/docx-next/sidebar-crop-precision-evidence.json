@@ -353,5 +353,113 @@
     "applicationRun": 37662295886,
     "applicationConclusion": "success",
     "stableOtherJobs": "supported-sidebar and stable-comparison succeeded"
+  },
+  "upstreamArithmetic": {
+    "tag": "libreoffice-25.8.7.3",
+    "tagObject": "d95fa394f530ab0d5ff8943acfe9c4bee2363a05",
+    "commit": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+    "sources": [
+      {
+        "path": "sw/source/filter/ww8/docxattributeoutput.cxx",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/filter/ww8/docxattributeoutput.cxx",
+        "sha256": "1e26a086648b4cfdce08616c5b48e1c7d778778d399c23a16f5234cc56c00449"
+      },
+      {
+        "path": "oox/source/drawingml/fillproperties.cxx",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/oox/source/drawingml/fillproperties.cxx",
+        "sha256": "2678293f0b30356198e8ce5db8b233079fc48dc5ce7c59ddefe33105666b25e0"
+      },
+      {
+        "path": "oox/source/helper/graphichelper.cxx",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/oox/source/helper/graphichelper.cxx",
+        "sha256": "7465107f7f2f920220e5e65149f65961af1ad091f64889aa2ba8628e550e2cbb"
+      },
+      {
+        "path": "svx/source/items/grfitem.cxx",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/svx/source/items/grfitem.cxx",
+        "sha256": "dfd8a7c36d06c31b539be5db522c52ea6457536f8708e4dd0c3e5ee7df2b3bdc"
+      },
+      {
+        "path": "sw/source/core/unocore/unomap1.cxx",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/core/unocore/unomap1.cxx",
+        "sha256": "c43e40c9d9f601aa098133170704a343b968c02bb7adff8d973a3c41f2a8b7f3"
+      },
+      {
+        "path": "sw/source/writerfilter/dmapper/GraphicImport.cxx",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/writerfilter/dmapper/GraphicImport.cxx",
+        "sha256": "8850eba32eaa233bb1eb61701edf50b6a5df7ddbaab35fce0ce439fd59ca2f78"
+      },
+      {
+        "path": "include/o3tl/unit_conversion.hxx",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/include/o3tl/unit_conversion.hxx",
+        "sha256": "50a3f7992e3b2ad90798804a02b25fae673c0cf16aa35391aa013e7e6436030c"
+      }
+    ],
+    "assumption": "96 DPI default device, bitmap preferred size in pixels. Runtime default-device/intermediate UNO values and Ubuntu backport patches are not instrumented; this is a source-backed arithmetic match, not a proved causal trace.",
+    "devicePixelsPerMeter": 3780,
+    "importOriginalSizeMm100": {
+      "width": 3175,
+      "height": 4762
+    },
+    "exportOriginalSizeMm100": {
+      "width": 3175,
+      "height": 4763
+    },
+    "rounding": "Nearest integer, positive half-up; exact rational arithmetic.",
+    "stages": [
+      {
+        "edge": "l",
+        "sourcePercentUnits": 8400,
+        "importedCropMm100": 267,
+        "storedCropTwips": 151,
+        "queriedCropMm100": 266,
+        "predictedExportPercentUnits": 8378
+      },
+      {
+        "edge": "t",
+        "sourcePercentUnits": 24400,
+        "importedCropMm100": 1162,
+        "storedCropTwips": 659,
+        "queriedCropMm100": 1162,
+        "predictedExportPercentUnits": 24396
+      },
+      {
+        "edge": "r",
+        "sourcePercentUnits": 11600,
+        "importedCropMm100": 368,
+        "storedCropTwips": 209,
+        "queriedCropMm100": 369,
+        "predictedExportPercentUnits": 11622
+      },
+      {
+        "edge": "b",
+        "sourcePercentUnits": 22267,
+        "importedCropMm100": 1060,
+        "storedCropTwips": 601,
+        "queriedCropMm100": 1060,
+        "predictedExportPercentUnits": 22255
+      }
+    ],
+    "predictedCrop": {
+      "l": 8378,
+      "t": 24396,
+      "r": 11622,
+      "b": 22255
+    },
+    "actualSavedCrop": {
+      "l": 8378,
+      "t": 24396,
+      "r": 11622,
+      "b": 22255
+    }
+  },
+  "verifiedSuccessor": {
+    "commit": "dfe554f5307bf062bb2a563b047e9003b886bd44",
+    "stableRun": 37675754857,
+    "pictureJob": 112978694642,
+    "artifactId": 11507317304,
+    "applicationRun": 37675754426,
+    "applicationConclusion": "success; all eight browser groups",
+    "stableConclusion": "all three jobs success; strict frame and crop precision baselines reproduced"
   }
 }

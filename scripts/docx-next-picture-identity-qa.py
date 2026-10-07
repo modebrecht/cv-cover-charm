@@ -152,7 +152,8 @@ def comparable(report):
     return {**report, 'fixtures': [{key: value for key, value in row.items() if key != 'savedDocxSha256'} for row in report['fixtures']]}
 
 
-def run(directory, executable, kit=False, require_stable=False, observe=False, replay=False, baseline=None, frames=False):
+def run(directory, executable, kit=False, require_stable=False, observe=False, replay=False, baseline=None, frames=False, precision=False):
+    assert not precision or frames, 'Precision controls require the strict frame/photo gates'
     with tempfile.TemporaryDirectory(prefix='identity-version-') as profile:
         version = subprocess.check_output([executable, '--version'] + ([Path(profile).as_uri()] if kit else []), text=True, timeout=30).strip()
     if kit:
@@ -171,7 +172,11 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
 
     manifest = json.loads((directory / 'picture-identity-manifest.json').read_text())
     if frames:
-        assert [(row['owner'], row['photo'], row['crop'], row['ellipse']) for row in manifest] == [('body', True, crop, ellipse) for crop, ellipse in [(False, False), (False, True), (True, False), (True, True)]]
+        planned = [(False, False), (True, False)] if precision else [(False, False), (False, True), (True, False), (True, True)]
+        assert [(row['owner'], row['photo'], row['crop'], row['ellipse']) for row in manifest] == [('body', True, crop, ellipse) for crop, ellipse in planned]
+        if precision:
+            assert manifest[0]['docxSha256'] == '8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df', 'Start from the verified unchanged positive control'
+            assert manifest[1]['pictureGeometry']['crop'] == {'left': 8378, 'top': 24396, 'right': 11622, 'bottom': 22255}, 'Prospective declared crop changed'
         reference = photo.decoded_photo((directory / 'canonical-photo.png').read_bytes())
         for fixture in manifest:
             pictures = photo.inventory(directory / (fixture['name'] + '.docx'))
@@ -217,7 +222,7 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
     actual = [row for row in rows if row['execution'] == 'rendered']
     report = {'runtime': version, 'interface': 'LibreOfficeKit' if kit else 'soffice CLI', 'plannedCases': len(rows), 'actualCases': len(actual), 'pages': sum(row['render']['pages'] for row in actual), 'stoppedAfter': stopped, 'fieldIdentityFailures': sum(row['native']['fieldIdentity'] == 'fail' for row in actual), 'tableIdentityFailures': sum(row['native']['tableIdentity'] == 'fail' for row in actual), 'architectureAcceptance': 'blocked; minimal diagnostics do not enable export or certify Word', 'fixtures': rows}
     if frames:
-        report['matrix'] = 'picture-frame'
+        report['matrix'] = 'picture-precision' if precision else 'picture-frame'
         report['originalPixelFailures'] = sum(picture['originalPhotoPixels'] == 'fail' for row in actual for picture in row['nativePhoto'])
     (directory / 'picture-identity-report.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report))
@@ -246,6 +251,8 @@ if __name__ == '__main__':
     parser.add_argument('--observe', action='store_true')
     parser.add_argument('--replay', action='store_true')
     parser.add_argument('--baseline', type=Path)
-    parser.add_argument('--frames', action='store_true')
+    matrix = parser.add_mutually_exclusive_group()
+    matrix.add_argument('--frames', action='store_true')
+    matrix.add_argument('--precision-controls', action='store_true')
     args = parser.parse_args()
-    run(args.directory, args.libreofficekit or args.soffice, bool(args.libreofficekit), args.require_stable, args.observe, args.replay, args.baseline, args.frames)
+    run(args.directory, args.libreofficekit or args.soffice, bool(args.libreofficekit), args.require_stable, args.observe, args.replay, args.baseline, args.frames or args.precision_controls, args.precision_controls)

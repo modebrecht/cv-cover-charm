@@ -242,6 +242,9 @@ jobs:
           mkdir -p "$QA_ROOT/frames"
           python scripts/docx-next-fixture-images.py "$QA_ROOT/frames/images.json"
           bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/frames" --frames
+          mkdir -p "$QA_ROOT/precision"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/precision/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/precision" --precision-controls
       - name: Observe stable field identity, complete text, geometry and save/reopen
         timeout-minutes: 3
         run: |
@@ -249,6 +252,8 @@ jobs:
           python scripts/docx-next-native-photo-qa.py "$QA_ROOT/fixtures" --baseline docs/docx-next/sidebar-picture-identity-evidence.json
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/frames" --frames --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-frame-evidence.json
           python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/frames" --baseline docs/docx-next/sidebar-crop-precision-evidence.json
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/precision" --precision-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/precision"
       - name: Retain actual picture identity evidence including stopped cases
         if: always()
         uses: actions/upload-artifact@v4
@@ -259,3 +264,4 @@ jobs:
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/fixtures/
             ${{ env.QA_ROOT }}/frames/
+            ${{ env.QA_ROOT }}/precision/
