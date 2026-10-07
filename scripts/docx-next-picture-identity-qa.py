@@ -15,6 +15,9 @@ import fitz
 spec = importlib.util.spec_from_file_location('identity', Path(__file__).with_name('docx-next-native-identity-qa.py'))
 identity = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(identity)
+spec = importlib.util.spec_from_file_location('photo', Path(__file__).with_name('docx-next-native-photo-qa.py'))
+photo = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(photo)
 MM = 72 / 25.4
 
 
@@ -74,6 +77,11 @@ def stop_reason(result):
         return 'field-identity'
     if any(result[key]['status'] != 'pass' for key in ['render', 'saveReopen']):
         return 'pdf-text-or-geometry'
+    if 'nativePhoto' in result:
+        if any(row['originalPhotoPixels'] != 'pass' for row in result['nativePhoto']):
+            return 'original-photo-pixels'
+        if any(row['nativeCropParameters'] != 'unchanged' or row['nativeFrameGeometry'] != 'pass' or row['drawingName'] != 'pass' for row in result['nativePhoto']):
+            return 'native-photo-frame-or-crop'
     # Container captions have their own unresolved requirement; do not mask field results.
     return None
 
@@ -84,7 +92,7 @@ def comparable(report):
     return {**report, 'fixtures': [{key: value for key, value in row.items() if key != 'savedDocxSha256'} for row in report['fixtures']]}
 
 
-def run(directory, executable, kit=False, require_stable=False, observe=False, replay=False, baseline=None):
+def run(directory, executable, kit=False, require_stable=False, observe=False, replay=False, baseline=None, frames=False):
     with tempfile.TemporaryDirectory(prefix='identity-version-') as profile:
         version = subprocess.check_output([executable, '--version'] + ([Path(profile).as_uri()] if kit else []), text=True, timeout=30).strip()
     if kit:
@@ -102,7 +110,22 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
             destination.write_bytes(exported.read_bytes())
 
     manifest = json.loads((directory / 'picture-identity-manifest.json').read_text())
-    assert [(row['owner'], row['photo']) for row in manifest] == [(owner, photo) for owner in ['body', 'single', 'left', 'right'] for photo in [False, True]]
+    if frames:
+        assert [(row['owner'], row['photo'], row['crop'], row['ellipse']) for row in manifest] == [('body', True, crop, ellipse) for crop, ellipse in [(False, False), (False, True), (True, False), (True, True)]]
+        reference = photo.decoded_photo((directory / 'canonical-photo.png').read_bytes())
+        for fixture in manifest:
+            pictures = photo.inventory(directory / (fixture['name'] + '.docx'))
+            assert len(pictures) == 1
+            picture = pictures[0]
+            assert all(picture[key] == reference[key] for key in reference), 'Original source pixels differ'
+            assert fixture['fields'] == manifest[0]['fields'], 'Complete semantic fields differ'
+            assert picture['pictureId'] == fixture['pictureId'] == manifest[0]['pictureId']
+            assert picture['shape'] == ('ellipse' if fixture['ellipse'] else 'rect')
+            assert picture['crop'] == dict(zip(['l', 't', 'r', 'b'], [fixture['pictureGeometry']['crop'][key] for key in ['left', 'top', 'right', 'bottom']]))
+            if not fixture['crop']:
+                assert not any(picture['crop'].values()), 'Uncropped control has a crop'
+    else:
+        assert [(row['owner'], row['photo']) for row in manifest] == [(owner, picture) for owner in ['body', 'single', 'left', 'right'] for picture in [False, True]]
     # Validate all prepared source packages; this does not claim that all were rendered.
     for fixture in manifest:
         source_check(directory / (fixture['name'] + '.docx'), fixture)
@@ -120,6 +143,9 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
         saved_pdf = qa / 'saved.pdf'
         convert(saved, saved_pdf, 'pdf')
         result = {'fixture': fixture['name'], 'execution': 'rendered', 'sourceDocxSha256': fixture['docxSha256'], 'savedDocxSha256': hashlib.sha256(saved.read_bytes()).hexdigest(), 'native': identity.audit(source, saved), 'render': pdf_result(pdf, fixture), 'saveReopen': pdf_result(saved_pdf, fixture)}
+        if frames:
+            result['nativePhoto'] = photo.compare(source, saved)
+            assert len(result['nativePhoto']) == 1, 'Photo control must audit one source picture'
         for label, path in [('source', pdf), ('saved', saved_pdf)]:
             with fitz.open(path) as document:
                 for page in document:
@@ -130,6 +156,9 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
             stopped = fixture['name'] + ':' + reason
     actual = [row for row in rows if row['execution'] == 'rendered']
     report = {'runtime': version, 'interface': 'LibreOfficeKit' if kit else 'soffice CLI', 'plannedCases': len(rows), 'actualCases': len(actual), 'pages': sum(row['render']['pages'] for row in actual), 'stoppedAfter': stopped, 'fieldIdentityFailures': sum(row['native']['fieldIdentity'] == 'fail' for row in actual), 'tableIdentityFailures': sum(row['native']['tableIdentity'] == 'fail' for row in actual), 'architectureAcceptance': 'blocked; minimal diagnostics do not enable export or certify Word', 'fixtures': rows}
+    if frames:
+        report['matrix'] = 'picture-frame'
+        report['originalPixelFailures'] = sum(picture['originalPhotoPixels'] == 'fail' for row in actual for picture in row['nativePhoto'])
     (directory / 'picture-identity-report.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report))
     if replay:
@@ -157,5 +186,6 @@ if __name__ == '__main__':
     parser.add_argument('--observe', action='store_true')
     parser.add_argument('--replay', action='store_true')
     parser.add_argument('--baseline', type=Path)
+    parser.add_argument('--frames', action='store_true')
     args = parser.parse_args()
-    run(args.directory, args.libreofficekit or args.soffice, bool(args.libreofficekit), args.require_stable, args.observe, args.replay, args.baseline)
+    run(args.directory, args.libreofficekit or args.soffice, bool(args.libreofficekit), args.require_stable, args.observe, args.replay, args.baseline, args.frames)

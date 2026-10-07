@@ -26,6 +26,21 @@ class PictureIdentityTests(unittest.TestCase):
     def test_pdf_loss_stops(self):
         self.assertEqual(module.stop_reason(self.result(pdf='fail')), 'pdf-text-or-geometry')
 
+    def photo_result(self, pixels='pass', crop='unchanged', frame='pass'):
+        return {**self.result(), 'nativePhoto': [{'originalPhotoPixels': pixels, 'nativeCropParameters': crop, 'nativeFrameGeometry': frame, 'drawingName': 'pass'}]}
+
+    def test_original_pixel_loss_stops_before_next_shape(self):
+        self.assertEqual(module.stop_reason(self.photo_result(pixels='fail')), 'original-photo-pixels')
+
+    def test_crop_parameter_loss_stops_even_with_original_pixels(self):
+        self.assertEqual(module.stop_reason(self.photo_result(crop='changed')), 'native-photo-frame-or-crop')
+
+    def test_frame_loss_stops_even_with_original_pixels(self):
+        self.assertEqual(module.stop_reason(self.photo_result(frame='fail')), 'native-photo-frame-or-crop')
+
+    def test_preserved_native_photo_allows_next_control(self):
+        self.assertIsNone(module.stop_reason(self.photo_result()))
+
     def test_baseline_ignores_only_saved_package_metadata(self):
         first = {'fixtures': [{'fixture': 'one', 'sourceDocxSha256': 'source', 'savedDocxSha256': 'old', 'native': self.result()['native']}]}
         second = {'fixtures': [{**first['fixtures'][0], 'savedDocxSha256': 'new'}]}

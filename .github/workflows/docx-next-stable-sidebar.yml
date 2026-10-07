@@ -222,11 +222,15 @@ jobs:
           mkdir -p "$QA_ROOT/fixtures"
           python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
           bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/fixtures"
+          mkdir -p "$QA_ROOT/frames"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/frames/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/frames" --frames
       - name: Observe stable field identity, complete text, geometry and save/reopen
         timeout-minutes: 3
         run: |
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-identity-evidence.json
           python scripts/docx-next-native-photo-qa.py "$QA_ROOT/fixtures" --baseline docs/docx-next/sidebar-picture-identity-evidence.json
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/frames" --frames --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
       - name: Retain actual picture identity evidence including stopped cases
         if: always()
         uses: actions/upload-artifact@v4
@@ -236,3 +240,4 @@ jobs:
           path: |
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/frames/

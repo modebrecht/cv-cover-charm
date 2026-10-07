@@ -7,12 +7,14 @@ import { renderDossierDocx } from "../src/lib/docx-next/renderer";
 import { pictureGeometry } from "../src/lib/docx-next/picture-geometry";
 import {
   PICTURE_IDENTITY_CASES,
+  PICTURE_FRAME_CASES,
   pictureIdentityFixture,
 } from "../tests/fixtures/docx-next/sidebar-picture-identity";
 
 const directory = process.argv[2];
-if (!directory || process.argv.length !== 3)
-  throw Error("Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY");
+const frames = process.argv[3] === "--frames";
+if (!directory || (process.argv.length !== 3 && !(frames && process.argv.length === 4)))
+  throw Error("Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY [--frames]");
 await mkdir(directory, { recursive: true });
 const sources = JSON.parse(await readFile(path.join(directory, "images.json"), "utf8"));
 const source: string = sources["icc-jpeg"];
@@ -55,11 +57,19 @@ await writeFile(path.join(directory, "canonical-photo.png"), normalized.bytes);
 const manifest = [];
 let referenceImage;
 let referenceFields;
-for (const value of PICTURE_IDENTITY_CASES) {
+for (const value of frames ? PICTURE_FRAME_CASES : PICTURE_IDENTITY_CASES) {
   const { model, image, fixture } = pictureIdentityFixture(value, source);
   referenceImage ??= image;
   referenceFields ??= fixture.fields;
-  assert.deepEqual(image, referenceImage);
+  if (!frames) assert.deepEqual(image, referenceImage);
+  else {
+    assert.equal(image.id, referenceImage.id);
+    assert.equal(image.source, referenceImage.source);
+    assert.equal(normalized.heightPx / normalized.widthPx, 1.5);
+    const geometry = pictureGeometry(image, normalized, fixture.cellWidthMm);
+    if ("crop" in value && !value.crop)
+      assert.deepEqual(geometry.crop, { left: 0, top: 0, right: 0, bottom: 0 });
+  }
   assert.deepEqual(
     [...fixture.fields].sort((a, b) => a.fieldId.localeCompare(b.fieldId)),
     [...referenceFields].sort((a, b) => a.fieldId.localeCompare(b.fieldId)),
@@ -102,5 +112,5 @@ await writeFile(
   JSON.stringify(manifest, null, 2) + "\n",
 );
 console.log(
-  "Eight guarded native picture/context controls; canonical browser image, complete fields, immutable JSON and restored package identity verified.",
+  `${manifest.length} guarded native picture controls; canonical browser image, complete fields, immutable JSON and restored package identity verified.`,
 );

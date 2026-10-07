@@ -14,8 +14,24 @@ export const PICTURE_IDENTITY_CASES = (["body", "single", "left", "right"] as co
     })),
 );
 export type PictureIdentityCase = (typeof PICTURE_IDENTITY_CASES)[number];
+export const PICTURE_FRAME_CASES = [
+  { name: "picture-frame-uncropped-rect", owner: "body", photo: true, crop: false, ellipse: false },
+  {
+    name: "picture-frame-uncropped-ellipse",
+    owner: "body",
+    photo: true,
+    crop: false,
+    ellipse: true,
+  },
+  { name: "picture-frame-cropped-rect", owner: "body", photo: true, crop: true, ellipse: false },
+  { name: "picture-frame-cropped-ellipse", owner: "body", photo: true, crop: true, ellipse: true },
+] as const;
+export type PictureFrameCase = (typeof PICTURE_FRAME_CASES)[number];
 
-export function pictureIdentityFixture(value: PictureIdentityCase, source: string) {
+export function pictureIdentityFixture(
+  value: PictureIdentityCase | PictureFrameCase,
+  source: string,
+) {
   const model = buildDossierDocModel(briefFixture("normal"));
   const canonical = buildDossierDocModel(sidebarFixture("photo-main", source));
   const picture = walkBlocks(canonical.cv.blocks).find((block) => block.kind === "image");
@@ -29,6 +45,15 @@ export function pictureIdentityFixture(value: PictureIdentityCase, source: strin
     yMm: 0,
     coordinateOrigin: "content" as const,
   };
+  if ("crop" in value) {
+    assert(image.frame);
+    image.frame = {
+      ...image.frame,
+      radiusMm: value.ellipse ? 999 : 0,
+      ...(!value.crop ? { heightRatio: 1.5, zoom: 1, xPct: 50, yPct: 50 } : {}),
+    };
+    if (!value.crop) image.maxHeightMm = Math.max(image.maxHeightMm, image.widthMm * 1.5);
+  }
   const style = walkBlocks(model.cv.blocks).find(
     (block): block is Paragraph => block.kind === "paragraph",
   )!.runs[0].style;
