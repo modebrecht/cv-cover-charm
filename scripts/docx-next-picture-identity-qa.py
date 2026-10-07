@@ -18,6 +18,9 @@ spec.loader.exec_module(identity)
 spec = importlib.util.spec_from_file_location('photo', Path(__file__).with_name('docx-next-native-photo-qa.py'))
 photo = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(photo)
+spec = importlib.util.spec_from_file_location('pdf_picture', Path(__file__).with_name('docx-next-pdf-picture-qa.py'))
+pdf_picture = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(pdf_picture)
 MM = 72 / 25.4
 
 
@@ -72,9 +75,17 @@ def pdf_result(path, fixture):
         if len(pictures) != expected:
             failures.append('picture-count')
         measured = []
+        clipped = []
         for page_number, image in pictures:
             rect = fitz.Rect(image['bbox'])
             geometry = fixture['pictureGeometry']
+            if geometry.get('shape') == 'rect' and fixture.get('crop'):
+                records = pdf_picture.image_rectangles(path, page_number)
+                matches = [record for record in records if all(abs(a - b) < 0.1 for a, b in zip(record['raw'], rect))]
+                assert len(matches) == 1, 'Ambiguous or missing actual image paint/clip'
+                record = matches[0]
+                clipped.append({'page': page_number + 1, 'boundsMm': [round(v / MM, 3) for v in record['visible']], 'clipBoundsMm': None if record['clip'] is None else [round(v / MM, 3) for v in record['clip']]})
+                rect = record['visible']
             frame, failure = rectangular_frame(document[page_number], rect, geometry)
             if failure:
                 failures.append(failure)
@@ -105,6 +116,8 @@ def pdf_result(path, fixture):
         result = {'status': 'fail' if failures else 'pass', 'pages': len(document), 'failures': sorted(set(failures)), 'pictures': [{'page': number + 1, 'boundsMm': [round(v / MM, 3) for v in item['bbox']]} for number, item in pictures]}
         if measured:
             result['rectangularFrames'] = measured
+        if clipped:
+            result['visibleImageClips'] = clipped
         return result
 
 
