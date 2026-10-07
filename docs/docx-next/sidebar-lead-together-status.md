@@ -22,3 +22,5 @@ python scripts/docx-next-populated-row-qa.py /tmp/lead-together --matrix lead-to
 ```
 
 The next isolated [lead representation comparison](sidebar-lead-padding-status.md) is now stopped on a right-side regression.
+
+Published evidence at `d1bd3ab8f10947fe05493cf063dc0a3299ca9498`: [stable comparison](https://github.com/modebrecht/cv-cover-charm/actions/runs/37613464448) verified successful with identical source packages and zero changed cases; [application regression](https://github.com/modebrecht/cv-cover-charm/actions/runs/37613464420) verified successful, including 1007 unit tests, type/format/lint/build and all eight browser groups. The existing 21 lint warnings remain; no local full TypeScript success is claimed.

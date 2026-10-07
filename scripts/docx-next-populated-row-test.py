@@ -274,4 +274,108 @@ class LeadPaddingEvidenceTests(unittest.TestCase):
             module.compare_baseline(self.baseline, observed)
 
 
+class LeadBoundaryEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-lead-boundary-evidence.json').read_text())
+
+    def test_zero_lead_restores_bounded_left_opening_without_enabling_export(self):
+        result = module.compare_baseline(self.baseline, copy.deepcopy(self.baseline))
+        self.assertEqual(result['changedCases'], 0)
+        self.assertTrue(result['productGates'].startswith('fail'))
+        self.assertEqual([case['render']['productGates'] for case in self.baseline['cases']], ['pass', 'pass', 'fail', 'pass'])
+        self.assertEqual(self.baseline['cases'][3]['render']['tracks'][0]['openingCvPages'], [1] * 5)
+        self.assertTrue(all(track['fullTextVisible'] for case in self.baseline['cases'] for track in case['render']['tracks']))
+
+    def test_220_controls_retain_previous_native_packages(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-main-ending-evidence.json').read_text())
+        for current in self.baseline['cases']:
+            if current['diagnostic']['leadMm'] != 220: continue
+            old = next(case for case in previous['cases'] if case['fixture'] == current['diagnostic']['orientation'] + '-main-only-220')
+            self.assertEqual(current['docxSha256'], old['docxSha256'])
+            self.assertEqual(current['render'], old['render'])
+
+    def test_lead_height_or_positive_left_changes_require_review(self):
+        observed = copy.deepcopy(self.baseline)
+        observed['plannedCases'][3]['leadMm'] = 220
+        with self.assertRaisesRegex(AssertionError, 'Changed planned terminal matrix'):
+            module.compare_baseline(self.baseline, observed)
+        observed = copy.deepcopy(self.baseline)
+        observed['cases'][3]['render']['tracks'][0]['openingCvPages'] = [1, 1, 1, 1, 2]
+        with self.assertRaisesRegex(AssertionError, 'Changed visible track evidence'):
+            module.compare_baseline(self.baseline, observed)
+
+
+class LeadWindowEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-lead-window-evidence.json').read_text())
+
+    def test_sampled_boundary_is_reproduced_without_product_acceptance(self):
+        result = module.compare_baseline(self.baseline, copy.deepcopy(self.baseline))
+        self.assertEqual(result['changedCases'], 0)
+        self.assertTrue(result['productGates'].startswith('fail'))
+        self.assertEqual(len(self.baseline['cases']), 8)
+        self.assertEqual([case['render']['productGates'] for case in self.baseline['cases']],
+                         ['pass', 'pass', 'pass', 'pass', 'fail', 'pass', 'pass', 'fail'])
+        self.assertEqual(self.baseline['cases'][3]['render']['tracks'][0]['openingCvPages'], [2] * 5)
+        self.assertEqual(self.baseline['cases'][7]['render']['tracks'][0]['openingCvPages'], [1, 1, 1, 1, 2])
+
+    def test_220_window_controls_retain_previous_sources(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-main-ending-evidence.json').read_text())
+        for current in self.baseline['cases']:
+            if current['diagnostic']['leadMm'] != 220: continue
+            old = next(case for case in previous['cases'] if case['fixture'] == current['diagnostic']['orientation'] + '-main-only-220')
+            self.assertEqual(current['docxSha256'], old['docxSha256'])
+            self.assertEqual(current['render'], old['render'])
+
+    def test_window_order_and_positive_controls_cannot_change_silently(self):
+        observed = copy.deepcopy(self.baseline)
+        observed['plannedCases'][1]['leadMm'] = 210
+        with self.assertRaisesRegex(AssertionError, 'Changed planned terminal matrix'):
+            module.compare_baseline(self.baseline, observed)
+        observed = copy.deepcopy(self.baseline)
+        observed['cases'][6]['saveReopen']['productGates'] = 'fail'
+        with self.assertRaisesRegex(AssertionError, 'Changed product gate'):
+            module.compare_baseline(self.baseline, observed)
+
+    def test_missing_or_expanded_window_results_fail(self):
+        for cases in [self.baseline['cases'][:-1], self.baseline['cases'] + [self.baseline['cases'][0]]]:
+            observed = {**self.baseline, 'cases': cases}
+            with self.assertRaisesRegex(AssertionError, 'Changed bounded matrix'):
+                module.compare_baseline(self.baseline, observed)
+
+
+class DescriptionOwnerEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-description-owner-evidence.json').read_text())
+
+    def test_native_complete_fields_do_not_accept_incomplete_visible_descriptions(self):
+        result = module.compare_baseline(self.baseline, copy.deepcopy(self.baseline))
+        self.assertTrue(result['productGates'].startswith('fail'))
+        self.assertEqual(len(self.baseline['cases']), 2)
+        self.assertEqual(len(self.baseline['earlyStop']['unrenderedCases']), 2)
+        before, after = self.baseline['cases']
+        self.assertEqual(before['render']['productGates'], 'pass')
+        self.assertEqual(after['package']['completeNativeFields'], 'pass')
+        self.assertEqual(after['saveReopenPackage']['completeNativeFields'], 'pass')
+        self.assertTrue(all(not track['fullTextVisible'] and track['openingAttachment'] for track in after['render']['tracks']))
+        self.assertEqual(after['render']['visibleBounds'], 'fail')
+        self.assertEqual(after['render']['pages'], 15)
+
+    def test_control_retains_original_positive_main_only_package(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-main-ending-evidence.json').read_text())
+        old = next(case for case in previous['cases'] if case['fixture'] == 'right-main-only-220')
+        self.assertEqual(self.baseline['cases'][0]['docxSha256'], old['docxSha256'])
+        self.assertEqual(self.baseline['cases'][0]['render'], old['render'])
+
+    def test_owner_plan_and_missing_pdf_text_cannot_change_silently(self):
+        observed = copy.deepcopy(self.baseline)
+        observed['plannedCases'][1]['descriptionOwner'] = 'tail-cell'
+        with self.assertRaisesRegex(AssertionError, 'Changed planned terminal matrix'):
+            module.compare_baseline(self.baseline, observed)
+        observed = copy.deepcopy(self.baseline)
+        observed['cases'][1]['saveReopen']['tracks'][0]['fullTextVisible'] = True
+        with self.assertRaisesRegex(AssertionError, 'Changed visible track evidence'):
+            module.compare_baseline(self.baseline, observed)
+
+
 if __name__ == '__main__': unittest.main()

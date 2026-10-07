@@ -21,6 +21,9 @@ SIDE_TERMINAL_CASES = [(orientation, variant) for orientation in ('right', 'left
 SIDE_ENDING_CASES = [(orientation, flag) for orientation in ('right', 'left') for flag in (False, True)]
 LEAD_TOGETHER_CASES = [(orientation, flag) for orientation in ('right', 'left') for flag in (True, False)]
 LEAD_PADDING_CASES = [(orientation, value) for orientation in ('right', 'left') for value in ('paragraph', 'cell-padding')]
+LEAD_BOUNDARY_CASES = [(orientation, height) for orientation in ('right', 'left') for height in (220, 0)]
+LEAD_WINDOW_CASES = [(orientation, height) for orientation in ('right', 'left') for height in (220, 205, 210, 215)]
+DESCRIPTION_OWNER_CASES = [(orientation, owner) for orientation in ('right', 'left') for owner in ('tail-cell', 'opening-cell')]
 MATRICES = {
     'populated-row': ('policy', CASES),
     'main-ending': ('scope', MAIN_ENDING_CASES),
@@ -29,8 +32,11 @@ MATRICES = {
     'side-ending': ('sideEndingKeepNext', SIDE_ENDING_CASES),
     'lead-together': ('leadKeepTogether', LEAD_TOGETHER_CASES),
     'lead-padding': ('leadRepresentation', LEAD_PADDING_CASES),
+    'lead-boundary': ('leadMm', LEAD_BOUNDARY_CASES),
+    'lead-window': ('leadMm', LEAD_WINDOW_CASES),
+    'description-owner': ('descriptionOwner', DESCRIPTION_OWNER_CASES),
 }
-ISOLATED_MATRICES = ('side-terminal', 'side-ending', 'lead-together', 'lead-padding')
+ISOLATED_MATRICES = ('side-terminal', 'side-ending', 'lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner')
 
 
 def package_result(source, fixture, saved=False):
@@ -65,6 +71,13 @@ def package_result(source, fixture, saved=False):
             lines = [int(node.get(W + 'line', '0')) for node in spacers if node.get(W + 'lineRule') == 'exact']
             expected_line = round(fixture['leadSpacerMm'] * 1440 / 25.4)
             assert (expected_line in lines) if expected_line else all(line < 100 for line in lines), 'Changed authored lead paragraph'
+            if 'leadSpacerFieldId' in fixture:
+                spacer = [node for node in lead_cell.iter(W + 'sdt') if
+                          node.find(W + 'sdtPr/' + W + 'tag').get(W + 'val') == fixture['leadSpacerFieldId']]
+                assert len(spacer) == 1, 'Changed lead paragraph ownership'
+                spacing = spacer[0].find('.//' + W + 'pPr/' + W + 'spacing')
+                assert spacing is not None and spacing.get(W + 'lineRule') == 'exact'
+                assert int(spacing.get(W + 'line')) == max(1, expected_line), 'Changed exact lead paragraph height'
         for index, row in enumerate(rows):
             assert (row.find(W + 'trPr/' + W + 'cantSplit') is not None) == fixture['rowKeepTogether'][index]
             cells = row.findall(W + 'tc')
@@ -82,8 +95,14 @@ def package_result(source, fixture, saved=False):
             keep = terminal.find('.//' + W + 'pPr/' + W + 'keepNext')
             assert keep is not None and keep.get(W + 'val') == str(int(fixture['sideSemanticKeepNext'])), 'Changed semantic terminal flag'
         if len(rows) == 3:
-            assert [tag.get(W + 'val') for tag in rows[1].findall(W + 'tc')[main].iter(W + 'tag')] == fixture['openingFieldIds']
-            assert [tag.get(W + 'val') for tag in rows[2].findall(W + 'tc')[main].iter(W + 'tag')] == [fixture['tracks'][0]['fields'][-1]['fieldId']]
+            if 'mainNativeFieldRows' in fixture:
+                identities = {field['fieldId'] for field in fixture['completeFields']}
+                owned_main = [[tag.get(W + 'val') for tag in row.findall(W + 'tc')[main].iter(W + 'tag')
+                               if tag.get(W + 'val') in identities] for row in rows]
+                assert owned_main == fixture['mainNativeFieldRows'], 'Changed main native field ownership'
+            else:
+                assert [tag.get(W + 'val') for tag in rows[1].findall(W + 'tc')[main].iter(W + 'tag')] == fixture['openingFieldIds']
+                assert [tag.get(W + 'val') for tag in rows[2].findall(W + 'tc')[main].iter(W + 'tag')] == [fixture['tracks'][0]['fields'][-1]['fieldId']]
     return {'completeNativeFields': 'pass', 'nativeOwnership': 'source-only' if saved else 'pass'}
 
 
@@ -164,10 +183,11 @@ def compare_baseline(recorded, observed):
             assert all(not case['sideSemanticKeepNext'] for case in planned), 'Changed semantic tail attachment'
         assert list(previous) == [case['name'] for case in planned[:count]], 'Changed stopped terminal prefix'
         if isinstance(recorded['earlyStop'], dict):
-            assert count == 2 and recorded['earlyStop']['fixture'] == planned[1]['name'], 'Changed terminal stop condition'
+            assert (1 <= count <= 4 if recorded['matrix'] == 'lead-window' else count == 2), 'Changed terminal stop condition'
+            assert recorded['earlyStop']['fixture'] == planned[count - 1]['name'], 'Changed terminal stop condition'
             assert recorded['cases'][-1]['render']['productGates'] == 'fail', 'Lost terminal counterexample'
         else:
-            assert recorded['matrix'] != 'side-terminal' and count == 4, 'Changed bounded matrix'
+            assert recorded['matrix'] != 'side-terminal' and count == len(expected), 'Changed bounded matrix'
     else:
         assert count == 4, 'Changed bounded matrix'
     assert len(previous) == len(current) == len(observed['cases']) == count and previous.keys() == current.keys(), 'Changed bounded matrix'
@@ -220,7 +240,8 @@ def main():
     cases = json.loads((args.directory / (args.matrix + '-manifest.json')).read_text())
     baseline = json.loads(args.baseline.read_text()) if args.baseline else None
     column, expected = MATRICES[args.matrix]
-    assert [(case['orientation'], case[column]) for case in cases] == expected and all(case['leadMm'] == 220 for case in cases)
+    assert [(case['orientation'], case[column]) for case in cases] == expected
+    if args.matrix not in ('lead-boundary', 'lead-window'): assert all(case['leadMm'] == 220 for case in cases)
     if args.matrix == 'main-ending':
         assert all(case['policy'] == 'split-attached' for case in cases)
     assert len({case['name'] for case in cases}) == len(expected)
@@ -240,11 +261,18 @@ def main():
                 lead[fixture['tracks'][1]['cell']] = case['sideEndingKeepNext']
                 assert fixture['rowKeepTogether'] == [case['leadKeepTogether'] if args.matrix == 'lead-together' else True, True, False]
                 if args.matrix != 'side-terminal': assert not case['sideSemanticKeepNext']
-                if args.matrix in ('lead-together', 'lead-padding'): assert not case['sideEndingKeepNext']
+                if args.matrix in ('lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner'): assert not case['sideEndingKeepNext']
             assert fixture['cellEndKeepNext'] == [lead, opening, [False] * 3]
         if args.matrix == 'lead-padding':
             assert fixture['authoredLeadMm'] == fixture['leadSpacerMm'] + fixture['leadTopPaddingMm'] == 220
             assert fixture['leadTopPaddingMm'] == (220 if case['leadRepresentation'] == 'cell-padding' else 0)
+        if args.matrix in ('lead-boundary', 'lead-window'):
+            assert fixture['authoredLeadMm'] == fixture['leadSpacerMm'] == case['leadMm']
+            assert fixture['leadTopPaddingMm'] == 0
+        if args.matrix == 'description-owner':
+            intro = fixture['openingFieldIds']; description = fixture['tracks'][0]['fields'][-1]['fieldId']
+            assert fixture['mainNativeFieldRows'] == [[], intro + ([description] if case['descriptionOwner'] == 'opening-cell' else []),
+                                                     [] if case['descriptionOwner'] == 'opening-cell' else [description]]
         if args.matrix == 'row-together':
             assert fixture['rowKeepTogether'] == [True, case['keepTogether'], False]
         source = args.directory / (name + '.docx'); saved = args.directory / (name + '-saved.docx')
@@ -336,6 +364,21 @@ def main():
         result['identicalLeadRepresentationObservations'] = {orientation: report[index]['render'] == report[index + 1]['render']
                                                             and report[index]['saveReopen'] == report[index + 1]['saveReopen']
                                                             for orientation, index in (('right', 0), ('left', 2))}
+    if args.matrix in ('lead-boundary', 'lead-window'):
+        result.update(matrix=args.matrix, plannedCases=cases)
+        result['architectureAcceptance'] = ('blocked: bounded 220/zero lead diagnostic; no export enablement' if args.matrix == 'lead-boundary'
+                                            else 'blocked: bounded lead-height window diagnostic; no export enablement')
+        result['earlyStop'] = ('four' if args.matrix == 'lead-boundary' else 'eight') + ' lead-height controls; no other paragraph, row, ownership or terminal flags changed'
+        result['leadBoundaryGates'] = {orientation: [{
+            'leadMm': case['diagnostic']['leadMm'], 'productGates': case['render']['productGates'],
+            'mainOpeningCvPages': case['render']['tracks'][0]['openingCvPages'],
+            'sideOpeningCvPages': case['render']['tracks'][1]['openingCvPages']}
+            for case in report if case['diagnostic']['orientation'] == orientation]
+            for orientation in ('right', 'left')}
+    if args.matrix == 'description-owner':
+        result.update(matrix=args.matrix, plannedCases=cases)
+        result['architectureAcceptance'] = 'blocked: bounded main-description ownership diagnostic; no export enablement'
+        result['earlyStop'] = 'four ownership controls at 220 mm; all paragraph, row, side span and terminal flags unchanged'
     if baseline: result['stableComparison'] = compare_baseline(baseline, result)
     (args.directory / (args.matrix + '-report.json')).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({key: result[key] for key in ('architectureAcceptance', 'stableComparison') if key in result}), flush=True)

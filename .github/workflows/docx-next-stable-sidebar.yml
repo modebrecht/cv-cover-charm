@@ -19,6 +19,9 @@ on:
       - docs/docx-next/sidebar-side-ending-evidence.json
       - docs/docx-next/sidebar-lead-together-evidence.json
       - docs/docx-next/sidebar-lead-padding-evidence.json
+      - docs/docx-next/sidebar-lead-boundary-evidence.json
+      - docs/docx-next/sidebar-lead-window-evidence.json
+      - docs/docx-next/sidebar-description-owner-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -67,6 +70,9 @@ jobs:
           bun scripts/docx-next-side-ending-probe.ts "$QA_ROOT/side-ending"
           bun scripts/docx-next-lead-together-probe.ts "$QA_ROOT/lead-together"
           bun scripts/docx-next-lead-padding-probe.ts "$QA_ROOT/lead-padding"
+          bun scripts/docx-next-lead-boundary-probe.ts "$QA_ROOT/lead-boundary"
+          bun scripts/docx-next-lead-window-probe.ts "$QA_ROOT/lead-window"
+          bun scripts/docx-next-description-owner-probe.ts "$QA_ROOT/description-owner"
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
@@ -81,6 +87,9 @@ jobs:
           python scripts/docx-next-populated-row-qa.py "$QA_ROOT/side-ending" --matrix side-ending --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-side-ending-evidence.json
           python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-together" --matrix lead-together --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-together-evidence.json
           python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-padding" --matrix lead-padding --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-padding-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-boundary" --matrix lead-boundary --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-boundary-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-window" --matrix lead-window --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-window-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/description-owner" --matrix description-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-description-owner-evidence.json
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -100,3 +109,6 @@ jobs:
             ${{ env.QA_ROOT }}/side-ending/*
             ${{ env.QA_ROOT }}/lead-together/*
             ${{ env.QA_ROOT }}/lead-padding/*
+            ${{ env.QA_ROOT }}/lead-boundary/*
+            ${{ env.QA_ROOT }}/lead-window/*
+            ${{ env.QA_ROOT }}/description-owner/*
