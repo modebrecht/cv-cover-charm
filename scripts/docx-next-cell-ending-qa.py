@@ -17,11 +17,20 @@ from docx_next_package_qa import check_package
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('directory', type=Path)
-parser.add_argument('--soffice', default='soffice')
+renderer = parser.add_mutually_exclusive_group()
+renderer.add_argument('--soffice', default='soffice')
+renderer.add_argument('--libreofficekit')
 parser.add_argument('--require-stable', action='store_true')
+parser.add_argument('--observe', action='store_true', help='Record engine differences without accepting them or changing baseline gates')
 args = parser.parse_args()
-version = subprocess.run([args.soffice, '--version'], capture_output=True, text=True, check=True, timeout=30).stdout.strip()
+executable = args.libreofficekit or args.soffice
+with tempfile.TemporaryDirectory(prefix='docx-next-cell-version-') as profile:
+    command = [executable, '--version'] + ([Path(profile).as_uri()] if args.libreofficekit else [])
+    version = subprocess.run(command, capture_output=True, text=True, check=True, timeout=30).stdout.strip()
 assert version, 'Missing LibreOffice version'
+if args.libreofficekit:
+    info = json.loads(version)
+    version = f'{info["ProductName"]} {info["ProductVersion"]}{info["ProductExtension"]} {info["BuildId"]}'
 if args.require_stable:
     assert not re.search(r'Dev|alpha|beta|(?:^|[.\s])rc[0-9]*', version, re.I), 'Stable LibreOffice required: ' + version
 
@@ -29,10 +38,11 @@ if args.require_stable:
 def convert(source, destination, format):
     with tempfile.TemporaryDirectory(prefix='docx-next-cell-profile-') as profile, tempfile.TemporaryDirectory(prefix='docx-next-cell-output-') as output:
         exported = Path(output) / (source.stem + '.' + format)
-        result = subprocess.run([
-            args.soffice, '-env:UserInstallation=' + Path(profile).as_uri(),
+        command = [executable, Path(profile).as_uri(), source.resolve().as_uri(), exported.as_uri(), format] if args.libreofficekit else [
+            executable, '-env:UserInstallation=' + Path(profile).as_uri(),
             '--headless', '--convert-to', format, '--outdir', output, str(source.resolve()),
-        ], capture_output=True, text=True, timeout=60)
+        ]
+        result = subprocess.run(command, capture_output=True, text=True, timeout=60)
         assert result.returncode == 0 and exported.is_file(), result.stdout + result.stderr
         destination.write_bytes(exported.read_bytes())
 
@@ -71,7 +81,9 @@ def package_result(source, fixture, saved=False):
 def render_result(pdf, fixture):
     scale = 72 / 25.4
     with fitz.open(pdf) as document:
-        assert len(document) == 10, 'Changed page count; review required: ' + fixture['fixture']
+        assert len(document) >= 3, 'Missing dossier parts'
+        if not args.observe:
+            assert len(document) == 10, 'Changed page count; review required: ' + fixture['fixture']
         margins, lane = fixture['parts'][-1]['contentBoxMm'], fixture['lane']
         clips = [fitz.Rect((lane['leftMm'] - .5) * scale, (margins['top'] - 3) * scale,
                           (lane['rightMm'] + .5) * scale, page.rect.height - (margins['bottom'] - 3) * scale)
@@ -88,7 +100,8 @@ def render_result(pdf, fixture):
                 assert len(boxes) == 1, 'Changed metadata wrapping'
                 metrics.append({'fieldId': field['fieldId'], 'leftPt': boxes[0].x0, 'widthPt': boxes[0].width})
             positions.append(matches[0] + 1)
-        assert positions == fixture['expectedCvPages'], 'Changed attachment; review required: ' + fixture['fixture'] + ' ' + str(positions)
+        if not args.observe:
+            assert positions == fixture['expectedCvPages'], 'Changed attachment; review required: ' + fixture['fixture'] + ' ' + str(positions)
         for page, clip in zip(document[2:], clips):
             for block in page.get_text('dict')['blocks']:
                 for line in block.get('lines', []):
@@ -102,6 +115,7 @@ def render_result(pdf, fixture):
                         assert box.y0 >= margins['top'] * scale - 4 and box.y1 <= page.rect.height - margins['bottom'] * scale + 4, 'Text exceeds body height'
         document[positions[0] + 1].get_pixmap(matrix=fitz.Matrix(1, 1)).save(pdf.with_suffix('.png'))
         return {'pages': len(document), 'fullTextVisible': True, 'openingCvPages': positions,
+                'baselineMatches': len(document) == 10 and positions == fixture['expectedCvPages'],
                 'openingAttachment': 'pass' if len(set(positions)) == 1 else 'known-negative', 'metadataMetrics': metrics}
 
 
@@ -137,9 +151,10 @@ for lead in sorted({case['leadMm'] for case in cases}):
     for case in group[1:]:
         same_metrics(group[0]['render']['metadataMetrics'], case['render']['metadataMetrics'])
         same_metrics(group[0]['saveReopen']['metadataMetrics'], case['saveReopen']['metadataMetrics'])
-assert sum(case['render']['openingAttachment'] == 'known-negative' for case in report) == 10
-result = {'libreOfficeVersion': version, 'cases': report,
-          'architectureAcceptance': 'blocked: cell-ending attachment gives no improvement and regresses the 234 mm boundary',
+if not args.observe:
+    assert sum(case['render']['openingAttachment'] == 'known-negative' for case in report) == 10
+result = {'libreOfficeVersion': version, 'libreOfficeInterface': 'LibreOfficeKit' if args.libreofficekit else 'soffice CLI', 'cases': report,
+          'architectureAcceptance': 'observation-only: differences require review; no export enablement' if args.observe else 'blocked: cell-ending attachment gives no improvement and regresses the 234 mm boundary',
           'earlyStop': '12 cases, three boundaries; remaining boundaries/populated tracks/photos/chrome not expanded',
           'microsoftWord': 'pending'}
 (args.directory / 'cell-ending-report.json').write_text(json.dumps(result, indent=2) + '\n')

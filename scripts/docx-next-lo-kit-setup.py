@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--archives', required=True, type=Path, help='Directory of the exact .deb packages in the manifest')
 parser.add_argument('--root', required=True, type=Path, help='New, empty runtime directory; never installs globally')
 parser.add_argument('--fonts', required=True, type=Path, help='Verified font assets recorded in stable-lo-fonts.json')
+parser.add_argument('--font-manifest', type=Path, help='Alternative explicit QA font inventory; default retains the original full inventory')
 args = parser.parse_args()
 repository = Path(__file__).resolve().parent.parent
 manifest_file = repository / 'docs/docx-next/stable-lo-packages.json'
@@ -21,7 +22,7 @@ root = args.root.resolve()
 assert not root.exists() or not any(root.iterdir()), 'Use an empty runtime root'
 archives = {hashlib.sha256(p.read_bytes()).hexdigest(): p for p in args.archives.glob('*.deb')}
 selected = []
-font_manifest_file = repository / 'docs/docx-next/stable-lo-fonts.json'
+font_manifest_file = args.font_manifest or repository / 'docs/docx-next/stable-lo-fonts.json'
 fonts = json.loads(font_manifest_file.read_text())
 for font in fonts['files']:
     source = args.fonts / font['file']

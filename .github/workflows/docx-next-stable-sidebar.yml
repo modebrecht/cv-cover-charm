@@ -1,0 +1,68 @@
+name: DOCX Next Stable Sidebar
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [dev]
+    paths:
+      - .github/workflows/docx-next-stable-sidebar.yml
+      - scripts/docx-next-*.py
+      - scripts/docx-next-*.ts
+      - scripts/docx-next-lo-kit.c
+      - docs/docx-next/stable-*.json
+      - docs/docx-next/sidebar-body-attachment-evidence.json
+      - docs/docx-next/sidebar-cell-ending-evidence.json
+      - src/lib/docx-next/**
+      - tests/fixtures/docx-next/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docx-next-stable-sidebar-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stable-comparison:
+    if: github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      QA_ROOT: ${{ runner.temp }}/docx-next-stable-sidebar
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and PDF QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4
+          python scripts/docx-next-stable-sidebar-test.py
+      - name: Set up verified stable engine within five minutes
+        timeout-minutes: 5
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup"
+      - name: Generate the same 36 immutable native controls
+        run: |
+          bun scripts/docx-next-cell-ending-probe.ts "$QA_ROOT/cell-ending"
+          bun scripts/docx-next-body-attachment-probe.ts "$QA_ROOT/body"
+      - name: Observe full text, geometry and save/reopen on stable engine
+        timeout-minutes: 5
+        run: |
+          python scripts/docx-next-cell-ending-qa.py "$QA_ROOT/cell-ending" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
+          python scripts/docx-next-body-attachment-qa.py "$QA_ROOT/body" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
+          python scripts/docx-next-stable-sidebar-compare.py "$QA_ROOT"
+      - name: Retain actual diagnostics even when a gate fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-stable-sidebar-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/stable-comparison.json
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/cell-ending/*
+            ${{ env.QA_ROOT }}/body/*
