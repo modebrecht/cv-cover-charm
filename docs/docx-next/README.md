@@ -1,6 +1,8 @@
 # DOCX Next developer guide
 
-**Latest minimal identity result:** [Body/table picture controls and native photo audit](sidebar-picture-identity-status.md), verified source `f5b6df27` with successful full application and all three stable jobs. Stable retains fields in eight controls / 24 pages; the exact-source Dev replay stops after two controls / six pages because photo body flow loses five tags. A table is not required. Both runtimes retain visible geometry but save cropped pixels instead of the full original photo; application JSON photo restoration remains passing. All export gates remain closed.
+**Latest frame control result:** [Picture shape/crop controls](sidebar-picture-frame-status.md): stable performs three cases / nine pages. Both zero-crop shapes preserve every field and original photo; cropped rectangle also preserves original pixels and visible geometry but changes exact crop values, so the fourth case stays unrendered. Exact-source Dev loses five tags even without crop/ellipse. Reviewed PDF frame/clip measurement and all local changes are published; no production export is enabled. Exact final publication CI is checked separately.
+
+**Previous minimal identity result:** [Body/table picture controls and native photo audit](sidebar-picture-identity-status.md), verified source `f5b6df27` with successful full application and all three stable jobs. Stable retains fields in eight controls / 24 pages; the exact-source Dev replay stops after two controls / six pages because photo body flow loses five tags. A table is not required. Both runtimes retain visible geometry but save cropped pixels instead of the full original photo; application JSON photo restoration remains passing. All export gates remain closed.
 
 Latest [next handoff](next-handoff.md) records the verified source revision, exact CI links, actual render counts and bounded next comparison.
 
