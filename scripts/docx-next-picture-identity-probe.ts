@@ -9,18 +9,20 @@ import {
   PICTURE_IDENTITY_CASES,
   PICTURE_FRAME_CASES,
   PICTURE_PRECISION_CASES,
+  PICTURE_WINDOW_CASES,
   pictureIdentityFixture,
 } from "../tests/fixtures/docx-next/sidebar-picture-identity";
 
 const directory = process.argv[2];
 const frames = process.argv[3] === "--frames";
 const precision = process.argv[3] === "--precision-controls";
+const windows = process.argv[3] === "--window-controls";
 if (
   !directory ||
-  (process.argv.length !== 3 && !((frames || precision) && process.argv.length === 4))
+  (process.argv.length !== 3 && !((frames || precision || windows) && process.argv.length === 4))
 )
   throw Error(
-    "Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY [--frames|--precision-controls]",
+    "Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY [--frames|--precision-controls|--window-controls]",
   );
 await mkdir(directory, { recursive: true });
 const sources = JSON.parse(await readFile(path.join(directory, "images.json"), "utf8"));
@@ -64,15 +66,17 @@ await writeFile(path.join(directory, "canonical-photo.png"), normalized.bytes);
 const manifest = [];
 let referenceImage;
 let referenceFields;
-for (const value of precision
-  ? PICTURE_PRECISION_CASES
-  : frames
-    ? PICTURE_FRAME_CASES
-    : PICTURE_IDENTITY_CASES) {
+for (const value of windows
+  ? PICTURE_WINDOW_CASES
+  : precision
+    ? PICTURE_PRECISION_CASES
+    : frames
+      ? PICTURE_FRAME_CASES
+      : PICTURE_IDENTITY_CASES) {
   const { model, image, fixture } = pictureIdentityFixture(value, source);
   referenceImage ??= image;
   referenceFields ??= fixture.fields;
-  if (!frames && !precision) assert.deepEqual(image, referenceImage);
+  if (!frames && !precision && !windows) assert.deepEqual(image, referenceImage);
   else {
     assert.equal(image.id, referenceImage.id);
     assert.equal(image.source, referenceImage.source);
@@ -82,6 +86,7 @@ for (const value of precision
       assert.deepEqual(geometry.crop, { left: 0, top: 0, right: 0, bottom: 0 });
     if ("precision" in value)
       assert.deepEqual(geometry.crop, { left: 8378, top: 24396, right: 11622, bottom: 22255 });
+    if ("declaredCrop" in value) assert.deepEqual(geometry.crop, value.declaredCrop);
   }
   assert.deepEqual(
     [...fixture.fields].sort((a, b) => a.fieldId.localeCompare(b.fieldId)),
@@ -118,6 +123,11 @@ for (const value of precision
     assert.equal(
       record.docxSha256,
       "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+    );
+  if (windows && manifest.length === 1)
+    assert.equal(
+      record.docxSha256,
+      "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
     );
   await writeFile(path.join(directory, value.name + ".docx"), bytes);
   await writeFile(

@@ -41,9 +41,37 @@ export const PICTURE_PRECISION_CASES = [
   },
 ] as const;
 export type PicturePrecisionCase = (typeof PICTURE_PRECISION_CASES)[number];
+export const PICTURE_WINDOW_CASES = [
+  PICTURE_PRECISION_CASES[1],
+  {
+    name: "picture-window-right-lower",
+    owner: "body",
+    photo: true,
+    crop: true,
+    ellipse: false,
+    declaredCrop: { left: 14992, top: 25005, right: 5008, bottom: 21667 },
+  },
+  {
+    name: "picture-window-left-upper",
+    owner: "body",
+    photo: true,
+    crop: true,
+    ellipse: false,
+    declaredCrop: { left: 2992, top: 20008, right: 17008, bottom: 26664 },
+  },
+  {
+    name: "picture-window-increased-zoom",
+    owner: "body",
+    photo: true,
+    crop: true,
+    ellipse: false,
+    declaredCrop: { left: 20000, top: 30002, right: 13323, bottom: 25551 },
+  },
+] as const;
+export type PictureWindowCase = (typeof PICTURE_WINDOW_CASES)[number];
 
 export function pictureIdentityFixture(
-  value: PictureIdentityCase | PictureFrameCase | PicturePrecisionCase,
+  value: PictureIdentityCase | PictureFrameCase | PicturePrecisionCase | PictureWindowCase,
   source: string,
 ) {
   const model = buildDossierDocModel(briefFixture("normal"));
@@ -78,6 +106,22 @@ export function pictureIdentityFixture(
         yPct: ((0.24396 - (1.5 - ratio) / 3) * 750) / ratio,
       };
     }
+  }
+  if ("declaredCrop" in value) {
+    assert(image.frame);
+    const crop = value.declaredCrop;
+    const width = 1 - (crop.left + crop.right) / 100000;
+    const height = 1 - (crop.top + crop.bottom) / 100000;
+    const ratio = (1.5 * height) / width;
+    const zoom = 1 / width;
+    assert(ratio <= 1.5 && zoom > 1 && zoom <= 3);
+    image.frame = {
+      ...image.frame,
+      heightRatio: ratio,
+      zoom,
+      xPct: (100 * crop.left) / (crop.left + crop.right),
+      yPct: (100 * (crop.top / 100000 - (1.5 - ratio) / 3) * zoom * 1.5) / ((zoom - 1) * ratio),
+    };
   }
   const style = walkBlocks(model.cv.blocks).find(
     (block): block is Paragraph => block.kind === "paragraph",
