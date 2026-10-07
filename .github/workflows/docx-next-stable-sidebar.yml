@@ -13,9 +13,11 @@ on:
       - docs/docx-next/sidebar-body-attachment-evidence.json
       - docs/docx-next/sidebar-cell-ending-evidence.json
       - docs/docx-next/sidebar-selective-row-evidence.json
+      - docs/docx-next/sidebar-populated-row-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
+      - tests/unit/docx-next-populated-row.test.ts
 
 permissions:
   contents: read
@@ -44,14 +46,16 @@ jobs:
           bun install --frozen-lockfile
           python -m pip install PyMuPDF==1.26.4
           python scripts/docx-next-stable-sidebar-test.py
+          python scripts/docx-next-populated-row-test.py
       - name: Set up verified stable engine within five minutes
         timeout-minutes: 5
         run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup"
-      - name: Generate 36 ownership controls and 18 selective outer-row controls
+      - name: Generate 54 previous controls and four populated-track controls
         run: |
           bun scripts/docx-next-cell-ending-probe.ts "$QA_ROOT/cell-ending"
           bun scripts/docx-next-body-attachment-probe.ts "$QA_ROOT/body"
           bun scripts/docx-next-selective-row-probe.ts "$QA_ROOT/selective-row"
+          bun scripts/docx-next-populated-row-probe.ts "$QA_ROOT/populated-row"
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
@@ -59,6 +63,7 @@ jobs:
           python scripts/docx-next-body-attachment-qa.py "$QA_ROOT/body" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
           python scripts/docx-next-cell-ending-qa.py "$QA_ROOT/selective-row" --matrix selective-row --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable
           python scripts/docx-next-stable-sidebar-compare.py "$QA_ROOT" --include-selective-row
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/populated-row" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-populated-row-evidence.json
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -71,3 +76,4 @@ jobs:
             ${{ env.QA_ROOT }}/cell-ending/*
             ${{ env.QA_ROOT }}/body/*
             ${{ env.QA_ROOT }}/selective-row/*
+            ${{ env.QA_ROOT }}/populated-row/*

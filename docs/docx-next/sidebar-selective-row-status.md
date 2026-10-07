@@ -1,5 +1,7 @@
 # Sidebar selective outer-row attachment — bounded positive proof
 
+Continued by the [populated-track checkpoint](sidebar-populated-row-status.md): the right selective control preserves both long tracks at 220 mm, but the left control still detaches the description and the original right grid loses PDF text. The neutral proof below does not establish general populated Sidebar support.
+
 Starting remote `dev`: **`5ee977c181220d6a14ed239668deb23b077142d6`**, freshly fetched and matched to a clean checkout. This follows the [stable engine comparison](sidebar-stable-status.md). Registry remains **29/39 configured candidates, 0/39 Word accepted**.
 
 ## Finding
