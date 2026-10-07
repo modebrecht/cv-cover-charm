@@ -15,6 +15,7 @@ on:
       - docs/docx-next/sidebar-selective-row-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
+      - tests/unit/docx-next-selective-row.test.ts
 
 permissions:
   contents: read

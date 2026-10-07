@@ -71,7 +71,9 @@ test("all outer-row controls roundtrip without mutation and diagnostic endings r
         xml.lastIndexOf("<w:tbl>", caption),
         xml.indexOf("</w:tbl>", caption),
       );
-      expect(outerTable.split("<w:cantSplit/>")).toHaveLength(2);
+      const rows = [...outerTable.matchAll(/<w:tr>(.*?)<\/w:tr>/g)];
+      // Authored lead and short opening are atomic; the complete description flows.
+      expect(rows.map((row) => row[1].includes("<w:cantSplit/>"))).toEqual([true, true, false]);
     }
   }
 });
