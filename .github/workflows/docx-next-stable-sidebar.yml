@@ -29,6 +29,7 @@ on:
       - docs/docx-next/sidebar-picture-frame-evidence.json
       - docs/docx-next/sidebar-crop-precision-evidence.json
       - docs/docx-next/sidebar-declared-crop-evidence.json
+      - docs/docx-next/sidebar-declared-window-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -250,8 +251,8 @@ jobs:
           python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/frames" --baseline docs/docx-next/sidebar-crop-precision-evidence.json
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/precision" --precision-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --replay --baseline docs/docx-next/sidebar-declared-crop-evidence.json
           python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/precision" --baseline docs/docx-next/sidebar-declared-crop-evidence.json --baseline-section precision
-          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/windows" --window-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
-          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/windows"
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/windows" --window-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --replay --baseline docs/docx-next/sidebar-declared-window-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/windows" --baseline docs/docx-next/sidebar-declared-window-evidence.json --baseline-section precision
       - name: Retain actual picture identity evidence including stopped cases
         if: always()
         uses: actions/upload-artifact@v4
