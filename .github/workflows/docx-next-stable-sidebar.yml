@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     env:
-      QA_ROOT: ${{ runner.temp }}/docx-next-stable-sidebar
+      QA_ROOT: /tmp/docx-next-stable-sidebar
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
