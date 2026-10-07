@@ -38,4 +38,38 @@ class PopulatedEvidenceTests(unittest.TestCase):
                 module.compare_baseline(self.baseline, {'cases': cases})
 
 
+class MainEndingEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-main-ending-evidence.json').read_text())
+        self.observed = copy.deepcopy(self.baseline)
+
+    def test_scope_counterexamples_remain_failed_with_two_positive_right_controls(self):
+        result = module.compare_baseline(self.baseline, self.observed)
+        self.assertTrue(result['productGates'].startswith('fail'))
+        self.assertEqual(sum(case['render']['productGates'] == 'pass' for case in self.baseline['cases']), 2)
+        for orientation in ('left', 'right'):
+            group = [case for case in self.baseline['cases'] if case['diagnostic']['orientation'] == orientation]
+            self.assertEqual([case['diagnostic']['scope'] for case in group], ['all-cells', 'main-only'])
+            self.assertEqual(group[0]['render'], group[1]['render'])
+            self.assertNotEqual(group[0]['docxSha256'], group[1]['docxSha256'])
+
+    def test_positive_right_regression_cannot_be_accepted_as_reviewed_failure(self):
+        self.observed['cases'][3]['saveReopen']['productGates'] = 'fail'
+        with self.assertRaisesRegex(AssertionError, 'Changed product gate'):
+            module.compare_baseline(self.baseline, self.observed)
+
+    def test_changed_left_opening_requires_review(self):
+        self.observed['cases'][1]['render']['tracks'][0]['openingCvPages'] = [2] * 5
+        with self.assertRaisesRegex(AssertionError, 'Changed visible track evidence'):
+            module.compare_baseline(self.baseline, self.observed)
+
+    def test_all_cell_controls_retain_previous_packages_and_observations(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-populated-row-evidence.json').read_text())
+        for case in self.baseline['cases']:
+            if case['diagnostic']['scope'] != 'all-cells': continue
+            before = next(old for old in previous['cases'] if old['fixture'] == case['diagnostic']['orientation'] + '-split-attached-220')
+            self.assertEqual(case['docxSha256'], before['docxSha256'])
+            for phase in ('render', 'saveReopen'): self.assertEqual(case[phase], before[phase])
+
+
 if __name__ == '__main__': unittest.main()

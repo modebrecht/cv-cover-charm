@@ -1,5 +1,7 @@
 # Sidebar populated outer rows — orientation counterexamples
 
+Continued by [the opening-ending scope counterproof](sidebar-main-ending-status.md): main-only attachment leaves the left failure unchanged and preserves the positive right control. The next task at the end of this historical checkpoint has been completed.
+
 Starting remote `dev`: **`d2ea095ad00bc375971e082f661b3f0a743cad5e`**, freshly fetched and matched to a clean checkout. This follows the [six-boundary selective-row proof](sidebar-selective-row-status.md). Registry remains **29/39 configured candidates, 0/39 Word accepted**.
 
 ## Finding

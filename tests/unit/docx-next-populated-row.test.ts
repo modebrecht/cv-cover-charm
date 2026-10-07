@@ -6,6 +6,57 @@ import {
   SIDEBAR_POPULATED_ROW_CASES,
   sidebarPopulatedRowFixture,
 } from "../fixtures/docx-next/sidebar-populated-row";
+import {
+  SIDEBAR_MAIN_ENDING_CASES,
+  sidebarMainEndingFixture,
+} from "../fixtures/docx-next/sidebar-main-ending";
+
+test("main-ending controls change only opening ending scope, retaining every native row, span and paragraph", () => {
+  expect(SIDEBAR_MAIN_ENDING_CASES).toHaveLength(4);
+  for (const value of SIDEBAR_MAIN_ENDING_CASES) {
+    const current = sidebarMainEndingFixture(value);
+    const original = sidebarPopulatedRowFixture(value);
+    const copy = structuredClone(current.model);
+    const table = copy.cv.blocks[0];
+    if (table.kind !== "table") throw Error("Missing native outer table");
+    expect(table.rows.map((row) => row.cellEndKeepNext)).toEqual([
+      [false, false, false],
+      [0, 1, 2].map(
+        (cell) => value.scope === "all-cells" || cell === current.fixture.tracks[0].cell,
+      ),
+      [false, false, false],
+    ]);
+    table.rows[1].cellEndKeepNext = [true, true, true];
+    expect(copy).toEqual(original.model);
+    expect(current.fixture.tracks).toEqual(original.fixture.tracks);
+  }
+});
+
+test("main-only JSON packages stay guarded and original all-cell packages remain byte-identical", async () => {
+  for (const value of SIDEBAR_MAIN_ENDING_CASES) {
+    const { model } = sidebarMainEndingFixture(value);
+    const before = structuredClone(model);
+    const restored = JSON.parse(JSON.stringify(model));
+    await expect(renderDossierDocx(model)).rejects.toThrow("cell-ending attachment is unaccepted");
+    await expect(renderDossierDocx(restored)).rejects.toThrow(
+      "cell-ending attachment is unaccepted",
+    );
+    const options = { allowUnacceptedModelIssues: true };
+    const bytes = new Uint8Array(await (await renderDossierDocx(model, options)).arrayBuffer());
+    const restoredBytes = new Uint8Array(
+      await (await renderDossierDocx(restored, options)).arrayBuffer(),
+    );
+    expect(restoredBytes).toEqual(bytes);
+    expect(model).toEqual(before);
+    if (value.scope === "all-cells") {
+      const original = sidebarPopulatedRowFixture(value);
+      const originalBytes = new Uint8Array(
+        await (await renderDossierDocx(original.model, options)).arrayBuffer(),
+      );
+      expect(bytes).toEqual(originalBytes);
+    }
+  }
+});
 
 test("populated controls preserve complete native paragraphs and physical widths across ownership and orientation", () => {
   expect(SIDEBAR_POPULATED_ROW_CASES).toHaveLength(4);
