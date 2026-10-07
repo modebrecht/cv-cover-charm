@@ -158,4 +158,46 @@ class SideTerminalEvidenceTests(unittest.TestCase):
                 module.compare_baseline(self.baseline, observed)
 
 
+class SideEndingEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-side-ending-evidence.json').read_text())
+        self.observed = copy.deepcopy(self.baseline)
+
+    def test_empty_side_ending_alone_does_not_change_the_reviewed_results(self):
+        result = module.compare_baseline(self.baseline, self.observed)
+        self.assertTrue(result['productGates'].startswith('fail'))
+        self.assertEqual(len(self.baseline['cases']), 4)
+        for start, orientation in ((0, 'right'), (2, 'left')):
+            a, b = self.baseline['cases'][start:start + 2]
+            self.assertFalse(a['diagnostic']['sideSemanticKeepNext'])
+            self.assertFalse(b['diagnostic']['sideSemanticKeepNext'])
+            self.assertEqual(a['render'], b['render'])
+            self.assertEqual(a['saveReopen'], b['saveReopen'])
+            self.assertEqual(a['render']['productGates'], 'pass' if orientation == 'right' else 'fail')
+            self.assertNotEqual(a['docxSha256'], b['docxSha256'])
+
+    def test_detached_controls_retain_original_main_only_packages(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-main-ending-evidence.json').read_text())
+        for current in self.baseline['cases']:
+            if current['diagnostic']['sideEndingKeepNext']: continue
+            old = next(case for case in previous['cases'] if case['fixture'] == current['diagnostic']['orientation'] + '-main-only-220')
+            self.assertEqual(current['docxSha256'], old['docxSha256'])
+            self.assertEqual(current['render'], old['render'])
+            self.assertEqual(current['saveReopen'], old['saveReopen'])
+
+    def test_semantic_attachment_and_right_regression_cannot_hide(self):
+        self.observed['plannedCases'][1]['sideSemanticKeepNext'] = True
+        with self.assertRaisesRegex(AssertionError, 'Changed planned terminal matrix'):
+            module.compare_baseline(self.baseline, self.observed)
+        self.observed = copy.deepcopy(self.baseline)
+        self.observed['cases'][1]['saveReopen']['productGates'] = 'fail'
+        with self.assertRaisesRegex(AssertionError, 'Changed product gate'):
+            module.compare_baseline(self.baseline, self.observed)
+
+    def test_changed_left_opening_requires_review(self):
+        self.observed['cases'][3]['render']['tracks'][0]['openingCvPages'] = [2] * 5
+        with self.assertRaisesRegex(AssertionError, 'Changed visible track evidence'):
+            module.compare_baseline(self.baseline, self.observed)
+
+
 if __name__ == '__main__': unittest.main()

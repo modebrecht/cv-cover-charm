@@ -1,5 +1,7 @@
 # Terminal side paragraph regression
 
+Continued by the [isolated empty-side-ending probe](sidebar-side-ending-status.md), with the semantic terminal paragraph held false. Both right controls pass; both left controls retain the main-description detachment. Empty ending attachment alone has no visible effect.
+
 Freshly fetched remote `dev` and clean working tree: `212deafc3b82cd6cea3e6f126c959f74e2e4a654`. No unpublished handoff commit was recovered or cherry-picked.
 
 The prerequisite CI runs were inspected before this experiment. Both completed successfully on that exact commit:
