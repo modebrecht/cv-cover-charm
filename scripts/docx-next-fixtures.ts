@@ -1,9 +1,11 @@
 /** Bun runner, outputs are temporary QA evidence, never production templates. */
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { buildDossierDocModel } from "../src/lib/docx-next/build-model";
-import { renderDossierDocx } from "../src/lib/docx-next/renderer";
+import { renderDossierDocx, type RenderOptions } from "../src/lib/docx-next/renderer";
 import { walkBlocks, type TextRun } from "../src/lib/docx-next/model";
 import { nextTemplate } from "../src/lib/docx-next/templates";
 import { planPartSections } from "../src/lib/docx-next/section-plan";
@@ -43,6 +45,14 @@ import {
   type SidebarFixture,
 } from "../tests/fixtures/docx-next/sidebar";
 const isSidebar = process.argv.includes("--sidebar");
+const verifyJson = process.argv.includes("--verify-json");
+const jsonRestorations: {
+  fixture: string;
+  docxSha256: string;
+  input: string;
+  model: string;
+  immutable: string;
+}[] = [];
 const isWarm = process.argv.includes("--warm");
 const isPrism = process.argv.includes("--prism");
 const isHuman = process.argv.includes("--human");
@@ -718,10 +728,12 @@ try {
           gapMm: 2,
         },
       ];
+    const inputBefore = verifyJson ? structuredClone(input) : undefined;
     const model = buildDossierDocModel(input);
+    const modelBefore = verifyJson ? structuredClone(model) : undefined;
     const started = performance.now();
     const omittedDecorations: string[] = [];
-    const blob = await renderDossierDocx(model, {
+    const renderOptions: RenderOptions = {
       rasterizeDecoration: async (shape) => {
         if (fixture === "elements-artwork-failure")
           throw new Error("Intentional QA decoration failure");
@@ -742,7 +754,7 @@ try {
       },
       onDecorationFailure: (id, error) => {
         if (fixture === "elements-artwork-failure") {
-          omittedDecorations.push(id);
+          if (!omittedDecorations.includes(id)) omittedDecorations.push(id);
           return;
         }
         throw new Error(`QA decoration failed ${id}`, { cause: error });
@@ -752,8 +764,38 @@ try {
         if (!asset) throw new Error("Unknown QA image source");
         return asset;
       },
-    });
-    await writeFile(path.join(out, `${fixture}.docx`), new Uint8Array(await blob.arrayBuffer()));
+    };
+    const blob = await renderDossierDocx(model, renderOptions);
+    const bytes = new Uint8Array(await blob.arrayBuffer());
+    if (verifyJson) {
+      const restoredInput = JSON.parse(JSON.stringify(input));
+      const restoredModel = JSON.parse(JSON.stringify(model));
+      const rebuilt = buildDossierDocModel(restoredInput);
+      assert.deepEqual(rebuilt, model, `${fixture}: portable input changed the native model`);
+      for (const restored of [rebuilt, restoredModel]) {
+        const restoredBefore = structuredClone(restored);
+        const restoredBytes = new Uint8Array(
+          await (await renderDossierDocx(restored, renderOptions)).arrayBuffer(),
+        );
+        assert.deepEqual(
+          restoredBytes,
+          bytes,
+          `${fixture}: JSON restoration changed the native package`,
+        );
+        assert.deepEqual(restored, restoredBefore, `${fixture}: restored model was mutated`);
+      }
+      assert.deepEqual(input, inputBefore, `${fixture}: original input was mutated`);
+      assert.deepEqual(model, modelBefore, `${fixture}: original model was mutated`);
+      assert.deepEqual(restoredInput, input, `${fixture}: portable input was mutated`);
+      jsonRestorations.push({
+        fixture,
+        docxSha256: createHash("sha256").update(bytes).digest("hex"),
+        input: "pass",
+        model: "pass",
+        immutable: "pass",
+      });
+    }
+    await writeFile(path.join(out, `${fixture}.docx`), bytes);
     const semanticText = [model.cover, model.letter, model.cv]
       .flatMap((part) =>
         walkBlocks([...part.blocks, ...part.header, ...(part.firstHeader ?? []), ...part.footer]),
@@ -1244,6 +1286,20 @@ try {
     });
   }
   await writeFile(path.join(out, "manifest.json"), JSON.stringify(manifest, null, 2));
+  if (verifyJson) {
+    assert.equal(jsonRestorations.length, manifest.length);
+    await writeFile(
+      path.join(out, "json-restoration-report.json"),
+      JSON.stringify(
+        { browserNormalizedInputs: normalized.size, fixtures: jsonRestorations },
+        null,
+        2,
+      ) + "\n",
+    );
+    console.log(
+      `Verified ${jsonRestorations.length} immutable portable input/model JSON native package restorations.`,
+    );
+  }
   console.log(
     `Generated ${manifest.length} independent ${addedCandidate ? addedCandidate : isOrbit ? "Orbit" : isHuman ? "Human" : isPrism ? "Prism" : isWarm ? "Warm" : "Brief"} dossiers; canonical browser image normalization passed ${normalized.size} inputs.`,
   );

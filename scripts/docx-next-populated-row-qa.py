@@ -36,8 +36,9 @@ MATRICES = {
     'lead-window': ('leadMm', LEAD_WINDOW_CASES),
     'description-owner': ('descriptionOwner', DESCRIPTION_OWNER_CASES),
     'split-description-owner': ('descriptionOwner', DESCRIPTION_OWNER_CASES),
+    'nested-side': ('sideComposition', [(orientation, composition) for orientation in ('right', 'left') for composition in ('direct', 'nested')]),
 }
-ISOLATED_MATRICES = ('side-terminal', 'side-ending', 'lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner')
+ISOLATED_MATRICES = ('side-terminal', 'side-ending', 'lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner', 'nested-side')
 
 
 def package_result(source, fixture, saved=False):
@@ -90,6 +91,21 @@ def package_result(source, fixture, saved=False):
                 assert (keep is None) if flag is None else (keep is not None and keep.get(W + 'val') == str(int(flag)))
         owned_side = [tag.get(W + 'val') for tag in rows[0].findall(W + 'tc')[side].iter(W + 'tag')]
         assert owned_side == [field['fieldId'] for field in fixture['tracks'][1]['fields']]
+        if 'sideComposition' in fixture:
+            side_cell = rows[0].findall(W + 'tc')[side]
+            inner = side_cell.findall(W + 'tbl')
+            assert len(inner) == (1 if fixture['sideComposition'] == 'nested' else 0), 'Changed nested side owner'
+            if inner:
+                assert inner[0].find(W + 'tblPr/' + W + 'tblCaption').get(W + 'val') == fixture['nestedTableId']
+                width = inner[0].find(W + 'tblPr/' + W + 'tblW')
+                assert width.get(W + 'type') == 'dxa' and int(width.get(W + 'w')) == round(fixture['innerWidthMm'] * 1440 / 25.4)
+                inner_rows = inner[0].findall(W + 'tr')
+                assert len(inner_rows) == 1 and inner_rows[0].find(W + 'trPr/' + W + 'cantSplit') is None
+                inner_cells = inner_rows[0].findall(W + 'tc')
+                assert len(inner_cells) == 1
+                ending = list(inner_cells[0])[-1]
+                assert ending.tag == W + 'p' and not list(ending.iter(W + 't'))
+                assert ending.find(W + 'pPr/' + W + 'keepNext').get(W + 'val') == '0'
         if 'sideTerminalFieldId' in fixture:
             terminal = next(node for node in root.iter(W + 'sdt')
                             if node.find(W + 'sdtPr/' + W + 'tag').get(W + 'val') == fixture['sideTerminalFieldId'])
@@ -264,7 +280,7 @@ def main():
                 assert fixture['rowKeepTogether'] == [case['leadKeepTogether'] if args.matrix == 'lead-together' else True, opening_row, False]
                 if args.matrix == 'split-description-owner': assert case['openingKeepTogether'] is False
                 if args.matrix != 'side-terminal': assert not case['sideSemanticKeepNext']
-                if args.matrix in ('lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner'): assert not case['sideEndingKeepNext']
+                if args.matrix in ('lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner', 'nested-side'): assert not case['sideEndingKeepNext']
             assert fixture['cellEndKeepNext'] == [lead, opening, [False] * 3]
         if args.matrix == 'lead-padding':
             assert fixture['authoredLeadMm'] == fixture['leadSpacerMm'] + fixture['leadTopPaddingMm'] == 220
@@ -385,6 +401,10 @@ def main():
         if args.matrix == 'split-description-owner':
             result['architectureAcceptance'] = 'blocked: bounded split-row main-description ownership diagnostic; no export enablement'
             result['earlyStop'] = 'four ownership controls at 220 mm; opening row false in both controls; all other flags unchanged'
+    if args.matrix == 'nested-side':
+        result.update(matrix=args.matrix, plannedCases=cases)
+        result['architectureAcceptance'] = 'blocked: bounded nested side composition diagnostic; no export enablement'
+        result['earlyStop'] = 'four side composition controls at 220 mm; outer span, main owners and all existing flags unchanged'
     if baseline: result['stableComparison'] = compare_baseline(baseline, result)
     (args.directory / (args.matrix + '-report.json')).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({key: result[key] for key in ('architectureAcceptance', 'stableComparison') if key in result}), flush=True)

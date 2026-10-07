@@ -421,4 +421,43 @@ class SplitDescriptionOwnerEvidenceTests(unittest.TestCase):
             module.compare_baseline(self.baseline, observed)
 
 
+class NestedSideEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-nested-side-evidence.json').read_text())
+
+    def test_complete_native_fields_do_not_accept_clipped_side_table(self):
+        result = module.compare_baseline(self.baseline, copy.deepcopy(self.baseline))
+        self.assertTrue(result['productGates'].startswith('fail'))
+        self.assertEqual(len(self.baseline['cases']), 2)
+        self.assertEqual(self.baseline['earlyStop']['unrenderedCases'], ['left-direct-side-220', 'left-nested-side-220'])
+        before, after = self.baseline['cases']
+        self.assertEqual(before['render']['productGates'], 'pass')
+        self.assertEqual(after['render']['pages'], 10)
+        self.assertEqual(after['package']['completeNativeFields'], 'pass')
+        self.assertEqual(after['saveReopenPackage']['completeNativeFields'], 'pass')
+        main, side = after['render']['tracks']
+        self.assertTrue(main['fullTextVisible'])
+        self.assertFalse(side['fullTextVisible'])
+        self.assertEqual(side['visibleCharacters'], 790)
+        self.assertEqual(side['expectedCharacters'], 18444)
+        self.assertEqual(after['render']['visibleBounds'], 'pass')
+        self.assertTrue(main['openingAttachment'] and side['openingAttachment'])
+
+    def test_direct_control_retains_original_positive_package(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-main-ending-evidence.json').read_text())
+        old = next(case for case in previous['cases'] if case['fixture'] == 'right-main-only-220')
+        self.assertEqual(self.baseline['cases'][0]['docxSha256'], old['docxSha256'])
+        self.assertEqual(self.baseline['cases'][0]['render'], old['render'])
+
+    def test_composition_and_visibility_changes_require_review(self):
+        observed = copy.deepcopy(self.baseline)
+        observed['plannedCases'][1]['sideComposition'] = 'direct'
+        with self.assertRaisesRegex(AssertionError, 'Changed planned terminal matrix'):
+            module.compare_baseline(self.baseline, observed)
+        observed = copy.deepcopy(self.baseline)
+        observed['cases'][1]['saveReopen']['tracks'][1]['fullTextVisible'] = True
+        with self.assertRaisesRegex(AssertionError, 'Changed visible track evidence'):
+            module.compare_baseline(self.baseline, observed)
+
+
 if __name__ == '__main__': unittest.main()
