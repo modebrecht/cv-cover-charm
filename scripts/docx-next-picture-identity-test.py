@@ -26,6 +26,18 @@ class PictureIdentityTests(unittest.TestCase):
     def test_pdf_loss_stops(self):
         self.assertEqual(module.stop_reason(self.result(pdf='fail')), 'pdf-text-or-geometry')
 
+    def test_baseline_ignores_only_saved_package_metadata(self):
+        first = {'fixtures': [{'fixture': 'one', 'sourceDocxSha256': 'source', 'savedDocxSha256': 'old', 'native': self.result()['native']}]}
+        second = {'fixtures': [{**first['fixtures'][0], 'savedDocxSha256': 'new'}]}
+        self.assertEqual(module.comparable(first), module.comparable(second))
+        second['fixtures'][0]['sourceDocxSha256'] = 'changed'
+        self.assertNotEqual(module.comparable(first), module.comparable(second))
+
+    def test_changed_native_baseline_is_not_hidden(self):
+        first = {'fixtures': [{'native': self.result()['native']}]}
+        second = {'fixtures': [{'native': self.result(field='fail')['native']}]}
+        self.assertNotEqual(module.comparable(first), module.comparable(second))
+
     def pdf(self, text='Complete field', image=False, width=20):
         work = tempfile.TemporaryDirectory()
         self.addCleanup(work.cleanup)

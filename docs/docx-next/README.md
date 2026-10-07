@@ -1,5 +1,7 @@
 # DOCX Next developer guide
 
+**Latest minimal identity result:** [Body/table picture controls and native photo audit](sidebar-picture-identity-status.md), verified source `f5b6df27` with successful full application and all three stable jobs. Stable retains fields in eight controls / 24 pages; the exact-source Dev replay stops after two controls / six pages because photo body flow loses five tags. A table is not required. Both runtimes retain visible geometry but save cropped pixels instead of the full original photo; application JSON photo restoration remains passing. All export gates remain closed.
+
 Latest [next handoff](next-handoff.md) records the verified source revision, exact CI links, actual render counts and bounded next comparison.
 
 Current Sidebar blocker: [Splittable description ownership](sidebar-split-description-owner-status.md) produces exactly the same text/bounds regression as cantSplit=true. The [inner side table](sidebar-nested-side-status.md) separately clips the complete side description while retaining main text and attached openings. Both stop after right regressions, with left explicitly unrendered. The [stable supported matrix](sidebar-supported-stable-status.md) now checks all 31 existing fixtures with canonical browser images, immutable input/model JSON and actual native Save/Reopen. The earlier [lead window](sidebar-lead-window-status.md) remains a sampled boundary, not a production threshold.

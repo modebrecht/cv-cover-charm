@@ -196,6 +196,7 @@ jobs:
           bun install --frozen-lockfile
           python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
           python scripts/docx-next-picture-identity-test.py
+          python scripts/docx-next-native-photo-test.py
           npm install --no-save --no-package-lock @playwright/test@1.55.0
           npx playwright install --with-deps chromium
       - name: Set up verified stable engine within five minutes
@@ -208,7 +209,9 @@ jobs:
           bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/fixtures"
       - name: Observe stable field identity, complete text, geometry and save/reopen
         timeout-minutes: 3
-        run: python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
+        run: |
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-identity-evidence.json
+          python scripts/docx-next-native-photo-qa.py "$QA_ROOT/fixtures" --baseline docs/docx-next/sidebar-picture-identity-evidence.json
       - name: Retain actual picture identity evidence including stopped cases
         if: always()
         uses: actions/upload-artifact@v4

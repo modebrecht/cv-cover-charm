@@ -78,7 +78,13 @@ def stop_reason(result):
     return None
 
 
-def run(directory, executable, kit=False, require_stable=False, observe=False, replay=False):
+def comparable(report):
+    # External save metadata is not deterministic; source package identity and all
+    # measured native/visible results remain exact baseline requirements.
+    return {**report, 'fixtures': [{key: value for key, value in row.items() if key != 'savedDocxSha256'} for row in report['fixtures']]}
+
+
+def run(directory, executable, kit=False, require_stable=False, observe=False, replay=False, baseline=None):
     with tempfile.TemporaryDirectory(prefix='identity-version-') as profile:
         version = subprocess.check_output([executable, '--version'] + ([Path(profile).as_uri()] if kit else []), text=True, timeout=30).strip()
     if kit:
@@ -134,6 +140,10 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
         data = buffer.getvalue()
         print(json.dumps({'pictureIdentityReplaySha256': hashlib.sha256(data).hexdigest(), 'pictureIdentityReplayBase64': base64.b64encode(data).decode()}))
     assert observe or not stopped, 'Stopped native identity experiment; actual evidence retained'
+    if baseline:
+        expected = json.loads(baseline.read_text())
+        expected = expected.get('stable', expected)
+        assert comparable(report) == comparable(expected), 'Stable picture identity observation changed; actual evidence retained'
     return report
 
 
@@ -146,5 +156,6 @@ if __name__ == '__main__':
     parser.add_argument('--require-stable', action='store_true')
     parser.add_argument('--observe', action='store_true')
     parser.add_argument('--replay', action='store_true')
+    parser.add_argument('--baseline', type=Path)
     args = parser.parse_args()
-    run(args.directory, args.libreofficekit or args.soffice, bool(args.libreofficekit), args.require_stable, args.observe, args.replay)
+    run(args.directory, args.libreofficekit or args.soffice, bool(args.libreofficekit), args.require_stable, args.observe, args.replay, args.baseline)
