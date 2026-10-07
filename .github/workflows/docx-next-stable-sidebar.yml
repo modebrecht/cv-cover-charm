@@ -173,3 +173,48 @@ jobs:
           path: |
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/fixtures/
+
+  picture-identity:
+    if: github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      QA_ROOT: /tmp/docx-next-picture-identity
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and picture QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
+          python scripts/docx-next-picture-identity-test.py
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Set up verified stable engine within five minutes
+        timeout-minutes: 5
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup"
+      - name: Generate guarded minimal picture ownership controls
+        run: |
+          mkdir -p "$QA_ROOT/fixtures"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/fixtures"
+      - name: Observe stable field identity, complete text, geometry and save/reopen
+        timeout-minutes: 3
+        run: python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
+      - name: Retain actual picture identity evidence including stopped cases
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-picture-identity-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/fixtures/
