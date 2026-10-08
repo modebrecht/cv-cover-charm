@@ -234,6 +234,18 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         )
           throw new Error(`DOCX Next invalid table identity carrier ${block.id}`);
         if (block.position) {
+          if (block.position.anchorParagraphId !== undefined) {
+            const index = part.blocks.indexOf(block);
+            const following = part.blocks[index + 1];
+            if (
+              typeof block.position.anchorParagraphId !== "string" ||
+              !block.position.anchorParagraphId ||
+              index < 0 ||
+              following?.kind !== "paragraph" ||
+              following.id !== block.position.anchorParagraphId
+            )
+              throw new Error(`DOCX Next invalid floating paragraph anchor ${block.id}`);
+          }
           if (!part.blocks.includes(block))
             throw new Error(`DOCX Next nested positioned table is unsupported ${block.id}`);
           if (

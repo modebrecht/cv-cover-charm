@@ -54,8 +54,33 @@ def native_result(path, fixture):
         owner = parents.get(paragraph)
         while owner is not None and owner.tag not in (W + 'tc', W + 'body'): owner = parents.get(owner)
         assert owner is not None, 'Missing native story owner'
-        paragraphs.append({'fieldId': field['fieldId'], 'flags': flags, 'paragraphCount': 1,
-                           'owner': 'side-cell' if owner.tag == W + 'tc' else 'body'})
+        location = {'story': 'body'}
+        if owner.tag == W + 'tc':
+            native_row = parents[owner]; native_table = parents[native_row]
+            assert native_row.tag == W + 'tr' and native_table.tag == W + 'tbl', 'Changed exact native cell owner'
+            location = {'story': 'side-cell' if native_table is table else 'main-table',
+                        'tableIndex': list(root.iter(W + 'tbl')).index(native_table),
+                        'row': native_table.findall(W + 'tr').index(native_row), 'cell': native_row.findall(W + 'tc').index(owner)}
+        paragraphs.append({'fieldId': field['fieldId'], 'flags': flags, 'paragraphCount': 1, 'owner': location})
+    body = root.find(W + 'body'); siblings = list(body)
+    assert table in siblings, 'Floating owner is no longer a top-level native story block'
+    anchor = None
+    for sibling in siblings[siblings.index(table) + 1:]:
+        for paragraph in sibling.iter(W + 'p'):
+            ancestor = parents.get(paragraph); in_table = False; enclosing = []
+            while ancestor is not None and ancestor is not body:
+                in_table |= ancestor.tag == W + 'tbl'
+                if ancestor.tag == W + 'sdt':
+                    tag = ancestor.find(W + 'sdtPr/' + W + 'tag')
+                    if tag is not None: enclosing.append(tag.get(W + 'val'))
+                ancestor = parents.get(ancestor)
+            if in_table or paragraph.find(W + 'pPr/' + W + 'framePr') is not None: continue
+            ids = enclosing + [tag.get(W + 'val') for tag in paragraph.iter(W + 'tag')]
+            anchor = {'fieldIds': ids, 'empty': not list(paragraph.iter(W + 't'))}; break
+        if anchor is not None: break
+    assert anchor is not None, 'Lost native following regular paragraph'
+    if 'anchorParagraphId' in fixture:
+        assert anchor['fieldIds'] == ([] if fixture['anchorParagraphId'] is None else [fixture['anchorParagraphId']]), 'Wrong declared native paragraph anchor'
     pr = table.find(W + 'tblPr'); position = pr.find(W + 'tblpPr')
     assert position is not None, 'Lost native floating position'
     geometry = {'width': int(pr.find(W + 'tblW').get(W + 'w')),
@@ -72,7 +97,7 @@ def native_result(path, fixture):
         enabled = value in ('true', '1', 'on')
     else: enabled = False
     assert enabled == (fixture['diagnostic']['policy'] == 'all-pages'), 'Changed native continuation setting'
-    return {'paragraphs': paragraphs, 'geometry': geometry, 'allPages': enabled}
+    return {'paragraphs': paragraphs, 'geometry': geometry, 'allPages': enabled, 'logicalAnchor': anchor}
 
 
 def pdf_result(path, fixture):
@@ -85,7 +110,9 @@ def pdf_result(path, fixture):
                                (lane['rightMm'] + .5) * mm, page.rect.height - (margins['bottom'] - 3) * mm) for page in document[2:]]
             texts = [compact(page.get_text(clip=clip)) for page, clip in zip(document[2:], clips)]
             expected = fixture[label + 'Text']
-            missing = [index for index, text in enumerate(expected) if compact(text) not in ''.join(texts)]
+            joined = ''.join(texts); authored = compact(''.join(expected))
+            missing = [index for index, text in enumerate(expected) if compact(text) not in joined]
+            multiplicity = [{'paragraphIndex': index, 'expectedOccurrences': authored.count(value), 'actualOccurrences': joined.count(value)} for index, text in enumerate(expected) if (value := compact(text)) and authored.count(value) != joined.count(value)]
             first = next((index + 1 for index, text in enumerate(texts) if expected and compact(expected[0]) in text), None)
             outside = 0
             for page, clip in zip(document[2:], clips):
@@ -96,9 +123,11 @@ def pdf_result(path, fixture):
                             x0, y0, x1, y1 = span['bbox']
                             outside += int(x0 < lane['leftMm'] * mm - 2 or x1 > lane['rightMm'] * mm + 2 or
                                            y0 < margins['top'] * mm - 4 or y1 > page.rect.height - margins['bottom'] * mm + 4)
-            tracks[label] = {'firstCvPage': first, 'missingParagraphs': missing, 'outsideBody': outside,
+            opening = [next((i + 1 for i, page_text in enumerate(texts) if compact(field['text']) in page_text), None) for field in fixture.get('mainOpeningFields', [])] if label == 'main' else []
+            tracks[label] = {'paragraphMultiplicityChanges': multiplicity, 'openingCvPages': opening, 'firstCvPage': first, 'missingParagraphs': missing, 'outsideBody': outside,
                              'fullOwningLaneText': not missing}
         return {'pages': len(document), 'tracks': tracks,
+                'textMultiplicityMatches': all(not row['paragraphMultiplicityChanges'] for row in tracks.values()),
                 'allTextAndBounds': all(not row['missingParagraphs'] and not row['outsideBody'] for row in tracks.values()),
                 'expectedControlPages': len(document) == fixture['expectedPages'] if fixture['diagnostic']['policy'] == 'default' else None,
                 'openingMatches': all(tracks[label]['firstCvPage'] == fixture['expected' + label.capitalize() + 'FirstPage'] for label in tracks)}
@@ -109,8 +138,12 @@ def candidate_failures(row):
     if row['nativeIdentity']['fieldIdentity'] != 'pass' or row['nativeIdentity']['completeNativeText'] != 'pass': failures.append('native-fields-or-text')
     if row['sourceNative'] != row['savedNative']: failures.append('native-owners-policy-or-exact-geometry')
     for phase in ('render', 'saveReopen'):
+        if row[phase].get('textMultiplicityMatches') is False: failures.append(phase + '-paragraph-text-multiplicity')
+        if row[phase].get('expectedControlPages') is False: failures.append(phase + '-control-pages')
         if not row[phase]['allTextAndBounds']: failures.append(phase + '-text-or-bounds')
         if not row[phase]['openingMatches']: failures.append(phase + '-opening')
+        main = row[phase]['tracks']['main']
+        if any(page != main['firstCvPage'] for page in main.get('openingCvPages', [])): failures.append(phase + '-detached-main-opening')
     if row['render'] != row['saveReopen']: failures.append('save-reopen-layout')
     if row['rasterPages']['render'] != row['rasterPages']['saveReopen']: failures.append('save-reopen-pixels')
     return failures
@@ -131,7 +164,7 @@ def main():
     engine = parser.add_mutually_exclusive_group()
     engine.add_argument('--soffice', default='soffice'); engine.add_argument('--libreofficekit')
     parser.add_argument('--require-stable', action='store_true'); parser.add_argument('--baseline', type=Path)
-    parser.add_argument('--observe', action='store_true')
+    parser.add_argument('--observe', action='store_true'); parser.add_argument('--anchor-owner', action='store_true')
     args = parser.parse_args(); executable = args.libreofficekit or args.soffice
     with tempfile.TemporaryDirectory(prefix='floating-version-') as profile:
         version = subprocess.run([executable, '--version'] + ([Path(profile).as_uri()] if args.libreofficekit else []), capture_output=True, text=True, check=True, timeout=30).stdout.strip()
@@ -147,8 +180,11 @@ def main():
             assert result.returncode == 0 and exported.is_file(), result.stdout + result.stderr
             target.write_bytes(exported.read_bytes())
 
-    manifest = json.loads((args.directory / 'floating-continuation-manifest.json').read_text())
-    assert [(row['orientation'], row['kind'], row['policy']) for row in manifest] == [(orientation, kind, policy) for orientation in ('right', 'left') for kind in ('left', 'side-long', 'both-long') for policy in ('default', 'all-pages')]
+    matrix = 'floating-anchor' if args.anchor_owner else 'floating-continuation'
+    manifest = json.loads((args.directory / (matrix + '-manifest.json')).read_text())
+    dimension = 'anchor' if args.anchor_owner else 'policy'
+    values = ('empty-separator', 'following-paragraph') if args.anchor_owner else ('default', 'all-pages')
+    assert [(row['orientation'], row['kind'], row[dimension]) for row in manifest] == [(orientation, kind, value) for orientation in ('right', 'left') for kind in ('left', 'side-long', 'both-long') for value in values]
     report = {'libreOfficeVersion': version, 'preparedSources': manifest, 'cases': [], 'earlyStop': None,
               'architectureAcceptance': 'blocked; original captions, supported opening/geometry/photo/chrome and Word gates remain', 'microsoftWord': 'pending'}
     for case in manifest:
@@ -171,10 +207,11 @@ def main():
                     row['rasterPages'][phase].append(pixel_digest(image))
         row['candidateFailures'] = candidate_failures(row); report['cases'].append(row)
         print(json.dumps({'fixture': name, 'render': row['render'], 'nativeIdentity': row['nativeIdentity']['fieldIdentity'], 'captionIdentity': row['nativeIdentity']['tableIdentity'], 'candidateFailures': row['candidateFailures']}), flush=True)
-        if case['policy'] == 'all-pages' and row['candidateFailures']:
+        candidate = case['anchor'] == 'following-paragraph' if args.anchor_owner else case['policy'] == 'all-pages'
+        if candidate and row['candidateFailures']:
             report['earlyStop'] = {'fixture': name, 'reasons': row['candidateFailures'], 'unrenderedCases': [pending['name'] for pending in manifest[len(report['cases']):]]}; break
     report['actualCases'] = len(report['cases']); report['actualDossierPages'] = sum(row['render']['pages'] for row in report['cases'])
-    target = args.directory / 'floating-continuation-report.json'; target.write_text(json.dumps(report, indent=2) + '\n')
+    target = args.directory / (matrix + '-report.json'); target.write_text(json.dumps(report, indent=2) + '\n')
     if args.baseline:
         recorded = json.loads(args.baseline.read_text()); report['stableComparison'] = compare_baseline(recorded.get('stable', recorded), report)
         target.write_text(json.dumps(report, indent=2) + '\n')

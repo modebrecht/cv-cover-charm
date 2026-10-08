@@ -57,5 +57,18 @@ class Test(unittest.TestCase):
             self.assertIn(reason, qa.candidate_failures(altered))
         self.assertEqual(row['nativeIdentity']['tableIdentity'], 'fail')
 
+    def test_duplicated_visible_title_fails_even_with_all_native_ids(self):
+        row = example()['cases'][0]
+        row['render']['textMultiplicityMatches'] = False
+        self.assertIn('render-paragraph-text-multiplicity', qa.candidate_failures(row))
+        self.assertEqual(row['nativeIdentity']['fieldIdentity'], 'pass')
+
+    def test_title_alone_on_page_one_does_not_pass_a_detached_opening(self):
+        row = example()['cases'][0]
+        for phase in ('render', 'saveReopen'):
+            row[phase]['tracks']['main']['openingCvPages'] = [1, 7, 7, 7, 7, 7, 7, 7, 7]
+        self.assertIn('render-detached-main-opening', qa.candidate_failures(row))
+        self.assertIn('saveReopen-detached-main-opening', qa.candidate_failures(row))
+
 
 if __name__ == '__main__': unittest.main()

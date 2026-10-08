@@ -1,5 +1,13 @@
 # DOCX Next handoff — 2026-10-08
 
+## Latest declared native paragraph anchor — 2026-10-08
+
+Freshly fetched `dev` source `b874ade828b7c9393286e8051e4521fa5ae40eaf` has successful M6 37792658238 and all three stable jobs 37792658159. Independently downloaded artifact 11557063078 / SHA-256 `974c262f20857befbf20a1ae44e0760b7a847646f750d38e754a3e6e75fd5a6b` verifies all twelve continuation sources and 48 PNGs; stable retains its four-case / 24-page negative. The strict stable baseline is independently pinned, including every page pixel; cross-runtime differences remain explicitly recorded.
+
+The separate [declared native paragraph anchor](sidebar-floating-anchor-status.md) removes only the unowned separator before the exact following semantic paragraph; the all-pages policy, whole paragraphs, native flags/IDs/owners and floating geometry remain fixed. Local Dev performs four cases / 24 pages plus Save/Reopen, then stops: main opening becomes 1,7,7,7,7,7,7,7,7 and the same title is visibly repeated seven times. All native fields and complete text survive, so the stronger opening/multiplicity audit is necessary. Original captions remain lost. The other eight prepared anchor cases are unrendered; independent anchor stable execution is pending publication. No normal exporter, app/PDF/portable JSON or photo behavior changes.
+
+Next: verify the exact published anchor source and independently pin its stable artifact, then compare the upstream all-pages native layout regression with a multi-paragraph main story. Do not extend either rejected matrix or infer independent stories from a single anchor paragraph. This entry supersedes older next-task notes. All original caption/geometry/photo/Word gates remain closed, 29/39 configured and 0/39 Word accepted.
+
 ## Latest documented native continuation — 2026-10-08
 
 Freshly fetched clean `dev` is `b677051d166a2b0f41221ac849e5e03edc149d2d`, with successful M6 37783027702 and all three stable jobs 37783027746. The independent final continuous-cell artifact is downloaded and every source / 84 pixel digest verified. The [documented floating-table continuation policy](sidebar-floating-continuation-status.md) changes only one native document compatibility setting; whole paragraphs, flags, IDs, owners and lane geometry are unchanged. Local Dev executes four cases / 24 pages plus Save/Reopen, then stops: the long-side main opening remains CV page 7 despite the true setting surviving native save. All 77 short / 129 long tags and exact native owners/flags/geometry survive; original captions still disappear. Eight prepared cases stay unrendered. Independent stable execution of these exact sources is pending publication; no Word/application acceptance is inferred.

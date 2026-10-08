@@ -28,7 +28,7 @@ export function sidebarFloatingContinuationFixture(value: FloatingContinuationCa
       !row.semanticRows,
   );
   assert(original);
-  const { model, fixture } = sidebarFloatingFixture(original);
+  const { model, fixture, main } = sidebarFloatingFixture(original);
   if (value.policy === "all-pages") model.floatingTableTextFlow = "all-pages";
   return {
     model,
@@ -37,6 +37,12 @@ export function sidebarFloatingContinuationFixture(value: FloatingContinuationCa
       fixture: value.name,
       diagnostic: value,
       originalName: original.name,
+      mainOpeningFields: paragraphSignature(main)
+        .slice(0, 9)
+        .map((paragraph) => ({
+          fieldId: paragraph.id,
+          text: paragraph.runs.map((run) => run.text).join(""),
+        })),
       nativeParagraphs: paragraphSignature(model.cv.blocks).map((paragraph) => ({
         fieldId: paragraph.id,
         flags: {

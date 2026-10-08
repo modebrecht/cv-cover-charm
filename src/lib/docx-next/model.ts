@@ -109,7 +109,12 @@ export type TableBlock = {
   widthMm?: number;
   indentMm?: number;
   /** Unaccepted diagnostic native floating table; physical page coordinates, no fixed height. */
-  position?: { xMm: number; yMm: number };
+  position?: {
+    xMm: number;
+    yMm: number;
+    /** Diagnostic native logical anchor: the following whole semantic paragraph. */
+    anchorParagraphId?: string;
+  };
   sourceLayout?: ElementSourceLayout;
   decoration?: {
     fillColor?: string;
