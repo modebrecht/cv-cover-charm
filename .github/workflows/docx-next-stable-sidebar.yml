@@ -136,7 +136,7 @@ jobs:
       - name: Strictly reproduce the independently executed native paragraph anchor
         timeout-minutes: 2
         run: python scripts/docx-next-floating-continuation-qa.py "$QA_ROOT/floating-anchor" --anchor-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-floating-anchor-evidence.json
-      - name: Require complete native story order and exact visible story sequences
+      - name: Strictly compare complete native stories and visible counterexamples
         run: python scripts/docx-next-story-contract-qa.py "$QA_ROOT" --baseline docs/docx-next/sidebar-whole-story-contract-evidence.json
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
@@ -165,6 +165,7 @@ jobs:
           retention-days: 30
           path: |
             ${{ env.QA_ROOT }}/stable-comparison.json
+            ${{ env.QA_ROOT }}/whole-story-contract-report.json
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/cell-ending/*
             ${{ env.QA_ROOT }}/body/*
