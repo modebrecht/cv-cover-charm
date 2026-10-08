@@ -1366,6 +1366,52 @@
             "reason": "stopped after container-span-right-210-cell-ending:changed-native-owner-structure"
           }
         ]
+      },
+      "rasterAudit": {
+        "method": "SHA-256 of dimensions and every normalized RGBA channel byte",
+        "comparedPages": 84,
+        "differentPages": [
+          "container-span-right-210-caption-only-qa/source-page-1.png",
+          "container-span-right-210-caption-only-qa/saved-page-1.png",
+          "container-span-right-210-caption-only-qa/source-page-2.png",
+          "container-span-right-210-caption-only-qa/saved-page-2.png",
+          "container-span-right-210-cell-ending-qa/source-page-1.png",
+          "container-span-right-210-cell-ending-qa/saved-page-1.png",
+          "container-span-right-210-cell-ending-qa/source-page-2.png",
+          "container-span-right-210-cell-ending-qa/saved-page-2.png"
+        ],
+        "cvPages": 76,
+        "differentCvPages": [],
+        "newStablePixelVariants": 2,
+        "localSourceSaved": [
+          {
+            "fixture": "container-span-right-210-caption-only",
+            "sourceSavedChangedPages": [
+              3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+            ]
+          },
+          {
+            "fixture": "container-span-right-210-cell-ending",
+            "sourceSavedChangedPages": [
+              3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+            ]
+          }
+        ],
+        "stableSourceSaved": [
+          {
+            "fixture": "container-span-right-210-caption-only",
+            "sourceSavedChangedPages": [
+              3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+            ]
+          },
+          {
+            "fixture": "container-span-right-210-cell-ending",
+            "sourceSavedChangedPages": [
+              3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+            ]
+          }
+        ],
+        "architectureAcceptance": "not inferred; exact native grid and caption failures remain separate"
       }
     },
     "container-declared-grid": {
@@ -2732,6 +2778,52 @@
             "reason": "stopped after container-declared-grid-right-210-cell-ending:changed-native-owner-structure"
           }
         ]
+      },
+      "rasterAudit": {
+        "method": "SHA-256 of dimensions and every normalized RGBA channel byte",
+        "comparedPages": 84,
+        "differentPages": [
+          "container-declared-grid-right-210-caption-only-qa/source-page-1.png",
+          "container-declared-grid-right-210-caption-only-qa/saved-page-1.png",
+          "container-declared-grid-right-210-caption-only-qa/source-page-2.png",
+          "container-declared-grid-right-210-caption-only-qa/saved-page-2.png",
+          "container-declared-grid-right-210-cell-ending-qa/source-page-1.png",
+          "container-declared-grid-right-210-cell-ending-qa/saved-page-1.png",
+          "container-declared-grid-right-210-cell-ending-qa/source-page-2.png",
+          "container-declared-grid-right-210-cell-ending-qa/saved-page-2.png"
+        ],
+        "cvPages": 76,
+        "differentCvPages": [],
+        "newStablePixelVariants": 2,
+        "localSourceSaved": [
+          {
+            "fixture": "container-declared-grid-right-210-caption-only",
+            "sourceSavedChangedPages": [
+              3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+            ]
+          },
+          {
+            "fixture": "container-declared-grid-right-210-cell-ending",
+            "sourceSavedChangedPages": [
+              3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+            ]
+          }
+        ],
+        "stableSourceSaved": [
+          {
+            "fixture": "container-declared-grid-right-210-caption-only",
+            "sourceSavedChangedPages": [
+              3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+            ]
+          },
+          {
+            "fixture": "container-declared-grid-right-210-cell-ending",
+            "sourceSavedChangedPages": [
+              3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+            ]
+          }
+        ],
+        "architectureAcceptance": "not inferred; exact native grid and caption failures remain separate"
       }
     },
     "container-declared-width": {
@@ -4098,6 +4190,44 @@
             "reason": "stopped after container-declared-width-right-210-cell-ending:changed-native-owner-structure"
           }
         ]
+      },
+      "rasterAudit": {
+        "method": "SHA-256 of dimensions and every normalized RGBA channel byte",
+        "comparedPages": 84,
+        "differentPages": [
+          "container-declared-width-right-210-caption-only-qa/source-page-1.png",
+          "container-declared-width-right-210-caption-only-qa/saved-page-1.png",
+          "container-declared-width-right-210-caption-only-qa/source-page-2.png",
+          "container-declared-width-right-210-caption-only-qa/saved-page-2.png",
+          "container-declared-width-right-210-cell-ending-qa/source-page-1.png",
+          "container-declared-width-right-210-cell-ending-qa/saved-page-1.png",
+          "container-declared-width-right-210-cell-ending-qa/source-page-2.png",
+          "container-declared-width-right-210-cell-ending-qa/saved-page-2.png"
+        ],
+        "cvPages": 76,
+        "differentCvPages": [],
+        "newStablePixelVariants": 2,
+        "localSourceSaved": [
+          {
+            "fixture": "container-declared-width-right-210-caption-only",
+            "sourceSavedChangedPages": [3]
+          },
+          {
+            "fixture": "container-declared-width-right-210-cell-ending",
+            "sourceSavedChangedPages": [3]
+          }
+        ],
+        "stableSourceSaved": [
+          {
+            "fixture": "container-declared-width-right-210-caption-only",
+            "sourceSavedChangedPages": [3]
+          },
+          {
+            "fixture": "container-declared-width-right-210-cell-ending",
+            "sourceSavedChangedPages": [3]
+          }
+        ],
+        "architectureAcceptance": "not inferred; exact native grid and caption failures remain separate"
       }
     }
   },
@@ -4113,7 +4243,12 @@
     "carrierControlPageIdentity": "all 126 candidate source/saved pages equal paired control pages",
     "inspection": "All 33 unique page PNGs inspected in three contact sheets; complete lanes, continuations, opening and closing pages intact",
     "stablePagePngs": 252,
-    "stableNewPixelVariants": 0
+    "stableNewPixelVariants": 2,
+    "crossRuntimeCvPages": 228,
+    "crossRuntimeDifferentCvPages": 0,
+    "crossRuntimeDifferentCoverLetterPages": 24,
+    "comparisonMethod": "dimensions and every RGBA channel byte; no alpha-masked bounding-box comparison",
+    "correction": "earlier zero-new-variants claim used an alpha-masked comparison and was incorrect; actual cover/letter differences and source/saved changes are retained independently"
   },
   "implementationCommit": "70a121bfd233ea263b78e501bc6a9e33a6a493f8",
   "stableRun": 37741076973,

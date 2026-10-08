@@ -8,6 +8,7 @@ on:
       - .github/workflows/docx-next-stable-sidebar.yml
       - scripts/docx-next-*.py
       - scripts/docx_next_attachment_qa.py
+      - scripts/docx_next_raster_qa.py
       - scripts/docx-next-*.ts
       - scripts/docx-next-lo-kit.c
       - scripts/qa-browser-setup.sh
@@ -68,7 +69,7 @@ jobs:
       - name: Install locked app and PDF QA dependencies
         run: |
           bun install --frozen-lockfile
-          python -m pip install PyMuPDF==1.26.4
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
           python scripts/docx-next-stable-sidebar-test.py
           python scripts/docx-next-populated-row-test.py
           python scripts/docx-next-supported-summary-test.py
@@ -76,6 +77,7 @@ jobs:
           python scripts/docx-next-container-identity-test.py
           python scripts/docx-next-container-span-test.py
           python scripts/docx-next-attachment-test.py
+          python scripts/docx-next-raster-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:

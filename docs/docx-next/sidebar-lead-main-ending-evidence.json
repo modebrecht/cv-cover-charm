@@ -1,5 +1,5 @@
 {
-  "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
   "cases": [
     {
       "fixture": "right-main-lead-detached-220",
@@ -89,7 +89,7 @@
                 "boxes": [
                   {
                     "leftPt": 407.70001220703125,
-                    "widthPt": 97.89605712890625
+                    "widthPt": 97.90805053710938
                   }
                 ]
               },
@@ -497,7 +497,7 @@
                 "boxes": [
                   {
                     "leftPt": 407.70001220703125,
-                    "widthPt": 97.89605712890625
+                    "widthPt": 97.90805053710938
                   }
                 ]
               },
@@ -1717,5 +1717,1751 @@
       "render": "pass",
       "saveReopen": "pass"
     }
+  },
+  "stableComparison": {
+    "sameSourcePackages": true,
+    "changedCases": 0,
+    "productGates": "fail: reviewed failures reproduced"
+  },
+  "devCli": {
+    "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "cases": [
+      {
+        "fixture": "right-main-lead-detached-220",
+        "diagnostic": {
+          "name": "right-main-lead-detached-220",
+          "orientation": "right",
+          "mainLeadEndingKeepNext": false,
+          "variant": "detached",
+          "scope": "main-only",
+          "policy": "split-attached",
+          "leadMm": 220,
+          "sideSemanticKeepNext": false,
+          "sideEndingKeepNext": false
+        },
+        "docxSha256": "01370a9234e8847f90b6ed36690552e11d13bd85202b0b696fefbf2223f0d99a",
+        "package": {
+          "completeNativeFields": "pass",
+          "nativeOwnership": "pass"
+        },
+        "saveReopenPackage": {
+          "completeNativeFields": "pass",
+          "nativeOwnership": "source-only"
+        },
+        "render": {
+          "pages": 21,
+          "tracks": [
+            {
+              "role": "main",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [2, 2, 2, 2, 2],
+              "openingAttachment": true,
+              "expectedCharacters": 18263,
+              "visibleCharacters": 18263,
+              "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:long-paragraph.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 94.54800796508789
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 52.45798110961914
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 131.11348342895508
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 29.126995086669922
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "side",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 1],
+              "openingAttachment": true,
+              "expectedCharacters": 18444,
+              "visibleCharacters": 18444,
+              "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:populated-side.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 97.89605712890625
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 52.4581298828125
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 69.363037109375
+                    },
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 54.1800537109375
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 22.12353515625
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "visibleBounds": "pass",
+          "boundsFailures": {
+            "outsideBody": 0,
+            "outsideLanes": 0
+          },
+          "productGates": "pass",
+          "failures": []
+        },
+        "saveReopen": {
+          "pages": 21,
+          "tracks": [
+            {
+              "role": "main",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [2, 2, 2, 2, 2],
+              "openingAttachment": true,
+              "expectedCharacters": 18263,
+              "visibleCharacters": 18263,
+              "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:long-paragraph.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 94.54800796508789
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 52.45798110961914
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 131.11348342895508
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 29.126995086669922
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "side",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 1],
+              "openingAttachment": true,
+              "expectedCharacters": 18444,
+              "visibleCharacters": 18444,
+              "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:populated-side.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 97.90805053710938
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 52.4581298828125
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 69.363037109375
+                    },
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 54.1800537109375
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 22.12353515625
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "visibleBounds": "pass",
+          "boundsFailures": {
+            "outsideBody": 0,
+            "outsideLanes": 0
+          },
+          "productGates": "pass",
+          "failures": []
+        },
+        "nativeIdentity": {
+          "sourceTaggedFields": 41,
+          "savedMatchingTaggedFields": 41,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": ["cv.sidebar"],
+          "saveReopenIdentity": "fail"
+        },
+        "nativeAttachment": {
+          "status": "pass",
+          "semanticParagraphs": [
+            {
+              "fieldId": "cv.section.custom:populated-side.heading",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.description",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "row": 1,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "row": 1,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "row": 1,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "row": 1,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+              "row": 2,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              }
+            }
+          ],
+          "sourceControlForms": [
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block"
+          ],
+          "savedControlForms": [
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline"
+          ],
+          "sourceCellEndingFlags": [
+            [false, false, false],
+            [true, false, false],
+            [false, false, false]
+          ],
+          "savedCellEndingFlags": [
+            [false, false, false],
+            [true, false, false],
+            [false, false, false]
+          ],
+          "containerIdentity": "not inferred; original caption audit remains separate"
+        }
+      },
+      {
+        "fixture": "right-main-lead-attached-220",
+        "diagnostic": {
+          "name": "right-main-lead-attached-220",
+          "orientation": "right",
+          "mainLeadEndingKeepNext": true,
+          "variant": "detached",
+          "scope": "main-only",
+          "policy": "split-attached",
+          "leadMm": 220,
+          "sideSemanticKeepNext": false,
+          "sideEndingKeepNext": false
+        },
+        "docxSha256": "e70c3e22a200508c829f1f840238d53f4673fa14de3600dd83184fd2f8ee0d96",
+        "package": {
+          "completeNativeFields": "pass",
+          "nativeOwnership": "pass"
+        },
+        "saveReopenPackage": {
+          "completeNativeFields": "pass",
+          "nativeOwnership": "source-only"
+        },
+        "render": {
+          "pages": 21,
+          "tracks": [
+            {
+              "role": "main",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [2, 2, 2, 2, 2],
+              "openingAttachment": true,
+              "expectedCharacters": 18263,
+              "visibleCharacters": 18263,
+              "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:long-paragraph.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 94.54800796508789
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 52.45798110961914
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 131.11348342895508
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 29.126995086669922
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "side",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 1],
+              "openingAttachment": true,
+              "expectedCharacters": 18444,
+              "visibleCharacters": 18444,
+              "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:populated-side.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 97.89605712890625
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 52.4581298828125
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 69.363037109375
+                    },
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 54.1800537109375
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 407.70001220703125,
+                      "widthPt": 22.12353515625
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "visibleBounds": "pass",
+          "boundsFailures": {
+            "outsideBody": 0,
+            "outsideLanes": 0
+          },
+          "productGates": "pass",
+          "failures": []
+        },
+        "saveReopen": {
+          "pages": 21,
+          "tracks": [
+            {
+              "role": "main",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [2, 2, 2, 2, 2],
+              "openingAttachment": true,
+              "expectedCharacters": 18263,
+              "visibleCharacters": 18263,
+              "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:long-paragraph.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 94.54800796508789
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 52.45798110961914
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 131.11348342895508
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 56.79999923706055,
+                      "widthPt": 29.126995086669922
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "side",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 1],
+              "openingAttachment": true,
+              "expectedCharacters": 18444,
+              "visibleCharacters": 18444,
+              "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:populated-side.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 97.90805053710938
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 52.4581298828125
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 69.363037109375
+                    },
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 54.1800537109375
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 407.6499938964844,
+                      "widthPt": 22.12353515625
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "visibleBounds": "pass",
+          "boundsFailures": {
+            "outsideBody": 0,
+            "outsideLanes": 0
+          },
+          "productGates": "pass",
+          "failures": []
+        },
+        "nativeIdentity": {
+          "sourceTaggedFields": 41,
+          "savedMatchingTaggedFields": 41,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": ["cv.sidebar"],
+          "saveReopenIdentity": "fail"
+        },
+        "nativeAttachment": {
+          "status": "pass",
+          "semanticParagraphs": [
+            {
+              "fieldId": "cv.section.custom:populated-side.heading",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.description",
+              "row": 0,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "row": 1,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "row": 1,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "row": 1,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "row": 1,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+              "row": 2,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              }
+            }
+          ],
+          "sourceControlForms": [
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block"
+          ],
+          "savedControlForms": [
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline"
+          ],
+          "sourceCellEndingFlags": [
+            [true, false, false],
+            [true, false, false],
+            [false, false, false]
+          ],
+          "savedCellEndingFlags": [
+            [true, false, false],
+            [true, false, false],
+            [false, false, false]
+          ],
+          "containerIdentity": "not inferred; original caption audit remains separate"
+        }
+      },
+      {
+        "fixture": "left-main-lead-detached-220",
+        "diagnostic": {
+          "name": "left-main-lead-detached-220",
+          "orientation": "left",
+          "mainLeadEndingKeepNext": false,
+          "variant": "detached",
+          "scope": "main-only",
+          "policy": "split-attached",
+          "leadMm": 220,
+          "sideSemanticKeepNext": false,
+          "sideEndingKeepNext": false
+        },
+        "docxSha256": "11433993a20d5e4038ad87f480825c844d9975fdef14aaa38f87aac3568a2c02",
+        "package": {
+          "completeNativeFields": "pass",
+          "nativeOwnership": "pass"
+        },
+        "saveReopenPackage": {
+          "completeNativeFields": "pass",
+          "nativeOwnership": "source-only"
+        },
+        "render": {
+          "pages": 21,
+          "tracks": [
+            {
+              "role": "main",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 2],
+              "openingAttachment": false,
+              "expectedCharacters": 18263,
+              "visibleCharacters": 18263,
+              "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:long-paragraph.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 94.54803466796875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 52.457977294921875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 131.11355590820312
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 29.126998901367188
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "side",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 1],
+              "openingAttachment": true,
+              "expectedCharacters": 18444,
+              "visibleCharacters": 18444,
+              "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:populated-side.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 97.90800476074219
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 52.457977294921875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 69.36299133300781
+                    },
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 54.17999267578125
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 22.123489379882812
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "visibleBounds": "pass",
+          "boundsFailures": {
+            "outsideBody": 0,
+            "outsideLanes": 0
+          },
+          "productGates": "fail",
+          "failures": [
+            {
+              "gate": "openingAttachment",
+              "role": "main"
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 21,
+          "tracks": [
+            {
+              "role": "main",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 2],
+              "openingAttachment": false,
+              "expectedCharacters": 18263,
+              "visibleCharacters": 18263,
+              "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:long-paragraph.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 94.54803466796875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 52.457977294921875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 131.11355590820312
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 29.126998901367188
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "side",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 1],
+              "openingAttachment": true,
+              "expectedCharacters": 18444,
+              "visibleCharacters": 18444,
+              "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:populated-side.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 97.90800476074219
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 52.457977294921875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 69.36299133300781
+                    },
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 54.17999267578125
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 22.123489379882812
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "visibleBounds": "pass",
+          "boundsFailures": {
+            "outsideBody": 0,
+            "outsideLanes": 0
+          },
+          "productGates": "fail",
+          "failures": [
+            {
+              "gate": "openingAttachment",
+              "role": "main"
+            }
+          ]
+        },
+        "nativeIdentity": {
+          "sourceTaggedFields": 41,
+          "savedMatchingTaggedFields": 41,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": ["cv.sidebar"],
+          "saveReopenIdentity": "fail"
+        },
+        "nativeAttachment": {
+          "status": "pass",
+          "semanticParagraphs": [
+            {
+              "fieldId": "cv.section.custom:populated-side.heading",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.description",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "row": 1,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "row": 1,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "row": 1,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "row": 1,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+              "row": 2,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              }
+            }
+          ],
+          "sourceControlForms": [
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block"
+          ],
+          "savedControlForms": [
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline"
+          ],
+          "sourceCellEndingFlags": [
+            [false, false, false],
+            [false, false, true],
+            [false, false, false]
+          ],
+          "savedCellEndingFlags": [
+            [false, false, false],
+            [false, false, true],
+            [false, false, false]
+          ],
+          "containerIdentity": "not inferred; original caption audit remains separate"
+        }
+      },
+      {
+        "fixture": "left-main-lead-attached-220",
+        "diagnostic": {
+          "name": "left-main-lead-attached-220",
+          "orientation": "left",
+          "mainLeadEndingKeepNext": true,
+          "variant": "detached",
+          "scope": "main-only",
+          "policy": "split-attached",
+          "leadMm": 220,
+          "sideSemanticKeepNext": false,
+          "sideEndingKeepNext": false
+        },
+        "docxSha256": "cab093a214205883c6ec860663d992ddecc55591905994d3a4516d69a0aadc70",
+        "package": {
+          "completeNativeFields": "pass",
+          "nativeOwnership": "pass"
+        },
+        "saveReopenPackage": {
+          "completeNativeFields": "pass",
+          "nativeOwnership": "source-only"
+        },
+        "render": {
+          "pages": 21,
+          "tracks": [
+            {
+              "role": "main",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 2],
+              "openingAttachment": false,
+              "expectedCharacters": 18263,
+              "visibleCharacters": 18263,
+              "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:long-paragraph.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 94.54803466796875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 52.457977294921875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 131.11355590820312
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 29.126998901367188
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "side",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 1],
+              "openingAttachment": true,
+              "expectedCharacters": 18444,
+              "visibleCharacters": 18444,
+              "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:populated-side.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 97.90800476074219
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 52.457977294921875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 69.36299133300781
+                    },
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 54.17999267578125
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 22.123489379882812
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "visibleBounds": "pass",
+          "boundsFailures": {
+            "outsideBody": 0,
+            "outsideLanes": 0
+          },
+          "productGates": "fail",
+          "failures": [
+            {
+              "gate": "openingAttachment",
+              "role": "main"
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 21,
+          "tracks": [
+            {
+              "role": "main",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 2],
+              "openingAttachment": false,
+              "expectedCharacters": 18263,
+              "visibleCharacters": 18263,
+              "visibleTextSha256": "06f5c1adf9a628c4e7a40706367922d2fcf99d9393af7e30bcbe17a26daaae65",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:long-paragraph.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 94.54803466796875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 52.457977294921875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 131.11355590820312
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 213.25,
+                      "widthPt": 29.126998901367188
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "side",
+              "fullTextVisible": true,
+              "missingFields": [],
+              "openingCvPages": [1, 1, 1, 1, 1],
+              "openingAttachment": true,
+              "expectedCharacters": 18444,
+              "visibleCharacters": 18444,
+              "visibleTextSha256": "efcb99a6f0709dee1e3cb4435fd40cd9d31abad24b9a3e820dff6c7aa73c8916",
+              "metadataMetrics": [
+                {
+                  "fieldId": "cv.section.custom:populated-side.heading",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 97.90800476074219
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 52.457977294921875
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 69.36299133300781
+                    },
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 54.17999267578125
+                    }
+                  ]
+                },
+                {
+                  "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                  "boxes": [
+                    {
+                      "leftPt": 65.30000305175781,
+                      "widthPt": 22.123489379882812
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "visibleBounds": "pass",
+          "boundsFailures": {
+            "outsideBody": 0,
+            "outsideLanes": 0
+          },
+          "productGates": "fail",
+          "failures": [
+            {
+              "gate": "openingAttachment",
+              "role": "main"
+            }
+          ]
+        },
+        "nativeIdentity": {
+          "sourceTaggedFields": 41,
+          "savedMatchingTaggedFields": 41,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": ["cv.sidebar"],
+          "saveReopenIdentity": "fail"
+        },
+        "nativeAttachment": {
+          "status": "pass",
+          "semanticParagraphs": [
+            {
+              "fieldId": "cv.section.custom:populated-side.heading",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:populated-side:populated-entry.description",
+              "row": 0,
+              "cell": 0,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "row": 1,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "row": 1,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "row": 1,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "row": 1,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              }
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+              "row": 2,
+              "cell": 2,
+              "paragraphCount": 1,
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              }
+            }
+          ],
+          "sourceControlForms": [
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block",
+            "block"
+          ],
+          "savedControlForms": [
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline",
+            "inline"
+          ],
+          "sourceCellEndingFlags": [
+            [false, false, true],
+            [false, false, true],
+            [false, false, false]
+          ],
+          "savedCellEndingFlags": [
+            [false, false, true],
+            [false, false, true],
+            [false, false, false]
+          ],
+          "containerIdentity": "not inferred; original caption audit remains separate"
+        }
+      }
+    ],
+    "architectureAcceptance": "blocked: bounded main-lead empty-ending diagnostic; caption/grid/Word requirements unchanged",
+    "earlyStop": "four main-lead ending controls at 220 mm; all semantic ownership and other flags unchanged",
+    "microsoftWord": "pending",
+    "matrix": "lead-main-ending",
+    "plannedCases": [
+      {
+        "name": "right-main-lead-detached-220",
+        "orientation": "right",
+        "mainLeadEndingKeepNext": false,
+        "variant": "detached",
+        "scope": "main-only",
+        "policy": "split-attached",
+        "leadMm": 220,
+        "sideSemanticKeepNext": false,
+        "sideEndingKeepNext": false
+      },
+      {
+        "name": "right-main-lead-attached-220",
+        "orientation": "right",
+        "mainLeadEndingKeepNext": true,
+        "variant": "detached",
+        "scope": "main-only",
+        "policy": "split-attached",
+        "leadMm": 220,
+        "sideSemanticKeepNext": false,
+        "sideEndingKeepNext": false
+      },
+      {
+        "name": "left-main-lead-detached-220",
+        "orientation": "left",
+        "mainLeadEndingKeepNext": false,
+        "variant": "detached",
+        "scope": "main-only",
+        "policy": "split-attached",
+        "leadMm": 220,
+        "sideSemanticKeepNext": false,
+        "sideEndingKeepNext": false
+      },
+      {
+        "name": "left-main-lead-attached-220",
+        "orientation": "left",
+        "mainLeadEndingKeepNext": true,
+        "variant": "detached",
+        "scope": "main-only",
+        "policy": "split-attached",
+        "leadMm": 220,
+        "sideSemanticKeepNext": false,
+        "sideEndingKeepNext": false
+      }
+    ],
+    "identicalMainLeadEndingObservations": {
+      "right": true,
+      "left": true
+    },
+    "leadMainEndingRasterIdentity": {
+      "right": {
+        "render": "pass",
+        "saveReopen": "pass"
+      },
+      "left": {
+        "render": "pass",
+        "saveReopen": "pass"
+      }
+    }
+  },
+  "implementationCommit": "58a27488bc09b04b459d42d27bfd17410bfe9506",
+  "stableRun": 37742765158,
+  "stableJob": 113197097930,
+  "artifactId": 11535325245,
+  "artifactSha256": "85cd33c64c9209619fc78d4fe8c38bee797582b9f99c3bba664415314863c238",
+  "applicationRun": 37742765231,
+  "applicationConclusion": "success",
+  "visualReview": {
+    "stableOpeningPngs": 8,
+    "crossRuntimeDifferentOpeningPngs": 0,
+    "method": "dimensions and every RGBA channel byte",
+    "leftOriginalOpening": "visually inspected; unchanged metadata/description detachment"
+  },
+  "localValidation": {
+    "unitTests": 1009,
+    "nativeAttachmentTests": 10,
+    "populatedBaselineTests": 48,
+    "typecheck": "pass",
+    "changedTypeScriptLint": "pass"
   }
 }

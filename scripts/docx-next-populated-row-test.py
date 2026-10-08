@@ -476,7 +476,9 @@ class MainLeadEndingEvidenceTests(unittest.TestCase):
 
     def test_original_detached_packages_and_observations_are_unchanged(self):
         previous = json.loads((root.parent / 'docs/docx-next/sidebar-side-ending-evidence.json').read_text())
-        for case in self.baseline['cases'][::2]:
+        # Historical control observations used Dev CLI; compare the retained same-runtime proof.
+        local = self.baseline.get('devCli', self.baseline)
+        for case in local['cases'][::2]:
             old = next(item for item in previous['cases'] if item['fixture'] == case['diagnostic']['orientation'] + '-detached-220')
             self.assertEqual(case['docxSha256'], old['docxSha256'])
             for phase in ['render', 'saveReopen']:
