@@ -80,6 +80,7 @@ jobs:
           python scripts/docx-next-attachment-test.py
           python scripts/docx-next-raster-test.py
           python scripts/docx-next-continuous-cell-test.py
+          python scripts/docx-next-floating-continuation-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -111,6 +112,7 @@ jobs:
           bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-declared-width" --declared-width
           bun scripts/docx-next-lead-main-ending-probe.ts "$QA_ROOT/lead-main-ending"
           bun scripts/docx-next-continuous-cell-probe.ts "$QA_ROOT/continuous-cell"
+          bun scripts/docx-next-floating-continuation-probe.ts "$QA_ROOT/floating-continuation"
       - name: Require native container carrier ownership without weakening caption gates
         run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-identity-evidence.json
       - name: Reproduce stopped multirow identity and exact native grid counterexamples
@@ -124,6 +126,9 @@ jobs:
       - name: Reproduce the stopped continuous-cell owner counterexample
         timeout-minutes: 2
         run: python scripts/docx-next-continuous-cell-qa.py "$QA_ROOT/continuous-cell" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-continuous-cell-evidence.json
+      - name: Independently observe the documented floating continuation policy
+        timeout-minutes: 2
+        run: python scripts/docx-next-floating-continuation-qa.py "$QA_ROOT/floating-continuation" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
@@ -173,6 +178,7 @@ jobs:
             ${{ env.QA_ROOT }}/container-declared-width/*
             ${{ env.QA_ROOT }}/lead-main-ending/*
             ${{ env.QA_ROOT }}/continuous-cell/*
+            ${{ env.QA_ROOT }}/floating-continuation/*
 
   supported-sidebar:
     if: github.ref == 'refs/heads/dev'

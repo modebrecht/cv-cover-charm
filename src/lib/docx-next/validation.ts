@@ -28,6 +28,8 @@ export function validateWordPackage(pkg: WordPackage, model: DossierDocModel): v
   validateDossierDocModel(model);
 }
 export function validateDossierDocModel(model: DossierDocModel): void {
+  if (model.floatingTableTextFlow !== undefined && model.floatingTableTextFlow !== "all-pages")
+    throw new Error("DOCX Next invalid floating table continuation policy");
   fontDefinition(model.theme.font);
   if (model.fonts.embedding !== "disabled")
     throw new Error("DOCX Next unsupported font embedding policy");

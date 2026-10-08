@@ -261,6 +261,8 @@ export type DocumentPart = {
 export type ModelIssue = { code: string; fieldId?: string; message: string };
 export type DossierDocModel = {
   version: 1;
+  /** Unaccepted document-wide native floating-table continuation policy; diagnostic only. */
+  floatingTableTextFlow?: "all-pages";
   metadata: { title: string; author: string; subject: string; keywords: string };
   templateId: string;
   theme: { font: string; ink: string; accent: string; paper: string };

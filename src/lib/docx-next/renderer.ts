@@ -54,6 +54,10 @@ export async function renderDossierDocx(
       `DOCX Next has unaccepted model issues: ${model.issues.map((issue) => issue.code).join(", ")}`,
     );
   validateDossierDocModel(model);
+  if (model.floatingTableTextFlow !== undefined && !options.allowUnacceptedModelIssues)
+    throw new Error(
+      "DOCX Next floating table continuation is unaccepted; diagnostic opt-in required",
+    );
   const numbering = planNumbering(model);
   const renderParagraph = (
     value: Paragraph,
@@ -583,7 +587,7 @@ export async function renderDossierDocx(
   pkg.add(
     "word/settings.xml",
     WORD_PART_TYPES.settings,
-    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`,
+    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat></w:settings>`,
   );
   const fonts = new Set<string>([model.theme.font]);
   for (const part of parts)
