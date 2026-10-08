@@ -21,28 +21,31 @@ const precision = process.argv[3] === "--precision-controls";
 const windows = process.argv[3] === "--window-controls";
 const sizes = process.argv[3] === "--size-controls";
 const sizedShapes = process.argv[3] === "--sized-shape-controls";
-const variedPhotos = sizes || sizedShapes;
+const sizedRectangles = process.argv[3] === "--sized-rectangle-controls";
+const variedPhotos = sizes || sizedShapes || sizedRectangles;
 if (
   !directory ||
   (process.argv.length !== 3 &&
     !((frames || precision || windows || variedPhotos) && process.argv.length === 4))
 )
   throw Error(
-    "Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY [--frames|--precision-controls|--window-controls|--size-controls|--sized-shape-controls]",
+    "Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY [--frames|--precision-controls|--window-controls|--size-controls|--sized-shape-controls|--sized-rectangle-controls]",
   );
 await mkdir(directory, { recursive: true });
 const sources = JSON.parse(await readFile(path.join(directory, "images.json"), "utf8"));
-const cases = sizedShapes
-  ? PICTURE_SIZED_SHAPE_CASES
-  : sizes
-    ? PICTURE_SIZE_CASES
-    : windows
-      ? PICTURE_WINDOW_CASES
-      : precision
-        ? PICTURE_PRECISION_CASES
-        : frames
-          ? PICTURE_FRAME_CASES
-          : PICTURE_IDENTITY_CASES;
+const cases = sizedRectangles
+  ? PICTURE_SIZED_SHAPE_CASES.slice(0, 2)
+  : sizedShapes
+    ? PICTURE_SIZED_SHAPE_CASES
+    : sizes
+      ? PICTURE_SIZE_CASES
+      : windows
+        ? PICTURE_WINDOW_CASES
+        : precision
+          ? PICTURE_PRECISION_CASES
+          : frames
+            ? PICTURE_FRAME_CASES
+            : PICTURE_IDENTITY_CASES;
 const sourceKeys = [
   ...new Set(cases.map((value) => ("sourceKey" in value ? value.sourceKey : "icc-jpeg"))),
 ];
@@ -116,8 +119,8 @@ for (const value of cases) {
   else {
     assert.equal(image.id, referenceImage.id);
     if (sizes) assert.deepEqual({ ...image, source: referenceImage.source }, referenceImage);
-    else if (!sizedShapes) assert.equal(image.source, referenceImage.source);
-    if (sizedShapes && "sourceKey" in value) {
+    else if (!sizedShapes && !sizedRectangles) assert.equal(image.source, referenceImage.source);
+    if ((sizedShapes || sizedRectangles) && "sourceKey" in value) {
       if (!value.ellipse) sizedRectangle = image;
       else assert.deepEqual({ ...image, frame: { ...image.frame, radiusMm: 0 } }, sizedRectangle);
     }

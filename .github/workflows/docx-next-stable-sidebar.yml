@@ -31,6 +31,9 @@ on:
       - docs/docx-next/sidebar-declared-crop-evidence.json
       - docs/docx-next/sidebar-declared-window-evidence.json
       - docs/docx-next/sidebar-photo-size-evidence.json
+      - docs/docx-next/sidebar-sized-shape-evidence.json
+      - docs/docx-next/sidebar-sized-rectangle-evidence.json
+      - docs/docx-next/sidebar-pixel-subset-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -217,6 +220,7 @@ jobs:
           python scripts/docx-next-pdf-picture-test.py
           python scripts/docx-next-native-photo-test.py
           python scripts/docx-next-crop-precision-test.py
+          python scripts/docx-next-pixel-subset-test.py
           npm install --no-save --no-package-lock @playwright/test@1.55.0
       - name: Install canonical browser decoder with bounded Ubuntu downloads
         timeout-minutes: 6
@@ -246,6 +250,9 @@ jobs:
           mkdir -p "$QA_ROOT/sizes"
           python scripts/docx-next-fixture-images.py "$QA_ROOT/sizes/images.json" --picture-sizes
           bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sizes" --size-controls
+          mkdir -p "$QA_ROOT/sized-rectangles"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/sized-rectangles/images.json" --picture-sizes
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sized-rectangles" --sized-rectangle-controls
           mkdir -p "$QA_ROOT/sized-shapes"
           python scripts/docx-next-fixture-images.py "$QA_ROOT/sized-shapes/images.json" --picture-sizes
           bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sized-shapes" --sized-shape-controls
@@ -254,6 +261,7 @@ jobs:
         run: |
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-identity-evidence.json
           python scripts/docx-next-native-photo-qa.py "$QA_ROOT/fixtures" --baseline docs/docx-next/sidebar-picture-identity-evidence.json
+          python scripts/docx-next-pixel-subset-qa.py "$QA_ROOT/fixtures" --baseline docs/docx-next/sidebar-pixel-subset-evidence.json
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/frames" --frames --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-frame-evidence.json
           python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/frames" --baseline docs/docx-next/sidebar-crop-precision-evidence.json
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/precision" --precision-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --replay --baseline docs/docx-next/sidebar-declared-crop-evidence.json
@@ -262,8 +270,11 @@ jobs:
           python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/windows" --baseline docs/docx-next/sidebar-declared-window-evidence.json --baseline-section precision
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/sizes" --size-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-photo-size-evidence.json
           python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/sizes" --baseline docs/docx-next/sidebar-photo-size-evidence.json --baseline-section precision
-          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/sized-shapes" --sized-shape-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
-          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/sized-shapes"
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/sized-rectangles" --sized-rectangle-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --replay --baseline docs/docx-next/sidebar-sized-rectangle-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/sized-rectangles" --baseline docs/docx-next/sidebar-sized-rectangle-evidence.json --baseline-section precision
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/sized-shapes" --sized-shape-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-sized-shape-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/sized-shapes" --baseline docs/docx-next/sidebar-sized-shape-evidence.json --baseline-section precision
+          python scripts/docx-next-pixel-subset-qa.py "$QA_ROOT/sized-shapes" --baseline docs/docx-next/sidebar-pixel-subset-evidence.json --baseline-section sized
       - name: Retain actual picture identity evidence including stopped cases
         if: always()
         uses: actions/upload-artifact@v4
@@ -278,3 +289,4 @@ jobs:
             ${{ env.QA_ROOT }}/windows/
             ${{ env.QA_ROOT }}/sizes/
             ${{ env.QA_ROOT }}/sized-shapes/
+            ${{ env.QA_ROOT }}/sized-rectangles/

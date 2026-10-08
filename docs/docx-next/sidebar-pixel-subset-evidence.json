@@ -1,0 +1,242 @@
+{
+  "sourceCommit": "2a9db8084b6814ceac49e0f8ca10880d3901986a",
+  "stableRun": 37714132601,
+  "pictureJob": 113106603488,
+  "artifactId": 11522803923,
+  "artifactSha256": "fc06d29f0e04af2fd46bdea57f44244493b00e3208e397e96da7f4a8cf732db2",
+  "scope": "Read-only audit of existing actual native saved photo media. No new renders, package repairs, crop normalization or full-photo acceptance.",
+  "contexts": {
+    "runtime": "LibreOffice 25.8.7.3 580(Build:3)",
+    "interface": "LibreOfficeKit",
+    "scope": "Read-only exact rounded source-pixel subset comparison; a matching subset does not preserve the full original, restore pixels or prove an instrumented live import branch.",
+    "actualPhotoCases": 4,
+    "unrenderedFixtures": [],
+    "stoppedAfter": null,
+    "originalPixelFailures": 4,
+    "exactSubsetCases": 4,
+    "fixtures": [
+      {
+        "fixture": "picture-identity-body-photo",
+        "sourceDocxSha256": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e",
+        "savedDocxSha256": "fd4c016487cd7d2da048be56297f6d6c90b73be7b05ae00de308109d77b89a5e",
+        "pictureId": "cv.person.photo",
+        "sourceCrop": {
+          "l": 8400,
+          "t": 24400,
+          "r": 11600,
+          "b": 22267
+        },
+        "savedCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "sourceSizePx": [120, 180],
+        "savedSizePx": [96, 96],
+        "sourceRgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1",
+        "savedRgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19",
+        "originalPhotoPixels": "fail",
+        "roundedCropEdgesPx": [10, 44, 14, 40],
+        "sourceBoundsExclusivePx": [10, 44, 106, 140],
+        "expectedSubsetSizePx": [96, 96],
+        "subsetRgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19",
+        "subsetComparison": "exact-rounded-source-crop",
+        "retainedOriginalPixels": 9216,
+        "missingOriginalPixels": 12384,
+        "retainedOriginalPixelFraction": 0.426666667
+      },
+      {
+        "fixture": "picture-identity-single-photo",
+        "sourceDocxSha256": "40dc2a65db89a9a18d12e3f298d9d8995ea93edb2bbc8495975e63528bd64d49",
+        "savedDocxSha256": "4457cd5ad7b4b693a79003bf9252d0245c2cccb2e46b6bd0afb1675467fcc644",
+        "pictureId": "cv.person.photo",
+        "sourceCrop": {
+          "l": 8400,
+          "t": 24400,
+          "r": 11600,
+          "b": 22267
+        },
+        "savedCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "sourceSizePx": [120, 180],
+        "savedSizePx": [96, 96],
+        "sourceRgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1",
+        "savedRgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19",
+        "originalPhotoPixels": "fail",
+        "roundedCropEdgesPx": [10, 44, 14, 40],
+        "sourceBoundsExclusivePx": [10, 44, 106, 140],
+        "expectedSubsetSizePx": [96, 96],
+        "subsetRgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19",
+        "subsetComparison": "exact-rounded-source-crop",
+        "retainedOriginalPixels": 9216,
+        "missingOriginalPixels": 12384,
+        "retainedOriginalPixelFraction": 0.426666667
+      },
+      {
+        "fixture": "picture-identity-left-photo",
+        "sourceDocxSha256": "b05711e2fc055ac6387df5ef748ea12310e7c31b4105cfabaa11aa6ba60cbb42",
+        "savedDocxSha256": "83e1a11c9416b8d1306c72a04d209a62ec5bd1ea55a7570d8c304c8266ff7e01",
+        "pictureId": "cv.person.photo",
+        "sourceCrop": {
+          "l": 8400,
+          "t": 24400,
+          "r": 11600,
+          "b": 22267
+        },
+        "savedCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "sourceSizePx": [120, 180],
+        "savedSizePx": [96, 96],
+        "sourceRgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1",
+        "savedRgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19",
+        "originalPhotoPixels": "fail",
+        "roundedCropEdgesPx": [10, 44, 14, 40],
+        "sourceBoundsExclusivePx": [10, 44, 106, 140],
+        "expectedSubsetSizePx": [96, 96],
+        "subsetRgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19",
+        "subsetComparison": "exact-rounded-source-crop",
+        "retainedOriginalPixels": 9216,
+        "missingOriginalPixels": 12384,
+        "retainedOriginalPixelFraction": 0.426666667
+      },
+      {
+        "fixture": "picture-identity-right-photo",
+        "sourceDocxSha256": "8eb7b6b7d03d4f6e1250e7622afcb25bc42539a5087c5fd61df5859bd264758a",
+        "savedDocxSha256": "4f81519c31baed49786c620a0b951733951dda73f0a5db741d32dcd4f3b09cdc",
+        "pictureId": "cv.person.photo",
+        "sourceCrop": {
+          "l": 8400,
+          "t": 24400,
+          "r": 11600,
+          "b": 22267
+        },
+        "savedCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "sourceSizePx": [120, 180],
+        "savedSizePx": [96, 96],
+        "sourceRgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1",
+        "savedRgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19",
+        "originalPhotoPixels": "fail",
+        "roundedCropEdgesPx": [10, 44, 14, 40],
+        "sourceBoundsExclusivePx": [10, 44, 106, 140],
+        "expectedSubsetSizePx": [96, 96],
+        "subsetRgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19",
+        "subsetComparison": "exact-rounded-source-crop",
+        "retainedOriginalPixels": 9216,
+        "missingOriginalPixels": 12384,
+        "retainedOriginalPixelFraction": 0.426666667
+      }
+    ]
+  },
+  "sized": {
+    "runtime": "LibreOffice 25.8.7.3 580(Build:3)",
+    "interface": "LibreOfficeKit",
+    "scope": "Read-only exact rounded source-pixel subset comparison; a matching subset does not preserve the full original, restore pixels or prove an instrumented live import branch.",
+    "actualPhotoCases": 3,
+    "unrenderedFixtures": [],
+    "stoppedAfter": "picture-sized-240x360-declared-ellipse:original-photo-pixels",
+    "originalPixelFailures": 1,
+    "exactSubsetCases": 1,
+    "fixtures": [
+      {
+        "fixture": "picture-precision-declared-crop-rect",
+        "sourceDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+        "savedDocxSha256": "fd929d43e7a7b7dbbd7b7ebd4ccb9c84ba5a39ca16101e3a6fa8448b46c0f39b",
+        "pictureId": "cv.person.photo",
+        "sourceCrop": {
+          "l": 8378,
+          "t": 24396,
+          "r": 11622,
+          "b": 22255
+        },
+        "savedCrop": {
+          "l": 8378,
+          "t": 24396,
+          "r": 11622,
+          "b": 22255
+        },
+        "sourceSizePx": [120, 180],
+        "savedSizePx": [120, 180],
+        "sourceRgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1",
+        "savedRgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1",
+        "originalPhotoPixels": "pass",
+        "subsetComparison": "not-needed-original-preserved"
+      },
+      {
+        "fixture": "picture-sized-240x360-declared-rect",
+        "sourceDocxSha256": "001d77d4de7b6cc9352f36667d4433f1b3e5e5923bc2ebb3c0a6aecfea9d5b35",
+        "savedDocxSha256": "11de52359ecc9afed23ce8bc75be326263390b874a7b6aa5c468e80182bede37",
+        "pictureId": "cv.person.photo",
+        "sourceCrop": {
+          "l": 8394,
+          "t": 24388,
+          "r": 11606,
+          "b": 22257
+        },
+        "savedCrop": {
+          "l": 8394,
+          "t": 24388,
+          "r": 11606,
+          "b": 22257
+        },
+        "sourceSizePx": [240, 360],
+        "savedSizePx": [240, 360],
+        "sourceRgbaSha256": "5d84efc813228063def18bc3e1b5873b0f7dda7d5df03909a51e53b6ea1683b8",
+        "savedRgbaSha256": "5d84efc813228063def18bc3e1b5873b0f7dda7d5df03909a51e53b6ea1683b8",
+        "originalPhotoPixels": "pass",
+        "subsetComparison": "not-needed-original-preserved"
+      },
+      {
+        "fixture": "picture-sized-240x360-declared-ellipse",
+        "sourceDocxSha256": "e36bd425a24fe5c22fa7576d89fbcb7cede858f5bab9f21223f94d24878ee501",
+        "savedDocxSha256": "7de01ec5b64f2fea50f495d9c274e547c78fedd683575423e1b74303dfac500f",
+        "pictureId": "cv.person.photo",
+        "sourceCrop": {
+          "l": 8394,
+          "t": 24388,
+          "r": 11606,
+          "b": 22257
+        },
+        "savedCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "sourceSizePx": [240, 360],
+        "savedSizePx": [192, 192],
+        "sourceRgbaSha256": "5d84efc813228063def18bc3e1b5873b0f7dda7d5df03909a51e53b6ea1683b8",
+        "savedRgbaSha256": "18e02f19708d0adde5e99fa72a41674b7e5e91d95bd44525280bb83fd44d555d",
+        "originalPhotoPixels": "fail",
+        "roundedCropEdgesPx": [20, 88, 28, 80],
+        "sourceBoundsExclusivePx": [20, 88, 212, 280],
+        "expectedSubsetSizePx": [192, 192],
+        "subsetRgbaSha256": "18e02f19708d0adde5e99fa72a41674b7e5e91d95bd44525280bb83fd44d555d",
+        "subsetComparison": "exact-rounded-source-crop",
+        "retainedOriginalPixels": 36864,
+        "missingOriginalPixels": 49536,
+        "retainedOriginalPixelFraction": 0.426666667
+      }
+    ]
+  },
+  "upstreamCropHelper": {
+    "sourceCommit": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+    "path": "oox/source/drawingml/fillproperties.cxx",
+    "sha256": "2678293f0b30356198e8ce5db8b233079fc48dc5ce7c59ddefe33105666b25e0",
+    "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/oox/source/drawingml/fillproperties.cxx",
+    "inference": "The pinned upstream custom-shape import branch physically crops nonzero srcRect graphics. Its rounded pixel rectangle matches the actual saved bitmap byte-for-byte. The live branch and Ubuntu patches are not instrumented."
+  }
+}
