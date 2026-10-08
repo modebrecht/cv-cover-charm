@@ -1,4 +1,5 @@
 import type { DecorativeArtwork, DecorativeShape, DocumentPart } from "./model";
+import type { DecorationPaint } from "./decoration";
 export function artworkApplies(value: Pick<DecorativeArtwork, "repeat">, first: boolean): boolean {
   return value.repeat === undefined || value.repeat === (first ? "first" : "continuation");
 }
@@ -59,4 +60,46 @@ export function orderedPagePaint(
   return paint
     .map((value, index) => ({ ...value, paintLayer: value.paintLayer ?? top + index + 1 }))
     .sort((a, b) => a.paintLayer - b.paintLayer);
+}
+
+/** Flatten only decorative geometry, avoiding importer ordering between independent page anchors. */
+export function compositePagePaint(
+  part: DocumentPart,
+  first: boolean,
+): DecorationPaint | undefined {
+  const values = orderedPagePaint(part, first);
+  if (!values.length) return;
+  const layers = values.map(
+    (value): DecorativeShape =>
+      value.kind === "decorative-artwork"
+        ? {
+            kind: "decorative-shape",
+            id: value.id,
+            semanticText: false,
+            shape: "rect",
+            xMm: value.xMm,
+            yMm: value.yMm,
+            widthMm: value.widthMm,
+            heightMm: value.heightMm,
+            radiusMm: 0,
+            opacity: 1,
+            fill: { ...value.fill, ...(value.fill.endColor ? { angleDeg: 180 } : {}) },
+            stroke: { color: "000000", widthMm: 0 },
+          }
+        : { ...value, paintLayer: undefined },
+  );
+  return {
+    kind: "decorative-shape",
+    id: `${part.id}.page-paint.${first ? "first" : "continuation"}`,
+    semanticText: false,
+    shape: "rect",
+    xMm: 0,
+    yMm: 0,
+    widthMm: part.page.widthMm,
+    heightMm: part.page.heightMm,
+    radiusMm: 0,
+    opacity: 1,
+    stroke: { color: "000000", widthMm: 0 },
+    layers,
+  };
 }

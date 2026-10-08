@@ -3,6 +3,8 @@ import type { NormalizedImage } from "./images";
 
 export type DecorationPaint = DecorativeShape & {
   viewport?: { leftMm: number; topMm: number; widthMm: number; heightMm: number };
+  /** One immutable page-sized nonsemantic paint request, in declared back-to-front order. */
+  layers?: readonly DecorativeShape[];
 };
 export type DecorationRasterizer = (shape: DecorationPaint) => Promise<NormalizedImage>;
 /** Position/identity and unused shape properties never duplicate identical paint assets. */
@@ -17,6 +19,16 @@ export function decorationAssetKey(shape: DecorationPaint): string {
     paintLayer: undefined,
     radiusMm: shape.shape === "rect" ? shape.radiusMm : 0,
     stroke: { ...shape.stroke, color: shape.stroke.widthMm ? shape.stroke.color : "000000" },
+    ...(shape.layers
+      ? {
+          layers: shape.layers.map((layer) => ({
+            ...layer,
+            id: "",
+            repeat: undefined,
+            paintLayer: undefined,
+          })),
+        }
+      : {}),
   });
 }
 const hex = (value: string) => /^[0-9A-F]{6}$/.test(value);
@@ -111,6 +123,20 @@ export function decorationPathSegments(path: string): DecorationPathSegment[] {
   return segments;
 }
 export function validateDecoration(shape: DecorationPaint): void {
+  if (shape.layers) {
+    if (
+      shape.shape !== "rect" ||
+      shape.fill ||
+      shape.opacity !== 1 ||
+      shape.stroke.widthMm ||
+      !Array.isArray(shape.layers) ||
+      shape.layers.length < 1 ||
+      shape.layers.length > 256 ||
+      shape.layers.some((layer) => "layers" in layer)
+    )
+      throw new Error(`DOCX Next invalid composite paint ${shape.id}`);
+    for (const layer of shape.layers) validateDecoration(layer);
+  }
   if (
     shape.paintLayer !== undefined &&
     (!Number.isSafeInteger(shape.paintLayer) ||
@@ -209,7 +235,10 @@ export const rasterizeDecoration: DecorationRasterizer = async (shape) => {
     widthMm: shape.widthMm,
     heightMm: shape.heightMm,
   };
-  const scale = Math.min(8, 1600 / Math.max(viewport.widthMm, viewport.heightMm));
+  const scale = Math.min(
+    8,
+    (shape.layers ? 2400 : 1600) / Math.max(viewport.widthMm, viewport.heightMm),
+  );
   const canvas = document.createElement("canvas");
   canvas.width = Math.max(1, Math.round(viewport.widthMm * scale));
   canvas.height = Math.max(1, Math.round(viewport.heightMm * scale));
@@ -217,6 +246,22 @@ export const rasterizeDecoration: DecorationRasterizer = async (shape) => {
   if (!context) throw new Error("DOCX Next could not allocate decoration canvas.");
   context.scale(canvas.width / viewport.widthMm, canvas.height / viewport.heightMm);
   context.translate(-viewport.leftMm, -viewport.topMm);
+  for (const layer of shape.layers ?? [shape]) {
+    context.save();
+    if (shape.layers) context.translate(layer.xMm, layer.yMm);
+    drawDecoration(context, layer);
+    context.restore();
+  }
+  const encoded = atob(canvas.toDataURL("image/png").split(",")[1]);
+  return {
+    bytes: Uint8Array.from(encoded, (char) => char.charCodeAt(0)),
+    widthPx: canvas.width,
+    heightPx: canvas.height,
+    extension: "png",
+    contentType: "image/png",
+  };
+};
+function drawDecoration(context: CanvasRenderingContext2D, shape: DecorativeShape): void {
   context.globalAlpha = shape.opacity;
   let paint: string | CanvasGradient = "transparent";
   if (shape.fill) {
@@ -323,12 +368,4 @@ export const rasterizeDecoration: DecorationRasterizer = async (shape) => {
     if (shape.fill) context.fill();
     if (shape.stroke.widthMm > 0) context.stroke();
   }
-  const encoded = atob(canvas.toDataURL("image/png").split(",")[1]);
-  return {
-    bytes: Uint8Array.from(encoded, (char) => char.charCodeAt(0)),
-    widthPx: canvas.width,
-    heightPx: canvas.height,
-    extension: "png",
-    contentType: "image/png",
-  };
-};
+}

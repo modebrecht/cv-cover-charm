@@ -179,6 +179,9 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       footerDistanceMm: template.chrome.footerDistanceMm,
     },
     ...(template.pagePaintOrder ? { paintOrder: template.pagePaintOrder } : {}),
+    ...(template.pagePaintComposition
+      ? { pagePaintComposition: template.pagePaintComposition }
+      : {}),
     artwork: [],
     header: [],
     footer: [],
@@ -1262,7 +1265,15 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
       composePageMotifs(
         target,
         policies,
-        target.id === "cover" ? cover.colors : input[target.id].design.colors,
+        target.id === "cover"
+          ? cover.colors
+          : {
+              ...input[target.id].design.colors,
+              sheet: color(
+                target.id === "letter" ? resolveLetterPaperColor(letter.design) : cvPalette?.paper,
+                theme.paper,
+              ),
+            },
         theme.accent,
         target.id === "cv" ? cv.design.bgOpacity : 1,
       );
