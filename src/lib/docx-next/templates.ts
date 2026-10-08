@@ -1945,6 +1945,69 @@ export const STUDIO_3: TemplateDefinition = {
   cv: { sectionSpaceMm: 3.6, headingRule: true, sidebarFraction: 0.3 },
   artwork: [],
 };
+/** Studio split candidate: shared editable hero and two-tone native stationery. */
+export const STUDIO_2: TemplateDefinition = {
+  ...STUDIO_3,
+  id: "studio2",
+  colors: { ink: "1B2430", accent: "E78A2F", paper: "FBFBF8" },
+  cover: {
+    ...STUDIO_3.cover,
+    heroLeadMm: 14,
+    photoAbsentLeadMm: 74,
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 96,
+        fillSlot: "primary",
+      },
+      {
+        shape: "rect",
+        xFraction: 124 / 210,
+        widthFraction: 86 / 210,
+        topMm: 0,
+        heightMm: 96,
+        cornerRadiiMm: [0, 0, 0, 30],
+        fillSlot: "secondary",
+      },
+    ],
+  },
+  chrome: {
+    ...STUDIO_3.chrome,
+    band: {
+      ...STUDIO_3.chrome.band!,
+      motifs: [
+        {
+          shape: "rect",
+          xFraction: 152 / 210,
+          widthFraction: 58 / 210,
+          topMm: 0,
+          fillSlot: "secondary",
+        },
+      ],
+      noneMotifs: [
+        {
+          shape: "rect",
+          xFraction: 0,
+          widthFraction: 1,
+          topMm: 0,
+          heightMm: 22,
+          fillSlot: "primary",
+        },
+        {
+          shape: "rect",
+          xFraction: 152 / 210,
+          widthFraction: 58 / 210,
+          topMm: 0,
+          heightMm: 22,
+          fillSlot: "secondary",
+        },
+      ],
+    },
+  },
+};
 const WARM_2_PAGE_MOTIFS: readonly TemplateMotif[] = [
   {
     shape: "rect",
@@ -3318,6 +3381,155 @@ export const SONNE: TemplateDefinition = {
     ],
   },
 };
+const STUDIO_LETTER_MOTIFS: readonly TemplateMotif[] = [
+  {
+    shape: "rect",
+    xFraction: 0,
+    widthFraction: 20 / 210,
+    topMm: 0,
+    heightMm: 297,
+    fillSlot: "primary",
+  },
+  {
+    shape: "rect",
+    xFraction: 0,
+    widthFraction: 20 / 210,
+    topMm: 20,
+    heightMm: 24,
+    fillSlot: "accent",
+  },
+];
+const STUDIO_CV_MOTIFS: readonly TemplateMotif[] = [
+  {
+    shape: "rect",
+    xFraction: 0,
+    widthFraction: 20 / 210,
+    topMm: 0,
+    heightMm: 297,
+    fillSlot: "primary",
+  },
+  {
+    shape: "rect",
+    xFraction: 20 / 210,
+    widthFraction: 190 / 210,
+    topMm: 24,
+    heightMm: 10,
+    fillSlot: "accent",
+    repeat: "first",
+  },
+  {
+    shape: "rect",
+    xFraction: 20 / 210,
+    widthFraction: 190 / 210,
+    topMm: 0,
+    heightMm: 10,
+    fillSlot: "accent",
+    repeat: "continuation",
+  },
+];
+/** Legacy Studio's two editable cover lanes and quieter repeating interior column. */
+export const STUDIO: TemplateDefinition = {
+  ...BRIEF,
+  id: "studio",
+  archetype: "editorial",
+  colors: { ink: "1F2937", accent: "F5D547", paper: "FFFFFF" },
+  interiorPaletteSource: "dossier",
+  margins: { top: 36, right: 22, bottom: 23, left: 36 },
+  cover: {
+    margins: { top: 16, right: 20, bottom: 20, left: 12 },
+    fontSource: "dossier",
+    order: [
+      "foto",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "eyebrow",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "ortDatum",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    photoAlign: "left",
+    photoWidthMm: 48,
+    heroSpaceMm: 0,
+    heroInRows: true,
+    fieldColorSlots: { kontaktTitel: "accent", kontakt: "bg", anTitel: "accent", empfaenger: "bg" },
+    fieldPaletteMode: "uniform",
+    fieldSpaceBeforeMm: {
+      kontaktTitel: 10,
+      anTitel: 14,
+      kicker: 7,
+      beruf: 16,
+      name: 23,
+      lehrbeginn: 4,
+      ortDatum: 6,
+      beilagenTitel: 18,
+    },
+    decorationPlacement: "first-header",
+    rows: [
+      {
+        fields: [
+          ["foto", "kontaktTitel", "kontakt", "anTitel", "empfaenger"],
+          [],
+          [
+            "eyebrow",
+            "kicker",
+            "beruf",
+            "name",
+            "lehrbeginn",
+            "ortDatum",
+            "beilagenTitel",
+            "beilagen",
+          ],
+        ],
+        widths: [60, 12, 106],
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: { heightMm: 32, gapMm: 4 },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "primary",
+      accentSlot: "accent",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  cv: { sectionSpaceMm: 3.6, headingRule: false, sidebarFraction: 0.3 },
+  pageMotifs: {
+    cover: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 72 / 210,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+        repeat: "continuation",
+      },
+    ],
+    letter: STUDIO_LETTER_MOTIFS,
+    cv: STUDIO_CV_MOTIFS,
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -3348,6 +3560,8 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   modern: MODERN,
   pastell: PASTELL,
   sonne: SONNE,
+  studio2: STUDIO_2,
+  studio: STUDIO,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];
