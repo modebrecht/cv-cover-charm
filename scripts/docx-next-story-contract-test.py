@@ -1,11 +1,12 @@
 """Adversarial native and whole-visible-story integrity tests; no editor or visible-text ID resolution."""
 import copy
+import json
 from pathlib import Path
 import tempfile
 import unittest
 from zipfile import ZipFile
 
-from docx_next_story_qa import compare_native_stories, native_stories, visible_story
+from docx_next_story_qa import compare_native_stories, native_stories, visible_story, write_story_report
 
 
 def control(key, value, inline=False):
@@ -100,6 +101,23 @@ class StoryContractTest(unittest.TestCase):
             path = Path(directory) / 'source.docx'; package(path, control('main.1', 'Value'))
             for fields in ([], ['main.1', 'main.1']):
                 with self.assertRaises(AssertionError): native_stories(path, fields)
+
+    def test_failed_strict_baseline_retains_actual_counterevidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            baseline, target = Path(directory) / 'baseline.json', Path(directory) / 'report.json'
+            baseline.write_text(json.dumps({'stable': {'status': 'expected'}}))
+            actual = {'status': 'changed-native-story', 'errors': ['reordered-native-fields']}
+            with self.assertRaisesRegex(AssertionError, 'Changed strict whole-story'):
+                write_story_report(actual, target, baseline)
+            self.assertEqual(json.loads(target.read_text()), actual)
+
+    def test_exact_baseline_preserves_complete_report_without_relaxation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            baseline, target = Path(directory) / 'baseline.json', Path(directory) / 'report.json'
+            actual = {'status': 'blocked', 'errors': ['duplicate-title']}
+            baseline.write_text(json.dumps({'stable': actual}))
+            write_story_report(actual, target, baseline)
+            self.assertEqual(json.loads(target.read_text()), actual)
 
 
 if __name__ == '__main__': unittest.main()

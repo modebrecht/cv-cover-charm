@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 import fitz
-from docx_next_story_qa import compare_native_stories, native_stories, sha, visible_story
+from docx_next_story_qa import compare_native_stories, native_stories, sha, visible_story, write_story_report
 
 spec = importlib.util.spec_from_file_location('continuation', Path(__file__).with_name('docx-next-floating-continuation-qa.py'))
 continuation = importlib.util.module_from_spec(spec); spec.loader.exec_module(continuation)
@@ -63,9 +63,7 @@ def main():
     parser.add_argument('--baseline', type=Path)
     args = parser.parse_args()
     result = {'matrices': [audit_matrix(args.root / matrix, matrix) for matrix in ('floating-continuation', 'floating-anchor')]}
-    if args.baseline:
-        assert result == json.loads(args.baseline.read_text())['stable'], 'Changed strict whole-story contract evidence'
-    (args.root / 'whole-story-contract-report.json').write_text(json.dumps(result, indent=2) + '\n')
+    write_story_report(result, args.root / 'whole-story-contract-report.json', args.baseline)
     print(json.dumps({'actualCases': sum(matrix['actualCases'] for matrix in result['matrices']),
                       'nativeStoryFailures': sum(case['native']['status'] != 'pass' for matrix in result['matrices'] for case in matrix['cases']),
                       'visibleSequenceFailures': sum(track['status'] != 'pass' for matrix in result['matrices'] for case in matrix['cases'] for phase in case['visible'].values() for track in phase.values()),

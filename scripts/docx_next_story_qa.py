@@ -1,5 +1,6 @@
 """Read-only whole-story contract. Resolve native identity before examining visible text."""
 import hashlib
+import json
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
@@ -109,3 +110,10 @@ def visible_story(expected, actual_pages):
     authored, actual = normalize(''.join(expected)), normalize(''.join(actual_pages))
     return {'status': 'pass' if authored == actual else 'fail', 'authoredCharacters': len(authored),
             'actualCharacters': len(actual), 'authoredSha256': sha(authored), 'actualSha256': sha(actual)}
+
+
+def write_story_report(result, target, baseline=None):
+    """Retain actual evidence even when the strict independent comparison rejects it."""
+    target.write_text(json.dumps(result, indent=2) + '\n')
+    if baseline is not None:
+        assert result == json.loads(baseline.read_text())['stable'], 'Changed strict whole-story contract evidence'
