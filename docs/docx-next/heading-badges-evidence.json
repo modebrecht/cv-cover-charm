@@ -1,0 +1,1113 @@
+{
+  "scope": "User-authorized generic heading badge default policy using existing editable run shading",
+  "branch": "docx-next/heading-badges-20261008",
+  "baseDevSha": "9f4e286a7754ce084f5c9051034d7ad417c137a7",
+  "observedRemoteDevSha": "b677051d166a2b0f41221ac849e5e03edc149d2d",
+  "configuredTemplates": 29,
+  "microsoftWordAcceptedTemplates": 0,
+  "activatedTemplates": [],
+  "sourceFiles": {
+    "scripts/docx-next-heading-badge-fixtures.ts": "d51c24fc3fca02b833e9b4fd7364371a237e0c04d6933c10b7ec1eeff4ed669a",
+    "scripts/docx-next-heading-badge-qa.py": "afede8fe730c119b6a8097db09bf009264624f1eeeef3b4451e1a32b0668b10d",
+    "scripts/docx-next-render-qa.py": "00a5822129a816a2e51dd24c9b646ca2ceb0ed4ed21a05e8a607f13f78ede80e",
+    "src/components/cv/citrus-rubric.ts": "e8b46e205538f51f3a48a5162d2b22664b0d4b426e87d966dcd56b96286673ec",
+    "src/lib/docx-next/build-model.ts": "cab65a468d1adb606f2e76cae73595df37124f39f51207f08f767fdf117b8388",
+    "src/lib/docx-next/templates.ts": "ff8da3ef1525e9dd3cb46cb9cca786b7c00c26d04d294714dd99ea5d4834057f",
+    "tests/fixtures/docx-next/heading-badges.ts": "188980df16c08209c3e4eeb411dbccecd4dc4f857a9dc240c5bc58ff6facd809",
+    "tests/unit/docx-next-heading-badges.test.ts": "4b2fb689480b8b603c7649fc426492c80011716e3402c35216a6d465932ce83b"
+  },
+  "checks": {
+    "unit": {
+      "passing": 1012,
+      "failing": 0,
+      "assertions": 18000,
+      "files": 216
+    },
+    "docxNext": {
+      "passing": 305,
+      "failing": 0,
+      "assertions": 5058,
+      "files": 52
+    },
+    "typecheck": "pass",
+    "changedTypeScriptLint": "pass",
+    "changedTypeScriptFormat": "pass",
+    "productionBuild": "pass"
+  },
+  "runtime": {
+    "interface": "LibreOfficeKit",
+    "version": {
+      "ProductName": "LibreOffice",
+      "ProductVersion": "25.8",
+      "ProductExtension": ".7.3",
+      "BuildId": "580(Build:3)"
+    },
+    "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+    "fontManifestSha256": "0e1e4498cc9799ae9c778f7cf455dd68350b0fd49fdfacaf4c38853f1c424723",
+    "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+    "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "host": "Linux x86_64",
+    "packagesVerified": 50
+  },
+  "fixtureMatrix": {
+    "layouts": ["classic", "timeline", "editorial"],
+    "policy": ["default-on", "saved-off", "legacy-off"],
+    "fixtureCount": 9,
+    "renderedPages": 30,
+    "savedPages": 30,
+    "images": 0,
+    "textOnly": true,
+    "approvedSnapshots": false,
+    "browserPdfRegressionRun": false,
+    "longStressIncluded": false,
+    "nativeCVPages": 12
+  },
+  "render": [
+    {
+      "fixture": "badge-classic-default-on",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 0,
+      "bytes": 67746,
+      "durationMs": 31,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "artifacts": {
+        "sourceDocx": "e6c61b78443f06d32fcfdeeec81307dffadcb7fd261148ec3b297c2318c23ba1",
+        "sourcePdf": "2c97921868081d0a667a5456d1e8b9cc22b6bc96b53c7851de9b5a0e846c3d5b",
+        "savedDocx": "f75b7fd74bf302f857a563d0285e782bc07c75ae1f296e172fa6fe04902ffbc8",
+        "savedPdf": "cec5fd3136071295e64855959e6609784ffecc1402ebff692e431a862927f188"
+      }
+    },
+    {
+      "fixture": "badge-classic-saved-off",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 0,
+      "bytes": 67322,
+      "durationMs": 12,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "artifacts": {
+        "sourceDocx": "eb73c0736b592ce2988efcec07ff80371adcde7a99123436f62f2269b63aaead",
+        "sourcePdf": "c5374914287a7fe0af330e0a69a3bef94803d69c6b4ee14282833bc38970fdcf",
+        "savedDocx": "245a90c9fe8847b0f4b5ee130abc21d628ace94e12ee1d89236626980a546bf4",
+        "savedPdf": "fcd88c1a778bb111fc2d9a6820f771761c3eb7c5aa64d9db60671f13322913b7"
+      }
+    },
+    {
+      "fixture": "badge-classic-legacy-off",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 0,
+      "bytes": 67322,
+      "durationMs": 12,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "artifacts": {
+        "sourceDocx": "eb73c0736b592ce2988efcec07ff80371adcde7a99123436f62f2269b63aaead",
+        "sourcePdf": "288b1c1068fed87f266a787200a4cf19b14ae2344d4e373373e79e2ac276b631",
+        "savedDocx": "c3c21423679500297f275dda93b8bac2bfe21a274388418c94a4169d33139574",
+        "savedPdf": "f8354756ee3687023a53d379274961168233f44344042e3d3afd5318b9d83820"
+      }
+    },
+    {
+      "fixture": "badge-timeline-default-on",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 3,
+      "media": 0,
+      "bytes": 46470,
+      "durationMs": 8,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "artifacts": {
+        "sourceDocx": "30eb8a321a029ccb53e3fe077fcfc151569e99bca3962498c93715cdab813a2e",
+        "sourcePdf": "3b2260688fcdcc8bbac2b88173767723f29642a020b60494e368521e19beb86b",
+        "savedDocx": "58b7d5fba936153470c6ee13ad2c3e305ceed63db41b7e7e00cdacfbaa778e23",
+        "savedPdf": "91ff5ce15fe9f5c54ed8a6bb70aa2ab337fd3a11d7e1279e4db7584d643a6de3"
+      }
+    },
+    {
+      "fixture": "badge-timeline-saved-off",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 3,
+      "media": 0,
+      "bytes": 46311,
+      "durationMs": 12,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "artifacts": {
+        "sourceDocx": "54f5b1791715650d4fbf44b501aad5e153ca32f7313d9f19680c1c01e9c234a7",
+        "sourcePdf": "6c71c6cf0a1d1f9cec4ac79e24f87fb3d5525a6994b28e9fa1511690cd97fa84",
+        "savedDocx": "43d27375920428eb8bf54c937c1516a83dcd42568111f214161bbd26dc66903e",
+        "savedPdf": "411bc3d5bb2bcea4d1e4a18ec2d838b6212799b070dbe1ae123473bab703568f"
+      }
+    },
+    {
+      "fixture": "badge-timeline-legacy-off",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 3,
+      "media": 0,
+      "bytes": 46311,
+      "durationMs": 7,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "artifacts": {
+        "sourceDocx": "54f5b1791715650d4fbf44b501aad5e153ca32f7313d9f19680c1c01e9c234a7",
+        "sourcePdf": "09e8822e5bd3f082bc1bf2e62233fc7addcb5e0d5a783ee61f89e3a15e8f0fe5",
+        "savedDocx": "43d27375920428eb8bf54c937c1516a83dcd42568111f214161bbd26dc66903e",
+        "savedPdf": "3feed13f9a10744f8d6cac55faed97fd41f9213cd45ae04b358e4898b388920e"
+      }
+    },
+    {
+      "fixture": "badge-editorial-default-on",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 3,
+      "media": 0,
+      "bytes": 46278,
+      "durationMs": 4,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "artifacts": {
+        "sourceDocx": "96c90ab0f1f42a9c317464acd3fc7be389cf9c10507a1999fd808ddc4fb4c38b",
+        "sourcePdf": "5c73414f6488cf221a4c58b10ddbfe61ee84b22672997af5258aa4dba1a2650f",
+        "savedDocx": "88ec5ab28fe3326904726d3decc983e9ec85fc30e75ace00aba6cae751de49e1",
+        "savedPdf": "4422ce96b2c7095a453daf9bcbb43204f3dea62bf391aee5fb329ce7d60f72b1"
+      }
+    },
+    {
+      "fixture": "badge-editorial-saved-off",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 3,
+      "media": 0,
+      "bytes": 46119,
+      "durationMs": 8,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "artifacts": {
+        "sourceDocx": "2dd1a09a29cc93118a6de00de496e3a78ed7298887cf922b5bf31ddc9304cbf8",
+        "sourcePdf": "4bef88a6278d1fec5e0ee0bb6e8caf852697ec93e4f81bed2149bbf803e5ab47",
+        "savedDocx": "186864362c814f3ccbccee4fe26982321593e4f468efb374f10ce87305081957",
+        "savedPdf": "4a64a74e8a8db4f58fd0a61cb3b917e1f3a5be0e26b0280eea84fb487c815539"
+      }
+    },
+    {
+      "fixture": "badge-editorial-legacy-off",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 3,
+      "media": 0,
+      "bytes": 46119,
+      "durationMs": 9,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate",
+      "artifacts": {
+        "sourceDocx": "2dd1a09a29cc93118a6de00de496e3a78ed7298887cf922b5bf31ddc9304cbf8",
+        "sourcePdf": "8798d21d3468c1e4a467c89a63322298e3b7854086b51d687dd5e559dae57f57",
+        "savedDocx": "186864362c814f3ccbccee4fe26982321593e4f468efb374f10ce87305081957",
+        "savedPdf": "5b3698c65b642ec1f4d8dc4c9f05a82d89f708d0597ce8502039d9a19c656789"
+      }
+    }
+  ],
+  "portableJson": [
+    {
+      "fixture": "badge-classic-default-on",
+      "input": "pass",
+      "model": "pass",
+      "immutable": "pass",
+      "docxSha256": "e6c61b78443f06d32fcfdeeec81307dffadcb7fd261148ec3b297c2318c23ba1"
+    },
+    {
+      "fixture": "badge-classic-saved-off",
+      "input": "pass",
+      "model": "pass",
+      "immutable": "pass",
+      "docxSha256": "eb73c0736b592ce2988efcec07ff80371adcde7a99123436f62f2269b63aaead"
+    },
+    {
+      "fixture": "badge-classic-legacy-off",
+      "input": "pass",
+      "model": "pass",
+      "immutable": "pass",
+      "docxSha256": "eb73c0736b592ce2988efcec07ff80371adcde7a99123436f62f2269b63aaead"
+    },
+    {
+      "fixture": "badge-timeline-default-on",
+      "input": "pass",
+      "model": "pass",
+      "immutable": "pass",
+      "docxSha256": "30eb8a321a029ccb53e3fe077fcfc151569e99bca3962498c93715cdab813a2e"
+    },
+    {
+      "fixture": "badge-timeline-saved-off",
+      "input": "pass",
+      "model": "pass",
+      "immutable": "pass",
+      "docxSha256": "54f5b1791715650d4fbf44b501aad5e153ca32f7313d9f19680c1c01e9c234a7"
+    },
+    {
+      "fixture": "badge-timeline-legacy-off",
+      "input": "pass",
+      "model": "pass",
+      "immutable": "pass",
+      "docxSha256": "54f5b1791715650d4fbf44b501aad5e153ca32f7313d9f19680c1c01e9c234a7"
+    },
+    {
+      "fixture": "badge-editorial-default-on",
+      "input": "pass",
+      "model": "pass",
+      "immutable": "pass",
+      "docxSha256": "96c90ab0f1f42a9c317464acd3fc7be389cf9c10507a1999fd808ddc4fb4c38b"
+    },
+    {
+      "fixture": "badge-editorial-saved-off",
+      "input": "pass",
+      "model": "pass",
+      "immutable": "pass",
+      "docxSha256": "2dd1a09a29cc93118a6de00de496e3a78ed7298887cf922b5bf31ddc9304cbf8"
+    },
+    {
+      "fixture": "badge-editorial-legacy-off",
+      "input": "pass",
+      "model": "pass",
+      "immutable": "pass",
+      "docxSha256": "2dd1a09a29cc93118a6de00de496e3a78ed7298887cf922b5bf31ddc9304cbf8"
+    }
+  ],
+  "headingShading": [
+    {
+      "fixture": "badge-classic-default-on",
+      "editableHeadingCount": 8,
+      "shading": {
+        "cv.section.person.heading": ["E0E6E9"],
+        "cv.section.custom:familie.heading": ["E0E6E9"],
+        "cv.section.schule.heading": ["E0E6E9"],
+        "cv.section.erfahrung.heading": ["E0E6E9"],
+        "cv.section.sprachen.heading": ["E0E6E9"],
+        "cv.section.hobbys.heading": ["E0E6E9"],
+        "cv.section.staerken.heading": ["E0E6E9"],
+        "cv.section.referenzen.heading": ["E0E6E9"]
+      },
+      "saveReopen": "pass"
+    },
+    {
+      "fixture": "badge-classic-saved-off",
+      "editableHeadingCount": 8,
+      "shading": {
+        "cv.section.person.heading": [],
+        "cv.section.custom:familie.heading": [],
+        "cv.section.schule.heading": [],
+        "cv.section.erfahrung.heading": [],
+        "cv.section.sprachen.heading": [],
+        "cv.section.hobbys.heading": [],
+        "cv.section.staerken.heading": [],
+        "cv.section.referenzen.heading": []
+      },
+      "saveReopen": "pass"
+    },
+    {
+      "fixture": "badge-classic-legacy-off",
+      "editableHeadingCount": 8,
+      "shading": {
+        "cv.section.person.heading": [],
+        "cv.section.custom:familie.heading": [],
+        "cv.section.schule.heading": [],
+        "cv.section.erfahrung.heading": [],
+        "cv.section.sprachen.heading": [],
+        "cv.section.hobbys.heading": [],
+        "cv.section.staerken.heading": [],
+        "cv.section.referenzen.heading": []
+      },
+      "saveReopen": "pass"
+    },
+    {
+      "fixture": "badge-timeline-default-on",
+      "editableHeadingCount": 3,
+      "shading": {
+        "cv.section.schule.heading": ["E0E6E9"],
+        "cv.section.custom:variant-alpha.heading": ["E0E6E9"],
+        "cv.section.custom:variant-beta.heading": ["E0E6E9"]
+      },
+      "saveReopen": "pass"
+    },
+    {
+      "fixture": "badge-timeline-saved-off",
+      "editableHeadingCount": 3,
+      "shading": {
+        "cv.section.schule.heading": [],
+        "cv.section.custom:variant-alpha.heading": [],
+        "cv.section.custom:variant-beta.heading": []
+      },
+      "saveReopen": "pass"
+    },
+    {
+      "fixture": "badge-timeline-legacy-off",
+      "editableHeadingCount": 3,
+      "shading": {
+        "cv.section.schule.heading": [],
+        "cv.section.custom:variant-alpha.heading": [],
+        "cv.section.custom:variant-beta.heading": []
+      },
+      "saveReopen": "pass"
+    },
+    {
+      "fixture": "badge-editorial-default-on",
+      "editableHeadingCount": 3,
+      "shading": {
+        "cv.section.schule.heading": ["E0E6E9"],
+        "cv.section.custom:variant-alpha.heading": ["E0E6E9"],
+        "cv.section.custom:variant-beta.heading": ["E0E6E9"]
+      },
+      "saveReopen": "pass"
+    },
+    {
+      "fixture": "badge-editorial-saved-off",
+      "editableHeadingCount": 3,
+      "shading": {
+        "cv.section.schule.heading": [],
+        "cv.section.custom:variant-alpha.heading": [],
+        "cv.section.custom:variant-beta.heading": []
+      },
+      "saveReopen": "pass"
+    },
+    {
+      "fixture": "badge-editorial-legacy-off",
+      "editableHeadingCount": 3,
+      "shading": {
+        "cv.section.schule.heading": [],
+        "cv.section.custom:variant-alpha.heading": [],
+        "cv.section.custom:variant-beta.heading": []
+      },
+      "saveReopen": "pass"
+    }
+  ],
+  "nativeIdentity": {
+    "fixtureCount": 9,
+    "completeNativeText": "pass",
+    "fieldIdentityFailures": 0,
+    "tableIdentityFailures": 9,
+    "missingOrChangedTaggedFields": 0,
+    "architectureAcceptance": "blocked: saved native identities lost; no export enablement",
+    "fixtures": [
+      {
+        "fixture": "badge-classic-default-on",
+        "sourceDocxSha256": "e6c61b78443f06d32fcfdeeec81307dffadcb7fd261148ec3b297c2318c23ba1",
+        "savedDocxSha256": "f75b7fd74bf302f857a563d0285e782bc07c75ae1f296e172fa6fe04902ffbc8",
+        "sourceTaggedFields": 78,
+        "savedMatchingTaggedFields": 78,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "badge-classic-saved-off",
+        "sourceDocxSha256": "eb73c0736b592ce2988efcec07ff80371adcde7a99123436f62f2269b63aaead",
+        "savedDocxSha256": "245a90c9fe8847b0f4b5ee130abc21d628ace94e12ee1d89236626980a546bf4",
+        "sourceTaggedFields": 78,
+        "savedMatchingTaggedFields": 78,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "badge-classic-legacy-off",
+        "sourceDocxSha256": "eb73c0736b592ce2988efcec07ff80371adcde7a99123436f62f2269b63aaead",
+        "savedDocxSha256": "c3c21423679500297f275dda93b8bac2bfe21a274388418c94a4169d33139574",
+        "sourceTaggedFields": 78,
+        "savedMatchingTaggedFields": 78,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "badge-timeline-default-on",
+        "sourceDocxSha256": "30eb8a321a029ccb53e3fe077fcfc151569e99bca3962498c93715cdab813a2e",
+        "savedDocxSha256": "58b7d5fba936153470c6ee13ad2c3e305ceed63db41b7e7e00cdacfbaa778e23",
+        "sourceTaggedFields": 41,
+        "savedMatchingTaggedFields": 41,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.schule:variant-school.dateRail",
+          "cv.section.custom:variant-alpha.half-row"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "badge-timeline-saved-off",
+        "sourceDocxSha256": "54f5b1791715650d4fbf44b501aad5e153ca32f7313d9f19680c1c01e9c234a7",
+        "savedDocxSha256": "43d27375920428eb8bf54c937c1516a83dcd42568111f214161bbd26dc66903e",
+        "sourceTaggedFields": 41,
+        "savedMatchingTaggedFields": 41,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.schule:variant-school.dateRail",
+          "cv.section.custom:variant-alpha.half-row"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "badge-timeline-legacy-off",
+        "sourceDocxSha256": "54f5b1791715650d4fbf44b501aad5e153ca32f7313d9f19680c1c01e9c234a7",
+        "savedDocxSha256": "43d27375920428eb8bf54c937c1516a83dcd42568111f214161bbd26dc66903e",
+        "sourceTaggedFields": 41,
+        "savedMatchingTaggedFields": 41,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.schule:variant-school.dateRail",
+          "cv.section.custom:variant-alpha.half-row"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "badge-editorial-default-on",
+        "sourceDocxSha256": "96c90ab0f1f42a9c317464acd3fc7be389cf9c10507a1999fd808ddc4fb4c38b",
+        "savedDocxSha256": "88ec5ab28fe3326904726d3decc983e9ec85fc30e75ace00aba6cae751de49e1",
+        "sourceTaggedFields": 41,
+        "savedMatchingTaggedFields": 41,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.schule:variant-school.dateRail",
+          "cv.section.custom:variant-alpha.half-row"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "badge-editorial-saved-off",
+        "sourceDocxSha256": "2dd1a09a29cc93118a6de00de496e3a78ed7298887cf922b5bf31ddc9304cbf8",
+        "savedDocxSha256": "186864362c814f3ccbccee4fe26982321593e4f468efb374f10ce87305081957",
+        "sourceTaggedFields": 41,
+        "savedMatchingTaggedFields": 41,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.schule:variant-school.dateRail",
+          "cv.section.custom:variant-alpha.half-row"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "badge-editorial-legacy-off",
+        "sourceDocxSha256": "2dd1a09a29cc93118a6de00de496e3a78ed7298887cf922b5bf31ddc9304cbf8",
+        "savedDocxSha256": "186864362c814f3ccbccee4fe26982321593e4f468efb374f10ce87305081957",
+        "sourceTaggedFields": 41,
+        "savedMatchingTaggedFields": 41,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.schule:variant-school.dateRail",
+          "cv.section.custom:variant-alpha.half-row"
+        ],
+        "saveReopenIdentity": "fail"
+      }
+    ]
+  },
+  "totalTaggedFields": 480,
+  "matchingSavedTaggedFields": 480,
+  "baseRegression": {
+    "base": "9f4e286a7754ce084f5c9051034d7ad417c137a7",
+    "descriptors": 29,
+    "descriptorsIdentical": true,
+    "modelMatrix": [
+      {
+        "template": "brief",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "brief",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "brief",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "freundlich",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "freundlich",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "freundlich",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "prism",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "prism",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "prism",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "human",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "human",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "human",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "orbit",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "orbit",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "orbit",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "cove",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "cove",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "cove",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "glow",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "glow",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "glow",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "horizon",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "horizon",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "horizon",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "monoLuxe",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "monoLuxe",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "monoLuxe",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "ledger",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "ledger",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "ledger",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "ribbon",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "ribbon",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "ribbon",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "sunrise",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "sunrise",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "sunrise",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "forestFlow",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "forestFlow",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "forestFlow",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "violetPulse",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "violetPulse",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "violetPulse",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "studio3",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "studio3",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "studio3",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "warm2",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "warm2",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "warm2",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "warm3",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "warm3",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "warm3",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "verlauf2",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "verlauf2",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "verlauf2",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "verlauf3",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "verlauf3",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "verlauf3",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "diagonal",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "diagonal",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "diagonal",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "klassisch",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "klassisch",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "klassisch",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "edel",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "edel",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "edel",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "serioes",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "serioes",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "serioes",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "colorful",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "colorful",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "colorful",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "blockig",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "blockig",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "blockig",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "welle",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "welle",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "welle",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "modern",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "modern",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "modern",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "pastell",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "pastell",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "pastell",
+        "savedFlag": true,
+        "model": "identical"
+      },
+      {
+        "template": "sonne",
+        "savedFlag": "unset",
+        "model": "identical"
+      },
+      {
+        "template": "sonne",
+        "savedFlag": false,
+        "model": "identical"
+      },
+      {
+        "template": "sonne",
+        "savedFlag": true,
+        "model": "identical"
+      }
+    ],
+    "packages": [
+      {
+        "variant": "classic",
+        "savedFlag": "unset",
+        "model": "identical",
+        "package": "byte-identical",
+        "sha256": "eb73c0736b592ce2988efcec07ff80371adcde7a99123436f62f2269b63aaead"
+      },
+      {
+        "variant": "classic",
+        "savedFlag": false,
+        "model": "identical",
+        "package": "byte-identical",
+        "sha256": "eb73c0736b592ce2988efcec07ff80371adcde7a99123436f62f2269b63aaead"
+      },
+      {
+        "variant": "classic",
+        "savedFlag": true,
+        "model": "identical",
+        "package": "byte-identical",
+        "sha256": "e6c61b78443f06d32fcfdeeec81307dffadcb7fd261148ec3b297c2318c23ba1"
+      },
+      {
+        "variant": "timeline",
+        "savedFlag": "unset",
+        "model": "identical",
+        "package": "byte-identical",
+        "sha256": "54f5b1791715650d4fbf44b501aad5e153ca32f7313d9f19680c1c01e9c234a7"
+      },
+      {
+        "variant": "timeline",
+        "savedFlag": false,
+        "model": "identical",
+        "package": "byte-identical",
+        "sha256": "54f5b1791715650d4fbf44b501aad5e153ca32f7313d9f19680c1c01e9c234a7"
+      },
+      {
+        "variant": "timeline",
+        "savedFlag": true,
+        "model": "identical",
+        "package": "byte-identical",
+        "sha256": "30eb8a321a029ccb53e3fe077fcfc151569e99bca3962498c93715cdab813a2e"
+      },
+      {
+        "variant": "editorial",
+        "savedFlag": "unset",
+        "model": "identical",
+        "package": "byte-identical",
+        "sha256": "2dd1a09a29cc93118a6de00de496e3a78ed7298887cf922b5bf31ddc9304cbf8"
+      },
+      {
+        "variant": "editorial",
+        "savedFlag": false,
+        "model": "identical",
+        "package": "byte-identical",
+        "sha256": "2dd1a09a29cc93118a6de00de496e3a78ed7298887cf922b5bf31ddc9304cbf8"
+      },
+      {
+        "variant": "editorial",
+        "savedFlag": true,
+        "model": "identical",
+        "package": "byte-identical",
+        "sha256": "96c90ab0f1f42a9c317464acd3fc7be389cf9c10507a1999fd808ddc4fb4c38b"
+      }
+    ]
+  },
+  "limits": [
+    "Existing native rectangular run shading only; no corner radius or extra badge padding.",
+    "No production template opts into this new default. Citrus descriptor migration remains separate.",
+    "Existing table captions are lost after native Save/Reopen in all nine fixtures; no repair or acceptance inferred.",
+    "Microsoft Word and full application browser/PDF export were not executed in this branch.",
+    "The text-only matrix cannot claim photo/crop behavior; default image QA remains unchanged."
+  ]
+}
