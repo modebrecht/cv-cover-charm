@@ -460,4 +460,46 @@ class NestedSideEvidenceTests(unittest.TestCase):
             module.compare_baseline(self.baseline, observed)
 
 
+class MainLeadEndingEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.baseline = json.loads((root.parent / 'docs/docx-next/sidebar-lead-main-ending-evidence.json').read_text())
+
+    def test_explicit_native_flags_do_not_hide_the_left_layout_failure(self):
+        result = module.compare_baseline(self.baseline, copy.deepcopy(self.baseline))
+        self.assertTrue(result['productGates'].startswith('fail'))
+        self.assertEqual(len(self.baseline['cases']), 4)
+        for case in self.baseline['cases']:
+            self.assertEqual(case['nativeAttachment']['status'], 'pass')
+            self.assertEqual(case['nativeAttachment']['sourceCellEndingFlags'], case['nativeAttachment']['savedCellEndingFlags'])
+            self.assertEqual(case['nativeIdentity']['tableIdentity'], 'fail')
+        self.assertEqual([case['render']['productGates'] for case in self.baseline['cases']], ['pass', 'pass', 'fail', 'fail'])
+
+    def test_original_detached_packages_and_observations_are_unchanged(self):
+        previous = json.loads((root.parent / 'docs/docx-next/sidebar-side-ending-evidence.json').read_text())
+        for case in self.baseline['cases'][::2]:
+            old = next(item for item in previous['cases'] if item['fixture'] == case['diagnostic']['orientation'] + '-detached-220')
+            self.assertEqual(case['docxSha256'], old['docxSha256'])
+            for phase in ['render', 'saveReopen']:
+                self.assertEqual(case[phase], old[phase])
+
+    def test_changed_left_attachment_requires_review(self):
+        observed = copy.deepcopy(self.baseline)
+        observed['cases'][3]['render']['tracks'][0]['openingCvPages'] = [2] * 5
+        with self.assertRaisesRegex(AssertionError, 'Changed visible track evidence'):
+            module.compare_baseline(self.baseline, observed)
+
+    def test_native_flag_and_caption_evidence_cannot_change_silently(self):
+        for key in ['nativeAttachment', 'nativeIdentity']:
+            observed = copy.deepcopy(self.baseline)
+            observed['cases'][0][key] = {'status': 'different'}
+            with self.assertRaisesRegex(AssertionError, 'Changed native'):
+                module.compare_baseline(self.baseline, observed)
+
+    def test_changed_pixels_cannot_claim_the_same_no_effect_result(self):
+        observed = copy.deepcopy(self.baseline)
+        observed['leadMainEndingRasterIdentity']['left']['saveReopen'] = 'fail'
+        with self.assertRaisesRegex(AssertionError, 'Changed main-lead page pixels'):
+            module.compare_baseline(self.baseline, observed)
+
+
 if __name__ == '__main__': unittest.main()

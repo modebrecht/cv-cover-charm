@@ -7,6 +7,7 @@ on:
     paths:
       - .github/workflows/docx-next-stable-sidebar.yml
       - scripts/docx-next-*.py
+      - scripts/docx_next_attachment_qa.py
       - scripts/docx-next-*.ts
       - scripts/docx-next-lo-kit.c
       - scripts/qa-browser-setup.sh
@@ -36,6 +37,7 @@ on:
       - docs/docx-next/sidebar-pixel-subset-evidence.json
       - docs/docx-next/sidebar-container-identity-evidence.json
       - docs/docx-next/sidebar-container-span-evidence.json
+      - docs/docx-next/sidebar-lead-main-ending-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -73,6 +75,7 @@ jobs:
           python scripts/docx-next-native-identity-test.py
           python scripts/docx-next-container-identity-test.py
           python scripts/docx-next-container-span-test.py
+          python scripts/docx-next-attachment-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -102,6 +105,7 @@ jobs:
           bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-span"
           bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-declared-grid" --declared-grid
           bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-declared-width" --declared-width
+          bun scripts/docx-next-lead-main-ending-probe.ts "$QA_ROOT/lead-main-ending"
       - name: Require native container carrier ownership without weakening caption gates
         run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-identity-evidence.json
       - name: Reproduce stopped multirow identity and exact native grid counterexamples
@@ -109,6 +113,9 @@ jobs:
           python scripts/docx-next-container-span-qa.py "$QA_ROOT/container-span" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-span-evidence.json
           python scripts/docx-next-container-span-qa.py "$QA_ROOT/container-declared-grid" --declared-grid --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-span-evidence.json
           python scripts/docx-next-container-span-qa.py "$QA_ROOT/container-declared-width" --declared-width --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-span-evidence.json
+      - name: Compare main-lead endings and explicit native paragraph attachment
+        timeout-minutes: 2
+        run: python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-main-ending" --matrix lead-main-ending --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-main-ending-evidence.json
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
@@ -156,6 +163,7 @@ jobs:
             ${{ env.QA_ROOT }}/container-span/*
             ${{ env.QA_ROOT }}/container-declared-grid/*
             ${{ env.QA_ROOT }}/container-declared-width/*
+            ${{ env.QA_ROOT }}/lead-main-ending/*
 
   supported-sidebar:
     if: github.ref == 'refs/heads/dev'

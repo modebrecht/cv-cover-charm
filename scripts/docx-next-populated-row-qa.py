@@ -1,6 +1,7 @@
 """Measure bounded populated-track controls; green diagnostics never imply product acceptance."""
 import argparse
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -12,6 +13,7 @@ from zipfile import ZipFile
 import fitz
 from docx_next_flow_qa import compact
 from docx_next_package_qa import check_package
+from docx_next_attachment_qa import attachment_audit
 
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 CASES = [(orientation, policy) for orientation in ('left', 'right') for policy in ('grid', 'split-attached')]
@@ -31,6 +33,7 @@ MATRICES = {
     'side-terminal': ('variant', SIDE_TERMINAL_CASES),
     'side-ending': ('sideEndingKeepNext', SIDE_ENDING_CASES),
     'lead-together': ('leadKeepTogether', LEAD_TOGETHER_CASES),
+    'lead-main-ending': ('mainLeadEndingKeepNext', [(orientation, flag) for orientation in ('right', 'left') for flag in (False, True)]),
     'lead-padding': ('leadRepresentation', LEAD_PADDING_CASES),
     'lead-boundary': ('leadMm', LEAD_BOUNDARY_CASES),
     'lead-window': ('leadMm', LEAD_WINDOW_CASES),
@@ -38,7 +41,7 @@ MATRICES = {
     'split-description-owner': ('descriptionOwner', DESCRIPTION_OWNER_CASES),
     'nested-side': ('sideComposition', [(orientation, composition) for orientation in ('right', 'left') for composition in ('direct', 'nested')]),
 }
-ISOLATED_MATRICES = ('side-terminal', 'side-ending', 'lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner', 'nested-side')
+ISOLATED_MATRICES = ('side-terminal', 'side-ending', 'lead-together', 'lead-main-ending', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner', 'nested-side')
 
 
 def package_result(source, fixture, saved=False):
@@ -194,6 +197,8 @@ def compare_baseline(recorded, observed):
         assert recorded['plannedCases'] == observed.get('plannedCases'), 'Changed planned terminal matrix'
         assert recorded['earlyStop'] == observed.get('earlyStop'), 'Changed terminal stop condition'
         planned = recorded['plannedCases']
+        if recorded['matrix'] == 'lead-main-ending' and 'leadMainEndingRasterIdentity' in recorded:
+            assert recorded['leadMainEndingRasterIdentity'] == observed.get('leadMainEndingRasterIdentity'), 'Changed main-lead page pixels'
         column, expected = MATRICES[recorded['matrix']]
         assert [(case['orientation'], case[column]) for case in planned] == expected, 'Changed planned terminal matrix'
         if recorded['matrix'] != 'side-terminal':
@@ -212,6 +217,9 @@ def compare_baseline(recorded, observed):
         before = previous[name]
         assert now['diagnostic'] == before['diagnostic'], 'Changed candidate flags ' + name
         assert now['docxSha256'] == before['docxSha256'], 'Changed candidate package ' + name
+        if recorded.get('matrix') == 'lead-main-ending':
+            assert now['nativeIdentity'] == before['nativeIdentity'], 'Changed native identity/caption evidence'
+            assert now['nativeAttachment'] == before['nativeAttachment'], 'Changed native paragraph/attachment evidence'
         for phase in ('render', 'saveReopen'):
             a, b = before[phase], now[phase]
             assert {k: v for k, v in a.items() if k != 'tracks'} == {k: v for k, v in b.items() if k != 'tracks'}, 'Changed product gate ' + name
@@ -276,11 +284,13 @@ def main():
                 assert case['sideEndingKeepNext'] == (case['variant'] == 'ending-only')
                 assert fixture['sideSemanticKeepNext'] == case['sideSemanticKeepNext']
                 lead[fixture['tracks'][1]['cell']] = case['sideEndingKeepNext']
+                if args.matrix == 'lead-main-ending':
+                    lead[main_cell] = case['mainLeadEndingKeepNext']
                 opening_row = False if args.matrix == 'split-description-owner' else True
                 assert fixture['rowKeepTogether'] == [case['leadKeepTogether'] if args.matrix == 'lead-together' else True, opening_row, False]
                 if args.matrix == 'split-description-owner': assert case['openingKeepTogether'] is False
                 if args.matrix != 'side-terminal': assert not case['sideSemanticKeepNext']
-                if args.matrix in ('lead-together', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner', 'nested-side'): assert not case['sideEndingKeepNext']
+                if args.matrix in ('lead-together', 'lead-main-ending', 'lead-padding', 'lead-boundary', 'lead-window', 'description-owner', 'split-description-owner', 'nested-side'): assert not case['sideEndingKeepNext']
             assert fixture['cellEndKeepNext'] == [lead, opening, [False] * 3]
         if args.matrix == 'lead-padding':
             assert fixture['authoredLeadMm'] == fixture['leadSpacerMm'] + fixture['leadTopPaddingMm'] == 220
@@ -304,6 +314,13 @@ def main():
             assert {k: v for k, v in a.items() if k != 'metadataMetrics'} == {k: v for k, v in b.items() if k != 'metadataMetrics'}, 'Save/reopen changes track evidence'
         assert {k: v for k, v in before.items() if k != 'tracks'} == {k: v for k, v in after.items() if k != 'tracks'}
         report.append({'fixture': name, 'diagnostic': case, 'docxSha256': hashlib.sha256(source.read_bytes()).hexdigest(), 'package': native, 'saveReopenPackage': saved_native, 'render': before, 'saveReopen': after})
+        if args.matrix == 'lead-main-ending':
+            spec = importlib.util.spec_from_file_location('identity', Path(__file__).with_name('docx-next-native-identity-qa.py'))
+            identity = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(identity)
+            report[-1]['nativeIdentity'] = identity.audit(source, saved)
+            assert report[-1]['nativeIdentity']['fieldIdentity'] == report[-1]['nativeIdentity']['completeNativeText'] == 'pass', 'Native semantic ID/text loss'
+            report[-1]['nativeAttachment'] = attachment_audit(source, saved, fixture)
         print(json.dumps({'fixture': name, 'pages': before['pages'], 'productGates': before['productGates'], 'failures': before['failures'], 'completeNativeFields': 'pass', 'saveReopen': 'same'}), flush=True)
         if args.matrix in ISOLATED_MATRICES and case['orientation'] == 'right' and before['productGates'] != 'pass':
             result = {'libreOfficeVersion': version, 'matrix': args.matrix, 'plannedCases': cases, 'cases': report,
@@ -376,6 +393,21 @@ def main():
         result['identicalLeadRowObservations'] = {orientation: report[index]['render'] == report[index + 1]['render']
                                                 and report[index]['saveReopen'] == report[index + 1]['saveReopen']
                                                 for orientation, index in (('right', 0), ('left', 2))}
+    if args.matrix == 'lead-main-ending':
+        result.update(matrix=args.matrix, plannedCases=cases)
+        result['architectureAcceptance'] = 'blocked: bounded main-lead empty-ending diagnostic; caption/grid/Word requirements unchanged'
+        result['earlyStop'] = 'four main-lead ending controls at 220 mm; all semantic ownership and other flags unchanged'
+        result['identicalMainLeadEndingObservations'] = {orientation: report[index]['render'] == report[index + 1]['render']
+                                                       and report[index]['saveReopen'] == report[index + 1]['saveReopen']
+                                                       for orientation, index in (('right', 0), ('left', 2))}
+        result['leadMainEndingRasterIdentity'] = {}
+        for orientation, index in [('right', 0), ('left', 2)]:
+            phases = {}
+            for phase, suffix in [('render', '-render.pdf'), ('saveReopen', '-reopened.pdf')]:
+                with fitz.open(args.directory / (report[index]['fixture'] + suffix)) as before, fitz.open(args.directory / (report[index + 1]['fixture'] + suffix)) as after:
+                    same = len(before) == len(after) and all(a.get_pixmap(alpha=False).samples == b.get_pixmap(alpha=False).samples for a, b in zip(before, after))
+                phases[phase] = 'pass' if same else 'fail'
+            result['leadMainEndingRasterIdentity'][orientation] = phases
     if args.matrix == 'lead-padding':
         result.update(matrix=args.matrix, plannedCases=cases)
         result['architectureAcceptance'] = 'blocked: bounded lead representation experiment; no export enablement'
