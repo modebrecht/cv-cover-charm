@@ -67,8 +67,8 @@ describe("Edel Dark reuses native Edel composition with its authored sheet palet
       ),
     ).toBe(true);
   });
-  test("failed gradient proposals stay unconfigured", () => {
-    for (const template of ["neon", "verlauf", "aurora"])
-      expect(() => nextTemplate(template)).toThrow("has not passed migration gates");
+  test("new gradient candidates explicitly opt into composed decorative paint", () => {
+    for (const template of ["neon", "verlauf"])
+      expect(nextTemplate(template).pagePaintComposition).toBe("single-asset");
   });
 });

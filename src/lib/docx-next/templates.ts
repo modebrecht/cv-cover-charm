@@ -4135,6 +4135,197 @@ export const CITRUS: TemplateDefinition = {
     ],
   },
 };
+// Source fixed page geometry; semantic fields use shared editable cover/CV flow.
+const SOFT_CARD: TemplateMotif = {
+  shape: "rect",
+  xFraction: 12 / 210,
+  widthFraction: 186 / 210,
+  topMm: 12,
+  heightMm: 273,
+  fillSlot: "sheet",
+  cornerRadiiMm: [6, 6, 6, 6],
+  paintLayer: 3,
+};
+export const NEON: TemplateDefinition = {
+  ...CITRUS,
+  id: "neon",
+  archetype: "dark",
+  pagePaintComposition: "single-asset",
+  colors: { ink: "F8FAFC", accent: "E11D8F", paper: "0D0B2B" },
+  cover: {
+    ...CITRUS.cover,
+    align: "left",
+    photoAlign: "right",
+    margins: { top: 24, left: 22, right: 22, bottom: 22 },
+    order: [
+      "eyebrow",
+      "ortDatum",
+      "name",
+      "kicker",
+      "beruf",
+      "lehrbeginn",
+      "foto",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
+      {
+        fields: [["name", "kicker", "beruf", "lehrbeginn"], "foto"],
+        widths: [110, 56],
+        beforeMm: 36,
+      },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        beforeMm: 10,
+      },
+    ],
+    motifs: [],
+  },
+  cv: { ...CITRUS.cv, headingBadge: undefined },
+  pageMotifs: {
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "bg",
+        paintLayer: 1,
+      },
+      {
+        shape: "circle",
+        xFraction: -0.2,
+        widthFraction: 0.75,
+        topMm: -45,
+        heightMm: 150,
+        fillSlot: "primary",
+        radialFade: { innerPct: 0, outerPct: 100 },
+        paintLayer: 2,
+      },
+      {
+        shape: "circle",
+        xFraction: 0.55,
+        widthFraction: 0.75,
+        topMm: 165,
+        heightMm: 150,
+        fillSlot: "secondary",
+        radialFade: { innerPct: 0, outerPct: 100 },
+        paintLayer: 2,
+      },
+      SOFT_CARD,
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "bg",
+        paintLayer: 1,
+      },
+      {
+        shape: "circle",
+        xFraction: -0.2,
+        widthFraction: 0.75,
+        topMm: -45,
+        heightMm: 150,
+        fillSlot: "primary",
+        radialFade: { innerPct: 0, outerPct: 100 },
+        paintLayer: 2,
+      },
+      {
+        shape: "circle",
+        xFraction: 0.55,
+        widthFraction: 0.75,
+        topMm: 165,
+        heightMm: 150,
+        fillSlot: "secondary",
+        radialFade: { innerPct: 0, outerPct: 100 },
+        paintLayer: 2,
+      },
+      SOFT_CARD,
+    ],
+  },
+};
+const VERLAUF_CARD: readonly TemplateMotif[] = [
+  {
+    shape: "rect",
+    xFraction: 0,
+    widthFraction: 1,
+    topMm: 0,
+    heightMm: 297,
+    fillSlot: "primary",
+    endSlot: "secondary",
+    angleDeg: 145,
+    paintLayer: 1,
+  },
+  SOFT_CARD,
+];
+export const VERLAUF: TemplateDefinition = {
+  ...CITRUS,
+  id: "verlauf",
+  pagePaintComposition: "single-asset",
+  colors: { ink: "FFFFFF", accent: "7F5AF0", paper: "FFFFFF" },
+  cover: {
+    ...CITRUS.cover,
+    margins: { top: 20, left: 22, right: 22, bottom: 20 },
+    rows: [
+      { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
+      {
+        fields: [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"],
+        ],
+        widths: [1, 1],
+        beforeMm: 12,
+      },
+    ],
+    motifs: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+        endSlot: "secondary",
+        angleDeg: 160,
+        paintLayer: 1,
+        repeat: "first",
+      },
+    ],
+  },
+  cv: { ...CITRUS.cv, headingBadge: undefined },
+  pageMotifs: {
+    cover: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 1,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+        endSlot: "secondary",
+        angleDeg: 160,
+        paintLayer: 1,
+        repeat: "continuation",
+      },
+    ],
+    letter: VERLAUF_CARD,
+    cv: VERLAUF_CARD,
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -4172,6 +4363,8 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   gallery: GALLERY,
   terracotta: KOLUMNE,
   citrus: CITRUS,
+  neon: NEON,
+  verlauf: VERLAUF,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];
