@@ -114,6 +114,8 @@ export type TableBlock = {
     yMm: number;
     /** Diagnostic native logical anchor: the following whole semantic paragraph. */
     anchorParagraphId?: string;
+    /** Diagnostic adjacent floating owner; import creates a separate native anchor. */
+    nextFloatingTableId?: string;
   };
   sourceLayout?: ElementSourceLayout;
   decoration?: {

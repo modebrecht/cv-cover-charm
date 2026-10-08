@@ -16,7 +16,7 @@ def sha(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()
 
 
-def native_stories(path, field_ids):
+def native_stories(path, field_ids, story_owners=None):
     """Inventory actual XML order, one whole paragraph per ID, and complete ancestor ownership."""
     assert field_ids and len(field_ids) == len(set(field_ids)), 'Invalid declared paragraph inventory'
     with ZipFile(path) as archive:
@@ -24,7 +24,12 @@ def native_stories(path, field_ids):
     parents = {child: parent for parent in root.iter() for child in parent}
     tables = list(root.iter(W + 'tbl'))
     floating = [table for table in tables if table.find(W + 'tblPr/' + W + 'tblpPr') is not None]
-    assert len(floating) == 1, 'Whole-story audit requires one declared floating side story'
+    if story_owners is None:
+        assert len(floating) == 1, 'Whole-story audit requires one declared floating side story'
+        story_owners = {'side': tables.index(floating[0])}
+    else:
+        assert set(story_owners) == {'main', 'side'} and len(set(story_owners.values())) == 2, 'Invalid declared independent native owners'
+        assert len(floating) == 2 and set(story_owners.values()) == {tables.index(table) for table in floating}, 'Changed declared independent floating owners'
     positions = {paragraph: index for index, paragraph in enumerate(root.iter(W + 'p'))}
     controls = {key: [] for key in field_ids}
     for control in root.iter(W + 'sdt'):
@@ -61,12 +66,15 @@ def native_stories(path, field_ids):
                 owners.append({'table': tables.index(table), 'row': table.findall(W + 'tr').index(row),
                                'cell': row.findall(W + 'tc').index(ancestor)})
             ancestor = parents.get(ancestor)
-        records.append({'fieldId': key, 'story': 'side' if any(owner['table'] == tables.index(floating[0]) for owner in owners) else 'main',
+        labels = [label for label, index in story_owners.items() if any(owner['table'] == index for owner in owners)]
+        if len(story_owners) == 2 and len(labels) != 1:
+            errors.append({'fieldId': key, 'reason': 'field-outside-declared-independent-owner'})
+        records.append({'fieldId': key, 'story': labels[0] if labels else 'main',
                         'owners': owners, 'textSha256': sha(text_value(control)), 'xmlPosition': positions[paragraph]})
     body = root.find(W + 'body')
     siblings = list(body)
-    assert floating[0] in siblings, 'Floating story is no longer a top-level native owner'
-    cv_blocks = set(siblings[siblings.index(floating[0]):])
+    assert all(table in siblings for table in floating), 'Floating story is no longer a top-level native owner'
+    cv_blocks = set(siblings[min(siblings.index(table) for table in floating):])
     for paragraph in positions:
         ancestor = paragraph
         while parents.get(ancestor) is not body and parents.get(ancestor) is not None:
