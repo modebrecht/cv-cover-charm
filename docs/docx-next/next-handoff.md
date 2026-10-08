@@ -1,5 +1,11 @@
 # DOCX Next handoff — 2026-10-08
 
+## Latest hour continuation — 2026-10-08
+
+Continued from freshly fetched clean remote `dev` at `2d4b4d7896801ea47a3c726c8014c70897193606`, with successful M6 37736780759 and all three stable jobs 37736780757. [Populated multirow container carriers](sidebar-container-span-status.md) preserve native IDs and exact field/spacer/row/span ownership in the first right 210 mm pair, with complete native/PDF text and identical carrier/control pages. However, the exact native grid changes by one twip in both source controls and carrier packages. Two separately declared grid/table-width hypotheses also retain negative exact-geometry results. Each of the three eight-source plans stops after two actual cases / 42 pages; six cases / 126 pages are actually rendered across them, plus Save/Reopen. Left carrier sources stay unrendered. All 252 page PNGs (33 unique) are checked; twelve adversarial tests and 1009 units pass. No geometry, caption, original-photo or Word gate is loosened. Stable exact-source execution must be verified after publication. This continuation supersedes the next task in the preceding minimal-identity handoff.
+
+Next: verify independent stable evidence, then investigate the existing left long-opening with a bounded semantic-owner hypothesis; preserve the stopped identity/geometry matrices and do not continue width guessing. Production stays blocked, 29/39 configured and 0/39 Word accepted.
+
 ## Latest continuation — 2026-10-08
 
 The continuation began from freshly fetched remote `dev` at `e475e06de9ab8524603887c652a2a1c15fd872a2`, with a clean new checkout and successful M6/application and stable Sidebar CI. Published implementation is `67ff63a9000b91383579889eac6ceb85f2969d0f`. Main was reverified at `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`, render at `4319c20fb85d3971ac355ae8898cdfef86ee7a8c`. The newer [container-identity status](sidebar-container-identity-status.md) supersedes the historical next-task paragraphs below. The photo/crop block stays completed and its strict positive/negative evidence unchanged.

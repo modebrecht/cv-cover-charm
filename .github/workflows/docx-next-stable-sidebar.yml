@@ -35,6 +35,7 @@ on:
       - docs/docx-next/sidebar-sized-rectangle-evidence.json
       - docs/docx-next/sidebar-pixel-subset-evidence.json
       - docs/docx-next/sidebar-container-identity-evidence.json
+      - docs/docx-next/sidebar-container-span-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -71,6 +72,7 @@ jobs:
           python scripts/docx-next-supported-summary-test.py
           python scripts/docx-next-native-identity-test.py
           python scripts/docx-next-container-identity-test.py
+          python scripts/docx-next-container-span-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -97,8 +99,16 @@ jobs:
           bun scripts/docx-next-split-description-owner-probe.ts "$QA_ROOT/split-description-owner"
           bun scripts/docx-next-nested-side-probe.ts "$QA_ROOT/nested-side"
           bun scripts/docx-next-container-identity-probe.ts "$QA_ROOT/container-identity"
+          bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-span"
+          bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-declared-grid" --declared-grid
+          bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-declared-width" --declared-width
       - name: Require native container carrier ownership without weakening caption gates
         run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-identity-evidence.json
+      - name: Reproduce stopped multirow identity and exact native grid counterexamples
+        run: |
+          python scripts/docx-next-container-span-qa.py "$QA_ROOT/container-span" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-span-evidence.json
+          python scripts/docx-next-container-span-qa.py "$QA_ROOT/container-declared-grid" --declared-grid --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-span-evidence.json
+          python scripts/docx-next-container-span-qa.py "$QA_ROOT/container-declared-width" --declared-width --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-span-evidence.json
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
@@ -143,6 +153,9 @@ jobs:
             ${{ env.QA_ROOT }}/split-description-owner/*
             ${{ env.QA_ROOT }}/nested-side/*
             ${{ env.QA_ROOT }}/container-identity/*
+            ${{ env.QA_ROOT }}/container-span/*
+            ${{ env.QA_ROOT }}/container-declared-grid/*
+            ${{ env.QA_ROOT }}/container-declared-width/*
 
   supported-sidebar:
     if: github.ref == 'refs/heads/dev'

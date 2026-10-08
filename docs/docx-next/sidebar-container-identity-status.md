@@ -23,3 +23,5 @@ python scripts/docx-next-container-identity-qa.py /tmp/container-identity --libr
 ```
 
 Next: verify final publication CI, then test the same generic annotation in the existing populated multirow/spanning-cell controls. Keep the original left long-opening counterexample and every complete-text/ownership gate; do not replace the caption gate or normalize photos.
+
+Follow-up: [the populated multirow comparison](sidebar-container-span-status.md) retains native carrier ownership but stops on exact grid changes. Its latest handoff supersedes the minimal controls’ next task.
