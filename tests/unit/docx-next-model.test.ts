@@ -157,6 +157,8 @@ describe("DOCX Next canonical model", () => {
       "edelDark",
       "studio2",
       "studio",
+      "edge",
+      "gallery",
     ]);
     expect(JSON.stringify(BRIEF)).not.toContain("<w:");
     const input = briefFixture();

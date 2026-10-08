@@ -84,6 +84,8 @@ const addedSelections = [
   "edelDark",
   "studio2",
   "studio",
+  "edge",
+  "gallery",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const SIDEBAR_PAGE_COUNTS: Record<string, number> = {
@@ -128,6 +130,16 @@ const addedPageCounts: Record<
     cv: { "long-cv": 15, timeline: 20, magazin: 1 },
     letter: { "long-letter": 13, continuation: 11 },
     cover: { "cover-long": 3 },
+  },
+  gallery: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 9 },
+    cover: { "cover-long": 2, "contact-long": 3 },
+  },
+  edge: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 9 },
+    cover: { custom: 2 },
   },
   sonne: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
@@ -450,6 +462,7 @@ try {
   let fixtureNames = addedCandidate
     ? [
         ...GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`),
+        ...(addedCandidate === "gallery" ? ["gallery-contact-long"] : []),
         ...(addedCandidate === "studio" ||
         nextTemplate(addedCandidate).cover.rows?.some(
           (row) => row.surfaceElementId || row.cellSurfaceElementIds?.some(Boolean),
@@ -979,6 +992,47 @@ try {
         });
       });
     };
+    // Template evidence: sample authored signature surfaces using the existing pixel checker.
+    const editorialPaintProbes = (part: typeof model.cover) => {
+      if (addedCandidate !== "edge" && addedCandidate !== "gallery") return gradientProbes(part);
+      if (part.id === "cv" && input.cv.design.bgOpacity === 0) return [];
+      const palette = part.id === "cover" ? input.cover.colors : input[part.id].design.colors;
+      if (addedCandidate === "edge")
+        return part.id === "cover"
+          ? [
+              { xMm: 2, yMm: 10, color: palette.secondary, repeat: "first" },
+              { xMm: 100, yMm: 10, color: palette.primary, repeat: "first" },
+            ]
+          : [
+              { xMm: 3, yMm: 100, color: palette.primary },
+              { xMm: 7.6, yMm: 10, color: palette.accent, opacity: 0.9, backdrop: palette.bg },
+              { xMm: 12, yMm: 28.4, color: palette.secondary },
+            ];
+      return part.id === "cover"
+        ? [
+            { xMm: 200, yMm: 10, color: palette.primary, repeat: "first" },
+            { xMm: 200, yMm: 100, color: palette.bg, repeat: "continuation" },
+            {
+              xMm: 5,
+              yMm: 290,
+              color: palette.secondary,
+              opacity: 0.82,
+              backdrop: palette.bg,
+              repeat: "first",
+            },
+            { xMm: 5, yMm: 290, color: palette.bg, repeat: "continuation" },
+          ]
+        : [
+            { xMm: 205, yMm: 100, color: palette.primary },
+            {
+              xMm: 50,
+              yMm: 293,
+              color: palette.secondary,
+              opacity: part.id === "cv" ? 0.72 : 0.68,
+              backdrop: palette.bg,
+            },
+          ];
+    };
     const imageZoneProbes = (part: typeof model.cv) =>
       part.blocks.flatMap((block) => {
         if (block.kind !== "parallel-flow") return [];
@@ -1220,7 +1274,7 @@ try {
                 { xMm: 5, yMm: 5, color: input.cover.colors.primary, repeat: "first" },
                 { xMm: 200, yMm: 5, color: input.cover.colors.secondary, repeat: "first" },
               ]
-            : gradientProbes(part),
+            : editorialPaintProbes(part),
       fontProbes:
         fixture === "fonts-unavailable"
           ? walkBlocks(part.blocks).flatMap((block) =>
