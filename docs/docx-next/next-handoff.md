@@ -1,5 +1,11 @@
 # DOCX Next handoff — 2026-10-07
 
+## Latest continuation — 2026-10-08
+
+Fresh remote `dev` remains `e475e06de9ab8524603887c652a2a1c15fd872a2`, with a clean new checkout and successful M6/application and stable Sidebar CI. Main remains `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`, render `4319c20fb85d3971ac355ae8898cdfef86ee7a8c`. The newer [container-identity status](sidebar-container-identity-status.md) supersedes the historical next-task paragraphs below. The photo/crop block stays completed and its strict positive/negative evidence unchanged.
+
+A generic diagnostic first-cell ending ID annotation preserves all three minimal no-photo table identities with exact field ownership in local Dev CLI: six actual cases / 18 pages plus Save/Reopen and second PDFs, all 36 source/saved PNGs equal their control pages. The original `tblCaption` gate still fails separately; no acceptance or export change is inferred. Original plain source hashes and all package parts except the declared annotation remain unchanged. Stable exact-source verification is pending publication. Next: verify that actual stable run and record its independent evidence, then extend this same bounded carrier hypothesis to the existing populated multirow/spanning-cell sources while retaining the left long-opening counterexample. No additional photo experiment.
+
 ## Authoritative scope and state
 
 Work remains only on `dev`. All formerly local changes are published: the reviewed rectangle measurement is `31de8c1e`; interrupted evidence/handoff is published as `03fb91b3` with an explicit continuation note; actual PDF clip measurement is `77775d9319a6b53284c5b72612049a38ff387487`. Local and remote are synchronized before the following baseline/documentation checkpoint. Exact final publication CI is checked separately; fetch the actual current remote head and clean tree before continuing. Never rewrite published history, change `main`/`render`, manually deploy, patch source XML, add template renderer branches, split semantic paragraphs, or enable blocked exports.

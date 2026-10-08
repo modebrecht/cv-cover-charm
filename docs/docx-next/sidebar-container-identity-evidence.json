@@ -1,0 +1,332 @@
+{
+  "baseCommit": "e475e06de9ab8524603887c652a2a1c15fd872a2",
+  "scope": "Separate no-photo native container cell-ending carrier; the original table-caption gate is unchanged. Stable runtime and Microsoft Word are not inferred from the local Dev observation.",
+  "devCli": {
+    "matrix": "container-identity",
+    "runtime": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "interface": "soffice CLI",
+    "plannedCases": 6,
+    "actualCases": 6,
+    "pages": 18,
+    "preparedSources": [
+      {
+        "fixture": "container-identity-single-caption-only",
+        "sourceDocxSha256": "79561ad7c17cf6368ee9f863f9ac8ce9434912ef4ab0733692639dd0ea358a78"
+      },
+      {
+        "fixture": "container-identity-single-cell-ending",
+        "sourceDocxSha256": "25d3db20e1f009bc8b8f1a330c44ff3bb3129edb1a92104f096a122d26a4e42b"
+      },
+      {
+        "fixture": "container-identity-left-caption-only",
+        "sourceDocxSha256": "c7686a832853ee3f39da64881789e5cdc215e33f8df5e59ddb879db2a1522df9"
+      },
+      {
+        "fixture": "container-identity-left-cell-ending",
+        "sourceDocxSha256": "1eb4f3509c3613e3a9eaac956063d0aff21a1dc505ac0be35ec90f8b25227ed2"
+      },
+      {
+        "fixture": "container-identity-right-caption-only",
+        "sourceDocxSha256": "f15d981cf51833097e6f913119062e7775f0491c3fa752c812f18223ae1b7003"
+      },
+      {
+        "fixture": "container-identity-right-cell-ending",
+        "sourceDocxSha256": "5221f96e2952258ffbf9a780336c401ddef3796224dadca646256475262b2ac9"
+      }
+    ],
+    "stoppedAfter": null,
+    "architectureAcceptance": "blocked; original caption and Word requirements remain; no export enablement",
+    "fixtures": [
+      {
+        "fixture": "container-identity-single-caption-only",
+        "execution": "rendered",
+        "sourceDocxSha256": "79561ad7c17cf6368ee9f863f9ac8ce9434912ef4ab0733692639dd0ea358a78",
+        "savedDocxSha256": "a3331910bc8803a04411c3c93e24e7f86a1f211560314a7739afeae88883909a",
+        "native": {
+          "sourceTaggedFields": 7,
+          "savedMatchingTaggedFields": 7,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "containerOwner": {
+          "status": "not-declared"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        }
+      },
+      {
+        "fixture": "container-identity-single-cell-ending",
+        "execution": "rendered",
+        "sourceDocxSha256": "25d3db20e1f009bc8b8f1a330c44ff3bb3129edb1a92104f096a122d26a4e42b",
+        "savedDocxSha256": "09be83005e9b55badf5af6bde4aaefc52f5434adde489149dcf33e904e825c13",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "containerOwner": {
+          "status": "pass",
+          "reason": null,
+          "rowCount": 1,
+          "cellCount": 1,
+          "firstCell": true,
+          "cellEnding": true,
+          "ownedFieldIds": [
+            [
+              "cv.identity.before",
+              "cv.identity.after",
+              "cv.identity.description",
+              "cv.identity.neighbour.before",
+              "cv.identity.neighbour.description"
+            ]
+          ],
+          "gridTwips": [
+            9638
+          ]
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        },
+        "controlRasterIdentity": "pass"
+      },
+      {
+        "fixture": "container-identity-left-caption-only",
+        "execution": "rendered",
+        "sourceDocxSha256": "c7686a832853ee3f39da64881789e5cdc215e33f8df5e59ddb879db2a1522df9",
+        "savedDocxSha256": "43db6351853d26eccf08fb97a817b1cf578ac0d1c03dd1ea6e949070f57bc3ba",
+        "native": {
+          "sourceTaggedFields": 7,
+          "savedMatchingTaggedFields": 7,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "containerOwner": {
+          "status": "not-declared"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        }
+      },
+      {
+        "fixture": "container-identity-left-cell-ending",
+        "execution": "rendered",
+        "sourceDocxSha256": "1eb4f3509c3613e3a9eaac956063d0aff21a1dc505ac0be35ec90f8b25227ed2",
+        "savedDocxSha256": "cced62f8bdf6dd8523d05d514e36d002fd5ad9eba901da455c5cf1d94bf1913f",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "containerOwner": {
+          "status": "pass",
+          "reason": null,
+          "rowCount": 1,
+          "cellCount": 2,
+          "firstCell": true,
+          "cellEnding": true,
+          "ownedFieldIds": [
+            [
+              "cv.identity.before",
+              "cv.identity.after",
+              "cv.identity.description"
+            ],
+            [
+              "cv.identity.neighbour.before",
+              "cv.identity.neighbour.description"
+            ]
+          ],
+          "gridTwips": [
+            4819,
+            4819
+          ]
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        },
+        "controlRasterIdentity": "pass"
+      },
+      {
+        "fixture": "container-identity-right-caption-only",
+        "execution": "rendered",
+        "sourceDocxSha256": "f15d981cf51833097e6f913119062e7775f0491c3fa752c812f18223ae1b7003",
+        "savedDocxSha256": "4646c296acf134bf29c81aa121883f888cabacc7a2cd3237d402f6a9ff5a6552",
+        "native": {
+          "sourceTaggedFields": 7,
+          "savedMatchingTaggedFields": 7,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "containerOwner": {
+          "status": "not-declared"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        }
+      },
+      {
+        "fixture": "container-identity-right-cell-ending",
+        "execution": "rendered",
+        "sourceDocxSha256": "5221f96e2952258ffbf9a780336c401ddef3796224dadca646256475262b2ac9",
+        "savedDocxSha256": "f7eb315a48dd1daef6b66fd81f433fd2e63f025062fca1a4a1df213d5afbf7eb",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "containerOwner": {
+          "status": "pass",
+          "reason": null,
+          "rowCount": 1,
+          "cellCount": 2,
+          "firstCell": true,
+          "cellEnding": true,
+          "ownedFieldIds": [
+            [
+              "cv.identity.neighbour.before",
+              "cv.identity.neighbour.description"
+            ],
+            [
+              "cv.identity.before",
+              "cv.identity.after",
+              "cv.identity.description"
+            ]
+          ],
+          "gridTwips": [
+            4819,
+            4819
+          ]
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "missingFields": [],
+          "outsideBody": 0,
+          "pictures": 0
+        },
+        "controlRasterIdentity": "pass"
+      }
+    ]
+  },
+  "visualReview": {
+    "pagePngs": 36,
+    "newUniqueVariants": 0,
+    "controlComparison": "All six source/saved pages per carrier case are byte-identical to the corresponding independently executed caption-only control.",
+    "cvPagesInspected": 3
+  },
+  "localValidation": {
+    "isolatedUnitTests": 1009,
+    "adversarialPythonTests": 9,
+    "existingNativeIdentityTests": 6,
+    "typecheck": "pass",
+    "lint": "pass; 0 errors, 21 existing warnings",
+    "build": "pass"
+  }
+}

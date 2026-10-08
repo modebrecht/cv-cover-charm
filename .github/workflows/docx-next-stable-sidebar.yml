@@ -34,6 +34,7 @@ on:
       - docs/docx-next/sidebar-sized-shape-evidence.json
       - docs/docx-next/sidebar-sized-rectangle-evidence.json
       - docs/docx-next/sidebar-pixel-subset-evidence.json
+      - docs/docx-next/sidebar-container-identity-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -69,6 +70,7 @@ jobs:
           python scripts/docx-next-populated-row-test.py
           python scripts/docx-next-supported-summary-test.py
           python scripts/docx-next-native-identity-test.py
+          python scripts/docx-next-container-identity-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -94,6 +96,9 @@ jobs:
           bun scripts/docx-next-description-owner-probe.ts "$QA_ROOT/description-owner"
           bun scripts/docx-next-split-description-owner-probe.ts "$QA_ROOT/split-description-owner"
           bun scripts/docx-next-nested-side-probe.ts "$QA_ROOT/nested-side"
+          bun scripts/docx-next-container-identity-probe.ts "$QA_ROOT/container-identity"
+      - name: Require native container carrier ownership without weakening caption gates
+        run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
@@ -137,6 +142,7 @@ jobs:
             ${{ env.QA_ROOT }}/description-owner/*
             ${{ env.QA_ROOT }}/split-description-owner/*
             ${{ env.QA_ROOT }}/nested-side/*
+            ${{ env.QA_ROOT }}/container-identity/*
 
   supported-sidebar:
     if: github.ref == 'refs/heads/dev'

@@ -226,6 +226,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
+        if (
+          block.identityCarrier !== undefined &&
+          (block.identityCarrier !== "cell-ending" || !block.rows.length)
+        )
+          throw new Error(`DOCX Next invalid table identity carrier ${block.id}`);
         if (block.position) {
           if (!part.blocks.includes(block))
             throw new Error(`DOCX Next nested positioned table is unsupported ${block.id}`);

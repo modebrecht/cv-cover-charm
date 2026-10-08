@@ -91,6 +91,8 @@ export type SectionBlock = {
 export type TableBlock = {
   kind: "table";
   id: string;
+  /** Unaccepted native ID annotation on the existing first-cell ending; no added text/paragraph. */
+  identityCarrier?: "cell-ending";
   widths: number[];
   /** Fixed millimetre tracks; null tracks share remaining width by weights. */
   columnWidthsMm?: (number | null)[];

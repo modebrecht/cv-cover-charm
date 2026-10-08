@@ -98,6 +98,11 @@ export async function renderDossierDocx(
     ]),
   );
   if (
+    storyBlocks.some((block) => block.kind === "table" && block.identityCarrier !== undefined) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error("DOCX Next table identity carrier is unaccepted; diagnostic opt-in required");
+  if (
     storyBlocks.some(
       (block) =>
         block.kind === "table" && block.rows.some((row) => row.cellEndKeepNext !== undefined),
@@ -340,7 +345,14 @@ export async function renderDossierDocx(
               if (paint && cell.length && contentWidth < 10)
                 throw new Error(`DOCX Next cell leaves insufficient text width ${value.id}`);
               const props = paint ? cellProperties(paint) : shading;
-              const ending = emptyParagraphWithRuns("", row.cellEndKeepNext?.[index] ?? undefined);
+              const emptyEnding = emptyParagraphWithRuns(
+                "",
+                row.cellEndKeepNext?.[index] ?? undefined,
+              );
+              const ending =
+                value.identityCarrier === "cell-ending" && rowIndex === 0 && index === 0
+                  ? control(value.id, emptyEnding)
+                  : emptyEnding;
               return `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page)}${ending}</w:tc>`;
             })
             .join("")}</w:tr>`,
