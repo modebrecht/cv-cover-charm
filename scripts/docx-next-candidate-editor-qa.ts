@@ -61,7 +61,10 @@ try {
   });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } }),
     errors: string[] = [];
-  page.on("pageerror", (e: Error) => errors.push(e.message));
+  page.on("pageerror", (e: Error) => {
+    errors.push(e.message);
+    console.error("Browser error:", e.message);
+  });
   await page.goto(base, { waitUntil: "networkidle" });
   const photo = process.argv[3]
     ? JSON.parse(await readFile(process.argv[3], "utf8")).png
@@ -167,7 +170,10 @@ try {
   await page.goto(base + "/lebenslauf", { waitUntil: "networkidle" });
   const name = page.locator('input[data-dossier-field-id="cv.person.firstName"]');
   stage = "persist edited name";
-  await name.fill("Candidate Editor");
+  await name.focus();
+  await page.waitForTimeout(100);
+  await name.evaluate((input: HTMLInputElement) => input.select());
+  await page.keyboard.insertText("Candidate Editor");
   await page.waitForFunction(
     () =>
       JSON.parse(localStorage.getItem("lebenslauf:v1")!).data.person.vorname === "Candidate Editor",
