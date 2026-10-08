@@ -1,5 +1,14 @@
 # DOCX Next handoff — 2026-10-08
 
+## Independently executed anchor checkpoint — 2026-10-08
+
+Exact source `f0d49b79e7df37f43fb250fd998d705d43b577d4` has successful M6 37794929371 (all eight browser groups) and all three stable jobs 37794929385. Downloaded artifact 11557554699 / SHA-256 `d2dd40d4174a5c1d0364911822cbe1e485c84a0909d89f516f2284fe3f189fa3` verifies every one of the twelve prepared anchor sources, all four actual native source/saved packages and all 48 PNG pixel digests. Stable reproduces opening pages 1,7,7,7,7,7,7,7,7 and seven title occurrences despite all 77/129 tags, whole native paragraphs/flags/owners and exact floating geometry surviving. The original caption failure remains separate. Both plans stop at four actual cases / 24 pages each, plus Save/Reopen; all remaining sources are unrendered. The preceding flag-only baseline and all 54 historical comparison observations reproduce with zero changes.
+
+The [strict anchor baseline](sidebar-floating-anchor-status.md) now requires the actual independent stable evidence, including all source bytes, owners, native flags, geometry, text multiplicity, nine-field openings and every RGBA pixel. Both runs retain 24 cross-runtime pixel differences each (eight CV / sixteen cover-letter); none are waived. Same-stable-PDF replay matches all 48 native stable PNG digests per plan. Eight Python adversarial tests and 1015 full local units/release checks pass. The [primary reference scope audit](sidebar-floating-upstream-scope-evidence.json) verifies two original upstream blob hashes: both exercise a single following anchor paragraph with no semantic SDT tags; automatic continuation of a multi-paragraph main story remains unproven. No reference package is edited or adopted as an application migration.
+
+Next: verify strict successor CI and its artifact, then establish an explicit native continuation contract for a complete editable main story containing multiple whole paragraphs. Do not extend these rejected flag-only / single-anchor matrices or flatten, segment, rasterize or repair semantic content. Original container captions, long opening attachment, exact geometry, complete original photos, chrome and Microsoft Word acceptance remain blocked. Production remains blocked, 29/39 configured and 0/39 Word accepted. This entry supersedes all earlier next-task paragraphs; the final successor CI is checked separately.
+
+
 ## Latest declared native paragraph anchor — 2026-10-08
 
 Freshly fetched `dev` source `b874ade828b7c9393286e8051e4521fa5ae40eaf` has successful M6 37792658238 and all three stable jobs 37792658159. Independently downloaded artifact 11557063078 / SHA-256 `974c262f20857befbf20a1ae44e0760b7a847646f750d38e754a3e6e75fd5a6b` verifies all twelve continuation sources and 48 PNGs; stable retains its four-case / 24-page negative. The strict stable baseline is independently pinned, including every page pixel; cross-runtime differences remain explicitly recorded.

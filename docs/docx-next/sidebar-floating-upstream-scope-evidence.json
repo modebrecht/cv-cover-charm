@@ -1,0 +1,149 @@
+{
+  "audit": "read-only original primary fixtures; no XML edits, native export or Word execution",
+  "layoutReference": {
+    "sourceCommit": "7d7ca347fafa7a06094b00e8fb0d0452c4c81366",
+    "sourcePath": "sw/qa/core/layout/data/floattable-wrap-on-all-pages.docx",
+    "gitBlobSha": "39642002bbed12f6287a24fddb4f3d817afd91d5",
+    "sha256": "eba386b0696abe8733067704f7fded00cf29d1efd65caece95b9e5dafae82478",
+    "bodyBlocks": [
+      {
+        "element": "tbl",
+        "paragraphs": 2,
+        "textCharacters": 4,
+        "nativeTags": 0,
+        "floating": true
+      },
+      {
+        "element": "p",
+        "paragraphs": 1,
+        "textCharacters": 55,
+        "nativeTags": 0,
+        "floating": false
+      },
+      {
+        "element": "sectPr",
+        "paragraphs": 0,
+        "textCharacters": 0,
+        "nativeTags": 0,
+        "floating": false
+      }
+    ],
+    "nativeTags": 0,
+    "media": 0,
+    "compatibility": [
+      {
+        "name": "compatibilityMode",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "15"
+      },
+      {
+        "name": "overrideTableStyleFontSizeAndJustification",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      },
+      {
+        "name": "enableOpenTypeFeatures",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      },
+      {
+        "name": "doNotFlipMirrorIndents",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      },
+      {
+        "name": "differentiateMultirowTableHeaders",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      },
+      {
+        "name": "useWord2013TrackBottomHyphenation",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      }
+    ]
+  },
+  "filterReference": {
+    "sourceCommit": "33ade4171a1a443fd24e6463a9eaa279f7d778bb",
+    "sourcePath": "writerfilter/qa/cppunittests/dmapper/data/floattable-wrap-on-all-pages.docx",
+    "gitBlobSha": "91d6686a365e847c02fdebd3cca7589c32143a0c",
+    "sha256": "425b63cbb4697507d38691b1e7c7ca7d86c9f890844aacc5211b831357ef8bd3",
+    "bodyBlocks": [
+      {
+        "element": "p",
+        "paragraphs": 1,
+        "textCharacters": 15,
+        "nativeTags": 0,
+        "floating": false
+      },
+      {
+        "element": "tbl",
+        "paragraphs": 2,
+        "textCharacters": 4,
+        "nativeTags": 0,
+        "floating": true
+      },
+      {
+        "element": "p",
+        "paragraphs": 1,
+        "textCharacters": 738,
+        "nativeTags": 0,
+        "floating": false
+      },
+      {
+        "element": "sectPr",
+        "paragraphs": 0,
+        "textCharacters": 0,
+        "nativeTags": 0,
+        "floating": false
+      }
+    ],
+    "nativeTags": 0,
+    "media": 0,
+    "compatibility": [
+      {
+        "name": "compatibilityMode",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "15"
+      },
+      {
+        "name": "overrideTableStyleFontSizeAndJustification",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      },
+      {
+        "name": "enableOpenTypeFeatures",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      },
+      {
+        "name": "doNotFlipMirrorIndents",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      },
+      {
+        "name": "differentiateMultirowTableHeaders",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      },
+      {
+        "name": "allowTextAfterFloatingTableBreak",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      },
+      {
+        "name": "useWord2013TrackBottomHyphenation",
+        "uri": "http://schemas.microsoft.com/office/word",
+        "val": "1"
+      }
+    ]
+  },
+  "implementationScope": {
+    "layoutCommit": "7d7ca347fafa7a06094b00e8fb0d0452c4c81366",
+    "test": "sw/qa/core/layout/flycnt.cxx testSplitFlyWrapOnAllPages",
+    "setup": "sets ALLOW_TEXT_AFTER_FLOATING_TABLE_BREAK true in memory",
+    "assertion": "splits one native anchor TextNode between two pages; tests no following multi-paragraph main story"
+  },
+  "inference": "the primary references establish a single paragraph continuation mechanism and import/export flag preservation; independent automatic continuation of a multiple-paragraph semantic main story remains unproven",
+  "nextRequirement": "preserve multiple whole semantic paragraphs in one automatically continuing editable main story alongside the complete side story; no text flattening or segmentation"
+}

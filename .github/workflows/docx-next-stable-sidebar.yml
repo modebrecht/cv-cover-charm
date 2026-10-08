@@ -130,9 +130,9 @@ jobs:
       - name: Independently observe the documented floating continuation policy
         timeout-minutes: 2
         run: python scripts/docx-next-floating-continuation-qa.py "$QA_ROOT/floating-continuation" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-floating-continuation-evidence.json
-      - name: Independently observe the declared native paragraph anchor
+      - name: Strictly reproduce the independently executed native paragraph anchor
         timeout-minutes: 2
-        run: python scripts/docx-next-floating-continuation-qa.py "$QA_ROOT/floating-anchor" --anchor-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
+        run: python scripts/docx-next-floating-continuation-qa.py "$QA_ROOT/floating-anchor" --anchor-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-floating-anchor-evidence.json
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |

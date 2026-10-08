@@ -100,6 +100,12 @@ def native_result(path, fixture):
     return {'paragraphs': paragraphs, 'geometry': geometry, 'allPages': enabled, 'logicalAnchor': anchor}
 
 
+def paragraph_multiplicity(expected, texts):
+    authored, actual = compact(''.join(expected)), ''.join(compact(text) for text in texts)
+    return [{'paragraphIndex': index, 'expectedOccurrences': authored.count(value), 'actualOccurrences': actual.count(value)}
+            for index, text in enumerate(expected) if (value := compact(text)) and authored.count(value) != actual.count(value)]
+
+
 def pdf_result(path, fixture):
     mm = 72 / 25.4
     with fitz.open(path) as document:
@@ -110,9 +116,9 @@ def pdf_result(path, fixture):
                                (lane['rightMm'] + .5) * mm, page.rect.height - (margins['bottom'] - 3) * mm) for page in document[2:]]
             texts = [compact(page.get_text(clip=clip)) for page, clip in zip(document[2:], clips)]
             expected = fixture[label + 'Text']
-            joined = ''.join(texts); authored = compact(''.join(expected))
+            joined = ''.join(texts)
             missing = [index for index, text in enumerate(expected) if compact(text) not in joined]
-            multiplicity = [{'paragraphIndex': index, 'expectedOccurrences': authored.count(value), 'actualOccurrences': joined.count(value)} for index, text in enumerate(expected) if (value := compact(text)) and authored.count(value) != joined.count(value)]
+            multiplicity = paragraph_multiplicity(expected, texts)
             first = next((index + 1 for index, text in enumerate(texts) if expected and compact(expected[0]) in text), None)
             outside = 0
             for page, clip in zip(document[2:], clips):

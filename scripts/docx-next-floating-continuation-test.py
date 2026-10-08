@@ -63,6 +63,16 @@ class Test(unittest.TestCase):
         self.assertIn('render-paragraph-text-multiplicity', qa.candidate_failures(row))
         self.assertEqual(row['nativeIdentity']['fieldIdentity'], 'pass')
 
+    def test_authored_repetitions_and_short_text_inside_other_fields_are_preserved(self):
+        self.assertEqual(qa.paragraph_multiplicity(['Title', 'Body contains Title', 'Body contains Title'], ['Title', 'Body contains Title', 'Body contains Title']), [])
+
+    def test_page_spanning_whole_paragraph_and_soft_hyphen_do_not_create_duplicates(self):
+        self.assertEqual(qa.paragraph_multiplicity(['One complete paragraph'], ['One complete para\u00ad', 'graph']), [])
+
+    def test_excess_visible_title_and_missing_authored_repetition_are_both_rejected(self):
+        self.assertEqual(qa.paragraph_multiplicity(['Title', 'Body'], ['TitleBody', 'Title']), [{'paragraphIndex': 0, 'expectedOccurrences': 1, 'actualOccurrences': 2}])
+        self.assertEqual(qa.paragraph_multiplicity(['Repeat', 'Repeat'], ['Repeat']), [{'paragraphIndex': 0, 'expectedOccurrences': 2, 'actualOccurrences': 1}, {'paragraphIndex': 1, 'expectedOccurrences': 2, 'actualOccurrences': 1}])
+
     def test_title_alone_on_page_one_does_not_pass_a_detached_opening(self):
         row = example()['cases'][0]
         for phase in ('render', 'saveReopen'):
