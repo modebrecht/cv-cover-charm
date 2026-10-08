@@ -1,0 +1,462 @@
+{
+  "sourceCommit": "bac9f43c7ed04507059f5ca6b36097e6aba72c76",
+  "stableRun": 37713296530,
+  "pictureJob": 113103946003,
+  "artifactId": 11522945994,
+  "artifactSha256": "532565b5ab82a8c72e6b0bc3d359b0c26d68ef35112694e92f139d02b595f2da",
+  "scope": "Independent constant-frame/photo-size comparison; two actual cases, 600x900 source validated but unrendered after exact crop stop. No acceptance or normalization.",
+  "preparedSources": [
+    {
+      "name": "picture-precision-declared-crop-rect",
+      "docxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+      "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "originalPixels": {
+        "width": 120,
+        "height": 180
+      },
+      "canonicalPhotoFile": "canonical-photo.png"
+    },
+    {
+      "name": "picture-size-240x360",
+      "docxSha256": "4ed84d096df767d4fdc5ee39c94cd935d253ab296b0a62dad39567b0490bfc9e",
+      "normalizedSha256": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4",
+      "originalPixels": {
+        "width": 240,
+        "height": 360
+      },
+      "canonicalPhotoFile": "canonical-photo-240x360.png"
+    },
+    {
+      "name": "picture-size-600x900",
+      "docxSha256": "c32c0ef455d1705f041e3ee38468f30c17eec92237d42872dbdc983fdf65a44f",
+      "normalizedSha256": "9a91925cd107b08841bf8df2bb5c8c6543eeb1324295b35d516f32a461873827",
+      "originalPixels": {
+        "width": 600,
+        "height": 900
+      },
+      "canonicalPhotoFile": "canonical-photo-600x900.png"
+    }
+  ],
+  "stable": {
+    "runtime": "LibreOffice 25.8.7.3 580(Build:3)",
+    "interface": "LibreOfficeKit",
+    "plannedCases": 3,
+    "actualCases": 2,
+    "pages": 6,
+    "stoppedAfter": "picture-size-240x360:native-photo-frame-or-crop",
+    "fieldIdentityFailures": 0,
+    "tableIdentityFailures": 0,
+    "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word",
+    "fixtures": [
+      {
+        "fixture": "picture-precision-declared-crop-rect",
+        "execution": "rendered",
+        "sourceDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+        "savedDocxSha256": "c26252862b87822bc3fd08cebe25e816064f76a4f07f2a1ac4e42409f985fb82",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "pass",
+          "missingTableIds": [],
+          "saveReopenIdentity": "pass"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [16.933, 12.312, 58.42, 74.542]
+            }
+          ],
+          "rectangularFrames": [
+            {
+              "page": 3,
+              "boundsMm": [20.011, 27.138, 54.001, 61.128]
+            }
+          ],
+          "visibleImageClips": [
+            {
+              "page": 3,
+              "boundsMm": [20.425, 27.517, 53.587, 60.713],
+              "clipBoundsMm": [20.425, 27.517, 53.587, 60.713]
+            }
+          ]
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [16.933, 12.312, 58.42, 74.542]
+            }
+          ],
+          "rectangularFrames": [
+            {
+              "page": 3,
+              "boundsMm": [20.011, 27.138, 54.001, 61.128]
+            }
+          ],
+          "visibleImageClips": [
+            {
+              "page": 3,
+              "boundsMm": [20.425, 27.517, 53.587, 60.713],
+              "clipBoundsMm": [20.425, 27.517, 53.587, 60.713]
+            }
+          ]
+        },
+        "nativePhoto": [
+          {
+            "pictureId": "cv.person.photo",
+            "source": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [34.0, 34.01],
+              "crop": {
+                "l": 8378,
+                "t": 24396,
+                "r": 11622,
+                "b": 22255
+              },
+              "shape": "rect",
+              "borderMm": 0.4,
+              "borderColor": "244A61",
+              "media": "word/media/image-1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "saved": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [34.007778, 34.007778],
+              "crop": {
+                "l": 8378,
+                "t": 24396,
+                "r": 11622,
+                "b": 22255
+              },
+              "shape": "rect",
+              "borderMm": 0.40569444444444447,
+              "borderColor": "244A61",
+              "media": "word/media/image1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "drawingName": "pass",
+            "originalPhotoPixels": "pass",
+            "nativeCropParameters": "unchanged",
+            "nativeFrameGeometry": "pass"
+          }
+        ]
+      },
+      {
+        "fixture": "picture-size-240x360",
+        "execution": "rendered",
+        "sourceDocxSha256": "4ed84d096df767d4fdc5ee39c94cd935d253ab296b0a62dad39567b0490bfc9e",
+        "savedDocxSha256": "8141f6ecacc95ffd8a7171d926e0322c135c29b27493b8a5fff88f2e6a63299c",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "pass",
+          "missingTableIds": [],
+          "saveReopenIdentity": "pass"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [16.933, 12.33, 58.42, 74.542]
+            }
+          ],
+          "rectangularFrames": [
+            {
+              "page": 3,
+              "boundsMm": [20.011, 27.138, 54.001, 61.128]
+            }
+          ],
+          "visibleImageClips": [
+            {
+              "page": 3,
+              "boundsMm": [20.425, 27.517, 53.587, 60.713],
+              "clipBoundsMm": [20.425, 27.517, 53.587, 60.713]
+            }
+          ]
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [16.933, 12.33, 58.42, 74.542]
+            }
+          ],
+          "rectangularFrames": [
+            {
+              "page": 3,
+              "boundsMm": [20.011, 27.138, 54.001, 61.128]
+            }
+          ],
+          "visibleImageClips": [
+            {
+              "page": 3,
+              "boundsMm": [20.425, 27.517, 53.587, 60.713],
+              "clipBoundsMm": [20.425, 27.517, 53.587, 60.713]
+            }
+          ]
+        },
+        "nativePhoto": [
+          {
+            "pictureId": "cv.person.photo",
+            "source": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [34.0, 34.01],
+              "crop": {
+                "l": 8378,
+                "t": 24396,
+                "r": 11622,
+                "b": 22255
+              },
+              "shape": "rect",
+              "borderMm": 0.4,
+              "borderColor": "244A61",
+              "media": "word/media/image-1.png",
+              "widthPx": 240,
+              "heightPx": 360,
+              "rgbaSha256": "5d84efc813228063def18bc3e1b5873b0f7dda7d5df03909a51e53b6ea1683b8"
+            },
+            "saved": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [34.007778, 34.007778],
+              "crop": {
+                "l": 8394,
+                "t": 24388,
+                "r": 11606,
+                "b": 22257
+              },
+              "shape": "rect",
+              "borderMm": 0.40569444444444447,
+              "borderColor": "244A61",
+              "media": "word/media/image1.png",
+              "widthPx": 240,
+              "heightPx": 360,
+              "rgbaSha256": "5d84efc813228063def18bc3e1b5873b0f7dda7d5df03909a51e53b6ea1683b8"
+            },
+            "drawingName": "pass",
+            "originalPhotoPixels": "pass",
+            "nativeCropParameters": "changed",
+            "nativeFrameGeometry": "pass"
+          }
+        ]
+      },
+      {
+        "fixture": "picture-size-600x900",
+        "execution": "unrendered",
+        "reason": "stopped after picture-size-240x360:native-photo-frame-or-crop"
+      }
+    ],
+    "matrix": "picture-size",
+    "originalPixelFailures": 0
+  },
+  "precision": {
+    "runtime": "LibreOffice 25.8.7.3 580(Build:3)",
+    "interface": "LibreOfficeKit",
+    "scope": "Read-only existing native packages; no rendering, package repair, crop acceptance or causal attribution. Nearest-twip arithmetic uses ties-to-even.",
+    "actualPhotoCases": 2,
+    "unrenderedFixtures": ["picture-size-600x900"],
+    "stoppedAfter": "picture-size-240x360:native-photo-frame-or-crop",
+    "originalPixelFailures": 0,
+    "changedCropCases": 1,
+    "fixtures": [
+      {
+        "fixture": "picture-precision-declared-crop-rect",
+        "sourceDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+        "savedDocxSha256": "c26252862b87822bc3fd08cebe25e816064f76a4f07f2a1ac4e42409f985fb82",
+        "pictureId": "cv.person.photo",
+        "sourcePixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "savedPixels": {
+          "widthPx": 120,
+          "heightPx": 180,
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "originalPhotoPixels": "pass",
+        "exactCropParameters": "unchanged",
+        "sourceCrop": {
+          "l": 8378,
+          "t": 24396,
+          "r": 11622,
+          "b": 22255
+        },
+        "savedCrop": {
+          "l": 8378,
+          "t": 24396,
+          "r": 11622,
+          "b": 22255
+        },
+        "sourceExtentEmu": {
+          "cx": 1224000,
+          "cy": 1224360
+        },
+        "savedExtentEmu": {
+          "cx": 1224280,
+          "cy": 1224280
+        },
+        "extentDeltaMm": {
+          "cx": 0.007777778,
+          "cy": -0.002222222
+        },
+        "sourceNearestTwipEmu": {
+          "cx": 1224280,
+          "cy": 1224280
+        },
+        "savedEqualsSourceNearestTwip": true,
+        "windowComparison": "same-original-pixel-grid",
+        "sourceWindowPx": {
+          "left": 10.0536,
+          "top": 43.9128,
+          "right": 106.0536,
+          "bottom": 139.941,
+          "width": 96.0,
+          "height": 96.0282,
+          "centerX": 58.0536,
+          "centerY": 91.9269
+        },
+        "savedWindowPx": {
+          "left": 10.0536,
+          "top": 43.9128,
+          "right": 106.0536,
+          "bottom": 139.941,
+          "width": 96.0,
+          "height": 96.0282,
+          "centerX": 58.0536,
+          "centerY": 91.9269
+        },
+        "windowDeltaPx": {
+          "left": 0.0,
+          "top": 0.0,
+          "right": 0.0,
+          "bottom": 0.0,
+          "width": 0.0,
+          "height": 0.0,
+          "centerX": 0.0,
+          "centerY": 0.0
+        }
+      },
+      {
+        "fixture": "picture-size-240x360",
+        "sourceDocxSha256": "4ed84d096df767d4fdc5ee39c94cd935d253ab296b0a62dad39567b0490bfc9e",
+        "savedDocxSha256": "8141f6ecacc95ffd8a7171d926e0322c135c29b27493b8a5fff88f2e6a63299c",
+        "pictureId": "cv.person.photo",
+        "sourcePixels": {
+          "widthPx": 240,
+          "heightPx": 360,
+          "rgbaSha256": "5d84efc813228063def18bc3e1b5873b0f7dda7d5df03909a51e53b6ea1683b8"
+        },
+        "savedPixels": {
+          "widthPx": 240,
+          "heightPx": 360,
+          "rgbaSha256": "5d84efc813228063def18bc3e1b5873b0f7dda7d5df03909a51e53b6ea1683b8"
+        },
+        "originalPhotoPixels": "pass",
+        "exactCropParameters": "changed",
+        "sourceCrop": {
+          "l": 8378,
+          "t": 24396,
+          "r": 11622,
+          "b": 22255
+        },
+        "savedCrop": {
+          "l": 8394,
+          "t": 24388,
+          "r": 11606,
+          "b": 22257
+        },
+        "sourceExtentEmu": {
+          "cx": 1224000,
+          "cy": 1224360
+        },
+        "savedExtentEmu": {
+          "cx": 1224280,
+          "cy": 1224280
+        },
+        "extentDeltaMm": {
+          "cx": 0.007777778,
+          "cy": -0.002222222
+        },
+        "sourceNearestTwipEmu": {
+          "cx": 1224280,
+          "cy": 1224280
+        },
+        "savedEqualsSourceNearestTwip": true,
+        "windowComparison": "same-original-pixel-grid",
+        "sourceWindowPx": {
+          "left": 20.1072,
+          "top": 87.8256,
+          "right": 212.1072,
+          "bottom": 279.882,
+          "width": 192.0,
+          "height": 192.0564,
+          "centerX": 116.1072,
+          "centerY": 183.8538
+        },
+        "savedWindowPx": {
+          "left": 20.1456,
+          "top": 87.7968,
+          "right": 212.1456,
+          "bottom": 279.8748,
+          "width": 192.0,
+          "height": 192.078,
+          "centerX": 116.1456,
+          "centerY": 183.8358
+        },
+        "windowDeltaPx": {
+          "left": 0.0384,
+          "top": -0.0288,
+          "right": 0.0384,
+          "bottom": -0.0072,
+          "width": 0.0,
+          "height": 0.0216,
+          "centerX": 0.0384,
+          "centerY": -0.018
+        }
+      }
+    ]
+  },
+  "visualReview": {
+    "pagePngs": 12,
+    "uniqueNewPagePngs": 1,
+    "newPageSha256": ["afa371261e3a1c5b2a27454f3d44bf4898e8fbc6b890018043c4524085b28dae"],
+    "reviewed": "New 240x360 CV page inspected; border and complete paragraphs intact. Source/saved PNGs are byte-identical despite the subpixel crop change; visual sameness does not accept exact-crop loss."
+  }
+}

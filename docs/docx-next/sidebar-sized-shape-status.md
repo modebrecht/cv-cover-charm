@@ -1,0 +1,9 @@
+# Sized cropped picture — rectangle/ellipse isolation
+
+The independent three-control matrix begins with the byte-identical verified 120×180 cropped body rectangle (`8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222`). It then uses the actual browser-decoded 240×360 original from the size counterexample, with a separately declared `8394/24388/11606/22257` window. The third source changes only that rectangle's shape to ellipse. Original source pixels, semantic fields, complete paragraphs, intended geometry and immutable model JSON stay required.
+
+The 240×360 window is declared through ordinary pan/zoom/height-ratio settings before the shared renderer generates each package. It is not a repaired saved package or automatic normalization of arbitrary input. Local source hashes are rectangle `001d77d4de7b6cc9352f36667d4433f1b3e5e5923bc2ebb3c0a6aecfea9d5b35`, ellipse `e36bd425a24fe5c22fa7576d89fbcb7cede858f5bab9f21223f94d24878ee501`. Source package/photo guards, ordinary-export rejection and identical JSON-restored packages pass using the already verified canonical assets. Fresh browser normalization and native outcomes remain CI requirements.
+
+The previously observed constant-frame size comparison remains an independent stopped regression: 240×360 changes exact crop while retaining all original pixels and IDs; its 600×900 control remains unrendered. Existing original shape, strict two-positive and strict four-window matrices also remain unchanged. No new experiment proceeds past text, identity, pixels, exact-crop/frame or visible-geometry loss.
+
+**Next bounded task:** inspect actual native sized-rectangle result, then the shape-only ellipse result if reached; retain exact stopped plans, review pages and lock the observation. Source-backed arithmetic is not complete causal instrumentation. Production and Word gates stay closed; 29/39 configured, 0/39 Word accepted.

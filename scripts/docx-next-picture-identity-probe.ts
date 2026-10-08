@@ -11,6 +11,7 @@ import {
   PICTURE_PRECISION_CASES,
   PICTURE_WINDOW_CASES,
   PICTURE_SIZE_CASES,
+  PICTURE_SIZED_SHAPE_CASES,
   pictureIdentityFixture,
 } from "../tests/fixtures/docx-next/sidebar-picture-identity";
 
@@ -19,25 +20,29 @@ const frames = process.argv[3] === "--frames";
 const precision = process.argv[3] === "--precision-controls";
 const windows = process.argv[3] === "--window-controls";
 const sizes = process.argv[3] === "--size-controls";
+const sizedShapes = process.argv[3] === "--sized-shape-controls";
+const variedPhotos = sizes || sizedShapes;
 if (
   !directory ||
   (process.argv.length !== 3 &&
-    !((frames || precision || windows || sizes) && process.argv.length === 4))
+    !((frames || precision || windows || variedPhotos) && process.argv.length === 4))
 )
   throw Error(
-    "Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY [--frames|--precision-controls|--window-controls|--size-controls]",
+    "Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY [--frames|--precision-controls|--window-controls|--size-controls|--sized-shape-controls]",
   );
 await mkdir(directory, { recursive: true });
 const sources = JSON.parse(await readFile(path.join(directory, "images.json"), "utf8"));
-const cases = sizes
-  ? PICTURE_SIZE_CASES
-  : windows
-    ? PICTURE_WINDOW_CASES
-    : precision
-      ? PICTURE_PRECISION_CASES
-      : frames
-        ? PICTURE_FRAME_CASES
-        : PICTURE_IDENTITY_CASES;
+const cases = sizedShapes
+  ? PICTURE_SIZED_SHAPE_CASES
+  : sizes
+    ? PICTURE_SIZE_CASES
+    : windows
+      ? PICTURE_WINDOW_CASES
+      : precision
+        ? PICTURE_PRECISION_CASES
+        : frames
+          ? PICTURE_FRAME_CASES
+          : PICTURE_IDENTITY_CASES;
 const sourceKeys = [
   ...new Set(cases.map((value) => ("sourceKey" in value ? value.sourceKey : "icc-jpeg"))),
 ];
@@ -95,22 +100,27 @@ try {
 const manifest = [];
 let referenceImage;
 let referenceFields;
+let sizedRectangle;
 for (const value of cases) {
   const sourceKey = "sourceKey" in value ? value.sourceKey : "icc-jpeg";
   const source: string = sources[sourceKey];
   const normalized = assets.get(sourceKey)!;
   const originalPixels =
     "originalPixels" in value ? value.originalPixels : { width: 120, height: 180 };
-  if (sizes)
+  if (variedPhotos)
     assert.deepEqual({ width: normalized.widthPx, height: normalized.heightPx }, originalPixels);
   const { model, image, fixture } = pictureIdentityFixture(value, source);
   referenceImage ??= image;
   referenceFields ??= fixture.fields;
-  if (!frames && !precision && !windows && !sizes) assert.deepEqual(image, referenceImage);
+  if (!frames && !precision && !windows && !variedPhotos) assert.deepEqual(image, referenceImage);
   else {
     assert.equal(image.id, referenceImage.id);
     if (sizes) assert.deepEqual({ ...image, source: referenceImage.source }, referenceImage);
-    else assert.equal(image.source, referenceImage.source);
+    else if (!sizedShapes) assert.equal(image.source, referenceImage.source);
+    if (sizedShapes && "sourceKey" in value) {
+      if (!value.ellipse) sizedRectangle = image;
+      else assert.deepEqual({ ...image, frame: { ...image.frame, radiusMm: 0 } }, sizedRectangle);
+    }
     assert.equal(normalized.heightPx / normalized.widthPx, 1.5);
     const geometry = pictureGeometry(image, normalized, fixture.cellWidthMm);
     if ("crop" in value && !value.crop)
@@ -144,7 +154,7 @@ for (const value of cases) {
   assert.deepEqual(restored, restoredBefore);
   const record = {
     ...fixture,
-    ...(sizes
+    ...(variedPhotos
       ? {
           originalPixels,
           canonicalPhotoFile:
@@ -164,7 +174,7 @@ for (const value of cases) {
       record.docxSha256,
       "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
     );
-  if ((windows || sizes) && manifest.length === 1)
+  if ((windows || variedPhotos) && manifest.length === 1)
     assert.equal(
       record.docxSha256,
       "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",

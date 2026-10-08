@@ -152,9 +152,19 @@ def comparable(report):
     return {**report, 'fixtures': [{key: value for key, value in row.items() if key != 'savedDocxSha256'} for row in report['fixtures']]}
 
 
-def run(directory, executable, kit=False, require_stable=False, observe=False, replay=False, baseline=None, frames=False, precision=False, windows=False, sizes=False):
-    assert sum([precision, windows, sizes]) <= 1, 'Choose one independent diagnostic matrix'
-    assert not (precision or windows or sizes) or frames, 'Precision/window controls require the strict frame/photo gates'
+def only_photo_changed(source, candidate, media):
+    """A dimension comparison may change only the embedded original photo bytes."""
+    with ZipFile(source) as archive:
+        first = {name: archive.read(name) for name in archive.namelist()}
+    with ZipFile(candidate) as archive:
+        second = {name: archive.read(name) for name in archive.namelist()}
+    assert set(first) == set(second) and media in first, 'Photo-size package part inventory changed'
+    assert all(first[name] == second[name] for name in first if name != media), 'Photo-size comparison changed a non-photo package part'
+
+
+def run(directory, executable, kit=False, require_stable=False, observe=False, replay=False, baseline=None, frames=False, precision=False, windows=False, sizes=False, sized_shapes=False):
+    assert sum([precision, windows, sizes, sized_shapes]) <= 1, 'Choose one independent diagnostic matrix'
+    assert not (precision or windows or sizes or sized_shapes) or frames, 'Precision/window controls require the strict frame/photo gates'
     with tempfile.TemporaryDirectory(prefix='identity-version-') as profile:
         version = subprocess.check_output([executable, '--version'] + ([Path(profile).as_uri()] if kit else []), text=True, timeout=30).strip()
     if kit:
@@ -173,7 +183,7 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
 
     manifest = json.loads((directory / 'picture-identity-manifest.json').read_text())
     if frames:
-        planned = [(True, False)] * 3 if sizes else [(True, False)] * 4 if windows else [(False, False), (True, False)] if precision else [(False, False), (False, True), (True, False), (True, True)]
+        planned = [(True, False), (True, False), (True, True)] if sized_shapes else [(True, False)] * 3 if sizes else [(True, False)] * 4 if windows else [(False, False), (True, False)] if precision else [(False, False), (False, True), (True, False), (True, True)]
         assert [(row['owner'], row['photo'], row['crop'], row['ellipse']) for row in manifest] == [('body', True, crop, ellipse) for crop, ellipse in planned]
         if precision:
             assert manifest[0]['docxSha256'] == '8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df', 'Start from the verified unchanged positive control'
@@ -187,9 +197,15 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
             expected_pixels = [{'width': 120, 'height': 180}, {'width': 240, 'height': 360}, {'width': 600, 'height': 900}]
             assert [row['originalPixels'] for row in manifest] == expected_pixels, 'Original-photo dimension plan changed'
             assert all(row['pictureGeometry'] == manifest[0]['pictureGeometry'] for row in manifest), 'Frame/crop settings must stay fixed across photo sizes'
+        if sized_shapes:
+            assert manifest[0]['docxSha256'] == '8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222', 'Start from verified unchanged cropped positive control'
+            assert [row['originalPixels'] for row in manifest] == [{'width': 120, 'height': 180}, {'width': 240, 'height': 360}, {'width': 240, 'height': 360}], 'Sized shape source plan changed'
+            expected = [(8378, 24396, 11622, 22255), (8394, 24388, 11606, 22257), (8394, 24388, 11606, 22257)]
+            assert [tuple(row['pictureGeometry']['crop'][k] for k in ['left', 'top', 'right', 'bottom']) for row in manifest] == expected, 'Separately declared sized shape window changed'
+            assert {k: v for k, v in manifest[1]['pictureGeometry'].items() if k not in ['shape', 'cornerAdjustment']} == {k: v for k, v in manifest[2]['pictureGeometry'].items() if k not in ['shape', 'cornerAdjustment']}, 'Ellipse comparison changed frame/crop settings'
         reference = photo.decoded_photo((directory / 'canonical-photo.png').read_bytes())
         for fixture in manifest:
-            if sizes:
+            if sizes or sized_shapes:
                 original = fixture['originalPixels']
                 file = 'canonical-photo.png' if original['width'] == 120 else f"canonical-photo-{original['width']}x{original['height']}.png"
                 assert fixture['canonicalPhotoFile'] == file, 'Canonical source photo file changed'
@@ -203,6 +219,8 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
             assert all(picture[key] == reference[key] for key in reference), 'Original source pixels differ'
             assert fixture['fields'] == manifest[0]['fields'], 'Complete semantic fields differ'
             assert picture['pictureId'] == fixture['pictureId'] == manifest[0]['pictureId']
+            if sizes:
+                only_photo_changed(directory / (manifest[0]['name'] + '.docx'), directory / (fixture['name'] + '.docx'), picture['media'])
             assert picture['shape'] == ('ellipse' if fixture['ellipse'] else 'rect')
             assert picture['crop'] == dict(zip(['l', 't', 'r', 'b'], [fixture['pictureGeometry']['crop'][key] for key in ['left', 'top', 'right', 'bottom']]))
             if not fixture['crop']:
@@ -240,7 +258,7 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
     actual = [row for row in rows if row['execution'] == 'rendered']
     report = {'runtime': version, 'interface': 'LibreOfficeKit' if kit else 'soffice CLI', 'plannedCases': len(rows), 'actualCases': len(actual), 'pages': sum(row['render']['pages'] for row in actual), 'stoppedAfter': stopped, 'fieldIdentityFailures': sum(row['native']['fieldIdentity'] == 'fail' for row in actual), 'tableIdentityFailures': sum(row['native']['tableIdentity'] == 'fail' for row in actual), 'architectureAcceptance': 'blocked; minimal diagnostics do not enable export or certify Word', 'fixtures': rows}
     if frames:
-        report['matrix'] = 'picture-size' if sizes else 'picture-window' if windows else 'picture-precision' if precision else 'picture-frame'
+        report['matrix'] = 'sized-picture-shape' if sized_shapes else 'picture-size' if sizes else 'picture-window' if windows else 'picture-precision' if precision else 'picture-frame'
         report['originalPixelFailures'] = sum(picture['originalPhotoPixels'] == 'fail' for row in actual for picture in row['nativePhoto'])
     (directory / 'picture-identity-report.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report))
@@ -254,6 +272,9 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
     assert observe or not stopped, 'Stopped native identity experiment; actual evidence retained'
     if baseline:
         expected = json.loads(baseline.read_text())
+        if 'preparedSources' in expected:
+            keys = ['name', 'docxSha256', 'normalizedSha256', 'originalPixels', 'canonicalPhotoFile']
+            assert [{k: row[k] for k in keys} for row in manifest] == expected['preparedSources'], 'Prepared source plan changed; unrendered sources are not native acceptance'
         expected = expected.get('stable', expected)
         assert comparable(report) == comparable(expected), 'Stable picture identity observation changed; actual evidence retained'
     return report
@@ -274,5 +295,6 @@ if __name__ == '__main__':
     matrix.add_argument('--precision-controls', action='store_true')
     matrix.add_argument('--window-controls', action='store_true')
     matrix.add_argument('--size-controls', action='store_true')
+    matrix.add_argument('--sized-shape-controls', action='store_true')
     args = parser.parse_args()
-    run(args.directory, args.libreofficekit or args.soffice, bool(args.libreofficekit), args.require_stable, args.observe, args.replay, args.baseline, args.frames or args.precision_controls or args.window_controls or args.size_controls, args.precision_controls, args.window_controls, args.size_controls)
+    run(args.directory, args.libreofficekit or args.soffice, bool(args.libreofficekit), args.require_stable, args.observe, args.replay, args.baseline, args.frames or args.precision_controls or args.window_controls or args.size_controls or args.sized_shape_controls, args.precision_controls, args.window_controls, args.size_controls, args.sized_shape_controls)

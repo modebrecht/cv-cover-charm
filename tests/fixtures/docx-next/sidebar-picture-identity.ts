@@ -86,6 +86,18 @@ export const PICTURE_SIZE_CASES = [
   },
 ] as const;
 export type PictureSizeCase = (typeof PICTURE_SIZE_CASES)[number];
+export const PICTURE_SIZED_SHAPE_CASES = [
+  PICTURE_PRECISION_CASES[1],
+  ...([false, true] as const).map((ellipse) => ({
+    ...PICTURE_FRAME_CASES[2],
+    name: `picture-sized-240x360-declared-${ellipse ? "ellipse" : "rect"}`,
+    ellipse,
+    sourceKey: "icc-jpeg-240x360",
+    originalPixels: { width: 240, height: 360 },
+    declaredCrop: { left: 8394, top: 24388, right: 11606, bottom: 22257 },
+  })),
+] as const;
+export type PictureSizedShapeCase = (typeof PICTURE_SIZED_SHAPE_CASES)[number];
 
 export function pictureIdentityFixture(
   value:
@@ -93,7 +105,8 @@ export function pictureIdentityFixture(
     | PictureFrameCase
     | PicturePrecisionCase
     | PictureWindowCase
-    | PictureSizeCase,
+    | PictureSizeCase
+    | PictureSizedShapeCase,
   source: string,
 ) {
   const model = buildDossierDocModel(briefFixture("normal"));

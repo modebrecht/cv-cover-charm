@@ -3,6 +3,7 @@ import importlib.util
 from pathlib import Path
 import tempfile
 import unittest
+from zipfile import ZipFile
 import fitz
 
 spec = importlib.util.spec_from_file_location('picture_identity', Path(__file__).with_name('docx-next-picture-identity-qa.py'))
@@ -79,6 +80,32 @@ class PictureIdentityTests(unittest.TestCase):
         first = {'fixtures': [{'native': self.result()['native']}]}
         second = {'fixtures': [{'native': self.result(field='fail')['native']}]}
         self.assertNotEqual(module.comparable(first), module.comparable(second))
+
+    def source_pair(self, edits=None):
+        work = tempfile.TemporaryDirectory()
+        self.addCleanup(work.cleanup)
+        root = Path(work.name)
+        first = {'word/document.xml': b'complete semantic paragraph', 'word/media/image-1.png': b'original 120x180', 'word/footer1.xml': b'footer'}
+        second = {**first, 'word/media/image-1.png': b'original 240x360', **(edits or {})}
+        for name, parts in [('first.docx', first), ('second.docx', second)]:
+            with ZipFile(root / name, 'w') as archive:
+                for part, content in parts.items(): archive.writestr(part, content)
+        return root / 'first.docx', root / 'second.docx'
+
+    def test_photo_size_changes_only_its_embedded_original(self):
+        module.only_photo_changed(*self.source_pair(), 'word/media/image-1.png')
+
+    def test_photo_size_cannot_hide_changed_semantic_paragraphs(self):
+        with self.assertRaisesRegex(AssertionError, 'non-photo'):
+            module.only_photo_changed(*self.source_pair({'word/document.xml': b'changed paragraph'}), 'word/media/image-1.png')
+
+    def test_photo_size_cannot_hide_a_changed_footer(self):
+        with self.assertRaisesRegex(AssertionError, 'non-photo'):
+            module.only_photo_changed(*self.source_pair({'word/footer1.xml': b'changed footer'}), 'word/media/image-1.png')
+
+    def test_photo_size_cannot_add_an_untracked_photo_part(self):
+        with self.assertRaisesRegex(AssertionError, 'inventory'):
+            module.only_photo_changed(*self.source_pair({'word/media/image-2.png': b'extra photo'}), 'word/media/image-1.png')
 
     def pdf(self, text='Complete field', image=False, width=20):
         work = tempfile.TemporaryDirectory()
