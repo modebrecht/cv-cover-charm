@@ -3318,6 +3318,13 @@ export const SONNE: TemplateDefinition = {
     ],
   },
 };
+/** Edel's established geometry with an independently authored dark sheet palette. */
+export const EDEL_DARK: TemplateDefinition = {
+  ...EDEL,
+  id: "edelDark",
+  archetype: "dark",
+  colors: { ink: "F3EEE5", accent: "C7A35A", paper: "171716" },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -3348,6 +3355,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   modern: MODERN,
   pastell: PASTELL,
   sonne: SONNE,
+  edelDark: EDEL_DARK,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];
