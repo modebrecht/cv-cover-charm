@@ -425,7 +425,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
   const cvInk = color(cvPalette?.ink ?? cd.colors.ink, theme.ink),
     cvAccent = color(cvPalette?.accent ?? cd.colors.accent ?? cd.colors.primary, theme.accent);
   const body = { sizePt: template.typography.bodyPt * (cd.bodyScale ?? 1), color: cvInk };
-  const rubric = resolveCvRubricOptions(cd);
+  const rubric = resolveCvRubricOptions(cd, template.cv.headingBadge);
   const sectionGapMm =
     typeof settings.cvSectionGapMm === "number" && Number.isFinite(settings.cvSectionGapMm)
       ? Math.max(0, Math.min(12, settings.cvSectionGapMm))

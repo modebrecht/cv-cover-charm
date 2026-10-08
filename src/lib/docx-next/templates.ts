@@ -114,7 +114,13 @@ export type TemplateDefinition = {
       }[];
     };
   };
-  cv: { sectionSpaceMm: number; headingRule: boolean; sidebarFraction: number };
+  cv: {
+    sectionSpaceMm: number;
+    headingRule: boolean;
+    sidebarFraction: number;
+    /** Default editable heading shading; explicit current/legacy saved choices override it. */
+    headingBadge?: boolean;
+  };
   /** Quiet page paint independent of running contact chrome; repeats in native header stories. */
   pageMotifs?: Partial<Record<"cover" | "letter" | "cv", readonly TemplateMotif[]>>;
   /** Serialize page paint by declared layers for consistent native importer stacking. */
