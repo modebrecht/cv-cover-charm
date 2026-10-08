@@ -1,5 +1,11 @@
 # DOCX Next handoff — 2026-10-08
 
+## Complete inline main-story owner — 2026-10-08
+
+Continued from clean final `d78986a0`, with successful M6/all eight application groups and all stable/gallery jobs; its final artifact and exact complete-story report are verified. The [primary-backed inline main owner](sidebar-inline-story-status.md) keeps all 26 main paragraphs and six native entry tables in one splittable cell. All native order/text/owners/flags, every CV table geometry and complete visible lane sequences survive Save/Reopen, with no repeated title. The left short control starts all nine main opening fields on CV page 1; the left side-long still starts all nine on page 7. The bounded plan stops after two actual cases / 12 pages, plus Save/Reopen; four prepared sources remain unrendered. Original caption identity still fails. Eleven adversarial tests and the 18 existing story tests pass. No model/renderer/production change; independent exact-source stable execution is pending publication.
+
+Next: verify exact-source successor CI and download/pin its independent stable artifact, then inspect the native attachment/anchor lifecycle of a complete main owner. Do not extend this rejected wrapper matrix or repeat flags/widths/crops/helper-removal guesses. All older negative/positive controls and caption/geometry/photo/chrome/Word requirements remain. Production stays blocked, 29/39 configured and 0/39 Word accepted. This entry supersedes every earlier next-task paragraph.
+
 ## Complete native story contract — 2026-10-08
 
 Fresh remote `dev` `d6f044aec1e15e911b3d74009ef2ce8734100a8e` is clean, with final M6/application 37796642031 (all eight browser groups), stable 37796641996 and gallery 37796641733 successful. Final artifact 11558449910 has verified SHA-256 `d023cfbeb0c4df0c1df20f43a3828fe661179b87a686448b1d5364da9296f8d9`; both strict baselines, all 24 prepared sources, eight actual saved native packages and 96 original PNG digests match. The predecessor's final verification is complete.
