@@ -1,5 +1,14 @@
 # DOCX Next checkpoint — 2026-10-08
 
+## Parallel graphics template completion — 2026-10-08
+
+The dedicated `docx-next/template-graphics-final-20261008` branch, based on freshly fetched `dev` `d6f044aec1e15e911b3d74009ef2ce8734100a8e`, contains **38/39 configured candidates and 0/39 Microsoft Word accepted**. Seven earlier migrations were consolidated, then Neon and Verlauf completed with bounded opt-in nonsemantic composite page paint. This is separate branch evidence, not a claim that these configurations have been merged into `dev`.
+
+[Final report](template-graphics-final-report.md) and [fresh ledger](template-graphics-final-evidence.json): 32 completed fixtures / 223 source + 223 saved pages, all 3,578 semantic fields retained, immutable JSON/packages, both actual editor/PDF smokes, 1,057 isolated units and all 305 existing DOCX Next tests. Thirty-six preceding descriptors, 180 models and 36 normal native packages remain unchanged.
+
+Aurora remains **unconfigured**. Its actual app hero is fixed at 128 mm, correcting the earlier source assumption. A real 17-fixture prototype retains semantic text but its long-title case renders white text on white paper outside that background in both source and saved files. A shared flowing gradient/rounded backdrop contract is still needed for editable native flow. Stop this template; do not substitute missing visuals or open production/Word/Sidebar gates. Table-caption identity loss remains documented separately. Next template batch: Aurora after the reusable contract is supplied. All existing architecture-track entries below retain their original scope/evidence.
+
+
 
 **Independently executed native anchor:** Source `f0d49b79` has successful M6 37794929371 and all three stable jobs 37794929385. [Strict native anchor evidence](sidebar-floating-anchor-status.md) reproduces four cases / 24 pages plus Save/Reopen: title opening page 1, other eight fields page 7, seven visible copies of one native title. Artifact 11557554699 is downloaded and SHA-256 verified; all twelve prepared sources / 48 PNG digests match. The independent baseline pins every native, paragraph/multiplicity/opening/geometry and pixel gate. The flag-only baseline and 54 historical observations reproduce unchanged. Both primary upstream references exercise only one following paragraph; a multi-paragraph independent story remains unproven. Production stays blocked, 29/39 configured and 0/39 Word accepted. Successor CI is checked separately. This supersedes earlier next-task notes.
 

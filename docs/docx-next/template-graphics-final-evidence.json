@@ -1,0 +1,4150 @@
+{
+  "date": "2026-10-08",
+  "branch": "docx-next/template-graphics-final-20261008",
+  "baseDevSha": "d6f044aec1e15e911b3d74009ef2ce8734100a8e",
+  "devObservedBeforePublication": "d78986a01a7f9964557d7facf004676928a534a7",
+  "configured": 38,
+  "activePickerTemplates": 39,
+  "wordAccepted": 0,
+  "completedTemplates": [
+    "neon",
+    "verlauf"
+  ],
+  "stoppedTemplates": [
+    "aurora"
+  ],
+  "reviewedCodeCommit": "d8a340da9f445d93b9e29a43bed212589c07ff8f",
+  "reviewedCodeTree": "82ab79a07faf39bd72883f13b15dc4899f24818f",
+  "stableRuntime": {
+    "interface": "LibreOfficeKit",
+    "version": {
+      "ProductName": "LibreOffice",
+      "ProductVersion": "25.8",
+      "ProductExtension": ".7.3",
+      "BuildId": "580(Build:3)"
+    },
+    "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+    "fontManifestSha256": "0e1e4498cc9799ae9c778f7cf455dd68350b0fd49fdfacaf4c38853f1c424723",
+    "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+    "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "host": "Linux x86_64",
+    "packagesVerified": 50
+  },
+  "regression": {
+    "descriptors": 36,
+    "models": 180,
+    "byteIdenticalNormalPackages": 36,
+    "canonicalStandaloneAssets": 156,
+    "packages": [
+      {
+        "template": "brief",
+        "docxSha256": "7c853d41aa95dac459f17240d275159405638894443c7365494c52fb825d3388",
+        "bytes": 67322
+      },
+      {
+        "template": "freundlich",
+        "docxSha256": "b902aea4dad9e77cd6d7a54a9ccdd37e619e83f63ebf5215e8b18cd3899c90ef",
+        "bytes": 217276
+      },
+      {
+        "template": "prism",
+        "docxSha256": "7d6dd556409e097336d57d2ca7ebf362f6782592f6846fd3601ea847835515be",
+        "bytes": 182161
+      },
+      {
+        "template": "human",
+        "docxSha256": "aecec90d5305e998f9ee1e24172482b608ab7fafeea6f06226b59fbbbb9a8465",
+        "bytes": 176981
+      },
+      {
+        "template": "orbit",
+        "docxSha256": "8a5ae98fc84a358d424aea5950afb059290945a8fab8b3b9722d562ee09a0b8a",
+        "bytes": 176999
+      },
+      {
+        "template": "cove",
+        "docxSha256": "9ffe70ebb709ec09e9e84ded2a08b551eabd74f2063fac60b38e28ea1d5dbbf4",
+        "bytes": 154725
+      },
+      {
+        "template": "glow",
+        "docxSha256": "91f4574804e720c18701365ae0c748b4cfe6c7c7b9e5b32836c3fff42e9ab73a",
+        "bytes": 1128818
+      },
+      {
+        "template": "horizon",
+        "docxSha256": "a89956164d79a7f49fd53bedd5a2d83a8160259668b2697f11d0182d05f4a1ec",
+        "bytes": 3798931
+      },
+      {
+        "template": "monoLuxe",
+        "docxSha256": "cdf0e2a7ad503c792e14e029926ac816a0dcbc39cc22158d62aa5a65a3f84af3",
+        "bytes": 114933
+      },
+      {
+        "template": "ledger",
+        "docxSha256": "e43dd0be94e39176329a04b74e37faa21236f592da47673a4075094ca1a763aa",
+        "bytes": 148830
+      },
+      {
+        "template": "ribbon",
+        "docxSha256": "5b502424f7e2f7cf75fe46f35c3c0d16045e552653d406d05c97dc106b8194b1",
+        "bytes": 172880
+      },
+      {
+        "template": "sunrise",
+        "docxSha256": "e07e95910d9c86f94d7c9389c797f4ebd3003d6d4184d7b74337ce6b17b15c52",
+        "bytes": 2520873
+      },
+      {
+        "template": "forestFlow",
+        "docxSha256": "6e6deb4a926384eccc710ff64e65a81354b8f0171128c33fd06cbdbaeb3b0a27",
+        "bytes": 157668
+      },
+      {
+        "template": "violetPulse",
+        "docxSha256": "20a2e6c41dda4b40ee86af0538397e610c0c58c1dde722dbeac89b6f397a2563",
+        "bytes": 2664638
+      },
+      {
+        "template": "studio3",
+        "docxSha256": "8eaf5592dee8322efe88a6159fc4f4005bd4b28c0eff6716960aa48861ed0154",
+        "bytes": 172278
+      },
+      {
+        "template": "warm2",
+        "docxSha256": "63440ba5ab6ede2fd5cbad83bd4760eb1f3acbe678dd67bea89254621803962b",
+        "bytes": 163226
+      },
+      {
+        "template": "warm3",
+        "docxSha256": "f18fe6fc073edcbdfd245fa5e684a335ffae7f3f2b8b4e7f0e66c6c5b8b3291a",
+        "bytes": 150509
+      },
+      {
+        "template": "verlauf2",
+        "docxSha256": "28ce8eb7e4994c565bf171ce79efe3c8a900afe8cb25a09ee466ee0dffb367a1",
+        "bytes": 2604693
+      },
+      {
+        "template": "verlauf3",
+        "docxSha256": "130e3bd1e346adebb4f09da244bc5e6077c4d2093efd2b2d5a1a899b5f54a046",
+        "bytes": 2334194
+      },
+      {
+        "template": "diagonal",
+        "docxSha256": "cefe9b621498f147e418780166d0c9d6fbfc39d5a5616600d9d0a1c9fe62b61c",
+        "bytes": 230516
+      },
+      {
+        "template": "klassisch",
+        "docxSha256": "85a89051754e49843224adf554dec16e3f39e9e13472bcd912aeb1af7cd23173",
+        "bytes": 180578
+      },
+      {
+        "template": "edel",
+        "docxSha256": "af020b925670043b521d4d429f36e0178b9d791da1072521a281b22b2e534fe8",
+        "bytes": 270367
+      },
+      {
+        "template": "serioes",
+        "docxSha256": "4eb3c8d13e3eafeb69669486100188fd3d6848e79e6c87fc69a4ed9f58369132",
+        "bytes": 102426
+      },
+      {
+        "template": "colorful",
+        "docxSha256": "61d2c0c2c678fe4dfd98d01636af6397ffa91092e62d75d7800a2f4f0028d4f9",
+        "bytes": 133366
+      },
+      {
+        "template": "blockig",
+        "docxSha256": "0a8b91e398d4b19accfc42801f6a3d23267aaae47ef5dd6d3a0d1062d9c23336",
+        "bytes": 137428
+      },
+      {
+        "template": "welle",
+        "docxSha256": "addf5ba67a805e7effe1d19bcec3b1c617780a458196ec28c62497f649fe6ec3",
+        "bytes": 123468
+      },
+      {
+        "template": "modern",
+        "docxSha256": "0856689a1afcc5b3d13771cecc91f8fbff234310d86fe8f9d17202d9eddeb38e",
+        "bytes": 123353
+      },
+      {
+        "template": "pastell",
+        "docxSha256": "85e494ea10300970395e3a1a8c9af3e1c3c22eda06c43725d9fed77d62244883",
+        "bytes": 143003
+      },
+      {
+        "template": "sonne",
+        "docxSha256": "e0f6de14194e3bc848b3b52e830e59aeeb5108c1202d9bc4301ac122b2d64c02",
+        "bytes": 97025
+      },
+      {
+        "template": "edelDark",
+        "docxSha256": "886c054b3a13dbe469f6380537e75292785372b900ff38124da5bfe7851fcbf8",
+        "bytes": 270480
+      },
+      {
+        "template": "studio2",
+        "docxSha256": "3a0db20af60987cd094def24e92290f0a99008a2dc9426773aca99c7724b88c2",
+        "bytes": 151787
+      },
+      {
+        "template": "studio",
+        "docxSha256": "eca622e554aa34152281f0b424c72c7a0ab11de4565749a8c66a8ee6e5f5790f",
+        "bytes": 169412
+      },
+      {
+        "template": "edge",
+        "docxSha256": "0d4dd00628f494a637fdb64e8080109af060261d9bce0d65df04e41832892cdf",
+        "bytes": 229447
+      },
+      {
+        "template": "gallery",
+        "docxSha256": "99e5e5717558f4d1c0adf6308c2f9abe846603f6ee9bc788ef5b536248954eaa",
+        "bytes": 171193
+      },
+      {
+        "template": "terracotta",
+        "docxSha256": "7219fbf2f498d1e920d790e22b43b9749b0efc2e6d51fa8e2636bfab97d90a92",
+        "bytes": 125041
+      },
+      {
+        "template": "citrus",
+        "docxSha256": "b759892c743d5b3b10f902ea705e9767bf74f83fce22b2bffab3850724e97ba0",
+        "bytes": 1156908
+      }
+    ],
+    "baselineLocalCommit": "9a3b1c01",
+    "baselinePublishedCommit": "d263d8db0371b5d5092f1710d6c0278a95179a1e",
+    "baselineTree": "1f3b6d79ef8bcf05c6a56caf8ec6d269b710f028"
+  },
+  "unitTests": {
+    "files": 225,
+    "tests": 1057,
+    "complete": true
+  },
+  "existingDocxNextTests": {
+    "files": 52,
+    "tests": 305,
+    "execution": "complete per-file isolated run; monolithic command lacks a final summary"
+  },
+  "checks": {
+    "typecheck": "pass",
+    "changedFileLint": "pass",
+    "newFileLint": "pass",
+    "releaseFormatting": "pass",
+    "changedFormatting": "pass",
+    "productionBuild": "pass"
+  },
+  "acceptedCandidates": {
+    "neon": {
+      "fixtures": 16,
+      "sourcePages": 112,
+      "savedPages": 112,
+      "sourceTaggedFields": 1797,
+      "savedMatchingTaggedFields": 1797,
+      "tableIdentityFailures": 16,
+      "fieldIdentityFailures": 0,
+      "browserNormalizedInputs": 6,
+      "rows": [
+        {
+          "fixture": "neon-normal",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "5e38aa8368b00079f5c8a97012ac02f619a6c67f6e799db069c6cbc52a45ecfc",
+            "savedDocx": "68f145b20eda30e6286a13fca698f7577d9ede15298f1323e147470f0f743fe3",
+            "sourcePdf": "bda1665b629e9d0b92040464f00c1f843a95d1e1a0fe88cdcc1ece6b0a28e8d1",
+            "savedPdf": "6e95efe35215fbb58c938afc664b609f080fc363c7921ab930e713e959208a19"
+          },
+          "nativeQa": {
+            "fixture": "neon-normal",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 1967822,
+            "durationMs": 12514,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-normal",
+            "sourceDocxSha256": "5e38aa8368b00079f5c8a97012ac02f619a6c67f6e799db069c6cbc52a45ecfc",
+            "savedDocxSha256": "68f145b20eda30e6286a13fca698f7577d9ede15298f1323e147470f0f743fe3",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-normal",
+            "docxSha256": "5e38aa8368b00079f5c8a97012ac02f619a6c67f6e799db069c6cbc52a45ecfc",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-2.png": "5241a0a24b0b7acf9b265b08d9fe852651e5eb32e16c2c88bde7718c8429ee9c",
+              "page-3.png": "b455bb889aa4db25a15ca04db63b97fa7d2aec485d8f6c0daef77f4b4e0f2eac",
+              "page-4.png": "c86ae12c167ab1b36b345d222e6831547a06aa34d102dd78ace96b1c9799b739"
+            }
+          }
+        },
+        {
+          "fixture": "neon-long-letter",
+          "pages": 14,
+          "parts": {
+            "cover": 1,
+            "letter": 11,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "87207c9d0ab0abe503175dd9d73559e4b51650a0a862f64df0592ef11cff6c60",
+            "savedDocx": "344ddd302beddc7bfe05eb1e7eea047dcd734252cfa2ecfdab7aa6a2873d0d59",
+            "sourcePdf": "396669dc267b5241e88d679b9dd6b77425d9335147b18959dbbd51fe62c2aa3b",
+            "savedPdf": "a35dd41ceaa67db7ce10edd4c0d9c05fb9d495f162db647978deb7f5659d0e68"
+          },
+          "nativeQa": {
+            "fixture": "neon-long-letter",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 14,
+            "media": 3,
+            "bytes": 2044561,
+            "durationMs": 159,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-long-letter",
+            "sourceDocxSha256": "87207c9d0ab0abe503175dd9d73559e4b51650a0a862f64df0592ef11cff6c60",
+            "savedDocxSha256": "344ddd302beddc7bfe05eb1e7eea047dcd734252cfa2ecfdab7aa6a2873d0d59",
+            "sourceTaggedFields": 206,
+            "savedMatchingTaggedFields": 206,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-long-letter",
+            "docxSha256": "87207c9d0ab0abe503175dd9d73559e4b51650a0a862f64df0592ef11cff6c60",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-10.png": "01aee62b74cdbd50e7204f8243dffee290b0d48e04e7612d98fd07a96e5f33e9",
+              "page-11.png": "309e53d6c8079d345c39e048aeffb18c06568c123b19e591a0ab19a1fb1fc24f",
+              "page-12.png": "54242042db10b87a2ffc5aec5b098cc7cf1a011667afa8d529b29cb69f7e900c",
+              "page-13.png": "b455bb889aa4db25a15ca04db63b97fa7d2aec485d8f6c0daef77f4b4e0f2eac",
+              "page-14.png": "c86ae12c167ab1b36b345d222e6831547a06aa34d102dd78ace96b1c9799b739",
+              "page-2.png": "400b461c31897274ec3a170c7e7552948eee1c0fcf2251f3c2f6ecdb8c49b2a5",
+              "page-3.png": "c6c0cd760d6afbb5a5f21d55422d5788745b88fee14688f286c76df92cf5904b",
+              "page-4.png": "ecdbcbfbfe3b3459105be8a9347d088135390554994f0daa45f00f655b9d9c24",
+              "page-5.png": "a700512bc24d999b3c413f6af6981edfad9ff7681eac4009f87155f15ea43e60",
+              "page-6.png": "506eee8472f306d4ef26e9af4462474b77a930c181d4fa47fe59c46634e4208e",
+              "page-7.png": "a35301ae342244cc1aa66ba19dd525b7aba2e0bff3f18306f0e873ce878b3756",
+              "page-8.png": "3a4de2a1a63b7ff123bd72e96f1d78b42eb4e6afde1f5a68166d4cf668cd8c22",
+              "page-9.png": "ddef603ab0ccf5a31b98e7e59743ddc906e9875c4e6882d60a8f2aca31bd3d89"
+            }
+          }
+        },
+        {
+          "fixture": "neon-long-cv",
+          "pages": 15,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 13
+          },
+          "hashes": {
+            "sourceDocx": "172c160d02f4af951c7eaba8b7c2c9003a189cfb091eb5f1cc55df65177ef870",
+            "savedDocx": "652b9020ce1971f0309c89b3322e2a05254088bec574acf06e210432db5868e7",
+            "sourcePdf": "8a13a65f98460a5f7a324238f633278df95b26a201c694ec3df00d52573e8c54",
+            "savedPdf": "0ca0615b7b49d0c18cbf6e2e6cd97a4a964ca6c9f440be84d8bfd6dba622dc17"
+          },
+          "nativeQa": {
+            "fixture": "neon-long-cv",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 15,
+            "media": 3,
+            "bytes": 2124927,
+            "durationMs": 202,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-long-cv",
+            "sourceDocxSha256": "172c160d02f4af951c7eaba8b7c2c9003a189cfb091eb5f1cc55df65177ef870",
+            "savedDocxSha256": "652b9020ce1971f0309c89b3322e2a05254088bec574acf06e210432db5868e7",
+            "sourceTaggedFields": 325,
+            "savedMatchingTaggedFields": 325,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-long-cv",
+            "docxSha256": "172c160d02f4af951c7eaba8b7c2c9003a189cfb091eb5f1cc55df65177ef870",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-10.png": "c36decc7e35665edce553a80386fffbd39180201b7a504cbeddbfe08ea883452",
+              "page-11.png": "e294518312658f35653fe40923cb7b7e37369d62c804197359f40e9bc098812e",
+              "page-12.png": "b3373141631288e18334c6c8c16f80e487afdcba89dc360355e9fe76d77b2c21",
+              "page-13.png": "87c29f2896649dcdd6b2d3a9a22ef6ad5bca13e13fb2cfb16436f6558a4c3cae",
+              "page-14.png": "906c40d838bbe3b7403b5bc20bd3290fe6dc462f18e415c389218a472fac0e85",
+              "page-15.png": "38c1e9610ef6c99a33312f38a26a23c0dab9e5beb7a33230743d139764772658",
+              "page-2.png": "5241a0a24b0b7acf9b265b08d9fe852651e5eb32e16c2c88bde7718c8429ee9c",
+              "page-3.png": "f7b7dcf853a7ccf74ea4d8231e63d89626ca6a82058b806591c2dd680c68181e",
+              "page-4.png": "2fad01ff599d9633dd889778050e10490c1c73a4d1fb64a11327ce89718b3407",
+              "page-5.png": "349f077980391cf76dda51148bd8f4f9cfc89637909262283aa2848067a82fbe",
+              "page-6.png": "3b6b7f5af342bc5b5db340ebc38921ee4eb583b076fff48bc130d1345e9546f3",
+              "page-7.png": "e388cffabc95ab6b2494f1fe6784dbb147a7c5325c6a6047ae5ed16386aa109a",
+              "page-8.png": "d2b1c1d3837bd88f37738d65900bfa0eb9c4b325bd4759cecdc78f40a492f841",
+              "page-9.png": "e75a05b0cf7bc304f4934c288397c3829e456ab7b422f1a762df05efe3d6dd0d"
+            }
+          }
+        },
+        {
+          "fixture": "neon-long-values",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "024dbdc5094c976d6b130df30c1a86ed5f577b6a0cc848d965341363312611bf",
+            "savedDocx": "dd03c0d11a40fb923192a25f0fa1edffc5dbbab3cb135007ff23114f43b0f3a1",
+            "sourcePdf": "1f8e9941c71484f58e4a4e63fe39a30e802a65d008775ffadee64fbb3cf0c38e",
+            "savedPdf": "f024dec9fd4da2fafdcaba0d9b63f162cf253faeb0c8fcf0bd46842b55176643"
+          },
+          "nativeQa": {
+            "fixture": "neon-long-values",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 1969608,
+            "durationMs": 158,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-long-values",
+            "sourceDocxSha256": "024dbdc5094c976d6b130df30c1a86ed5f577b6a0cc848d965341363312611bf",
+            "savedDocxSha256": "dd03c0d11a40fb923192a25f0fa1edffc5dbbab3cb135007ff23114f43b0f3a1",
+            "sourceTaggedFields": 73,
+            "savedMatchingTaggedFields": 73,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.contact",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-long-values",
+            "docxSha256": "024dbdc5094c976d6b130df30c1a86ed5f577b6a0cc848d965341363312611bf",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-2.png": "b2b6ca8b8a7b78a8ebc4a2f60e460be34053ab74a76563753cf0d7e46f93d997",
+              "page-3.png": "36f49098f9cab68edc3b49b12b2ac3ae675551d2ee2d088e584ef96e2c50d6d9",
+              "page-4.png": "e13533fa35db0f80aaba3369444a28c01362242978ac97625f478cab805f120a"
+            }
+          }
+        },
+        {
+          "fixture": "neon-images",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "ca3101b713b988e6e680cbde1cc53e489563bf78838c5dfb8767be6fc1d99856",
+            "savedDocx": "224ed0e3dd7576d360944cd2fb6bf0972d8e87b93015e7e9ec5340f13d655ff3",
+            "sourcePdf": "330140999a56a52d9cddd88afb1f64e0550a9db482ec7530fac1292202f4fa86",
+            "savedPdf": "2cdcff6dab3249e78d8b4d19535923f32181ffe58fff358ab5d788960a6205f2"
+          },
+          "nativeQa": {
+            "fixture": "neon-images",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 4,
+            "bytes": 1972570,
+            "durationMs": 143,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-images",
+            "sourceDocxSha256": "ca3101b713b988e6e680cbde1cc53e489563bf78838c5dfb8767be6fc1d99856",
+            "savedDocxSha256": "224ed0e3dd7576d360944cd2fb6bf0972d8e87b93015e7e9ec5340f13d655ff3",
+            "sourceTaggedFields": 73,
+            "savedMatchingTaggedFields": 73,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-images",
+            "docxSha256": "ca3101b713b988e6e680cbde1cc53e489563bf78838c5dfb8767be6fc1d99856",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "ca92e9bc6f226410419bf2f665614eb6ca0a6d7477afb6c758d0761c2aa66689",
+              "page-2.png": "492b7a98bd29550977836c394f6d535ef1ca3409b7e89f75303c7912a5b8ac86",
+              "page-3.png": "7d0572548a9b5f7d5f1aaeb2ac9aaf8211e6ccfbd4419e4d905da77447bdc54f",
+              "page-4.png": "c86ae12c167ab1b36b345d222e6831547a06aa34d102dd78ace96b1c9799b739"
+            }
+          }
+        },
+        {
+          "fixture": "neon-custom",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "c66c573899d0e85dd33175cab611c73ce5e469dc9168145f04b70c077f367269",
+            "savedDocx": "577eb437ac278664d9198306d5a7a7efe7ba33e67c5bf7e9e035760d3a9dc883",
+            "sourcePdf": "146296ab18aa18164532804318bd1f674661907228cc2a0e04299646ecbc20be",
+            "savedPdf": "cd9b328268dc57e0160bc1b9b4198797928f5fe703e3e60e1bab7c62ed5465c1"
+          },
+          "nativeQa": {
+            "fixture": "neon-custom",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 1974910,
+            "durationMs": 145,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-custom",
+            "sourceDocxSha256": "c66c573899d0e85dd33175cab611c73ce5e469dc9168145f04b70c077f367269",
+            "savedDocxSha256": "577eb437ac278664d9198306d5a7a7efe7ba33e67c5bf7e9e035760d3a9dc883",
+            "sourceTaggedFields": 75,
+            "savedMatchingTaggedFields": 75,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.custom-a.flow-box",
+              "cover.custom-b.flow-box",
+              "cover.lehrbeginn.flow-box",
+              "cv.element:custom-a.flow-box",
+              "cv.element:custom-b.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1",
+              "letter.body.paragraph:2"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-custom",
+            "docxSha256": "c66c573899d0e85dd33175cab611c73ce5e469dc9168145f04b70c077f367269",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "7b8e1d61c833ce088d41ff8bd4a809d00c447b901add4edb5f287cf720155bb7",
+              "page-2.png": "e261bb073592592171aac49b447f8938c7262632ff254577141e800d60266180",
+              "page-3.png": "f6c3264ac83ca742e6f63287de164b20e4f0e813dd46086d66ab58b3e4021c35",
+              "page-4.png": "e13533fa35db0f80aaba3369444a28c01362242978ac97625f478cab805f120a"
+            }
+          }
+        },
+        {
+          "fixture": "neon-compact",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "4e907b49997c611a9c85726c51b2d87a090e9713bbfae44e9d1c0a0d22a55e85",
+            "savedDocx": "61e270dfb665a857994a043e2709fde56b6fda3bfe018f6beaea421a808496ff",
+            "sourcePdf": "ca37cacb345e6b80552d2c7860767a1c1483f530f20c90eb308bd138a178db9a",
+            "savedPdf": "874cb75400af632f7b7e8223a66988b797dd57345773d194ea0419ae4c13c96e"
+          },
+          "nativeQa": {
+            "fixture": "neon-compact",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 1964166,
+            "durationMs": 159,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-compact",
+            "sourceDocxSha256": "4e907b49997c611a9c85726c51b2d87a090e9713bbfae44e9d1c0a0d22a55e85",
+            "savedDocxSha256": "61e270dfb665a857994a043e2709fde56b6fda3bfe018f6beaea421a808496ff",
+            "sourceTaggedFields": 81,
+            "savedMatchingTaggedFields": 81,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.contact",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-compact",
+            "docxSha256": "4e907b49997c611a9c85726c51b2d87a090e9713bbfae44e9d1c0a0d22a55e85",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-2.png": "2720cec745696f8d5265fdee0ba711d02dabf4a6cca5e39ebdf6de027fd1e1ec",
+              "page-3.png": "73b13574c75549c77b724cd7b915611cc7278d04918155902850a2b8b492cf0a",
+              "page-4.png": "00f00fb9d597f3a22e86469d91cdb4ed89228ef4e112cb9c7622fab2e281f41a"
+            }
+          }
+        },
+        {
+          "fixture": "neon-none",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "0bf6e9b621826ceec2f01e372dfe449f7279a12128850032cb330003572e33a7",
+            "savedDocx": "0ef70666b40179f6838ef49406ed92a87ed724aab233a940fe039982150cd1f1",
+            "sourcePdf": "914190e86b075bd9a08e0beb7fe7960af344058d999b58c2de47bc9839edad50",
+            "savedPdf": "bb926d8f9f8eef2bbcc4a32e41ccb104cb692ff80bacd2eca1fffdb27919bb4a"
+          },
+          "nativeQa": {
+            "fixture": "neon-none",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 1963078,
+            "durationMs": 141,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-none",
+            "sourceDocxSha256": "0bf6e9b621826ceec2f01e372dfe449f7279a12128850032cb330003572e33a7",
+            "savedDocxSha256": "0ef70666b40179f6838ef49406ed92a87ed724aab233a940fe039982150cd1f1",
+            "sourceTaggedFields": 81,
+            "savedMatchingTaggedFields": 81,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.contact",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-none",
+            "docxSha256": "0bf6e9b621826ceec2f01e372dfe449f7279a12128850032cb330003572e33a7",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-2.png": "2720cec745696f8d5265fdee0ba711d02dabf4a6cca5e39ebdf6de027fd1e1ec",
+              "page-3.png": "73b13574c75549c77b724cd7b915611cc7278d04918155902850a2b8b492cf0a",
+              "page-4.png": "00f00fb9d597f3a22e86469d91cdb4ed89228ef4e112cb9c7622fab2e281f41a"
+            }
+          }
+        },
+        {
+          "fixture": "neon-continuation",
+          "pages": 12,
+          "parts": {
+            "cover": 1,
+            "letter": 9,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "b6ace6cbbfc5f261f1284a68b6768ea37a9331f33239b3fcafccdca3409073b0",
+            "savedDocx": "ac99b22115d9cea8c25e180fed309eb138e064ea4d6dbfe92765376e61538325",
+            "sourcePdf": "029422fd096d7e97456e42198a11bda12d4c7bbce898b0df74a4bc778a1775d2",
+            "savedPdf": "3c453368e43662a8a4cd8d255a76b344475e2ff662db87e29741e95da34086b8"
+          },
+          "nativeQa": {
+            "fixture": "neon-continuation",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 12,
+            "media": 3,
+            "bytes": 1989481,
+            "durationMs": 135,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-continuation",
+            "sourceDocxSha256": "b6ace6cbbfc5f261f1284a68b6768ea37a9331f33239b3fcafccdca3409073b0",
+            "savedDocxSha256": "ac99b22115d9cea8c25e180fed309eb138e064ea4d6dbfe92765376e61538325",
+            "sourceTaggedFields": 75,
+            "savedMatchingTaggedFields": 75,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-continuation",
+            "docxSha256": "b6ace6cbbfc5f261f1284a68b6768ea37a9331f33239b3fcafccdca3409073b0",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-10.png": "871e3fbae160e966366b95ee82031a06c456ec565c4936b9504b87f7e76dcf05",
+              "page-11.png": "4a9de6e3dcdf45ee436c560e58cefcfc3abb6da2a594c35f7059f9197a283637",
+              "page-12.png": "9a070d834194d500bcdd4ca9b3e04ec8abd8042d32e18d4cfd8b78a882ec7593",
+              "page-2.png": "a8180a8e7162685204e046a2f584072088b7c45617a0396823d72f7f1e21168a",
+              "page-3.png": "ae475b04153e9a6e3a84ff5e4a4d1b52a9459b7b6d00ba68c7f249e2fc068d08",
+              "page-4.png": "2a44469f1523b7976b2d6f903948868d79c21cb7dae00329d851558e14ad397d",
+              "page-5.png": "d189fa985c933785c41b8f0deaa8bb22558a89ebf48bbcb118600e0e2a7b29b4",
+              "page-6.png": "a4e388af53c2d23f1554120790876a3930ff151e9bb1e5ae0c7dafa831b97451",
+              "page-7.png": "ae475b04153e9a6e3a84ff5e4a4d1b52a9459b7b6d00ba68c7f249e2fc068d08",
+              "page-8.png": "2a44469f1523b7976b2d6f903948868d79c21cb7dae00329d851558e14ad397d",
+              "page-9.png": "d189fa985c933785c41b8f0deaa8bb22558a89ebf48bbcb118600e0e2a7b29b4"
+            }
+          }
+        },
+        {
+          "fixture": "neon-timeline",
+          "pages": 19,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 17
+          },
+          "hashes": {
+            "sourceDocx": "9a104d7dae35fd6682b4c87112b09dd468a4a3fa31005c0014a46b0351fd44a5",
+            "savedDocx": "04492533ba3aa43fb5d076b2e0bf1d84ba98c201e280f98066130cae26f8290c",
+            "sourcePdf": "d0733edcb0c41853caee427931053143fa47efe25271c5828237f6c053bebde5",
+            "savedPdf": "faa7f0ca513171165d53c2c4ce28cf6379c14db497895b6fa2f7321c1176cdf8"
+          },
+          "nativeQa": {
+            "fixture": "neon-timeline",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 19,
+            "media": 3,
+            "bytes": 2219139,
+            "durationMs": 230,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-timeline",
+            "sourceDocxSha256": "9a104d7dae35fd6682b4c87112b09dd468a4a3fa31005c0014a46b0351fd44a5",
+            "savedDocxSha256": "04492533ba3aa43fb5d076b2e0bf1d84ba98c201e280f98066130cae26f8290c",
+            "sourceTaggedFields": 336,
+            "savedMatchingTaggedFields": 336,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+              "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+              "cv.entry.erfahrung:demo-p1.dateRail",
+              "cv.entry.erfahrung:demo-p2.dateRail",
+              "cv.entry.schule:school-0.dateRail",
+              "cv.entry.schule:school-1.dateRail",
+              "cv.entry.schule:school-10.dateRail",
+              "cv.entry.schule:school-11.dateRail",
+              "cv.entry.schule:school-12.dateRail",
+              "cv.entry.schule:school-13.dateRail",
+              "cv.entry.schule:school-14.dateRail",
+              "cv.entry.schule:school-15.dateRail",
+              "cv.entry.schule:school-16.dateRail",
+              "cv.entry.schule:school-17.dateRail",
+              "cv.entry.schule:school-18.dateRail",
+              "cv.entry.schule:school-19.dateRail",
+              "cv.entry.schule:school-2.dateRail",
+              "cv.entry.schule:school-20.dateRail",
+              "cv.entry.schule:school-21.dateRail",
+              "cv.entry.schule:school-22.dateRail",
+              "cv.entry.schule:school-23.dateRail",
+              "cv.entry.schule:school-24.dateRail",
+              "cv.entry.schule:school-25.dateRail",
+              "cv.entry.schule:school-26.dateRail",
+              "cv.entry.schule:school-27.dateRail",
+              "cv.entry.schule:school-28.dateRail",
+              "cv.entry.schule:school-29.dateRail",
+              "cv.entry.schule:school-3.dateRail",
+              "cv.entry.schule:school-30.dateRail",
+              "cv.entry.schule:school-31.dateRail",
+              "cv.entry.schule:school-32.dateRail",
+              "cv.entry.schule:school-33.dateRail",
+              "cv.entry.schule:school-34.dateRail",
+              "cv.entry.schule:school-35.dateRail",
+              "cv.entry.schule:school-36.dateRail",
+              "cv.entry.schule:school-37.dateRail",
+              "cv.entry.schule:school-38.dateRail",
+              "cv.entry.schule:school-39.dateRail",
+              "cv.entry.schule:school-4.dateRail",
+              "cv.entry.schule:school-40.dateRail",
+              "cv.entry.schule:school-41.dateRail",
+              "cv.entry.schule:school-42.dateRail",
+              "cv.entry.schule:school-43.dateRail",
+              "cv.entry.schule:school-44.dateRail",
+              "cv.entry.schule:school-45.dateRail",
+              "cv.entry.schule:school-46.dateRail",
+              "cv.entry.schule:school-47.dateRail",
+              "cv.entry.schule:school-48.dateRail",
+              "cv.entry.schule:school-49.dateRail",
+              "cv.entry.schule:school-5.dateRail",
+              "cv.entry.schule:school-50.dateRail",
+              "cv.entry.schule:school-51.dateRail",
+              "cv.entry.schule:school-52.dateRail",
+              "cv.entry.schule:school-53.dateRail",
+              "cv.entry.schule:school-54.dateRail",
+              "cv.entry.schule:school-55.dateRail",
+              "cv.entry.schule:school-56.dateRail",
+              "cv.entry.schule:school-57.dateRail",
+              "cv.entry.schule:school-58.dateRail",
+              "cv.entry.schule:school-59.dateRail",
+              "cv.entry.schule:school-6.dateRail",
+              "cv.entry.schule:school-60.dateRail",
+              "cv.entry.schule:school-61.dateRail",
+              "cv.entry.schule:school-62.dateRail",
+              "cv.entry.schule:school-63.dateRail",
+              "cv.entry.schule:school-64.dateRail",
+              "cv.entry.schule:school-7.dateRail",
+              "cv.entry.schule:school-8.dateRail",
+              "cv.entry.schule:school-9.dateRail",
+              "cv.entry.schule:variant-overflow.dateRail",
+              "cv.person.details",
+              "cv.section.custom:variant-alpha.half-row",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-timeline",
+            "docxSha256": "9a104d7dae35fd6682b4c87112b09dd468a4a3fa31005c0014a46b0351fd44a5",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-10.png": "3e6480a728b1308d81dbb132ddb0f8843a6350ee4000fd01a9af40c7f23e5a37",
+              "page-11.png": "c383429d30e7d29df483b0875acb184d2c67e558f3f516ae75388f89e020521a",
+              "page-12.png": "1f2eeb07ce4e91ed9b746c2cddac18db84fb80352d83624eff119a8dd05abde1",
+              "page-13.png": "68568500b3f74d5d47ba1ed18490f66d5a80a3bdd881b186b59bcb89103cba1e",
+              "page-14.png": "7d2e8c5945a6558c50c6494e95ce38c6c51c6097f3ecfb99af832240d4f27089",
+              "page-15.png": "7d2e8c5945a6558c50c6494e95ce38c6c51c6097f3ecfb99af832240d4f27089",
+              "page-16.png": "7d2e8c5945a6558c50c6494e95ce38c6c51c6097f3ecfb99af832240d4f27089",
+              "page-17.png": "7d2e8c5945a6558c50c6494e95ce38c6c51c6097f3ecfb99af832240d4f27089",
+              "page-18.png": "d145279d2113a43a565f90437031e0eaf27108e7615c9a4173725b81a39cf026",
+              "page-19.png": "9b6d9e9b7b9b66ce2eea2cdf3baa0931684664751dd984b9d4aa5e990ff24cd5",
+              "page-2.png": "5241a0a24b0b7acf9b265b08d9fe852651e5eb32e16c2c88bde7718c8429ee9c",
+              "page-3.png": "7ce94296da01a98c17f56e611af26b90291c24a90e4ae52239babf44caf77ef3",
+              "page-4.png": "ba9fc850bd6b1843f6a284288015b026e78507dbe06da491e32f4cf47a89436e",
+              "page-5.png": "1fa6e3f1b16bea96545f2814f577aa026c89c64ca9a19f5c5bc423a68e677683",
+              "page-6.png": "f79083c4798ba3ca4d73edafa17a88ab0e9f39593b882e9e711be20b6359a0f7",
+              "page-7.png": "efd85844b847ee3cabaf63f87203442222ef2d5fd184ac08c86e888b8812888f",
+              "page-8.png": "c57c03229bf2437244c03a06e90c22c136730f4b57f0e8a36dd7c8d9fec91024",
+              "page-9.png": "e4fc8ac09a611dae50eb71e96d27c1321c4ebc8097f2d979b07b1724a89c4ee3"
+            }
+          }
+        },
+        {
+          "fixture": "neon-magazin",
+          "pages": 3,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 1
+          },
+          "hashes": {
+            "sourceDocx": "e309bbaec58aea646ec150566f3790628a674e62b29eb9b6367fa1186b4f2f7d",
+            "savedDocx": "1e3b2d8fb42e11f65221613e0ce4bae53ba159b5e269f0f6a4675fb35fd16ae7",
+            "sourcePdf": "8e7d8f73f79d9801a0dd7cbcc9640ae5d14cda473d60d090e52df90eeef7365c",
+            "savedPdf": "2faa93f711ad7642f3a028de3c0c4be3fee6fa74fe05def43054fe17e0de65d1"
+          },
+          "nativeQa": {
+            "fixture": "neon-magazin",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 3,
+            "media": 3,
+            "bytes": 1950637,
+            "durationMs": 173,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-magazin",
+            "sourceDocxSha256": "e309bbaec58aea646ec150566f3790628a674e62b29eb9b6367fa1186b4f2f7d",
+            "savedDocxSha256": "1e3b2d8fb42e11f65221613e0ce4bae53ba159b5e269f0f6a4675fb35fd16ae7",
+            "sourceTaggedFields": 39,
+            "savedMatchingTaggedFields": 39,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+              "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+              "cv.entry.schule:variant-school.dateRail",
+              "cv.section.custom:variant-alpha.half-row"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-magazin",
+            "docxSha256": "e309bbaec58aea646ec150566f3790628a674e62b29eb9b6367fa1186b4f2f7d",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-2.png": "f36fec7cdedc2c353b440d6fd4abbd8c057de8f778780ef46fcf6f25fea06a9e",
+              "page-3.png": "a6de1e1298703b75c235a5e079fc37648506327f6cd8b51d67af587e5be50455"
+            }
+          }
+        },
+        {
+          "fixture": "neon-no-motifs",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "9a82033801cc51c911e29683399a68f2419655ce77ef534bd74b1fad7e03921a",
+            "savedDocx": "83d4580fc7cb31c3cb7647237e32efa0a9cada44eff38016ebc9a72fe99cccad",
+            "sourcePdf": "11185db6c2aa57ab5e53ef8d116d8b39b6b2961afa82ce5caa99c9429aeb661a",
+            "savedPdf": "23f6f53774c4611ed3bceb651a5d72d78e1eeb12a499b72a6a05a56d845d3128"
+          },
+          "nativeQa": {
+            "fixture": "neon-no-motifs",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 1964700,
+            "durationMs": 142,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-no-motifs",
+            "sourceDocxSha256": "9a82033801cc51c911e29683399a68f2419655ce77ef534bd74b1fad7e03921a",
+            "savedDocxSha256": "83d4580fc7cb31c3cb7647237e32efa0a9cada44eff38016ebc9a72fe99cccad",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-no-motifs",
+            "docxSha256": "9a82033801cc51c911e29683399a68f2419655ce77ef534bd74b1fad7e03921a",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "189db085ae94a484c9f30ff5f74b5a3199ec57dc8143dc00a9961e5551b87664",
+              "page-2.png": "5241a0a24b0b7acf9b265b08d9fe852651e5eb32e16c2c88bde7718c8429ee9c",
+              "page-3.png": "f9ed440a2d06fc440f020302d7a21a5053dbe31c5f03e16be15323e1e4c6639b",
+              "page-4.png": "85a89d3ff30b6a748488308953f5520571968f68a67c880bcc0b56b8d6687c7f"
+            }
+          }
+        },
+        {
+          "fixture": "neon-custom-colors",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "a6fec2a20324fb935526d17988848929f01d55432ba9aff6449950a84d9ed5a8",
+            "savedDocx": "8d841bbf933cbae228c71153fd1d3058dab44ac79393f3a357735c9abd8d7e22",
+            "sourcePdf": "1176b4236e35cdd8b35190ea7c9618c24c9cf122a8ebed7d1661c4e428d4d9b7",
+            "savedPdf": "8a848c38f33d8f980734f2177e52256accbf54990462953414bf2116da65365d"
+          },
+          "nativeQa": {
+            "fixture": "neon-custom-colors",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 1966791,
+            "durationMs": 14544,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-custom-colors",
+            "sourceDocxSha256": "a6fec2a20324fb935526d17988848929f01d55432ba9aff6449950a84d9ed5a8",
+            "savedDocxSha256": "8d841bbf933cbae228c71153fd1d3058dab44ac79393f3a357735c9abd8d7e22",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-custom-colors",
+            "docxSha256": "a6fec2a20324fb935526d17988848929f01d55432ba9aff6449950a84d9ed5a8",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "98c0b2b77a0ab4ed568416f8d440d71fa1e0d9ead4de8f75673ef917e094c9ae",
+              "page-2.png": "18751520507d013145fb1f79e3c1cdb3e042a06567bf9d426391fca3f0a38eb4",
+              "page-3.png": "ef9e0c32bde4d12e40687b1515a10999b64731a859ddaeb05e2d00c0d3c8b4a2",
+              "page-4.png": "3d259231f8ae849264b00f0d7307a1ac120f5c01131bf089a640d369383f76ac"
+            }
+          }
+        },
+        {
+          "fixture": "neon-cover-long",
+          "pages": 5,
+          "parts": {
+            "cover": 2,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "4f029e8a9573454b5e801869410f19d43ffac3463d1e61657d855fce54cc55a7",
+            "savedDocx": "331c32979fe38db26852f7d54be8c92b6b352ffda6a3252f1ade3d5d1eae6eb6",
+            "sourcePdf": "730db7391c5f0907381f806ffa97473f89ba05f5dddb5ef8b4928c01ce11026f",
+            "savedPdf": "4fd8613228d70cbaab9202bd72b20f432aa00e61165f107535ce0d30830548c2"
+          },
+          "nativeQa": {
+            "fixture": "neon-cover-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 5,
+            "media": 3,
+            "bytes": 1987597,
+            "durationMs": 276,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-cover-long",
+            "sourceDocxSha256": "4f029e8a9573454b5e801869410f19d43ffac3463d1e61657d855fce54cc55a7",
+            "savedDocxSha256": "331c32979fe38db26852f7d54be8c92b6b352ffda6a3252f1ade3d5d1eae6eb6",
+            "sourceTaggedFields": 73,
+            "savedMatchingTaggedFields": 73,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.continuation-text.flow-box",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-cover-long",
+            "docxSha256": "4f029e8a9573454b5e801869410f19d43ffac3463d1e61657d855fce54cc55a7",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "e089ea45d7d8f428783eab4cd49ab41ae2101c8abf3efc7564d940e84d3d574b",
+              "page-2.png": "66a5508b1382e295f7b3fc605e7c2d962a451f579abdfd71d111b2f901c84d9c",
+              "page-3.png": "5241a0a24b0b7acf9b265b08d9fe852651e5eb32e16c2c88bde7718c8429ee9c",
+              "page-4.png": "b455bb889aa4db25a15ca04db63b97fa7d2aec485d8f6c0daef77f4b4e0f2eac",
+              "page-5.png": "c86ae12c167ab1b36b345d222e6831547a06aa34d102dd78ace96b1c9799b739"
+            }
+          }
+        },
+        {
+          "fixture": "neon-contact-long",
+          "pages": 6,
+          "parts": {
+            "cover": 3,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "bcb55ec71806d79ff96a6ed9adcd275726351be5f1e81d4f22972869d65faeed",
+            "savedDocx": "c4a0ce75f0f9a2fd88b5457c313e11f874e922f4de9795a6f81364c990547744",
+            "sourcePdf": "e4a369352adaac3019727e2f444005cb060e644832f6f7212f7c3303515eba63",
+            "savedPdf": "31a0170fccf6ab1a93034a58e76cac6ffc9da9c65a746f0185c3eb8f939e3d53"
+          },
+          "nativeQa": {
+            "fixture": "neon-contact-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 6,
+            "media": 3,
+            "bytes": 1986184,
+            "durationMs": 186,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-contact-long",
+            "sourceDocxSha256": "bcb55ec71806d79ff96a6ed9adcd275726351be5f1e81d4f22972869d65faeed",
+            "savedDocxSha256": "c4a0ce75f0f9a2fd88b5457c313e11f874e922f4de9795a6f81364c990547744",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-contact-long",
+            "docxSha256": "bcb55ec71806d79ff96a6ed9adcd275726351be5f1e81d4f22972869d65faeed",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "6dff13aace7bff3b65722fad484348c8ed6e3abedc9cd16647c9f468d4a4054f",
+              "page-2.png": "3894d65249773418c6edb4964da36570d6bdee12e38e361a2e1a7c27cabadd6e",
+              "page-3.png": "6e6e7553e27a78e77b7bdcf78f51d08823a1b400f4830daf22c603403fc0302a",
+              "page-4.png": "5241a0a24b0b7acf9b265b08d9fe852651e5eb32e16c2c88bde7718c8429ee9c",
+              "page-5.png": "b455bb889aa4db25a15ca04db63b97fa7d2aec485d8f6c0daef77f4b4e0f2eac",
+              "page-6.png": "c86ae12c167ab1b36b345d222e6831547a06aa34d102dd78ace96b1c9799b739"
+            }
+          }
+        },
+        {
+          "fixture": "neon-hero-long",
+          "pages": 6,
+          "parts": {
+            "cover": 3,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "de99e3860526856d1c29378ccb4f4495bfe3ef0f32285c6cab778c5ece9a495d",
+            "savedDocx": "2c6482bfc374d50521f831b5a80f7f0a8c7426ef293dc7b292ac7a70e6ae4a58",
+            "sourcePdf": "f69ef8f93089d8f210b898d5b186bf51de6ed8fc51575050da6dbc7acd94d387",
+            "savedPdf": "2d22446d051f2cfbf487e65fdc6532c699e3d716ef29b7967c14feab8fd73532"
+          },
+          "nativeQa": {
+            "fixture": "neon-hero-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 6,
+            "media": 3,
+            "bytes": 1980026,
+            "durationMs": 243,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "neon-hero-long",
+            "sourceDocxSha256": "de99e3860526856d1c29378ccb4f4495bfe3ef0f32285c6cab778c5ece9a495d",
+            "savedDocxSha256": "2c6482bfc374d50521f831b5a80f7f0a8c7426ef293dc7b292ac7a70e6ae4a58",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "neon-hero-long",
+            "docxSha256": "de99e3860526856d1c29378ccb4f4495bfe3ef0f32285c6cab778c5ece9a495d",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "c56eff17a3ff99097cff8578731282e0f355038f25f2135149aec8e1d8945c9c",
+              "page-2.png": "d22c3b161b4bdbc208a4bd5c5194cfa332f63a66c0ad1909b5f05525df985a5e",
+              "page-3.png": "3552b4dfe90aeb2383adb9ed30a15235e6cf5cd1fc0944a294af7f3463884805",
+              "page-4.png": "5241a0a24b0b7acf9b265b08d9fe852651e5eb32e16c2c88bde7718c8429ee9c",
+              "page-5.png": "b455bb889aa4db25a15ca04db63b97fa7d2aec485d8f6c0daef77f4b4e0f2eac",
+              "page-6.png": "c86ae12c167ab1b36b345d222e6831547a06aa34d102dd78ace96b1c9799b739"
+            }
+          }
+        }
+      ]
+    },
+    "verlauf": {
+      "fixtures": 16,
+      "sourcePages": 111,
+      "savedPages": 111,
+      "sourceTaggedFields": 1781,
+      "savedMatchingTaggedFields": 1781,
+      "tableIdentityFailures": 16,
+      "fieldIdentityFailures": 0,
+      "browserNormalizedInputs": 6,
+      "rows": [
+        {
+          "fixture": "verlauf-normal",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "66f4dab6b992ec6ce44c6ef76b1d1ae0f2618b9f628ad065538865657472b502",
+            "savedDocx": "b256b1868004cf8c8799e3f3b1afa4c09174afcb0fde09e99db4403de83426de",
+            "sourcePdf": "31c2a8a65cb3169d3d4d1d892fd94c8057af9ca9b68a36252029666e8c7c009d",
+            "savedPdf": "baa40dc98e2225dc361b09551614f1a77ad37cada98ce8a62ccff65f52f9053f"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-normal",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 7646998,
+            "durationMs": 53653,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-normal",
+            "sourceDocxSha256": "66f4dab6b992ec6ce44c6ef76b1d1ae0f2618b9f628ad065538865657472b502",
+            "savedDocxSha256": "b256b1868004cf8c8799e3f3b1afa4c09174afcb0fde09e99db4403de83426de",
+            "sourceTaggedFields": 71,
+            "savedMatchingTaggedFields": 71,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-normal",
+            "docxSha256": "66f4dab6b992ec6ce44c6ef76b1d1ae0f2618b9f628ad065538865657472b502",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-2.png": "558c34caa74945198f9a8ecdb4d70ee55811f3d7eeec0b5bd9634eef646dfeee",
+              "page-3.png": "c5579a5bf95699215caa3a828de1c8d8e724b65019ef5c96ffd0988c5dc702f7",
+              "page-4.png": "f2adfba78431381c7db8b614673604603057a7e04c83550652de4db7793004df"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-long-letter",
+          "pages": 14,
+          "parts": {
+            "cover": 1,
+            "letter": 11,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "32ffe2b862ee8d1880101686defa494c019a1af73fef73ac1ba26085b9eca526",
+            "savedDocx": "86a63e8e6471400e9bcdedb4b9f2b5d3187a3f80118a43879da738e5b2724c93",
+            "sourcePdf": "840452ce0825e5c94a4a74d3d23790bd86f081002b4816475d8624d616de2c8c",
+            "savedPdf": "b8fb8d649f5b1651dcce50dda0b1743fb3dd2f85d4530f87d247e8ba38b4f064"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-long-letter",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 14,
+            "media": 3,
+            "bytes": 7723737,
+            "durationMs": 493,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-long-letter",
+            "sourceDocxSha256": "32ffe2b862ee8d1880101686defa494c019a1af73fef73ac1ba26085b9eca526",
+            "savedDocxSha256": "86a63e8e6471400e9bcdedb4b9f2b5d3187a3f80118a43879da738e5b2724c93",
+            "sourceTaggedFields": 205,
+            "savedMatchingTaggedFields": 205,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-long-letter",
+            "docxSha256": "32ffe2b862ee8d1880101686defa494c019a1af73fef73ac1ba26085b9eca526",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-10.png": "049b98ebba5a65f9df4f673d4cd0fdc7e24c7439448ec0646ffa4b1d903e0b86",
+              "page-11.png": "c47914444423464f3f8f157a642e6cb1b1471c735d12d816ac77568b54338ce1",
+              "page-12.png": "53510d07ab8b305e262372a7c67efe527f25d1ba2b27b004ec9f90b3cf908551",
+              "page-13.png": "c5579a5bf95699215caa3a828de1c8d8e724b65019ef5c96ffd0988c5dc702f7",
+              "page-14.png": "f2adfba78431381c7db8b614673604603057a7e04c83550652de4db7793004df",
+              "page-2.png": "0ca5ce3ab01af3f50b9a7554b3e5b1f38c6a978a92d3cc1ba7a84d09fcd4a2c0",
+              "page-3.png": "da3149e0f33c72663eba343e1dc23b566688adb2f22928a8be05bd162b433949",
+              "page-4.png": "b35ca4c3c33c6910e9021a9a41f509d5610ee792e27c15341ca406f7bc3acc79",
+              "page-5.png": "3e3a96ba3ef5c4df6c30a199733cb7c58e41b5de2b5b2f9c482171fa4fde7e82",
+              "page-6.png": "f3be642b168f8ac1c0533b114435d915a4488185705c792cd6ce1442e9ed7bf2",
+              "page-7.png": "9932ff165ffcc16065edbbc0761c63640fadd8e567982f56b33b6f4eb801df99",
+              "page-8.png": "e271f3e2029a06f5ab384fb8f915804f7db96cf82b7fb9e1eae68cc1fa35f5de",
+              "page-9.png": "62475647921c29cd8d0737010fbf5b23995160b0b4f7b6b4a9fa54ca8070f017"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-long-cv",
+          "pages": 15,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 13
+          },
+          "hashes": {
+            "sourceDocx": "a10a773623523466eec7c9907113f5f693dae123603141252fb999d85e4b9645",
+            "savedDocx": "977049607f633022c45853a61101f5d6be68a591f499147310a3448f3468a254",
+            "sourcePdf": "d833ab9d7cd5d02f066498456195247c88bf1d7c88afd2d5f5620483b7d3ea28",
+            "savedPdf": "f3a0b484dcbbb824c6eb012214e762e32e7f4456c6eacb8e965a38951f07593b"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-long-cv",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 15,
+            "media": 3,
+            "bytes": 7804103,
+            "durationMs": 770,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-long-cv",
+            "sourceDocxSha256": "a10a773623523466eec7c9907113f5f693dae123603141252fb999d85e4b9645",
+            "savedDocxSha256": "977049607f633022c45853a61101f5d6be68a591f499147310a3448f3468a254",
+            "sourceTaggedFields": 324,
+            "savedMatchingTaggedFields": 324,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-long-cv",
+            "docxSha256": "a10a773623523466eec7c9907113f5f693dae123603141252fb999d85e4b9645",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-10.png": "b9405e354518f91727c3a2538a5a3c664265f44b2b1fe10a0fae8b6d5ee3daec",
+              "page-11.png": "52c297f5b271bb371c21ca4f27b366d4588ed5d760883b2234b419fbd1ab506d",
+              "page-12.png": "2fdb2b0cc51738425ae9f24b1d295130637c2900f3fabc5228ff1738c5592507",
+              "page-13.png": "719c2eb9ccf5b0e9509f6534e7cb6b2a1f33ba64eaca05649f5b8f10d0b90db2",
+              "page-14.png": "d23f2c5347021ede51e1e3b050c6ded433ef42b0c7f57152044472778db2f882",
+              "page-15.png": "7fb760bb7195b37f44345fa3978b9b22757e9fb870a5620835357e8ae50e13f8",
+              "page-2.png": "558c34caa74945198f9a8ecdb4d70ee55811f3d7eeec0b5bd9634eef646dfeee",
+              "page-3.png": "e4f46c292188b32124d8fc381764c34b9226945bc3a47d4dc3a75c5f9cee5d80",
+              "page-4.png": "989258c350d240beb205a8ab1d6cd9a7dba1e9bac8d7ebff28cabf25b1b7a7ea",
+              "page-5.png": "76ae4839e40cb5c406523b5365ac7b457c11bd358ef10ef2a392c3f7bde27a2f",
+              "page-6.png": "74c900167bb29c304ffd9e0649fc133bc77ad6a60625da0b3c4af6330622e9f1",
+              "page-7.png": "2197605a6ca67c6f089697f1ac984d0370c5b7b6ef76904de2f230b291cd1d80",
+              "page-8.png": "29fbfcd43a211be67266363f8c178f111b833d820db4eebfc35b489f81ef20e6",
+              "page-9.png": "19b65e2c87404e7d6f2641d167d4edeccdf5b40bf0b1be364662ff4e309e266a"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-long-values",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "7c5713209aaee7cc32f444c1592db5fbb7491fea8ffb058c7a1f2245758097a2",
+            "savedDocx": "f50bd749cc35950a4eea2f83c5f40771350a9ab72ac0df01d6207ed35236fbc4",
+            "sourcePdf": "87d3815962a5a3810b308868fc9aa9f6af3b8642904387c64439215fa32f9f7a",
+            "savedPdf": "61842c2f86f8b378add66d62e833cca472422c38925c20f28e39df980f0d39b2"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-long-values",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 7648784,
+            "durationMs": 816,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-long-values",
+            "sourceDocxSha256": "7c5713209aaee7cc32f444c1592db5fbb7491fea8ffb058c7a1f2245758097a2",
+            "savedDocxSha256": "f50bd749cc35950a4eea2f83c5f40771350a9ab72ac0df01d6207ed35236fbc4",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.contact",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-long-values",
+            "docxSha256": "7c5713209aaee7cc32f444c1592db5fbb7491fea8ffb058c7a1f2245758097a2",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-2.png": "d286cf4cff87016e4050dd7da3f75b4077f6922619920d9d449497ad455ef317",
+              "page-3.png": "14c7e1925449a3097fb28e4681aceb96ce953c69730e7c0c89b83164a7042230",
+              "page-4.png": "3ccfd613f662d0334abc37fd4aaf5d3ec0d746076fcbb646bf5ffa0fe43d49f1"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-images",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "f3795587d2e35739484b398f678fa52027ace8f2ae51edadaaf21487cff63fa4",
+            "savedDocx": "5aeec995e65b5a231f3b0196c25870d114d1936f92d017e924d2f9c6723a3b58",
+            "sourcePdf": "8dd7f609615ac659dbddfd9e111b00a32f84f6058015f5630dda883720610649",
+            "savedPdf": "8c66ed67b46f402f5bcc82920cc9ae5d11b5ffb7f4f97a20aa45faa277b62422"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-images",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 4,
+            "bytes": 7651747,
+            "durationMs": 783,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-images",
+            "sourceDocxSha256": "f3795587d2e35739484b398f678fa52027ace8f2ae51edadaaf21487cff63fa4",
+            "savedDocxSha256": "5aeec995e65b5a231f3b0196c25870d114d1936f92d017e924d2f9c6723a3b58",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-images",
+            "docxSha256": "f3795587d2e35739484b398f678fa52027ace8f2ae51edadaaf21487cff63fa4",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "04489b477e62977843493633f88182be7ced1416d864704b5712500b2bd70302",
+              "page-2.png": "43a89ce3825f72c5c00e62754edc73826f3c055dcdcf439f780cd40a007ba026",
+              "page-3.png": "73cdc5376d41ac12c0779bf86a82d3735904032fea377dc08face3e52554f24f",
+              "page-4.png": "f2adfba78431381c7db8b614673604603057a7e04c83550652de4db7793004df"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-custom",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "75c5de9c1b7fb50d083cb21a088a17ee5d1adcd79675d6fd2a52f58d849b91ac",
+            "savedDocx": "ccbde212567841866df1eac5238439a74457cfedf72cff6dd603fd3bcbce36a0",
+            "sourcePdf": "67c50a5ecd76ad35b878104a20f2013b36641dd3e6884efcc93e0e598e9388a9",
+            "savedPdf": "94acf5a1217de6f70dc7053cb66f25bc06f06846f415ded013b30d93c810784c"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-custom",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 7654086,
+            "durationMs": 869,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-custom",
+            "sourceDocxSha256": "75c5de9c1b7fb50d083cb21a088a17ee5d1adcd79675d6fd2a52f58d849b91ac",
+            "savedDocxSha256": "ccbde212567841866df1eac5238439a74457cfedf72cff6dd603fd3bcbce36a0",
+            "sourceTaggedFields": 74,
+            "savedMatchingTaggedFields": 74,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.custom-a.flow-box",
+              "cover.custom-b.flow-box",
+              "cover.lehrbeginn.flow-box",
+              "cv.element:custom-a.flow-box",
+              "cv.element:custom-b.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1",
+              "letter.body.paragraph:2"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-custom",
+            "docxSha256": "75c5de9c1b7fb50d083cb21a088a17ee5d1adcd79675d6fd2a52f58d849b91ac",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "1d100522723ed3afc9ae21e08f4e5bcae57e4f7952c59d844578cdf4645d0d33",
+              "page-2.png": "5165a69fd9dbcf82c69fe9866603753d69be16e079c84be93c9fcd8d27b08d6f",
+              "page-3.png": "5ace830bb00a2b047c18eb11d7996ac401845ddc3781296fea9ff853b8762882",
+              "page-4.png": "3ccfd613f662d0334abc37fd4aaf5d3ec0d746076fcbb646bf5ffa0fe43d49f1"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-compact",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "2cb8a009cca02c1ca1f63e8c51c12b7ac2a69bf03d1a4e50529aaee445be20f5",
+            "savedDocx": "13a3a1ffd0b9d0fe226c8b20571877fa6f7426b7aba48a0193d33d32416b97f6",
+            "sourcePdf": "4f92364200d6b2bc45f921ca306e682f97cf0ee5de0204852de8657050907ab6",
+            "savedPdf": "3a3e123617940b62b8e8f3135bd98aae1a20361a99dd3405cbdf0acc18c0d927"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-compact",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 7643342,
+            "durationMs": 783,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-compact",
+            "sourceDocxSha256": "2cb8a009cca02c1ca1f63e8c51c12b7ac2a69bf03d1a4e50529aaee445be20f5",
+            "savedDocxSha256": "13a3a1ffd0b9d0fe226c8b20571877fa6f7426b7aba48a0193d33d32416b97f6",
+            "sourceTaggedFields": 80,
+            "savedMatchingTaggedFields": 80,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.contact",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-compact",
+            "docxSha256": "2cb8a009cca02c1ca1f63e8c51c12b7ac2a69bf03d1a4e50529aaee445be20f5",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-2.png": "2c144e4c8d1ee0ec503fa0724fec0e8f3bd621491edba51bfffa06d0f3532f11",
+              "page-3.png": "612da45f4169056c7bbe34c986cdde0e40ef9c563cb86f74f569bfd164edc933",
+              "page-4.png": "74894798b2d5d9cf44093162365252af96abf7e201e8c35c9cce50ccd68c3ff7"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-none",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "af0866f1e322c136bd12344c8cdd3481306608c41914bccee8735ad0bf2e154e",
+            "savedDocx": "efb1d5a640d51d1c9c104915e2ee8584190d0e239895bf9c4d35dde5c6d63a21",
+            "sourcePdf": "4f91493fdbfb8b5477881c517a0b00883d2c1f127d2218f69f6b78ff50c23fc5",
+            "savedPdf": "ccec8d48adcd2960c639c3a8c225afe2c83813c62107ed3261f1c1bf49e00511"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-none",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 7642254,
+            "durationMs": 677,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-none",
+            "sourceDocxSha256": "af0866f1e322c136bd12344c8cdd3481306608c41914bccee8735ad0bf2e154e",
+            "savedDocxSha256": "efb1d5a640d51d1c9c104915e2ee8584190d0e239895bf9c4d35dde5c6d63a21",
+            "sourceTaggedFields": 80,
+            "savedMatchingTaggedFields": 80,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.contact",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-none",
+            "docxSha256": "af0866f1e322c136bd12344c8cdd3481306608c41914bccee8735ad0bf2e154e",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-2.png": "2c144e4c8d1ee0ec503fa0724fec0e8f3bd621491edba51bfffa06d0f3532f11",
+              "page-3.png": "612da45f4169056c7bbe34c986cdde0e40ef9c563cb86f74f569bfd164edc933",
+              "page-4.png": "74894798b2d5d9cf44093162365252af96abf7e201e8c35c9cce50ccd68c3ff7"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-continuation",
+          "pages": 12,
+          "parts": {
+            "cover": 1,
+            "letter": 9,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "949aa9c37830c7d611b459fcc025d0c6aad932e199b950328c9213496f79e5f3",
+            "savedDocx": "2a5dd610f7ce882a0b454deba7d85c479fdbb7b7a4368550b46434d9ba7fde07",
+            "sourcePdf": "5ab4d8738b7ace10b93c66b83a256706a62e37ddfc689fbce0acbb0543d00666",
+            "savedPdf": "f09762f49dbd8b174498fdb8944a442073d2a0fd10a8a99d3a3f7c400ea380f5"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-continuation",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 12,
+            "media": 3,
+            "bytes": 7668657,
+            "durationMs": 712,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-continuation",
+            "sourceDocxSha256": "949aa9c37830c7d611b459fcc025d0c6aad932e199b950328c9213496f79e5f3",
+            "savedDocxSha256": "2a5dd610f7ce882a0b454deba7d85c479fdbb7b7a4368550b46434d9ba7fde07",
+            "sourceTaggedFields": 74,
+            "savedMatchingTaggedFields": 74,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-continuation",
+            "docxSha256": "949aa9c37830c7d611b459fcc025d0c6aad932e199b950328c9213496f79e5f3",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-10.png": "cbde938a692966f849cc22f04941424554e88a09bd2316766787b97c0ebc6a02",
+              "page-11.png": "182659e09daec2d91646b8a2d89a5597c1d392be6b3349a4ad36f6615c7d1baf",
+              "page-12.png": "8d19514c442848b5a47d236d328fbb026393036753e806a894dbe500dde354ce",
+              "page-2.png": "8deb286de36e2e003c6acaa9eb384112f626e79dee616ba353129cafb3387c88",
+              "page-3.png": "45326e380c1e0b8adb5c76722245ad4dfd8f3f821cf38957f0e1c2eefe9de91b",
+              "page-4.png": "ea62991136e45f442b6bcc2cdfc9e7efc420012b7f422e3ea117e4259fcdfea7",
+              "page-5.png": "b84825615e0288e41e702a9ac1e53cca6bd8fa26aba9481508b21cbfa34d67d8",
+              "page-6.png": "1b906b4c5b53528749d6a9c1731bb0953b25ebeeabe0c73f676d7ce43859aed3",
+              "page-7.png": "45326e380c1e0b8adb5c76722245ad4dfd8f3f821cf38957f0e1c2eefe9de91b",
+              "page-8.png": "ea62991136e45f442b6bcc2cdfc9e7efc420012b7f422e3ea117e4259fcdfea7",
+              "page-9.png": "b84825615e0288e41e702a9ac1e53cca6bd8fa26aba9481508b21cbfa34d67d8"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-timeline",
+          "pages": 19,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 17
+          },
+          "hashes": {
+            "sourceDocx": "f90db18512c01728d6ac1e12cdd83e2ca840ea82e531d3ea1b98b4ca11a8d7bc",
+            "savedDocx": "1c765d482df988856474ab20dbb9bd2aceb350240175ad3aaf9a08ea2cc71454",
+            "sourcePdf": "4675d57faa2a43196da76f7aeefb659f16777bdccbd2045ba3f5ffab7768e7fc",
+            "savedPdf": "30c387737f6ca8cac10599f0b0fd4578ee40fb1fd17a22acb580e36381b0b93a"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-timeline",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 19,
+            "media": 3,
+            "bytes": 7898315,
+            "durationMs": 764,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-timeline",
+            "sourceDocxSha256": "f90db18512c01728d6ac1e12cdd83e2ca840ea82e531d3ea1b98b4ca11a8d7bc",
+            "savedDocxSha256": "1c765d482df988856474ab20dbb9bd2aceb350240175ad3aaf9a08ea2cc71454",
+            "sourceTaggedFields": 335,
+            "savedMatchingTaggedFields": 335,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+              "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+              "cv.entry.erfahrung:demo-p1.dateRail",
+              "cv.entry.erfahrung:demo-p2.dateRail",
+              "cv.entry.schule:school-0.dateRail",
+              "cv.entry.schule:school-1.dateRail",
+              "cv.entry.schule:school-10.dateRail",
+              "cv.entry.schule:school-11.dateRail",
+              "cv.entry.schule:school-12.dateRail",
+              "cv.entry.schule:school-13.dateRail",
+              "cv.entry.schule:school-14.dateRail",
+              "cv.entry.schule:school-15.dateRail",
+              "cv.entry.schule:school-16.dateRail",
+              "cv.entry.schule:school-17.dateRail",
+              "cv.entry.schule:school-18.dateRail",
+              "cv.entry.schule:school-19.dateRail",
+              "cv.entry.schule:school-2.dateRail",
+              "cv.entry.schule:school-20.dateRail",
+              "cv.entry.schule:school-21.dateRail",
+              "cv.entry.schule:school-22.dateRail",
+              "cv.entry.schule:school-23.dateRail",
+              "cv.entry.schule:school-24.dateRail",
+              "cv.entry.schule:school-25.dateRail",
+              "cv.entry.schule:school-26.dateRail",
+              "cv.entry.schule:school-27.dateRail",
+              "cv.entry.schule:school-28.dateRail",
+              "cv.entry.schule:school-29.dateRail",
+              "cv.entry.schule:school-3.dateRail",
+              "cv.entry.schule:school-30.dateRail",
+              "cv.entry.schule:school-31.dateRail",
+              "cv.entry.schule:school-32.dateRail",
+              "cv.entry.schule:school-33.dateRail",
+              "cv.entry.schule:school-34.dateRail",
+              "cv.entry.schule:school-35.dateRail",
+              "cv.entry.schule:school-36.dateRail",
+              "cv.entry.schule:school-37.dateRail",
+              "cv.entry.schule:school-38.dateRail",
+              "cv.entry.schule:school-39.dateRail",
+              "cv.entry.schule:school-4.dateRail",
+              "cv.entry.schule:school-40.dateRail",
+              "cv.entry.schule:school-41.dateRail",
+              "cv.entry.schule:school-42.dateRail",
+              "cv.entry.schule:school-43.dateRail",
+              "cv.entry.schule:school-44.dateRail",
+              "cv.entry.schule:school-45.dateRail",
+              "cv.entry.schule:school-46.dateRail",
+              "cv.entry.schule:school-47.dateRail",
+              "cv.entry.schule:school-48.dateRail",
+              "cv.entry.schule:school-49.dateRail",
+              "cv.entry.schule:school-5.dateRail",
+              "cv.entry.schule:school-50.dateRail",
+              "cv.entry.schule:school-51.dateRail",
+              "cv.entry.schule:school-52.dateRail",
+              "cv.entry.schule:school-53.dateRail",
+              "cv.entry.schule:school-54.dateRail",
+              "cv.entry.schule:school-55.dateRail",
+              "cv.entry.schule:school-56.dateRail",
+              "cv.entry.schule:school-57.dateRail",
+              "cv.entry.schule:school-58.dateRail",
+              "cv.entry.schule:school-59.dateRail",
+              "cv.entry.schule:school-6.dateRail",
+              "cv.entry.schule:school-60.dateRail",
+              "cv.entry.schule:school-61.dateRail",
+              "cv.entry.schule:school-62.dateRail",
+              "cv.entry.schule:school-63.dateRail",
+              "cv.entry.schule:school-64.dateRail",
+              "cv.entry.schule:school-7.dateRail",
+              "cv.entry.schule:school-8.dateRail",
+              "cv.entry.schule:school-9.dateRail",
+              "cv.entry.schule:variant-overflow.dateRail",
+              "cv.person.details",
+              "cv.section.custom:variant-alpha.half-row",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-timeline",
+            "docxSha256": "f90db18512c01728d6ac1e12cdd83e2ca840ea82e531d3ea1b98b4ca11a8d7bc",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-10.png": "d2320c057adb2de7069e281f596722f553cc2603939301b9aa45ec0043b1a6b6",
+              "page-11.png": "7a375d811f0a3ce13cde31c0783a147bb1f7872cc1cce67abdec1356bfcb5d41",
+              "page-12.png": "ed004610fc0ec0d8d2cbf195b0f3b52156cd56d579ce2b49b806552511b31536",
+              "page-13.png": "d1ebda277372a24c8a1e8be59456561eaa81db65a0d54b2b16142eae1f300eae",
+              "page-14.png": "ae32f903a784b4ee1a28cf72137811ed80e134ba8a5138e24ff876fb9509a3eb",
+              "page-15.png": "ae32f903a784b4ee1a28cf72137811ed80e134ba8a5138e24ff876fb9509a3eb",
+              "page-16.png": "ae32f903a784b4ee1a28cf72137811ed80e134ba8a5138e24ff876fb9509a3eb",
+              "page-17.png": "ae32f903a784b4ee1a28cf72137811ed80e134ba8a5138e24ff876fb9509a3eb",
+              "page-18.png": "9624114a4ebeb5e19fa4d3132d7f0aa4361653f3fd8e05109697a5ccfaa86d04",
+              "page-19.png": "94ea9c1ff21620d85e6a7fdfead456620f6049be8c59355fbef9e6a84743a845",
+              "page-2.png": "558c34caa74945198f9a8ecdb4d70ee55811f3d7eeec0b5bd9634eef646dfeee",
+              "page-3.png": "3eded10cb3fe8552bba3c447046bb4bcd8b8fa88dab3e90dd6644dc3c30f78f7",
+              "page-4.png": "af4cf3c94f98255c423af2640b40f07bdd84f10d22fd602d748b5c78836a6348",
+              "page-5.png": "3445fd875acba5f2161b9a3e73a186ed189124a3b3d93b4049b2b87500a340f4",
+              "page-6.png": "d4a30f572458e0fd760656af7d64cff40bfbff8ded2d8d97b5259ae0fc2ebd00",
+              "page-7.png": "cc5fac80947be741d9f49f43358d2e2e0170526aa8782ec4d1b894acce95875c",
+              "page-8.png": "091b9527422803666e7a91d10920b2bd7cb72028787198d90883df79a5b87e9d",
+              "page-9.png": "a276f55acfc78b82d0b13d73cd00b332bb76ad8f7efb10e8330b5586b9010840"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-magazin",
+          "pages": 3,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 1
+          },
+          "hashes": {
+            "sourceDocx": "2cd8e43063dd5867db6249afa27ba18ef608356b681ebde08bc730c6d221d0a3",
+            "savedDocx": "3c7188c8826bdd4e2a1b38430ff8480f87e8d98630123145a51b9f9e7d55f953",
+            "sourcePdf": "ea036a92d779f7a69a50f18f12eb0d0a40bfafd3393f69e4813f5efdb9c7e2b5",
+            "savedPdf": "22c24429a293f9e5eed3611893074e657cb5673e0099ee6d5d24a8c6c68b8e0e"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-magazin",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 3,
+            "media": 3,
+            "bytes": 7629813,
+            "durationMs": 487,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-magazin",
+            "sourceDocxSha256": "2cd8e43063dd5867db6249afa27ba18ef608356b681ebde08bc730c6d221d0a3",
+            "savedDocxSha256": "3c7188c8826bdd4e2a1b38430ff8480f87e8d98630123145a51b9f9e7d55f953",
+            "sourceTaggedFields": 38,
+            "savedMatchingTaggedFields": 38,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+              "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+              "cv.entry.schule:variant-school.dateRail",
+              "cv.section.custom:variant-alpha.half-row"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-magazin",
+            "docxSha256": "2cd8e43063dd5867db6249afa27ba18ef608356b681ebde08bc730c6d221d0a3",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-2.png": "2948fa25ce9f8b10283cb1d9f6b1871dd4395c3577313507b1efbfc9621b0d4f",
+              "page-3.png": "7f6c3d42db7c3b072ccc84ee11dae32672fefe7ba1f4c745af8b6262f9c8c7cc"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-no-motifs",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "a765d84b5bd48ea432655f4d51ae45ced49ebad1764c5786d6622c03782d9713",
+            "savedDocx": "2486a44cdb4464df0dcad0638e6d52a6bbf3539d51bb32d7888245543274dfa8",
+            "sourcePdf": "ed2de1391c36ddd5a1daaf9d6c1dc719ea2f1f50983a1c92b5293bbddcf00244",
+            "savedPdf": "a0a1f7bf2ff261a532975ca0aacdc508dd64e935165d6da0c0044089cf526aad"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-no-motifs",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 7643876,
+            "durationMs": 448,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-no-motifs",
+            "sourceDocxSha256": "a765d84b5bd48ea432655f4d51ae45ced49ebad1764c5786d6622c03782d9713",
+            "savedDocxSha256": "2486a44cdb4464df0dcad0638e6d52a6bbf3539d51bb32d7888245543274dfa8",
+            "sourceTaggedFields": 71,
+            "savedMatchingTaggedFields": 71,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-no-motifs",
+            "docxSha256": "a765d84b5bd48ea432655f4d51ae45ced49ebad1764c5786d6622c03782d9713",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "9a2dc1ac3bebb6ca9af7409f380a3a70233a22e6de07781e1bd0a0b4b9f392b0",
+              "page-2.png": "558c34caa74945198f9a8ecdb4d70ee55811f3d7eeec0b5bd9634eef646dfeee",
+              "page-3.png": "40ea776860ab97099f3dbe532d8d9fa2640cdb2c6b2d83db2023af50ceaaf150",
+              "page-4.png": "0d3d2f2f7fa2c2871ea0d81f66817a3ce61453517aa3975d6168cd1ecfcb25a5"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-custom-colors",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "dfeb285c4296e68b8985e5d8d99fb8c95b4146a5a614fdb2996468fa8abd2b50",
+            "savedDocx": "71c9f5ee5f05dbc603cdf53118e65af698c8e67aeba0eee62f6f54cc6cf8a8f3",
+            "sourcePdf": "33116e1269815667b5c11ba33d17e1fbbe45f9781cd59850660e03ef6f126522",
+            "savedPdf": "e3b837781ba1aa0c294106785f36692c82ebd4ffd2f7c4f89ac0b5973b7ffc13"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-custom-colors",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 7358055,
+            "durationMs": 48301,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-custom-colors",
+            "sourceDocxSha256": "dfeb285c4296e68b8985e5d8d99fb8c95b4146a5a614fdb2996468fa8abd2b50",
+            "savedDocxSha256": "71c9f5ee5f05dbc603cdf53118e65af698c8e67aeba0eee62f6f54cc6cf8a8f3",
+            "sourceTaggedFields": 71,
+            "savedMatchingTaggedFields": 71,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-custom-colors",
+            "docxSha256": "dfeb285c4296e68b8985e5d8d99fb8c95b4146a5a614fdb2996468fa8abd2b50",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "dd37582f1316d5adbd32cf4bcb44a109e80e36b5c2906e59208590184f63e5b6",
+              "page-2.png": "7fc53c788b0c07ecdf20b8888b2e33ca29dbaa4d155306d216ad410acd23dc88",
+              "page-3.png": "65862b8f56624791015d3fa6ef3c4d5fffe93a4db673eb1ccc9d29944f11c46b",
+              "page-4.png": "c20b333913756f5e4922a9bf345a1ea12ae89a4d90fda601b662852cfaf18de5"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-contact-long",
+          "pages": 6,
+          "parts": {
+            "cover": 3,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "6c3abd5089201e7a1c45cc06b91853667cfe0638f2fdf064edaf613405b32c7a",
+            "savedDocx": "ec108062ab3884486100ff0113e691ccb58914f34305410f67f5c95180d0f279",
+            "sourcePdf": "dca65697f7da03efad2be7e8ef852e89b39db97c5d93b633ec84593d659759c8",
+            "savedPdf": "ccc9be6f62e3dcaa5c9419e3e2dbcede56d9de7de37b15f24f857ff080538ebc"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-contact-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 6,
+            "media": 3,
+            "bytes": 7665360,
+            "durationMs": 604,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-contact-long",
+            "sourceDocxSha256": "6c3abd5089201e7a1c45cc06b91853667cfe0638f2fdf064edaf613405b32c7a",
+            "savedDocxSha256": "ec108062ab3884486100ff0113e691ccb58914f34305410f67f5c95180d0f279",
+            "sourceTaggedFields": 71,
+            "savedMatchingTaggedFields": 71,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-contact-long",
+            "docxSha256": "6c3abd5089201e7a1c45cc06b91853667cfe0638f2fdf064edaf613405b32c7a",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "50e0cc28f3d0dd76a63471122af4850336785b94b4f2496720067710dbdb142e",
+              "page-2.png": "a9fed4afee2a06865c0cd3e4456a3685fb60fc32c376bc1e1e7dd120649c3981",
+              "page-3.png": "c15e20f9389300cb97e427e5c0e8ec5673d729606ab132926525db069c1ac08b",
+              "page-4.png": "558c34caa74945198f9a8ecdb4d70ee55811f3d7eeec0b5bd9634eef646dfeee",
+              "page-5.png": "c5579a5bf95699215caa3a828de1c8d8e724b65019ef5c96ffd0988c5dc702f7",
+              "page-6.png": "f2adfba78431381c7db8b614673604603057a7e04c83550652de4db7793004df"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-hero-long",
+          "pages": 5,
+          "parts": {
+            "cover": 2,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "b6a537b2aa5b6250c2e403bedebb274c824d49b6c6ce465aed9e108b5d3d90c4",
+            "savedDocx": "4c5e7e08bb2e270061a963d0a30551e7a1fb8558ee8016f48f5875c6472ae9d5",
+            "sourcePdf": "2aff2a6cf3856390b0c0fce147924d9ae296efdc1b04d415d6b1f99baf9947f5",
+            "savedPdf": "353eb8764bd5c34038f6587758f5bdc09dcfd07973e47f38ceea1f554e15dc0c"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-hero-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 5,
+            "media": 3,
+            "bytes": 7659202,
+            "durationMs": 1265,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-hero-long",
+            "sourceDocxSha256": "b6a537b2aa5b6250c2e403bedebb274c824d49b6c6ce465aed9e108b5d3d90c4",
+            "savedDocxSha256": "4c5e7e08bb2e270061a963d0a30551e7a1fb8558ee8016f48f5875c6472ae9d5",
+            "sourceTaggedFields": 71,
+            "savedMatchingTaggedFields": 71,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-hero-long",
+            "docxSha256": "b6a537b2aa5b6250c2e403bedebb274c824d49b6c6ce465aed9e108b5d3d90c4",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "b5056ec808479f28dcf99a1e6d73574a2c19098564f132ad5a8d19c1f88a0b00",
+              "page-2.png": "41d56a507315c4bf80610fc30b95d9e1e6ea03678f95e6a129d46d0fc6edd2e6",
+              "page-3.png": "558c34caa74945198f9a8ecdb4d70ee55811f3d7eeec0b5bd9634eef646dfeee",
+              "page-4.png": "c5579a5bf95699215caa3a828de1c8d8e724b65019ef5c96ffd0988c5dc702f7",
+              "page-5.png": "f2adfba78431381c7db8b614673604603057a7e04c83550652de4db7793004df"
+            }
+          }
+        },
+        {
+          "fixture": "verlauf-cover-long",
+          "pages": 5,
+          "parts": {
+            "cover": 2,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "6a923832d9bec728e71d669c2d657636242f6cc1074056bf356964b133f33729",
+            "savedDocx": "355eca23265ffc4fbb29c20122079a0555b4e2ee103ee5958a1304ed86bce435",
+            "sourcePdf": "9f6622650fe32ec254cd516425e13bf439036c6b274c85939f805feaf47ee46c",
+            "savedPdf": "03e046cb10f462238611836549ab655cba3ad002e57201cc555c65e04efeaa3e"
+          },
+          "nativeQa": {
+            "fixture": "verlauf-cover-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 5,
+            "media": 3,
+            "bytes": 7666773,
+            "durationMs": 635,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "verlauf-cover-long",
+            "sourceDocxSha256": "6a923832d9bec728e71d669c2d657636242f6cc1074056bf356964b133f33729",
+            "savedDocxSha256": "355eca23265ffc4fbb29c20122079a0555b4e2ee103ee5958a1304ed86bce435",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.continuation-text.flow-box",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "verlauf-cover-long",
+            "docxSha256": "6a923832d9bec728e71d669c2d657636242f6cc1074056bf356964b133f33729",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "a51bee2ce99194ffb8f7179de0164273a357f4fd9c93f29161cec4a5769f70b9",
+              "page-2.png": "c06c04cfdcfa2d2c3ee0d32c9173d9802b713e3fae7d2f4e7a6ad2c0ba94d776",
+              "page-3.png": "558c34caa74945198f9a8ecdb4d70ee55811f3d7eeec0b5bd9634eef646dfeee",
+              "page-4.png": "c5579a5bf95699215caa3a828de1c8d8e724b65019ef5c96ffd0988c5dc702f7",
+              "page-5.png": "f2adfba78431381c7db8b614673604603057a7e04c83550652de4db7793004df"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "stoppedAurora": {
+    "native": {
+      "fixtures": 17,
+      "sourcePages": 116,
+      "savedPages": 116,
+      "sourceTaggedFields": 1869,
+      "savedMatchingTaggedFields": 1869,
+      "tableIdentityFailures": 17,
+      "fieldIdentityFailures": 0,
+      "browserNormalizedInputs": 6,
+      "rows": [
+        {
+          "fixture": "aurora-normal",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "a23d3c0c79809571934ade91632044bfb8f897576d1a906c1fa908fcda05d7e8",
+            "savedDocx": "7bfa098f31a6c106a36a0bb2fd1a2b8999c0e986da393a750b59684fa0274819",
+            "sourcePdf": "726780d7462c12f311a3c255e8c74ac0652a52d77fb5c2ca78a8e16945585191",
+            "savedPdf": "66a689af883c8e15dbcfa6ea012a7b863b8f91c06b51e85dac50ebf1253733c7"
+          },
+          "nativeQa": {
+            "fixture": "aurora-normal",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 2,
+            "bytes": 2450888,
+            "durationMs": 15725,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-normal",
+            "sourceDocxSha256": "a23d3c0c79809571934ade91632044bfb8f897576d1a906c1fa908fcda05d7e8",
+            "savedDocxSha256": "7bfa098f31a6c106a36a0bb2fd1a2b8999c0e986da393a750b59684fa0274819",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-normal",
+            "docxSha256": "a23d3c0c79809571934ade91632044bfb8f897576d1a906c1fa908fcda05d7e8",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-2.png": "6c4a645c5d7089493c9749b2ca14e7144128c489be2b7d68d8828fbba7d0ed4e",
+              "page-3.png": "362b16cba00da0715f4121e29c3abcc9a6992c0c48935b6b3dd186ab198c80b5",
+              "page-4.png": "217fd24145849c9e3458b25fcccda3b5e37b25e7d9988cf69d97bd35ae70250b"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-long-letter",
+          "pages": 14,
+          "parts": {
+            "cover": 1,
+            "letter": 11,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "f9a09f5e574622e1957db5a621e8dcdafc3e4ca4c89e2ef4cc624a130b239553",
+            "savedDocx": "5e65e2a07e706feda82c8e6f5d7adfeaf72e8f9619ff62cd0328c52d9e72234e",
+            "sourcePdf": "aa4e8d6e84959aee3485cc5364551ab49fbe62b2d3785acadfd94f5880b079c4",
+            "savedPdf": "49f0c2c50bee166572176757123f7056aa20fa2f45e8f9e70a37e56d55787544"
+          },
+          "nativeQa": {
+            "fixture": "aurora-long-letter",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 14,
+            "media": 2,
+            "bytes": 2527627,
+            "durationMs": 225,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-long-letter",
+            "sourceDocxSha256": "f9a09f5e574622e1957db5a621e8dcdafc3e4ca4c89e2ef4cc624a130b239553",
+            "savedDocxSha256": "5e65e2a07e706feda82c8e6f5d7adfeaf72e8f9619ff62cd0328c52d9e72234e",
+            "sourceTaggedFields": 206,
+            "savedMatchingTaggedFields": 206,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-long-letter",
+            "docxSha256": "f9a09f5e574622e1957db5a621e8dcdafc3e4ca4c89e2ef4cc624a130b239553",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-10.png": "e456b43b7bb08ae38bb604ba46ec87e72b353c096743854318ea2a987fb0aee8",
+              "page-11.png": "2e5280ec8d96a0a64ec9c57ee9631105f6672f16aa4c09e04d4bb6b6df8fa570",
+              "page-12.png": "8872d7d4e7cbc2e29027b1168341acbc8bc037f023c3a2c5129bed91315d95fa",
+              "page-13.png": "362b16cba00da0715f4121e29c3abcc9a6992c0c48935b6b3dd186ab198c80b5",
+              "page-14.png": "217fd24145849c9e3458b25fcccda3b5e37b25e7d9988cf69d97bd35ae70250b",
+              "page-2.png": "912f9cb608d5596c08f9822fb7b2ea69efc0145a97ef12fa10031876603997fc",
+              "page-3.png": "839db302b6585d4295d5bbdb903d49ed6afb1e9372a1f954cd2f36b5a33946be",
+              "page-4.png": "88046614edd74b9182194ba17c0adf782c04f8f7204c9a1d182e054c4c7a72da",
+              "page-5.png": "9146bdc6bf5e7eca83ccb8e3d2db0671e603f395c6467530b3826c7b0eb87c0e",
+              "page-6.png": "8e296dd9af7a6e95c17cbd1c5af252bcfe1643395b15a23fe72982e3c78ed71e",
+              "page-7.png": "c01adfba938900d6cd7549a0b986726119f754f5db3c1f494074774029dc61d4",
+              "page-8.png": "c409c4bcdb6518f667e3d84fb585361bf66db7e6a3e1fd7c6b7bb31c5c69ffc8",
+              "page-9.png": "4250f15c39dbe0ea6764b85e6401b11983289617f73afb7ecc5a4f734e1d4e2b"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-long-cv",
+          "pages": 15,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 13
+          },
+          "hashes": {
+            "sourceDocx": "57d5be2e35884c5ff8daa2ad99395a9e4b706080f4d36891a1f6cb985a798bd3",
+            "savedDocx": "b7d4aa165e285c78d71d769667248d017c50fa45d4fb1230dedd37862dae95ac",
+            "sourcePdf": "3479d56772b95dbf7ad47f0bf4a2d86d6814cf70f5e251261be2a1d4c48e36df",
+            "savedPdf": "216575ce486db008f3fbfcfc9feff1c16e095f3716d46af69de3ed16bb775b38"
+          },
+          "nativeQa": {
+            "fixture": "aurora-long-cv",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 15,
+            "media": 2,
+            "bytes": 2607993,
+            "durationMs": 211,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-long-cv",
+            "sourceDocxSha256": "57d5be2e35884c5ff8daa2ad99395a9e4b706080f4d36891a1f6cb985a798bd3",
+            "savedDocxSha256": "b7d4aa165e285c78d71d769667248d017c50fa45d4fb1230dedd37862dae95ac",
+            "sourceTaggedFields": 325,
+            "savedMatchingTaggedFields": 325,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-long-cv",
+            "docxSha256": "57d5be2e35884c5ff8daa2ad99395a9e4b706080f4d36891a1f6cb985a798bd3",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-10.png": "cdbdfece89ed32a2c5576ad957f78bb391142dbfeacab9d1e9ff94278b120a18",
+              "page-11.png": "3958e183d0868f841139c4db99b63fbee938c863eaef7354736075f9acbd8cff",
+              "page-12.png": "fa0e0abb52d83860f76c29034fa6ae0f03ce1498b5141adef098e8fb9bd6a6a6",
+              "page-13.png": "f1cf071720b4de5c599fb367789d5853a0b6333581d17ec6ea4c3b0b10f9c43f",
+              "page-14.png": "0a4eb3a1a2b01a42df0e034fc39f6ddbfc24521c04a36ad2ba5ab689e8a648ee",
+              "page-15.png": "4f05df3a2ab32c9c90518c17f805fb5e0e4db8122acc3429f528a7a10f279ec1",
+              "page-2.png": "6c4a645c5d7089493c9749b2ca14e7144128c489be2b7d68d8828fbba7d0ed4e",
+              "page-3.png": "ab8ae8e0c5929a582c37d4f672145cd67cb7dce314763ec514f5e8c091f498e3",
+              "page-4.png": "b64d6a743e0aca1db0a3cd1998ee0418c3d58311e11f0894db4b747eaf31c4d7",
+              "page-5.png": "c3bd1e2048eb0bc2c777b688a8f7d4d4b27ecd50a1540eb0033aca3d380c3c2b",
+              "page-6.png": "30a9f42ecb47916b1b79b0cd04deccbc45ae2a18c2aa8da6bbbfc53c242efe77",
+              "page-7.png": "826592f393eea06f18a4d9a29f3c5be0a24ef6fd1d91055a0a664ffa57f8feea",
+              "page-8.png": "47a7be465c15a00c93b563fd1bdef00a7b22e98a20968c5aacde28270603df85",
+              "page-9.png": "d289e757d17cad8200ac6c08ca550c83ae2d7f22b2242098f593890a2d550632"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-long-values",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "0c8752f01472987f253b8c39e82bf81db8b34d688839628a72e6fbf8d9aad069",
+            "savedDocx": "503b2227ccbba5bd44c2381d882f45507d186abd8df0b8749467cd7daa37ed28",
+            "sourcePdf": "dec9dee0d417019ae8e7a1728c9108628002fc0380fa108d430b779a8afaa62f",
+            "savedPdf": "47ce27f4bd682a67fe8e6f9d6689a94b4335b9c49b117e350431a16a3b3c592f"
+          },
+          "nativeQa": {
+            "fixture": "aurora-long-values",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 2,
+            "bytes": 2452674,
+            "durationMs": 196,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-long-values",
+            "sourceDocxSha256": "0c8752f01472987f253b8c39e82bf81db8b34d688839628a72e6fbf8d9aad069",
+            "savedDocxSha256": "503b2227ccbba5bd44c2381d882f45507d186abd8df0b8749467cd7daa37ed28",
+            "sourceTaggedFields": 73,
+            "savedMatchingTaggedFields": 73,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.contact",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-long-values",
+            "docxSha256": "0c8752f01472987f253b8c39e82bf81db8b34d688839628a72e6fbf8d9aad069",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-2.png": "1e9df10c22c5b94d70f7e4a1515ff321f83af9b58d708ef19852b47361b5b8af",
+              "page-3.png": "4330a7aa343ed469c85a6195a9183380d433d91233ded4119a050179e77b7cfc",
+              "page-4.png": "9b1e97b10ab0cb7dea0a6ccdd63c7660cc03781500a02abc8af689b5da89127d"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-images",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "f974ba38e28ad36659a66e9b7fcd53ff64462ebaf09b8ddefa381e2aba87f606",
+            "savedDocx": "34849ece97bf304bac2d042d6e20420791c0a4ea8695b682ccd01f4bde994fad",
+            "sourcePdf": "17512551793fcf6559675c4488c3bcf0d91df81876c3572d4ea1588a5501e047",
+            "savedPdf": "cb9eeb867d63f142abb90f3702f1bbe0ca902d2d4c6102d5c8c8763f3a949c84"
+          },
+          "nativeQa": {
+            "fixture": "aurora-images",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 3,
+            "bytes": 2455636,
+            "durationMs": 207,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-images",
+            "sourceDocxSha256": "f974ba38e28ad36659a66e9b7fcd53ff64462ebaf09b8ddefa381e2aba87f606",
+            "savedDocxSha256": "34849ece97bf304bac2d042d6e20420791c0a4ea8695b682ccd01f4bde994fad",
+            "sourceTaggedFields": 73,
+            "savedMatchingTaggedFields": 73,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-images",
+            "docxSha256": "f974ba38e28ad36659a66e9b7fcd53ff64462ebaf09b8ddefa381e2aba87f606",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "afed07b3283ad14d0b82cf02bbe6a81b0442d1c1ff14719c2cf872a9f7b0b0c5",
+              "page-2.png": "8b05c99f7e4a1214f7e5d30ede1eb6bbf81fbd67bf2cb610a4b0b14deb6173cd",
+              "page-3.png": "ba72001c91e08e82ddc933e07bb9322749af12917e3c54de9d3a2b067148d6f4",
+              "page-4.png": "217fd24145849c9e3458b25fcccda3b5e37b25e7d9988cf69d97bd35ae70250b"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-custom",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "19452485ffb974673f5ebf8dd36b1d84b10ddfc5f03a8f3cc38dbf494d4cfbe6",
+            "savedDocx": "b03d7bdf39903b148dbad2473bbf8834e298d825080cd5249eddb2b0e8f99990",
+            "sourcePdf": "986daa8ab380ccd12c7fa5e5f1187e86446eb95a3f3829257b0c0988508ba451",
+            "savedPdf": "7e9662e394eb714eba5ee6f3ed80a00ab1e443f5d2cff2e62cf42d1ddfd98c38"
+          },
+          "nativeQa": {
+            "fixture": "aurora-custom",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 2,
+            "bytes": 2457976,
+            "durationMs": 220,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-custom",
+            "sourceDocxSha256": "19452485ffb974673f5ebf8dd36b1d84b10ddfc5f03a8f3cc38dbf494d4cfbe6",
+            "savedDocxSha256": "b03d7bdf39903b148dbad2473bbf8834e298d825080cd5249eddb2b0e8f99990",
+            "sourceTaggedFields": 75,
+            "savedMatchingTaggedFields": 75,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.custom-a.flow-box",
+              "cover.custom-b.flow-box",
+              "cover.lehrbeginn.flow-box",
+              "cv.element:custom-a.flow-box",
+              "cv.element:custom-b.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1",
+              "letter.body.paragraph:2"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-custom",
+            "docxSha256": "19452485ffb974673f5ebf8dd36b1d84b10ddfc5f03a8f3cc38dbf494d4cfbe6",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "1bc751dab8e5ee5697157eda443b90dc03327313bec0b13f3f612a0bd7a747ff",
+              "page-2.png": "c7d493a46c6dd2ad23366730241219631d7eb654524161b3fd154bdf1e190f5e",
+              "page-3.png": "6ac765b73ee15fa472e4795830da3a8171a207fb66a5a7235663fe288133038a",
+              "page-4.png": "9b1e97b10ab0cb7dea0a6ccdd63c7660cc03781500a02abc8af689b5da89127d"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-compact",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "74fab9f625a6ba28474c971aa11821d1c2f3c2116c5d6a04113db76067cf467a",
+            "savedDocx": "a626a5d402099591b1a94fb2c4827ffc18abc17c3190d32c65a246b7bddf4703",
+            "sourcePdf": "c17025cc0f5a3d4509bb410e36bd1e3308667b1fb3c775fe335faedd9821d2fd",
+            "savedPdf": "dbcd1576be92cdee0e38c62c4ebd520a8ad13d6311dd83ceef0d8c7864fc439c"
+          },
+          "nativeQa": {
+            "fixture": "aurora-compact",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 2,
+            "bytes": 2447232,
+            "durationMs": 156,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-compact",
+            "sourceDocxSha256": "74fab9f625a6ba28474c971aa11821d1c2f3c2116c5d6a04113db76067cf467a",
+            "savedDocxSha256": "a626a5d402099591b1a94fb2c4827ffc18abc17c3190d32c65a246b7bddf4703",
+            "sourceTaggedFields": 81,
+            "savedMatchingTaggedFields": 81,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.contact",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-compact",
+            "docxSha256": "74fab9f625a6ba28474c971aa11821d1c2f3c2116c5d6a04113db76067cf467a",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-2.png": "1edf60d2be1b40b7499c52bb039decf0d5d46efc838e36252faf9b494fa9a92b",
+              "page-3.png": "a6e5d2e5aaac049df2dbf99e13732196f8b93e63e36902ade4a8b5df882d8db2",
+              "page-4.png": "012b23cf6c82f9db95774a29b063b79ba0a7e29160098580cb853f94987089ba"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-none",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "2ee60577cd257fbb33069e738678d25b9251cf0f918353791cfb89d6dd7a7241",
+            "savedDocx": "bfed6246e822339abb4c55d5bdb38e4c2981040a1ddbf4cb0b82879fd18b18c2",
+            "sourcePdf": "93ebffc6c0fc9ed5c7778688b8d8b1e4e1c0b8c2e7c95d0bb5161174b81cc981",
+            "savedPdf": "914f7a49dffec0cfd35bad4fb7ac434f3574b8d332a46ee7393b988ef6232848"
+          },
+          "nativeQa": {
+            "fixture": "aurora-none",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 2,
+            "bytes": 2446144,
+            "durationMs": 154,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-none",
+            "sourceDocxSha256": "2ee60577cd257fbb33069e738678d25b9251cf0f918353791cfb89d6dd7a7241",
+            "savedDocxSha256": "bfed6246e822339abb4c55d5bdb38e4c2981040a1ddbf4cb0b82879fd18b18c2",
+            "sourceTaggedFields": 81,
+            "savedMatchingTaggedFields": 81,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.contact",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-none",
+            "docxSha256": "2ee60577cd257fbb33069e738678d25b9251cf0f918353791cfb89d6dd7a7241",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-2.png": "1edf60d2be1b40b7499c52bb039decf0d5d46efc838e36252faf9b494fa9a92b",
+              "page-3.png": "a6e5d2e5aaac049df2dbf99e13732196f8b93e63e36902ade4a8b5df882d8db2",
+              "page-4.png": "012b23cf6c82f9db95774a29b063b79ba0a7e29160098580cb853f94987089ba"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-continuation",
+          "pages": 11,
+          "parts": {
+            "cover": 1,
+            "letter": 8,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "6b2c24b260ac343926076cef49bb9e4ce78fbbb8120af39baa37303205e430aa",
+            "savedDocx": "0f30061136ef0c60803dbec156e7715a3b1b28b5146bf3b12256de7f9ec2a049",
+            "sourcePdf": "fd8f72945e3d7694967a0f8ab070228001fa0a5a57e76e7d00a0994f340d7d9e",
+            "savedPdf": "050ebebc33496b384b7c3be0a83f89329c841261364c6b5eacebef9cb896d450"
+          },
+          "nativeQa": {
+            "fixture": "aurora-continuation",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 11,
+            "media": 2,
+            "bytes": 2472546,
+            "durationMs": 238,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-continuation",
+            "sourceDocxSha256": "6b2c24b260ac343926076cef49bb9e4ce78fbbb8120af39baa37303205e430aa",
+            "savedDocxSha256": "0f30061136ef0c60803dbec156e7715a3b1b28b5146bf3b12256de7f9ec2a049",
+            "sourceTaggedFields": 75,
+            "savedMatchingTaggedFields": 75,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-continuation",
+            "docxSha256": "6b2c24b260ac343926076cef49bb9e4ce78fbbb8120af39baa37303205e430aa",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-10.png": "133b4708d13a8c88110889ea3421a8f9ce759fae91a22ec3549335217cb4c0c9",
+              "page-11.png": "ae96cd0af5c67bcf16e32874a2751657f14a5abdbf4b8e98c2fd20c29979fc34",
+              "page-2.png": "56ca46513f502fa679eb7f700b22c4e419e663e78e0fc5c9b25f80ca628b8563",
+              "page-3.png": "d4418eac15fc66ea0965d071decaac05d811148bf576017b5c8e3d51730334fe",
+              "page-4.png": "d4418eac15fc66ea0965d071decaac05d811148bf576017b5c8e3d51730334fe",
+              "page-5.png": "d4418eac15fc66ea0965d071decaac05d811148bf576017b5c8e3d51730334fe",
+              "page-6.png": "d4418eac15fc66ea0965d071decaac05d811148bf576017b5c8e3d51730334fe",
+              "page-7.png": "d4418eac15fc66ea0965d071decaac05d811148bf576017b5c8e3d51730334fe",
+              "page-8.png": "d4418eac15fc66ea0965d071decaac05d811148bf576017b5c8e3d51730334fe",
+              "page-9.png": "7f809ccb94a7fdf85278574943c934dbf2ca3a9b2014ca0c8660a1c479e8ebf4"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-timeline",
+          "pages": 19,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 17
+          },
+          "hashes": {
+            "sourceDocx": "ac94615dc89f360a4c2c555e87a3150f837467314f9fb4c3ac6d407e78dfa289",
+            "savedDocx": "67462f5d52c4006f4759e2335fccf26fb9417ebf3c3c00687b4edb958d7b8ff9",
+            "sourcePdf": "14c1bde022e724129e9a32a9d57e710b8c487d6254b3a7ae76c06c584c51bdd6",
+            "savedPdf": "c1b3cbcf805ca10ae8a87083fc5dac8ef34dcf147aad87e3f5c624caa5c219af"
+          },
+          "nativeQa": {
+            "fixture": "aurora-timeline",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 19,
+            "media": 2,
+            "bytes": 2702205,
+            "durationMs": 224,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-timeline",
+            "sourceDocxSha256": "ac94615dc89f360a4c2c555e87a3150f837467314f9fb4c3ac6d407e78dfa289",
+            "savedDocxSha256": "67462f5d52c4006f4759e2335fccf26fb9417ebf3c3c00687b4edb958d7b8ff9",
+            "sourceTaggedFields": 336,
+            "savedMatchingTaggedFields": 336,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+              "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+              "cv.entry.erfahrung:demo-p1.dateRail",
+              "cv.entry.erfahrung:demo-p2.dateRail",
+              "cv.entry.schule:school-0.dateRail",
+              "cv.entry.schule:school-1.dateRail",
+              "cv.entry.schule:school-10.dateRail",
+              "cv.entry.schule:school-11.dateRail",
+              "cv.entry.schule:school-12.dateRail",
+              "cv.entry.schule:school-13.dateRail",
+              "cv.entry.schule:school-14.dateRail",
+              "cv.entry.schule:school-15.dateRail",
+              "cv.entry.schule:school-16.dateRail",
+              "cv.entry.schule:school-17.dateRail",
+              "cv.entry.schule:school-18.dateRail",
+              "cv.entry.schule:school-19.dateRail",
+              "cv.entry.schule:school-2.dateRail",
+              "cv.entry.schule:school-20.dateRail",
+              "cv.entry.schule:school-21.dateRail",
+              "cv.entry.schule:school-22.dateRail",
+              "cv.entry.schule:school-23.dateRail",
+              "cv.entry.schule:school-24.dateRail",
+              "cv.entry.schule:school-25.dateRail",
+              "cv.entry.schule:school-26.dateRail",
+              "cv.entry.schule:school-27.dateRail",
+              "cv.entry.schule:school-28.dateRail",
+              "cv.entry.schule:school-29.dateRail",
+              "cv.entry.schule:school-3.dateRail",
+              "cv.entry.schule:school-30.dateRail",
+              "cv.entry.schule:school-31.dateRail",
+              "cv.entry.schule:school-32.dateRail",
+              "cv.entry.schule:school-33.dateRail",
+              "cv.entry.schule:school-34.dateRail",
+              "cv.entry.schule:school-35.dateRail",
+              "cv.entry.schule:school-36.dateRail",
+              "cv.entry.schule:school-37.dateRail",
+              "cv.entry.schule:school-38.dateRail",
+              "cv.entry.schule:school-39.dateRail",
+              "cv.entry.schule:school-4.dateRail",
+              "cv.entry.schule:school-40.dateRail",
+              "cv.entry.schule:school-41.dateRail",
+              "cv.entry.schule:school-42.dateRail",
+              "cv.entry.schule:school-43.dateRail",
+              "cv.entry.schule:school-44.dateRail",
+              "cv.entry.schule:school-45.dateRail",
+              "cv.entry.schule:school-46.dateRail",
+              "cv.entry.schule:school-47.dateRail",
+              "cv.entry.schule:school-48.dateRail",
+              "cv.entry.schule:school-49.dateRail",
+              "cv.entry.schule:school-5.dateRail",
+              "cv.entry.schule:school-50.dateRail",
+              "cv.entry.schule:school-51.dateRail",
+              "cv.entry.schule:school-52.dateRail",
+              "cv.entry.schule:school-53.dateRail",
+              "cv.entry.schule:school-54.dateRail",
+              "cv.entry.schule:school-55.dateRail",
+              "cv.entry.schule:school-56.dateRail",
+              "cv.entry.schule:school-57.dateRail",
+              "cv.entry.schule:school-58.dateRail",
+              "cv.entry.schule:school-59.dateRail",
+              "cv.entry.schule:school-6.dateRail",
+              "cv.entry.schule:school-60.dateRail",
+              "cv.entry.schule:school-61.dateRail",
+              "cv.entry.schule:school-62.dateRail",
+              "cv.entry.schule:school-63.dateRail",
+              "cv.entry.schule:school-64.dateRail",
+              "cv.entry.schule:school-7.dateRail",
+              "cv.entry.schule:school-8.dateRail",
+              "cv.entry.schule:school-9.dateRail",
+              "cv.entry.schule:variant-overflow.dateRail",
+              "cv.person.details",
+              "cv.section.custom:variant-alpha.half-row",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-timeline",
+            "docxSha256": "ac94615dc89f360a4c2c555e87a3150f837467314f9fb4c3ac6d407e78dfa289",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-10.png": "86b9683b9949a34a13ec4add3f05f131e1105051ca54421596713296475b47e6",
+              "page-11.png": "8ac897467b5825f84886e2b817e7ef2347520b4aa6c9692fc2281390626511ec",
+              "page-12.png": "6f273cef39c5051c8dd92953143b327663b6fa4c197321db944784f185f5f25e",
+              "page-13.png": "bc8a86e045cd505e3f0539c219174aaee5cb4811fb61649785577748840c48c9",
+              "page-14.png": "0b4e81b4f060abf32b32706d0c98cf4cefaa48227e792f5c99b9d52653bbcbfb",
+              "page-15.png": "0b4e81b4f060abf32b32706d0c98cf4cefaa48227e792f5c99b9d52653bbcbfb",
+              "page-16.png": "0b4e81b4f060abf32b32706d0c98cf4cefaa48227e792f5c99b9d52653bbcbfb",
+              "page-17.png": "0b4e81b4f060abf32b32706d0c98cf4cefaa48227e792f5c99b9d52653bbcbfb",
+              "page-18.png": "805061f3bfe9e7beaf5adb1732df455651156f9aeabe6f03d96183cbaf5a8f56",
+              "page-19.png": "2165080a040372f0385751cf4dbe8e63d73cb385675c49605ccd81bd51219a36",
+              "page-2.png": "6c4a645c5d7089493c9749b2ca14e7144128c489be2b7d68d8828fbba7d0ed4e",
+              "page-3.png": "7e9721deaca6cee486e4e82cc2868bdd99baa1bdffc53e2658a6b48a48bbaf6a",
+              "page-4.png": "db333d19a9fc473ed6ee0a2370ea9ad00d2a31bb0b9d0490095c6cfe6618b96f",
+              "page-5.png": "73f8a790f0e9f1f3562235ce00ae69f94cd64ea32335ec07c13b290ee41b9c64",
+              "page-6.png": "0f504c5a2a749752f277accf586216409483c86a7b9ab78c7c6a8a829093016a",
+              "page-7.png": "44d334df271ff5a2775c9d6e5f9c94a3915543a19e215138539c7fbd688ff8eb",
+              "page-8.png": "8416eb6a3f0a5200f0d4bbcf2dcc84e95f74c28338315c5ebe37f19356317c11",
+              "page-9.png": "9fe422707795e5a26335346773105b19754abc67b4bfa4d520c256cc4874c183"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-magazin",
+          "pages": 3,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 1
+          },
+          "hashes": {
+            "sourceDocx": "ebe20ab687d60b12d191de5f67441d4fd086b94593d3d2d1f168c746f8dd64aa",
+            "savedDocx": "4c79cb2658dedf1aaf48bdce86eec04c03b7ab409e7ab7fca55c3d98478ead81",
+            "sourcePdf": "8c1d519a0a86201516ce773a051cde6536faabb5126746b615a6bbedd4f771cb",
+            "savedPdf": "c8966a1dced52574438b3e01550c8f4504af814b0f9fc19b908b24ac3a8e4242"
+          },
+          "nativeQa": {
+            "fixture": "aurora-magazin",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 3,
+            "media": 2,
+            "bytes": 2433703,
+            "durationMs": 160,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-magazin",
+            "sourceDocxSha256": "ebe20ab687d60b12d191de5f67441d4fd086b94593d3d2d1f168c746f8dd64aa",
+            "savedDocxSha256": "4c79cb2658dedf1aaf48bdce86eec04c03b7ab409e7ab7fca55c3d98478ead81",
+            "sourceTaggedFields": 39,
+            "savedMatchingTaggedFields": 39,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+              "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+              "cv.entry.schule:variant-school.dateRail",
+              "cv.section.custom:variant-alpha.half-row"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-magazin",
+            "docxSha256": "ebe20ab687d60b12d191de5f67441d4fd086b94593d3d2d1f168c746f8dd64aa",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-2.png": "bcb8c544cceff10c3024f9657a6ba4b9582ec5d17eef0542fdcc6a9b3b2fdc98",
+              "page-3.png": "bc831d101c16a811c0e0f50357a3673910d5e21a6a21a79a2adb062382beee41"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-no-motifs",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "e828fc6fea468effaae92ff7738d5c96aa70b7a32128701a7a121fb03071b2df",
+            "savedDocx": "9a165ead825e5c4875d0704648a2fb062eb3e08957fe559ee124903e56c41fde",
+            "sourcePdf": "d6986eb5ab788f60cb1abc061bd6e919799f791f1973868fe87d75d94fc2a5dd",
+            "savedPdf": "f62d59c8a9f7919dd36712ed0f792955a7dbfa512142be8ca3d69d93f0c21806"
+          },
+          "nativeQa": {
+            "fixture": "aurora-no-motifs",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 2,
+            "bytes": 2447766,
+            "durationMs": 150,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-no-motifs",
+            "sourceDocxSha256": "e828fc6fea468effaae92ff7738d5c96aa70b7a32128701a7a121fb03071b2df",
+            "savedDocxSha256": "9a165ead825e5c4875d0704648a2fb062eb3e08957fe559ee124903e56c41fde",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-no-motifs",
+            "docxSha256": "e828fc6fea468effaae92ff7738d5c96aa70b7a32128701a7a121fb03071b2df",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "36261a9a021205fba3a53a21d1a2202da01f47600d2ac66a859d5b17b4d68523",
+              "page-2.png": "6c4a645c5d7089493c9749b2ca14e7144128c489be2b7d68d8828fbba7d0ed4e",
+              "page-3.png": "5321878e6ddfa6329b4b30e02c11aecd3a05bf2effa3dbf69786f45521f9bd3c",
+              "page-4.png": "350594600be90f7a535dda2c8f275d08ce94fb356f960a8274c2d5e72acb2311"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-custom-colors",
+          "pages": 4,
+          "parts": {
+            "cover": 1,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "d362e56f9149e3a31c47864e285b6483863b50ef41c17bbdecef1fc505bc9458",
+            "savedDocx": "1a933f144d69ff239d13ba07f6fbf66a3eca075b2e13593585923408a1faf5d2",
+            "sourcePdf": "92c396d90259c3569b2e4f59d5d50dc47fe9455010debb6bf9de526524b7667a",
+            "savedPdf": "ae490fff13294c2752f95d4891b67a992859061248af1f9ebdff485f25f89805"
+          },
+          "nativeQa": {
+            "fixture": "aurora-custom-colors",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 4,
+            "media": 2,
+            "bytes": 2460405,
+            "durationMs": 17404,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-custom-colors",
+            "sourceDocxSha256": "d362e56f9149e3a31c47864e285b6483863b50ef41c17bbdecef1fc505bc9458",
+            "savedDocxSha256": "1a933f144d69ff239d13ba07f6fbf66a3eca075b2e13593585923408a1faf5d2",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-custom-colors",
+            "docxSha256": "d362e56f9149e3a31c47864e285b6483863b50ef41c17bbdecef1fc505bc9458",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "fd5e1483f4ca4f326b549fc147df6f690c713836eb21c1de6253bce8f8410577",
+              "page-2.png": "49652adf516683e0e86ec72186154192c726b90b78fc1801d267f9166d54c33f",
+              "page-3.png": "6847805830374c59cf75db7d3812278b507a00ceb5444679e7e452a39ae0c820",
+              "page-4.png": "54ef78154f5af58be93d427ceb1aa21a8bac9c6be0f70ccbfe5d7e4160d07b8b"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-cover-long",
+          "pages": 5,
+          "parts": {
+            "cover": 2,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "4e3b7866d0ab678619171aabadf677c8afcf8657b1f8eb2dd818714421e64e1c",
+            "savedDocx": "c3f143bcde05b08bae4744384221300a9cff0d3d966368a74ba0ebf41fce160a",
+            "sourcePdf": "fa8ed5a445aeb1a8d2be684d5949282275edc8da2e15543afcf7b6cde5929108",
+            "savedPdf": "e9311515c0e08a345b62f396f9ab86a7387fe4fd1cf762e77e8163c262ada02f"
+          },
+          "nativeQa": {
+            "fixture": "aurora-cover-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 5,
+            "media": 2,
+            "bytes": 2470697,
+            "durationMs": 173,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-cover-long",
+            "sourceDocxSha256": "4e3b7866d0ab678619171aabadf677c8afcf8657b1f8eb2dd818714421e64e1c",
+            "savedDocxSha256": "c3f143bcde05b08bae4744384221300a9cff0d3d966368a74ba0ebf41fce160a",
+            "sourceTaggedFields": 73,
+            "savedMatchingTaggedFields": 73,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.continuation-text.flow-box",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-cover-long",
+            "docxSha256": "4e3b7866d0ab678619171aabadf677c8afcf8657b1f8eb2dd818714421e64e1c",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "106a36570c12a39677ad924076700cf73f549b1f2c33ae3da09ba0a92bc78812",
+              "page-2.png": "e6795a180f1844414e14595739af95c80a7d7a3e3a67a65a3f4f62e7740e9ada",
+              "page-3.png": "6c4a645c5d7089493c9749b2ca14e7144128c489be2b7d68d8828fbba7d0ed4e",
+              "page-4.png": "362b16cba00da0715f4121e29c3abcc9a6992c0c48935b6b3dd186ab198c80b5",
+              "page-5.png": "217fd24145849c9e3458b25fcccda3b5e37b25e7d9988cf69d97bd35ae70250b"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-contact-long",
+          "pages": 6,
+          "parts": {
+            "cover": 3,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "63cca4f71a0728f6039934429a8bde31b70569a990f086dbec4b66a1ffece4c0",
+            "savedDocx": "a64d83a04c29c06f39c67a684e1f243fbe8fa50b4a9ecd05c52a5da629962581",
+            "sourcePdf": "875ef63f5dc2659bc0fec68989312ef079359fa4972e9741193a4a19f416eec4",
+            "savedPdf": "5253cb5f58d60a366945969e87ba2531440ee6c989b858803919a3bb9b07e13b"
+          },
+          "nativeQa": {
+            "fixture": "aurora-contact-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 6,
+            "media": 2,
+            "bytes": 2469250,
+            "durationMs": 230,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-contact-long",
+            "sourceDocxSha256": "63cca4f71a0728f6039934429a8bde31b70569a990f086dbec4b66a1ffece4c0",
+            "savedDocxSha256": "a64d83a04c29c06f39c67a684e1f243fbe8fa50b4a9ecd05c52a5da629962581",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-contact-long",
+            "docxSha256": "63cca4f71a0728f6039934429a8bde31b70569a990f086dbec4b66a1ffece4c0",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "05935194bb1b56fc6bfe7205053167ba50061da09fd189d99405b0e41cb05fd6",
+              "page-2.png": "c993f8ab30a90c3bc940f0c56dfca98500835f50e2ca55a59e81d4a1b20f3ab7",
+              "page-3.png": "99a45db0ae100229bd5644c52a6ad46c75b37886bc97fac8c9a126de1a64b471",
+              "page-4.png": "6c4a645c5d7089493c9749b2ca14e7144128c489be2b7d68d8828fbba7d0ed4e",
+              "page-5.png": "362b16cba00da0715f4121e29c3abcc9a6992c0c48935b6b3dd186ab198c80b5",
+              "page-6.png": "217fd24145849c9e3458b25fcccda3b5e37b25e7d9988cf69d97bd35ae70250b"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-hero-long",
+          "pages": 6,
+          "parts": {
+            "cover": 3,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "9f8b3b59b0b6c6e2a4c9325b2ed24fde230904606b3f5bb72c9e54ade7c525ee",
+            "savedDocx": "96f97e9a0bdb7f10736d2bbc21d3c237c4ac0292d810e034e56c6578a183a85a",
+            "sourcePdf": "c2a889c5b9029f684ca704fff4f950064d2d3b568e128d0071dc2a9e1f3e9252",
+            "savedPdf": "c407dc3579299c9d476cf90e0628f72702e2ab4a790a1999805ef484b248a46f"
+          },
+          "nativeQa": {
+            "fixture": "aurora-hero-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 6,
+            "media": 2,
+            "bytes": 2463092,
+            "durationMs": 166,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-hero-long",
+            "sourceDocxSha256": "9f8b3b59b0b6c6e2a4c9325b2ed24fde230904606b3f5bb72c9e54ade7c525ee",
+            "savedDocxSha256": "96f97e9a0bdb7f10736d2bbc21d3c237c4ac0292d810e034e56c6578a183a85a",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-hero-long",
+            "docxSha256": "9f8b3b59b0b6c6e2a4c9325b2ed24fde230904606b3f5bb72c9e54ade7c525ee",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "503b4c7dcf751e92916d78cbb71ed6d91a32f5e73d7c41c0f775fe065702cd7e",
+              "page-2.png": "6bdb73d7d71f06aff712fd8c7f52105137f6ffe78d6c592b5139de88f36b7337",
+              "page-3.png": "64cfcf616eb259531efbb319752d02ac45a59bc9cf892bcfbe6eeeb04a62232d",
+              "page-4.png": "6c4a645c5d7089493c9749b2ca14e7144128c489be2b7d68d8828fbba7d0ed4e",
+              "page-5.png": "362b16cba00da0715f4121e29c3abcc9a6992c0c48935b6b3dd186ab198c80b5",
+              "page-6.png": "217fd24145849c9e3458b25fcccda3b5e37b25e7d9988cf69d97bd35ae70250b"
+            }
+          }
+        },
+        {
+          "fixture": "aurora-title-long",
+          "pages": 5,
+          "parts": {
+            "cover": 2,
+            "letter": 1,
+            "cv": 2
+          },
+          "hashes": {
+            "sourceDocx": "eb261452280c9191c4bececa65f3ad9908b7383214f5c9b77ca7d36466e0ed03",
+            "savedDocx": "7ec43b3d5d691c39f27b44c4bd9034634ab49466d8c820d124e1ebcb9f72ccde",
+            "sourcePdf": "064701981cdfd728cda41b50b7ed10e7924d5dda44a192ada4f3338bc2396ab6",
+            "savedPdf": "36d3e77c442a62c5d5ecb5be95887e4b8f64b1e237055f1bf2e30d84ded52cc2"
+          },
+          "nativeQa": {
+            "fixture": "aurora-title-long",
+            "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+            "libreOfficeInterface": "LibreOfficeKit",
+            "pages": 5,
+            "media": 2,
+            "bytes": 2452182,
+            "durationMs": 160,
+            "structural": "pass",
+            "libreoffice": "pass",
+            "libreofficeRoundtrip": "pass",
+            "microsoftWord": "pending",
+            "snapshot": "candidate"
+          },
+          "identity": {
+            "fixture": "aurora-title-long",
+            "sourceDocxSha256": "eb261452280c9191c4bececa65f3ad9908b7383214f5c9b77ca7d36466e0ed03",
+            "savedDocxSha256": "7ec43b3d5d691c39f27b44c4bd9034634ab49466d8c820d124e1ebcb9f72ccde",
+            "sourceTaggedFields": 72,
+            "savedMatchingTaggedFields": 72,
+            "completeNativeText": "pass",
+            "missingCompleteNativeText": [],
+            "fieldIdentity": "pass",
+            "missingOrChangedTaggedFields": [],
+            "tableIdentity": "fail",
+            "missingTableIds": [
+              "cover.composition.row:0",
+              "cover.composition.row:1",
+              "cover.composition.row:2",
+              "cover.lehrbeginn.flow-box",
+              "cv.person.details",
+              "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+            ],
+            "saveReopenIdentity": "fail"
+          },
+          "portableJson": {
+            "fixture": "aurora-title-long",
+            "docxSha256": "eb261452280c9191c4bececa65f3ad9908b7383214f5c9b77ca7d36466e0ed03",
+            "input": "pass",
+            "model": "pass",
+            "immutable": "pass"
+          },
+          "pagePixels": {
+            "source": {
+              "page-1.png": "ebb13dbd973db791ebc895a3832d23aaa6d6371cce2e89ccc404d923d0a42ae9",
+              "page-2.png": "cf6c41a2b455c2d1ccb0e6e9cc823fcd14bdfabc9bbf37466d2a7f0bbd791770",
+              "page-3.png": "6c4a645c5d7089493c9749b2ca14e7144128c489be2b7d68d8828fbba7d0ed4e",
+              "page-4.png": "362b16cba00da0715f4121e29c3abcc9a6992c0c48935b6b3dd186ab198c80b5",
+              "page-5.png": "217fd24145849c9e3458b25fcccda3b5e37b25e7d9988cf69d97bd35ae70250b"
+            }
+          }
+        }
+      ]
+    },
+    "visual": {
+      "result": "blocked",
+      "failures": [
+        {
+          "fixture": "aurora-title-long",
+          "stage": "source",
+          "failure": "white editable hero text on white paper outside fixed gradient",
+          "spans": [
+            {
+              "text": "Berufszeile 4: ",
+              "bottomMm": 138.92487504747177
+            },
+            {
+              "text": "Informatik",
+              "bottomMm": 152.5420886569553
+            },
+            {
+              "text": "Berufszeile 5: ",
+              "bottomMm": 166.15931303236218
+            },
+            {
+              "text": "Informatik",
+              "bottomMm": 179.77653740776907
+            }
+          ]
+        },
+        {
+          "fixture": "aurora-title-long",
+          "stage": "saved",
+          "failure": "white editable hero text on white paper outside fixed gradient",
+          "spans": [
+            {
+              "text": "Berufszeile 4: ",
+              "bottomMm": 138.92487504747177
+            },
+            {
+              "text": "Informatik",
+              "bottomMm": 152.5420886569553
+            },
+            {
+              "text": "Berufszeile 5: ",
+              "bottomMm": 166.15931303236218
+            },
+            {
+              "text": "Informatik",
+              "bottomMm": 179.77653740776907
+            }
+          ]
+        }
+      ],
+      "checks": 34,
+      "fixtures": [
+        {
+          "fixture": "aurora-normal",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-normal",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-long-letter",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-long-letter",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-long-cv",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-long-cv",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-long-values",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-long-values",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-images",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-images",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-custom",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-custom",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-compact",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-compact",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-none",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-none",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-continuation",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-continuation",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-timeline",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-timeline",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-magazin",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-magazin",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-no-motifs",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-no-motifs",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-custom-colors",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-custom-colors",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-cover-long",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-cover-long",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-contact-long",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-contact-long",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-hero-long",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-hero-long",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "pass"
+        },
+        {
+          "fixture": "aurora-title-long",
+          "stage": "source",
+          "fixedHeroContrastAndNamePlacement": "fail"
+        },
+        {
+          "fixture": "aurora-title-long",
+          "stage": "saved",
+          "fixedHeroContrastAndNamePlacement": "fail"
+        }
+      ],
+      "unboundedGrowingHero": "not claimed: app source fixes height at 128 mm"
+    },
+    "descriptor": "template-proposals/aurora-fixed-hero-stopped.json",
+    "sourceRequirement": "The actual app uses a fixed 128-mm rounded hero. Native semantic text must remain visible when edited longer; fixed paint alone fails this requirement."
+  },
+  "editors": {
+    "neon": {
+      "result": "pass",
+      "productionPdfPages": 3,
+      "checks": [
+        "rename/reload",
+        "portable JSON save/load",
+        "explicit independent snapshot/native export",
+        "actual combined production PDF download"
+      ],
+      "hashes": {
+        "neon-editor-evidence.json": "ed6988a0f3c5d5576a70b63ddf18e3dffca5134bdf37426f33003631972b87bc",
+        "neon-editor.docx": "98d09f3d6d328bf2a508c48f061cd5a387332ac9130ef6230e442cc89f531f25",
+        "neon-production-dossier.pdf": "bc52cb07dc0b22c694ddd4bbb04be647120bdbf0fdcff8317376a9a87a42b514",
+        "neon-project.json": "892ea6a77527ec1a3026b036354e27c2ef69ea5cbab13f4852baab7673f8ba96",
+        "neon-browser-cover.png": "fbed44d720b575b677164ac2dd46f428607b1990efffa1431a7f650578f34472",
+        "neon-browser-cv.png": "91a3d2a593426e1c53b0fcf2fb675f9e548b55ac046cf227b15405fd5074fe96"
+      }
+    },
+    "verlauf": {
+      "result": "pass",
+      "productionPdfPages": 3,
+      "checks": [
+        "rename/reload",
+        "portable JSON save/load",
+        "explicit independent snapshot/native export",
+        "actual combined production PDF download"
+      ],
+      "hashes": {
+        "verlauf-editor-evidence.json": "d9885a35f55c15d20538983a9d6e1c21d05f1ccdcefd560d26d0316c7c13340d",
+        "verlauf-editor.docx": "a2e227e9050e5d8d291f1d817a53790c2f5c0f17fb895d180e5dbef97603e2be",
+        "verlauf-production-dossier.pdf": "427203b3ee27edcfcb4b8a8269d303e4462ceb4da9b52f845d0703989eca33b2",
+        "verlauf-project.json": "6fe337d4ea62a93f12a4607b986d87e073ff149aeab8a55786de5bc0f5a666cb",
+        "verlauf-browser-cover.png": "89ff0848206712971d8a71d6e8203181395fc8895cb9d17001c98b5a9caaf77d",
+        "verlauf-browser-cv.png": "4512307ac5d0c195bdde3e8026ede10c4527a645bdce05dbfa3b31a448821086"
+      }
+    },
+    "aurora": {
+      "result": "prototype assessment only, before final chrome adjustment; not migration acceptance",
+      "productionPdfPages": 3,
+      "checks": [
+        "rename/reload",
+        "portable JSON save/load",
+        "explicit independent snapshot/native export",
+        "actual combined production PDF download"
+      ],
+      "hashes": {
+        "aurora-editor-evidence.json": "35fc8c8506465ea9aba6606f64a90219a5b56852a153d52c44f7fb5d42781e8a",
+        "aurora-editor.docx": "2e38cd6b6de995bb0322f98991581860b912e36ebc0c342a83d4896f9d3859e0",
+        "aurora-production-dossier.pdf": "3801b20cb6601cac8b168e47f9e52bddd3a9265cd8467fc3f19a74680564937b",
+        "aurora-project.json": "03ec89d28a0d66c7a36959d36e23cb79f4a54335610a31645c4bfe1d04ed522c",
+        "aurora-browser-cover.png": "0d92d1702256d76e7d2583095f9b19458f9cf9d82ba864f12912b9f362c5cf70",
+        "aurora-browser-cv.png": "eabe0cf23b2ffea0bfb84b7cf4656797f1ff5ee246c3ddfd588d90d58d06721f"
+      }
+    }
+  },
+  "sourceFileSha256": {
+    "scripts/docx-next-fixtures.ts": "9c2b3ad9d4e1d662a8019c22601ee6ab49f0da5eb8f32172c329cdd7a9cc1e20",
+    "scripts/docx-next-render-qa.py": "3336711b32ed93ec909256bee1febcc21ac2cb7e2cb026145023b1945392d6b5",
+    "scripts/docx-next-final-graphics-qa.py": "a194bdd55645f32f4fedaf3336841489bd668d6a4d4b93d955f257f44f8887f5",
+    "scripts/docx-next-candidate-editor-qa.ts": "def0f2c70dcd73863cf52241fded3410f366a9b047ed2f85a460f8bed9c20122",
+    "src/lib/docx-next/build-model.ts": "7e47ba2d667692e3bfb2f9cc79122613063c1842de1fa755567f659880fb4c16",
+    "src/lib/docx-next/decoration.ts": "bb08e94f2ef152be2fbd687a2f13cf368c64abea8ae7b9167ae32a360466734a",
+    "src/lib/docx-next/model.ts": "0041e8d100cb92bf8387b1e064d9b1f68f7f215c35445740b4ebf58ba12dc611",
+    "src/lib/docx-next/page-artwork.ts": "4d2820651860cfa8b285a6f06c226ee1d221eb1870a8b937631dd38abeb8bb18",
+    "src/lib/docx-next/renderer.ts": "146c07fc83d766f2756023c738bd60d612e52b6306f30e41163184ee55098c06",
+    "src/lib/docx-next/templates.ts": "5a4ba9fe1b5c88a15e4215e840bf41376ce02d78cf2677cf06ee512dabc0f990",
+    "src/lib/docx-next/validation.ts": "5d9ab84291bbcc35788fc5e9351917784b779f6cd33523aa6124ff6ab3de7c36",
+    "tests/fixtures/docx-next/graphics-probes.ts": "e49d06bc8928b53a212b4a52bb803061e9a85bf1fd20c161086801a2137d6e9a",
+    "tests/fixtures/docx-next/graphic-candidate.ts": "e6b94e7bde8b3fb51c6895ca0630e7445e1ec1fe4ef1ca7550161d869b3b6a22",
+    "tests/unit/docx-next-composite-paint.test.ts": "ae0dd6dcabda69e10c9aa4a900f29d59471bffd1d8c0e38c825cba12154fd6f8",
+    "tests/unit/docx-next-final-graphics.test.ts": "40e288951816c1db66112b4d053f48a47cae810002e6e06c39c0a60a1594df28"
+  },
+  "previews": {
+    "aurora-stopped-saved-title.png": "0442d610003c28f65a42dc7907ba59c0ea0bd47b1b7eac279361725131b119ea",
+    "aurora-stopped-source-title.png": "0442d610003c28f65a42dc7907ba59c0ea0bd47b1b7eac279361725131b119ea",
+    "neon-saved-cover.png": "aeca2d2a3eae3e6ff7cc482c930d15fee55677d5d0492afe074c73057e23a587",
+    "neon-source-cover.png": "f209477e893d0ade25d77f93d7607188d6ea8e093d645d70b3a9dd8f02b746f0",
+    "neon-source-cv.png": "98a5b41f52bf4dd6abb295f65ddd34c21bf656494444fa0b822d7ade4be337c5",
+    "verlauf-saved-cover.png": "84029942994f847b10d46131f6d3746b068116aafa34af0b53a2126e4c006f64",
+    "verlauf-source-cover.png": "84029942994f847b10d46131f6d3746b068116aafa34af0b53a2126e4c006f64",
+    "verlauf-source-cv.png": "817b08b008db9ff12c56dc3e5c6be71b6bbceabe27e5803478ceee474ea4e224"
+  }
+}

@@ -1,5 +1,8 @@
 # Remaining three templates — architecture handoff
 
+> Superseded for the current parallel branch by [the final graphics report](template-graphics-final-report.md): Neon/Verlauf are completed using the isolated nonsemantic composite paint primitive. Aurora remains stopped on actual source/saved long-title contrast evidence. The old assertion that the app hero itself grows is withdrawn: its source fixes the height at 128 mm, which does not cover growing native text. Earlier evidence and commit provenance below remain historical.
+
+
 Repository: `modebrecht/cv-cover-charm`.
 
 Read this alongside the active architecture handoff; it does not replace or interrupt the Sidebar track. The architecture agent can continue while the separate template branch remains available for later cherry-picking.

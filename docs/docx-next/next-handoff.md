@@ -1,5 +1,14 @@
 # DOCX Next handoff — 2026-10-08
 
+## Parallel graphics template completion — 2026-10-08
+
+The dedicated `docx-next/template-graphics-final-20261008` branch, based on freshly fetched `dev` `d6f044aec1e15e911b3d74009ef2ce8734100a8e`, contains **38/39 configured candidates and 0/39 Microsoft Word accepted**. Seven earlier migrations were consolidated, then Neon and Verlauf completed with bounded opt-in nonsemantic composite page paint. This is separate branch evidence, not a claim that these configurations have been merged into `dev`.
+
+[Final report](template-graphics-final-report.md) and [fresh ledger](template-graphics-final-evidence.json): 32 completed fixtures / 223 source + 223 saved pages, all 3,578 semantic fields retained, immutable JSON/packages, both actual editor/PDF smokes, 1,057 isolated units and all 305 existing DOCX Next tests. Thirty-six preceding descriptors, 180 models and 36 normal native packages remain unchanged.
+
+Aurora remains **unconfigured**. Its actual app hero is fixed at 128 mm, correcting the earlier source assumption. A real 17-fixture prototype retains semantic text but its long-title case renders white text on white paper outside that background in both source and saved files. A shared flowing gradient/rounded backdrop contract is still needed for editable native flow. Stop this template; do not substitute missing visuals or open production/Word/Sidebar gates. Table-caption identity loss remains documented separately. Next template batch: Aurora after the reusable contract is supplied. All existing architecture-track entries below retain their original scope/evidence.
+
+
 ## Independently executed anchor checkpoint — 2026-10-08
 
 Exact source `f0d49b79e7df37f43fb250fd998d705d43b577d4` has successful M6 37794929371 (all eight browser groups) and all three stable jobs 37794929385. Downloaded artifact 11557554699 / SHA-256 `d2dd40d4174a5c1d0364911822cbe1e485c84a0909d89f516f2284fe3f189fa3` verifies every one of the twelve prepared anchor sources, all four actual native source/saved packages and all 48 PNG pixel digests. Stable reproduces opening pages 1,7,7,7,7,7,7,7,7 and seven title occurrences despite all 77/129 tags, whole native paragraphs/flags/owners and exact floating geometry surviving. The original caption failure remains separate. Both plans stop at four actual cases / 24 pages each, plus Save/Reopen; all remaining sources are unrendered. The preceding flag-only baseline and all 54 historical comparison observations reproduce with zero changes.
