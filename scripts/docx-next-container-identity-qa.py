@@ -189,7 +189,8 @@ def main():
     (args.directory / 'container-identity-report.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps({key: value for key, value in report.items() if key not in ['fixtures', 'preparedSources']}))
     if args.baseline:
-        compare_baseline(json.loads(args.baseline.read_text()), report)
+        recorded = json.loads(args.baseline.read_text())
+        compare_baseline(recorded.get('stable', recorded), report)
     if not args.observe:
         assert stopped is None, 'Retained native container regression: ' + str(stopped)
 

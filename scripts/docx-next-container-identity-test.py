@@ -1,5 +1,6 @@
 """Adversarial native carrier controls: an ID must retain its actual table owner."""
 import importlib.util
+import copy
 from pathlib import Path
 import tempfile
 import unittest
@@ -58,6 +59,36 @@ class ContainerIdentityTests(unittest.TestCase):
         self.assertIsNone(module.stop_reason(row, {'carrier': 'cell-ending'}))
         row['containerOwner']['status'] = 'fail'
         self.assertEqual(module.stop_reason(row, {'carrier': 'cell-ending'}), 'container-owner')
+
+    def baseline(self):
+        return {'plannedCases': 1, 'actualCases': 1, 'pages': 3, 'stoppedAfter': None,
+                'matrix': 'container-identity', 'preparedSources': [{'fixture': 'one', 'sourceDocxSha256': 'source'}],
+                'fixtures': [{'fixture': 'one', 'sourceDocxSha256': 'source', 'savedDocxSha256': 'nondeterministic',
+                              'containerOwner': {'status': 'pass'}, 'controlRasterIdentity': 'pass',
+                              'native': {'tableIdentity': 'fail', 'missingTableIds': ['cv.container']}}]}
+
+    def test_baseline_ignores_only_nondeterministic_saved_package_hash(self):
+        before = self.baseline()
+        after = copy.deepcopy(before)
+        after['fixtures'][0]['savedDocxSha256'] = 'changed-metadata'
+        module.compare_baseline(before, after)
+
+    def test_baseline_preserves_owner_raster_and_known_caption_failure(self):
+        before = self.baseline()
+        for change in [{'containerOwner': {'status': 'fail'}}, {'controlRasterIdentity': 'fail'},
+                       {'native': {'tableIdentity': 'pass', 'missingTableIds': []}}]:
+            after = copy.deepcopy(before)
+            after['fixtures'][0].update(change)
+            with self.assertRaises(AssertionError):
+                module.compare_baseline(before, after)
+
+    def test_baseline_rejects_changed_prepared_sources_or_actual_execution_count(self):
+        before = self.baseline()
+        for key, value in [('actualCases', 0), ('stoppedAfter', 'one:lost-id'), ('preparedSources', [])]:
+            after = copy.deepcopy(before)
+            after[key] = value
+            with self.assertRaises(AssertionError):
+                module.compare_baseline(before, after)
 
 
 if __name__ == '__main__':

@@ -98,7 +98,7 @@ jobs:
           bun scripts/docx-next-nested-side-probe.ts "$QA_ROOT/nested-side"
           bun scripts/docx-next-container-identity-probe.ts "$QA_ROOT/container-identity"
       - name: Require native container carrier ownership without weakening caption gates
-        run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable
+        run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-identity-evidence.json
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
