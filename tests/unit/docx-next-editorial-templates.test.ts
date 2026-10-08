@@ -104,7 +104,7 @@ describe("Edge and Gallery declarative template migration", () => {
       ),
     ).toBe(true);
   });
-  test("background visibility, explicit chrome surfaces and unsupported Citrus keep existing gates", () => {
+  test("background visibility and explicit chrome surfaces keep existing gates", () => {
     // The portrait tower belongs to the opening page; unbounded custom text needs quiet continuation paper.
     expect(
       buildDossierDocModel(galleryFixture("cover-long")).cover.headerShapes?.find(
@@ -123,7 +123,7 @@ describe("Edge and Gallery declarative template migration", () => {
         ),
       ).toBe(true);
     }
-    expect(() => nextTemplate("citrus")).toThrow("has not passed migration gates");
+    expect(nextTemplate("citrus").cv.headingBadge).toBe(true);
     for (const file of [
       "renderer.ts",
       "build-model.ts",
