@@ -1,5 +1,13 @@
 # DOCX Next handoff — 2026-10-08
 
+## Complete native story contract — 2026-10-08
+
+Fresh remote `dev` `d6f044aec1e15e911b3d74009ef2ce8734100a8e` is clean, with final M6/application 37796642031 (all eight browser groups), stable 37796641996 and gallery 37796641733 successful. Final artifact 11558449910 has verified SHA-256 `d023cfbeb0c4df0c1df20f43a3828fe661179b87a686448b1d5364da9296f8d9`; both strict baselines, all 24 prepared sources, eight actual saved native packages and 96 original PNG digests match. The predecessor's final verification is complete.
+
+The [whole-story contract](sidebar-whole-story-contract-status.md) audits actual XML order, complete paragraphs, canonical IDs, all cell ancestry and raw native text, then the exact complete visible sequence of both stories. Eight already executed native pairs preserve all paragraph order/text/owners; the long single-anchor candidate still duplicates its title before/after Save/Reopen. Its main story has 26 whole paragraphs including six native entry tables; the logical anchor owns only one. Sixteen adversarial tests and all local release checks pass. Strict evidence is pinned from the independently downloaded final stable artifact. Zero new native executions or new matrices; no production/package changes. Successor CI is checked separately.
+
+Next: verify successor CI and its new read-only story report, then identify a native multi-paragraph continuation mechanism that preserves the original entry structure and passes this complete-story contract. Do not extend rejected flag-only/single-anchor matrices or repeat paragraph-flag/width/crop experiments. Original captions, exact geometry, long attachment, photos, chrome and Microsoft Word acceptance remain separate blockers. Production stays blocked, 29/39 configured and 0/39 Word accepted. This entry supersedes all earlier next-task paragraphs.
+
 ## Independently executed anchor checkpoint — 2026-10-08
 
 Exact source `f0d49b79e7df37f43fb250fd998d705d43b577d4` has successful M6 37794929371 (all eight browser groups) and all three stable jobs 37794929385. Downloaded artifact 11557554699 / SHA-256 `d2dd40d4174a5c1d0364911822cbe1e485c84a0909d89f516f2284fe3f189fa3` verifies every one of the twelve prepared anchor sources, all four actual native source/saved packages and all 48 PNG pixel digests. Stable reproduces opening pages 1,7,7,7,7,7,7,7,7 and seven title occurrences despite all 77/129 tags, whole native paragraphs/flags/owners and exact floating geometry surviving. The original caption failure remains separate. Both plans stop at four actual cases / 24 pages each, plus Save/Reopen; all remaining sources are unrendered. The preceding flag-only baseline and all 54 historical comparison observations reproduce with zero changes.

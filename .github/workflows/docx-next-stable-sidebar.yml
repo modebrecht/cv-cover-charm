@@ -9,6 +9,7 @@ on:
       - scripts/docx-next-*.py
       - scripts/docx_next_attachment_qa.py
       - scripts/docx_next_raster_qa.py
+      - scripts/docx_next_story_qa.py
       - scripts/docx-next-*.ts
       - scripts/docx-next-lo-kit.c
       - scripts/qa-browser-setup.sh
@@ -40,6 +41,7 @@ on:
       - docs/docx-next/sidebar-container-identity-evidence.json
       - docs/docx-next/sidebar-container-span-evidence.json
       - docs/docx-next/sidebar-lead-main-ending-evidence.json
+      - docs/docx-next/sidebar-whole-story-contract-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -81,6 +83,7 @@ jobs:
           python scripts/docx-next-raster-test.py
           python scripts/docx-next-continuous-cell-test.py
           python scripts/docx-next-floating-continuation-test.py
+          python scripts/docx-next-story-contract-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -133,6 +136,8 @@ jobs:
       - name: Strictly reproduce the independently executed native paragraph anchor
         timeout-minutes: 2
         run: python scripts/docx-next-floating-continuation-qa.py "$QA_ROOT/floating-anchor" --anchor-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-floating-anchor-evidence.json
+      - name: Require complete native story order and exact visible story sequences
+        run: python scripts/docx-next-story-contract-qa.py "$QA_ROOT" --baseline docs/docx-next/sidebar-whole-story-contract-evidence.json
       - name: Observe full text, geometry and save/reopen on stable engine
         timeout-minutes: 5
         run: |
