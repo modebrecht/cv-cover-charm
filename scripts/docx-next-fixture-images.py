@@ -28,5 +28,15 @@ large = image.resize((2400, 3600))
 out = io.BytesIO()
 large.save(out, format='JPEG', quality=80)
 fixtures['large-jpeg'] = 'data:image/jpeg;base64,' + base64.b64encode(out.getvalue()).decode()
+if len(sys.argv) == 3:
+    assert sys.argv[2] == '--picture-sizes', 'Unknown fixture image option'
+    for width, height in [(240, 360), (600, 900)]:
+        sized = Image.new('RGB', (width, height), (230, 40, 30))
+        ImageDraw.Draw(sized).rectangle((width // 2, 0, width - 1, height - 1), fill=(30, 90, 220))
+        out = io.BytesIO()
+        sized.save(out, format='JPEG', quality=95, icc_profile=ImageCms.ImageCmsProfile(ImageCms.createProfile('sRGB')).tobytes())
+        fixtures[f'icc-jpeg-{width}x{height}'] = 'data:image/jpeg;base64,' + base64.b64encode(out.getvalue()).decode()
+else:
+    assert len(sys.argv) == 2, 'Usage: fixture-images.py OUTPUT [--picture-sizes]'
 with open(sys.argv[1], 'w') as f:
     json.dump(fixtures, f)

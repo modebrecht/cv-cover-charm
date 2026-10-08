@@ -69,9 +69,31 @@ export const PICTURE_WINDOW_CASES = [
   },
 ] as const;
 export type PictureWindowCase = (typeof PICTURE_WINDOW_CASES)[number];
+// Independent original photos; frame settings and complete semantic fields stay fixed.
+export const PICTURE_SIZE_CASES = [
+  PICTURE_PRECISION_CASES[1],
+  {
+    ...PICTURE_PRECISION_CASES[1],
+    name: "picture-size-240x360",
+    sourceKey: "icc-jpeg-240x360",
+    originalPixels: { width: 240, height: 360 },
+  },
+  {
+    ...PICTURE_PRECISION_CASES[1],
+    name: "picture-size-600x900",
+    sourceKey: "icc-jpeg-600x900",
+    originalPixels: { width: 600, height: 900 },
+  },
+] as const;
+export type PictureSizeCase = (typeof PICTURE_SIZE_CASES)[number];
 
 export function pictureIdentityFixture(
-  value: PictureIdentityCase | PictureFrameCase | PicturePrecisionCase | PictureWindowCase,
+  value:
+    | PictureIdentityCase
+    | PictureFrameCase
+    | PicturePrecisionCase
+    | PictureWindowCase
+    | PictureSizeCase,
   source: string,
 ) {
   const model = buildDossierDocModel(briefFixture("normal"));

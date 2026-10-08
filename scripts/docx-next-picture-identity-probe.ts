@@ -10,6 +10,7 @@ import {
   PICTURE_FRAME_CASES,
   PICTURE_PRECISION_CASES,
   PICTURE_WINDOW_CASES,
+  PICTURE_SIZE_CASES,
   pictureIdentityFixture,
 } from "../tests/fixtures/docx-next/sidebar-picture-identity";
 
@@ -17,17 +18,30 @@ const directory = process.argv[2];
 const frames = process.argv[3] === "--frames";
 const precision = process.argv[3] === "--precision-controls";
 const windows = process.argv[3] === "--window-controls";
+const sizes = process.argv[3] === "--size-controls";
 if (
   !directory ||
-  (process.argv.length !== 3 && !((frames || precision || windows) && process.argv.length === 4))
+  (process.argv.length !== 3 &&
+    !((frames || precision || windows || sizes) && process.argv.length === 4))
 )
   throw Error(
-    "Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY [--frames|--precision-controls|--window-controls]",
+    "Usage: bun scripts/docx-next-picture-identity-probe.ts QA_DIRECTORY [--frames|--precision-controls|--window-controls|--size-controls]",
   );
 await mkdir(directory, { recursive: true });
 const sources = JSON.parse(await readFile(path.join(directory, "images.json"), "utf8"));
-const source: string = sources["icc-jpeg"];
-assert(source);
+const cases = sizes
+  ? PICTURE_SIZE_CASES
+  : windows
+    ? PICTURE_WINDOW_CASES
+    : precision
+      ? PICTURE_PRECISION_CASES
+      : frames
+        ? PICTURE_FRAME_CASES
+        : PICTURE_IDENTITY_CASES;
+const sourceKeys = [
+  ...new Set(cases.map((value) => ("sourceKey" in value ? value.sourceKey : "icc-jpeg"))),
+];
+assert(sourceKeys.every((key) => typeof sources[key] === "string"));
 const require = createRequire(import.meta.url);
 const { chromium } = require(
   process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES
@@ -47,39 +61,56 @@ const browser = await chromium.launch({
     : {}),
   args: ["--no-sandbox"],
 });
-let asset;
+const assets = new Map<
+  string,
+  {
+    bytes: Uint8Array;
+    widthPx: number;
+    heightPx: number;
+    contentType: "image/png";
+    extension: "png";
+  }
+>();
 try {
   const page = await browser.newPage();
-  asset = await page.evaluate(
-    async ({ source, moduleCode }: { source: string; moduleCode: string }) => {
-      const mod = await import(`data:text/javascript;base64,${btoa(moduleCode)}`);
-      const image = await mod.normalizeBrowserImage(source);
-      return { ...image, bytes: Array.from(image.bytes) };
-    },
-    { source, moduleCode },
-  );
+  for (const key of sourceKeys) {
+    const asset = await page.evaluate(
+      async ({ source, moduleCode }: { source: string; moduleCode: string }) => {
+        const mod = await import(`data:text/javascript;base64,${btoa(moduleCode)}`);
+        const image = await mod.normalizeBrowserImage(source);
+        return { ...image, bytes: Array.from(image.bytes) };
+      },
+      { source: sources[key], moduleCode },
+    );
+    assets.set(key, { ...asset, bytes: Uint8Array.from(asset.bytes) });
+    const file =
+      key === "icc-jpeg"
+        ? "canonical-photo.png"
+        : `canonical-photo-${key.slice("icc-jpeg-".length)}.png`;
+    await writeFile(path.join(directory, file), assets.get(key)!.bytes);
+  }
 } finally {
   await browser.close();
 }
-const normalized = { ...asset, bytes: Uint8Array.from(asset.bytes) };
-await writeFile(path.join(directory, "canonical-photo.png"), normalized.bytes);
 const manifest = [];
 let referenceImage;
 let referenceFields;
-for (const value of windows
-  ? PICTURE_WINDOW_CASES
-  : precision
-    ? PICTURE_PRECISION_CASES
-    : frames
-      ? PICTURE_FRAME_CASES
-      : PICTURE_IDENTITY_CASES) {
+for (const value of cases) {
+  const sourceKey = "sourceKey" in value ? value.sourceKey : "icc-jpeg";
+  const source: string = sources[sourceKey];
+  const normalized = assets.get(sourceKey)!;
+  const originalPixels =
+    "originalPixels" in value ? value.originalPixels : { width: 120, height: 180 };
+  if (sizes)
+    assert.deepEqual({ width: normalized.widthPx, height: normalized.heightPx }, originalPixels);
   const { model, image, fixture } = pictureIdentityFixture(value, source);
   referenceImage ??= image;
   referenceFields ??= fixture.fields;
-  if (!frames && !precision && !windows) assert.deepEqual(image, referenceImage);
+  if (!frames && !precision && !windows && !sizes) assert.deepEqual(image, referenceImage);
   else {
     assert.equal(image.id, referenceImage.id);
-    assert.equal(image.source, referenceImage.source);
+    if (sizes) assert.deepEqual({ ...image, source: referenceImage.source }, referenceImage);
+    else assert.equal(image.source, referenceImage.source);
     assert.equal(normalized.heightPx / normalized.widthPx, 1.5);
     const geometry = pictureGeometry(image, normalized, fixture.cellWidthMm);
     if ("crop" in value && !value.crop)
@@ -113,6 +144,15 @@ for (const value of windows
   assert.deepEqual(restored, restoredBefore);
   const record = {
     ...fixture,
+    ...(sizes
+      ? {
+          originalPixels,
+          canonicalPhotoFile:
+            sourceKey === "icc-jpeg"
+              ? "canonical-photo.png"
+              : `canonical-photo-${sourceKey.slice("icc-jpeg-".length)}.png`,
+        }
+      : {}),
     pictureId: image.id,
     pictureGeometry: pictureGeometry(image, normalized, fixture.cellWidthMm),
     normalizedSha256: createHash("sha256").update(normalized.bytes).digest("hex"),
@@ -124,7 +164,7 @@ for (const value of windows
       record.docxSha256,
       "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
     );
-  if (windows && manifest.length === 1)
+  if ((windows || sizes) && manifest.length === 1)
     assert.equal(
       record.docxSha256,
       "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",

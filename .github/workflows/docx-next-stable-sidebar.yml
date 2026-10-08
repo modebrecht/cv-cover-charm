@@ -242,6 +242,9 @@ jobs:
           mkdir -p "$QA_ROOT/windows"
           python scripts/docx-next-fixture-images.py "$QA_ROOT/windows/images.json"
           bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/windows" --window-controls
+          mkdir -p "$QA_ROOT/sizes"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/sizes/images.json" --picture-sizes
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sizes" --size-controls
       - name: Observe stable field identity, complete text, geometry and save/reopen
         timeout-minutes: 3
         run: |
@@ -253,6 +256,8 @@ jobs:
           python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/precision" --baseline docs/docx-next/sidebar-declared-crop-evidence.json --baseline-section precision
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/windows" --window-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --replay --baseline docs/docx-next/sidebar-declared-window-evidence.json
           python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/windows" --baseline docs/docx-next/sidebar-declared-window-evidence.json --baseline-section precision
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/sizes" --size-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/sizes"
       - name: Retain actual picture identity evidence including stopped cases
         if: always()
         uses: actions/upload-artifact@v4
@@ -265,3 +270,4 @@ jobs:
             ${{ env.QA_ROOT }}/frames/
             ${{ env.QA_ROOT }}/precision/
             ${{ env.QA_ROOT }}/windows/
+            ${{ env.QA_ROOT }}/sizes/
