@@ -1,0 +1,348 @@
+{
+  "baseDevSha": "67ff63a9000b91383579889eac6ceb85f2969d0f",
+  "stableRuntime": {
+    "interface": "LibreOfficeKit",
+    "version": {
+      "ProductName": "LibreOffice",
+      "ProductVersion": "25.8",
+      "ProductExtension": ".7.3",
+      "BuildId": "580(Build:3)"
+    },
+    "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+    "fontManifestSha256": "0e1e4498cc9799ae9c778f7cf455dd68350b0fd49fdfacaf4c38853f1c424723",
+    "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+    "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "host": "Linux x86_64",
+    "packagesVerified": 50
+  },
+  "actualCases": 2,
+  "dossierPages": 8,
+  "savedDossierPages": 8,
+  "wordAcceptance": "pending",
+  "newPrimitiveImplemented": false,
+  "engineCause": "not investigated",
+  "cases": [
+    {
+      "template": "neon",
+      "sourceDocxSha256": "2f77b692479acfabf9d66fd039ffa6f02601f5eccdff775aa405a450015c3997",
+      "sourcePdfSha256": "12ae783dc47f1434e8e7f060afba45502748542ebebea5e3888ada4e06627b2c",
+      "coverScreenshot": "neon-stopped-cover.png",
+      "screenshotSha256": "2ef2043ce7886fb1d1034978d15843620eba19aeb397722e4199a627b5ae9389",
+      "sourcePaint": [
+        {
+          "kind": "decorative-shape",
+          "id": "cover.decor-blob-one",
+          "semanticText": false,
+          "clipToPage": true,
+          "shape": "circle",
+          "xMm": -45,
+          "yMm": -40,
+          "widthMm": 150,
+          "heightMm": 130,
+          "radiusMm": 0,
+          "opacity": 0.95,
+          "fill": {
+            "color": "7C3AED",
+            "endColor": "E11D8F",
+            "angleDeg": 135,
+            "startPct": 0,
+            "endPct": 100
+          },
+          "stroke": {
+            "color": "E11D8F",
+            "widthMm": 0
+          },
+          "repeat": "first",
+          "paintLayer": 2
+        },
+        {
+          "kind": "decorative-shape",
+          "id": "cover.decor-blob-two",
+          "semanticText": false,
+          "clipToPage": true,
+          "shape": "circle",
+          "xMm": 126,
+          "yMm": 138,
+          "widthMm": 112,
+          "heightMm": 108,
+          "radiusMm": 0,
+          "opacity": 0.8,
+          "fill": {
+            "color": "7C3AED",
+            "endColor": "E11D8F",
+            "angleDeg": 135,
+            "startPct": 0,
+            "endPct": 100
+          },
+          "stroke": {
+            "color": "E11D8F",
+            "widthMm": 0
+          },
+          "repeat": "first",
+          "paintLayer": 3
+        },
+        {
+          "kind": "decorative-shape",
+          "id": "cover.decor-blob-three",
+          "semanticText": false,
+          "clipToPage": true,
+          "shape": "circle",
+          "xMm": 20,
+          "yMm": 196,
+          "widthMm": 36,
+          "heightMm": 36,
+          "radiusMm": 0,
+          "opacity": 0.5,
+          "fill": {
+            "color": "7C3AED",
+            "endColor": "E11D8F",
+            "angleDeg": 135,
+            "startPct": 0,
+            "endPct": 100
+          },
+          "stroke": {
+            "color": "E11D8F",
+            "widthMm": 0
+          },
+          "repeat": "first",
+          "paintLayer": 4
+        },
+        {
+          "kind": "decorative-shape",
+          "id": "cover.trenner",
+          "semanticText": false,
+          "clipToPage": true,
+          "shape": "line",
+          "xMm": 20,
+          "yMm": 236,
+          "widthMm": 170,
+          "heightMm": 0.4,
+          "radiusMm": 0,
+          "opacity": 0.6,
+          "fill": {
+            "color": "E11D8F"
+          },
+          "stroke": {
+            "color": "E11D8F",
+            "widthMm": 0
+          },
+          "repeat": "first",
+          "paintLayer": 5
+        },
+        {
+          "kind": "decorative-shape",
+          "paintLayer": 1,
+          "id": "cover.artwork.motif.first:0",
+          "semanticText": false,
+          "shape": "rect",
+          "repeat": "first",
+          "clipToPage": true,
+          "xMm": 0,
+          "yMm": 0,
+          "widthMm": 210,
+          "heightMm": 297,
+          "radiusMm": 0,
+          "opacity": 1,
+          "fill": {
+            "color": "0D0B2B",
+            "stops": [
+              {
+                "color": "0D0B2B",
+                "offsetPct": 0
+              },
+              {
+                "color": "0D0B2B",
+                "offsetPct": 100
+              }
+            ],
+            "angleDeg": 135
+          },
+          "stroke": {
+            "color": "E11D8F",
+            "widthMm": 0
+          }
+        },
+        {
+          "kind": "decorative-shape",
+          "paintLayer": 1,
+          "id": "cover.artwork.motif.continuation:0",
+          "semanticText": false,
+          "shape": "rect",
+          "repeat": "continuation",
+          "clipToPage": true,
+          "xMm": 0,
+          "yMm": 0,
+          "widthMm": 210,
+          "heightMm": 297,
+          "radiusMm": 0,
+          "opacity": 1,
+          "fill": {
+            "color": "0D0B2B",
+            "stops": [
+              {
+                "color": "0D0B2B",
+                "offsetPct": 0
+              },
+              {
+                "color": "0D0B2B",
+                "offsetPct": 100
+              }
+            ],
+            "angleDeg": 135
+          },
+          "stroke": {
+            "color": "E11D8F",
+            "widthMm": 0
+          }
+        }
+      ],
+      "observedVisualFailure": "opaque full-page background hides authored circles/bubbles and separator",
+      "candidateStatus": "stopped; removed from production registry",
+      "validationLimitation": "Existing geometry/text/render checks alone can pass without proving these foreground pixels; visual review is failed. Earlier declared-layer proposals failed the existing thin-line pixel check."
+    },
+    {
+      "template": "verlauf",
+      "sourceDocxSha256": "d7f8fadc27b831c71b270544cc13df0c8dfefdc736300a000c9ec8b07f7f97c1",
+      "sourcePdfSha256": "5d9edb25b11d8ce5703572cbe204e0da3de5e8ed0428642c85a168fb8f74598d",
+      "coverScreenshot": "verlauf-stopped-cover.png",
+      "screenshotSha256": "34b9ba8dc0216d2b62e094eed8992820b62b3857acb6d3a4496798ae4adb8ef8",
+      "sourcePaint": [
+        {
+          "kind": "decorative-shape",
+          "id": "cover.decor-soft-circle-left",
+          "semanticText": false,
+          "clipToPage": true,
+          "shape": "circle",
+          "xMm": -30,
+          "yMm": 168,
+          "widthMm": 150,
+          "heightMm": 150,
+          "radiusMm": 0,
+          "opacity": 0.1,
+          "fill": {
+            "color": "FFFFFF"
+          },
+          "stroke": {
+            "color": "FFFFFF",
+            "widthMm": 0
+          },
+          "repeat": "first",
+          "paintLayer": 2
+        },
+        {
+          "kind": "decorative-shape",
+          "id": "cover.decor-soft-circle-right",
+          "semanticText": false,
+          "clipToPage": true,
+          "shape": "circle",
+          "xMm": 128,
+          "yMm": -24,
+          "widthMm": 110,
+          "heightMm": 110,
+          "radiusMm": 0,
+          "opacity": 0.12,
+          "fill": {
+            "color": "FFFFFF"
+          },
+          "stroke": {
+            "color": "FFFFFF",
+            "widthMm": 0
+          },
+          "repeat": "first",
+          "paintLayer": 3
+        },
+        {
+          "kind": "decorative-shape",
+          "id": "cover.trenner",
+          "semanticText": false,
+          "clipToPage": true,
+          "shape": "line",
+          "xMm": 20,
+          "yMm": 238,
+          "widthMm": 170,
+          "heightMm": 0.4,
+          "radiusMm": 0,
+          "opacity": 0.4,
+          "fill": {
+            "color": "FFFFFF"
+          },
+          "stroke": {
+            "color": "FFFFFF",
+            "widthMm": 0
+          },
+          "repeat": "first",
+          "paintLayer": 4
+        },
+        {
+          "kind": "decorative-shape",
+          "paintLayer": 1,
+          "id": "cover.artwork.motif.first:0",
+          "semanticText": false,
+          "shape": "rect",
+          "repeat": "first",
+          "clipToPage": true,
+          "xMm": 0,
+          "yMm": 0,
+          "widthMm": 210,
+          "heightMm": 297,
+          "radiusMm": 0,
+          "opacity": 1,
+          "fill": {
+            "color": "7F5AF0",
+            "stops": [
+              {
+                "color": "7F5AF0",
+                "offsetPct": 0
+              },
+              {
+                "color": "2CB67D",
+                "offsetPct": 100
+              }
+            ],
+            "angleDeg": 160
+          },
+          "stroke": {
+            "color": "7F5AF0",
+            "widthMm": 0
+          }
+        },
+        {
+          "kind": "decorative-shape",
+          "paintLayer": 1,
+          "id": "cover.artwork.motif.continuation:0",
+          "semanticText": false,
+          "shape": "rect",
+          "repeat": "continuation",
+          "clipToPage": true,
+          "xMm": 0,
+          "yMm": 0,
+          "widthMm": 210,
+          "heightMm": 297,
+          "radiusMm": 0,
+          "opacity": 1,
+          "fill": {
+            "color": "7F5AF0",
+            "stops": [
+              {
+                "color": "7F5AF0",
+                "offsetPct": 0
+              },
+              {
+                "color": "2CB67D",
+                "offsetPct": 100
+              }
+            ],
+            "angleDeg": 160
+          },
+          "stroke": {
+            "color": "7F5AF0",
+            "widthMm": 0
+          }
+        }
+      ],
+      "observedVisualFailure": "opaque full-page background hides authored circles/bubbles and separator",
+      "candidateStatus": "stopped; removed from production registry",
+      "validationLimitation": "Existing geometry/text/render checks alone can pass without proving these foreground pixels; visual review is failed. Earlier declared-layer proposals failed the existing thin-line pixel check."
+    }
+  ]
+}
