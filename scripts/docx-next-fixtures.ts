@@ -35,6 +35,7 @@ import {
   graphicCandidateFixture,
   type GraphicFixture,
 } from "../tests/fixtures/docx-next/graphic-candidate";
+import { citrusFixture, type CITRUS_FIXTURES } from "../tests/fixtures/docx-next/citrus";
 import { decorationAssetKey, type DecorationPaint } from "../src/lib/docx-next/decoration";
 import type { NormalizedImage } from "../src/lib/docx-next/images";
 import { artworkApplies } from "../src/lib/docx-next/page-artwork";
@@ -87,6 +88,7 @@ const addedSelections = [
   "edge",
   "gallery",
   "terracotta",
+  "citrus",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const SIDEBAR_PAGE_COUNTS: Record<string, number> = {
@@ -127,6 +129,11 @@ const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  citrus: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 9 },
+    cover: { "contact-long": 3, "cover-long": 2 },
+  },
   terracotta: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 9 },
@@ -469,6 +476,14 @@ try {
     ? [
         ...GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`),
         ...(addedCandidate === "gallery" ? ["gallery-contact-long"] : []),
+        ...(addedCandidate === "citrus"
+          ? [
+              "citrus-cover-long",
+              "citrus-contact-long",
+              "citrus-badges-off",
+              "citrus-legacy-badges-off",
+            ]
+          : []),
         ...(addedCandidate === "studio" ||
         nextTemplate(addedCandidate).cover.rows?.some(
           (row) => row.surfaceElementId || row.cellSurfaceElementIds?.some(Boolean),
@@ -555,7 +570,9 @@ try {
       ? (fixture.slice(addedCandidate.length + 1) as GraphicFixture)
       : "normal";
     let input = addedCandidate
-      ? graphicCandidateFixture(addedCandidate, addedKind, images.png)
+      ? addedCandidate === "citrus"
+        ? citrusFixture(addedKind as (typeof CITRUS_FIXTURES)[number], images.png)
+        : graphicCandidateFixture(addedCandidate, addedKind, images.png)
       : isOrbit
         ? orbitFixture(fixture.slice(6) as OrbitFixture, images.png)
         : isHuman
@@ -943,10 +960,10 @@ try {
             ? 2
             : 1;
     // Independent analytic probes verify full-sheet gradients in rendered/reopened Word output.
-    const gradientProbes = (part: typeof model.cover) => {
+    const gradientProbes = (part: typeof model.cover, points?: readonly (readonly number[])[]) => {
       const shapes = part.headerShapes?.filter(
         (s) =>
-          s.shape === "rect" &&
+          (s.shape === "rect" || (addedCandidate === "citrus" && s.shape === "path")) &&
           s.fill?.stops &&
           s.opacity === 1 &&
           s.xMm === 0 &&
@@ -961,11 +978,13 @@ try {
           dx = Math.sin(angle),
           dy = -Math.cos(angle);
         const half = (Math.abs(dx) * shape.widthMm + Math.abs(dy) * shape.heightMm) / 2;
-        return [
-          [1, 130],
-          [part.page.widthMm - 1, 150],
-          [part.page.widthMm / 2, part.page.heightMm - 2],
-        ].map(([xMm, yMm]) => {
+        return (
+          points ?? [
+            [1, 130],
+            [part.page.widthMm - 1, 150],
+            [part.page.widthMm / 2, part.page.heightMm - 2],
+          ]
+        ).map(([xMm, yMm]) => {
           const pct =
             50 +
             (((xMm - shape.widthMm / 2) * dx + (yMm - shape.heightMm / 2) * dy) / (2 * half)) * 100;
@@ -997,6 +1016,30 @@ try {
           };
         });
       });
+    };
+    const citrusPaintProbes = (part: typeof model.cover) => {
+      if (part.id === "cv" && input.cv.design.bgOpacity === 0) return [];
+      const paper = part.id === "cover" ? input.cover.colors.bg : input[part.id].design.colors.bg;
+      if (part.id === "cv")
+        return [
+          ...gradientProbes(part, [
+            [1, 20],
+            [209, 20],
+            [1, 2],
+          ]).filter((p) => p.repeat === "first"),
+          ...gradientProbes(part).filter((p) => p.repeat === "continuation"),
+          { xMm: 2, yMm: 150, color: paper, repeat: "first" as const },
+          { xMm: 15, yMm: 150, color: paper, repeat: "continuation" as const },
+        ];
+      return [
+        ...gradientProbes(part),
+        {
+          xMm: part.id === "cover" ? 105 : 15,
+          yMm: part.id === "cover" ? 280 : 150,
+          color: paper,
+          ...(part.id === "cover" ? { repeat: "first" as const } : {}),
+        },
+      ];
     };
     // Template evidence: sample authored signature surfaces using the existing pixel checker.
     const editorialPaintProbes = (part: typeof model.cover) => {
@@ -1273,14 +1316,20 @@ try {
                   repeat: paint.repeat,
                 },
               ])
-        : part.id === "cover" && addedCandidate === "studio"
-          ? [{ xMm: 5, yMm: 150, color: input.cover.colors.primary }]
-          : part.id === "cover" && addedCandidate === "studio2"
-            ? [
-                { xMm: 5, yMm: 5, color: input.cover.colors.primary, repeat: "first" },
-                { xMm: 200, yMm: 5, color: input.cover.colors.secondary, repeat: "first" },
-              ]
-            : editorialPaintProbes(part),
+        : addedCandidate === "citrus"
+          ? citrusPaintProbes(part)
+          : addedCandidate === "terracotta" && part.id !== "cover"
+            ? part.id === "cv" && input.cv.design.bgOpacity === 0
+              ? []
+              : [{ xMm: 2, yMm: 120, color: input[part.id].design.colors.primary }]
+            : part.id === "cover" && addedCandidate === "studio"
+              ? [{ xMm: 5, yMm: 150, color: input.cover.colors.primary }]
+              : part.id === "cover" && addedCandidate === "studio2"
+                ? [
+                    { xMm: 5, yMm: 5, color: input.cover.colors.primary, repeat: "first" },
+                    { xMm: 200, yMm: 5, color: input.cover.colors.secondary, repeat: "first" },
+                  ]
+                : editorialPaintProbes(part),
       fontProbes:
         fixture === "fonts-unavailable"
           ? walkBlocks(part.blocks).flatMap((block) =>

@@ -78,6 +78,6 @@ test("explicit saved off and legacy off both suppress a template badge default",
         .every((p) => p.runs.every((r) => !r.style.backgroundColor)),
     ).toBe(true);
   }
-  expect(Object.values(NEXT_TEMPLATES).every((t) => t.cv.headingBadge === undefined)).toBe(true);
+  expect(NEXT_TEMPLATES.brief.cv.headingBadge).toBeUndefined();
   expect(buildDossierDocModel(briefFixture()).issues).toEqual([]);
 });
