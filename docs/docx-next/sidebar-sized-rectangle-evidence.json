@@ -1,9 +1,17 @@
 {
-  "sourceCommit": "2a9db8084b6814ceac49e0f8ca10880d3901986a",
-  "observedInRun": 37714132601,
-  "observedInJob": 113106603488,
-  "artifactId": 11522803923,
-  "scope": "Positive rows independently retained from the first two actually executed cases of the three-case sized-picture-shape matrix. These aggregates specify the forthcoming separate strict two-case regression; they do not claim a separate pair was already executed.",
+  "sourceCommit": "59b5dcbc0ee85db33c90f6bdf50fc0bdc386a8e2",
+  "stableRun": 37715949743,
+  "pictureJob": 113112302948,
+  "artifactId": 11524215131,
+  "artifactSha256": "2d7a5cf5394571120eaef745483eaddcaab1eaa4c26ee814af344b045cc5e80b",
+  "scope": "Actually executed separate strict two-case sized rectangle matrix without observation mode: complete 120x180/240x360 originals, all IDs, full text and exactly unchanged declared crops. No arbitrary-photo/crop normalization or Word acceptance.",
+  "initialObservation": {
+    "sourceCommit": "2a9db8084b6814ceac49e0f8ca10880d3901986a",
+    "run": 37714132601,
+    "job": 113106603488,
+    "matrix": "sized-picture-shape",
+    "scope": "First two positive rows of the earlier actually executed three-case matrix; those rows supplied the initial independent expected aggregate."
+  },
   "preparedSources": [
     {
       "name": "picture-precision-declared-crop-rect",
@@ -41,7 +49,7 @@
         "fixture": "picture-precision-declared-crop-rect",
         "execution": "rendered",
         "sourceDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
-        "savedDocxSha256": "fd929d43e7a7b7dbbd7b7ebd4ccb9c84ba5a39ca16101e3a6fa8448b46c0f39b",
+        "savedDocxSha256": "8ff6d965ca4e378c1b2c8cf556ca900a17b5852fccfd97208d811b0dd0c6ea19",
         "native": {
           "sourceTaggedFields": 8,
           "savedMatchingTaggedFields": 8,
@@ -155,7 +163,7 @@
         "fixture": "picture-sized-240x360-declared-rect",
         "execution": "rendered",
         "sourceDocxSha256": "001d77d4de7b6cc9352f36667d4433f1b3e5e5923bc2ebb3c0a6aecfea9d5b35",
-        "savedDocxSha256": "11de52359ecc9afed23ce8bc75be326263390b874a7b6aa5c468e80182bede37",
+        "savedDocxSha256": "07340edbf78afee78d044c8dd2e5569868da75a50eb97b89c840bf04b2141cba",
         "native": {
           "sourceTaggedFields": 8,
           "savedMatchingTaggedFields": 8,
@@ -282,7 +290,7 @@
       {
         "fixture": "picture-precision-declared-crop-rect",
         "sourceDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
-        "savedDocxSha256": "fd929d43e7a7b7dbbd7b7ebd4ccb9c84ba5a39ca16101e3a6fa8448b46c0f39b",
+        "savedDocxSha256": "8ff6d965ca4e378c1b2c8cf556ca900a17b5852fccfd97208d811b0dd0c6ea19",
         "pictureId": "cv.person.photo",
         "sourcePixels": {
           "widthPx": 120,
@@ -360,7 +368,7 @@
       {
         "fixture": "picture-sized-240x360-declared-rect",
         "sourceDocxSha256": "001d77d4de7b6cc9352f36667d4433f1b3e5e5923bc2ebb3c0a6aecfea9d5b35",
-        "savedDocxSha256": "11de52359ecc9afed23ce8bc75be326263390b874a7b6aa5c468e80182bede37",
+        "savedDocxSha256": "07340edbf78afee78d044c8dd2e5569868da75a50eb97b89c840bf04b2141cba",
         "pictureId": "cv.person.photo",
         "sourcePixels": {
           "widthPx": 240,
@@ -436,5 +444,10 @@
         }
       }
     ]
+  },
+  "visualReview": {
+    "pagePngs": 12,
+    "newUniquePagePngs": 0,
+    "reviewed": "All source/saved pair PNGs match the earlier visually reviewed positive rows; no new page variant."
   }
 }
