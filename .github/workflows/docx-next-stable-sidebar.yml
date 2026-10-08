@@ -160,8 +160,8 @@ jobs:
           python scripts/docx-next-populated-row-qa.py "$QA_ROOT/description-owner" --matrix description-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-description-owner-evidence.json
           python scripts/docx-next-populated-row-qa.py "$QA_ROOT/split-description-owner" --matrix split-description-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-split-description-owner-evidence.json
           python scripts/docx-next-populated-row-qa.py "$QA_ROOT/nested-side" --matrix nested-side --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-nested-side-evidence.json
-      - name: Observe bounded complete inline-story continuation without acceptance
-        run: python scripts/docx-next-inline-story-qa.py "$QA_ROOT/inline-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
+      - name: Require independently pinned complete inline-story counterevidence
+        run: python scripts/docx-next-inline-story-qa.py "$QA_ROOT/inline-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-inline-story-evidence.json
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4

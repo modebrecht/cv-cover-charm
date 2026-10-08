@@ -16,7 +16,7 @@ Six sources are declared before execution: left then right, short / side-long / 
 
 The new QA applies the complete-story contract to actual source/saved XML order, full paragraphs, canonical IDs, every cell ancestor and raw native text. It separately checks every CV table's exact width, grid, indent, row splitting and cell widths, the existing floating geometry/policy, all nine main opening positions, exact visible lane sequences, text multiplicity, bounds and every RGBA page pixel. Original table captions remain a separate failed gate. Source/native audit cannot replace caption identity, photo/chrome checks or Microsoft Word execution.
 
-## Actual development result: rejected
+## Actual development and independent stable result: rejected
 
 | Actual source | Dossier pages | Nine main opening positions | Complete native order/text/owners | Exact native tables | Complete visible sequences |
 | --- | --- | --- | --- | --- | --- |
@@ -27,14 +27,18 @@ Both actual cases preserve **26 whole main paragraphs and six original native en
 
 Eleven adversarial tests reject flattening equal visible text, reordering equal paragraphs, changed original flags, extra unowned text, nonsplittable/fixed-height/floating or duplicate main owners, and changed strict native/source/geometry/visible/pixel/stop evidence. The 18 existing complete-story tests remain. Native/PDF files are only read for auditing. An actual report is saved before baseline comparison can reject it; the workflow archives diagnostics even on failure.
 
-Independent stable execution of this exact published source is pending. The development result is recorded separately and is never assumed to equal stable pixels. The first bounded stable run observes actual failures without acceptance; after downloading/verifying its artifact, its exact result becomes the required independent strict baseline. All older strict baselines remain unchanged.
+Independent stable 25.8.7.3 / Kit run 37833723011 executes exact published source `8d0ffa76d68767502ee60e57a02561554c1467cb` and reproduces the same two cases / 12 pages and all nine long openings on CV page 7. All three stable jobs and M6/application 37833722952, including all eight browser groups, succeed; gallery 37833723116 succeeds. Artifact 11574836524 is downloaded and its SHA-256 `99c3dc7757255cdb39d640e93501c1bbde516676df806292d648ee703c3d605a` verified. Every one of six candidate sources, six unchanged original controls, two actual saved packages and 24 RGBA PNG instances matches its actual file; native/PDF/visible sequence observations are recomputed read-only. Both older strict baselines, all their 24 sources, eight saved packages and 96 PNG digests remain unchanged, as does the archived complete-story report. The actual stable report is now the required strict CI baseline; no observation mode or pixel exclusion remains in this step.
 
-## Next gate
+The development and stable CV rasters agree in all 16 instances. Eight cover/letter instances differ across runtimes and stay explicitly recorded; the entire independent stable report, including those pixels, is pinned exactly. Development pixels are not substituted for stable evidence. Eleven new adversarial tests, all 18 existing story tests and the full local release suite pass (1015 units, format, typecheck, lint/build). Exact successor publication CI is checked separately.
 
-The complete owner solves native ownership scope, but does not move the main story ahead of the existing floating anchor's final page. Do not extend this rejected wrapper matrix, retry paragraph flags/widths/crops, remove native helpers by guessing, or flatten the story into one anchor paragraph. The next step is to inspect the primary native attachment/anchor lifecycle of a complete owner before declaring another candidate. Production remains blocked: **29/39 configured, 0/39 Word accepted**. Legacy/V2, application/PDF/portable JSON, `main`, `render`, deployments and promotion are unchanged.
+## Native anchor lifecycle and next gate
+
+Read-only inspection of the pinned [stable layout implementation](https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/sw/source/core/layout/flycnt.cxx), `SwFrame::GetNextFlyLeaf`, shows that continuation splits the same native anchor at character zero, then moves the follow anchor before the next layout leaf's first child. When that next-body leaf belongs to an inline table, it deliberately inserts the follow anchor before the table. Both actual source/saved cases retain a true all-pages setting and an empty unowned regular anchor after the floating side owner. The main wrapper owns all 26 paragraphs but is a following inline sibling, rather than content of that anchor TextFrame chain. This is a bounded inference consistent with the actual page-7 failure; it does not establish a general impossibility in Word or accept a different anchor arrangement.
+
+The complete owner solves native ownership scope, but does not move the main story ahead of the existing floating anchor's final page. Do not extend this rejected wrapper matrix, retry paragraph flags/widths/crops, remove native helpers by guessing, or flatten the story into one anchor paragraph. The next step is to establish primary evidence for separately anchored, automatically splitting complete owners before declaring another candidate. Do not infer such independence from lateral positioning on one page or from a single following anchor paragraph. Production remains blocked: **29/39 configured, 0/39 Word accepted**. Legacy/V2, application/PDF/portable JSON, `main`, `render`, deployments and promotion are unchanged.
 
 ```sh
 bun scripts/docx-next-inline-story-probe.ts /tmp/docx-next-inline-story
 python scripts/docx-next-inline-story-test.py
-python scripts/docx-next-inline-story-qa.py /tmp/docx-next-inline-story --observe
+python scripts/docx-next-inline-story-qa.py /tmp/docx-next-inline-story --baseline docs/docx-next/sidebar-inline-story-evidence.json
 ```

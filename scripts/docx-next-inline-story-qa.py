@@ -14,7 +14,7 @@ from zipfile import ZipFile
 import fitz
 from docx_next_package_qa import check_package
 from docx_next_raster_qa import pixel_digest
-from docx_next_story_qa import native_stories, compare_native_stories, visible_story, text_value
+from docx_next_story_qa import native_stories, compare_native_stories, visible_story, text_value, sha
 
 spec = importlib.util.spec_from_file_location('continuation', Path(__file__).with_name('docx-next-floating-continuation-qa.py'))
 continuation = importlib.util.module_from_spec(spec); spec.loader.exec_module(continuation)
@@ -111,6 +111,9 @@ def main():
         ids = [row['fieldId'] for row in fixture['nativeParagraphs']]
         source_stories = native_stories(source, ids)
         assert not source_stories['errors']
+        for label in ('main', 'side'):
+            assert len(source_stories['stories'][label]) > 1, 'Single paragraph cannot establish a complete independent story'
+            assert [field['textSha256'] for field in source_stories['stories'][label]] == [sha(text) for text in fixture[label + 'Text']], 'Changed complete authored source story text/order'
         assert all(row['owners'][-1]['table'] == structure['mainOwnerTableIndex'] for row in source_stories['stories']['main']), 'Main field escaped its complete owner'
         convert(source, pdf, 'pdf'); convert(source, saved, 'docx'); check_package(saved, next_package=False); convert(saved, reopened, 'pdf')
         saved_stories = native_stories(saved, ids)
