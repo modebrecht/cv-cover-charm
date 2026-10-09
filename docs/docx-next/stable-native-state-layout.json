@@ -1,0 +1,30 @@
+{
+  "scope": "DWARF layout from the exact GNU-build-ID-matching official writer debug member; AMD64 only",
+  "library": "libsw_writerfilterlo.so",
+  "buildId": "5fa50010e8d243ae825a6cfc13715222e5b6bbe8",
+  "debugMemberSha256": "01e9256334115f9ce696577388eadb6968fb106b405bf7a5b4fce123d70d05e3",
+  "packageSha256": "406c5220686e6ba7a1006956d37d11b8362855a4360e8627f0744701de92eaca",
+  "pointerSize": 8,
+  "fields": {
+    "mapperImpl": 32,
+    "mapperStreamBase": 24,
+    "implMapper": 8,
+    "implStreamStack": 208,
+    "implSdtStarts": 2016,
+    "implAnnotationId": 1848,
+    "handlerStream": 72,
+    "substreamSize": 200,
+    "substreamDummyFlag": 131,
+    "bookmarkSize": 24,
+    "bookmarkIsStart": 0,
+    "bookmarkRange": 16,
+    "implSdtHelper": 2376,
+    "helperImpl": 8,
+    "helperTag": 320
+  },
+  "frameSites": {
+    "progressFactoryReturnOffset": 2256445,
+    "disposalMapperReturnOffset": 890445
+  },
+  "provenance": "Exact matched debug ELF, GDB type field offsets and member sizes; both saved RBX variables confirmed by DWARF location lists and actual pinned instructions. DomainMapper LoggedStream base is DWARF bit offset 192. Original engine and worker bytes are untouched."
+}

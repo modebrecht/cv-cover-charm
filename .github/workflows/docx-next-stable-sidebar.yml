@@ -104,6 +104,7 @@ jobs:
           python scripts/docx-next-native-import-test.py
           python scripts/docx-next-native-stack-test.py
           python scripts/docx-next-native-symbol-test.py
+          python scripts/docx-next-native-state-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -203,6 +204,9 @@ jobs:
       - name: Look up matching official debug sections without native engine changes
         timeout-minutes: 6
         run: python scripts/docx-next-native-symbol-qa.py "$QA_ROOT"
+      - name: Observe original carrier internal guards without changing native code
+        timeout-minutes: 2
+        run: python scripts/docx-next-native-state-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4

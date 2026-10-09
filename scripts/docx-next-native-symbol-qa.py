@@ -254,8 +254,12 @@ def archive_fallback(root, manifest, result, repository, cached_package=None):
             package = Path(cached_package)
             record['packageSource'] = 'read-only local cache verified against exact official package pin'
         else:
+            # The pinned file URL is the already observed official publication redirect,
+            # not a constructed package URL. Publication selection and exact bytes remain required.
+            download_url = pin['fileUrl'] if pin else url
+            record['packageDownloadUrl'] = download_url
             process = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--location', '--connect-timeout', '8', '--max-time', '180',
-                                      '--max-filesize', str(limit), '--output', str(package), '--write-out', '%{url_effective}', url],
+                                      '--max-filesize', str(limit), '--output', str(package), '--write-out', '%{url_effective}', download_url],
                                      capture_output=True, text=True, timeout=185)
             record['packageCurlExitCode'] = process.returncode
             if process.returncode: return record
