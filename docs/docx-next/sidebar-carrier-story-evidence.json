@@ -55,6 +55,13 @@
         "DocxAttributeOutput::TableCellProperties writes width differences from GetGridCols"
       ],
       "scope": "Source arithmetic match only; live native intermediate values and downstream corrections are not instrumented."
+    },
+    "liveMeasurementBoundary": {
+      "sourceCommit": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+      "kitImplementation": "sw/source/uibase/uno/loktxdoc.cxx",
+      "nativeUnoService": "offapi/com/sun/star/text/TextTable.idl",
+      "relativeSeparatorType": "offapi/com/sun/star/text/TableColumnSeparator.idl",
+      "scope": "Public Kit Layout reports page invalid-content state, and ExtractDocumentStructure reports content-control/chart/document metadata, without table separators. UNO TextTable exposes Width/TableColumnSeparators/TableColumnRelativeSum; the available runtime has no Python UNO binding or SDK headers. No live native separator measurement is claimed."
     }
   },
   "devCli": {
@@ -6246,5 +6253,326 @@
     "cvPageInstancesIdentical": 2,
     "coverLetterPageInstancesDifferent": 4,
     "acceptance": "All independent stable RGBA pixels are pinned without page exclusions; source arithmetic is not live causal proof."
+  },
+  "historicalGridAudit": {
+    "sourceArtifact": {
+      "id": 11597487613,
+      "bytes": 68220864,
+      "sha256": "2f37716720882a62b4241a3a9bd2092e2752eb66e48ae4b240d2d6bf62ceec91"
+    },
+    "stable": {
+      "scope": "Two already executed historical packages; native owners resolved from canonical IDs before any geometry comparison",
+      "cases": [
+        {
+          "fixture": "right-three-row-220",
+          "sourceDocxSha256": "01370a9234e8847f90b6ed36690552e11d13bd85202b0b696fefbf2223f0d99a",
+          "savedDocxSha256": "6f7f327c74a3945d5a89a7b19779d86ba5a8c72e1f549c8c196ea07ce6f63afd",
+          "canonicalOwnerFieldIds": [
+            "probe.boundary-lead",
+            "cv.section.custom:populated-side.heading",
+            "cv.entry.custom:populated-side:populated-entry.date",
+            "cv.entry.custom:populated-side:populated-entry.title",
+            "cv.entry.custom:populated-side:populated-entry.place",
+            "cv.entry.custom:populated-side:populated-entry.description",
+            "cv.section.custom:long-paragraph.heading",
+            "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "cv.entry.custom:long-paragraph:long-paragraph-entry.description"
+          ],
+          "sourceGeometry": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              340,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                340,
+                2789
+              ],
+              [
+                6508,
+                340,
+                2789
+              ],
+              [
+                6508,
+                340,
+                2789
+              ]
+            ]
+          },
+          "savedGeometry": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              340,
+              2790
+            ],
+            "cellWidths": [
+              [
+                6508,
+                340,
+                2790
+              ],
+              [
+                6508,
+                340,
+                2790
+              ],
+              [
+                6508,
+                340,
+                2790
+              ]
+            ]
+          },
+          "gridDeltaTwips": [
+            0,
+            0,
+            1
+          ],
+          "arithmetic": {
+            "sourceGridSumTwips": 9637,
+            "sourcePreferredWidthTwips": 9638,
+            "sourcePreferredMinusGridTwips": 1,
+            "roundedRelativeSeparators": [
+              6753,
+              7106
+            ],
+            "truncatedCumulativeTwips": [
+              6508,
+              6848
+            ],
+            "predictedGrid": [
+              6508,
+              340,
+              2790
+            ]
+          },
+          "arithmeticMatchesObservedGrid": true,
+          "exactGeometryAcceptance": "fail",
+          "savedTableCaption": null,
+          "tableCaptionAcceptance": "fail"
+        },
+        {
+          "fixture": "right-continuous-cell-220",
+          "sourceDocxSha256": "839fcbf661c26f40d7c7259f57a83d0a9df59efbda3814711fe99cf0f7443c27",
+          "savedDocxSha256": "eb82892e3a356d7b2840bd134f5741dfa9f0155d54f7c5ce64f18c31d5735714",
+          "canonicalOwnerFieldIds": [
+            "probe.boundary-lead",
+            "cv.section.custom:long-paragraph.heading",
+            "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+            "cv.section.custom:populated-side.heading",
+            "cv.entry.custom:populated-side:populated-entry.date",
+            "cv.entry.custom:populated-side:populated-entry.title",
+            "cv.entry.custom:populated-side:populated-entry.place",
+            "cv.entry.custom:populated-side:populated-entry.description"
+          ],
+          "sourceGeometry": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              340,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                340,
+                2789
+              ]
+            ]
+          },
+          "savedGeometry": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              340,
+              2790
+            ],
+            "cellWidths": [
+              [
+                6508,
+                340,
+                2790
+              ]
+            ]
+          },
+          "gridDeltaTwips": [
+            0,
+            0,
+            1
+          ],
+          "arithmetic": {
+            "sourceGridSumTwips": 9637,
+            "sourcePreferredWidthTwips": 9638,
+            "sourcePreferredMinusGridTwips": 1,
+            "roundedRelativeSeparators": [
+              6753,
+              7106
+            ],
+            "truncatedCumulativeTwips": [
+              6508,
+              6848
+            ],
+            "predictedGrid": [
+              6508,
+              340,
+              2790
+            ]
+          },
+          "arithmeticMatchesObservedGrid": true,
+          "exactGeometryAcceptance": "fail",
+          "savedTableCaption": null,
+          "tableCaptionAcceptance": "fail"
+        }
+      ],
+      "historicalEarlyStop": {
+        "fixture": "right-continuous-cell-220",
+        "reasons": [
+          "render-complete-text-opening-or-bounds",
+          "saveReopen-complete-text-opening-or-bounds",
+          "exact-native-grid-change"
+        ],
+        "unrenderedCases": [
+          "left-three-row-220",
+          "left-continuous-cell-220"
+        ]
+      },
+      "newPreparedSources": 0,
+      "newNativeExports": 0,
+      "liveNativeIntermediatesInstrumented": false,
+      "causalAcceptance": "unproven; arithmetic agreement does not measure live import/export stages"
+    },
+    "scope": "Read-only follow-up on two original stopped continuous-cell sources/saved packages; no new source variants or native exports."
+  },
+  "verifiedSuccessor": {
+    "sourceCommit": "dca48f66007a9f1b3041c41e04f4732c9e379ca1",
+    "stableRun": 37890257364,
+    "applicationRun": 37890258967,
+    "status": "All stable jobs, all eight browser groups/M6 and gallery successful",
+    "artifact": {
+      "id": 11598236775,
+      "bytes": 68221744,
+      "sha256": "07c4e31cb07f92ee670e24bb002024ba39567c6afd77878d02a5459113d77bd1"
+    },
+    "readOnlyVerification": {
+      "allStrictBaselines": "pass",
+      "wholeStoryContract": "exact independent baseline",
+      "sourceInstances": 60,
+      "savedPackages": 13,
+      "rgbaPageInstances": 150,
+      "actualCases": 13,
+      "newNativeExecutions": 0,
+      "matrices": [
+        {
+          "matrix": "floating-continuation",
+          "strictBaseline": "pass",
+          "cases": 4,
+          "stop": {
+            "fixture": "floating-continuation-right-side-long-all-pages",
+            "reasons": [
+              "render-opening",
+              "saveReopen-opening"
+            ],
+            "unrenderedCases": [
+              "floating-continuation-right-both-long-default",
+              "floating-continuation-right-both-long-all-pages",
+              "floating-continuation-left-left-default",
+              "floating-continuation-left-left-all-pages",
+              "floating-continuation-left-side-long-default",
+              "floating-continuation-left-side-long-all-pages",
+              "floating-continuation-left-both-long-default",
+              "floating-continuation-left-both-long-all-pages"
+            ]
+          }
+        },
+        {
+          "matrix": "floating-anchor",
+          "strictBaseline": "pass",
+          "cases": 4,
+          "stop": {
+            "fixture": "floating-anchor-right-side-long-following-paragraph",
+            "reasons": [
+              "render-paragraph-text-multiplicity",
+              "render-detached-main-opening",
+              "saveReopen-paragraph-text-multiplicity",
+              "saveReopen-detached-main-opening"
+            ],
+            "unrenderedCases": [
+              "floating-anchor-right-both-long-empty-separator",
+              "floating-anchor-right-both-long-following-paragraph",
+              "floating-anchor-left-left-empty-separator",
+              "floating-anchor-left-left-following-paragraph",
+              "floating-anchor-left-side-long-empty-separator",
+              "floating-anchor-left-side-long-following-paragraph",
+              "floating-anchor-left-both-long-empty-separator",
+              "floating-anchor-left-both-long-following-paragraph"
+            ]
+          }
+        },
+        {
+          "matrix": "inline-story",
+          "strictBaseline": "pass",
+          "cases": 2,
+          "stop": {
+            "fixture": "inline-story-left-side-long",
+            "reasons": [
+              "render-opening",
+              "saveReopen-opening"
+            ],
+            "unrenderedCases": [
+              "inline-story-left-both-long",
+              "inline-story-right-left",
+              "inline-story-right-side-long",
+              "inline-story-right-both-long"
+            ]
+          }
+        },
+        {
+          "matrix": "dual-story",
+          "strictBaseline": "pass",
+          "cases": 2,
+          "stop": {
+            "fixture": "dual-story-left-side-long",
+            "reasons": [
+              "render-opening",
+              "saveReopen-opening"
+            ],
+            "unrenderedCases": [
+              "dual-story-left-both-long",
+              "dual-story-right-left",
+              "dual-story-right-side-long",
+              "dual-story-right-both-long"
+            ]
+          }
+        },
+        {
+          "matrix": "carrier-story",
+          "strictBaseline": "pass",
+          "cases": 1,
+          "stop": {
+            "fixture": "carrier-story-left-left",
+            "reasons": [
+              "all-native-table-exact-geometry"
+            ],
+            "unrenderedCases": [
+              "carrier-story-left-side-long",
+              "carrier-story-left-both-long",
+              "carrier-story-right-left",
+              "carrier-story-right-side-long",
+              "carrier-story-right-both-long"
+            ]
+          }
+        }
+      ]
+    }
   }
 }

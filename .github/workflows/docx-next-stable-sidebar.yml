@@ -91,6 +91,7 @@ jobs:
           python scripts/docx-next-dual-story-test.py
           python scripts/docx-next-carrier-story-test.py
           python scripts/docx-next-carrier-grid-test.py
+          python scripts/docx-next-grid-history-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -175,6 +176,8 @@ jobs:
         run: python scripts/docx-next-carrier-story-qa.py "$QA_ROOT/carrier-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-carrier-story-evidence.json
       - name: Audit actual stopped carrier grid without new native exports
         run: python scripts/docx-next-carrier-grid-qa.py "$QA_ROOT/carrier-story" --baseline docs/docx-next/sidebar-carrier-story-evidence.json
+      - name: Compare already executed historical grids by canonical native ownership
+        run: python scripts/docx-next-grid-history-qa.py "$QA_ROOT" --baseline docs/docx-next/sidebar-carrier-story-evidence.json
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -184,6 +187,7 @@ jobs:
           path: |
             ${{ env.QA_ROOT }}/stable-comparison.json
             ${{ env.QA_ROOT }}/whole-story-contract-report.json
+            ${{ env.QA_ROOT }}/grid-history-report.json
             ${{ env.QA_ROOT }}/inline-story/*
             ${{ env.QA_ROOT }}/dual-story/*
             ${{ env.QA_ROOT }}/carrier-story/*
