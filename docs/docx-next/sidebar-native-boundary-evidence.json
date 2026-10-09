@@ -1259,7 +1259,7 @@
     "scope": "Only the recorded local compiler provenance is removed for this cross-environment comparison; the full independent baseline remains pinned. Actual saved input SHA checks remain required."
   },
   "nextImportTrace": {
-    "status": "specified; not executed",
+    "status": "partially observed by public original carrier callbacks; internal cached start and exact cleanup caller still not executed",
     "candidate": "Deferred table-start paragraph insertion may occur after the first inline start cursor is cached; this is a primary-source inference, not a measured original branch.",
     "originalFixtures": [
       "carrier-story-left-left",
@@ -1303,8 +1303,18 @@
           "global native control availability before/after each phase",
           "any actual canonical control node detachment"
         ]
+      },
+      {
+        "boundary": "Section-end dummy paragraph removal",
+        "observe": [
+          "actual dummy flag and annotation guard",
+          "section starting paragraph identity",
+          "canonical first-control node before and after paragraph disposal",
+          "exact caller of observed paragraph deletion"
+        ]
       }
     ],
-    "scope": "No original input or serialized output repair, no geometry inference, no changed whole paragraphs or production acceptance; stop once the first native tag-loss boundary is actually identified."
+    "scope": "No original input or serialized output repair, no geometry inference, no changed whole paragraphs or production acceptance; stop once the first native tag-loss boundary is actually identified.",
+    "followUpEvidence": "sidebar-native-import-evidence.json: original carrier first tag is observed empty in body before its registered paragraph disposal; both historical progress intervals remain sparse"
   }
 }

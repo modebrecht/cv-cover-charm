@@ -47,6 +47,7 @@ on:
       - docs/docx-next/sidebar-carrier-story-evidence.json
       - docs/docx-next/sidebar-native-grid-evidence.json
       - docs/docx-next/sidebar-native-boundary-evidence.json
+      - docs/docx-next/sidebar-native-import-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -96,6 +97,7 @@ jobs:
           python scripts/docx-next-grid-history-test.py
           python scripts/docx-next-native-grid-test.py
           python scripts/docx-next-native-boundary-test.py
+          python scripts/docx-next-native-import-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -188,6 +190,8 @@ jobs:
         run: python scripts/docx-next-native-grid-qa.py "$QA_ROOT" --native-uno "$QA_ROOT/uno-binding/native-uno" --baseline docs/docx-next/sidebar-native-grid-evidence.json
       - name: Compare isolated first-cell conversion with original missing-control imports
         run: python scripts/docx-next-native-boundary-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-boundary-evidence.json
+      - name: Observe original first-control creation and canonical paragraph disposal
+        run: python scripts/docx-next-native-import-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -200,6 +204,7 @@ jobs:
             ${{ env.QA_ROOT }}/grid-history-report.json
             ${{ env.QA_ROOT }}/native-grid-report.json
             ${{ env.QA_ROOT }}/native-boundary-report.json
+            ${{ env.QA_ROOT }}/native-import-report.json
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
             ${{ env.QA_ROOT }}/inline-story/*
             ${{ env.QA_ROOT }}/dual-story/*
