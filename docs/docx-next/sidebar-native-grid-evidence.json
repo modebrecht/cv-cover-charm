@@ -1,0 +1,3559 @@
+{
+  "schemaVersion": 1,
+  "status": "Blocked; live read-only measurement is diagnostic evidence, not DOCXNext or Word acceptance",
+  "sourceCommit": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+  "primary": [
+    {
+      "path": "offapi/com/sun/star/text/TextTable.idl",
+      "scope": "Public Width in 1/100 mm, TableColumnRelativeSum and TableColumnSeparators; no exact native twip getter",
+      "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/offapi/com/sun/star/text/TextTable.idl"
+    },
+    {
+      "path": "offapi/com/sun/star/text/ContentControl.idl",
+      "scope": "Machine-readable Tag and XTextContent anchor",
+      "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/offapi/com/sun/star/text/ContentControl.idl"
+    },
+    {
+      "path": "offapi/com/sun/star/text/XContentControlsSupplier.idl",
+      "scope": "Complete native content-control supplier",
+      "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/offapi/com/sun/star/text/XContentControlsSupplier.idl"
+    },
+    {
+      "path": "sw/source/core/unocore/unotbl.cxx",
+      "sha256": "abe24506bc1732fc9e6451440371fafbe11a7ded642b9a8a5bd12767e7d6d327",
+      "scope": "lcl_GetTableSeparators calls GetTabCols at relative sum 10000; values are another native normalization",
+      "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/core/unocore/unotbl.cxx"
+    },
+    {
+      "path": "sw/source/core/unocore/unocontentcontrol.cxx",
+      "sha256": "b1fe007ac8726d1b7a541e82735c1399c4fe5d290d073fd216f618e72824b834",
+      "scope": "SwXContentControls getCount/getByIndex read the native content-control manager",
+      "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/core/unocore/unocontentcontrol.cxx"
+    },
+    {
+      "path": "include/LibreOfficeKit/LibreOfficeKit.h",
+      "scope": "Stable public Kit layout, version getter and destroy",
+      "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/include/LibreOfficeKit/LibreOfficeKit.h"
+    },
+    {
+      "path": "include/LibreOfficeKit/LibreOfficeKitInit.h",
+      "scope": "Public libreofficekit_hook_2 initialization",
+      "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/include/LibreOfficeKit/LibreOfficeKitInit.h"
+    },
+    {
+      "path": "offapi/com/sun/star/document/MacroExecMode.idl",
+      "scope": "NEVER_EXECUTE = 0; named constant used",
+      "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/offapi/com/sun/star/document/MacroExecMode.idl"
+    },
+    {
+      "path": "offapi/com/sun/star/document/UpdateDocMode.idl",
+      "scope": "NO_UPDATE = 0; named constant used",
+      "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/offapi/com/sun/star/document/UpdateDocMode.idl"
+    }
+  ],
+  "inputArtifact": {
+    "sourceCommit": "d570282df0f24b783ce9896fd709863a1ee964f5",
+    "workflowRun": 37891229210,
+    "artifactId": 11598089995,
+    "sha256": "72ede432aa75927dfd81fea15a2d58f4bbc784e9c2df2863a6134e023c50a384",
+    "size": 68222864
+  },
+  "local": {
+    "scope": "Live public UNO measurements of the short carrier and two already executed historical pairs; canonical owner IDs resolved before metrics",
+    "binding": {
+      "interface": "Public LibreOfficeKit initialization and public in-process UNO",
+      "bindingManifestSha256": "dca8fc128f78804e608a6a1a0bdb8698ba344ae3d17fa39448c063fe0d69cfbe",
+      "packageSha256": "77dd1d628d2d0b9a37477167e0f205378d86a549bca19cb2349afa29bd5b0331",
+      "nativeFiles": {
+        "pyuno.so": "ccc7a97969c2f4a68c42780186237b2837161b767ff5edff0cf18c2416a3979e",
+        "libpyuno.so": "27fa3a583c03492d79383f6a099c49af3f34f11d84b23f5b920a765c330e2562"
+      },
+      "pythonMajorMinor": [
+        3,
+        12
+      ],
+      "packagedUnoSourceSha256": "43a28876b535e604344f454711673f917aa64301cceae986428cff5db62716fc",
+      "bootstrapRelocation": "Two installed paths only; native binaries unchanged",
+      "workerSha256": "a7bc2a1f6d45744809794f215a17013d5c304ded1364520393ef60351d671f35",
+      "engine": {
+        "interface": "LibreOfficeKit",
+        "version": {
+          "ProductName": "LibreOffice",
+          "ProductVersion": "25.8",
+          "ProductExtension": ".7.3",
+          "BuildId": "580(Build:3)"
+        },
+        "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+        "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+        "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+        "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+        "host": "Linux x86_64",
+        "packagesVerified": 50
+      }
+    },
+    "cases": [
+      {
+        "fixture": "carrier-story-left-left",
+        "phases": {
+          "source": {
+            "version": {
+              "ProductName": "LibreOffice",
+              "ProductVersion": "25.8",
+              "ProductExtension": ".7.3",
+              "BuildId": "580(Build:3)"
+            },
+            "readOnly": true,
+            "modified": false,
+            "canonicalOwnerFieldIds": [
+              "cv.section.person.heading",
+              "cv.person.address",
+              "cv.person.place",
+              "cv.person.phone",
+              "cv.person.email",
+              "cv.person.geburtsdatum",
+              "cv.section.sprachen.heading",
+              "cv.entry.sprachen:demo-l1.name",
+              "cv.entry.sprachen:demo-l1.level",
+              "cv.entry.sprachen:demo-l2.name",
+              "cv.entry.sprachen:demo-l2.level",
+              "cv.entry.sprachen:demo-l3.name",
+              "cv.entry.sprachen:demo-l3.level",
+              "cv.section.hobbys.heading",
+              "cv.entry.hobbys:0",
+              "cv.entry.hobbys:1",
+              "cv.entry.hobbys:2",
+              "cv.section.staerken.heading",
+              "cv.entry.staerken:0",
+              "cv.entry.staerken:1",
+              "cv.entry.staerken:2",
+              "cv.documentTitle",
+              "cv.person.name",
+              "cv.section.custom:familie.heading",
+              "cv.entry.custom:familie:demo-familie.place",
+              "cv.entry.custom:familie:demo-familie.description",
+              "cv.section.schule.heading",
+              "cv.entry.schule:demo-s1.date",
+              "cv.entry.schule:demo-s1.title",
+              "cv.entry.schule:demo-s1.place",
+              "cv.entry.schule:demo-s1.description",
+              "cv.entry.schule:demo-s2.date",
+              "cv.entry.schule:demo-s2.title",
+              "cv.entry.schule:demo-s2.place",
+              "cv.section.erfahrung.heading",
+              "cv.entry.erfahrung:demo-p1.date",
+              "cv.entry.erfahrung:demo-p1.title",
+              "cv.entry.erfahrung:demo-p1.place",
+              "cv.entry.erfahrung:demo-p1.description",
+              "cv.entry.erfahrung:demo-p2.date",
+              "cv.entry.erfahrung:demo-p2.title",
+              "cv.entry.erfahrung:demo-p2.place",
+              "cv.entry.erfahrung:demo-p2.description",
+              "cv.section.referenzen.heading",
+              "cv.entry.referenzen:demo-r1.name",
+              "cv.entry.referenzen:demo-r1.role",
+              "cv.entry.referenzen:demo-r1.contact"
+            ],
+            "canonicalFieldAncestry": [
+              {
+                "fieldId": "cv.section.person.heading",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.person.address",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.person.place",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.person.phone",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.person.email",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.person.geburtsdatum",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.sprachen.heading",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l1.name",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l1.level",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l2.name",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l2.level",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l3.name",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l3.level",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.hobbys.heading",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.hobbys:0",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.hobbys:1",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.hobbys:2",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.staerken.heading",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.staerken:0",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.staerken:1",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.staerken:2",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.documentTitle",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.person.name",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.custom:familie.heading",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:familie:demo-familie.place",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:familie:demo-familie.description",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.schule.heading",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.date",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table2",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.title",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table2",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.place",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table2",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.description",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table2",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s2.date",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table3",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s2.title",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table3",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s2.place",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table3",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.erfahrung.heading",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.date",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table4",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.title",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table4",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.place",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table4",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.description",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table4",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.date",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table5",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.title",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table5",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.place",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table5",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.description",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table5",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.referenzen.heading",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.name",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table6",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.role",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table6",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.contact",
+                "ancestry": [
+                  {
+                    "table": "Table7",
+                    "cell": "C1"
+                  },
+                  {
+                    "table": "Table6",
+                    "cell": "A1"
+                  }
+                ]
+              }
+            ],
+            "liveCanonicalTags": [
+              "cv.section.person.heading",
+              "cv.person.address",
+              "cv.person.place",
+              "cv.person.phone",
+              "cv.person.email",
+              "cv.person.geburtsdatum",
+              "cv.section.sprachen.heading",
+              "cv.entry.sprachen:demo-l1.name",
+              "cv.entry.sprachen:demo-l1.level",
+              "cv.entry.sprachen:demo-l2.name",
+              "cv.entry.sprachen:demo-l2.level",
+              "cv.entry.sprachen:demo-l3.name",
+              "cv.entry.sprachen:demo-l3.level",
+              "cv.section.hobbys.heading",
+              "cv.entry.hobbys:0",
+              "cv.entry.hobbys:1",
+              "cv.entry.hobbys:2",
+              "cv.section.staerken.heading",
+              "cv.entry.staerken:0",
+              "cv.entry.staerken:1",
+              "cv.entry.staerken:2",
+              "cv.documentTitle",
+              "cv.person.name",
+              "cv.section.custom:familie.heading",
+              "cv.entry.custom:familie:demo-familie.place",
+              "cv.entry.custom:familie:demo-familie.description",
+              "cv.section.schule.heading",
+              "cv.entry.schule:demo-s1.date",
+              "cv.entry.schule:demo-s1.title",
+              "cv.entry.schule:demo-s1.place",
+              "cv.entry.schule:demo-s1.description",
+              "cv.entry.schule:demo-s2.date",
+              "cv.entry.schule:demo-s2.title",
+              "cv.entry.schule:demo-s2.place",
+              "cv.section.erfahrung.heading",
+              "cv.entry.erfahrung:demo-p1.date",
+              "cv.entry.erfahrung:demo-p1.title",
+              "cv.entry.erfahrung:demo-p1.place",
+              "cv.entry.erfahrung:demo-p1.description",
+              "cv.entry.erfahrung:demo-p2.date",
+              "cv.entry.erfahrung:demo-p2.title",
+              "cv.entry.erfahrung:demo-p2.place",
+              "cv.entry.erfahrung:demo-p2.description",
+              "cv.section.referenzen.heading",
+              "cv.entry.referenzen:demo-r1.name",
+              "cv.entry.referenzen:demo-r1.role",
+              "cv.entry.referenzen:demo-r1.contact",
+              "cover.eyebrow",
+              "cover.profession",
+              "cover.fullName",
+              "cover.lehrbeginn",
+              "cover.kontaktTitel",
+              "cover.kontakt",
+              "cover.beilagenTitel",
+              "cover.beilagen",
+              "cover.ortDatum",
+              "letter.sender.name",
+              "letter.sender.address",
+              "letter.sender.place",
+              "letter.sender.phone",
+              "letter.sender.email",
+              "letter.recipient.company",
+              "letter.recipient.name",
+              "letter.recipient.address",
+              "letter.recipient.place",
+              "letter.date",
+              "letter.subject",
+              "letter.salutation",
+              "letter.body.paragraph:0",
+              "letter.body.paragraph:1",
+              "letter.body.paragraph:2",
+              "letter.body.paragraph:3",
+              "letter.body.paragraph:4",
+              "letter.closing",
+              "letter.signature",
+              "letter.attachment:0",
+              "letter.attachment:1"
+            ],
+            "nativeOwnerName": "Table7",
+            "ownerResolution": {
+              "status": "pass"
+            },
+            "nativeTableCount": 7,
+            "nativeTableNames": [
+              "Table7",
+              "Table1",
+              "Table2",
+              "Table3",
+              "Table4",
+              "Table5",
+              "Table6"
+            ],
+            "nativeControlAncestryInputs": [
+              {
+                "tag": "cv.section.person.heading",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.person.address",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.person.place",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.person.phone",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.person.email",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.person.geburtsdatum",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.sprachen.heading",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l1.name",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l1.level",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l2.name",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l2.level",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l3.name",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l3.level",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.hobbys.heading",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.hobbys:0",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.hobbys:1",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.hobbys:2",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.staerken.heading",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.staerken:0",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.staerken:1",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.staerken:2",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.documentTitle",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.person.name",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.section.custom:familie.heading",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:familie:demo-familie.place",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:familie:demo-familie.description",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.schule.heading",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s1.date",
+                "table": "Table2",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s1.title",
+                "table": "Table2",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s1.place",
+                "table": "Table2",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s1.description",
+                "table": "Table2",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s2.date",
+                "table": "Table3",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s2.title",
+                "table": "Table3",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s2.place",
+                "table": "Table3",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.erfahrung.heading",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p1.date",
+                "table": "Table4",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p1.title",
+                "table": "Table4",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p1.place",
+                "table": "Table4",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p1.description",
+                "table": "Table4",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p2.date",
+                "table": "Table5",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p2.title",
+                "table": "Table5",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p2.place",
+                "table": "Table5",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p2.description",
+                "table": "Table5",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.referenzen.heading",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.referenzen:demo-r1.name",
+                "table": "Table6",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.referenzen:demo-r1.role",
+                "table": "Table6",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.referenzen:demo-r1.contact",
+                "table": "Table6",
+                "cell": "A1"
+              },
+              {
+                "tag": "cover.eyebrow",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.profession",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.fullName",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.lehrbeginn",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontaktTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontakt",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagenTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagen",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.ortDatum",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.phone",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.email",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.company",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.date",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.subject",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.salutation",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:2",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:3",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:4",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.closing",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.signature",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:1",
+                "table": null,
+                "cell": null
+              }
+            ],
+            "nativeParents": {
+              "Table1": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table2": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table3": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table4": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table5": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table6": {
+                "table": "Table7",
+                "cell": "C1"
+              }
+            },
+            "widthMm100": 16999,
+            "relativeSum": 10000,
+            "tableSeparators": [
+              {
+                "position": 2893,
+                "visible": true
+              },
+              {
+                "position": 3246,
+                "visible": true
+              }
+            ],
+            "rowSeparators": [
+              [
+                {
+                  "position": 2893,
+                  "visible": true
+                },
+                {
+                  "position": 3246,
+                  "visible": true
+                }
+              ]
+            ],
+            "cellNames": [
+              "A1",
+              "B1",
+              "C1"
+            ],
+            "loadOptions": {
+              "Hidden": true,
+              "ReadOnly": true,
+              "MacroExecutionMode": 0,
+              "UpdateDocMode": 0
+            },
+            "newNativeExports": 0,
+            "twipGeometryAvailable": false,
+            "inputSha256": "664d3980032041c110d829d3ef810a9006d95944ed75cce806aa7351349e8573",
+            "inputXmlGeometry": {
+              "preferredWidthTwips": 9637,
+              "grid": [
+                2789,
+                340,
+                6508
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6508
+                ]
+              ]
+            },
+            "getterArithmetic": {
+              "importArithmetic": {
+                "sourceGridSumTwips": 9637,
+                "sourcePreferredWidthTwips": 9637,
+                "sourcePreferredMinusGridTwips": 0,
+                "roundedRelativeSeparators": [
+                  2894,
+                  3247
+                ],
+                "truncatedCumulativeTwips": [
+                  2788,
+                  3129
+                ],
+                "predictedGrid": [
+                  2788,
+                  341,
+                  6508
+                ]
+              },
+              "predictedPublicGetterSeparators": [
+                2893,
+                3246
+              ],
+              "scope": "Arithmetic only: public getter normalizes native positions again; internal transient values are not sampled"
+            },
+            "arithmeticMatchesPublicGetter": true
+          },
+          "saved": {
+            "version": {
+              "ProductName": "LibreOffice",
+              "ProductVersion": "25.8",
+              "ProductExtension": ".7.3",
+              "BuildId": "580(Build:3)"
+            },
+            "readOnly": true,
+            "modified": false,
+            "canonicalOwnerFieldIds": [
+              "cv.section.person.heading",
+              "cv.person.address",
+              "cv.person.place",
+              "cv.person.phone",
+              "cv.person.email",
+              "cv.person.geburtsdatum",
+              "cv.section.sprachen.heading",
+              "cv.entry.sprachen:demo-l1.name",
+              "cv.entry.sprachen:demo-l1.level",
+              "cv.entry.sprachen:demo-l2.name",
+              "cv.entry.sprachen:demo-l2.level",
+              "cv.entry.sprachen:demo-l3.name",
+              "cv.entry.sprachen:demo-l3.level",
+              "cv.section.hobbys.heading",
+              "cv.entry.hobbys:0",
+              "cv.entry.hobbys:1",
+              "cv.entry.hobbys:2",
+              "cv.section.staerken.heading",
+              "cv.entry.staerken:0",
+              "cv.entry.staerken:1",
+              "cv.entry.staerken:2",
+              "cv.documentTitle",
+              "cv.person.name",
+              "cv.section.custom:familie.heading",
+              "cv.entry.custom:familie:demo-familie.place",
+              "cv.entry.custom:familie:demo-familie.description",
+              "cv.section.schule.heading",
+              "cv.entry.schule:demo-s1.date",
+              "cv.entry.schule:demo-s1.title",
+              "cv.entry.schule:demo-s1.place",
+              "cv.entry.schule:demo-s1.description",
+              "cv.entry.schule:demo-s2.date",
+              "cv.entry.schule:demo-s2.title",
+              "cv.entry.schule:demo-s2.place",
+              "cv.section.erfahrung.heading",
+              "cv.entry.erfahrung:demo-p1.date",
+              "cv.entry.erfahrung:demo-p1.title",
+              "cv.entry.erfahrung:demo-p1.place",
+              "cv.entry.erfahrung:demo-p1.description",
+              "cv.entry.erfahrung:demo-p2.date",
+              "cv.entry.erfahrung:demo-p2.title",
+              "cv.entry.erfahrung:demo-p2.place",
+              "cv.entry.erfahrung:demo-p2.description",
+              "cv.section.referenzen.heading",
+              "cv.entry.referenzen:demo-r1.name",
+              "cv.entry.referenzen:demo-r1.role",
+              "cv.entry.referenzen:demo-r1.contact"
+            ],
+            "canonicalFieldAncestry": null,
+            "liveCanonicalTags": [
+              "cv.person.address",
+              "cv.person.place",
+              "cv.person.phone",
+              "cv.person.email",
+              "cv.person.geburtsdatum",
+              "cv.section.sprachen.heading",
+              "cv.entry.sprachen:demo-l1.name",
+              "cv.entry.sprachen:demo-l1.level",
+              "cv.entry.sprachen:demo-l2.name",
+              "cv.entry.sprachen:demo-l2.level",
+              "cv.entry.sprachen:demo-l3.name",
+              "cv.entry.sprachen:demo-l3.level",
+              "cv.section.hobbys.heading",
+              "cv.entry.hobbys:0",
+              "cv.entry.hobbys:1",
+              "cv.entry.hobbys:2",
+              "cv.section.staerken.heading",
+              "cv.entry.staerken:0",
+              "cv.entry.staerken:1",
+              "cv.entry.staerken:2",
+              "cv.documentTitle",
+              "cv.person.name",
+              "cv.section.custom:familie.heading",
+              "cv.entry.custom:familie:demo-familie.place",
+              "cv.entry.custom:familie:demo-familie.description",
+              "cv.section.schule.heading",
+              "cv.entry.schule:demo-s1.date",
+              "cv.entry.schule:demo-s1.title",
+              "cv.entry.schule:demo-s1.place",
+              "cv.entry.schule:demo-s1.description",
+              "cv.entry.schule:demo-s2.date",
+              "cv.entry.schule:demo-s2.title",
+              "cv.entry.schule:demo-s2.place",
+              "cv.section.erfahrung.heading",
+              "cv.entry.erfahrung:demo-p1.date",
+              "cv.entry.erfahrung:demo-p1.title",
+              "cv.entry.erfahrung:demo-p1.place",
+              "cv.entry.erfahrung:demo-p1.description",
+              "cv.entry.erfahrung:demo-p2.date",
+              "cv.entry.erfahrung:demo-p2.title",
+              "cv.entry.erfahrung:demo-p2.place",
+              "cv.entry.erfahrung:demo-p2.description",
+              "cv.section.referenzen.heading",
+              "cv.entry.referenzen:demo-r1.name",
+              "cv.entry.referenzen:demo-r1.role",
+              "cv.entry.referenzen:demo-r1.contact",
+              "cover.eyebrow",
+              "cover.profession",
+              "cover.fullName",
+              "cover.lehrbeginn",
+              "cover.kontaktTitel",
+              "cover.kontakt",
+              "cover.beilagenTitel",
+              "cover.beilagen",
+              "cover.ortDatum",
+              "letter.sender.name",
+              "letter.sender.address",
+              "letter.sender.place",
+              "letter.sender.phone",
+              "letter.sender.email",
+              "letter.recipient.company",
+              "letter.recipient.name",
+              "letter.recipient.address",
+              "letter.recipient.place",
+              "letter.date",
+              "letter.subject",
+              "letter.salutation",
+              "letter.body.paragraph:0",
+              "letter.body.paragraph:1",
+              "letter.body.paragraph:2",
+              "letter.body.paragraph:3",
+              "letter.body.paragraph:4",
+              "letter.closing",
+              "letter.signature",
+              "letter.attachment:0",
+              "letter.attachment:1"
+            ],
+            "nativeOwnerName": null,
+            "ownerResolution": {
+              "status": "fail",
+              "reason": "Missing live canonical tag: ['cv.section.person.heading']"
+            },
+            "nativeTableCount": 7,
+            "nativeTableNames": [
+              "Table7",
+              "Table1",
+              "Table2",
+              "Table3",
+              "Table4",
+              "Table5",
+              "Table6"
+            ],
+            "nativeControlAncestryInputs": [
+              {
+                "tag": "cv.person.address",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.person.place",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.person.phone",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.person.email",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.person.geburtsdatum",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.sprachen.heading",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l1.name",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l1.level",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l2.name",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l2.level",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l3.name",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.sprachen:demo-l3.level",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.hobbys.heading",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.hobbys:0",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.hobbys:1",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.hobbys:2",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.staerken.heading",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.staerken:0",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.staerken:1",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.staerken:2",
+                "table": "Table7",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.documentTitle",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.person.name",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.section.custom:familie.heading",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:familie:demo-familie.place",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:familie:demo-familie.description",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.schule.heading",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s1.date",
+                "table": "Table2",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s1.title",
+                "table": "Table2",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s1.place",
+                "table": "Table2",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s1.description",
+                "table": "Table2",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s2.date",
+                "table": "Table3",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s2.title",
+                "table": "Table3",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.schule:demo-s2.place",
+                "table": "Table3",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.erfahrung.heading",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p1.date",
+                "table": "Table4",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p1.title",
+                "table": "Table4",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p1.place",
+                "table": "Table4",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p1.description",
+                "table": "Table4",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p2.date",
+                "table": "Table5",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p2.title",
+                "table": "Table5",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p2.place",
+                "table": "Table5",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.erfahrung:demo-p2.description",
+                "table": "Table5",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.referenzen.heading",
+                "table": "Table7",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.referenzen:demo-r1.name",
+                "table": "Table6",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.referenzen:demo-r1.role",
+                "table": "Table6",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.referenzen:demo-r1.contact",
+                "table": "Table6",
+                "cell": "A1"
+              },
+              {
+                "tag": "cover.eyebrow",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.profession",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.fullName",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.lehrbeginn",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontaktTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontakt",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagenTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagen",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.ortDatum",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.phone",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.email",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.company",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.date",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.subject",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.salutation",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:2",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:3",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:4",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.closing",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.signature",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:1",
+                "table": null,
+                "cell": null
+              }
+            ],
+            "nativeParents": {
+              "Table1": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table2": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table3": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table4": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table5": {
+                "table": "Table7",
+                "cell": "C1"
+              },
+              "Table6": {
+                "table": "Table7",
+                "cell": "C1"
+              }
+            },
+            "widthMm100": null,
+            "relativeSum": null,
+            "tableSeparators": null,
+            "rowSeparators": null,
+            "cellNames": null,
+            "loadOptions": {
+              "Hidden": true,
+              "ReadOnly": true,
+              "MacroExecutionMode": 0,
+              "UpdateDocMode": 0
+            },
+            "newNativeExports": 0,
+            "twipGeometryAvailable": false,
+            "inputSha256": "37935e28ce5e1b9974c782969b85d80c64cf2a01dbf37beadba0ffbc4b61b65e",
+            "inputXmlGeometry": {
+              "preferredWidthTwips": 9637,
+              "grid": [
+                2788,
+                341,
+                6508
+              ],
+              "cellWidths": [
+                [
+                  2788,
+                  341,
+                  6508
+                ]
+              ]
+            },
+            "getterArithmetic": {
+              "importArithmetic": {
+                "sourceGridSumTwips": 9637,
+                "sourcePreferredWidthTwips": 9637,
+                "sourcePreferredMinusGridTwips": 0,
+                "roundedRelativeSeparators": [
+                  2893,
+                  3247
+                ],
+                "truncatedCumulativeTwips": [
+                  2787,
+                  3129
+                ],
+                "predictedGrid": [
+                  2787,
+                  342,
+                  6508
+                ]
+              },
+              "predictedPublicGetterSeparators": [
+                2891,
+                3246
+              ],
+              "scope": "Arithmetic only: public getter normalizes native positions again; internal transient values are not sampled"
+            },
+            "arithmeticMatchesPublicGetter": null
+          }
+        },
+        "exactGeometryAcceptance": "fail",
+        "publicGetterValuesChanged": null
+      },
+      {
+        "fixture": "right-three-row-220",
+        "phases": {
+          "source": {
+            "version": {
+              "ProductName": "LibreOffice",
+              "ProductVersion": "25.8",
+              "ProductExtension": ".7.3",
+              "BuildId": "580(Build:3)"
+            },
+            "readOnly": true,
+            "modified": false,
+            "canonicalOwnerFieldIds": [
+              "probe.boundary-lead",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description"
+            ],
+            "canonicalFieldAncestry": [
+              {
+                "fieldId": "probe.boundary-lead",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.custom:populated-side.heading",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.description",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.custom:long-paragraph.heading",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A2"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A2"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A2"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A2"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A3"
+                  }
+                ]
+              }
+            ],
+            "liveCanonicalTags": [
+              "cover.eyebrow",
+              "cover.profession",
+              "cover.fullName",
+              "cover.lehrbeginn",
+              "cover.kontaktTitel",
+              "cover.kontakt",
+              "cover.beilagenTitel",
+              "cover.beilagen",
+              "cover.ortDatum",
+              "letter.sender.name",
+              "letter.sender.address",
+              "letter.sender.place",
+              "letter.sender.phone",
+              "letter.sender.email",
+              "letter.recipient.company",
+              "letter.recipient.name",
+              "letter.recipient.address",
+              "letter.recipient.place",
+              "letter.date",
+              "letter.subject",
+              "letter.salutation",
+              "letter.body.paragraph:0",
+              "letter.body.paragraph:1",
+              "letter.body.paragraph:2",
+              "letter.body.paragraph:3",
+              "letter.body.paragraph:4",
+              "letter.closing",
+              "letter.signature",
+              "letter.attachment:0",
+              "letter.attachment:1",
+              "probe.boundary-lead",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description"
+            ],
+            "nativeOwnerName": "Table1",
+            "ownerResolution": {
+              "status": "pass"
+            },
+            "nativeTableCount": 1,
+            "nativeTableNames": [
+              "Table1"
+            ],
+            "nativeControlAncestryInputs": [
+              {
+                "tag": "cover.eyebrow",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.profession",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.fullName",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.lehrbeginn",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontaktTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontakt",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagenTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagen",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.ortDatum",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.phone",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.email",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.company",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.date",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.subject",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.salutation",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:2",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:3",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:4",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.closing",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.signature",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "probe.boundary-lead",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.custom:populated-side.heading",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.date",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.title",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.place",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.description",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.section.custom:long-paragraph.heading",
+                "table": "Table1",
+                "cell": "A2"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "table": "Table1",
+                "cell": "A2"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "table": "Table1",
+                "cell": "A2"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "table": "Table1",
+                "cell": "A2"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+                "table": "Table1",
+                "cell": "A3"
+              }
+            ],
+            "nativeParents": {},
+            "widthMm100": 17000,
+            "relativeSum": 10000,
+            "tableSeparators": [
+              {
+                "position": 6752,
+                "visible": true
+              },
+              {
+                "position": 7105,
+                "visible": true
+              }
+            ],
+            "rowSeparators": [
+              [
+                {
+                  "position": 6752,
+                  "visible": true
+                },
+                {
+                  "position": 7105,
+                  "visible": true
+                }
+              ],
+              [
+                {
+                  "position": 6752,
+                  "visible": true
+                },
+                {
+                  "position": 7105,
+                  "visible": true
+                }
+              ],
+              [
+                {
+                  "position": 6752,
+                  "visible": true
+                },
+                {
+                  "position": 7105,
+                  "visible": true
+                }
+              ]
+            ],
+            "cellNames": [
+              "A1",
+              "B1",
+              "C1",
+              "A2",
+              "B2",
+              "A3",
+              "B3"
+            ],
+            "loadOptions": {
+              "Hidden": true,
+              "ReadOnly": true,
+              "MacroExecutionMode": 0,
+              "UpdateDocMode": 0
+            },
+            "newNativeExports": 0,
+            "twipGeometryAvailable": false,
+            "inputSha256": "01370a9234e8847f90b6ed36690552e11d13bd85202b0b696fefbf2223f0d99a",
+            "inputXmlGeometry": {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                340,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  340,
+                  2789
+                ],
+                [
+                  6508,
+                  340,
+                  2789
+                ],
+                [
+                  6508,
+                  340,
+                  2789
+                ]
+              ]
+            },
+            "getterArithmetic": {
+              "importArithmetic": {
+                "sourceGridSumTwips": 9637,
+                "sourcePreferredWidthTwips": 9638,
+                "sourcePreferredMinusGridTwips": 1,
+                "roundedRelativeSeparators": [
+                  6753,
+                  7106
+                ],
+                "truncatedCumulativeTwips": [
+                  6508,
+                  6848
+                ],
+                "predictedGrid": [
+                  6508,
+                  340,
+                  2790
+                ]
+              },
+              "predictedPublicGetterSeparators": [
+                6752,
+                7105
+              ],
+              "scope": "Arithmetic only: public getter normalizes native positions again; internal transient values are not sampled"
+            },
+            "arithmeticMatchesPublicGetter": true
+          },
+          "saved": {
+            "version": {
+              "ProductName": "LibreOffice",
+              "ProductVersion": "25.8",
+              "ProductExtension": ".7.3",
+              "BuildId": "580(Build:3)"
+            },
+            "readOnly": true,
+            "modified": false,
+            "canonicalOwnerFieldIds": [
+              "probe.boundary-lead",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description"
+            ],
+            "canonicalFieldAncestry": null,
+            "liveCanonicalTags": [
+              "cover.eyebrow",
+              "cover.profession",
+              "cover.fullName",
+              "cover.lehrbeginn",
+              "cover.kontaktTitel",
+              "cover.kontakt",
+              "cover.beilagenTitel",
+              "cover.beilagen",
+              "cover.ortDatum",
+              "letter.sender.name",
+              "letter.sender.address",
+              "letter.sender.place",
+              "letter.sender.phone",
+              "letter.sender.email",
+              "letter.recipient.company",
+              "letter.recipient.name",
+              "letter.recipient.address",
+              "letter.recipient.place",
+              "letter.date",
+              "letter.subject",
+              "letter.salutation",
+              "letter.body.paragraph:0",
+              "letter.body.paragraph:1",
+              "letter.body.paragraph:2",
+              "letter.body.paragraph:3",
+              "letter.body.paragraph:4",
+              "letter.closing",
+              "letter.signature",
+              "letter.attachment:0",
+              "letter.attachment:1",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description"
+            ],
+            "nativeOwnerName": null,
+            "ownerResolution": {
+              "status": "fail",
+              "reason": "Missing live canonical tag: ['probe.boundary-lead']"
+            },
+            "nativeTableCount": 1,
+            "nativeTableNames": [
+              "Table1"
+            ],
+            "nativeControlAncestryInputs": [
+              {
+                "tag": "cover.eyebrow",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.profession",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.fullName",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.lehrbeginn",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontaktTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontakt",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagenTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagen",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.ortDatum",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.phone",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.email",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.company",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.date",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.subject",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.salutation",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:2",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:3",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:4",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.closing",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.signature",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cv.section.custom:populated-side.heading",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.date",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.title",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.place",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.description",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.section.custom:long-paragraph.heading",
+                "table": "Table1",
+                "cell": "A2"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "table": "Table1",
+                "cell": "A2"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "table": "Table1",
+                "cell": "A2"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "table": "Table1",
+                "cell": "A2"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+                "table": "Table1",
+                "cell": "A3"
+              }
+            ],
+            "nativeParents": {},
+            "widthMm100": null,
+            "relativeSum": null,
+            "tableSeparators": null,
+            "rowSeparators": null,
+            "cellNames": null,
+            "loadOptions": {
+              "Hidden": true,
+              "ReadOnly": true,
+              "MacroExecutionMode": 0,
+              "UpdateDocMode": 0
+            },
+            "newNativeExports": 0,
+            "twipGeometryAvailable": false,
+            "inputSha256": "28472c897624b13e24211f36312505755f3ac70bcde277089d7b73013e0843fd",
+            "inputXmlGeometry": {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                340,
+                2790
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  340,
+                  2790
+                ],
+                [
+                  6508,
+                  340,
+                  2790
+                ],
+                [
+                  6508,
+                  340,
+                  2790
+                ]
+              ]
+            },
+            "getterArithmetic": {
+              "importArithmetic": {
+                "sourceGridSumTwips": 9638,
+                "sourcePreferredWidthTwips": 9638,
+                "sourcePreferredMinusGridTwips": 0,
+                "roundedRelativeSeparators": [
+                  6752,
+                  7105
+                ],
+                "truncatedCumulativeTwips": [
+                  6507,
+                  6847
+                ],
+                "predictedGrid": [
+                  6507,
+                  340,
+                  2791
+                ]
+              },
+              "predictedPublicGetterSeparators": [
+                6751,
+                7104
+              ],
+              "scope": "Arithmetic only: public getter normalizes native positions again; internal transient values are not sampled"
+            },
+            "arithmeticMatchesPublicGetter": null
+          }
+        },
+        "exactGeometryAcceptance": "fail",
+        "publicGetterValuesChanged": null
+      },
+      {
+        "fixture": "right-continuous-cell-220",
+        "phases": {
+          "source": {
+            "version": {
+              "ProductName": "LibreOffice",
+              "ProductVersion": "25.8",
+              "ProductExtension": ".7.3",
+              "BuildId": "580(Build:3)"
+            },
+            "readOnly": true,
+            "modified": false,
+            "canonicalOwnerFieldIds": [
+              "probe.boundary-lead",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description"
+            ],
+            "canonicalFieldAncestry": [
+              {
+                "fieldId": "probe.boundary-lead",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.custom:long-paragraph.heading",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.section.custom:populated-side.heading",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.date",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.title",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.place",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              },
+              {
+                "fieldId": "cv.entry.custom:populated-side:populated-entry.description",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "C1"
+                  }
+                ]
+              }
+            ],
+            "liveCanonicalTags": [
+              "cover.eyebrow",
+              "cover.profession",
+              "cover.fullName",
+              "cover.lehrbeginn",
+              "cover.kontaktTitel",
+              "cover.kontakt",
+              "cover.beilagenTitel",
+              "cover.beilagen",
+              "cover.ortDatum",
+              "letter.sender.name",
+              "letter.sender.address",
+              "letter.sender.place",
+              "letter.sender.phone",
+              "letter.sender.email",
+              "letter.recipient.company",
+              "letter.recipient.name",
+              "letter.recipient.address",
+              "letter.recipient.place",
+              "letter.date",
+              "letter.subject",
+              "letter.salutation",
+              "letter.body.paragraph:0",
+              "letter.body.paragraph:1",
+              "letter.body.paragraph:2",
+              "letter.body.paragraph:3",
+              "letter.body.paragraph:4",
+              "letter.closing",
+              "letter.signature",
+              "letter.attachment:0",
+              "letter.attachment:1",
+              "probe.boundary-lead",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description"
+            ],
+            "nativeOwnerName": "Table1",
+            "ownerResolution": {
+              "status": "pass"
+            },
+            "nativeTableCount": 1,
+            "nativeTableNames": [
+              "Table1"
+            ],
+            "nativeControlAncestryInputs": [
+              {
+                "tag": "cover.eyebrow",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.profession",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.fullName",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.lehrbeginn",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontaktTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontakt",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagenTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagen",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.ortDatum",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.phone",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.email",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.company",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.date",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.subject",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.salutation",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:2",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:3",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:4",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.closing",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.signature",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "probe.boundary-lead",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.custom:long-paragraph.heading",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.custom:populated-side.heading",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.date",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.title",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.place",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.description",
+                "table": "Table1",
+                "cell": "C1"
+              }
+            ],
+            "nativeParents": {},
+            "widthMm100": 17000,
+            "relativeSum": 10000,
+            "tableSeparators": [
+              {
+                "position": 6752,
+                "visible": true
+              },
+              {
+                "position": 7105,
+                "visible": true
+              }
+            ],
+            "rowSeparators": [
+              [
+                {
+                  "position": 6752,
+                  "visible": true
+                },
+                {
+                  "position": 7105,
+                  "visible": true
+                }
+              ]
+            ],
+            "cellNames": [
+              "A1",
+              "B1",
+              "C1"
+            ],
+            "loadOptions": {
+              "Hidden": true,
+              "ReadOnly": true,
+              "MacroExecutionMode": 0,
+              "UpdateDocMode": 0
+            },
+            "newNativeExports": 0,
+            "twipGeometryAvailable": false,
+            "inputSha256": "839fcbf661c26f40d7c7259f57a83d0a9df59efbda3814711fe99cf0f7443c27",
+            "inputXmlGeometry": {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                340,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  340,
+                  2789
+                ]
+              ]
+            },
+            "getterArithmetic": {
+              "importArithmetic": {
+                "sourceGridSumTwips": 9637,
+                "sourcePreferredWidthTwips": 9638,
+                "sourcePreferredMinusGridTwips": 1,
+                "roundedRelativeSeparators": [
+                  6753,
+                  7106
+                ],
+                "truncatedCumulativeTwips": [
+                  6508,
+                  6848
+                ],
+                "predictedGrid": [
+                  6508,
+                  340,
+                  2790
+                ]
+              },
+              "predictedPublicGetterSeparators": [
+                6752,
+                7105
+              ],
+              "scope": "Arithmetic only: public getter normalizes native positions again; internal transient values are not sampled"
+            },
+            "arithmeticMatchesPublicGetter": true
+          },
+          "saved": {
+            "version": {
+              "ProductName": "LibreOffice",
+              "ProductVersion": "25.8",
+              "ProductExtension": ".7.3",
+              "BuildId": "580(Build:3)"
+            },
+            "readOnly": true,
+            "modified": false,
+            "canonicalOwnerFieldIds": [
+              "probe.boundary-lead",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description"
+            ],
+            "canonicalFieldAncestry": null,
+            "liveCanonicalTags": [
+              "cover.eyebrow",
+              "cover.profession",
+              "cover.fullName",
+              "cover.lehrbeginn",
+              "cover.kontaktTitel",
+              "cover.kontakt",
+              "cover.beilagenTitel",
+              "cover.beilagen",
+              "cover.ortDatum",
+              "letter.sender.name",
+              "letter.sender.address",
+              "letter.sender.place",
+              "letter.sender.phone",
+              "letter.sender.email",
+              "letter.recipient.company",
+              "letter.recipient.name",
+              "letter.recipient.address",
+              "letter.recipient.place",
+              "letter.date",
+              "letter.subject",
+              "letter.salutation",
+              "letter.body.paragraph:0",
+              "letter.body.paragraph:1",
+              "letter.body.paragraph:2",
+              "letter.body.paragraph:3",
+              "letter.body.paragraph:4",
+              "letter.closing",
+              "letter.signature",
+              "letter.attachment:0",
+              "letter.attachment:1",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description"
+            ],
+            "nativeOwnerName": null,
+            "ownerResolution": {
+              "status": "fail",
+              "reason": "Missing live canonical tag: ['probe.boundary-lead']"
+            },
+            "nativeTableCount": 1,
+            "nativeTableNames": [
+              "Table1"
+            ],
+            "nativeControlAncestryInputs": [
+              {
+                "tag": "cover.eyebrow",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.profession",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.fullName",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.lehrbeginn",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontaktTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.kontakt",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagenTitel",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.beilagen",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cover.ortDatum",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.phone",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.sender.email",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.company",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.name",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.address",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.recipient.place",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.date",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.subject",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.salutation",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:2",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:3",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.body.paragraph:4",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.closing",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.signature",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:0",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "letter.attachment:1",
+                "table": null,
+                "cell": null
+              },
+              {
+                "tag": "cv.section.custom:long-paragraph.heading",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+                "table": "Table1",
+                "cell": "A1"
+              },
+              {
+                "tag": "cv.section.custom:populated-side.heading",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.date",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.title",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.place",
+                "table": "Table1",
+                "cell": "C1"
+              },
+              {
+                "tag": "cv.entry.custom:populated-side:populated-entry.description",
+                "table": "Table1",
+                "cell": "C1"
+              }
+            ],
+            "nativeParents": {},
+            "widthMm100": null,
+            "relativeSum": null,
+            "tableSeparators": null,
+            "rowSeparators": null,
+            "cellNames": null,
+            "loadOptions": {
+              "Hidden": true,
+              "ReadOnly": true,
+              "MacroExecutionMode": 0,
+              "UpdateDocMode": 0
+            },
+            "newNativeExports": 0,
+            "twipGeometryAvailable": false,
+            "inputSha256": "7f72385691fa6f8b86b5324162c4e2326bb9c692e29ca472a423e2afcc282159",
+            "inputXmlGeometry": {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                340,
+                2790
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  340,
+                  2790
+                ]
+              ]
+            },
+            "getterArithmetic": {
+              "importArithmetic": {
+                "sourceGridSumTwips": 9638,
+                "sourcePreferredWidthTwips": 9638,
+                "sourcePreferredMinusGridTwips": 0,
+                "roundedRelativeSeparators": [
+                  6752,
+                  7105
+                ],
+                "truncatedCumulativeTwips": [
+                  6507,
+                  6847
+                ],
+                "predictedGrid": [
+                  6507,
+                  340,
+                  2791
+                ]
+              },
+              "predictedPublicGetterSeparators": [
+                6751,
+                7104
+              ],
+              "scope": "Arithmetic only: public getter normalizes native positions again; internal transient values are not sampled"
+            },
+            "arithmeticMatchesPublicGetter": null
+          }
+        },
+        "exactGeometryAcceptance": "fail",
+        "publicGetterValuesChanged": null
+      }
+    ],
+    "carrierEarlyStop": {
+      "fixture": "carrier-story-left-left",
+      "reasons": [
+        "all-native-table-exact-geometry"
+      ],
+      "unrenderedCases": [
+        "carrier-story-left-side-long",
+        "carrier-story-left-both-long",
+        "carrier-story-right-left",
+        "carrier-story-right-side-long",
+        "carrier-story-right-both-long"
+      ]
+    },
+    "historicalEarlyStop": {
+      "fixture": "right-continuous-cell-220",
+      "reasons": [
+        "render-complete-text-opening-or-bounds",
+        "saveReopen-complete-text-opening-or-bounds",
+        "exact-native-grid-change"
+      ],
+      "unrenderedCases": [
+        "left-three-row-220",
+        "left-continuous-cell-220"
+      ]
+    },
+    "newReadonlyNativeLoads": 6,
+    "newPreparedSources": 0,
+    "newNativeExports": 0,
+    "liveImportedUnoPropertiesMeasured": true,
+    "liveInternalTransientStagesInstrumented": false,
+    "twipGeometryInferredFromPublicWidth": false,
+    "causalAcceptance": "unproven; the public getter re-normalizes existing native widths, and no internal import/export transient stage is instrumented"
+  },
+  "stable": null,
+  "independentStableProvenance": null,
+  "acceptance": {
+    "production": "blocked",
+    "exactGeometry": "fail",
+    "containerCaptions": "fail",
+    "concurrentLongStoryContinuation": "unproven",
+    "configuredTemplates": "29/39",
+    "wordAcceptedTemplates": "0/39"
+  }
+}

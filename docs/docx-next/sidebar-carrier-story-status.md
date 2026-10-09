@@ -1,3 +1,5 @@
+**Live native measurement follow-up:** [Public UNO grid status](sidebar-native-grid-status.md) measures complete source owners and records a stricter saved-import owner failure. Exact geometry and the stopped five-case inventory remain unchanged.
+
 # Complete cells in one automatic floating carrier — 2026-10-09
 
 Continued from verified `dev` `f93d54e3`, with all three stable jobs, all eight application browser groups/M6 and its downloaded final artifact checked. The old whole-story, inline, dual-owner, continuation and paragraph-anchor baselines remain strict.
