@@ -177,6 +177,42 @@ class NativeSymbolTest(unittest.TestCase):
             with patch.object(qa.subprocess, 'check_output', return_value=fields.replace('amd64', 'arm64')):
                 with self.assertRaisesRegex(AssertionError, 'package metadata'): qa.verify_pinned_package(path, pin)
 
+    def test_cache_publishes_only_complete_verified_bytes_and_preserves_prior_cache_on_failure(self):
+        pin, _ = self.package_pin(); payload = b'complete verified test archive'
+        pin.update(size=len(payload), sha256=hashlib.sha256(payload).hexdigest())
+        fields = '\n'.join(key + ': ' + pin[key.lower()] for key in ('Package', 'Version', 'Architecture'))
+        with tempfile.TemporaryDirectory() as temporary, patch.object(qa.subprocess, 'check_output', return_value=fields):
+            source = Path(temporary) / 'source.ddeb'; cache = Path(temporary) / 'cache/writer.ddeb'
+            source.write_bytes(payload); qa.cache_verified_package(source, cache, pin)
+            self.assertEqual(cache.read_bytes(), payload)
+            source.write_bytes(b'partial')
+            with self.assertRaises(AssertionError): qa.cache_verified_package(source, cache, pin)
+            self.assertEqual(cache.read_bytes(), payload)
+            self.assertEqual(list(cache.parent.glob('*.unverified')), [])
+
+    def test_timed_out_pinned_download_retains_diagnostic_and_never_caches_partial_bytes(self):
+        pin, manifest = self.package_pin()
+        repository = Path(__file__).resolve().parent.parent
+        partial = b'unaccepted partial transfer'
+        calls = []
+        def curl(args, **options):
+            calls.append(args)
+            target = Path(args[args.index('--output') + 1])
+            if target.name == 'index.html':
+                target.write_text('<html>No exact archive in directory</html>')
+                return SimpleNamespace(returncode=0, stdout='', stderr='')
+            target.write_bytes(partial)
+            return SimpleNamespace(returncode=28, stdout=pin['fileUrl'], stderr='bounded transfer timeout')
+        with tempfile.TemporaryDirectory() as temporary, patch.object(qa.subprocess, 'run', side_effect=curl), patch.object(qa, 'launchpad_url', return_value=pin['publicationUrl']):
+            root = Path(temporary); cache = root / 'cache/writer.ddeb'
+            result = qa.archive_fallback(root, manifest, {}, repository, package_cache=cache)
+            self.assertFalse(cache.exists())
+        self.assertEqual(result['unacceptedPartialPackageBytes'], len(partial))
+        self.assertEqual(result['packageDownloadDiagnostic'], 'bounded transfer timeout')
+        self.assertEqual(calls[-1][-1], pin['fileUrl'])
+        self.assertEqual(calls[-1][calls[-1].index('--max-filesize') + 1], str(pin['size']))
+        self.assertEqual(calls[-1][calls[-1].index('--max-time') + 1], '900')
+
     def measured_resolution(self):
         repository = Path(__file__).resolve().parent.parent
         measured = json.loads((repository / 'docs/docx-next/stable-native-symbols.json').read_text())['local']

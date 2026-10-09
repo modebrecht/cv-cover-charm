@@ -66,5 +66,21 @@ class NativeStateTest(unittest.TestCase):
         changed = copy.deepcopy(self.report); changed['libraryIdentities']['libsw_writerfilterlo.so']['buildId'] = 'ff' * 20
         with self.assertRaises(AssertionError): qa.compare_baseline(self.report, changed)
 
+    def test_exact_debug_member_layout_cannot_accept_altered_offsets_sizes_or_types(self):
+        spec = importlib.util.spec_from_file_location('layout', Path(__file__).with_name('docx-next-native-state-layout-qa.py'))
+        layout = importlib.util.module_from_spec(spec); spec.loader.exec_module(layout)
+        docs = Path(__file__).resolve().parent.parent / 'docs/docx-next'
+        pin = json.loads((docs / 'stable-native-state-layout.json').read_text())
+        actual = {'fields': copy.deepcopy(pin['fields']), 'pointerSize': 8}
+        layout.compare_layout(actual, pin)
+        for key in actual['fields']:
+            changed = copy.deepcopy(actual); changed['fields'][key] += 1
+            with self.subTest(field=key), self.assertRaises(AssertionError): layout.compare_layout(changed, pin)
+        for value in (False, 0.0):
+            changed = copy.deepcopy(actual); changed['fields']['bookmarkIsStart'] = value
+            with self.subTest(value=value), self.assertRaises(AssertionError): layout.compare_layout(changed, pin)
+        changed = copy.deepcopy(actual); changed['pointerSize'] = 4
+        with self.assertRaises(AssertionError): layout.compare_layout(changed, pin)
+
 
 if __name__ == '__main__': unittest.main()

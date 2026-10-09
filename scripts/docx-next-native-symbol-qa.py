@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import struct
 import subprocess
 import tarfile
@@ -49,6 +50,19 @@ def verify_pinned_package(path, pin):
     expected = '\n'.join(key + ': ' + pin[key.lower()] for key in ('Package', 'Version', 'Architecture'))
     assert fields.strip() == expected, 'Changed pinned debug package metadata'
     return digest
+
+
+def cache_verified_package(path, cache, pin):
+    verify_pinned_package(path, pin)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(prefix='writer-', suffix='.unverified', dir=cache.parent, delete=False) as stream:
+        pending = Path(stream.name)
+    try:
+        shutil.copyfile(path, pending)
+        verify_pinned_package(pending, pin)
+        os.replace(pending, cache)
+    finally:
+        if pending.exists(): pending.unlink()
 
 
 def resolution_contract(report):
@@ -212,7 +226,7 @@ def launchpad_url(version, filename, folder, record, metadata_root=None):
     return sorted(set(candidates))[0] if candidates else None
 
 
-def archive_fallback(root, manifest, result, repository, cached_package=None):
+def archive_fallback(root, manifest, result, repository, cached_package=None, package_cache=None):
     # Select only an actually listed official binary for the pinned writer package version.
     packages = json.loads((repository / 'docs/docx-next/stable-lo-packages.json').read_text())['packages']
     version = next(row['version'] for row in packages if row['package'] == 'libreoffice-writer')
@@ -249,6 +263,7 @@ def archive_fallback(root, manifest, result, repository, cached_package=None):
         record['packageDownloadLimitBytes'] = limit
         if pin: record['packagePinSha256'] = hashlib.sha256(pin_path.read_bytes()).hexdigest()
         package = folder / 'writer.ddeb'
+        if cached_package is None and package_cache is not None and package_cache.is_file(): cached_package = package_cache
         if cached_package is not None:
             assert pin is not None, 'A local debug package requires the exact official package pin'
             package = Path(cached_package)
@@ -258,11 +273,16 @@ def archive_fallback(root, manifest, result, repository, cached_package=None):
             # not a constructed package URL. Publication selection and exact bytes remain required.
             download_url = pin['fileUrl'] if pin else url
             record['packageDownloadUrl'] = download_url
-            process = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--location', '--connect-timeout', '8', '--max-time', '180',
+            download_seconds = 900 if pin else 180
+            record['packageDownloadTimeoutSeconds'] = download_seconds
+            process = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--location', '--connect-timeout', '8', '--max-time', str(download_seconds),
                                       '--max-filesize', str(limit), '--output', str(package), '--write-out', '%{url_effective}', download_url],
-                                     capture_output=True, text=True, timeout=185)
+                                     capture_output=True, text=True, timeout=download_seconds + 5)
             record['packageCurlExitCode'] = process.returncode
-            if process.returncode: return record
+            if process.returncode:
+                record['unacceptedPartialPackageBytes'] = package.stat().st_size if package.exists() else 0
+                record['packageDownloadDiagnostic'] = process.stderr.strip()[:2048]
+                return record
             if pin: assert process.stdout.strip() == pin['fileUrl'], 'Changed official debug package redirect'
             record['packageSource'] = 'observed official publication download'
         assert package.stat().st_size <= limit
@@ -270,6 +290,9 @@ def archive_fallback(root, manifest, result, repository, cached_package=None):
         else:
             with package.open('rb') as stream: package_digest = hashlib.file_digest(stream, 'sha256').hexdigest()
         record.update(packageSize=package.stat().st_size, packageSha256=package_digest)
+        if package_cache is not None and package.resolve() != package_cache.resolve():
+            assert pin is not None, 'Only the exact verified official debug archive may be cached'
+            cache_verified_package(package, package_cache, pin)
         expected = {'usr/lib/debug/.build-id/' + manifest['libraries'][name]['buildId'][:2] + '/' + manifest['libraries'][name]['buildId'][2:] + '.debug': name
                     for name, row in result.items() if not all(s['curlExitCode'] == 0 for s in row['sections'].values())}
         process = subprocess.Popen(['dpkg-deb', '--fsys-tarfile', str(package)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -304,7 +327,7 @@ def archive_fallback(root, manifest, result, repository, cached_package=None):
     return record
 
 
-def audit(root, engine, cached_package=None, baseline=None):
+def audit(root, engine, cached_package=None, baseline=None, package_cache=None):
     repository = Path(__file__).resolve().parent.parent
     manifest = json.loads((repository / 'docs/docx-next/stable-native-stack.json').read_text())
     stack = json.loads((root / 'native-stack-report.json').read_text()); qa.validate_report(stack, manifest)
@@ -319,7 +342,7 @@ def audit(root, engine, cached_package=None, baseline=None):
         for name, section, record in pool.map(lambda args: fetch_section(*args), requests): result[name]['sections'][section] = record
     fallback = None
     if any(not all(section['curlExitCode'] == 0 for section in row['sections'].values()) for row in result.values()):
-        fallback = archive_fallback(root, manifest, result, repository, cached_package)
+        fallback = archive_fallback(root, manifest, result, repository, cached_package, package_cache)
     frames = stack['stacks'][0]['stack']['nativeFrames']
     for name, row in result.items():
         row['status'] = 'unavailable'; row['resolvedFrames'] = []
@@ -353,4 +376,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('root', type=Path); parser.add_argument('--engine', type=Path)
     parser.add_argument('--cached-debug-package', type=Path, help='Read only an exact hash/version/build-ID-pinned official package; publication lookup remains required')
     parser.add_argument('--baseline', type=Path, help='Require the independently verified exact original caller-resolution contract')
-    args = parser.parse_args(); audit(args.root, args.engine or Path(os.environ.get('DOCX_NEXT_LO_ROOT', args.root / 'setup/runtime')), args.cached_debug_package, args.baseline)
+    parser.add_argument('--package-cache', type=Path, help='Reuse only an exact verified official archive; never cache partial downloads')
+    args = parser.parse_args(); audit(args.root, args.engine or Path(os.environ.get('DOCX_NEXT_LO_ROOT', args.root / 'setup/runtime')), args.cached_debug_package, args.baseline, args.package_cache)

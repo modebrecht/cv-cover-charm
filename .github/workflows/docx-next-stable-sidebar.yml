@@ -68,7 +68,7 @@ jobs:
   stable-comparison:
     if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
     runs-on: ubuntu-24.04
-    timeout-minutes: 18
+    timeout-minutes: 35
     env:
       QA_ROOT: /tmp/docx-next-stable-sidebar
     steps:
@@ -201,9 +201,14 @@ jobs:
         run: python scripts/docx-next-native-import-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-import-evidence.json
       - name: Measure pinned native frames inside original canonical paragraph disposal
         run: python scripts/docx-next-native-stack-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-stack-evidence.json
+      - name: Cache exact verified official debug archive
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-native-debug
+          key: docx-next-native-debug-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-native-debug-package.json') }}
       - name: Look up matching official debug sections without native engine changes
-        timeout-minutes: 6
-        run: python scripts/docx-next-native-symbol-qa.py "$QA_ROOT"
+        timeout-minutes: 17
+        run: python scripts/docx-next-native-symbol-qa.py "$QA_ROOT" --package-cache /tmp/docx-next-native-debug/writer.ddeb
       - name: Observe original carrier internal guards without changing native code
         timeout-minutes: 2
         run: python scripts/docx-next-native-state-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
@@ -222,6 +227,7 @@ jobs:
             ${{ env.QA_ROOT }}/native-import-report.json
             ${{ env.QA_ROOT }}/native-stack-report.json
             ${{ env.QA_ROOT }}/native-stack-diagnostics.json
+            ${{ env.QA_ROOT }}/native-state-report.json
             ${{ env.QA_ROOT }}/native-symbol-report.json
             ${{ env.QA_ROOT }}/native-symbols/*/*
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
