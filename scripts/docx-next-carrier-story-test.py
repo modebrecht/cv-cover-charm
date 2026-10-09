@@ -34,6 +34,9 @@ class CarrierTest(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'complete side'):self.structure(carrier(side=SIDE.replace('side.1','other')))
  def test_gap_cannot_hide_semantic_text_or_identity(self):
   with self.assertRaisesRegex(AssertionError,'Gap cell'):self.structure(carrier(gap=field('extra')))
+ def test_empty_native_markers_cannot_hide_in_gap(self):
+  for tag in ('bookmarkStart','fldSimple','pict','footnoteReference'):
+   with self.assertRaisesRegex(AssertionError,'Gap cell'):self.structure(carrier(gap='<w:p><w:'+tag+'/></w:p>'))
  def test_fixed_height_and_unsplittable_row_are_rejected(self):
   for props in ('<w:cantSplit/>','<w:trHeight w:val="9999"/>'):
    with self.assertRaisesRegex(AssertionError,'automatically splitting'):self.structure(carrier(row='<w:trPr>'+props+'</w:trPr>'))

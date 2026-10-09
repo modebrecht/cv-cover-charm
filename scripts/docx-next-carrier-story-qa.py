@@ -38,7 +38,9 @@ def source_structure(control, source, owner_id, story_cells):
     assert set(story_cells) == {'side', 'main'} and set(story_cells.values()) == {0, 2}, 'Invalid declared carrier cell stories'
     cells = rows[0].findall(W + 'tc')
     def semantic(nodes):
-        return [ET.tostring(node) for node in nodes if node.tag not in (W + 'sectPr', W + 'tcPr') and not (node.tag == W + 'p' and not text_value(node) and not any(node.iter(W + 'drawing')) and not any(node.iter(W + 'sdt')))]
+        # Only unowned separator paragraphs may disappear when moving blocks into a cell.
+        # Empty bookmarks, field codes, VML pictures and references remain semantic nodes.
+        return [ET.tostring(node) for node in nodes if node.tag not in (W + 'sectPr', W + 'tcPr') and not (node.tag == W + 'p' and all(child.tag == W + 'pPr' for child in node))]
     assert not semantic(list(cells[1])), 'Gap cell cannot contain semantic story content'
     assert semantic(list(side.find(W + 'tr/' + W + 'tc'))) == semantic(list(cells[story_cells['side']])), 'Changed original complete side block structure'
     main = original[original.index(side) + 1:]

@@ -90,6 +90,7 @@ jobs:
           python scripts/docx-next-inline-story-test.py
           python scripts/docx-next-dual-story-test.py
           python scripts/docx-next-carrier-story-test.py
+          python scripts/docx-next-carrier-grid-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -170,8 +171,10 @@ jobs:
         run: python scripts/docx-next-inline-story-qa.py "$QA_ROOT/inline-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-inline-story-evidence.json
       - name: Require independently pinned two-complete-floating-owner counterevidence
         run: python scripts/docx-next-dual-story-qa.py "$QA_ROOT/dual-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-dual-story-evidence.json
-      - name: Independently observe complete automatic floating carrier cell stories
-        run: python scripts/docx-next-carrier-story-qa.py "$QA_ROOT/carrier-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
+      - name: Require independently pinned complete automatic floating carrier counterevidence
+        run: python scripts/docx-next-carrier-story-qa.py "$QA_ROOT/carrier-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-carrier-story-evidence.json
+      - name: Audit actual stopped carrier grid without new native exports
+        run: python scripts/docx-next-carrier-grid-qa.py "$QA_ROOT/carrier-story" --baseline docs/docx-next/sidebar-carrier-story-evidence.json
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
