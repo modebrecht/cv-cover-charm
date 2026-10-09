@@ -182,8 +182,8 @@ jobs:
         run: python scripts/docx-next-carrier-grid-qa.py "$QA_ROOT/carrier-story" --baseline docs/docx-next/sidebar-carrier-story-evidence.json
       - name: Compare already executed historical grids by canonical native ownership
         run: python scripts/docx-next-grid-history-qa.py "$QA_ROOT" --baseline docs/docx-next/sidebar-carrier-story-evidence.json
-      - name: Independently measure imported native separators without exports
-        run: python scripts/docx-next-native-grid-qa.py "$QA_ROOT" --native-uno "$QA_ROOT/uno-binding/native-uno"
+      - name: Strictly reproduce independently measured native separators and owner failures
+        run: python scripts/docx-next-native-grid-qa.py "$QA_ROOT" --native-uno "$QA_ROOT/uno-binding/native-uno" --baseline docs/docx-next/sidebar-native-grid-evidence.json
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
