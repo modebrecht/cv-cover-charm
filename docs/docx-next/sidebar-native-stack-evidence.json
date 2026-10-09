@@ -1,0 +1,754 @@
+{
+  "local": {
+    "scope": "Native pinned-library frames inside the single original canonical carrier paragraph disposal; six unchanged read-only imports",
+    "binding": {
+      "interface": "Public LibreOfficeKit initialization and public in-process UNO",
+      "bindingManifestSha256": "dca8fc128f78804e608a6a1a0bdb8698ba344ae3d17fa39448c063fe0d69cfbe",
+      "packageSha256": "77dd1d628d2d0b9a37477167e0f205378d86a549bca19cb2349afa29bd5b0331",
+      "nativeFiles": {
+        "pyuno.so": "ccc7a97969c2f4a68c42780186237b2837161b767ff5edff0cf18c2416a3979e",
+        "libpyuno.so": "27fa3a583c03492d79383f6a099c49af3f34f11d84b23f5b920a765c330e2562"
+      },
+      "pythonMajorMinor": [
+        3,
+        12
+      ],
+      "packagedUnoSourceSha256": "43a28876b535e604344f454711673f917aa64301cceae986428cff5db62716fc",
+      "bootstrapRelocation": "Two installed paths only; native binaries unchanged",
+      "workerSha256": "a7bc2a1f6d45744809794f215a17013d5c304ded1364520393ef60351d671f35",
+      "engine": {
+        "interface": "LibreOfficeKit",
+        "version": {
+          "ProductName": "LibreOffice",
+          "ProductVersion": "25.8",
+          "ProductExtension": ".7.3",
+          "BuildId": "580(Build:3)"
+        },
+        "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+        "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+        "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+        "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+        "host": "Linux x86_64",
+        "packagesVerified": 50
+      }
+    },
+    "originalImportBinding": {
+      "interface": "Public LibreOfficeKit initialization and public in-process UNO",
+      "bindingManifestSha256": "dca8fc128f78804e608a6a1a0bdb8698ba344ae3d17fa39448c063fe0d69cfbe",
+      "packageSha256": "77dd1d628d2d0b9a37477167e0f205378d86a549bca19cb2349afa29bd5b0331",
+      "nativeFiles": {
+        "pyuno.so": "ccc7a97969c2f4a68c42780186237b2837161b767ff5edff0cf18c2416a3979e",
+        "libpyuno.so": "27fa3a583c03492d79383f6a099c49af3f34f11d84b23f5b920a765c330e2562"
+      },
+      "pythonMajorMinor": [
+        3,
+        12
+      ],
+      "packagedUnoSourceSha256": "43a28876b535e604344f454711673f917aa64301cceae986428cff5db62716fc",
+      "bootstrapRelocation": "Two installed paths only; native binaries unchanged",
+      "workerSha256": "a7bc2a1f6d45744809794f215a17013d5c304ded1364520393ef60351d671f35",
+      "engine": {
+        "interface": "LibreOfficeKit",
+        "version": {
+          "ProductName": "LibreOffice",
+          "ProductVersion": "25.8",
+          "ProductExtension": ".7.3",
+          "BuildId": "580(Build:3)"
+        },
+        "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+        "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+        "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+        "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "host": "Linux x86_64",
+        "packagesVerified": 50
+      }
+    },
+    "originalPackageInputs": [
+      {
+        "sha256": "664d3980032041c110d829d3ef810a9006d95944ed75cce806aa7351349e8573",
+        "serializedTags": [
+          "cover.eyebrow",
+          "cover.profession",
+          "cover.fullName",
+          "cover.lehrbeginn",
+          "cover.kontaktTitel",
+          "cover.kontakt",
+          "cover.beilagenTitel",
+          "cover.beilagen",
+          "cover.ortDatum",
+          "letter.sender.name",
+          "letter.sender.address",
+          "letter.sender.place",
+          "letter.sender.phone",
+          "letter.sender.email",
+          "letter.recipient.company",
+          "letter.recipient.name",
+          "letter.recipient.address",
+          "letter.recipient.place",
+          "letter.date",
+          "letter.subject",
+          "letter.salutation",
+          "letter.body.paragraph:0",
+          "letter.body.paragraph:1",
+          "letter.body.paragraph:2",
+          "letter.body.paragraph:3",
+          "letter.body.paragraph:4",
+          "letter.closing",
+          "letter.signature",
+          "letter.attachment:0",
+          "letter.attachment:1",
+          "cv.section.person.heading",
+          "cv.person.address",
+          "cv.person.place",
+          "cv.person.phone",
+          "cv.person.email",
+          "cv.person.geburtsdatum",
+          "cv.section.sprachen.heading",
+          "cv.entry.sprachen:demo-l1.name",
+          "cv.entry.sprachen:demo-l1.level",
+          "cv.entry.sprachen:demo-l2.name",
+          "cv.entry.sprachen:demo-l2.level",
+          "cv.entry.sprachen:demo-l3.name",
+          "cv.entry.sprachen:demo-l3.level",
+          "cv.section.hobbys.heading",
+          "cv.entry.hobbys:0",
+          "cv.entry.hobbys:1",
+          "cv.entry.hobbys:2",
+          "cv.section.staerken.heading",
+          "cv.entry.staerken:0",
+          "cv.entry.staerken:1",
+          "cv.entry.staerken:2",
+          "cv.documentTitle",
+          "cv.person.name",
+          "cv.section.custom:familie.heading",
+          "cv.entry.custom:familie:demo-familie.place",
+          "cv.entry.custom:familie:demo-familie.description",
+          "cv.section.schule.heading",
+          "cv.entry.schule:demo-s1.date",
+          "cv.entry.schule:demo-s1.title",
+          "cv.entry.schule:demo-s1.place",
+          "cv.entry.schule:demo-s1.description",
+          "cv.entry.schule:demo-s2.date",
+          "cv.entry.schule:demo-s2.title",
+          "cv.entry.schule:demo-s2.place",
+          "cv.section.erfahrung.heading",
+          "cv.entry.erfahrung:demo-p1.date",
+          "cv.entry.erfahrung:demo-p1.title",
+          "cv.entry.erfahrung:demo-p1.place",
+          "cv.entry.erfahrung:demo-p1.description",
+          "cv.entry.erfahrung:demo-p2.date",
+          "cv.entry.erfahrung:demo-p2.title",
+          "cv.entry.erfahrung:demo-p2.place",
+          "cv.entry.erfahrung:demo-p2.description",
+          "cv.section.referenzen.heading",
+          "cv.entry.referenzen:demo-r1.name",
+          "cv.entry.referenzen:demo-r1.role",
+          "cv.entry.referenzen:demo-r1.contact"
+        ],
+        "firstSerializedText": "Kontakt"
+      },
+      {
+        "sha256": "355d876a1b4637bacd53f5080c2bcc6d0bdd2826b4090fc746a295187be6a5e4",
+        "serializedTags": [
+          "cover.eyebrow",
+          "cover.profession",
+          "cover.fullName",
+          "cover.lehrbeginn",
+          "cover.kontaktTitel",
+          "cover.kontakt",
+          "cover.beilagenTitel",
+          "cover.beilagen",
+          "cover.ortDatum",
+          "letter.sender.name",
+          "letter.sender.address",
+          "letter.sender.place",
+          "letter.sender.phone",
+          "letter.sender.email",
+          "letter.recipient.company",
+          "letter.recipient.name",
+          "letter.recipient.address",
+          "letter.recipient.place",
+          "letter.date",
+          "letter.subject",
+          "letter.salutation",
+          "letter.body.paragraph:0",
+          "letter.body.paragraph:1",
+          "letter.body.paragraph:2",
+          "letter.body.paragraph:3",
+          "letter.body.paragraph:4",
+          "letter.closing",
+          "letter.signature",
+          "letter.attachment:0",
+          "letter.attachment:1",
+          "cv.section.person.heading",
+          "cv.person.address",
+          "cv.person.place",
+          "cv.person.phone",
+          "cv.person.email",
+          "cv.person.geburtsdatum",
+          "cv.section.sprachen.heading",
+          "cv.entry.sprachen:demo-l1.name",
+          "cv.entry.sprachen:demo-l1.level",
+          "cv.entry.sprachen:demo-l2.name",
+          "cv.entry.sprachen:demo-l2.level",
+          "cv.entry.sprachen:demo-l3.name",
+          "cv.entry.sprachen:demo-l3.level",
+          "cv.section.hobbys.heading",
+          "cv.entry.hobbys:0",
+          "cv.entry.hobbys:1",
+          "cv.entry.hobbys:2",
+          "cv.section.staerken.heading",
+          "cv.entry.staerken:0",
+          "cv.entry.staerken:1",
+          "cv.entry.staerken:2",
+          "cv.documentTitle",
+          "cv.person.name",
+          "cv.section.custom:familie.heading",
+          "cv.entry.custom:familie:demo-familie.place",
+          "cv.entry.custom:familie:demo-familie.description",
+          "cv.section.schule.heading",
+          "cv.entry.schule:demo-s1.date",
+          "cv.entry.schule:demo-s1.title",
+          "cv.entry.schule:demo-s1.place",
+          "cv.entry.schule:demo-s1.description",
+          "cv.entry.schule:demo-s2.date",
+          "cv.entry.schule:demo-s2.title",
+          "cv.entry.schule:demo-s2.place",
+          "cv.section.erfahrung.heading",
+          "cv.entry.erfahrung:demo-p1.date",
+          "cv.entry.erfahrung:demo-p1.title",
+          "cv.entry.erfahrung:demo-p1.place",
+          "cv.entry.erfahrung:demo-p1.description",
+          "cv.entry.erfahrung:demo-p2.date",
+          "cv.entry.erfahrung:demo-p2.title",
+          "cv.entry.erfahrung:demo-p2.place",
+          "cv.entry.erfahrung:demo-p2.description",
+          "cv.section.referenzen.heading",
+          "cv.entry.referenzen:demo-r1.name",
+          "cv.entry.referenzen:demo-r1.role",
+          "cv.entry.referenzen:demo-r1.contact"
+        ],
+        "firstSerializedText": "Kontakt"
+      },
+      {
+        "sha256": "01370a9234e8847f90b6ed36690552e11d13bd85202b0b696fefbf2223f0d99a",
+        "serializedTags": [
+          "cover.eyebrow",
+          "cover.profession",
+          "cover.fullName",
+          "cover.lehrbeginn",
+          "cover.kontaktTitel",
+          "cover.kontakt",
+          "cover.beilagenTitel",
+          "cover.beilagen",
+          "cover.ortDatum",
+          "letter.sender.name",
+          "letter.sender.address",
+          "letter.sender.place",
+          "letter.sender.phone",
+          "letter.sender.email",
+          "letter.recipient.company",
+          "letter.recipient.name",
+          "letter.recipient.address",
+          "letter.recipient.place",
+          "letter.date",
+          "letter.subject",
+          "letter.salutation",
+          "letter.body.paragraph:0",
+          "letter.body.paragraph:1",
+          "letter.body.paragraph:2",
+          "letter.body.paragraph:3",
+          "letter.body.paragraph:4",
+          "letter.closing",
+          "letter.signature",
+          "letter.attachment:0",
+          "letter.attachment:1",
+          "probe.boundary-lead",
+          "cv.section.custom:populated-side.heading",
+          "cv.entry.custom:populated-side:populated-entry.date",
+          "cv.entry.custom:populated-side:populated-entry.title",
+          "cv.entry.custom:populated-side:populated-entry.place",
+          "cv.entry.custom:populated-side:populated-entry.description",
+          "cv.section.custom:long-paragraph.heading",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.description"
+        ],
+        "firstSerializedText": ""
+      },
+      {
+        "sha256": "f80535b6d95da5d0c97259c8f88b52894eadf64924f26bdfb041b324d88242ea",
+        "serializedTags": [
+          "cover.eyebrow",
+          "cover.profession",
+          "cover.fullName",
+          "cover.lehrbeginn",
+          "cover.kontaktTitel",
+          "cover.kontakt",
+          "cover.beilagenTitel",
+          "cover.beilagen",
+          "cover.ortDatum",
+          "letter.sender.name",
+          "letter.sender.address",
+          "letter.sender.place",
+          "letter.sender.phone",
+          "letter.sender.email",
+          "letter.recipient.company",
+          "letter.recipient.name",
+          "letter.recipient.address",
+          "letter.recipient.place",
+          "letter.date",
+          "letter.subject",
+          "letter.salutation",
+          "letter.body.paragraph:0",
+          "letter.body.paragraph:1",
+          "letter.body.paragraph:2",
+          "letter.body.paragraph:3",
+          "letter.body.paragraph:4",
+          "letter.closing",
+          "letter.signature",
+          "letter.attachment:0",
+          "letter.attachment:1",
+          "probe.boundary-lead",
+          "cv.section.custom:populated-side.heading",
+          "cv.entry.custom:populated-side:populated-entry.date",
+          "cv.entry.custom:populated-side:populated-entry.title",
+          "cv.entry.custom:populated-side:populated-entry.place",
+          "cv.entry.custom:populated-side:populated-entry.description",
+          "cv.section.custom:long-paragraph.heading",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.description"
+        ],
+        "firstSerializedText": ""
+      },
+      {
+        "sha256": "839fcbf661c26f40d7c7259f57a83d0a9df59efbda3814711fe99cf0f7443c27",
+        "serializedTags": [
+          "cover.eyebrow",
+          "cover.profession",
+          "cover.fullName",
+          "cover.lehrbeginn",
+          "cover.kontaktTitel",
+          "cover.kontakt",
+          "cover.beilagenTitel",
+          "cover.beilagen",
+          "cover.ortDatum",
+          "letter.sender.name",
+          "letter.sender.address",
+          "letter.sender.place",
+          "letter.sender.phone",
+          "letter.sender.email",
+          "letter.recipient.company",
+          "letter.recipient.name",
+          "letter.recipient.address",
+          "letter.recipient.place",
+          "letter.date",
+          "letter.subject",
+          "letter.salutation",
+          "letter.body.paragraph:0",
+          "letter.body.paragraph:1",
+          "letter.body.paragraph:2",
+          "letter.body.paragraph:3",
+          "letter.body.paragraph:4",
+          "letter.closing",
+          "letter.signature",
+          "letter.attachment:0",
+          "letter.attachment:1",
+          "probe.boundary-lead",
+          "cv.section.custom:long-paragraph.heading",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+          "cv.section.custom:populated-side.heading",
+          "cv.entry.custom:populated-side:populated-entry.date",
+          "cv.entry.custom:populated-side:populated-entry.title",
+          "cv.entry.custom:populated-side:populated-entry.place",
+          "cv.entry.custom:populated-side:populated-entry.description"
+        ],
+        "firstSerializedText": ""
+      },
+      {
+        "sha256": "2ed932b03f8d903a5a079d8a18468d81d99a7d27ca72d9abd3ee0355c8a95caf",
+        "serializedTags": [
+          "cover.eyebrow",
+          "cover.profession",
+          "cover.fullName",
+          "cover.lehrbeginn",
+          "cover.kontaktTitel",
+          "cover.kontakt",
+          "cover.beilagenTitel",
+          "cover.beilagen",
+          "cover.ortDatum",
+          "letter.sender.name",
+          "letter.sender.address",
+          "letter.sender.place",
+          "letter.sender.phone",
+          "letter.sender.email",
+          "letter.recipient.company",
+          "letter.recipient.name",
+          "letter.recipient.address",
+          "letter.recipient.place",
+          "letter.date",
+          "letter.subject",
+          "letter.salutation",
+          "letter.body.paragraph:0",
+          "letter.body.paragraph:1",
+          "letter.body.paragraph:2",
+          "letter.body.paragraph:3",
+          "letter.body.paragraph:4",
+          "letter.closing",
+          "letter.signature",
+          "letter.attachment:0",
+          "letter.attachment:1",
+          "probe.boundary-lead",
+          "cv.section.custom:long-paragraph.heading",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+          "cv.section.custom:populated-side.heading",
+          "cv.entry.custom:populated-side:populated-entry.date",
+          "cv.entry.custom:populated-side:populated-entry.title",
+          "cv.entry.custom:populated-side:populated-entry.place",
+          "cv.entry.custom:populated-side:populated-entry.description"
+        ],
+        "firstSerializedText": ""
+      }
+    ],
+    "originalImportWorkerSha256": "a3fdcfd9e34215ab396b42c8599d2f4e00bf1a5fa5804b7e6dd4ab7089691de0",
+    "stackWorkerSha256": "3bfb6f0d957bcda992c6e06ba91c599b2142b26a9d21b547810e95bd20b9fd12",
+    "elfReaderSha256": "a7aae114081b5ad9e3ed39295f44fea5896ccec09586fb8069a39b19798bf19f",
+    "binaryManifestSha256": "1ae38e51e6befe015596d49994187f956a56d32ce447564d3c0ddc7ec17e1f0d",
+    "originalImportBaselineSha256": "3599518e88267cfc8626cf6ba30f82cd380c1b6fb36756cf8d2f51eb9d88e2b5",
+    "originalMeasurementSha256": "090bd4d1319fcb7c00596ea6c27c677d3bae68cc8169d3fc2ea30e12e85b2b46",
+    "originalObservationUnchanged": true,
+    "libraryIdentities": {
+      "libgcc3_uno.so": {
+        "scope": "engine",
+        "sha256": "14fb58a300c776cac476cf10249911737a870aef76f9a1dd93c2bfcdf91338ba",
+        "buildId": "1e12de352be6e3cebd144f1d501daa7e63fe1411"
+      },
+      "libinvocadaptlo.so": {
+        "scope": "engine",
+        "sha256": "3c30e604ee9bc882e28c2eba6cc1edbf93e3a30778aa840fa22d174c1bd5b45f",
+        "buildId": "79785a2b56e9d1a9c7ac2493b3ae7b120fa9eacd"
+      },
+      "libinvocationlo.so": {
+        "scope": "engine",
+        "sha256": "1b0708ab202eb6f6ec507d16f1ba3a7edf0c1009793ceb8d791754dd47327d0f",
+        "buildId": "cbb684b9a183ac193b8e8e36a3b28d2f38070716"
+      },
+      "libmergedlo.so": {
+        "scope": "engine",
+        "sha256": "7b931192643c86a733f49c363357324e9bd93c7619561e81c073044515dcde59",
+        "buildId": "83d1467da1edda944cc8860806dfe22b455f2147"
+      },
+      "libpyuno.so": {
+        "scope": "binding",
+        "sha256": "27fa3a583c03492d79383f6a099c49af3f34f11d84b23f5b920a765c330e2562",
+        "buildId": "9b8d897c50b3077bccf26c53f8910dc4e6167918"
+      },
+      "libreflectionlo.so": {
+        "scope": "engine",
+        "sha256": "4bdc24e9aa3b2583bb0d8aee78f8cff5399fd4ca5a966015da022fafd90b9445",
+        "buildId": "997ed85e9761f57ebe7fc16e2bacd73eb7716729"
+      },
+      "libsw_writerfilterlo.so": {
+        "scope": "engine",
+        "sha256": "7715b9913092fc00539f1b21c37c653ff3b47c8ada2267df39c20187e2004b01",
+        "buildId": "5fa50010e8d243ae825a6cfc13715222e5b6bbe8"
+      },
+      "libswlo.so": {
+        "scope": "engine",
+        "sha256": "ecc533cd929a8a044129026b519a87917803e0db7eb1c6bbec84f5511231397b",
+        "buildId": "9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c"
+      }
+    },
+    "stacks": [
+      {
+        "fixture": "carrier-story-left-left",
+        "phase": "saved",
+        "eventIndex": 78,
+        "canonicalTag": "cv.section.person.heading",
+        "stack": {
+          "capacity": 128,
+          "truncated": false,
+          "nativeFrames": [
+            {
+              "library": "libpyuno.so",
+              "returnOffset": 221818,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libgcc3_uno.so",
+              "returnOffset": 39274,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libgcc3_uno.so",
+              "returnOffset": 35744,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libgcc3_uno.so",
+              "returnOffset": 37901,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libinvocadaptlo.so",
+              "returnOffset": 21293,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libgcc3_uno.so",
+              "returnOffset": 21615,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libgcc3_uno.so",
+              "returnOffset": 24620,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libgcc3_uno.so",
+              "returnOffset": 55598,
+              "exportedFunctions": [
+                {
+                  "name": "privateSnippetExecutor",
+                  "value": 55476,
+                  "size": 194
+                }
+              ]
+            },
+            {
+              "library": "libswlo.so",
+              "returnOffset": 11172167,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libswlo.so",
+              "returnOffset": 12441539,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libmergedlo.so",
+              "returnOffset": 54339205,
+              "exportedFunctions": [
+                {
+                  "name": "_ZN14SvtBroadcaster9BroadcastERK7SfxHint",
+                  "value": 54338976,
+                  "size": 410
+                }
+              ]
+            },
+            {
+              "library": "libmergedlo.so",
+              "returnOffset": 54339476,
+              "exportedFunctions": [
+                {
+                  "name": "_ZN14SvtBroadcasterD1Ev",
+                  "value": 54339392,
+                  "size": 306
+                },
+                {
+                  "name": "_ZN14SvtBroadcasterD2Ev",
+                  "value": 54339392,
+                  "size": 306
+                }
+              ]
+            },
+            {
+              "library": "libswlo.so",
+              "returnOffset": 7462089,
+              "exportedFunctions": [
+                {
+                  "name": "_ZN13SwContentNodeD1Ev",
+                  "value": 7461824,
+                  "size": 443
+                },
+                {
+                  "name": "_ZN13SwContentNodeD2Ev",
+                  "value": 7461824,
+                  "size": 443
+                }
+              ]
+            },
+            {
+              "library": "libswlo.so",
+              "returnOffset": 10621113,
+              "exportedFunctions": [
+                {
+                  "name": "_ZThn120_N10SwTextNodeD0Ev",
+                  "value": 10621088,
+                  "size": 43
+                }
+              ]
+            },
+            {
+              "library": "libswlo.so",
+              "returnOffset": 7481615,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libswlo.so",
+              "returnOffset": 7489111,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libswlo.so",
+              "returnOffset": 6712604,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libswlo.so",
+              "returnOffset": 12451145,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libsw_writerfilterlo.so",
+              "returnOffset": 1300758,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libsw_writerfilterlo.so",
+              "returnOffset": 890445,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libsw_writerfilterlo.so",
+              "returnOffset": 2278914,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libsw_writerfilterlo.so",
+              "returnOffset": 2256445,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libmergedlo.so",
+              "returnOffset": 47953126,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libmergedlo.so",
+              "returnOffset": 47962247,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libmergedlo.so",
+              "returnOffset": 47971515,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libsw_writerfilterlo.so",
+              "returnOffset": 2249716,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libsw_writerfilterlo.so",
+              "returnOffset": 2200700,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libmergedlo.so",
+              "returnOffset": 51610946,
+              "exportedFunctions": [
+                {
+                  "name": "_ZN14SfxObjectShell10ImportFromER9SfxMediumRKN3com3sun4star3uno9ReferenceINS4_4text10XTextRangeEEE",
+                  "value": 51608272,
+                  "size": 7861
+                }
+              ]
+            },
+            {
+              "library": "libmergedlo.so",
+              "returnOffset": 51625763,
+              "exportedFunctions": [
+                {
+                  "name": "_ZN14SfxObjectShell6DoLoadEP9SfxMedium",
+                  "value": 51620112,
+                  "size": 6470
+                }
+              ]
+            },
+            {
+              "library": "libmergedlo.so",
+              "returnOffset": 51876619,
+              "exportedFunctions": [
+                {
+                  "name": "_ZN12SfxBaseModel4loadERKN3com3sun4star3uno8SequenceINS2_5beans13PropertyValueEEE",
+                  "value": 51876080,
+                  "size": 3248
+                }
+              ]
+            },
+            {
+              "library": "libgcc3_uno.so",
+              "returnOffset": 39274,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libgcc3_uno.so",
+              "returnOffset": 35744,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libgcc3_uno.so",
+              "returnOffset": 37901,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libreflectionlo.so",
+              "returnOffset": 174213,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libinvocationlo.so",
+              "returnOffset": 72953,
+              "exportedFunctions": []
+            },
+            {
+              "library": "libpyuno.so",
+              "returnOffset": 168145,
+              "exportedFunctions": []
+            }
+          ],
+          "addressConvention": "ELF-relative return address; exported extent contains return address minus one",
+          "systemAndInterpreterFramesAccepted": false
+        }
+      }
+    ],
+    "newReadonlyNativeLoads": 6,
+    "newInMemoryDocuments": 0,
+    "newPreparedSources": 0,
+    "newNativeExports": 0,
+    "originalPackagesModified": 0,
+    "nativeTextNodeDestructionObserved": true,
+    "exactImporterCallerResolved": false,
+    "internalStartCursorMeasured": false,
+    "internalDummyGuardMeasured": false,
+    "historicalLossIntervalsMeasured": false,
+    "nativeGeometryAcceptance": "unchanged fail",
+    "productionAcceptance": "blocked"
+  },
+  "stable": null,
+  "primaryReferences": [
+    {
+      "url": "https://sourceware.org/glibc/manual/2.42/html_node/Backtraces.html",
+      "role": "backtrace return-address semantics and optimization limits"
+    },
+    {
+      "url": "https://manpages.ubuntu.com/manpages/noble/man8/debuginfod.8.html",
+      "role": "GNU build-ID-based debug section resolution; no matching symbols retrieved"
+    }
+  ],
+  "limits": [
+    "The complete pinned engine/binding frame sequence is compared; system and interpreter frames are retained only in separate diagnostics.",
+    "Exported ELF extents identify broadcaster/text-node destruction; six writerfilter frame names remain unresolved.",
+    "Cached start cursor, dummy guard values and both historical loss intervals remain unmeasured."
+  ]
+}

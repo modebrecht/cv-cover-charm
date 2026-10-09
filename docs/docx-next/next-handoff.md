@@ -1,3 +1,9 @@
+# Native original disposal stack checkpoint — 2026-10-09
+
+The strict original import successor ca4d2cda is fully verified: stable 37934264230, application/M6 37934263800 and all eight browser groups, gallery 37934263943 and automatic Pages 37934262305 pass. Artifact 11617359366 (68249969 bytes; SHA-256 a24e6c6d955d5efe94ce6d863962ca0578f719eacf917166583e716c315ffb2c) is downloaded and independently checked.
+
+[New native stack evidence](sidebar-native-stack-status.md) observes Writer text-node destruction at the canonical carrier paragraph callback. All six original import measurements remain exact. The 36 engine/binding frames use eight hash/build-ID-pinned ELF images and containing exported function extents; six writerfilter frames remain unnamed. The original callback worker and all older JSON baselines stay unchanged. Current local evidence needs independent CI pinning and strict successor verification. Cached start cursor, dummy guard values and both historical intervals remain unmeasured. Production remains 29/39 configured, 0/39 Word accepted. Next: close the independent stack evidence, then resolve actual hidden caller offsets with matching debug symbols.
+
 # Latest independently observed original paragraph disposal — 2026-10-09
 
 `d2362107` passes all three stable jobs 37933135838, all eight browser groups/M6 37933135777, gallery 37933135861 and automatic Pages 37933134560. Artifact 11617645065 is 68249938 bytes / SHA-256 `5cb215e7015d9045e2fb1c84c5c6147c3be7b50ea52a982e34e389b05d22008a`; read-only verification checks 60 sources/13 saved packages/150 RGBA instances, six prior native snapshots, both isolated models and six original import traces with one canonical paragraph disposal, without new native executions. The prior `98ec0f7f` artifact is also fully reverified. Main remains `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`, render `4319c20fb85d3971ac355ae8898cdfef86ee7a8c`.
