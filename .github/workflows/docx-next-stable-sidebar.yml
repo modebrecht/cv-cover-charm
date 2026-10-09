@@ -191,7 +191,7 @@ jobs:
       - name: Compare isolated first-cell conversion with original missing-control imports
         run: python scripts/docx-next-native-boundary-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-boundary-evidence.json
       - name: Observe original first-control creation and canonical paragraph disposal
-        run: python scripts/docx-next-native-import-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
+        run: python scripts/docx-next-native-import-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-import-evidence.json
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
