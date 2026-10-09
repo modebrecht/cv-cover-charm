@@ -1126,7 +1126,9 @@
         "boundaries": [
           "1244-1387: block/run SDT dispatch; inline PushSdt/PopSdt",
           "3397-3414: plain-text property handling",
-          "4624-4633: existing empty block control guard"
+          "4624-4633: existing empty block control guard",
+          "1705-1721: first-section table-start guard may insert a dummy paragraph",
+          "3422-3469: canonical alias/tag assignment for an active inline stack"
         ]
       },
       {
@@ -1138,7 +1140,9 @@
           "1012-1040: public start cursor and preceding step",
           "1047-1132: restore range and select ending",
           "1179-1185: canonical Tag property",
-          "1272: insert native content control"
+          "1272: insert native content control",
+          "700-715: dummy paragraph finishes the current appended paragraph",
+          "1100-1119: PopSdt paragraph reposition is conditional on the original beginning-of-text marker"
         ]
       },
       {
@@ -1179,6 +1183,37 @@
         "boundaries": [
           "512-541: public anchor includes preceding content-control marker",
           "1435-1462: public supplier directly enumerates the native manager"
+        ]
+      },
+      {
+        "path": "sw/source/writerfilter/ooxml/OOXMLFastContextHandler.cxx",
+        "bytes": 78877,
+        "sha256": "5b2d550ebd7b0a02672af025721507fdaee41088082c21e20b80dd55b6401ec4",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/writerfilter/ooxml/OOXMLFastContextHandler.cxx",
+        "boundaries": [
+          "375-391: character group resolves postponed character properties",
+          "465-495: immediate block/run SDT start/end events",
+          "1678-1688: table-start property is stored as character properties before startAction"
+        ]
+      },
+      {
+        "path": "sw/source/writerfilter/ooxml/model.xml",
+        "bytes": 776590,
+        "sha256": "bf8e9d4a898110f14b2039ab737851c8b3e77205ab8cfc5fede3dd9032c430e9",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/writerfilter/ooxml/model.xml",
+        "boundaries": [
+          "18449-18463: CT_SdtBlock and CT_SdtRun start/end action declarations"
+        ]
+      },
+      {
+        "path": "sw/source/core/txtnode/attrcontentcontrol.cxx",
+        "bytes": 29979,
+        "sha256": "a04248ff5af790ebcdf5d258b2debd052a8da0f5a0aae321d64054fe922745ab",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/core/txtnode/attrcontentcontrol.cxx",
+        "boundaries": [
+          "725-738: native control manager registration",
+          "747-767: detached node erases its native control entry",
+          "829-858: direct manager count storage and native node/offset sorting during Get"
         ]
       }
     ],
@@ -1222,5 +1257,54 @@
       }
     ],
     "scope": "Only the recorded local compiler provenance is removed for this cross-environment comparison; the full independent baseline remains pinned. Actual saved input SHA checks remain required."
+  },
+  "nextImportTrace": {
+    "status": "specified; not executed",
+    "candidate": "Deferred table-start paragraph insertion may occur after the first inline start cursor is cached; this is a primary-source inference, not a measured original branch.",
+    "originalFixtures": [
+      "carrier-story-left-left",
+      "right-three-row-220",
+      "right-continuous-cell-220"
+    ],
+    "inventorySource": "Use every original canonicalOwnerFieldIds from stable.originalImports, including the missing first field; no partial owner resolution.",
+    "checkpoints": [
+      {
+        "boundary": "PushSdt before/after cached start",
+        "observe": [
+          "active canonical tag once properties arrive",
+          "full original canonical inventory context",
+          "cached text node and position",
+          "beginning-of-text result",
+          "inline stack depth"
+        ]
+      },
+      {
+        "boundary": "Delayed LN_tblStart first character-property resolution",
+        "observe": [
+          "actual first-section/dummy-paragraph guard values",
+          "table depth",
+          "top append text ending before/after any finishParagraph",
+          "cached start before/after this operation"
+        ]
+      },
+      {
+        "boundary": "PopSdt insertion",
+        "observe": [
+          "actual selected start/end nodes and offsets",
+          "canonical tag applied",
+          "native insertion success or exact failure",
+          "global native count before/after safely attached controls"
+        ]
+      },
+      {
+        "boundary": "First ConvertCell alignment and floating-frame cleanup",
+        "observe": [
+          "original start/end ranges",
+          "global native control availability before/after each phase",
+          "any actual canonical control node detachment"
+        ]
+      }
+    ],
+    "scope": "No original input or serialized output repair, no geometry inference, no changed whole paragraphs or production acceptance; stop once the first native tag-loss boundary is actually identified."
   }
 }

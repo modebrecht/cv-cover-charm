@@ -1,3 +1,11 @@
+# Latest primary import-event checkpoint — 2026-10-09
+
+Strict `89b3fa14` passes native stable 37925201181 (all three jobs), all eight browser groups/M6 37925201168, gallery and automatic Pages. Artifact 11614430333 / SHA-256 `9ad187e9ec847eddcccc6593c62c0f31e1b4951f87b71bef1574522da0a73c51` is independently verified read-only across 60 sources/13 saved packages/150 RGBA instances, six native snapshots and both isolated models; strict comparison has zero changed cases.
+
+[Primary import-event evidence](sidebar-native-boundary-status.md) now pins nine official source files and specifies the exact next trace. Run-SDT start is immediate, while the table-start property is deferred until a character group resolves it. A guarded first-section path may finish a dummy paragraph after the inline start cursor is cached; only an original beginning-of-text cursor gets the special PopSdt paragraph reposition. This is an explicit source inference: the actual guard, cursor positions, insertion result and any later node detachment remain unmeasured. The native manager sorts by native node/offset and erases detached entries, so registry order is distinct from XML order and creation failure is distinct from detachment. Both isolated public conversion models still retain their global controls; they do not reproduce the original absence.
+
+Next: verify this final publication CI/artifact, then execute the recorded original import trace at PushSdt, delayed LN_tblStart, PopSdt insertion, first-cell conversion and frame cleanup. Preserve every original canonical ID and all strict semantic/geometry/Word gates. No XML repair, width/flag guessing or stopped-matrix extension. Production remains blocked: 29/39 configured and 0/39 Word accepted. This entry supersedes earlier next-task paragraphs.
+
 # Latest first-cell import boundary checkpoint — 2026-10-09
 
 Verified predecessor `cf5ae6dd`: stable 37918765383 (all three jobs), application/M6 37918765275 (all eight browser groups), gallery/automatic Pages succeed. Actual artifact 11611440386 / SHA-256 `d5232907af523761bf72bf9d318b6b4e289c546a250b24f90127884aece3ff20` is verified read-only across 60 sources/13 saved packages/150 RGBA instances and all six native snapshots.
