@@ -56,6 +56,8 @@ def observe(requests):
 
                 class DisposalObserver(unohelper.Base, XEventListener):
                     def disposing(self, event):
+                        # XEventListener requires releasing the dying broadcaster without calling it again.
+                        listeners.clear()
                         if not loading: return
                         row = {'event': 'first-paragraph-disposing', 'value': None}
                         try:
