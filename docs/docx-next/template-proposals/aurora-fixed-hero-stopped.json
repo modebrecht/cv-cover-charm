@@ -1,0 +1,168 @@
+{
+  "id": "aurora",
+  "archetype": "graphic",
+  "typography": {
+    "font": "Arial",
+    "bodyPt": 10.5,
+    "namePt": 24,
+    "headingPt": 12,
+    "heroPt": 28
+  },
+  "colors": {
+    "ink": "111827",
+    "accent": "0EA5E9",
+    "paper": "FFFFFF"
+  },
+  "margins": {
+    "top": 33,
+    "left": 25,
+    "right": 23,
+    "bottom": 24
+  },
+  "interiorPaletteSource": "dossier",
+  "pagePaintOrder": "layer",
+  "artwork": [],
+  "cover": {
+    "margins": {
+      "top": 18,
+      "left": 20,
+      "right": 20,
+      "bottom": 20
+    },
+    "fontSource": "dossier",
+    "order": [
+      "eyebrow",
+      "ortDatum",
+      "kicker",
+      "beruf",
+      "foto",
+      "name",
+      "lehrbeginn",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "beilagenTitel",
+      "beilagen"
+    ],
+    "align": "left",
+    "photoAlign": "right",
+    "photoWidthMm": 56,
+    "heroSpaceMm": 0,
+    "heroInRows": true,
+    "decorationPlacement": "first-header",
+    "rows": [
+      {
+        "fields": ["eyebrow", "ortDatum"],
+        "widths": [1, 1]
+      },
+      {
+        "fields": [["kicker", "beruf"], "foto"],
+        "widths": [118, 52],
+        "beforeMm": 16
+      },
+      {
+        "fields": [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger", "beilagenTitel", "beilagen"]
+        ],
+        "widths": [1, 1],
+        "beforeMm": 10
+      }
+    ],
+    "motifs": [
+      {
+        "shape": "rect",
+        "xFraction": 0,
+        "widthFraction": 1,
+        "topMm": 0,
+        "heightMm": 128,
+        "fillSlot": "primary",
+        "endSlot": "secondary",
+        "angleDeg": 115,
+        "cornerRadiiMm": [0, 0, 60, 0],
+        "repeat": "first"
+      }
+    ],
+    "fieldSpaceBeforeMm": {
+      "name": 82
+    }
+  },
+  "letter": {
+    "paragraphSpaceMm": 3,
+    "lineHeight": 1.2,
+    "recipientGapMm": 12,
+    "fontSource": "dossier",
+    "keepTailTogether": true
+  },
+  "chrome": {
+    "headerDistanceMm": 18,
+    "footerDistanceMm": 12,
+    "ignoreEmptyHeader": true,
+    "lineMetricFactor": 1.4,
+    "defaultContact": {
+      "heightMm": 32,
+      "gapMm": 4
+    },
+    "band": {
+      "surfaceSource": "descriptor",
+      "surface": "motifs",
+      "fillSlot": "primary",
+      "accentSlot": "primary",
+      "compactFirstMm": 14,
+      "compactContinuationMm": 14
+    }
+  },
+  "cv": {
+    "sectionSpaceMm": 3.6,
+    "headingRule": false,
+    "sidebarFraction": 0.3
+  },
+  "pageMotifs": {
+    "letter": [
+      {
+        "shape": "rect",
+        "xFraction": 0,
+        "widthFraction": 1,
+        "topMm": 0,
+        "heightMm": 16,
+        "fillSlot": "primary",
+        "endSlot": "secondary",
+        "angleDeg": 90
+      },
+      {
+        "shape": "rect",
+        "xFraction": 0,
+        "widthFraction": 1,
+        "topMm": 294,
+        "heightMm": 3,
+        "fillSlot": "primary",
+        "endSlot": "secondary",
+        "angleDeg": 90
+      }
+    ],
+    "cv": [
+      {
+        "shape": "rect",
+        "xFraction": 0,
+        "widthFraction": 1,
+        "topMm": 0,
+        "heightMm": 16,
+        "fillSlot": "primary",
+        "endSlot": "secondary",
+        "angleDeg": 90
+      },
+      {
+        "shape": "rect",
+        "xFraction": 0,
+        "widthFraction": 1,
+        "topMm": 294,
+        "heightMm": 3,
+        "fillSlot": "primary",
+        "endSlot": "secondary",
+        "angleDeg": 90
+      }
+    ]
+  },
+  "pagePaintComposition": "single-asset"
+}
