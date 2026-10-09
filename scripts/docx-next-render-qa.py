@@ -649,9 +649,12 @@ renderer.add_argument('--libreofficekit', help='Explicit QA-only LibreOfficeKit 
 parser.add_argument('--require-stable', action='store_true', help='Reject LibreOfficeDev/alpha/beta/RC builds')
 parser.add_argument('--roundtrip', action='store_true', help='Save as DOCX in LibreOffice, reopen and repeat text/column/page-count checks')
 parser.add_argument('--snapshots', type=Path, help='Optional approved DOCX render baseline directory')
+parser.add_argument('--text-only', action='store_true', help='Text-only fixture matrix: no synthetic image-normalization preflight; native media must be absent')
 args = parser.parse_args()
 manifest = json.loads((args.directory / 'manifest.json').read_text())
-for key in ['png', 'jpeg', 'icc-jpeg', 'cmyk-jpeg', 'exif-jpeg', 'large-jpeg']:
+if args.text_only:
+    assert all(row['expectedImages'] == 0 for row in manifest), 'Text-only QA cannot contain image fixtures'
+for key in ([] if args.text_only else ['png', 'jpeg', 'icc-jpeg', 'cmyk-jpeg', 'exif-jpeg', 'large-jpeg']):
     with Image.open(args.directory / f'normalized-{key}.png') as image:
         assert max(image.size) <= 1600, f'{key}: normalized image exceeds size budget'
         rgba = image.convert('RGBA')
@@ -685,6 +688,8 @@ for fixture in manifest:
         continue
     file = args.directory / (key + '.docx')
     media_count = check_package(file, fixture.get('expectedSections', 3))
+    if args.text_only:
+        assert media_count == 0, f'{key}: text-only QA cannot skip actual media validation'
     folder = args.directory / (key + '-qa')
     pdf = render(file, folder)
     document = fitz.open(pdf)
