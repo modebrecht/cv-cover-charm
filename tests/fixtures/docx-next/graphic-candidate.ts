@@ -24,7 +24,8 @@ export type GraphicFixture =
   | "cover-long"
   | "contact-long"
   | "hero-long"
-  | "title-long";
+  | "title-long"
+  | "title-pages";
 export function graphicCandidateFixture(
   template: string,
   kind: GraphicFixture = "normal",
@@ -134,9 +135,9 @@ export function graphicCandidateFixture(
       (_, index) => `Herozeile ${index + 1}: Lea`,
     );
   }
-  if (kind === "title-long") {
+  if (kind === "title-long" || kind === "title-pages") {
     input.cover.blocks.find((block) => block.id === "beruf")!.lines = Array.from(
-      { length: 5 },
+      { length: kind === "title-pages" ? 36 : 5 },
       (_, index) => `Berufszeile ${index + 1}: Informatik`,
     );
   }

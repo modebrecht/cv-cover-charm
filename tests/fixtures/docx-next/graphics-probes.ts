@@ -18,9 +18,9 @@ export function graphicsPaintProbes(part: DocumentPart, template: string) {
               [105, 295],
             ]
           : [
-              [5, 25],
-              [170, 32],
-              [205, 124],
+              [5, 15],
+              [170, 10],
+              [205, 25],
               [205, 180],
             ]
       : [
