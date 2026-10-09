@@ -1,0 +1,271 @@
+{
+  "id": "citrus",
+  "archetype": "graphic",
+  "typography": {
+    "font": "Arial",
+    "bodyPt": 10.5,
+    "namePt": 24,
+    "headingPt": 12,
+    "heroPt": 28
+  },
+  "colors": {
+    "ink": "3F1D2B",
+    "accent": "FB7185",
+    "paper": "FFFDF9"
+  },
+  "margins": {
+    "top": 27,
+    "right": 28,
+    "bottom": 26,
+    "left": 28
+  },
+  "interiorPaletteSource": "dossier",
+  "pagePaintOrder": "layer",
+  "artwork": [],
+  "cover": {
+    "margins": {
+      "top": 20,
+      "right": 14,
+      "bottom": 20,
+      "left": 14
+    },
+    "fontSource": "dossier",
+    "order": [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "beilagenTitel",
+      "beilagen",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger"
+    ],
+    "align": "center",
+    "photoAlign": "center",
+    "photoWidthMm": 56,
+    "heroSpaceMm": 0,
+    "heroInRows": true,
+    "decorationPlacement": "first-header",
+    "rows": [
+      {
+        "fields": [
+          "eyebrow",
+          "ortDatum"
+        ],
+        "widths": [
+          1,
+          1
+        ]
+      },
+      {
+        "fields": [
+          [
+            "foto",
+            "kicker",
+            "beruf",
+            "name",
+            "lehrbeginn",
+            "beilagenTitel",
+            "beilagen"
+          ]
+        ],
+        "widths": [
+          1
+        ],
+        "cellFillSlots": [
+          "bg"
+        ],
+        "beforeMm": 22
+      },
+      {
+        "fields": [
+          [
+            "kontaktTitel",
+            "kontakt"
+          ],
+          [
+            "anTitel",
+            "empfaenger"
+          ]
+        ],
+        "widths": [
+          1,
+          1
+        ],
+        "cellFillSlots": [
+          "bg",
+          "bg"
+        ],
+        "beforeMm": 12
+      }
+    ],
+    "motifs": [
+      {
+        "shape": "rect",
+        "xFraction": 0.0,
+        "widthFraction": 1.0,
+        "topMm": 0,
+        "heightMm": 297,
+        "fillSlot": "primary",
+        "gradientStops": [
+          {
+            "slot": "primary",
+            "offsetPct": 0
+          },
+          {
+            "slot": "secondary",
+            "offsetPct": 100
+          }
+        ],
+        "angleDeg": 155,
+        "paintLayer": 1,
+        "repeat": "first"
+      },
+      {
+        "shape": "rect",
+        "xFraction": 0.06666666666666667,
+        "widthFraction": 0.8666666666666667,
+        "topMm": 50,
+        "heightMm": 233,
+        "fillSlot": "bg",
+        "cornerRadiiMm": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "paintLayer": 2,
+        "repeat": "first"
+      }
+    ]
+  },
+  "letter": {
+    "paragraphSpaceMm": 3,
+    "lineHeight": 1.2,
+    "recipientGapMm": 12,
+    "fontSource": "dossier",
+    "keepTailTogether": true
+  },
+  "chrome": {
+    "headerDistanceMm": 12,
+    "footerDistanceMm": 12,
+    "ignoreEmptyHeader": true,
+    "lineMetricFactor": 1.4,
+    "defaultContact": {
+      "heightMm": 32,
+      "gapMm": 4
+    },
+    "band": {
+      "surfaceSource": "descriptor",
+      "surface": "motifs",
+      "fillSlot": "bg",
+      "accentSlot": "primary",
+      "compactFirstMm": 14,
+      "compactContinuationMm": 14
+    }
+  },
+  "cv": {
+    "sectionSpaceMm": 3.6,
+    "headingRule": false,
+    "sidebarFraction": 0.3,
+    "headingBadge": true
+  },
+  "pageMotifs": {
+    "letter": [
+      {
+        "shape": "rect",
+        "xFraction": 0.0,
+        "widthFraction": 1.0,
+        "topMm": 0,
+        "heightMm": 297,
+        "fillSlot": "primary",
+        "gradientStops": [
+          {
+            "slot": "primary",
+            "offsetPct": 0
+          },
+          {
+            "slot": "secondary",
+            "offsetPct": 100
+          }
+        ],
+        "angleDeg": 155,
+        "paintLayer": 1
+      },
+      {
+        "shape": "rect",
+        "xFraction": 0.05714285714285714,
+        "widthFraction": 0.8857142857142857,
+        "topMm": 12,
+        "heightMm": 273,
+        "fillSlot": "bg",
+        "cornerRadiiMm": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "paintLayer": 2
+      }
+    ],
+    "cv": [
+      {
+        "shape": "rect",
+        "xFraction": 0.0,
+        "widthFraction": 1.0,
+        "topMm": 0,
+        "heightMm": 297,
+        "fillSlot": "primary",
+        "gradientStops": [
+          {
+            "slot": "primary",
+            "offsetPct": 0
+          },
+          {
+            "slot": "secondary",
+            "offsetPct": 100
+          }
+        ],
+        "angleDeg": 155,
+        "paintLayer": 1
+      },
+      {
+        "shape": "rect",
+        "xFraction": 0.0,
+        "widthFraction": 1.0,
+        "topMm": 46,
+        "heightMm": 251,
+        "fillSlot": "bg",
+        "cornerRadiiMm": [
+          16,
+          0,
+          0,
+          0
+        ],
+        "paintLayer": 2,
+        "repeat": "first"
+      },
+      {
+        "shape": "rect",
+        "xFraction": 0.05714285714285714,
+        "widthFraction": 0.8857142857142857,
+        "topMm": 12,
+        "heightMm": 273,
+        "fillSlot": "bg",
+        "cornerRadiiMm": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "paintLayer": 2,
+        "repeat": "continuation"
+      }
+    ]
+  }
+}

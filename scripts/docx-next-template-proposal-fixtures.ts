@@ -9,7 +9,8 @@ if (!process.argv[2] || !descriptorFile)
   );
 const descriptor = JSON.parse(await readFile(descriptorFile, "utf8")) as TemplateDefinition;
 const registry = NEXT_TEMPLATES as Record<string, TemplateDefinition>;
-assert(!registry[descriptor.id], "Proposal is already a production descriptor");
+const previous = registry[descriptor.id];
+assert(descriptor.id && descriptor.cover && descriptor.cv, "Invalid QA descriptor");
 registry[descriptor.id] = descriptor;
 process.argv = [
   process.argv[0],
@@ -21,5 +22,6 @@ process.argv = [
 try {
   await import("./docx-next-fixtures");
 } finally {
-  delete registry[descriptor.id];
+  if (previous) registry[descriptor.id] = previous;
+  else delete registry[descriptor.id];
 }
