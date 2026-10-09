@@ -1,3 +1,7 @@
+## Current template integration — 2026-10-09
+
+Integrated all 15 template commits in chronological order onto freshly fetched `dev` (`dfe0fae533c70a44c7b0d011a201bc801c63a900`), using `docx-next/integrate-39-templates`. **39/39 active templates configured; 0/39 Microsoft Word accepted.** The template migration/configuration gate is complete. This count supersedes older historical counts below. Current Sidebar/native investigation and all strict diagnostic baselines remain authoritative and unchanged. Native container identity, long-opening behavior, cropped-ellipse/original-pixel portability, Microsoft Word open/edit/save/reopen, approved visual snapshots and production DOCX switch remain blocked. Composite Page Paint is opt-in nonsemantic decoration only; semantic text/photos stay native. Legacy/V2, PDF and portable JSON architecture remain unchanged.
+
 # Native original disposal stack checkpoint — 2026-10-09
 
 The strict original import successor ca4d2cda is fully verified: stable 37934264230, application/M6 37934263800 and all eight browser groups, gallery 37934263943 and automatic Pages 37934262305 pass. Artifact 11617359366 (68249969 bytes; SHA-256 a24e6c6d955d5efe94ce6d863962ca0578f719eacf917166583e716c315ffb2c) is downloaded and independently checked.

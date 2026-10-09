@@ -3,7 +3,7 @@ name: DOCX Next Stable Sidebar
 on:
   workflow_dispatch:
   push:
-    branches: [dev]
+    branches: [dev, docx-next/integrate-39-templates]
     paths:
       - .github/workflows/docx-next-stable-sidebar.yml
       - scripts/docx-next-*.py
@@ -63,7 +63,7 @@ concurrency:
 
 jobs:
   stable-comparison:
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
     runs-on: ubuntu-24.04
     timeout-minutes: 18
     env:
@@ -247,7 +247,7 @@ jobs:
             ${{ env.QA_ROOT }}/floating-anchor/*
 
   supported-sidebar:
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
@@ -304,7 +304,7 @@ jobs:
             ${{ env.QA_ROOT }}/fixtures/
 
   picture-identity:
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
     runs-on: ubuntu-24.04
     timeout-minutes: 18
     env:
@@ -398,3 +398,73 @@ jobs:
             ${{ env.QA_ROOT }}/sizes/
             ${{ env.QA_ROOT }}/sized-shapes/
             ${{ env.QA_ROOT }}/sized-rectangles/
+
+  integrated-template-qa:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    name: Integrated template - ${{ matrix.template }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        template:
+          [edelDark, studio, studio2, edge, gallery, terracotta, citrus, neon, verlauf, aurora]
+    env:
+      QA_ROOT: /tmp/docx-next-integrated-template
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and native QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - name: Install canonical Chromium
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up verified stable native runtime
+        timeout-minutes: 12
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Generate complete template stress set with immutable JSON restoration
+        run: |
+          mkdir -p "$QA_ROOT/fixtures"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
+          bun scripts/docx-next-fixtures.ts "$QA_ROOT/fixtures" --${{ matrix.template }} --verify-json
+      - name: Verify render, complete text, bounds and native Save/Reopen
+        run: |
+          python scripts/docx-next-render-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --roundtrip
+          python scripts/docx-next-native-identity-qa.py "$QA_ROOT/fixtures"
+      - name: Verify independent template visual checks
+        env:
+          TEMPLATE: ${{ matrix.template }}
+        run: |
+          case "$TEMPLATE" in
+            aurora) python scripts/docx-next-aurora-visual-qa.py "$QA_ROOT/fixtures" ;;
+            neon|verlauf) python scripts/docx-next-final-graphics-qa.py "$QA_ROOT/fixtures" ;;
+            terracotta) python scripts/docx-next-kolumne-template-qa.py "$QA_ROOT/fixtures" ;;
+          esac
+      - name: Verify actual editor, portable JSON and production PDF download
+        env:
+          DOCX_NEXT_EDITOR_TEMPLATE: ${{ matrix.template }}
+        run: bun scripts/docx-next-candidate-editor-qa.ts "$QA_ROOT/editor" "$QA_ROOT/fixtures/images.json"
+      - name: Retain native and editor evidence including identity blockers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-integrated-${{ matrix.template }}-${{ github.sha }}
+          retention-days: 14
+          path: |
+            ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/editor/
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json

@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - dev
+      - docx-next/integrate-39-templates
       - render
 
 permissions:
