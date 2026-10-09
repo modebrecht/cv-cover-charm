@@ -36,6 +36,10 @@ import {
   type GraphicFixture,
 } from "../tests/fixtures/docx-next/graphic-candidate";
 import { citrusFixture, type CITRUS_FIXTURES } from "../tests/fixtures/docx-next/citrus";
+import {
+  graphicsPaintProbes,
+  graphicsLinePaintProbes,
+} from "../tests/fixtures/docx-next/graphics-probes";
 import { decorationAssetKey, type DecorationPaint } from "../src/lib/docx-next/decoration";
 import type { NormalizedImage } from "../src/lib/docx-next/images";
 import { artworkApplies } from "../src/lib/docx-next/page-artwork";
@@ -89,6 +93,9 @@ const addedSelections = [
   "gallery",
   "terracotta",
   "citrus",
+  "neon",
+  "verlauf",
+  "aurora",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const SIDEBAR_PAGE_COUNTS: Record<string, number> = {
@@ -129,6 +136,21 @@ const addedPageCounts: Record<
   string,
   { cv: Record<string, number>; letter: Record<string, number>; cover: Record<string, number> }
 > = {
+  neon: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 9 },
+    cover: { "cover-long": 2, "contact-long": 3, "hero-long": 3 },
+  },
+  verlauf: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 9 },
+    cover: { "cover-long": 2, "contact-long": 3, "hero-long": 2 },
+  },
+  aurora: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: { "cover-long": 2, "contact-long": 3, "hero-long": 3, "title-long": 2 },
+  },
   citrus: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 9 },
@@ -475,6 +497,11 @@ try {
   let fixtureNames = addedCandidate
     ? [
         ...GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`),
+        ...(["neon", "aurora"].includes(addedCandidate) ? [`${addedCandidate}-cover-long`] : []),
+        ...(["neon", "verlauf", "aurora"].includes(addedCandidate)
+          ? [`${addedCandidate}-contact-long`, `${addedCandidate}-hero-long`]
+          : []),
+        ...(addedCandidate === "aurora" ? ["aurora-title-long"] : []),
         ...(addedCandidate === "gallery" ? ["gallery-contact-long"] : []),
         ...(addedCandidate === "citrus"
           ? [
@@ -1122,6 +1149,7 @@ try {
       });
     const parts = [model.cover, model.letter, model.cv].map((part, index) => ({
       id: part.id,
+      pagePaintComposition: part.pagePaintComposition,
       expectedPages: [coverPages, letterPages, cvPages][index],
       contentBoxMm: part.page.margins,
       headerDistanceMm: part.page.headerDistanceMm,
@@ -1259,8 +1287,9 @@ try {
             }
           : undefined,
       pageScopedShapes: part.headerShapes ?? [],
-      linePaintProbes:
-        part.paintOrder === "layer"
+      linePaintProbes: part.pagePaintComposition
+        ? graphicsLinePaintProbes(part)
+        : part.paintOrder === "layer"
           ? part.headerShapes
               ?.filter((shape) => shape.shape === "line" && shape.fill)
               .map((shape) => ({
@@ -1291,45 +1320,47 @@ try {
                   .join("") ?? "",
             }
           : undefined,
-      paintProbes: isPrism
-        ? part.id === "cover"
-          ? [
-              { xMm: 2, yMm: 40, color: input.cover.colors.primary, repeat: "first" },
-              {
-                xMm: 200,
-                yMm: 20,
-                color: input.cover.colors.secondary,
-                opacity: 0.94,
-                backdrop: input.cover.colors.primary,
-                repeat: "first",
-              },
-              { xMm: 2, yMm: 120, color: input.cover.colors.bg },
-            ]
-          : part.artwork
-              .filter((p) => p.id.includes(".band."))
-              .flatMap((paint) => [
-                { xMm: 2, yMm: 2, color: paint.fill.color, repeat: paint.repeat },
+      paintProbes: ["neon", "verlauf", "aurora"].includes(addedCandidate)
+        ? graphicsPaintProbes(part, addedCandidate)
+        : isPrism
+          ? part.id === "cover"
+            ? [
+                { xMm: 2, yMm: 40, color: input.cover.colors.primary, repeat: "first" },
                 {
-                  xMm: 205,
-                  yMm: 2,
-                  color: input[part.id].design.colors.secondary,
-                  repeat: paint.repeat,
+                  xMm: 200,
+                  yMm: 20,
+                  color: input.cover.colors.secondary,
+                  opacity: 0.94,
+                  backdrop: input.cover.colors.primary,
+                  repeat: "first",
                 },
-              ])
-        : addedCandidate === "citrus"
-          ? citrusPaintProbes(part)
-          : addedCandidate === "terracotta" && part.id !== "cover"
-            ? part.id === "cv" && input.cv.design.bgOpacity === 0
-              ? []
-              : [{ xMm: 2, yMm: 120, color: input[part.id].design.colors.primary }]
-            : part.id === "cover" && addedCandidate === "studio"
-              ? [{ xMm: 5, yMm: 150, color: input.cover.colors.primary }]
-              : part.id === "cover" && addedCandidate === "studio2"
-                ? [
-                    { xMm: 5, yMm: 5, color: input.cover.colors.primary, repeat: "first" },
-                    { xMm: 200, yMm: 5, color: input.cover.colors.secondary, repeat: "first" },
-                  ]
-                : editorialPaintProbes(part),
+                { xMm: 2, yMm: 120, color: input.cover.colors.bg },
+              ]
+            : part.artwork
+                .filter((p) => p.id.includes(".band."))
+                .flatMap((paint) => [
+                  { xMm: 2, yMm: 2, color: paint.fill.color, repeat: paint.repeat },
+                  {
+                    xMm: 205,
+                    yMm: 2,
+                    color: input[part.id].design.colors.secondary,
+                    repeat: paint.repeat,
+                  },
+                ])
+          : addedCandidate === "citrus"
+            ? citrusPaintProbes(part)
+            : addedCandidate === "terracotta" && part.id !== "cover"
+              ? part.id === "cv" && input.cv.design.bgOpacity === 0
+                ? []
+                : [{ xMm: 2, yMm: 120, color: input[part.id].design.colors.primary }]
+              : part.id === "cover" && addedCandidate === "studio"
+                ? [{ xMm: 5, yMm: 150, color: input.cover.colors.primary }]
+                : part.id === "cover" && addedCandidate === "studio2"
+                  ? [
+                      { xMm: 5, yMm: 5, color: input.cover.colors.primary, repeat: "first" },
+                      { xMm: 200, yMm: 5, color: input.cover.colors.secondary, repeat: "first" },
+                    ]
+                  : editorialPaintProbes(part),
       fontProbes:
         fixture === "fonts-unavailable"
           ? walkBlocks(part.blocks).flatMap((block) =>
@@ -1406,12 +1437,16 @@ try {
         parts.reduce(
           (sum, part) =>
             sum +
-            Array.from(
-              { length: part.expectedPages },
-              (_, page) =>
-                [...part.artwork, ...part.pageScopedShapes].filter((value) =>
-                  artworkApplies(value, page === 0),
-                ).length,
+            Array.from({ length: part.expectedPages }, (_, page) =>
+              part.pagePaintComposition
+                ? Number(
+                    [...part.artwork, ...part.pageScopedShapes].some((value) =>
+                      artworkApplies(value, page === 0),
+                    ),
+                  )
+                : [...part.artwork, ...part.pageScopedShapes].filter((value) =>
+                    artworkApplies(value, page === 0),
+                  ).length,
             ).reduce((count, value) => count + value, 0),
           0,
         ),

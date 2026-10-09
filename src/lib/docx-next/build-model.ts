@@ -1270,7 +1270,11 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
           : {
               ...input[target.id].design.colors,
               sheet: color(
-                target.id === "letter" ? resolveLetterPaperColor(letter.design) : cvPalette?.paper,
+                template.interiorPaletteSource === "dossier"
+                  ? target.id === "letter"
+                    ? resolveLetterPaperColor(letter.design)
+                    : cvPalette!.paper
+                  : input[target.id].design.paperColor,
                 theme.paper,
               ),
             },

@@ -23,7 +23,8 @@ export type GraphicFixture =
   | "sidebar"
   | "cover-long"
   | "contact-long"
-  | "hero-long";
+  | "hero-long"
+  | "title-long";
 export function graphicCandidateFixture(
   template: string,
   kind: GraphicFixture = "normal",
@@ -131,6 +132,12 @@ export function graphicCandidateFixture(
     input.cover.blocks.find((block) => block.id === "name")!.lines = Array.from(
       { length: 40 },
       (_, index) => `Herozeile ${index + 1}: Lea`,
+    );
+  }
+  if (kind === "title-long") {
+    input.cover.blocks.find((block) => block.id === "beruf")!.lines = Array.from(
+      { length: 5 },
+      (_, index) => `Berufszeile ${index + 1}: Informatik`,
     );
   }
   if (kind === "contact-long") {

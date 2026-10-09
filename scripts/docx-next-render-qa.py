@@ -386,6 +386,13 @@ def check_scoped_shapes(document, fixture):
     for part in fixture['parts']:
         for relative_page, page in enumerate(document[start:start + part['expectedPages']]):
             pictures = page.get_image_info()
+            if part.get('pagePaintComposition') == 'single-asset':
+                paint = [shape for shape in [*part.get('pageScopedShapes', []), *part.get('artwork', [])]
+                         if shape.get('repeat') in (None, 'first' if relative_page == 0 else 'continuation')]
+                matches = [picture for picture in pictures if max(abs(a-b) for a,b in zip(picture['bbox'], page.rect)) < 1]
+                assert len(matches) == int(bool(paint)), f'{fixture["fixture"]}: incorrect composite page asset on page {relative_page+1}'
+                assert not paint or len(part.get('paintProbes', [])) >= 3, 'Composite paint requires independent visible color evidence'
+                continue
             groups = {}
             # Distinct paint layers can share a rectangle (e.g. a tint above a band).
             # Count every declared paint layer so bounds do not confuse its ownership.
@@ -695,7 +702,7 @@ for fixture in manifest:
     document = fitz.open(pdf)
     assert len(document) >= 3, f'{key}: missing dossier part'
     assert len(document) == fixture['expectedPages'], f'{key}: expected {fixture["expectedPages"]} pages, rendered {len(document)}'
-    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-', 'klassisch-', 'edel-', 'serioes-', 'colorful-', 'blockig-', 'welle-', 'modern-', 'pastell-', 'sonne-', 'edelDark-', 'studio2-', 'studio-', 'edge-', 'gallery-', 'terracotta-', 'citrus-', 'sidebar-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
+    if key.startswith(('warm-', 'prism-', 'human-', 'orbit-', 'cove-', 'glow-', 'horizon-', 'monoLuxe-', 'ledger-', 'ribbon-', 'sunrise-', 'forestFlow-', 'violetPulse-', 'studio3-', 'warm2-', 'warm3-', 'verlauf2-', 'verlauf3-', 'diagonal-', 'klassisch-', 'edel-', 'serioes-', 'colorful-', 'blockig-', 'welle-', 'modern-', 'pastell-', 'sonne-', 'edelDark-', 'studio2-', 'studio-', 'edge-', 'gallery-', 'terracotta-', 'citrus-', 'neon-', 'verlauf-', 'aurora-', 'sidebar-')) and any(part['expectedPages'] > 2 for part in fixture['parts']):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
     elif key in ('long-letter', 'long-cv', 'photo-long-cv', 'paint-long-letter', 'paint-long-cv', 'layout-settings-long', 'layout-entry-overflow') or key.startswith('columns-long') or key.startswith('pagination-') or (key.startswith('variant-') and key.endswith('-long')):
         assert len(document) > 3, f'{key}: long fixture did not paginate'
