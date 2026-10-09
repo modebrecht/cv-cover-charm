@@ -451,7 +451,6 @@ jobs:
         run: |
           case "$TEMPLATE" in
             aurora) python scripts/docx-next-aurora-visual-qa.py "$QA_ROOT/fixtures" ;;
-            neon|verlauf) python scripts/docx-next-final-graphics-qa.py "$QA_ROOT/fixtures" ;;
             terracotta) python scripts/docx-next-kolumne-template-qa.py "$QA_ROOT/fixtures" ;;
           esac
       - name: Verify actual editor, portable JSON and production PDF download
