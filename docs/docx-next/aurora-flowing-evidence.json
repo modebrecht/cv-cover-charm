@@ -1,0 +1,1349 @@
+{
+  "branch": "docx-next/aurora-flowing-hero-20261009",
+  "startingParent": "be5b2fca28ca5ffed7a54793bb99e2ce1d626597",
+  "fetchedRemoteDev": "f93d54e37301d0ef1035fc6bd5177196effe0353",
+  "configuredActiveTemplates": 39,
+  "microsoftWordAccepted": 0,
+  "render": [
+    {
+      "fixture": "aurora-normal",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 2,
+      "bytes": 1112350,
+      "durationMs": 28534,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-long-letter",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 14,
+      "media": 2,
+      "bytes": 1189089,
+      "durationMs": 259,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-long-cv",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 15,
+      "media": 2,
+      "bytes": 1269455,
+      "durationMs": 296,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-long-values",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 2,
+      "bytes": 1114136,
+      "durationMs": 160,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-images",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 3,
+      "bytes": 1117937,
+      "durationMs": 182,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-custom",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 2,
+      "bytes": 1119438,
+      "durationMs": 167,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-compact",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 2,
+      "bytes": 1108694,
+      "durationMs": 190,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-none",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 2,
+      "bytes": 1107606,
+      "durationMs": 140,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-continuation",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 11,
+      "media": 2,
+      "bytes": 1134008,
+      "durationMs": 176,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-timeline",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 19,
+      "media": 2,
+      "bytes": 1363667,
+      "durationMs": 468,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-magazin",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 3,
+      "media": 2,
+      "bytes": 1095165,
+      "durationMs": 389,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-no-motifs",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 2,
+      "bytes": 1109228,
+      "durationMs": 253,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-custom-colors",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 2,
+      "bytes": 1115156,
+      "durationMs": 25299,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-cover-long",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 5,
+      "media": 2,
+      "bytes": 1132159,
+      "durationMs": 380,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-contact-long",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 6,
+      "media": 2,
+      "bytes": 1130712,
+      "durationMs": 310,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-hero-long",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 6,
+      "media": 2,
+      "bytes": 1124554,
+      "durationMs": 294,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-title-long",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 4,
+      "media": 2,
+      "bytes": 1113644,
+      "durationMs": 329,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    },
+    {
+      "fixture": "aurora-title-pages",
+      "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+      "libreOfficeInterface": "LibreOfficeKit",
+      "pages": 8,
+      "media": 2,
+      "bytes": 1123653,
+      "durationMs": 360,
+      "structural": "pass",
+      "libreoffice": "pass",
+      "libreofficeRoundtrip": "pass",
+      "microsoftWord": "pending",
+      "snapshot": "candidate"
+    }
+  ],
+  "identity": {
+    "fixtureCount": 18,
+    "completeNativeText": "pass",
+    "fieldIdentityFailures": 0,
+    "tableIdentityFailures": 18,
+    "missingOrChangedTaggedFields": 0,
+    "architectureAcceptance": "blocked: saved native identities lost; no export enablement",
+    "fixtures": [
+      {
+        "fixture": "aurora-normal",
+        "sourceDocxSha256": "03f72f71db14d03017fb1437fb9aee951807fca3e5ab1affe508b41fca9ae8de",
+        "savedDocxSha256": "569592a236ee0fedb062d7635e712337c954792349d94a9c331b83241407676f",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-long-letter",
+        "sourceDocxSha256": "2548e781d678ec2ec77cd52f3c2f4685fbed654e30bff68d7556162078e1bf28",
+        "savedDocxSha256": "7327f849c864e78b1986e5a99375d4d789b77f78b92e373ea34cba71296a7c28",
+        "sourceTaggedFields": 205,
+        "savedMatchingTaggedFields": 205,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-long-cv",
+        "sourceDocxSha256": "e84d906a6492439e3757df036805ff8c685bbc6ed0575687277543082b79578b",
+        "savedDocxSha256": "45a96b3f22922782ada935c32bb1dfe69668a8133b518bb86bd338b2cc39cf96",
+        "sourceTaggedFields": 324,
+        "savedMatchingTaggedFields": 324,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-long-values",
+        "sourceDocxSha256": "3bb92d9245ac8583e91617b044fe8b9633291b5ea237a7586b4dca57846a21fb",
+        "savedDocxSha256": "e09abc96302a07b0a17cadf051d2f96ca41bbcd99a79a606251dc8ef55f255c5",
+        "sourceTaggedFields": 72,
+        "savedMatchingTaggedFields": 72,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-images",
+        "sourceDocxSha256": "c9794ba3cbc662386906e2b7c71be8ff7ee3fbfbe727a350509d112193ac5ca6",
+        "savedDocxSha256": "8cc35611739426b3d022074eaf54910ae4438b41d904f0be9cadc6b6294dfd64",
+        "sourceTaggedFields": 72,
+        "savedMatchingTaggedFields": 72,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:1.cell:1.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-custom",
+        "sourceDocxSha256": "3b3e419a59b36f3a9ced4899b74b487b57ae543cf341b62f77aba669cc37347c",
+        "savedDocxSha256": "fe57a65e77684df600342eea71605c7953859a901045609b2bd8ba87ae332f1c",
+        "sourceTaggedFields": 74,
+        "savedMatchingTaggedFields": 74,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.custom-a.flow-box",
+          "cover.custom-b.flow-box",
+          "cover.lehrbeginn.flow-box",
+          "cv.element:custom-a.flow-box",
+          "cv.element:custom-b.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1",
+          "letter.body.paragraph:2"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-compact",
+        "sourceDocxSha256": "0d419f0e917cb5fa3ba7bc8e0dc83c25a45dab68c4906977a443adb14350ff52",
+        "savedDocxSha256": "7559fca1d9e58607ba65d254124e87e6b0095a74b3472e40a9773960e3348f80",
+        "sourceTaggedFields": 80,
+        "savedMatchingTaggedFields": 80,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-none",
+        "sourceDocxSha256": "f9b6ade967311272c801fc841afde7b6bf4ff41e34582137839fcfad2dab484b",
+        "savedDocxSha256": "b3540692938ec179623348b7dd64211f04d644ec57848c8dd15510f2277731bf",
+        "sourceTaggedFields": 80,
+        "savedMatchingTaggedFields": 80,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-continuation",
+        "sourceDocxSha256": "43c335722db4fc2a2481626d808149d8852bd1d9276b32024d8c4b3b0b31b863",
+        "savedDocxSha256": "fd776495545d9c71cf30bf5878a49d49d0fe57278251c65d9107370f02546d8e",
+        "sourceTaggedFields": 74,
+        "savedMatchingTaggedFields": 74,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-timeline",
+        "sourceDocxSha256": "0fdca4a321b3b9e0588a651f952b3c4f6fdab0f5386720650f817915382943c1",
+        "savedDocxSha256": "4cae50abe35a4cac019d7af73c8351381236ba7c5e60a2843b2fce234a9c7395",
+        "sourceTaggedFields": 335,
+        "savedMatchingTaggedFields": 335,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.erfahrung:demo-p1.dateRail",
+          "cv.entry.erfahrung:demo-p2.dateRail",
+          "cv.entry.schule:school-0.dateRail",
+          "cv.entry.schule:school-1.dateRail",
+          "cv.entry.schule:school-10.dateRail",
+          "cv.entry.schule:school-11.dateRail",
+          "cv.entry.schule:school-12.dateRail",
+          "cv.entry.schule:school-13.dateRail",
+          "cv.entry.schule:school-14.dateRail",
+          "cv.entry.schule:school-15.dateRail",
+          "cv.entry.schule:school-16.dateRail",
+          "cv.entry.schule:school-17.dateRail",
+          "cv.entry.schule:school-18.dateRail",
+          "cv.entry.schule:school-19.dateRail",
+          "cv.entry.schule:school-2.dateRail",
+          "cv.entry.schule:school-20.dateRail",
+          "cv.entry.schule:school-21.dateRail",
+          "cv.entry.schule:school-22.dateRail",
+          "cv.entry.schule:school-23.dateRail",
+          "cv.entry.schule:school-24.dateRail",
+          "cv.entry.schule:school-25.dateRail",
+          "cv.entry.schule:school-26.dateRail",
+          "cv.entry.schule:school-27.dateRail",
+          "cv.entry.schule:school-28.dateRail",
+          "cv.entry.schule:school-29.dateRail",
+          "cv.entry.schule:school-3.dateRail",
+          "cv.entry.schule:school-30.dateRail",
+          "cv.entry.schule:school-31.dateRail",
+          "cv.entry.schule:school-32.dateRail",
+          "cv.entry.schule:school-33.dateRail",
+          "cv.entry.schule:school-34.dateRail",
+          "cv.entry.schule:school-35.dateRail",
+          "cv.entry.schule:school-36.dateRail",
+          "cv.entry.schule:school-37.dateRail",
+          "cv.entry.schule:school-38.dateRail",
+          "cv.entry.schule:school-39.dateRail",
+          "cv.entry.schule:school-4.dateRail",
+          "cv.entry.schule:school-40.dateRail",
+          "cv.entry.schule:school-41.dateRail",
+          "cv.entry.schule:school-42.dateRail",
+          "cv.entry.schule:school-43.dateRail",
+          "cv.entry.schule:school-44.dateRail",
+          "cv.entry.schule:school-45.dateRail",
+          "cv.entry.schule:school-46.dateRail",
+          "cv.entry.schule:school-47.dateRail",
+          "cv.entry.schule:school-48.dateRail",
+          "cv.entry.schule:school-49.dateRail",
+          "cv.entry.schule:school-5.dateRail",
+          "cv.entry.schule:school-50.dateRail",
+          "cv.entry.schule:school-51.dateRail",
+          "cv.entry.schule:school-52.dateRail",
+          "cv.entry.schule:school-53.dateRail",
+          "cv.entry.schule:school-54.dateRail",
+          "cv.entry.schule:school-55.dateRail",
+          "cv.entry.schule:school-56.dateRail",
+          "cv.entry.schule:school-57.dateRail",
+          "cv.entry.schule:school-58.dateRail",
+          "cv.entry.schule:school-59.dateRail",
+          "cv.entry.schule:school-6.dateRail",
+          "cv.entry.schule:school-60.dateRail",
+          "cv.entry.schule:school-61.dateRail",
+          "cv.entry.schule:school-62.dateRail",
+          "cv.entry.schule:school-63.dateRail",
+          "cv.entry.schule:school-64.dateRail",
+          "cv.entry.schule:school-7.dateRail",
+          "cv.entry.schule:school-8.dateRail",
+          "cv.entry.schule:school-9.dateRail",
+          "cv.entry.schule:variant-overflow.dateRail",
+          "cv.person.details",
+          "cv.section.custom:variant-alpha.half-row",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-magazin",
+        "sourceDocxSha256": "34c6d487a9b4b7e3a1b9a16153a3a246b46755812d03b59b9ef095841180e3eb",
+        "savedDocxSha256": "916be8b60ed9e51873c5021efed60efb9a404d4ac7f4bd6dc668e2da36987f42",
+        "sourceTaggedFields": 38,
+        "savedMatchingTaggedFields": 38,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.schule:variant-school.dateRail",
+          "cv.section.custom:variant-alpha.half-row"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-no-motifs",
+        "sourceDocxSha256": "be35afe80b426a4bb9c534088f7f8a9d6b8249d495073db5efc6a96fbb365c27",
+        "savedDocxSha256": "f48f6834f809572353e9859361b4b74df31d3cbcf19553626c93d4f72093b330",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-custom-colors",
+        "sourceDocxSha256": "ba6cfecf06e14ff841ce8c07dd72ae98933638a998868c1eb23621af1991e57a",
+        "savedDocxSha256": "54e5fb34c89b2fd8ccc6a82ddfa9b9c66fd342ff9d3d92e4e68d4bd87742abc9",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-cover-long",
+        "sourceDocxSha256": "ffbe89873fb3664b323e08151f0630b93fd27e2bff827ce1bd52a805e1b697ed",
+        "savedDocxSha256": "4a980f32230a19d1cd4175cfb7277492fc5ac5a300ff79f2403d5cbb79df53b1",
+        "sourceTaggedFields": 72,
+        "savedMatchingTaggedFields": 72,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.continuation-text.flow-box",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-contact-long",
+        "sourceDocxSha256": "4ae1c9cc30a0aa4c84633a520804e2b2bb733310f5a4011d68f2e86caa0cd9f8",
+        "savedDocxSha256": "81250a2a8b8b83a5ee31eea85d73cddafd1086e5d3eeaff9c7dad54a867cd0b1",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-hero-long",
+        "sourceDocxSha256": "d322ada0c7a5470f69fd3b5be763e96e4d4ec2683d33362b70580a0da32987e0",
+        "savedDocxSha256": "a77430b6e575d39eb59eb362b79bce7d02539b4d8d04219493119b193373c62d",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-title-long",
+        "sourceDocxSha256": "4465121cce599d151c255ee6798073ef0a8f14fbf9961ddbe49ab3c3adf1bf47",
+        "savedDocxSha256": "1b158af4fab12126b9f37cb9b9522fd8b6cc398067216f71f75e5bfe14a15df3",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      {
+        "fixture": "aurora-title-pages",
+        "sourceDocxSha256": "1ffaebab04aeb44efa77ab6354bb980a23c8b6ca2d89d89d28d82524ce982508",
+        "savedDocxSha256": "380c8e2d473dc756e88ef7c8d05e01e5f2b460df95209d2d4bde20df5bc3e184",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      }
+    ]
+  },
+  "visual": {
+    "result": "bounded pass; Microsoft Word acceptance pending",
+    "checks": 36,
+    "fixtures": [
+      {
+        "fixture": "aurora-normal",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-normal",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-long-letter",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-long-letter",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-long-cv",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-long-cv",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-long-values",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-long-values",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-images",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-images",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-custom",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-custom",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-compact",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-compact",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-none",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-none",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-continuation",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-continuation",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-timeline",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-timeline",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-magazin",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-magazin",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-no-motifs",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-no-motifs",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-custom-colors",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-custom-colors",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-cover-long",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 2
+      },
+      {
+        "fixture": "aurora-cover-long",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 2
+      },
+      {
+        "fixture": "aurora-contact-long",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 3
+      },
+      {
+        "fixture": "aurora-contact-long",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 3
+      },
+      {
+        "fixture": "aurora-hero-long",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 3
+      },
+      {
+        "fixture": "aurora-hero-long",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 4,
+        "titleLines": 0,
+        "coverPages": 3
+      },
+      {
+        "fixture": "aurora-title-long",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 13,
+        "titleLines": 5,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-title-long",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 13,
+        "titleLines": 5,
+        "coverPages": 1
+      },
+      {
+        "fixture": "aurora-title-pages",
+        "stage": "source",
+        "whiteSpansOnVisibleBacking": 75,
+        "titleLines": 36,
+        "coverPages": 5
+      },
+      {
+        "fixture": "aurora-title-pages",
+        "stage": "saved",
+        "whiteSpansOnVisibleBacking": 75,
+        "titleLines": 36,
+        "coverPages": 5
+      }
+    ]
+  },
+  "jsonRestoration": {
+    "browserNormalizedInputs": 6,
+    "fixtures": [
+      {
+        "fixture": "aurora-normal",
+        "docxSha256": "03f72f71db14d03017fb1437fb9aee951807fca3e5ab1affe508b41fca9ae8de",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-long-letter",
+        "docxSha256": "2548e781d678ec2ec77cd52f3c2f4685fbed654e30bff68d7556162078e1bf28",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-long-cv",
+        "docxSha256": "e84d906a6492439e3757df036805ff8c685bbc6ed0575687277543082b79578b",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-long-values",
+        "docxSha256": "3bb92d9245ac8583e91617b044fe8b9633291b5ea237a7586b4dca57846a21fb",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-images",
+        "docxSha256": "c9794ba3cbc662386906e2b7c71be8ff7ee3fbfbe727a350509d112193ac5ca6",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-custom",
+        "docxSha256": "3b3e419a59b36f3a9ced4899b74b487b57ae543cf341b62f77aba669cc37347c",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-compact",
+        "docxSha256": "0d419f0e917cb5fa3ba7bc8e0dc83c25a45dab68c4906977a443adb14350ff52",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-none",
+        "docxSha256": "f9b6ade967311272c801fc841afde7b6bf4ff41e34582137839fcfad2dab484b",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-continuation",
+        "docxSha256": "43c335722db4fc2a2481626d808149d8852bd1d9276b32024d8c4b3b0b31b863",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-timeline",
+        "docxSha256": "0fdca4a321b3b9e0588a651f952b3c4f6fdab0f5386720650f817915382943c1",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-magazin",
+        "docxSha256": "34c6d487a9b4b7e3a1b9a16153a3a246b46755812d03b59b9ef095841180e3eb",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-no-motifs",
+        "docxSha256": "be35afe80b426a4bb9c534088f7f8a9d6b8249d495073db5efc6a96fbb365c27",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-custom-colors",
+        "docxSha256": "ba6cfecf06e14ff841ce8c07dd72ae98933638a998868c1eb23621af1991e57a",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-cover-long",
+        "docxSha256": "ffbe89873fb3664b323e08151f0630b93fd27e2bff827ce1bd52a805e1b697ed",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-contact-long",
+        "docxSha256": "4ae1c9cc30a0aa4c84633a520804e2b2bb733310f5a4011d68f2e86caa0cd9f8",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-hero-long",
+        "docxSha256": "d322ada0c7a5470f69fd3b5be763e96e4d4ec2683d33362b70580a0da32987e0",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-title-long",
+        "docxSha256": "4465121cce599d151c255ee6798073ef0a8f14fbf9961ddbe49ab3c3adf1bf47",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      {
+        "fixture": "aurora-title-pages",
+        "docxSha256": "1ffaebab04aeb44efa77ab6354bb980a23c8b6ca2d89d89d28d82524ce982508",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      }
+    ]
+  },
+  "regression": {
+    "baselineCommit": "be5b2fca28ca5ffed7a54793bb99e2ce1d626597",
+    "descriptors": 38,
+    "models": 190,
+    "byteIdenticalNormalPackages": 38,
+    "canonicalStandaloneAssets": 162,
+    "packages": [
+      {
+        "template": "brief",
+        "docxSha256": "7c853d41aa95dac459f17240d275159405638894443c7365494c52fb825d3388",
+        "bytes": 67322
+      },
+      {
+        "template": "freundlich",
+        "docxSha256": "b902aea4dad9e77cd6d7a54a9ccdd37e619e83f63ebf5215e8b18cd3899c90ef",
+        "bytes": 217276
+      },
+      {
+        "template": "prism",
+        "docxSha256": "7d6dd556409e097336d57d2ca7ebf362f6782592f6846fd3601ea847835515be",
+        "bytes": 182161
+      },
+      {
+        "template": "human",
+        "docxSha256": "aecec90d5305e998f9ee1e24172482b608ab7fafeea6f06226b59fbbbb9a8465",
+        "bytes": 176981
+      },
+      {
+        "template": "orbit",
+        "docxSha256": "8a5ae98fc84a358d424aea5950afb059290945a8fab8b3b9722d562ee09a0b8a",
+        "bytes": 176999
+      },
+      {
+        "template": "cove",
+        "docxSha256": "9ffe70ebb709ec09e9e84ded2a08b551eabd74f2063fac60b38e28ea1d5dbbf4",
+        "bytes": 154725
+      },
+      {
+        "template": "glow",
+        "docxSha256": "91f4574804e720c18701365ae0c748b4cfe6c7c7b9e5b32836c3fff42e9ab73a",
+        "bytes": 1128818
+      },
+      {
+        "template": "horizon",
+        "docxSha256": "a89956164d79a7f49fd53bedd5a2d83a8160259668b2697f11d0182d05f4a1ec",
+        "bytes": 3798931
+      },
+      {
+        "template": "monoLuxe",
+        "docxSha256": "cdf0e2a7ad503c792e14e029926ac816a0dcbc39cc22158d62aa5a65a3f84af3",
+        "bytes": 114933
+      },
+      {
+        "template": "ledger",
+        "docxSha256": "e43dd0be94e39176329a04b74e37faa21236f592da47673a4075094ca1a763aa",
+        "bytes": 148830
+      },
+      {
+        "template": "ribbon",
+        "docxSha256": "5b502424f7e2f7cf75fe46f35c3c0d16045e552653d406d05c97dc106b8194b1",
+        "bytes": 172880
+      },
+      {
+        "template": "sunrise",
+        "docxSha256": "e07e95910d9c86f94d7c9389c797f4ebd3003d6d4184d7b74337ce6b17b15c52",
+        "bytes": 2520873
+      },
+      {
+        "template": "forestFlow",
+        "docxSha256": "6e6deb4a926384eccc710ff64e65a81354b8f0171128c33fd06cbdbaeb3b0a27",
+        "bytes": 157668
+      },
+      {
+        "template": "violetPulse",
+        "docxSha256": "20a2e6c41dda4b40ee86af0538397e610c0c58c1dde722dbeac89b6f397a2563",
+        "bytes": 2664638
+      },
+      {
+        "template": "studio3",
+        "docxSha256": "8eaf5592dee8322efe88a6159fc4f4005bd4b28c0eff6716960aa48861ed0154",
+        "bytes": 172278
+      },
+      {
+        "template": "warm2",
+        "docxSha256": "63440ba5ab6ede2fd5cbad83bd4760eb1f3acbe678dd67bea89254621803962b",
+        "bytes": 163226
+      },
+      {
+        "template": "warm3",
+        "docxSha256": "f18fe6fc073edcbdfd245fa5e684a335ffae7f3f2b8b4e7f0e66c6c5b8b3291a",
+        "bytes": 150509
+      },
+      {
+        "template": "verlauf2",
+        "docxSha256": "28ce8eb7e4994c565bf171ce79efe3c8a900afe8cb25a09ee466ee0dffb367a1",
+        "bytes": 2604693
+      },
+      {
+        "template": "verlauf3",
+        "docxSha256": "130e3bd1e346adebb4f09da244bc5e6077c4d2093efd2b2d5a1a899b5f54a046",
+        "bytes": 2334194
+      },
+      {
+        "template": "diagonal",
+        "docxSha256": "cefe9b621498f147e418780166d0c9d6fbfc39d5a5616600d9d0a1c9fe62b61c",
+        "bytes": 230516
+      },
+      {
+        "template": "klassisch",
+        "docxSha256": "85a89051754e49843224adf554dec16e3f39e9e13472bcd912aeb1af7cd23173",
+        "bytes": 180578
+      },
+      {
+        "template": "edel",
+        "docxSha256": "af020b925670043b521d4d429f36e0178b9d791da1072521a281b22b2e534fe8",
+        "bytes": 270367
+      },
+      {
+        "template": "serioes",
+        "docxSha256": "4eb3c8d13e3eafeb69669486100188fd3d6848e79e6c87fc69a4ed9f58369132",
+        "bytes": 102426
+      },
+      {
+        "template": "colorful",
+        "docxSha256": "61d2c0c2c678fe4dfd98d01636af6397ffa91092e62d75d7800a2f4f0028d4f9",
+        "bytes": 133366
+      },
+      {
+        "template": "blockig",
+        "docxSha256": "0a8b91e398d4b19accfc42801f6a3d23267aaae47ef5dd6d3a0d1062d9c23336",
+        "bytes": 137428
+      },
+      {
+        "template": "welle",
+        "docxSha256": "addf5ba67a805e7effe1d19bcec3b1c617780a458196ec28c62497f649fe6ec3",
+        "bytes": 123468
+      },
+      {
+        "template": "modern",
+        "docxSha256": "0856689a1afcc5b3d13771cecc91f8fbff234310d86fe8f9d17202d9eddeb38e",
+        "bytes": 123353
+      },
+      {
+        "template": "pastell",
+        "docxSha256": "85e494ea10300970395e3a1a8c9af3e1c3c22eda06c43725d9fed77d62244883",
+        "bytes": 143003
+      },
+      {
+        "template": "sonne",
+        "docxSha256": "e0f6de14194e3bc848b3b52e830e59aeeb5108c1202d9bc4301ac122b2d64c02",
+        "bytes": 97025
+      },
+      {
+        "template": "edelDark",
+        "docxSha256": "886c054b3a13dbe469f6380537e75292785372b900ff38124da5bfe7851fcbf8",
+        "bytes": 270480
+      },
+      {
+        "template": "studio2",
+        "docxSha256": "3a0db20af60987cd094def24e92290f0a99008a2dc9426773aca99c7724b88c2",
+        "bytes": 151787
+      },
+      {
+        "template": "studio",
+        "docxSha256": "eca622e554aa34152281f0b424c72c7a0ab11de4565749a8c66a8ee6e5f5790f",
+        "bytes": 169412
+      },
+      {
+        "template": "edge",
+        "docxSha256": "0d4dd00628f494a637fdb64e8080109af060261d9bce0d65df04e41832892cdf",
+        "bytes": 229447
+      },
+      {
+        "template": "gallery",
+        "docxSha256": "99e5e5717558f4d1c0adf6308c2f9abe846603f6ee9bc788ef5b536248954eaa",
+        "bytes": 171193
+      },
+      {
+        "template": "terracotta",
+        "docxSha256": "7219fbf2f498d1e920d790e22b43b9749b0efc2e6d51fa8e2636bfab97d90a92",
+        "bytes": 125041
+      },
+      {
+        "template": "citrus",
+        "docxSha256": "b759892c743d5b3b10f902ea705e9767bf74f83fce22b2bffab3850724e97ba0",
+        "bytes": 1156908
+      },
+      {
+        "template": "neon",
+        "docxSha256": "5e38aa8368b00079f5c8a97012ac02f619a6c67f6e799db069c6cbc52a45ecfc",
+        "bytes": 1967822
+      },
+      {
+        "template": "verlauf",
+        "docxSha256": "66f4dab6b992ec6ce44c6ef76b1d1ae0f2618b9f628ad065538865657472b502",
+        "bytes": 7646998
+      }
+    ]
+  },
+  "editor": {
+    "template": "aurora",
+    "layout": "classic",
+    "headerMode": "contact",
+    "freePhoto": false,
+    "photoZone": null
+  },
+  "configurationCommit": "3c9238e82646582d5bac21515bc327519ce66e02",
+  "remoteDevAtPublication": "7880d54ba04d5f9756dd79bdb5642d5a1efb372e",
+  "localConfigurationCommit": "4b2ece8f9e842802be887e713d2d92ce7d9fd6fe",
+  "publicationMethod": "GitHub connector; published tree is checked against the tested local tree"
+}

@@ -1,5 +1,10 @@
 # DOCX Next handoff — 2026-10-08
 
+## Approved Aurora adaptation — 2026-10-09
+
+The separate `docx-next/aurora-flowing-hero-20261009` branch completes **39/39 configured candidates, 0/39 Microsoft Word accepted** using the user-approved fixed gradient banner plus a growing native solid hero. This supersedes the earlier Aurora-only stop for this explicitly changed visual design. It is not merged into `dev`. [Status and boundaries](aurora-flowing-status.md), [strict evidence](aurora-flowing-evidence.json): 18 fixtures / 123 pages plus Save/Reopen, 1,923/1,923 fields, 36 visual checks, 1,059 units; 38 prior descriptors/190 models/38 packages remain unchanged. Original table-caption, Sidebar, picture/crop and Word gates remain blocked. No architecture or protected-branch update. Next: integrate the two bounded commits on the current development track, then continue its independent release gates.
+
+
 ## Parallel graphics template completion — 2026-10-08
 
 The dedicated `docx-next/template-graphics-final-20261008` branch, based on freshly fetched `dev` `d6f044aec1e15e911b3d74009ef2ce8734100a8e`, contains **38/39 configured candidates and 0/39 Microsoft Word accepted**. Seven earlier migrations were consolidated, then Neon and Verlauf completed with bounded opt-in nonsemantic composite page paint. This is separate branch evidence, not a claim that these configurations have been merged into `dev`.
