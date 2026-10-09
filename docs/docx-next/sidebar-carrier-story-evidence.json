@@ -1,0 +1,2764 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-09",
+  "sourceBase": "f93d54e37301d0ef1035fc6bd5177196effe0353",
+  "primary": {
+    "automaticRowCells": {
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/sw/source/core/layout/tabfrm.cxx",
+      "functions": [
+        "SwTabFrame::Split",
+        "lcl_MoveRowContent",
+        "lcl_PreprocessRowsInCells",
+        "lcl_RecalcSplitLine"
+      ],
+      "scope": "Native automatic row splitting creates/moves corresponding follow cells and nested rows; not complete concurrent-story acceptance."
+    },
+    "reference": {
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/sw/qa/core/layout/data/floattable-2cols.docx",
+      "bytes": 31941,
+      "gitBlobSha": "b55bc8dd49b8f8a26587bd47491111b489ba4c3c",
+      "sha256": "df863800102da08834c1eac840086bda954d90cd552d5f967231aba5035db879",
+      "actualReadOnlyPages": 2,
+      "rows": 7,
+      "cellsPerRow": 2,
+      "scope": "Coupled seven-row flow; long A4 splits over pages while short B4 stays on page 1. Not two whole long independent stories."
+    }
+  },
+  "devCli": {
+    "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "preparedSources": [
+      {
+        "name": "carrier-story-left-left",
+        "orientation": "left",
+        "kind": "left",
+        "policy": "all-pages",
+        "docxSha256": "664d3980032041c110d829d3ef810a9006d95944ed75cce806aa7351349e8573",
+        "controlName": "floating-continuation-left-left-all-pages",
+        "controlDocxSha256": "2346f744f69fa441010c56aeb7c3e1ba1c2e01eea1b1cd278e883e729b87fcaa"
+      },
+      {
+        "name": "carrier-story-left-side-long",
+        "orientation": "left",
+        "kind": "side-long",
+        "policy": "all-pages",
+        "docxSha256": "06a38fac92bad7bc19ad8218ab72de905b223036c75696e6a539aabec9f00534",
+        "controlName": "floating-continuation-left-side-long-all-pages",
+        "controlDocxSha256": "4c2b1bb0c9686c82f05851894b3ec0c4945cb5afb2abc16e142ac7b7fe8d62c1"
+      },
+      {
+        "name": "carrier-story-left-both-long",
+        "orientation": "left",
+        "kind": "both-long",
+        "policy": "all-pages",
+        "docxSha256": "83b0c5d4a79807256884442909f9b3acc418fd01cf17589aa9e3d73ea75708d7",
+        "controlName": "floating-continuation-left-both-long-all-pages",
+        "controlDocxSha256": "01a8cf3e894fc68db2fffd90274291c4f1cfcf478a7953b4210cc5eeb50a45bc"
+      },
+      {
+        "name": "carrier-story-right-left",
+        "orientation": "right",
+        "kind": "left",
+        "policy": "all-pages",
+        "docxSha256": "203e91920d319eefe68eeea0a63c7eee798ce7767eb56ef3c59c25e937603949",
+        "controlName": "floating-continuation-right-left-all-pages",
+        "controlDocxSha256": "c913c6514159e37c39aa9bfc125c76f8b5e3bf1bf53113ae5892b871d0008f29"
+      },
+      {
+        "name": "carrier-story-right-side-long",
+        "orientation": "right",
+        "kind": "side-long",
+        "policy": "all-pages",
+        "docxSha256": "f11273d60053c6f6db410a7ca7940f93459a96c64a3ed99c574af5dfcffc1e2a",
+        "controlName": "floating-continuation-right-side-long-all-pages",
+        "controlDocxSha256": "a1f057de19197b4878da0128170419a7a86221160d2c592895933a222cbc1399"
+      },
+      {
+        "name": "carrier-story-right-both-long",
+        "orientation": "right",
+        "kind": "both-long",
+        "policy": "all-pages",
+        "docxSha256": "2ef3c3175f663da21c9e9a52ce0d3817e84a78c539613e819886e2b473291bc5",
+        "controlName": "floating-continuation-right-both-long-all-pages",
+        "controlDocxSha256": "323b894d6e5e957a7b34af5292f3257f3b0b62d4c5fb968edc43184daef43791"
+      }
+    ],
+    "cases": [
+      {
+        "fixture": "carrier-story-left-left",
+        "diagnostic": {
+          "name": "carrier-story-left-left",
+          "orientation": "left",
+          "kind": "left",
+          "policy": "all-pages"
+        },
+        "docxSha256": "664d3980032041c110d829d3ef810a9006d95944ed75cce806aa7351349e8573",
+        "savedDocxSha256": "77117e9723916c1d39985fc0cf275ec1eb50190669fdde196e15c71e5d30d5d9",
+        "sourceStructure": {
+          "status": "pass",
+          "originalMainTables": 6,
+          "originalMainParagraphs": 26,
+          "mainOwnerTableIndex": 0,
+          "storyOwners": {
+            "side": {
+              "table": 0,
+              "row": 0,
+              "cell": 0
+            },
+            "main": {
+              "table": 0,
+              "row": 0,
+              "cell": 2
+            }
+          },
+          "sharedAutomaticFloatingCarrier": true
+        },
+        "sourceNative": {
+          "paragraphs": [
+            {
+              "fieldId": "cv.section.person.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.address",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.place",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.phone",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.email",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.geburtsdatum",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.sprachen.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l1.name",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l1.level",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l2.name",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l2.level",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l3.name",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l3.level",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.hobbys.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.hobbys:0",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.hobbys:1",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.hobbys:2",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.staerken.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.staerken:0",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.staerken:1",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.staerken:2",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.documentTitle",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.name",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.custom:familie.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.custom:familie:demo-familie.place",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.custom:familie:demo-familie.description",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.schule.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s1.date",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s1.title",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s1.place",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s1.description",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s2.date",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s2.title",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s2.place",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.erfahrung.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p1.date",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p1.title",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p1.place",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p1.description",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p2.date",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p2.title",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p2.place",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p2.description",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.referenzen.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.referenzen:demo-r1.name",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.referenzen:demo-r1.role",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.referenzen:demo-r1.contact",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            }
+          ],
+          "carrier": {
+            "tableIndex": 0,
+            "position": {
+              "tblpX": "1134",
+              "tblpY": "1134",
+              "vertAnchor": "page",
+              "horzAnchor": "page"
+            },
+            "distances": {
+              "leftFromText": 0,
+              "rightFromText": 0,
+              "topFromText": 0,
+              "bottomFromText": 0
+            },
+            "overlap": "never"
+          },
+          "storyOwners": {
+            "side": {
+              "table": 0,
+              "row": 0,
+              "cell": 0
+            },
+            "main": {
+              "table": 0,
+              "row": 0,
+              "cell": 2
+            }
+          },
+          "allPages": true
+        },
+        "savedNative": {
+          "paragraphs": [
+            {
+              "fieldId": "cv.section.person.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.address",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.place",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.phone",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.email",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.geburtsdatum",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.sprachen.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l1.name",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l1.level",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l2.name",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l2.level",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l3.name",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.sprachen:demo-l3.level",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.hobbys.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.hobbys:0",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.hobbys:1",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.hobbys:2",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.staerken.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.staerken:0",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.staerken:1",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.staerken:2",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.documentTitle",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.person.name",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.custom:familie.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.custom:familie:demo-familie.place",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.custom:familie:demo-familie.description",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.schule.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s1.date",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s1.title",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s1.place",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s1.description",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s2.date",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s2.title",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.schule:demo-s2.place",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.erfahrung.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p1.date",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p1.title",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p1.place",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p1.description",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p2.date",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p2.title",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p2.place",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.erfahrung:demo-p2.description",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.section.referenzen.heading",
+              "flags": {
+                "keepNext": true,
+                "keepLines": true,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.referenzen:demo-r1.name",
+              "flags": {
+                "keepNext": true,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.referenzen:demo-r1.role",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            },
+            {
+              "fieldId": "cv.entry.referenzen:demo-r1.contact",
+              "flags": {
+                "keepNext": false,
+                "keepLines": false,
+                "widowControl": true
+              },
+              "paragraphCount": 1
+            }
+          ],
+          "carrier": {
+            "tableIndex": 0,
+            "position": {
+              "tblpX": "1134",
+              "tblpY": "1134",
+              "vertAnchor": "page",
+              "horzAnchor": "page"
+            },
+            "distances": {
+              "leftFromText": 0,
+              "rightFromText": 0,
+              "topFromText": 0,
+              "bottomFromText": 0
+            },
+            "overlap": "never"
+          },
+          "storyOwners": {
+            "side": {
+              "table": 0,
+              "row": 0,
+              "cell": 0
+            },
+            "main": {
+              "table": 0,
+              "row": 0,
+              "cell": 2
+            }
+          },
+          "allPages": true
+        },
+        "sourceStories": {
+          "stories": {
+            "main": [
+              {
+                "fieldId": "cv.documentTitle",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "e3b4327857f62441535598f90be89221e3fda56a5007a3b64e2902da5d384f35"
+              },
+              {
+                "fieldId": "cv.person.name",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc"
+              },
+              {
+                "fieldId": "cv.section.custom:familie.heading",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "47324fe12daaecf94d8a7812825097a523c609fbb509b090fbffa461851ccd60"
+              },
+              {
+                "fieldId": "cv.entry.custom:familie:demo-familie.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 1,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "e8e73edaf7926f772d8115ed59fa163a14de66dbde846700f532842a4f782dae"
+              },
+              {
+                "fieldId": "cv.entry.custom:familie:demo-familie.description",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 1,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "14454130af3130ec84684fac7297869de04e1b0ba95eb5c94494cc01c3536c4a"
+              },
+              {
+                "fieldId": "cv.section.schule.heading",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "a343c1c554164e8c668a5286c1af2ee0ec5ce57a5811717011039ad676d22dc6"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.date",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 2,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "3846ceeeaf13f136de3ebc3c53db44c4de14ee6a0f3f759ad098ba90f0081188"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.title",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 2,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "e89a33cd26361c4b7eb8a1f0b2e7bc783f62e7fbba6792dbf753854e381a228d"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 2,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "86800186344f72fd4db06eed39640c6c5d6039323e7edd7dd2de5a9387d57e5c"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.description",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 2,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "2725f19d267f13adecd9834b8549b340fa6178d2eab4049a73723ddb3e9d8431"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s2.date",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 3,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "857917d3a9532b119da02cf6625aacaec4c71d4dc987c22280179d54a3d72ab6"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s2.title",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 3,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "45f0d14e3310394ff97ae4ee82c3f11d712a6b0099394edeb0f1ad3784cbbaa7"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s2.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 3,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "10b1d3e5fc235578b131f76b0a6efdc19342f1992846e72d8199e2c410ecfa7e"
+              },
+              {
+                "fieldId": "cv.section.erfahrung.heading",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "4a797fb1bdf9fb3d60a131d738f19c325aead78b8c96d18f1395c631b5fada94"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.date",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 4,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "af8091364ff52829dc4fbe62b920d4b9f92e0d27b1c5aedc5612c36bc4e2578a"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.title",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 4,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "1294c7f5179c6f09c0ea5cb0587df908d4eccbb8cf555fa96b4399517c8fdbf2"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 4,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "90e83335e29e9b230e3a028eef391e225d3df1bf97242567d5bc61640fc0f55c"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.description",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 4,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "33fe53e6ea95af21cb68cb645dfcab5c8d116d23f26e3e338212963c3ffd1fad"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.date",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 5,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "75521a5fc3c8112d34068f44db77bab36634f2a411e810cca0505cf2b54f24cf"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.title",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 5,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "b2b209cc0470467050a655589310619e0ee140adbe0bfc02d71567dc5f7a3b23"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 5,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "4cef6fed17d95c8f85d61ad5158f97e15b067f97e5653d5d17304e65d23e3438"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.description",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 5,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "0cc51a8a1259eac5a8cc4627d9cb3f55a56c977e6b36d7fb68aabeedae08a527"
+              },
+              {
+                "fieldId": "cv.section.referenzen.heading",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "d9825991644fde40e065758354a99e8d2fb8fd71a74cf6ced59b8bc8e0df2c3b"
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.name",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 6,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "19039d6fb1cae043690265e3773ebf19396c18fa4d25a751c7a277d5a1feafde"
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.role",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 6,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "186bb16cd624f8f796916f7837cd8f1b15ff809d90b6b51f9b4846b6dddd90ed"
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.contact",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 6,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "b8c2ccfe577199c36b5771694446964f37ca1f9e9073921f715930b954dbd091"
+              }
+            ],
+            "side": [
+              {
+                "fieldId": "cv.section.person.heading",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "325eecf9d30156c2e6f261e611c40f571de28ad8924b6b2167b2aa78a3d9dadb"
+              },
+              {
+                "fieldId": "cv.person.address",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "6922c381bd3f88353c717689e0f04a42830c6155ffa8d069cb5c2c51d6e35153"
+              },
+              {
+                "fieldId": "cv.person.place",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "75826ab6e594911a4b208d2e8347d4f0b1db1b9fab8e61f98597ff3893ad5025"
+              },
+              {
+                "fieldId": "cv.person.phone",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "c05caaab6badaa17a00dee1428463b6808c7fe15e8bf6792ac58d544c6b4e9e7"
+              },
+              {
+                "fieldId": "cv.person.email",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "9e51ec82f355f80c78977f8495ef390dd1fd63314b916cc49e3895aa723c51de"
+              },
+              {
+                "fieldId": "cv.person.geburtsdatum",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "7aaa95c79ed289863d5bcd06d01a646e1ad42177cbf078ee271676b613747a45"
+              },
+              {
+                "fieldId": "cv.section.sprachen.heading",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "17d630275f4395eb9d565a326f186f5915c4c90742f481b6c83b53a00b183c00"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l1.name",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "801cfe0fa1182664d16f4aaf7856cc73412f79ef508a866eebc2e5ccf125ff0a"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l1.level",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "62a7cd7a4ccd9abd84a3c80eea663a6973f0d743a681409c437448142e27ec35"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l2.name",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "983ea57f2212eb74c09837138f8672bb7c59d1248afd6ef68eb5a9c33d91f508"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l2.level",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "61620c0efb9bf9c7acd6cdfd9e91708204fe788a1937932588586bcaa472cc8b"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l3.name",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "be9fb855d369b99f5343feb50b1b76d1f0cef0e1e3aae545a51ff7003f4c43cd"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l3.level",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "6730b4f1a913daf523701b62edba45eab5f0e67d3e9df4fb4d35478d9535065f"
+              },
+              {
+                "fieldId": "cv.section.hobbys.heading",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "a1357b3256f4ab704529888df5c44ef1ed5ddf769f18c7ae536a11f637e1faa8"
+              },
+              {
+                "fieldId": "cv.entry.hobbys:0",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "256832e9a7253f3027fe98bcaef2b8be192e42bd5accbafe72d63e8c02dc13f4"
+              },
+              {
+                "fieldId": "cv.entry.hobbys:1",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "8874fa90c73cd1a1d614af8e2621ad12804c209d243ae644d0e1b62601c666da"
+              },
+              {
+                "fieldId": "cv.entry.hobbys:2",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "6a24eef779616ad0e1efeba49ddf9a3060d36271795cca58d8468cee4c8680bc"
+              },
+              {
+                "fieldId": "cv.section.staerken.heading",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "607f1e731017b265dfa645aa5b92e07b2ef40ddf68b6cbf088b29c8701f3d1e1"
+              },
+              {
+                "fieldId": "cv.entry.staerken:0",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "811fb98cbc026d573412305a8bfbbaa567266331af95d10cccdd1a03c4d41717"
+              },
+              {
+                "fieldId": "cv.entry.staerken:1",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "51b14bac3e0a70c02a76c0ae99fb91ab9d206ec013461f45fa8a8f704cff0d6d"
+              },
+              {
+                "fieldId": "cv.entry.staerken:2",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "443fb709e905c3dcb5796b39c1a4913c32d1581f41a43483eb14fb6631ff7f1f"
+              }
+            ]
+          },
+          "errors": []
+        },
+        "savedStories": {
+          "stories": {
+            "main": [
+              {
+                "fieldId": "cv.documentTitle",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "e3b4327857f62441535598f90be89221e3fda56a5007a3b64e2902da5d384f35"
+              },
+              {
+                "fieldId": "cv.person.name",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc"
+              },
+              {
+                "fieldId": "cv.section.custom:familie.heading",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "47324fe12daaecf94d8a7812825097a523c609fbb509b090fbffa461851ccd60"
+              },
+              {
+                "fieldId": "cv.entry.custom:familie:demo-familie.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 1,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "e8e73edaf7926f772d8115ed59fa163a14de66dbde846700f532842a4f782dae"
+              },
+              {
+                "fieldId": "cv.entry.custom:familie:demo-familie.description",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 1,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "14454130af3130ec84684fac7297869de04e1b0ba95eb5c94494cc01c3536c4a"
+              },
+              {
+                "fieldId": "cv.section.schule.heading",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "a343c1c554164e8c668a5286c1af2ee0ec5ce57a5811717011039ad676d22dc6"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.date",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 2,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "3846ceeeaf13f136de3ebc3c53db44c4de14ee6a0f3f759ad098ba90f0081188"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.title",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 2,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "e89a33cd26361c4b7eb8a1f0b2e7bc783f62e7fbba6792dbf753854e381a228d"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 2,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "86800186344f72fd4db06eed39640c6c5d6039323e7edd7dd2de5a9387d57e5c"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s1.description",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 2,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "2725f19d267f13adecd9834b8549b340fa6178d2eab4049a73723ddb3e9d8431"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s2.date",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 3,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "857917d3a9532b119da02cf6625aacaec4c71d4dc987c22280179d54a3d72ab6"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s2.title",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 3,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "45f0d14e3310394ff97ae4ee82c3f11d712a6b0099394edeb0f1ad3784cbbaa7"
+              },
+              {
+                "fieldId": "cv.entry.schule:demo-s2.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 3,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "10b1d3e5fc235578b131f76b0a6efdc19342f1992846e72d8199e2c410ecfa7e"
+              },
+              {
+                "fieldId": "cv.section.erfahrung.heading",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "4a797fb1bdf9fb3d60a131d738f19c325aead78b8c96d18f1395c631b5fada94"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.date",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 4,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "af8091364ff52829dc4fbe62b920d4b9f92e0d27b1c5aedc5612c36bc4e2578a"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.title",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 4,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "1294c7f5179c6f09c0ea5cb0587df908d4eccbb8cf555fa96b4399517c8fdbf2"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 4,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "90e83335e29e9b230e3a028eef391e225d3df1bf97242567d5bc61640fc0f55c"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.description",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 4,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "33fe53e6ea95af21cb68cb645dfcab5c8d116d23f26e3e338212963c3ffd1fad"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.date",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 5,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "75521a5fc3c8112d34068f44db77bab36634f2a411e810cca0505cf2b54f24cf"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.title",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 5,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "b2b209cc0470467050a655589310619e0ee140adbe0bfc02d71567dc5f7a3b23"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.place",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 5,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "4cef6fed17d95c8f85d61ad5158f97e15b067f97e5653d5d17304e65d23e3438"
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.description",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 5,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "0cc51a8a1259eac5a8cc4627d9cb3f55a56c977e6b36d7fb68aabeedae08a527"
+              },
+              {
+                "fieldId": "cv.section.referenzen.heading",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "d9825991644fde40e065758354a99e8d2fb8fd71a74cf6ced59b8bc8e0df2c3b"
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.name",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 6,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "19039d6fb1cae043690265e3773ebf19396c18fa4d25a751c7a277d5a1feafde"
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.role",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 6,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "186bb16cd624f8f796916f7837cd8f1b15ff809d90b6b51f9b4846b6dddd90ed"
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.contact",
+                "story": "main",
+                "owners": [
+                  {
+                    "table": 6,
+                    "row": 0,
+                    "cell": 0
+                  },
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 2
+                  }
+                ],
+                "textSha256": "b8c2ccfe577199c36b5771694446964f37ca1f9e9073921f715930b954dbd091"
+              }
+            ],
+            "side": [
+              {
+                "fieldId": "cv.section.person.heading",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "325eecf9d30156c2e6f261e611c40f571de28ad8924b6b2167b2aa78a3d9dadb"
+              },
+              {
+                "fieldId": "cv.person.address",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "6922c381bd3f88353c717689e0f04a42830c6155ffa8d069cb5c2c51d6e35153"
+              },
+              {
+                "fieldId": "cv.person.place",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "75826ab6e594911a4b208d2e8347d4f0b1db1b9fab8e61f98597ff3893ad5025"
+              },
+              {
+                "fieldId": "cv.person.phone",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "c05caaab6badaa17a00dee1428463b6808c7fe15e8bf6792ac58d544c6b4e9e7"
+              },
+              {
+                "fieldId": "cv.person.email",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "9e51ec82f355f80c78977f8495ef390dd1fd63314b916cc49e3895aa723c51de"
+              },
+              {
+                "fieldId": "cv.person.geburtsdatum",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "7aaa95c79ed289863d5bcd06d01a646e1ad42177cbf078ee271676b613747a45"
+              },
+              {
+                "fieldId": "cv.section.sprachen.heading",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "17d630275f4395eb9d565a326f186f5915c4c90742f481b6c83b53a00b183c00"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l1.name",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "801cfe0fa1182664d16f4aaf7856cc73412f79ef508a866eebc2e5ccf125ff0a"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l1.level",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "62a7cd7a4ccd9abd84a3c80eea663a6973f0d743a681409c437448142e27ec35"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l2.name",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "983ea57f2212eb74c09837138f8672bb7c59d1248afd6ef68eb5a9c33d91f508"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l2.level",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "61620c0efb9bf9c7acd6cdfd9e91708204fe788a1937932588586bcaa472cc8b"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l3.name",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "be9fb855d369b99f5343feb50b1b76d1f0cef0e1e3aae545a51ff7003f4c43cd"
+              },
+              {
+                "fieldId": "cv.entry.sprachen:demo-l3.level",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "6730b4f1a913daf523701b62edba45eab5f0e67d3e9df4fb4d35478d9535065f"
+              },
+              {
+                "fieldId": "cv.section.hobbys.heading",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "a1357b3256f4ab704529888df5c44ef1ed5ddf769f18c7ae536a11f637e1faa8"
+              },
+              {
+                "fieldId": "cv.entry.hobbys:0",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "256832e9a7253f3027fe98bcaef2b8be192e42bd5accbafe72d63e8c02dc13f4"
+              },
+              {
+                "fieldId": "cv.entry.hobbys:1",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "8874fa90c73cd1a1d614af8e2621ad12804c209d243ae644d0e1b62601c666da"
+              },
+              {
+                "fieldId": "cv.entry.hobbys:2",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "6a24eef779616ad0e1efeba49ddf9a3060d36271795cca58d8468cee4c8680bc"
+              },
+              {
+                "fieldId": "cv.section.staerken.heading",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "607f1e731017b265dfa645aa5b92e07b2ef40ddf68b6cbf088b29c8701f3d1e1"
+              },
+              {
+                "fieldId": "cv.entry.staerken:0",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "811fb98cbc026d573412305a8bfbbaa567266331af95d10cccdd1a03c4d41717"
+              },
+              {
+                "fieldId": "cv.entry.staerken:1",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "51b14bac3e0a70c02a76c0ae99fb91ab9d206ec013461f45fa8a8f704cff0d6d"
+              },
+              {
+                "fieldId": "cv.entry.staerken:2",
+                "story": "side",
+                "owners": [
+                  {
+                    "table": 0,
+                    "row": 0,
+                    "cell": 0
+                  }
+                ],
+                "textSha256": "443fb709e905c3dcb5796b39c1a4913c32d1581f41a43483eb14fb6631ff7f1f"
+              }
+            ]
+          },
+          "errors": []
+        },
+        "wholeNativeStories": {
+          "status": "pass",
+          "errors": []
+        },
+        "sourceGeometry": [
+          {
+            "width": 9637,
+            "grid": [
+              2789,
+              340,
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": false,
+                "cells": [
+                  2789,
+                  340,
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              3254,
+              3254
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": false,
+                "cells": [
+                  3254,
+                  3254
+                ]
+              }
+            ]
+          }
+        ],
+        "savedGeometry": [
+          {
+            "width": 9637,
+            "grid": [
+              2788,
+              341,
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": false,
+                "cells": [
+                  2788,
+                  341,
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              6508
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": true,
+                "cells": [
+                  6508
+                ]
+              }
+            ]
+          },
+          {
+            "width": 6508,
+            "grid": [
+              3254,
+              3254
+            ],
+            "indent": 0,
+            "rows": [
+              {
+                "cantSplit": false,
+                "cells": [
+                  3254,
+                  3254
+                ]
+              }
+            ]
+          }
+        ],
+        "nativeIdentity": {
+          "sourceTaggedFields": 77,
+          "savedMatchingTaggedFields": 77,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.entry.custom:familie:demo-familie",
+            "cv.entry.erfahrung:demo-p1",
+            "cv.entry.erfahrung:demo-p2",
+            "cv.entry.schule:demo-s1",
+            "cv.entry.schule:demo-s2",
+            "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1",
+            "probe.floating-carrier"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "render": {
+          "pages": 3,
+          "tracks": {
+            "main": {
+              "paragraphMultiplicityChanges": [],
+              "openingCvPages": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "firstCvPage": 1,
+              "missingParagraphs": [],
+              "outsideBody": 0,
+              "fullOwningLaneText": true
+            },
+            "side": {
+              "paragraphMultiplicityChanges": [],
+              "openingCvPages": [],
+              "firstCvPage": 1,
+              "missingParagraphs": [],
+              "outsideBody": 0,
+              "fullOwningLaneText": true
+            }
+          },
+          "textMultiplicityMatches": true,
+          "allTextAndBounds": true,
+          "expectedControlPages": null,
+          "openingMatches": true
+        },
+        "saveReopen": {
+          "pages": 3,
+          "tracks": {
+            "main": {
+              "paragraphMultiplicityChanges": [],
+              "openingCvPages": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "firstCvPage": 1,
+              "missingParagraphs": [],
+              "outsideBody": 0,
+              "fullOwningLaneText": true
+            },
+            "side": {
+              "paragraphMultiplicityChanges": [],
+              "openingCvPages": [],
+              "firstCvPage": 1,
+              "missingParagraphs": [],
+              "outsideBody": 0,
+              "fullOwningLaneText": true
+            }
+          },
+          "textMultiplicityMatches": true,
+          "allTextAndBounds": true,
+          "expectedControlPages": null,
+          "openingMatches": true
+        },
+        "wholeVisibleStories": {
+          "render": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "saveReopen": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          }
+        },
+        "rasterPages": {
+          "render": [
+            "c6d1d28ebf7744dde01e99b99971c3eaa0dea0cce261c6f1d33a5a8eb7b3a1db",
+            "ddfdc2f2d1e34e8510e228292086c180aa68d19552147553c63d9000e1061e01",
+            "1dac0a86929ce7a2c5bbdf24a903479561e5d342a8142a2672f2bacd969da432"
+          ],
+          "saveReopen": [
+            "c6d1d28ebf7744dde01e99b99971c3eaa0dea0cce261c6f1d33a5a8eb7b3a1db",
+            "ddfdc2f2d1e34e8510e228292086c180aa68d19552147553c63d9000e1061e01",
+            "1dac0a86929ce7a2c5bbdf24a903479561e5d342a8142a2672f2bacd969da432"
+          ]
+        },
+        "candidateFailures": [
+          "all-native-table-exact-geometry"
+        ]
+      }
+    ],
+    "earlyStop": {
+      "fixture": "carrier-story-left-left",
+      "reasons": [
+        "all-native-table-exact-geometry"
+      ],
+      "unrenderedCases": [
+        "carrier-story-left-side-long",
+        "carrier-story-left-both-long",
+        "carrier-story-right-left",
+        "carrier-story-right-side-long",
+        "carrier-story-right-both-long"
+      ]
+    },
+    "architectureAcceptance": "blocked; original captions, geometry, opening, original-photo/chrome and Word gates remain",
+    "microsoftWord": "pending",
+    "actualCases": 1,
+    "actualDossierPages": 3
+  },
+  "stable": null,
+  "architectureAcceptance": "blocked; exact original table geometry/captions/photo/chrome/Word gates remain",
+  "microsoftWord": "pending"
+}

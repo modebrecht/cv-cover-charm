@@ -44,6 +44,7 @@ on:
       - docs/docx-next/sidebar-whole-story-contract-evidence.json
       - docs/docx-next/sidebar-inline-story-evidence.json
       - docs/docx-next/sidebar-dual-story-evidence.json
+      - docs/docx-next/sidebar-carrier-story-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
       - tests/unit/docx-next-selective-row.test.ts
@@ -88,6 +89,7 @@ jobs:
           python scripts/docx-next-story-contract-test.py
           python scripts/docx-next-inline-story-test.py
           python scripts/docx-next-dual-story-test.py
+          python scripts/docx-next-carrier-story-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -123,6 +125,7 @@ jobs:
           bun scripts/docx-next-floating-anchor-probe.ts "$QA_ROOT/floating-anchor"
           bun scripts/docx-next-inline-story-probe.ts "$QA_ROOT/inline-story"
           bun scripts/docx-next-dual-story-probe.ts "$QA_ROOT/dual-story"
+          bun scripts/docx-next-carrier-story-probe.ts "$QA_ROOT/carrier-story"
       - name: Require native container carrier ownership without weakening caption gates
         run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-identity-evidence.json
       - name: Reproduce stopped multirow identity and exact native grid counterexamples
@@ -167,6 +170,8 @@ jobs:
         run: python scripts/docx-next-inline-story-qa.py "$QA_ROOT/inline-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-inline-story-evidence.json
       - name: Require independently pinned two-complete-floating-owner counterevidence
         run: python scripts/docx-next-dual-story-qa.py "$QA_ROOT/dual-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-dual-story-evidence.json
+      - name: Independently observe complete automatic floating carrier cell stories
+        run: python scripts/docx-next-carrier-story-qa.py "$QA_ROOT/carrier-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -178,6 +183,7 @@ jobs:
             ${{ env.QA_ROOT }}/whole-story-contract-report.json
             ${{ env.QA_ROOT }}/inline-story/*
             ${{ env.QA_ROOT }}/dual-story/*
+            ${{ env.QA_ROOT }}/carrier-story/*
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/cell-ending/*
             ${{ env.QA_ROOT }}/body/*

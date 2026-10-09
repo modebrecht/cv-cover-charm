@@ -28,8 +28,19 @@ def native_stories(path, field_ids, story_owners=None):
         assert len(floating) == 1, 'Whole-story audit requires one declared floating side story'
         story_owners = {'side': tables.index(floating[0])}
     else:
-        assert set(story_owners) == {'main', 'side'} and len(set(story_owners.values())) == 2, 'Invalid declared independent native owners'
-        assert len(floating) == 2 and set(story_owners.values()) == {tables.index(table) for table in floating}, 'Changed declared independent floating owners'
+        assert set(story_owners) == {'main', 'side'}, 'Invalid declared independent native owners'
+        if all(isinstance(owner, dict) for owner in story_owners.values()):
+            keys = []
+            for owner in story_owners.values():
+                assert set(owner) == {'table', 'row', 'cell'} and all(type(value) is int and value >= 0 for value in owner.values()), 'Invalid declared native cell owner'
+                index, row, cell = (owner[key] for key in ('table', 'row', 'cell'))
+                assert index < len(tables) and row < len(tables[index].findall(W + 'tr')) and cell < len(tables[index].findall(W + 'tr')[row].findall(W + 'tc')), 'Missing declared native cell owner'
+                keys.append((index, row, cell))
+            assert len(set(keys)) == 2, 'Invalid declared independent native owners'
+            assert {key[0] for key in keys} == {tables.index(table) for table in floating}, 'Changed declared independent floating owners'
+        else:
+            assert all(type(owner) is int for owner in story_owners.values()) and len(set(story_owners.values())) == 2, 'Invalid declared independent native owners'
+            assert len(floating) == 2 and set(story_owners.values()) == {tables.index(table) for table in floating}, 'Changed declared independent floating owners'
     positions = {paragraph: index for index, paragraph in enumerate(root.iter(W + 'p'))}
     controls = {key: [] for key in field_ids}
     for control in root.iter(W + 'sdt'):
@@ -66,7 +77,7 @@ def native_stories(path, field_ids, story_owners=None):
                 owners.append({'table': tables.index(table), 'row': table.findall(W + 'tr').index(row),
                                'cell': row.findall(W + 'tc').index(ancestor)})
             ancestor = parents.get(ancestor)
-        labels = [label for label, index in story_owners.items() if any(owner['table'] == index for owner in owners)]
+        labels = [label for label, declared in story_owners.items() if any(owner == declared if isinstance(declared, dict) else owner['table'] == declared for owner in owners)]
         if len(story_owners) == 2 and len(labels) != 1:
             errors.append({'fieldId': key, 'reason': 'field-outside-declared-independent-owner'})
         records.append({'fieldId': key, 'story': labels[0] if labels else 'main',
