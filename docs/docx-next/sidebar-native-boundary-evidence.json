@@ -1,0 +1,625 @@
+{
+  "local": {
+    "scope": "Two unsaved synthetic public UNO conversion models, separate from three unchanged original imported source/saved pairs",
+    "binding": {
+      "interface": "Public LibreOfficeKit initialization and public in-process UNO",
+      "bindingManifestSha256": "dca8fc128f78804e608a6a1a0bdb8698ba344ae3d17fa39448c063fe0d69cfbe",
+      "packageSha256": "77dd1d628d2d0b9a37477167e0f205378d86a549bca19cb2349afa29bd5b0331",
+      "nativeFiles": {
+        "pyuno.so": "ccc7a97969c2f4a68c42780186237b2837161b767ff5edff0cf18c2416a3979e",
+        "libpyuno.so": "27fa3a583c03492d79383f6a099c49af3f34f11d84b23f5b920a765c330e2562"
+      },
+      "pythonMajorMinor": [
+        3,
+        12
+      ],
+      "packagedUnoSourceSha256": "43a28876b535e604344f454711673f917aa64301cceae986428cff5db62716fc",
+      "bootstrapRelocation": "Two installed paths only; native binaries unchanged",
+      "workerSha256": "a7bc2a1f6d45744809794f215a17013d5c304ded1364520393ef60351d671f35",
+      "engine": {
+        "interface": "LibreOfficeKit",
+        "version": {
+          "ProductName": "LibreOffice",
+          "ProductVersion": "25.8",
+          "ProductExtension": ".7.3",
+          "BuildId": "580(Build:3)"
+        },
+        "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+        "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+        "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+        "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+        "host": "Linux x86_64",
+        "packagesVerified": 50
+      }
+    },
+    "originalImportBinding": {
+      "interface": "Public LibreOfficeKit initialization and public in-process UNO",
+      "bindingManifestSha256": "dca8fc128f78804e608a6a1a0bdb8698ba344ae3d17fa39448c063fe0d69cfbe",
+      "packageSha256": "77dd1d628d2d0b9a37477167e0f205378d86a549bca19cb2349afa29bd5b0331",
+      "nativeFiles": {
+        "pyuno.so": "ccc7a97969c2f4a68c42780186237b2837161b767ff5edff0cf18c2416a3979e",
+        "libpyuno.so": "27fa3a583c03492d79383f6a099c49af3f34f11d84b23f5b920a765c330e2562"
+      },
+      "pythonMajorMinor": [
+        3,
+        12
+      ],
+      "packagedUnoSourceSha256": "43a28876b535e604344f454711673f917aa64301cceae986428cff5db62716fc",
+      "bootstrapRelocation": "Two installed paths only; native binaries unchanged",
+      "workerSha256": "a7bc2a1f6d45744809794f215a17013d5c304ded1364520393ef60351d671f35",
+      "engine": {
+        "interface": "LibreOfficeKit",
+        "version": {
+          "ProductName": "LibreOffice",
+          "ProductVersion": "25.8",
+          "ProductExtension": ".7.3",
+          "BuildId": "580(Build:3)"
+        },
+        "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+        "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+        "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+        "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "host": "Linux x86_64",
+        "packagesVerified": 50
+      }
+    },
+    "workerSha256": "d04e29d1eafdf37d3855c8e2d50d3ee3483a8f1f2e2a01cab559b943445d1779",
+    "originalImports": [
+      {
+        "sourceInputSha256": "664d3980032041c110d829d3ef810a9006d95944ed75cce806aa7351349e8573",
+        "savedInputSha256": "d7944a3bdcf0965aff0d50e5f20bf2a7dc9806f5615b7aca2cf592e891038176",
+        "canonicalOwnerFieldIds": [
+          "cv.section.person.heading",
+          "cv.person.address",
+          "cv.person.place",
+          "cv.person.phone",
+          "cv.person.email",
+          "cv.person.geburtsdatum",
+          "cv.section.sprachen.heading",
+          "cv.entry.sprachen:demo-l1.name",
+          "cv.entry.sprachen:demo-l1.level",
+          "cv.entry.sprachen:demo-l2.name",
+          "cv.entry.sprachen:demo-l2.level",
+          "cv.entry.sprachen:demo-l3.name",
+          "cv.entry.sprachen:demo-l3.level",
+          "cv.section.hobbys.heading",
+          "cv.entry.hobbys:0",
+          "cv.entry.hobbys:1",
+          "cv.entry.hobbys:2",
+          "cv.section.staerken.heading",
+          "cv.entry.staerken:0",
+          "cv.entry.staerken:1",
+          "cv.entry.staerken:2",
+          "cv.documentTitle",
+          "cv.person.name",
+          "cv.section.custom:familie.heading",
+          "cv.entry.custom:familie:demo-familie.place",
+          "cv.entry.custom:familie:demo-familie.description",
+          "cv.section.schule.heading",
+          "cv.entry.schule:demo-s1.date",
+          "cv.entry.schule:demo-s1.title",
+          "cv.entry.schule:demo-s1.place",
+          "cv.entry.schule:demo-s1.description",
+          "cv.entry.schule:demo-s2.date",
+          "cv.entry.schule:demo-s2.title",
+          "cv.entry.schule:demo-s2.place",
+          "cv.section.erfahrung.heading",
+          "cv.entry.erfahrung:demo-p1.date",
+          "cv.entry.erfahrung:demo-p1.title",
+          "cv.entry.erfahrung:demo-p1.place",
+          "cv.entry.erfahrung:demo-p1.description",
+          "cv.entry.erfahrung:demo-p2.date",
+          "cv.entry.erfahrung:demo-p2.title",
+          "cv.entry.erfahrung:demo-p2.place",
+          "cv.entry.erfahrung:demo-p2.description",
+          "cv.section.referenzen.heading",
+          "cv.entry.referenzen:demo-r1.name",
+          "cv.entry.referenzen:demo-r1.role",
+          "cv.entry.referenzen:demo-r1.contact"
+        ],
+        "serializedTagCount": 77,
+        "sourceNativeTagCount": 77,
+        "savedNativeTagCount": 76,
+        "missingNativeTags": [
+          "cv.section.person.heading"
+        ],
+        "remainingNativeRegistryOrderPreserved": true,
+        "nativeRegistryOrderIsDocumentOrder": false,
+        "firstControl": {
+          "source": {
+            "properties": [
+              "alias",
+              "tag"
+            ],
+            "contentElements": [
+              "p"
+            ],
+            "parentElement": "tc",
+            "text": "Kontakt"
+          },
+          "saved": {
+            "properties": [
+              "alias",
+              "tag",
+              "text"
+            ],
+            "contentElements": [
+              "r",
+              "r"
+            ],
+            "parentElement": "p",
+            "text": "Kontakt"
+          }
+        },
+        "allTaggedTables": [
+          {
+            "canonicalTableIds": [
+              "cv.section.person.heading",
+              "cv.person.address",
+              "cv.person.place",
+              "cv.person.phone",
+              "cv.person.email",
+              "cv.person.geburtsdatum",
+              "cv.section.sprachen.heading",
+              "cv.entry.sprachen:demo-l1.name",
+              "cv.entry.sprachen:demo-l1.level",
+              "cv.entry.sprachen:demo-l2.name",
+              "cv.entry.sprachen:demo-l2.level",
+              "cv.entry.sprachen:demo-l3.name",
+              "cv.entry.sprachen:demo-l3.level",
+              "cv.section.hobbys.heading",
+              "cv.entry.hobbys:0",
+              "cv.entry.hobbys:1",
+              "cv.entry.hobbys:2",
+              "cv.section.staerken.heading",
+              "cv.entry.staerken:0",
+              "cv.entry.staerken:1",
+              "cv.entry.staerken:2",
+              "cv.documentTitle",
+              "cv.person.name",
+              "cv.section.custom:familie.heading",
+              "cv.entry.custom:familie:demo-familie.place",
+              "cv.entry.custom:familie:demo-familie.description",
+              "cv.section.schule.heading",
+              "cv.entry.schule:demo-s1.date",
+              "cv.entry.schule:demo-s1.title",
+              "cv.entry.schule:demo-s1.place",
+              "cv.entry.schule:demo-s1.description",
+              "cv.entry.schule:demo-s2.date",
+              "cv.entry.schule:demo-s2.title",
+              "cv.entry.schule:demo-s2.place",
+              "cv.section.erfahrung.heading",
+              "cv.entry.erfahrung:demo-p1.date",
+              "cv.entry.erfahrung:demo-p1.title",
+              "cv.entry.erfahrung:demo-p1.place",
+              "cv.entry.erfahrung:demo-p1.description",
+              "cv.entry.erfahrung:demo-p2.date",
+              "cv.entry.erfahrung:demo-p2.title",
+              "cv.entry.erfahrung:demo-p2.place",
+              "cv.entry.erfahrung:demo-p2.description",
+              "cv.section.referenzen.heading",
+              "cv.entry.referenzen:demo-r1.name",
+              "cv.entry.referenzen:demo-r1.role",
+              "cv.entry.referenzen:demo-r1.contact"
+            ],
+            "firstTag": "cv.section.person.heading",
+            "savedNativePresent": false
+          },
+          {
+            "canonicalTableIds": [
+              "cv.entry.custom:familie:demo-familie.place",
+              "cv.entry.custom:familie:demo-familie.description"
+            ],
+            "firstTag": "cv.entry.custom:familie:demo-familie.place",
+            "savedNativePresent": true
+          },
+          {
+            "canonicalTableIds": [
+              "cv.entry.schule:demo-s1.date",
+              "cv.entry.schule:demo-s1.title",
+              "cv.entry.schule:demo-s1.place",
+              "cv.entry.schule:demo-s1.description"
+            ],
+            "firstTag": "cv.entry.schule:demo-s1.date",
+            "savedNativePresent": true
+          },
+          {
+            "canonicalTableIds": [
+              "cv.entry.schule:demo-s2.date",
+              "cv.entry.schule:demo-s2.title",
+              "cv.entry.schule:demo-s2.place"
+            ],
+            "firstTag": "cv.entry.schule:demo-s2.date",
+            "savedNativePresent": true
+          },
+          {
+            "canonicalTableIds": [
+              "cv.entry.erfahrung:demo-p1.date",
+              "cv.entry.erfahrung:demo-p1.title",
+              "cv.entry.erfahrung:demo-p1.place",
+              "cv.entry.erfahrung:demo-p1.description"
+            ],
+            "firstTag": "cv.entry.erfahrung:demo-p1.date",
+            "savedNativePresent": true
+          },
+          {
+            "canonicalTableIds": [
+              "cv.entry.erfahrung:demo-p2.date",
+              "cv.entry.erfahrung:demo-p2.title",
+              "cv.entry.erfahrung:demo-p2.place",
+              "cv.entry.erfahrung:demo-p2.description"
+            ],
+            "firstTag": "cv.entry.erfahrung:demo-p2.date",
+            "savedNativePresent": true
+          },
+          {
+            "canonicalTableIds": [
+              "cv.entry.referenzen:demo-r1.name",
+              "cv.entry.referenzen:demo-r1.role",
+              "cv.entry.referenzen:demo-r1.contact"
+            ],
+            "firstTag": "cv.entry.referenzen:demo-r1.name",
+            "savedNativePresent": true
+          }
+        ],
+        "savedOwnerResolution": {
+          "status": "fail",
+          "reason": "Missing live canonical tag: ['cv.section.person.heading']"
+        },
+        "savedOwnerMetricsWithheld": true,
+        "fixture": "carrier-story-left-left"
+      },
+      {
+        "sourceInputSha256": "01370a9234e8847f90b6ed36690552e11d13bd85202b0b696fefbf2223f0d99a",
+        "savedInputSha256": "7b222e55d2dbeb1cb5c1c4bcee90f50065355bf2cabeb068296ccc548b7fdc17",
+        "canonicalOwnerFieldIds": [
+          "probe.boundary-lead",
+          "cv.section.custom:populated-side.heading",
+          "cv.entry.custom:populated-side:populated-entry.date",
+          "cv.entry.custom:populated-side:populated-entry.title",
+          "cv.entry.custom:populated-side:populated-entry.place",
+          "cv.entry.custom:populated-side:populated-entry.description",
+          "cv.section.custom:long-paragraph.heading",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.description"
+        ],
+        "serializedTagCount": 41,
+        "sourceNativeTagCount": 41,
+        "savedNativeTagCount": 40,
+        "missingNativeTags": [
+          "probe.boundary-lead"
+        ],
+        "remainingNativeRegistryOrderPreserved": true,
+        "nativeRegistryOrderIsDocumentOrder": true,
+        "firstControl": {
+          "source": {
+            "properties": [
+              "alias",
+              "tag"
+            ],
+            "contentElements": [
+              "p"
+            ],
+            "parentElement": "tc",
+            "text": ""
+          },
+          "saved": {
+            "properties": [
+              "alias",
+              "tag",
+              "text"
+            ],
+            "contentElements": [
+              "r",
+              "r"
+            ],
+            "parentElement": "p",
+            "text": ""
+          }
+        },
+        "allTaggedTables": [
+          {
+            "canonicalTableIds": [
+              "probe.boundary-lead",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description"
+            ],
+            "firstTag": "probe.boundary-lead",
+            "savedNativePresent": false
+          }
+        ],
+        "savedOwnerResolution": {
+          "status": "fail",
+          "reason": "Missing live canonical tag: ['probe.boundary-lead']"
+        },
+        "savedOwnerMetricsWithheld": true,
+        "fixture": "right-three-row-220"
+      },
+      {
+        "sourceInputSha256": "839fcbf661c26f40d7c7259f57a83d0a9df59efbda3814711fe99cf0f7443c27",
+        "savedInputSha256": "6e8f1bf32c794ea26bc758283d5640ea67966f4ddcf06a89477af49604cee379",
+        "canonicalOwnerFieldIds": [
+          "probe.boundary-lead",
+          "cv.section.custom:long-paragraph.heading",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+          "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+          "cv.section.custom:populated-side.heading",
+          "cv.entry.custom:populated-side:populated-entry.date",
+          "cv.entry.custom:populated-side:populated-entry.title",
+          "cv.entry.custom:populated-side:populated-entry.place",
+          "cv.entry.custom:populated-side:populated-entry.description"
+        ],
+        "serializedTagCount": 41,
+        "sourceNativeTagCount": 41,
+        "savedNativeTagCount": 40,
+        "missingNativeTags": [
+          "probe.boundary-lead"
+        ],
+        "remainingNativeRegistryOrderPreserved": true,
+        "nativeRegistryOrderIsDocumentOrder": true,
+        "firstControl": {
+          "source": {
+            "properties": [
+              "alias",
+              "tag"
+            ],
+            "contentElements": [
+              "p"
+            ],
+            "parentElement": "tc",
+            "text": ""
+          },
+          "saved": {
+            "properties": [
+              "alias",
+              "tag",
+              "text"
+            ],
+            "contentElements": [
+              "r",
+              "r"
+            ],
+            "parentElement": "p",
+            "text": ""
+          }
+        },
+        "allTaggedTables": [
+          {
+            "canonicalTableIds": [
+              "probe.boundary-lead",
+              "cv.section.custom:long-paragraph.heading",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "cv.entry.custom:long-paragraph:long-paragraph-entry.description",
+              "cv.section.custom:populated-side.heading",
+              "cv.entry.custom:populated-side:populated-entry.date",
+              "cv.entry.custom:populated-side:populated-entry.title",
+              "cv.entry.custom:populated-side:populated-entry.place",
+              "cv.entry.custom:populated-side:populated-entry.description"
+            ],
+            "firstTag": "probe.boundary-lead",
+            "savedNativePresent": false
+          }
+        ],
+        "savedOwnerResolution": {
+          "status": "fail",
+          "reason": "Missing live canonical tag: ['probe.boundary-lead']"
+        },
+        "savedOwnerMetricsWithheld": true,
+        "fixture": "right-continuous-cell-220"
+      }
+    ],
+    "publicConversionModel": {
+      "version": {
+        "ProductName": "LibreOffice",
+        "ProductVersion": "25.8",
+        "ProductExtension": ".7.3",
+        "BuildId": "580(Build:3)"
+      },
+      "cases": [
+        {
+          "requestedPublicCursorSteps": 0,
+          "prefixText": "",
+          "selectedText": "alpha",
+          "before": [
+            {
+              "tag": "diagnostic.first",
+              "text": "alpha",
+              "table": null,
+              "cell": null
+            },
+            {
+              "tag": "diagnostic.after",
+              "text": "beta",
+              "table": null,
+              "cell": null
+            }
+          ],
+          "bodyBefore": "alpha\nbeta",
+          "after": [
+            {
+              "tag": "diagnostic.first",
+              "text": "alpha",
+              "table": "Table1",
+              "cell": "A1"
+            },
+            {
+              "tag": "diagnostic.after",
+              "text": "beta",
+              "table": null,
+              "cell": null
+            }
+          ],
+          "bodyAfter": "beta",
+          "nativeTableNames": [
+            "Table1"
+          ],
+          "tableCellText": "alpha",
+          "completeOwnerResolution": {
+            "status": "pass",
+            "name": "Table1",
+            "ancestry": [
+              {
+                "fieldId": "diagnostic.first",
+                "ancestry": [
+                  {
+                    "table": "Table1",
+                    "cell": "A1"
+                  }
+                ]
+              }
+            ]
+          },
+          "hasLocation": false,
+          "modified": true
+        },
+        {
+          "requestedPublicCursorSteps": 1,
+          "prefixText": "",
+          "selectedText": "alpha",
+          "before": [
+            {
+              "tag": "diagnostic.first",
+              "text": "alpha",
+              "table": null,
+              "cell": null
+            },
+            {
+              "tag": "diagnostic.after",
+              "text": "beta",
+              "table": null,
+              "cell": null
+            }
+          ],
+          "bodyBefore": "alpha\nbeta",
+          "after": [
+            {
+              "tag": "diagnostic.first",
+              "text": "",
+              "table": null,
+              "cell": null
+            },
+            {
+              "tag": "diagnostic.after",
+              "text": "beta",
+              "table": null,
+              "cell": null
+            }
+          ],
+          "bodyAfter": "\nalpha\nbeta",
+          "nativeTableNames": [
+            "Table1"
+          ],
+          "tableCellText": "alpha",
+          "completeOwnerResolution": {
+            "status": "fail",
+            "reason": "Missing, reordered or ambiguous complete native owner"
+          },
+          "hasLocation": false,
+          "modified": true
+        }
+      ],
+      "newInMemoryDocuments": 2,
+      "existingDocumentLoads": 0,
+      "newPreparedSources": 0,
+      "newNativeExports": 0,
+      "originalPackagesModified": 0,
+      "loadOptions": {
+        "Hidden": true,
+        "MacroExecutionMode": 0,
+        "UpdateDocMode": 0
+      },
+      "internalImportStartIndexMeasured": false,
+      "internalNodeSplitInstrumented": false,
+      "causalAcceptance": "unproven: this public conversion model retains both global native tags; it does not reproduce the original saved-package missing tag"
+    },
+    "newReadonlyNativeLoads": 0,
+    "newInMemoryDocuments": 2,
+    "newPreparedSources": 0,
+    "newNativeExports": 0,
+    "originalPackagesModified": 0,
+    "nativeGeometryAcceptance": "unchanged fail",
+    "productionAcceptance": "blocked",
+    "originalImportStartPositionInstrumented": false,
+    "causalAcceptance": "unproven: first-cell conversion can orphan a control but does not reproduce its absence from the original native global supplier"
+  },
+  "stable": null,
+  "primaryEvidence": {
+    "repository": "LibreOffice/core",
+    "tag": "libreoffice-25.8.7.3",
+    "peeledCommit": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+    "files": [
+      {
+        "path": "sw/source/writerfilter/dmapper/DomainMapper.cxx",
+        "bytes": 237257,
+        "sha256": "488e95b038981721adbdf795a777d6b37a7d96caf0f3e321e708db57433f32d6",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/writerfilter/dmapper/DomainMapper.cxx",
+        "boundaries": [
+          "1244-1387: block/run SDT dispatch; inline PushSdt/PopSdt",
+          "3397-3414: plain-text property handling",
+          "4624-4633: existing empty block control guard"
+        ]
+      },
+      {
+        "path": "sw/source/writerfilter/dmapper/DomainMapper_Impl.cxx",
+        "bytes": 448148,
+        "sha256": "8589af603b3b6bdfa3781d83a81ce3c71f528e2087d5a3af24a4f1d39fc33429",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/writerfilter/dmapper/DomainMapper_Impl.cxx",
+        "boundaries": [
+          "1012-1040: public start cursor and preceding step",
+          "1047-1132: restore range and select ending",
+          "1179-1185: canonical Tag property",
+          "1272: insert native content control"
+        ]
+      },
+      {
+        "path": "sw/source/core/unocore/unotext.cxx",
+        "bytes": 96993,
+        "sha256": "9780215ed9208fc8a97e3fcfe3130d435c216fe189713473c97b5c08e987498f",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/core/unocore/unotext.cxx",
+        "boundaries": [
+          "1905-1911: first-cell boundary alignment may SplitNode",
+          "2190-2257: convert ranges then TextToTable"
+        ]
+      },
+      {
+        "path": "sw/source/writerfilter/dmapper/SdtHelper.cxx",
+        "bytes": 23265,
+        "sha256": "9d9a33ed4eb728393982ea0cfaf10a9bd6837088d2e4568dcd082b7f5fd90f6e",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/source/writerfilter/dmapper/SdtHelper.cxx",
+        "boundaries": [
+          "340-436: guarded block plain-control path"
+        ]
+      },
+      {
+        "path": "sw/qa/extras/ooxmlimport/ooxmlimport2.cxx",
+        "bytes": 64059,
+        "sha256": "7429d729bdd21abbaa19f3b6d09cce728b54e2e9db2e9f9955ca6000251120d4",
+        "url": "https://github.com/LibreOffice/core/blob/30742500f2d3eb4366ac312fa33d3dcabdb3eba5/sw/qa/extras/ooxmlimport/ooxmlimport2.cxx",
+        "boundaries": [
+          "1337-1374: existing empty-content table regression test"
+        ]
+      }
+    ],
+    "includedEmptyBlockFix": {
+      "commit": "eaef560633e0e2f83ba5188b24111db55a873741",
+      "issue": "tdf#168567",
+      "scope": "Empty block paragraph controls; already present, not proof about missing populated first inline control"
+    },
+    "scope": "Pinned primary upstream implementation, not live original import branch instrumentation"
+  },
+  "independentPublication": null
+}

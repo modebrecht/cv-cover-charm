@@ -1,3 +1,11 @@
+# Latest first-cell import boundary checkpoint — 2026-10-09
+
+Verified predecessor `cf5ae6dd`: stable 37918765383 (all three jobs), application/M6 37918765275 (all eight browser groups), gallery/automatic Pages succeed. Actual artifact 11611440386 / SHA-256 `d5232907af523761bf72bf9d318b6b4e289c546a250b24f90127884aece3ff20` is verified read-only across 60 sources/13 saved packages/150 RGBA instances and all six native snapshots.
+
+[First-cell import boundary counterevidence](sidebar-native-boundary-status.md) separates the original missing global tags from two fresh unsaved public UNO conversion models. One starting-cursor step can leave a complete visible cell payload but an empty native control outside the table; both global tags remain. This does not reproduce the original global absence. All other original native tags retain registry order, which is not assumed to equal XML document order; all six nested table first controls survive. Saved inline controls dispatch through PushSdt/PopSdt, rather than the guarded block plain-control path. The existing empty-block upstream fix does not establish this populated inline case. Eleven adversarial tests protect the scope and strict negative ownership. Zero original-package native loads or new exports in the new model; all stopped matrices, existing strict native baseline, exact geometry and production guards remain. First independent model evidence and strict successor still must pass.
+
+Next: verify the independent model/artifact, then instrument the original first-control start range and disposal across inline creation/table/frame conversion. Do not repair XML, tune widths or infer causality from the synthetic orphaned anchor. Production blocked: 29/39 configured, 0/39 Word accepted. This entry supersedes historical next-task paragraphs.
+
 # Latest live native grid checkpoint — 2026-10-09
 
 Verified predecessor `d570282d`: stable 37891229210 (all three jobs), application 37891229116 (all eight browser groups/M6), gallery and automatic Pages are green. Final artifact 11598089995 / SHA-256 `72ede432aa75927dfd81fea15a2d58f4bbc784e9c2df2863a6134e023c50a384` was independently checked read-only across all 60 source instances, 13 saved packages, 150 RGBA instances, five strict matrices, the full original story contract and both historical grid pairs.
