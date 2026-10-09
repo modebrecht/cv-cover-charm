@@ -88,6 +88,8 @@ test("Studio retains authored cover paint and independently repeating narrow rai
   }
 });
 
-test("Kolumne stays unregistered after stopped visual controls", () => {
-  expect(() => nextTemplate("terracotta")).toThrow("has not passed migration gates");
+test("Kolumne uses the subsequently verified native contact surface", () => {
+  expect(nextTemplate("terracotta").cover.rows?.[0].cellSurfaceElementIds?.[0]).toBe(
+    "decor-side-column",
+  );
 });

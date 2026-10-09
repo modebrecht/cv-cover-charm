@@ -3774,6 +3774,162 @@ export const GALLERY: TemplateDefinition = {
     ],
   },
 };
+/** Authored column becomes an editable, growing native contact cell; shared CV flow is unchanged. */
+export const KOLUMNE: TemplateDefinition = {
+  id: "terracotta",
+  archetype: "editorial",
+  typography: {
+    font: "Arial",
+    bodyPt: 10.5,
+    namePt: 24,
+    headingPt: 12,
+    heroPt: 32,
+  },
+  colors: {
+    ink: "2B211C",
+    accent: "8C3F28",
+    paper: "FDFAF6",
+  },
+  margins: {
+    top: 24,
+    right: 22,
+    bottom: 22,
+    left: 34,
+  },
+  cover: {
+    margins: {
+      top: 24,
+      right: 20,
+      bottom: 20,
+      left: 14,
+    },
+    fontSource: "dossier",
+    order: [
+      "foto",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger",
+      "ortDatum",
+      "eyebrow",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "beilagenTitel",
+      "beilagen",
+    ],
+    align: "left",
+    photoAlign: "left",
+    photoWidthMm: 34,
+    heroSpaceMm: 0,
+    heroInRows: true,
+    fieldColorSlots: {
+      kontaktTitel: "secondary",
+      kontakt: "bg",
+      anTitel: "secondary",
+      empfaenger: "bg",
+      ortDatum: "bg",
+    },
+    fieldPaletteMode: "uniform",
+    fieldSpaceBeforeMm: {
+      kontaktTitel: 12,
+      anTitel: 14,
+      ortDatum: 18,
+      kicker: 0,
+      beruf: 76,
+      name: 46,
+      beilagenTitel: 12,
+    },
+    decorationPlacement: "first-header",
+    rows: [
+      {
+        fields: [
+          ["foto", "kontaktTitel", "kontakt", "anTitel", "empfaenger", "ortDatum"],
+          [],
+          ["eyebrow", "kicker", "beruf", "name", "lehrbeginn", "beilagenTitel", "beilagen"],
+        ],
+        widths: [70, 12, 94],
+        cellSurfaceElementIds: ["decor-side-column", null, null],
+      },
+    ],
+  },
+  letter: {
+    paragraphSpaceMm: 3,
+    lineHeight: 1.2,
+    recipientGapMm: 12,
+    fontSource: "dossier",
+    keepTailTogether: true,
+  },
+  chrome: {
+    headerDistanceMm: 12,
+    footerDistanceMm: 12,
+    ignoreEmptyHeader: true,
+    lineMetricFactor: 1.4,
+    defaultContact: {
+      heightMm: 32,
+      gapMm: 4,
+    },
+    band: {
+      surfaceSource: "descriptor",
+      surface: "motifs",
+      fillSlot: "primary",
+      accentSlot: "accent",
+      compactFirstMm: 14,
+      compactContinuationMm: 14,
+    },
+  },
+  cv: {
+    sectionSpaceMm: 3.6,
+    headingRule: false,
+    sidebarFraction: 0.3,
+  },
+  artwork: [],
+  interiorPaletteSource: "dossier",
+  pageMotifs: {
+    cover: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 0.3333333333333333,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+        repeat: "continuation",
+      },
+      {
+        shape: "rect",
+        xFraction: 0.3142857142857143,
+        widthFraction: 0.005714285714285714,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "secondary",
+        opacity: 0.9,
+        repeat: "continuation",
+      },
+    ],
+    letter: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 0.08095238095238096,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+      },
+    ],
+    cv: [
+      {
+        shape: "rect",
+        xFraction: 0,
+        widthFraction: 0.08095238095238096,
+        topMm: 0,
+        heightMm: 297,
+        fillSlot: "primary",
+      },
+    ],
+  },
+};
 export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   brief: BRIEF,
   freundlich: WARM,
@@ -3809,6 +3965,7 @@ export const NEXT_TEMPLATES: Readonly<Record<string, TemplateDefinition>> = {
   studio: STUDIO,
   edge: EDGE,
   gallery: GALLERY,
+  terracotta: KOLUMNE,
 };
 export function nextTemplate(id: string): TemplateDefinition {
   const template = NEXT_TEMPLATES[id];
