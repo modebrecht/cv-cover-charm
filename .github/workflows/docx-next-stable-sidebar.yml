@@ -5,6 +5,8 @@ on:
   push:
     branches: [dev, docx-next/integrate-39-templates]
     paths:
+      - package.json
+      - bun.lock
       - .github/workflows/docx-next-stable-sidebar.yml
       - scripts/docx-next-*.py
       - scripts/docx_next_attachment_qa.py
