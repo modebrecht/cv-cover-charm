@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import "../../src/components/cover/fresh-templates";
 import { TEMPLATES } from "../../src/components/cover/types";
 import { NEXT_TEMPLATES } from "../../src/lib/docx-next/templates";
 

@@ -51,6 +51,7 @@ on:
       - docs/docx-next/sidebar-native-stack-evidence.json
       - src/lib/docx-next/**
       - tests/fixtures/docx-next/**
+      - tests/unit/docx-next-active-registry.test.ts
       - tests/unit/docx-next-selective-row.test.ts
       - tests/unit/docx-next-populated-row.test.ts
 

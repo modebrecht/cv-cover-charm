@@ -21,3 +21,11 @@ A controlled repeat adds only the four original hash-pinned Noto Serif 2.015 fil
 Template migration/configuration is complete. Native Sidebar/container identity, long opening, cropped ellipse/full-original-pixel portability, Microsoft Word open/edit/save/reopen, approved visual snapshots and production DOCX switch remain open. Legacy/V2, PDF and portable JSON architecture remain unchanged. Green LibreOffice diagnostics are not Microsoft Word acceptance.
 
 Next: verify the exact integrated successor CI, fast-forward unchanged dev only after all tracks pass, verify final remote SHA/M6/Sidebar/gallery/Pages and stop. Do not start another architecture investigation in this integration task.
+
+## Verified integration source and isolated registry follow-up
+
+`26c56d9d` passes exact integration M6/all eight browser groups (37987112655), all 13 native/template jobs (37987112713), and Web Gallery (37987112734). All ten added templates pass **152 dossiers / 1,078 source and 1,078 saved pages**, including immutable native-package JSON restoration, editor rename/reload/export and production-PDF download. Field identity losses: zero. Saved table captions still fail in all 152 cases and remain blocked. Dev was fast-forwarded from the unchanged base to this tested commit; its automatic verification is checked separately.
+
+The final isolated registry invocation exposed dependence on another test module initializing the app's catalogue. The registry test now imports the app's normal fresh-template registration explicitly, retaining every exact-count/equality/retired-ID assertion. It passes by itself and remains part of the full unit suite. Its path now explicitly triggers the existing strict Sidebar workflow. No app/renderer/model/validation, template descriptor or native baseline changes in this follow-up. Require this successor's exact CI before final promotion.
+
+The automatic Vercel preview is blocked by the unchanged `@tanstack/react-start@1.168.26` dependency (`BLOCKED_PACKAGE`; platform-reported CVE-2026-102989). Its error requests version 1.168.60 or later. Package/lockfiles are byte-identical to the starting dev. No dependency update, dangerous override, manual deployment or production release is included; handle that separate security update before a future deployment.
