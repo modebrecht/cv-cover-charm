@@ -201,7 +201,7 @@ jobs:
       - name: Measure pinned native frames inside original canonical paragraph disposal
         run: python scripts/docx-next-native-stack-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-stack-evidence.json
       - name: Look up matching official debug sections without native engine changes
-        timeout-minutes: 4
+        timeout-minutes: 6
         run: python scripts/docx-next-native-symbol-qa.py "$QA_ROOT"
       - name: Retain actual diagnostics even when a gate fails
         if: always()

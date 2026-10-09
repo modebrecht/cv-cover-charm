@@ -1,3 +1,7 @@
+## Current exact native caller resolution — 2026-10-09
+
+[Matching official symbol evidence](sidebar-native-symbol-status.md) resolves all 14 relevant original disposal frames, including the six previously hidden writerfilter frames. The observed carrier cleanup caller is `DomainMapper_Impl::RemoveDummyParaForTableInSection()` from `DomainMapper::lcl_endSectionGroup()`. The original stack and older baselines remain unchanged. The local exact contract is recorded; independent CI artifact reproduction and strict successor pinning are next. Cached SDT start/guard values and both historical loss intervals remain unmeasured. **39/39 templates configured, 0/39 Word accepted; production and native geometry remain blocked.** This entry supersedes older next-task and unavailable-symbol statements below.
+
 # Original canonical paragraph disposal: native stack — 2026-10-09
 
 Work remains on dev. The [measured stack](sidebar-native-stack-evidence.json) adds six read-only imports of the same three original source/saved pairs. It introduces no prepared sources or exports. The earlier import observer stays byte-identical; one hash-guarded Python callback is instrumented in memory. Original DOCX packages, native libraries, binding files and every older strict baseline remain unchanged. The stopped matrices are not extended.

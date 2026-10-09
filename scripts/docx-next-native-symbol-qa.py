@@ -7,6 +7,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import struct
 import subprocess
 import tarfile
@@ -21,6 +22,62 @@ def module(name):
 
 qa = module('native-stack-qa')
 SECTIONS = {'.symtab': 'symtab.bin', '.strtab': 'strtab.bin', '.note.gnu.build-id': 'build-id-note.bin'}
+
+
+def validate_package_pin(pin, version, url, manifest):
+    assert pin['package'] == 'libreoffice-writer-dbgsym' and pin['version'] == version and pin['architecture'] == 'amd64', 'Changed debug package identity'
+    filename = 'libreoffice-writer-dbgsym_' + version.split(':', 1)[-1] + '_amd64.ddeb'
+    assert pin['publicationUrl'] == url, 'Debug package was not selected from the observed publication'
+    for link, host in ((pin['publicationUrl'], 'launchpad.net'), (pin['fileUrl'], 'launchpadlibrarian.net')):
+        parsed = urlparse(link)
+        assert parsed.scheme == 'https' and parsed.hostname == host and not parsed.username and not parsed.password
+        assert parsed.path.rsplit('/', 1)[-1] == filename, 'Changed pinned debug download basename'
+    assert type(pin['size']) is int and 0 < pin['size'] <= 536870912, 'Invalid bounded debug package size'
+    assert isinstance(pin['sha256'], str) and re.fullmatch('[0-9a-f]{64}', pin['sha256']), 'Invalid debug package digest'
+    assert set(pin['libraries']) == {'libswlo.so', 'libsw_writerfilterlo.so'}, 'Changed pinned debug member set'
+    for name, row in pin['libraries'].items():
+        assert row['buildId'] == manifest['libraries'][name]['buildId'], 'Changed pinned debug build ID'
+        assert type(row['memberSize']) is int and 0 < row['memberSize'] <= 536870912, 'Invalid bounded debug member size'
+    return pin['size']
+
+
+def verify_pinned_package(path, pin):
+    assert path.stat().st_size == pin['size'], 'Changed pinned debug package length'
+    with path.open('rb') as stream: digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+    assert digest == pin['sha256'], 'Changed pinned debug package bytes'
+    fields = subprocess.check_output(['dpkg-deb', '-f', str(path), 'Package', 'Version', 'Architecture'], text=True)
+    expected = '\n'.join(key + ': ' + pin[key.lower()] for key in ('Package', 'Version', 'Architecture'))
+    assert fields.strip() == expected, 'Changed pinned debug package metadata'
+    return digest
+
+
+def resolution_contract(report):
+    for key in ('newNativeExecutions', 'engineFilesModified', 'originalPackagesModified'):
+        assert type(report[key]) is int and report[key] == 0, 'Changed read-only symbol scope'
+    assert report['productionAcceptance'] == 'blocked' and report['nativeGeometryAcceptance'] == 'unchanged fail'
+    fallback = report['officialArchiveFallback']
+    assert fallback and fallback['packagePinSha256'], 'Missing exact official debug package provenance'
+    libraries = {}
+    for name, row in report['libraries'].items():
+        assert row['status'] == 'verified GNU build ID and exact exported extents', 'Matching debug symbols remain unavailable'
+        for frame in row['resolvedFrames']:
+            offset = frame['returnOffset']
+            assert type(offset) is int and offset > 0 and frame['functions'], 'Unresolved original native frame'
+            for function in frame['functions']:
+                assert type(function['value']) is int and type(function['size']) is int and function['size'] > 0
+                assert function['value'] <= offset - 1 < function['value'] + function['size'], 'Nearest symbol is not a containing function'
+        libraries[name] = {'binaryIdentity': row['binaryIdentity'], 'status': row['status'], 'resolvedFrames': row['resolvedFrames'],
+                           'sections': {section: {key: value[key] for key in ('archiveMember', 'elfSection', 'size', 'sha256')}
+                                        for section, value in row['sections'].items()}}
+    assert set(libraries) == {'libswlo.so', 'libsw_writerfilterlo.so'}
+    return {'stackMeasurementSha256': report['stackMeasurementSha256'],
+            'package': {key: fallback[key] for key in ('packagePinSha256', 'packageUrl', 'packageSize', 'packageSha256')},
+            'libraries': libraries, 'newNativeExecutions': 0, 'engineFilesModified': 0, 'originalPackagesModified': 0,
+            'productionAcceptance': 'blocked', 'nativeGeometryAcceptance': 'unchanged fail'}
+
+
+def compare_resolution(expected, report):
+    assert resolution_contract(report) == expected, 'Changed exact original native caller resolution'
 
 
 def parse_symbols(symbols, strings, note, expected_build_id, exported):
@@ -155,7 +212,7 @@ def launchpad_url(version, filename, folder, record, metadata_root=None):
     return sorted(set(candidates))[0] if candidates else None
 
 
-def archive_fallback(root, manifest, result, repository):
+def archive_fallback(root, manifest, result, repository, cached_package=None):
     # Select only an actually listed official binary for the pinned writer package version.
     packages = json.loads((repository / 'docs/docx-next/stable-lo-packages.json').read_text())['packages']
     version = next(row['version'] for row in packages if row['package'] == 'libreoffice-writer')
@@ -186,22 +243,42 @@ def archive_fallback(root, manifest, result, repository):
             if url is None:
                 record['status'] = 'exact pinned debug package unavailable from directory and original publications/uploads/builds'; return record
         record['packageUrl'] = url
+        pin_path = repository / 'docs/docx-next/stable-native-debug-package.json'
+        pin = json.loads(pin_path.read_text()) if pin_path.is_file() else None
+        limit = validate_package_pin(pin, version, url, manifest) if pin else 268435456
+        record['packageDownloadLimitBytes'] = limit
+        if pin: record['packagePinSha256'] = hashlib.sha256(pin_path.read_bytes()).hexdigest()
         package = folder / 'writer.ddeb'
-        process = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--location', '--connect-timeout', '8', '--max-time', '90',
-                                  '--max-filesize', '268435456', '--output', str(package), url], capture_output=True, text=True, timeout=95)
-        record['packageCurlExitCode'] = process.returncode
-        if process.returncode: return record
-        assert package.stat().st_size <= 268435456
-        record.update(packageSize=package.stat().st_size, packageSha256=hashlib.sha256(package.read_bytes()).hexdigest())
+        if cached_package is not None:
+            assert pin is not None, 'A local debug package requires the exact official package pin'
+            package = Path(cached_package)
+            record['packageSource'] = 'read-only local cache verified against exact official package pin'
+        else:
+            process = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--location', '--connect-timeout', '8', '--max-time', '180',
+                                      '--max-filesize', str(limit), '--output', str(package), '--write-out', '%{url_effective}', url],
+                                     capture_output=True, text=True, timeout=185)
+            record['packageCurlExitCode'] = process.returncode
+            if process.returncode: return record
+            if pin: assert process.stdout.strip() == pin['fileUrl'], 'Changed official debug package redirect'
+            record['packageSource'] = 'observed official publication download'
+        assert package.stat().st_size <= limit
+        if pin: package_digest = verify_pinned_package(package, pin)
+        else:
+            with package.open('rb') as stream: package_digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+        record.update(packageSize=package.stat().st_size, packageSha256=package_digest)
         expected = {'usr/lib/debug/.build-id/' + manifest['libraries'][name]['buildId'][:2] + '/' + manifest['libraries'][name]['buildId'][2:] + '.debug': name
                     for name, row in result.items() if not all(s['curlExitCode'] == 0 for s in row['sections'].values())}
         process = subprocess.Popen(['dpkg-deb', '--fsys-tarfile', str(package)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        extracted = set()
         try:
             with tarfile.open(fileobj=process.stdout, mode='r|') as archive:
                 for member in archive:
                     path = member.name.removeprefix('./')
                     if path not in expected: continue
                     assert member.isfile() and 0 < member.size <= 536870912, 'Unexpected debug member'
+                    assert path not in extracted, 'Duplicate debug member'
+                    if pin: assert member.size == pin['libraries'][expected[path]]['memberSize'], 'Changed pinned debug member length'
+                    extracted.add(path)
                     stream = archive.extractfile(member); assert stream
                     target = folder / (expected[path] + '.debug')
                     with target.open('wb') as destination:
@@ -216,13 +293,14 @@ def archive_fallback(root, manifest, result, repository):
                                                             'path': str(saved.relative_to(root)), 'size': len(contents), 'sha256': hashlib.sha256(contents).hexdigest()}
                     target.unlink()
             _, stderr = process.communicate(timeout=20); assert process.returncode == 0, 'Failed read-only debug package extraction'
+            if pin: assert extracted == set(expected), 'Missing pinned debug member'
         finally:
             if process.poll() is None: process.kill(); process.communicate()
         record['status'] = 'read-only debug sections extracted; exact build-ID/export verification still required'
     return record
 
 
-def audit(root, engine):
+def audit(root, engine, cached_package=None, baseline=None):
     repository = Path(__file__).resolve().parent.parent
     manifest = json.loads((repository / 'docs/docx-next/stable-native-stack.json').read_text())
     stack = json.loads((root / 'native-stack-report.json').read_text()); qa.validate_report(stack, manifest)
@@ -237,7 +315,7 @@ def audit(root, engine):
         for name, section, record in pool.map(lambda args: fetch_section(*args), requests): result[name]['sections'][section] = record
     fallback = None
     if any(not all(section['curlExitCode'] == 0 for section in row['sections'].values()) for row in result.values()):
-        fallback = archive_fallback(root, manifest, result, repository)
+        fallback = archive_fallback(root, manifest, result, repository, cached_package)
     frames = stack['stacks'][0]['stack']['nativeFrames']
     for name, row in result.items():
         row['status'] = 'unavailable'; row['resolvedFrames'] = []
@@ -263,9 +341,12 @@ def audit(root, engine):
               'newNativeExecutions': 0, 'engineFilesModified': 0, 'originalPackagesModified': 0,
               'productionAcceptance': 'blocked', 'nativeGeometryAcceptance': 'unchanged fail'}
     (root / 'native-symbol-report.json').write_text(json.dumps(report, indent=2) + '\n')
+    if baseline is not None: compare_resolution(json.loads(baseline.read_text())['stable'], report)
     print(json.dumps({name: row['status'] for name, row in result.items()})); return report
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('root', type=Path); parser.add_argument('--engine', type=Path)
-    args = parser.parse_args(); audit(args.root, args.engine or Path(os.environ.get('DOCX_NEXT_LO_ROOT', args.root / 'setup/runtime')))
+    parser.add_argument('--cached-debug-package', type=Path, help='Read only an exact hash/version/build-ID-pinned official package; publication lookup remains required')
+    parser.add_argument('--baseline', type=Path, help='Require the independently verified exact original caller-resolution contract')
+    args = parser.parse_args(); audit(args.root, args.engine or Path(os.environ.get('DOCX_NEXT_LO_ROOT', args.root / 'setup/runtime')), args.cached_debug_package, args.baseline)

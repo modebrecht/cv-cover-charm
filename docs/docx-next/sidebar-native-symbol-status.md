@@ -1,0 +1,21 @@
+# Original canonical disposal caller — 2026-10-09
+
+The saved carrier's already measured first canonical paragraph disposal at import event 78 now has exact containing-function names. This resolves the previously hidden cleanup caller: `DomainMapper_Impl::RemoveDummyParaForTableInSection()` called by `DomainMapper::lcl_endSectionGroup()`. It disposes through `SwXParagraph::dispose()`, `DocumentContentOperationsManager::DelFullPara()`, node deletion and the paragraph listener. This identifies the cleanup path of this one observed carrier paragraph; it does not measure the cached first SDT range or guard values, and does not locate either historical loss.
+
+The actual `87a71ae9` CI artifact 11645892054 was independently downloaded and checked: 68269508 bytes, SHA-256 `0b39814784bd10e705402a4bb4090777305403c103b40a82f27a46c4980c5828`. Its existing evidence preserves 60 source instances, 13 saved packages, 150 RGBA instances, six native snapshots, two isolated conversion models, six original import traces, one canonical disposal and all 36 native frames. Symbol lookup had selected the correct original official publication but its 256 MiB transfer budget rejected the actual 373517628-byte debug archive. This supersedes the older unavailable-symbol checkpoint without changing that historical evidence.
+
+The separate [exact package pin](stable-native-debug-package.json) permits only this observed official archive, at its exact byte length and SHA-256. Package name/version/architecture, the actual publication link, observed final redirect and both exact member lengths are checked. The package is neither installed nor executed. Only `.symtab`, `.strtab` and GNU build-ID notes are retained. Actual engine hashes/build IDs and every exported function extent must agree before hidden names are accepted; each name must contain the measured return address minus one. No nearest-symbol guess is allowed. All 14 frames from the two relevant libraries now resolve, including all six previously hidden writerfilter frames.
+
+| Frame | Library return offset | Verified containing function |
+| --- | --- | --- |
+| 17 | libswlo.so `0xbdfd49` | `SwXParagraph::dispose()` |
+| 18 | libsw_writerfilterlo.so `0x13d916` | `DomainMapper_Impl::RemoveDummyParaForTableInSection()` |
+| 19 | libsw_writerfilterlo.so `0xd964d` | `DomainMapper::lcl_endSectionGroup()` |
+| 20 | libsw_writerfilterlo.so `0x22c602` | `OOXMLFastContextHandler::endSectionGroup()` |
+| 21 | libsw_writerfilterlo.so `0x226e3d` | `OOXMLFactory::endAction()` |
+| 25 | libsw_writerfilterlo.so `0x2253f4` | `OOXMLDocumentImpl::resolve()` |
+| 26 | libsw_writerfilterlo.so `0x21947c` | `WriterFilter::filter()` |
+
+[Local measured symbol contract](stable-native-symbols.json) records every exact frame/function interval, raw section digest, engine identity, stack digest and package provenance. Independent CI reproduction is pending; the workflow first collects the report before a verified CI artifact can supply a strict successor baseline. Adversarial tests reject changed caller names, omitted frames, wrong section/package/engine identities, non-containing symbols, unresolved names and changed diagnostic scope or acceptance.
+
+This lookup adds zero native imports, changes zero native engine files and changes zero original packages. Every older stable JSON baseline remains byte unchanged. Production remains blocked: **39/39 active templates configured, 0/39 Microsoft Word accepted**; native geometry acceptance remains the existing failure. Next: verify independent CI symbol evidence, pin its exact contract, then measure the original first cached range and the cleanup conditions with matching debug symbols.

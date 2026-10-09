@@ -1,0 +1,253 @@
+{
+  "scope": "Exact containing-function resolution of the already pinned original canonical carrier disposal stack; independent CI reproduction pending",
+  "local": {
+    "stackMeasurementSha256": "5510b4722f56cd0f8275df3dc463712a663e88a66734bd88ca795335061d3252",
+    "package": {
+      "packagePinSha256": "3aa99414977126981d1605b3bff483da6afe09661d891d75aba6a9a90b9617cd",
+      "packageUrl": "https://launchpad.net/ubuntu/+archive/primary/+files/libreoffice-writer-dbgsym_25.8.7-0ubuntu0.25.10.1~bpo24.04.1_amd64.ddeb",
+      "packageSize": 373517628,
+      "packageSha256": "406c5220686e6ba7a1006956d37d11b8362855a4360e8627f0744701de92eaca"
+    },
+    "libraries": {
+      "libswlo.so": {
+        "binaryIdentity": {
+          "scope": "engine",
+          "sha256": "ecc533cd929a8a044129026b519a87917803e0db7eb1c6bbec84f5511231397b",
+          "buildId": "9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c"
+        },
+        "status": "verified GNU build ID and exact exported extents",
+        "resolvedFrames": [
+          {
+            "stackFrameIndex": 8,
+            "returnOffset": 11172167,
+            "functions": [
+              {
+                "name": "_ZN10comphelper26OInterfaceContainerHelper4IN3com3sun4star4lang14XEventListenerEE15disposeAndClearERSt11unique_lockISt5mutexERKNS4_11EventObjectE",
+                "value": 11171952,
+                "size": 844,
+                "demangledName": "comphelper::OInterfaceContainerHelper4<com::sun::star::lang::XEventListener>::disposeAndClear(std::unique_lock<std::mutex>&, com::sun::star::lang::EventObject const&)"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 9,
+            "returnOffset": 12441539,
+            "functions": [
+              {
+                "name": "_ZN12SwXParagraph13MySvtListener6NotifyERK7SfxHint",
+                "value": 12441280,
+                "size": 422,
+                "demangledName": "SwXParagraph::MySvtListener::Notify(SfxHint const&)"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 12,
+            "returnOffset": 7462089,
+            "functions": [
+              {
+                "name": "_ZN13SwContentNodeD1Ev",
+                "value": 7461824,
+                "size": 443,
+                "demangledName": "SwContentNode::~SwContentNode()"
+              },
+              {
+                "name": "_ZN13SwContentNodeD2Ev",
+                "value": 7461824,
+                "size": 443,
+                "demangledName": "SwContentNode::~SwContentNode()"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 13,
+            "returnOffset": 10621113,
+            "functions": [
+              {
+                "name": "_ZThn120_N10SwTextNodeD0Ev",
+                "value": 10621088,
+                "size": 43,
+                "demangledName": "non-virtual thunk to SwTextNode::~SwTextNode()"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 14,
+            "returnOffset": 7481615,
+            "functions": [
+              {
+                "name": "_ZN7SwNodes10RemoveNodeEN4o3tl10strong_intIi16Tag_SwNodeOffsetEES3_b",
+                "value": 7480720,
+                "size": 2125,
+                "demangledName": "SwNodes::RemoveNode(o3tl::strong_int<int, Tag_SwNodeOffset>, o3tl::strong_int<int, Tag_SwNodeOffset>, bool)"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 15,
+            "returnOffset": 7489111,
+            "functions": [
+              {
+                "name": "_ZN7SwNodes6DeleteERK6SwNodeN4o3tl10strong_intIi16Tag_SwNodeOffsetEE",
+                "value": 7485904,
+                "size": 4178,
+                "demangledName": "SwNodes::Delete(SwNode const&, o3tl::strong_int<int, Tag_SwNodeOffset>)"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 16,
+            "returnOffset": 6712604,
+            "functions": [
+              {
+                "name": "_ZN2sw32DocumentContentOperationsManager11DelFullParaER5SwPaM",
+                "value": 6710032,
+                "size": 4752,
+                "demangledName": "sw::DocumentContentOperationsManager::DelFullPara(SwPaM&)"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 17,
+            "returnOffset": 12451145,
+            "functions": [
+              {
+                "name": "_ZN12SwXParagraph7disposeEv",
+                "value": 12450912,
+                "size": 584,
+                "demangledName": "SwXParagraph::dispose()"
+              }
+            ]
+          }
+        ],
+        "sections": {
+          ".note.gnu.build-id": {
+            "archiveMember": "usr/lib/debug/.build-id/9f/bc1534d4b2fd9fbd5a10b76cffa00cf645510c.debug",
+            "elfSection": ".note.gnu.build-id",
+            "size": 36,
+            "sha256": "5e73a5ae20d222bc32e80ca6e91daf28247a88c32ecafe93f9439eb04cbe373d"
+          },
+          ".symtab": {
+            "archiveMember": "usr/lib/debug/.build-id/9f/bc1534d4b2fd9fbd5a10b76cffa00cf645510c.debug",
+            "elfSection": ".symtab",
+            "size": 1606080,
+            "sha256": "151a250669b03cee86f74508e2eb1535096900c034411e94915aa0c6f49f0f02"
+          },
+          ".strtab": {
+            "archiveMember": "usr/lib/debug/.build-id/9f/bc1534d4b2fd9fbd5a10b76cffa00cf645510c.debug",
+            "elfSection": ".strtab",
+            "size": 5090800,
+            "sha256": "90257e13ced0959432d53674b446acf113e63d8235afdd2f2ab3b6b513c42979"
+          }
+        }
+      },
+      "libsw_writerfilterlo.so": {
+        "binaryIdentity": {
+          "scope": "engine",
+          "sha256": "7715b9913092fc00539f1b21c37c653ff3b47c8ada2267df39c20187e2004b01",
+          "buildId": "5fa50010e8d243ae825a6cfc13715222e5b6bbe8"
+        },
+        "status": "verified GNU build ID and exact exported extents",
+        "resolvedFrames": [
+          {
+            "stackFrameIndex": 18,
+            "returnOffset": 1300758,
+            "functions": [
+              {
+                "name": "_ZN12writerfilter7dmapper17DomainMapper_Impl32RemoveDummyParaForTableInSectionEv",
+                "value": 1299696,
+                "size": 2646,
+                "demangledName": "writerfilter::dmapper::DomainMapper_Impl::RemoveDummyParaForTableInSection()"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 19,
+            "returnOffset": 890445,
+            "functions": [
+              {
+                "name": "_ZN12writerfilter7dmapper12DomainMapper19lcl_endSectionGroupEv",
+                "value": 890016,
+                "size": 472,
+                "demangledName": "writerfilter::dmapper::DomainMapper::lcl_endSectionGroup()"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 20,
+            "returnOffset": 2278914,
+            "functions": [
+              {
+                "name": "_ZN12writerfilter5ooxml23OOXMLFastContextHandler15endSectionGroupEv",
+                "value": 2278864,
+                "size": 97,
+                "demangledName": "writerfilter::ooxml::OOXMLFastContextHandler::endSectionGroup()"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 21,
+            "returnOffset": 2256445,
+            "functions": [
+              {
+                "name": "_ZN12writerfilter5ooxml12OOXMLFactory9endActionEPNS0_23OOXMLFastContextHandlerE",
+                "value": 2256272,
+                "size": 204,
+                "demangledName": "writerfilter::ooxml::OOXMLFactory::endAction(writerfilter::ooxml::OOXMLFastContextHandler*)"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 25,
+            "returnOffset": 2249716,
+            "functions": [
+              {
+                "name": "_ZN12writerfilter5ooxml17OOXMLDocumentImpl7resolveERNS_6StreamE",
+                "value": 2247760,
+                "size": 3002,
+                "demangledName": "writerfilter::ooxml::OOXMLDocumentImpl::resolve(writerfilter::Stream&)"
+              }
+            ]
+          },
+          {
+            "stackFrameIndex": 26,
+            "returnOffset": 2200700,
+            "functions": [
+              {
+                "name": "_ZN12_GLOBAL__N_112WriterFilter6filterERKN3com3sun4star3uno8SequenceINS3_5beans13PropertyValueEEE",
+                "value": 2198304,
+                "size": 7567,
+                "demangledName": "(anonymous namespace)::WriterFilter::filter(com::sun::star::uno::Sequence<com::sun::star::beans::PropertyValue> const&)"
+              }
+            ]
+          }
+        ],
+        "sections": {
+          ".note.gnu.build-id": {
+            "archiveMember": "usr/lib/debug/.build-id/5f/a50010e8d243ae825a6cfc13715222e5b6bbe8.debug",
+            "elfSection": ".note.gnu.build-id",
+            "size": 36,
+            "sha256": "bd052d5f90481c333342c51dbde1428d86f1e005f3214f4e3ad81188ce57dc95"
+          },
+          ".symtab": {
+            "archiveMember": "usr/lib/debug/.build-id/5f/a50010e8d243ae825a6cfc13715222e5b6bbe8.debug",
+            "elfSection": ".symtab",
+            "size": 265848,
+            "sha256": "fa0dd4c8bea33730d5167bbaff636da04b4a031fcd19e78586a9655e9c13a15b"
+          },
+          ".strtab": {
+            "archiveMember": "usr/lib/debug/.build-id/5f/a50010e8d243ae825a6cfc13715222e5b6bbe8.debug",
+            "elfSection": ".strtab",
+            "size": 1148945,
+            "sha256": "baa1448c41805eb8eb903b529d6766ba055894e52315f3e64612ce9942e17bb7"
+          }
+        }
+      }
+    },
+    "newNativeExecutions": 0,
+    "engineFilesModified": 0,
+    "originalPackagesModified": 0,
+    "productionAcceptance": "blocked",
+    "nativeGeometryAcceptance": "unchanged fail"
+  }
+}

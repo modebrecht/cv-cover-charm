@@ -1,5 +1,7 @@
 """Reject mismatched debug identities and plausible but false ELF symbol extents."""
 import importlib.util
+import copy
+import hashlib
 import json
 from pathlib import Path
 import struct
@@ -125,6 +127,90 @@ class NativeSymbolTest(unittest.TestCase):
         for field in ('source_package_name', 'source_package_version', 'distro_series_link', 'archive_link', 'pocket', 'web_link'):
             build = self.build(); build[field] = 'https://unverified.example/'
             with self.subTest(field=field), self.assertRaises(AssertionError): self.launchpad([self.publication()], [], builds=[build])
+
+    def package_pin(self):
+        repository = Path(__file__).resolve().parent.parent
+        pin = json.loads((repository / 'docs/docx-next/stable-native-debug-package.json').read_text())
+        manifest = json.loads((repository / 'docs/docx-next/stable-native-stack.json').read_text())
+        return pin, manifest
+
+    def validate_pin(self, pin, manifest):
+        return qa.validate_package_pin(pin, self.upload()['package_version'], self.package_pin()[0]['publicationUrl'], manifest)
+
+    def test_only_the_exact_observed_pinned_archive_can_exceed_default_transfer_budget(self):
+        pin, manifest = self.package_pin()
+        self.assertEqual(self.validate_pin(pin, manifest), 373517628)
+        for field in ('package', 'version', 'architecture', 'publicationUrl', 'fileUrl'):
+            changed = copy.deepcopy(pin); changed[field] = 'different'
+            with self.subTest(field=field), self.assertRaises(AssertionError): self.validate_pin(changed, manifest)
+
+    def test_pinned_byte_limits_and_digests_reject_unbounded_or_boolean_inputs(self):
+        pin, manifest = self.package_pin()
+        for size in (True, 0, -1, 536870913, 373517628.0):
+            changed = copy.deepcopy(pin); changed['size'] = size
+            with self.subTest(size=size), self.assertRaises(AssertionError): self.validate_pin(changed, manifest)
+        for digest in ('f' * 63, 'g' * 64, True):
+            changed = copy.deepcopy(pin); changed['sha256'] = digest
+            with self.subTest(digest=digest), self.assertRaises(AssertionError): self.validate_pin(changed, manifest)
+
+    def test_pinned_native_members_require_actual_build_ids_and_bounded_exact_sizes(self):
+        pin, manifest = self.package_pin()
+        for name in pin['libraries']:
+            for field, value in (('buildId', 'ff' * 20), ('memberSize', True), ('memberSize', 536870913)):
+                changed = copy.deepcopy(pin); changed['libraries'][name][field] = value
+                with self.subTest(name=name, field=field), self.assertRaises(AssertionError): self.validate_pin(changed, manifest)
+        changed = copy.deepcopy(pin); changed['libraries'].pop('libswlo.so')
+        with self.assertRaises(AssertionError): self.validate_pin(changed, manifest)
+
+    def test_local_cache_cannot_bypass_archive_bytes_length_or_debian_metadata(self):
+        pin, _ = self.package_pin(); payload = b'actual test archive'
+        pin.update(size=len(payload), sha256=hashlib.sha256(payload).hexdigest())
+        fields = '\n'.join(key + ': ' + pin[key.lower()] for key in ('Package', 'Version', 'Architecture'))
+        with tempfile.TemporaryDirectory() as temporary, patch.object(qa.subprocess, 'check_output', return_value=fields):
+            path = Path(temporary) / 'writer.ddeb'; path.write_bytes(payload)
+            self.assertEqual(qa.verify_pinned_package(path, pin), pin['sha256'])
+            path.write_bytes(b'x' * len(payload))
+            with self.assertRaisesRegex(AssertionError, 'package bytes'): qa.verify_pinned_package(path, pin)
+            path.write_bytes(payload + b'x')
+            with self.assertRaisesRegex(AssertionError, 'package length'): qa.verify_pinned_package(path, pin)
+            path.write_bytes(payload)
+            with patch.object(qa.subprocess, 'check_output', return_value=fields.replace('amd64', 'arm64')):
+                with self.assertRaisesRegex(AssertionError, 'package metadata'): qa.verify_pinned_package(path, pin)
+
+    def measured_resolution(self):
+        repository = Path(__file__).resolve().parent.parent
+        measured = json.loads((repository / 'docs/docx-next/stable-native-symbols.json').read_text())['local']
+        report = copy.deepcopy(measured)
+        report['officialArchiveFallback'] = report.pop('package')
+        return measured, report
+
+    def test_original_caller_resolution_requires_every_measured_frame_and_identity(self):
+        expected, report = self.measured_resolution()
+        qa.compare_resolution(expected, report)
+        for mutation in ('missing_frame', 'changed_caller', 'changed_binary', 'changed_section', 'changed_package', 'changed_stack'):
+            changed = copy.deepcopy(report); library = changed['libraries']['libsw_writerfilterlo.so']
+            if mutation == 'missing_frame': library['resolvedFrames'].pop(0)
+            elif mutation == 'changed_caller': library['resolvedFrames'][0]['functions'][0]['demangledName'] = 'plausible wrong caller'
+            elif mutation == 'changed_binary': library['binaryIdentity']['buildId'] = 'ff' * 20
+            elif mutation == 'changed_section': library['sections']['.symtab']['sha256'] = 'f' * 64
+            elif mutation == 'changed_package': changed['officialArchiveFallback']['packageSha256'] = 'f' * 64
+            else: changed['stackMeasurementSha256'] = 'f' * 64
+            with self.subTest(mutation=mutation), self.assertRaises(AssertionError): qa.compare_resolution(expected, changed)
+
+    def test_nearest_symbol_empty_resolution_and_changed_scope_cannot_pass(self):
+        expected, report = self.measured_resolution()
+        for mutation in ('nearest', 'empty', 'unavailable', 'execution', 'engine', 'package', 'production', 'geometry'):
+            changed = copy.deepcopy(report); library = changed['libraries']['libsw_writerfilterlo.so']
+            frame = library['resolvedFrames'][0]
+            if mutation == 'nearest': frame['functions'][0]['value'] = frame['returnOffset']
+            elif mutation == 'empty': frame['functions'] = []
+            elif mutation == 'unavailable': library['status'] = 'unavailable'
+            elif mutation == 'execution': changed['newNativeExecutions'] = 1
+            elif mutation == 'engine': changed['engineFilesModified'] = 1
+            elif mutation == 'package': changed['originalPackagesModified'] = 1
+            elif mutation == 'production': changed['productionAcceptance'] = 'accepted'
+            else: changed['nativeGeometryAcceptance'] = 'pass'
+            with self.subTest(mutation=mutation), self.assertRaises(AssertionError): qa.compare_resolution(expected, changed)
 
 
 if __name__ == '__main__': unittest.main()
