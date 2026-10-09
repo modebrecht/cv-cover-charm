@@ -149,7 +149,13 @@ const addedPageCounts: Record<
   aurora: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 8 },
-    cover: { "cover-long": 2, "contact-long": 3, "hero-long": 3, "title-long": 2 },
+    cover: {
+      "cover-long": 2,
+      "contact-long": 3,
+      "hero-long": 3,
+      "title-long": 1,
+      "title-pages": 5,
+    },
   },
   citrus: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
@@ -501,7 +507,7 @@ try {
         ...(["neon", "verlauf", "aurora"].includes(addedCandidate)
           ? [`${addedCandidate}-contact-long`, `${addedCandidate}-hero-long`]
           : []),
-        ...(addedCandidate === "aurora" ? ["aurora-title-long"] : []),
+        ...(addedCandidate === "aurora" ? ["aurora-title-long", "aurora-title-pages"] : []),
         ...(addedCandidate === "gallery" ? ["gallery-contact-long"] : []),
         ...(addedCandidate === "citrus"
           ? [

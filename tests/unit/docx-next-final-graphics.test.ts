@@ -5,17 +5,17 @@ import { compositePagePaint } from "../../src/lib/docx-next/page-artwork";
 import { validateDecoration } from "../../src/lib/docx-next/decoration";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { GRAPHIC_FIXTURES, graphicCandidateFixture } from "../fixtures/docx-next/graphic-candidate";
-import { NEXT_TEMPLATES, nextTemplate } from "../../src/lib/docx-next/templates";
+import { NEXT_TEMPLATES } from "../../src/lib/docx-next/templates";
 import { TEMPLATES } from "../../src/components/cover/types";
 
-describe("completed declarative graphic templates and stopped Aurora", () => {
-  test("registry covers 38 active candidates and excludes retired/stopped designs", () => {
+describe("completed declarative graphic templates", () => {
+  test("registry covers 39 active candidates and excludes retired designs", () => {
     expect(Object.keys(NEXT_TEMPLATES).sort()).toEqual(
-      TEMPLATES.filter((t) => !["warm4", "warm5", "aurora"].includes(t.id))
+      TEMPLATES.filter((t) => !["warm4", "warm5"].includes(t.id))
         .map((t) => t.id)
         .sort(),
     );
-    expect(Object.keys(NEXT_TEMPLATES)).toHaveLength(38);
+    expect(Object.keys(NEXT_TEMPLATES)).toHaveLength(39);
   });
   for (const template of ["neon", "verlauf"])
     test(`${template}: all shared stress models validate and survive portable restoration`, () => {
@@ -83,8 +83,5 @@ describe("completed declarative graphic templates and stopped Aurora", () => {
         if (card) expect(card.fill!.color).toBe("E8F0F4");
       }
     }
-  });
-  test("Aurora stays unconfigured after its real fixed-hero contrast failure", () => {
-    expect(() => nextTemplate("aurora")).toThrow("has not passed migration gates");
   });
 });
