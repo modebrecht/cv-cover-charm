@@ -82,6 +82,8 @@ const addedSelections = [
   "pastell",
   "sonne",
   "edelDark",
+  "studio2",
+  "studio",
 ].filter((id) => process.argv.includes(`--${id}`));
 const addedCandidate = addedSelections[0];
 const SIDEBAR_PAGE_COUNTS: Record<string, number> = {
@@ -205,6 +207,16 @@ const addedPageCounts: Record<
     cover: {},
   },
   warm2: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 8 },
+    cover: {},
+  },
+  studio: {
+    cv: { "long-cv": 13, timeline: 17, magazin: 1 },
+    letter: { "long-letter": 11, continuation: 9 },
+    cover: { "cover-long": 2, "contact-long": 4 },
+  },
+  studio2: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 8 },
     cover: {},
@@ -438,7 +450,8 @@ try {
   let fixtureNames = addedCandidate
     ? [
         ...GRAPHIC_FIXTURES.map((kind) => `${addedCandidate}-${kind}`),
-        ...(nextTemplate(addedCandidate).cover.rows?.some(
+        ...(addedCandidate === "studio" ||
+        nextTemplate(addedCandidate).cover.rows?.some(
           (row) => row.surfaceElementId || row.cellSurfaceElementIds?.some(Boolean),
         )
           ? [`${addedCandidate}-contact-long`]
@@ -1200,7 +1213,14 @@ try {
                   repeat: paint.repeat,
                 },
               ])
-        : gradientProbes(part),
+        : part.id === "cover" && addedCandidate === "studio"
+          ? [{ xMm: 5, yMm: 150, color: input.cover.colors.primary }]
+          : part.id === "cover" && addedCandidate === "studio2"
+            ? [
+                { xMm: 5, yMm: 5, color: input.cover.colors.primary, repeat: "first" },
+                { xMm: 200, yMm: 5, color: input.cover.colors.secondary, repeat: "first" },
+              ]
+            : gradientProbes(part),
       fontProbes:
         fixture === "fonts-unavailable"
           ? walkBlocks(part.blocks).flatMap((block) =>
