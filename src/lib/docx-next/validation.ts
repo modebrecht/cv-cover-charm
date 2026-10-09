@@ -52,6 +52,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
     )
       throw new Error(`DOCX Next sidebar requires native parallel flow: ${part.id}`);
     const margins = part.page.margins;
+    if (part.pagePaintComposition !== undefined && part.pagePaintComposition !== "single-asset")
+      throw new Error(`DOCX Next invalid page paint composition ${part.id}`);
     if (
       [...part.artwork, ...(part.headerShapes ?? [])].some((value) => value.repeat) &&
       !part.firstHeader

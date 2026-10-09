@@ -26,6 +26,8 @@ export type TemplateMotif = {
 
 /** Configuration only: templates never receive XML or a package. */
 export type TemplateDefinition = {
+  /** Compose nonsemantic page geometry into one behind-text asset per header story. */
+  pagePaintComposition?: "single-asset";
   id: string;
   archetype: "minimal" | "organic" | "editorial" | "sidebar" | "graphic" | "dark";
   typography: { font: string; bodyPt: number; namePt: number; headingPt: number; heroPt: number };

@@ -21,7 +21,12 @@ import {
 import { stylesXml, fontTableXml } from "./styles";
 import { planNumbering } from "./numbering";
 import { validateWordPackage, validateDossierDocModel } from "./validation";
-import { rasterizeDecoration, decorationAssetKey, type DecorationRasterizer } from "./decoration";
+import {
+  rasterizeDecoration,
+  decorationAssetKey,
+  type DecorationRasterizer,
+  type DecorationPaint,
+} from "./decoration";
 import { pictureGeometry } from "./picture-geometry";
 import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
@@ -29,7 +34,7 @@ import { tableColumnWidths } from "./layouts";
 import { parallelFlowTable } from "./parallel-flow";
 import { imageZoneTable } from "./image-zone";
 import { cellProperties, planCellRowSpans } from "./native-cell";
-import { decorationPageGeometry, orderedPagePaint } from "./page-artwork";
+import { decorationPageGeometry, orderedPagePaint, compositePagePaint } from "./page-artwork";
 import {
   control,
   paragraph,
@@ -127,9 +132,22 @@ export async function renderDossierDocx(
   const decorationSources = new Map<string, { rid: string; file: string }>();
   const decorationIds = new Map<string, { rid: string; file: string }>();
   const rasterize = options.rasterizeDecoration ?? rasterizeDecoration;
-  const normalizeDecoration = imageCache((key) => rasterize(JSON.parse(key) as DecorativeShape));
+  const normalizeDecoration = imageCache((key) => rasterize(JSON.parse(key) as DecorationPaint));
+  const composedPaint = new Map<string, DecorationPaint>();
+  for (const part of [model.cover, model.letter, model.cv]) {
+    if (part.pagePaintComposition)
+      for (const first of [false, true]) {
+        const paint = compositePagePaint(part, first);
+        if (paint) composedPaint.set(paint.id, paint);
+      }
+  }
   for (const part of [model.cover, model.letter, model.cv])
-    for (const block of [...walkBlocks(part.blocks), ...(part.headerShapes ?? [])]) {
+    for (const block of [
+      ...walkBlocks(part.blocks),
+      ...(part.pagePaintComposition
+        ? [...composedPaint.values()].filter((p) => p.id.startsWith(part.id + "."))
+        : (part.headerShapes ?? [])),
+    ]) {
       if (block.kind !== "decorative-shape") continue;
       const bounds = decorationPageGeometry(block, part.page);
       const key = decorationAssetKey({
@@ -157,6 +175,7 @@ export async function renderDossierDocx(
         }
         decorationIds.set(block.id, decorationSources.get(key)!);
       } catch (error) {
+        if (composedPaint.has(block.id)) throw error;
         if (options.onDecorationFailure) options.onDecorationFailure(block.id, error);
         else console.warn(`DOCX Next omitted nonsemantic decoration ${block.id}:`, error);
       }
@@ -523,7 +542,12 @@ export async function renderDossierDocx(
     const story = `word/${id}.xml`;
     const drawings =
       scope === "header"
-        ? orderedPagePaint(part, first)
+        ? (part.pagePaintComposition
+            ? [
+                composedPaint.get(`${part.id}.page-paint.${first ? "first" : "continuation"}`),
+              ].filter((value): value is DecorationPaint => !!value)
+            : orderedPagePaint(part, first)
+          )
             .map((value) =>
               value.kind === "decorative-artwork"
                 ? artwork(value, part, story)

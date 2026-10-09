@@ -233,6 +233,8 @@ export type DecorativeArtwork = {
 export type DocumentPart = {
   /** Optional native anchor order; absent retains original package serialization. */
   paintOrder?: "layer";
+  /** Opt-in decorative composition; semantic text/pictures are never included. */
+  pagePaintComposition?: "single-asset";
   id: "cover" | "letter" | "cv";
   blocks: DocBlock[];
   page: {
