@@ -62,6 +62,17 @@ class NativeBoundaryTest(unittest.TestCase):
             model = copy.deepcopy(self.model); model['loadOptions'][key] = 4
             with self.assertRaises(AssertionError): qa.validate_model(model)
 
+    def test_boolean_and_float_counts_cannot_equal_integer_evidence(self):
+        for key, value in (('existingDocumentLoads', False), ('newNativeExports', 0.0), ('newInMemoryDocuments', 2.0)):
+            model = copy.deepcopy(self.model); model[key] = value
+            with self.assertRaisesRegex(AssertionError, 'counts must be integers'): qa.validate_model(model)
+        for key in ('MacroExecutionMode', 'UpdateDocMode'):
+            model = copy.deepcopy(self.model); model['loadOptions'][key] = False
+            with self.assertRaises(AssertionError): qa.validate_model(model)
+        for key, value in (('newReadonlyNativeLoads', False), ('newInMemoryDocuments', 2.0)):
+            changed = copy.deepcopy(self.report); changed[key] = value
+            with self.assertRaisesRegex(AssertionError, 'Changed native boundary'): qa.compare_baseline(self.report, changed)
+
     def test_package_inventory_rejects_duplicate_or_missing_canonical_ids(self):
         w = qa.W
         document = ET.Element(w + 'document')

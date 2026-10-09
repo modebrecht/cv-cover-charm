@@ -75,9 +75,13 @@ def import_pair(source, saved, phases):
 
 
 def validate_model(model):
+    for key in ('newInMemoryDocuments', 'existingDocumentLoads', 'newPreparedSources', 'newNativeExports', 'originalPackagesModified'):
+        assert type(model[key]) is int, 'Native boundary counts must be integers'
     assert model['newInMemoryDocuments'] == 2 and model['existingDocumentLoads'] == 0
     assert model['newPreparedSources'] == model['newNativeExports'] == model['originalPackagesModified'] == 0
     assert model['loadOptions'] == {'Hidden': True, 'MacroExecutionMode': 0, 'UpdateDocMode': 0}
+    assert model['loadOptions']['Hidden'] is True
+    assert all(type(model['loadOptions'][key]) is int for key in ('MacroExecutionMode', 'UpdateDocMode'))
     assert model['internalImportStartIndexMeasured'] is False and model['internalNodeSplitInstrumented'] is False
     assert model['causalAcceptance'] == 'unproven: this public conversion model retains both global native tags; it does not reproduce the original saved-package missing tag'
     assert len(model['cases']) == 2
@@ -154,7 +158,7 @@ def compare_baseline(before, after):
         report.pop('stableComparison', None)
         # Only saved ZIP metadata varies; import_pair verifies the actual input SHA against the measured native snapshot.
         for row in report['originalImports']: row.pop('savedInputSha256', None)
-    assert a == b, 'Changed native boundary model, original import inventory, binding or causal scope'
+    assert json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True), 'Changed native boundary model, original import inventory, binding or causal scope'
     return {'status': 'pass', 'changedCases': 0}
 
 
