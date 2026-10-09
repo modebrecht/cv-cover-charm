@@ -409,6 +409,9 @@ jobs:
       matrix:
         template:
           [edelDark, studio, studio2, edge, gallery, terracotta, citrus, neon, verlauf, aurora]
+        include:
+          - template: edelDark
+            font_profile: serif
     env:
       QA_ROOT: /tmp/docx-next-integrated-template
     steps:
@@ -434,8 +437,13 @@ jobs:
           path: /tmp/docx-next-stable-assets
           key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
       - name: Set up verified stable native runtime
+        if: matrix.font_profile != 'serif'
         timeout-minutes: 12
         run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Set up verified historical serif template fonts
+        if: matrix.font_profile == 'serif'
+        timeout-minutes: 12
+        run: python scripts/docx-next-template-font-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
       - name: Generate complete template stress set with immutable JSON restoration
         run: |
           mkdir -p "$QA_ROOT/fixtures"
