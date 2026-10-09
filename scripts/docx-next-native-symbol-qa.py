@@ -116,8 +116,10 @@ def launchpad_url(version, filename, folder, record):
     if uploads is not None:
         assert isinstance(uploads, dict) and len(uploads.get('entries', [])) <= 12 and not uploads.get('next_collection_link'), 'Unexpected pinned upload coverage'
         for entry in uploads.get('entries', []):
-            assert entry['name'] == 'libreoffice' and entry['version'] == version
-            link = official_api(entry['self_link']); next_urls.append(link + '?ws.op=binaryFileUrls')
+            assert entry['package_name'] == 'libreoffice' and entry['package_version'] == version
+            assert entry['distroseries_link'] == api + 'noble' and entry['archive_link'] == api + '+archive/primary' and entry['pocket'] == 'Backports'
+            link = official_api(entry['self_link'])
+            next_urls.extend(link + '?ws.op=' + operation for operation in ('binaryFileUrls', 'customFileUrls'))
     record['launchpadRequests'] = requests
     with ThreadPoolExecutor(max_workers=8) as pool: files = list(pool.map(get, next_urls))
     candidates = sorted({url for value in files if isinstance(value, list) for url in value if isinstance(url, str) and selected(url)})

@@ -38,7 +38,7 @@ class NativeSymbolTest(unittest.TestCase):
             with self.assertRaises(AssertionError): self.parse()
             setattr(self, kind, original)
 
-    def launchpad(self, publications, urls):
+    def launchpad(self, publications, urls, uploads=None, custom_urls=None):
         api = 'https://api.launchpad.net/devel/ubuntu/'
         version = '4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1'
         filename = 'libreoffice-writer-dbgsym_' + version.split(':', 1)[1] + '_amd64.ddeb'
@@ -46,8 +46,10 @@ class NativeSymbolTest(unittest.TestCase):
         def curl(args, **options):
             url = args[-1]
             if 'ws.op=getPublishedSources' in url: value = {'entries': publications}
-            elif 'ws.op=getPackageUploads' in url or 'ws.op=getBuilds' in url: value = {'entries': []}
+            elif 'ws.op=getPackageUploads' in url: value = {'entries': uploads or []}
+            elif 'ws.op=getBuilds' in url: value = {'entries': []}
             elif 'ws.op=binaryFileUrls' in url: value = urls
+            elif 'ws.op=customFileUrls' in url: value = custom_urls or []
             else: self.fail('Unexpected public request: ' + url)
             Path(args[args.index('--output') + 1]).write_text(json.dumps(value))
             return SimpleNamespace(returncode=0, stdout='', stderr='')
@@ -76,6 +78,26 @@ class NativeSymbolTest(unittest.TestCase):
         pub = {'source_package_name': 'libreoffice', 'source_package_version': 'different',
                'distro_series_link': api + 'noble', 'self_link': api + '+sourcepub/123'}
         with self.assertRaises(AssertionError): self.launchpad([pub], [])
+
+    def upload(self):
+        api = 'https://api.launchpad.net/devel/ubuntu/'
+        return {'package_name': 'libreoffice', 'package_version': '4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1',
+                'distroseries_link': api + 'noble', 'archive_link': api + '+archive/primary',
+                'pocket': 'Backports', 'self_link': api + 'noble/+upload/123'}
+
+    def test_documented_nonempty_upload_schema_resolves_observed_custom_files(self):
+        upload = self.upload()
+        filename = 'libreoffice-writer-dbgsym_' + upload['package_version'].split(':', 1)[1] + '_amd64.ddeb'
+        actual = 'https://launchpadlibrarian.net/123/' + filename
+        selected, record = self.launchpad([], [], [upload], [actual])
+        self.assertEqual(selected, actual)
+        self.assertEqual(len(record['launchpadRequests']), 4)
+        self.assertTrue(any('ws.op=customFileUrls' in row['url'] for row in record['launchpadRequests']))
+
+    def test_upload_package_version_series_archive_and_pocket_are_exact(self):
+        for field in ('package_name', 'package_version', 'distroseries_link', 'archive_link', 'pocket'):
+            upload = self.upload(); upload[field] = 'different'
+            with self.subTest(field=field), self.assertRaises(AssertionError): self.launchpad([], [], [upload])
 
 
 if __name__ == '__main__': unittest.main()
