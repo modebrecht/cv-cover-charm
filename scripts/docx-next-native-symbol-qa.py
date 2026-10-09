@@ -78,24 +78,27 @@ def debug_sections(path):
     return result
 
 
-def launchpad_url(version, filename, folder, record):
+def launchpad_url(version, filename, folder, record, metadata_root=None):
     api = 'https://api.launchpad.net/devel/ubuntu/'
     queries = [api + '+archive/primary?' + urlencode({'ws.op': 'getPublishedSources', 'source_name': 'libreoffice',
                 'version': version, 'exact_match': 'true', 'distro_series': api + 'noble'}),
                api + 'noble?' + urlencode({'ws.op': 'getPackageUploads', 'name': 'libreoffice', 'version': version,
                 'exact_match': 'true', 'pocket': 'Backports', 'archive': api + '+archive/primary'})]
     requests = []
+    if metadata_root is not None: metadata_root.mkdir(parents=True, exist_ok=True)
 
     def get(url):
-        target = folder / ('metadata-' + hashlib.sha256(url.encode()).hexdigest())
+        target = (metadata_root or folder) / ('metadata-' + hashlib.sha256(url.encode()).hexdigest())
         process = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--location', '--connect-timeout', '6', '--max-time', '15',
                                   '--max-filesize', '8388608', '--output', str(target), url], capture_output=True, text=True, timeout=20)
         row = {'url': url, 'curlExitCode': process.returncode}; value = None
         if process.returncode == 0:
             data = target.read_bytes(); assert len(data) <= 8388608
             row['sha256'] = hashlib.sha256(data).hexdigest()
+            if metadata_root is not None: row['metadataPath'] = 'native-symbols/launchpad/' + target.name
             if url.startswith(api): value = json.loads(data)
             else: value = data.decode()
+        elif target.exists(): target.unlink()
         requests.append(row); return value
 
     def official_api(url):
@@ -129,8 +132,9 @@ def launchpad_url(version, filename, folder, record):
     for collection in builds:
         if not isinstance(collection, dict): continue
         for build in collection.get('entries', []):
-            if build.get('distro_arch_series_link') != api + 'noble/amd64': continue
-            assert build['source_package_version'] == version
+            if build.get('arch_tag') != 'amd64': continue
+            assert build['source_package_name'] == 'libreoffice' and build['source_package_version'] == version
+            assert build['distro_series_link'] == api + 'noble' and build['archive_link'] == api + '+archive/primary' and build['pocket'] == 'Backports'
             page = build['web_link']; parsed = urlparse(page)
             assert parsed.scheme == 'https' and parsed.hostname == 'launchpad.net'
             pages.append(page)
@@ -178,7 +182,7 @@ def archive_fallback(root, manifest, result, repository):
         if links.matches: url = urljoin(base, links.matches[0])
         else:
             record['directoryStatus'] = 'exact pinned debug package absent from official directory'
-            url = launchpad_url(version, filename, folder, record)
+            url = launchpad_url(version, filename, folder, record, root / 'native-symbols/launchpad')
             if url is None:
                 record['status'] = 'exact pinned debug package unavailable from directory and original publications/uploads/builds'; return record
         record['packageUrl'] = url

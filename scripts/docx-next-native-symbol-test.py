@@ -38,7 +38,7 @@ class NativeSymbolTest(unittest.TestCase):
             with self.assertRaises(AssertionError): self.parse()
             setattr(self, kind, original)
 
-    def launchpad(self, publications, urls, uploads=None, custom_urls=None):
+    def launchpad(self, publications, urls, uploads=None, custom_urls=None, builds=None, page_content=None):
         api = 'https://api.launchpad.net/devel/ubuntu/'
         version = '4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1'
         filename = 'libreoffice-writer-dbgsym_' + version.split(':', 1)[1] + '_amd64.ddeb'
@@ -47,11 +47,12 @@ class NativeSymbolTest(unittest.TestCase):
             url = args[-1]
             if 'ws.op=getPublishedSources' in url: value = {'entries': publications}
             elif 'ws.op=getPackageUploads' in url: value = {'entries': uploads or []}
-            elif 'ws.op=getBuilds' in url: value = {'entries': []}
+            elif 'ws.op=getBuilds' in url: value = {'entries': builds or []}
             elif 'ws.op=binaryFileUrls' in url: value = urls
             elif 'ws.op=customFileUrls' in url: value = custom_urls or []
+            elif page_content is not None and any(url == build['web_link'] for build in builds or []): value = page_content
             else: self.fail('Unexpected public request: ' + url)
-            Path(args[args.index('--output') + 1]).write_text(json.dumps(value))
+            Path(args[args.index('--output') + 1]).write_text(value if isinstance(value, str) else json.dumps(value))
             return SimpleNamespace(returncode=0, stdout='', stderr='')
 
         with tempfile.TemporaryDirectory() as folder, patch.object(qa.subprocess, 'run', side_effect=curl):
@@ -98,6 +99,32 @@ class NativeSymbolTest(unittest.TestCase):
         for field in ('package_name', 'package_version', 'distroseries_link', 'archive_link', 'pocket'):
             upload = self.upload(); upload[field] = 'different'
             with self.subTest(field=field), self.assertRaises(AssertionError): self.launchpad([], [], [upload])
+
+    def build(self):
+        api = 'https://api.launchpad.net/devel/ubuntu/'
+        version = self.upload()['package_version']
+        return {'arch_tag': 'amd64', 'source_package_name': 'libreoffice', 'source_package_version': version,
+                'distro_series_link': api + 'noble', 'archive_link': api + '+archive/primary', 'pocket': 'Backports',
+                'web_link': 'https://launchpad.net/ubuntu/+source/libreoffice/' + version + '/+build/123'}
+
+    def publication(self):
+        api = 'https://api.launchpad.net/devel/ubuntu/'
+        return {'source_package_name': 'libreoffice', 'source_package_version': self.upload()['package_version'],
+                'distro_series_link': api + 'noble', 'self_link': api + '+sourcepub/123'}
+
+    def test_documented_amd64_build_schema_selects_only_observed_file_links(self):
+        filename = 'libreoffice-writer-dbgsym_' + self.upload()['package_version'].split(':', 1)[1] + '_amd64.ddeb'
+        actual = 'https://launchpadlibrarian.net/123/' + filename
+        content = '<a href="https://unverified.example/' + filename + '">wrong</a><a href="' + actual + '">actual</a>'
+        self.assertEqual(self.launchpad([self.publication()], [], builds=[self.build()], page_content=content)[0], actual)
+        self.assertIsNone(self.launchpad([self.publication()], [], builds=[self.build()], page_content='<p>No files</p>')[0])
+        build = self.build(); build['arch_tag'] = 'arm64'
+        self.assertIsNone(self.launchpad([self.publication()], [], builds=[build], page_content=content)[0])
+
+    def test_build_source_version_series_archive_pocket_and_domain_are_exact(self):
+        for field in ('source_package_name', 'source_package_version', 'distro_series_link', 'archive_link', 'pocket', 'web_link'):
+            build = self.build(); build[field] = 'https://unverified.example/'
+            with self.subTest(field=field), self.assertRaises(AssertionError): self.launchpad([self.publication()], [], builds=[build])
 
 
 if __name__ == '__main__': unittest.main()
