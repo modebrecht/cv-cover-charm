@@ -11,7 +11,7 @@ import struct
 import subprocess
 import tarfile
 import tempfile
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlencode, urlparse
 
 
 def module(name):
@@ -78,6 +78,77 @@ def debug_sections(path):
     return result
 
 
+def launchpad_url(version, filename, folder, record):
+    api = 'https://api.launchpad.net/devel/ubuntu/'
+    queries = [api + '+archive/primary?' + urlencode({'ws.op': 'getPublishedSources', 'source_name': 'libreoffice',
+                'version': version, 'exact_match': 'true', 'distro_series': api + 'noble'}),
+               api + 'noble?' + urlencode({'ws.op': 'getPackageUploads', 'name': 'libreoffice', 'version': version,
+                'exact_match': 'true', 'pocket': 'Backports', 'archive': api + '+archive/primary'})]
+    requests = []
+
+    def get(url):
+        target = folder / ('metadata-' + hashlib.sha256(url.encode()).hexdigest())
+        process = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--location', '--connect-timeout', '6', '--max-time', '15',
+                                  '--max-filesize', '8388608', '--output', str(target), url], capture_output=True, text=True, timeout=20)
+        row = {'url': url, 'curlExitCode': process.returncode}; value = None
+        if process.returncode == 0:
+            data = target.read_bytes(); assert len(data) <= 8388608
+            row['sha256'] = hashlib.sha256(data).hexdigest()
+            if url.startswith(api): value = json.loads(data)
+            else: value = data.decode()
+        requests.append(row); return value
+
+    def official_api(url):
+        assert isinstance(url, str) and url.startswith(api), 'Unexpected public Launchpad API link'
+        return url
+
+    def selected(url):
+        parsed = urlparse(url)
+        return parsed.scheme == 'https' and parsed.hostname in ('launchpad.net', 'launchpadlibrarian.net', 'api.launchpad.net') and parsed.path.rsplit('/', 1)[-1] == filename
+
+    with ThreadPoolExecutor(max_workers=2) as pool: publications, uploads = list(pool.map(get, queries))
+    next_urls = []; build_urls = []
+    if publications is not None:
+        assert isinstance(publications, dict) and len(publications.get('entries', [])) <= 4 and not publications.get('next_collection_link'), 'Unexpected pinned source publication coverage'
+        for entry in publications.get('entries', []):
+            assert entry['source_package_name'] == 'libreoffice' and entry['source_package_version'] == version and entry['distro_series_link'] == api + 'noble'
+            link = official_api(entry['self_link']); next_urls.append(link + '?ws.op=binaryFileUrls'); build_urls.append(link + '?ws.op=getBuilds')
+    if uploads is not None:
+        assert isinstance(uploads, dict) and len(uploads.get('entries', [])) <= 12 and not uploads.get('next_collection_link'), 'Unexpected pinned upload coverage'
+        for entry in uploads.get('entries', []):
+            assert entry['name'] == 'libreoffice' and entry['version'] == version
+            link = official_api(entry['self_link']); next_urls.append(link + '?ws.op=binaryFileUrls')
+    record['launchpadRequests'] = requests
+    with ThreadPoolExecutor(max_workers=8) as pool: files = list(pool.map(get, next_urls))
+    candidates = sorted({url for value in files if isinstance(value, list) for url in value if isinstance(url, str) and selected(url)})
+    if candidates: return candidates[0]
+    with ThreadPoolExecutor(max_workers=4) as pool: builds = list(pool.map(get, build_urls))
+    pages = []
+    for collection in builds:
+        if not isinstance(collection, dict): continue
+        for build in collection.get('entries', []):
+            if build.get('distro_arch_series_link') != api + 'noble/amd64': continue
+            assert build['source_package_version'] == version
+            page = build['web_link']; parsed = urlparse(page)
+            assert parsed.scheme == 'https' and parsed.hostname == 'launchpad.net'
+            pages.append(page)
+    assert len(set(pages)) <= 4
+
+    class FileLinks(HTMLParser):
+        def __init__(self, page): super().__init__(); self.page = page; self.urls = []
+        def handle_starttag(self, tag, attrs):
+            href = dict(attrs).get('href') if tag == 'a' else None
+            if href:
+                url = urljoin(self.page, href)
+                if selected(url): self.urls.append(url)
+
+    for page in sorted(set(pages)):
+        content = get(page)
+        if content is None: continue
+        links = FileLinks(page); links.feed(content); candidates.extend(links.urls)
+    return sorted(set(candidates))[0] if candidates else None
+
+
 def archive_fallback(root, manifest, result, repository):
     # Select only an actually listed official binary for the pinned writer package version.
     packages = json.loads((repository / 'docs/docx-next/stable-lo-packages.json').read_text())['packages']
@@ -102,9 +173,13 @@ def archive_fallback(root, manifest, result, repository):
                     if href == filename: self.matches.append(href)
 
         links = Links(); links.feed(content.decode()); assert len(links.matches) <= 1
-        if not links.matches:
-            record['status'] = 'exact pinned debug package absent from official directory'; return record
-        url = urljoin(base, links.matches[0]); record['packageUrl'] = url
+        if links.matches: url = urljoin(base, links.matches[0])
+        else:
+            record['directoryStatus'] = 'exact pinned debug package absent from official directory'
+            url = launchpad_url(version, filename, folder, record)
+            if url is None:
+                record['status'] = 'exact pinned debug package unavailable from directory and original publications/uploads/builds'; return record
+        record['packageUrl'] = url
         package = folder / 'writer.ddeb'
         process = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--location', '--connect-timeout', '8', '--max-time', '90',
                                   '--max-filesize', '268435456', '--output', str(package), url], capture_output=True, text=True, timeout=95)

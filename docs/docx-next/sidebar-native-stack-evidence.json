@@ -1479,6 +1479,10 @@
     {
       "url": "https://manpages.ubuntu.com/manpages/noble/man8/debuginfod.8.html",
       "role": "GNU build-ID-based debug section resolution; no matching symbols retrieved"
+    },
+    {
+      "url": "https://api.launchpad.net/devel.html",
+      "role": "Documented read-only source publication, upload binary URL and build operations; only actually observed exact-version files may be selected"
     }
   ],
   "limits": [
@@ -1508,6 +1512,92 @@
       "nativeDisposalStacks": 1,
       "nativeStackFrames": 36,
       "newNativeExecutions": 0
+    }
+  },
+  "strictSuccessor": {
+    "commit": "b6e0ce891e324e18e16c4a15badbc2534de3a339",
+    "stableRun": 37940980838,
+    "regressionRun": 37940980894,
+    "galleryRun": 37940980988,
+    "pagesRun": 37940979581,
+    "artifactId": 11621074657,
+    "artifactBytes": 68255716,
+    "artifactSha256": "70f379a775859c525063ab95b804916963221cce127afa2a2ebcd61c9c76614f",
+    "allRequiredJobs": "success",
+    "stableComparison": {
+      "status": "pass",
+      "changedStacks": 0
+    },
+    "nativeSymbolWorkerSha256": "2914db10a562f890e65856e0b9a171f11ba7c95daf9e2e4c3417e000597cac6d",
+    "symbolLookup": {
+      "scope": "Read-only official debug section lookup for actual original canonical disposal offsets",
+      "stackMeasurementSha256": "5510b4722f56cd0f8275df3dc463712a663e88a66734bd88ca795335061d3252",
+      "libraries": {
+        "libswlo.so": {
+          "binaryIdentity": {
+            "scope": "engine",
+            "sha256": "ecc533cd929a8a044129026b519a87917803e0db7eb1c6bbec84f5511231397b",
+            "buildId": "9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c"
+          },
+          "sections": {
+            ".symtab": {
+              "url": "https://debuginfod.ubuntu.com/buildid/9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c/section/.symtab",
+              "httpStatus": "404",
+              "curlExitCode": 22
+            },
+            ".strtab": {
+              "url": "https://debuginfod.ubuntu.com/buildid/9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c/section/.strtab",
+              "httpStatus": "404",
+              "curlExitCode": 22
+            },
+            ".note.gnu.build-id": {
+              "url": "https://debuginfod.ubuntu.com/buildid/9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c/section/.note.gnu.build-id",
+              "httpStatus": "404",
+              "curlExitCode": 22
+            }
+          },
+          "status": "unavailable",
+          "resolvedFrames": []
+        },
+        "libsw_writerfilterlo.so": {
+          "binaryIdentity": {
+            "scope": "engine",
+            "sha256": "7715b9913092fc00539f1b21c37c653ff3b47c8ada2267df39c20187e2004b01",
+            "buildId": "5fa50010e8d243ae825a6cfc13715222e5b6bbe8"
+          },
+          "sections": {
+            ".symtab": {
+              "url": "https://debuginfod.ubuntu.com/buildid/5fa50010e8d243ae825a6cfc13715222e5b6bbe8/section/.symtab",
+              "httpStatus": "404",
+              "curlExitCode": 22
+            },
+            ".strtab": {
+              "url": "https://debuginfod.ubuntu.com/buildid/5fa50010e8d243ae825a6cfc13715222e5b6bbe8/section/.strtab",
+              "httpStatus": "404",
+              "curlExitCode": 22
+            },
+            ".note.gnu.build-id": {
+              "url": "https://debuginfod.ubuntu.com/buildid/5fa50010e8d243ae825a6cfc13715222e5b6bbe8/section/.note.gnu.build-id",
+              "httpStatus": "404",
+              "curlExitCode": 22
+            }
+          },
+          "status": "unavailable",
+          "resolvedFrames": []
+        }
+      },
+      "officialArchiveFallback": {
+        "indexUrl": "https://ddebs.ubuntu.com/pool/main/libr/libreoffice/",
+        "expectedPackageVersion": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+        "status": "exact pinned debug package absent from official directory",
+        "indexCurlExitCode": 0,
+        "indexSha256": "4525918567d5023ab58ea5db438ac9c9d9b5143ac056cea75b423d043282cbe0"
+      },
+      "newNativeExecutions": 0,
+      "engineFilesModified": 0,
+      "originalPackagesModified": 0,
+      "productionAcceptance": "blocked",
+      "nativeGeometryAcceptance": "unchanged fail"
     }
   }
 }
