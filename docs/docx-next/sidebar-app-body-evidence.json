@@ -1,0 +1,4594 @@
+{
+  "scope": "Shared application snapshot/model/export body composition",
+  "contentRoundtripAcceptance": "pass",
+  "geometryAcceptance": "unaccepted",
+  "productionAcceptance": "blocked",
+  "microsoftWordAccepted": 0,
+  "executionMode": "read-only replay where retained inputs and native hashes match",
+  "importObjectLifetime": "unmeasured; final semantic identity checked",
+  "localCodeCheckpoint": "cbfd77b51c769fe5ec21bd73a551087e1d2babd7",
+  "fullLocalReportSha256": "ae8e2adea7caa93ab5d325f686cb081513c39d262d51e6576ae5db1c2bb648d5",
+  "unchangedDefaultPackages": [
+    {
+      "fixture": "left",
+      "bytes": 73020,
+      "sha256": "666fe44e62454c57a1918ddd62eb50db579d78572fa67d7f3daa85fca4f7d147"
+    },
+    {
+      "fixture": "right",
+      "bytes": 73013,
+      "sha256": "937d10a5d85cec9f0bd7ff56767f1af393ba1e3c078e35240d8bf4e04a0e2b38"
+    },
+    {
+      "fixture": "minimal",
+      "bytes": 34028,
+      "sha256": "b2eacac3143d6c56661392d505093e6b626a0bbf6da8e73d11cf518cab21fa7e"
+    },
+    {
+      "fixture": "narrow",
+      "bytes": 73020,
+      "sha256": "6a09bcabd54c8b8863db2cb93eb0d6feb2d597053016855437622d25aa9e591c"
+    },
+    {
+      "fixture": "wide",
+      "bytes": 73020,
+      "sha256": "777729a6fd8415c0cdb289cc5abe9225b1d0b18ca15a97ea59118611c76f536a"
+    },
+    {
+      "fixture": "main-long",
+      "bytes": 301126,
+      "sha256": "bb1327efea49d009acb3b196ce7c4f6f234ef0ce728fbe192690188370b09066"
+    },
+    {
+      "fixture": "side-long",
+      "bytes": 107516,
+      "sha256": "dc98926d1dc74f67972b4508a8b0b2a8a68b13117d891834c0c060c15e419149"
+    },
+    {
+      "fixture": "both-long",
+      "bytes": 335622,
+      "sha256": "ca10cec0104ae2dfd5a8e7a1ab5c8e82505b442d63a819bfb07295c990764906"
+    },
+    {
+      "fixture": "paragraph-long",
+      "bytes": 96069,
+      "sha256": "ac375fb20be8e1b3a3550f4c4cac702c333dc63133274f942d8762fcaed489f3"
+    },
+    {
+      "fixture": "side-paragraph-long",
+      "bytes": 104666,
+      "sha256": "6c9d1cdc18bcf040ef1a9eaeea17ed946096b8972e09fa1f2eeace38bbe74df3"
+    },
+    {
+      "fixture": "side-entries-long",
+      "bytes": 309058,
+      "sha256": "5bc4075f72ee7d96c4efca9567012ab4436dc506156f9e30b512da4e9e0ecd01"
+    },
+    {
+      "fixture": "side-entries-smaller-body",
+      "bytes": 309058,
+      "sha256": "3e13cb7a07eeabe1d4ba339d01681178b93caf43b724ac19f23f2ec3576c9361"
+    },
+    {
+      "fixture": "continuation",
+      "bytes": 301127,
+      "sha256": "d4cb3eb04f78f94f16c8b7d23cbfb9ce7238c09fb905b40e469d05cde68e112a"
+    },
+    {
+      "fixture": "contact",
+      "bytes": 74637,
+      "sha256": "1c7d1e70b88a5669b0112ec5ed3ce89e90ec15f4ccd5644ca1413440a7a617c9"
+    },
+    {
+      "fixture": "contact-long",
+      "bytes": 302743,
+      "sha256": "4518e9fc30bb6ab053bc620f7b729df48f84c6d12d14dfdc39f5b7619ea2f7e6"
+    },
+    {
+      "fixture": "chrome-continuation",
+      "bytes": 305511,
+      "sha256": "5792cefd202a937a8e413b20d28a25dde878821245661bec67625fee98d2b3f1"
+    },
+    {
+      "fixture": "chrome-leading",
+      "bytes": 305518,
+      "sha256": "d91d905040e9ea902d95ce6706a4bfbdf19c760b5985a7aff6e8aa449db1d119"
+    },
+    {
+      "fixture": "photo-left",
+      "bytes": 75507,
+      "sha256": "fde39fc2c15c0f66fd82d10a42762f385779285b8a82b66b67635c82443f01b3"
+    },
+    {
+      "fixture": "photo-right",
+      "bytes": 75500,
+      "sha256": "afbcc81a5cc9540447a19b0334931874f7fc5631603e9149e332759a9f9e7896"
+    },
+    {
+      "fixture": "photo-main",
+      "bytes": 76634,
+      "sha256": "60e8e210395f1715b92cefff606f9089c40da1f89c338edf1aa16e12675d2fd2"
+    },
+    {
+      "fixture": "photo-free-main",
+      "bytes": 77576,
+      "sha256": "d6f0c829815d5819e8e6461b4aa3d099a9ab01549ab285eac027054012d822f0"
+    },
+    {
+      "fixture": "photo-free-side",
+      "bytes": 76448,
+      "sha256": "3ad8296ec22ce46efdf85407bfb35efae2acc30df9fc651d116f8b2271a5983d"
+    },
+    {
+      "fixture": "photo-free-mirrored-side",
+      "bytes": 76441,
+      "sha256": "7b30f537e2167970e143b423feb143a10f406f998c77f67064057bace91beb89"
+    },
+    {
+      "fixture": "photo-free-long",
+      "bytes": 340178,
+      "sha256": "404111bd432de6a1082892296ce18a0309a6382f2b1cdd936639d55ec8d90cdc"
+    },
+    {
+      "fixture": "photo-free-side-long",
+      "bytes": 339050,
+      "sha256": "1bc04a95bf6394b569560c3cbda03c2462f313431260c0a7fc2d0ab3820c9db7"
+    },
+    {
+      "fixture": "photo-free-low",
+      "bytes": 305684,
+      "sha256": "1a505b9301b74d40cd2652b04adfea9e8d86a6bde6ec192e34a1706eefa1994a"
+    },
+    {
+      "fixture": "photo-free-portrait",
+      "bytes": 77615,
+      "sha256": "beb609115f19bbbeb7b69c507dff3eca697f9c60b225a0cfa139fdbe8a56aab5"
+    },
+    {
+      "fixture": "photo-free-chrome",
+      "bytes": 310074,
+      "sha256": "c5ccf8260f1547a0816996131d9728df72b0c209c1bd3678fe32fd4f5e02defd"
+    },
+    {
+      "fixture": "placements",
+      "bytes": 79112,
+      "sha256": "f105418c2b19cbdb7fab758d5461a23ff55f74fa37c7e49ed0e78089b294d76d"
+    },
+    {
+      "fixture": "styled",
+      "bytes": 73020,
+      "sha256": "92ea0ccfa95a23bebbdc82adce4d69c739e1470f2dddf6425a7cfeb49ac3f88f"
+    },
+    {
+      "fixture": "hidden-paint",
+      "bytes": 72103,
+      "sha256": "89b6b69020ab65eeb83d2aa61b51e85817b11c20e5539463b59a7e5686051918"
+    }
+  ],
+  "unchangedHistoricJsonAndWorkers": 144,
+  "independentCiVerification": {
+    "codeCheckpoint": "cbfd77b51c769fe5ec21bd73a551087e1d2babd7",
+    "workflowRun": 38059723052,
+    "job": 114235417623,
+    "artifact": 11672767575,
+    "artifactBytes": 5816404,
+    "artifactSha256": "31a8d14b791c5ced45f0006b0fca824456d79e8debde194e396ff64fafdced32",
+    "sourcePackagesByteExact": 22,
+    "nativePhasesExact": 66,
+    "pdfPagesWithExactPixelsAndWordCoordinates": 564,
+    "freshBrowserNormalization": "pass",
+    "phaseReportEqualAfterExplicitExecutionModeLabels": "pass",
+    "independentReportSha256": "bb01557d5dd34a1d027723f991cc1a00d582c39b50b990775436164b2a07b8a3"
+  },
+  "cases": [
+    {
+      "fixture": "app-body-both-long",
+      "sourceSha256": "edee38c4656a01a9d58282db985fcd621381337f866d2c84cf37d1c3f4d65918",
+      "bodyControls": 382,
+      "allStoryControls": 382,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "nativeControls": 382,
+          "pdfPages": 11,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 9,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "fe3fbd265410f8e8eb8feeaa15930dcc39771ad917ef3d248bfcf57dfa7d8bf4"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "nativeControls": 382,
+          "pdfPages": 11,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 9,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "fe3fbd265410f8e8eb8feeaa15930dcc39771ad917ef3d248bfcf57dfa7d8bf4"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "nativeControls": 382,
+          "pdfPages": 11,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 9,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "fe3fbd265410f8e8eb8feeaa15930dcc39771ad917ef3d248bfcf57dfa7d8bf4"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "sourceSha256": "984ddafead9b6dd4ee29d28905b623a4b498b597c8fba3139db77a71b437e1c5",
+      "bodyControls": 382,
+      "allStoryControls": 382,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "nativeControls": 382,
+          "pdfPages": 11,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 9,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "fe3fbd265410f8e8eb8feeaa15930dcc39771ad917ef3d248bfcf57dfa7d8bf4"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "nativeControls": 382,
+          "pdfPages": 11,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 9,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "fe3fbd265410f8e8eb8feeaa15930dcc39771ad917ef3d248bfcf57dfa7d8bf4"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 5311,
+              "actualCharacters": 5311,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+            }
+          },
+          "nativeControls": 382,
+          "pdfPages": 11,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 9,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "fe3fbd265410f8e8eb8feeaa15930dcc39771ad917ef3d248bfcf57dfa7d8bf4"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-left",
+      "sourceSha256": "5fbee4c10bcc0caa143861d397d158b2fb6aacbbff181fd1b5fbe00984a50457",
+      "bodyControls": 77,
+      "allStoryControls": 77,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 77,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 77,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 77,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-right",
+      "sourceSha256": "94b85a2bcf335eaf0386d03346c3dbea11f2acfada32d1cbe53312b7bec4de9a",
+      "bodyControls": 77,
+      "allStoryControls": 77,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 77,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 77,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 77,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "sourceSha256": "3e5d4d696733062dd98ad2dd68578e9a910e3514c47c269286431d2d650934b2",
+      "bodyControls": 79,
+      "allStoryControls": 79,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 18694,
+              "actualCharacters": 18694,
+              "authoredSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02",
+              "actualSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 18694,
+              "actualCharacters": 18694,
+              "authoredSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02",
+              "actualSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 79,
+          "pdfPages": 10,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 8,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d86ce247ba3fa49372f585010114b86f1f8c2ad2bc6ff72d5766c265f9b8819d"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 18694,
+              "actualCharacters": 18694,
+              "authoredSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02",
+              "actualSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 18694,
+              "actualCharacters": 18694,
+              "authoredSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02",
+              "actualSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 79,
+          "pdfPages": 10,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 8,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d86ce247ba3fa49372f585010114b86f1f8c2ad2bc6ff72d5766c265f9b8819d"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 18694,
+              "actualCharacters": 18694,
+              "authoredSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02",
+              "actualSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 18694,
+              "actualCharacters": 18694,
+              "authoredSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02",
+              "actualSha256": "ceb8c4afc31a3f5f80bf136c9309e26fb30158c33e4e2917e5f94f61a0d4af02"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 79,
+          "pdfPages": 10,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 8,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d86ce247ba3fa49372f585010114b86f1f8c2ad2bc6ff72d5766c265f9b8819d"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "sourceSha256": "7abffcd7390869a01d32140fc7fde250f40a8ef4217fdea864626a26024543f1",
+      "bodyControls": 79,
+      "allStoryControls": 79,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 431,
+              "actualCharacters": 431,
+              "authoredSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b",
+              "actualSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 18580,
+              "actualCharacters": 18580,
+              "authoredSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f",
+              "actualSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 431,
+              "actualCharacters": 431,
+              "authoredSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b",
+              "actualSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 18580,
+              "actualCharacters": 18580,
+              "authoredSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f",
+              "actualSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f"
+            }
+          },
+          "nativeControls": 79,
+          "pdfPages": 22,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 20,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "b1308df3a3e5877fcd1f4db3448f5afcd540251c9c1e088c05abd277e52dfac3"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 431,
+              "actualCharacters": 431,
+              "authoredSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b",
+              "actualSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 18580,
+              "actualCharacters": 18580,
+              "authoredSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f",
+              "actualSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 431,
+              "actualCharacters": 431,
+              "authoredSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b",
+              "actualSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 18580,
+              "actualCharacters": 18580,
+              "authoredSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f",
+              "actualSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f"
+            }
+          },
+          "nativeControls": 79,
+          "pdfPages": 22,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 20,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "b1308df3a3e5877fcd1f4db3448f5afcd540251c9c1e088c05abd277e52dfac3"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 431,
+              "actualCharacters": 431,
+              "authoredSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b",
+              "actualSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 18580,
+              "actualCharacters": 18580,
+              "authoredSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f",
+              "actualSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 431,
+              "actualCharacters": 431,
+              "authoredSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b",
+              "actualSha256": "ede0706855219163ab36f2b3880761b92ca13cec0dbbc76c76b097a21c3fe27b"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 18580,
+              "actualCharacters": 18580,
+              "authoredSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f",
+              "actualSha256": "1dd29e731e21b05ca5f91f8c36fa802c4ba08fbdcfbfbc521267cf41d418249f"
+            }
+          },
+          "nativeControls": 79,
+          "pdfPages": 22,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 20,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "b1308df3a3e5877fcd1f4db3448f5afcd540251c9c1e088c05abd277e52dfac3"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "sourceSha256": "5bcbdee8bad09f906a22cef162c53f2d9aafaa3c57fac979ae1ec6b5446dfb37",
+      "bodyControls": 330,
+      "allStoryControls": 330,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "nativeControls": 330,
+          "pdfPages": 16,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 14,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "f31ea558948d91f422a893619493b3a1f6ff606723be131ee71f42e0c7f14390"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "nativeControls": 330,
+          "pdfPages": 16,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 14,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "f31ea558948d91f422a893619493b3a1f6ff606723be131ee71f42e0c7f14390"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "nativeControls": 330,
+          "pdfPages": 16,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 14,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "f31ea558948d91f422a893619493b3a1f6ff606723be131ee71f42e0c7f14390"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "sourceSha256": "9d1dd5ac5bd97eb5bddb8e634b9e9fba7c7ebc818fe0e826ba8354ecc90a96da",
+      "bodyControls": 330,
+      "allStoryControls": 330,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "nativeControls": 330,
+          "pdfPages": 19,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 17,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "42f29f5b096140a84e3314e040fd6d5866346a88996de4e4bb6191f4193b5133"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 63.529380204942484
+            },
+            "continuationMinimumTopMm": 63.12896321614583,
+            "continuationMaximumTopMm": 63.12896321614583
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "nativeControls": 330,
+          "pdfPages": 19,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 17,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "42f29f5b096140a84e3314e040fd6d5866346a88996de4e4bb6191f4193b5133"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 63.529380204942484
+            },
+            "continuationMinimumTopMm": 63.12896321614583,
+            "continuationMaximumTopMm": 63.12896321614583
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 421,
+              "actualCharacters": 421,
+              "authoredSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066",
+              "actualSha256": "5102ee7517bcffc78fb198c82a3f084bc387ec548dcf598a3642898626f08066"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 8705,
+              "actualCharacters": 8705,
+              "authoredSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9",
+              "actualSha256": "370574a948dd66a9421827700c23e55e0bd6ca70c678b846796e0919ac1a79c9"
+            }
+          },
+          "nativeControls": 330,
+          "pdfPages": 19,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 17,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "42f29f5b096140a84e3314e040fd6d5866346a88996de4e4bb6191f4193b5133"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 63.529380204942484
+            },
+            "continuationMinimumTopMm": 63.12896321614583,
+            "continuationMaximumTopMm": 63.12896321614583
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-placements",
+      "sourceSha256": "d9f4e0ea4e55dc801075db35451a77c8e4d863ab3a8a534cac3fdd9ab837b093",
+      "bodyControls": 80,
+      "allStoryControls": 80,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 446,
+              "actualCharacters": 446,
+              "authoredSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e",
+              "actualSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 389,
+              "actualCharacters": 389,
+              "authoredSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8",
+              "actualSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 446,
+              "actualCharacters": 446,
+              "authoredSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e",
+              "actualSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 389,
+              "actualCharacters": 389,
+              "authoredSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8",
+              "actualSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8"
+            }
+          },
+          "nativeControls": 80,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 446,
+              "actualCharacters": 446,
+              "authoredSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e",
+              "actualSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 389,
+              "actualCharacters": 389,
+              "authoredSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8",
+              "actualSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 446,
+              "actualCharacters": 446,
+              "authoredSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e",
+              "actualSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 389,
+              "actualCharacters": 389,
+              "authoredSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8",
+              "actualSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8"
+            }
+          },
+          "nativeControls": 80,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 446,
+              "actualCharacters": 446,
+              "authoredSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e",
+              "actualSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 389,
+              "actualCharacters": 389,
+              "authoredSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8",
+              "actualSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 446,
+              "actualCharacters": 446,
+              "authoredSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e",
+              "actualSha256": "6883d8d84c62100168fb80ccff37474388f173982cdf8900636e951e1fe9938e"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 389,
+              "actualCharacters": 389,
+              "authoredSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8",
+              "actualSha256": "d87d5b03b4535d97184e5d5498b2634ed0b1f53d93df77c5a4e970cb8881b1a8"
+            }
+          },
+          "nativeControls": 80,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-styled",
+      "sourceSha256": "4e0be768795f69af973174ae2316b4011b10f90ca84238dbdf5f1adaaf568c82",
+      "bodyControls": 77,
+      "allStoryControls": 77,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 77,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 77,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 77,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "sourceSha256": "25167daf28e6ecbbbab91e1575cb4d02f8a63036091cda826ca67b7774e89f43",
+      "bodyControls": 78,
+      "allStoryControls": 78,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27688,
+              "bboxMm": [
+                27.86944444444444,
+                23.63611111111111,
+                61.383333333333326,
+                57.14999999999999
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                27.58722114562988,
+                23.336525069342716,
+                61.59500215318467,
+                57.34430338541666
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27688,
+              "bboxMm": [
+                27.86944444444444,
+                23.63611111111111,
+                61.383333333333326,
+                57.14999999999999
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                27.58722114562988,
+                23.336525069342716,
+                61.59500215318467,
+                57.34430338541666
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27688,
+              "bboxMm": [
+                27.86944444444444,
+                23.63611111111111,
+                61.383333333333326,
+                57.14999999999999
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                27.58722114562988,
+                23.336525069342716,
+                61.59500215318467,
+                57.34430338541666
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "sourceSha256": "d4fab9a242f35c7aacf86d114f6016bfa8a280d0ac7fcf0486ede4df5d50bdf8",
+      "bodyControls": 78,
+      "allStoryControls": 78,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                148.69583333333333,
+                23.63611111111111,
+                182.2097222222222,
+                57.14999999999999
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                148.39597006903753,
+                23.336525069342716,
+                182.4037456936306,
+                57.34430338541666
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27687,
+              "bboxMm": [
+                148.69583333333333,
+                23.63611111111111,
+                182.2097222222222,
+                57.14999999999999
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                148.37833548651798,
+                23.336525069342716,
+                182.3861111111111,
+                57.34430338541666
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27687,
+              "bboxMm": [
+                148.69583333333333,
+                23.63611111111111,
+                182.2097222222222,
+                57.14999999999999
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                148.37833548651798,
+                23.336525069342716,
+                182.3861111111111,
+                57.34430338541666
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "sourceSha256": "923b9b085b5881dc8ceb201a055c8d33d81d54d3672de6a1a8e5876592ec403b",
+      "bodyControls": 78,
+      "allStoryControls": 78,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                115.88749999999999,
+                23.63611111111111,
+                149.40138888888887,
+                57.14999999999999
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                115.5876367357042,
+                23.336525069342716,
+                149.5954123602973,
+                57.34430338541666
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.63611111111111
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                115.88749999999999,
+                23.63611111111111,
+                149.40138888888887,
+                57.14999999999999
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                115.5876367357042,
+                23.336525069342716,
+                149.5954123602973,
+                57.34430338541666
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.63611111111111
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                115.88749999999999,
+                23.63611111111111,
+                149.40138888888887,
+                57.14999999999999
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                115.5876367357042,
+                23.336525069342716,
+                149.5954123602973,
+                57.34430338541666
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.63611111111111
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "sourceSha256": "ddaefd70d1103a6a9159754bac6281d8c63a788d67348a5f2d725430918f4317",
+      "bodyControls": 78,
+      "allStoryControls": 78,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 4,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                150.28333333333333,
+                23.812499999999996,
+                183.79722222222222,
+                57.326388888888886
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                149.98347006903754,
+                23.530548540751138,
+                183.99124569363062,
+                57.53832685682508
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 2,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "1361a1fe8dac8643be5261eaf93101746302cc12a6ba7d777c81bd9fda4c8db1"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.812499999999996
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 4,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                150.28333333333333,
+                23.812499999999996,
+                183.79722222222222,
+                57.326388888888886
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                149.98347006903754,
+                23.530548540751138,
+                183.99124569363062,
+                57.53832685682508
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 2,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "1361a1fe8dac8643be5261eaf93101746302cc12a6ba7d777c81bd9fda4c8db1"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.812499999999996
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 4,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                150.28333333333333,
+                23.812499999999996,
+                183.79722222222222,
+                57.326388888888886
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                149.98347006903754,
+                23.530548540751138,
+                183.99124569363062,
+                57.53832685682508
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 2,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "1361a1fe8dac8643be5261eaf93101746302cc12a6ba7d777c81bd9fda4c8db1"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.812499999999996
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 23.123976135253905
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "sourceSha256": "f4463dea1d695de6caea813aa3286e497ba282fbd11097fca0fb32d98ec8f06d",
+      "bodyControls": 78,
+      "allStoryControls": 78,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27688,
+              "bboxMm": [
+                25.223611111111108,
+                23.812499999999996,
+                58.7375,
+                57.326388888888886
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                24.994305017259382,
+                23.530548540751138,
+                59.002083333333324,
+                57.53832685682508
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27688,
+              "bboxMm": [
+                25.223611111111108,
+                23.812499999999996,
+                58.7375,
+                57.326388888888886
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                24.994305017259382,
+                23.530548540751138,
+                59.002083333333324,
+                57.53832685682508
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27688,
+              "bboxMm": [
+                25.223611111111108,
+                23.812499999999996,
+                58.7375,
+                57.326388888888886
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                24.994305017259382,
+                23.530548540751138,
+                59.002083333333324,
+                57.53832685682508
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "sourceSha256": "06489395766e9e078259e52ea399e1515457c1538c8750a96f931fb11271c20d",
+      "bodyControls": 78,
+      "allStoryControls": 78,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                151.16527777777776,
+                23.812499999999996,
+                184.85555555555553,
+                57.326388888888886
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.98888888888888,
+                23.530548540751138,
+                184.99667527940537,
+                57.53832685682508
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                151.16527777777776,
+                23.812499999999996,
+                184.85555555555553,
+                57.326388888888886
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.97125430636933,
+                23.530548540751138,
+                184.97904069688582,
+                57.53832685682508
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 3,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27682,
+              "bboxMm": [
+                151.16527777777776,
+                23.812499999999996,
+                184.67916666666665,
+                57.326388888888886
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.9536089579264,
+                23.530548540751138,
+                184.9613845825195,
+                57.53832685682508
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 1,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "d58e0d0fb52582556be8941f4b9539c5592d68551628ffeede066b5e3574f8ff"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 23.524371592203774
+            },
+            "continuationMinimumTopMm": null,
+            "continuationMaximumTopMm": null
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "sourceSha256": "bc0a9e4b150ba10ebfd4bc0659bddfbc362bde25827902aeb2c012957594ffff",
+      "bodyControls": 331,
+      "allStoryControls": 331,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 331,
+          "pdfPages": 12,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                150.28333333333333,
+                163.5125,
+                183.79722222222222,
+                197.20277777777775
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                149.98347006903754,
+                163.33638025919595,
+                183.99124569363062,
+                197.34415588378903
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 10,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "fd0747adb4f0d6977c36858f8a405d9c1aa434c7206539f0f07a5e6fd3dadcad"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 28.48354886372884
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 28.13077108595106
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 331,
+          "pdfPages": 12,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                150.28333333333333,
+                163.5125,
+                183.79722222222222,
+                197.20277777777775
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                149.98347006903754,
+                163.33638025919595,
+                183.99124569363062,
+                197.34415588378903
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 10,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "fd0747adb4f0d6977c36858f8a405d9c1aa434c7206539f0f07a5e6fd3dadcad"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 28.48354886372884
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 28.13077108595106
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 331,
+          "pdfPages": 12,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                150.28333333333333,
+                163.5125,
+                183.79722222222222,
+                197.20277777777775
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                149.98347006903754,
+                163.33638025919595,
+                183.99124569363062,
+                197.34415588378903
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 10,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "fd0747adb4f0d6977c36858f8a405d9c1aa434c7206539f0f07a5e6fd3dadcad"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 28.48354886372884
+            },
+            "continuationMinimumTopMm": 23.123976135253905,
+            "continuationMaximumTopMm": 28.13077108595106
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "sourceSha256": "a6094e02e7e09ef966483fa76cf790be124f613af8eb3ad17d50cd5a14c92f13",
+      "bodyControls": 78,
+      "allStoryControls": 78,
+      "addedFirstFooterStories": [],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 4,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 48209,
+              "bboxMm": [
+                149.40138888888887,
+                47.80138888888889,
+                184.50277777777777,
+                91.36944444444444
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                48.33081932067871,
+                184.00890180799695,
+                90.8229015774197
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 2,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "1361a1fe8dac8643be5261eaf93101746302cc12a6ba7d777c81bd9fda4c8db1"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 28.48354886372884
+            },
+            "continuationMinimumTopMm": 28.13077108595106,
+            "continuationMaximumTopMm": 28.13077108595106
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 4,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 48209,
+              "bboxMm": [
+                149.40138888888887,
+                47.80138888888889,
+                184.50277777777777,
+                91.36944444444444
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                48.33081932067871,
+                184.00890180799695,
+                90.8229015774197
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 2,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "1361a1fe8dac8643be5261eaf93101746302cc12a6ba7d777c81bd9fda4c8db1"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 28.48354886372884
+            },
+            "continuationMinimumTopMm": 28.13077108595106,
+            "continuationMaximumTopMm": 28.13077108595106
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 569,
+              "actualCharacters": 569,
+              "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+              "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 317,
+              "actualCharacters": 317,
+              "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+              "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+            }
+          },
+          "nativeControls": 78,
+          "pdfPages": 4,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 48209,
+              "bboxMm": [
+                149.40138888888887,
+                47.80138888888889,
+                184.50277777777777,
+                91.36944444444444
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                48.33081932067871,
+                184.00890180799695,
+                90.8229015774197
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 2,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "1361a1fe8dac8643be5261eaf93101746302cc12a6ba7d777c81bd9fda4c8db1"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 28.48354886372884
+            },
+            "continuationMinimumTopMm": 28.13077108595106,
+            "continuationMaximumTopMm": 28.13077108595106
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "sourceSha256": "f2d6a0333d187c028b8c9eb4b07ff4711bea84729577eb9d0749881bbb07f6f5",
+      "bodyControls": 323,
+      "allStoryControls": 339,
+      "addedFirstFooterStories": [
+        "word/letter-footer-first.xml",
+        "word/cv-footer-first.xml"
+      ],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 339,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27696,
+              "bboxMm": [
+                150.28333333333333,
+                119.94444444444443,
+                183.79722222222222,
+                153.6347222222222
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                149.98347006903754,
+                119.75069012112087,
+                183.99124569363062,
+                153.75846574571395
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "8367501413ea2bdfb24a98175fee7b1f4e65ee1ada1812ab1bc63aaedf642c86"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 119.94444444444443
+            },
+            "continuationMinimumTopMm": 55.26202307807074,
+            "continuationMaximumTopMm": 55.26202307807074
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 339,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27696,
+              "bboxMm": [
+                150.28333333333333,
+                119.94444444444443,
+                183.79722222222222,
+                153.6347222222222
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                149.98347006903754,
+                119.75069012112087,
+                183.99124569363062,
+                153.75846574571395
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "8367501413ea2bdfb24a98175fee7b1f4e65ee1ada1812ab1bc63aaedf642c86"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 119.94444444444443
+            },
+            "continuationMinimumTopMm": 55.26202307807074,
+            "continuationMaximumTopMm": 55.26202307807074
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 339,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27696,
+              "bboxMm": [
+                150.28333333333333,
+                119.94444444444443,
+                183.79722222222222,
+                153.6347222222222
+              ]
+            }
+          ],
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                149.98347006903754,
+                119.75069012112087,
+                183.99124569363062,
+                153.75846574571395
+              ]
+            }
+          ],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "8367501413ea2bdfb24a98175fee7b1f4e65ee1ada1812ab1bc63aaedf642c86"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 119.94444444444443
+            },
+            "continuationMinimumTopMm": 55.26202307807074,
+            "continuationMaximumTopMm": 55.26202307807074
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "sourceSha256": "0e1b8d18b6b75317b8dc53a78007a16ad21a45af29763ce075aaec97be28784f",
+      "bodyControls": 322,
+      "allStoryControls": 346,
+      "addedFirstFooterStories": [
+        "word/letter-footer-first.xml",
+        "word/cv-footer-first.xml"
+      ],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 346,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "5d0cf5b4ff71037b8f9810f6c552c5f7244545f216ddc6372cf7877b1efcea3e"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 59.64882464938693
+            },
+            "continuationMinimumTopMm": 59.248407660590274,
+            "continuationMaximumTopMm": 59.248407660590274
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 346,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "5d0cf5b4ff71037b8f9810f6c552c5f7244545f216ddc6372cf7877b1efcea3e"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 59.64882464938693
+            },
+            "continuationMinimumTopMm": 59.248407660590274,
+            "continuationMaximumTopMm": 59.248407660590274
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 346,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "5d0cf5b4ff71037b8f9810f6c552c5f7244545f216ddc6372cf7877b1efcea3e"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 59.64882464938693
+            },
+            "continuationMinimumTopMm": 59.248407660590274,
+            "continuationMaximumTopMm": 59.248407660590274
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "sourceSha256": "a66fb537d3898f5a7af6e6edf4050154022c647ec3210c42d96471e7be0e90db",
+      "bodyControls": 322,
+      "allStoryControls": 338,
+      "addedFirstFooterStories": [
+        "word/letter-footer-first.xml",
+        "word/cv-footer-first.xml"
+      ],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 338,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "8367501413ea2bdfb24a98175fee7b1f4e65ee1ada1812ab1bc63aaedf642c86"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 59.64882464938693
+            },
+            "continuationMinimumTopMm": 59.248407660590274,
+            "continuationMaximumTopMm": 59.248407660590274
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 338,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "8367501413ea2bdfb24a98175fee7b1f4e65ee1ada1812ab1bc63aaedf642c86"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 59.64882464938693
+            },
+            "continuationMinimumTopMm": 59.248407660590274,
+            "continuationMaximumTopMm": 59.248407660590274
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 338,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "8367501413ea2bdfb24a98175fee7b1f4e65ee1ada1812ab1bc63aaedf642c86"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 59.64882464938693
+            },
+            "continuationMinimumTopMm": 59.248407660590274,
+            "continuationMaximumTopMm": 59.248407660590274
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "sourceSha256": "4ce52f96b5691fd3d6bfc21ef89bd5df603d5a570032a619559bc0f9ae319849",
+      "bodyControls": 322,
+      "allStoryControls": 338,
+      "addedFirstFooterStories": [
+        "word/letter-footer-first.xml",
+        "word/cv-footer-first.xml"
+      ],
+      "normalizer": "verified-browser-output-replay",
+      "contentRoundtripAcceptance": "pass",
+      "phases": [
+        {
+          "phase": "source",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 338,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "8367501413ea2bdfb24a98175fee7b1f4e65ee1ada1812ab1bc63aaedf642c86"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 119.74451048109265
+            },
+            "continuationMinimumTopMm": 55.26202307807074,
+            "continuationMaximumTopMm": 55.26202307807074
+          }
+        },
+        {
+          "phase": "saved",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 338,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "8367501413ea2bdfb24a98175fee7b1f4e65ee1ada1812ab1bc63aaedf642c86"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 119.74451048109265
+            },
+            "continuationMinimumTopMm": 55.26202307807074,
+            "continuationMaximumTopMm": 55.26202307807074
+          }
+        },
+        {
+          "phase": "saved2",
+          "nativeStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "visibleStories": {
+            "main": {
+              "status": "pass",
+              "authoredCharacters": 8809,
+              "actualCharacters": 8809,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+            },
+            "side": {
+              "status": "pass",
+              "authoredCharacters": 258,
+              "actualCharacters": 258,
+              "authoredSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f",
+              "actualSha256": "c46875a2a4fea3d022d022c26db26fa1eaee43ccb2d0649b047b79b29cf4942f"
+            }
+          },
+          "nativeControls": 338,
+          "pdfPages": 13,
+          "emptyCvPages": [],
+          "photos": [],
+          "imageFrames": [],
+          "outOfBoundsWordCount": 0,
+          "chrome": {
+            "pages": 11,
+            "headerAndFooterAllPass": true,
+            "fullRecordSha256": "8367501413ea2bdfb24a98175fee7b1f4e65ee1ada1812ab1bc63aaedf642c86"
+          },
+          "bodyStarts": {
+            "first": {
+              "page": 3,
+              "topMm": 119.74451048109265
+            },
+            "continuationMinimumTopMm": 55.26202307807074,
+            "continuationMaximumTopMm": 55.26202307807074
+          }
+        }
+      ]
+    }
+  ],
+  "historicalDiagnosticFailure": {
+    "workflowRun": 38059723052,
+    "job": 114235417706,
+    "conclusion": "failure",
+    "assertion": "Completed original gotoRange selection unavailable after three bounded imports",
+    "originalCasesVerified": 3,
+    "postGotoSamples": 0,
+    "samplerSha256": "c9ed91a59a8c4470bdc62ba84d9b18c5846c5b88a634880bf8a01b8696ab836d",
+    "artifact": 11672283764,
+    "artifactBytes": 70344569,
+    "artifactSha256": "8f4a7e9fa03a7e3d421e02694aba7c3bb7fb770ffb14388bf4566fdebc3c1333",
+    "automaticRetries": 0,
+    "gateWaived": false
+  },
+  "workflowSummary": {
+    "newAppBodyNative": "success",
+    "otherNativeJobs": 14,
+    "otherNativeJobsSuccessful": 14,
+    "historicalStableComparison": "failure",
+    "applicationRegression": "success",
+    "contactIntegrity": "success",
+    "webGallery": "success",
+    "automaticPages": "success"
+  }
+}
