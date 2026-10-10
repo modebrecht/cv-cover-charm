@@ -13,10 +13,6 @@ export function sidebarBodyTable(flow: ParallelFlowBlock, widthMm: number): Tabl
   const table = parallelFlowTable(independent, widthMm);
   table.bodyBoundary = "paragraph";
   table.bodyBoundaryKeepNext = true;
-  if (leadingInsetMm)
-    table.rows[0].cellDecorations = table.rows[0].cellDecorations!.map((paint) => ({
-      ...paint!,
-      paddingTopMm: (paint!.paddingTopMm ?? paint!.paddingYMm) + leadingInsetMm,
-    }));
+  if (leadingInsetMm) table.bodyBoundaryLeadMm = leadingInsetMm;
   return table;
 }

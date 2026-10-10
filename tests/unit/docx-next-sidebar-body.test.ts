@@ -30,11 +30,31 @@ test("shared sidebar lowering preserves authored paragraphs, physical tracks and
     expect(table.rows).toHaveLength(1);
     expect(table.rows[0].keepTogether).toBe(false);
     expect(table.rows[0].cellRowSpans).toBeUndefined();
+    expect(table.bodyBoundaryLeadMm ?? 0).toBe(flow.leadingInsetMm ?? 0);
+    expect(
+      table.rows[0].cellDecorations!.map((paint) => paint?.paddingTopMm ?? paint?.paddingYMm),
+    ).toEqual([
+      flow.tracks[0].decoration?.paddingYMm ?? 0,
+      0,
+      flow.tracks[1].decoration?.paddingYMm ?? 0,
+    ]);
     expect(
       walkBlocks(model.cv.blocks).some((block) => block.kind === "entry" && block.keepTogether),
     ).toBe(false);
     expect(table.rows[0].cells.filter((_, index) => index !== 1).map(paragraphSignature)).toEqual(
       flow.tracks.map((track) => paragraphSignature(track.blocks)),
+    );
+  }
+});
+
+test("first-page lead rejects invalid geometry and a missing real kept boundary", async () => {
+  for (const value of [NaN, Infinity, -1, 300, "64", null]) {
+    const model = buildDossierDocModel(sidebarFixture("chrome-leading"), diagnostic);
+    Object.assign(model.cv.blocks.find((block) => block.kind === "table")!, {
+      bodyBoundaryLeadMm: value,
+    });
+    await expect(renderDossierDocx(model, { allowUnacceptedModelIssues: true })).rejects.toThrow(
+      "invalid table body boundary lead",
     );
   }
 });

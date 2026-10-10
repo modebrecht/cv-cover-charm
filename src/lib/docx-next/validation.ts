@@ -254,6 +254,15 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
         if (
+          block.bodyBoundaryLeadMm !== undefined &&
+          (!Number.isFinite(block.bodyBoundaryLeadMm) ||
+            block.bodyBoundaryLeadMm < 0 ||
+            block.bodyBoundaryLeadMm > part.page.heightMm - margins.top - margins.bottom - 30 ||
+            block.bodyBoundary !== "paragraph" ||
+            block.bodyBoundaryKeepNext !== true)
+        )
+          throw new Error(`DOCX Next invalid table body boundary lead ${block.id}`);
+        if (
           block.bodyBoundaryKeepNext !== undefined &&
           (typeof block.bodyBoundaryKeepNext !== "boolean" || block.bodyBoundary !== "paragraph")
         )

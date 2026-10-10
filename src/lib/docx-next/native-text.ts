@@ -45,8 +45,8 @@ export function paragraph(
     `<w:p>${props}${drawingRuns}${value.runs.map(run).join("") || "<w:r/>"}</w:p>`,
   );
 }
-export function emptyParagraphWithRuns(runs = "", keepNext?: boolean) {
-  return `<w:p><w:pPr>${keepNext === undefined ? "" : `<w:keepNext w:val="${keepNext ? 1 : 0}"/>`}<w:spacing w:after="0" w:line="20" w:lineRule="exact"/></w:pPr>${runs}</w:p>`;
+export function emptyParagraphWithRuns(runs = "", keepNext?: boolean, lineTwips = 20) {
+  return `<w:p><w:pPr>${keepNext === undefined ? "" : `<w:keepNext w:val="${keepNext ? 1 : 0}"/>`}<w:spacing w:after="0" w:line="${lineTwips}" w:lineRule="exact"/></w:pPr>${runs}</w:p>`;
 }
 export const emptyParagraph = emptyParagraphWithRuns();
 export const pageBreak = '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';

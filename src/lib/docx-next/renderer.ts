@@ -407,7 +407,11 @@ export async function renderDossierDocx(
     // This guarded composition remains unaccepted for native owner lifetime.
     const leading =
       value.bodyBoundary === "paragraph"
-        ? emptyParagraphWithRuns("", value.bodyBoundaryKeepNext)
+        ? emptyParagraphWithRuns(
+            "",
+            value.bodyBoundaryKeepNext,
+            20 + twips(value.bodyBoundaryLeadMm ?? 0),
+          )
         : value.position?.leadingBoundary === "paragraph"
           ? emptyParagraph
           : "";

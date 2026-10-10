@@ -114,6 +114,8 @@ export type TableBlock = {
   bodyBoundary?: "paragraph";
   /** Guarded native attachment of the real boundary paragraph to the following table. */
   bodyBoundaryKeepNext?: boolean;
+  /** Guarded first-page inset on the one real body boundary; never repeated cell padding. */
+  bodyBoundaryLeadMm?: number;
   /** Unaccepted diagnostic native floating table; physical page coordinates, no fixed height. */
   position?: {
     xMm: number;

@@ -160,7 +160,7 @@ def audit(folder, engine, binding, replay_existing=False):
                 pdf_path = folder / (name + '-' + request['phase'] + '.pdf')
                 if not replay_case or not pdf_path.is_file(): convert(engine, Path(request['path']), pdf_path, 'pdf')
                 with fitz.open(pdf_path) as pdf:
-                    result.update(pdfPages=len(pdf), emptyCvPages=[], outOfBoundsWords=[], photos=[], imageFrames=[], chrome=[])
+                    result.update(pdfPages=len(pdf), emptyCvPages=[], outOfBoundsWords=[], photos=[], imageFrames=[], chrome=[], bodyStarts=[])
                     m = fixture['margins']
                     for label in ('main', 'side'):
                         lane = fixture[label + 'Lane']
@@ -175,6 +175,9 @@ def audit(folder, engine, binding, replay_existing=False):
                         for image in page.get_image_info():
                             result['imageFrames'].append({'page':page.number+1, 'bboxMm':[value/MM for value in image['bbox']]})
                         if not page.get_text(clip=body).strip() and not photo: result['emptyCvPages'].append(page.number + 1)
+                        starts = [word[1]/MM for word in page.get_text('words',clip=body)]
+                        if photo: starts.append(photo['bboxMm'][1])
+                        if starts: result['bodyStarts'].append({'page':page.number+1,'topMm':min(starts)})
                         for word in page.get_text('words', clip=body):
                             horizontal = any(word[0] >= (fixture[label + 'Lane']['leftMm'] - .75) * MM and
                                              word[2] <= (fixture[label + 'Lane']['rightMm'] + .75) * MM for label in ('main', 'side'))
@@ -190,6 +193,11 @@ def audit(folder, engine, binding, replay_existing=False):
                 assert all(row['status'] == 'pass' for row in result['visibleStories'].values()), 'Complete visible story text/order failure'
                 assert not result['emptyCvPages'], 'Empty CV page remains'
                 assert not result['outOfBoundsWords'], 'Text outside its physical track'
+                lead=fixture['bodyBoundaryLeadMm']
+                assert lead == fixture['layout'].get('pagination',{}).get('firstPageLeadMm',0)
+                if lead:
+                    assert result['bodyStarts'][0]['page']==3 and result['bodyStarts'][0]['topMm'] >= m['top']+lead-.75, 'First-page inset was lost'
+                    assert all(row['topMm'] <= m['top']+20 for row in result['bodyStarts'][1:]), 'First-page inset repeated on continuation'
                 assert all(row['header']['status'] == row['footer']['status'] == 'pass' for row in result['chrome']), 'Header/footer visibility or page scope failure'
                 assert len(result['photos']) == len(fixture['pictures']), 'Native photo missing, repeated or fragmented'
                 assert len(result['imageFrames']) == len(fixture['pictures']), 'Native image frame count changed'

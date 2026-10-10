@@ -240,6 +240,7 @@ try {
       sourceSha256: hash(bytes),
       sharedSnapshotExport: true,
       bodyBoundaryKeepNext: true,
+      bodyBoundaryLeadMm: table.bodyBoundaryLeadMm ?? 0,
       paragraphPoliciesUnchanged: true,
       existingStoryPartsUnchanged: true,
       addedFirstFooterStories,
