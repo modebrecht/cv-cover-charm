@@ -1,0 +1,412 @@
+{
+  "codeCheckpoint": "cbfd77b51c769fe5ec21bd73a551087e1d2babd7",
+  "independentlyVerifiedArtifact": 11672767575,
+  "scope": "Within-artifact source\u2192saved\u2192saved2 visible geometry, distinct from CI/local reproducibility",
+  "cases": [
+    {
+      "fixture": "app-body-both-long",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "sourceToSaved": {
+        "changedWordPages": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "changedPixelPages": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "savedToSaved2": {
+        "changedWordPages": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "changedPixelPages": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      }
+    },
+    {
+      "fixture": "app-body-left",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-right",
+      "sourceToSaved": {
+        "changedWordPages": [
+          3
+        ],
+        "changedPixelPages": [
+          3
+        ]
+      },
+      "savedToSaved2": {
+        "changedWordPages": [
+          3
+        ],
+        "changedPixelPages": [
+          3
+        ]
+      }
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-placements",
+      "sourceToSaved": {
+        "changedWordPages": [
+          3
+        ],
+        "changedPixelPages": [
+          3
+        ]
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-styled",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "sourceToSaved": {
+        "changedWordPages": [
+          3
+        ],
+        "changedPixelPages": [
+          3
+        ]
+      },
+      "savedToSaved2": {
+        "changedWordPages": [
+          3
+        ],
+        "changedPixelPages": [
+          3
+        ]
+      }
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "sourceToSaved": {
+        "changedWordPages": [
+          3
+        ],
+        "changedPixelPages": [
+          3
+        ]
+      },
+      "savedToSaved2": {
+        "changedWordPages": [
+          3
+        ],
+        "changedPixelPages": [
+          3
+        ]
+      }
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "sourceToSaved": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      },
+      "savedToSaved2": {
+        "changedWordPages": [],
+        "changedPixelPages": []
+      }
+    }
+  ],
+  "changedCaseMeasurements": [
+    {
+      "fixture": "app-body-both-long-right",
+      "pairs": [
+        {
+          "from": "source",
+          "to": "saved",
+          "maxAbsDxMm": 0.017645348442925347,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 751
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "maxAbsDxMm": 0.017634582519531247,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 751
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-right",
+      "pairs": [
+        {
+          "from": "source",
+          "to": "saved",
+          "maxAbsDxMm": 0.017645348442925347,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 43
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "maxAbsDxMm": 0.017634582519531247,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 43
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-placements",
+      "pairs": [
+        {
+          "from": "source",
+          "to": "saved",
+          "maxAbsDxMm": 0.017634582519531247,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 1
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 0
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "pairs": [
+        {
+          "from": "source",
+          "to": "saved",
+          "maxAbsDxMm": 0.017645348442925347,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 43
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "maxAbsDxMm": 0.017634582519531247,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 43
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "pairs": [
+        {
+          "from": "source",
+          "to": "saved",
+          "maxAbsDxMm": 0.017645348442925347,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 43
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "maxAbsDxMm": 0.017634582519531247,
+          "maxAbsDyMm": 0.0,
+          "changedWords": 43
+        }
+      ]
+    }
+  ],
+  "pageCountsUnchanged": true,
+  "wordSequenceUnchanged": true,
+  "geometryAcceptance": "unaccepted",
+  "productionAcceptance": "blocked"
+}
