@@ -1184,7 +1184,20 @@
   "mechanism": "Keep the existing nonsemantic body boundary paragraph with its natural-flow table; no semantic paragraph or native tag changes",
   "previousEntryFlowSourcesByteIdentical": 6,
   "independentSuccessor": {
-    "status": "pending"
+    "status": "verified success",
+    "codeCheckpoint": "b32c8515f93016c43872453e45a4714efaa961a5",
+    "workflowRun": 38055879048,
+    "job": 114224224389,
+    "artifact": 11671791255,
+    "artifactBytes": 3134633,
+    "artifactSha256": "37bfe00dc7609e63d8daebacf83254f8132e2463672327e81ad2ede43c9b3ad6",
+    "reportMatchesLocal": true,
+    "exactSourcePackages": 6,
+    "completeNativeRoundtripPhases": 18,
+    "pdfPagesWithExactPixelsAndWordCoordinates": 138,
+    "emptyCvPages": 0,
+    "outOfBoundsWords": 0,
+    "oldContentMatrixUnchanged": true
   },
   "visualReview": {
     "orientations": [
