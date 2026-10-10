@@ -303,6 +303,51 @@ jobs:
             ${{ env.QA_ROOT }}/floating-continuation/*
             ${{ env.QA_ROOT }}/floating-anchor/*
 
+  entry-flow-content:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    env:
+      QA_ROOT: /tmp/docx-next-entry-flow
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and content QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
+          bun test tests/unit/docx-next-entry-flow.test.ts
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up verified stable engine
+        timeout-minutes: 12
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Set up hash-pinned public UNO binding
+        run: python scripts/docx-next-native-grid-setup.py "$QA_ROOT/setup/runtime" "$QA_ROOT/uno-binding"
+      - name: Generate guarded paragraph-entry compositions on both sides
+        run: bun scripts/docx-next-entry-flow-probe.ts "$QA_ROOT/fixtures"
+      - name: Require complete native and visible text order through two Save/Reopen cycles
+        timeout-minutes: 4
+        run: python scripts/docx-next-entry-flow-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+      - name: Retain actual content and outstanding geometry evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-entry-flow-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/uno-binding/binding-record.json
+
   supported-sidebar:
     if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
     runs-on: ubuntu-24.04

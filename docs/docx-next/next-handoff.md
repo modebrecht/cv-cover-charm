@@ -1,3 +1,11 @@
+## Current senior decision — 2026-10-10
+
+[Paragraph-entry body composition](sidebar-entry-flow-status.md) replaces redundant nested entry tables in a guarded fixture. All six left/right short, side-long and both-long cases preserve complete canonical IDs, native paragraphs and visible reading order through source and two Save/Reopen cycles (18 phases). School order is 1–65 in both long orientations. Paragraph text/styles/flags remain exact; production code is unchanged. Long sources have an empty first CV page, retained explicitly as an outstanding geometry defect. Simply removing the real body boundary loses Kontakt's canonical tag on saved2 and is rejected.
+
+A separate `entry-flow-content` CI job now tests authored content independently of the historical debugger job. Run 38050756005 attempt 2 has completed with failure at the old boundary lifetime pattern; transfer/body were skipped. Stop calling that repeat pending, and do not retry historical sampling to obtain a green status. All historical gates/evidence remain unchanged. New independent entry-flow verification is pending.
+
+**Next: fix the empty first CV page while preserving the real boundary and both roundtrip tags/text, then verify geometry before production integration.** This supersedes the native-frame measurement plan below. 39/39 configured; no new production or Word acceptance.
+
 ## Current publication and pending native repeat — 2026-10-10
 
 Code checkpoint `f4607e7bbe3e67b2a8e354425eb7f72ddde827db` is published on dev, with application/fast checks and all eight browser groups, Gallery, Contact Integrity and automatic Pages successful. Native run 38050756005 attempt 1 stops in the unchanged original PopSdt sampler before the new body step: its required completed gotoRange window is unavailable after three bounded imports. Only failed job 114209225041 is retried without source changes. Actual first artifact 11669008711 is independently verified (70,344,634 bytes; SHA-256 `0b27d9bc2cbaf72873c1197262a17edfc0a2177458a88960d5457b0d0f697749`); its independently generated body source exactly reproduces the local source hash. Body native successor reproduction is still pending; do not call the skipped step accepted.
