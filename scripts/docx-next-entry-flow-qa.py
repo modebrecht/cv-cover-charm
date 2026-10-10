@@ -43,11 +43,14 @@ def native_environment(engine, binding):
     return env
 
 
-def audit(folder, engine, binding):
+def audit(folder, engine, binding, require_no_empty=False):
     report = {'scope': 'Whole native paragraphs; no nested keep-together entry tables', 'cases': [],
               'contentRoundtripAcceptance': 'pending', 'geometryAcceptance': 'unaccepted',
               'productionAcceptance': 'blocked', 'microsoftWordAccepted': 0,
               'importObjectLifetime': 'unmeasured; final semantic identity checked'}
+    if require_no_empty:
+        report['emptyCvPageAcceptance'] = 'pending'
+        report['textBoundsAcceptance'] = 'pending'
     report_path = folder / 'entry-flow-report.json'
     def retain():
         report_path.write_text(json.dumps(report, indent=2) + '\n')
@@ -67,6 +70,8 @@ def audit(folder, engine, binding):
                          'entry-flow-right-left', 'entry-flow-right-side-long'], 'Missing or reordered content matrix'
         for name in names:
             fixture = json.loads((folder / (name + '.json')).read_text())
+            if require_no_empty:
+                assert fixture.get('bodyBoundaryKeepNext') is True, 'Missing declared boundary attachment'
             source = folder / (name + '.docx')
             assert sha(source) == fixture['sourceSha256']
             expected = controls(source)
@@ -116,6 +121,8 @@ def audit(folder, engine, binding):
                     result['pdfPages'] = len(pdf)
                     result['emptyCvPages'] = [i + 1 for i, page in enumerate(pdf) if i >= 2 and not page.get_text().strip()]
                     result['schoolOrder'] = []
+                    if require_no_empty:
+                        result['outOfBoundsWords'] = []
                     for label in ('main', 'side'):
                         lane, m, mm = fixture[label + 'Lane'], fixture['margins'], 72 / 25.4
                         clip = fitz.Rect((lane['leftMm'] - .5) * mm, (m['top'] - 3) * mm,
@@ -126,6 +133,16 @@ def audit(folder, engine, binding):
                         if index < 2:
                             continue
                         words = page.get_text('words')
+                        if require_no_empty:
+                            mm, m = 72 / 25.4, fixture['margins']
+                            for word in words:
+                                horizontal = any(word[0] >= (fixture[label + 'Lane']['leftMm'] - .75) * mm and
+                                                 word[2] <= (fixture[label + 'Lane']['rightMm'] + .75) * mm
+                                                 for label in ('main', 'side'))
+                                vertical = (word[1] >= (m['top'] - .75) * mm and
+                                            word[3] <= page.rect.height - (m['bottom'] - .75) * mm)
+                                if not horizontal or not vertical:
+                                    result['outOfBoundsWords'].append({'page': index + 1, 'word': list(word)})
                         for i, word in enumerate(words[:-1]):
                             if word[4] == 'Schule' and words[i + 1][4].isdigit():
                                 result['schoolOrder'].append(int(words[i + 1][4]))
@@ -135,14 +152,23 @@ def audit(folder, engine, binding):
                 school_numbers = [int(value.split()[1]) for value in fixture['mainText']
                                   if value.startswith('Schule ') and value.split()[1].isdigit()]
                 assert result['schoolOrder'] == school_numbers, 'Visible school order failure'
+                if require_no_empty:
+                    assert not result['emptyCvPages'], 'Empty CV page remains'
+                    assert not result['outOfBoundsWords'], 'Visible text exceeds declared lanes or printable height'
                 assert sha(source) == fixture['sourceSha256'], 'Source package modified'
             case['contentRoundtripAcceptance'] = 'pass'
             retain()
         report['contentRoundtripAcceptance'] = 'pass'
+        if require_no_empty:
+            report['emptyCvPageAcceptance'] = 'pass'
+            report['textBoundsAcceptance'] = 'pass'
         retain()
         return report
     except Exception as error:
         report['contentRoundtripAcceptance'] = 'fail'
+        if require_no_empty:
+            report['emptyCvPageAcceptance'] = 'fail'
+            report['textBoundsAcceptance'] = 'fail'
         report['failure'] = type(error).__name__ + ': ' + str(error)
         retain()
         raise
@@ -153,7 +179,8 @@ if __name__ == '__main__':
     parser.add_argument('directory', type=Path)
     parser.add_argument('--engine', type=Path, required=True)
     parser.add_argument('--binding', type=Path, required=True, help='Root containing binding/')
+    parser.add_argument('--require-no-empty-cv-page', action='store_true')
     args = parser.parse_args()
-    report = audit(args.directory.resolve(), args.engine.resolve(), (args.binding / 'binding').resolve())
+    report = audit(args.directory.resolve(), args.engine.resolve(), (args.binding / 'binding').resolve(), args.require_no_empty_cv_page)
     print(json.dumps({'cases': len(report['cases']), 'contentRoundtripAcceptance': report['contentRoundtripAcceptance'],
                       'geometryAcceptance': report['geometryAcceptance'], 'productionAcceptance': report['productionAcceptance']}))

@@ -233,6 +233,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
         if (
+          block.bodyBoundaryKeepNext !== undefined &&
+          (typeof block.bodyBoundaryKeepNext !== "boolean" || block.bodyBoundary !== "paragraph")
+        )
+          throw new Error(`DOCX Next invalid table body boundary attachment ${block.id}`);
+        if (
           block.bodyBoundary !== undefined &&
           (block.bodyBoundary !== "paragraph" ||
             block.position !== undefined ||

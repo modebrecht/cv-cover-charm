@@ -1,0 +1,1209 @@
+{
+  "local": {
+    "scope": "Whole native paragraphs; no nested keep-together entry tables",
+    "cases": [
+      {
+        "fixture": "entry-flow-left-both-long",
+        "sourceSha256": "2107a56204963d53e80b1c54496cd3c3d2bf08095e1bcb90917b3b7918ef5493",
+        "controls": 382,
+        "removedEntryTables": 68,
+        "phases": [
+          {
+            "phase": "source",
+            "nativeControls": 382,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 11,
+            "emptyCvPages": [],
+            "schoolOrder": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved",
+            "nativeControls": 382,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 11,
+            "emptyCvPages": [],
+            "schoolOrder": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved2",
+            "nativeControls": 382,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 11,
+            "emptyCvPages": [],
+            "schoolOrder": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "outOfBoundsWords": []
+          }
+        ],
+        "contentRoundtripAcceptance": "pass"
+      },
+      {
+        "fixture": "entry-flow-right-both-long",
+        "sourceSha256": "d49d82a908159e8fcff15a54de9b7524f370cbedf4911324607fbbe15dbf62f6",
+        "controls": 382,
+        "removedEntryTables": 68,
+        "phases": [
+          {
+            "phase": "source",
+            "nativeControls": 382,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 11,
+            "emptyCvPages": [],
+            "schoolOrder": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved",
+            "nativeControls": 382,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 11,
+            "emptyCvPages": [],
+            "schoolOrder": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved2",
+            "nativeControls": 382,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 8809,
+                "actualCharacters": 8809,
+                "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+                "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 11,
+            "emptyCvPages": [],
+            "schoolOrder": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "outOfBoundsWords": []
+          }
+        ],
+        "contentRoundtripAcceptance": "pass"
+      },
+      {
+        "fixture": "entry-flow-left-left",
+        "sourceSha256": "e44caf32755531fc479b3ab824e3427b56a1e5735481c9548b28a819b44af19f",
+        "controls": 77,
+        "removedEntryTables": 5,
+        "phases": [
+          {
+            "phase": "source",
+            "nativeControls": 77,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "pdfPages": 3,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved",
+            "nativeControls": 77,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "pdfPages": 3,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved2",
+            "nativeControls": 77,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "pdfPages": 3,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          }
+        ],
+        "contentRoundtripAcceptance": "pass"
+      },
+      {
+        "fixture": "entry-flow-left-side-long",
+        "sourceSha256": "dcf4c41e869cad03c92a6222d95344abdd437ed0e9128ae127e81ed8e9547e62",
+        "controls": 129,
+        "removedEntryTables": 5,
+        "phases": [
+          {
+            "phase": "source",
+            "nativeControls": 129,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 9,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved",
+            "nativeControls": 129,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 9,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved2",
+            "nativeControls": 129,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 9,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          }
+        ],
+        "contentRoundtripAcceptance": "pass"
+      },
+      {
+        "fixture": "entry-flow-right-left",
+        "sourceSha256": "66e8f4d15dac77420a00ef304c5946ecc8a774c8558f829fccd72bd7310d2a82",
+        "controls": 77,
+        "removedEntryTables": 5,
+        "phases": [
+          {
+            "phase": "source",
+            "nativeControls": 77,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "pdfPages": 3,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved",
+            "nativeControls": 77,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "pdfPages": 3,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved2",
+            "nativeControls": 77,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 317,
+                "actualCharacters": 317,
+                "authoredSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74",
+                "actualSha256": "68da274200e0995e850aaf10d0c71eb191cdd9dab74993eabd40c15abe810e74"
+              }
+            },
+            "pdfPages": 3,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          }
+        ],
+        "contentRoundtripAcceptance": "pass"
+      },
+      {
+        "fixture": "entry-flow-right-side-long",
+        "sourceSha256": "2a800056318aa0d1e354b9eef5313c72d232f760ea8670010a2d8008a7f06a99",
+        "controls": 129,
+        "removedEntryTables": 5,
+        "phases": [
+          {
+            "phase": "source",
+            "nativeControls": 129,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 9,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved",
+            "nativeControls": 129,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 9,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          },
+          {
+            "phase": "saved2",
+            "nativeControls": 129,
+            "nativeStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "visibleStories": {
+              "main": {
+                "status": "pass",
+                "authoredCharacters": 569,
+                "actualCharacters": 569,
+                "authoredSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52",
+                "actualSha256": "4a367a03d74153cc0a4a93a7422ef178fb75501e22cc515742e7857429313c52"
+              },
+              "side": {
+                "status": "pass",
+                "authoredCharacters": 5311,
+                "actualCharacters": 5311,
+                "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+                "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+              }
+            },
+            "pdfPages": 9,
+            "emptyCvPages": [],
+            "schoolOrder": [],
+            "outOfBoundsWords": []
+          }
+        ],
+        "contentRoundtripAcceptance": "pass"
+      }
+    ],
+    "contentRoundtripAcceptance": "pass",
+    "geometryAcceptance": "unaccepted",
+    "productionAcceptance": "blocked",
+    "microsoftWordAccepted": 0,
+    "importObjectLifetime": "unmeasured; final semantic identity checked",
+    "emptyCvPageAcceptance": "pass",
+    "textBoundsAcceptance": "pass"
+  },
+  "mechanism": "Keep the existing nonsemantic body boundary paragraph with its natural-flow table; no semantic paragraph or native tag changes",
+  "previousEntryFlowSourcesByteIdentical": 6,
+  "independentSuccessor": {
+    "status": "pending"
+  },
+  "visualReview": {
+    "orientations": [
+      "left",
+      "right"
+    ],
+    "pages": [
+      "first CV",
+      "first continuation",
+      "last CV"
+    ],
+    "result": "Correct visible order; no clipped text observed"
+  },
+  "acceptance": {
+    "emptyCvPage": "pass",
+    "wholeNativeAndVisibleRoundtripText": "pass",
+    "declaredTextBounds": "pass",
+    "allTemplatePhotoChromeGeometry": "unexecuted",
+    "production": "blocked",
+    "microsoftWordAccepted": 0
+  }
+}

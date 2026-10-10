@@ -44,3 +44,59 @@ test("entry flow preserves complete paragraph policies and both physical lanes i
     await expect(renderDossierDocx(model)).rejects.toThrow("body boundary is unaccepted");
   }
 });
+
+test("keeping the real boundary with its table changes only that nonsemantic paragraph", async () => {
+  const value = SIDEBAR_CARRIER_STORY_CASES.find(
+    (value) => value.orientation === "left" && value.kind === "both-long",
+  )!;
+  const original = sidebarEntryFlowFixture(value).model;
+  const candidate = sidebarEntryFlowFixture(value, { keepBodyBoundaryWithTable: true }).model;
+  expect(paragraphSignature(candidate.cv.blocks)).toEqual(paragraphSignature(original.cv.blocks));
+  const options = { allowUnacceptedModelIssues: true };
+  const a = readZipEntries(
+    new Uint8Array(await (await renderDossierDocx(original, options)).arrayBuffer()),
+  );
+  const b = readZipEntries(
+    new Uint8Array(await (await renderDossierDocx(candidate, options)).arrayBuffer()),
+  );
+  for (let i = 0; i < a.length; i++) {
+    expect(a[i].name).toBe(b[i].name);
+    if (a[i].name !== "word/document.xml") expect(a[i].bytes).toEqual(b[i].bytes);
+    else {
+      const old = new TextDecoder().decode(a[i].bytes);
+      const caption = old.indexOf('<w:tblCaption w:val="probe.floating-carrier"/>');
+      const table = old.lastIndexOf("<w:tbl>", caption);
+      const empty =
+        '<w:p><w:pPr><w:spacing w:after="0" w:line="20" w:lineRule="exact"/></w:pPr></w:p>';
+      expect(old.slice(table - empty.length, table)).toBe(empty);
+      const kept = empty.replace("<w:pPr>", '<w:pPr><w:keepNext w:val="1"/>');
+      expect(new TextDecoder().decode(b[i].bytes)).toBe(
+        old.slice(0, table - empty.length) + kept + old.slice(table),
+      );
+    }
+  }
+  expect(
+    new Uint8Array(
+      await (await renderDossierDocx(JSON.parse(JSON.stringify(candidate)), options)).arrayBuffer(),
+    ),
+  ).toEqual(new Uint8Array(await (await renderDossierDocx(candidate, options)).arrayBuffer()));
+  candidate.issues = [];
+  await expect(renderDossierDocx(candidate)).rejects.toThrow("body boundary is unaccepted");
+});
+
+test("boundary attachment rejects malformed values or a missing real body boundary", async () => {
+  const value = SIDEBAR_CARRIER_STORY_CASES[0];
+  for (const invalid of [null, 1, "true", {}]) {
+    const { model } = sidebarEntryFlowFixture(value);
+    Object.assign(model.cv.blocks[0], { bodyBoundaryKeepNext: invalid });
+    await expect(renderDossierDocx(model, { allowUnacceptedModelIssues: true })).rejects.toThrow(
+      "invalid table body boundary attachment",
+    );
+  }
+  const { model } = sidebarEntryFlowFixture(value, { keepBodyBoundaryWithTable: true });
+  const table = model.cv.blocks[0];
+  if (table.kind !== "table") throw Error("Missing carrier");
+  delete table.bodyBoundary;
+  model.issues = [];
+  await expect(renderDossierDocx(model)).rejects.toThrow("invalid table body boundary attachment");
+});

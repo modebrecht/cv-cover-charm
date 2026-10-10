@@ -400,9 +400,11 @@ export async function renderDossierDocx(
     // An explicit body boundary gives the importer a real paragraph before the table.
     // This guarded composition remains unaccepted for native owner lifetime.
     const leading =
-      value.position?.leadingBoundary === "paragraph" || value.bodyBoundary === "paragraph"
-        ? emptyParagraph
-        : "";
+      value.bodyBoundary === "paragraph"
+        ? emptyParagraphWithRuns("", value.bodyBoundaryKeepNext)
+        : value.position?.leadingBoundary === "paragraph"
+          ? emptyParagraph
+          : "";
     return `${leading}<w:tbl><w:tblPr>${position}<w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${value.position?.anchorParagraphId || value.position?.nextFloatingTableId ? "" : emptyParagraph}`;
   }
   function renderBlock(

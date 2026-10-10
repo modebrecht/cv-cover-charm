@@ -8,14 +8,18 @@ import { SIDEBAR_CARRIER_STORY_CASES } from "../tests/fixtures/docx-next/sidebar
 import { sidebarEntryFlowFixture } from "../tests/fixtures/docx-next/sidebar-entry-flow";
 
 const directory = process.argv[2];
-if (!directory || process.argv.length !== 3)
-  throw Error("Usage: bun scripts/docx-next-entry-flow-probe.ts DIRECTORY");
+const keepBodyBoundaryWithTable = process.argv[3] === "--keep-boundary";
+if (
+  !directory ||
+  (process.argv.length !== 3 && !(process.argv.length === 4 && keepBodyBoundaryWithTable))
+)
+  throw Error("Usage: bun scripts/docx-next-entry-flow-probe.ts DIRECTORY [--keep-boundary]");
 await mkdir(directory, { recursive: true });
 const ordered = [...SIDEBAR_CARRIER_STORY_CASES].sort(
   (a, b) => Number(b.kind === "both-long") - Number(a.kind === "both-long"),
 );
 for (const value of ordered) {
-  const { model, control, fixture } = sidebarEntryFlowFixture(value);
+  const { model, control, fixture } = sidebarEntryFlowFixture(value, { keepBodyBoundaryWithTable });
   await assert.rejects(renderDossierDocx(model), /body boundary is unaccepted/);
   const options = { allowUnacceptedModelIssues: true };
   const bytes = new Uint8Array(await (await renderDossierDocx(model, options)).arrayBuffer());

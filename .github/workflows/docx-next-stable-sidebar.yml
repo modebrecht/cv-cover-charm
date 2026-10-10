@@ -337,6 +337,11 @@ jobs:
       - name: Require complete native and visible text order through two Save/Reopen cycles
         timeout-minutes: 4
         run: python scripts/docx-next-entry-flow-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+      - name: Generate guarded boundary attachment without changing semantic paragraphs
+        run: bun scripts/docx-next-entry-flow-probe.ts "$QA_ROOT/boundary" --keep-boundary
+      - name: Require complete roundtrip content with no empty CV pages
+        timeout-minutes: 4
+        run: python scripts/docx-next-entry-flow-qa.py "$QA_ROOT/boundary" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding" --require-no-empty-cv-page
       - name: Retain actual content and outstanding geometry evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -345,6 +350,7 @@ jobs:
           retention-days: 30
           path: |
             ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/boundary/
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 

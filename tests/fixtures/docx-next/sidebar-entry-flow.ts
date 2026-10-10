@@ -5,7 +5,10 @@ import { paragraphSignature } from "./sidebar-floating";
 import { sidebarBodyCarrierFixture } from "./sidebar-body-carrier";
 import type { CarrierStoryCase } from "./sidebar-carrier-story";
 
-export function sidebarEntryFlowFixture(value: CarrierStoryCase) {
+export function sidebarEntryFlowFixture(
+  value: CarrierStoryCase,
+  options: { keepBodyBoundaryWithTable?: boolean } = {},
+) {
   const original = sidebarBodyCarrierFixture(value);
   const model = structuredClone(original.model);
   const before = paragraphSignature(model.cv.blocks);
@@ -18,6 +21,7 @@ export function sidebarEntryFlowFixture(value: CarrierStoryCase) {
   model.cv.page.margins.left = left;
   model.cv.page.margins.right = model.cv.page.widthMm - right;
   table.indentMm = 0;
+  if (options.keepBodyBoundaryWithTable) table.bodyBoundaryKeepNext = true;
   const entries = walkBlocks(model.cv.blocks).filter(
     (block) => block.kind === "entry" && block.keepTogether,
   );
@@ -33,6 +37,7 @@ export function sidebarEntryFlowFixture(value: CarrierStoryCase) {
   const controlTable = control.cv.blocks[0];
   assert(controlTable.kind === "table");
   controlTable.indentMm = 0;
+  if (options.keepBodyBoundaryWithTable) controlTable.bodyBoundaryKeepNext = true;
   return {
     model,
     control,
@@ -40,6 +45,7 @@ export function sidebarEntryFlowFixture(value: CarrierStoryCase) {
       ...original.fixture,
       fixture: value.name.replace("carrier-story", "entry-flow"),
       removedEntryTables: entries.map((entry) => entry.id),
+      ...(options.keepBodyBoundaryWithTable ? { bodyBoundaryKeepNext: true } : {}),
     },
   };
 }

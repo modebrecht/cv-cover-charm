@@ -112,6 +112,8 @@ export type TableBlock = {
   indentMm?: number;
   /** Guarded body paragraph before a natural-flow table; no semantic text or fixed table height. */
   bodyBoundary?: "paragraph";
+  /** Guarded native attachment of the real boundary paragraph to the following table. */
+  bodyBoundaryKeepNext?: boolean;
   /** Unaccepted diagnostic native floating table; physical page coordinates, no fixed height. */
   position?: {
     xMm: number;

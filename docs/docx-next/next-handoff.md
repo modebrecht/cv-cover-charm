@@ -1,3 +1,9 @@
+## Current corrected body boundary — 2026-10-10
+
+[The real boundary is kept with the table](sidebar-entry-boundary-status.md), removing the empty first CV page without deleting its canonical-owner protection. All six left/right compositions retain complete IDs, native paragraph order and visible text through source and two Save/Reopen cycles (18 phases), with no empty CV pages and no words outside declared tracks/printable height. Short dossiers have three pages, side-long nine, both-long eleven. Only the nonsemantic boundary paragraph gains keepNext; all preceding source packages and historic JSON evidence remain exact.
+
+Full release checks pass (1,077 units, TypeScript, formatting, lint, build). The corrected independent CI matrix is pending. The diagnostic body boundary/export gates remain closed; no application template uses this new fixture. **Next: independently verify the corrected artifact, then integrate the generic diagnostic application composition and test photos/long descriptions/Chrome before any production acceptance.** This supersedes the empty-page task below. No Word acceptance claimed.
+
 ## Current senior decision — 2026-10-10
 
 [Paragraph-entry body composition](sidebar-entry-flow-status.md) replaces redundant nested entry tables in a guarded fixture. All six left/right short, side-long and both-long cases preserve complete canonical IDs, native paragraphs and visible reading order through source and two Save/Reopen cycles (18 phases). School order is 1–65 in both long orientations. Paragraph text/styles/flags remain exact; production code is unchanged. Long sources have an empty first CV page, retained explicitly as an outstanding geometry defect. Simply removing the real body boundary loses Kontakt's canonical tag on saved2 and is rejected.
