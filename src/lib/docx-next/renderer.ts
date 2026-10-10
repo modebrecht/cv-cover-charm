@@ -12,6 +12,7 @@ import type {
 import { walkBlocks } from "./model";
 import { WordPackage, WORD_PART_TYPES } from "./package";
 import { DECL, W, R, namespaces, xml, twips, emu } from "./xml";
+import { cumulativeColumnTwips } from "./table-grid";
 import {
   normalizeBrowserImage,
   imageCache,
@@ -353,7 +354,12 @@ export async function renderDossierDocx(
       `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}<w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
     );
   }
-  function table(value: TableBlock, widthMm: number, page: DocumentPart["page"]): string {
+  function table(
+    value: TableBlock,
+    widthMm: number,
+    page: DocumentPart["page"],
+    cumulativeGrid = false,
+  ): string {
     const tableWidth = value.widthMm ?? widthMm - (value.indentMm ?? 0);
     if (
       tableWidth < 10 ||
@@ -373,6 +379,10 @@ export async function renderDossierDocx(
       ? `w:val="single" w:sz="${Math.min(96, Math.max(2, Math.round(((d.borderWidthMm * 72) / 25.4) * 8)))}" w:color="${d.borderColor}"`
       : 'w:val="nil"';
     const widths = tableColumnWidths(value, tableWidth);
+    cumulativeGrid ||= value.columnRounding === "cumulative";
+    const gridWidths = cumulativeGrid
+      ? cumulativeColumnTwips(widths, tableWidth)
+      : widths.map(twips);
     const merges = planCellRowSpans(value);
     const rows = value.rows
       .map(
@@ -396,7 +406,7 @@ export async function renderDossierDocx(
                 value.identityCarrier === "cell-ending" && rowIndex === 0 && index === 0
                   ? control(value.id, emptyEnding)
                   : emptyEnding;
-              return `<w:tc><w:tcPr><w:tcW w:w="${twips(widths[index])}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page)}${ending}</w:tc>`;
+              return `<w:tc><w:tcPr><w:tcW w:w="${gridWidths[index]}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page, 0, cumulativeGrid)}${ending}</w:tc>`;
             })
             .join("")}</w:tr>`,
       )
@@ -415,13 +425,14 @@ export async function renderDossierDocx(
         : value.position?.leadingBoundary === "paragraph"
           ? emptyParagraph
           : "";
-    return `${leading}<w:tbl><w:tblPr>${position}<w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${widths.map((width) => `<w:gridCol w:w="${twips(width)}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${value.position?.anchorParagraphId || value.position?.nextFloatingTableId ? "" : emptyParagraph}`;
+    return `${leading}<w:tbl><w:tblPr>${position}<w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${gridWidths.map((width) => `<w:gridCol w:w="${width}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${value.position?.anchorParagraphId || value.position?.nextFloatingTableId ? "" : emptyParagraph}`;
   }
   function renderBlock(
     block: DocBlock,
     widthMm: number,
     page: DocumentPart["page"],
     indentMm = 0,
+    cumulativeGrid = false,
   ): string {
     if (block.kind === "paragraph") return renderParagraph(block, "", indentMm);
     if (block.kind === "paragraph-frame")
@@ -446,13 +457,28 @@ export async function renderDossierDocx(
       );
     }
     if (block.kind === "table")
-      return table({ ...block, indentMm: (block.indentMm ?? 0) + indentMm }, widthMm, page);
+      return table(
+        { ...block, indentMm: (block.indentMm ?? 0) + indentMm },
+        widthMm,
+        page,
+        cumulativeGrid,
+      );
     if (block.kind === "image-zone") {
       const zone = imageZoneTable(block, widthMm - indentMm);
-      return table({ ...zone, indentMm: (zone.indentMm ?? 0) + indentMm }, widthMm, page);
+      return table(
+        { ...zone, indentMm: (zone.indentMm ?? 0) + indentMm },
+        widthMm,
+        page,
+        cumulativeGrid,
+      );
     }
     if (block.kind === "parallel-flow")
-      return table({ ...parallelFlowTable(block, widthMm - indentMm), indentMm }, widthMm, page);
+      return table(
+        { ...parallelFlowTable(block, widthMm - indentMm), indentMm },
+        widthMm,
+        page,
+        cumulativeGrid,
+      );
     if (block.kind === "columns")
       return table(
         {
@@ -464,6 +490,7 @@ export async function renderDossierDocx(
         },
         widthMm,
         page,
+        cumulativeGrid,
       );
     if (block.kind === "entry" && block.keepTogether)
       return table(
@@ -477,12 +504,13 @@ export async function renderDossierDocx(
         },
         widthMm,
         page,
+        cumulativeGrid,
       );
     if (block.kind === "entry" || block.kind === "group")
-      return renderBlocks(block.blocks, widthMm, page, indentMm);
+      return renderBlocks(block.blocks, widthMm, page, indentMm, cumulativeGrid);
     if (block.kind === "column-flow")
       throw new Error("Column flow must be planned before Word rendering.");
-    return `${block.heading ? renderParagraph(block.heading, "", indentMm) : ""}${renderBlocks(block.blocks, widthMm, page, indentMm + (block.contentIndentMm ?? 0))}`;
+    return `${block.heading ? renderParagraph(block.heading, "", indentMm) : ""}${renderBlocks(block.blocks, widthMm, page, indentMm + (block.contentIndentMm ?? 0), cumulativeGrid)}`;
   }
   const rendersContent = (value: DocBlock): boolean =>
     value.kind === "decorative-shape"
@@ -495,6 +523,7 @@ export async function renderDossierDocx(
     widthMm: number,
     page: DocumentPart["page"],
     indentMm = 0,
+    cumulativeGrid = false,
   ): string {
     let result = "",
       page2Started = false;
@@ -561,8 +590,9 @@ export async function renderDossierDocx(
           },
           widthMm,
           page,
+          cumulativeGrid,
         );
-      } else result += renderBlock(block, widthMm, page, indentMm);
+      } else result += renderBlock(block, widthMm, page, indentMm, cumulativeGrid);
     }
     return result;
   }

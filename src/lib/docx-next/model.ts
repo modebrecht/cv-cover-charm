@@ -98,6 +98,8 @@ export type TableBlock = {
   widths: number[];
   /** Fixed millimetre tracks; null tracks share remaining width by weights. */
   columnWidthsMm?: (number | null)[];
+  /** Guarded body-table serialization of shared column edges, conserving the whole width. */
+  columnRounding?: "cumulative";
   rows: {
     cells: DocBlock[][];
     keepTogether: boolean;

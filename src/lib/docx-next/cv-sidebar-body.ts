@@ -11,6 +11,7 @@ export function sidebarBodyTable(flow: ParallelFlowBlock, widthMm: number): Tabl
   for (const block of walkBlocks(independent.tracks.flatMap((track) => track.blocks)))
     if (block.kind === "entry") block.keepTogether = false;
   const table = parallelFlowTable(independent, widthMm);
+  table.columnRounding = "cumulative";
   table.bodyBoundary = "paragraph";
   table.bodyBoundaryKeepNext = true;
   if (leadingInsetMm) table.bodyBoundaryLeadMm = leadingInsetMm;

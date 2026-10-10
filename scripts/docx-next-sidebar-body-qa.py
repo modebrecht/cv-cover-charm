@@ -159,6 +159,7 @@ def audit(folder, engine, binding, replay_existing=False):
                         [row['text'] for row in native['nativeStoryNodes'][label]])
                 pdf_path = folder / (name + '-' + request['phase'] + '.pdf')
                 if not replay_case or not pdf_path.is_file(): convert(engine, Path(request['path']), pdf_path, 'pdf')
+                result['pdfSha256'] = entry.sha(pdf_path)
                 with fitz.open(pdf_path) as pdf:
                     result.update(pdfPages=len(pdf), emptyCvPages=[], outOfBoundsWords=[], photos=[], imageFrames=[], chrome=[], bodyStarts=[])
                     m = fixture['margins']

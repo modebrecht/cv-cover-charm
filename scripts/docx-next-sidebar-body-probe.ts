@@ -239,6 +239,7 @@ try {
       fixture: name,
       sourceSha256: hash(bytes),
       sharedSnapshotExport: true,
+      sourceColumnRounding: table.columnRounding,
       bodyBoundaryKeepNext: true,
       bodyBoundaryLeadMm: table.bodyBoundaryLeadMm ?? 0,
       paragraphPoliciesUnchanged: true,
