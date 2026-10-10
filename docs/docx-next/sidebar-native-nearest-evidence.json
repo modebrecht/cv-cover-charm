@@ -1,0 +1,5896 @@
+{
+  "scope": "Isolated nearest-division engine intervention on unchanged shared export packages",
+  "checkpoint": "114715c1155a039d62a7b90f3e50c009eb47d57f",
+  "productionAcceptance": "blocked",
+  "microsoftWordAccepted": 0,
+  "sourceBuildExecuted": false,
+  "stockRuntimeUnchanged": true,
+  "provenance": {
+    "stockWriterSha256": "ecc533cd929a8a044129026b519a87917803e0db7eb1c6bbec84f5511231397b",
+    "candidateWriterSha256": "dba8422194d7326f31fabb114ca120ed5cc116e4aa36b26c6c0faa43230fee85",
+    "patches": [
+      {
+        "instructionAddress": "0x92cf1f",
+        "original": "48f7b560ffffff",
+        "replacement": "e8aced80009090",
+        "trampolineAddress": "0x113bcd0",
+        "trampoline": "488b9560ffffff48d1ea4801d031d248f7b560ffffffc3"
+      },
+      {
+        "instructionAddress": "0x92cf2e",
+        "original": "48f7b568ffffff",
+        "replacement": "e8cded80009090",
+        "trampolineAddress": "0x113bd00",
+        "trampoline": "488b9568ffffff48d1ea4801d031d248f7b568ffffffc3"
+      }
+    ],
+    "segmentHeaders": [
+      {
+        "headerOffset": 120,
+        "oldSize": 14482605,
+        "newSize": 14482736
+      }
+    ],
+    "changedBytes": 64,
+    "scope": "Isolated binary intervention; not an official build, stock runtime, or production fix",
+    "sourceProposal": "docs/docx-next/libreoffice-nearest-tabcols-proposal.patch",
+    "primaryCommit": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+    "productionAcceptance": "blocked",
+    "microsoftWordAccepted": 0,
+    "sourceBuildExecuted": false,
+    "arbitraryWidthAcceptance": "unaccepted",
+    "inputs": {
+      "manifest.json": "e2e0c87528d2e7e568355ee55ac6a1bf440a9b2b8033a5782b172ba038adbfee",
+      "app-body-both-long.docx": "cf49b34dc3db657a64375a0458de29ca1a8fe59fe44cd1dd9e0ce2e110476f07",
+      "app-body-both-long.json": "26889ca6e2165678cc84deb52f5a6102d1d6a4af453869c740b96923bd832bd6",
+      "app-body-both-long-right.docx": "87013e5309da0d508513097b9fb44e56d43567341927e97298b0e48da710ef6a",
+      "app-body-both-long-right.json": "a53f8f78a40d31175b9b1128bbc93b3602a6e14961cdcf720c230da5e79a6e25",
+      "app-body-left.docx": "24b5d63caf6fbfc701dc934aae19e5b2f566b7eaf8184db56f442d3d3647d563",
+      "app-body-left.json": "c8fcfab38c09610fb80461cac892fabdc823154862974addd787c94436bacd08",
+      "app-body-right.docx": "fa8f5f8f0434b6462a28f53885eeb8748a854987b3a4813ad82345ce5af97254",
+      "app-body-right.json": "0b2aea404573e147c16a75692c7c22086124e773c43c37b4e3d7fdb95fdf39e3",
+      "app-body-paragraph-long.docx": "1b525031e0229bbbffe8517dd81dbbe1e1ca0ef1fa99d72da13d855bba125b16",
+      "app-body-paragraph-long.json": "6e8908ca28398c2a1c57219cf9d19389a4f89c1dcf0eefbdd68359ecf0cf4941",
+      "app-body-side-paragraph-long.docx": "1a214af8990b16fa3714f7e2708c6580664eac3e903d27cbd195df41c02bb3ff",
+      "app-body-side-paragraph-long.json": "7aaa36f8dd02bde331177b951a50d58c1a1bc57d3b7d92c7b59d7698e95c3e79",
+      "app-body-side-entries-long.docx": "4785552335679918ddb77aa4c66ee2a8302db8cce05c278370dd7dc60286fe95",
+      "app-body-side-entries-long.json": "b8b1c2a72c75f33c7e7dca677b68500483519be18b822085bfb7825e6ef2b3f9",
+      "app-body-side-entries-smaller-body.docx": "315c75f94b10b451f9e23565c5c666d65a3c8d7729d6965a5a8c48a9ac889100",
+      "app-body-side-entries-smaller-body.json": "9f335063587759cc45ab00d092d5c4fdc55868142d6a9afce0ed40387ffaad3e",
+      "app-body-placements.docx": "f40f01e3955d9c8cbf17d51d77f3fda68c85130f0fe4564863d5b56861dcdb44",
+      "app-body-placements.json": "723a1e3a594956e083321a10b04c6a35a967d0b79a3af3d2c587bea39e9eb6fd",
+      "app-body-styled.docx": "7f7d7cd5154c4bf23171e62eb818825492f52887394985be079b6da7f54f8fe9",
+      "app-body-styled.json": "96407333b16564b79503e5e940e86f5fe5e9c71c5b17714de5b5cbcd599a8eb5",
+      "app-body-photo-left.docx": "534a8843b497a3d6be52fbb5eba0c31986f0f32a54f40001ede3d64bf6305f94",
+      "app-body-photo-left.json": "fbf964a408c916f6a8965c3caa73f2292f68439bbb002d389e6271d0979e29fa",
+      "app-body-photo-right.docx": "224d4a72efd800e5624bf0abcd88bcc4977d5dbc2127d050b31cb9b42bca85ae",
+      "app-body-photo-right.json": "ff9dfde5c883e0dec3ccb625dc996a6e94c34d70a22ebef3c8e5988de24f7de5",
+      "app-body-photo-main.docx": "d2dd227f33316044bb71ecb1da8a2ca76f6dc068bae3293184015211e621bf74",
+      "app-body-photo-main.json": "c2dba8e9bd03b5227abd7e42f46ea318516cb6d58bd711096173333085c65e64",
+      "app-body-photo-free-main.docx": "4b48e44ea089ee995f6ea7a100d8f87749c594e45dc25dbfc245ccbdacd9b96f",
+      "app-body-photo-free-main.json": "361e19a485f70e5bf4bc17d9ea9a83b7b86c56478ae3bb7c2c929fd189c238e3",
+      "app-body-photo-free-side.docx": "6b020313bc51c4c4d0adc97cdce59fb86e425c75849006238191a814241ee39c",
+      "app-body-photo-free-side.json": "bd77be9c854c43466bdb23e357f20f94033f133007bad42820b43c02394759ef",
+      "app-body-photo-free-mirrored-side.docx": "8b216925bb1878d4e13d6f2f80051e40e00645c2c4287fa0011a0af6346923e1",
+      "app-body-photo-free-mirrored-side.json": "dc5294844442b42472137f289b9f002c17a7b414ca83bd60023930f4bc48e9a1",
+      "app-body-photo-free-low.docx": "1ea8187430a5add645a462773fa4b8046548c1f1a0205e8fa2e73525b1826dc1",
+      "app-body-photo-free-low.json": "c2ec47f6d8e6f5eb6e9e7a0bf050ea9b3536dc73bd0190011d10c4fab4689a9b",
+      "app-body-photo-free-portrait.docx": "699d66d9ab961a8a6714ca81ffb8924fc0628596382dccb1a3daad0e4b140efd",
+      "app-body-photo-free-portrait.json": "efa8663d3dcb242b042eb983ff868e867df3dcd8378b0df9192f936bf4a58fd4",
+      "app-body-photo-free-chrome.docx": "591521331ff2538345e202759f2b94bba93a67b7967a2f205ed38c497286a157",
+      "app-body-photo-free-chrome.json": "74dcd94e986396791d7987f5c0f406cd23437a2fd67e5bf62508c7e387f42030",
+      "app-body-contact-long.docx": "8e067cde1d456e6157644191a9d63eb40a2285a4193897b4455ef109bda1808c",
+      "app-body-contact-long.json": "f31f39131135132857a004daaf5e2eaa6b4c0a213753ed8ff5024c09b2bcc1f0",
+      "app-body-chrome-continuation.docx": "b245d3b116dd96c91e51fdd13ee52a209bc261f6eec2d0ee1cc132f77a731b3c",
+      "app-body-chrome-continuation.json": "89ed787c134be3fdd934080f0e8cfd857302331a0867e3b782889e261433c3a4",
+      "app-body-chrome-leading.docx": "9489ac471c6a1a9fec9e56b10657662847f7721ef084e41ca3f15817cbd361cd",
+      "app-body-chrome-leading.json": "edb9932813bf06146971500bc9965bcdc0ee70cdb2a034c3ab2f919f0ce69062"
+    }
+  },
+  "liveCanonicalTargetMeasurements": [
+    {
+      "fixture": "app-body-right",
+      "inputSha256": "fa8f5f8f0434b6462a28f53885eeb8748a854987b3a4813ad82345ce5af97254",
+      "canonicalOwnerName": "Table2",
+      "canonicalOwnerSha256": "849c55d164297035b28c67babca60687219369740b8371d449f288d86fd5aeba",
+      "sameProcessCoreTableAddress": 626355392,
+      "actualImportHits": [
+        {
+          "pc": 371619441,
+          "table": 626355392,
+          "parm": 140726555737504,
+          "newWish": 9638,
+          "oldWish": 9638,
+          "kind": 1,
+          "new": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              6752,
+              7106
+            ]
+          },
+          "old": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              3332,
+              6666
+            ]
+          }
+        }
+      ],
+      "publicGetterHits": 21,
+      "coreWidths": {
+        "tableWidthTwips": 9638,
+        "rows": [
+          [
+            6507,
+            341,
+            2790
+          ]
+        ]
+      },
+      "rawMeasurementSha256": "27ac49ad2e89bcef361d18eab248d6ff042c62c4fade0c73821102075837fc77",
+      "strongObjectLifetimeAccepted": false
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "inputSha256": "87013e5309da0d508513097b9fb44e56d43567341927e97298b0e48da710ef6a",
+      "canonicalOwnerName": "Table2",
+      "canonicalOwnerSha256": "2dbe467a58d84a6039e637b292791962a4bccff35ebaa4f8c3559b46716ad7bc",
+      "sameProcessCoreTableAddress": 1040424944,
+      "actualImportHits": [
+        {
+          "pc": 9590387,
+          "table": 1040424944,
+          "parm": 140729149222688,
+          "newWish": 9638,
+          "oldWish": 9638,
+          "kind": 1,
+          "new": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              6752,
+              7106
+            ]
+          },
+          "old": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              3332,
+              6666
+            ]
+          }
+        },
+        {
+          "pc": 7158388,
+          "table": 1040424944,
+          "parm": 140729149222688,
+          "newWish": 9638,
+          "oldWish": 9638,
+          "kind": 1,
+          "new": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              6752,
+              7106
+            ]
+          },
+          "old": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              3332,
+              6666
+            ]
+          }
+        }
+      ],
+      "publicGetterHits": 4,
+      "coreWidths": {
+        "tableWidthTwips": 9638,
+        "rows": [
+          [
+            6507,
+            341,
+            2790
+          ]
+        ]
+      },
+      "rawMeasurementSha256": "ecd1c1ff39a056e53ef55191ba01125e700a4259ee7909eeb5bf6fc6ff7ffe7a",
+      "strongObjectLifetimeAccepted": false
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "inputSha256": "224d4a72efd800e5624bf0abcd88bcc4977d5dbc2127d050b31cb9b42bca85ae",
+      "canonicalOwnerName": "Table2",
+      "canonicalOwnerSha256": "f4aa7dc0b03508912aacfc256ef3dfe8db03636c61f870f140bf0bd6bb9b8613",
+      "sameProcessCoreTableAddress": 356444592,
+      "actualImportHits": [
+        {
+          "pc": 339855520,
+          "table": 356444592,
+          "parm": 140726397288112,
+          "newWish": 9638,
+          "oldWish": 9638,
+          "kind": 1,
+          "new": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              6752,
+              7106
+            ]
+          },
+          "old": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              3332,
+              6666
+            ]
+          }
+        }
+      ],
+      "publicGetterHits": 2,
+      "coreWidths": {
+        "tableWidthTwips": 9638,
+        "rows": [
+          [
+            6507,
+            341,
+            2790
+          ]
+        ]
+      },
+      "rawMeasurementSha256": "8b5b88d9395a608aa788a90242903a1d023291eb7ed49ff017fc6a73ed23dc6c",
+      "strongObjectLifetimeAccepted": false
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "inputSha256": "8b216925bb1878d4e13d6f2f80051e40e00645c2c4287fa0011a0af6346923e1",
+      "canonicalOwnerName": "Table3",
+      "canonicalOwnerSha256": "f4aa7dc0b03508912aacfc256ef3dfe8db03636c61f870f140bf0bd6bb9b8613",
+      "sameProcessCoreTableAddress": 258097376,
+      "actualImportHits": [
+        {
+          "pc": 8566987,
+          "table": 258097376,
+          "parm": 140736900128256,
+          "newWish": 9638,
+          "oldWish": 9638,
+          "kind": 1,
+          "new": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              6752,
+              7106
+            ]
+          },
+          "old": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              3332,
+              6666
+            ]
+          }
+        },
+        {
+          "pc": 8496352,
+          "table": 258097376,
+          "parm": 140736900128256,
+          "newWish": 9638,
+          "oldWish": 9638,
+          "kind": 1,
+          "new": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              6752,
+              7106
+            ]
+          },
+          "old": {
+            "left": 0,
+            "right": 10000,
+            "positions": [
+              3332,
+              6666
+            ]
+          }
+        }
+      ],
+      "publicGetterHits": 8,
+      "coreWidths": {
+        "tableWidthTwips": 9638,
+        "rows": [
+          [
+            6507,
+            341,
+            2790
+          ]
+        ]
+      },
+      "rawMeasurementSha256": "fd4864eede4422b8a7bd4a8160ba929fcb82e33ec6dd73d8b35cd2764b36f2dc",
+      "strongObjectLifetimeAccepted": false
+    }
+  ],
+  "samplerSourceSha256": "904f28861f3339f7d440dad527fe6ba30f97b7472dd5c4629ea7c6951a5b6a08",
+  "samplerWorkerSha256": "023bbb9ae60138eeedd836bb1fd0f81711b185af742afa10e07973342a0bc466",
+  "contentRoundtripAcceptance": "pass",
+  "experimentalGeometryChecks": {
+    "sourceGridConsistencyAcceptance": "pass",
+    "exactVisibleGeometryAcceptance": "pass",
+    "exactSerializedGeometryAcceptance": "pass",
+    "exactPublicGridStabilityAcceptance": "pass"
+  },
+  "cases": 22,
+  "nativePhases": 66,
+  "pdfPages": 564,
+  "exactStableCases": 22,
+  "stockExactStableCases": 18,
+  "contentReportSha256": "97b78fa73eee21b5b25c4df118472980a6362d490183b7c99a6116bc40cf3087",
+  "geometryReportSha256": "9eb568b468e73defa0e6d8d56526df95ea08654c8aa0d3a08d4cb3cf9d7808ad",
+  "rows": [
+    {
+      "fixture": "app-body-both-long",
+      "canonicalOwnerSha256": "4cd10e3b0ab215cdf677703dceb3ba1de7f8415ff392022f8bfa4ac0eba870b9",
+      "nativeControls": [
+        382,
+        382,
+        382
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "cf49b34dc3db657a64375a0458de29ca1a8fe59fe44cd1dd9e0ce2e110476f07",
+          "pdfSha256": "f876f0f77b1043f100d02a86e70af55ef8c99a1ba562a7d9fffce1dcd4a890db",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "fc5adcbe6bf71d3ee11fa2955ac05271c074ea62b7ba68f9c77546b0356105b7",
+          "pdfSha256": "2b3f0e7480672bed5ded6f2a67d03415aee69b88930173117fa67ca843ae0dfe",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "758b47511fdf0ceb746b072fdea0d6cf5c25d92165935a69d11a8905d8e4f734",
+          "pdfSha256": "3f02bce05f5fb8b7d3f6af5cc326c2893568d7c3f4e72b31c840e42878d1569f",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "canonicalOwnerSha256": "2dbe467a58d84a6039e637b292791962a4bccff35ebaa4f8c3559b46716ad7bc",
+      "nativeControls": [
+        382,
+        382,
+        382
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "87013e5309da0d508513097b9fb44e56d43567341927e97298b0e48da710ef6a",
+          "pdfSha256": "35f36ff9b203cdc62267cb138978d1e3a62d25e2926f9192eae72eab2680f556",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "bb963a14ede548e1cb2cf13e3159c9c204192b5613f16c2a9befbd066327dd26",
+          "pdfSha256": "77d04b8bf7a02e0c4089b75be39b2e3d7c56fc5b33c129c7cdf6f16af1b656df",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "afc2ee63f510fe115ea34f62f4f108b0522d7f1a45e901cf24095243c20afbde",
+          "pdfSha256": "c9d52d1da06cc75e8db731a44be7fee8d06c085da16ec009d9a44cc5d9941453",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-left",
+      "canonicalOwnerSha256": "eaaa9086b103077a21b8bc445730e2179e0b77b0fe825d368f73971c352d2bfe",
+      "nativeControls": [
+        77,
+        77,
+        77
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "24b5d63caf6fbfc701dc934aae19e5b2f566b7eaf8184db56f442d3d3647d563",
+          "pdfSha256": "2906347de4fd4fe69b838eec2e30c1ede50db72f693ca8c5d77ed348d7c9d823",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "98c7f1353fdff79a0b77d9707ec159554da034c36fb1c40bc0ce3797a1f31dc0",
+          "pdfSha256": "d5413d5ce3b01585f5f9db4d5f27b23037a6beb2f1ca43100448476937a506bb",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "915bbd36cbcd2800fbc1b719a57f63a72352acd96e3d886fbea37cb4bedd8fc3",
+          "pdfSha256": "f551223cba7faa3bdaca2dbe83f30c0c006b3968189b0022ddbdc163b77d8963",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-right",
+      "canonicalOwnerSha256": "849c55d164297035b28c67babca60687219369740b8371d449f288d86fd5aeba",
+      "nativeControls": [
+        77,
+        77,
+        77
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "fa8f5f8f0434b6462a28f53885eeb8748a854987b3a4813ad82345ce5af97254",
+          "pdfSha256": "7c59e922fae428ea6035ff110a33931b6dcdcd7f1cfc720d3086fe35c032f480",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "2e614edf6950fff2e1e335df3b56c8e2c793714811b4e0fcc0ad5ab6f5712599",
+          "pdfSha256": "cc2aa52dcf8e7c4e4e6be1c1796b3e13be5d868fecc9a8ce19e178dc387a06ca",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "fbd666f4a3234226c2a38625042a3d39b431f4f8f1642e346c5e6f693a0115dc",
+          "pdfSha256": "600c306e5562b2b37797ca2f53d9ca428168fc6ed09966448f1742f4e51439aa",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "canonicalOwnerSha256": "2e64b8159d5388e9d29ac945aad034a4e89ea3dd412182040a65b36136cc40de",
+      "nativeControls": [
+        79,
+        79,
+        79
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "1b525031e0229bbbffe8517dd81dbbe1e1ca0ef1fa99d72da13d855bba125b16",
+          "pdfSha256": "7bfcd84e7b6ecabec2fa34dd7b7465207c017c16f0ee95431df8317a769ba63f",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "0e44e2e28c82d5782b9b9fb41bf5937d0d658bd690fd78c3d6fa8688f649263a",
+          "pdfSha256": "00aedb4e810b46d18ef176835c94339330ef294d8ac90eefa0e42f951913227e",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "4195f7d290666ac33e4e03e8312ac31208996e946d7da9e40cd4c349115fe229",
+          "pdfSha256": "68f5a6fb264f56a052161b0ef452174285375e8b87ba1680a5cb81111183b06b",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "canonicalOwnerSha256": "eb66f248a22a8a068df6aecacb224bb74ae78a50b2dfaf9563a14d42b09a8069",
+      "nativeControls": [
+        79,
+        79,
+        79
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "1a214af8990b16fa3714f7e2708c6580664eac3e903d27cbd195df41c02bb3ff",
+          "pdfSha256": "5605349128175106715740acc955ae2e8d07d0178548f557f82368d6b37592ff",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "5eea86a65e8b2e63a2d96b6fec99788840073b74530d28326c02150731f1b5a5",
+          "pdfSha256": "ff0219e06cf712c3e339ff645c1837fb16dfd2b59c29d1a761a8a4eb854f5cc9",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "dece2920fbea49a5df4e369fd3ae4dc2408230b27cd9076fd75c30d88868a4a6",
+          "pdfSha256": "70d5438e5658c0d262aa80129adde4f1e2b8ab2b91be2af53b37582e2cb57aab",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "canonicalOwnerSha256": "aa409b7c18505d0515fa91b74172714ddfe5e36cc940281fb4a966a9b45e59ac",
+      "nativeControls": [
+        330,
+        330,
+        330
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "4785552335679918ddb77aa4c66ee2a8302db8cce05c278370dd7dc60286fe95",
+          "pdfSha256": "78a350fbbe276e04e1bc770a36aa2dd553a915234196ea57aeb2f3d66534332a",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "d9e7a3482f34710426e70ba7e04240bbef91239de674c27dbb476a3482eb1372",
+          "pdfSha256": "c8be800797481195e7b98bb5af724b266241cd9006acdd3e4e906902d71f468b",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "c394b5c4a5ee9a321240c76aeec50d62a826b9d18bb3cc2708515bca086943c7",
+          "pdfSha256": "ba0258d70decb21a74a8bfb2812a1686be997a61b00c0b96ff732795d758f5c0",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "canonicalOwnerSha256": "aa409b7c18505d0515fa91b74172714ddfe5e36cc940281fb4a966a9b45e59ac",
+      "nativeControls": [
+        330,
+        330,
+        330
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "315c75f94b10b451f9e23565c5c666d65a3c8d7729d6965a5a8c48a9ac889100",
+          "pdfSha256": "b3aad9a384e1da392f4ab3831d3383b19473ae59a66d4cae6429e57f9bf630a0",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "6cfbca9a659ce69f4c853e8c959f42ea964931894a10f76b55df60b99dbc6383",
+          "pdfSha256": "bb29c4871285d93f15d9aa62382cbe02f9905d5afbe4189edfe274669645a391",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "2ee544a1fc5598b36fab5361a2abf4e488c631605b2a8502989913e2ba5c681e",
+          "pdfSha256": "15f842cadc9a4c46e7a7cb3a7fa5511ff76ef466c20ac4775ce42a2137c2ab8c",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-placements",
+      "canonicalOwnerSha256": "575a513a8373d7ae0f889239b86ad337b322ecda0d9dc13e33934878aa03624f",
+      "nativeControls": [
+        80,
+        80,
+        80
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "f40f01e3955d9c8cbf17d51d77f3fda68c85130f0fe4564863d5b56861dcdb44",
+          "pdfSha256": "33620d4f3e1ad265afd5d6ce4c967babdc4c307dcb101375910594e61824c362",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ],
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                1953,
+                4555
+              ],
+              "cellWidths": [
+                [
+                  1953,
+                  4555
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "1f380cd9f0019ec44a69da5c8bfbe34903e3c140dd06db43375e60e0539813ea",
+          "pdfSha256": "a13e0cf01cd0a3b7c65926473470f13f4154e705b2ef802ea65ae873b1026836",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ],
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                1953,
+                4555
+              ],
+              "cellWidths": [
+                [
+                  1953,
+                  4555
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "8c096eaba9e5da3fd4b92c4ce84cf6a5823b733d2ae5bdc915d5a501b8c09ede",
+          "pdfSha256": "8f8c672123574b361ee1badc5c933db9e6819e47e57832fec7e1e208d3150475",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ],
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                1953,
+                4555
+              ],
+              "cellWidths": [
+                [
+                  1953,
+                  4555
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-styled",
+      "canonicalOwnerSha256": "eaaa9086b103077a21b8bc445730e2179e0b77b0fe825d368f73971c352d2bfe",
+      "nativeControls": [
+        77,
+        77,
+        77
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "7f7d7cd5154c4bf23171e62eb818825492f52887394985be079b6da7f54f8fe9",
+          "pdfSha256": "867bed70744469cc60b931394890641867eacb0234ab179e9b0036a83a978518",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "b55fe5c76601c21f9b4728ad1d0e75c698741e58e062de3c10c231a7ef9bc02b",
+          "pdfSha256": "c564ae0d0fdc8e3845a7cfec6afeb0a7d22a67b907869bb1f634d05dc4ca48fb",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "a4e1788dc2f03ed15596af16837dc02ecd3ec8590641077b6405f10760f0c249",
+          "pdfSha256": "f8c26f3f00ac9492c57f19063f4bb3c64a5b8a7e7df74a9bafdb8c5c8ebd3cd5",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "canonicalOwnerSha256": "147e244dee783bfa9a5e84aaebb4ed6eed0f644b2776b558a5b736b9b9cf2de9",
+      "nativeControls": [
+        78,
+        78,
+        78
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "534a8843b497a3d6be52fbb5eba0c31986f0f32a54f40001ede3d64bf6305f94",
+          "pdfSha256": "3c9cff3908737ad66a09ef4d5b19131458253b2fe215e3617d46501c18c329aa",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "ea41690a14727b1a4c5f23911e96ba09184e8aef8b9d057672a5a10c9a5f0572",
+          "pdfSha256": "ad97d3ad04508f349100601609b934254e193555a2d196a5c443f115d867c075",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "9306a5cee3f905ef5c522778b75b0db2f6d7994e730576b06a5f528d39a379b4",
+          "pdfSha256": "9d91519782da05cc552d6b8c11b6a337c47e4afab87eeff3f59f7a665cec58bc",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "canonicalOwnerSha256": "f4aa7dc0b03508912aacfc256ef3dfe8db03636c61f870f140bf0bd6bb9b8613",
+      "nativeControls": [
+        78,
+        78,
+        78
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "224d4a72efd800e5624bf0abcd88bcc4977d5dbc2127d050b31cb9b42bca85ae",
+          "pdfSha256": "fdf995a6c959d6c2302e15fbb7036e1989b57a10c68b936bcf9e917b338126a0",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "bcdb60a340f08a7307e3ecc8635ef9e582bb09d7bf847c6ed473e69fc794ab83",
+          "pdfSha256": "b1f6bd5943b95bea4fea948a60aa64a9f3bc46b8eb781a1e7bce639bc5254801",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "9cb2142d994f282300072f1bb0a2467e29eced559a88a9b9eca3a97cc521f8d9",
+          "pdfSha256": "2c43f7675be8ef6a4c19cad6866844dad1e66ed5cb060a1a981da908ced3f355",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "canonicalOwnerSha256": "5602ef32788dead1a34aacf4d9e26db2ea6f641e04765d69f94215d0a8489668",
+      "nativeControls": [
+        78,
+        78,
+        78
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "d2dd227f33316044bb71ecb1da8a2ca76f6dc068bae3293184015211e621bf74",
+          "pdfSha256": "2a467928940bd3f23faf520b2e16ca035f8c9d060d18034c11f86b34fd885bad",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "95c36b6a456695b0eb2c2656ceace2f628b7d592d77287525ddeb321e99e5d12",
+          "pdfSha256": "314cabbcdc516b68717d329ec857ccf2d83cc35b2af05933b91deb5ef459bf4f",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "a7f2230053a5fe6d5277b50f4e38c4cc806604ed1f39211fa814390a9531338f",
+          "pdfSha256": "2d0063a08be910b751de7cbd64ad4b5490682cadb38c46d28078e1950aa7e185",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "canonicalOwnerSha256": "5602ef32788dead1a34aacf4d9e26db2ea6f641e04765d69f94215d0a8489668",
+      "nativeControls": [
+        78,
+        78,
+        78
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "4b48e44ea089ee995f6ea7a100d8f87749c594e45dc25dbfc245ccbdacd9b96f",
+          "pdfSha256": "6225130a39b6bc5809e0c3c1d0b14aa076900408c99604c0391c4ef6ff747793",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "ca31514c71f7b689343cebcb7a729ffd287610f0aadcc5ce4df083d6badfb2be",
+          "pdfSha256": "fcff25334a48bbce02fbbef24be4192557b8e89b99876105aaeb00addf966784",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "78b3f275601cf3583a9ca87e96696b5f2b04f2f5c5f603e3c2c0c641b4e7215b",
+          "pdfSha256": "0f6068b0ed872703e1505b312d2121e8dc59669230ce5662901c3e212e252ca9",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "canonicalOwnerSha256": "147e244dee783bfa9a5e84aaebb4ed6eed0f644b2776b558a5b736b9b9cf2de9",
+      "nativeControls": [
+        78,
+        78,
+        78
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "6b020313bc51c4c4d0adc97cdce59fb86e425c75849006238191a814241ee39c",
+          "pdfSha256": "04213310a27bf370828208d2d1060b64c8b263d01d85060dd307fd772550930e",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "b57352af4cd2745f635782b86d39d2897a528c3ee2857aca023a1f3b4ac42acd",
+          "pdfSha256": "373b43c5745ccdf56d5256baae33ae5daace3b01c06164cffb660cb7f60d251a",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "d44393b4c15708b691fb82f8530924c6a9d52f5f84f54f4ee83bfa80cc6ac1c7",
+          "pdfSha256": "a19553a1600ce35d0966a138ee66c5eb97c1965966b9201112249744521a9b0c",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "canonicalOwnerSha256": "f4aa7dc0b03508912aacfc256ef3dfe8db03636c61f870f140bf0bd6bb9b8613",
+      "nativeControls": [
+        78,
+        78,
+        78
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "8b216925bb1878d4e13d6f2f80051e40e00645c2c4287fa0011a0af6346923e1",
+          "pdfSha256": "12765b17bf1f1c362505b58af02318b32066099ecc54726c79cd7fe88ac9ba08",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "b1ed2171c8a3a4d10f69008b36c23408a3eb301fdaa03fd3fb7c17e65dafa3d1",
+          "pdfSha256": "f61cc4ad51c051f3bd169c5920d8d21a96b2caba9c2169c42399eca586af94d4",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "028875d2bce68b495cacd2bf3d79bfbde4cbfc832d066659b77267412496d445",
+          "pdfSha256": "5fc2d8a5bad13f0b29ad60fdfae20f55d5d0b78596ced96e5d23e9851e7dcb1e",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              6508,
+              341,
+              2789
+            ],
+            "cellWidths": [
+              [
+                6508,
+                341,
+                2789
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                6508,
+                341,
+                2789
+              ],
+              "cellWidths": [
+                [
+                  6508,
+                  341,
+                  2789
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 6752,
+              "visible": true
+            },
+            {
+              "position": 7106,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "canonicalOwnerSha256": "3b465c0c70a1f39ac68240fc2469d7bf5ef9f380e00fdba6668cb8ee3e101908",
+      "nativeControls": [
+        331,
+        331,
+        331
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "1ea8187430a5add645a462773fa4b8046548c1f1a0205e8fa2e73525b1826dc1",
+          "pdfSha256": "25b7a093270ad0d23b3e1e026bcc0c72e9e657e5c46d83af7a286f0946e8feeb",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "79344d9a4758ac9da1aec1b1b7bc2b2e6afc55689bc800a4124069b31b183cb7",
+          "pdfSha256": "9556a434b16ec3445cee9dcb6ec814271716e39016b16c4e41ffed38a25902ea",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "b1d6151b9e607a8e1eb2851f16e2c78b88a0a8a648a78d8e60ed3c8c600b5d5a",
+          "pdfSha256": "ebc7e1608bce1081e853bc0922a05d17812995824967d56e425447a2a5efd1b4",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "canonicalOwnerSha256": "5602ef32788dead1a34aacf4d9e26db2ea6f641e04765d69f94215d0a8489668",
+      "nativeControls": [
+        78,
+        78,
+        78
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "699d66d9ab961a8a6714ca81ffb8924fc0628596382dccb1a3daad0e4b140efd",
+          "pdfSha256": "4cbaa8b7ae2596077da2447101daed4564f4dfe9fffcb76312aa59479fd5583f",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1996,
+              "grid": [
+                1996
+              ],
+              "cellWidths": [
+                [
+                  1996
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "ba6bad49318f2f3d8316b64e10f2d6ec0f470c2abdec4122d539db1e1f520de2",
+          "pdfSha256": "85ce14bbbe0cd21fb7309b6e8cc256c0a1ecd715ddd152b48303aaac8499fd4f",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1996,
+              "grid": [
+                1996
+              ],
+              "cellWidths": [
+                [
+                  1996
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "7690cd4c435e38eb16e538873a31fbda0ef109aeaef07d90009ce25c0b2fa2cc",
+          "pdfSha256": "dd15496f6873873d082fd6064e7c9aa2e7ba883786a40d240dd06bcf6438e161",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1996,
+              "grid": [
+                1996
+              ],
+              "cellWidths": [
+                [
+                  1996
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "canonicalOwnerSha256": "9808e74a448e2638276ed71e8b2b9cc3cdc769ec74ded7d992472065808a1683",
+      "nativeControls": [
+        339,
+        339,
+        339
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "591521331ff2538345e202759f2b94bba93a67b7967a2f205ed38c497286a157",
+          "pdfSha256": "1af98248b65aaf578476af97fa801bc1ecf2a6f32ae55cd86e2ef004fe809be7",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "d20043ee1a69f28c5e426b6fa02681abef07e77448248f7fe3896b8f732e2776",
+          "pdfSha256": "f040f88d317dea37ca71bea32b1e7bc4e13ab066410034f48ef504e9eda4d444",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "47af34a078e260e6827ea700763082f7491b93cba065a1b4522b2a6f57961bf8",
+          "pdfSha256": "6423d685b3ed218e72e1eb55e18e35b20a8d4632c6d599de17e8269cc6b7711e",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 1950,
+              "grid": [
+                1950
+              ],
+              "cellWidths": [
+                [
+                  1950
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "canonicalOwnerSha256": "ed2ee6804b4e98aa84bb7857d5477b69391c7b5ab03212e69ed0e57c0ee32d9e",
+      "nativeControls": [
+        346,
+        346,
+        346
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "8e067cde1d456e6157644191a9d63eb40a2285a4193897b4455ef109bda1808c",
+          "pdfSha256": "4f3d66f7cabb266a9286248f396b724c9592bf5a57b3eda8b38767fe8fbc19c3",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "c0724a472ab4740d53f574e74748fdc5f86d06a8338a3076f80654c6492fb97f",
+          "pdfSha256": "2eee14448c0612833a913d73daab217f44957b50a2c5ad6a0790d11384470f50",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "fbe2206c9e77e6a64dd56f7acfb008004ac365625ed5f1a5b86b332174f66227",
+          "pdfSha256": "c9a7f67c93781bc3ec18de25df82b9bb8edc9b0a9ecc82a3c6e4e846f864f41d",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "canonicalOwnerSha256": "ed2ee6804b4e98aa84bb7857d5477b69391c7b5ab03212e69ed0e57c0ee32d9e",
+      "nativeControls": [
+        338,
+        338,
+        338
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "b245d3b116dd96c91e51fdd13ee52a209bc261f6eec2d0ee1cc132f77a731b3c",
+          "pdfSha256": "199cdecf67d43befd2eb025f3364cf54e06e56ebaf1be2f935a510dce2f76672",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "0cbaeef8b564f0cb76c5edc1bfe2d7e9b9806e9b31bba699b1abeeb1bc74e94f",
+          "pdfSha256": "b5a9a4359c82f6cca6b5bb2cf04c6568f4cddaedebf45329f07ce358d0829928",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "11facc04f9ec12a2366596711994185932eb368467d5a758cb72bf6698262bd1",
+          "pdfSha256": "b59a0fca3d916bf72d686993af969f26afca043a99586699a7919738f4cecfea",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "canonicalOwnerSha256": "ed2ee6804b4e98aa84bb7857d5477b69391c7b5ab03212e69ed0e57c0ee32d9e",
+      "nativeControls": [
+        338,
+        338,
+        338
+      ],
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "9489ac471c6a1a9fec9e56b10657662847f7721ef084e41ca3f15817cbd361cd",
+          "pdfSha256": "793c97e851784a193818f6ff20727c63ae170af14d3b3261cd5117e50e991067",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "docxSha256": "214c28de34f8cee19b9c271d847c54d20ccb2a7fd0436e1ef28b8ee5c00bc3fc",
+          "pdfSha256": "d1804bb53c5a82d98d6256b4107a1635f726bba515dd39caadb5128416587a5b",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "e0b36da21f9963ae5f273f3ac39a41cad4b16bae14143e0d0830da1594ed0845",
+          "pdfSha256": "8e58de235603a8f624ff8500d66e8faff450c039270361beac64ded1370d96c2",
+          "root": {
+            "preferredWidthTwips": 9638,
+            "grid": [
+              2789,
+              340,
+              6509
+            ],
+            "cellWidths": [
+              [
+                2789,
+                340,
+                6509
+              ]
+            ],
+            "sourceGridConsistent": true
+          },
+          "nestedGrids": [
+            {
+              "preferredWidthTwips": 9638,
+              "grid": [
+                2789,
+                340,
+                6509
+              ],
+              "cellWidths": [
+                [
+                  2789,
+                  340,
+                  6509
+                ]
+              ],
+              "sourceGridConsistent": true
+            },
+            {
+              "preferredWidthTwips": 6508,
+              "grid": [
+                3254,
+                3254
+              ],
+              "cellWidths": [
+                [
+                  3254,
+                  3254
+                ]
+              ],
+              "sourceGridConsistent": true
+            }
+          ],
+          "publicSeparators": [
+            {
+              "position": 2893,
+              "visible": true
+            },
+            {
+              "position": 3246,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ]
+    }
+  ],
+  "independentCI": "pending",
+  "limits": [
+    "No official source build executed",
+    "No upstream engine release or user-engine change",
+    "No application production gate change",
+    "No arbitrary-width, script, template or Word acceptance",
+    "Source pointer samples do not prove control/owner lifetime"
+  ],
+  "tenSaveCheck": {
+    "reportSha256": "c07821bad32cfdd1e7e4d4719a38c8ecf6520ded195db4c518fad401161b379d",
+    "cyclesPerOrientation": 10,
+    "orientations": [
+      {
+        "fixture": "app-body-right",
+        "phases": 11,
+        "exactSerializedGridAllPhases": true,
+        "sampledCycles": [
+          0,
+          1,
+          2,
+          5,
+          10
+        ],
+        "exactPixelsAndWordPositionsOnSampledCycles": true,
+        "finalGrid": [
+          6508,
+          341,
+          2789
+        ]
+      },
+      {
+        "fixture": "app-body-left",
+        "phases": 11,
+        "exactSerializedGridAllPhases": true,
+        "sampledCycles": [
+          0,
+          1,
+          2,
+          5,
+          10
+        ],
+        "exactPixelsAndWordPositionsOnSampledCycles": true,
+        "finalGrid": [
+          2789,
+          340,
+          6509
+        ]
+      }
+    ]
+  }
+}

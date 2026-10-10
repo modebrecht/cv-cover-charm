@@ -1,5 +1,7 @@
 # Shared Sidebar grid consistency — 2026-10-10
 
+Successor: [isolated native rounding correction](sidebar-native-nearest-status.md) captures the exact core parameters in all four source counterexamples and passes 22/22 exact geometry cases on a separately modified engine. The stock/runtime result below remains 18/22; no application or production fix is claimed.
+
 The guarded shared export now rounds each column boundary once, including nested tables. Every declared table width equals its grid and cell widths: 52 source tables across 22 Brief-based Sidebar cases. Authored millimetre widths, paragraph text, styles and keep policies remain unchanged. The fifth visible save defect, the custom-placement date row, is corrected. Eighteen cases now retain exact word coordinates, 2× page pixels, serialized table grids and public native separators through both saves. Four right/mirrored cases still move by approximately one twip per save. Geometry and production remain unaccepted.
 
 `columnRounding: "cumulative"` is declared only by the guarded body composition. The synchronous renderer inherits that scope through nested tables and synthetic column groups. Malformed rounding modes or collapsed/inconsistent grids fail. Default application and historical diagnostic compositions retain their original serialization. All 31 default Sidebar packages remain byte exact to the independently verified `b32c8515` artifact. All 144 original JSON evidence/native-worker files remain byte unchanged.

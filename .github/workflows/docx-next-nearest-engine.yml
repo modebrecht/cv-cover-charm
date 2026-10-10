@@ -1,0 +1,74 @@
+name: DOCX Next Experimental Engine Rounding
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - scripts/docx-next-native-nearest-experiment.py
+      - scripts/docx-next-native-nearest-experiment-test.py
+      - docs/docx-next/libreoffice-nearest-tabcols-proposal.patch
+      - .github/workflows/docx-next-nearest-engine.yml
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-engine-intervention:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      QA_ROOT: /tmp/docx-next-nearest-engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked application and native QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 numpy==2.2.6
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          python scripts/docx-next-native-nearest-experiment-test.py
+      - name: Install canonical browser decoder
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up unchanged verified stable engine and public binding
+        timeout-minutes: 12
+        run: |
+          python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+          python scripts/docx-next-native-grid-setup.py "$QA_ROOT/setup/runtime" "$QA_ROOT/uno-binding"
+      - name: Generate shared export fixtures with fresh canonical browser images
+        run: |
+          mkdir -p "$QA_ROOT/fixtures"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
+          bun scripts/docx-next-sidebar-body-probe.ts "$QA_ROOT/fixtures"
+      - name: Require exact geometry on a separately fingerprinted experimental engine
+        timeout-minutes: 15
+        run: |
+          python scripts/docx-next-native-nearest-experiment.py \
+            --stock-engine "$QA_ROOT/setup/runtime" \
+            --candidate-engine "$QA_ROOT/candidate-runtime" \
+            --fixtures "$QA_ROOT/fixtures" --output "$QA_ROOT/results" \
+            --binding "$QA_ROOT/uno-binding" --require-exact
+      - name: Retain experimental evidence without publishing engine binaries
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-nearest-experimental-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/results/
+            ${{ env.QA_ROOT }}/candidate-runtime/rounding-experiment.json
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/uno-binding/binding-record.json
