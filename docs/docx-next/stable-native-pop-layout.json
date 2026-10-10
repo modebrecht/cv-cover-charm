@@ -1,0 +1,142 @@
+{
+  "dieOffset": 14309763,
+  "frameBase": [
+    {
+      "op": "DW_OP_call_frame_cfa",
+      "args": []
+    }
+  ],
+  "locals": {
+    "aPosition": [
+      {
+        "op": "DW_OP_fbreg",
+        "args": [
+          -240
+        ]
+      }
+    ],
+    "xStart": [
+      {
+        "op": "DW_OP_fbreg",
+        "args": [
+          -320
+        ]
+      }
+    ],
+    "xEnd": [
+      {
+        "op": "DW_OP_fbreg",
+        "args": [
+          -312
+        ]
+      }
+    ],
+    "xText": [
+      {
+        "op": "DW_OP_fbreg",
+        "args": [
+          -304
+        ]
+      }
+    ],
+    "xCursor": [
+      {
+        "op": "DW_OP_fbreg",
+        "args": [
+          -296
+        ]
+      }
+    ],
+    "oData": [
+      {
+        "op": "DW_OP_fbreg",
+        "args": [
+          -256
+        ]
+      }
+    ],
+    "xContentControl": [
+      {
+        "op": "DW_OP_fbreg",
+        "args": [
+          -288
+        ]
+      }
+    ]
+  },
+  "ranges": [
+    {
+      "entry_offset": 512363,
+      "entry_length": 11,
+      "begin_offset": 1345712,
+      "end_offset": 1352745,
+      "is_absolute": true
+    },
+    {
+      "entry_offset": 512374,
+      "entry_length": 11,
+      "begin_offset": 389622,
+      "end_offset": 390715,
+      "is_absolute": true
+    }
+  ],
+  "debugMemberSha256": "01e9256334115f9ce696577388eadb6968fb106b405bf7a5b4fce123d70d05e3",
+  "library": "libsw_writerfilterlo.so",
+  "buildId": "5fa50010e8d243ae825a6cfc13715222e5b6bbe8",
+  "samplingPCs": {
+    "begin": 1346012,
+    "end": 1348472,
+    "cursorInitialized": 1346114,
+    "goRightReturn": 1346157,
+    "gotoRangeReturn": 1346185
+  },
+  "frameRule": {
+    "register": "rbp",
+    "cfaOffset": 16
+  },
+  "scope": "Exact matching DWARF locals plus original ELF frame rules; observed ranges only after getEnd returns",
+  "swTypes": {
+    "SwXTextCursor": {
+      "size": 240,
+      "members": {
+        "m_xParentText": 176,
+        "m_pUnoCursor": 184
+      }
+    },
+    "UnoCursorPointer": {
+      "size": 48,
+      "members": {
+        "m_pCursor": 32
+      }
+    },
+    "SwUnoCursor": {
+      "size": 296,
+      "virtualBaseExpression": [
+        18,
+        6,
+        72,
+        28,
+        6,
+        34
+      ]
+    },
+    "SwCursor": {
+      "size": 224,
+      "SwPaMBase": 0
+    },
+    "SwPaM": {
+      "size": 192,
+      "members": {
+        "m_Bound1": 24,
+        "m_Bound2": 96,
+        "m_pPoint": 168,
+        "m_pMark": 176
+      }
+    }
+  },
+  "swDebugMemberSha256": "edb5f48e3e96ebe8b0d87ed5e8c016c4246be07a3825101e507bf5ee5ff24a96",
+  "swBuildId": "9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c",
+  "cacheLayoutSha256": "e35567bb0663dafe5b4fba7825dc182873ef9ca458b61c8ab802c557dc0c20fe",
+  "rangeSnapshotSize": 504,
+  "popSnapshotSize": 2456
+}

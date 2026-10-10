@@ -82,7 +82,7 @@ jobs:
       - name: Install locked app and PDF QA dependencies
         run: |
           bun install --frozen-lockfile
-          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 pyelftools==0.32
           python scripts/docx-next-stable-sidebar-test.py
           python scripts/docx-next-populated-row-test.py
           python scripts/docx-next-supported-summary-test.py
@@ -106,6 +106,7 @@ jobs:
           python scripts/docx-next-native-symbol-test.py
           python scripts/docx-next-native-state-test.py
           python scripts/docx-next-native-cache-test.py
+          python scripts/docx-next-native-pop-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -216,6 +217,12 @@ jobs:
       - name: Measure first canonical cached start on unchanged original carrier
         timeout-minutes: 4
         run: python scripts/docx-next-native-cache-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-cache-evidence.json
+      - name: Verify exact original PopSdt locals and cursor fields offline
+        timeout-minutes: 4
+        run: python scripts/docx-next-native-pop-layout-qa.py --package /tmp/docx-next-native-debug/writer.ddeb --writer-image "$QA_ROOT/setup/runtime/usr/lib/libreoffice/program/libsw_writerfilterlo.so" --output "$QA_ROOT/native-pop-layout-report.json"
+      - name: Measure completed original first canonical PopSdt selection
+        timeout-minutes: 4
+        run: python scripts/docx-next-native-pop-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -233,6 +240,8 @@ jobs:
             ${{ env.QA_ROOT }}/native-stack-diagnostics.json
             ${{ env.QA_ROOT }}/native-state-report.json
             ${{ env.QA_ROOT }}/native-cache-report.json
+            ${{ env.QA_ROOT }}/native-pop-report.json
+            ${{ env.QA_ROOT }}/native-pop-layout-report.json
             ${{ env.QA_ROOT }}/native-symbol-report.json
             ${{ env.QA_ROOT }}/native-symbols/*/*
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
