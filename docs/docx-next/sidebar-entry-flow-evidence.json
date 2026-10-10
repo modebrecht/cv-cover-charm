@@ -1198,7 +1198,17 @@
     "stoppedAt": "serialized canonical tag inventory after second Save/Reopen"
   },
   "independentSuccessor": {
-    "status": "pending; new isolated content job has not yet executed"
+    "status": "verified success",
+    "codeCheckpoint": "22b262f8e3c194cdc84e61a950fd5a618b316548",
+    "workflowRun": 38053474811,
+    "job": 114217126602,
+    "artifact": 11669792984,
+    "artifactBytes": 1568587,
+    "artifactSha256": "dce2cb4757f6a37021d2126673fc00726d58cb2d9befcee4a66d9a50eccd2156",
+    "reportMatchesLocal": true,
+    "exactSourcePackages": 6,
+    "completeNativeRoundtripPhases": 18,
+    "pdfPagesWithExactWordCoordinates": 150
   },
   "decision": {
     "historicalObserverGatesChanged": false,
