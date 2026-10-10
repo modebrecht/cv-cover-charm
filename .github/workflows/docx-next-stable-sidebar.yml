@@ -105,6 +105,7 @@ jobs:
           python scripts/docx-next-native-stack-test.py
           python scripts/docx-next-native-symbol-test.py
           python scripts/docx-next-native-state-test.py
+          python scripts/docx-next-native-cache-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -212,6 +213,9 @@ jobs:
       - name: Observe original carrier internal guards without changing native code
         timeout-minutes: 2
         run: python scripts/docx-next-native-state-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-state-evidence.json
+      - name: Measure first canonical cached start on unchanged original carrier
+        timeout-minutes: 4
+        run: python scripts/docx-next-native-cache-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -228,6 +232,7 @@ jobs:
             ${{ env.QA_ROOT }}/native-stack-report.json
             ${{ env.QA_ROOT }}/native-stack-diagnostics.json
             ${{ env.QA_ROOT }}/native-state-report.json
+            ${{ env.QA_ROOT }}/native-cache-report.json
             ${{ env.QA_ROOT }}/native-symbol-report.json
             ${{ env.QA_ROOT }}/native-symbols/*/*
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json

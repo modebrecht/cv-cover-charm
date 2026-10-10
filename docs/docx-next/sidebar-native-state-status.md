@@ -1,3 +1,9 @@
+## Original first cached start — 2026-10-10
+
+The first original saved carrier cache is now observed directly between unchanged progress callbacks 30 and 31. Canonical `cv.section.person.heading` has `bIsStartOfText=false`, one `SwXTextRange`, a `SwXBodyText` parent and a text-node mark at offset 9 in the body paragraph `\u0001Zeugnis\u0001`. Both start-node ancestors are normal; there is no table-box ancestor. The canonical first SDT is therefore already cached outside the table before PopSdt removes that entry. All 77 older internal states, complete original public observations and all 36 disposal offsets remain exact. Independent CI reproduction is pending; no independent cache reference has been claimed yet.
+
+All prior JSON baselines and original engine/import worker bytes remain unchanged. Word acceptance remains **0/39**. Next: verify the new CI artifact and pin its strict cache contract, then measure the end range and range movement in original `PopSdt()`. Exact PopSdt entry, exact flag assignment/cleanup-entry values and both historical loss intervals remain unmeasured. This checkpoint supersedes older next-task statements.
+
 ## Verified independent native caller and guard checkpoint — 2026-10-09
 
 `a6ca4ac8` passes all 13 native/template jobs (37998272721), application/M6 and all eight browser groups (37998272751), gallery (37998272787) and automatic Pages (37998271993). Actual artifact 11647803487 is 70079214 bytes, SHA-256 `5031a3d23b3c824e06754245aa4f0c0009a7cc07120d7fcae273f94890447162`. Independent read-only verification preserves all 60 source instances, 13 saved packages, 150 RGBA instances, six original traces, one canonical disposal and 36 native offsets; it additionally checks the actual symbol sections/public provenance and the complete new original carrier state report.
