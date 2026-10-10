@@ -107,6 +107,15 @@ export async function renderDossierDocx(
     ]),
   );
   if (
+    storyBlocks.some(
+      (block) => block.kind === "paragraph" && block.controlPlacement !== undefined,
+    ) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error(
+      "DOCX Next inline paragraph identity is unaccepted; diagnostic opt-in required",
+    );
+  if (
     storyBlocks.some((block) => block.kind === "table" && block.identityCarrier !== undefined) &&
     !options.allowUnacceptedModelIssues
   )

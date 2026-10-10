@@ -145,6 +145,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         decorationPageGeometry(block, part.page);
       }
       if (block.kind === "paragraph") {
+        if (block.controlPlacement !== undefined && block.controlPlacement !== "inline")
+          throw new Error(`DOCX Next invalid paragraph control placement ${block.id}`);
         block.runs.forEach((run) => fontDefinition(run.style.font));
         if (
           ![block.beforeMm, block.afterMm, block.lineHeight].every(Number.isFinite) ||

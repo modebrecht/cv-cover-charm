@@ -110,6 +110,7 @@ jobs:
           python scripts/docx-next-native-clamp-research-test.py
           python scripts/docx-next-native-owner-test.py
           python scripts/docx-next-owner-boundary-test.py
+          python scripts/docx-next-owner-transfer-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -149,6 +150,7 @@ jobs:
           bun scripts/docx-next-dual-story-probe.ts "$QA_ROOT/dual-story"
           bun scripts/docx-next-carrier-story-probe.ts "$QA_ROOT/carrier-story"
           bun scripts/docx-next-owner-boundary-probe.ts "$QA_ROOT/owner-boundary"
+          bun scripts/docx-next-control-placement-probe.ts "$QA_ROOT/control-placement"
       - name: Require native container carrier ownership without weakening caption gates
         run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-identity-evidence.json
       - name: Reproduce stopped multirow identity and exact native grid counterexamples
@@ -233,6 +235,9 @@ jobs:
       - name: Reproduce guarded boundary semantic survival and rejected native lifetime
         timeout-minutes: 5
         run: python scripts/docx-next-owner-boundary-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
+      - name: Distinguish native frame transfer and complete long visibility counterexamples
+        timeout-minutes: 3
+        run: python scripts/docx-next-owner-transfer-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-owner-transfer-evidence.json
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -242,6 +247,9 @@ jobs:
           path: |
             ${{ env.QA_ROOT }}/stable-comparison.json
             ${{ env.QA_ROOT }}/whole-story-contract-report.json
+            ${{ env.QA_ROOT }}/owner-transfer-report.json
+            ${{ env.QA_ROOT }}/owner-transfer-observation.json
+            ${{ env.QA_ROOT }}/control-placement/
             ${{ env.QA_ROOT }}/grid-history-report.json
             ${{ env.QA_ROOT }}/native-grid-report.json
             ${{ env.QA_ROOT }}/native-boundary-report.json

@@ -1,0 +1,2368 @@
+{
+  "scope": "Bounded first inline source rejection, one unchanged saved boundary transfer, and read-only already exported long PDFs",
+  "local": {
+    "version": 1,
+    "transfer": {
+      "inputSha256": "3b1c4750b514c0506e2c4cb812a703bfd53a1c76cd97adc7264f73f361d26abb",
+      "unchangedPriorObservationSha256": "7f36a8c9424cfe150a5bad35919730d9e9f5f66394e7e31823f82085f6f6ad78",
+      "canonicalControlSurvives": false,
+      "completeFinalControls": 77,
+      "firstFinalText": "Kontakt",
+      "finalSemanticInventoryMatchesPrior": true,
+      "resolvedFrames": [
+        {
+          "library": "libpyuno.so",
+          "returnOffset": 221818,
+          "functions": []
+        },
+        {
+          "library": "libgcc3_uno.so",
+          "returnOffset": 39274,
+          "functions": []
+        },
+        {
+          "library": "libgcc3_uno.so",
+          "returnOffset": 35744,
+          "functions": []
+        },
+        {
+          "library": "libgcc3_uno.so",
+          "returnOffset": 37901,
+          "functions": []
+        },
+        {
+          "library": "libinvocadaptlo.so",
+          "returnOffset": 21293,
+          "functions": []
+        },
+        {
+          "library": "libgcc3_uno.so",
+          "returnOffset": 21615,
+          "functions": []
+        },
+        {
+          "library": "libgcc3_uno.so",
+          "returnOffset": 24620,
+          "functions": []
+        },
+        {
+          "library": "libgcc3_uno.so",
+          "returnOffset": 55598,
+          "functions": [
+            {
+              "name": "privateSnippetExecutor",
+              "value": 55476,
+              "size": 194
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 11172167,
+          "functions": [
+            {
+              "name": "_ZN10comphelper26OInterfaceContainerHelper4IN3com3sun4star4lang14XEventListenerEE15disposeAndClearERSt11unique_lockISt5mutexERKNS4_11EventObjectE",
+              "value": 11171952,
+              "size": 844
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 11333638,
+          "functions": [
+            {
+              "name": "_ZN17SwXContentControl4Impl6NotifyERK7SfxHint",
+              "value": 11333408,
+              "size": 363
+            }
+          ]
+        },
+        {
+          "library": "libmergedlo.so",
+          "returnOffset": 54339205,
+          "functions": [
+            {
+              "name": "_ZN14SvtBroadcaster9BroadcastERK7SfxHint",
+              "value": 54338976,
+              "size": 410
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 10399336,
+          "functions": [
+            {
+              "name": "_ZN16SwContentControl20NotifyChangeTextNodeEP10SwTextNode",
+              "value": 10399008,
+              "size": 430
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 10408664,
+          "functions": [
+            {
+              "name": "_ZN20SwTextContentControl11ChgTextNodeEP10SwTextNode",
+              "value": 10408624,
+              "size": 107
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 10680631,
+          "functions": [
+            {
+              "name": "_ZN10SwTextNode11DestroyAttrEP10SwTextAttr",
+              "value": 10679936,
+              "size": 1079
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 10620230,
+          "functions": [
+            {
+              "name": "_ZN10SwTextNodeD2Ev",
+              "value": 10620064,
+              "size": 811
+            },
+            {
+              "name": "_ZN10SwTextNodeD1Ev",
+              "value": 10620064,
+              "size": 811
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 10621113,
+          "functions": [
+            {
+              "name": "_ZThn120_N10SwTextNodeD0Ev",
+              "value": 10621088,
+              "size": 43
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 7481615,
+          "functions": [
+            {
+              "name": "_ZN7SwNodes10RemoveNodeEN4o3tl10strong_intIi16Tag_SwNodeOffsetEES3_b",
+              "value": 7480720,
+              "size": 2125
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 7489111,
+          "functions": [
+            {
+              "name": "_ZN7SwNodes6DeleteERK6SwNodeN4o3tl10strong_intIi16Tag_SwNodeOffsetEE",
+              "value": 7485904,
+              "size": 4178
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 6696575,
+          "functions": [
+            {
+              "name": "_ZN2sw32DocumentContentOperationsManager19DeleteRangeImplImplER5SwPaM13SwDeleteFlags",
+              "value": 6694448,
+              "size": 3217
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 6704333,
+          "functions": [
+            {
+              "name": "_ZN2sw32DocumentContentOperationsManager15DeleteRangeImplER5SwPaM13SwDeleteFlags",
+              "value": 6704160,
+              "size": 473
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 6704713,
+          "functions": [
+            {
+              "name": "_ZN2sw32DocumentContentOperationsManager17DeleteAndJoinImplER5SwPaM13SwDeleteFlags",
+              "value": 6704640,
+              "size": 230
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 6702725,
+          "functions": [
+            {
+              "name": "_ZN12_GLOBAL__N_116lcl_DoWithBreaksERN2sw32DocumentContentOperationsManagerER5SwPaM13SwDeleteFlagsMS1_FbS4_S5_E",
+              "value": 6701824,
+              "size": 1036
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 6348182,
+          "functions": [
+            {
+              "name": "_ZN5SwDoc14MakeFlyAndMoveERK5SwPaMRK10SfxItemSetPK10SwSelBoxesP13SwFrameFormat",
+              "value": 6346560,
+              "size": 2314
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 11652790,
+          "functions": [
+            {
+              "name": "_ZN8SwXFrame13attachToRangeERKN3com3sun4star3uno9ReferenceINS2_4text10XTextRangeEEEPK5SwPaM",
+              "value": 11648592,
+              "size": 9723
+            }
+          ]
+        },
+        {
+          "library": "libswlo.so",
+          "returnOffset": 13075534,
+          "functions": [
+            {
+              "name": "_ZN7SwXText18convertToTextFrameERKN3com3sun4star3uno9ReferenceINS2_4text10XTextRangeEEES9_RKNS3_8SequenceINS2_5beans13PropertyValueEEE",
+              "value": 13072496,
+              "size": 8949
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 1077013,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter7dmapper24DomainMapperTableHandler8endTableEj",
+              "value": 1068256,
+              "size": 12873
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 2085375,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter7dmapper12TableManager19resolveCurrentTableEv",
+              "value": 2084800,
+              "size": 1098
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 2086390,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter7dmapper12TableManager8endLevelEv",
+              "value": 2085904,
+              "size": 1644
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 1101880,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter7dmapper24DomainMapperTableManager8endLevelEv",
+              "value": 1101264,
+              "size": 2238
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 2078521,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter7dmapper12TableManager17endParagraphGroupEv",
+              "value": 2077696,
+              "size": 1329
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 879520,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter7dmapper12DomainMapper21lcl_endParagraphGroupEv",
+              "value": 879280,
+              "size": 408
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 2278802,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter5ooxml23OOXMLFastContextHandler17endParagraphGroupEv",
+              "value": 2278752,
+              "size": 97
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 2586411,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter5ooxml16OOXMLFactory_wml9endActionEPNS0_23OOXMLFastContextHandlerE",
+              "value": 2586000,
+              "size": 2949
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 2256445,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter5ooxml12OOXMLFactory9endActionEPNS0_23OOXMLFastContextHandlerE",
+              "value": 2256272,
+              "size": 204
+            }
+          ]
+        },
+        {
+          "library": "libmergedlo.so",
+          "returnOffset": 47953126,
+          "functions": []
+        },
+        {
+          "library": "libmergedlo.so",
+          "returnOffset": 47962247,
+          "functions": []
+        },
+        {
+          "library": "libmergedlo.so",
+          "returnOffset": 47971515,
+          "functions": []
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 2249716,
+          "functions": [
+            {
+              "name": "_ZN12writerfilter5ooxml17OOXMLDocumentImpl7resolveERNS_6StreamE",
+              "value": 2247760,
+              "size": 3002
+            }
+          ]
+        },
+        {
+          "library": "libsw_writerfilterlo.so",
+          "returnOffset": 2200700,
+          "functions": [
+            {
+              "name": "_ZN12_GLOBAL__N_112WriterFilter6filterERKN3com3sun4star3uno8SequenceINS3_5beans13PropertyValueEEE",
+              "value": 2198304,
+              "size": 7567
+            }
+          ]
+        },
+        {
+          "library": "libmergedlo.so",
+          "returnOffset": 51610946,
+          "functions": [
+            {
+              "name": "_ZN14SfxObjectShell10ImportFromER9SfxMediumRKN3com3sun4star3uno9ReferenceINS4_4text10XTextRangeEEE",
+              "value": 51608272,
+              "size": 7861
+            }
+          ]
+        },
+        {
+          "library": "libmergedlo.so",
+          "returnOffset": 51625763,
+          "functions": [
+            {
+              "name": "_ZN14SfxObjectShell6DoLoadEP9SfxMedium",
+              "value": 51620112,
+              "size": 6470
+            }
+          ]
+        },
+        {
+          "library": "libmergedlo.so",
+          "returnOffset": 51876619,
+          "functions": [
+            {
+              "name": "_ZN12SfxBaseModel4loadERKN3com3sun4star3uno8SequenceINS2_5beans13PropertyValueEEE",
+              "value": 51876080,
+              "size": 3248
+            }
+          ]
+        },
+        {
+          "library": "libgcc3_uno.so",
+          "returnOffset": 39274,
+          "functions": []
+        },
+        {
+          "library": "libgcc3_uno.so",
+          "returnOffset": 35744,
+          "functions": []
+        },
+        {
+          "library": "libgcc3_uno.so",
+          "returnOffset": 37901,
+          "functions": []
+        },
+        {
+          "library": "libreflectionlo.so",
+          "returnOffset": 174213,
+          "functions": []
+        },
+        {
+          "library": "libinvocationlo.so",
+          "returnOffset": 72953,
+          "functions": []
+        },
+        {
+          "library": "libpyuno.so",
+          "returnOffset": 168145,
+          "functions": []
+        }
+      ],
+      "symbolProvenance": {
+        "libsw_writerfilterlo.so": {
+          "sha256": "7715b9913092fc00539f1b21c37c653ff3b47c8ada2267df39c20187e2004b01",
+          "buildId": "5fa50010e8d243ae825a6cfc13715222e5b6bbe8",
+          "sections": {
+            ".symtab": "fa0dd4c8bea33730d5167bbaff636da04b4a031fcd19e78586a9655e9c13a15b",
+            ".strtab": "baa1448c41805eb8eb903b529d6766ba055894e52315f3e64612ce9942e17bb7",
+            ".note.gnu.build-id": "bd052d5f90481c333342c51dbde1428d86f1e005f3214f4e3ad81188ce57dc95"
+          }
+        },
+        "libswlo.so": {
+          "sha256": "ecc533cd929a8a044129026b519a87917803e0db7eb1c6bbec84f5511231397b",
+          "buildId": "9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c",
+          "sections": {
+            ".symtab": "151a250669b03cee86f74508e2eb1535096900c034411e94915aa0c6f49f0f02",
+            ".strtab": "90257e13ced0959432d53674b446acf113e63d8235afdd2f2ab3b6b513c42979",
+            ".note.gnu.build-id": "5e73a5ae20d222bc32e80ca6e91daf28247a88c32ecafe93f9439eb04cbe373d"
+          }
+        }
+      }
+    },
+    "placement": {
+      "preparedSources": 6,
+      "executedImports": 1,
+      "unexecutedSources": 5,
+      "sourceSha256": "5712947ad9c9f249ea1e73a8a66b91a155f28d89d75cf08fe2d0f8db495a07fd",
+      "serializedControls": 77,
+      "nativeControls": 76,
+      "missingTags": [
+        "cv.section.person.heading"
+      ],
+      "controlLifetime": [
+        {
+          "event": "final-control",
+          "sameRegisteredInterface": false
+        }
+      ],
+      "stoppedAt": "first source import",
+      "candidateAccepted": false
+    },
+    "longVisibility": [
+      {
+        "kind": "control",
+        "pages": 4,
+        "pdfSha256": "7cb05063ff3a6759645e14df8b2684057457c76e0aff3c94365ad711b97ac652",
+        "stories": {
+          "main": {
+            "completeLaneText": {
+              "status": "fail",
+              "authoredCharacters": 8809,
+              "actualCharacters": 2228,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "1037d1537d8072a3ae951120827cbb79b39beec4176f6e59f1e043fdbaa96742"
+            },
+            "paragraphsAbsentFromWholeCvPdf": [
+              {
+                "fieldId": "cv.entry.schule:school-5.date",
+                "textSha256": "dbc39fa897e6b7a4ce2b87f56200acbd75ea363be70aa4859954c5a4b88d628f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-5.title",
+                "textSha256": "e285b5f22e68bb3a3405e22c35726146b79c78e0ead1d3019c7224fd98da6790",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-6.date",
+                "textSha256": "ea9c7336203cf75ede6f4ba21f210c04c33fec589670e7a88758c3b256f18867",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-6.title",
+                "textSha256": "ddae076908636f47c6964e49a05d2856762fe0281cc5bad90b84ac5537b75021",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-7.date",
+                "textSha256": "7f6a4f66ae3cbcd93fb97296e994c23ef176d5c9645f9b724a7e541ea63c05f0",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-7.title",
+                "textSha256": "76b0a5b8636f536848fa1a8eeb7924dfb9d4ac8c3769f992a7068a29c7365639",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-8.date",
+                "textSha256": "126e0b8541b58de9e4a1ffcc050337327414bd63f794f64f21de37ede8689416",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-8.title",
+                "textSha256": "8d43f2b2ae245f215f74e677906980480228445d97818b315ff47c5ade25745f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-9.date",
+                "textSha256": "6baaefb7533d8785ebb2b6e9cf35d310e07a0094fb7cd8a7b980e3e3fe642ae4",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-9.title",
+                "textSha256": "2554ad2b585c2ac837e09f03a4ee74f6caaf2cd4e9777b1f020f49d1c9837db3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-10.date",
+                "textSha256": "3e52d6f6a9b48134ca54fe292011957b315494f98bfe3ae0e4f988358d81a0b9",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-10.title",
+                "textSha256": "808275a3dfb7628bc5c5b122ea1c03956d16964c47026ebc512750f0f7a059cf",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-11.date",
+                "textSha256": "f7652052dc16cc455c1f2468aaf02ffe2c21c81a47bed4cb1785b377c959e44f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-11.title",
+                "textSha256": "c044e0a39b03eb31fe026745a63e3105dbae01168eb96d3d11e6e5cda97ad31a",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-12.date",
+                "textSha256": "5979acf3aef9f31180fc7d283559e2ecebf41b0fd21d10b923be0b1e0d8610b8",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-12.title",
+                "textSha256": "48d263d0fa66af994ba7f96b9da634d74f5d2cba4cf00c4385e8b7a6d7a1be27",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-13.date",
+                "textSha256": "ac88fdc8ffaf735d21d3499d348c5416a9bd79ffcf7c71f75ad7959d0ff51f99",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-13.title",
+                "textSha256": "975defe73217649efcc657f5e3279b1994589f5b376e769b2c5deb68e1208d53",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-14.date",
+                "textSha256": "9f90b08a9fa40459cdc6a22c00b67215c8a6827eed9db2f527026560883dcdec",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-14.title",
+                "textSha256": "b68f6893f7252aef73a9039567a200b0e6ac9d7c7adae5bd00c2525b5edb12a4",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-15.date",
+                "textSha256": "f42a7c5bad73de6c2d505b78a542ae17460c93c28ae0c5ce679598fcf87042ac",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-15.title",
+                "textSha256": "3c5ec419ea2339202cfb80d94df6b35d7a0e961089d9d6eb488e30d7cadbb5fe",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-16.date",
+                "textSha256": "12ce4b0428de06cbe136c1cb169609bdbc9f7b0a1ff3ad3a4152f4a562588f25",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-16.title",
+                "textSha256": "2cac2ebfb0107b886d494fe383bf77fcf5b5f0304317517f2e249ba796adce03",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-17.date",
+                "textSha256": "0ec997a14f08690d8e20c1e41e1bce8f41cfb3bec909cd79be55c2428d7ce2df",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-17.title",
+                "textSha256": "27bb282b03d7fd597444e269ae571f2b572bc1a1f7f37fd6482f7a76761ddbf7",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-18.date",
+                "textSha256": "0291511c46a869b91ef550f9f8bce0eaef3b2d5bba4fed574ff8310cef91ba8b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-18.title",
+                "textSha256": "d64b74987287bb9d263417b1016237f7a14034f38dcdcb79ccdbe9bab47fd8e6",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-19.date",
+                "textSha256": "79fdf8f1b2e342f1a38c813f6c08497296d2289534a6bfa3ee7bbe11e99687fb",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-19.title",
+                "textSha256": "29053a7a4801ef8c78e6c8bb74b43976d732a81b31e381dbecf265902ca33cfe",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-20.date",
+                "textSha256": "07bfbba8827b5feb3cd9ef8e6867c70b49f4021cb6d7eff0498fd9ff45092343",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-20.title",
+                "textSha256": "beaa3ab9d5e777bd3c63f94584eb54732de05e966dc4864a8d026093f101e156",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-21.date",
+                "textSha256": "81934d7926e8c5d36336af73b333fef550851fdc7d4190b0ede198c0767c79f0",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-21.title",
+                "textSha256": "b2f2efa5d96432e5c6cf81b130fbf725823681146e2f4b8882bcca39ef176550",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-22.date",
+                "textSha256": "e3f2a4c6a4dcc9d895a4d0f017a9c428113f38d34f1640e36400f48b642765ab",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-22.title",
+                "textSha256": "c1f0b00f53b55fdf51e7ad2d0d71161b26c171f30eba6b0c687e8cbdce2e8a4b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-23.date",
+                "textSha256": "fbbec9d877ea3e5f660cdc9fe27def5f88d7d306998548c41cbcf45727321465",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-23.title",
+                "textSha256": "08bf3d8014c09c996aaa397e862845547a5c4660b76aa718347f707dac808902",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-24.date",
+                "textSha256": "01bf761e09a607843a7d72df1918d982a55ee77b4efe3d7eafa44c0f5c224d8c",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-24.title",
+                "textSha256": "78c738673f391f6f730c814d94067f9212a45858054cc20edd7a7ec0c5a259ff",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-25.date",
+                "textSha256": "060a47e1229042a9ac8cc6ead060aabfa4dd0afe3042f3e700b63ce6227ecb0f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-25.title",
+                "textSha256": "1cab8c515849886c0fa70457b1e6d30a117f4cdd84d5dced979904a66f743801",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-26.date",
+                "textSha256": "77fb3b03dd1be19407ce396ca52a30e47b4535f8eb0d5917db0843c0b75498ed",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-26.title",
+                "textSha256": "93bdd692c23050cfe4a206e1bed7f0da39b01dce5ac0939b36493b297627423d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-38.date",
+                "textSha256": "6fac4154e95bf6e003df9967430c95532856fe039e49604779d6709108e8d66d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-38.title",
+                "textSha256": "9012b6f47e6448331381b0ccf1aa5bd948a44536a3fdeff4901089aed65bc3dd",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-39.date",
+                "textSha256": "adce35b4ce293de4ed2d0573b4fcad31bcc345418dd7f6b916e775a4de7de347",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-39.title",
+                "textSha256": "f3b8cd045fa59d78e588de7d029383f1345345acdf1012ba3205abca7e6bd46d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-40.date",
+                "textSha256": "2685f59c31afe21fbd8e6ecc4001dc2887c2a7bfeade8f468e7bc4425074a4fe",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-40.title",
+                "textSha256": "ec568e65b6db6932255ac47e0b2193060853920becec17e0ceb4ed51a9be7759",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-41.date",
+                "textSha256": "295461e4e1df5a4c9e2b5e6803b7fa9398f8fa77151e8679968fb036940a3973",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-41.title",
+                "textSha256": "b54518a68d83df155005c1bd79ed8abc866e96c550248144ff01d14772ae0e44",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-42.date",
+                "textSha256": "6c0dfc01d10aed09e1a5d353e174c90da94df2167908c50174693f263ce86937",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-42.title",
+                "textSha256": "4be4b0fe84805cf0b8719bfb4b35c70204942823849ad09c59fc82d940d83fe4",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-43.date",
+                "textSha256": "bbb1db347ed4d2ad60bf87e63f0531347d55c6dec9a0f24d949400d42753d8c5",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-43.title",
+                "textSha256": "db4c18741869d814b299b5098d7c9acb3868c99fc7eb19d260b1a209a9b78feb",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-44.date",
+                "textSha256": "371e10f3a9e8896910631baf73b8f34be3568d66048339de635d0dfc4fad64e3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-44.title",
+                "textSha256": "98c01bab31e42509c7055884358989e0f958d37e2153053ea6255ffe3ab1595d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-45.date",
+                "textSha256": "72d6b67027dd40193776be2ecc5e6c7b5319883bf87dc175ccc2aa575946202f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-45.title",
+                "textSha256": "6adadd5c57189b50dab1fcdb178db863fc3b166df1e0b61da6ce1bab25c71f80",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-46.date",
+                "textSha256": "47c573a05b7a993a15eaec2a70518b079514ebdeb5876815860b61382ee82cca",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-46.title",
+                "textSha256": "ac6253e50758594da4726684d0e6050a2404c467b85a2a0322bd6afe8058c796",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-47.date",
+                "textSha256": "d3acca85451e6f96670404502bdf1b7bddc9fceec220ad18dd149ae5c8d60d6d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-47.title",
+                "textSha256": "c42dbbb130dde23c72d7ecb5bc41edc0bbcb15f182d46fda839352ff9c64f2ec",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-48.date",
+                "textSha256": "638a131cec797982b6873eb7599a453158bb5bae38a6ede8339ba1beb01c11ed",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-48.title",
+                "textSha256": "f624b432c261f0ba7f652af28b97e34088eda7a7ef9936d5c94c00516be537ed",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-49.date",
+                "textSha256": "2aa827a97ba0303c6b8b8555a8e3a34877636e9730ce5c2fea987316880a0a26",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-49.title",
+                "textSha256": "1e9a23914a28ed1fcea1a41512bfaba3938213bd4cb71a3bf81f804fd38c0dac",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-50.date",
+                "textSha256": "e0aaaccdbb02aa87250f3e73751d42ecf8990f667f231adb8124a9deaca21377",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-50.title",
+                "textSha256": "398337d9fec319b5a8b8fee0985dd884cf436639e34432a78d958394ee6b51aa",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-51.date",
+                "textSha256": "e047d15abe4f8c3316b1d5bd0a0adae1829384be5d04cd742e3fc03d2b44e615",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-51.title",
+                "textSha256": "c78b5036bb6322eedcfdf32d28f987d4c10b25655bc6607af8433aa482d7cddb",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-52.date",
+                "textSha256": "20935f10a40d61727711a0e56c9bafd6645dca418d34e045a970cc6d96246671",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-52.title",
+                "textSha256": "96f0bbc796fc2b1a29659a91539378cff8f5325c5d038fc5eca64c3396ccfe3b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-53.date",
+                "textSha256": "89e85c17390f62c55d6cacc63a9e830e173912261939fcd8884a0bdc588907dd",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-53.title",
+                "textSha256": "5cbba4a4c77e72f87760c111bc9172d498ce1ddda848cf90fad8473eae1d02fe",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-54.date",
+                "textSha256": "3e3b79dbbde3dda7ce647356ebfa76d4d75f7ed9fcc9a8bb3b3b8727b638fb0b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-54.title",
+                "textSha256": "01e27ed1281b4f584646c356327f34df30f709fe82cc92e2b15e5fded744df45",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-55.date",
+                "textSha256": "5a14994f181ef5104376972e8018f5b764a76c00a9fee69c7501dd1feda8ae9c",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-55.title",
+                "textSha256": "5e4cc637ad7d364f035adac7d26cffab2c9f62bd3519faf68ae66a721338b1fc",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-56.date",
+                "textSha256": "8c03e4a299e8549d53d3cf7d36aea4f1cd6ea97bf74a5f763484cfef12d9d747",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-56.title",
+                "textSha256": "532ada7e2ad9d9640520911621edb6e9d73c89a20d4ddf63dc523b75c6abb1ce",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-57.date",
+                "textSha256": "d2cbd9f912a7f75223913623277e8c0d2eb7ef91da1114f1705d290d176a8794",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-57.title",
+                "textSha256": "ca04a2f7c2549e90c727f7b05c1afbd26d447f1a6a989feeab4e1fcf4768c163",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-58.date",
+                "textSha256": "65fde4f6ca465826afe5d2941442c91415a271f0a3b2ee9ee153b0f5bd47d30d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-58.title",
+                "textSha256": "5530aa84122134e77f6d98e4a0beda6c0f1767b0756b2202f225e69f35c8ad7e",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-59.date",
+                "textSha256": "12fb73289a6944acdabef3a333c50f635ee35da8db8d66c432d591f286906806",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-59.title",
+                "textSha256": "ae65d79e50e368dcf2394be7591edfb0232f6955eb80f28295ad2382457f1576",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-60.date",
+                "textSha256": "c9b4c2a3aa49ad81f13a089ad64e30eab8f68577f4500534de4acbc394966033",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-60.title",
+                "textSha256": "857742688b7ed3635c411422e61fbe7324628343356a350ab689567c9c8c845a",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-61.date",
+                "textSha256": "ffe55ed2c15b6954d3389232fc1d9063d2f8ed2515756a875d4d093d60c54b72",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-61.title",
+                "textSha256": "bcec5b5a1233d16536428769379c9c4013bf25ea174f49993b0ff162e70014f6",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-62.date",
+                "textSha256": "c899fe34f9b50bcb6e93c1e025e8cfca43348c63162588a7d55441240fcb5c95",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-62.title",
+                "textSha256": "b4f070a62a3cb1c02489391870455ba56af82e6d7645472830e5131b1f2a9cf4",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-63.date",
+                "textSha256": "b9683c9d3dc88493e20e131af40be795e9851a692eb72043bff610ae60d27caf",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-63.title",
+                "textSha256": "f01db70a1b072cd4b03805cdcb404e0b94461f641190766e853f40c30d9d3159",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-64.date",
+                "textSha256": "8a8bf985ca505b771b496a23fbb880d1c70b7f9c891a4d4a0e7e1930d958509e",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-64.title",
+                "textSha256": "079f2d2b8541e58a95a36bc295db1641af121d95ea3db24f4b672c3541f9d13d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.section.erfahrung.heading",
+                "textSha256": "70cb37772d173d3778a1697ec4348286b3245a5181a7c33f0bc110aad51424e2",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.date",
+                "textSha256": "c0b5de1d66a88246e7574f731f317f474258ae99bdac938d5890bccdcef3c0dc",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.title",
+                "textSha256": "87fcf5c00c05ea0ebbc0c3e9a5e1a77f0bdc1c266b68e2ef79eb80232063aa61",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.place",
+                "textSha256": "2b5bbefd6d86e2c4fd50a276da80504e90311e9f54212e0a735797f4d1c8007f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.description",
+                "textSha256": "2098d936d5e670f8de83f34ecc68b68507441f31104c0f0c08545d089a45b36f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.date",
+                "textSha256": "90ab6a0b14675e3d7f2bd6e426b2ae067e9f1985944933a4a90eee4db413d8f3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.title",
+                "textSha256": "ad117f862dc3501dfad0e5b6dd879847bc7e2f89f1f85560bc1dcc24b3ddbb17",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.place",
+                "textSha256": "69f0ccdf7a8396db56a0a166de4f66c61b69e6c6253212354bb01615c7b33e34",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.description",
+                "textSha256": "5254d3bc79ee4e5dc1d7bf0e13f4f3e66c455387a5d3e246f88a60ec776a6cb2",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.section.referenzen.heading",
+                "textSha256": "d9825991644fde40e065758354a99e8d2fb8fd71a74cf6ced59b8bc8e0df2c3b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.name",
+                "textSha256": "be1e1f063d0b90d8984721a133f32173a7c5c71fb7597e08feb96876a1317360",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.role",
+                "textSha256": "0687283ebddfdd393ad2010c31457dd392cfd3c741d1f422d10001370c8c6f6f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.contact",
+                "textSha256": "6659d52f8a56cb58ad6229a80c91cd7609ad49b762417fab6e16de4cf801cd05",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              }
+            ],
+            "incompleteDuplicateGroups": [
+              {
+                "textSha256": "1f035430f13910f4c5271cf06230fe97b41c6439fc2ae3d9221c28b973c654ed",
+                "authoredOccurrences": 65,
+                "wholeCvPdfOccurrences": 16,
+                "missingOccurrences": 49
+              },
+              {
+                "textSha256": "ab79cae42e6cc5eabb90fe3977ad853b6cfdd60037236669e261a8fb9513a7fb",
+                "authoredOccurrences": 65,
+                "wholeCvPdfOccurrences": 16,
+                "missingOccurrences": 49
+              }
+            ]
+          },
+          "side": {
+            "completeLaneText": {
+              "status": "fail",
+              "authoredCharacters": 5311,
+              "actualCharacters": 1442,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "5371b814ecba998587eaa3ce03204c4b1ec9722c1f74f18f82939c4cf2183188"
+            },
+            "paragraphsAbsentFromWholeCvPdf": [
+              {
+                "fieldId": "cv.entry.hobbys:4",
+                "textSha256": "d24dc6d807aeb191092e3c5706aab3ebf53d4b125e90bc1907ad799d2c675774",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:13",
+                "textSha256": "64c3841be22dcfe79fdc7e71bd5fdc4681bf2df096c147be42de616311c75d3c",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:14",
+                "textSha256": "0af0691807bc13d52f2873ce78172c50519bb391fe355e8ebb674be3784f97bd",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:15",
+                "textSha256": "cf77503b60021cbde63c05b2db3448cd8688a229dfc6b561a263c9508a5f9838",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:16",
+                "textSha256": "c9ad8864f66d993bcddef13b803187b0487b918320734e77ebd0b6f991352998",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:17",
+                "textSha256": "fbf053438aba5ec936982723039cf00019f37099f3052b8b7cf918760df0f30f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:18",
+                "textSha256": "1b7128c6276026095ea6374c0f838f6236920c6b26114f25e0e682c7ccd159bf",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:19",
+                "textSha256": "36744c614279874c391492fe0de71f5f2e092887b9f08a7028a0494b51cc4c52",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:20",
+                "textSha256": "9a2038ede5a41cc85d497ba4da5c5fcffa12efadab35194994752c3351412df4",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:21",
+                "textSha256": "5f1c8e5cd2029547dd29e304f8e5399f44002dc15f2999fbe30290e66e806382",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:22",
+                "textSha256": "43e45b78ecf91704b574453e952b37548373cdddcfe6c0f93ab3283ab1fb74ee",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:23",
+                "textSha256": "a8da2962ffdb86b848a257b835ae1b1b97e1417b82c9b2044b55c23aed9ed8cd",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:24",
+                "textSha256": "078bca7898aa2ebf2f8814715ea119f443bbebefbc0b07c516ec1a6da37c1832",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:25",
+                "textSha256": "ef2505cd1986a4171b314f31dabd22e74e735153fc89b12744f6c5287b795ad3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:26",
+                "textSha256": "8492b89563fd3038dd0bd8bea991e538c4d110ea2f699481b57864720a548cb7",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:27",
+                "textSha256": "498bf302917e0cf5f11d1ab6e79348b043a7557345b0db125d5920245ac48fcd",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:28",
+                "textSha256": "4c7c28535b75de59fa2c9b9a54b88ee05bea6b9775f4700053a784689b00dbc5",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:29",
+                "textSha256": "4ddb1fbff088b84a79d5b8c98eabe5948957e4d968e869b237e11519492cc401",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:30",
+                "textSha256": "8d15ba3767b9fdabed13204846e908eadffd35e98199df89c04e11f67ece6a90",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:31",
+                "textSha256": "787e6cc2a4153b81d0af59fbe5d6cd4c080e5ea1189365155bce3d78ae19d8df",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:32",
+                "textSha256": "fe822ee1f74b47cb6b49b8e8d7cd4da975ad20d9c2830abb01faef9ad4122ef8",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:33",
+                "textSha256": "cebf178fd8fb2b27411a87fbbc21d9bfb41db13aa7eab1481dbcdf44aada68d0",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:34",
+                "textSha256": "19186efe25dd8b254dff25340a5b8d0e22fcb2d12a0efb5ecf057da42c7cbc9b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:35",
+                "textSha256": "8e745a146e685019d91d4765221271e9aec2becedd402dbb992e37596a20b6e8",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:36",
+                "textSha256": "5b4e308685aa636cde7225b20e5e9d43377600b3e9872ce4225d410a407910a0",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:37",
+                "textSha256": "55a19454c75e3d0ac1a5cb8b4c6a6c2cbd4510681ad35e673c799fc081b0e186",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:38",
+                "textSha256": "facdc8c60cf5876ccca7ffe5558de4f9d7bb0be106cf35cbadc5edcc0ee04c46",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:39",
+                "textSha256": "1acb59140dd4ae0325aada9e9d236142899b0b513312858d31756c14a9305a4d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:40",
+                "textSha256": "9eba3e5a330c6b6aa62fe0cbfd0075692f294875b8f826cf80e1cedf13e41d86",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:41",
+                "textSha256": "f05488ada715dce973148380dd4ce9a73724f999b3470edb1dc192a8e86fbbf2",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:42",
+                "textSha256": "91efb81e89f6c5652bccfa5f512a92cb66fa949a518a224492d06683bf8961ee",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:43",
+                "textSha256": "9bd5f69e2f975bd6ed2da470b18e657b6a03ab1b471ebdfc35eb2b61fcb464bc",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:44",
+                "textSha256": "b788a2709f51957cdf85ef2bf4ba88afbb845ba6aaa06739b7d243671294268f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:45",
+                "textSha256": "38274075f3c42918e89df52eae7abc776acae7efc11925ac4a7b9074dc1e6dcf",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:46",
+                "textSha256": "c6b0146d786c4a3b7f9c6b79050d802be9428b406485505df0bbe718630d1358",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:47",
+                "textSha256": "2adc4b10f8fa9541fbaaded48ab3a2892683edf04b50de29b17dfa91a49eb2ca",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:48",
+                "textSha256": "2769ee43589ab399bbc57738a9da75817c1c7329d1b44b1fbfd0de6060035a70",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:49",
+                "textSha256": "d24df585cfda63687f55c94f8f6b7259ef7deafa196229eef13dc2127cf1ae38",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:50",
+                "textSha256": "6a22c2ea7f36734663e79077dc0817375d132f141051175301f1ba48c5fa392d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:51",
+                "textSha256": "255900f91b4cab5d1b912d6ae372a7880bb1fd6d89a6767d3d9ceccb5de2c3f3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:52",
+                "textSha256": "c19e98e9b083d497ac6b073eb04e1ee942b1406005d9783c980e4ac5ff274e69",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:53",
+                "textSha256": "4d590ad4cc0adc64f72f8c7a7eb329dd22fed3b9940ad5245a2afbc2c4f0cd3b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:54",
+                "textSha256": "8b40a4022ddf74a7f7a98ea007565f408d0b9627c346a0523b6b2f7592b24bfa",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.section.staerken.heading",
+                "textSha256": "607f1e731017b265dfa645aa5b92e07b2ef40ddf68b6cbf088b29c8701f3d1e1",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.staerken:0",
+                "textSha256": "40ac6a7ec78bcfd3fc3a24b7f2a77f705828f1c7a3168331ca426b88deb58ff8",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.staerken:1",
+                "textSha256": "ab5986b7e27bfc9e8cbf269cf4480859464d84041f30efdb222f9c7754ff02e4",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.staerken:2",
+                "textSha256": "c324528e9fc6849f1745abf07de4504872a2bf57497da021ec03a160b9e67e9d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              }
+            ],
+            "incompleteDuplicateGroups": []
+          }
+        }
+      },
+      {
+        "kind": "boundary",
+        "pages": 6,
+        "pdfSha256": "cfe57885bbc9542d3efb241566d8c28f02b6724051992a08d691feeab641808b",
+        "stories": {
+          "main": {
+            "completeLaneText": {
+              "status": "fail",
+              "authoredCharacters": 8809,
+              "actualCharacters": 2901,
+              "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+              "actualSha256": "233d1bbc99b9b1534e6fd95869d88ed73328e56dc95c51c7037d7b1f130ae8aa"
+            },
+            "paragraphsAbsentFromWholeCvPdf": [
+              {
+                "fieldId": "cv.entry.schule:school-22.date",
+                "textSha256": "e3f2a4c6a4dcc9d895a4d0f017a9c428113f38d34f1640e36400f48b642765ab",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-22.title",
+                "textSha256": "c1f0b00f53b55fdf51e7ad2d0d71161b26c171f30eba6b0c687e8cbdce2e8a4b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-23.date",
+                "textSha256": "fbbec9d877ea3e5f660cdc9fe27def5f88d7d306998548c41cbcf45727321465",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-23.title",
+                "textSha256": "08bf3d8014c09c996aaa397e862845547a5c4660b76aa718347f707dac808902",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-24.date",
+                "textSha256": "01bf761e09a607843a7d72df1918d982a55ee77b4efe3d7eafa44c0f5c224d8c",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-24.title",
+                "textSha256": "78c738673f391f6f730c814d94067f9212a45858054cc20edd7a7ec0c5a259ff",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-25.date",
+                "textSha256": "060a47e1229042a9ac8cc6ead060aabfa4dd0afe3042f3e700b63ce6227ecb0f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-25.title",
+                "textSha256": "1cab8c515849886c0fa70457b1e6d30a117f4cdd84d5dced979904a66f743801",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-26.date",
+                "textSha256": "77fb3b03dd1be19407ce396ca52a30e47b4535f8eb0d5917db0843c0b75498ed",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-26.title",
+                "textSha256": "93bdd692c23050cfe4a206e1bed7f0da39b01dce5ac0939b36493b297627423d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-27.date",
+                "textSha256": "d9a5cd5e8732144c6ed919c7f834f966658ecb1922e7fe18fe1ff4b0738194fb",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-27.title",
+                "textSha256": "00a6f731161c6d07ff0e75bb316e2a3c07c3ccf2e772618a1f0725659550efe3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-28.date",
+                "textSha256": "e70c6566522ceb050880653fea7d5651b18f01f1e5f9ef2e88982d1f52dfab73",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-28.title",
+                "textSha256": "7f006db5954923cc18d2837401def4284e6d90e321ded89dc12d5216e0ea457b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-29.date",
+                "textSha256": "46b186e1884be9d2dda8534ac9cddbcadf908be26941cc0762ed6716d4121d70",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-29.title",
+                "textSha256": "3030eab1765d9f524e4f25c45a18d7138757aec927fafda79f8d9ff626a687d8",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-30.date",
+                "textSha256": "eec3e2b3946a50828d9f8b0927097441eb86afe8ed5eeeaabd85c1e9f0a991e0",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-30.title",
+                "textSha256": "9d8e2a597c8e7a8a995c85e8aa57142183ddbb6c1279c2ea889512f66f2e4db7",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-31.date",
+                "textSha256": "63f311721aa88b7ccac33dd95b72604a1dc058765c1761e1b8b0ea6b0cea699e",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-31.title",
+                "textSha256": "1879ad5c0d4d2161b3c00144b0d26a33f05adf73fe600537e73946cbb21d3707",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-32.date",
+                "textSha256": "e34a8f3846fc0408a7499ffb4d6ae4743f279c3bb163e0ec9f707ad83840cb4f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-32.title",
+                "textSha256": "63e83d7820bd7f36df68b4fc73891dd586cfc56277238372948de8c91c82efdb",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-33.date",
+                "textSha256": "b294093e4b02e382195fe09355b4b53564e42851e63bebe6041e41b477b66323",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-33.title",
+                "textSha256": "ee969c204cd16bf9ab0db0856533b6b915ad0e2f71cc0896498f6bab31110eed",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-34.date",
+                "textSha256": "7b1297bf039bed8acee9c29e723be8d543c1ff94aa990e0a1cbfe7412c320898",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-34.title",
+                "textSha256": "57e76d1c6a04d1db043d96f53ed88d4a5e78441fe4194aa36ac1f473dcd972a1",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-35.date",
+                "textSha256": "7628179ab93ba0909877d6180695897dbbcc44aa3f3319652df44efe22d2ea1e",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-35.title",
+                "textSha256": "31c40d165e6b7f039cbe2c15d1a69fc04fc8b85d02155f68fcaf40dd54ade686",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-36.date",
+                "textSha256": "97f88c44d21e90d6556a39dd8570981ab2b4e2c1ef65d6d4eada9a740e28d7bf",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-36.title",
+                "textSha256": "c34dff181264615fcd449b1075baaf2e7c31b7f93a9e179787aa35370704bdbe",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-37.date",
+                "textSha256": "425a298838975c94bae5f11a42289c9a3827a0ee156fc5f9843092ad165f3e02",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-37.title",
+                "textSha256": "3d7396a5530a91fe0ae7784e1919e87b45a2f8d689f940be711594bc367e8ee7",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-38.date",
+                "textSha256": "6fac4154e95bf6e003df9967430c95532856fe039e49604779d6709108e8d66d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-38.title",
+                "textSha256": "9012b6f47e6448331381b0ccf1aa5bd948a44536a3fdeff4901089aed65bc3dd",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-39.date",
+                "textSha256": "adce35b4ce293de4ed2d0573b4fcad31bcc345418dd7f6b916e775a4de7de347",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-39.title",
+                "textSha256": "f3b8cd045fa59d78e588de7d029383f1345345acdf1012ba3205abca7e6bd46d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-40.date",
+                "textSha256": "2685f59c31afe21fbd8e6ecc4001dc2887c2a7bfeade8f468e7bc4425074a4fe",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-40.title",
+                "textSha256": "ec568e65b6db6932255ac47e0b2193060853920becec17e0ceb4ed51a9be7759",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-41.date",
+                "textSha256": "295461e4e1df5a4c9e2b5e6803b7fa9398f8fa77151e8679968fb036940a3973",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-41.title",
+                "textSha256": "b54518a68d83df155005c1bd79ed8abc866e96c550248144ff01d14772ae0e44",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-42.date",
+                "textSha256": "6c0dfc01d10aed09e1a5d353e174c90da94df2167908c50174693f263ce86937",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-42.title",
+                "textSha256": "4be4b0fe84805cf0b8719bfb4b35c70204942823849ad09c59fc82d940d83fe4",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-43.date",
+                "textSha256": "bbb1db347ed4d2ad60bf87e63f0531347d55c6dec9a0f24d949400d42753d8c5",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-43.title",
+                "textSha256": "db4c18741869d814b299b5098d7c9acb3868c99fc7eb19d260b1a209a9b78feb",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-44.date",
+                "textSha256": "371e10f3a9e8896910631baf73b8f34be3568d66048339de635d0dfc4fad64e3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-44.title",
+                "textSha256": "98c01bab31e42509c7055884358989e0f958d37e2153053ea6255ffe3ab1595d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-45.date",
+                "textSha256": "72d6b67027dd40193776be2ecc5e6c7b5319883bf87dc175ccc2aa575946202f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-45.title",
+                "textSha256": "6adadd5c57189b50dab1fcdb178db863fc3b166df1e0b61da6ce1bab25c71f80",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-46.date",
+                "textSha256": "47c573a05b7a993a15eaec2a70518b079514ebdeb5876815860b61382ee82cca",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-46.title",
+                "textSha256": "ac6253e50758594da4726684d0e6050a2404c467b85a2a0322bd6afe8058c796",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-47.date",
+                "textSha256": "d3acca85451e6f96670404502bdf1b7bddc9fceec220ad18dd149ae5c8d60d6d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-47.title",
+                "textSha256": "c42dbbb130dde23c72d7ecb5bc41edc0bbcb15f182d46fda839352ff9c64f2ec",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-48.date",
+                "textSha256": "638a131cec797982b6873eb7599a453158bb5bae38a6ede8339ba1beb01c11ed",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-48.title",
+                "textSha256": "f624b432c261f0ba7f652af28b97e34088eda7a7ef9936d5c94c00516be537ed",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-49.date",
+                "textSha256": "2aa827a97ba0303c6b8b8555a8e3a34877636e9730ce5c2fea987316880a0a26",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-49.title",
+                "textSha256": "1e9a23914a28ed1fcea1a41512bfaba3938213bd4cb71a3bf81f804fd38c0dac",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-50.date",
+                "textSha256": "e0aaaccdbb02aa87250f3e73751d42ecf8990f667f231adb8124a9deaca21377",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-50.title",
+                "textSha256": "398337d9fec319b5a8b8fee0985dd884cf436639e34432a78d958394ee6b51aa",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-51.date",
+                "textSha256": "e047d15abe4f8c3316b1d5bd0a0adae1829384be5d04cd742e3fc03d2b44e615",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-51.title",
+                "textSha256": "c78b5036bb6322eedcfdf32d28f987d4c10b25655bc6607af8433aa482d7cddb",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-52.date",
+                "textSha256": "20935f10a40d61727711a0e56c9bafd6645dca418d34e045a970cc6d96246671",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-52.title",
+                "textSha256": "96f0bbc796fc2b1a29659a91539378cff8f5325c5d038fc5eca64c3396ccfe3b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-53.date",
+                "textSha256": "89e85c17390f62c55d6cacc63a9e830e173912261939fcd8884a0bdc588907dd",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-53.title",
+                "textSha256": "5cbba4a4c77e72f87760c111bc9172d498ce1ddda848cf90fad8473eae1d02fe",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-54.date",
+                "textSha256": "3e3b79dbbde3dda7ce647356ebfa76d4d75f7ed9fcc9a8bb3b3b8727b638fb0b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-54.title",
+                "textSha256": "01e27ed1281b4f584646c356327f34df30f709fe82cc92e2b15e5fded744df45",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-55.date",
+                "textSha256": "5a14994f181ef5104376972e8018f5b764a76c00a9fee69c7501dd1feda8ae9c",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-55.title",
+                "textSha256": "5e4cc637ad7d364f035adac7d26cffab2c9f62bd3519faf68ae66a721338b1fc",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-56.date",
+                "textSha256": "8c03e4a299e8549d53d3cf7d36aea4f1cd6ea97bf74a5f763484cfef12d9d747",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-56.title",
+                "textSha256": "532ada7e2ad9d9640520911621edb6e9d73c89a20d4ddf63dc523b75c6abb1ce",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-57.date",
+                "textSha256": "d2cbd9f912a7f75223913623277e8c0d2eb7ef91da1114f1705d290d176a8794",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-57.title",
+                "textSha256": "ca04a2f7c2549e90c727f7b05c1afbd26d447f1a6a989feeab4e1fcf4768c163",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-58.date",
+                "textSha256": "65fde4f6ca465826afe5d2941442c91415a271f0a3b2ee9ee153b0f5bd47d30d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-58.title",
+                "textSha256": "5530aa84122134e77f6d98e4a0beda6c0f1767b0756b2202f225e69f35c8ad7e",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-59.date",
+                "textSha256": "12fb73289a6944acdabef3a333c50f635ee35da8db8d66c432d591f286906806",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-59.title",
+                "textSha256": "ae65d79e50e368dcf2394be7591edfb0232f6955eb80f28295ad2382457f1576",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-60.date",
+                "textSha256": "c9b4c2a3aa49ad81f13a089ad64e30eab8f68577f4500534de4acbc394966033",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-60.title",
+                "textSha256": "857742688b7ed3635c411422e61fbe7324628343356a350ab689567c9c8c845a",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-61.date",
+                "textSha256": "ffe55ed2c15b6954d3389232fc1d9063d2f8ed2515756a875d4d093d60c54b72",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-61.title",
+                "textSha256": "bcec5b5a1233d16536428769379c9c4013bf25ea174f49993b0ff162e70014f6",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-62.date",
+                "textSha256": "c899fe34f9b50bcb6e93c1e025e8cfca43348c63162588a7d55441240fcb5c95",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-62.title",
+                "textSha256": "b4f070a62a3cb1c02489391870455ba56af82e6d7645472830e5131b1f2a9cf4",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-63.date",
+                "textSha256": "b9683c9d3dc88493e20e131af40be795e9851a692eb72043bff610ae60d27caf",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-63.title",
+                "textSha256": "f01db70a1b072cd4b03805cdcb404e0b94461f641190766e853f40c30d9d3159",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-64.date",
+                "textSha256": "8a8bf985ca505b771b496a23fbb880d1c70b7f9c891a4d4a0e7e1930d958509e",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.schule:school-64.title",
+                "textSha256": "079f2d2b8541e58a95a36bc295db1641af121d95ea3db24f4b672c3541f9d13d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.section.erfahrung.heading",
+                "textSha256": "70cb37772d173d3778a1697ec4348286b3245a5181a7c33f0bc110aad51424e2",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.date",
+                "textSha256": "c0b5de1d66a88246e7574f731f317f474258ae99bdac938d5890bccdcef3c0dc",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.title",
+                "textSha256": "87fcf5c00c05ea0ebbc0c3e9a5e1a77f0bdc1c266b68e2ef79eb80232063aa61",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.place",
+                "textSha256": "2b5bbefd6d86e2c4fd50a276da80504e90311e9f54212e0a735797f4d1c8007f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p1.description",
+                "textSha256": "2098d936d5e670f8de83f34ecc68b68507441f31104c0f0c08545d089a45b36f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.date",
+                "textSha256": "90ab6a0b14675e3d7f2bd6e426b2ae067e9f1985944933a4a90eee4db413d8f3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.title",
+                "textSha256": "ad117f862dc3501dfad0e5b6dd879847bc7e2f89f1f85560bc1dcc24b3ddbb17",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.place",
+                "textSha256": "69f0ccdf7a8396db56a0a166de4f66c61b69e6c6253212354bb01615c7b33e34",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.erfahrung:demo-p2.description",
+                "textSha256": "5254d3bc79ee4e5dc1d7bf0e13f4f3e66c455387a5d3e246f88a60ec776a6cb2",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.section.referenzen.heading",
+                "textSha256": "d9825991644fde40e065758354a99e8d2fb8fd71a74cf6ced59b8bc8e0df2c3b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.name",
+                "textSha256": "be1e1f063d0b90d8984721a133f32173a7c5c71fb7597e08feb96876a1317360",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.role",
+                "textSha256": "0687283ebddfdd393ad2010c31457dd392cfd3c741d1f422d10001370c8c6f6f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.referenzen:demo-r1.contact",
+                "textSha256": "6659d52f8a56cb58ad6229a80c91cd7609ad49b762417fab6e16de4cf801cd05",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              }
+            ],
+            "incompleteDuplicateGroups": [
+              {
+                "textSha256": "1f035430f13910f4c5271cf06230fe97b41c6439fc2ae3d9221c28b973c654ed",
+                "authoredOccurrences": 65,
+                "wholeCvPdfOccurrences": 22,
+                "missingOccurrences": 43
+              },
+              {
+                "textSha256": "ab79cae42e6cc5eabb90fe3977ad853b6cfdd60037236669e261a8fb9513a7fb",
+                "authoredOccurrences": 65,
+                "wholeCvPdfOccurrences": 21,
+                "missingOccurrences": 44
+              }
+            ]
+          },
+          "side": {
+            "completeLaneText": {
+              "status": "fail",
+              "authoredCharacters": 5311,
+              "actualCharacters": 2362,
+              "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+              "actualSha256": "7d6f4556730cd867aba8795e5bf88b25769a968833571c3e32febb873fe37056"
+            },
+            "paragraphsAbsentFromWholeCvPdf": [
+              {
+                "fieldId": "cv.entry.hobbys:4",
+                "textSha256": "d24dc6d807aeb191092e3c5706aab3ebf53d4b125e90bc1907ad799d2c675774",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:13",
+                "textSha256": "64c3841be22dcfe79fdc7e71bd5fdc4681bf2df096c147be42de616311c75d3c",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:23",
+                "textSha256": "a8da2962ffdb86b848a257b835ae1b1b97e1417b82c9b2044b55c23aed9ed8cd",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:24",
+                "textSha256": "078bca7898aa2ebf2f8814715ea119f443bbebefbc0b07c516ec1a6da37c1832",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:25",
+                "textSha256": "ef2505cd1986a4171b314f31dabd22e74e735153fc89b12744f6c5287b795ad3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:26",
+                "textSha256": "8492b89563fd3038dd0bd8bea991e538c4d110ea2f699481b57864720a548cb7",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:27",
+                "textSha256": "498bf302917e0cf5f11d1ab6e79348b043a7557345b0db125d5920245ac48fcd",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:28",
+                "textSha256": "4c7c28535b75de59fa2c9b9a54b88ee05bea6b9775f4700053a784689b00dbc5",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:29",
+                "textSha256": "4ddb1fbff088b84a79d5b8c98eabe5948957e4d968e869b237e11519492cc401",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:30",
+                "textSha256": "8d15ba3767b9fdabed13204846e908eadffd35e98199df89c04e11f67ece6a90",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:31",
+                "textSha256": "787e6cc2a4153b81d0af59fbe5d6cd4c080e5ea1189365155bce3d78ae19d8df",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:32",
+                "textSha256": "fe822ee1f74b47cb6b49b8e8d7cd4da975ad20d9c2830abb01faef9ad4122ef8",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:33",
+                "textSha256": "cebf178fd8fb2b27411a87fbbc21d9bfb41db13aa7eab1481dbcdf44aada68d0",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:34",
+                "textSha256": "19186efe25dd8b254dff25340a5b8d0e22fcb2d12a0efb5ecf057da42c7cbc9b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:35",
+                "textSha256": "8e745a146e685019d91d4765221271e9aec2becedd402dbb992e37596a20b6e8",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:36",
+                "textSha256": "5b4e308685aa636cde7225b20e5e9d43377600b3e9872ce4225d410a407910a0",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:37",
+                "textSha256": "55a19454c75e3d0ac1a5cb8b4c6a6c2cbd4510681ad35e673c799fc081b0e186",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:38",
+                "textSha256": "facdc8c60cf5876ccca7ffe5558de4f9d7bb0be106cf35cbadc5edcc0ee04c46",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:39",
+                "textSha256": "1acb59140dd4ae0325aada9e9d236142899b0b513312858d31756c14a9305a4d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:40",
+                "textSha256": "9eba3e5a330c6b6aa62fe0cbfd0075692f294875b8f826cf80e1cedf13e41d86",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:41",
+                "textSha256": "f05488ada715dce973148380dd4ce9a73724f999b3470edb1dc192a8e86fbbf2",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:42",
+                "textSha256": "91efb81e89f6c5652bccfa5f512a92cb66fa949a518a224492d06683bf8961ee",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:43",
+                "textSha256": "9bd5f69e2f975bd6ed2da470b18e657b6a03ab1b471ebdfc35eb2b61fcb464bc",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:44",
+                "textSha256": "b788a2709f51957cdf85ef2bf4ba88afbb845ba6aaa06739b7d243671294268f",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:45",
+                "textSha256": "38274075f3c42918e89df52eae7abc776acae7efc11925ac4a7b9074dc1e6dcf",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:46",
+                "textSha256": "c6b0146d786c4a3b7f9c6b79050d802be9428b406485505df0bbe718630d1358",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:47",
+                "textSha256": "2adc4b10f8fa9541fbaaded48ab3a2892683edf04b50de29b17dfa91a49eb2ca",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:48",
+                "textSha256": "2769ee43589ab399bbc57738a9da75817c1c7329d1b44b1fbfd0de6060035a70",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:49",
+                "textSha256": "d24df585cfda63687f55c94f8f6b7259ef7deafa196229eef13dc2127cf1ae38",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:50",
+                "textSha256": "6a22c2ea7f36734663e79077dc0817375d132f141051175301f1ba48c5fa392d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:51",
+                "textSha256": "255900f91b4cab5d1b912d6ae372a7880bb1fd6d89a6767d3d9ceccb5de2c3f3",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:52",
+                "textSha256": "c19e98e9b083d497ac6b073eb04e1ee942b1406005d9783c980e4ac5ff274e69",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:53",
+                "textSha256": "4d590ad4cc0adc64f72f8c7a7eb329dd22fed3b9940ad5245a2afbc2c4f0cd3b",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.hobbys:54",
+                "textSha256": "8b40a4022ddf74a7f7a98ea007565f408d0b9627c346a0523b6b2f7592b24bfa",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.section.staerken.heading",
+                "textSha256": "607f1e731017b265dfa645aa5b92e07b2ef40ddf68b6cbf088b29c8701f3d1e1",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.staerken:0",
+                "textSha256": "40ac6a7ec78bcfd3fc3a24b7f2a77f705828f1c7a3168331ca426b88deb58ff8",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.staerken:1",
+                "textSha256": "ab5986b7e27bfc9e8cbf269cf4480859464d84041f30efdb222f9c7754ff02e4",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              },
+              {
+                "fieldId": "cv.entry.staerken:2",
+                "textSha256": "c324528e9fc6849f1745abf07de4504872a2bf57497da021ec03a160b9e67e9d",
+                "authoredOccurrences": 1,
+                "wholeCvPdfOccurrences": 0
+              }
+            ],
+            "incompleteDuplicateGroups": []
+          }
+        }
+      }
+    ],
+    "newReadonlyNativeLoads": 2,
+    "newNativeExports": 0,
+    "historicalPackagesModified": 0,
+    "engineFilesModified": 0,
+    "newPdfExports": 0,
+    "productionAcceptance": "blocked",
+    "microsoftWordAccepted": 0
+  },
+  "localContract": {
+    "frameTransfer": "observed copy/delete path with complete final semantics",
+    "originalDummyOwnerLoss": "distinct previously confirmed cause",
+    "inlinePlacement": "rejected",
+    "longControlVisibleText": "fail",
+    "longBoundaryVisibleText": "fail",
+    "productionAcceptance": "blocked"
+  },
+  "independentSuccessor": "pending"
+}

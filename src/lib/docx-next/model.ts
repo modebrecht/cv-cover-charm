@@ -32,6 +32,8 @@ export type Paragraph = {
   listGroupId?: string;
   ruleColor?: string;
   indentMm?: number;
+  /** Unaccepted native run-level control placement; the whole paragraph remains intact. */
+  controlPlacement?: "inline";
 };
 export type ImageBlock = {
   /** Authored alpha is retained; anything except full opacity currently blocks export. */

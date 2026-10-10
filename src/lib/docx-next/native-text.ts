@@ -37,8 +37,8 @@ export function paragraph(
     : "";
   // Follow schema ordering (numPr, borders/shading, spacing, alignment) for Word compatibility.
   const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/>${frameProperties}<w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numberingId}"/></w:numPr>` : ""}${rule}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/>${value.indentMm !== undefined ? `<w:ind w:left="${twips(value.indentMm)}"/>` : ""}<w:jc w:val="${value.align === "justify" ? "both" : value.align}"/>${value.list && value.runs[0] ? runProperties(value.runs[0].style) : ""}</w:pPr>`;
-  if (frame)
-    // Adjacent native paragraphs form the frame; inline controls preserve field identity.
+  if (frame || value.controlPlacement === "inline")
+    // Keep the complete field inside its native paragraph for frames or guarded placement probes.
     return `<w:p>${props}${control(value.id, drawingRuns + (value.runs.map(run).join("") || "<w:r/>"))}</w:p>`;
   return control(
     value.id,

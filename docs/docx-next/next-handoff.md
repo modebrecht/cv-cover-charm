@@ -1,3 +1,13 @@
+## Independent owner checkpoint and distinct native transfer — 2026-10-10
+
+`f8df58d0bad6de8aab57214f6f67c73a8a221e45` passes all five workflows. Actual artifact `11667349791` is independently downloaded and verified (71,269,875 bytes; SHA-256 `f40bad1ffc16747d4ee1bfa4bf28f5e16b8a29d40f866a4a010f7c71a470b546`). Original owner and rejected boundary contracts reproduce.
+
+[A separate bounded transfer audit](sidebar-owner-transfer-status.md) observes 48 native frames during boundary control recreation: `DeleteAndJoinImpl` → `MakeFlyAndMove` → `attachToRange` → `convertToTextFrame` → `endTable`. All original events and final 77 control/text/order/owner records remain exact. This differs from the original dummy-paragraph deletion that loses the tag; the stable-object gate remains failed. A first-control inline-placement candidate loses the tag already in its first source import (77 → 76), stops immediately, and performs no native exports; five prepared sources remain unexecuted.
+
+Read-only auditing of the already exported long originals finds incomplete visible text in **both** the four-page control and six-page boundary candidate. Main/side extracted characters are 2,228/1,442 and 2,901/2,362 against authored 8,809/5,311; missing paragraphs are also found outside lane clipping. The original page count cannot be treated as a complete-text reference. Existing reports, packages, native workers and stopped matrices stay unchanged.
+
+New successor CI/artifact verification remains pending. **39/39 configured, 0/39 Word accepted; production/native geometry blocked. ROOT CAUSE CONFIRMED — FIX PENDING.** Next: verify the new independent report, then design a generic native body/table composition avoiding both dummy-owner loss and floating-frame transfer; require complete long text before geometry/page-count acceptance. Do not extend rejected placement/boundary matrices or waive stable owner lifetime. This supersedes older next-task paragraphs below.
+
 ## Causal owner proof and rejected bounded correction — 2026-10-10
 
 Resumed uncommitted work from freshly fetched `dev` `e064ec542fba158e247774f1c238566b844811ad`; all four existing workflows are successful. Actual native artifact `11659453123` is downloaded and SHA-256 verified (`d1d9a51bd404b1beb80588fd45054052e49800ed71367a2faf9ad9cffcc52036`, 70,103,596 bytes).
