@@ -129,7 +129,7 @@ try {
   };
   const diagnostic = {
     cvSidebarComposition: "body-stories" as const,
-    chromeFirstFooterIdentity: "distinct-story" as const,
+    chromeFirstPageIdentity: "distinct-stories" as const,
   };
   const names: string[] = [];
   for (const value of APP_BODY_CASES) {
@@ -142,7 +142,20 @@ try {
       modelBefore = structuredClone(model);
     assert.deepEqual(paragraphSignature(model.cv.blocks), paragraphSignature(original.cv.blocks));
     for (const part of ["cover", "letter"] as const) {
-      const { firstFooter, ...existing } = model[part];
+      const { firstFooter, firstHeader, ...existing } = model[part];
+      if (original[part].firstHeader) Object.assign(existing, { firstHeader });
+      else if (firstHeader)
+        assert.deepEqual(
+          firstHeader.map((paragraph) => ({
+            ...paragraph,
+            id: paragraph.id.replace(".header.first.", ".header."),
+            runs: paragraph.runs.map((run) => ({
+              ...run,
+              id: run.id.replace(".header.first.", ".header."),
+            })),
+          })),
+          original[part].header,
+        );
       assert.deepEqual(existing, original[part]);
     }
     await assert.rejects(
@@ -168,12 +181,15 @@ try {
     const addedFirstFooterStories = [model.cover, model.letter, model.cv]
       .filter((part) => part.firstFooter)
       .map((part) => `word/${part.id}-footer-first.xml`);
+    const addedFirstHeaderStories = [model.cover, model.letter, model.cv]
+      .filter((part) => part.firstHeader && !original[part.id].firstHeader)
+      .map((part) => `word/${part.id}-header-first.xml`);
     assert.deepEqual(
       candidate
         .filter((part) => !baseline.some((old) => old.name === part.name))
         .map((part) => part.name)
         .sort(),
-      addedFirstFooterStories.sort(),
+      [...addedFirstFooterStories, ...addedFirstHeaderStories].sort(),
     );
     const changed = new Set([
       "word/document.xml",
@@ -227,6 +243,7 @@ try {
       paragraphPoliciesUnchanged: true,
       existingStoryPartsUnchanged: true,
       addedFirstFooterStories,
+      addedFirstHeaderStories,
       sourceImageNormalizer: cacheDirectory ? "verified-browser-output-replay" : "fresh-browser",
       margins: model.cv.page.margins,
       page: model.cv.page,

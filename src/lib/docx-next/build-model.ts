@@ -67,8 +67,8 @@ const name = (first: string, last: string) => [first, last].filter(Boolean).join
 export type BuildModelOptions = {
   /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
   cvSidebarComposition?: "body-stories";
-  /** Unaccepted native identity separation for the first-page footer story. */
-  chromeFirstFooterIdentity?: "distinct-story";
+  /** Unaccepted native identity separation for first-page header/footer stories. */
+  chromeFirstPageIdentity?: "distinct-stories";
 };
 
 /** Pure and synchronous: all ambient editor state must be captured before calling. */
@@ -79,10 +79,10 @@ export function buildDossierDocModel(
   const { cover, letter, cv, settings } = input;
   const cvVariant = cvWordLayout(settings.cvLayout);
   if (
-    options.chromeFirstFooterIdentity !== undefined &&
-    options.chromeFirstFooterIdentity !== "distinct-story"
+    options.chromeFirstPageIdentity !== undefined &&
+    options.chromeFirstPageIdentity !== "distinct-stories"
   )
-    throw new Error("DOCX Next invalid diagnostic first footer identity");
+    throw new Error("DOCX Next invalid diagnostic first-page story identity");
   if (
     options.cvSidebarComposition !== undefined &&
     (options.cvSidebarComposition !== "body-stories" || cvVariant !== "sidebar")
@@ -1341,9 +1341,18 @@ export function buildDossierDocModel(
         });
     }
   }
-  if (options.chromeFirstFooterIdentity === "distinct-story")
-    for (const target of [coverPart, letterPart, cvPart])
-      if (target.firstHeader && target.footer.length)
+  if (options.chromeFirstPageIdentity === "distinct-stories")
+    for (const target of [coverPart, letterPart, cvPart]) {
+      if (!target.firstHeader && target.header.length)
+        target.firstHeader = target.header.map((paragraph) => ({
+          ...structuredClone(paragraph),
+          id: paragraph.id.replace(`${target.id}.header.`, `${target.id}.header.first.`),
+          runs: paragraph.runs.map((run) => ({
+            ...structuredClone(run),
+            id: run.id.replace(`${target.id}.header.`, `${target.id}.header.first.`),
+          })),
+        }));
+      if (target.firstHeader)
         target.firstFooter = target.footer.map((paragraph) => ({
           ...structuredClone(paragraph),
           id: paragraph.id.replace(`${target.id}.footer.`, `${target.id}.footer.first.`),
@@ -1352,6 +1361,7 @@ export function buildDossierDocModel(
             id: run.id.replace(`${target.id}.footer.`, `${target.id}.footer.first.`),
           })),
         }));
+    }
   return {
     version: 1,
     metadata: {

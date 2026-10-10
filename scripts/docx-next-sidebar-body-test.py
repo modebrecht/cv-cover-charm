@@ -14,16 +14,27 @@ def story(tag, text, root='document'):
 
 
 class InventoryTests(unittest.TestCase):
-    def package(self, folder, stories, missing=False):
+    def package(self, folder, stories, missing=False, first=True, even=False, force_even=False):
         path = Path(folder) / 'probe.docx'
         parts = [('word/document.xml', 'document', story('body', 'Body')),
                  *[(name, kind, value) for name, kind, value in stories]]
+        relationships = []; references = []; counters = {}
+        for index, (name, kind, value) in enumerate(parts[1:]):
+            count=counters.get(kind,0); counters[kind]=count+1
+            role='even' if force_even and count else 'default' if count==0 else 'first'
+            relationships.append(f'<Relationship Id="r{index}" Target="{name.removeprefix("word/")}" Type="{kind}"/>')
+            references.append(f'<w:{kind}Reference w:type="{role}" r:id="r{index}"/>')
+        document=parts[0][2].replace('xmlns:w=', 'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w=')
+        document=document.replace('</w:document>', '<w:sectPr>'+''.join(references)+('<w:titlePg/>' if first else '')+'</w:sectPr></w:document>')
+        parts[0]=(parts[0][0],parts[0][1],document)
         with ZipFile(path, 'w') as archive:
             archive.writestr('[Content_Types].xml', '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' + ''.join(
                 f'<Override PartName="/{name}" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.{kind}+xml"/>'
                 for name, kind, value in parts) + '</Types>')
             for index, (name, kind, value) in enumerate(parts):
                 if not missing or index == 0: archive.writestr(name, value)
+            archive.writestr('word/_rels/document.xml.rels','<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+''.join(relationships)+'</Relationships>')
+            archive.writestr('word/settings.xml',f'<w:settings xmlns:w="{qa.W[1:-1]}">'+('<w:evenAndOddHeaders/>' if even else '')+'</w:settings>')
         return path
 
     def test_source_and_saved_story_names_are_equivalent(self):
@@ -57,6 +68,21 @@ class InventoryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             path = self.package(folder, [('word/cv-footer-first.xml', 'footer', story('first.footer', 'Lea', 'ftr'))], True)
             with self.assertRaisesRegex(AssertionError, 'Missing declared package story'): qa.package_controls(path)
+
+    def test_inactive_first_story_copies_are_not_live_identity_duplicates(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=self.package(folder,[('word/footer5.xml','footer',story('footer','Lea','ftr')),
+                                      ('word/footer6.xml','footer',story('footer','Lea','ftr'))],first=False)
+            self.assertEqual(qa.package_controls(path)[1],{'body':'Body','footer':'Lea'})
+
+    def test_even_story_duplicates_fail_when_even_story_is_active(self):
+        with tempfile.TemporaryDirectory() as folder:
+            stories=[('word/header8.xml','header',story('header','Lea','hdr')),
+                     ('word/header7.xml','header',story('header','Lea','hdr'))]
+            path=self.package(folder,stories,even=False,force_even=True)
+            self.assertEqual(qa.package_controls(path)[1],{'body':'Body','header':'Lea'})
+            path=self.package(folder,stories,even=True,force_even=True)
+            with self.assertRaisesRegex(AssertionError,'Duplicated package canonical field'):qa.package_controls(path)
 
 
 if __name__ == '__main__': unittest.main()

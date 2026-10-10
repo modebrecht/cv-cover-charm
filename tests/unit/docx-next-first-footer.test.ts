@@ -5,9 +5,14 @@ import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import { sidebarFixture } from "../fixtures/docx-next/sidebar";
 
-const diagnostic = { chromeFirstFooterIdentity: "distinct-story" as const };
+const diagnostic = { chromeFirstPageIdentity: "distinct-stories" as const };
 test("first footers preserve source fields and styles while declaring distinct native identities", async () => {
-  for (const kind of ["chrome-leading", "chrome-continuation", "photo-free-chrome"] as const) {
+  for (const kind of [
+    "chrome-leading",
+    "chrome-continuation",
+    "photo-free-chrome",
+    "contact-long",
+  ] as const) {
     const input = sidebarFixture(kind),
       before = structuredClone(input);
     const old = buildDossierDocModel(input),
@@ -15,9 +20,21 @@ test("first footers preserve source fields and styles while declaring distinct n
     expect(input).toEqual(before);
     expect(model).toEqual(buildDossierDocModel(JSON.parse(JSON.stringify(input)), diagnostic));
     for (const name of ["cover", "letter", "cv"] as const) {
-      const { firstFooter, ...originalStories } = model[name];
+      const { firstFooter, firstHeader, ...originalStories } = model[name];
+      if (old[name].firstHeader) Object.assign(originalStories, { firstHeader });
+      else if (firstHeader)
+        expect(
+          firstHeader.map((paragraph) => ({
+            ...paragraph,
+            id: paragraph.id.replace(".header.first.", ".header."),
+            runs: paragraph.runs.map((run) => ({
+              ...run,
+              id: run.id.replace(".header.first.", ".header."),
+            })),
+          })),
+        ).toEqual(old[name].header);
       expect(originalStories).toEqual(old[name]);
-      if (!old[name].firstHeader || !old[name].footer.length) {
+      if (!firstHeader) {
         expect(firstFooter).toBeUndefined();
         continue;
       }
@@ -74,8 +91,8 @@ test("first footer stories reject missing first-page scope, duplicate identities
   );
   for (const value of [null, true, "shared", {}])
     expect(() =>
-      buildDossierDocModel(sidebarFixture(), { chromeFirstFooterIdentity: value } as never),
-    ).toThrow("invalid diagnostic first footer identity");
+      buildDossierDocModel(sidebarFixture(), { chromeFirstPageIdentity: value } as never),
+    ).toThrow("invalid diagnostic first-page story identity");
   expect(buildDossierDocModel(sidebarFixture(), diagnostic)).toEqual(
     buildDossierDocModel(sidebarFixture()),
   );
