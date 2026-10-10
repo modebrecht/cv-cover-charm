@@ -44,11 +44,36 @@ def audit(writer_debug,sw_debug,writer_image):
       rules.append({'begin':max(begin,row['pc']),'end':min(end,stop),'register':'rbp','cfaOffset':16})
   assert rules and rules[0]['begin']==begin and rules[-1]['end']==end
   assert all(a['end']==b['begin'] for a,b in zip(rules,rules[1:]));checks+=len(rules)
- found=set()
+  pc=layout['samplingPCs']['prePoolCallerReturn'];matched=False
+  for item in d.EH_CFI_entries():
+   if isinstance(item,FDE) and item['initial_location']<=pc<item['initial_location']+item['address_range']:
+    candidates=[r for r in item.get_decoded().table if r['pc']<=pc];rule=candidates[-1]['cfa'];assert rule.reg==6 and rule.offset==16 and rule.expr is None;matched=True
+  assert matched;rules.append({'library':'libsw_writerfilterlo.so','begin':pc,'end':pc+1,'register':'rbp','cfaOffset':16});checks+=1
+ sw_image=writer_image.with_name('libswlo.so');manifest=json.loads((REPO/'docs/docx-next/stable-native-stack.json').read_text())['libraries']['libswlo.so'];assert hashlib.sha256(sw_image.read_bytes()).hexdigest()==manifest['sha256'];checks+=1
+ with sw_image.open('rb') as f:
+  d=ELFFile(f).get_dwarf_info();begin=layout['prePoolAttachment']['begin'];end=layout['prePoolAttachment']['poolReturn']+1;sw_rules=[]
+  for item in d.EH_CFI_entries():
+   if isinstance(item,FDE) and item['initial_location']<=begin<item['initial_location']+item['address_range']:
+    table=item.get_decoded().table
+    for i,row in enumerate(table):
+     stop=table[i+1]['pc'] if i+1<len(table) else item['initial_location']+item['address_range']
+     if row['pc']<end and stop>begin:
+      assert row['cfa'].reg==6 and row['cfa'].offset==16 and row['cfa'].expr is None
+      sw_rules.append({'library':'libswlo.so','begin':max(begin,row['pc']),'end':min(end,stop),'register':'rbp','cfaOffset':16})
+  assert sw_rules and sw_rules[0]['begin']==begin and sw_rules[-1]['end']==end and all(a['end']==b['begin'] for a,b in zip(sw_rules,sw_rules[1:]));rules+=sw_rules;checks+=len(sw_rules)
+
+ found=set();attachment_found=False
  with sw_debug.open('rb') as f:
   d=ELFFile(f).get_dwarf_info()
   for cu in d.iter_CUs():
    n=cu.get_top_DIE().attributes.get('DW_AT_name')
+   if n and n.value.endswith(b'/unocontentcontrol.cxx'):
+    for die in cu.iter_DIEs():
+     if die.offset!=layout['prePoolAttachment']['dieOffset']:continue
+     assert die.get_DIE_from_attribute('DW_AT_specification').attributes['DW_AT_name'].value==b'AttachImpl';checks+=1
+     assert die.attributes['DW_AT_frame_base'].value==[156];checks+=1
+     assert [x._asdict() for x in d.range_lists().get_range_list_at_offset(die.attributes['DW_AT_ranges'].value,cu)]==layout['prePoolAttachment']['ranges'];checks+=1;attachment_found=True;break
+    continue
    if not n or not any(n.value.endswith(x) for x in (b'/unoobj.cxx',b'/unocrsr.cxx',b'/swcrsr.cxx',b'/pam.cxx')):continue
    for die in cu.iter_DIEs():
     n=die.attributes.get('DW_AT_name');name=n.value.decode() if n and isinstance(n.value,bytes) else None
@@ -60,6 +85,7 @@ def audit(writer_debug,sw_debug,writer_image):
     if name=='SwUnoCursor':assert bases[0].attributes['DW_AT_data_member_location'].value==expected['virtualBaseExpression'];checks+=1
     if name=='SwCursor':assert bases[0].get_DIE_from_attribute('DW_AT_type').attributes['DW_AT_name'].value==b'SwPaM' and bases[0].attributes['DW_AT_data_member_location'].value==expected['SwPaMBase'];checks+=1
     found.add(name)
+  assert attachment_found
   assert found==set(layout['swTypes']),str(set(layout['swTypes'])-found)
  return {'matchingChecks':checks,'frameRules':rules,'newNativeExecutions':0,'externalAttach':False}
 

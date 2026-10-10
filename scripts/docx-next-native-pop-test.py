@@ -55,4 +55,13 @@ class PopTests(unittest.TestCase):
    with self.assertRaises(AssertionError):qa.compare_baseline(evidence['localContract'],r)
   r=self.report();r['libraryIdentities']['libswlo.so']['sha256']='0'*64
   with self.assertRaises(AssertionError):qa.compare_baseline(evidence['localContract'],r)
+ def test_marker_transitions_do_not_replace_required_empty_selection(self):
+  r=self.report()
+  for attempt in r['attempts']:
+   attempt['popRanges']=[x for x in attempt['popRanges'] if x['cursor']['mark']['paragraphText']!='']
+   attempt['samplingDiagnostics']['candidateSamples']=len(attempt['popRanges'])
+  self.reject(r)
+ def test_wrong_attachment_phase_or_marker_bounds(self):
+  for phase,pc,text,offset in (('attach-before-pool-insert',0x148b19,'',0),('pop-after-gotoRange',0x1494e8,'',0),('attach-pool-insert-active',0x1494e8,'other',0),('attach-pool-insert-active',0x1494e8,'\x01',2)):
+   r=self.report();x=r['attempts'][0]['popRanges'][0];x.update(observationPhase=phase,popInstructionOffset=pc,insideCallee=True);x['cursor']['mark'].update(paragraphText=text,contentOffset=offset);self.reject(r)
 if __name__=='__main__':unittest.main()

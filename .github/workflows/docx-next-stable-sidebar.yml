@@ -241,6 +241,7 @@ jobs:
             ${{ env.QA_ROOT }}/native-state-report.json
             ${{ env.QA_ROOT }}/native-cache-report.json
             ${{ env.QA_ROOT }}/native-pop-report.json
+            ${{ env.QA_ROOT }}/native-pop-diagnostics.json
             ${{ env.QA_ROOT }}/native-pop-layout-report.json
             ${{ env.QA_ROOT }}/native-symbol-report.json
             ${{ env.QA_ROOT }}/native-symbols/*/*

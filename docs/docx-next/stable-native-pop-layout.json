@@ -88,7 +88,8 @@
     "end": 1348472,
     "cursorInitialized": 1346114,
     "goRightReturn": 1346157,
-    "gotoRangeReturn": 1346185
+    "gotoRangeReturn": 1346185,
+    "prePoolCallerReturn": 1348840
   },
   "frameRule": {
     "register": "rbp",
@@ -138,5 +139,28 @@
   "swBuildId": "9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c",
   "cacheLayoutSha256": "e35567bb0663dafe5b4fba7825dc182873ef9ca458b61c8ab802c557dc0c20fe",
   "rangeSnapshotSize": 504,
-  "popSnapshotSize": 2456
+  "popSnapshotSize": 2456,
+  "prePoolAttachment": {
+    "begin": 11338594,
+    "end": 11339417,
+    "dieOffset": 244072530,
+    "ranges": [
+      {
+        "entry_offset": 4179786,
+        "entry_length": 11,
+        "begin_offset": 11338384,
+        "end_offset": 11340122,
+        "is_absolute": true
+      },
+      {
+        "entry_offset": 4179797,
+        "entry_length": 11,
+        "begin_offset": 4187014,
+        "end_offset": 4187958,
+        "is_absolute": true
+      }
+    ],
+    "poolReturn": 11339423,
+    "poolActiveRetainedAsDiagnostics": true
+  }
 }
