@@ -1,5 +1,7 @@
 # Shared application Sidebar body composition — 2026-10-10
 
+Current successor: [shared grid consistency](sidebar-app-grid-status.md) corrects inconsistent outer/nested column rounding and the custom-placement date defect. Eighteen of 22 cases now retain exact visible and serialized geometry through both saves; four mirrored cases remain blocked. Code `99437d1a` passes all five workflows and all 15 native jobs; actual independent artifacts and the complete current phase comparisons are verified. The earlier evidence/checkpoint below remains historical and unchanged.
+
 The corrected composition now runs through the shared snapshot → model → internal DOCX export path. All 22 application cases retain complete body and active header/footer identities, whole native paragraphs and visible text through source and two Save/Reopen cycles. The local matrix contains 66 phases and 564 rendered page instances, with zero empty CV pages and zero words outside their physical tracks.
 
 ## Shared implementation and closed gates
