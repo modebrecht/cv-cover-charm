@@ -36,6 +36,13 @@ export function validateDossierDocModel(model: DossierDocModel): void {
   const ids = new Set<string>();
   for (const part of [model.cover, model.letter, model.cv]) {
     if (
+      part.firstFooter !== undefined &&
+      (!part.firstHeader ||
+        !Array.isArray(part.firstFooter) ||
+        part.firstFooter.some((block) => block.kind !== "paragraph"))
+    )
+      throw new Error(`DOCX Next invalid first footer story ${part.id}`);
+    if (
       part.blocks.some((block) =>
         walkBlocks([block]).some(
           (child) => child.kind === "parallel-flow" && child.rowAlignment !== "semantic",
@@ -48,7 +55,20 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       );
     if (
       part.layout.mode === "sidebar" &&
-      !part.blocks.some((block) => block.kind === "parallel-flow")
+      !part.blocks.some(
+        (block) =>
+          block.kind === "parallel-flow" ||
+          (block.kind === "table" &&
+            block.id === "cv.sidebar" &&
+            block.bodyBoundary === "paragraph" &&
+            block.bodyBoundaryKeepNext === true &&
+            !block.position &&
+            block.rows.length === 1 &&
+            block.rows[0].cells.length === 3 &&
+            block.rows[0].cells[1].length === 0 &&
+            block.rows[0].keepTogether === false &&
+            !block.rows[0].cellRowSpans),
+      )
     )
       throw new Error(`DOCX Next sidebar requires native parallel flow: ${part.id}`);
     const margins = part.page.margins;
@@ -103,6 +123,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       ...part.header,
       ...(part.firstHeader ?? []),
       ...part.footer,
+      ...(part.firstFooter ?? []),
       ...(part.headerShapes ?? []),
     ])) {
       if (ids.has(block.id)) throw new Error(`DOCX Next duplicate semantic identity ${block.id}`);

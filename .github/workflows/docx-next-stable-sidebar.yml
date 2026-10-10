@@ -354,6 +354,63 @@ jobs:
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 
+  app-body-content:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      QA_ROOT: /tmp/docx-next-app-body
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and native content/image QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 numpy==2.2.6
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun test tests/unit/docx-next-sidebar-body.test.ts
+          bun test tests/unit/docx-next-first-footer.test.ts
+          python scripts/docx-next-sidebar-body-test.py
+      - name: Install canonical browser decoder
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up verified stable engine
+        timeout-minutes: 12
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Set up hash-pinned public UNO binding
+        run: python scripts/docx-next-native-grid-setup.py "$QA_ROOT/setup/runtime" "$QA_ROOT/uno-binding"
+      - name: Generate real app snapshots through the shared guarded export with fresh browser images
+        run: |
+          mkdir -p "$QA_ROOT/fixtures"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
+          bun scripts/docx-next-sidebar-body-probe.ts "$QA_ROOT/fixtures"
+      - name: Require complete visible and native stories, chrome and photos through two Save/Reopen cycles
+        timeout-minutes: 10
+        run: python scripts/docx-next-sidebar-body-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+      - name: Retain actual app composition and outstanding geometry evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-app-body-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/uno-binding/binding-record.json
+
   supported-sidebar:
     if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
     runs-on: ubuntu-24.04

@@ -1,9 +1,13 @@
-import { buildDossierDocModel, type DossierAppSnapshot } from "./build-model";
+import {
+  buildDossierDocModel,
+  type DossierAppSnapshot,
+  type BuildModelOptions,
+} from "./build-model";
 import { renderDossierDocx, type RenderOptions } from "./renderer";
 /** Isolated internal entry point. Normal production export remains in dossier-docx-export. */
 export async function createDossierDocxNextBlob(
   snapshot: DossierAppSnapshot,
-  options: RenderOptions = {},
+  options: RenderOptions & BuildModelOptions = {},
 ) {
-  return renderDossierDocx(buildDossierDocModel(snapshot), options);
+  return renderDossierDocx(buildDossierDocModel(snapshot, options), options);
 }

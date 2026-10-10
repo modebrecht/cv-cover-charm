@@ -64,10 +64,30 @@ import type { DossierAppSnapshot } from "./source";
 export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
+export type BuildModelOptions = {
+  /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
+  cvSidebarComposition?: "body-stories";
+  /** Unaccepted native identity separation for the first-page footer story. */
+  chromeFirstFooterIdentity?: "distinct-story";
+};
+
 /** Pure and synchronous: all ambient editor state must be captured before calling. */
-export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel {
+export function buildDossierDocModel(
+  input: DossierAppSnapshot,
+  options: BuildModelOptions = {},
+): DossierDocModel {
   const { cover, letter, cv, settings } = input;
   const cvVariant = cvWordLayout(settings.cvLayout);
+  if (
+    options.chromeFirstFooterIdentity !== undefined &&
+    options.chromeFirstFooterIdentity !== "distinct-story"
+  )
+    throw new Error("DOCX Next invalid diagnostic first footer identity");
+  if (
+    options.cvSidebarComposition !== undefined &&
+    (options.cvSidebarComposition !== "body-stories" || cvVariant !== "sidebar")
+  )
+    throw new Error("DOCX Next invalid diagnostic Sidebar composition");
   const cvFlow = CV_FLOW_LAYOUTS[cvVariant];
   const placements =
     cvVariant === "sidebar"
@@ -1258,6 +1278,7 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
     cvAccent,
     color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
     cv.design.bgOpacity,
+    options.cvSidebarComposition,
   );
   for (const target of [coverPart, letterPart, cvPart]) {
     const policies = template.pageMotifs?.[target.id];
@@ -1320,6 +1341,17 @@ export function buildDossierDocModel(input: DossierAppSnapshot): DossierDocModel
         });
     }
   }
+  if (options.chromeFirstFooterIdentity === "distinct-story")
+    for (const target of [coverPart, letterPart, cvPart])
+      if (target.firstHeader && target.footer.length)
+        target.firstFooter = target.footer.map((paragraph) => ({
+          ...structuredClone(paragraph),
+          id: paragraph.id.replace(`${target.id}.footer.`, `${target.id}.footer.first.`),
+          runs: paragraph.runs.map((run) => ({
+            ...structuredClone(run),
+            id: run.id.replace(`${target.id}.footer.`, `${target.id}.footer.first.`),
+          })),
+        }));
   return {
     version: 1,
     metadata: {

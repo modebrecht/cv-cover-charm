@@ -19,6 +19,7 @@ export function planNumbering(model: DossierDocModel) {
       ...part.header,
       ...(part.firstHeader ?? []),
       ...part.footer,
+      ...(part.firstFooter ?? []),
     ])) {
       if (block.kind !== "paragraph" || !block.list) continue;
       if (!LIST_DEFINITIONS[block.list]) throw new Error(`DOCX Next invalid list ${block.id}`);

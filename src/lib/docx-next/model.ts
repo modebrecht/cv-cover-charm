@@ -257,6 +257,8 @@ export type DocumentPart = {
   header: Paragraph[];
   firstHeader?: Paragraph[];
   footer: Paragraph[];
+  /** Guarded first-page footer with independent native story identities. */
+  firstFooter?: Paragraph[];
   chrome: {
     headerBackground?: string;
     footerBackground?: string;

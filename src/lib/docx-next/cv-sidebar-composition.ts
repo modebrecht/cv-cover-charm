@@ -2,6 +2,7 @@ import { compositeTextColor } from "./colors";
 import { parallelFlowTable } from "./parallel-flow";
 import { walkBlocks, type DocBlock, type DocumentPart, type ParallelFlowBlock } from "./model";
 import { imageZoneExtent, imageZoneFromPage } from "./image-zone";
+import { sidebarBodyTable } from "./cv-sidebar-body";
 
 /** Semantic partition only. Widths use the native content grid, never PDF page plans. */
 export function composeCvSidebar(
@@ -9,6 +10,7 @@ export function composeCvSidebar(
   accent: string,
   paper: string,
   opacity: number,
+  composition: "semantic-rows" | "body-stories" = "semantic-rows",
 ): void {
   if (part.layout.mode !== "sidebar") return;
   if (!Number.isFinite(opacity) || opacity < 0 || opacity > 1)
@@ -112,6 +114,6 @@ export function composeCvSidebar(
     tracks: part.layout.side === "left" ? [sideTrack, mainTrack] : [mainTrack, sideTrack],
   };
   // Explicit page starts/nested columns/floating semantic content fail at this boundary.
-  parallelFlowTable(flow, width);
-  part.blocks = [...outside, flow];
+  if (composition === "semantic-rows") parallelFlowTable(flow, width);
+  part.blocks = [...outside, composition === "body-stories" ? sidebarBodyTable(flow, width) : flow];
 }

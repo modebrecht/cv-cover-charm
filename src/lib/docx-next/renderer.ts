@@ -59,6 +59,11 @@ export async function renderDossierDocx(
       `DOCX Next has unaccepted model issues: ${model.issues.map((issue) => issue.code).join(", ")}`,
     );
   validateDossierDocModel(model);
+  if (
+    [model.cover, model.letter, model.cv].some((part) => part.firstFooter !== undefined) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error("DOCX Next first footer identity is unaccepted; diagnostic opt-in required");
   if (model.floatingTableTextFlow !== undefined && !options.allowUnacceptedModelIssues)
     throw new Error(
       "DOCX Next floating table continuation is unaccepted; diagnostic opt-in required",
@@ -103,6 +108,7 @@ export async function renderDossierDocx(
       ...part.header,
       ...(part.firstHeader ?? []),
       ...part.footer,
+      ...(part.firstFooter ?? []),
       ...(part.headerShapes ?? []),
     ]),
   );
@@ -560,7 +566,11 @@ export async function renderDossierDocx(
   function chrome(part: DocumentPart, scope: "header" | "footer", first = false): string {
     const id = `${part.id}-${scope}${first ? "-first" : ""}`;
     if (chromeReferences.has(id)) return chromeReferences.get(id)!;
-    const content = first ? part.firstHeader! : part[scope];
+    const content = first
+      ? scope === "header"
+        ? part.firstHeader!
+        : part.firstFooter!
+      : part[scope];
     const story = `word/${id}.xml`;
     const drawings =
       scope === "header"
@@ -600,7 +610,9 @@ export async function renderDossierDocx(
       references += chrome(part, "header", true);
       // titlePg selects both first-page stories. Reuse the known footer part
       // explicitly so a different first header does not leave its footer blank.
-      references += `<w:footerReference w:type="first" r:id="${part.id}-footer"/>`;
+      references += part.firstFooter
+        ? chrome(part, "footer", true)
+        : `<w:footerReference w:type="first" r:id="${part.id}-footer"/>`;
     }
     return `<w:sectPr>${references}<w:type w:val="${planned.breakBefore}"/><w:pgSz w:w="${twips(part.page.widthMm)}" w:h="${twips(part.page.heightMm)}"/><w:pgMar w:top="${twips(m.top)}" w:right="${twips(m.right)}" w:bottom="${twips(m.bottom)}" w:left="${twips(m.left)}" w:header="${twips(part.page.headerDistanceMm)}" w:footer="${twips(part.page.footerDistanceMm)}" w:gutter="0"/>${part.chrome.borderColor ? `<w:pgBorders w:offsetFrom="page">${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} w:val="single" w:sz="${Math.max(1, Math.round(((part.chrome.borderWidthMm * 72) / 25.4) * 8))}" w:space="12" w:color="${part.chrome.borderColor}"/>`).join("")}</w:pgBorders>` : ""}<w:cols w:equalWidth="1" w:num="${planned.columns.count}" w:space="${twips(planned.columns.gapMm)}"/>${part.firstHeader && planned.logicalStart ? "<w:titlePg/>" : ""}</w:sectPr>`;
   }
@@ -643,6 +655,7 @@ export async function renderDossierDocx(
       ...part.header,
       ...(part.firstHeader ?? []),
       ...part.footer,
+      ...(part.firstFooter ?? []),
     ]))
       if (block.kind === "paragraph") block.runs.forEach((value) => fonts.add(value.style.font));
   pkg.add("word/fontTable.xml", WORD_PART_TYPES.fontTable, fontTableXml(fonts));
