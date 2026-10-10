@@ -233,6 +233,13 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
         if (
+          block.bodyBoundary !== undefined &&
+          (block.bodyBoundary !== "paragraph" ||
+            block.position !== undefined ||
+            !part.blocks.includes(block))
+        )
+          throw new Error(`DOCX Next invalid table body boundary ${block.id}`);
+        if (
           block.identityCarrier !== undefined &&
           (block.identityCarrier !== "cell-ending" || !block.rows.length)
         )
@@ -305,7 +312,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           (block.widthMm !== undefined &&
             (!Number.isFinite(block.widthMm) || block.widthMm < 10)) ||
           (block.indentMm !== undefined &&
-            (!Number.isFinite(block.indentMm) || block.indentMm < 0)) ||
+            (!Number.isFinite(block.indentMm) ||
+              block.indentMm < (block.bodyBoundary === "paragraph" ? -margins.left : 0))) ||
           (box &&
             (!/^[0-9A-F]{6}$/.test(box.fillColor ?? "FFFFFF") ||
               !/^[0-9A-F]{6}$/.test(box.borderColor) ||

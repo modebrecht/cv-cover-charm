@@ -2364,5 +2364,16 @@
     "longBoundaryVisibleText": "fail",
     "productionAcceptance": "blocked"
   },
-  "independentSuccessor": "pending"
+  "independentSuccessor": {
+    "commit": "3f1b6e8f58a9d5beaa7554f68eb20e61a8b58b20",
+    "runId": 38049517582,
+    "attempt": 2,
+    "jobId": 114207229034,
+    "artifactId": 11669511658,
+    "artifactSize": 71420557,
+    "artifactSha256": "6b21aa6d726195f516936c9d6d14a1910972079659c8d5d706571b1af5e994d0",
+    "status": "all five workflows success; actual artifact independently verified",
+    "substantiveTransferComparison": "exact match; only producer metadata excluded",
+    "historicalSourceInstancesUnchanged": 218
+  }
 }

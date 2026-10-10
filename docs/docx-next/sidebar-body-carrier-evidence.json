@@ -1,0 +1,1384 @@
+{
+  "scope": "One long left whole body table; source ordered text failure stops Save/Reopen and all other cases",
+  "local": {
+    "fixture": "body-carrier-left-both-long",
+    "sourceSha256": "a32c7a9f395e94c51f592f5cb7857c80e9107e33e1ff627dff396a64ed9cf182",
+    "serializedControls": 382,
+    "nativeControls": 382,
+    "nativeStories": {
+      "main": {
+        "paragraphs": 279,
+        "wholeTextAndOrder": "pass",
+        "fieldOrderSha256": "d2ee3654a05ee1260927caff4dabbb771d00fd06fe52ab1ff1bee59b9f1056b3"
+      },
+      "side": {
+        "paragraphs": 73,
+        "wholeTextAndOrder": "pass",
+        "fieldOrderSha256": "fbede9fb1dc6e1d85519a2b861a02ff4a309277ceae9dc9d031024569f229137"
+      }
+    },
+    "canonicalControlLifetime": [
+      {
+        "event": "registered",
+        "canonicalTag": "cv.section.person.heading"
+      },
+      {
+        "event": "final-control",
+        "sameRegisteredInterface": true
+      }
+    ],
+    "firstFinalControl": {
+      "tag": "cv.section.person.heading",
+      "text": "Kontakt",
+      "table": "Table70",
+      "cell": "A1"
+    },
+    "pdfPages": 11,
+    "visibleStories": {
+      "main": {
+        "status": "fail",
+        "authoredCharacters": 8809,
+        "actualCharacters": 8809,
+        "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+        "actualSha256": "4972300c80d57cde90c4b11f53ccfc191fc88f6a22314a67a5cd9b2e2b6211ca"
+      },
+      "side": {
+        "status": "pass",
+        "authoredCharacters": 5311,
+        "actualCharacters": 5311,
+        "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+        "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+      }
+    },
+    "visibleSchoolOrder": [
+      {
+        "number": 1,
+        "page": 3,
+        "x": 213.25,
+        "y": 288.498291015625
+      },
+      {
+        "number": 2,
+        "page": 3,
+        "x": 213.25,
+        "y": 375.6982727050781
+      },
+      {
+        "number": 3,
+        "page": 3,
+        "x": 213.25,
+        "y": 462.89825439453125
+      },
+      {
+        "number": 4,
+        "page": 3,
+        "x": 213.25,
+        "y": 550.0982666015625
+      },
+      {
+        "number": 5,
+        "page": 3,
+        "x": 213.25,
+        "y": 637.2982788085938
+      },
+      {
+        "number": 12,
+        "page": 4,
+        "x": 213.25,
+        "y": 81.4482421875
+      },
+      {
+        "number": 13,
+        "page": 4,
+        "x": 213.25,
+        "y": 167.64825439453125
+      },
+      {
+        "number": 14,
+        "page": 4,
+        "x": 213.25,
+        "y": 253.8482666015625
+      },
+      {
+        "number": 15,
+        "page": 4,
+        "x": 213.25,
+        "y": 340.04827880859375
+      },
+      {
+        "number": 16,
+        "page": 4,
+        "x": 213.25,
+        "y": 426.2482604980469
+      },
+      {
+        "number": 17,
+        "page": 4,
+        "x": 213.25,
+        "y": 512.4483032226562
+      },
+      {
+        "number": 6,
+        "page": 4,
+        "x": 213.25,
+        "y": 598.6482543945312
+      },
+      {
+        "number": 7,
+        "page": 4,
+        "x": 213.25,
+        "y": 685.8482666015625
+      },
+      {
+        "number": 8,
+        "page": 5,
+        "x": 213.25,
+        "y": 81.4482421875
+      },
+      {
+        "number": 9,
+        "page": 5,
+        "x": 213.25,
+        "y": 168.64825439453125
+      },
+      {
+        "number": 10,
+        "page": 5,
+        "x": 213.25,
+        "y": 255.8482666015625
+      },
+      {
+        "number": 11,
+        "page": 5,
+        "x": 213.25,
+        "y": 343.04827880859375
+      },
+      {
+        "number": 18,
+        "page": 5,
+        "x": 213.25,
+        "y": 436.2482604980469
+      },
+      {
+        "number": 19,
+        "page": 5,
+        "x": 213.25,
+        "y": 523.4483032226562
+      },
+      {
+        "number": 20,
+        "page": 5,
+        "x": 213.25,
+        "y": 610.6482543945312
+      },
+      {
+        "number": 21,
+        "page": 5,
+        "x": 213.25,
+        "y": 697.8482666015625
+      },
+      {
+        "number": 22,
+        "page": 6,
+        "x": 213.25,
+        "y": 81.4482421875
+      },
+      {
+        "number": 23,
+        "page": 6,
+        "x": 213.25,
+        "y": 168.64825439453125
+      },
+      {
+        "number": 24,
+        "page": 6,
+        "x": 213.25,
+        "y": 255.8482666015625
+      },
+      {
+        "number": 25,
+        "page": 6,
+        "x": 213.25,
+        "y": 343.04827880859375
+      },
+      {
+        "number": 26,
+        "page": 6,
+        "x": 213.25,
+        "y": 430.2482604980469
+      },
+      {
+        "number": 27,
+        "page": 6,
+        "x": 213.25,
+        "y": 517.4483032226562
+      },
+      {
+        "number": 28,
+        "page": 6,
+        "x": 213.25,
+        "y": 604.6482543945312
+      },
+      {
+        "number": 29,
+        "page": 6,
+        "x": 213.25,
+        "y": 691.8482666015625
+      },
+      {
+        "number": 30,
+        "page": 7,
+        "x": 213.25,
+        "y": 81.4482421875
+      },
+      {
+        "number": 31,
+        "page": 7,
+        "x": 213.25,
+        "y": 168.64825439453125
+      },
+      {
+        "number": 32,
+        "page": 7,
+        "x": 213.25,
+        "y": 255.8482666015625
+      },
+      {
+        "number": 33,
+        "page": 7,
+        "x": 213.25,
+        "y": 343.04827880859375
+      },
+      {
+        "number": 34,
+        "page": 7,
+        "x": 213.25,
+        "y": 430.2482604980469
+      },
+      {
+        "number": 35,
+        "page": 7,
+        "x": 213.25,
+        "y": 517.4483032226562
+      },
+      {
+        "number": 36,
+        "page": 7,
+        "x": 213.25,
+        "y": 604.6482543945312
+      },
+      {
+        "number": 37,
+        "page": 7,
+        "x": 213.25,
+        "y": 691.8482666015625
+      },
+      {
+        "number": 38,
+        "page": 8,
+        "x": 213.25,
+        "y": 81.4482421875
+      },
+      {
+        "number": 39,
+        "page": 8,
+        "x": 213.25,
+        "y": 168.64825439453125
+      },
+      {
+        "number": 40,
+        "page": 8,
+        "x": 213.25,
+        "y": 255.8482666015625
+      },
+      {
+        "number": 41,
+        "page": 8,
+        "x": 213.25,
+        "y": 343.04827880859375
+      },
+      {
+        "number": 42,
+        "page": 8,
+        "x": 213.25,
+        "y": 430.2482604980469
+      },
+      {
+        "number": 43,
+        "page": 8,
+        "x": 213.25,
+        "y": 517.4483032226562
+      },
+      {
+        "number": 44,
+        "page": 8,
+        "x": 213.25,
+        "y": 604.6482543945312
+      },
+      {
+        "number": 45,
+        "page": 8,
+        "x": 213.25,
+        "y": 691.8482666015625
+      },
+      {
+        "number": 46,
+        "page": 9,
+        "x": 213.25,
+        "y": 81.4482421875
+      },
+      {
+        "number": 47,
+        "page": 9,
+        "x": 213.25,
+        "y": 168.64825439453125
+      },
+      {
+        "number": 48,
+        "page": 9,
+        "x": 213.25,
+        "y": 255.8482666015625
+      },
+      {
+        "number": 49,
+        "page": 9,
+        "x": 213.25,
+        "y": 343.04827880859375
+      },
+      {
+        "number": 50,
+        "page": 9,
+        "x": 213.25,
+        "y": 430.2482604980469
+      },
+      {
+        "number": 51,
+        "page": 9,
+        "x": 213.25,
+        "y": 517.4483032226562
+      },
+      {
+        "number": 52,
+        "page": 9,
+        "x": 213.25,
+        "y": 604.6482543945312
+      },
+      {
+        "number": 53,
+        "page": 9,
+        "x": 213.25,
+        "y": 691.8482666015625
+      },
+      {
+        "number": 54,
+        "page": 10,
+        "x": 213.25,
+        "y": 81.4482421875
+      },
+      {
+        "number": 55,
+        "page": 10,
+        "x": 213.25,
+        "y": 168.64825439453125
+      },
+      {
+        "number": 56,
+        "page": 10,
+        "x": 213.25,
+        "y": 255.8482666015625
+      },
+      {
+        "number": 57,
+        "page": 10,
+        "x": 213.25,
+        "y": 343.04827880859375
+      },
+      {
+        "number": 58,
+        "page": 10,
+        "x": 213.25,
+        "y": 430.2482604980469
+      },
+      {
+        "number": 59,
+        "page": 10,
+        "x": 213.25,
+        "y": 517.4483032226562
+      },
+      {
+        "number": 60,
+        "page": 10,
+        "x": 213.25,
+        "y": 604.6482543945312
+      },
+      {
+        "number": 61,
+        "page": 10,
+        "x": 213.25,
+        "y": 691.8482666015625
+      },
+      {
+        "number": 62,
+        "page": 11,
+        "x": 213.25,
+        "y": 81.4482421875
+      },
+      {
+        "number": 63,
+        "page": 11,
+        "x": 213.25,
+        "y": 168.64825439453125
+      },
+      {
+        "number": 64,
+        "page": 11,
+        "x": 213.25,
+        "y": 255.8482666015625
+      },
+      {
+        "number": 65,
+        "page": 11,
+        "x": 213.25,
+        "y": 343.04827880859375
+      }
+    ],
+    "pageWordDigests": [
+      {
+        "page": 1,
+        "wordsSha256": "f88f61aaa54953a02b0b24029e2ee4a565a63584454e15e408b8035303fe185e"
+      },
+      {
+        "page": 2,
+        "wordsSha256": "fdcbf588b64b3439365c5a9c730dcd6435584ae75ca5e9f9cbbb6283713ff410"
+      },
+      {
+        "page": 3,
+        "wordsSha256": "becf8e7c7666357d559e0e064287dabfe6c9b65073a270c7585f073b6ba0f165"
+      },
+      {
+        "page": 4,
+        "wordsSha256": "d2ef86eb4c1aa69c7274c7764a2f27c8c235ce55470fab5392a54374db8c8c70"
+      },
+      {
+        "page": 5,
+        "wordsSha256": "349b8f50c1d7a411a4ecacba669fa1930a08eedbd269f9627eb001bfdfb85fad"
+      },
+      {
+        "page": 6,
+        "wordsSha256": "7141234851b3980bae26fe8ae4029671784843a2cc8a49095125d1828bf649e0"
+      },
+      {
+        "page": 7,
+        "wordsSha256": "847694fabea09c7fdf15b5662101165da4d2ffb85b0629d90e0fdb64453115fc"
+      },
+      {
+        "page": 8,
+        "wordsSha256": "9326153ffd362068eac78a5a5364b5561cdd27ba5d9d6d90065dea73a99cf458"
+      },
+      {
+        "page": 9,
+        "wordsSha256": "f568212e454bbac91343a876fd29d51d5ba150ecea2f860806b0d591e42107fc"
+      },
+      {
+        "page": 10,
+        "wordsSha256": "b830272eb2396cacedae9d54401b49104aee6b6e6b48c6d49f981718c3b4b0ab"
+      },
+      {
+        "page": 11,
+        "wordsSha256": "503ca4ddafdb199d1bdcf4f37dedb529eb3a5648c0cdee3134e7601cbaaf1682"
+      }
+    ],
+    "newPreparedSources": 1,
+    "newReadonlyNativeLoads": 2,
+    "newNativePdfExports": 1,
+    "newNativeDocxExports": 0,
+    "newSavedImports": 0,
+    "stoppedAt": "first source PDF ordered main story",
+    "candidateAccepted": false,
+    "geometryAcceptance": "unaccepted",
+    "productionAcceptance": "blocked",
+    "microsoftWordAccepted": 0,
+    "canonicalLifetimeCoverage": "final-only; earlier lifetime unobserved",
+    "nativeNodeStories": {
+      "main": {
+        "nativeParagraphNodes": 419,
+        "nonemptyParagraphNodes": 279,
+        "completeNativeNodeText": {
+          "status": "pass",
+          "authoredCharacters": 8809,
+          "actualCharacters": 8809,
+          "authoredSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32",
+          "actualSha256": "2e0ba1c84481f06fe8237dfa674b14d8b3d1ea1535861a93ae9db14c02648d32"
+        }
+      },
+      "side": {
+        "nativeParagraphNodes": 74,
+        "nonemptyParagraphNodes": 73,
+        "completeNativeNodeText": {
+          "status": "pass",
+          "authoredCharacters": 5311,
+          "actualCharacters": 5311,
+          "authoredSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec",
+          "actualSha256": "952dfe0a0cc11b877097e69eb16b8f111cc8c0272260f485df945fb9331f12ec"
+        }
+      }
+    },
+    "nativeNodeSchoolOrder": [
+      {
+        "number": 1,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table2",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 2,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table3",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table4",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 4,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table5",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table6",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 6,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table7",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 7,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table8",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 8,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table9",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 9,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table10",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 10,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table11",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 11,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table12",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 12,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table13",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 13,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table14",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 14,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table15",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 15,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table16",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 16,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table17",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 17,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table18",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 18,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table19",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 19,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table20",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 20,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table21",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 21,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table22",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 22,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table23",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 23,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table24",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 24,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table25",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 25,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table26",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 26,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table27",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 27,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table28",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 28,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table29",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 29,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table30",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 30,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table31",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 31,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table32",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 32,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table33",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 33,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table34",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 34,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table35",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 35,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table36",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 36,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table37",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 37,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table38",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 38,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table39",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 39,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table40",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 40,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table41",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 41,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table42",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 42,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table43",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 43,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table44",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 44,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table45",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 45,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table46",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 46,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table47",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 47,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table48",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 48,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table49",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 49,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table50",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 50,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table51",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 51,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table52",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 52,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table53",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 53,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table54",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 54,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table55",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 55,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table56",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 56,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table57",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 57,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table58",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 58,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table59",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 59,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table60",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 60,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table61",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 61,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table62",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 62,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table63",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 63,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table64",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 64,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table65",
+            "cell": "A1"
+          }
+        ]
+      },
+      {
+        "number": 65,
+        "ownerPath": [
+          {
+            "table": "Table70",
+            "cell": "C1"
+          },
+          {
+            "table": "Table66",
+            "cell": "A1"
+          }
+        ]
+      }
+    ]
+  },
+  "localContract": {
+    "nativeCompleteIdentityAndOrder": "pass",
+    "canonicalObjectLifetime": "unobserved before final registration",
+    "actualNativeNodeTextOrder": "pass",
+    "sideVisibleCompleteOrder": "pass",
+    "mainVisibleCompleteOrder": "fail",
+    "candidateAccepted": false,
+    "saveReopen": "unexecuted after source stop"
+  },
+  "independentSuccessor": "pending"
+}

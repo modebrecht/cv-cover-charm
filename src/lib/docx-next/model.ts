@@ -110,6 +110,8 @@ export type TableBlock = {
   /** Flowing boxes keep width/padding, with no fixed height or text clipping. */
   widthMm?: number;
   indentMm?: number;
+  /** Guarded body paragraph before a natural-flow table; no semantic text or fixed table height. */
+  bodyBoundary?: "paragraph";
   /** Unaccepted diagnostic native floating table; physical page coordinates, no fixed height. */
   position?: {
     xMm: number;
