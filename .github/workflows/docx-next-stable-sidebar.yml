@@ -108,6 +108,8 @@ jobs:
           python scripts/docx-next-native-cache-test.py
           python scripts/docx-next-native-pop-test.py
           python scripts/docx-next-native-clamp-research-test.py
+          python scripts/docx-next-native-owner-test.py
+          python scripts/docx-next-owner-boundary-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -146,6 +148,7 @@ jobs:
           bun scripts/docx-next-inline-story-probe.ts "$QA_ROOT/inline-story"
           bun scripts/docx-next-dual-story-probe.ts "$QA_ROOT/dual-story"
           bun scripts/docx-next-carrier-story-probe.ts "$QA_ROOT/carrier-story"
+          bun scripts/docx-next-owner-boundary-probe.ts "$QA_ROOT/owner-boundary"
       - name: Require native container carrier ownership without weakening caption gates
         run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-identity-evidence.json
       - name: Reproduce stopped multirow identity and exact native grid counterexamples
@@ -224,6 +227,12 @@ jobs:
       - name: Measure completed original first canonical PopSdt selection
         timeout-minutes: 4
         run: python scripts/docx-next-native-pop-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-pop-evidence.json
+      - name: Prove original control and paragraph disposal identity
+        timeout-minutes: 2
+        run: python scripts/docx-next-native-owner-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
+      - name: Reproduce guarded boundary semantic survival and rejected native lifetime
+        timeout-minutes: 5
+        run: python scripts/docx-next-owner-boundary-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
       - name: Retain actual diagnostics even when a gate fails
         if: always()
         uses: actions/upload-artifact@v4
@@ -244,6 +253,10 @@ jobs:
             ${{ env.QA_ROOT }}/native-pop-report.json
             ${{ env.QA_ROOT }}/native-pop-diagnostics.json
             ${{ env.QA_ROOT }}/native-pop-layout-report.json
+            ${{ env.QA_ROOT }}/native-owner-report.json
+            ${{ env.QA_ROOT }}/owner-boundary-report.json
+            ${{ env.QA_ROOT }}/owner-boundary-import-observation.json
+            ${{ env.QA_ROOT }}/owner-boundary/*
             ${{ env.QA_ROOT }}/native-symbol-report.json
             ${{ env.QA_ROOT }}/native-symbols/*/*
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json

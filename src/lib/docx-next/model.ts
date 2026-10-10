@@ -112,6 +112,8 @@ export type TableBlock = {
   position?: {
     xMm: number;
     yMm: number;
+    /** Guarded native body boundary before the floating owner; never semantic text. */
+    leadingBoundary?: "paragraph";
     /** Diagnostic native logical anchor: the following whole semantic paragraph. */
     anchorParagraphId?: string;
     /** Diagnostic adjacent floating owner; import creates a separate native anchor. */

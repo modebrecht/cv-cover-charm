@@ -236,6 +236,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         )
           throw new Error(`DOCX Next invalid table identity carrier ${block.id}`);
         if (block.position) {
+          if (
+            block.position.leadingBoundary !== undefined &&
+            block.position.leadingBoundary !== "paragraph"
+          )
+            throw new Error(`DOCX Next invalid floating leading boundary ${block.id}`);
           if (block.position.nextFloatingTableId !== undefined) {
             const index = part.blocks.indexOf(block);
             const following = part.blocks[index + 1];
@@ -246,6 +251,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
               index < 0 ||
               following?.kind !== "table" ||
               !following.position ||
+              following.position.leadingBoundary !== undefined ||
               following.id !== block.position.nextFloatingTableId
             )
               throw new Error(`DOCX Next invalid adjacent floating owner ${block.id}`);
