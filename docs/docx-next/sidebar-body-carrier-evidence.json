@@ -1380,5 +1380,88 @@
     "candidateAccepted": false,
     "saveReopen": "unexecuted after source stop"
   },
-  "independentSuccessor": "pending"
+  "independentSuccessor": {
+    "commit": "f4607e7bbe3e67b2a8e354425eb7f72ddde827db",
+    "runId": 38050756005,
+    "firstJobId": 114209225041,
+    "firstArtifactId": 11669008711,
+    "firstArtifactSize": 70344634,
+    "firstArtifactSha256": "0b27d9bc2cbaf72873c1197262a17edfc0a2177458a88960d5457b0d0f697749",
+    "firstAttempt": "stopped before body probe: completed original gotoRange selection unavailable after three bounded imports",
+    "firstArtifactIndependentlyVerified": true,
+    "independentlyGeneratedBodySource": "exact local SHA-256",
+    "nativeBodyStepExecuted": false,
+    "retry": "only failed native job repeated without source changes; pending",
+    "otherWorkflows": "Regression/all eight browser groups, Gallery, Contact Integrity and automatic Pages success"
+  },
+  "nextMeasurementTargets": {
+    "binarySha256": "ecc533cd929a8a044129026b519a87917803e0db7eb1c6bbec84f5511231397b",
+    "buildId": "9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c",
+    "functions": [
+      {
+        "name": "_ZL18lcl_MoveRowContentR10SwRowFrameS0_",
+        "value": 9162416,
+        "size": 341,
+        "demangled": "lcl_MoveRowContent(SwRowFrame&, SwRowFrame&)"
+      },
+      {
+        "name": "_ZN10SwTabFrame5SplitElbbRb.cold",
+        "value": 4039884,
+        "size": 302,
+        "demangled": "SwTabFrame::Split(long, bool, bool, bool&) [clone .cold]"
+      },
+      {
+        "name": "_ZN10SwTabFrame7MakeAllEP12OutputDevice.localalias",
+        "value": 9217024,
+        "size": 15348,
+        "demangled": "SwTabFrame::MakeAll(OutputDevice*) [clone .localalias]"
+      },
+      {
+        "name": "_ZN10SwTabFrame7MakeAllEP12OutputDevice.cold",
+        "value": 4040186,
+        "size": 428,
+        "demangled": "SwTabFrame::MakeAll(OutputDevice*) [clone .cold]"
+      },
+      {
+        "name": "_ZN10SwTabFrame4JoinEv",
+        "value": 9207424,
+        "size": 907,
+        "demangled": "SwTabFrame::Join()"
+      },
+      {
+        "name": "_ZN10SwTabFrame5SplitElbbRb",
+        "value": 9209392,
+        "size": 7626,
+        "demangled": "SwTabFrame::Split(long, bool, bool, bool&)"
+      },
+      {
+        "name": "_ZN10SwTabFrame7MakeAllEP12OutputDevice",
+        "value": 9217024,
+        "size": 15348,
+        "demangled": "SwTabFrame::MakeAll(OutputDevice*)"
+      }
+    ],
+    "measuredNativeCalls": 0,
+    "layoutFrameOrderMeasured": false,
+    "upstreamSources": [
+      {
+        "commit": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+        "path": "sw/source/core/unocore/unoobj2.cxx",
+        "blobSha": "70534192f5ec190852aaf8666ffbca414b088f3b",
+        "lines": [
+          549,
+          638
+        ]
+      },
+      {
+        "commit": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+        "path": "sw/source/core/layout/tabfrm.cxx",
+        "blobSha": "a08ce1af68e2848942d0af43b39903e28d579c10",
+        "lines": [
+          458,
+          520
+        ]
+      }
+    ]
+  }
 }

@@ -2374,6 +2374,7 @@
     "artifactSha256": "6b21aa6d726195f516936c9d6d14a1910972079659c8d5d706571b1af5e994d0",
     "status": "all five workflows success; actual artifact independently verified",
     "substantiveTransferComparison": "exact match; only producer metadata excluded",
-    "historicalSourceInstancesUnchanged": 218
+    "historicalSourceInstancesUnchanged": 218,
+    "historicalSavedPackagesWithExactSemanticAncestry": 129
   }
 }
