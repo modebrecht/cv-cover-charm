@@ -3,9 +3,17 @@ import tempfile
 import unittest
 from pathlib import Path
 from native_chromium_print_benchmark import audit_manifest, geometry_delta
+from run_native_chromium_benchmark import experiment_source
 
 
 class BenchmarkAuditTest(unittest.TestCase):
+    def test_detached_ci_requires_exact_experiment_ref_and_sha(self):
+        environment = {"GITHUB_ACTIONS":"true","GITHUB_REF":"refs/heads/dev-native-chromium-print","GITHUB_SHA":"a"*40}
+        self.assertTrue(experiment_source("","a"*40,environment))
+        self.assertTrue(experiment_source("dev-native-chromium-print","a"*40,{}))
+        self.assertFalse(experiment_source("dev","a"*40,environment))
+        self.assertFalse(experiment_source("","b"*40,environment))
+        self.assertFalse(experiment_source("","a"*40,{**environment,"GITHUB_REF":"refs/heads/dev"}))
     def test_rejects_pilot(self):
         with self.assertRaisesRegex(ValueError, "complete capture"):
             audit_manifest({"sourceSha": "a"*40, "pilot": True}, Path("."))

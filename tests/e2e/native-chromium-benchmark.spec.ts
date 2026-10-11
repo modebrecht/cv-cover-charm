@@ -211,7 +211,7 @@ test("same-source 39-template native Chromium benchmark", async ({ page, browser
   if (!pilot)
     execFileSync("git", ["diff", "--exit-code", "HEAD", "--", "src"], { encoding: "utf8" });
   for (const [index, item] of GALLERY_CASES.entries()) {
-    if (pilot && item.id !== "neon") continue;
+    if (pilot && !["neon", "gallery"].includes(item.id)) continue;
     await applyGalleryCase(page, stored, item);
     const storage = await page.evaluate(() =>
       Object.fromEntries(
@@ -297,6 +297,11 @@ test("same-source 39-template native Chromium benchmark", async ({ page, browser
       await context.close();
     }
   expect(execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim()).toBe(sourceSha);
+  const browserSession = await browser.newBrowserCDPSession();
+  const { arguments: browserCommandLine } = await browserSession.send(
+    "Browser.getBrowserCommandLine",
+  );
+  await browserSession.detach();
   await writeFile(
     join(OUTPUT!, "manifest.json"),
     JSON.stringify(
@@ -305,6 +310,7 @@ test("same-source 39-template native Chromium benchmark", async ({ page, browser
         sourceTree,
         pilot,
         browser: browser.version(),
+        browserCommandLine,
         environment: {
           node: process.version,
           platform: platform(),

@@ -8,13 +8,23 @@ import urllib.request
 from pathlib import Path
 
 
+def experiment_source(branch, sha, environment):
+    return branch == "dev-native-chromium-print" or (
+        branch == "" and environment.get("GITHUB_ACTIONS") == "true"
+        and environment.get("GITHUB_REF") == "refs/heads/dev-native-chromium-print"
+        and environment.get("GITHUB_SHA") == sha
+    )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--capture-dir", type=Path, required=True)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     os.chdir(root)
-    if subprocess.check_output(["git","branch","--show-current"],text=True).strip() != "dev-native-chromium-print":
+    branch = subprocess.check_output(["git","branch","--show-current"],text=True).strip()
+    sha = subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+    if not experiment_source(branch,sha,os.environ):
         raise RuntimeError("Run only on dev-native-chromium-print")
     if subprocess.check_output(["git","status","--porcelain","--untracked-files=no"],text=True).strip():
         raise RuntimeError("Commit tracked changes before capturing a source SHA")

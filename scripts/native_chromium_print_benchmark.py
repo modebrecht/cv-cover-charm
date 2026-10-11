@@ -10,8 +10,9 @@ from statistics import mean, median
 
 import fitz
 from PIL import Image, ImageDraw, ImageFont
+from PIL.PngImagePlugin import PngInfo
 from skimage.metrics import structural_similarity
-from dossier_visual_parity import PAGE_KINDS, analysis_arrays, normalize_image, save_normalized_rgb
+from dossier_visual_parity import PAGE_KINDS, analysis_arrays, normalize_image, save_normalized_rgb, assert_no_exact_duplicate_images
 
 
 def digest(path):
@@ -82,20 +83,22 @@ def write_csv(path, rows):
         writer = csv.DictWriter(file, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
 
 
-def contact_sheet(rows, images, target, title):
+def contact_sheet(rows, images, target, title, source_sha="pilot"):
     width, height, pad, label = 318, 450, 16, 36
-    sheet = Image.new("RGB", (3*width+4*pad, 55+len(rows)*(height+label+pad)), "#e5e7eb")
+    sheet = Image.new("RGB", (3*width+4*pad, 85+len(rows)*(height+label+pad)), "#e5e7eb")
     draw = ImageDraw.Draw(sheet)
     font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 17)
     draw.text((pad,12), title, fill="#111827", font=font)
+    draw.text((pad,40), f"Source: {source_sha}", fill="#111827", font=font)
     for index, row in enumerate(rows):
-        top = 55+index*(height+label+pad)
+        top = 85+index*(height+label+pad)
         for col,path in enumerate(["web","current","native"]):
             left = pad+col*(width+pad)
             draw.text((left,top), f"{row['template']} | {path.upper()}", fill="#111827", font=font)
             with Image.open(images[(row["template"],"cv",path)]) as im:
                 sheet.paste(im.convert("RGB").resize((width,height), Image.Resampling.LANCZOS), (left,top+label))
-    sheet.save(target, optimize=True)
+    metadata = PngInfo(); metadata.add_text("SourceSHA", source_sha)
+    sheet.save(target, optimize=True, pnginfo=metadata)
 
 
 def main():
@@ -112,7 +115,7 @@ def main():
         native = geometry_delta(case["screenGeometry"],case["printGeometry"])
         if live > .02 or native > .02:
             raise ValueError(f"Geometry exceeds existing .02mm tolerance: {case['template']}, live={live}, print={native}")
-        geometries.append({"template": case["template"], "live_to_canonical_mm": live, "canonical_to_print_mm": native,
+        geometries.append({"template": case["template"], "source_sha":sha, "live_to_canonical_mm": live, "canonical_to_print_mm": native,
                            "nodes": len(case["screenGeometry"]["nodes"]), "pages": len(case["canonical"])})
         raster = {path:raster_pages(case,path,folder,output) for path in ["current","native"]}
         for kind in PAGE_KINDS:
@@ -136,15 +139,12 @@ def main():
                 letter_text = " ".join(pdf[i].get_text() for i in letters)
                 cv_text = " ".join(pdf[i].get_text() for i in cvs)
                 compact = lambda text: re.sub(r"\s+", "", text).casefold()
-                samples = {"letter_header":("Herr Thomas Weber",letter_text), "letter_body":("Guten Tag",letter_text),
-                           "cv_name":("Lea Müller",cv_text), "cv_section":("Schulbildung",cv_text),
+                heading = next(n["text"] for n in case["screenGeometry"]["nodes"] if "data-cv-section-title" in n["tag"])
+                samples = {"letter_header":("Herr Thomas Weber",letter_text), "letter_body":("Die Informatik begeistert mich",letter_text),
+                           "cv_name":("Lea Müller",cv_text), "cv_section":(heading,cv_text),
                            "cv_entry":("Sekundarschule, Niveau A",cv_text)}
                 checks = {key:compact(needle) in compact(text) for key,(needle,text) in samples.items()}
-                if not all(checks.values()):
-                    # The authoritative DOM heading is allowed to differ by template, never fabricate missing text.
-                    heading = next((n["text"] for n in case["screenGeometry"]["nodes"] if "data-cv-section-title" in n["tag"]), "")
-                    checks["cv_section"] = bool(heading) and compact(heading) in compact(cv_text)
-                text_checks.append({"template":case["template"],"path":path, **checks,
+                text_checks.append({"template":case["template"],"path":path,"source_sha":sha, "samples":{key:needle for key,(needle,_) in samples.items()}, **checks,
                     "literal_search_hits":{key:sum(len(pdf[i].search_for(needle)) for i in (letters if key.startswith("letter") else cvs)) for key,(needle,_) in samples.items()},
                     "letter_header_before_body":compact(letter_text).find("HerrThomasWeber".casefold()) < compact(letter_text).find("GutenTag".casefold()),
                     "cv_name_before_entry":compact(cv_text).find("LeaMüller".casefold()) < compact(cv_text).find("Sekundarschule,NiveauA".casefold()),
@@ -152,13 +152,16 @@ def main():
                     "cv_title_before_entry":compact(cv_text).find("Lebenslauf".casefold()) < compact(cv_text).find("Sekundarschule,NiveauA".casefold()),
                     "text_characters":len(letter_text)+len(cv_text), "font_names": sorted({font[3] for page in pdf for font in page.get_fonts()})})
     if len(rows) != 117: raise ValueError("Incomplete comparison set")
+    duplicate_rows = [{"base":r["template"],"page":r["document"]} for r in rows]
+    for path in ["web","current","native"]:
+        assert_no_exact_duplicate_images(path,duplicate_rows,images)
     write_csv(output/"native-chromium-print-scores.csv",rows)
     write_csv(output/"native-chromium-print-geometry.csv",geometries)
     summary = {kind:{path:{metric:stats([r[f"{path}_pdf_{metric}_ssim"] for r in rows if kind=="overall" or r["document"]==kind]) for metric in ["rgb","layout"]} for path in ["current","native"]} for kind in [*PAGE_KINDS,"overall"]}
     template_rows = []
     for case in manifest["rows"]:
         group = [r for r in rows if r["template"]==case["template"]]
-        row = {"template":case["template"]}
+        row = {"template":case["template"], "source_sha":sha}
         for path in ["current","native"]:
             for metric in ["rgb","layout"]: row[f"{path}_{metric}_ssim"] = mean(r[f"{path}_pdf_{metric}_ssim"] for r in group)
         row["rgb_delta"] = row["native_rgb_ssim"]-row["current_rgb_ssim"]
@@ -167,21 +170,30 @@ def main():
     write_csv(output/"native-chromium-print-template-deltas.csv",template_rows)
     write_csv(output/"native-chromium-print-deltas-descending.csv",sorted(template_rows,key=lambda r:r["layout_delta"],reverse=True))
     cv = [r for r in rows if r["document"]=="cv"]
+    write_csv(output/"native-chromium-print-cv-deltas-descending.csv",sorted(cv,key=lambda r:r["layout_delta"],reverse=True))
     priorities = ["Neon","Edel","Citrus","Verlauf","Colorful","Human","Horizont","Seriös","Editorial","Modern"]
     selected = [next(r for r in cv if r["template"]==name) for name in priorities]
     additional = sorted(cv,key=lambda r:r["layout_delta"],reverse=True)[:3] + sorted(cv,key=lambda r:r["layout_delta"])[:3]
     for r in additional:
         if r not in selected: selected.append(r)
     for i in range(0,len(selected),3):
-        contact_sheet(selected[i:i+3],images,output/f"native-chromium-print-contact-{i//3+1}.png","WEB | CURRENT PDF | NATIVE PDF — CV, same source")
+        contact_sheet(selected[i:i+3],images,output/f"native-chromium-print-contact-{i//3+1}.png","WEB | CURRENT PDF | NATIVE PDF — CV, same source",sha)
     metadata = {"source_sha":sha,"source_tree":manifest["sourceTree"],"browser":manifest["browser"],"playwright":manifest["playwright"],"pdf_options":manifest["pdfOptions"],
         "environment":manifest["environment"],
+        "browser_command_line":manifest["browserCommandLine"],
+        "raster_environment":{"python":__import__("sys").version.split()[0],"pymupdf":fitz.VersionBind,"pillow":__import__("PIL").__version__,"numpy":__import__("numpy").__version__,"scikit_image":__import__("skimage").__version__},
         "ssim":summary,"geometry":geometries,"text_checks":text_checks,
         "file_bytes":{path:stats([r[path]["bytes"] for r in manifest["rows"]]) for path in ["current","native"]},
         "generation_ms":{path:stats([r[path]["ms"] for r in manifest["rows"]]) for path in ["current","native"]},
         "long_fixtures":[{"fixture":r["base"],"canonical_pages":[p["kind"] for p in r["canonical"]],"current_pages":len(r["current"]["pages"]),"native_pages":len(r["native"]["pages"])} for r in manifest["longs"]],
         "cv_deltas_descending":sorted(cv,key=lambda r:r["layout_delta"],reverse=True)}
     (output/"native-chromium-print-summary.json").write_text(json.dumps(metadata,indent=2)+"\n")
+    provenance = {"source_sha":sha,"source_tree":manifest["sourceTree"],"rows":[{
+        "template":r["template"],"base":r["base"],"fixture_sha256":r["fixtureHash"],"web":r["web"],
+        "current":{key:value for key,value in r["current"].items() if key != "pages"},
+        "native":{key:value for key,value in r["native"].items() if key != "pages"},
+    } for r in manifest["rows"]]}
+    (output/"native-chromium-print-provenance.json").write_text(json.dumps(provenance,indent=2)+"\n")
     print(json.dumps({"ssim":summary,"file_bytes":metadata["file_bytes"],"generation_ms":metadata["generation_ms"]},indent=2))
 
 

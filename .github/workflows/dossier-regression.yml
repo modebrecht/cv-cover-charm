@@ -276,6 +276,9 @@ jobs:
             scikit-image==0.25.2 \
             pymupdf==1.26.4
 
+      - name: Test benchmark provenance and geometry guards
+        run: .native-print-venv/bin/python -m unittest discover -s scripts -p test_native_chromium_print_benchmark.py
+
       - name: Capture same-SHA Web, current PDF and native Chromium PDF
         run: |
           python3 scripts/run_native_chromium_benchmark.py \
