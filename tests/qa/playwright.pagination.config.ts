@@ -11,6 +11,7 @@ export default defineConfig({
     reuseExistingServer: false,
   },
   testDir: ".",
+  fullyParallel: true,
   testMatch: "pagination-2page.qa.ts",
   timeout: 180_000,
   retries: 0,
