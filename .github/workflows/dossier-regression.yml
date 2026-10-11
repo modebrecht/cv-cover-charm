@@ -117,7 +117,9 @@ jobs:
               tests/e2e/cv-pdf-selection-geometry.spec.ts
               tests/e2e/cv-local-template-scope.spec.ts
               tests/e2e/cv-local-presentation.spec.ts
-              tests/e2e/cv-combined-parity.spec.ts tests/e2e/cv-gallery-dom-parity.spec.ts
+              tests/e2e/cv-combined-parity.spec.ts
+              tests/e2e/cv-gallery-dom-parity.spec.ts
+              tests/e2e/cv-pdf-paint-parity.spec.ts
           - group: cv-m9-pagination
             files: >-
               tests/e2e/cv-demo-pagination.spec.ts

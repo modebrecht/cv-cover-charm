@@ -2,6 +2,9 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import {
   cssZoomAsTransform,
+  cssOpacityFilterValue,
+  cssSharpInsetShadowGradient,
+  cssGradientAbsoluteLengths,
   scopeDossierTemplateForHtml2Canvas,
 } from "../../src/lib/html2canvas-export";
 
@@ -14,6 +17,49 @@ const cvCanvas = readFileSync("src/components/cv/CvCanvas.tsx", "utf8");
 const html2canvasExport = readFileSync("src/lib/html2canvas-export.ts", "utf8");
 
 describe("html2canvas CSS zoom normalization", () => {
+  test("gradient physical lengths become CSS pixels while percentages, colours and URLs stay intact", () => {
+    expect(
+      cssGradientAbsoluteLengths("linear-gradient(90deg, rgb(1, 2, 3) 0 9mm, white 9mm 100%)"),
+    ).toBe("linear-gradient(90deg, rgb(1, 2, 3) 0 34.015748px, white 34.015748px 100%)");
+    expect(
+      cssGradientAbsoluteLengths(
+        'url("https://example.com/9mm-linear-gradient(2cm).png"), radial-gradient(circle 1in, black 12pt, white 100%)',
+      ),
+    ).toBe(
+      'url("https://example.com/9mm-linear-gradient(2cm).png"), radial-gradient(circle 96px, black 16px, white 100%)',
+    );
+    expect(cssGradientAbsoluteLengths("none")).toBe("none");
+  });
+  test("sharp inset compatibility preserves the edge and leaves blurred/multiple shadows intact", () => {
+    expect(cssSharpInsetShadowGradient("rgb(31, 41, 51) 0px -1.3px 0px 0px inset")).toBe(
+      "linear-gradient(to top, rgb(31, 41, 51) 0px, rgb(31, 41, 51) 1.3px, transparent 1.3px, transparent 100%)",
+    );
+    expect(cssSharpInsetShadowGradient("rgba(0, 0, 0, 0.5) 0px 2px 0px 0px inset")).toContain(
+      "to bottom",
+    );
+    for (const shadow of [
+      "none",
+      "rgb(0, 0, 0) 0px -1px 2px 0px inset",
+      "rgb(0, 0, 0) 2px -1px 0px 0px inset",
+      "rgb(0, 0, 0) 0px -1px 0px 0px",
+      "rgb(0, 0, 0) 0px -1px 0px 0px inset, rgb(0, 0, 0) 0px 1px 0px 0px inset",
+    ])
+      expect(cssSharpInsetShadowGradient(shadow)).toBeNull();
+  });
+  test("opacity compatibility accepts CSS numbers and percentages without dropping other filters", () => {
+    expect(cssOpacityFilterValue("opacity(0.9)")).toBe(0.9);
+    expect(cssOpacityFilterValue("opacity(25%)")).toBe(0.25);
+    expect(cssOpacityFilterValue("opacity(0)")).toBe(0);
+    expect(cssOpacityFilterValue("opacity(120%)")).toBe(1);
+    for (const filter of [
+      "none",
+      "blur(2px)",
+      "opacity(0.5) blur(2px)",
+      "opacity(-1)",
+      "opacity(NaN)",
+    ])
+      expect(cssOpacityFilterValue(filter)).toBeNull();
+  });
   test("CV capture keeps deliberately wrong clone html identity untouched", () => {
     const dataset = { dossierTemplate: "brief" };
     const root = {

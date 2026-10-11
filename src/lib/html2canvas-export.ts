@@ -158,12 +158,129 @@ export function cssZoomAsTransform(zoom: number, transform: string) {
   return `scale(${zoom})${transform === "none" ? "" : ` ${transform}`}`;
 }
 
+/** Only an opacity filter has the same group-compositing semantics as opacity. */
+export function cssOpacityFilterValue(filter: string): number | null {
+  const match = /^opacity\(\s*(\d*\.?\d+)(%)?\s*\)$/.exec(filter);
+  if (!match) return null;
+  const value = Number(match[1]) / (match[2] ? 100 : 1);
+  return Math.min(1, value);
+}
+
+/**
+ * html2canvas does not implement CSS filters, including their stacking context.
+ * Translate a lone opacity filter into equivalent group opacity in the clone.
+ * This preserves both motif intensity and its position below later paper planes.
+ * Mixed blur/contrast/saturation filters are not equivalent and remain untouched.
+ */
+export function normalizeOpacityFiltersForHtml2Canvas(root: HTMLElement) {
+  const view = root.ownerDocument.defaultView;
+  if (!view) return;
+  for (const element of [root, ...root.querySelectorAll<HTMLElement>("*")]) {
+    const style = view.getComputedStyle(element);
+    const filterOpacity = cssOpacityFilterValue(style.filter);
+    if (filterOpacity === null) continue;
+    const opacity = Number(style.opacity) * filterOpacity;
+    element.style.setProperty("opacity", String(opacity), "important");
+    element.style.setProperty("filter", "none", "important");
+    // Even opacity(1) establishes a stacking context in the browser. A neutral
+    // transform makes that boundary explicit to html2canvas without moving it.
+    if (opacity === 1 && style.transform === "none")
+      element.style.setProperty("transform", "matrix(1, 0, 0, 1, 0, 0)", "important");
+  }
+}
+
+/** A sharp horizontal inset shadow is exactly a stripe above the background. */
+export function cssSharpInsetShadowGradient(shadow: string): string | null {
+  const match = /^([a-z-]+\([^()]*\)) 0px (-?\d+(?:\.\d+)?)px 0px 0px inset$/i.exec(shadow);
+  if (!match || Number(match[2]) === 0) return null;
+  const offset = Number(match[2]);
+  const direction = offset < 0 ? "top" : "bottom";
+  const width = Math.abs(offset);
+  return `linear-gradient(to ${direction}, ${match[1]} 0px, ${match[1]} ${width}px, transparent ${width}px, transparent 100%)`;
+}
+
+/** html2canvas interprets gradient dimensions as pixels, ignoring physical units. */
+export function cssGradientAbsoluteLengths(image: string): string {
+  const units: Record<string, number> = {
+    mm: 96 / 25.4,
+    cm: 96 / 2.54,
+    in: 96,
+    pt: 96 / 72,
+    pc: 16,
+    q: 96 / 101.6,
+  };
+  let result = "",
+    depth = 0,
+    quote = "";
+  for (let i = 0; i < image.length; ) {
+    const character = image[i];
+    if (!quote && depth === 0) {
+      const match = /^(?:repeating-)?(?:linear|radial|conic)-gradient\(/i.exec(image.slice(i));
+      if (match) {
+        let end = i + match[0].length,
+          nesting = 1;
+        while (end < image.length && nesting) {
+          if (image[end] === "(") nesting++;
+          if (image[end] === ")") nesting--;
+          end++;
+        }
+        result += image
+          .slice(i, end)
+          .replace(
+            /(^|[\s,(])(-?\d*\.?\d+)(mm|cm|in|pt|pc|q)\b/gi,
+            (_match, prefix: string, value: string, unit: string) =>
+              `${prefix}${Number((Number(value) * units[unit.toLowerCase()]).toFixed(6))}px`,
+          );
+        i = end;
+        continue;
+      }
+    }
+    result += character;
+    if (quote) {
+      if (character === "\\" && i + 1 < image.length) result += image[++i];
+      else if (character === quote) quote = "";
+    } else if (character === '"' || character === "'") quote = character;
+    else if (character === "(") depth++;
+    else if (character === ")") depth--;
+    i++;
+  }
+  return result;
+}
+
+/** Preserve physical gradient stops and sharp inset stripes without layout changes. */
+export function normalizeCssBackgroundsForHtml2Canvas(root: HTMLElement) {
+  const view = root.ownerDocument.defaultView;
+  if (!view) return;
+  for (const element of [root, ...root.querySelectorAll<HTMLElement>("*")]) {
+    const style = view.getComputedStyle(element);
+    const backgroundImage = cssGradientAbsoluteLengths(style.backgroundImage);
+    if (backgroundImage !== style.backgroundImage)
+      element.style.setProperty("background-image", backgroundImage, "important");
+    const gradient = cssSharpInsetShadowGradient(style.boxShadow);
+    if (!gradient) continue;
+    const layers = backgroundImage === "none" ? "" : `, ${backgroundImage}`;
+    const properties = {
+      "background-image": `${gradient}${layers}`,
+      "background-size": `auto, ${style.backgroundSize}`,
+      "background-position": `0% 0%, ${style.backgroundPosition}`,
+      "background-repeat": `no-repeat, ${style.backgroundRepeat}`,
+      "background-origin": `padding-box, ${style.backgroundOrigin}`,
+      "background-clip": `padding-box, ${style.backgroundClip}`,
+      "box-shadow": "none",
+    };
+    for (const [property, value] of Object.entries(properties))
+      element.style.setProperty(property, value, "important");
+  }
+}
+
 export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
   // Every PDF path already runs this hook on html2canvas' cloned document.
   // Resolve the document-local template there before any computed-style reads,
   // then apply the existing image and CSS zoom compatibility normalization.
   scopeDossierTemplateForHtml2Canvas(root);
   normalizeDataUrlJpegsForHtml2Canvas(root);
+  normalizeOpacityFiltersForHtml2Canvas(root);
+  normalizeCssBackgroundsForHtml2Canvas(root);
 
   const view = root.ownerDocument.defaultView;
   if (!view) return;
