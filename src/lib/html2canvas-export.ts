@@ -168,14 +168,58 @@ export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
   const view = root.ownerDocument.defaultView;
   if (!view) return;
 
-  const elements = [root, ...root.querySelectorAll<HTMLElement>("*")];
-  for (const element of elements) {
+  // Snapshot every zoomed box before changing an ancestor. CSS zoom contributes
+  // to used width and normal-flow height; transforms only affect painting.
+  const boxes = [root, ...root.querySelectorAll<HTMLElement>("*")].flatMap((element) => {
     const style = view.getComputedStyle(element);
     const zoom = Number.parseFloat(style.zoom);
-    if (!Number.isFinite(zoom) || zoom <= 0 || Math.abs(zoom - 1) < 0.0001) continue;
-
+    if (!Number.isFinite(zoom) || zoom <= 0 || Math.abs(zoom - 1) < 0.0001) return [];
+    const px = (value: string) => Number.parseFloat(value) || 0;
+    const width = px(style.width);
+    const height = px(style.height);
+    const borderWidth =
+      width +
+      (style.boxSizing === "border-box"
+        ? 0
+        : px(style.paddingLeft) +
+          px(style.paddingRight) +
+          px(style.borderLeftWidth) +
+          px(style.borderRightWidth));
+    const borderHeight =
+      height +
+      (style.boxSizing === "border-box"
+        ? 0
+        : px(style.paddingTop) +
+          px(style.paddingBottom) +
+          px(style.borderTopWidth) +
+          px(style.borderBottomWidth));
+    return [
+      {
+        element,
+        zoom,
+        transform: style.transform,
+        width: style.width,
+        height: style.height,
+        marginTop: px(style.marginTop) * zoom,
+        marginLeft: px(style.marginLeft) * zoom,
+        marginRight: px(style.marginRight) * zoom + borderWidth * (zoom - 1),
+        marginBottom: px(style.marginBottom) * zoom + borderHeight * (zoom - 1),
+      },
+    ];
+  });
+  for (const box of boxes) {
+    const { element, zoom, transform } = box;
+    element.style.setProperty("width", box.width, "important");
+    element.style.setProperty("height", box.height, "important");
+    for (const key of ["marginTop", "marginRight", "marginBottom", "marginLeft"] as const) {
+      element.style.setProperty(
+        key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`),
+        `${box[key]}px`,
+        "important",
+      );
+    }
     element.style.setProperty("zoom", "1", "important");
     element.style.setProperty("transform-origin", "0 0", "important");
-    element.style.setProperty("transform", cssZoomAsTransform(zoom, style.transform), "important");
+    element.style.setProperty("transform", cssZoomAsTransform(zoom, transform), "important");
   }
 }

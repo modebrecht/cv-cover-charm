@@ -133,7 +133,16 @@ async function textPages(path: string) {
   }
 }
 
-for (const template of ["studio3", "studio2", "ledger", "ribbon", "gallery", "prism"]) {
+for (const template of [
+  "studio3",
+  "studio2",
+  "ledger",
+  "ribbon",
+  "gallery",
+  "prism",
+  "neon",
+  "citrus",
+]) {
   test(`cold combined dossier matches visible and standalone CV; PDF selection follows raster: ${template}`, async ({
     page,
     browser,
