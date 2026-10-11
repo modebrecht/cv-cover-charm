@@ -1,0 +1,58 @@
+name: Pagination 2-page QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [qa/pagination-2page-11okt]
+    paths:
+      - "tests/qa/**"
+      - "tests/unit/pagination-qa-assertions.test.ts"
+      - "tests/e2e/support/cv-parity-fixture.ts"
+      - "scripts/pagination_qa_summary.mjs"
+      - ".github/workflows/pagination-2page-qa.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  pagination:
+    if: github.ref == 'refs/heads/qa/pagination-2page-11okt'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install locked dependencies and pinned browser runner
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+      - name: Typecheck, unit regressions, formatting and production build
+        run: |
+          bun run typecheck
+          npx tsc --noEmit -p tests/qa/tsconfig.json
+          bun test tests/unit
+          npx prettier --check tests/qa/*.ts tests/qa/tsconfig.json tests/unit/pagination-qa-assertions.test.ts tests/e2e/support/cv-parity-fixture.ts scripts/pagination_qa_summary.mjs .github/workflows/pagination-2page-qa.yml
+          bun run build
+      - name: Install Chromium
+        run: bash scripts/qa-browser-setup.sh
+      - name: Existing affected product regressions
+        run: npx playwright test --config tests/qa/playwright.product.config.ts
+      - name: Independent matrix and boundary audit (strict; existing defects fail)
+        if: success() || failure()
+        run: npx playwright test --config tests/qa/playwright.pagination.config.ts
+      - name: Summarize executed evidence
+        if: always()
+        run: node scripts/pagination_qa_summary.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pagination-2page-${{ github.sha }}
+          path: |
+            artifacts/pagination-2page
+            test-results/pagination-2page
+            test-results/pagination-product
+          retention-days: 14
