@@ -162,9 +162,8 @@ format check; changed-file format check. The required CI matrix comprises 143
 browser tests across cv-pdf, cv-m9-pagination, templates-layout,
 fresh-dossier-templates and dossier-flow; the standard workflow also runs the
 remaining browser groups and ten Web gallery batches. All predecessor checks
-on the resumed b2477e7a checkpoint were green. Final remote CI remains pending
-until the completion commits are pushed to dev; the checks will then attach to
-that commit. See the report linked below.
+on the resumed b2477e7a checkpoint were green. The completion commits are now
+published on dev; final remote CI is running. See the report linked below.
 The full format check was also run: 156 untouched files retain pre-existing
 formatting differences (160 before this package). Its scope/configuration was
 not weakened. That repository formatting cleanup remains separate from the
@@ -242,7 +241,22 @@ it does not change the renderer. This migration was resumed from remote
 | Package 4: canonical print proof                | `3fa085c6c66008e9da25fbb09a7410f2bc630106` |
 | Gallery source-directory correction             | `0d0b816cc6c1f9b24036c966f62533d3c25c58b6` |
 | Flow-preserving zoom compatibility proof        | `b2477e7aea4f3def155dd9d93330cffc445b0341` |
-| Filter, gradient and inset-stripe compatibility | `d043698c4f5b83db097d3b502a2c40cefc3e0a9d` |
+| Filter, gradient and inset-stripe compatibility | `1ecb36fae415025cb737e981bede0b2523e6cd59` |
+
+The three unpublished completion commits were transferred through the connected
+GitHub API because the local Git transport had no write credentials. Only
+commit metadata changed: each published tree was checked against the original
+local tree. Published history was extended normally, with an expected-head
+check and no force update. The same-SHA gallery source above remains the actual
+local source used to generate both galleries; its published code equivalent is
+`1ecb36fae415025cb737e981bede0b2523e6cd59`, with identical tree
+`faf23800d9128776157582c87ec4a9a2b997c106`.
+
+| Original local commit                      | Published equivalent                       |
+| ------------------------------------------ | ------------------------------------------ |
+| `d043698c4f5b83db097d3b502a2c40cefc3e0a9d` | `1ecb36fae415025cb737e981bede0b2523e6cd59` |
+| `8af64da7926f0c614e5cd7a6236c85fb5db15e1e` | `d9597c43fb3452b2bc24856e84de21f6f6c9ae84` |
+| `7f1daaa47426b863c100290af09fc7a7de6f565b` | `5520bab1a98884e0a2a1b181e4f661c907dba1a5` |
 
 The CV theme, identity, presentation and measured geometry are locally owned.
 The visible route still applies the legacy dossier theme/template for editor
