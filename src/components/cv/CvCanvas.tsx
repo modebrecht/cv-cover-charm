@@ -183,7 +183,12 @@ export function pinCvSidebarMainGeometry(
       customRightMm,
     );
 
-    const page = main.parentElement;
+    const measurePage = main.parentElement;
+    // Measurement has no painted sidebar. Resolve its rail from the instance's
+    // first visible/export page so both boxes receive the same actual geometry.
+    const page = measurePage?.hasAttribute("data-cv-measure-page")
+      ? (cvRoot?.querySelector<HTMLElement>('[data-cv-page="0"]') ?? measurePage)
+      : measurePage;
     const sidebar = page
       ? (Array.from(page.children).find(
           (child) => child instanceof HTMLElement && child.hasAttribute("data-cv-sidebar"),

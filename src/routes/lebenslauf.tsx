@@ -17,7 +17,10 @@ import { DossierChromeDocumentContentControls } from "@/components/dossier/Dossi
 import { DossierHyphenationControl } from "@/components/dossier/DossierHyphenationControl";
 import { Section } from "@/components/cover/Section";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
-import { normalizeActiveTemplateId } from "@/components/cover/fresh-templates";
+import {
+  migrateCvDesign,
+  CV_DEFAULT_BG_OPACITY as DEFAULT_BG_OPACITY,
+} from "@/components/cv/design";
 import { useTemplateQaTemplateSwitch } from "@/lib/template-qa-switch";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
@@ -167,7 +170,6 @@ export const Route = createFileRoute("/lebenslauf")({
 
 const STORAGE_KEY = CV_STORAGE_KEY;
 const SAVE_VERSION = 6;
-const DESIGN_MIGRATION_VERSION = 5;
 
 /**
  * Vorgabe: 75 % Transparenz.
@@ -177,8 +179,6 @@ const DESIGN_MIGRATION_VERSION = 5;
  * sichtbar sein. Der frühere Wert von 6 % stammt aus der Zeit, als der
  * Hintergrund die Vorlage allein tragen musste und dabei unsichtbar wurde.
  */
-const DEFAULT_BG_OPACITY = 0.25;
-const LEGACY_DEFAULT_BG_OPACITIES = [0.06, 0.12];
 
 function defaultColors(template: TemplateId): Record<string, string> {
   const t =
@@ -202,26 +202,6 @@ type Saved = {
   /** Titelblatt-Stand der letzten bewussten Übernahme. */
   coverFingerprint?: string | null;
 };
-
-/**
- * Alte Entwürfe trugen noch den deutlich kräftigeren damaligen Standardwert.
- * Nur diese bekannten Defaults werden migriert; bewusst gewählte Werte bleiben erhalten.
- */
-function migratedDesign(current: CvDesign, incoming: CvDesign, version?: number): CvDesign {
-  const merged = {
-    ...current,
-    ...incoming,
-    template: normalizeActiveTemplateId(incoming.template),
-  };
-  merged.paperColor = normalizeCvPaperColor(incoming.paperColor);
-  if (!merged.font || !(merged.font in FONT_LABELS)) delete merged.font;
-  const isOldSave = (version ?? 1) < DESIGN_MIGRATION_VERSION;
-  const usedOldDefault = LEGACY_DEFAULT_BG_OPACITIES.some(
-    (value) => Math.abs(merged.bgOpacity - value) < 0.001,
-  );
-  if (isOldSave && usedOldDefault) merged.bgOpacity = DEFAULT_BG_OPACITY;
-  return merged;
-}
 
 /** Trägt der Lebenslauf überhaupt Inhalt? Leere Stände sind nichts wert. */
 function cvHasContent(d: CvData): boolean {
@@ -363,7 +343,7 @@ function Lebenslauf() {
           person: { ...emptyCv.person, ...p.data.person },
         }),
       );
-    if (p.design) setDesign((d) => migratedDesign(d, p.design!, p.version));
+    if (p.design) setDesign((d) => migrateCvDesign(d, p.design!, p.version));
     if (Array.isArray(p.elements)) setElements(p.elements);
     if (p.elementStyles) setElementStyles(p.elementStyles);
     setLastCoverFingerprint(

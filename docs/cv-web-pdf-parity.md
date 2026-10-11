@@ -112,3 +112,61 @@ Next: Package 4 will verify the canonical combined print DOM from a cold home
 route, combined-PDF selection boxes and marker/page distribution, and produce
 a same-SHA Web/PDF report. CV styling is locally owned; clone-time html template
 scoping still exists for legacy Cover/Letter and will explicitly bypass CV.
+
+## Package 4 — canonical print and PDF proof
+
+Started from freshly fetched clean `fd9780ca38f9a5e1c7dd375809ff44b7fff71899`.
+Package 3 CI completed successfully. The cold combined-dossier test seeds
+synthetic saved documents before the first home-page navigation, with no CV
+editor initialization. It removes or deliberately mismatches html template,
+variant, mirror, photo and typography state before opening the normal export
+dialog and mounting `DossierPdfCanvas`.
+
+Studio 3, Studio 2, Ledger, Ribbon, Gallery and Prism compare page count,
+per-page content/section distribution, main/header/sidebar/photo boxes and
+font metrics against independent visible and standalone hidden CV instances.
+The measurement content box must equal the actual first-page box. Real
+combined PDF selection boxes for three text targets use the same 1.5 mm
+position / 2 mm size tolerances as the existing standalone test.
+
+Long classic and sidebar-right CVs compare the complete marker-to-page map
+between visible preview, standalone hidden DOM, canonical combined print DOM,
+standalone PDF and combined PDF. All 18 experience entries, education and
+references must occur once; the CV page counts must agree.
+
+The proof exposed two genuine shared-boundary bugs. Saved CVs with no font
+field inherited Cabin in the editor but the family font in the combined path.
+Both paths now use `migrateCvDesign()`, preserving explicit font choices,
+invalid/null template-font choices and legacy background-density migrations.
+The second bug was a measurement rail derived only from theoretical geometry:
+custom sidebar percentages in a card layout could measure a different width
+from the painted rail. Measurement now uses the same instance's actual first
+page rail. This is generic geometry ownership, with no template branch or CSS
+patch.
+
+CV capture explicitly bypasses `scopeDossierTemplateForHtml2Canvas()`. The
+helper remains for legacy Cover/Letter clone scoping. CSS zoom and ICC JPEG
+normalization remain export compatibility operations, not theme/layout
+suppliers. Unit coverage proves CV capture leaves wrong clone html identity
+untouched and that Cover/Letter retain their compatibility scope.
+
+No extra production QA route was added. The normal home export dialog already
+mounts the canonical print DOM for DevTools inspection, and the browser tests
+inspect that exact DOM. The test-only instance fixture also renders production
+components without duplicating renderer logic.
+
+Release validation: 1,096 unit tests; all 139 browser tests in cv-pdf,
+cv-m9-pagination, templates-layout, fresh-dossier-templates and dossier-flow;
+18 focused combined-parity, sidebar and instance-isolation checks; typecheck; lint (0 errors, 21 existing
+warnings); production build; release format check; changed-file format check.
+The full format check was also run: 156 untouched files retain pre-existing
+formatting differences (160 before this package). Its scope/configuration was
+not weakened. That repository formatting cleanup remains separate from the
+renderer migration.
+
+`recordGallerySource()` records the checked-out SHA in both Web/PDF galleries.
+`scripts/cv_web_pdf_parity.py` rejects different revisions and reuses the
+existing A4 normalization, RGB SSIM and grayscale/layout SSIM pipeline. The
+same-SHA gallery results are recorded below after generation. The `render`
+branch visual promotion workflow remains the later promotion gate; it was not
+triggered by changing or promoting `render`.

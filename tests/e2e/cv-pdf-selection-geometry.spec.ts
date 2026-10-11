@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { readFile } from "node:fs/promises";
+import { pdfSelectionBoxes } from "./support/pdf-selection-boxes";
 
 const BASE_URL = "http://127.0.0.1:4173";
 const TARGETS = [
@@ -97,86 +97,6 @@ async function downloadStandaloneCv(page: import("@playwright/test").Page) {
   return downloadPromise;
 }
 
-async function pdfSelectionBoxes(path: string): Promise<Partial<Record<Target, PdfBox>>> {
-  const { getDocument, Util } = await import("pdfjs-dist/legacy/build/pdf.mjs");
-  const data = new Uint8Array(await readFile(path));
-  const document = await getDocument({ data, disableFontFace: true }).promise;
-  const pdfPage = await document.getPage(1);
-  const viewport = pdfPage.getViewport({ scale: 1 });
-  const content = await pdfPage.getTextContent();
-
-  const items = content.items.flatMap((item) => {
-    if (!("str" in item)) return [];
-    const text = item.str.trim().replace(/\s+/gu, " ");
-    if (!text) return [];
-
-    const transform = Util.transform(viewport.transform, item.transform);
-    const fontHeight = Math.hypot(transform[2], transform[3]);
-    const style = content.styles[item.fontName] as
-      | { ascent?: number; descent?: number }
-      | undefined;
-    const ascent =
-      typeof style?.ascent === "number"
-        ? style.ascent
-        : typeof style?.descent === "number"
-          ? 1 + style.descent
-          : 0.8;
-
-    return [
-      {
-        text,
-        box: {
-          left: transform[4],
-          top: transform[5] - fontHeight * ascent,
-          width: item.width * viewport.scale,
-          height: fontHeight,
-          pageWidth: viewport.width,
-          pageHeight: viewport.height,
-        } satisfies PdfBox,
-      },
-    ];
-  });
-
-  const boxes: Partial<Record<Target, PdfBox>> = {};
-  for (const target of TARGETS) {
-    for (let start = 0; start < items.length; start += 1) {
-      const fragments: typeof items = [];
-      let combined = "";
-
-      for (let index = start; index < items.length; index += 1) {
-        fragments.push(items[index]);
-        combined = fragments.map((fragment) => fragment.text).join(" ").replace(/\s+/gu, " ");
-
-        if (combined === target) {
-          const left = Math.min(...fragments.map((fragment) => fragment.box.left));
-          const top = Math.min(...fragments.map((fragment) => fragment.box.top));
-          const right = Math.max(
-            ...fragments.map((fragment) => fragment.box.left + fragment.box.width),
-          );
-          const bottom = Math.max(
-            ...fragments.map((fragment) => fragment.box.top + fragment.box.height),
-          );
-          boxes[target] = {
-            left,
-            top,
-            width: right - left,
-            height: bottom - top,
-            pageWidth: viewport.width,
-            pageHeight: viewport.height,
-          };
-          break;
-        }
-
-        if (!target.startsWith(`${combined} `)) break;
-      }
-
-      if (boxes[target]) break;
-    }
-  }
-
-  return boxes;
-}
-
 test.describe("CV PDF selection geometry", () => {
   test.setTimeout(120_000);
 
@@ -231,7 +151,7 @@ test.describe("CV PDF selection geometry", () => {
     const path = await download.path();
     expect(path).not.toBeNull();
 
-    const pdfBoxes = await pdfSelectionBoxes(path ?? "");
+    const pdfBoxes = await pdfSelectionBoxes(path ?? "", 1, TARGETS);
 
     const horizontalPositionTolerance = 1.5 / 210;
     const verticalPositionTolerance = 1.5 / 297;

@@ -1,3 +1,4 @@
+import { recordGallerySource } from "./support/gallery-source";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -83,13 +84,10 @@ test("all 39 live dossier templates produce visible Web preview screenshots", as
       'main [data-dossier-document="cover"]',
       coverName,
     );
-    await captureVisiblePreview(
-      page,
-      "/anschreiben",
-      "main [data-letter-page]",
-      letterName,
-      { name: "data-letter-template", value: item.letterTemplate as string },
-    );
+    await captureVisiblePreview(page, "/anschreiben", "main [data-letter-page]", letterName, {
+      name: "data-letter-template",
+      value: item.letterTemplate as string,
+    });
     await captureVisiblePreview(
       page,
       "/lebenslauf",
@@ -111,4 +109,5 @@ test("all 39 live dossier templates produce visible Web preview screenshots", as
     `${manifestEntries.join("\n")}\n`,
     "utf8",
   );
+  await recordGallerySource(WEB_GALLERY_DIR);
 });

@@ -60,7 +60,8 @@ function loadedLiveImageForClone(image: HTMLImageElement, src: string) {
   for (const candidate of liveDocument.querySelectorAll<HTMLImageElement>("img")) {
     const candidateSrc = candidate.getAttribute("src") ?? candidate.src;
     if (candidateSrc !== src) continue;
-    if (!candidate.complete || candidate.naturalWidth <= 0 || candidate.naturalHeight <= 0) continue;
+    if (!candidate.complete || candidate.naturalWidth <= 0 || candidate.naturalHeight <= 0)
+      continue;
     return candidate;
   }
   return null;
@@ -129,12 +130,14 @@ export function normalizeDataUrlJpegsForHtml2Canvas(root: HTMLElement) {
 
 /**
  * Combined dossier exports can contain different templates at the same time.
- * Legacy template CSS still reads html[data-dossier-template], so scope that
+ * Cover/Letter legacy CSS still reads html[data-dossier-template], so scope that
  * global selector only inside html2canvas' throw-away clone. The live document
  * keeps the editor route's own template and can no longer be hijacked by a
- * hidden cover/CV renderer immediately before capture.
+ * hidden renderer immediately before capture. CV identity and layout already
+ * exist locally before pagination; its capture must not supply missing identity.
  */
 export function scopeDossierTemplateForHtml2Canvas(root: HTMLElement) {
+  if (root.closest('[data-dossier-document="cv"]')) return;
   const scope = root.closest<HTMLElement>("[data-dossier-template]");
   const template = scope?.dataset.dossierTemplate?.trim();
   if (!template) return;

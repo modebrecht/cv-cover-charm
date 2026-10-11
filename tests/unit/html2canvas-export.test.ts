@@ -1,6 +1,9 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
-import { cssZoomAsTransform } from "../../src/lib/html2canvas-export";
+import {
+  cssZoomAsTransform,
+  scopeDossierTemplateForHtml2Canvas,
+} from "../../src/lib/html2canvas-export";
 
 const dossierPdf = readFileSync("src/lib/dossier-pdf.ts", "utf8");
 const cvRoute = readFileSync("src/routes/lebenslauf.tsx", "utf8");
@@ -11,6 +14,31 @@ const cvCanvas = readFileSync("src/components/cv/CvCanvas.tsx", "utf8");
 const html2canvasExport = readFileSync("src/lib/html2canvas-export.ts", "utf8");
 
 describe("html2canvas CSS zoom normalization", () => {
+  test("CV capture keeps deliberately wrong clone html identity untouched", () => {
+    const dataset = { dossierTemplate: "brief" };
+    const root = {
+      closest: (selector: string) =>
+        selector === '[data-dossier-document="cv"]'
+          ? {}
+          : { dataset: { dossierTemplate: "studio3" } },
+      ownerDocument: { documentElement: { dataset } },
+    } as unknown as HTMLElement;
+    scopeDossierTemplateForHtml2Canvas(root);
+    expect(dataset.dossierTemplate).toBe("brief");
+  });
+
+  test("Cover/Letter keep their legacy clone-only template scope", () => {
+    const dataset = { dossierTemplate: "brief" };
+    const root = {
+      closest: (selector: string) =>
+        selector === '[data-dossier-document="cv"]'
+          ? null
+          : { dataset: { dossierTemplate: "ledger" } },
+      ownerDocument: { documentElement: { dataset } },
+    } as unknown as HTMLElement;
+    scopeDossierTemplateForHtml2Canvas(root);
+    expect(dataset.dossierTemplate).toBe("ledger");
+  });
   test("preserves compact CV zoom as an equivalent transform", () => {
     expect(cssZoomAsTransform(0.895, "none")).toBe("scale(0.895)");
     expect(cssZoomAsTransform(0.9, "matrix(1, 0, 0, 1, 4, 2)")).toBe(
@@ -31,9 +59,7 @@ describe("html2canvas CSS zoom normalization", () => {
     expect(coverCanvas).toContain("data-dossier-template={template}");
     expect(cvCanvas).toContain("data-dossier-template={design.template}");
     expect(dossierCanvas).toContain("data-dossier-template={storedLetter.design.template}");
-    expect(html2canvasExport).toContain(
-      'root.closest<HTMLElement>("[data-dossier-template]")',
-    );
+    expect(html2canvasExport).toContain('root.closest<HTMLElement>("[data-dossier-template]")');
     expect(html2canvasExport).toContain(
       "root.ownerDocument.documentElement.dataset.dossierTemplate = template",
     );

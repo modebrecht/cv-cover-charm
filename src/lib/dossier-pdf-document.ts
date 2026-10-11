@@ -1,3 +1,4 @@
+import { migrateCvDesign } from "@/components/cv/design";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import {
   EMPTY_META,
@@ -294,9 +295,22 @@ export function cvPdfDocumentFromSaved(raw: unknown): CvPdfDocument | null {
       incomingDesign.chromeContent,
     );
 
+  // Missing font fields inherit the editor's historic Cabin default. Explicit
+  // invalid/null values still request the template font, just as in the editor.
+  const migrated = migrateCvDesign(
+    { ...design, font: "freundlich" },
+    {
+      ...design,
+      ...(Object.prototype.hasOwnProperty.call(incomingDesign, "font")
+        ? { font: incomingDesign.font }
+        : {}),
+    },
+    typeof raw.version === "number" ? raw.version : undefined,
+  );
+
   return {
     data,
-    design,
+    design: migrated,
     elements: Array.isArray(raw.elements) ? (raw.elements as CustomField[]) : [],
     elementStyles: isRecord(raw.elementStyles) ? (raw.elementStyles as StyleOverrides) : {},
     coverFingerprint: typeof raw.coverFingerprint === "string" ? raw.coverFingerprint : null,
