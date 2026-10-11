@@ -44,7 +44,7 @@ The generated score CSV contains all 117 pairs. The contact sheet below shows We
 
 ## Release checks
 
-The required browser matrix contains 143 tests across `cv-pdf`, `cv-m9-pagination`, `templates-layout`, `fresh-dossier-templates` and `dossier-flow`. The standard regression workflow uses one worker per group and publishes the `M6 Release Candidate` status. The final dev commit also runs the additional browser groups and all ten Web gallery batches; their current results are attached to that commit in [GitHub Actions](https://github.com/modebrecht/cv-cover-charm/actions?query=branch%3Adev).
+The required browser matrix contains 143 tests across `cv-pdf`, `cv-m9-pagination`, `templates-layout`, `fresh-dossier-templates` and `dossier-flow`. The standard regression workflow uses one worker per group and publishes the `M6 Release Candidate` status. Once the completion commits are pushed to dev, the workflow will also run the additional browser groups and all ten Web gallery batches. Final remote CI is pending; results will attach to that commit in [GitHub Actions](https://github.com/modebrecht/cv-cover-charm/actions?query=branch%3Adev).
 
 On the resumed `b2477e7a` checkpoint, all 25 check runs and M6 were successful. An earlier local three-worker run reported 139 passes and three timeouts; its affected 12-test set passed when rerun with one worker. Final local capture checks used one worker and passed unchanged geometry/selection tolerances.
 

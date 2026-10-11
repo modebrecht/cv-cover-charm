@@ -162,8 +162,9 @@ format check; changed-file format check. The required CI matrix comprises 143
 browser tests across cv-pdf, cv-m9-pagination, templates-layout,
 fresh-dossier-templates and dossier-flow; the standard workflow also runs the
 remaining browser groups and ten Web gallery batches. All predecessor checks
-on the resumed b2477e7a checkpoint were green; final results are attached to the
-dev commit containing this evidence. See the report linked below.
+on the resumed b2477e7a checkpoint were green. Final remote CI remains pending
+until the completion commits are pushed to dev; the checks will then attach to
+that commit. See the report linked below.
 The full format check was also run: 156 untouched files retain pre-existing
 formatting differences (160 before this package). Its scope/configuration was
 not weakened. That repository formatting cleanup remains separate from the
