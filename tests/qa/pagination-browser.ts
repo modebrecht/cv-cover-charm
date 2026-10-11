@@ -79,6 +79,7 @@ export async function collectDocument(page: Page, selector: string, kind: Docume
           +(r.height * sy).toFixed(3),
         ];
         const issues: string[] = [];
+        const metricsContext = document.createElement("canvas").getContext("2d")!;
         const visibleText: string[] = [];
         const walker = document.createTreeWalker(sheet, NodeFilter.SHOW_TEXT);
         let node: Node | null;
@@ -99,13 +100,27 @@ export async function collectDocument(page: Page, selector: string, kind: Docume
           visibleText.push(node.textContent ?? "");
           const range = document.createRange();
           range.selectNodeContents(node);
+          const font = getComputedStyle(node.parentElement!);
+          metricsContext.font =
+            font.font || `${font.fontStyle} ${font.fontWeight} ${font.fontSize} ${font.fontFamily}`;
+          const metrics = metricsContext.measureText(node.textContent ?? "");
           for (const rect of Array.from(range.getClientRects())) {
             if (rect.width <= 0 || rect.height <= 0) continue;
+            // Range rectangles include unused font ascent/descent. Compare
+            // painted glyph bounds vertically, preserving the 0.3 mm limit.
+            const fontHeight = metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+            const fontScale = fontHeight > 0 ? rect.height / fontHeight : 0;
+            const inkTop =
+              rect.top +
+              (metrics.fontBoundingBoxAscent - metrics.actualBoundingBoxAscent) * fontScale;
+            const inkBottom =
+              rect.bottom -
+              (metrics.fontBoundingBoxDescent - metrics.actualBoundingBoxDescent) * fontScale;
             if (
               (p.left - rect.left) * sx > 0.3 ||
               (rect.right - p.right) * sx > 0.3 ||
-              (p.top - rect.top) * sy > 0.3 ||
-              (rect.bottom - p.bottom) * sy > 0.3
+              (p.top - inkTop) * sy > 0.3 ||
+              (inkBottom - p.bottom) * sy > 0.3
             )
               issues.push(`outside A4: ${node.textContent!.slice(0, 65)}`);
             ancestor = node.parentElement;
@@ -114,7 +129,7 @@ export async function collectDocument(page: Page, selector: string, kind: Docume
                 clip = ancestor.getBoundingClientRect();
               if (
                 (/hidden|clip|auto|scroll/.test(style.overflowY) &&
-                  ((clip.top - rect.top) * sy > 0.3 || (rect.bottom - clip.bottom) * sy > 0.3)) ||
+                  ((clip.top - inkTop) * sy > 0.3 || (inkBottom - clip.bottom) * sy > 0.3)) ||
                 (/hidden|clip|auto|scroll/.test(style.overflowX) &&
                   ((clip.left - rect.left) * sx > 0.3 || (rect.right - clip.right) * sx > 0.3))
               ) {
