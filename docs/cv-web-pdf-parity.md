@@ -65,3 +65,50 @@ and the local-scope/sidebar browser tests.
 Next dependency: CV variant, mirrored/info side, photo styling and spacing
 still have global presentation selectors and getter side effects. Package 3
 will provide an explicit per-instance presentation snapshot.
+
+## Package 3 — local presentation state
+
+Started from clean, freshly fetched `24109a6adbdffde6488e1c2a10ec7eafda7f71b3`;
+all Package 2 CI checks passed. `CvPresentation` separates the editor-store
+adapter from the base renderer. Explicit per-instance props override the store.
+The base renderer receives the resolved layout, info side, photo treatment and
+placement, section placement/gap, title spacing, continuation margin, page
+margins and body alignment. Geometry and cached pagination rows consume that
+same snapshot.
+
+The semantic CV root carries variant, layout, mirrored/info side, photo shape
+and custom-gap markers. Crop, frame colour, gap and document-title spacing are
+local custom properties in the initial React style. All 53 root presentation
+selectors were localized with their original specificity. The CV imports the
+shared theme/layout styles itself, rather than waiting for a picker route.
+
+Layout, photo-style and photo-placement getters no longer apply DOM state.
+CV visual policy uses the pure family lookup. Existing setters/storage event
+compatibility writes remain for legacy controls; no CV selector needs them.
+Storage keys, legacy photo shape, executive-to-sidebar resolution, mirrored
+fallback and continuation-gap migration stay compatible.
+
+`pinCvSidebarMainGeometry()` remains necessary: historical horizontal
+`!important` rules still compete with calculated user margins and adjustable
+rails. It now receives the instance's margins and only pins its own subtree.
+Sidebar-left/right, 22% rails, persisted margins, measurement and PDF cases
+cover that contract. Removing the competing declarations is a later geometry
+cleanup, not required for local ownership.
+
+Tests mount Studio 3/Timeline/circle and Gallery/sidebar-right/rectangular
+simultaneously, then poison html state and crop/spacing variables. Both retain
+their own geometry, typography and photo treatment, without root writes.
+Additional cases cover classic, sidebar sides, Timeline, Magazin, all four
+photo shapes and a multi-page CV. Old tests now assert the same state on the
+CV boundary instead of html; geometry/content assertions were preserved.
+The fixture reload waits for the persisted local variant before measuring.
+
+Validation: 1,093 unit tests; the full 39-template Web gallery (all 39 CV
+screenshots pixel-identical to Package 2); typecheck, lint and production build.
+The full 131-test browser matrix also covers long CVs, standalone PDF selection,
+photo compatibility and saved-project persistence.
+
+Next: Package 4 will verify the canonical combined print DOM from a cold home
+route, combined-PDF selection boxes and marker/page distribution, and produce
+a same-SHA Web/PDF report. CV styling is locally owned; clone-time html template
+scoping still exists for legacy Cover/Letter and will explicitly bypass CV.

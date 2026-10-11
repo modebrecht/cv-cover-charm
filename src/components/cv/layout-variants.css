@@ -13,35 +13,40 @@
 /* Luftig                                                                     */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-accent="page"] {
+div[data-cv-variant="minimal"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-accent="page"] {
   left: var(--cv-classic-main-left) !important;
   right: auto !important;
   width: 22mm !important;
   top: 10mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-header] {
+div[data-cv-variant="minimal"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-header] {
   margin-bottom: 5.2mm !important;
   gap: 8mm !important;
 }
 
 /* Keep layout spacing inside the measured row wrapper. Margins on the direct
  * pagination wrappers are not part of getBoundingClientRect().height. */
-html[data-cv-variant="minimal"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-section] {
+div[data-cv-variant="minimal"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-section] {
   margin-top: 5.2mm !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
+div[data-cv-variant="minimal"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-accent="section"] {
   width: 8mm !important;
   flex: 0 0 auto !important;
 }
 
-html[data-cv-variant="minimal"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry] {
+div[data-cv-variant="minimal"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-entry] {
   margin-bottom: 2.5mm !important;
 }
 
@@ -53,14 +58,16 @@ html[data-cv-variant="minimal"] [data-cv-layout="classic"]
  * 11 mm. Package 3 owns that boundary; the timeline identity lives entirely
  * inside the safe area through the padding, axis and markers below. */
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
+div[data-cv-variant="timeline"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-main]
   > div:has([data-cv-header]) {
   padding-left: 11mm;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]::before {
+div[data-cv-variant="timeline"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-main]::before {
   content: "";
   position: absolute;
   left: 4mm;
@@ -72,15 +79,17 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"]
   pointer-events: none;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
+div[data-cv-variant="timeline"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-main]
   > div:not(:has([data-cv-header])) {
   position: relative;
   padding-left: 11mm;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
+div[data-cv-variant="timeline"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-main]
   > div:has([data-cv-entry])::before {
   content: "";
   position: absolute;
@@ -95,8 +104,9 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"]
   box-shadow: 0 0 0 0.25mm color-mix(in srgb, currentColor 16%, transparent);
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
+div[data-cv-variant="timeline"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-main]
   > div:has([data-cv-section-title])::before {
   content: "";
   position: absolute;
@@ -110,24 +120,29 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"]
   opacity: 0.5;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
+div[data-cv-variant="timeline"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-accent="section"] {
   width: 12mm !important;
   flex: 0 0 auto !important;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-rail] {
+div[data-cv-variant="timeline"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-rail] {
   width: 23.5mm !important;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main]
-  > div:has([data-cv-entry]) > [data-cv-entry] {
+div[data-cv-variant="timeline"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-main]
+  > div:has([data-cv-entry])
+  > [data-cv-entry] {
   margin-bottom: 2.9mm !important;
 }
 
-html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([data-cv-page="0"])
+div[data-cv-variant="timeline"][data-cv-layout="classic"]
+  [data-cv-page]:not([data-cv-page="0"])
   > [data-cv-main]::before {
   top: 6mm;
 }
@@ -144,19 +159,22 @@ html[data-cv-variant="timeline"] [data-cv-layout="classic"] [data-cv-page]:not([
  * Spalte. Darum sind die drei Geometrie-Regeln für "column"-Bauformen
  * ausgenommen; ihr übriges Aussehen behalten sie.
  */
-html[data-cv-variant="executive"] [data-cv-layout="modern"]:not([data-cv-archetype="column"])
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-sidebar] {
+div[data-cv-variant="executive"][data-cv-layout="modern"]:not([data-cv-archetype="column"])
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-sidebar] {
   width: 60mm !important;
   border-right-width: var(--dossier-line-thickness) !important;
 }
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-sidebar] {
+div[data-cv-variant="executive"][data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-sidebar] {
   padding: 14.5mm 8.5mm 13.5mm 9mm !important;
 }
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"]:not([data-cv-archetype="column"])
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-main-wash] {
+div[data-cv-variant="executive"][data-cv-layout="modern"]:not([data-cv-archetype="column"])
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-main-wash] {
   left: 60mm !important;
 }
 
@@ -164,21 +182,25 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"]:not([data-cv-archety
  * outer readable main box now comes exclusively from cvContentBox / Package 3.
  * This also means the user sidebar percentage and page margins can visibly win. */
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-main]
+div[data-cv-variant="executive"][data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-main]
   [data-cv-accent="header"] {
   width: 32mm !important;
   margin-top: 3.6mm !important;
 }
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
+div[data-cv-variant="executive"][data-cv-layout="modern"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-accent="section"] {
   width: auto !important;
   flex: 1 1 auto !important;
 }
 
-html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page="0"]
-  > [data-cv-sidebar] [data-cv-photo] {
+div[data-cv-variant="executive"][data-cv-layout="modern"]
+  [data-cv-page="0"]
+  > [data-cv-sidebar]
+  [data-cv-photo] {
   margin-left: auto !important;
   margin-right: auto !important;
 }
@@ -187,8 +209,9 @@ html[data-cv-variant="executive"] [data-cv-layout="modern"] [data-cv-page="0"]
 /* Magazin                                                                    */
 /* -------------------------------------------------------------------------- */
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) > [data-cv-accent="page"] {
+div[data-cv-variant="editorial"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  > [data-cv-accent="page"] {
   left: max(0mm, calc(var(--cv-classic-main-left) - 3mm)) !important;
   right: auto !important;
   top: 19mm !important;
@@ -203,8 +226,9 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"]
  * anpassbar.
  */
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-header] {
+div[data-cv-variant="editorial"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-header] {
   margin-bottom: 7.5mm !important;
   padding-bottom: 5.5mm !important;
   gap: 8.5mm !important;
@@ -214,26 +238,31 @@ html[data-cv-variant="editorial"] [data-cv-layout="classic"]
 
 /* Keep these margins on the semantic section itself so the hidden pagination
  * row includes them in its measured height. */
-html[data-cv-variant="editorial"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-section] {
+div[data-cv-variant="editorial"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-section] {
   margin-top: 6.5mm !important;
   margin-bottom: 2.5mm !important;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-accent="section"] {
+div[data-cv-variant="editorial"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-accent="section"] {
   width: auto !important;
   flex: 1 1 auto !important;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry]:has(> [data-cv-rail]) {
+div[data-cv-variant="editorial"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-entry]:has(> [data-cv-rail]) {
   gap: 6.5mm !important;
   margin-bottom: 3.1mm !important;
 }
 
-html[data-cv-variant="editorial"] [data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry] > [data-cv-rail] {
+div[data-cv-variant="editorial"][data-cv-layout="classic"]
+  :is([data-cv-page], [data-cv-measure-page])
+  [data-cv-entry]
+  > [data-cv-rail] {
   width: 23.5mm !important;
 }
 

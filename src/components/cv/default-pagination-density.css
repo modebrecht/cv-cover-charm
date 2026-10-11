@@ -47,8 +47,7 @@
  * typography keeps the normal rhythm while the paginator breaks a little
  * earlier instead of clipping the final row.
  */
-html[data-cv-variant="editorial"]
-  [data-cv-layout="classic"]
+div[data-cv-variant="editorial"][data-cv-layout="classic"]
   [data-cv-measure-page]
   [data-cv-main]
   > div {

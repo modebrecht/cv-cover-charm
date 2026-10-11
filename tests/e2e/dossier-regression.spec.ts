@@ -146,7 +146,6 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
         localStorage.setItem("lebenslauf:photo-shape:v1", legacyPhotoShape);
       }
       if (coverRaw) localStorage.setItem("titelblatt:v3", coverRaw);
-      window.location.reload();
     },
     {
       payload: cvPayload({
@@ -161,7 +160,8 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
       legacyPhotoShape: options.legacyPhotoShape,
     },
   );
-  await page.waitForLoadState("domcontentloaded");
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(previewRoot(page)).toHaveAttribute("data-cv-variant", options.layout ?? "classic");
   const visiblePage = previewRoot(page).locator("[data-cv-page]").filter({ visible: true }).first();
   await visiblePage.waitFor({ state: "visible" });
   await visiblePage.locator("[data-cv-main] [data-cv-entry]").first().waitFor({ state: "visible" });
@@ -384,7 +384,7 @@ test.describe("M5.8 dossier regression", () => {
       for (const layout of LAYOUT_IDS) {
         await seedCv(page, { family, layout });
         await expect(page.locator("html")).toHaveAttribute("data-dossier-family", family);
-        await expect(page.locator("html")).toHaveAttribute("data-cv-variant", layout);
+        await expect(previewRoot(page)).toHaveAttribute("data-cv-variant", layout);
         await assertNoMainClipping(page, `${family}/${layout}`);
       }
     }
@@ -393,7 +393,7 @@ test.describe("M5.8 dossier regression", () => {
   test("all five layouts remain valid when mirrored", async ({ page }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "executive", layout, mirrored: true, photo: true });
-      await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
+      await expect(previewRoot(page)).toHaveAttribute("data-cv-mirrored", "true");
       await expect(
         previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first(),
       ).toBeVisible();
@@ -482,7 +482,7 @@ test.describe("M5.8 dossier regression", () => {
       localStorage.setItem("lebenslauf:layout-mirror:v1", "true");
       window.dispatchEvent(new CustomEvent("lebenslauf-layout-change"));
     });
-    await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-mirrored", "true");
 
     const mirrored = await geometry();
     expect(mirrored.sidebarX).toBeGreaterThan(mirrored.mainX);
@@ -496,7 +496,7 @@ test.describe("M5.8 dossier regression", () => {
 
     await page.reload({ waitUntil: "domcontentloaded" });
     await root.locator('[data-cv-page="0"]').waitFor({ state: "visible" });
-    await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-mirrored", "true");
     expect((await geometry()).sidebarX).toBeGreaterThan((await geometry()).mainX);
 
     await page.evaluate(() => {
@@ -504,7 +504,7 @@ test.describe("M5.8 dossier regression", () => {
       localStorage.setItem("lebenslauf:layout-mirror:v1", "false");
       window.dispatchEvent(new CustomEvent("lebenslauf-layout-change"));
     });
-    await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "false");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-mirrored", "false");
     const restored = await geometry();
     expect(restored.sidebarX).toBeLessThan(restored.mainX);
     expect(restored.side).toBe("left");
@@ -514,7 +514,7 @@ test.describe("M5.8 dossier regression", () => {
     const expectedRatio = { rect: 0.75, square: 1, portrait: 1.25, circle: 1 } as const;
     for (const shape of PHOTO_SHAPES) {
       await seedCv(page, { family: "modern", layout: "classic", photo: true, photoShape: shape });
-      await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", shape);
+      await expect(previewRoot(page)).toHaveAttribute("data-cv-photo-shape", shape);
       const photo = previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first();
       await expect(photo).toBeVisible();
       const box = await photo.boundingBox();
@@ -532,7 +532,7 @@ test.describe("M5.8 dossier regression", () => {
 
   test("legacy CV photo-shape preference migrates safely", async ({ page }) => {
     await seedCv(page, { photo: true, legacyPhotoShape: "circle" });
-    await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", "circle");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-photo-shape", "circle");
     await page.getByRole("button", { name: "Quadrat", exact: true }).click();
     const migrated = await page.evaluate(() => localStorage.getItem("lebenslauf:photo:v2"));
     expect(migrated).not.toBeNull();
@@ -571,7 +571,7 @@ test.describe("M5.8 dossier regression", () => {
     });
     await seedCv(page, { coverRaw: cover });
     expect(await page.evaluate(() => localStorage.getItem("titelblatt:v3"))).toBe(cover);
-    await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", /.+/);
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-photo-shape", /.+/);
     await page.getByRole("button", { name: "Vom Titelblatt", exact: true }).click();
     await expect
       .poll(() =>

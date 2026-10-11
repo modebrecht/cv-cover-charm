@@ -265,14 +265,12 @@ function applyVariant(choice: CvLayoutId) {
 /** Tatsächlich ausgewählte Karte im Aufbau-Picker. */
 export function getCvLayoutChoice(): CvLayoutId {
   const choice = canonical(readChoice());
-  applyVariant(choice);
   return choice;
 }
 
 /** Renderer-Modus für Canvas/Formular. */
 export function getCvLayout(): CvRenderLayoutId {
   const choice = canonical(readChoice());
-  applyVariant(choice);
   return rendererFor(choice);
 }
 
@@ -289,7 +287,6 @@ export function getCvInfoPosition(): CvInfoPosition {
 /** `null` lässt die Abstände der gewählten Vorlage unverändert. */
 export function getCvSectionGapMm(): number | null {
   const value = readSectionGap();
-  if (typeof document !== "undefined") applyVariant(readChoice());
   return value;
 }
 

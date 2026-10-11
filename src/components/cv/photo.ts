@@ -48,7 +48,6 @@ function apply(style: DossierPhotoStyle) {
 
 export function getCvPhotoStyle(): DossierPhotoStyle {
   if (!cached) cached = read();
-  apply(cached);
   return cached;
 }
 

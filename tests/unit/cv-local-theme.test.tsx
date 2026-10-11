@@ -4,6 +4,9 @@ import { CvCanvas } from "../../src/components/cv/CvCanvas";
 import { emptyCv } from "../../src/components/cv/types";
 import { FONT_STACKS, type TemplateId } from "../../src/components/cover/types";
 import { DOSSIER_FAMILIES } from "../../src/lib/dossier-family";
+import { getCvLayout, getCvLayoutChoice, getCvSectionGapMm } from "../../src/components/cv/layout";
+import { getCvPhotoStyle } from "../../src/components/cv/photo";
+import { getCvPhotoPlacement } from "../../src/components/cv/photo-place";
 import {
   applyDossierTheme,
   dossierThemeCssVariables,
@@ -11,6 +14,44 @@ import {
 } from "../../src/lib/dossier-theme";
 
 describe("CV local theme contract", () => {
+  test("presentation snapshot getters never mutate the root", () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, "document");
+    try {
+      Object.defineProperty(globalThis, "document", {
+        configurable: true,
+        value: {
+          documentElement: {
+            dataset: new Proxy(
+              {},
+              {
+                set: () => {
+                  throw new Error("attribute mutation");
+                },
+              },
+            ),
+            style: {
+              setProperty: () => {
+                throw new Error("variable mutation");
+              },
+              removeProperty: () => {
+                throw new Error("variable mutation");
+              },
+            },
+          },
+        },
+      });
+      expect(() => {
+        getCvLayout();
+        getCvLayoutChoice();
+        getCvSectionGapMm();
+        getCvPhotoStyle();
+        getCvPhotoPlacement();
+      }).not.toThrow();
+    } finally {
+      if (original) Object.defineProperty(globalThis, "document", original);
+      else Reflect.deleteProperty(globalThis, "document");
+    }
+  });
   test("serializes every semantic theme role and preserves legacy global values", () => {
     const original = Object.getOwnPropertyDescriptor(globalThis, "document");
     try {
@@ -52,20 +93,28 @@ describe("CV local theme contract", () => {
     }
   });
 
-  test("hidden CV includes the complete theme in its initial markup without writing global theme variables", () => {
+  test("hidden CV includes the complete theme in its initial markup without writing any global presentation state", () => {
     const original = Object.getOwnPropertyDescriptor(globalThis, "document");
     try {
       Object.defineProperty(globalThis, "document", {
         configurable: true,
         value: {
           documentElement: {
-            dataset: {},
+            dataset: new Proxy(
+              {},
+              {
+                set: () => {
+                  throw new Error("CV must not write root attributes");
+                },
+              },
+            ),
             style: {
               setProperty: (key: string) => {
-                if (key.startsWith("--dossier-"))
-                  throw new Error("CV must not write global theme variables");
+                throw new Error(`CV must not write global variables: ${key}`);
               },
-              removeProperty: () => {},
+              removeProperty: () => {
+                throw new Error("CV must not clear global variables");
+              },
             },
           },
         },

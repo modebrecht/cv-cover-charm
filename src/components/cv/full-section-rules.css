@@ -18,15 +18,13 @@
  * Some headings historically set `flexShrink: 0` inline. Override that legacy
  * detail so titles may wrap when space is tight.
  */
-html[data-cv-variant][data-cv-variant][data-cv-variant]
-  [data-dossier-document="cv"]
+div[data-cv-variant][data-cv-variant][data-cv-variant][data-dossier-document="cv"]
   [data-cv-section-title] {
   flex: 0 1 auto !important;
   min-width: 0 !important;
 }
 
-html[data-cv-variant][data-cv-variant][data-cv-variant]
-  [data-dossier-document="cv"]
+div[data-cv-variant][data-cv-variant][data-cv-variant][data-dossier-document="cv"]
   [data-cv-accent="section"] {
   display: block !important;
   width: auto !important;
@@ -41,8 +39,7 @@ html[data-cv-variant][data-cv-variant][data-cv-variant]
  * Sidebar rubric rules remain visible so narrow columns still have a clear
  * distinction between a title and its content.
  */
-html[data-cv-variant][data-cv-variant][data-cv-variant]
-  [data-dossier-document="cv"][data-cv-layout="modern"]
+div[data-cv-variant][data-cv-variant][data-cv-variant][data-dossier-document="cv"][data-cv-layout="modern"]
   [data-cv-accent="header"] {
   display: none !important;
 }

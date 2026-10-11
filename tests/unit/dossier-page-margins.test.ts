@@ -74,10 +74,10 @@ describe("configurable CV and motivation-letter page margins", () => {
   test("CV renderer owns the resolved page-margin edges while variants stay internal", () => {
     expect(cvCanvas).toContain('"--cv-classic-main-left"');
     expect(cvCanvas).toContain('"--cv-classic-main-right"');
-    expect(cvCanvasBase).toContain('left: `${firstBox.left}mm`');
-    expect(cvCanvasBase).toContain('right: `${firstBox.right}mm`');
-    expect(cvCanvasBase).toContain('left: `${box.left}mm`');
-    expect(cvCanvasBase).toContain('right: `${box.right}mm`');
+    expect(cvCanvasBase).toContain("left: `${firstBox.left}mm`");
+    expect(cvCanvasBase).toContain("right: `${firstBox.right}mm`");
+    expect(cvCanvasBase).toContain("left: `${box.left}mm`");
+    expect(cvCanvasBase).toContain("right: `${box.right}mm`");
     expect(cvLayoutVariants).not.toContain(
       "left: max(0mm, calc(var(--cv-classic-main-left) - 11mm)) !important;",
     );
@@ -283,7 +283,8 @@ describe("configurable CV and motivation-letter page margins", () => {
   });
 
   test("the margin override changes content geometry, not template artwork", () => {
-    expect(cvCanvas).toContain("subscribeDossierPageMargins");
+    expect(cvCanvas).toContain("useCvPresentation");
+    expect(read("src/components/cv/presentation.ts")).toContain("subscribeDossierPageMargins");
     expect(letterLayout).toContain('getDossierPageMargins("letter")');
     expect(letterLayout).toContain("letterSafePageMarginMinimums(data, design, context)");
     expect(read("src/components/cv/archetype.ts")).toContain(

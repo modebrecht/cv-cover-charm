@@ -3,7 +3,7 @@ import {
   cvLineFieldId,
   referenceContactFields,
 } from "@/lib/dossier-semantic-fields";
-import { Fragment, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { Fragment, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { PAGE } from "@/default-config";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
 import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackground";
@@ -15,15 +15,8 @@ import {
   type BlockStyle,
   type CustomField,
 } from "@/components/cover/types";
-import {
-  getCvInfoPosition,
-  getCvLayout,
-  getCvLayoutChoice,
-  subscribeCvLayout,
-  subscribeCvLayoutChoice,
-  type CvLayoutId,
-} from "./layout";
-import { getCvPlacements, resolveCvPlacement, subscribeCvPlacements } from "./placement";
+import { resolveCvPlacement } from "./placement";
+import type { CvPresentation } from "./presentation";
 import { alphaHex, cvVisualPolicy, sidebarPlan, smartNameSize } from "./intelligence";
 import { onColorRoles, type CvOnColor } from "./palette";
 import { normalizeCvPaperColor, resolveCvPalette } from "./cv-paper";
@@ -37,7 +30,6 @@ import {
   headerSitsInBand,
   pageMarker,
   sidebarWidthMm,
-  type CvRenderLayout,
 } from "./archetype";
 import { dossierThemeFor } from "@/lib/dossier-theme";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
@@ -45,14 +37,10 @@ import type { DossierChromeDocumentContent } from "@/lib/dossier-chrome-content"
 import { cvBodyData } from "@/lib/dossier-body-contact";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
 import { dossierPhotoCropStyle, dossierPhotoRadius, dossierPhotoRatio } from "@/lib/dossier-photo";
-import { getCvPhotoStyle, subscribeCvPhotoStyle } from "./photo";
 import {
-  DEFAULT_CV_PHOTO_PLACEMENT,
-  getCvPhotoPlacement,
   normalizeCvPhotoPlacement,
   resolveCvPhotoPosition,
   setCvPhotoPlacement,
-  subscribeCvPhotoPlacement,
 } from "./photo-place";
 import {
   CV_BLOCK_LABELS,
@@ -64,7 +52,6 @@ import {
   CV_SECTION_TITLE_FONT_SIZE_MIN,
   CV_SECTION_TITLE_MARGIN_BOTTOM_MAX,
   CV_TYPE_DEFAULTS,
-  DEFAULT_CV_PLACEMENTS,
   customSectionForKey,
   cvSectionLayout,
   cvSectionOrder,
@@ -146,6 +133,7 @@ export type CvLayoutWarning = {
 type Props = {
   data: CvData;
   design: CvDesign;
+  presentation: CvPresentation;
   elements: CustomField[];
   chromeOptions: DossierChromeOptions;
   chromeContact: DossierChromeContact;
@@ -175,6 +163,7 @@ function label(data: CvData, key: CvFixedPlacementKey): string {
 export function CvCanvas({
   data,
   design,
+  presentation,
   elements,
   chromeOptions,
   chromeContact,
@@ -199,28 +188,14 @@ export function CvCanvas({
   const frame = useMemo(() => cvFrameFor(design.template), [design.template]);
   // Die Auswahl im Aufbau-Picker gilt. Sie wurde früher bei Spalten- und
   // Karten-Vorlagen überschrieben, was wie ein toter Knopf wirkte.
-  const layout = useSyncExternalStore<CvRenderLayout>(
-    subscribeCvLayout,
-    getCvLayout,
-    () => "classic",
-  );
-  // Raw choice is separate from renderer mode. Classic/Luftig/Timeline/Magazin
-  // share the same renderer but have different real content geometry.
-  const layoutChoice = useSyncExternalStore<CvLayoutId>(
-    subscribeCvLayoutChoice,
-    getCvLayoutChoice,
-    () => "classic",
-  );
-  const infoPosition = useSyncExternalStore(
-    subscribeCvLayout,
-    getCvInfoPosition,
-    () => "standard" as const,
-  );
-  const placements = useSyncExternalStore(
-    subscribeCvPlacements,
-    getCvPlacements,
-    () => DEFAULT_CV_PLACEMENTS,
-  );
+  const {
+    layoutChoice,
+    infoPosition,
+    placements,
+    photoStyle,
+    photoPlacement: place,
+  } = presentation;
+  const layout = layoutChoice === "modern" ? "modern" : "classic";
   const policy = useMemo(
     () => cvVisualPolicy(design.template, layout, design.bgOpacity),
     [design.template, design.bgOpacity, layout],
@@ -299,16 +274,6 @@ export function CvCanvas({
   const sectionTitleFontStyle = design.sectionTitleItalic ? "italic" : "normal";
   const sectionTitleDecoration = design.sectionTitleUnderline ? "underline" : "none";
 
-  /** Rahmenform des Fotos – dieselbe Einstellung wie im Titelblatt. */
-  const photoStyle = useSyncExternalStore(subscribeCvPhotoStyle, getCvPhotoStyle, () =>
-    getCvPhotoStyle(),
-  );
-  /** Platz auf dem Blatt, Grösse und Rahmen – nur für den Lebenslauf. */
-  const place = useSyncExternalStore(
-    subscribeCvPhotoPlacement,
-    getCvPhotoPlacement,
-    () => DEFAULT_CV_PHOTO_PLACEMENT,
-  );
   /**
    * Während des Ziehens liegen die Werte hier, damit nicht bei jedem
    * Mausschritt in den Speicher geschrieben wird. Losgelassen wird übernommen.
@@ -964,35 +929,37 @@ export function CvCanvas({
     if (!list.length || data.hidden.sprachen) return [];
     return [
       heading("sprachen"),
-      ...list.map((s): Row => ({
-        id: `main-${s.id}`,
-        node: (
-          <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
-            <div
-              data-dossier-field-id={`cv.entry.sprachen:${s.id}.name`}
-              data-cv-rail
-              data-cv-entry-title
-              style={{
-                width: layout === "modern" ? "23mm" : "27mm",
-                flexShrink: 0,
-                fontSize: pt(10.2),
-                fontWeight: 650,
-                color: pal.ink,
-                lineHeight: 1.3,
-              }}
-            >
-              {s.name}
+      ...list.map(
+        (s): Row => ({
+          id: `main-${s.id}`,
+          node: (
+            <div data-cv-entry style={{ display: "flex", gap: "5mm", marginBottom: "1.5mm" }}>
+              <div
+                data-dossier-field-id={`cv.entry.sprachen:${s.id}.name`}
+                data-cv-rail
+                data-cv-entry-title
+                style={{
+                  width: layout === "modern" ? "23mm" : "27mm",
+                  flexShrink: 0,
+                  fontSize: pt(10.2),
+                  fontWeight: 650,
+                  color: pal.ink,
+                  lineHeight: 1.3,
+                }}
+              >
+                {s.name}
+              </div>
+              <div
+                data-dossier-field-id={`cv.entry.sprachen:${s.id}.level`}
+                data-cv-muted
+                style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
+              >
+                {s.niveau}
+              </div>
             </div>
-            <div
-              data-dossier-field-id={`cv.entry.sprachen:${s.id}.level`}
-              data-cv-muted
-              style={{ flex: 1, fontSize: pt(9.8), color: pal.muted, lineHeight: 1.3 }}
-            >
-              {s.niveau}
-            </div>
-          </div>
-        ),
-      })),
+          ),
+        }),
+      ),
     ];
   };
 
@@ -1004,26 +971,28 @@ export function CvCanvas({
     if (!list.length) return [];
     return [
       heading(key),
-      ...list.map(({ text: v, index: i }): Row => ({
-        id: `main-${key}-${i}`,
-        node: (
-          <div
-            data-cv-entry
-            data-cv-body
-            style={{
-              display: "flex",
-              gap: "2.6mm",
-              marginBottom: "1.35mm",
-              fontSize: pt(9.9),
-              lineHeight: 1.35,
-              color: pal.ink,
-            }}
-          >
-            <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
-            <span data-dossier-field-id={cvLineFieldId(key, i, data.lineIds?.[key])}>{v}</span>
-          </div>
-        ),
-      })),
+      ...list.map(
+        ({ text: v, index: i }): Row => ({
+          id: `main-${key}-${i}`,
+          node: (
+            <div
+              data-cv-entry
+              data-cv-body
+              style={{
+                display: "flex",
+                gap: "2.6mm",
+                marginBottom: "1.35mm",
+                fontSize: pt(9.9),
+                lineHeight: 1.35,
+                color: pal.ink,
+              }}
+            >
+              <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
+              <span data-dossier-field-id={cvLineFieldId(key, i, data.lineIds?.[key])}>{v}</span>
+            </div>
+          ),
+        }),
+      ),
     ];
   };
 
@@ -1552,7 +1521,7 @@ export function CvCanvas({
     })
     .join("|");
   const chromeShape = `${chromeOptions.headerMode}|${chromeOptions.footerMode}|${chromeOptions.headerShowName ? 1 : 0}|${chromeOptions.headerShowAddress ? 1 : 0}|${chromeOptions.headerShowPhone ? 1 : 0}|${chromeOptions.headerShowEmail ? 1 : 0}`;
-  const shape = `${chromeShape}|photo:${photoPosition}|info:${infoPosition}|${layoutChoice}|${layout}|${frame.id}|${design.font ?? "template"}|${placementShape}|${sectionLayoutShape}|${rows.map((row) => `${row.id}:${row.minPage ?? "auto"}`).join("|")}`;
+  const shape = `${JSON.stringify(presentation)}|${chromeShape}|photo:${photoPosition}|info:${infoPosition}|${layoutChoice}|${layout}|${frame.id}|${design.font ?? "template"}|${placementShape}|${sectionLayoutShape}|${rows.map((row) => `${row.id}:${row.minPage ?? "auto"}`).join("|")}`;
 
   useLayoutEffect(() => {
     const root = canvasRef.current;
@@ -1620,11 +1589,11 @@ export function CvCanvas({
     const rect = box.getBoundingClientRect();
     const scale = rect.width / (box.offsetWidth || 1) || 1;
     const measured = rect.height / scale;
-    const first = cvContentBox(frame, 0, layout, sidebarPct, chromeOptions);
+    const first = cvContentBox(frame, 0, layout, sidebarPct, chromeOptions, presentation);
     const paginationSafetyPx = 2;
     const heightFor = (pageIndex: number) => {
       if (pageIndex === 0) return Math.max(0, measured - paginationSafetyPx);
-      const b = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);
+      const b = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions, presentation);
       const deltaMm = b.top - first.top + (b.bottom - first.bottom);
       return Math.max(0, measured - deltaMm * PX_PER_MM - paginationSafetyPx);
     };
@@ -2180,7 +2149,7 @@ export function CvCanvas({
 
   const freeSectionBox = (key: CvLayoutSectionKey, pageIndex: number) => {
     const sectionLayout = cvSectionLayout(data, key);
-    const box = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);
+    const box = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions, presentation);
     const available = SHEET_W_MM - box.left - box.right;
     const presetWidth =
       sectionLayout.width === "half" ? Math.max(20, (available - 6) / 2) : available;
@@ -2620,7 +2589,14 @@ export function CvCanvas({
 
   const modernSidebar = (pageIndex: number) => {
     const surface = cvSurface(frame, pageIndex, layout, sidebarPct, chromeOptions);
-    const contentBox = cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions);
+    const contentBox = cvContentBox(
+      frame,
+      pageIndex,
+      layout,
+      sidebarPct,
+      chromeOptions,
+      presentation,
+    );
     const cardHeaderClearanceMm =
       frame.id === "card" && pageIndex === 0 && !personLayoutCustomized
         ? contentBox.top + 38
@@ -3058,7 +3034,7 @@ export function CvCanvas({
   const footer = (pageIndex: number) => {
     if (pageIndex === 0 || pageMarker(frame) !== "footer") return null;
     const box = physicalContentBox(
-      cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions),
+      cvContentBox(frame, pageIndex, layout, sidebarPct, chromeOptions, presentation),
     );
     return (
       <div
@@ -3091,7 +3067,7 @@ export function CvCanvas({
     );
   };
 
-  const firstLogicalBox = cvContentBox(frame, 0, layout, sidebarPct, chromeOptions);
+  const firstLogicalBox = cvContentBox(frame, 0, layout, sidebarPct, chromeOptions, presentation);
   const firstBox = physicalContentBox(firstLogicalBox);
 
   return (
@@ -3102,6 +3078,10 @@ export function CvCanvas({
       data-cv-template={design.template}
       data-cv-header-mode={chromeOptions.headerMode}
       data-cv-layout={layout}
+      data-cv-variant={layoutChoice}
+      data-cv-mirrored={infoMirrored ? "true" : "false"}
+      data-cv-photo-shape={photoStyle.shape}
+      data-cv-section-gap={presentation.sectionGapMm === null ? undefined : "custom"}
       data-cv-archetype={frame.id}
       data-cv-photo-position={photoPosition}
       data-cv-info-position={infoPosition}
@@ -3160,7 +3140,7 @@ export function CvCanvas({
       </div>
 
       {pages.map((page, i) => {
-        const logicalBox = cvContentBox(frame, i, layout, sidebarPct, chromeOptions);
+        const logicalBox = cvContentBox(frame, i, layout, sidebarPct, chromeOptions, presentation);
         const box = physicalContentBox(logicalBox);
         return (
           <div

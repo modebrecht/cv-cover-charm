@@ -59,8 +59,7 @@ div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document=
  * Zwei 50%-Rubriken bleiben dadurch in derselben CSS-Grid-Zeile; der Regler
  * ändert weder Spaltenbreite noch column-gap.
  */
-html[data-cv-section-gap="custom"]
-  [data-dossier-document="cv"]
+div[data-cv-section-gap="custom"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section] {
   margin-top: var(--cv-section-gap) !important;

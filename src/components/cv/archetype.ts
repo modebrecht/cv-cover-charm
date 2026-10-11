@@ -397,9 +397,10 @@ export function cvContentBox(
   layout: CvRenderLayout,
   sidebarPct?: number,
   chrome: DossierChromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS,
+  presentation?: { pageMargins: DossierPageMargins | null; continuationTopMarginMm: number },
 ): CvContentBox {
   const fallback = cvDefaultContentBox(frame, pageIndex, layout, sidebarPct, chrome);
-  const custom = getDossierPageMargins("cv");
+  const custom = presentation ? presentation.pageMargins : getDossierPageMargins("cv");
   const pageMargins = custom ?? cvDefaultPageMargins(frame, pageIndex, layout, sidebarPct, chrome);
   const resolved =
     resolveDossierContentMargins(
@@ -422,7 +423,12 @@ export function cvContentBox(
 
   return {
     ...guarded,
-    top: cvContinuationContentTopMm(frame, getCvContinuationTopMarginMm(), chrome, pageIndex),
+    top: cvContinuationContentTopMm(
+      frame,
+      presentation?.continuationTopMarginMm ?? getCvContinuationTopMarginMm(),
+      chrome,
+      pageIndex,
+    ),
   };
 }
 

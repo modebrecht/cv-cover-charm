@@ -12,7 +12,7 @@ function cssFiles(directory: string): string[] {
   );
 }
 
-test("no application CV template selector relies on html dossier identity", () => {
+test("no application CV selector relies on html template or presentation identity", () => {
   const violations: string[] = [];
   for (const file of cssFiles("src")) {
     const css = readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
@@ -26,10 +26,7 @@ test("no application CV template selector relies on html dossier identity", () =
         // Shared declaration groups retain cover rules next to local CV rules.
         // Each global selector must end before a local selector's comma.
         for (const global of selector.matchAll(/html[^{}]+?(?=,\s*(?:html|div)|$)/g)) {
-          if (
-            global[0].includes("data-dossier-template") &&
-            /\[data-cv-|\[data-dossier-(?:document|chrome)="cv"/.test(global[0])
-          )
+          if (/\[data-cv-|\[data-dossier-(?:document|chrome)="cv"/.test(global[0]))
             violations.push(`${file}: ${global[0].trim()}`);
         }
       }

@@ -5,7 +5,7 @@ const canvas = readFileSync("src/components/cv/CvCanvas.tsx", "utf8");
 
 test("design-only edits invalidate cached CV pagination rows", () => {
   expect(canvas).toContain(
-    "const paginationData = useMemo(() => ({ ...data }), [data, design]);",
+    "const paginationData = useMemo(() => ({ ...data }), [data, design, presentation]);",
   );
   expect(canvas).toContain("data={paginationData}");
 });

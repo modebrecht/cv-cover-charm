@@ -29,7 +29,9 @@ describe("dossier chrome renderer boundary", () => {
   test("CV geometry and visual chrome use the same explicit snapshot", () => {
     const source = read("src/components/cv/CvCanvasBase.tsx");
     expect(source).toContain("chromeOptions: DossierChromeOptions");
-    expect(source).toContain("cvContentBox(frame, i, layout, sidebarPct, chromeOptions)");
+    expect(source).toContain(
+      "cvContentBox(frame, i, layout, sidebarPct, chromeOptions, presentation)",
+    );
     expect(source).toContain("options={chromeOptions}");
   });
 

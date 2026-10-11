@@ -1,5 +1,5 @@
 import type { ShapeKind, TemplateId } from "@/components/cover/types";
-import { getDossierFamily, type DossierFamilyId } from "@/lib/dossier-family";
+import { familyForTemplate, type DossierFamilyId } from "@/lib/dossier-family";
 import { dossierNameScale } from "@/lib/dossier-theme";
 import type { CvData } from "./types";
 import type { CvLayoutId } from "./layout";
@@ -50,7 +50,7 @@ export function cvVisualPolicy(
   _layout: CvLayoutId,
   requestedOpacity: number,
 ): CvVisualPolicy {
-  const policy = FAMILY_POLICY[getDossierFamily(template)];
+  const policy = FAMILY_POLICY[familyForTemplate(template)];
 
   return {
     backgroundOpacity: clamp(requestedOpacity, 0, 1),
