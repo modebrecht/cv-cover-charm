@@ -175,16 +175,6 @@ export async function prepareDossierNativePrint(root: HTMLElement, signal?: Abor
   containers.forEach((container) => {
     container.dataset.dossierPrintContainer = "true";
   });
-  // A physical frame changes print flow without reflowing the resolved canvas.
-  // Move the original DOM nodes; never clone or create a second renderer.
-  const frames = pages.map((page, index) => {
-    const frame = root.ownerDocument.createElement("div");
-    frame.dataset.dossierPrintFrame = "true";
-    if (index === pages.length - 1) frame.dataset.dossierPrintLast = "true";
-    page.replaceWith(frame);
-    frame.append(page);
-    return frame;
-  });
   printRoot.dataset.nativePrintActive = "true";
   printRoot.setAttribute("aria-hidden", "false");
   const body = root.ownerDocument.body;
@@ -205,7 +195,6 @@ export async function prepareDossierNativePrint(root: HTMLElement, signal?: Abor
       containers.forEach((container) => {
         delete container.dataset.dossierPrintContainer;
       });
-      frames.forEach((frame, index) => frame.replaceWith(pages[index]));
     },
   };
 }

@@ -49,16 +49,6 @@
     display: contents !important;
   }
 
-  [data-native-print-active="true"] [data-dossier-print-frame] {
-    width: 210mm;
-    height: 297mm;
-    overflow: hidden;
-    break-inside: avoid-page;
-    break-after: page;
-    page-break-inside: avoid;
-    page-break-after: always;
-  }
-
   [data-native-print-active="true"] [data-dossier-print-page] {
     box-sizing: border-box !important;
     /* Preserve the resolved production page geometry. Replacing rounded A4
@@ -72,18 +62,20 @@
     max-height: 1123px !important;
     transform: scale(0.999572293) !important;
     transform-origin: top left !important;
-    margin: 0 !important;
+    /* Preserve DOM ancestry as well as internal geometry. The negative bottom
+       margin makes the unchanged page occupy exactly one A4 sheet in flow. */
+    margin: 0 0 calc(297mm - 1123px) !important;
     position: relative !important;
     flex: none !important;
     overflow: hidden !important;
     box-shadow: none !important;
-    break-inside: auto;
-    break-after: auto;
-    page-break-inside: auto;
-    page-break-after: auto;
+    break-inside: avoid-page;
+    break-after: page;
+    page-break-inside: avoid;
+    page-break-after: always;
   }
 
-  [data-native-print-active="true"] [data-dossier-print-frame][data-dossier-print-last="true"] {
+  [data-native-print-active="true"] [data-dossier-print-last="true"] {
     break-after: auto;
     page-break-after: auto;
   }

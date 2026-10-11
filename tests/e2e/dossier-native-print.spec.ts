@@ -90,7 +90,7 @@ function multiStorage() {
   return storage;
 }
 
-for (const scenario of ["simple", "multi", "studio3"] as const) {
+for (const scenario of ["simple", "multi", "studio3", "gallery"] as const) {
   test(`native print maps canonical pages to A4 with correct order and no UI: ${scenario}`, async ({
     page,
   }) => {
@@ -99,7 +99,9 @@ for (const scenario of ["simple", "multi", "studio3"] as const) {
       page,
       scenario === "multi"
         ? multiStorage()
-        : parityStorage(scenario === "studio3" ? "studio3" : "brief"),
+        : parityStorage(
+            scenario === "studio3" ? "studio3" : scenario === "gallery" ? "gallery" : "brief",
+          ),
     );
     const dialog = await open(page);
     const canvas = page.locator("[data-dossier-pdf-canvas]");
@@ -178,7 +180,7 @@ for (const scenario of ["simple", "multi", "studio3"] as const) {
     const geometry = await printRoot.locator(PRINT_PAGES).evaluateAll((sheets) =>
       sheets.map((sheet) => {
         const rect = sheet.getBoundingClientRect();
-        const style = getComputedStyle(sheet.closest("[data-dossier-print-frame]")!);
+        const style = getComputedStyle(sheet);
         return {
           width: rect.width,
           height: rect.height,
