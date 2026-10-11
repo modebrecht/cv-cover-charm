@@ -14,6 +14,9 @@
 /* STUDIO 2 — dark hero + large signal panel                                  */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="studio2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 0 !important;
@@ -28,6 +31,10 @@ html[data-dossier-template="studio2"]
 }
 
 html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="studio2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -44,6 +51,10 @@ html[data-dossier-template="studio2"]
 }
 
 html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="studio2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -80,7 +91,7 @@ html[data-dossier-template="studio2"]
   transform: none !important;
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 32mm !important;
@@ -90,14 +101,14 @@ html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-surf
   opacity: 1 !important;
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-main] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
   top: 15mm !important;
   bottom: 16mm !important;
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: block !important;
   border-radius: 0 !important;
   opacity: 0.72 !important;
@@ -107,6 +118,9 @@ html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-acce
 /* STUDIO 3 — asymmetric editorial field                                      */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="studio3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 0 !important;
@@ -122,6 +136,10 @@ html[data-dossier-template="studio3"]
 }
 
 html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="studio3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -138,6 +156,10 @@ html[data-dossier-template="studio3"]
 }
 
 html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="studio3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -174,7 +196,7 @@ html[data-dossier-template="studio3"]
   transform: none !important;
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-surface] {
   left: 10mm !important;
   right: 10mm !important;
   top: 26mm !important;
@@ -184,17 +206,17 @@ html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-surf
   opacity: 1 !important;
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-main] {
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-main] {
   left: 21mm !important;
   right: 21mm !important;
   top: 16mm !important;
   bottom: 17mm !important;
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-section-title] {
   letter-spacing: 0.11em !important;
 }

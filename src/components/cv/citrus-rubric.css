@@ -15,10 +15,7 @@
  * Measurement pages already render their main flow with overflow: visible, so
  * they intentionally stay untouched here. That keeps pagination geometry stable.
  */
-[data-cv-rubric-offset="custom"]
-  [data-dossier-document="cv"]
-  [data-cv-page]
-  > [data-cv-main] {
+[data-cv-rubric-offset="custom"] [data-dossier-document="cv"] [data-cv-page] > [data-cv-main] {
   overflow-x: visible !important;
   overflow-y: clip !important;
 }
@@ -31,19 +28,13 @@
   translate: var(--cv-rubric-x, 0mm) 0;
 }
 
-[data-cv-rubric-indent="custom"]
-  [data-dossier-document="cv"]
-  [data-cv-main]
-  [data-cv-entry] {
+[data-cv-rubric-indent="custom"] [data-dossier-document="cv"] [data-cv-main] [data-cv-entry] {
   box-sizing: border-box;
   margin-left: var(--cv-rubric-content-indent, 0mm) !important;
   width: calc(100% - var(--cv-rubric-content-indent, 0mm)) !important;
 }
 
-[data-cv-rubric-pill="true"]
-  [data-dossier-document="cv"]
-  [data-cv-section]
-  > div:first-child {
+[data-cv-rubric-pill="true"] [data-dossier-document="cv"] [data-cv-section] > div:first-child {
   gap: 2.2mm !important;
 }
 
@@ -57,16 +48,14 @@
 
 /* Citrus historically drew a pill by default. The new shared default is off,
  * so an untouched Citrus CV must explicitly neutralise that template styling. */
-html[data-dossier-template="citrus"]
-  [data-cv-rubric-pill="false"]
+div[data-cv-template="citrus"][data-cv-rubric-pill="false"]
   [data-dossier-document="cv"]
   [data-cv-section]
   > div:first-child {
   gap: 2.2mm !important;
 }
 
-html[data-dossier-template="citrus"]
-  [data-cv-rubric-pill="false"]
+div[data-cv-template="citrus"][data-cv-rubric-pill="false"]
   [data-dossier-document="cv"]
   [data-cv-section-title] {
   padding: 0 !important;

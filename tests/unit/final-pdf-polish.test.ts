@@ -49,14 +49,12 @@ describe("final 39-PDF visual polish", () => {
 
   test("uses live dossier ink for 34-38 CV headings without defeating user colour", () => {
     for (const template of ["prism", "gallery", "orbit", "ribbon", "cove"]) {
-      expect(css).toContain(`[data-dossier-template="${template}"]`);
+      expect(css).toContain(`[data-cv-template="${template}"]`);
     }
     expect(css).toContain('[data-dossier-document="cv"]');
     expect(css).toContain(':not([data-cv-user-section-color="true"])');
     expect(css).toContain("color: var(--cover-ink, #1f2937) !important;");
-    expect(css).toContain(
-      "-webkit-text-fill-color: var(--cover-ink, #1f2937) !important;",
-    );
+    expect(css).toContain("-webkit-text-fill-color: var(--cover-ink, #1f2937) !important;");
     expect(css).not.toContain("#0000FF");
   });
 

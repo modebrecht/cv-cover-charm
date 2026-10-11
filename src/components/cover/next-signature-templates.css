@@ -12,6 +12,9 @@
 /* ORBIT — offset circular field, crisp modern typography                     */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="orbit"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="orbit"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 94mm !important;
@@ -26,6 +29,10 @@ html[data-dossier-template="orbit"]
 }
 
 html[data-dossier-template="orbit"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="orbit"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -41,6 +48,10 @@ html[data-dossier-template="orbit"]
 }
 
 html[data-dossier-template="orbit"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="orbit"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -90,8 +101,7 @@ html[data-dossier-template="orbit"]
 }
 
 /* CV: the orbit becomes a restrained curved cap instead of a giant hero. */
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cv"]
+div[data-cv-template="orbit"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -101,8 +111,7 @@ html[data-dossier-template="orbit"]
   height: 112mm !important;
 }
 
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cv"]
+div[data-cv-template="orbit"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -114,8 +123,7 @@ html[data-dossier-template="orbit"]
   opacity: 0.82 !important;
 }
 
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cv"]
+div[data-cv-template="orbit"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -127,7 +135,7 @@ html[data-dossier-template="orbit"]
   opacity: 0.06 !important;
 }
 
-html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="orbit"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 22mm !important;
@@ -137,15 +145,14 @@ html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-surfac
   opacity: 1 !important;
 }
 
-html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-main],
-html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+div[data-cv-template="orbit"][data-dossier-document="cv"] [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
   top: 31mm !important;
   bottom: 16mm !important;
 }
 
-html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="orbit"][data-dossier-document="cv"] [data-cv-accent="section"] {
   width: 10mm !important;
   opacity: 0.8 !important;
 }
@@ -154,6 +161,9 @@ html[data-dossier-template="orbit"] [data-dossier-document="cv"] [data-cv-accent
 /* RIBBON — deep vertical rail with a broad rounded signal ribbon             */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="ribbon"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="ribbon"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 0 !important;
@@ -168,6 +178,10 @@ html[data-dossier-template="ribbon"]
 }
 
 html[data-dossier-template="ribbon"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="ribbon"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -183,6 +197,10 @@ html[data-dossier-template="ribbon"]
 }
 
 html[data-dossier-template="ribbon"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="ribbon"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -241,8 +259,7 @@ html[data-dossier-template="ribbon"]
 }
 
 /* CV: same rail/ribbon relationship, reduced to a practical reading frame. */
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ribbon"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -250,8 +267,7 @@ html[data-dossier-template="ribbon"]
   border-radius: 0 0 18mm 0 !important;
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ribbon"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -264,8 +280,7 @@ html[data-dossier-template="ribbon"]
   opacity: 0.9 !important;
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ribbon"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -277,7 +292,7 @@ html[data-dossier-template="ribbon"]
   opacity: 0.12 !important;
 }
 
-html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="ribbon"][data-dossier-document="cv"] [data-cv-surface] {
   left: 36mm !important;
   right: 0 !important;
   top: 22mm !important;
@@ -287,15 +302,14 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-surfa
   opacity: 1 !important;
 }
 
-html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-main],
-html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+div[data-cv-template="ribbon"][data-dossier-document="cv"] [data-cv-main] {
   left: 47mm !important;
   right: 20mm !important;
   top: 32mm !important;
   bottom: 16mm !important;
 }
 
-html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-sidebar] {
+div[data-cv-template="ribbon"][data-dossier-document="cv"] [data-cv-sidebar] {
   left: 0 !important;
   top: 22mm !important;
   bottom: 0 !important;
@@ -305,11 +319,11 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-sideb
   background: transparent !important;
 }
 
-html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
+div[data-cv-template="ribbon"][data-dossier-document="cv"] [data-cv-sidebar-tint] {
   display: none !important;
 }
 
-html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="ribbon"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
@@ -317,6 +331,9 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cv"] [data-cv-accen
 /* COVE — broad rounded header with a portrait bay                            */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="cove"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="cove"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 0 !important;
@@ -331,6 +348,10 @@ html[data-dossier-template="cove"]
 }
 
 html[data-dossier-template="cove"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="cove"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -346,6 +367,10 @@ html[data-dossier-template="cove"]
 }
 
 html[data-dossier-template="cove"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="cove"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -386,8 +411,7 @@ html[data-dossier-template="cove"]
 
 /* CV: the cove becomes a short rounded masthead with the portrait bay hinted
  * at on the right. The content starts below it on clean paper. */
-html[data-dossier-template="cove"]
-  [data-dossier-document="cv"]
+div[data-cv-template="cove"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -395,8 +419,7 @@ html[data-dossier-template="cove"]
   border-radius: 0 0 22mm 0 !important;
 }
 
-html[data-dossier-template="cove"]
-  [data-dossier-document="cv"]
+div[data-cv-template="cove"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -408,8 +431,7 @@ html[data-dossier-template="cove"]
   opacity: 0.9 !important;
 }
 
-html[data-dossier-template="cove"]
-  [data-dossier-document="cv"]
+div[data-cv-template="cove"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -421,7 +443,7 @@ html[data-dossier-template="cove"]
   opacity: 0.07 !important;
 }
 
-html[data-dossier-template="cove"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="cove"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 24mm !important;
@@ -431,15 +453,14 @@ html[data-dossier-template="cove"] [data-dossier-document="cv"] [data-cv-surface
   opacity: 1 !important;
 }
 
-html[data-dossier-template="cove"] [data-dossier-document="cv"] [data-cv-main],
-html[data-dossier-template="cove"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+div[data-cv-template="cove"][data-dossier-document="cv"] [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
   top: 34mm !important;
   bottom: 16mm !important;
 }
 
-html[data-dossier-template="cove"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="cove"][data-dossier-document="cv"] [data-cv-accent="section"] {
   width: 16mm !important;
   opacity: 0.68 !important;
 }

@@ -8,28 +8,22 @@
  * variables. Use those values instead of duplicating the 22-42 % sidebar math
  * here, so preview, saved custom widths and PDF export stay identical.
  */
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cv"][data-cv-layout="modern"]
+div[data-cv-template="warm2"][data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cv"][data-cv-layout="modern"]
+div[data-cv-template="warm3"][data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"][data-cv-layout="modern"]
+div[data-cv-template="prism"][data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-dossier-template="gallery"]
-  [data-dossier-document="cv"][data-cv-layout="modern"]
+div[data-cv-template="gallery"][data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cv"][data-cv-layout="modern"]
+div[data-cv-template="orbit"][data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main],
-html[data-dossier-template="cove"]
-  [data-dossier-document="cv"][data-cv-layout="modern"]
+div[data-cv-template="cove"][data-dossier-document="cv"][data-cv-layout="modern"]
   :is([data-cv-page], [data-cv-measure-page])
   > [data-cv-main] {
   left: var(--cv-modern-main-left) !important;

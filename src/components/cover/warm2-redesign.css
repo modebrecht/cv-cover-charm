@@ -20,8 +20,8 @@ html:root[data-dossier-template="warm2"]
   height: 94mm !important;
   border-radius: 0 0 72mm 0 !important;
   opacity: 1 !important;
-  background: linear-gradient(128deg, rgb(255 255 255 / 0.07), transparent 58%),
-    var(--cover-primary) !important;
+  background:
+    linear-gradient(128deg, rgb(255 255 255 / 0.07), transparent 58%), var(--cover-primary) !important;
 }
 
 html:root[data-dossier-template="warm2"]
@@ -73,7 +73,13 @@ html:root[data-dossier-template="warm2"]
 /* Interior stationery: the same curved-header language at much lower weight.
  * Child 2 carries primary/teal, child 1 carries secondary/amber, child 3 the
  * coral accent. z-index keeps the amber circle visibly docked to the header. */
-html:root[data-dossier-template="warm2"] [data-dossier-sheet-background="warm2"] > div:nth-child(2) {
+html:root[data-dossier-template="warm2"]
+  :where([data-dossier-document="cover"], [data-letter-canvas])
+  [data-dossier-sheet-background="warm2"]
+  > div:nth-child(2),
+div[data-cv-template][data-cv-template="warm2"]
+  [data-dossier-sheet-background="warm2"]
+  > div:nth-child(2) {
   left: 0 !important;
   right: 0 !important;
   top: 0 !important;
@@ -86,7 +92,13 @@ html:root[data-dossier-template="warm2"] [data-dossier-sheet-background="warm2"]
   z-index: 0;
 }
 
-html:root[data-dossier-template="warm2"] [data-dossier-sheet-background="warm2"] > div:nth-child(1) {
+html:root[data-dossier-template="warm2"]
+  :where([data-dossier-document="cover"], [data-letter-canvas])
+  [data-dossier-sheet-background="warm2"]
+  > div:nth-child(1),
+div[data-cv-template][data-cv-template="warm2"]
+  [data-dossier-sheet-background="warm2"]
+  > div:nth-child(1) {
   left: auto !important;
   right: -7mm !important;
   top: 3mm !important;
@@ -99,7 +111,13 @@ html:root[data-dossier-template="warm2"] [data-dossier-sheet-background="warm2"]
   z-index: 1;
 }
 
-html:root[data-dossier-template="warm2"] [data-dossier-sheet-background="warm2"] > div:nth-child(3) {
+html:root[data-dossier-template="warm2"]
+  :where([data-dossier-document="cover"], [data-letter-canvas])
+  [data-dossier-sheet-background="warm2"]
+  > div:nth-child(3),
+div[data-cv-template][data-cv-template="warm2"]
+  [data-dossier-sheet-background="warm2"]
+  > div:nth-child(3) {
   left: 25mm !important;
   right: auto !important;
   top: 20mm !important;
@@ -113,7 +131,7 @@ html:root[data-dossier-template="warm2"] [data-dossier-sheet-background="warm2"]
 
 /* CV stays flat and document-like, closer to Warm than the former floating
  * card treatment. */
-html:root[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template][data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 0 !important;
@@ -123,14 +141,15 @@ html:root[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-s
   background: transparent !important;
 }
 
-html:root[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-main] {
+div[data-cv-template][data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-main] {
   left: 22mm !important;
   right: 22mm !important;
   top: 25mm !important;
   bottom: 19mm !important;
 }
 
-html:root[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template][data-cv-template="warm2"][data-dossier-document="cv"]
+  [data-cv-section-title] {
   padding: 0 !important;
   border-radius: 0 !important;
   background: transparent !important;

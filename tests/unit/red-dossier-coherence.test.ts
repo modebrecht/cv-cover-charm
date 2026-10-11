@@ -21,8 +21,8 @@ describe("final red dossier coherence fixes", () => {
   });
 
   test("Studio PDF scale targets the actual rendered CV root and loads last", () => {
-    expect(studioPdfScaleCss).toContain('html[data-dossier-template="studio2"]');
-    expect(studioPdfScaleCss).toContain('html[data-dossier-template="studio3"]');
+    expect(studioPdfScaleCss).toContain('div[data-cv-template="studio2"]');
+    expect(studioPdfScaleCss).toContain('div[data-cv-template="studio3"]');
     expect(studioPdfScaleCss).toContain('[data-dossier-document="cv"]');
     expect(freshTemplates).toContain('import "./templatefix-studio-pdf-scale.css";');
     expect(freshTemplates.indexOf('import "./templatefix-studio-pdf-scale.css";')).toBeGreaterThan(

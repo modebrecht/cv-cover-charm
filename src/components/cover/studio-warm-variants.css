@@ -11,15 +11,27 @@
  */
 
 html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="studio2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
 html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="studio3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
 html[data-dossier-template="warm2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="warm2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
 html[data-dossier-template="warm3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="warm3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   isolation: isolate;
@@ -30,6 +42,9 @@ html[data-dossier-template="warm3"]
 /* STUDIO 2 — slim dark rail + broad yellow signal field                      */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="studio2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 0 !important;
@@ -38,10 +53,19 @@ html[data-dossier-template="studio2"]
   width: 64mm !important;
   height: 100% !important;
   border-radius: 0 !important;
-  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.055), transparent 42%, rgb(0 0 0 / 0.12)) !important;
+  background-image: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.055),
+    transparent 42%,
+    rgb(0 0 0 / 0.12)
+  ) !important;
 }
 
 html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="studio2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -58,6 +82,10 @@ html[data-dossier-template="studio2"]
 }
 
 html[data-dossier-template="studio2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="studio2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -105,7 +133,7 @@ html[data-dossier-template="studio2"]
   transform: translate(55mm, 0);
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-surface] {
   left: 64mm !important;
   right: 8mm !important;
   top: 10mm !important;
@@ -114,14 +142,14 @@ html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-surf
   box-shadow: 0 3mm 14mm rgb(32 42 59 / 0.055);
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-main] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-main] {
   left: 73mm !important;
   right: 20mm !important;
   top: 18mm !important;
   bottom: 16mm !important;
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
@@ -129,6 +157,9 @@ html[data-dossier-template="studio2"] [data-dossier-document="cv"] [data-cv-acce
 /* STUDIO 3 — narrower teal rail + curved mint split                          */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="studio3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 0 !important;
@@ -137,10 +168,19 @@ html[data-dossier-template="studio3"]
   width: 54mm !important;
   height: 100% !important;
   border-radius: 0 27mm 27mm 0 !important;
-  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.05), transparent 50%, rgb(0 0 0 / 0.1)) !important;
+  background-image: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.05),
+    transparent 50%,
+    rgb(0 0 0 / 0.1)
+  ) !important;
 }
 
 html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="studio3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -157,6 +197,10 @@ html[data-dossier-template="studio3"]
 }
 
 html[data-dossier-template="studio3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="studio3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -204,7 +248,7 @@ html[data-dossier-template="studio3"]
   transform: translate(47mm, 0);
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-surface] {
   left: 54mm !important;
   right: 9mm !important;
   top: 11mm !important;
@@ -213,14 +257,14 @@ html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-surf
   box-shadow: 0 3mm 15mm rgb(23 61 58 / 0.055);
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-main] {
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-main] {
   left: 65mm !important;
   right: 20mm !important;
   top: 19mm !important;
   bottom: 16mm !important;
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
@@ -228,6 +272,9 @@ html[data-dossier-template="studio3"] [data-dossier-document="cv"] [data-cv-acce
 /* WARM 2 — coral/apricot cloud, softer and brighter than Warm                */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="warm2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="warm2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: -24mm !important;
@@ -236,10 +283,19 @@ html[data-dossier-template="warm2"]
   width: 198mm !important;
   height: 146mm !important;
   border-radius: 0 0 104mm 0 !important;
-  background-image: linear-gradient(125deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0.14), transparent) !important;
+  background-image: linear-gradient(
+    125deg,
+    rgb(255 255 255 / 0.04),
+    rgb(255 255 255 / 0.14),
+    transparent
+  ) !important;
 }
 
 html[data-dossier-template="warm2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="warm2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -255,6 +311,10 @@ html[data-dossier-template="warm2"]
 }
 
 html[data-dossier-template="warm2"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="warm2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -284,7 +344,7 @@ html[data-dossier-template="warm2"]
   transform: translate(0, -11mm);
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-surface] {
   left: 10mm !important;
   right: 10mm !important;
   top: 12mm !important;
@@ -293,18 +353,18 @@ html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surfac
   box-shadow: 0 4mm 17mm rgb(99 55 42 / 0.055);
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-main] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-main] {
   left: 21mm !important;
   right: 21mm !important;
   top: 21mm !important;
   bottom: 19mm !important;
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-section-title] {
   padding: 0.8mm 2.4mm;
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 11%, transparent);
@@ -314,6 +374,9 @@ html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-sectio
 /* WARM 3 — mature teal/amber warmth with one broad organic edge              */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="warm3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="warm3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: -8mm !important;
@@ -322,10 +385,19 @@ html[data-dossier-template="warm3"]
   width: calc(100% + 16mm) !important;
   height: 100mm !important;
   border-radius: 0 0 78mm 22mm !important;
-  background-image: linear-gradient(118deg, rgb(255 255 255 / 0.03), rgb(255 255 255 / 0.12), transparent) !important;
+  background-image: linear-gradient(
+    118deg,
+    rgb(255 255 255 / 0.03),
+    rgb(255 255 255 / 0.12),
+    transparent
+  ) !important;
 }
 
 html[data-dossier-template="warm3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="warm3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -341,6 +413,10 @@ html[data-dossier-template="warm3"]
 }
 
 html[data-dossier-template="warm3"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="warm3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -370,7 +446,7 @@ html[data-dossier-template="warm3"]
   transform: translate(0, -8mm);
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-surface] {
   left: 11mm !important;
   right: 11mm !important;
   top: 12mm !important;
@@ -379,18 +455,18 @@ html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-surfac
   box-shadow: 0 4mm 16mm rgb(30 111 104 / 0.05);
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-main] {
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-main] {
   left: 21mm !important;
   right: 21mm !important;
   top: 21mm !important;
   bottom: 19mm !important;
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-section-title] {
   padding: 0.8mm 2.4mm;
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 10%, transparent);

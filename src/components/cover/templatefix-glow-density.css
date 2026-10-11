@@ -4,8 +4,7 @@
  * tighten only the default section-to-section rhythm enough to absorb that
  * shared spacing without changing user-customized section margins.
  */
-html[data-dossier-template="glow"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
+div[data-cv-template="glow"][data-dossier-document="cv"][data-cv-layout="classic"]
   [data-cv-section]:not([data-cv-user-section-margin="true"]) {
   margin-top: 2.8mm !important;
 }

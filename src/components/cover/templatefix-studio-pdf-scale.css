@@ -2,62 +2,42 @@
 /* Studio 2 / Studio 3 — final native-PDF reading scale                       */
 /* -------------------------------------------------------------------------- */
 /*
- * The CV renderer exposes the active template on <html data-dossier-template>
- * and the actual page as [data-dossier-document="cv"]. Earlier late overrides
- * targeted [data-cv-template], which is not the ancestor of the text measured
- * by the native jsPDF layer. As a result the final PDF kept the older, smaller
- * Studio sizes even though the CSS regression itself was green.
+ * The semantic CV root carries data-cv-template locally. Preserve the late
+ * override order and original specificity so preview, measurement and the
+ * searchable PDF layer all read the same Studio typography.
  *
  * Target the real rendered root here, after the legacy Studio styles. The body
  * is lifted close to the matching 10.5 pt letter while line-height stays tight
  * enough for the normal demo CV to remain one page. User-edited section-title
  * size remains authoritative.
  */
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"]
-  [data-cv-doc-title],
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"]
-  [data-cv-doc-title] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-doc-title],
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-doc-title] {
   font-size: 10.1pt !important;
   letter-spacing: 0.1em !important;
 }
 
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"]
+div[data-cv-template="studio2"][data-dossier-document="cv"]
   [data-cv-section-title]:not([data-cv-user-section-size="true"]),
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"]
+div[data-cv-template="studio3"][data-dossier-document="cv"]
   [data-cv-section-title]:not([data-cv-user-section-size="true"]) {
   font-size: 10.8pt !important;
 }
 
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"]
-  [data-cv-entry-title],
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"]
-  [data-cv-entry-title] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-entry-title],
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-entry-title] {
   font-size: 10.8pt !important;
   line-height: 1.24 !important;
 }
 
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"]
-  [data-cv-body],
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"]
-  [data-cv-body] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-body],
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-body] {
   font-size: 10.5pt !important;
   line-height: 1.36 !important;
 }
 
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cv"]
-  [data-cv-muted],
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"]
-  [data-cv-muted] {
+div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-muted],
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-muted] {
   font-size: 9.4pt !important;
   line-height: 1.32 !important;
 }

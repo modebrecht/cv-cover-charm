@@ -141,7 +141,7 @@ describe("cover decoration single source", () => {
     expect(layouts).toContain("x: 20");
     expect(layouts).toContain("{ w: 174 }");
     expect(layouts).toContain("{ maxLines: 1 }");
-    expect(photoCss).toContain('data-dossier-template="freundlich"');
+    expect(photoCss).toContain('data-cv-template="freundlich"');
     expect(photoCss).toContain("box-shadow: none !important");
     expect(sheetBackground).toContain("top: 44");
     expect(sheetBackground).toContain("bandMm: 36");

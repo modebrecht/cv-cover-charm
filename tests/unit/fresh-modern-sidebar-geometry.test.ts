@@ -5,7 +5,10 @@ const css = readFileSync(
   new URL("../../src/components/cv/fresh-modern-sidebar-geometry.css", import.meta.url),
   "utf8",
 );
-const canvas = readFileSync(new URL("../../src/components/cv/CvCanvas.tsx", import.meta.url), "utf8");
+const canvas = readFileSync(
+  new URL("../../src/components/cv/CvCanvas.tsx", import.meta.url),
+  "utf8",
+);
 const guardedTemplates = ["warm2", "warm3", "prism", "gallery", "orbit", "cove"];
 
 describe("Fresh modern sidebar geometry guard", () => {
@@ -23,7 +26,7 @@ describe("Fresh modern sidebar geometry guard", () => {
     expect(css).toContain("right: var(--cv-modern-main-right) !important;");
 
     for (const template of guardedTemplates) {
-      expect(css).toContain(`[data-dossier-template="${template}"]`);
+      expect(css).toContain(`[data-cv-template="${template}"]`);
     }
   });
 });

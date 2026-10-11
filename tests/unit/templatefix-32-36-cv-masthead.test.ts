@@ -37,7 +37,7 @@ describe("32-36 CV masthead DOM repair", () => {
   });
 
   test("Orbit cannot stretch its ring into a rectangular frame", () => {
-    const orbit = css.slice(css.indexOf('html[data-dossier-template="orbit"]'));
+    const orbit = css.slice(css.indexOf('div[data-cv-template="orbit"]'));
     expect(orbit).toContain("height: 0 !important;");
     expect(orbit).toContain("border-width: 10mm 0 0 0 !important;");
     expect(orbit).toContain("border-radius: 0 !important;");
@@ -46,7 +46,7 @@ describe("32-36 CV masthead DOM repair", () => {
   test("retires the third signature colour from the compact families and Gallery", () => {
     expect(css).toContain("> div:nth-child(3) {\n  display: none !important;");
     expect(css).toContain(
-      '> [data-dossier-sheet-motif][data-dossier-sheet-motif]\n  > div:nth-child(3) {\n  display: none !important;',
+      "> [data-dossier-sheet-motif][data-dossier-sheet-motif]\n  > div:nth-child(3) {\n  display: none !important;",
     );
   });
 });

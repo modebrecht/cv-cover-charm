@@ -28,6 +28,6 @@ describe("CV photo defaults and frame", () => {
     expect(layoutCss).toContain("border: var(--cv-photo-border-width, 0.3mm) solid");
     expect(layoutCss).not.toContain("box-shadow: inset 0 0 0 var(--cv-photo-border-width, 0.3mm)");
     expect(layoutCss).toContain("border-radius: inherit");
-    expect(layoutCss).toContain('[data-dossier-template="freundlich"]');
+    expect(layoutCss).toContain('[data-cv-template="freundlich"]');
   });
 });

@@ -55,8 +55,7 @@ html[data-dossier-template="warm2"]
 }
 
 /* CV: same geometry, compressed into a restrained header/footer system. */
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm2"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -70,8 +69,7 @@ html[data-dossier-template="warm2"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm2"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -86,8 +84,7 @@ html[data-dossier-template="warm2"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm2"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -103,7 +100,7 @@ html[data-dossier-template="warm2"]
   transform: none !important;
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 19mm !important;
@@ -113,15 +110,14 @@ html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surfac
   opacity: 1 !important;
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-main],
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
   top: 31mm !important;
   bottom: 25mm !important;
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-section-title] {
   padding: 0 !important;
   border-radius: 0 !important;
   background: none !important;
@@ -176,8 +172,7 @@ html[data-dossier-template="warm3"]
 }
 
 /* CV: restrained teal cap with the same amber counter-shape. */
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm3"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -191,8 +186,7 @@ html[data-dossier-template="warm3"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm3"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -207,8 +201,7 @@ html[data-dossier-template="warm3"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm3"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -224,7 +217,7 @@ html[data-dossier-template="warm3"]
   transform: none !important;
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 22mm !important;
@@ -234,15 +227,14 @@ html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-surfac
   opacity: 1 !important;
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-main],
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
   top: 34mm !important;
   bottom: 24mm !important;
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-section-title] {
   padding: 0 !important;
   border-radius: 0 !important;
   background: none !important;

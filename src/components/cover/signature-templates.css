@@ -12,6 +12,9 @@
 /* LEDGER — dark masthead + warm index column                                 */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="ledger"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="ledger"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 0 !important;
@@ -26,6 +29,10 @@ html[data-dossier-template="ledger"]
 }
 
 html[data-dossier-template="ledger"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="ledger"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -41,6 +48,10 @@ html[data-dossier-template="ledger"]
 }
 
 html[data-dossier-template="ledger"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="ledger"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -73,16 +84,14 @@ html[data-dossier-template="ledger"] [data-dossier-document="cover"] [data-block
 }
 
 /* CV: the masthead shrinks to a calm cap; the broad index column remains. */
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ledger"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
   height: 18mm !important;
 }
 
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ledger"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -93,7 +102,7 @@ html[data-dossier-template="ledger"]
   opacity: 0.58 !important;
 }
 
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-surface] {
   left: 46mm !important;
   right: 0 !important;
   top: 18mm !important;
@@ -103,15 +112,14 @@ html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-surfa
   opacity: 1 !important;
 }
 
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-main],
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-main] {
   left: 56mm !important;
   right: 18mm !important;
   top: 29mm !important;
   bottom: 16mm !important;
 }
 
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-sidebar] {
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-sidebar] {
   left: 0 !important;
   top: 18mm !important;
   bottom: 0 !important;
@@ -121,15 +129,15 @@ html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-sideb
   background: transparent !important;
 }
 
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-sidebar-tint] {
   display: none !important;
 }
 
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-section-title] {
   border-left: 1.1mm solid currentColor;
   padding-left: 2.4mm;
   letter-spacing: 0.075em !important;
@@ -139,6 +147,9 @@ html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-secti
 /* PRISM — crisp two-tone diagonal hero                                       */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="prism"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="prism"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: -2mm !important;
@@ -154,6 +165,10 @@ html[data-dossier-template="prism"]
 }
 
 html[data-dossier-template="prism"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="prism"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -170,6 +185,10 @@ html[data-dossier-template="prism"]
 }
 
 html[data-dossier-template="prism"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="prism"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -204,8 +223,7 @@ html[data-dossier-template="prism"]
 }
 
 /* CV: same diagonal language, compressed to a restrained header signature. */
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"]
+div[data-cv-template="prism"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -213,8 +231,7 @@ html[data-dossier-template="prism"]
   clip-path: polygon(0 0, 100% 0, 100% 68%, 0 100%);
 }
 
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"]
+div[data-cv-template="prism"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -225,8 +242,7 @@ html[data-dossier-template="prism"]
   clip-path: polygon(25% 0, 100% 0, 100% 100%, 0 72%);
 }
 
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"]
+div[data-cv-template="prism"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -238,7 +254,7 @@ html[data-dossier-template="prism"]
   opacity: 0.055 !important;
 }
 
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="prism"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 20mm !important;
@@ -248,19 +264,18 @@ html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-surfac
   opacity: 1 !important;
 }
 
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-main],
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+div[data-cv-template="prism"][data-dossier-document="cv"] [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
   top: 31mm !important;
   bottom: 16mm !important;
 }
 
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-accent] {
+div[data-cv-template="prism"][data-dossier-document="cv"] [data-cv-accent] {
   border-radius: 0 !important;
 }
 
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="prism"][data-dossier-document="cv"] [data-cv-section-title] {
   letter-spacing: 0.105em !important;
 }
 
@@ -268,6 +283,9 @@ html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-sectio
 /* GALLERY — portrait tower + grounded information field                      */
 /* -------------------------------------------------------------------------- */
 html[data-dossier-template="gallery"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="gallery"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 132mm !important;
@@ -282,6 +300,10 @@ html[data-dossier-template="gallery"]
 }
 
 html[data-dossier-template="gallery"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="gallery"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -297,6 +319,10 @@ html[data-dossier-template="gallery"]
 }
 
 html[data-dossier-template="gallery"]
+  :is([data-dossier-document="cover"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="gallery"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -334,14 +360,18 @@ html[data-dossier-template="gallery"]
 
 html[data-dossier-template="gallery"]
   [data-dossier-document="cover"]
-  :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"], [data-block-id="anTitel"], [data-block-id="empfaenger"]) {
+  :is(
+    [data-block-id="kontaktTitel"],
+    [data-block-id="kontakt"],
+    [data-block-id="anTitel"],
+    [data-block-id="empfaenger"]
+  ) {
   transform: translateY(-1mm);
 }
 
 /* CV: the portrait tower becomes a substantial right frame, with a quiet
  * grounding field at the foot. It is structure, not an isolated stripe. */
-html[data-dossier-template="gallery"]
-  [data-dossier-document="cv"]
+div[data-cv-template="gallery"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -351,8 +381,7 @@ html[data-dossier-template="gallery"]
   border-radius: 0 !important;
 }
 
-html[data-dossier-template="gallery"]
-  [data-dossier-document="cv"]
+div[data-cv-template="gallery"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -365,7 +394,7 @@ html[data-dossier-template="gallery"]
   opacity: 0.64 !important;
 }
 
-html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="gallery"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 26mm !important;
   top: 0 !important;
@@ -375,19 +404,18 @@ html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-surf
   opacity: 1 !important;
 }
 
-html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-main],
-html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-measure-page] [data-cv-main] {
+div[data-cv-template="gallery"][data-dossier-document="cv"] [data-cv-main] {
   left: 20mm !important;
   right: 36mm !important;
   top: 17mm !important;
   bottom: 27mm !important;
 }
 
-html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="gallery"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
-html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="gallery"][data-dossier-document="cv"] [data-cv-section-title] {
   letter-spacing: 0.035em !important;
   text-transform: none !important;
 }

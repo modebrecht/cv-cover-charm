@@ -9,9 +9,7 @@
  *
  * User-defined section-title spacing remains authoritative.
  */
-[data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-header] {
+[data-cv-layout="classic"] :is([data-cv-page], [data-cv-measure-page]) [data-cv-header] {
   margin-bottom: 1mm !important;
 }
 
@@ -22,9 +20,7 @@
   margin-bottom: 0.5mm !important;
 }
 
-[data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-entry] {
+[data-cv-layout="classic"] :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry] {
   margin-bottom: 0.6mm !important;
 }
 
@@ -39,9 +35,7 @@
   margin-bottom: 0.6mm !important;
 }
 
-[data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-entry] {
+[data-cv-layout="modern"] :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry] {
   margin-bottom: 0.8mm !important;
 }
 
@@ -67,30 +61,18 @@ html[data-cv-variant="editorial"]
  * reading rhythm keeps the normal one-page CV compact without reducing font
  * size or compromising the header whitespace.
  */
-[data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-body],
-[data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-body] {
+[data-cv-layout="classic"] :is([data-cv-page], [data-cv-measure-page]) [data-cv-body],
+[data-cv-layout="modern"] :is([data-cv-page], [data-cv-measure-page]) [data-cv-body] {
   line-height: 1.23 !important;
 }
 
-[data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-muted],
-[data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-muted] {
+[data-cv-layout="classic"] :is([data-cv-page], [data-cv-measure-page]) [data-cv-muted],
+[data-cv-layout="modern"] :is([data-cv-page], [data-cv-measure-page]) [data-cv-muted] {
   line-height: 1.19 !important;
 }
 
-[data-cv-layout="classic"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-entry-title],
-[data-cv-layout="modern"]
-  :is([data-cv-page], [data-cv-measure-page])
-  [data-cv-entry-title] {
+[data-cv-layout="classic"] :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry-title],
+[data-cv-layout="modern"] :is([data-cv-page], [data-cv-measure-page]) [data-cv-entry-title] {
   line-height: 1.13 !important;
 }
 
@@ -104,23 +86,20 @@ html[data-cv-variant="editorial"]
  * but reclaim the few millimetres the normal demo needs from repeated content
  * rhythm. Explicit user section spacing still wins via the user-margin marker.
  */
-html[data-dossier-template="citrus"]
-  [data-dossier-document="cv"][data-cv-template="citrus"][data-cv-layout="classic"]
+div[data-cv-template="citrus"][data-dossier-document="cv"][data-cv-template="citrus"][data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section]:not([data-cv-user-section-margin="true"]) {
   margin-top: 0.8mm !important;
   margin-bottom: 0.3mm !important;
 }
 
-html[data-dossier-template="citrus"]
-  [data-dossier-document="cv"][data-cv-template="citrus"][data-cv-layout="classic"]
+div[data-cv-template="citrus"][data-dossier-document="cv"][data-cv-template="citrus"][data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-entry] {
   margin-bottom: 0.35mm !important;
 }
 
-html[data-dossier-template="citrus"]
-  [data-dossier-document="cv"][data-cv-template="citrus"][data-cv-layout="classic"]
+div[data-cv-template="citrus"][data-dossier-document="cv"][data-cv-template="citrus"][data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-body] {
   line-height: 1.19 !important;
@@ -133,30 +112,26 @@ html[data-dossier-template="citrus"]
  * the ordinary demo on one page. Measurement and visible/PDF pages share the
  * exact same selectors so pagination remains deterministic.
  */
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"][data-cv-template="studio3"][data-cv-layout="classic"]
+div[data-cv-template="studio3"][data-dossier-document="cv"][data-cv-template="studio3"][data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-header] {
   margin-bottom: 4mm !important;
 }
 
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"][data-cv-template="studio3"][data-cv-layout="classic"]
+div[data-cv-template="studio3"][data-dossier-document="cv"][data-cv-template="studio3"][data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section]:not([data-cv-user-section-margin="true"]) {
   margin-top: 1.3mm !important;
   margin-bottom: 0.6mm !important;
 }
 
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"][data-cv-template="studio3"][data-cv-layout="classic"]
+div[data-cv-template="studio3"][data-dossier-document="cv"][data-cv-template="studio3"][data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-entry] {
   margin-bottom: 0.55mm !important;
 }
 
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cv"][data-cv-template="studio3"][data-cv-layout="classic"]
+div[data-cv-template="studio3"][data-dossier-document="cv"][data-cv-template="studio3"][data-cv-layout="classic"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-body] {
   line-height: 1.25 !important;

@@ -483,6 +483,7 @@ export function CvCanvas({
       ref={geometryScopeRef}
       style={geometryStyle}
       data-dossier-template={design.template}
+      data-cv-template={design.template}
       data-cv-page-fit-mode={pageFitMode ?? undefined}
       data-cv-body-align={bodyAlignment}
       data-cv-heading-rule={design.headingRule}

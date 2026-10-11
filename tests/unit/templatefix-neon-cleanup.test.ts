@@ -24,7 +24,7 @@ describe("Neon template cleanup", () => {
   });
 
   test("Neon modern CV hides sidebar and header micro-rules without route-only attrs", () => {
-    expect(cvRules).toContain('html[data-dossier-template="neon"]');
+    expect(cvRules).toContain('div[data-cv-template="neon"][data-dossier-document="cv"]');
     expect(cvRules).toContain('[data-cv-section="sidebar"]');
     expect(cvRules).toContain('[data-cv-accent="header"]');
   });

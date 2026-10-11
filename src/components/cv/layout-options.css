@@ -30,7 +30,7 @@
 }
 
 /* Warm: no second ring around a circular portrait. */
-html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-photo]::after {
+div[data-cv-template="freundlich"][data-dossier-document="cv"] [data-cv-photo]::after {
   border: 0 !important;
 }
 

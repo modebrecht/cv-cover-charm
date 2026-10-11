@@ -11,38 +11,35 @@
 /* Shared interior cleanup: no orphan header/section dashes and no coloured
  * sidebar wash. Explicit Sidebar layout remains supported, but the default
  * classic layout stays the intended presentation for these families. */
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="gallery"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="gallery"],
+    [data-cv-template="orbit"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"]
   :is([data-cv-accent="header"], [data-cv-accent="section"]) {
   display: none !important;
 }
 
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="gallery"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="gallery"],
+    [data-cv-template="orbit"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"]
   [data-cv-sidebar-tint] {
   display: none !important;
 }
 
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="gallery"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="gallery"],
+    [data-cv-template="orbit"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"]
   [data-cv-section-title] {
   color: inherit !important;
   letter-spacing: 0.045em !important;
@@ -352,14 +349,13 @@ html[data-dossier-template="cove"]
 /* -------------------------------------------------------------------------- */
 /* Shared CV mastheads — exactly the same two-colour language as each letter  */
 /* -------------------------------------------------------------------------- */
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="gallery"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="gallery"],
+    [data-cv-template="orbit"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -376,14 +372,13 @@ html:is(
   overflow: hidden !important;
 }
 
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="gallery"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="gallery"],
+    [data-cv-template="orbit"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -392,8 +387,7 @@ html:is(
 }
 
 /* Secondary cap differs slightly by family but never becomes a third field. */
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"]
+div[data-cv-template="prism"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -407,8 +401,7 @@ html[data-dossier-template="prism"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="gallery"]
-  [data-dossier-document="cv"]
+div[data-cv-template="gallery"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -422,8 +415,7 @@ html[data-dossier-template="gallery"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cv"]
+div[data-cv-template="orbit"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -437,8 +429,7 @@ html[data-dossier-template="orbit"]
   opacity: 0.36 !important;
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ribbon"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -452,8 +443,7 @@ html[data-dossier-template="ribbon"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="cove"]
-  [data-dossier-document="cv"]
+div[data-cv-template="cove"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -467,14 +457,13 @@ html[data-dossier-template="cove"]
   opacity: 0.92 !important;
 }
 
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="gallery"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="gallery"],
+    [data-cv-template="orbit"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"]
   [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
@@ -485,24 +474,13 @@ html:is(
   opacity: 1 !important;
 }
 
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="gallery"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-main],
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="gallery"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-measure-page]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="gallery"],
+    [data-cv-template="orbit"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"][data-cv-layout="classic"]
   [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;

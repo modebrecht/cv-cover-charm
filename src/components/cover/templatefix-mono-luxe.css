@@ -56,11 +56,10 @@ html[data-dossier-template="monoLuxe"]
 }
 
 /* Shared chrome must not draw another masthead/footer on top of Mono Luxe. */
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossier-compact-header],
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cv"]
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-dossier-compact-header],
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"]
   [data-dossier-contact-header-background],
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-dossier-footer="compact"],
 [data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-compact-header],
 [data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-contact-header-background],
 [data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-footer="compact"] {
@@ -69,8 +68,7 @@ html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossie
   box-shadow: none !important;
 }
 
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cv"]
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"]
   [data-dossier-continuation-contact-header],
 [data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-continuation-contact-header] {
   background: transparent !important;
@@ -79,7 +77,7 @@ html[data-dossier-template="monoLuxe"]
 }
 
 /* Contact information belongs on the cream paper, aligned to the content grid. */
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossier-integrated-contact],
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-dossier-integrated-contact],
 [data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-integrated-contact] {
   left: 27mm !important;
   right: 27mm !important;
@@ -89,8 +87,7 @@ html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-dossie
   align-items: flex-start !important;
 }
 
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cv"]
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"]
   [data-dossier-continuation-contact-header],
 [data-letter-canvas][data-letter-template="monoLuxe"] [data-dossier-continuation-contact-header] {
   left: 27mm !important;
@@ -102,7 +99,7 @@ html[data-dossier-template="monoLuxe"]
 
 /* No extra inner card/frame or micro-square on the CV. Typography and the
  * single brass rule provide enough hierarchy. */
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 3.5mm !important;
@@ -114,13 +111,13 @@ html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-sur
   background: transparent !important;
 }
 
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-accent="header"] {
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-cv-accent="header"] {
   display: none !important;
 }
 
 /* Section hairlines stay subtle and singular; they should never read as a
  * second page frame. */
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-cv-accent="section"] {
   height: 0.22mm !important;
   opacity: 0.32 !important;
   border-radius: 0 !important;

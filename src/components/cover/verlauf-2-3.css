@@ -18,7 +18,12 @@ html[data-dossier-template="verlauf2"]
   height: 100% !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-  background: linear-gradient(148deg, var(--cover-primary) 2%, var(--cover-secondary) 68%, var(--cover-accent) 118%) !important;
+  background: linear-gradient(
+    148deg,
+    var(--cover-primary) 2%,
+    var(--cover-secondary) 68%,
+    var(--cover-accent) 118%
+  ) !important;
 }
 
 html[data-dossier-template="verlauf2"]
@@ -93,18 +98,19 @@ html[data-dossier-template="verlauf2"]
     [data-block-id="empfaenger"],
     [data-block-id="beilagenTitel"],
     [data-block-id="beilagen"]
-  ) * {
+  )
+  * {
   color: #ffffff !important;
 }
 
-html[data-dossier-template="verlauf2"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="verlauf2"][data-dossier-document="cv"] [data-cv-surface] {
   border-radius: 9mm !important;
   box-shadow: 0 4mm 18mm rgb(36 71 184 / 0.07);
 }
 
 /* Keep the pill signature horizontal-only so it does not consume extra A4
  * vertical rhythm or push the final CV section onto a continuation page. */
-html[data-dossier-template="verlauf2"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="verlauf2"][data-dossier-document="cv"] [data-cv-section-title] {
   padding: 0 2.4mm;
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 9%, transparent);
@@ -121,7 +127,12 @@ html[data-dossier-template="verlauf3"]
   height: 100% !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-  background: linear-gradient(162deg, var(--cover-primary) 0%, var(--cover-secondary) 72%, var(--cover-accent) 125%) !important;
+  background: linear-gradient(
+    162deg,
+    var(--cover-primary) 0%,
+    var(--cover-secondary) 72%,
+    var(--cover-accent) 125%
+  ) !important;
 }
 
 html[data-dossier-template="verlauf3"]
@@ -196,16 +207,17 @@ html[data-dossier-template="verlauf3"]
     [data-block-id="empfaenger"],
     [data-block-id="beilagenTitel"],
     [data-block-id="beilagen"]
-  ) * {
+  )
+  * {
   color: #ffffff !important;
 }
 
-html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="verlauf3"][data-dossier-document="cv"] [data-cv-surface] {
   border-radius: 9mm !important;
   box-shadow: 0 4mm 18mm rgb(123 49 93 / 0.07);
 }
 
-html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="verlauf3"][data-dossier-document="cv"] [data-cv-section-title] {
   padding: 0 2.4mm;
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 9%, transparent);
@@ -235,8 +247,7 @@ html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-sec
     [data-dossier-continuation-contact-header],
     [data-dossier-footer]
   ),
-html[data-dossier-template="verlauf2"]
-  [data-dossier-document="cv"]
+div[data-cv-template="verlauf2"][data-dossier-document="cv"]
   [data-dossier-chrome="cv"]
   :is(
     [data-dossier-compact-header],
@@ -244,8 +255,7 @@ html[data-dossier-template="verlauf2"]
     [data-dossier-continuation-contact-header],
     [data-dossier-footer]
   ),
-html[data-dossier-template="verlauf3"]
-  [data-dossier-document="cv"]
+div[data-cv-template="verlauf3"][data-dossier-document="cv"]
   [data-dossier-chrome="cv"]
   :is(
     [data-dossier-compact-header],

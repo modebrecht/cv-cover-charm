@@ -57,14 +57,13 @@ html[data-dossier-template="ribbon"]
  * established template cleanup. Match that selector's dossier context and add
  * the explicit-user exclusion so this late rule wins the cascade only for the
  * untouched default heading colour. */
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="gallery"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="gallery"],
+    [data-cv-template="orbit"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"]
   [data-cv-section-title]:not([data-cv-user-section-color="true"]) {
   color: var(--cover-ink, #1f2937) !important;
   -webkit-text-fill-color: var(--cover-ink, #1f2937) !important;

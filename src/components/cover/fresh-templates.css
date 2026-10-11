@@ -55,8 +55,7 @@ html[data-dossier-template="edge"]
  * dragging, resizing and resetting always agree with the rendered position. */
 
 /* Edge CV: same masthead, scaled down. */
-html[data-dossier-template="edge"]
-  [data-dossier-document="cv"]
+div[data-cv-template="edge"][data-dossier-document="cv"]
   [data-dossier-sheet-background="edge"]
   > div:nth-child(1) {
   left: 0 !important;
@@ -69,8 +68,7 @@ html[data-dossier-template="edge"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="edge"]
-  [data-dossier-document="cv"]
+div[data-cv-template="edge"][data-dossier-document="cv"]
   [data-dossier-sheet-background="edge"]
   > div:nth-child(2) {
   left: 0 !important;
@@ -82,8 +80,7 @@ html[data-dossier-template="edge"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="edge"]
-  [data-dossier-document="cv"]
+div[data-cv-template="edge"][data-dossier-document="cv"]
   [data-dossier-sheet-background="edge"]
   > div:nth-child(3) {
   left: 20mm !important;
@@ -94,7 +91,7 @@ html[data-dossier-template="edge"]
   border-radius: 999px !important;
 }
 
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 10mm !important;
@@ -104,11 +101,11 @@ html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-surface
   background: transparent !important;
 }
 
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-accent="header"] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-accent="header"] {
   display: none !important;
 }
 
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-accent="section"] {
   border-radius: 999px !important;
 }
 
@@ -175,8 +172,7 @@ html[data-dossier-template="glow"]
 }
 
 /* Glow CV: subtle top-right capsule and one thin accent stroke. */
-html[data-dossier-template="glow"]
-  [data-dossier-document="cv"]
+div[data-cv-template="glow"][data-dossier-document="cv"]
   [data-dossier-sheet-background="glow"]
   > div:nth-child(1) {
   left: auto !important;
@@ -188,8 +184,7 @@ html[data-dossier-template="glow"]
   opacity: 0.11 !important;
 }
 
-html[data-dossier-template="glow"]
-  [data-dossier-document="cv"]
+div[data-cv-template="glow"][data-dossier-document="cv"]
   [data-dossier-sheet-background="glow"]
   > div:nth-child(2) {
   left: auto !important;
@@ -202,8 +197,7 @@ html[data-dossier-template="glow"]
   opacity: 0.14 !important;
 }
 
-html[data-dossier-template="glow"]
-  [data-dossier-document="cv"]
+div[data-cv-template="glow"][data-dossier-document="cv"]
   [data-dossier-sheet-background="glow"]
   > div:nth-child(3) {
   left: 20mm !important;
@@ -214,13 +208,13 @@ html[data-dossier-template="glow"]
   opacity: 0.9 !important;
 }
 
-html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="glow"][data-dossier-document="cv"] [data-cv-surface] {
   border-radius: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
 }
 
-html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-accent] {
+div[data-cv-template="glow"][data-dossier-document="cv"] [data-cv-accent] {
   border-radius: 999px !important;
 }
 
@@ -289,8 +283,7 @@ html[data-dossier-template="frame"]
   text-align: left !important;
 }
 
-html[data-dossier-template="frame"]
-  [data-dossier-document="cv"]
+div[data-cv-template="frame"][data-dossier-document="cv"]
   [data-dossier-sheet-background="frame"]::before {
   content: "";
   position: absolute;
@@ -300,8 +293,7 @@ html[data-dossier-template="frame"]
   pointer-events: none;
 }
 
-html[data-dossier-template="frame"]
-  [data-dossier-document="cv"]
+div[data-cv-template="frame"][data-dossier-document="cv"]
   [data-dossier-sheet-background="frame"]
   > div:nth-child(1) {
   left: 8mm !important;
@@ -311,8 +303,7 @@ html[data-dossier-template="frame"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="frame"]
-  [data-dossier-document="cv"]
+div[data-cv-template="frame"][data-dossier-document="cv"]
   [data-dossier-sheet-background="frame"]
   > div:nth-child(2) {
   left: auto !important;
@@ -324,7 +315,7 @@ html[data-dossier-template="frame"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="frame"][data-dossier-document="cv"] [data-cv-surface] {
   left: 10mm !important;
   right: 10mm !important;
   top: 10mm !important;
@@ -334,7 +325,7 @@ html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-surfac
   background: transparent !important;
 }
 
-html[data-dossier-template="frame"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="frame"][data-dossier-document="cv"] [data-cv-section-title] {
   letter-spacing: 0.02em;
 }
 
@@ -403,13 +394,12 @@ html[data-dossier-template="monoLuxe"]
 }
 
 html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="name"] > div,
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-cv-section-title] {
   font-family: Georgia, "Times New Roman", serif !important;
 }
 
 /* Mono Luxe CV: no large beige card; just a small black masthead and brass rule. */
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cv"]
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"]
   [data-dossier-sheet-background="monoLuxe"]
   > div:nth-child(1) {
   left: 0 !important;
@@ -421,8 +411,7 @@ html[data-dossier-template="monoLuxe"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cv"]
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"]
   [data-dossier-sheet-background="monoLuxe"]
   > div:nth-child(2) {
   left: 20mm !important;
@@ -434,8 +423,7 @@ html[data-dossier-template="monoLuxe"]
   opacity: 0.82 !important;
 }
 
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cv"]
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"]
   [data-dossier-sheet-background="monoLuxe"]
   > div:nth-child(3) {
   left: 20mm !important;
@@ -448,7 +436,7 @@ html[data-dossier-template="monoLuxe"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 9.5mm !important;
@@ -458,13 +446,13 @@ html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-sur
   background: transparent !important;
 }
 
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-cv-accent="section"] {
   height: 0.3mm !important;
   opacity: 0.5 !important;
   border-radius: 0 !important;
 }
 
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cv"] [data-cv-page-label] {
+div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-cv-page-label] {
   text-transform: none;
   letter-spacing: 0.03em;
 }

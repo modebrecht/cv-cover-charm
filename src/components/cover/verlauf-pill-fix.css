@@ -10,11 +10,7 @@ html[data-dossier-template="verlauf"]
 /* Gallery: the readable CV surface ends at the 18 mm grounding field.
  * Keep the measured and rendered main box on that same boundary so the normal
  * one-page CV uses the available paper instead of clipping above the field. */
-html[data-dossier-template="gallery"] [data-dossier-document="cv"] [data-cv-main],
-html[data-dossier-template="gallery"]
-  [data-dossier-document="cv"]
-  [data-cv-measure-page]
-  [data-cv-main] {
+div[data-cv-template="gallery"][data-dossier-document="cv"] [data-cv-main] {
   bottom: 18mm !important;
 }
 
@@ -40,33 +36,32 @@ html[data-dossier-template="gallery"]
  * Keeping the normal width lets hidden pagination, preview and PDF share this
  * same compact flow without crossing the content box.
  */
-html:is(
-    [data-dossier-template="aurora"],
-    [data-dossier-template="sonnig"],
-    [data-dossier-template="citrus"],
-    [data-dossier-template="cove"],
-    [data-dossier-template="edel"],
-    [data-dossier-template="edelBlockig"],
-    [data-dossier-template="klassisch"],
-    [data-dossier-template="welle"],
-    [data-dossier-template="human"],
-    [data-dossier-template="terracotta"],
-    [data-dossier-template="ledger"],
-    [data-dossier-template="modern"],
-    [data-dossier-template="neon"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="prism"],
-    [data-dossier-template="pastell"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="serioes"],
-    [data-dossier-template="sonne"],
-    [data-dossier-template="studio"],
-    [data-dossier-template="verlauf"],
-    [data-dossier-template="freundlich"],
-    [data-dossier-template="warm2"],
-    [data-dossier-template="warm3"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="aurora"],
+    [data-cv-template="sonnig"],
+    [data-cv-template="citrus"],
+    [data-cv-template="cove"],
+    [data-cv-template="edel"],
+    [data-cv-template="edelBlockig"],
+    [data-cv-template="klassisch"],
+    [data-cv-template="welle"],
+    [data-cv-template="human"],
+    [data-cv-template="terracotta"],
+    [data-cv-template="ledger"],
+    [data-cv-template="modern"],
+    [data-cv-template="neon"],
+    [data-cv-template="orbit"],
+    [data-cv-template="prism"],
+    [data-cv-template="pastell"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="serioes"],
+    [data-cv-template="sonne"],
+    [data-cv-template="studio"],
+    [data-cv-template="verlauf"],
+    [data-cv-template="freundlich"],
+    [data-cv-template="warm2"],
+    [data-cv-template="warm3"]
+  )[data-dossier-document="cv"]
   [data-cv-main]
   > div {
   zoom: 0.9;
@@ -99,7 +94,7 @@ html:is(
 /* Warm/Freundlich was the sole residual spiller after the scoped 90% pass,
  * missing page one by only 2 px. Give that one template half a percentage
  * point more room; all other templates retain the already-verified geometry. */
-html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-main] > div {
+div[data-cv-template="freundlich"][data-dossier-document="cv"] [data-cv-main] > div {
   zoom: 0.895;
 }
 
@@ -108,33 +103,29 @@ html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-m
  * the sender owns that gradient masthead, while the CV identity row sits on the
  * light reading surface below it. Keep those default identity colours readable
  * on paper instead of inheriting the old white-on-gradient override. */
-html[data-dossier-template="verlauf"]
-  [data-dossier-document="cv"]
-  [data-cv-page="0"]
+div[data-cv-template="verlauf"][data-dossier-document="cv"]
+  :is([data-cv-page="0"], [data-cv-measure-page])
   [data-cv-doc-title]:not([data-cv-user-doc-color="true"]) {
   color: color-mix(in srgb, var(--cover-primary) 56%, #111827) !important;
   text-shadow: none !important;
 }
 
-html[data-dossier-template="verlauf"]
-  [data-dossier-document="cv"]
-  [data-cv-page="0"]
+div[data-cv-template="verlauf"][data-dossier-document="cv"]
+  :is([data-cv-page="0"], [data-cv-measure-page])
   [data-cv-doc-title][data-cv-user-doc-color="true"] {
   color: var(--cv-user-doc-color) !important;
   text-shadow: none !important;
 }
 
-html[data-dossier-template="verlauf"]
-  [data-dossier-document="cv"]
-  [data-cv-page="0"]
+div[data-cv-template="verlauf"][data-dossier-document="cv"]
+  :is([data-cv-page="0"], [data-cv-measure-page])
   [data-cv-name] {
   color: color-mix(in srgb, var(--cover-primary) 24%, #111827) !important;
   text-shadow: none !important;
 }
 
-html[data-dossier-template="verlauf"]
-  [data-dossier-document="cv"]
-  [data-cv-page="0"]
+div[data-cv-template="verlauf"][data-dossier-document="cv"]
+  :is([data-cv-page="0"], [data-cv-measure-page])
   [data-cv-subtitle] {
   color: color-mix(in srgb, var(--cover-primary) 18%, #374151) !important;
   text-shadow: none !important;
@@ -145,9 +136,8 @@ html[data-dossier-template="verlauf"]
  * though DOM visibility checks passed. Reveal enough of the existing dark hero
  * (the native gradient already extends beyond this point) to contain the full
  * title after the compact-header typography settles, without moving content. */
-html[data-dossier-template="neon"]
-  [data-dossier-document="cv"]
-  [data-cv-page="0"]
+div[data-cv-template="neon"][data-dossier-document="cv"]
+  :is([data-cv-page="0"], [data-cv-measure-page])
   [data-cv-surface] {
   top: 56mm !important;
 }

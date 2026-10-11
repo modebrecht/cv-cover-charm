@@ -9,7 +9,8 @@
  */
 
 /* Fresh motivation-letter micro-rules that add no structural information. */
-[data-letter-fresh-template] :is(
+[data-letter-fresh-template]
+  :is(
     [data-letter-motif="edge-rule"],
     [data-letter-motif="glow-rule"],
     [data-letter-motif="mono-bottom-rule"],
@@ -87,7 +88,8 @@
  * but place that whole box below the signature. This preserves user-selected
  * contact offsets and the shared geometry contract while removing dark-on-dark
  * text. */
-[data-letter-canvas][data-letter-template="edge"] [data-dossier-chrome="letter"]
+[data-letter-canvas][data-letter-template="edge"]
+  [data-dossier-chrome="letter"]
   [data-dossier-integrated-contact] {
   top: 10mm !important;
 }
@@ -256,9 +258,9 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
 :is([data-cv-template="cove"], [data-letter-canvas][data-letter-template="cove"])
   :has(
     [data-dossier-template-chrome="cove"]:is(
-        [data-dossier-effective-header-mode="compact"],
-        [data-dossier-effective-header-mode="contact"]
-      )
+      [data-dossier-effective-header-mode="compact"],
+      [data-dossier-effective-header-mode="contact"]
+    )
   )
   [data-dossier-sheet-background="cove"]
   [data-dossier-sheet-motif]
@@ -433,8 +435,7 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
 }
 
 /* EDGE — dark page rail, short blue spine and signal line meet as one corner. */
-[data-dossier-sheet-background="edge"]
-  [data-dossier-signature-part="edge-rail"] {
+[data-dossier-sheet-background="edge"] [data-dossier-signature-part="edge-rail"] {
   display: block !important;
   left: 0 !important;
   right: auto !important;
@@ -444,8 +445,7 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
   height: auto !important;
 }
 
-[data-dossier-sheet-background="edge"]
-  [data-dossier-signature-part="edge-stripe"] {
+[data-dossier-sheet-background="edge"] [data-dossier-signature-part="edge-stripe"] {
   display: block !important;
   left: 7mm !important;
   right: auto !important;
@@ -456,8 +456,7 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
   border-radius: 0 !important;
 }
 
-[data-dossier-sheet-background="edge"]
-  [data-dossier-signature-part="edge-rule"] {
+[data-dossier-sheet-background="edge"] [data-dossier-signature-part="edge-rule"] {
   display: block !important;
   left: 7mm !important;
   right: auto !important;
@@ -507,8 +506,7 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
 }
 
 /* FOREST FLOW — the canopy grows out of the rail; its line exits the canopy. */
-[data-dossier-sheet-background="forestFlow"]
-  [data-dossier-signature-part="forest-rail"] {
+[data-dossier-sheet-background="forestFlow"] [data-dossier-signature-part="forest-rail"] {
   display: block !important;
   left: 0 !important;
   right: auto !important;
@@ -519,8 +517,7 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
   border-radius: 0 !important;
 }
 
-[data-dossier-sheet-background="forestFlow"]
-  [data-dossier-signature-part="forest-canopy"] {
+[data-dossier-sheet-background="forestFlow"] [data-dossier-signature-part="forest-canopy"] {
   display: block !important;
   left: 5mm !important;
   right: auto !important;
@@ -532,8 +529,7 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
   opacity: 0.2 !important;
 }
 
-[data-dossier-sheet-background="forestFlow"]
-  [data-dossier-signature-part="forest-flow-line"] {
+[data-dossier-sheet-background="forestFlow"] [data-dossier-signature-part="forest-flow-line"] {
   display: block !important;
   left: 22mm !important;
   right: auto !important;
@@ -576,10 +572,8 @@ html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block
 }
 
 /* Keep contact copy fully on clean paper beside the organic cluster. */
-html[data-dossier-template="forestFlow"]
-  [data-dossier-chrome="cv"]
-  [data-dossier-integrated-contact],
-html[data-dossier-template="forestFlow"]
+div[data-cv-template="forestFlow"] [data-dossier-chrome="cv"] [data-dossier-integrated-contact],
+div[data-cv-template="forestFlow"]
   [data-dossier-chrome="cv"]
   [data-dossier-continuation-contact-header],
 [data-letter-canvas][data-letter-template="forestFlow"] [data-dossier-integrated-contact],
@@ -588,8 +582,7 @@ html[data-dossier-template="forestFlow"]
 }
 
 /* FRAME — a hairline page frame plus one marker physically attached to it. */
-[data-dossier-sheet-background="frame"]
-  [data-dossier-signature-part="frame-marker"] {
+[data-dossier-sheet-background="frame"] [data-dossier-signature-part="frame-marker"] {
   display: block !important;
   left: 10mm !important;
   right: auto !important;
@@ -602,15 +595,13 @@ html[data-dossier-template="forestFlow"]
   opacity: 0.95 !important;
 }
 
-[data-dossier-sheet-background="frame"]
-  [data-dossier-signature-part="frame-redundant-marker"] {
+[data-dossier-sheet-background="frame"] [data-dossier-signature-part="frame-redundant-marker"] {
   display: none !important;
 }
 
 /* Fresh letters already receive the same structural hairline via ::before.
  * Keep one attached marker and remove the four-line duplicate construction. */
-[data-letter-fresh-template="frame"][data-letter-fresh-template="frame"]
-  [data-letter-motif] {
+[data-letter-fresh-template="frame"][data-letter-fresh-template="frame"] [data-letter-motif] {
   display: none !important;
 }
 

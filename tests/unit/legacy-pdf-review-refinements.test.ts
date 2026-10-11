@@ -55,15 +55,15 @@ describe("legacy PDF review refinements", () => {
 
   test("Human CV removes the clipped lower dot but keeps the general Human motif available elsewhere", () => {
     expect(humanPolish).toContain('[data-dossier-document="cv"]');
-    expect(humanPolish).toContain('> div:nth-of-type(2)');
+    expect(humanPolish).toContain("> div:nth-of-type(2)");
     expect(humanPolish).toContain("display: none !important;");
   });
 
   test("Colorful keeps its geometric CV card without reviving the detached blue/yellow bar", () => {
-    expect(refinements).toContain('data-dossier-template="colorful"');
+    expect(refinements).toContain('data-cv-template="colorful"');
     expect(refinements).toContain("border-left: 2.2mm solid var(--cover-secondary);");
     expect(refinements).toContain("var(--cover-tertiary)");
-    expect(refinements).not.toContain('[data-cv-header]::after');
+    expect(refinements).not.toContain("[data-cv-header]::after");
     expect(refinements).toContain("[data-dossier-integrated-contact]");
     expect(refinements).toContain("color: #fff !important;");
   });
@@ -72,7 +72,7 @@ describe("legacy PDF review refinements", () => {
     expect(defaultCvLayoutForTemplate("terracotta")).toBe("modern");
     expect(defaultCvLayoutForTemplate("colorful")).toBe("classic");
     expect(familyForTemplate("terracotta" as TemplateId)).toBe("modern");
-    expect(refinements).toContain('data-dossier-template="terracotta"');
-    expect(refinements).toContain('[data-cv-section-title]');
+    expect(refinements).toContain('data-cv-template="terracotta"');
+    expect(refinements).toContain("[data-cv-section-title]");
   });
 });

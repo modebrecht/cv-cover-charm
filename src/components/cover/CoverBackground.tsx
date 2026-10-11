@@ -235,7 +235,7 @@ export function CoverBackground({
     <>
       {template === "freundlich" || template === "colorful" ? (
         <style>{`
-          html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
+          div[data-cv-template="freundlich"][data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
             content: "";
             position: absolute;
             left: 0;
@@ -245,7 +245,7 @@ export function CoverBackground({
             background: var(--cover-primary);
             pointer-events: none;
           }
-          html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
+          div[data-cv-template="freundlich"][data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
             content: "";
             position: absolute;
             left: 0;
@@ -255,7 +255,7 @@ export function CoverBackground({
             background: var(--cover-primary);
             pointer-events: none;
           }
-          html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
+          div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
             content: "";
             position: absolute;
             left: 0;
@@ -265,7 +265,7 @@ export function CoverBackground({
             background: var(--cover-primary);
             pointer-events: none;
           }
-          html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
+          div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
             content: "";
             position: absolute;
             left: 0;
@@ -275,7 +275,7 @@ export function CoverBackground({
             background: var(--cover-primary);
             pointer-events: none;
           }
-          html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::after {
+          div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-background="motif"] > div::after {
             content: "";
             position: absolute;
             left: 0;
@@ -289,7 +289,7 @@ export function CoverBackground({
       ) : null}
       {template === "blockig" ? (
         <style>{`
-          html[data-dossier-template="blockig"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::before {
+          div[data-cv-template="blockig"][data-dossier-document="cv"] [data-cv-background="motif"] > div::before {
             content: "";
             position: absolute;
             left: 0;
@@ -299,7 +299,7 @@ export function CoverBackground({
             background: var(--cover-primary);
             pointer-events: none;
           }
-          html[data-dossier-template="blockig"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::after {
+          div[data-cv-template="blockig"][data-dossier-document="cv"] [data-cv-background="motif"] > div::after {
             content: "";
             position: absolute;
             left: 0;

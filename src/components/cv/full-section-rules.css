@@ -52,12 +52,10 @@ html[data-cv-variant][data-cv-variant][data-cv-variant]
  * Keep the modern cleanup template-scoped as well so sidebar/header micro-rules
  * cannot reappear in untouched exported dossiers.
  */
-html[data-dossier-template="neon"]
-  [data-dossier-document="cv"][data-cv-layout="modern"]
+div[data-cv-template="neon"][data-dossier-document="cv"][data-cv-layout="modern"]
   [data-cv-section="sidebar"]
   [data-cv-accent="section"],
-html[data-dossier-template="neon"]
-  [data-dossier-document="cv"][data-cv-layout="modern"]
+div[data-cv-template="neon"][data-dossier-document="cv"][data-cv-layout="modern"]
   [data-cv-accent="header"] {
   display: none !important;
 }
@@ -69,8 +67,7 @@ html[data-dossier-template="neon"]
  * disappear. Remove only that obsolete inner card on Neon page one; the shared
  * reading surface below 43 mm remains authoritative.
  */
-html[data-dossier-template="neon"]
-  [data-dossier-document="cv"]
+div[data-cv-template="neon"][data-dossier-document="cv"]
   [data-cv-page="0"]
   [data-cv-background="motif"]
   [data-dossier-sheet-background="neon"]
@@ -94,11 +91,9 @@ html[data-dossier-template="neon"]
  * every heading and the short header dash turned that calm idea into a page of
  * repeated strokes. Let typography + whitespace carry the untouched hierarchy.
  */
-html[data-dossier-template="glow"][data-dossier-template="glow"][data-dossier-template="glow"]
-  [data-dossier-document="cv"]
+div[data-cv-template="glow"][data-cv-template="glow"][data-cv-template="glow"][data-dossier-document="cv"]
   [data-cv-accent="section"],
-html[data-dossier-template="glow"][data-dossier-template="glow"][data-dossier-template="glow"]
-  [data-dossier-document="cv"]
+div[data-cv-template="glow"][data-cv-template="glow"][data-cv-template="glow"][data-dossier-document="cv"]
   [data-cv-accent="header"] {
   display: none !important;
 }
@@ -117,16 +112,14 @@ html[data-dossier-template="glow"][data-dossier-template="glow"][data-dossier-te
  * source of truth. The selector is intentionally route-independent so hidden
  * PDF canvases get the same override as the live preview.
  */
-html
-  [data-cv-user-heading-rule="full"][data-cv-heading-rule="full"][data-dossier-template]
+div[data-cv-user-heading-rule="full"][data-cv-heading-rule="full"][data-dossier-template]
   [data-dossier-document="cv"]
   [data-cv-section-title] {
   flex: 0 1 auto !important;
   min-width: 0 !important;
 }
 
-html
-  [data-cv-user-heading-rule="full"][data-cv-heading-rule="full"][data-dossier-template]
+div[data-cv-user-heading-rule="full"][data-cv-heading-rule="full"][data-dossier-template]
   [data-dossier-document="cv"]
   [data-cv-accent="section"] {
   display: block !important;
