@@ -122,7 +122,7 @@ editor initialization. It removes or deliberately mismatches html template,
 variant, mirror, photo and typography state before opening the normal export
 dialog and mounting `DossierPdfCanvas`.
 
-Studio 3, Studio 2, Ledger, Ribbon, Gallery and Prism compare page count,
+Studio 3, Studio 2, Ledger, Ribbon, Gallery, Prism, Neon and Citrus compare page count,
 per-page content/section distribution, main/header/sidebar/photo boxes and
 font metrics against independent visible and standalone hidden CV instances.
 The measurement content box must equal the actual first-page box. Real
@@ -155,10 +155,15 @@ mounts the canonical print DOM for DevTools inspection, and the browser tests
 inspect that exact DOM. The test-only instance fixture also renders production
 components without duplicating renderer logic.
 
-Release validation: 1,096 unit tests; all 139 browser tests in cv-pdf,
-cv-m9-pagination, templates-layout, fresh-dossier-templates and dossier-flow;
-18 focused combined-parity, sidebar and instance-isolation checks; typecheck; lint (0 errors, 21 existing
-warnings); production build; release format check; changed-file format check.
+Release validation: 1,099 unit tests; 13 final focused browser checks (combined
+PDF/selection, long CVs, all 39 clone geometries and unblurred paint samples);
+typecheck; lint (0 errors, 21 existing warnings); production build; release
+format check; changed-file format check. The required CI matrix comprises 143
+browser tests across cv-pdf, cv-m9-pagination, templates-layout,
+fresh-dossier-templates and dossier-flow; the standard workflow also runs the
+remaining browser groups and ten Web gallery batches. All predecessor checks
+on the resumed b2477e7a checkpoint were green; final results are attached to the
+dev commit containing this evidence. See the report linked below.
 The full format check was also run: 156 untouched files retain pre-existing
 formatting differences (160 before this package). Its scope/configuration was
 not weakened. That repository formatting cleanup remains separate from the
@@ -170,3 +175,176 @@ existing A4 normalization, RGB SSIM and grayscale/layout SSIM pipeline. The
 same-SHA gallery results are recorded below after generation. The `render`
 branch visual promotion workflow remains the later promotion gate; it was not
 triggered by changing or promoting `render`.
+
+The first same-SHA gallery revealed an existing clone-normalization bug:
+replacing CSS zoom with a transform discarded zoom's used width and normal-flow
+height. That made later CV rubrics drift downward in the PDF even though the
+print DOM was correct. The generic normalization now snapshots all zoomed
+boxes before changing any ancestor, keeps their used dimensions and reserves
+the original flow footprint through scaled margins. No template/layout identity
+is supplied by the clone. Web appearance and pagination are unchanged.
+
+The additional 39-template browser proof compares visible and canonical print
+geometry within 0.02 mm, then normalizes a real html2canvas clone and verifies
+main/header/section/entry/photo/sidebar boxes within 0.3 mm. Font metrics and
+content must agree. This catches clone-induced flow drift separately from
+antialiasing, JPEG compression and zoom glyph rounding.
+
+The final paint audit found three additional generic html2canvas limitations:
+CSS `filter: opacity(...)` was ignored (including its stacking context), sharp
+zero-blur horizontal inset shadows filled their entire box, and physical
+lengths inside gradient stops were interpreted as pixel numbers. The capture
+clone now converts lone opacity filters to equivalent group opacity, represents
+sharp horizontal inset shadows as background stripes, and converts physical
+gradient lengths to CSS pixels. Geometry, DOM identity and live styles do not
+change. Mixed filters and blurred/spread shadows remain untouched.
+
+A direct RGB browser proof covers Aurora and Ledger's unblurred background
+fields, page edges and inset stripes at 14 locations, with a maximum four-unit RGB
+channel tolerance. The exploratory Neon check also identified existing CSS blur
+raster differences; it is recorded as a limitation rather than represented as
+pixel parity. The complete 39-template score report includes those motifs.
+No required geometry, pagination, content or selection assertions were relaxed.
+
+## Final same-SHA gallery evidence
+
+Web and combined PDF sources both identify
+`d043698c4f5b83db097d3b502a2c40cefc3e0a9d`: 39 templates, 117 Web PNGs and
+39 three-page combined PDFs. All 39 Web CV screenshots remain pixel-identical
+to Package 3.
+
+| Document      | RGB SSIM mean | Grayscale/layout SSIM mean |
+| ------------- | ------------: | -------------------------: |
+| Cover         |      0.987325 |                   0.988181 |
+| Letter        |      0.991995 |                   0.992846 |
+| CV            |      0.953837 |                   0.954503 |
+| All 117 pairs |      0.977719 |                   0.978510 |
+
+The pre-zoom CV layout mean was 0.774098; Neon improved from 0.607382 to
+0.931309. Geometry divergence is no longer detected by the covered 39-template
+fixtures. Native CSS blur and raster text/rule antialiasing still prevent pixel
+identity. Scores, observed limitations and the lowest three visual pairs are
+recorded in [the parity report](qa/cv-web-pdf-parity-report.md) and
+[all 117 scores](qa/cv-web-pdf-parity-scores.csv).
+
+The evidence/documentation commit is the successor of the source SHA above;
+it does not change the renderer. This migration was resumed from remote
+`b2477e7aea4f3def155dd9d93330cffc445b0341`.
+
+## Release commits and compatibility
+
+| Scope                                           | Commit                                     |
+| ----------------------------------------------- | ------------------------------------------ |
+| Package 1: local theme                          | `aefd25d490536a35bae4c30a39463831bae72761` |
+| Package 2: local template CSS                   | `24109a6adbdffde6488e1c2a10ec7eafda7f71b3` |
+| Package 3: local presentation                   | `fd9780ca38f9a5e1c7dd375809ff44b7fff71899` |
+| Package 4: canonical print proof                | `3fa085c6c66008e9da25fbb09a7410f2bc630106` |
+| Gallery source-directory correction             | `0d0b816cc6c1f9b24036c966f62533d3c25c58b6` |
+| Flow-preserving zoom compatibility proof        | `b2477e7aea4f3def155dd9d93330cffc445b0341` |
+| Filter, gradient and inset-stripe compatibility | `d043698c4f5b83db097d3b502a2c40cefc3e0a9d` |
+
+The CV theme, identity, presentation and measured geometry are locally owned.
+The visible route still applies the legacy dossier theme/template for editor
+compatibility. Legacy setters still expose html presentation state for controls;
+Cover/Letter clone template scoping also remains. None of these writes supplies
+CV rendering correctness. `pinCvSidebarMainGeometry()` remains a local geometry
+owner while historical horizontal `!important` rules exist.
+
+No second renderer, template-specific JavaScript workaround or temporary live
+html-template switch was introduced around export. Saved-project storage keys
+and schemas remain unchanged. No manual deployment or promotion was requested.
+`main` and `render` retain their original heads.
+
+## Complete changed-file inventory
+
+- `.github/workflows/dossier-regression.yml`
+- `docs/cv-web-pdf-parity.md`
+- `docs/qa/cv-web-pdf-parity-report.md`
+- `docs/qa/cv-web-pdf-parity-scores.csv`
+- `docs/qa/cv-web-pdf-parity-worst.png`
+- `scripts/cv_web_pdf_parity.py`
+- `src/components/cover/CoverBackground.tsx`
+- `src/components/cover/cv-card-refresh.css`
+- `src/components/cover/final-pdf-polish.css`
+- `src/components/cover/fresh-cover-visual-cleanup.css`
+- `src/components/cover/fresh-templates.css`
+- `src/components/cover/gradient-templates.css`
+- `src/components/cover/next-signature-templates.css`
+- `src/components/cover/signature-templates.css`
+- `src/components/cover/studio-cv-redesign.css`
+- `src/components/cover/studio-rework.css`
+- `src/components/cover/studio-warm-variants.css`
+- `src/components/cover/template-diagonal.css`
+- `src/components/cover/templatefix-24-25.css`
+- `src/components/cover/templatefix-29-31.css`
+- `src/components/cover/templatefix-32-36-cv-masthead.css`
+- `src/components/cover/templatefix-32-36.css`
+- `src/components/cover/templatefix-glow-density.css`
+- `src/components/cover/templatefix-mono-luxe.css`
+- `src/components/cover/templatefix-prism.css`
+- `src/components/cover/templatefix-studio-pdf-scale.css`
+- `src/components/cover/templatefix-violet-pulse.css`
+- `src/components/cover/verlauf-2-3.css`
+- `src/components/cover/verlauf-pill-fix.css`
+- `src/components/cover/warm-4-5.css`
+- `src/components/cover/warm-echo-fixes.css`
+- `src/components/cover/warm2-redesign.css`
+- `src/components/cv/CvCanvas.tsx`
+- `src/components/cv/CvCanvasBase.tsx`
+- `src/components/cv/archetype.ts`
+- `src/components/cv/citrus-rubric.css`
+- `src/components/cv/default-pagination-density.css`
+- `src/components/cv/design.ts`
+- `src/components/cv/document-title-user-override.css`
+- `src/components/cv/fresh-modern-sidebar-geometry.css`
+- `src/components/cv/full-section-rules.css`
+- `src/components/cv/intelligence.ts`
+- `src/components/cv/layout-options.css`
+- `src/components/cv/layout-variants.css`
+- `src/components/cv/layout.ts`
+- `src/components/cv/photo-place.ts`
+- `src/components/cv/photo.ts`
+- `src/components/cv/presentation.ts`
+- `src/components/cv/user-typography.css`
+- `src/components/dossier/chrome-policy.css`
+- `src/components/dossier/header-production-polish.css`
+- `src/components/dossier/human-polish.css`
+- `src/components/dossier/legacy-template-refinements.css`
+- `src/components/dossier/pastell-stationery.css`
+- `src/lib/dossier-pdf-document.ts`
+- `src/lib/dossier-theme.ts`
+- `src/lib/html2canvas-export.ts`
+- `src/routes/lebenslauf.tsx`
+- `tests/e2e/cv-combined-parity.spec.ts`
+- `tests/e2e/cv-gallery-dom-parity.spec.ts`
+- `tests/e2e/cv-edge-smoke.spec.ts`
+- `tests/e2e/cv-local-presentation.spec.ts`
+- `tests/e2e/cv-local-template-scope.spec.ts`
+- `tests/e2e/cv-pdf-paint-parity.spec.ts`
+- `tests/e2e/cv-pdf-selection-geometry.spec.ts`
+- `tests/e2e/cv-section-gap.spec.ts`
+- `tests/e2e/dossier-gallery.spec.ts`
+- `tests/e2e/dossier-regression.spec.ts`
+- `tests/e2e/dossier-web-gallery.spec.ts`
+- `tests/e2e/fresh-modern-sidebar-geometry.spec.ts`
+- `tests/e2e/support/cv-parity-data.ts`
+- `tests/e2e/support/cv-parity-fixture.ts`
+- `tests/e2e/support/cv-renderer-fixture.tsx`
+- `tests/e2e/support/gallery-source.ts`
+- `tests/e2e/support/pdf-selection-boxes.ts`
+- `tests/unit/cover-decorations.test.ts`
+- `tests/unit/cv-local-css-scope.test.ts`
+- `tests/unit/cv-local-theme.test.tsx`
+- `tests/unit/cv-pagination-design-invalidation.test.ts`
+- `tests/unit/cv-photo-frame.test.ts`
+- `tests/unit/cv-saved-design-parity.test.ts`
+- `tests/unit/dossier-chrome-renderer-boundary.test.ts`
+- `tests/unit/dossier-page-margins.test.ts`
+- `tests/unit/final-pdf-polish.test.ts`
+- `tests/unit/fresh-modern-sidebar-geometry.test.ts`
+- `tests/unit/html2canvas-export.test.ts`
+- `tests/unit/legacy-pdf-review-refinements.test.ts`
+- `tests/unit/red-dossier-coherence.test.ts`
+- `tests/unit/templatefix-32-36-cv-masthead.test.ts`
+- `tests/unit/templatefix-kolumne-contact-rail.test.ts`
+- `tests/unit/templatefix-neon-cleanup.test.ts`
