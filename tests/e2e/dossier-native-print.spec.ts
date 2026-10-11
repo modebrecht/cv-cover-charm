@@ -119,6 +119,26 @@ for (const scenario of ["simple", "multi", "studio3"] as const) {
       );
     const letters = canonical.filter((sheet) => sheet.kind === "letter").length;
     const cvs = canonical.filter((sheet) => sheet.kind === "cv").length;
+    const cvGeometry = () =>
+      canvas.locator("[data-cv-page]").evaluateAll((sheets) =>
+        sheets.map((sheet) => {
+          const p = sheet.getBoundingClientRect();
+          return Array.from(
+            sheet.querySelectorAll<HTMLElement>(
+              "[data-cv-main], [data-cv-header], [data-cv-section], [data-cv-entry-title], [data-cv-sidebar], [data-cv-photo]",
+            ),
+          ).map((node) => {
+            const r = node.getBoundingClientRect();
+            return [
+              ((r.x - p.x) / p.width) * 210,
+              ((r.y - p.y) / p.height) * 297,
+              (r.width / p.width) * 210,
+              (r.height / p.height) * 297,
+            ];
+          });
+        }),
+      );
+    const beforeGeometry = await cvGeometry();
     expect(canonical.map((sheet) => sheet.kind)).toEqual([
       "cover",
       ...Array(letters).fill("letter"),
@@ -142,11 +162,23 @@ for (const scenario of ["simple", "multi", "studio3"] as const) {
     await expect(dialog).not.toBeVisible();
     const printRoot = page.locator("body > [data-dossier-native-print-root]");
     await expect(printRoot).toBeVisible();
+    const afterGeometry = await cvGeometry();
+    expect(afterGeometry.length).toBe(beforeGeometry.length);
+    afterGeometry.forEach((nodes, pageIndex) => {
+      expect(nodes.length).toBe(beforeGeometry[pageIndex].length);
+      nodes.forEach((box, nodeIndex) =>
+        box.forEach((axis, axisIndex) =>
+          expect(
+            Math.abs(axis - beforeGeometry[pageIndex][nodeIndex][axisIndex]),
+          ).toBeLessThanOrEqual(0.02),
+        ),
+      );
+    });
     await expect(printRoot.locator(PRINT_PAGES)).toHaveCount(canonical.length);
     const geometry = await printRoot.locator(PRINT_PAGES).evaluateAll((sheets) =>
       sheets.map((sheet) => {
         const rect = sheet.getBoundingClientRect();
-        const style = getComputedStyle(sheet);
+        const style = getComputedStyle(sheet.closest("[data-dossier-print-frame]")!);
         return {
           width: rect.width,
           height: rect.height,
