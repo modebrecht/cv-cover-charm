@@ -1,0 +1,206 @@
+{
+  "scope": "Independent CI artifact versus a fresh full local engine experiment; bounded fixture acceptance only",
+  "verifiedAt": "2026-10-11",
+  "codeCheckpoint": "18dc7ea52c4155df9b8102ca03c82052f8bbf63b",
+  "workflowRuns": [
+    {
+      "id": 38076445504,
+      "name": "pages build and deployment",
+      "sha": "18dc7ea52c4155df9b8102ca03c82052f8bbf63b",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38076445504",
+      "updated": "2026-10-10T18:39:20Z"
+    },
+    {
+      "id": 38076445734,
+      "name": "Dossier Web Gallery",
+      "sha": "18dc7ea52c4155df9b8102ca03c82052f8bbf63b",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38076445734",
+      "updated": "2026-10-10T18:38:12Z"
+    },
+    {
+      "id": 38076445888,
+      "name": "DOCX Next Experimental Engine Rounding",
+      "sha": "18dc7ea52c4155df9b8102ca03c82052f8bbf63b",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38076445888",
+      "updated": "2026-10-10T18:41:33Z"
+    },
+    {
+      "id": 38076445681,
+      "name": "Dossier Regression",
+      "sha": "18dc7ea52c4155df9b8102ca03c82052f8bbf63b",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38076445681",
+      "updated": "2026-10-10T18:43:42Z"
+    },
+    {
+      "id": 38076445753,
+      "name": "DOCX Next Stable Sidebar",
+      "sha": "18dc7ea52c4155df9b8102ca03c82052f8bbf63b",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38076445753",
+      "updated": "2026-10-10T18:45:16Z"
+    }
+  ],
+  "artifact": {
+    "id": 11678970966,
+    "name": "docx-next-nearest-experimental-18dc7ea52c4155df9b8102ca03c82052f8bbf63b",
+    "size_in_bytes": 6082468,
+    "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11678970966",
+    "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11678970966/zip",
+    "expired": false,
+    "created_at": "2026-10-10T18:41:28Z",
+    "expires_at": "2026-11-09T18:41:27Z",
+    "updated_at": "2026-10-10T18:41:28Z",
+    "digest": "sha256:096ab17eb14a3891f34bb41e6d2d206904c3ad9ae8428c3f12798850906bc2ce",
+    "workflow_run": {
+      "id": 38076445888,
+      "repository_id": 1332423254,
+      "head_repository_id": 1332423254,
+      "head_branch": "dev",
+      "head_sha": "18dc7ea52c4155df9b8102ca03c82052f8bbf63b"
+    }
+  },
+  "counts": {
+    "exactSources": 22,
+    "exactNativeFinalInventories": 66,
+    "exactNativeWholeParagraphInventories": 66,
+    "exactGeometrySnapshots": 66,
+    "exactPdfPages": 564,
+    "boundPdfHashes": 132,
+    "visibleStableCases": 22,
+    "serializedStableCases": 22,
+    "committedGeometryStatesReproduced": 66,
+    "fixtureMetadataDifferencesLimitedToNormalizerLabel": 22
+  },
+  "ciContentReportSha256": "e822c35fec1e124011fbedf353a0bb0fe46af99ee789a8b8c9b4cdfa7c1d70cf",
+  "ciGeometryReportSha256": "bcaf2ad75e3f7f0e09487727ec0a448b5545d99bdb7a14f8a92703043f284c7d",
+  "localGeometryReportSha256": "87d1408d3bfafc23f6f6c157a8d841756a8c993eff124fe7d4a004a22a3d2227",
+  "geometryAcceptance": "unaccepted",
+  "productionAcceptance": "blocked",
+  "stockWriterSha256": "ecc533cd929a8a044129026b519a87917803e0db7eb1c6bbec84f5511231397b",
+  "candidateWriterSha256": "dba8422194d7326f31fabb114ca120ed5cc116e4aa36b26c6c0faa43230fee85",
+  "changedBytes": 64,
+  "contentRoundtripAcceptance": "pass",
+  "experimentalGeometryChecks": {
+    "sourceGridConsistencyAcceptance": "pass",
+    "exactVisibleGeometryAcceptance": "pass",
+    "exactSerializedGeometryAcceptance": "pass",
+    "exactPublicGridStabilityAcceptance": "pass"
+  },
+  "sourceBuildExecuted": false,
+  "microsoftWordAccepted": 0,
+  "renderScale": 2,
+  "differences": {
+    "sourceFixtureMetadata": "22 sourceImageNormalizer labels: fresh-browser versus verified-browser-output-replay; all other fixture values and all 22 source DOCX bytes exact",
+    "pdfBytes": "Not required equal; actual hashes are independently bound to both reports; every rendered page pixel and word coordinate is exact",
+    "savedPackageContents": {
+      "changedParts": {
+        "word/styles.xml": 44
+      },
+      "differences": [
+        {
+          "left": {
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ascii": "Arial",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}cs": "DejaVu Sans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}eastAsia": "DejaVu Sans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}hAnsi": "Arial"
+          },
+          "path": "word/styles.xml/docDefaults[0]/rPrDefault[0]/rPr[0]/rFonts[0]",
+          "right": {
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ascii": "Arial",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}cs": "FreeSans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}eastAsia": "WenQuanYi Zen Hei",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}hAnsi": "Arial"
+          },
+          "occurrences": 44
+        },
+        {
+          "left": {
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ascii": "Arial",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}cs": "DejaVu Sans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}eastAsia": "DejaVu Sans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}hAnsi": "Arial"
+          },
+          "path": "word/styles.xml/style[0]/rPr[0]/rFonts[0]",
+          "right": {
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ascii": "Arial",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}cs": "FreeSans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}eastAsia": "WenQuanYi Zen Hei",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}hAnsi": "Arial"
+          },
+          "occurrences": 44
+        },
+        {
+          "left": {
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ascii": "Liberation Sans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}cs": "DejaVu Sans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}eastAsia": "DejaVu Sans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}hAnsi": "Liberation Sans"
+          },
+          "path": "word/styles.xml/style[2]/rPr[0]/rFonts[0]",
+          "right": {
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}ascii": "Liberation Sans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}cs": "FreeSans",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}eastAsia": "WenQuanYi Zen Hei",
+            "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}hAnsi": "Liberation Sans"
+          },
+          "occurrences": 44
+        },
+        {
+          "left": [],
+          "path": "word/styles.xml/style[4]/rPr[0]/rFonts",
+          "right": [
+            "<ns0:rFonts xmlns:ns0=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\" ns0:cs=\"FreeSans\" />"
+          ],
+          "occurrences": 44
+        },
+        {
+          "left": [],
+          "path": "word/styles.xml/style[5]/rPr[0]/rFonts",
+          "right": [
+            "<ns0:rFonts xmlns:ns0=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\" ns0:cs=\"FreeSans\" />"
+          ],
+          "occurrences": 44
+        },
+        {
+          "left": [],
+          "path": "word/styles.xml/style[6]/rPr[0]/rFonts",
+          "right": [
+            "<ns0:rFonts xmlns:ns0=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\" ns0:cs=\"FreeSans\" />"
+          ],
+          "occurrences": 44
+        }
+      ]
+    },
+    "savedZipBytes": "Not asserted equal; all 66 actual native input hashes verified against packages"
+  },
+  "reportHashes": {
+    "ciProvenance": "52ae4b627ec93c64480db5bc1e33a0dd939930da7998ee1c00a167d2fccc524b",
+    "localProvenance": "31a0488f6dbad7ba8b93b73c93d725ca143dd3edc7200d6aedf17544759308dc",
+    "localContentReport": "a07caf4aa11cbad9dc7a46a6f3bcfd00e80053e566a3b6ceb2655aa5357b8194"
+  },
+  "method": [
+    "Verify downloaded ZIP digest and size against GitHub artifact metadata",
+    "Rerun committed full 22-case experiment on a new independently copied local runtime with --require-exact",
+    "Compare each source DOCX byte, complete native final controls and paragraph inventories for all 66 states",
+    "Compare all PDF word tuples and actual RGB page pixels at scale 2 across both runs",
+    "Verify actual native DOCX/PDF input hashes and complete content/geometry reports, excluding independently bound output hashes and the explicit normalizer label",
+    "Compare all saved ZIP part inventories/content; retain all six observed fallback-font style differences",
+    "Compare original compact geometry evidence for all 66 states and all 44 save comparisons"
+  ],
+  "limits": [
+    "No official source build executed",
+    "No upstream engine release or user-engine change",
+    "No application production gate change",
+    "No arbitrary-width, script, template or Word acceptance",
+    "Source pointer samples do not prove control/owner lifetime"
+  ]
+}

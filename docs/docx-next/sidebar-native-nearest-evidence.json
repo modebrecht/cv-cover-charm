@@ -5843,7 +5843,18 @@
       ]
     }
   ],
-  "independentCI": "pending",
+  "independentCI": {
+    "status": "verified",
+    "codeCheckpoint": "18dc7ea52c4155df9b8102ca03c82052f8bbf63b",
+    "workflowRunId": 38076445888,
+    "artifactId": 11678970966,
+    "artifactSha256": "096ab17eb14a3891f34bb41e6d2d206904c3ad9ae8428c3f12798850906bc2ce",
+    "evidence": "docs/docx-next/sidebar-native-nearest-independent-evidence.json",
+    "exactSources": 22,
+    "exactNativeStates": 66,
+    "exactPdfPages": 564,
+    "savedFallbackStylesDiffer": true
+  },
   "limits": [
     "No official source build executed",
     "No upstream engine release or user-engine change",
