@@ -21,7 +21,7 @@ import {
   getDossierPageMarginsSnapshot,
   subscribeDossierPageMargins,
 } from "@/lib/dossier-page-margins";
-import { applyDossierTheme } from "@/lib/dossier-theme";
+import { applyDossierTheme, dossierThemeCssVariables } from "@/lib/dossier-theme";
 import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
 import {
   resolveDossierChromeDocumentContent,
@@ -31,12 +31,7 @@ import { CvPageFitMenuPortal } from "./CvPageFitMenuPortal";
 import { CvTextAlignmentPortal } from "./CvTextAlignmentPortal";
 import { getCvTextAlignment, subscribeCvTextAlignment } from "./text-alignment";
 import { cvContentBox, cvFrameFor } from "./archetype";
-import {
-  CV_LAYOUT_EVENT,
-  getCvInfoPosition,
-  getCvLayout,
-  subscribeCvLayout,
-} from "./layout";
+import { CV_LAYOUT_EVENT, getCvInfoPosition, getCvLayout, subscribeCvLayout } from "./layout";
 import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
 import { resolveCvRubricOptions } from "./citrus-rubric";
 import {
@@ -172,16 +167,8 @@ export function pinCvSidebarMainGeometry(scope: HTMLElement) {
     const computed = window.getComputedStyle(main);
     const cvRoot = main.closest<HTMLElement>('[data-dossier-document="cv"]');
     const mirrored = cvRoot?.dataset.cvInfoPosition === "mirrored";
-    const customLeftMm = customMargins
-      ? mirrored
-        ? customMargins.right
-        : customMargins.left
-      : 0;
-    const customRightMm = customMargins
-      ? mirrored
-        ? customMargins.left
-        : customMargins.right
-      : 0;
+    const customLeftMm = customMargins ? (mirrored ? customMargins.right : customMargins.left) : 0;
+    const customRightMm = customMargins ? (mirrored ? customMargins.left : customMargins.right) : 0;
 
     let leftMm = Math.max(
       cssMm(computed.getPropertyValue("--cv-modern-physical-left")) ?? 0,
@@ -255,11 +242,7 @@ export function CvCanvas({
   const pageFitMode = useSyncExternalStore(subscribeCvPageFit, getCvPageFitMode, () => null);
   const pageFitRevision = useSyncExternalStore(subscribeCvPageFit, getCvPageFitRevision, () => 0);
   const pageFitLayout = useSyncExternalStore(subscribeCvLayout, getCvLayout, () => "classic");
-  const infoPosition = useSyncExternalStore(
-    subscribeCvLayout,
-    getCvInfoPosition,
-    () => "standard",
-  );
+  const infoPosition = useSyncExternalStore(subscribeCvLayout, getCvInfoPosition, () => "standard");
   // Page margins are stored outside the legacy CV JSON. Subscribing here keeps
   // preview, pagination and hidden PDF canvases on one geometry path.
   useSyncExternalStore(subscribeDossierPageMargins, getDossierPageMarginsSnapshot, () => "{}");
@@ -429,6 +412,7 @@ export function CvCanvas({
       ? nameStyle.color.trim()
       : undefined;
   const geometryStyle = {
+    ...dossierThemeCssVariables(design.template, design.font),
     display: "contents",
     "--cv-classic-main-left": `${classicBox.left}mm`,
     "--cv-classic-main-right": `${classicBox.right}mm`,

@@ -150,10 +150,7 @@ export function dossierThemeFor(template: TemplateId): DossierTheme {
  * own fallback (the motivation letter used to force `sans`, which split
  * Editorial/Executive dossiers into different typefaces).
  */
-export function effectiveDossierFont(
-  template: TemplateId,
-  fontOverride?: FontKey | null,
-): string {
+export function effectiveDossierFont(template: TemplateId, fontOverride?: FontKey | null): string {
   return fontOverride ? FONT_STACKS[fontOverride] : dossierThemeFor(template).typography.fontStack;
 }
 
@@ -182,7 +179,47 @@ export function dossierNameScale(name: string): number {
   return clamp(scale, 0.7, 1);
 }
 
-/** Apply the shared family contract as CSS custom properties used by all dossier documents. */
+/** Complete, side-effect-free custom-property contract, available during React render. */
+export function dossierThemeCssVariables(
+  template: TemplateId,
+  fontOverride?: FontKey | null,
+  familyOverride?: DossierFamilyId,
+): Record<`--dossier-${string}`, string> {
+  const theme = dossierThemeForFamily(familyOverride ?? familyForTemplate(template));
+  const density = theme.spacingDensity;
+  return {
+    "--dossier-font": effectiveDossierFont(template, fontOverride),
+    "--dossier-name-weight": String(theme.typography.nameWeight),
+    "--dossier-name-tracking": `${theme.typography.nameTrackingEm}em`,
+    "--dossier-name-line-height": String(theme.typography.nameLineHeight),
+    "--dossier-subtitle-weight": String(theme.typography.subtitleWeight),
+    "--dossier-subtitle-tracking": `${theme.typography.subtitleTrackingEm}em`,
+    "--dossier-subtitle-line-height": String(theme.typography.subtitleLineHeight),
+    "--dossier-body-weight": String(theme.typography.bodyWeight),
+    "--dossier-body-line-height": String(theme.typography.bodyLineHeight),
+    "--dossier-muted-opacity": String(theme.typography.mutedOpacity),
+    "--dossier-accent-opacity": String(theme.accentTreatment.opacity),
+    "--dossier-heading-weight": String(theme.headingStyle.weight),
+    "--dossier-heading-tracking": `${theme.headingStyle.trackingEm}em`,
+    "--dossier-heading-line-height": String(theme.headingStyle.lineHeight),
+    "--dossier-heading-transform": theme.headingStyle.uppercase ? "uppercase" : "none",
+    "--dossier-line-thickness": `${theme.lineThicknessMm}mm`,
+    "--dossier-corner-radius": `${theme.cornerRadiusMm}mm`,
+    "--dossier-spacing-density": String(density),
+    "--dossier-section-gap": `${4 * density}mm`,
+    "--dossier-section-gap-small": `${1.8 * density}mm`,
+    "--dossier-entry-gap": `${2.4 * density}mm`,
+    "--dossier-entry-gap-small": `${1.45 * density}mm`,
+    "--dossier-header-gap": `${3.4 * density}mm`,
+    "--dossier-subtitle-gap": `${1.2 * density}mm`,
+    "--dossier-cover-line-height": String(theme.typography.bodyLineHeight),
+    "--dossier-photo-contrast": String(theme.photoTreatment.contrast),
+    "--dossier-photo-saturation": String(theme.photoTreatment.saturation),
+    "--dossier-background-intensity": String(theme.backgroundIntensity),
+  };
+}
+
+/** Legacy route compatibility: apply the same contract globally. */
 export function applyDossierTheme(
   template: TemplateId,
   familyOverride?: DossierFamilyId,
@@ -191,44 +228,13 @@ export function applyDossierTheme(
   const family = familyOverride ?? getDossierFamily(template);
   const theme = dossierThemeForFamily(family);
   if (typeof document === "undefined") return theme;
-
   const root = document.documentElement;
-  const density = theme.spacingDensity;
   root.dataset.dossierTemplate = template;
   root.dataset.dossierFamily = family;
-  root.style.setProperty("--dossier-font", effectiveDossierFont(template, fontOverride));
-  root.style.setProperty("--dossier-name-weight", String(theme.typography.nameWeight));
-  root.style.setProperty("--dossier-name-tracking", `${theme.typography.nameTrackingEm}em`);
-  root.style.setProperty("--dossier-name-line-height", String(theme.typography.nameLineHeight));
-  root.style.setProperty("--dossier-subtitle-weight", String(theme.typography.subtitleWeight));
-  root.style.setProperty("--dossier-subtitle-tracking", `${theme.typography.subtitleTrackingEm}em`);
-  root.style.setProperty(
-    "--dossier-subtitle-line-height",
-    String(theme.typography.subtitleLineHeight),
-  );
-  root.style.setProperty("--dossier-body-weight", String(theme.typography.bodyWeight));
-  root.style.setProperty("--dossier-body-line-height", String(theme.typography.bodyLineHeight));
-  root.style.setProperty("--dossier-muted-opacity", String(theme.typography.mutedOpacity));
-  root.style.setProperty("--dossier-accent-opacity", String(theme.accentTreatment.opacity));
-  root.style.setProperty("--dossier-heading-weight", String(theme.headingStyle.weight));
-  root.style.setProperty("--dossier-heading-tracking", `${theme.headingStyle.trackingEm}em`);
-  root.style.setProperty("--dossier-heading-line-height", String(theme.headingStyle.lineHeight));
-  root.style.setProperty(
-    "--dossier-heading-transform",
-    theme.headingStyle.uppercase ? "uppercase" : "none",
-  );
-  root.style.setProperty("--dossier-line-thickness", `${theme.lineThicknessMm}mm`);
-  root.style.setProperty("--dossier-corner-radius", `${theme.cornerRadiusMm}mm`);
-  root.style.setProperty("--dossier-spacing-density", String(density));
-  root.style.setProperty("--dossier-section-gap", `${4 * density}mm`);
-  root.style.setProperty("--dossier-section-gap-small", `${1.8 * density}mm`);
-  root.style.setProperty("--dossier-entry-gap", `${2.4 * density}mm`);
-  root.style.setProperty("--dossier-entry-gap-small", `${1.45 * density}mm`);
-  root.style.setProperty("--dossier-header-gap", `${3.4 * density}mm`);
-  root.style.setProperty("--dossier-subtitle-gap", `${1.2 * density}mm`);
-  root.style.setProperty("--dossier-cover-line-height", String(theme.typography.bodyLineHeight));
-  root.style.setProperty("--dossier-photo-contrast", String(theme.photoTreatment.contrast));
-  root.style.setProperty("--dossier-photo-saturation", String(theme.photoTreatment.saturation));
-  root.style.setProperty("--dossier-background-intensity", String(theme.backgroundIntensity));
+  for (const [property, value] of Object.entries(
+    dossierThemeCssVariables(template, fontOverride, family),
+  )) {
+    root.style.setProperty(property, value);
+  }
   return theme;
 }
