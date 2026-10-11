@@ -30,6 +30,9 @@ type Props = {
   docxTemplateLabel?: string | null;
   onClose: () => void;
   onDownload: (format: DossierExportFormat) => void | Promise<void>;
+  onNativePrint?: () => void | Promise<void>;
+  nativePrinting?: boolean;
+  nativePrintError?: string | null;
 };
 
 function joinParts(parts: string[]) {
@@ -83,6 +86,9 @@ export function DossierExportDialog({
   docxTemplateLabel,
   onClose,
   onDownload,
+  onNativePrint,
+  nativePrinting = false,
+  nativePrintError,
 }: Props) {
   const downloadRef = useRef<HTMLButtonElement>(null);
   const [format, setFormat] = useState<DossierExportFormat>("pdf");
@@ -92,6 +98,7 @@ export function DossierExportDialog({
     jsonAvailable !== undefined || pdfAvailable !== undefined || docxAvailable !== undefined;
   const canDownloadPdf = pdfAvailable ?? true;
   const canDownloadDocx = docxAvailable ?? false;
+  const busy = downloading || nativePrinting;
 
   const cover = coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY));
   const letter = letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY));
@@ -127,11 +134,11 @@ export function DossierExportDialog({
     if (!open) return;
     downloadRef.current?.focus();
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !downloading) onClose();
+      if (event.key === "Escape" && !busy) onClose();
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [downloading, onClose, open]);
+  }, [busy, onClose, open]);
 
   useEffect(() => {
     if (!open || !canDownloadPdf) {
@@ -183,12 +190,8 @@ export function DossierExportDialog({
 
   const layoutPending = warnings === null || letterOverflow === null;
   const pdfBlocked =
-    !canDownloadPdf ||
-    downloading ||
-    layoutPending ||
-    !letterState.readyToSend ||
-    letterOverflow === true;
-  const docxBlocked = !canDownloadDocx || downloading || !letterState.readyToSend;
+    !canDownloadPdf || busy || layoutPending || !letterState.readyToSend || letterOverflow === true;
+  const docxBlocked = !canDownloadDocx || busy || !letterState.readyToSend;
   const letterIssueCount =
     letterHasContent && !letterState.readyToSend ? letterState.missing.length : 0;
   const docxDesignIssue =
@@ -233,8 +236,7 @@ export function DossierExportDialog({
         ? `Bereit · ${advisoryCount} Hinweis${advisoryCount === 1 ? "" : "e"}`
         : "Alles bereit";
 
-  const downloadBlocked =
-    format === "pdf" ? pdfBlocked : format === "docx" ? docxBlocked : downloading;
+  const downloadBlocked = format === "pdf" ? pdfBlocked : format === "docx" ? docxBlocked : busy;
   const actionLabel = !formatSelectionEnabled
     ? downloading
       ? "PDF wird erstellt…"
@@ -259,7 +261,7 @@ export function DossierExportDialog({
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/35 p-2 backdrop-blur-[1px] sm:p-4"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget && !downloading) onClose();
+        if (event.target === event.currentTarget && !busy) onClose();
       }}
     >
       <div
@@ -291,9 +293,9 @@ export function DossierExportDialog({
               role="radio"
               aria-label="Projektdatei (JSON) – Projekt speichern"
               aria-checked={format === "json"}
-              disabled={downloading}
+              disabled={busy}
               onClick={() => setFormat("json")}
-              className={optionClass(format === "json", downloading)}
+              className={optionClass(format === "json", busy)}
             >
               <span className="flex items-center gap-3">
                 <FileFormatIcon label="JSON" />
@@ -308,9 +310,9 @@ export function DossierExportDialog({
               role="radio"
               aria-label="Fertiges Dossier (PDF)"
               aria-checked={format === "pdf"}
-              disabled={!canDownloadPdf || downloading}
+              disabled={!canDownloadPdf || busy}
               onClick={() => setFormat("pdf")}
-              className={optionClass(format === "pdf", !canDownloadPdf || downloading)}
+              className={optionClass(format === "pdf", !canDownloadPdf || busy)}
             >
               <span className="flex items-center gap-3">
                 <FileFormatIcon label="PDF" />
@@ -417,11 +419,38 @@ export function DossierExportDialog({
           </div>
         </details>
 
-        <div className="mt-4 flex items-center justify-end gap-2">
+        {onNativePrint ? (
+          <div className="mt-3 rounded-lg border px-3 py-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p id="native-print-help" className="text-xs text-muted-foreground">
+                Experiment · öffnet den Druckdialog. Dort «Als PDF speichern» wählen.
+              </p>
+              <button
+                type="button"
+                onClick={() => void onNativePrint()}
+                disabled={pdfBlocked}
+                aria-describedby="native-print-help"
+                className="rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-accent disabled:opacity-50"
+              >
+                {nativePrinting ? "Druckdialog wird vorbereitet…" : "Drucken / als PDF speichern"}
+              </button>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              A4 · Skalierung 100 % · ohne Kopf-/Fusszeilen.
+            </p>
+            {nativePrintError ? (
+              <p role="alert" className="mt-2 text-sm text-destructive">
+                {nativePrintError}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className="mt-4 flex flex-wrap items-center justify-end gap-2">
           <button
             type="button"
             onClick={onClose}
-            disabled={downloading}
+            disabled={busy}
             className="rounded-md border border-input px-4 py-2 text-sm font-medium hover:bg-accent disabled:opacity-50"
           >
             Zurück zum Bearbeiten

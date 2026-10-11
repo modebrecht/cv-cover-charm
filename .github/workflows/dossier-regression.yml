@@ -7,6 +7,7 @@ on:
     branches:
       - letter-m1-m2
       - dev
+      - dev-native-chromium-print
       - docx-next/integrate-39-templates
       - render
       - main
@@ -109,6 +110,7 @@ jobs:
               tests/e2e/letter-physical-preflight.spec.ts
           - group: cv-pdf
             files: >-
+              tests/e2e/dossier-native-print.spec.ts
               tests/e2e/element-ratio-lock.spec.ts
               tests/e2e/cv-edge-smoke.spec.ts
               tests/e2e/cv-card-refresh.spec.ts
