@@ -2,7 +2,8 @@
 import tempfile
 import unittest
 from pathlib import Path
-from native_chromium_print_benchmark import audit_manifest, geometry_delta
+import fitz
+from native_chromium_print_benchmark import audit_manifest, geometry_delta, audit_long_distribution
 from run_native_chromium_benchmark import experiment_source
 
 
@@ -51,6 +52,24 @@ class BenchmarkAuditTest(unittest.TestCase):
         base = {"nodes":[{"text":"same","font":[],"box":[0,0,1,1]}]}
         changed = {"nodes":[{"text":"same","font":[],"box":[0,.1,1,1]}]}
         self.assertAlmostEqual(geometry_delta(base,changed),.1)
+
+    def test_long_marker_audit_reads_actual_pdf_pages(self):
+        markers = [f"Briefmarker{i:02}" for i in range(1,15)] + [f"Praxisstation {i:02}" for i in range(1,19)] + ["Referenzmarker"]
+        case = {"base":"long", "canonical":[{"text":"\n".join(markers)}, {"text":"Other page"}]}
+        with tempfile.TemporaryDirectory() as folder:
+            for path in ["current", "native"]:
+                with fitz.open() as pdf:
+                    pdf.new_page().insert_text((20,20), "\n".join(markers), fontsize=8)
+                    pdf.new_page().insert_text((20,20), "Other page")
+                    pdf.save(Path(folder, f"long--{path}.pdf"))
+            self.assertEqual(set(audit_long_distribution(case,Path(folder)).values()), {1})
+            Path(folder,"long--native.pdf").unlink()
+            with fitz.open() as pdf:
+                pdf.new_page().insert_text((20,20), "\n".join(markers[1:]), fontsize=8)
+                pdf.new_page().insert_text((20,20), markers[0])
+                pdf.save(Path(folder,"long--native.pdf"))
+            with self.assertRaisesRegex(ValueError,"Changed marker distribution"):
+                audit_long_distribution(case,Path(folder))
 
 
 if __name__ == "__main__": unittest.main()

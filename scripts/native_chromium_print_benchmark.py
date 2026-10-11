@@ -62,6 +62,25 @@ def geometry_delta(a, b):
     return maximum
 
 
+def audit_long_distribution(case, folder):
+    """Recheck PDF bytes, not only capture-time page metadata."""
+    markers = [f"Briefmarker{i:02}" for i in range(1, 15)] + [
+        f"Praxisstation {i:02}" for i in range(1, 19)
+    ] + ["Referenzmarker"]
+    distribution = {}
+    for marker in markers:
+        expected = [i for i, page in enumerate(case["canonical"]) if marker in page["text"]]
+        if len(expected) != 1:
+            raise ValueError(f"Ambiguous canonical marker: {case['base']} {marker}")
+        for path in ["current", "native"]:
+            with fitz.open(folder / f"{case['base']}--{path}.pdf") as pdf:
+                actual = [i for i, page in enumerate(pdf) if marker in page.get_text()]
+            if actual != expected:
+                raise ValueError(f"Changed marker distribution: {case['base']} {path} {marker}")
+        distribution[marker] = expected[0] + 1
+    return distribution
+
+
 def raster_pages(row, path, folder, output):
     result = {}
     with fitz.open(folder / f"{row['base']}--{path}.pdf") as pdf:
@@ -83,7 +102,7 @@ def write_csv(path, rows):
         writer = csv.DictWriter(file, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
 
 
-def contact_sheet(rows, images, target, title, source_sha="pilot"):
+def contact_sheet(rows, images, target, title, source_sha="pilot", document="cv"):
     width, height, pad, label = 318, 450, 16, 36
     sheet = Image.new("RGB", (3*width+4*pad, 85+len(rows)*(height+label+pad)), "#e5e7eb")
     draw = ImageDraw.Draw(sheet)
@@ -95,7 +114,7 @@ def contact_sheet(rows, images, target, title, source_sha="pilot"):
         for col,path in enumerate(["web","current","native"]):
             left = pad+col*(width+pad)
             draw.text((left,top), f"{row['template']} | {path.upper()}", fill="#111827", font=font)
-            with Image.open(images[(row["template"],"cv",path)]) as im:
+            with Image.open(images[(row["template"],document,path)]) as im:
                 sheet.paste(im.convert("RGB").resize((width,height), Image.Resampling.LANCZOS), (left,top+label))
     metadata = PngInfo(); metadata.add_text("SourceSHA", source_sha)
     sheet.save(target, optimize=True, pnginfo=metadata)
@@ -108,6 +127,7 @@ def main():
     args = parser.parse_args(); folder, output = args.capture_dir, args.out_dir
     manifest = json.loads((folder/"manifest.json").read_text())
     sha = audit_manifest(manifest, folder)
+    long_distribution = {case["base"]:audit_long_distribution(case,folder) for case in manifest["longs"]}
     output.mkdir(parents=True, exist_ok=True)
     rows, images, geometries, text_checks = [], {}, [], []
     for case in manifest["rows"]:
@@ -178,6 +198,11 @@ def main():
         if r not in selected: selected.append(r)
     for i in range(0,len(selected),3):
         contact_sheet(selected[i:i+3],images,output/f"native-chromium-print-contact-{i//3+1}.png","WEB | CURRENT PDF | NATIVE PDF — CV, same source",sha)
+    for kind in ["cover", "letter"]:
+        # A reporting threshold only; this does not relax a structural guard.
+        regressions = sorted([r for r in rows if r["document"] == kind and r["layout_delta"] < -.01], key=lambda r:r["layout_delta"])
+        for i in range(0,len(regressions),3):
+            contact_sheet(regressions[i:i+3],images,output/f"native-chromium-print-{kind}-regressions-{i//3+1}.png",f"WEB | CURRENT PDF | NATIVE PDF — {kind.upper()}, same source",sha,kind)
     metadata = {"source_sha":sha,"source_tree":manifest["sourceTree"],"browser":manifest["browser"],"playwright":manifest["playwright"],"pdf_options":manifest["pdfOptions"],
         "environment":manifest["environment"],
         "browser_command_line":manifest["browserCommandLine"],
@@ -186,6 +211,7 @@ def main():
         "file_bytes":{path:stats([r[path]["bytes"] for r in manifest["rows"]]) for path in ["current","native"]},
         "generation_ms":{path:stats([r[path]["ms"] for r in manifest["rows"]]) for path in ["current","native"]},
         "long_fixtures":[{"fixture":r["base"],"canonical_pages":[p["kind"] for p in r["canonical"]],"current_pages":len(r["current"]["pages"]),"native_pages":len(r["native"]["pages"])} for r in manifest["longs"]],
+        "long_marker_distribution":long_distribution,
         "cv_deltas_descending":sorted(cv,key=lambda r:r["layout_delta"],reverse=True)}
     (output/"native-chromium-print-summary.json").write_text(json.dumps(metadata,indent=2)+"\n")
     provenance = {"source_sha":sha,"source_tree":manifest["sourceTree"],"rows":[{
