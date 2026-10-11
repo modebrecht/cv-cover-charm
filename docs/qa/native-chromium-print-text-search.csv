@@ -1,0 +1,391 @@
+template,path,source_sha,sample,text,present_ignoring_whitespace,literal_search_hits
+Brief,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Brief,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Brief,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Brief,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Brief,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Brief,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Brief,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Brief,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Brief,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Brief,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Editorial,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Editorial,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Editorial,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Editorial,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Editorial,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Editorial,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Editorial,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Editorial,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Editorial,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Editorial,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Modern,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Modern,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Modern,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Modern,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Modern,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Modern,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Modern,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Modern,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Modern,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,0
+Modern,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Warm,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Warm,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Warm,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,2
+Warm,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Warm,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Warm,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Warm,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Warm,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,2
+Warm,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Warm,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Edel,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Edel,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Edel,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Edel,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Edel,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Edel,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Edel,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Edel,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Edel,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Edel,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Colorful,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Colorful,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Colorful,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Colorful,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Colorful,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Colorful,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Colorful,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Colorful,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Colorful,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Colorful,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Blockig,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Blockig,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Blockig,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Blockig,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Blockig,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Blockig,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Blockig,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Blockig,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Blockig,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Blockig,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Seriös,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Seriös,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Seriös,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Seriös,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Seriös,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Seriös,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Seriös,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Seriös,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Seriös,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Seriös,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Human,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Human,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Human,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Human,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Human,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Human,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Human,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Human,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Human,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Human,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Horizont,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Horizont,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Horizont,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Horizont,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Horizont,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Horizont,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Horizont,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Horizont,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Horizont,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Horizont,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Kolumne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Kolumne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Kolumne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Kolumne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Kontakt,True,1
+Kolumne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Kolumne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Kolumne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Kolumne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Kolumne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Kontakt,True,1
+Kolumne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Rahmen,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Rahmen,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Rahmen,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Rahmen,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Rahmen,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Rahmen,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Rahmen,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Rahmen,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Rahmen,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Rahmen,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Sonne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Sonne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Sonne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Sonne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Sonne,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Sonne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Sonne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Sonne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Sonne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,0
+Sonne,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Studio,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Studio,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Studio,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Studio,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Studio,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Studio,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Studio,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Studio,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Studio,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,0
+Studio,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Neon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Neon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Neon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Neon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Neon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Neon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Neon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Neon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,2
+Neon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,0
+Neon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Aurora,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Aurora,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Aurora,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Aurora,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Aurora,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Aurora,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Aurora,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Aurora,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Aurora,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,0
+Aurora,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Verlauf,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Verlauf,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Verlauf,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Verlauf,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Verlauf,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Verlauf,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Verlauf,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Verlauf,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Verlauf,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Verlauf,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Citrus,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Citrus,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Citrus,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Citrus,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Citrus,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Citrus,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Citrus,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Citrus,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Citrus,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Citrus,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Edge,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Edge,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Edge,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Edge,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Edge,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Edge,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Edge,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Edge,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Edge,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Edge,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Glow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Glow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Glow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Glow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Glow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Glow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Glow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Glow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Glow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Glow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Mono Luxe,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Mono Luxe,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Mono Luxe,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Mono Luxe,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Mono Luxe,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Mono Luxe,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Mono Luxe,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Mono Luxe,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Mono Luxe,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Mono Luxe,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Horizon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Horizon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Horizon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Horizon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Horizon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Horizon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Horizon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Horizon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Horizon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Horizon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Sunrise,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Sunrise,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Sunrise,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Sunrise,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Sunrise,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Sunrise,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Sunrise,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Sunrise,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Sunrise,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Sunrise,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Forest Flow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Forest Flow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Forest Flow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Forest Flow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Forest Flow,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Forest Flow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Forest Flow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Forest Flow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Forest Flow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Forest Flow,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Violet Pulse,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Violet Pulse,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Violet Pulse,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Violet Pulse,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Violet Pulse,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Violet Pulse,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Violet Pulse,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Violet Pulse,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Violet Pulse,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Violet Pulse,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Studio 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Studio 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Studio 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Studio 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Studio 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Studio 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Studio 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Studio 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Studio 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Studio 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Studio 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Studio 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Studio 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Studio 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Studio 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Studio 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Studio 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Studio 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Studio 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Studio 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Warm 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Warm 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Warm 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Warm 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Warm 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Warm 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Warm 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Warm 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Warm 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Warm 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Warm 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Warm 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Warm 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Warm 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Warm 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Warm 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Warm 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Warm 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Warm 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Warm 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Verlauf 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Verlauf 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Verlauf 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Verlauf 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Verlauf 2,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Verlauf 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Verlauf 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Verlauf 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Verlauf 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Verlauf 2,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Verlauf 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Verlauf 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Verlauf 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Verlauf 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Verlauf 3,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Verlauf 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Verlauf 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Verlauf 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Verlauf 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Verlauf 3,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Ledger,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Ledger,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Ledger,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Ledger,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Ledger,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Ledger,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Ledger,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Ledger,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Ledger,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Ledger,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Prism,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Prism,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Prism,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Prism,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Prism,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Prism,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Prism,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Prism,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Prism,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Prism,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Gallery,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Gallery,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Gallery,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Gallery,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Gallery,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Gallery,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Gallery,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,4
+Gallery,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Gallery,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Gallery,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Orbit,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Orbit,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Orbit,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Orbit,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Orbit,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Orbit,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Orbit,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Orbit,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Orbit,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Orbit,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Ribbon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Ribbon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Ribbon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Ribbon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Ribbon,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Ribbon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Ribbon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Ribbon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Ribbon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Ribbon,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Cove,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Cove,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Cove,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Cove,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Cove,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Cove,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Cove,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Cove,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Cove,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Cove,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Diagonal,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Diagonal,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Diagonal,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Diagonal,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Diagonal,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Diagonal,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Diagonal,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Diagonal,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Diagonal,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Diagonal,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Edel Dark,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Edel Dark,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Edel Dark,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Edel Dark,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Edel Dark,current,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
+Edel Dark,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_header,Herr Thomas Weber,True,1
+Edel Dark,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,letter_body,Die Informatik begeistert mich,True,1
+Edel Dark,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_name,Lea Müller,True,1
+Edel Dark,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_section,Familie,True,1
+Edel Dark,native,76d01bddcd7478e59af6c7b92ea251f37ec3f7ef,cv_entry,"Sekundarschule, Niveau A",True,1
