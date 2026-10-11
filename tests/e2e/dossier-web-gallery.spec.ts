@@ -109,5 +109,5 @@ test("all 39 live dossier templates produce visible Web preview screenshots", as
     `${manifestEntries.join("\n")}\n`,
     "utf8",
   );
-  await recordGallerySource(WEB_GALLERY_DIR);
+  await recordGallerySource(GALLERY_DIR);
 });
