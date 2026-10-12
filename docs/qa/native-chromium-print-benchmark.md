@@ -1,5 +1,7 @@
 # Native Chromium Print Benchmark - Package 2
 
+**Latest evidence: [Package 3](#package-3--renderer-local-architecture-and-matched-source-rerun) recommends B. The Package 2 section and results below are preserved as the historical baseline.**
+
 **Recommendation C: abandon the current native-print experiment as a complete-dossier product option; keep the automatic PDF export primary.** Its CV improvements are substantial, but incorrect Covers and two systematically scaled dossiers outweigh them. This is a decision about the measured implementation. The experiment branch and evidence are retained for review; no button, library or production branch was changed as a decision implementation.
 
 ## Scope and provenance
@@ -273,3 +275,222 @@ Protected remote refs remain:
 No deployment, promotion, merge, force push, rebase, amend or squash of published history.
 
 Next: decide whether Native Chromium Print should be promoted, retained as an optional high-quality export, or discarded.
+
+---
+
+## Package 3 — Renderer-local architecture and matched-source rerun
+
+**Recommendation B — Keep automatic html2canvas/jsPDF primary; native Chromium is now worth retaining as an optional higher-fidelity export.** The Package 2 complete-dossier rejection is superseded by this repaired implementation and cohort. No promotion, merge or deployment is performed. The option remains confined to the experiment branch.
+
+### Provenance and unchanged benchmark
+
+Remote reconstruction and the continuation fetch both confirmed `dev` at `e3a7bc18868e94813377db4261f7e3c180e0e6fa`, experiment start at `a8cd824dfe1e43fbe5fa94a0afe0d5c9e66ed864`, `main` at `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`, and `render` at `4319c20fb85d3971ac355ae8898cdfef86ee7a8c`. The starting tree was clean; dev had 24/24 successful checks and the experiment 11/11. `AGENTS.md` was read; published history is preserved. Recent experiment history includes Package 2 evidence (`a8cd824d`), PDF-byte/photo audits (`6bce3932`), its decision (`de1bb29c`), and the authoritative Package 2 capture checkpoint (`76d01bdd`).
+
+The authoritative Package 3 source is **`b64054c191f068a45d6024182f0734367ef563d4`**, tree **`ff1230fe2d84dd4ecfed29933f231625d7f4d7db`**, implementation commit `fix(print): localize dossier renderers and contain physical sheet sizing`. The capture ran from a committed, clean tracked tree on `dev-native-chromium-print`. It contains 39 catalog entries, 117 Web screenshots, 39 current and 39 native combined PDFs, plus two long dossiers: **234 Web/PDF comparisons**. Documentation/evidence publication follows the identical-tree published implementation; it changes no application source. Final published HEAD and CI are reported after publication.
+
+The existing `run_native_chromium_benchmark.py`, `native-chromium-benchmark.spec.ts`, `dossier-gallery-shared.ts` fixtures/catalog, scorer, normalization, text audit, file-size and timing methods are unchanged. No alternate renderer, pilot, weakened guard, benchmark styling or template-specific print exception was introduced. The scorer independently passed source/fixture/artifact hashes, catalog completeness, duplicate-image, A4, geometry and actual-PDF long-marker guards.
+
+Publication used the GitHub Git Data API because the local HTTPS Git transport had no push credentials. The published implementation commit is `1c451fda82425bc3e06a59d448a9ece4caebb8c9`, with exactly the same full source tree `ff1230fe2d84dd4ecfed29933f231625d7f4d7db` as the captured local commit above. Original capture SHAs and hashes are deliberately retained in all score/provenance outputs. [publication.json](native-chromium-print-package3/publication.json) preserves the original commit metadata and the identical-tree mapping. Published history is extended by a normal fast-forward from `a8cd824d`; no published commit is rewritten.
+
+Web screenshots were recaptured by the same production recipe at the new source SHA, as required by the same-SHA audit. This is a fresh matched cohort, not a mixture with historical PNGs. The active saved Cover, Letter, CV, chrome and layout inputs are byte-identical across all 39 cases in a separate reconstruction at `a8cd824d` and Package 3. Whole-localStorage fixture hashes differ between captures because the existing pipeline also hashes draft histories containing `Date.now()`/random IDs; hashes were never replaced or normalized. The evidence is in [fixture-state-audit.json](native-chromium-print-package3/fixture-state-audit.json).
+
+### Scope audit and local contracts
+
+The original audit found **254 CSS rule groups / 276 global HTML template carriers in 24 files**: 229 renderer groups (250 carriers, B), 25 retired compatibility groups (26 carriers, C), and zero template-carrier CSS groups belonging to the application shell (A). The full original selectors, declarations and classification are retained in [the scope audit](native-chromium-print-package3-scope-audit.json). Retired Frame/Warm 4/Warm 5/Sonnig/Edel-Blockig compatibility was retained with local identity; unrelated local CV selectors and UI theme behavior were retained.
+
+Cover renderer rules now use its existing `data-dossier-document="cover"` and `data-dossier-template` root. Selector specificity is preserved, including former `:root` acceptance rules and body ancestor rules, so moving ownership does not reorder existing style precedence. No template declarations, positioning values or palettes were polished. Cover now supplies the existing family theme tokens alongside its existing local palette, effective font, block layout and footer state.
+
+An additional global-state defect became explicit: Cover family typography tokens previously appeared only after `TemplatePicker` mounted and called `applyDossierTheme()`. A cold editor could therefore use unresolved-variable fallback typography while opening the picker changed the document without changing saved data. Package 3 emits those **existing** theme values locally. This visibly stabilizes cold-editor typography; it is not a claim of byte-identical historical Cover paint. A controlled legacy-theme activation for Brief, Modern, Blockig, Human and Sonne produces exactly the Package 3 computed fonts, paint and geometry (**0 mm** difference). No font preset numbers were changed. This explains small historical current-Cover SSIM movement; it is not dismissed as noise.
+
+Letter pages now expose local dossier template identity and theme/palette state; `LetterDocument` also identifies its document/template. The remaining Violet Pulse cap scope and shared Human/Warm 2 document rules now belong to the Letter/Cover subtree. Existing Glow Letter rules were already local; their shared motif geometry still needed the print sizing contract below. Letter body content, font-size/line-height defaults and pagination code are unchanged.
+
+The visible editor shell may still maintain its global identity/theme lifecycle. Hidden combined documents opt out. Renderer correctness no longer requires switching `<html>` between Cover, Letter and CV. **`scopeDossierTemplateForHtml2Canvas()` and all existing clone compatibility remain unchanged.**
+
+### Glow and Violet Pulse: measured cause, not an SSIM inference
+
+Package 2 actual PDF bytes were reproduced at `a8cd824d`. Before PDF generation their sheets still had the expected rounded-A4 geometry. Finished PDF glyph matrices nevertheless showed the whole dossier shrinking: CV name text was **21.481 pt for Glow / 21.817 pt for Violet Pulse**, versus **32.221 pt** with physical-sheet size containment. Cover and Letter glyphs shrank by the same factor. A4 page count alone had concealed this defect.
+
+The Letter decoration contains positioned opacity layers with positioned primitives inside them. Existing styling can place their descendant bounds outside the clipped physical sheet: the Glow layer starts around 190 mm, while its child adds a 136 mm offset and 62 mm width. Violet Pulse also lost its intended local cap rule. Bounding the overflowing primitive, removing the Letter background, or using size containment restores actual PDF glyph scale. Disabling filters/blur does not; paint-only containment, layout containment and additional clipping did not restore Glow. These controlled interventions identify print-time fitting fed by out-of-sheet positioned geometry, rather than a pre-PDF A4 layout collapse or blur rasterization alone. The specific internal Chromium sizing calculation was not instrumented; that attribution is an inference supported by the interventions.
+
+The generic fix is **`contain: size` on every resolved physical print page**. Width, height, clipping, ancestry, filters and the established `0.999572293` rounded-pixel-to-A4 scale remain intact. Resolved A4 sheets must not acquire intrinsic size from oversized descendants. Violet Pulse also regains its pre-existing renderer-local Letter cap rule; no Violet/Glow print transform or JavaScript branch was added.
+
+The reproducible minimal intervention diagnosis is one unchanged Glow dossier in `native-print-physical-fitting.spec.ts`: disable only size containment, verify reduced glyph matrices; disable filters and verify the failure persists; bound only the offending primitive in the diagnostic and verify glyph metrics recover. The positive product tests for Glow and Violet Pulse verify physical glyph size/x-position and key DOM boxes at the unchanged **0.02 mm** tolerance, A4, page count, searchable markers, no UI/missing document and active unchanged filters. A small two-sheet motif smoke test also verifies the contract; the isolated synthetic motif alone did not reproduce the old full-tree fitting defect and is not presented as its negative reproducer. Raw intervention measurements are retained in [the diagnosis](native-chromium-print-package3-diagnosis.json).
+
+### Neon / Verlauf / Citrus: Web versus canonical state
+
+The 3 mm sidebar content inset mismatch came from `pinCvSidebarMainGeometry()`: it read physical input variables from the main element after writing its previous resolved output variables there. Those inline values shadowed updated instance inputs during hydration/layout changes. The live main retained about 19.989 mm while the canonical main resolved about 22.989 mm, producing downstream wrap/vertical differences. The generic correction reads inputs from the owning geometry scope; rail measurements and custom/mirrored margin rules remain unchanged. This is a state feedback problem with geometric consequences, not native PDF paint.
+
+All 39 photo/sidebar cases now have **0 mm live/canonical displacement**; maximum canonical/print displacement is **0.000082803 mm**. The expanded checks compare local identity/layout/photo attributes, computed variables, font metrics, background/motif DOM, gradients, filters, shadows, opacity, radius and geometry. Wrong, empty and removed HTML identity leave the hidden CV unchanged. All original strict guards pass; no difference is converted into an expected failure.
+
+The all-template Cover/Letter contract test compares visible and hidden documents, then poisons both with wrong/empty/removed HTML identity and unrelated global font/color variables. All 39 pass. Maximum visible/canonical geometry differences are **0.004132231 mm Cover** and **0.000314785 mm Letter**. Font/paint/variable signals and renderer identity remain stable; non-rendered nodes retain state checks but have no fabricated physical box. [Local-scope results](native-chromium-print-package3/local-scope.json) and [photo/sidebar results](native-chromium-print-package3/photo-sidebar-geometry.json) are separate regression evidence, not extra SSIM comparisons.
+
+### Authoritative 39-template results
+
+| Document | Current RGB | Native RGB | RGB delta | Current layout | Native layout | Layout delta |
+| --- | --- | --- | --- | --- | --- | --- |
+| Cover | 0.988208 | 0.993425 | +0.005218 | 0.988878 | 0.993953 | +0.005075 |
+| Letter | 0.993525 | 0.995250 | +0.001725 | 0.994342 | 0.995820 | +0.001478 |
+| Cv | 0.953837 | 0.989509 | +0.035672 | 0.954503 | 0.990191 | +0.035688 |
+| Overall | 0.978523 | 0.992728 | +0.014205 | 0.979241 | 0.993321 | +0.014080 |
+
+| Document | RGB wins | RGB regressions | Layout wins | Layout regressions |
+| --- | --- | --- | --- | --- |
+| Cover | 36 | 3 | 36 | 3 |
+| Letter | 38 | 1 | 37 | 2 |
+| Cv | 39 | 0 | 39 | 0 |
+| Overall | 113 | 4 | 112 | 5 |
+
+All **39/39 template means** improve in both RGB and layout. There are no ties. The 21 large Cover failures and two globally shrunk dossiers disappear. The remaining five negative layout deltas are retained below; the historical -0.01 grouping is a reporting convention, not a structural acceptance threshold.
+
+| Template / document | Current layout | Native layout | Layout delta |
+| --- | --- | --- | --- |
+| Horizon / cover | 0.978627 | 0.972157 | -0.006470 |
+| Violet Pulse / cover | 0.988319 | 0.984769 | -0.003549 |
+| Warm 3 / cover | 0.991798 | 0.988806 | -0.002992 |
+| Gallery / letter | 0.995783 | 0.995198 | -0.000585 |
+| Edel Dark / letter | 0.993345 | 0.993069 | -0.000276 |
+
+Worst five native results by absolute layout score:
+
+| Template / document | Native RGB | Native layout | Layout delta |
+| --- | --- | --- | --- |
+| Horizon / cover | 0.969207 | 0.972157 | -0.006470 |
+| Colorful / cv | 0.975907 | 0.976269 | +0.034895 |
+| Blockig / cv | 0.981056 | 0.982844 | +0.018713 |
+| Verlauf 3 / cv | 0.984206 | 0.983558 | +0.002853 |
+| Horizon / cv | 0.983318 | 0.983935 | +0.027054 |
+
+Priority cases (layout, current → native):
+
+| Template | Cover | Letter | CV | CV native in Package 2 |
+| --- | --- | --- | --- | --- |
+| Glow | 0.992182 → 0.996521 | 0.995290 → 0.996217 | 0.966037 → 0.993914 | 0.697440 |
+| Violet Pulse | 0.988319 → 0.984769 | 0.994730 → 0.995405 | 0.964261 → 0.991024 | 0.593552 |
+| Neon | 0.988082 → 0.994348 | 0.990372 → 0.995568 | 0.931309 → 0.991632 | 0.991632 |
+| Citrus | 0.988460 → 0.995978 | 0.993945 → 0.994987 | 0.939593 → 0.992001 | 0.992001 |
+| Verlauf | 0.988735 → 0.993961 | 0.994578 → 0.995723 | 0.940721 → 0.992133 | 0.992133 |
+
+All 39 per-template means across three document kinds:
+
+| Template | Current RGB | Native RGB | RGB delta | Current layout | Native layout | Layout delta |
+| --- | --- | --- | --- | --- | --- | --- |
+| Brief | 0.982041 | 0.992808 | +0.010767 | 0.982364 | 0.993217 | +0.010854 |
+| Editorial | 0.976767 | 0.994346 | +0.017579 | 0.977397 | 0.994936 | +0.017540 |
+| Modern | 0.975106 | 0.993222 | +0.018116 | 0.975098 | 0.993426 | +0.018327 |
+| Warm | 0.977932 | 0.993965 | +0.016032 | 0.979232 | 0.994534 | +0.015302 |
+| Edel | 0.970078 | 0.992887 | +0.022809 | 0.970904 | 0.993052 | +0.022148 |
+| Colorful | 0.973846 | 0.988938 | +0.015092 | 0.973760 | 0.989211 | +0.015451 |
+| Blockig | 0.982791 | 0.990831 | +0.008040 | 0.983477 | 0.991896 | +0.008419 |
+| Seriös | 0.975438 | 0.993865 | +0.018426 | 0.975649 | 0.994234 | +0.018585 |
+| Human | 0.974824 | 0.994388 | +0.019564 | 0.975177 | 0.994654 | +0.019477 |
+| Horizont | 0.974495 | 0.993624 | +0.019129 | 0.975000 | 0.994094 | +0.019094 |
+| Kolumne | 0.976018 | 0.994146 | +0.018128 | 0.976757 | 0.994682 | +0.017924 |
+| Rahmen | 0.975337 | 0.994132 | +0.018795 | 0.975876 | 0.994558 | +0.018682 |
+| Sonne | 0.976352 | 0.993400 | +0.017048 | 0.976226 | 0.993571 | +0.017345 |
+| Studio | 0.975645 | 0.994676 | +0.019031 | 0.976269 | 0.995448 | +0.019179 |
+| Neon | 0.967577 | 0.992592 | +0.025014 | 0.969921 | 0.993850 | +0.023929 |
+| Aurora | 0.974467 | 0.992976 | +0.018509 | 0.974534 | 0.993187 | +0.018653 |
+| Verlauf | 0.973166 | 0.993494 | +0.020327 | 0.974678 | 0.993939 | +0.019261 |
+| Citrus | 0.972947 | 0.993428 | +0.020481 | 0.973999 | 0.994322 | +0.020323 |
+| Edge | 0.980732 | 0.993934 | +0.013202 | 0.981483 | 0.994569 | +0.013086 |
+| Glow | 0.984488 | 0.995345 | +0.010858 | 0.984503 | 0.995551 | +0.011047 |
+| Mono Luxe | 0.981029 | 0.994863 | +0.013834 | 0.981252 | 0.995230 | +0.013978 |
+| Horizon | 0.975542 | 0.982680 | +0.007138 | 0.976907 | 0.984157 | +0.007251 |
+| Sunrise | 0.979670 | 0.988369 | +0.008699 | 0.980207 | 0.990684 | +0.010477 |
+| Forest Flow | 0.981195 | 0.994515 | +0.013320 | 0.981772 | 0.994997 | +0.013224 |
+| Violet Pulse | 0.980245 | 0.990037 | +0.009791 | 0.982436 | 0.990400 | +0.007963 |
+| Studio 2 | 0.990147 | 0.992048 | +0.001901 | 0.991069 | 0.992882 | +0.001813 |
+| Studio 3 | 0.990708 | 0.992280 | +0.001572 | 0.991580 | 0.993159 | +0.001579 |
+| Warm 2 | 0.976116 | 0.993659 | +0.017544 | 0.977576 | 0.994440 | +0.016864 |
+| Warm 3 | 0.976542 | 0.989992 | +0.013450 | 0.977380 | 0.992159 | +0.014779 |
+| Verlauf 2 | 0.983612 | 0.990862 | +0.007251 | 0.985280 | 0.991276 | +0.005996 |
+| Verlauf 3 | 0.983487 | 0.990660 | +0.007173 | 0.984779 | 0.990685 | +0.005906 |
+| Ledger | 0.976496 | 0.994063 | +0.017567 | 0.976947 | 0.994429 | +0.017482 |
+| Prism | 0.975840 | 0.994324 | +0.018484 | 0.976295 | 0.994696 | +0.018401 |
+| Gallery | 0.982827 | 0.993846 | +0.011018 | 0.983002 | 0.994043 | +0.011041 |
+| Orbit | 0.976902 | 0.994056 | +0.017154 | 0.977246 | 0.994403 | +0.017156 |
+| Ribbon | 0.978128 | 0.994649 | +0.016521 | 0.978672 | 0.995153 | +0.016482 |
+| Cove | 0.976273 | 0.992626 | +0.016353 | 0.976975 | 0.993177 | +0.016202 |
+| Diagonal | 0.991661 | 0.994800 | +0.003139 | 0.992378 | 0.995341 | +0.002963 |
+| Edel Dark | 0.985938 | 0.991062 | +0.005124 | 0.986336 | 0.991288 | +0.004953 |
+
+### Current PDF control and visual limits
+
+The automatic PDF product flow remains primary and passed the browser regression selection, existing PDF/Letter/ICC/photo checks, filenames/metadata/download behavior and text-layer checks. Its CV scores are byte-for-byte the same numeric values as the historical cohort. Mean current Cover/Letter layout scores improve to 0.988878/0.994342. No missing/clipped content, page move or current searchable-text regression was observed. Export libraries, clone behavior, filenames, metadata and automatic-download implementation were not changed.
+
+Historical current-Cover score drops are disclosed rather than hidden: the largest are Modern -0.002589 and Blockig -0.002489. The Web reference itself now receives the previously picker-dependent existing theme tokens. The selected cold-editor versus activated-theme diagnostic above proves this state correction and exact legacy-preset parity. Consequently these historical deltas are not a comparison against identical unresolved Web paint. The new matched-source current-versus-Web comparison and manual review of Modern, Blockig and Brief show retained composition/content. All 117 historical changes are retained in [package2-package3-changes.json](native-chromium-print-package3/package2-package3-changes.json).
+
+Manual review covered all three documents for Glow, Violet Pulse, Neon, Citrus and Verlauf, the weakest native results and current Cover declines. Native is not universally perfect: Horizon/Warm 3/Violet Pulse Cover paint remains slightly less similar than current; Gallery/Edel Dark Letters have small losses. Colorful still has a gray/darker header gradient in both PDFs relative to Web. Blockig native shows an orange rail patch absent from Web/current; Verlauf 3 retains small background differences. These localized paint discrepancies were not corrected with template exceptions and are not excused by a high aggregate SSIM. The low-ranking CV paint differences already existed in the Package 2 native artifacts; they are not new current-PDF regressions. Exact primitive causes of those residual differences are not claimed proven here.
+
+### Pagination, physical geometry and searchable text
+
+All 39 combined PDFs in both paths have the canonical physical count/order and A4 size. Primary CV live/canonical displacement is **0 mm**, and maximum canonical/print displacement **0.000063796 mm**. The original **≤0.02 mm** tolerance is unchanged. The additional actual-glyph checks are essential because a correct print DOM had not detected the Package 2 shrink.
+
+| Long fixture | Canonical order | Current pages | Native pages |
+| --- | --- | --- | --- |
+| long-studio3-classic | cover → letter → letter → cv → cv → cv | 6 | 6 |
+| long-gallery-sidebar | cover → letter → letter → cv → cv → cv → cv → cv | 8 | 8 |
+
+All 14 Letter markers, 18 CV markers and the reference marker match canonical DOM/current/native physical page assignment. Their complete assignment maps are also **identical to Package 2**; no content was moved between pages to improve SSIM. The scorer reopened PDF bytes independently.
+
+| Search / order check | Current | Native |
+| --- | --- | --- |
+| Literal recipient/body/name/entry | 39/39 each | 39/39 each |
+| Literal first CV section heading | 39/39 | 34/39 |
+| Body before closing in extracted Letter text | 0/39 | 39/39 |
+| CV name before first entry | 39/39 | 38/39 |
+| CV title before first entry | 39/39 | 1/39 |
+
+Every normalized sample is present in all PDFs. Native still splits literal headings in Modern, Sonne, Studio, Neon and Aurora, duplicates the searchable name in Warm/Neon, and has imperfect CV extraction order. These existing limitations persist; they were not relabeled as perfect searchability. Native uses actual embedded glyph text; current keeps its existing searchable layers and Cabin fonts.
+
+### File size and timing
+
+| Measure / path | Mean | Median | Minimum | Maximum |
+| --- | --- | --- | --- | --- |
+| Bytes / current | 1,308,621 | 1,288,012 | 1,181,305 | 1,474,332 |
+| Bytes / native | 303,537 | 180,851 | 125,640 | 1,366,683 |
+| Milliseconds / current | 1,796 | 1,746 | 1,600 | 2,228 |
+| Milliseconds / native | 639 | 565 | 488 | 1,319 |
+
+Native files are **76.8% smaller on average**, and headless generation is **2.81× faster** in this cohort. Correctly painted Covers increase native mean size relative to the incomplete Package 2 output. Native maximum size remains about 1.37 MB; savings are not uniform. Timing is the unchanged DOM-ready/action/preparation → produced PDF method, excludes human print-dialog time, and was captured without concurrent local QA.
+
+### Failure classification and product decision
+
+| Failure | Classification | Package 3 result |
+| --- | --- | --- |
+| 21 missing Cover styles | Global template scope | Renderer-local selectors restore the intended Cover subtree styling |
+| Cold editor / picker-dependent Cover type | Global theme state | Existing preset variables emitted locally; activated legacy preset parity proven |
+| Violet cap / Human / Warm 2 Letter styling | Global document scope/state | Local Letter identity, palette/theme and existing cap rule |
+| Neon / Verlauf / Citrus 3 mm inset | DOM/state divergence → geometry | Instance inputs no longer shadowed by previous main output |
+| Glow / Violet whole-PDF shrink | Chromium print fitting / paint-stage sizing | Generic fixed-sheet size containment; physical glyph scale proved |
+| Small residual gradient/rail differences | Paint discrepancy | Disclosed; no template hacks or geometry changes added |
+
+**B is the product recommendation.** Native now offers material CV and overall visual gains, with the major Package 2 structural/style failures removed and current export controls green. Automatic download remains the safer default: native still requires browser/system print choices, has five literal heading-search limitations and some localized paint discrepancies. Keep the repaired architecture available for a future optional export review, without advertising universal highest-quality fidelity. No production option was promoted by this package.
+
+### Validation and durable evidence
+
+Local validation: 1,105 unit tests passed; TypeScript passed; ESLint 0 errors / 21 existing warnings; release formatting and production build passed; 8 benchmark audit tests passed. The 154-case browser selection covering `cv-pdf`, `cv-m9-pagination`, `templates-layout`, `fresh-dossier-templates`, `dossier-flow` and the opt-in photo guard exited successfully. Both 39-template scope/photo output sets contain all 39 passing cases. The final three physical-fitting tests passed. Additional controlled fixture/preset diagnosis passed against both historical and new source. CI re-runs the existing required groups plus the unchanged full benchmark; final status is reported after push.
+
+Environment: Chromium `140.0.7339.16`, Playwright `1.55.0`, Node `v24.19.0`; the recorded raster environment exactly matches the Package 2 local cohort. All detailed versions, command line, PDF options, geometry, text, timings and long assignments are in [summary](native-chromium-print-package3/native-chromium-print-summary.json); hashes are in [provenance](native-chromium-print-package3/native-chromium-print-provenance.json). [117 paired score rows](native-chromium-print-package3/native-chromium-print-scores.csv), [39 template deltas](native-chromium-print-package3/native-chromium-print-template-deltas.csv), [390 text checks](native-chromium-print-package3/native-chromium-print-text-search.csv), and [geometry](native-chromium-print-package3/native-chromium-print-geometry.csv) remain machine-readable. Historical root-level Package 2 outputs are untouched.
+
+Reproduce from a clean committed experiment checkout with the existing commands above. Use `native-print-physical-fitting.spec.ts` for the focused positive/counterfactual diagnosis and `dossier-local-template-scope.spec.ts` for all Cover/Letter templates. The opt-in `native-print-photo-geometry.spec.ts` now passes the original strict guard. No threshold or benchmark code was changed.
+
+Compact visual evidence:
+
+![priority-Glow-cover](native-chromium-print-package3/priority-Glow-cover.png)
+
+![priority-Glow-cv](native-chromium-print-package3/priority-Glow-cv.png)
+
+![priority-Violet-Pulse-cover](native-chromium-print-package3/priority-Violet-Pulse-cover.png)
+
+![priority-Violet-Pulse-cv](native-chromium-print-package3/priority-Violet-Pulse-cv.png)
+
+![control-cover](native-chromium-print-package3/control-cover.png)
+
+![control-cv](native-chromium-print-package3/control-cv.png)
+
+Additional priority Cover/Letter/CV sheets and the original scorer-generated CV contact sheets are retained in the same evidence directory. Raw PDFs/PNGs remain capture artifacts; they are not used as a second benchmark or committed as a full raw gallery.
+
+Only `dev-native-chromium-print` is changed. `dev`, `main` and `render` remain at their reconstructed refs. No deployment, promotion, merge, force push, rebase, amend or squash was performed.
+
+Next: either promote the proven native-print architecture, keep it optional, or close the experiment based on Package 3 evidence.

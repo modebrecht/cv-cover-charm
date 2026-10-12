@@ -1,0 +1,10 @@
+{
+  "capture_commit": "b64054c191f068a45d6024182f0734367ef563d4",
+  "capture_tree": "ff1230fe2d84dd4ecfed29933f231625d7f4d7db",
+  "published_implementation_commit": "1c451fda82425bc3e06a59d448a9ece4caebb8c9",
+  "published_implementation_tree": "ff1230fe2d84dd4ecfed29933f231625d7f4d7db",
+  "published_parent": "a8cd824dfe1e43fbe5fa94a0afe0d5c9e66ed864",
+  "transport": "GitHub Git Data API; normal fast-forward branch update",
+  "capture_commit_raw": "tree ff1230fe2d84dd4ecfed29933f231625d7f4d7db\nparent a8cd824dfe1e43fbe5fa94a0afe0d5c9e66ed864\nauthor Codex <codex@openai.com> 1791750481 -0600\ncommitter Codex <codex@openai.com> 1791750481 -0600\n\nfix(print): localize dossier renderers and contain physical sheet sizing\n",
+  "original_local_report_commit": "4ade471c1e2634ac778bfecee4bf62784f1ddd4a"
+}
