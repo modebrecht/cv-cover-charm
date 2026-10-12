@@ -1,4 +1,5 @@
 import fixture from "./cv-parity-data";
+import type { CvData } from "../../../src/components/cv/types";
 
 export const SELECTION_TARGETS = [
   "Sekundarschule, Niveau A",
@@ -6,7 +7,7 @@ export const SELECTION_TARGETS = [
   "Schnupperlehre Informatik",
 ];
 export function parityStorage(template: string, long = false, sidebar = false) {
-  const cv = structuredClone(fixture.cv);
+  const cv = structuredClone(fixture.cv) as CvData;
   cv.person.foto =
     "data:image/svg+xml," +
     encodeURIComponent(

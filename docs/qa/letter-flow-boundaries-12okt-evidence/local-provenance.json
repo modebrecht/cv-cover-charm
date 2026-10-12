@@ -1,0 +1,54 @@
+{
+  "baselineSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+  "devSha": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
+  "branch": "fix/letter-flow-boundaries-12okt",
+  "productionSha": "aee948ab3ee2dd045619cb99e7f4d9b89c530f68",
+  "runtimeBlobs": {
+    "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d",
+    "src/components/letter/LetterDocument.tsx": "1cc902fbeed45105e34b3881eb70a257e2ae19cf",
+    "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+    "src/components/letter/letter-pagination.css": "a328282aac0b77e1b8360dcd89a5934cd6839c92"
+  },
+  "localRuns": [
+    {
+      "log": "flow-baseline-real.log",
+      "sha256": "45a5cb39af9dce4f2f54a4329310a1d0e140832dae3ce4b0c818bac31ff8a780",
+      "result": "7 FAIL: five product findings; two editor readiness timeouts"
+    },
+    {
+      "log": "flow-focused-first.log",
+      "sha256": "a90e01a5d50c886eb15bd2ca76dbba2823ca57eb3e8d9a258a61ee54f4535a45",
+      "result": "7 PASS"
+    },
+    {
+      "log": "flow-deep-first.log",
+      "sha256": "895c5e0350fa2b3423c60cc961fa4a11009250ced06ecfbdf2048cf0fbeca7ec",
+      "result": "2 PASS / 4 FAIL during development; includes hidden-probe selector and local readiness failures"
+    },
+    {
+      "log": "flow-deep-final.log",
+      "sha256": "130f3e0174c0ce270a6b43a57e284cd72aa6086d8e8ca4ce23828c6787c085e1",
+      "result": "3 PASS / 1 editor readiness timeout"
+    },
+    {
+      "log": "flow-studio-final.log",
+      "sha256": "ecf15bfe613f32a1d8b7ad80565f263bf91950e564ef67c7499550f4b4593ce1",
+      "result": "1 PASS"
+    },
+    {
+      "log": "flow-all-units.log",
+      "sha256": "7b4cbd6a0d916206449d6fbe46123952e06257910832bf5cddbb0d6c5e9f32ab",
+      "result": "1101 PASS / 0 FAIL"
+    },
+    {
+      "log": "flow-build.log",
+      "sha256": "58b96ef5e9eae1e5eb593a6694419c2f86568088693efaafcda7f741519850a1",
+      "result": "PASS"
+    },
+    {
+      "log": "flow-lint.log",
+      "sha256": "3dc1bcd8231f1f7323e849cf6314283561afe7c664adcf26b3d8b3510c2eeb15",
+      "result": "PASS with 21 existing warnings / 0 errors"
+    }
+  ]
+}

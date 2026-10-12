@@ -1,0 +1,935 @@
+[
+  {
+    "run": "baseline",
+    "name": "matrix-brief-one-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts", "tests/e2e/support/cv-parity-fixture.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "8d236016b3577165b6a4126edfbb4cd9b189bfac"
+    },
+    "fixtureSha256": "cadeb0f7c6f00b96c139b258d1138f4ba73eb04a9c7634f21cab2fefd9f997d6",
+    "findings": ["PDF page 1: marker order/distribution differs"],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 70.762
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 70.762
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002"
+          ]
+        }
+      ],
+      "bytes": 539836,
+      "sha256": "f85f4eec1c026943127838d743d4cb3d3b868b7a1354ae0a763fbe4c52c737e6",
+      "reason": []
+    }
+  },
+  {
+    "run": "baseline",
+    "name": "matrix-freundlich-one-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts", "tests/e2e/support/cv-parity-fixture.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "8d236016b3577165b6a4126edfbb4cd9b189bfac"
+    },
+    "fixtureSha256": "790f159e2591976a87163a181ad04ab1fc83f1b8c8b74c4bfed5d404cb0f3ba7",
+    "findings": ["PDF page 1: marker order/distribution differs"],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 52.977, 163.021, 239.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 58.58
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 52.977, 163.021, 239.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 58.58
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002"
+          ]
+        }
+      ],
+      "bytes": 688229,
+      "sha256": "fb6c8126f29ab39189b4daea6f441208b3c9908cfb16e89861e504f0d5fdb119",
+      "reason": []
+    }
+  },
+  {
+    "run": "fixed",
+    "name": "matrix-brief-one-letter",
+    "kind": "letter",
+    "status": "PASS",
+    "sourceSha": "491c8b0f7c75355f862ec934bd396041d5651a80",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "cadeb0f7c6f00b96c139b258d1138f4ba73eb04a9c7634f21cab2fefd9f997d6",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 70.762
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 70.762
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 543606,
+      "sha256": "9e61144ee5dd8d585668020129b94d7ceb346d7a2844a2c972b4f56fd38090b8",
+      "reason": []
+    }
+  },
+  {
+    "run": "fixed",
+    "name": "matrix-freundlich-one-letter",
+    "kind": "letter",
+    "status": "PASS",
+    "sourceSha": "491c8b0f7c75355f862ec934bd396041d5651a80",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "790f159e2591976a87163a181ad04ab1fc83f1b8c8b74c4bfed5d404cb0f3ba7",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 52.977, 163.021, 239.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 58.58
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 52.977, 163.021, 239.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 58.58
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 693769,
+      "sha256": "3d6002f9f166ea8554cabd8baf3d8d686aa7e86c17d9b9be53c7dbe578bb5c92",
+      "reason": []
+    }
+  },
+  {
+    "run": "fixed",
+    "name": "textlayer-brief-footer-order",
+    "kind": "letter",
+    "status": "PASS",
+    "sourceSha": "491c8b0f7c75355f862ec934bd396041d5651a80",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "047982c39af5dcc1009bb40cb314b8655ae84dab23fa517476bafebe194c9996",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 244.027],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 6.765
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 242.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "attachments",
+        "archetype": "quiet",
+        "bottomFreeMm": 145.777
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 244.027],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 6.765
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 242.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "attachments",
+        "archetype": "quiet",
+        "bottomFreeMm": 145.777
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003",
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 1389416,
+      "sha256": "cdffb8c70c13e7f596da650065d6a14d657342172c9b5b99bbd05e730451f354",
+      "reason": []
+    }
+  },
+  {
+    "run": "fixed",
+    "name": "textlayer-brief-rich-list",
+    "kind": "letter",
+    "status": "PASS",
+    "sourceSha": "491c8b0f7c75355f862ec934bd396041d5651a80",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "22405dc74fc6795ca6471f8807d8a525bec4ca16ddbd4081bab19c4fc52a06c9",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASENDERNAME001",
+          "QASENDERADDRESS001",
+          "QASENDERPLACE001",
+          "QASENDERPHONE001",
+          "QASENDEREMAIL001",
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA008",
+          "QAPARAEND008",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 193.311
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASENDERNAME001",
+          "QASENDERADDRESS001",
+          "QASENDERPLACE001",
+          "QASENDERPHONE001",
+          "QASENDEREMAIL001",
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA008",
+          "QAPARAEND008",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 193.311
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASENDERNAME001",
+            "QASENDERADDRESS001",
+            "QASENDERPLACE001",
+            "QASENDERPHONE001",
+            "QASENDEREMAIL001",
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003",
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA008",
+            "QAPARAEND008",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 1443566,
+      "sha256": "09cf92a5fadc0e9dea24daba4e5374746c2ced59a87d4b21e9e83094b9766f13",
+      "reason": []
+    }
+  },
+  {
+    "run": "fixed",
+    "name": "textlayer-brief-role-typography",
+    "kind": "letter",
+    "status": "PASS",
+    "sourceSha": "491c8b0f7c75355f862ec934bd396041d5651a80",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "de7223aaa85229cc0107090213fe3f6109fa33ee6060a61f4726a1157fbb7e25",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASENDERNAME001",
+          "QASENDERADDRESS001",
+          "QASENDERPLACE001",
+          "QASENDERPHONE001",
+          "QASENDEREMAIL001",
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 69.502
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASENDERNAME001",
+          "QASENDERADDRESS001",
+          "QASENDERPLACE001",
+          "QASENDERPHONE001",
+          "QASENDEREMAIL001",
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 69.502
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASENDERNAME001",
+            "QASENDERADDRESS001",
+            "QASENDERPLACE001",
+            "QASENDERPHONE001",
+            "QASENDEREMAIL001",
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 610105,
+      "sha256": "afe4c90e85dc328bc9f0539f1250b2c875f1c6069fc8cee736e84c695c90ff50",
+      "reason": []
+    }
+  },
+  {
+    "run": "fixed",
+    "name": "textlayer-freundlich-sender",
+    "kind": "letter",
+    "status": "PASS",
+    "sourceSha": "491c8b0f7c75355f862ec934bd396041d5651a80",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "1001cc9cce58782fb94e7664575dfb424b89202dda6d21dce0eee6404ba263b2",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASENDERNAME001",
+          "QASENDERADDRESS001",
+          "QASENDERPLACE001",
+          "QASENDERPHONE001",
+          "QASENDEREMAIL001",
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 52.977, 163.021, 239.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 58.58
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASENDERNAME001",
+          "QASENDERADDRESS001",
+          "QASENDERPLACE001",
+          "QASENDERPHONE001",
+          "QASENDEREMAIL001",
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 52.977, 163.021, 239.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 58.58
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASENDERNAME001",
+            "QASENDERADDRESS001",
+            "QASENDERPLACE001",
+            "QASENDERPHONE001",
+            "QASENDEREMAIL001",
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 770169,
+      "sha256": "77803c11061d1b81aae78e27a2bc9cdeff084ac2eb5c4387a958266401edd5fd",
+      "reason": []
+    }
+  },
+  {
+    "run": "fixed",
+    "name": "textlayer-studio3-hidden-contact",
+    "kind": "letter",
+    "status": "PASS",
+    "sourceSha": "491c8b0f7c75355f862ec934bd396041d5651a80",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "e740b3651caceb198015b3c237a5b47eaee75d0f17caf5ff6c1bd65167b7f62e",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASENDERNAME001",
+          "QASENDERADDRESS001",
+          "QASENDERPLACE001",
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 52.977, 161.021, 243.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "none",
+        "archetype": "sidebar",
+        "bottomFreeMm": 73.576
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASENDERNAME001",
+          "QASENDERADDRESS001",
+          "QASENDERPLACE001",
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 52.977, 161.021, 243.027],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "none",
+        "archetype": "sidebar",
+        "bottomFreeMm": 73.576
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASENDERNAME001",
+            "QASENDERADDRESS001",
+            "QASENDERPLACE001",
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 638248,
+      "sha256": "5ce8899ebdd959c7ab1f53735cafa855af9106532430b4a32ac58b76b25d349c",
+      "reason": []
+    }
+  }
+]

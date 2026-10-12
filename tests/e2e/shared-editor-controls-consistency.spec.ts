@@ -59,14 +59,16 @@ test.describe("shared editor controls consistency", () => {
     let chrome = await openSection(page, "Header & Footer");
     await expect(chrome.locator('[data-dossier-chrome-controls="cv"]')).toHaveCount(1);
     await chrome.locator("[data-dossier-header-mode-control]").selectOption("compact");
-    const gap = chrome.locator("[data-dossier-header-gap-control]");
+    await expect(chrome.locator("[data-dossier-header-gap-control]")).toHaveCount(0);
+    await chrome.getByRole("button", { name: "Seitenränder & Abstände →" }).click();
+    let layout = await section(page, "Layout");
+    let margins = await openMargins(layout, "cv");
+    const gap = margins.locator("[data-dossier-header-gap-control]");
     await expect(gap).toBeVisible();
     await setRange(gap, 17);
     await expect(gap).toHaveValue("17");
 
-    let layout = await openSection(page, "Layout");
     await expect(layout.getByText(/Seitenspalte/).first()).toBeVisible();
-    let margins = await openMargins(layout, "cv");
     const right = margins.getByLabel("Seitenrand Rechts in Millimetern");
     await right.fill("30");
     await right.press("Tab");
@@ -79,9 +81,9 @@ test.describe("shared editor controls consistency", () => {
     await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
     chrome = await openSection(page, "Header & Footer");
     await expect(chrome.locator("[data-dossier-header-mode-control]")).toHaveValue("compact");
-    await expect(chrome.locator("[data-dossier-header-gap-control]")).toHaveValue("17");
     layout = await openSection(page, "Layout");
     margins = await openMargins(layout, "cv");
+    await expect(margins.locator("[data-dossier-header-gap-control]")).toHaveValue("17");
     await expect(margins.getByLabel("Seitenrand Rechts in Millimetern")).toHaveValue("30");
   });
 
@@ -91,7 +93,7 @@ test.describe("shared editor controls consistency", () => {
     await resetStorage(page);
     await ready(page, "/anschreiben");
 
-    for (const title of ["Vorlage", "Header & Footer", "Layout", "Schrift"]) {
+    for (const title of ["Vorlage", "Header & Footer", "Layout", "Briefinhalt"]) {
       await expect(page.locator(`[data-editor-section-title="${title}"]`)).toHaveCount(1);
     }
 
@@ -115,9 +117,9 @@ test.describe("shared editor controls consistency", () => {
     await left.press("Tab");
     await expect(left).toHaveValue("31");
 
-    const typography = await openSection(page, "Schrift");
+    const typography = await openSection(page, "Briefinhalt");
     await expect(typography.locator("[data-cv-doc-title-margin-top-control]")).toHaveCount(0);
-    await expect(typography.getByRole("combobox", { name: "Schriftart" })).toBeVisible();
+    await expect(typography.getByRole("combobox", { name: "Fliesstext Schriftart" })).toBeVisible();
 
     await page.reload();
     await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
@@ -146,5 +148,42 @@ test.describe("shared editor controls consistency", () => {
     chrome = await openSection(page, "Header & Footer");
     await expect(chrome.locator("[data-dossier-chrome-sync]")).not.toBeChecked();
     await expect(chrome.locator("[data-dossier-header-mode-control]")).toHaveValue("compact");
+  });
+
+  test("header gap sync is bidirectional while page margins stay document-specific", async ({
+    page,
+  }) => {
+    await resetStorage(page);
+    await ready(page, "/lebenslauf");
+    let chrome = await openSection(page, "Header & Footer");
+    await expect(chrome.locator("[data-dossier-chrome-sync]")).toBeChecked();
+    await chrome.locator("[data-dossier-header-mode-control]").selectOption("compact");
+    let margins = await openMargins(await openSection(page, "Layout"), "cv");
+    await setRange(margins.locator("[data-dossier-header-gap-control]"), 17);
+    await margins.getByLabel("Seitenrand Rechts in Millimetern").fill("30");
+    await margins.getByLabel("Seitenrand Rechts in Millimetern").press("Tab");
+
+    await ready(page, "/anschreiben");
+    chrome = await openSection(page, "Header & Footer");
+    await expect(chrome.locator("[data-dossier-header-gap-control]")).toHaveValue("17");
+    await setRange(chrome.locator("[data-dossier-header-gap-control]"), 19);
+    margins = await openMargins(await openSection(page, "Layout"), "letter");
+    await margins.getByLabel("Seitenrand Rechts in Millimetern").fill("35");
+    await margins.getByLabel("Seitenrand Rechts in Millimetern").press("Tab");
+
+    await ready(page, "/lebenslauf");
+    chrome = await openSection(page, "Header & Footer");
+    await chrome.locator("[data-dossier-chrome-sync]").uncheck();
+    margins = await openMargins(await openSection(page, "Layout"), "cv");
+    await expect(margins.locator("[data-dossier-header-gap-control]")).toHaveValue("19");
+    await expect(margins.getByLabel("Seitenrand Rechts in Millimetern")).toHaveValue("30");
+    await setRange(margins.locator("[data-dossier-header-gap-control]"), 21);
+
+    await ready(page, "/anschreiben");
+    chrome = await openSection(page, "Header & Footer");
+    await expect(chrome.locator("[data-dossier-chrome-sync]")).not.toBeChecked();
+    await expect(chrome.locator("[data-dossier-header-gap-control]")).toHaveValue("19");
+    margins = await openMargins(await openSection(page, "Layout"), "letter");
+    await expect(margins.getByLabel("Seitenrand Rechts in Millimetern")).toHaveValue("35");
   });
 });
