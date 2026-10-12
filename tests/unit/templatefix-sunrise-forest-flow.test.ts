@@ -40,7 +40,7 @@ describe("templateFIX Sunrise + Forest Flow", () => {
   });
 
   test("Forest Flow has one final vertical-grove geometry owner", () => {
-    expect(css).toContain('html[data-dossier-template="forestFlow"]');
+    expect(css).toContain('div[data-dossier-document="cover"][data-dossier-template="forestFlow"]');
     expect(css).toContain("width: 52mm !important;");
     expect(css).toContain('[data-letter-motif="rail"]');
     expect(css).toContain("width: 12mm !important;");

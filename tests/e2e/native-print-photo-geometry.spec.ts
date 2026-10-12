@@ -1,7 +1,7 @@
 /** Supplemental geometry fixture: gallery demo intentionally has no CV photo. */
 import { expect, test } from "@playwright/test";
 import { execFileSync } from "node:child_process";
-import { writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import {
   BASE_URL,
@@ -16,6 +16,7 @@ test("all 39 native CVs retain live photo and sidebar geometry", async ({ browse
   test.skip(!output, "Supplemental opt-in benchmark geometry guard");
   test.setTimeout(15 * 60000);
   assertGalleryCatalog();
+  await mkdir(output!, { recursive: true });
   const sourceSha = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
   const rows = [];
   for (const item of GALLERY_CASES) {
@@ -40,7 +41,7 @@ test("all 39 native CVs retain live photo and sidebar geometry", async ({ browse
           const p = sheet.getBoundingClientRect();
           return Array.from(
             sheet.querySelectorAll<HTMLElement>(
-              "[data-cv-main], [data-cv-header], [data-cv-section], [data-cv-entry-title], [data-cv-sidebar], [data-cv-photo]",
+              "[data-cv-main], [data-cv-header], [data-cv-section], [data-cv-entry-title], [data-cv-sidebar], [data-cv-photo], [data-cv-background], [data-dossier-sheet-background], [data-dossier-sheet-background] div",
             ),
           ).map((node) => {
             const r = node.getBoundingClientRect(),
@@ -52,14 +53,46 @@ test("all 39 native CVs retain live photo and sidebar geometry", async ({ browse
                   ? "sidebar"
                   : "content",
               text: node.textContent,
-              box: [
-                ((r.x - p.x) / p.width) * 210,
-                ((r.y - p.y) / p.height) * 297,
-                (r.width / p.width) * 210,
-                (r.height / p.height) * 297,
-              ],
+              box:
+                node.getClientRects().length === 0
+                  ? null
+                  : [
+                      ((r.x - p.x) / p.width) * 210,
+                      ((r.y - p.y) / p.height) * 297,
+                      (r.width / p.width) * 210,
+                      (r.height / p.height) * 297,
+                    ],
               font: [s.fontFamily, s.fontSize, s.fontWeight, s.lineHeight, s.letterSpacing],
               radius: s.borderRadius,
+              paint: [
+                s.backgroundImage,
+                s.backgroundColor,
+                s.filter,
+                s.boxShadow,
+                s.transform,
+                s.opacity,
+                s.padding,
+              ],
+              variables: [
+                "--dossier-font",
+                "--dossier-motif-opacity",
+                "--cover-primary",
+                "--cover-secondary",
+                "--cover-accent",
+                "--cover-ink",
+                "--cv-modern-physical-left",
+                "--cv-modern-physical-right",
+              ].map((k) => s.getPropertyValue(k).trim()),
+              identity: (() => {
+                const r = node.closest<HTMLElement>('[data-dossier-document="cv"]')!;
+                return [
+                  r.dataset.cvTemplate,
+                  r.dataset.cvLayout,
+                  r.dataset.cvInfoPosition,
+                  r.dataset.cvPhotoPosition,
+                  r.dataset.cvArchetype,
+                ];
+              })(),
             };
           });
         });
@@ -92,6 +125,14 @@ test("all 39 native CVs retain live photo and sidebar geometry", async ({ browse
       prepared.release();
     });
     const canonical = await read('[data-dossier-pdf-canvas] [data-cv-page="0"]');
+    for (const identity of ["wrong-template", "", null]) {
+      await page.evaluate((value) => {
+        if (value === null) document.documentElement.removeAttribute("data-dossier-template");
+        else document.documentElement.dataset.dossierTemplate = value;
+      }, identity);
+      const poisoned = await read('[data-dossier-pdf-canvas] [data-cv-page="0"]');
+      expect(poisoned, item.label + " poisoned global identity").toEqual(canonical);
+    }
     await dialog.getByRole("button", { name: "Drucken / als PDF speichern", exact: true }).click();
     await expect(page.locator("body")).toHaveAttribute("data-dossier-native-print", "true");
     await page.emulateMedia({ media: "print" });
@@ -108,8 +149,15 @@ test("all 39 native CVs retain live photo and sidebar geometry", async ({ browse
         expect(node.text, item.label).toBe(expected[i].text);
         expect(node.font, item.label).toEqual(expected[i].font);
         expect(node.radius, item.label).toBe(expected[i].radius);
+        expect(node.paint, item.label).toEqual(expected[i].paint);
+        expect(node.variables, item.label).toEqual(expected[i].variables);
+        expect(node.identity, item.label).toEqual(expected[i].identity);
+        if (node.box === null || expected[i].box === null) {
+          expect(node.box, item.label).toEqual(expected[i].box);
+          return;
+        }
         node.box.forEach((axis, j) => {
-          const delta = Math.abs(axis - expected[i].box[j]);
+          const delta = Math.abs(axis - expected[i].box![j]);
           if (phase === "canonical_to_print") {
             printMaximum = Math.max(printMaximum, delta);
             expect(delta, `${item.label}: canonical print geometry`).toBeLessThanOrEqual(0.02);
@@ -121,7 +169,7 @@ test("all 39 native CVs retain live photo and sidebar geometry", async ({ browse
               differences.push({
                 role: node.role,
                 axis: j,
-                live_mm: expected[i].box[j],
+                live_mm: expected[i].box![j],
                 canonical_mm: axis,
                 delta_mm: delta,
               });

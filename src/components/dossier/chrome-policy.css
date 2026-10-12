@@ -127,7 +127,7 @@
  * Its display box crosses the dark sidebar/paper seam, so white template text
  * otherwise disappears on the paper. Extend the template-owned dark surface
  * behind that one label; block position, font and user text stay untouched. */
-html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
+div[data-dossier-document="cover"][data-dossier-template="ribbon"] [data-block-id="eyebrow"] {
   width: 44mm !important;
   background: var(--cover-ink) !important;
 }

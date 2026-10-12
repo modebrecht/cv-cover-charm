@@ -9,16 +9,14 @@
 /* -------------------------------------------------------------------------- */
 /* WARM 2 — coral hero, apricot panel, quiet footer field                     */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   > div:first-child
   > div:first-child {
   overflow: visible !important;
 }
 
 /* Replace the blurred apricot cloud with one intentional upper-right panel. */
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   > div:first-child
   > div:first-child
   > div:first-child {
@@ -35,8 +33,7 @@ html[data-dossier-template="warm2"]
 }
 
 /* Ground the contact area with a broad, clean field instead of a glow blob. */
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -127,16 +124,14 @@ div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-section-title
 /* -------------------------------------------------------------------------- */
 /* WARM 3 — teal architectural field with an amber counter-shape              */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   > div:first-child
   > div:first-child {
   overflow: visible !important;
 }
 
 /* Amber becomes a clean counter-field instead of a blurred orb. */
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   > div:first-child
   > div:first-child
   > div:first-child {
@@ -153,8 +148,7 @@ html[data-dossier-template="warm3"]
 }
 
 /* Lower echo is a broad, subtle amber landing zone, not a glow. */
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -244,17 +238,15 @@ div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-section-title
 /* -------------------------------------------------------------------------- */
 /* GLOW — existing deliberate footer field                                    */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="glow"]
-  body
-  [data-dossier-document="cover"]
+body
+  div[data-dossier-document="cover"][data-dossier-template="glow"]
   > div:first-child
   > div:first-child {
   overflow: visible !important;
 }
 
-html[data-dossier-template="glow"]
-  body
-  [data-dossier-document="cover"]
+body
+  div[data-dossier-document="cover"][data-dossier-template="glow"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -271,18 +263,16 @@ html[data-dossier-template="glow"]
   filter: none !important;
 }
 
-html[data-dossier-template="glow"]
-  body
-  [data-dossier-document="cover"]
+body
+  div[data-dossier-document="cover"][data-dossier-template="glow"]
   :is([data-block-id="kontaktTitel"], [data-block-id="anTitel"])
   > div {
   color: #fff !important;
   opacity: 0.96 !important;
 }
 
-html[data-dossier-template="glow"]
-  body
-  [data-dossier-document="cover"]
+body
+  div[data-dossier-document="cover"][data-dossier-template="glow"]
   :is([data-block-id="kontakt"], [data-block-id="empfaenger"])
   > div {
   color: #fff !important;

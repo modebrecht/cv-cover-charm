@@ -8,7 +8,7 @@ import {
   resolveDossierChromeDocumentContent,
   withDossierChromeDocumentContent,
 } from "@/lib/dossier-chrome-content";
-import { effectiveDossierFont } from "@/lib/dossier-theme";
+import { dossierThemeCssVariables, effectiveDossierFont } from "@/lib/dossier-theme";
 import {
   defaultHeaderModeForTemplate,
   defaultFooterModeForTemplate,
@@ -292,6 +292,7 @@ export function LetterCanvas({
   return (
     <article
       data-letter-canvas
+      data-dossier-template={design.template}
       data-letter-page
       data-letter-template={design.template}
       data-letter-header-mode={geometry.effectiveHeaderMode}
@@ -341,6 +342,13 @@ export function LetterCanvas({
       className="relative h-[1123px] w-[794px] overflow-hidden bg-white shadow-xl"
       style={
         {
+          ...dossierThemeCssVariables(design.template, design.fontOverride),
+          "--dossier-font": fontFamily,
+          "--cover-paper": paperColor,
+          "--cover-primary": design.colors.primary ?? design.colors.accent ?? palette.ink,
+          "--cover-secondary": design.colors.secondary ?? design.colors.accent ?? palette.ink,
+          "--cover-accent": palette.accent,
+          "--cover-ink": palette.ink,
           color: palette.ink,
           fontFamily,
           backgroundColor: paperColor,

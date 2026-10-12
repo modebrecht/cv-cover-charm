@@ -8,7 +8,7 @@
  */
 
 /* Motivation letter: one calm full-width gradient cap. */
-html[data-dossier-template="violetPulse"]
+article[data-letter-template="violetPulse"]
   [data-letter-fresh-template="violetPulse"]
   [data-letter-motif="top-field"] {
   left: 0 !important;

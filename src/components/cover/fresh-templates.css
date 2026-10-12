@@ -11,8 +11,7 @@
 /* ========================================================================== */
 /* 19 EDGE — Swiss editorial masthead + electric-blue signal                  */
 /* ========================================================================== */
-html[data-dossier-template="edge"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="edge"]
   [data-fresh-cover-field="primary"] {
   left: 0 !important;
   right: 0 !important;
@@ -23,8 +22,7 @@ html[data-dossier-template="edge"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="edge"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="edge"]
   [data-fresh-cover-field="secondary"] {
   left: 0 !important;
   right: auto !important;
@@ -36,9 +34,7 @@ html[data-dossier-template="edge"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="edge"]
-  [data-dossier-document="cover"]
-  [data-fresh-cover-field="accent"] {
+div[data-dossier-document="cover"][data-dossier-template="edge"] [data-fresh-cover-field="accent"] {
   left: auto !important;
   right: 0 !important;
   top: 24mm !important;
@@ -112,8 +108,7 @@ div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-accent="sectio
 /* ========================================================================== */
 /* 20 GLOW — airy capsule + soft orbit, no page-filling blobs                  */
 /* ========================================================================== */
-html[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="glow"]
   [data-fresh-cover-field="primary"] {
   left: 126mm !important;
   right: auto !important;
@@ -124,8 +119,7 @@ html[data-dossier-template="glow"]
   opacity: 0.16 !important;
 }
 
-html[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="glow"]
   [data-fresh-cover-field="secondary"] {
   left: -18mm !important;
   right: auto !important;
@@ -137,9 +131,7 @@ html[data-dossier-template="glow"]
   opacity: 0.2 !important;
 }
 
-html[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
-  [data-fresh-cover-field="accent"] {
+div[data-dossier-document="cover"][data-dossier-template="glow"] [data-fresh-cover-field="accent"] {
   left: 8mm !important;
   right: auto !important;
   top: 27mm !important;
@@ -150,22 +142,21 @@ html[data-dossier-template="glow"]
   opacity: 0.88 !important;
 }
 
-html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="glow"] [data-block-id="foto"] {
   transform: translate(48mm, -10mm) scale(0.78);
   transform-origin: top left;
 }
 
-html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="glow"] [data-block-id="name"] {
   transform: translate(-34mm, -30mm);
 }
 
-html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="beruf"],
-html[data-dossier-template="glow"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+div[data-dossier-document="cover"][data-dossier-template="glow"] [data-block-id="beruf"],
+div[data-dossier-document="cover"][data-dossier-template="glow"] [data-block-id="lehrbeginn"] {
   transform: translate(-34mm, -26mm);
 }
 
-html[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="glow"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
   > div {
   text-align: left !important;
@@ -221,8 +212,7 @@ div[data-cv-template="glow"][data-dossier-document="cv"] [data-cv-accent] {
 /* ========================================================================== */
 /* 21 FRAME — fine architectural frame + two warm corner markers              */
 /* ========================================================================== */
-html[data-dossier-template="frame"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="frame"]
   [data-fresh-cover-field="primary"] {
   left: 10mm !important;
   right: auto !important;
@@ -236,8 +226,7 @@ html[data-dossier-template="frame"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="frame"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="frame"]
   [data-fresh-cover-field="secondary"] {
   left: -0.55mm !important;
   right: auto !important;
@@ -249,8 +238,7 @@ html[data-dossier-template="frame"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="frame"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="frame"]
   [data-fresh-cover-field="accent"] {
   left: auto !important;
   right: -0.55mm !important;
@@ -262,22 +250,21 @@ html[data-dossier-template="frame"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="frame"] [data-block-id="foto"] {
   transform: translate(48mm, -8mm) scale(0.76);
   transform-origin: top left;
 }
 
-html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="frame"] [data-block-id="name"] {
   transform: translate(-34mm, -26mm);
 }
 
-html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="beruf"],
-html[data-dossier-template="frame"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+div[data-dossier-document="cover"][data-dossier-template="frame"] [data-block-id="beruf"],
+div[data-dossier-document="cover"][data-dossier-template="frame"] [data-block-id="lehrbeginn"] {
   transform: translate(-34mm, -22mm);
 }
 
-html[data-dossier-template="frame"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="frame"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
   > div {
   text-align: left !important;
@@ -332,8 +319,7 @@ div[data-cv-template="frame"][data-dossier-document="cv"] [data-cv-section-title
 /* ========================================================================== */
 /* 22 MONO LUXE — cream paper, black masthead, restrained brass hairlines     */
 /* ========================================================================== */
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"]
   [data-fresh-cover-field="primary"] {
   left: 0 !important;
   right: 0 !important;
@@ -344,8 +330,7 @@ html[data-dossier-template="monoLuxe"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"]
   [data-fresh-cover-field="secondary"] {
   left: 28mm !important;
   right: 28mm !important;
@@ -357,8 +342,7 @@ html[data-dossier-template="monoLuxe"]
   opacity: 0.9 !important;
 }
 
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"]
   [data-fresh-cover-field="accent"] {
   left: 28mm !important;
   right: auto !important;
@@ -370,30 +354,27 @@ html[data-dossier-template="monoLuxe"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"] [data-block-id="foto"] {
   transform: translate(50mm, -8mm) scale(0.74);
   transform-origin: top left;
 }
 
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"] [data-block-id="name"] {
   transform: translate(-34mm, -30mm);
 }
 
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="beruf"],
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
-  [data-block-id="lehrbeginn"] {
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"] [data-block-id="beruf"],
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"] [data-block-id="lehrbeginn"] {
   transform: translate(-34mm, -26mm);
 }
 
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
   > div {
   text-align: left !important;
 }
 
-html[data-dossier-template="monoLuxe"] [data-dossier-document="cover"] [data-block-id="name"] > div,
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"] [data-block-id="name"] > div,
 div[data-cv-template="monoLuxe"][data-dossier-document="cv"] [data-cv-section-title] {
   font-family: Georgia, "Times New Roman", serif !important;
 }

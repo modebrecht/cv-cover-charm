@@ -111,6 +111,7 @@ jobs:
           - group: cv-pdf
             files: >-
               tests/e2e/dossier-native-print.spec.ts
+              tests/e2e/native-print-physical-fitting.spec.ts
               tests/e2e/element-ratio-lock.spec.ts
               tests/e2e/cv-edge-smoke.spec.ts
               tests/e2e/cv-card-refresh.spec.ts
@@ -132,6 +133,7 @@ jobs:
           - group: templates-layout
             files: >-
               tests/e2e/cover-edge-smoke.spec.ts
+              tests/e2e/dossier-local-template-scope.spec.ts
               tests/e2e/template-cleanup.spec.ts
               tests/e2e/prism-neon-header-identity.spec.ts
               tests/e2e/gradient-edge-smoke.spec.ts

@@ -20,8 +20,7 @@
  * Its wide tracked place line still starts a few pixels outside the portrait
  * tower in Chromium PDF output, clipping the H from HUBERSDORF. Move only the
  * rendered inner text to the right; do not touch the outer transform/geometry. */
-html[data-dossier-template="gallery"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="gallery"]
   [data-block-id="ortDatum"]
   > div {
   position: relative !important;
@@ -31,8 +30,7 @@ html[data-dossier-template="gallery"]
 /* Forest Flow's bottom place/date marker is intentionally tracked out, but the
  * final Hubsersdorf sample reached the exact right edge of the 52 mm grove.
  * Keep the same typographic idea at a slightly tighter, calmer measure. */
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="forestFlow"]
   [data-block-id="ortDatum"]
   > div {
   font-size: 9.2pt !important;
@@ -42,8 +40,7 @@ html[data-dossier-template="forestFlow"]
 /* Ribbon's late cleanup compressed the gold hero to 48 mm. Restore enough
  * vertical room for the complete name/profession group to sit inside the
  * ribbon rather than straddling its lower edge. */
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ribbon"]
   > div:first-child
   > div:first-child
   > div:first-child {

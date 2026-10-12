@@ -68,6 +68,11 @@
     position: relative !important;
     flex: none !important;
     overflow: hidden !important;
+    /* These are resolved physical sheets, never intrinsic-size containers.
+       Chromium's print fitting otherwise includes oversized positioned motif
+       descendants even when their paint is clipped, shrinking every page.
+       Size containment preserves their geometry, filters and clipping. */
+    contain: size !important;
     box-shadow: none !important;
     break-inside: avoid-page;
     break-after: page;
