@@ -128,13 +128,16 @@ export async function collectDocument(page: Page, selector: string, kind: Docume
               const style = getComputedStyle(ancestor),
                 clip = ancestor.getBoundingClientRect();
               if (
-                (/hidden|clip|auto|scroll/.test(style.overflowY) &&
+                ((/hidden|clip|auto|scroll/.test(style.overflowY) ||
+                  ancestor.hasAttribute("data-letter-text-layer")) &&
                   ((clip.top - inkTop) * sy > 0.3 || (inkBottom - clip.bottom) * sy > 0.3)) ||
                 (/hidden|clip|auto|scroll/.test(style.overflowX) &&
                   ((clip.left - rect.left) * sx > 0.3 || (rect.right - clip.right) * sx > 0.3))
               ) {
                 issues.push(
-                  `clipped by ${ancestor.tagName} ${Array.from(ancestor.attributes)
+                  `${ancestor.hasAttribute("data-letter-text-layer") ? "outside printable text box" : "clipped"} by ${ancestor.tagName} ${Array.from(
+                    ancestor.attributes,
+                  )
                     .filter((a) => a.name.startsWith("data-"))
                     .map((a) => a.name)
                     .join(" ")}: ${node.textContent!.slice(0, 65)}`,

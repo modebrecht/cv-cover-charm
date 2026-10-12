@@ -39,7 +39,7 @@ jobs:
           bun run typecheck
           npx tsc --noEmit -p tests/qa/tsconfig.json
           bun test tests/unit
-          npx prettier --check tests/qa/*.ts tests/qa/tsconfig.json tests/unit/pagination-qa-assertions.test.ts tests/e2e/support/cv-parity-fixture.ts scripts/pagination_qa_summary.mjs .github/workflows/pagination-2page-qa.yml
+          npx prettier --check tests/qa/*.ts tests/qa/tsconfig.json tests/unit/pagination-qa-assertions.test.ts tests/e2e/support/cv-parity-fixture.ts scripts/pagination_qa_summary.mjs scripts/pagination_qa_fields.mjs .github/workflows/pagination-2page-qa.yml
           bun run build
       - name: Install Chromium
         run: bash scripts/qa-browser-setup.sh
@@ -48,6 +48,17 @@ jobs:
       - name: Independent matrix and boundary audit (strict; existing defects fail)
         if: success() || failure()
         run: npx playwright test --config tests/qa/playwright.pagination.config.ts
+      - name: Long combined dossier audit
+        if: success() || failure()
+        run: npx playwright test --config tests/qa/playwright.combined.config.ts
+      - name: Different first-page and continuation chrome audit
+        if: success() || failure()
+        env:
+          PAGINATION_QA_DIR: artifacts/pagination-2page-chrome
+        run: npx playwright test --config tests/qa/playwright.chrome.config.ts
+      - name: Full logical field presence (including identity and contact values)
+        if: success() || failure()
+        run: bun scripts/pagination_qa_fields.mjs
       - name: Summarize executed evidence
         if: always()
         run: node scripts/pagination_qa_summary.mjs
@@ -57,6 +68,10 @@ jobs:
           name: pagination-2page-${{ github.sha }}
           path: |
             artifacts/pagination-2page
+            artifacts/pagination-2page-combined
+            artifacts/pagination-2page-chrome
             test-results/pagination-2page
             test-results/pagination-product
+            test-results/pagination-combined
+            test-results/pagination-chrome
           retention-days: 14

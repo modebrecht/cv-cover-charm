@@ -187,6 +187,16 @@ for (const template of ["brief", "studio3"].filter((id) => !selected || selected
         descriptionRepeats: 8,
       });
       await loadFixture(page, short, kind);
+      if (kind === "cv") {
+        await page
+          .locator(
+            '[data-editor-section-title="Praktika & Schnuppertage"] [data-editor-section-toggle]',
+          )
+          .click();
+        await expect(
+          page.locator('input[data-dossier-field-id="cv.entry.erfahrung:qa-work-0.description"]'),
+        ).toBeVisible();
+      }
       const roots = documentRoots(kind),
         failures = [];
       for (const [index, fixture] of [short, long, short, long].entries()) {
