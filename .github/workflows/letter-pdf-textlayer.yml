@@ -9,6 +9,7 @@ on:
       - "tests/qa/**"
       - "tests/unit/pagination-qa-assertions.test.ts"
       - "tests/e2e/support/cv-parity-fixture.ts"
+      - "tests/e2e/shared-editor-controls-consistency.spec.ts"
       - "scripts/pagination_qa_*.mjs"
       - ".github/workflows/letter-pdf-textlayer.yml"
 
@@ -42,7 +43,7 @@ jobs:
           bun test tests/unit
           bun run lint
           bun run format:check:release
-          npx prettier --check src/lib/dossier-pdf.ts tests/qa/*.ts tests/qa/tsconfig.json tests/unit/pagination-qa-assertions.test.ts tests/e2e/support/cv-parity-fixture.ts scripts/pagination_qa_*.mjs .github/workflows/letter-pdf-textlayer.yml
+          npx prettier --check src/lib/dossier-pdf.ts tests/qa/*.ts tests/qa/tsconfig.json tests/unit/pagination-qa-assertions.test.ts tests/e2e/support/cv-parity-fixture.ts tests/e2e/shared-editor-controls-consistency.spec.ts scripts/pagination_qa_*.mjs .github/workflows/letter-pdf-textlayer.yml
           bun run build
       - name: Install Chromium
         run: bash scripts/qa-browser-setup.sh
