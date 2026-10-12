@@ -57,26 +57,6 @@ function rgb(cssColor: string): [number, number, number] {
   return [17, 17, 17];
 }
 
-function letterText(element: HTMLElement): string {
-  return (element.innerText || element.textContent || "")
-    .replace(/\u00a0/g, " ")
-    .replace(/\r/g, "")
-    .trim();
-}
-
-function wrapLetterText(pdf: JsPdf, text: string, widthMm: number): string[] {
-  const lines: string[] = [];
-  for (const logicalLine of text.split("\n")) {
-    if (!logicalLine.trim()) {
-      lines.push("");
-      continue;
-    }
-    const wrapped = pdf.splitTextToSize(logicalLine, Math.max(1, widthMm));
-    lines.push(...(Array.isArray(wrapped) ? wrapped : [String(wrapped)]));
-  }
-  return lines;
-}
-
 function visibleRangeRects(range: Range): DOMRect[] {
   return Array.from(range.getClientRects()).filter((rect) => rect.width > 0 && rect.height > 0);
 }
@@ -168,19 +148,37 @@ function addRichLetterText(
   font: PdfFont,
   mmX: number,
   mmY: number,
+  excludeFooter = false,
 ) {
   const pageRect = page.getBoundingClientRect();
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const range = document.createRange();
+  const emittedListBlocks = new Set<HTMLElement>();
   let node = walker.nextNode();
 
   while (node) {
     const raw = node.nodeValue ?? "";
     const parent = node.parentElement ?? root;
     const style = window.getComputedStyle(parent);
+    if (
+      (excludeFooter && parent.closest("[data-dossier-footer]")) ||
+      style.display === "none" ||
+      style.visibility === "hidden" ||
+      style.visibility === "collapse" ||
+      parent.closest("script, style, template")
+    ) {
+      node = walker.nextNode();
+      continue;
+    }
     const fontSizePx = Number.parseFloat(style.fontSize) || 14;
     const fontSizePt = fontSizePx * (72 / 96);
     const [red, green, blue] = rgb(style.color);
+
+    const listBlock = parent.closest<HTMLElement>("[data-list]");
+    if (raw.trim() && listBlock && root.contains(listBlock) && !emittedListBlocks.has(listBlock)) {
+      addLetterListMarkers(pdf, page, listBlock, font, mmX, mmY);
+      emittedListBlocks.add(listBlock);
+    }
 
     for (const match of raw.matchAll(/\S+/g)) {
       const token = match[0];
@@ -217,7 +215,10 @@ function addLetterListMarkers(
   mmY: number,
 ) {
   const pageRect = page.getBoundingClientRect();
-  for (const block of root.querySelectorAll<HTMLElement>(":scope > [data-list]")) {
+  const blocks = root.matches("[data-list]")
+    ? [root]
+    : Array.from(root.querySelectorAll<HTMLElement>(":scope > [data-list]"));
+  for (const block of blocks) {
     const marker = LETTER_LIST_MARKERS[block.dataset.list ?? ""];
     if (!marker) continue;
     const rect = block.getBoundingClientRect();
@@ -291,45 +292,15 @@ function addLetterTextLayer(pdf: JsPdf, page: HTMLElement) {
   const mmY = 297 / pageRect.height;
   const font = pdfFontFor(page);
 
-  for (const element of page.querySelectorAll<HTMLElement>("[data-letter-pdf-text]")) {
-    // Chrome uses the browser's measured runs so narrow labels are not rewrapped.
-    if (element.closest("[data-dossier-chrome]")) {
-      addRichLetterText(pdf, page, element, font, mmX, mmY);
-      continue;
-    }
-    const text = letterText(element);
-    if (!text) continue;
-    const rect = element.getBoundingClientRect();
-    if (rect.width <= 0 || rect.height <= 0) continue;
-    const style = window.getComputedStyle(element);
-    const fontSizePx = Number.parseFloat(style.fontSize) || 14;
-    const fontSizePt = fontSizePx * (72 / 96);
-    const lineHeightPx = Number.parseFloat(style.lineHeight);
-    const lineHeightFactor =
-      Number.isFinite(lineHeightPx) && lineHeightPx > 0 ? lineHeightPx / fontSizePx : 1.2;
-    const [red, green, blue] = rgb(style.color);
-    const left = (rect.left - pageRect.left) * mmX;
-    const top = (rect.top - pageRect.top) * mmY;
-    const width = rect.width * mmX;
-    const align =
-      style.textAlign === "right" ? "right" : style.textAlign === "center" ? "center" : "left";
-    const x = align === "right" ? left + width : align === "center" ? left + width / 2 : left;
-    const baseline = top + fontSizePt * MM_PER_PT * 0.82;
-
-    pdf.setFont(font, pdfFontStyle(style));
-    pdf.setFontSize(fontSizePt);
-    pdf.setTextColor(red, green, blue);
-    pdf.text(wrapLetterText(pdf, text, width), x, baseline, {
-      align,
-      lineHeightFactor,
-      renderingMode: "invisible",
-    });
-  }
+  // Integrated contact rows need no export-specific marker to remain searchable.
+  // Absolute chrome footers occur early in the component DOM; emit them after
+  // the main content. Every other text node retains DOM order and browser geometry.
+  addRichLetterText(pdf, page, page, font, mmX, mmY, true);
+  for (const footer of page.querySelectorAll<HTMLElement>("[data-dossier-footer]"))
+    addRichLetterText(pdf, page, footer, font, mmX, mmY);
 
   const richBody = page.querySelector<HTMLElement>("[data-letter-pdf-richtext]");
   if (richBody) {
-    addRichLetterText(pdf, page, richBody, font, mmX, mmY);
-    addLetterListMarkers(pdf, page, richBody, font, mmX, mmY);
     addLetterTableBorders(pdf, page, richBody, mmX, mmY);
   }
   addLetterRules(pdf, page, mmX, mmY);
