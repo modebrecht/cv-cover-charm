@@ -67,8 +67,7 @@ div[data-cv-template="horizon"][data-dossier-document="cv"] [data-dossier-footer
  * into the paper. Structural artwork stays CSS-owned. Editable block geometry
  * is deliberately NOT set here: forest-flow-cover-defaults.ts owns those
  * defaults so drag, resize and reset all use the same editor state. */
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="forestFlow"]
   [data-fresh-cover-field="primary"] {
   left: 0 !important;
   right: auto !important;
@@ -82,8 +81,7 @@ html[data-dossier-template="forestFlow"]
   transform: none !important;
 }
 
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="forestFlow"]
   [data-fresh-cover-field="secondary"] {
   left: 52.6mm !important;
   right: 0 !important;
@@ -101,8 +99,7 @@ html[data-dossier-template="forestFlow"]
  * started at 51 mm and covered the rail for the first 82 mm, making the edge
  * appear to jump when the accent ended. The seam now lives entirely to the
  * right of the rail; the canopy starts 0.2 mm behind it to avoid a subpixel gap. */
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="forestFlow"]
   [data-fresh-cover-field="accent"] {
   left: 52mm !important;
   right: auto !important;
@@ -116,15 +113,13 @@ html[data-dossier-template="forestFlow"]
   transform: none !important;
 }
 
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="forestFlow"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
   > div {
   text-align: left !important;
 }
 
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="forestFlow"]
   :is(
     [data-block-id="eyebrow"],
     [data-block-id="ortDatum"],
@@ -135,23 +130,20 @@ html[data-dossier-template="forestFlow"]
   color: #f7faf8 !important;
 }
 
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="forestFlow"]
   :is([data-block-id="eyebrow"], [data-block-id="ortDatum"])
   > div {
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
 
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="forestFlow"]
   [data-block-id="kontakt"]
   > div {
   font-size: 8.2pt !important;
   line-height: 1.42 !important;
 }
 
-html[data-dossier-template="forestFlow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="forestFlow"]
   :is([data-block-id="anTitel"], [data-block-id="empfaenger"])
   > div {
   text-align: right !important;

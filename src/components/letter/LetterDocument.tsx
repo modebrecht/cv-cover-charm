@@ -396,6 +396,8 @@ export function LetterDocument({
     <div
       ref={documentRootRef}
       data-letter-document-root
+      data-dossier-document="letter"
+      data-dossier-template={design.template}
       data-letter-pagination-ready={pagination.ready ? "true" : "false"}
       data-letter-page-count={renderedPages.length}
       data-letter-pagination-error={pagination.issue?.code}

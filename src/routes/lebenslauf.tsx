@@ -32,6 +32,8 @@ import { dossierElementFieldId } from "@/lib/dossier-semantic-fields";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
 import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { DossierNativePrintRoot } from "@/components/dossier/DossierNativePrintRoot";
+import { useDossierNativePrint } from "@/components/dossier/useDossierNativePrint";
 import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import {
   coverPdfDocumentFromSaved,
@@ -330,6 +332,7 @@ function Lebenslauf() {
 
   const exportRef = useRef<HTMLDivElement>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
+  const nativePrint = useDossierNativePrint(dossierExportRef);
   const menuRef = useRef<HTMLDivElement>(null);
   const restored = useRef(false);
 
@@ -2749,21 +2752,15 @@ function Lebenslauf() {
         warnings={dossierWarnings}
         coverChanged={coverChanged}
         downloading={downloading}
+        onNativePrint={nativePrint.print}
+        nativePrinting={nativePrint.printing}
+        nativePrintError={nativePrint.error}
         onClose={closeDossierReview}
         onDownload={downloadDossierPdf}
       />
 
       {canDownloadDossierPdf && (dossierReviewOpen || downloading) ? (
-        <div
-          aria-hidden
-          style={{
-            position: "fixed",
-            left: "-20000px",
-            top: 0,
-            pointerEvents: "none",
-            zIndex: -1,
-          }}
-        >
+        <DossierNativePrintRoot>
           <DossierPdfCanvas
             ref={dossierExportRef}
             cover={storedCoverDocument}
@@ -2772,7 +2769,7 @@ function Lebenslauf() {
             onCvLayoutWarnings={receiveDossierWarnings}
             onCvPageCount={setDossierCvPageCount}
           />
-        </div>
+        </DossierNativePrintRoot>
       ) : null}
     </div>
   );

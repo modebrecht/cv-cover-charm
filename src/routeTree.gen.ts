@@ -9,19 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TitelblattRouteImport } from './routes/titelblatt'
-import { Route as LebenslaufRouteImport } from './routes/lebenslauf'
-import { Route as AnschreibenRouteImport } from './routes/anschreiben'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnschreibenRouteImport } from './routes/anschreiben'
+import { Route as LebenslaufRouteImport } from './routes/lebenslauf'
+import { Route as TitelblattRouteImport } from './routes/titelblatt'
 
-const TitelblattRoute = TitelblattRouteImport.update({
-  id: '/titelblatt',
-  path: '/titelblatt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LebenslaufRoute = LebenslaufRouteImport.update({
-  id: '/lebenslauf',
-  path: '/lebenslauf',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnschreibenRoute = AnschreibenRouteImport.update({
@@ -29,9 +24,14 @@ const AnschreibenRoute = AnschreibenRouteImport.update({
   path: '/anschreiben',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LebenslaufRoute = LebenslaufRouteImport.update({
+  id: '/lebenslauf',
+  path: '/lebenslauf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TitelblattRoute = TitelblattRouteImport.update({
+  id: '/titelblatt',
+  path: '/titelblatt',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -71,18 +71,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/titelblatt': {
-      id: '/titelblatt'
-      path: '/titelblatt'
-      fullPath: '/titelblatt'
-      preLoaderRoute: typeof TitelblattRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/lebenslauf': {
-      id: '/lebenslauf'
-      path: '/lebenslauf'
-      fullPath: '/lebenslauf'
-      preLoaderRoute: typeof LebenslaufRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anschreiben': {
@@ -92,11 +85,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnschreibenRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/lebenslauf': {
+      id: '/lebenslauf'
+      path: '/lebenslauf'
+      fullPath: '/lebenslauf'
+      preLoaderRoute: typeof LebenslaufRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/titelblatt': {
+      id: '/titelblatt'
+      path: '/titelblatt'
+      fullPath: '/titelblatt'
+      preLoaderRoute: typeof TitelblattRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

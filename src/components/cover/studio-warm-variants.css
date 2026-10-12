@@ -10,26 +10,22 @@
  * No isolated decorative rules are introduced.
  */
 
-html[data-dossier-template="studio2"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="studio2"] > div:first-child)
   > div:first-child,
 div[data-cv-template="studio2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
-html[data-dossier-template="studio3"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="studio3"] > div:first-child)
   > div:first-child,
 div[data-cv-template="studio3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
-html[data-dossier-template="warm2"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="warm2"] > div:first-child)
   > div:first-child,
 div[data-cv-template="warm2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
-html[data-dossier-template="warm3"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="warm3"] > div:first-child)
   > div:first-child,
 div[data-cv-template="warm3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
@@ -41,8 +37,7 @@ div[data-cv-template="warm3"]
 /* -------------------------------------------------------------------------- */
 /* STUDIO 2 — slim dark rail + broad yellow signal field                      */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="studio2"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="studio2"] > div:first-child)
   > div:first-child,
 div[data-cv-template="studio2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
@@ -61,8 +56,7 @@ div[data-cv-template="studio2"]
   ) !important;
 }
 
-html[data-dossier-template="studio2"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="studio2"] > div:first-child)
   > div:first-child
   > div:first-child,
 div[data-cv-template="studio2"]
@@ -81,8 +75,7 @@ div[data-cv-template="studio2"]
   background-image: linear-gradient(115deg, rgb(255 255 255 / 0.16), transparent 62%) !important;
 }
 
-html[data-dossier-template="studio2"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="studio2"] > div:first-child)
   > div:first-child
   > div:nth-child(2),
 div[data-cv-template="studio2"]
@@ -100,35 +93,33 @@ div[data-cv-template="studio2"]
   filter: blur(12mm);
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="studio2"] [data-block-id="foto"] {
   transform: translate(-62mm, -58mm) scale(0.84);
   transform-origin: top left;
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="studio2"] [data-block-id="name"] {
   width: 116mm !important;
   transform: translate(55mm, -104mm);
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cover"] [data-block-id="beruf"] {
+div[data-dossier-document="cover"][data-dossier-template="studio2"] [data-block-id="beruf"] {
   width: 112mm !important;
   transform: translate(55mm, -38mm);
 }
 
-html[data-dossier-template="studio2"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+div[data-dossier-document="cover"][data-dossier-template="studio2"] [data-block-id="lehrbeginn"] {
   width: 112mm !important;
   transform: translate(55mm, -35mm);
 }
 
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="studio2"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
   > div {
   text-align: left !important;
 }
 
-html[data-dossier-template="studio2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="studio2"]
   :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"]) {
   transform: translate(55mm, 0);
 }
@@ -156,8 +147,7 @@ div[data-cv-template="studio2"][data-dossier-document="cv"] [data-cv-accent="sec
 /* -------------------------------------------------------------------------- */
 /* STUDIO 3 — narrower teal rail + curved mint split                          */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="studio3"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="studio3"] > div:first-child)
   > div:first-child,
 div[data-cv-template="studio3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
@@ -176,8 +166,7 @@ div[data-cv-template="studio3"]
   ) !important;
 }
 
-html[data-dossier-template="studio3"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="studio3"] > div:first-child)
   > div:first-child
   > div:first-child,
 div[data-cv-template="studio3"]
@@ -196,8 +185,7 @@ div[data-cv-template="studio3"]
   background-image: linear-gradient(125deg, rgb(255 255 255 / 0.2), transparent 64%) !important;
 }
 
-html[data-dossier-template="studio3"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="studio3"] > div:first-child)
   > div:first-child
   > div:nth-child(2),
 div[data-cv-template="studio3"]
@@ -215,35 +203,33 @@ div[data-cv-template="studio3"]
   filter: blur(13mm);
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="studio3"] [data-block-id="foto"] {
   transform: translate(-55mm, -52mm) scale(0.8);
   transform-origin: top left;
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="studio3"] [data-block-id="name"] {
   width: 124mm !important;
   transform: translate(50mm, -96mm);
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cover"] [data-block-id="beruf"] {
+div[data-dossier-document="cover"][data-dossier-template="studio3"] [data-block-id="beruf"] {
   width: 118mm !important;
   transform: translate(50mm, -31mm);
 }
 
-html[data-dossier-template="studio3"] [data-dossier-document="cover"] [data-block-id="lehrbeginn"] {
+div[data-dossier-document="cover"][data-dossier-template="studio3"] [data-block-id="lehrbeginn"] {
   width: 118mm !important;
   transform: translate(50mm, -28mm);
 }
 
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="studio3"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
   > div {
   text-align: left !important;
 }
 
-html[data-dossier-template="studio3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="studio3"]
   :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"]) {
   transform: translate(47mm, 0);
 }
@@ -271,8 +257,7 @@ div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-accent="sec
 /* -------------------------------------------------------------------------- */
 /* WARM 2 — coral/apricot cloud, softer and brighter than Warm                */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="warm2"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="warm2"] > div:first-child)
   > div:first-child,
 div[data-cv-template="warm2"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
@@ -291,8 +276,7 @@ div[data-cv-template="warm2"]
   ) !important;
 }
 
-html[data-dossier-template="warm2"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="warm2"] > div:first-child)
   > div:first-child
   > div:first-child,
 div[data-cv-template="warm2"]
@@ -310,8 +294,7 @@ div[data-cv-template="warm2"]
   filter: blur(11mm);
 }
 
-html[data-dossier-template="warm2"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="warm2"] > div:first-child)
   > div:first-child
   > div:nth-child(2),
 div[data-cv-template="warm2"]
@@ -329,17 +312,16 @@ div[data-cv-template="warm2"]
   filter: blur(9mm);
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="warm2"] [data-block-id="foto"] {
   transform: translate(50mm, -22mm) scale(0.82);
   transform-origin: top left;
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="warm2"] [data-block-id="name"] {
   transform: translate(0, -14mm);
 }
 
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   transform: translate(0, -11mm);
 }
@@ -373,8 +355,7 @@ div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-section-title
 /* -------------------------------------------------------------------------- */
 /* WARM 3 — mature teal/amber warmth with one broad organic edge              */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="warm3"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="warm3"] > div:first-child)
   > div:first-child,
 div[data-cv-template="warm3"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
@@ -393,8 +374,7 @@ div[data-cv-template="warm3"]
   ) !important;
 }
 
-html[data-dossier-template="warm3"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="warm3"] > div:first-child)
   > div:first-child
   > div:first-child,
 div[data-cv-template="warm3"]
@@ -412,8 +392,7 @@ div[data-cv-template="warm3"]
   filter: blur(10mm);
 }
 
-html[data-dossier-template="warm3"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="warm3"] > div:first-child)
   > div:first-child
   > div:nth-child(2),
 div[data-cv-template="warm3"]
@@ -431,17 +410,16 @@ div[data-cv-template="warm3"]
   filter: blur(9mm);
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="warm3"] [data-block-id="foto"] {
   transform: translate(50mm, -17mm) scale(0.8);
   transform-origin: top left;
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="warm3"] [data-block-id="name"] {
   transform: translate(0, -11mm);
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   transform: translate(0, -8mm);
 }

@@ -9,6 +9,8 @@ import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import { DossierChromeDocumentContentControls } from "@/components/dossier/DossierChromeDocumentContentControls";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { DossierNativePrintRoot } from "@/components/dossier/DossierNativePrintRoot";
+import { useDossierNativePrint } from "@/components/dossier/useDossierNativePrint";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import {
   HISTORY_KEYS,
@@ -268,6 +270,7 @@ function Anschreiben() {
   } | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
+  const nativePrint = useDossierNativePrint(dossierExportRef);
   const visible = usePageVisible();
   const { markWritten, changedElsewhere } = useForeignWrite(LETTER_STORAGE_KEY);
   const [takeover, setTakeover] = useState({
@@ -811,7 +814,7 @@ function Anschreiben() {
               <button
                 type="button"
                 onClick={() => void downloadWholeDossier()}
-                disabled={!canDownloadDossierPdf}
+                disabled={!canDownloadDossierPdf || nativePrint.printing}
                 title={
                   canDownloadDossierPdf
                     ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen"
@@ -822,6 +825,21 @@ function Anschreiben() {
                 <EditorMenuLabel icon={Files}>Ganzes Dossier als PDF</EditorMenuLabel>
                 <span className="text-xs text-muted-foreground">
                   Titelblatt + Motivationsschreiben + CV
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => void nativePrint.print()}
+                disabled={!canDownloadDossierPdf || pdfDownloading || nativePrint.printing}
+                className="flex w-full flex-col gap-1 border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:opacity-45"
+              >
+                <span>
+                  {nativePrint.printing
+                    ? "Druckdialog wird vorbereitet…"
+                    : "Drucken / als PDF speichern"}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  Experiment · öffnet den Druckdialog
                 </span>
               </button>
               {!canDownloadDossierPdf ? (
@@ -1601,6 +1619,12 @@ function Anschreiben() {
           </div>
         </main>
 
+        {nativePrint.error ? (
+          <p role="alert" className="text-sm text-destructive">
+            {nativePrint.error}
+          </p>
+        ) : null}
+
         <div
           data-letter-standalone-export
           className="pointer-events-none fixed left-[-10000px] top-0"
@@ -1617,16 +1641,7 @@ function Anschreiben() {
         </div>
 
         {canDownloadDossierPdf ? (
-          <div
-            aria-hidden
-            style={{
-              position: "fixed",
-              left: "-20000px",
-              top: 0,
-              pointerEvents: "none",
-              zIndex: -1,
-            }}
-          >
+          <DossierNativePrintRoot>
             <DossierPdfCanvas
               ref={dossierExportRef}
               cover={storedCoverDocument}
@@ -1634,7 +1649,7 @@ function Anschreiben() {
               cv={storedCvDocument}
               chromeState={chromeState}
             />
-          </div>
+          </DossierNativePrintRoot>
         ) : null}
       </div>
     </div>

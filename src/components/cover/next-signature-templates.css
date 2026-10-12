@@ -11,8 +11,7 @@
 /* -------------------------------------------------------------------------- */
 /* ORBIT — offset circular field, crisp modern typography                     */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="orbit"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="orbit"] > div:first-child)
   > div:first-child,
 div[data-cv-template="orbit"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
@@ -28,8 +27,7 @@ div[data-cv-template="orbit"]
   filter: none !important;
 }
 
-html[data-dossier-template="orbit"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="orbit"] > div:first-child)
   > div:first-child
   > div:first-child,
 div[data-cv-template="orbit"]
@@ -47,8 +45,7 @@ div[data-cv-template="orbit"]
   filter: none !important;
 }
 
-html[data-dossier-template="orbit"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="orbit"] > div:first-child)
   > div:first-child
   > div:nth-child(2),
 div[data-cv-template="orbit"]
@@ -66,35 +63,33 @@ div[data-cv-template="orbit"]
   filter: none !important;
 }
 
-html[data-dossier-template="orbit"] [data-dossier-document="cover"] [data-block-id="eyebrow"] {
+div[data-dossier-document="cover"][data-dossier-template="orbit"] [data-block-id="eyebrow"] {
   width: 68mm !important;
   transform: translate(102mm, 0);
 }
 
-html[data-dossier-template="orbit"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+div[data-dossier-document="cover"][data-dossier-template="orbit"] [data-block-id="ortDatum"] {
   width: 68mm !important;
   transform: translate(-2mm, 0);
 }
 
-html[data-dossier-template="orbit"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="orbit"] [data-block-id="foto"] {
   transform: translate(57mm, -54mm) scale(0.82);
   transform-origin: top left;
 }
 
-html[data-dossier-template="orbit"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="orbit"] [data-block-id="name"] {
   width: 150mm !important;
   transform: translate(0, -25mm);
 }
 
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="orbit"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   width: 150mm !important;
   transform: translate(0, -22mm);
 }
 
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="orbit"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
   > div {
   text-align: left !important;
@@ -160,8 +155,7 @@ div[data-cv-template="orbit"][data-dossier-document="cv"] [data-cv-accent="secti
 /* -------------------------------------------------------------------------- */
 /* RIBBON — deep vertical rail with a broad rounded signal ribbon             */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="ribbon"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="ribbon"] > div:first-child)
   > div:first-child,
 div[data-cv-template="ribbon"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
@@ -177,8 +171,7 @@ div[data-cv-template="ribbon"]
   filter: none !important;
 }
 
-html[data-dossier-template="ribbon"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="ribbon"] > div:first-child)
   > div:first-child
   > div:first-child,
 div[data-cv-template="ribbon"]
@@ -196,8 +189,7 @@ div[data-cv-template="ribbon"]
   filter: none !important;
 }
 
-html[data-dossier-template="ribbon"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="ribbon"] > div:first-child)
   > div:first-child
   > div:nth-child(2),
 div[data-cv-template="ribbon"]
@@ -215,44 +207,40 @@ div[data-cv-template="ribbon"]
   filter: none !important;
 }
 
-html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="ribbon"] [data-block-id="foto"] {
   transform: translate(-57mm, -60mm) scale(0.82);
   transform-origin: top left;
 }
 
-html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="ortDatum"] {
+div[data-dossier-document="cover"][data-dossier-template="ribbon"] [data-block-id="ortDatum"] {
   width: 68mm !important;
   transform: translate(-45mm, 26mm);
 }
 
-html[data-dossier-template="ribbon"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="ribbon"] [data-block-id="name"] {
   width: 118mm !important;
   transform: translate(49mm, -99mm);
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ribbon"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   width: 116mm !important;
   transform: translate(49mm, -95mm);
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ribbon"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
   > div {
   text-align: left !important;
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ribbon"]
   :is([data-block-id="kontaktTitel"], [data-block-id="kontakt"]) {
   width: 54mm !important;
   transform: translate(48mm, 0);
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ribbon"]
   :is([data-block-id="anTitel"], [data-block-id="empfaenger"]) {
   width: 58mm !important;
   transform: translate(22mm, 0);
@@ -330,8 +318,7 @@ div[data-cv-template="ribbon"][data-dossier-document="cv"] [data-cv-accent="sect
 /* -------------------------------------------------------------------------- */
 /* COVE — broad rounded header with a portrait bay                            */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="cove"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="cove"] > div:first-child)
   > div:first-child,
 div[data-cv-template="cove"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
@@ -347,8 +334,7 @@ div[data-cv-template="cove"]
   filter: none !important;
 }
 
-html[data-dossier-template="cove"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="cove"] > div:first-child)
   > div:first-child
   > div:first-child,
 div[data-cv-template="cove"]
@@ -366,8 +352,7 @@ div[data-cv-template="cove"]
   filter: none !important;
 }
 
-html[data-dossier-template="cove"]
-  :is([data-dossier-document="cover"] > div:first-child)
+:is(div[data-dossier-document="cover"][data-dossier-template="cove"] > div:first-child)
   > div:first-child
   > div:nth-child(2),
 div[data-cv-template="cove"]
@@ -385,25 +370,23 @@ div[data-cv-template="cove"]
   filter: none !important;
 }
 
-html[data-dossier-template="cove"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="cove"] [data-block-id="foto"] {
   transform: translate(57mm, -59mm) scale(0.82);
   transform-origin: top left;
 }
 
-html[data-dossier-template="cove"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="cove"] [data-block-id="name"] {
   width: 148mm !important;
   transform: translate(0, -38mm);
 }
 
-html[data-dossier-template="cove"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="cove"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   width: 148mm !important;
   transform: translate(0, -35mm);
 }
 
-html[data-dossier-template="cove"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="cove"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"])
   > div {
   text-align: left !important;

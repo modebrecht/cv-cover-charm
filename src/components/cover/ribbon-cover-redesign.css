@@ -5,8 +5,7 @@
  * editor defaults adapter so drag/resize/reset remain authoritative.
  */
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ribbon"]
   > div:first-child
   > div:first-child {
   left: 0 !important;
@@ -18,8 +17,7 @@ html[data-dossier-template="ribbon"]
   overflow: visible !important;
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ribbon"]
   > div:first-child
   > div:first-child
   > div:first-child {
@@ -33,8 +31,7 @@ html[data-dossier-template="ribbon"]
   transform: none !important;
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ribbon"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -42,10 +39,7 @@ html[data-dossier-template="ribbon"]
 }
 
 /* "BEWERBUNG" belongs directly to the green rail: no extra badge/bar. */
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
-  [data-block-id="eyebrow"]
-  > div {
+div[data-dossier-document="cover"][data-dossier-template="ribbon"] [data-block-id="eyebrow"] > div {
   background: transparent !important;
   box-shadow: none !important;
   border: 0 !important;
@@ -54,9 +48,6 @@ html[data-dossier-template="ribbon"]
 /* The portrait is editor-owned, but its untouched default reads as one clean
  * circular anchor between rail and ribbon. Explicit user radius/fill edits
  * still win because geometry is not pinned here. */
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cover"]
-  [data-block-id="foto"]
-  > div {
+div[data-dossier-document="cover"][data-dossier-template="ribbon"] [data-block-id="foto"] > div {
   overflow: hidden;
 }

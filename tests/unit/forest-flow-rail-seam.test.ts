@@ -6,7 +6,9 @@ const css = readFileSync(
   "utf8",
 );
 
-const coverStart = css.indexOf('html[data-dossier-template="forestFlow"]\n  [data-dossier-document="cover"]');
+const coverStart = css.indexOf(
+  'div[data-dossier-document="cover"][data-dossier-template="forestFlow"]',
+);
 const letterStart = css.indexOf("/* Letter:", coverStart);
 const coverCss = css.slice(coverStart, letterStart);
 

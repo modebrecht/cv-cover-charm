@@ -10,14 +10,12 @@
 /* COVER — editable triangles live in template-decorations.ts                 */
 /* -------------------------------------------------------------------------- */
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="diagonal"]
   [data-fresh-cover-field="primary"] {
   display: none !important;
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="diagonal"]
   :is(
     [data-block-id="foto"],
     [data-block-id="name"],
@@ -27,8 +25,7 @@ html[data-dossier-template="diagonal"]
   transform: none !important;
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="diagonal"]
   [data-block-id="beruf"]
   > div
   > div:first-child {

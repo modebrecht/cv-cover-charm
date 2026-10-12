@@ -9,14 +9,12 @@
  * contact/footer chrome still reserves its pagination geometry, but its own
  * surfaces/borders are transparent so it cannot add a second set of lines.
  */
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"]
   [data-fresh-cover-field="accent"] {
   display: none !important;
 }
 
-html[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"]
   [data-fresh-cover-field="secondary"] {
   left: 28mm !important;
   right: 28mm !important;

@@ -238,15 +238,13 @@
  * accent dash before "Bewerbung"; the third is the full-width footer bar.
  * The movable legacy divider is hidden as well.
  */
-html[data-dossier-template="modern"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="modern"]
   > div:first-child
   > div:first-child,
-html[data-dossier-template="modern"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="modern"]
   > div:first-child
   > div:nth-child(3),
-html[data-dossier-template="modern"] [data-dossier-document="cover"] [data-block-id="trenner"] {
+div[data-dossier-document="cover"][data-dossier-template="modern"] [data-block-id="trenner"] {
   display: none !important;
 }
 

@@ -5,8 +5,10 @@
  * echo. The CV intentionally omits the lower echo because at the page edge it
  * reads as an accidentally clipped dot rather than as a deliberate motif.
  */
-html[data-dossier-template="human"]
-  :where([data-dossier-document="cover"], [data-letter-canvas])
+:is(div, article)[data-dossier-template="human"]:where(
+    [data-dossier-document="cover"],
+    [data-letter-canvas]
+  )
   [data-dossier-sheet-background="human"]
   > div:nth-of-type(1),
 div[data-cv-template="human"] [data-dossier-sheet-background="human"] > div:nth-of-type(1) {
@@ -20,8 +22,10 @@ div[data-cv-template="human"] [data-dossier-sheet-background="human"] > div:nth-
   transform-origin: center;
 }
 
-html[data-dossier-template="human"]
-  :where([data-dossier-document="cover"], [data-letter-canvas])
+:is(div, article)[data-dossier-template="human"]:where(
+    [data-dossier-document="cover"],
+    [data-letter-canvas]
+  )
   [data-dossier-sheet-background="human"]
   > div:nth-of-type(2),
 div[data-cv-template="human"] [data-dossier-sheet-background="human"] > div:nth-of-type(2) {
@@ -41,13 +45,17 @@ div[data-dossier-sheet-background="human"][data-dossier-document="cv"]
   display: none !important;
 }
 
-html[data-dossier-template="human"]
-  :where([data-dossier-document="cover"], [data-letter-canvas])
+:is(div, article)[data-dossier-template="human"]:where(
+    [data-dossier-document="cover"],
+    [data-letter-canvas]
+  )
   [data-dossier-sheet-background="human"]
   > div:nth-of-type(2)::before,
 div[data-cv-template="human"] [data-dossier-sheet-background="human"] > div:nth-of-type(2)::before,
-html[data-dossier-template="human"]
-  :where([data-dossier-document="cover"], [data-letter-canvas])
+:is(div, article)[data-dossier-template="human"]:where(
+    [data-dossier-document="cover"],
+    [data-letter-canvas]
+  )
   [data-dossier-sheet-background="human"]
   > div:nth-of-type(2)::after,
 div[data-cv-template="human"] [data-dossier-sheet-background="human"] > div:nth-of-type(2)::after {

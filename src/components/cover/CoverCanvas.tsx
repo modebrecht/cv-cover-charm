@@ -4,7 +4,13 @@ import { CoverBackground } from "./CoverBackground";
 import { BlockLayer, type Point } from "./BlockLayer";
 import { hasUserStyle } from "./user-style-precedence";
 import { PAGE } from "@/default-config";
-import { dossierDefaultFontKey, effectiveDossierFont } from "@/lib/dossier-theme";
+import { resolveBackgroundPaint } from "@/lib/dossier-background-paint";
+import {
+  dossierDefaultFontKey,
+  dossierThemeCssVariables,
+  effectiveDossierFont,
+} from "@/lib/dossier-theme";
+import "@/components/dossier/document-paint.css";
 import "./cover-text-color.css";
 import "./cover-user-style-precedence.css";
 
@@ -34,9 +40,7 @@ function sharedDossierBlockFont(blocks: Block[]): FontKey | null {
     blocks
       .filter(
         (block) =>
-          block.kind === "text" &&
-          DOSSIER_TEXT_IDS.has(block.id) &&
-          !hasUserStyle(block, "font"),
+          block.kind === "text" && DOSSIER_TEXT_IDS.has(block.id) && !hasUserStyle(block, "font"),
       )
       .map((block) => block.style.font),
   );
@@ -86,10 +90,10 @@ function usesAutomaticFooterPair(blocks: Block[]): boolean {
   const body = blocks.find((block) => block.id === "beilagen");
   return Boolean(
     title &&
-      body &&
-      title.style.above === "beilagen" &&
-      !title.style.follows &&
-      body.style.anchorBottom === true,
+    body &&
+    title.style.above === "beilagen" &&
+    !title.style.follows &&
+    body.style.anchorBottom === true,
   );
 }
 
@@ -136,6 +140,10 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
 ) {
   const { editable = true, drawing = false, fontScale = 1 } = rest;
   const canvasRef = useRef<HTMLDivElement | null>(null);
+  useLayoutEffect(() => {
+    const background = canvasRef.current?.firstElementChild;
+    if (background instanceof HTMLElement) resolveBackgroundPaint(background);
+  }, [colors, template]);
   const renderBlocks = useMemo(
     () => normalizedFooterBlocks(blocks, data.labelKontakt),
     [blocks, data.labelKontakt],
@@ -151,10 +159,8 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     else if (ref) ref.current = node;
   };
 
-  // Legacy cover CSS still has html[data-dossier-template] selectors for the
-  // visible editor. Hidden mixed-template dossier renderers opt out and carry
-  // their own local template marker; html2canvas mirrors that marker only in
-  // its throw-away clone so it cannot move the live cover immediately pre-PDF.
+  // Keep the visible editor shell's legacy identity lifecycle. Document styling
+  // uses this canvas's local identity/palette; combined rendering opts out.
   useLayoutEffect(() => {
     if (!manageGlobalTemplateScope) return;
     const root = document.documentElement;
@@ -249,6 +255,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
       data-dossier-footer-sync={automaticFooterPair ? "automatic" : "manual"}
       className="relative overflow-hidden shadow-2xl"
       style={{
+        ...dossierThemeCssVariables(template, resolvedOverride),
         width: `${PAGE_W}px`,
         height: `${PAGE_H}px`,
         backgroundColor: paper,

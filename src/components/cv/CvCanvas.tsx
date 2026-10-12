@@ -48,6 +48,7 @@ import {
   type CvDesign,
   type CvLayoutSectionKey,
 } from "./types";
+import "@/components/dossier/document-paint.css";
 import "@/components/dossier-theme.css";
 import "./layout-variants.css";
 import "./layout-options.css";
@@ -167,19 +168,22 @@ export function pinCvSidebarMainGeometry(
   scope: HTMLElement,
   customMargins: DossierPageMargins | null = getDossierPageMargins("cv"),
 ) {
+  // The instance owns these inputs. Reading a previously pinned main node
+  // feeds its old inline output back into the next hydration/template pass,
+  // masking updated inherited geometry on the opposite side of the rail.
+  const instanceGeometry = window.getComputedStyle(scope);
   for (const main of scope.querySelectorAll<HTMLElement>(SIDEBAR_MAIN_SELECTOR)) {
-    const computed = window.getComputedStyle(main);
     const cvRoot = main.closest<HTMLElement>('[data-dossier-document="cv"]');
     const mirrored = cvRoot?.dataset.cvInfoPosition === "mirrored";
     const customLeftMm = customMargins ? (mirrored ? customMargins.right : customMargins.left) : 0;
     const customRightMm = customMargins ? (mirrored ? customMargins.left : customMargins.right) : 0;
 
     let leftMm = Math.max(
-      cssMm(computed.getPropertyValue("--cv-modern-physical-left")) ?? 0,
+      cssMm(instanceGeometry.getPropertyValue("--cv-modern-physical-left")) ?? 0,
       customLeftMm,
     );
     let rightMm = Math.max(
-      cssMm(computed.getPropertyValue("--cv-modern-physical-right")) ?? 0,
+      cssMm(instanceGeometry.getPropertyValue("--cv-modern-physical-right")) ?? 0,
       customRightMm,
     );
 

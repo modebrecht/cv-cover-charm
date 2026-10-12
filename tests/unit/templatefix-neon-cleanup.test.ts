@@ -12,7 +12,9 @@ const cvRules = readFileSync(
 
 describe("Neon template cleanup", () => {
   test("cover hides the legacy separator above Kontakt", () => {
-    expect(coverFixes).toContain('html[data-dossier-template="neon"]');
+    expect(coverFixes).toContain(
+      'div[data-dossier-document="cover"][data-dossier-template="neon"]',
+    );
     expect(coverFixes).toContain('[data-block-id="trenner"]');
     expect(coverFixes).toContain("display: none !important;");
   });

@@ -1,0 +1,4672 @@
+{
+  "baseline_source": "a8cd824dfe1e43fbe5fa94a0afe0d5c9e66ed864",
+  "package3_source": "b64054c191f068a45d6024182f0734367ef563d4",
+  "method": "Unchanged seedCanonicalDossier/applyGalleryCase; exact five active saved document/chrome/layout keys. Theme activation calls the existing applyDossierTheme used by TemplatePicker.",
+  "all_39_document_inputs_identical": true,
+  "document_keys": [
+    "titelblatt:v3",
+    "anschreiben:v1",
+    "lebenslauf:v1",
+    "bewerbungsdossier:chrome:v1",
+    "lebenslauf:layout:v1"
+  ],
+  "rows": [
+    {
+      "id": "brief",
+      "package2_document_sha256": "503f905d3474995af5af269100e85f065679b2b9c2dac324bc7f678b72744a9a",
+      "package3_document_sha256": "503f905d3474995af5af269100e85f065679b2b9c2dac324bc7f678b72744a9a",
+      "identical": true
+    },
+    {
+      "id": "klassisch",
+      "package2_document_sha256": "59ef84fe6e19637bc8993c860a08d4a0644cd520b90cee744a31fad83fcd8bd2",
+      "package3_document_sha256": "59ef84fe6e19637bc8993c860a08d4a0644cd520b90cee744a31fad83fcd8bd2",
+      "identical": true
+    },
+    {
+      "id": "modern",
+      "package2_document_sha256": "c1abd2012ef71cb41ecd91de126611f97362cc71eb4694f1d5227c9a7ba3a878",
+      "package3_document_sha256": "c1abd2012ef71cb41ecd91de126611f97362cc71eb4694f1d5227c9a7ba3a878",
+      "identical": true
+    },
+    {
+      "id": "freundlich",
+      "package2_document_sha256": "9824fb4a842b050827cf846d3def0d77806a7528d5be77e417d314005f6663d8",
+      "package3_document_sha256": "9824fb4a842b050827cf846d3def0d77806a7528d5be77e417d314005f6663d8",
+      "identical": true
+    },
+    {
+      "id": "edel",
+      "package2_document_sha256": "349cc535fe2430ddde887ed2644d205e796c3c30712ba7fa73e80ae26e552868",
+      "package3_document_sha256": "349cc535fe2430ddde887ed2644d205e796c3c30712ba7fa73e80ae26e552868",
+      "identical": true
+    },
+    {
+      "id": "colorful",
+      "package2_document_sha256": "1318f50125e8c016c487d897f205208201c06b35c1a776976ddfcf3bb4ef7c12",
+      "package3_document_sha256": "1318f50125e8c016c487d897f205208201c06b35c1a776976ddfcf3bb4ef7c12",
+      "identical": true
+    },
+    {
+      "id": "blockig",
+      "package2_document_sha256": "918d2f9f39d6254361688a3299ab42e97bc7a171e9782f70fa87c5ec99175de4",
+      "package3_document_sha256": "918d2f9f39d6254361688a3299ab42e97bc7a171e9782f70fa87c5ec99175de4",
+      "identical": true
+    },
+    {
+      "id": "serioes",
+      "package2_document_sha256": "3bef7c2d18cf12b612a1a958947d04bb68a522fa8713b2a94c3ac98b56094744",
+      "package3_document_sha256": "3bef7c2d18cf12b612a1a958947d04bb68a522fa8713b2a94c3ac98b56094744",
+      "identical": true
+    },
+    {
+      "id": "human",
+      "package2_document_sha256": "057118cbd18fbb64e49cbce4dc32d40498c2de514a8856cdf7d29135886609f7",
+      "package3_document_sha256": "057118cbd18fbb64e49cbce4dc32d40498c2de514a8856cdf7d29135886609f7",
+      "identical": true
+    },
+    {
+      "id": "welle",
+      "package2_document_sha256": "a671e5b3dab6184678a76d8beca7d71cda966688350bd4c84bc71f555f585275",
+      "package3_document_sha256": "a671e5b3dab6184678a76d8beca7d71cda966688350bd4c84bc71f555f585275",
+      "identical": true
+    },
+    {
+      "id": "terracotta",
+      "package2_document_sha256": "12e0be107c7616bbdb1107b2cd48807838b31ed3e58911db60bc9a681d792eca",
+      "package3_document_sha256": "12e0be107c7616bbdb1107b2cd48807838b31ed3e58911db60bc9a681d792eca",
+      "identical": true
+    },
+    {
+      "id": "pastell",
+      "package2_document_sha256": "1b1838031f60346b1b80ff81530c941325b52ca3e67af5ff785cccbdc8b78d85",
+      "package3_document_sha256": "1b1838031f60346b1b80ff81530c941325b52ca3e67af5ff785cccbdc8b78d85",
+      "identical": true
+    },
+    {
+      "id": "sonne",
+      "package2_document_sha256": "65c9754cc1c5c1e776acf1ee56b5ae2e3a10ba85b45c97808b600a53c9c0b46d",
+      "package3_document_sha256": "65c9754cc1c5c1e776acf1ee56b5ae2e3a10ba85b45c97808b600a53c9c0b46d",
+      "identical": true
+    },
+    {
+      "id": "studio",
+      "package2_document_sha256": "c44f73e442d132d563db4814620b69b8ab570c49a00a53ebf34b6cd5759385f0",
+      "package3_document_sha256": "c44f73e442d132d563db4814620b69b8ab570c49a00a53ebf34b6cd5759385f0",
+      "identical": true
+    },
+    {
+      "id": "neon",
+      "package2_document_sha256": "f6682da4b0319439f07ecb6213b9822bc1f8f79f77e073826b3128e082b0679e",
+      "package3_document_sha256": "f6682da4b0319439f07ecb6213b9822bc1f8f79f77e073826b3128e082b0679e",
+      "identical": true
+    },
+    {
+      "id": "aurora",
+      "package2_document_sha256": "281eb8b74bba59fceda40f594a9f0f5a9b9c13d441ced8d0be2cb20d3289514d",
+      "package3_document_sha256": "281eb8b74bba59fceda40f594a9f0f5a9b9c13d441ced8d0be2cb20d3289514d",
+      "identical": true
+    },
+    {
+      "id": "verlauf",
+      "package2_document_sha256": "636ee58c1a283ad2542e2eb9e600028d00006785d2b0f4b111331f253c033684",
+      "package3_document_sha256": "636ee58c1a283ad2542e2eb9e600028d00006785d2b0f4b111331f253c033684",
+      "identical": true
+    },
+    {
+      "id": "citrus",
+      "package2_document_sha256": "d2e0af771553997f8cf46e7f65e5c9e570c996c8217abc71b781d4224245e041",
+      "package3_document_sha256": "d2e0af771553997f8cf46e7f65e5c9e570c996c8217abc71b781d4224245e041",
+      "identical": true
+    },
+    {
+      "id": "edge",
+      "package2_document_sha256": "1e117894bf69ecd4d7cfddd7c61936dbf5dd6ae459b0bb59479e8fb220364e8f",
+      "package3_document_sha256": "1e117894bf69ecd4d7cfddd7c61936dbf5dd6ae459b0bb59479e8fb220364e8f",
+      "identical": true
+    },
+    {
+      "id": "glow",
+      "package2_document_sha256": "672ddb05177c733911d78afb11225b31984d5b089efd62563ddd2d9e92abdf7f",
+      "package3_document_sha256": "672ddb05177c733911d78afb11225b31984d5b089efd62563ddd2d9e92abdf7f",
+      "identical": true
+    },
+    {
+      "id": "monoLuxe",
+      "package2_document_sha256": "a84ff0350128ecdd0a78e38a15f69e0d9fd400e377ced1fa859ab30ebff277a4",
+      "package3_document_sha256": "a84ff0350128ecdd0a78e38a15f69e0d9fd400e377ced1fa859ab30ebff277a4",
+      "identical": true
+    },
+    {
+      "id": "horizon",
+      "package2_document_sha256": "a889c749a177fd8060dc610b9ee30b646c3458b339578f533e2227090bd59e34",
+      "package3_document_sha256": "a889c749a177fd8060dc610b9ee30b646c3458b339578f533e2227090bd59e34",
+      "identical": true
+    },
+    {
+      "id": "sunrise",
+      "package2_document_sha256": "b9b02d7482a620582eec3447e7576903576df02bfa99b657e88b8b4480b55574",
+      "package3_document_sha256": "b9b02d7482a620582eec3447e7576903576df02bfa99b657e88b8b4480b55574",
+      "identical": true
+    },
+    {
+      "id": "forestFlow",
+      "package2_document_sha256": "e49acffbb6e279eafd28a9712e1de63d862a0a81f16be0220eb168f163bfecc5",
+      "package3_document_sha256": "e49acffbb6e279eafd28a9712e1de63d862a0a81f16be0220eb168f163bfecc5",
+      "identical": true
+    },
+    {
+      "id": "violetPulse",
+      "package2_document_sha256": "c50c169464109bfa15e69f0f1c7708d9004b16ad0140408b6ee7930265be0996",
+      "package3_document_sha256": "c50c169464109bfa15e69f0f1c7708d9004b16ad0140408b6ee7930265be0996",
+      "identical": true
+    },
+    {
+      "id": "studio2",
+      "package2_document_sha256": "29176be123df2f70b913827b5c06d23805334653b92f453b6fec6be15639e06e",
+      "package3_document_sha256": "29176be123df2f70b913827b5c06d23805334653b92f453b6fec6be15639e06e",
+      "identical": true
+    },
+    {
+      "id": "studio3",
+      "package2_document_sha256": "18e3a8f26c6cfc3d04c2ae65244bd34fa00ced78b6db51f1b21d82bf8dd2b098",
+      "package3_document_sha256": "18e3a8f26c6cfc3d04c2ae65244bd34fa00ced78b6db51f1b21d82bf8dd2b098",
+      "identical": true
+    },
+    {
+      "id": "warm2",
+      "package2_document_sha256": "c734938057da3fa504437d3dd0f533aff80f529382fcab108ece584090b2e947",
+      "package3_document_sha256": "c734938057da3fa504437d3dd0f533aff80f529382fcab108ece584090b2e947",
+      "identical": true
+    },
+    {
+      "id": "warm3",
+      "package2_document_sha256": "394777ecdc48ae6bd73202ac926945b40061bbc76e6a9478cff829c7ea3fb986",
+      "package3_document_sha256": "394777ecdc48ae6bd73202ac926945b40061bbc76e6a9478cff829c7ea3fb986",
+      "identical": true
+    },
+    {
+      "id": "verlauf2",
+      "package2_document_sha256": "0cb1ba066a99d1fe2eb34c273a9136faba4e11a8a8b4599cddf9f8042421505c",
+      "package3_document_sha256": "0cb1ba066a99d1fe2eb34c273a9136faba4e11a8a8b4599cddf9f8042421505c",
+      "identical": true
+    },
+    {
+      "id": "verlauf3",
+      "package2_document_sha256": "43e7944543027606053a425890c3a20a9facd6a55493fcd02e1cf524230a7eac",
+      "package3_document_sha256": "43e7944543027606053a425890c3a20a9facd6a55493fcd02e1cf524230a7eac",
+      "identical": true
+    },
+    {
+      "id": "ledger",
+      "package2_document_sha256": "98bb4b16a5c3f755c079630501448017d56d36de3e908a64f32a04c00227946e",
+      "package3_document_sha256": "98bb4b16a5c3f755c079630501448017d56d36de3e908a64f32a04c00227946e",
+      "identical": true
+    },
+    {
+      "id": "prism",
+      "package2_document_sha256": "03bb34f21e74c8ec6419aa84db30f1b3b8d9356b1508f2a34acb3dc83e133b9f",
+      "package3_document_sha256": "03bb34f21e74c8ec6419aa84db30f1b3b8d9356b1508f2a34acb3dc83e133b9f",
+      "identical": true
+    },
+    {
+      "id": "gallery",
+      "package2_document_sha256": "a494dede20f45759b98e4f39d6ea25ed1a21686784d190c9150440919476b98f",
+      "package3_document_sha256": "a494dede20f45759b98e4f39d6ea25ed1a21686784d190c9150440919476b98f",
+      "identical": true
+    },
+    {
+      "id": "orbit",
+      "package2_document_sha256": "85d91f7b772606c5602550c34f94c769bf703d96217145770c8a42f1d74b7d8d",
+      "package3_document_sha256": "85d91f7b772606c5602550c34f94c769bf703d96217145770c8a42f1d74b7d8d",
+      "identical": true
+    },
+    {
+      "id": "ribbon",
+      "package2_document_sha256": "42658762c7b5cf74a4f332ad46fd37d9cee5c51e9ed717d80ae1163b65a902a7",
+      "package3_document_sha256": "42658762c7b5cf74a4f332ad46fd37d9cee5c51e9ed717d80ae1163b65a902a7",
+      "identical": true
+    },
+    {
+      "id": "cove",
+      "package2_document_sha256": "9249ebd3e62597fce059fd75b60a172b1a017b23eb14929c6c25d235783dd19c",
+      "package3_document_sha256": "9249ebd3e62597fce059fd75b60a172b1a017b23eb14929c6c25d235783dd19c",
+      "identical": true
+    },
+    {
+      "id": "diagonal",
+      "package2_document_sha256": "f2dba055fd8416751068004a24805faa8e48d7ba2b7b90e0db9895058c46aa97",
+      "package3_document_sha256": "f2dba055fd8416751068004a24805faa8e48d7ba2b7b90e0db9895058c46aa97",
+      "identical": true
+    },
+    {
+      "id": "edelDark",
+      "package2_document_sha256": "8a4bd60b98651a57172e5ba813804e9d53bb6659e8e2684b91ebd7e42fbd0947",
+      "package3_document_sha256": "8a4bd60b98651a57172e5ba813804e9d53bb6659e8e2684b91ebd7e42fbd0947",
+      "identical": true
+    }
+  ],
+  "cover_existing_preset_parity": [
+    {
+      "id": "brief",
+      "existing_preset_font_and_paint_equal": true,
+      "existing_preset_max_geometry_mm": 0.0,
+      "uninitialized_theme_max_geometry_mm": 3.657118816764985,
+      "uninitialized": [
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16.8px",
+            "400",
+            "25.2px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            19.488146349848535,
+            79.96909545631681,
+            6.66133991163604
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            19.488146349848535,
+            79.96913245297725,
+            7.301853631467235
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "34.944px",
+            "400",
+            "52.416px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            128.94816027939876,
+            40.980484818439095,
+            51.979272004380405,
+            51.97664626763792
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            127.94157621422592,
+            149.94154527651304,
+            7.30186288016183
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "57.6px",
+            "400",
+            "86.4px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            135.5120211854273,
+            154.937796281589,
+            22.84775315888074
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "26.4px",
+            "400",
+            "39.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            159.50442978216677,
+            149.94154527651304,
+            10.475496938277264
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "19.2px",
+            "400",
+            "28.8px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            171.93040242097817,
+            149.94154527651304,
+            7.615911553830516
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            244.81671939772002,
+            79.96909545631681,
+            6.347286613620057
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            252.02766761001274,
+            79.96909545631681,
+            36.509258908641584
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            244.81671939772002,
+            79.96913245297725,
+            6.347286613620057
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            252.02766761001274,
+            79.96913245297725,
+            21.905570143096302
+          ]
+        }
+      ],
+      "existing_preset": [
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16.8px",
+            "700",
+            "18.816px",
+            "1.428px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            19.488146349848535,
+            79.96909545631681,
+            4.975344506088569
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.72",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            19.488146349848535,
+            79.96913245297725,
+            6.715060954191246
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "34.944px",
+            "400",
+            "52.416px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            128.94816027939876,
+            40.980484818439095,
+            51.979272004380405,
+            51.97664626763792
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "700",
+            "20.608px",
+            "1.564px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            127.94157621422592,
+            149.94154527651304,
+            5.450570180464765
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "57.6px",
+            "600",
+            "72.576px",
+            "0.288px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            135.5120211854273,
+            154.937796281589,
+            19.190634342115754
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "26.4px",
+            "700",
+            "27.192px",
+            "-0.396px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            159.50442978216677,
+            149.94154527651304,
+            7.190286628567442
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "19.2px",
+            "400",
+            "26.496px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.72",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            171.93040242097817,
+            149.94154527651304,
+            7.008457292829241
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "700",
+            "17.92px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            244.81671939772002,
+            79.96909545631681,
+            4.735664585658482
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            252.02766761001274,
+            79.96909545631681,
+            33.575314019650826
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "700",
+            "17.92px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            109.9549257353703,
+            244.81671939772002,
+            79.96913245297725,
+            4.735664585658482
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            252.02766761001274,
+            79.96913245297725,
+            20.14521060865753
+          ]
+        }
+      ],
+      "package3": [
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16.8px",
+            "700",
+            "18.816px",
+            "1.428px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            19.488146349848535,
+            79.96909545631681,
+            4.975344506088569
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.72",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            19.488146349848535,
+            79.96913245297725,
+            6.715060954191246
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "34.944px",
+            "400",
+            "52.416px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            128.94816027939876,
+            40.980484818439095,
+            51.979272004380405,
+            51.97664626763792
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "700",
+            "20.608px",
+            "1.564px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            127.94157621422592,
+            149.94154527651304,
+            5.450570180464765
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "57.6px",
+            "600",
+            "72.576px",
+            "0.288px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            135.5120211854273,
+            154.937796281589,
+            19.190634342115754
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "26.4px",
+            "700",
+            "27.192px",
+            "-0.396px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            159.50442978216677,
+            149.94154527651304,
+            7.190286628567442
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "19.2px",
+            "400",
+            "26.496px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.72",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            171.93040242097817,
+            149.94154527651304,
+            7.008457292829241
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "700",
+            "17.92px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            244.81671939772002,
+            79.96909545631681,
+            4.735664585658482
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            252.02766761001274,
+            79.96909545631681,
+            33.575314019650826
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "700",
+            "17.92px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            109.9549257353703,
+            244.81671939772002,
+            79.96913245297725,
+            4.735664585658482
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            252.02766761001274,
+            79.96913245297725,
+            20.14521060865753
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern",
+      "existing_preset_font_and_paint_equal": true,
+      "existing_preset_max_geometry_mm": 0.0,
+      "uninitialized_theme_max_geometry_mm": 4.268716492944833,
+      "uninitialized": [
+        {
+          "role": "modernAccentCircle",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.1",
+            "none"
+          ],
+          "box": [
+            117.9514209184051,
+            35.984469479930645,
+            73.96864409705951,
+            73.96486274563537
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16.8px",
+            "400",
+            "25.2px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            19.488146349848535,
+            79.96909545631681,
+            6.66133991163604
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            19.488146349848535,
+            79.96913245297725,
+            7.301853631467235
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "34.944px",
+            "400",
+            "52.416px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "none"
+          ],
+          "box": [
+            128.94816027939876,
+            46.976506011340085,
+            51.979272004380405,
+            51.976655516332514
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            127.94157621422592,
+            149.94154527651304,
+            7.30186288016183
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "57.6px",
+            "400",
+            "86.4px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            135.5120211854273,
+            154.937796281589,
+            22.84775315888074
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "26.4px",
+            "400",
+            "39.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            159.50442978216677,
+            149.94154527651304,
+            10.475496938277264
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "19.2px",
+            "400",
+            "28.8px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(250, 250, 250)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            171.93040242097817,
+            149.94154527651304,
+            10.814350610849809
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            244.81671939772002,
+            79.96909545631681,
+            6.347286613620057
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            252.02766761001274,
+            79.96909545631681,
+            36.509258908641584
+          ]
+        },
+        {
+          "role": "trenner",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.18",
+            "none"
+          ],
+          "box": [
+            -410.23317761850035,
+            -46.67142857142857,
+            0,
+            0
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            244.81671939772002,
+            79.96913245297725,
+            6.347286613620057
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            252.02766761001274,
+            79.96913245297725,
+            21.905570143096302
+          ]
+        }
+      ],
+      "existing_preset": [
+        {
+          "role": "modernAccentCircle",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.1",
+            "none"
+          ],
+          "box": [
+            117.9514209184051,
+            35.984469479930645,
+            73.96864409705951,
+            73.96486274563537
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16.8px",
+            "800",
+            "17.976px",
+            "1.848px"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            19.488146349848535,
+            79.96909545631681,
+            4.75219662724709
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            19.488146349848535,
+            79.96913245297725,
+            6.471256115971779
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "34.944px",
+            "400",
+            "52.416px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "none"
+          ],
+          "box": [
+            128.94816027939876,
+            46.976506011340085,
+            51.979272004380405,
+            51.976655516332514
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "800",
+            "19.688px",
+            "2.024px"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            127.94157621422592,
+            149.94154527651304,
+            5.206756093550701
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "57.6px",
+            "650",
+            "70.272px",
+            "0.864px"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            135.5120211854273,
+            154.937796281589,
+            18.579036665935906
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "26.4px",
+            "800",
+            "26.136px",
+            "-0.924px"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            159.50442978216677,
+            149.94154527651304,
+            6.913417707170759
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "19.2px",
+            "400",
+            "25.536px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(250, 250, 250)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            171.93040242097817,
+            149.94154527651304,
+            9.950689012177138
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            244.81671939772002,
+            79.96909545631681,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            252.02766761001274,
+            79.96909545631681,
+            32.356262082469705
+          ]
+        },
+        {
+          "role": "trenner",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.18",
+            "none"
+          ],
+          "box": [
+            -410.23317761850035,
+            -46.67142857142857,
+            0,
+            0
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            109.9549257353703,
+            244.81671939772002,
+            79.96913245297725,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            252.02766761001274,
+            79.96913245297725,
+            19.41374985052615
+          ]
+        }
+      ],
+      "package3": [
+        {
+          "role": "modernAccentCircle",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.1",
+            "none"
+          ],
+          "box": [
+            117.9514209184051,
+            35.984469479930645,
+            73.96864409705951,
+            73.96486274563537
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16.8px",
+            "800",
+            "17.976px",
+            "1.848px"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            19.488146349848535,
+            79.96909545631681,
+            4.75219662724709
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            19.488146349848535,
+            79.96913245297725,
+            6.471256115971779
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "34.944px",
+            "400",
+            "52.416px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "none"
+          ],
+          "box": [
+            128.94816027939876,
+            46.976506011340085,
+            51.979272004380405,
+            51.976655516332514
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "800",
+            "19.688px",
+            "2.024px"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            127.94157621422592,
+            149.94154527651304,
+            5.206756093550701
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "57.6px",
+            "650",
+            "70.272px",
+            "0.864px"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            135.5120211854273,
+            154.937796281589,
+            18.579036665935906
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "26.4px",
+            "800",
+            "26.136px",
+            "-0.924px"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            159.50442978216677,
+            149.94154527651304,
+            6.913417707170759
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "19.2px",
+            "400",
+            "25.536px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(250, 250, 250)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            171.93040242097817,
+            149.94154527651304,
+            9.950689012177138
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            244.81671939772002,
+            79.96909545631681,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            252.02766761001274,
+            79.96909545631681,
+            32.356262082469705
+          ]
+        },
+        {
+          "role": "trenner",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.18",
+            "none"
+          ],
+          "box": [
+            -410.23317761850035,
+            -46.67142857142857,
+            0,
+            0
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 63, 94)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            109.9549257353703,
+            244.81671939772002,
+            79.96913245297725,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 24, 39)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            252.02766761001274,
+            79.96913245297725,
+            19.41374985052615
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blockig",
+      "existing_preset_font_and_paint_equal": true,
+      "existing_preset_max_geometry_mm": 0,
+      "uninitialized_theme_max_geometry_mm": 6.876219457509567,
+      "uninitialized": [
+        {
+          "role": "decor-top-block",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            0,
+            0,
+            71.972600273282,
+            104.95332613575215
+          ]
+        },
+        {
+          "role": "decor-accent-band",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            71.972600273282,
+            0,
+            43.98281381800603,
+            51.97664626763792
+          ]
+        },
+        {
+          "role": "decor-top-right",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            173.93103082561746,
+            0,
+            36.25077076375906,
+            17.992234739965323
+          ]
+        },
+        {
+          "role": "decor-bottom-block",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            0,
+            243.89521646305008,
+            71.972600273282,
+            53.24114629005899
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "400",
+            "21.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 244, 242)",
+            "1",
+            "none"
+          ],
+          "box": [
+            14.99289664119652,
+            16.992210388183594,
+            43.98281381800603,
+            5.715031978062221
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "400",
+            "21.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            125.95205972740861,
+            17.992234739965323,
+            65.97211191736426,
+            5.715036602409518
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "32.256px",
+            "400",
+            "48.384px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "none"
+          ],
+          "box": [
+            131.94840445735767,
+            37.98039326570472,
+            47.978971098208866,
+            47.976539611816406
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "400",
+            "21.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            95.95721339011678,
+            103.95861800208168,
+            5.715036602409518
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "46.4px",
+            "400",
+            "69.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            105.95335973622848,
+            107.95891890825322,
+            36.81920116191008
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "24px",
+            "400",
+            "36px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(31, 41, 55)",
+            "1",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            163.92604569415658,
+            103.95861800208168,
+            9.52092067173549
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "15.2px",
+            "400",
+            "22.8px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            175.9222499925263,
+            103.95861800208168,
+            6.0290945247728
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "none"
+          ],
+          "box": [
+            14.99289664119652,
+            240.3827102349729,
+            47.9790080948693,
+            6.347286613620057
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 244, 242)",
+            "0.95",
+            "none"
+          ],
+          "box": [
+            14.99289664119652,
+            247.59778336505502,
+            47.9790080948693,
+            36.50931440080915
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            240.3827102349729,
+            79.96913245297725,
+            6.347286613620057
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            247.59778336505502,
+            79.96913245297725,
+            21.90555164570711
+          ]
+        }
+      ],
+      "existing_preset": [
+        {
+          "role": "decor-top-block",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            0,
+            0,
+            71.972600273282,
+            104.95332613575215
+          ]
+        },
+        {
+          "role": "decor-accent-band",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            71.972600273282,
+            0,
+            43.98281381800603,
+            51.97664626763792
+          ]
+        },
+        {
+          "role": "decor-top-right",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            173.93103082561746,
+            0,
+            36.25077076375906,
+            17.992234739965323
+          ]
+        },
+        {
+          "role": "decor-bottom-block",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            0,
+            243.89521646305008,
+            71.972600273282,
+            53.24114629005899
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "800",
+            "15.408px",
+            "1.584px"
+          ],
+          "paint": [
+            "rgb(244, 244, 242)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            14.99289664119652,
+            16.992210388183594,
+            43.98281381800603,
+            4.074493906449298
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "400",
+            "19.152px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            125.95205972740861,
+            17.992234739965323,
+            65.97211191736426,
+            5.066259173957669
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "32.256px",
+            "400",
+            "48.384px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "none"
+          ],
+          "box": [
+            131.94840445735767,
+            37.98039326570472,
+            47.978971098208866,
+            47.976539611816406
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "800",
+            "15.408px",
+            "1.584px"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            85.96544018626585,
+            95.95721339011678,
+            103.95861800208168,
+            4.074493906449298
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "46.4px",
+            "650",
+            "56.608px",
+            "0.696px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            105.95335973622848,
+            107.95891890825322,
+            29.942981704400513
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "24px",
+            "800",
+            "23.76px",
+            "-0.84px"
+          ],
+          "paint": [
+            "rgb(31, 41, 55)",
+            "1",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            163.92604569415658,
+            103.95861800208168,
+            6.281158447265625
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "15.2px",
+            "400",
+            "20.216px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            175.9222499925263,
+            103.95861800208168,
+            5.347243764449138
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            14.99289664119652,
+            240.3827102349729,
+            47.9790080948693,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 244, 242)",
+            "0.95",
+            "none"
+          ],
+          "box": [
+            14.99289664119652,
+            247.59778336505502,
+            47.9790080948693,
+            32.3562805798589
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            109.9549257353703,
+            240.3827102349729,
+            79.96913245297725,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            247.59778336505502,
+            79.96913245297725,
+            19.413768347915337
+          ]
+        }
+      ],
+      "package3": [
+        {
+          "role": "decor-top-block",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            0,
+            0,
+            71.972600273282,
+            104.95332613575215
+          ]
+        },
+        {
+          "role": "decor-accent-band",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            71.972600273282,
+            0,
+            43.98281381800603,
+            51.97664626763792
+          ]
+        },
+        {
+          "role": "decor-top-right",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            173.93103082561746,
+            0,
+            36.25077076375906,
+            17.992234739965323
+          ]
+        },
+        {
+          "role": "decor-bottom-block",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            0,
+            243.89521646305008,
+            71.972600273282,
+            53.24114629005899
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "800",
+            "15.408px",
+            "1.584px"
+          ],
+          "paint": [
+            "rgb(244, 244, 242)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            14.99289664119652,
+            16.992210388183594,
+            43.98281381800603,
+            4.074493906449298
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "400",
+            "19.152px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            125.95205972740861,
+            17.992234739965323,
+            65.97211191736426,
+            5.066259173957669
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "32.256px",
+            "400",
+            "48.384px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "none"
+          ],
+          "box": [
+            131.94840445735767,
+            37.98039326570472,
+            47.978971098208866,
+            47.976539611816406
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "800",
+            "15.408px",
+            "1.584px"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            85.96544018626585,
+            95.95721339011678,
+            103.95861800208168,
+            4.074493906449298
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "46.4px",
+            "650",
+            "56.608px",
+            "0.696px"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "1",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            105.95335973622848,
+            107.95891890825322,
+            29.942981704400513
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "24px",
+            "800",
+            "23.76px",
+            "-0.84px"
+          ],
+          "paint": [
+            "rgb(31, 41, 55)",
+            "1",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            163.92604569415658,
+            103.95861800208168,
+            6.281158447265625
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "15.2px",
+            "400",
+            "20.216px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            85.96544018626585,
+            175.9222499925263,
+            103.95861800208168,
+            5.347243764449138
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            14.99289664119652,
+            240.3827102349729,
+            47.9790080948693,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(244, 244, 242)",
+            "0.95",
+            "none"
+          ],
+          "box": [
+            14.99289664119652,
+            247.59778336505502,
+            47.9790080948693,
+            32.3562805798589
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(249, 115, 22)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            109.9549257353703,
+            240.3827102349729,
+            79.96913245297725,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(17, 17, 17)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            247.59778336505502,
+            79.96913245297725,
+            19.413768347915337
+          ]
+        }
+      ]
+    },
+    {
+      "id": "human",
+      "existing_preset_font_and_paint_equal": true,
+      "existing_preset_max_geometry_mm": 0.0,
+      "uninitialized_theme_max_geometry_mm": 3.6819423130580358,
+      "uninitialized": [
+        {
+          "role": "decor-organic-top",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            -39.98247591517406,
+            -69.96888563195053,
+            189.92816481765578,
+            149.93391761001274
+          ]
+        },
+        {
+          "role": "decor-organic-bottom",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.6",
+            "none"
+          ],
+          "box": [
+            134.94864863531652,
+            221.90285656987405,
+            119.95153437483042,
+            119.94550631776148
+          ]
+        },
+        {
+          "role": "decor-accent-line",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.7",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            139.93778051259565,
+            29.985830279053477,
+            1.1983718560666454
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Hallo, sch\u00f6n Sie kennenzulernen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "15.2px",
+            "400",
+            "22.8px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            17.992234739965323,
+            103.95858100542124,
+            6.0290945247728
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "400",
+            "21.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "1",
+            "none"
+          ],
+          "box": [
+            119.95157137149087,
+            17.992234739965323,
+            69.97248681685667,
+            5.715036602409518
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "30.912px",
+            "400",
+            "46.368px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "none"
+          ],
+          "box": [
+            21.989335096018667,
+            45.97648165955835,
+            45.9788206451231,
+            45.97649090825295
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "13.6px",
+            "400",
+            "20.4px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "none"
+          ],
+          "box": [
+            79.96909545631681,
+            49.97659756407446,
+            107.95891890825322,
+            5.392710347078285
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "41.6px",
+            "400",
+            "62.4px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "1",
+            "none"
+          ],
+          "box": [
+            79.96909545631681,
+            56.418923763353,
+            107.95891890825322,
+            16.500457296566086
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "29.6px",
+            "400",
+            "44.4px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            115.94951533103475,
+            169.93487354541463,
+            11.739996960698342
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Ich freue mich auf den Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "15.2px",
+            "400",
+            "22.8px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            128.11513721699617,
+            164.93447891437,
+            6.02907602738361
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            241.81664634237487,
+            81.96510228343388,
+            6.347268116230867
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            249.03171947245696,
+            81.96510228343388,
+            36.50929590341996
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            241.81664634237487,
+            79.96913245297725,
+            6.347268116230867
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            249.03171947245696,
+            79.96913245297725,
+            21.905570143096302
+          ]
+        }
+      ],
+      "existing_preset": [
+        {
+          "role": "decor-organic-top",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            -39.98247591517406,
+            -69.96888563195053,
+            189.92816481765578,
+            149.93391761001274
+          ]
+        },
+        {
+          "role": "decor-organic-bottom",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.6",
+            "none"
+          ],
+          "box": [
+            134.94864863531652,
+            221.90285656987405,
+            119.95153437483042,
+            119.94550631776148
+          ]
+        },
+        {
+          "role": "decor-accent-line",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.7",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            139.93778051259565,
+            29.985830279053477,
+            1.1983718560666454
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Hallo, sch\u00f6n Sie kennenzulernen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "15.2px",
+            "700",
+            "17.024px",
+            "1.292px"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            17.992234739965323,
+            103.95858100542124,
+            4.500128080406967
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "400",
+            "19.872px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "0.72",
+            "none"
+          ],
+          "box": [
+            119.95157137149087,
+            17.992234739965323,
+            69.97248681685667,
+            5.256347593969228
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "30.912px",
+            "400",
+            "46.368px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "none"
+          ],
+          "box": [
+            21.989335096018667,
+            45.97648165955835,
+            45.9788206451231,
+            45.97649090825295
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "13.6px",
+            "700",
+            "15.232px",
+            "1.156px"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            79.96909545631681,
+            49.97659756407446,
+            107.95891890825322,
+            4.024902406030772
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "41.6px",
+            "600",
+            "52.416px",
+            "0.208px"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "1",
+            "none"
+          ],
+          "box": [
+            79.96909545631681,
+            56.418923763353,
+            107.95891890825322,
+            13.859890248824138
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "29.6px",
+            "700",
+            "30.488px",
+            "-0.444px"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            115.94951533103475,
+            169.93487354541463,
+            8.058054647640306
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Ich freue mich auf den Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "15.2px",
+            "400",
+            "20.976px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "0.72",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            128.11513721699617,
+            164.93447891437,
+            5.545591268734055
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "700",
+            "17.92px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            241.81664634237487,
+            81.96510228343388,
+            4.735664585658482
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            249.03171947245696,
+            81.96510228343388,
+            33.575314019650826
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "700",
+            "17.92px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            109.9549257353703,
+            241.81664634237487,
+            79.96913245297725,
+            4.735664585658482
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            249.03171947245696,
+            79.96913245297725,
+            20.145173613879145
+          ]
+        }
+      ],
+      "package3": [
+        {
+          "role": "decor-organic-top",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            -39.98247591517406,
+            -69.96888563195053,
+            189.92816481765578,
+            149.93391761001274
+          ]
+        },
+        {
+          "role": "decor-organic-bottom",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.6",
+            "none"
+          ],
+          "box": [
+            134.94864863531652,
+            221.90285656987405,
+            119.95153437483042,
+            119.94550631776148
+          ]
+        },
+        {
+          "role": "decor-accent-line",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "0.7",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            139.93778051259565,
+            29.985830279053477,
+            1.1983718560666454
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Hallo, sch\u00f6n Sie kennenzulernen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "15.2px",
+            "700",
+            "17.024px",
+            "1.292px"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            17.992234739965323,
+            103.95858100542124,
+            4.500128080406967
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "14.4px",
+            "400",
+            "19.872px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "0.72",
+            "none"
+          ],
+          "box": [
+            119.95157137149087,
+            17.992234739965323,
+            69.97248681685667,
+            5.256347593969228
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "30.912px",
+            "400",
+            "46.368px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "none"
+          ],
+          "box": [
+            21.989335096018667,
+            45.97648165955835,
+            45.9788206451231,
+            45.97649090825295
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "13.6px",
+            "700",
+            "15.232px",
+            "1.156px"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            79.96909545631681,
+            49.97659756407446,
+            107.95891890825322,
+            4.024902406030772
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "41.6px",
+            "600",
+            "52.416px",
+            "0.208px"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "1",
+            "none"
+          ],
+          "box": [
+            79.96909545631681,
+            56.418923763353,
+            107.95891890825322,
+            13.859890248824138
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "29.6px",
+            "700",
+            "30.488px",
+            "-0.444px"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            115.94951533103475,
+            169.93487354541463,
+            8.058054647640306
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Ich freue mich auf den Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "15.2px",
+            "400",
+            "20.976px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "0.72",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            128.11513721699617,
+            164.93447891437,
+            5.545591268734055
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "700",
+            "17.92px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            19.989184642932898,
+            241.81664634237487,
+            81.96510228343388,
+            4.735664585658482
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            249.03171947245696,
+            81.96510228343388,
+            33.575314019650826
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "700",
+            "17.92px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(156, 91, 60)",
+            "1",
+            "opacity(0.76)"
+          ],
+          "box": [
+            109.9549257353703,
+            241.81664634237487,
+            79.96913245297725,
+            4.735664585658482
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "25.392px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(59, 42, 34)",
+            "0.85",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            249.03171947245696,
+            79.96913245297725,
+            20.145173613879145
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sonne",
+      "existing_preset_font_and_paint_equal": true,
+      "existing_preset_max_geometry_mm": 0,
+      "uninitialized_theme_max_geometry_mm": 6.475390282455756,
+      "uninitialized": [
+        {
+          "role": "decor-top-field",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            0,
+            0,
+            210.1818015893765,
+            117.94542061941964
+          ]
+        },
+        {
+          "role": "decor-photo-circle",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            103.95858100542124,
+            5.9960350659428805,
+            97.9622362754722,
+            97.95727134237484
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16.8px",
+            "400",
+            "25.2px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            15.992181412054567,
+            79.96909545631681,
+            6.66133991163604
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            25.98832313381896,
+            79.96909545631681,
+            7.301853631467235
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "52.416px",
+            "700",
+            "78.624px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(251, 191, 36)",
+            "1",
+            "none"
+          ],
+          "box": [
+            113.95526363820227,
+            15.992181412054567,
+            77.9689080065706,
+            77.96497865015148
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "48px",
+            "400",
+            "72px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            43.98055787378428,
+            83.96528973318009,
+            19.041859840860173
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "0.7",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            60.92731092803332,
+            89.96574109243738,
+            7.30186288016183
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "29.6px",
+            "400",
+            "44.4px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            75.06407009825415,
+            83.96528973318009,
+            11.739996960698342
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "20px",
+            "400",
+            "30px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            133.9417408223055,
+            99.95828009924972,
+            11.529237708266901
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(251, 191, 36)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            235.82060665208465,
+            79.96909545631681,
+            6.347286613620057
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(247, 245, 240)",
+            "0.9",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            243.0315548643774,
+            79.96909545631681,
+            36.509277406030776
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(251, 191, 36)",
+            "1",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            235.82060665208465,
+            79.96913245297725,
+            6.347286613620057
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "27.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(247, 245, 240)",
+            "0.9",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            243.0315548643774,
+            79.96913245297725,
+            21.90558864048549
+          ]
+        }
+      ],
+      "existing_preset": [
+        {
+          "role": "decor-top-field",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            0,
+            0,
+            210.1818015893765,
+            117.94542061941964
+          ]
+        },
+        {
+          "role": "decor-photo-circle",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            103.95858100542124,
+            5.9960350659428805,
+            97.9622362754722,
+            97.95727134237484
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16.8px",
+            "800",
+            "17.976px",
+            "1.848px"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            15.992181412054567,
+            79.96909545631681,
+            4.75219662724709
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            25.98832313381896,
+            79.96909545631681,
+            6.471256115971779
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "52.416px",
+            "700",
+            "78.624px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(251, 191, 36)",
+            "1",
+            "none"
+          ],
+          "box": [
+            113.95526363820227,
+            15.992181412054567,
+            77.9689080065706,
+            77.96497865015148
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "48px",
+            "800",
+            "47.52px",
+            "-1.68px"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            43.98055787378428,
+            83.96528973318009,
+            12.566469558404417
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "800",
+            "19.688px",
+            "2.024px"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "0.7",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            60.92731092803332,
+            89.96574109243738,
+            10.413512187101402
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "29.6px",
+            "650",
+            "36.112px",
+            "0.444px"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            75.06407009825415,
+            83.96528973318009,
+            9.545716421944753
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "20px",
+            "400",
+            "26.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            133.9417408223055,
+            99.95828009924972,
+            10.628396357322226
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(251, 191, 36)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            235.82060665208465,
+            79.96909545631681,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(247, 245, 240)",
+            "0.9",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            243.0315548643774,
+            79.96909545631681,
+            32.35624358508051
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(251, 191, 36)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            109.9549257353703,
+            235.82060665208465,
+            79.96913245297725,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(247, 245, 240)",
+            "0.9",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            243.0315548643774,
+            79.96913245297725,
+            19.41374985052615
+          ]
+        }
+      ],
+      "package3": [
+        {
+          "role": "decor-top-field",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            0,
+            0,
+            210.1818015893765,
+            117.94542061941964
+          ]
+        },
+        {
+          "role": "decor-photo-circle",
+          "text": "",
+          "font": [
+            "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "16px",
+            "400",
+            "24px",
+            "normal"
+          ],
+          "paint": [
+            "oklch(0.129 0.042 264.695)",
+            "1",
+            "none"
+          ],
+          "box": [
+            103.95858100542124,
+            5.9960350659428805,
+            97.9622362754722,
+            97.95727134237484
+          ]
+        },
+        {
+          "role": "eyebrow",
+          "text": "Bewerbung",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16.8px",
+            "800",
+            "17.976px",
+            "1.848px"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            15.992181412054567,
+            79.96909545631681,
+            4.75219662724709
+          ]
+        },
+        {
+          "role": "ortDatum",
+          "text": "Hubersdorf, 15.11.2026",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            25.98832313381896,
+            79.96909545631681,
+            6.471256115971779
+          ]
+        },
+        {
+          "role": "foto",
+          "text": "LM",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "52.416px",
+            "700",
+            "78.624px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(251, 191, 36)",
+            "1",
+            "none"
+          ],
+          "box": [
+            113.95526363820227,
+            15.992181412054567,
+            77.9689080065706,
+            77.96497865015148
+          ]
+        },
+        {
+          "role": "name",
+          "text": "Lea M\u00fcller",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "48px",
+            "800",
+            "47.52px",
+            "-1.68px"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            43.98055787378428,
+            83.96528973318009,
+            12.566469558404417
+          ]
+        },
+        {
+          "role": "kicker",
+          "text": "Bewerbung um eine Lehrstelle als",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "800",
+            "19.688px",
+            "2.024px"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "0.7",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            60.92731092803332,
+            89.96574109243738,
+            10.413512187101402
+          ]
+        },
+        {
+          "role": "beruf",
+          "text": "Informatiker/in EFZ",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "29.6px",
+            "650",
+            "36.112px",
+            "0.444px"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "1",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            75.06407009825415,
+            83.96528973318009,
+            9.545716421944753
+          ]
+        },
+        {
+          "role": "lehrbeginn",
+          "text": "Lehrbeginn August 2027",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "20px",
+            "400",
+            "26.6px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(20, 20, 20)",
+            "0.68",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            133.9417408223055,
+            99.95828009924972,
+            10.628396357322226
+          ]
+        },
+        {
+          "role": "kontaktTitel",
+          "text": "Kontakt",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(251, 191, 36)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            19.989184642932898,
+            235.82060665208465,
+            79.96909545631681,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "kontakt",
+          "text": "Dorfstrasse 124535 Hubersdorf079 123 45 67lea.mueller@example.ch14.03.2010",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(247, 245, 240)",
+            "0.9",
+            "none"
+          ],
+          "box": [
+            19.989184642932898,
+            243.0315548643774,
+            79.96909545631681,
+            32.35624358508051
+          ]
+        },
+        {
+          "role": "beilagenTitel",
+          "text": "Beilagen",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "16px",
+            "800",
+            "17.12px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(251, 191, 36)",
+            "1",
+            "opacity(0.96)"
+          ],
+          "box": [
+            109.9549257353703,
+            235.82060665208465,
+            79.96913245297725,
+            4.524923830616231
+          ]
+        },
+        {
+          "role": "beilagen",
+          "text": "MotivationsschreibenLebenslaufZeugnis",
+          "font": [
+            "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+            "18.4px",
+            "400",
+            "24.472px",
+            "normal"
+          ],
+          "paint": [
+            "rgb(247, 245, 240)",
+            "0.9",
+            "none"
+          ],
+          "box": [
+            109.9549257353703,
+            243.0315548643774,
+            79.96913245297725,
+            19.41374985052615
+          ]
+        }
+      ]
+    }
+  ],
+  "storage_hash_note": "The pipeline hashes every localStorage key. Draft history IDs and timestamps (Date.now/Math.random in src/lib/history.ts) make whole-storage hashes differ between runs; this diagnostic never changes benchmark hashes or provenance.",
+  "history_example": {
+    "package2_id": "1791770703572-hbegyf",
+    "package3_id": "1791770702232-xf2aif"
+  }
+}

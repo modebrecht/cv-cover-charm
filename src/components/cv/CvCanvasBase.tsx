@@ -3140,7 +3140,11 @@ export function CvCanvas({
           }}
         >
           {rows.map((r) => (
-            <div key={r.id} style={{ display: "flow-root" }}>
+            <div
+              key={r.id}
+              data-cv-content-row={r.id}
+              style={{ display: "flow-root", isolation: "isolate" }}
+            >
               {r.node}
             </div>
           ))}
@@ -3192,7 +3196,11 @@ export function CvCanvas({
               }}
             >
               {page.map((r) => (
-                <div key={r.id} style={{ display: "flow-root" }}>
+                <div
+                  key={r.id}
+                  data-cv-content-row={r.id}
+                  style={{ display: "flow-root", isolation: "isolate" }}
+                >
                   {r.node}
                 </div>
               ))}

@@ -15,7 +15,9 @@ div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-header] {
   margin-bottom: 2mm !important;
   padding: 2mm 6mm 2mm 7mm;
   border-left: 2.2mm solid var(--cover-secondary);
-  background: linear-gradient(
+  isolation: isolate;
+  --cv-header-background-content: "";
+  --cv-header-background: linear-gradient(
     100deg,
     color-mix(in srgb, var(--cover-primary) 10%, white),
     color-mix(in srgb, var(--cover-tertiary) 7%, white) 72%,

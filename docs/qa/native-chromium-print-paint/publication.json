@@ -1,0 +1,31 @@
+{
+  "starting_remote_experiment_head": "6cd2f81a6a5a91d809d8a7e53ab342bf697c69df",
+  "implementation_publication": [
+    {
+      "captured_source_sha": "45c814e7268715d286da44971ef3dd1070727539",
+      "published_source_sha": "7fb866edc0c299cef5c886c3ea9241aa09753944",
+      "identical_complete_tree": "04a4e76264d646c8e0883ecec85b9703c3fbf96d"
+    },
+    {
+      "captured_source_sha": "c57c96c5ab35db59ddd03e6fa55f6fd74434c1e4",
+      "published_source_sha": "22456a1a9d7ad4239409d4ba593759ca6705f4d7",
+      "identical_complete_tree": "b7bfa519512ddef115bff75b614bc51764e1323a",
+      "application_src_tree": "a110c6b81ece44513cb60d2770feef6ae8983d9e"
+    }
+  ],
+  "note": "GitHub Git Data API publishes new commits with GitHub metadata. These captured local checkpoints were never published. Captured identifiers are preserved; identical complete tree hashes establish source equivalence. All published refs only fast-forward.",
+  "local_capture_commit_objects": [
+    {
+      "sha": "5dca305e479eaecce687f013e472008d0ea00dc2",
+      "raw": "tree ac8f6ba64ae3c3a8b4a6bdff8b685acaefcd33b8\nparent 6cd2f81a6a5a91d809d8a7e53ab342bf697c69df\nauthor Codex <codex@openai.com> 1791809420 +0200\ncommitter Codex <codex@openai.com> 1791809420 +0200\n\nfix(renderer): isolate background paint and remove Cover-injected CV styles\n"
+    },
+    {
+      "sha": "45c814e7268715d286da44971ef3dd1070727539",
+      "raw": "tree 04a4e76264d646c8e0883ecec85b9703c3fbf96d\nparent 5dca305e479eaecce687f013e472008d0ea00dc2\nauthor Codex <codex@openai.com> 1791809489 +0200\ncommitter Codex <codex@openai.com> 1791809489 +0200\n\ntest(print): use established A4 MediaBox precision for paint guard\n"
+    },
+    {
+      "sha": "c57c96c5ab35db59ddd03e6fa55f6fd74434c1e4",
+      "raw": "tree b7bfa519512ddef115bff75b614bc51764e1323a\nparent 45c814e7268715d286da44971ef3dd1070727539\nauthor Codex <codex@openai.com> 1791810634 +0200\ncommitter Codex <codex@openai.com> 1791810634 +0200\n\nfix(renderer): retain vector artwork unless resolved gradients require alpha paint\n"
+    }
+  ]
+}

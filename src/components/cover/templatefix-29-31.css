@@ -15,8 +15,7 @@
 /* 29 WARM 2 — coral + apricot only; calm cream paper                         */
 /* ========================================================================== */
 /* Cover: one warm hero with an integrated apricot corner. */
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   > div:first-child
   > div:first-child {
   left: 0 !important;
@@ -31,8 +30,7 @@ html[data-dossier-template="warm2"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   > div:first-child
   > div:first-child
   > div:first-child {
@@ -47,8 +45,7 @@ html[data-dossier-template="warm2"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -130,8 +127,7 @@ div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-surface] {
 /* ========================================================================== */
 /* 30 WARM 3 — deep teal + amber only; no terracotta/pink field               */
 /* ========================================================================== */
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   > div:first-child
   > div:first-child {
   left: 0 !important;
@@ -146,8 +142,7 @@ html[data-dossier-template="warm3"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   > div:first-child
   > div:first-child
   > div:first-child {
@@ -162,8 +157,7 @@ html[data-dossier-template="warm3"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -244,8 +238,7 @@ div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-surface] {
 /* 31 LEDGER — navy / sand editorial, but no content trapped in a tiny index  */
 /* ========================================================================== */
 /* Cover keeps the ledger concept, with a slimmer, quieter index field. */
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ledger"]
   > div:first-child
   > div:first-child {
   left: 0 !important;
@@ -259,8 +252,7 @@ html[data-dossier-template="ledger"]
   overflow: visible !important;
 }
 
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ledger"]
   > div:first-child
   > div:first-child
   > div:first-child {
@@ -275,8 +267,7 @@ html[data-dossier-template="ledger"]
   filter: none !important;
 }
 
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ledger"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {

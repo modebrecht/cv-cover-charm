@@ -32,6 +32,8 @@ import { AddElementMenu } from "@/components/cover/AddElementMenu";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { DossierNativePrintRoot } from "@/components/dossier/DossierNativePrintRoot";
+import { useDossierNativePrint } from "@/components/dossier/useDossierNativePrint";
 import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import {
   coverPdfHasContent,
@@ -340,6 +342,7 @@ function Titelblatt() {
   const menuRef = useRef<HTMLDivElement>(null);
   const exportRef = useRef<HTMLDivElement>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
+  const nativePrint = useDossierNativePrint(dossierExportRef);
   const restored = useRef(false);
 
   const activeTemplate = useMemo(() => TEMPLATES.find((t) => t.id === template)!, [template]);
@@ -1725,6 +1728,9 @@ function Titelblatt() {
         warnings={dossierWarnings}
         coverChanged={titleCoverChanged}
         downloading={downloading}
+        onNativePrint={nativePrint.print}
+        nativePrinting={nativePrint.printing}
+        nativePrintError={nativePrint.error}
         onClose={closeDossierReview}
         onDownload={downloadDossierPdf}
       />
@@ -1736,16 +1742,7 @@ function Titelblatt() {
         scope and can move the live cover photo immediately before rasterizing.
       */}
       {canDownloadDossierPdf && dossierReviewOpen ? (
-        <div
-          aria-hidden
-          style={{
-            position: "fixed",
-            left: "-20000px",
-            top: 0,
-            pointerEvents: "none",
-            zIndex: -1,
-          }}
-        >
+        <DossierNativePrintRoot>
           <DossierPdfCanvas
             ref={dossierExportRef}
             cover={currentCoverDocument}
@@ -1754,7 +1751,7 @@ function Titelblatt() {
             onCvLayoutWarnings={receiveDossierWarnings}
             onCvPageCount={setDossierCvPageCount}
           />
-        </div>
+        </DossierNativePrintRoot>
       ) : null}
     </div>
   );

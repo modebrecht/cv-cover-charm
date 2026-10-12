@@ -14,6 +14,8 @@ import {
   type DossierExportFormat,
 } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { DossierNativePrintRoot } from "@/components/dossier/DossierNativePrintRoot";
+import { useDossierNativePrint } from "@/components/dossier/useDossierNativePrint";
 import { ProjectLoadButton } from "@/components/dossier/ProjectFileControls";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
 import {
@@ -410,6 +412,7 @@ function Start() {
   const [downloading, setDownloading] = useState(false);
   const [dossierNote, setDossierNote] = useState<string | null>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
+  const nativePrint = useDossierNativePrint(dossierExportRef);
 
   const refreshDocuments = useCallback(() => {
     setDocuments(readDossierDocuments());
@@ -656,21 +659,15 @@ function Start() {
         pdfAvailable={readiness.complete}
         docxAvailable={docxAvailable}
         docxTemplateLabel={docxProfile?.label ?? null}
+        onNativePrint={nativePrint.print}
+        nativePrinting={nativePrint.printing}
+        nativePrintError={nativePrint.error}
         onClose={closeDossierReview}
         onDownload={downloadExport}
       />
 
       {readiness.complete && (reviewOpen || downloading) ? (
-        <div
-          aria-hidden
-          style={{
-            position: "fixed",
-            left: "-20000px",
-            top: 0,
-            pointerEvents: "none",
-            zIndex: -1,
-          }}
-        >
+        <DossierNativePrintRoot>
           <DossierPdfCanvas
             ref={dossierExportRef}
             cover={documents.cover}
@@ -680,7 +677,7 @@ function Start() {
             onCvLayoutWarnings={receiveWarnings}
             onCvPageCount={setCvPageCount}
           />
-        </div>
+        </DossierNativePrintRoot>
       ) : null}
     </div>
   );
