@@ -9,6 +9,7 @@ import {
   dossierThemeCssVariables,
   effectiveDossierFont,
 } from "@/lib/dossier-theme";
+import "@/components/dossier/document-paint.css";
 import "./cover-text-color.css";
 import "./cover-user-style-precedence.css";
 

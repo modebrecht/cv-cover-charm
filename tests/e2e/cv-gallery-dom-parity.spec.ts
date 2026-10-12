@@ -21,6 +21,29 @@ test("all 39 gallery CVs retain print geometry through html2canvas normalization
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(200);
     const visible = page.locator('[data-dossier-document="cv"][data-export-mode="false"]').first();
+    // Include generated artwork: CoverBackground used to inject CV ::before /
+    // ::after rules only after a Cover mounted, despite matching ordinary nodes.
+    const paint = async (selector: string) =>
+      page
+        .locator(selector)
+        .first()
+        .evaluate((sheet) => {
+          const properties = [
+            "content",
+            "background-color",
+            "background-image",
+            "filter",
+            "opacity",
+            "display",
+          ];
+          return [sheet, ...sheet.querySelectorAll("*")].map((node) =>
+            [null, "::before", "::after"].map((pseudo) => {
+              const style = getComputedStyle(node, pseudo);
+              return properties.map((property) => style.getPropertyValue(property));
+            }),
+          );
+        });
+    const previewPaint = await paint('[data-export-mode="false"] [data-cv-page="0"]');
     const selector =
       "[data-cv-main], [data-cv-header], [data-cv-section], [data-cv-entry-title], [data-cv-photo], [data-cv-sidebar], [data-cv-doc-title]";
     const preview = await visible.locator('[data-cv-page="0"]').evaluate((sheet, selector) => {
@@ -48,6 +71,10 @@ test("all 39 gallery CVs retain print geometry through html2canvas normalization
     ).toBeEnabled({ timeout: 30_000 });
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(200);
+    expect(
+      await paint('[data-export-mode="true"] [data-cv-page="0"]'),
+      `${item.label}: local paint, including pseudo-elements`,
+    ).toEqual(previewPaint);
     const result = await page
       .locator('[data-dossier-document="cv"][data-export-mode="true"] [data-cv-page="0"]')
       .first()

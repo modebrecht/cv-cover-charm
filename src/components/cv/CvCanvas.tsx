@@ -48,6 +48,7 @@ import {
   type CvDesign,
   type CvLayoutSectionKey,
 } from "./types";
+import "@/components/dossier/document-paint.css";
 import "@/components/dossier-theme.css";
 import "./layout-variants.css";
 import "./layout-options.css";

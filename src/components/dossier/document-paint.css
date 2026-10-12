@@ -1,0 +1,23 @@
+/* A document's first Cover child is its artwork, never content. Keep the
+ * complete background in one identity-filter paint layer: Chromium's vector
+ * PDF alpha-gradient path otherwise loses translucency or adds a dark tail.
+ * The filter changes neither colors nor geometry. Inner blur/filter primitives
+ * stay active, and searchable text remains outside this artwork-only layer.
+ * Use the same contract for Web, html2canvas and native print. */
+[data-dossier-document="cover"] > div:first-child {
+  filter: opacity(1);
+}
+
+/* Headers can opt their background into the same paint contract. Keep it on
+ * a separate pseudo-element so the header's text/photos remain ordinary DOM
+ * content. The owning header supplies its existing background and establishes
+ * the containing/stacking context; other headers have no generated layer. */
+[data-cv-header]::before {
+  content: var(--cv-header-background-content, none);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--cv-header-background, none);
+  filter: opacity(1);
+}
