@@ -1,0 +1,152 @@
+{
+  "stats": {
+    "startTime": "2026-10-12T02:06:19.205Z",
+    "duration": 92392.345,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 7,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "combined long dossier preserves Web pages and logical PDF content: studio3",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 31480,
+          "errors": [
+            {
+              "location": {
+                "file": "/workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts",
+                "column": 22,
+                "line": 135
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"PDF letter page 2: marker order/distribution differs\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  133 |       ),\n  134 |     );\n> 135 |     expect(findings).toEqual([]);\n      |                      ^\n  136 |   });\n  137 | }\n  138 |\n    at /workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts:135:22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "combined long dossier preserves Web pages and logical PDF content: studio2",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 30166,
+          "errors": [
+            {
+              "location": {
+                "file": "/workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts",
+                "column": 22,
+                "line": 135
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"PDF letter page 2: marker order/distribution differs\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  133 |       ),\n  134 |     );\n> 135 |     expect(findings).toEqual([]);\n      |                      ^\n  136 |   });\n  137 | }\n  138 |\n    at /workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts:135:22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "combined long dossier preserves Web pages and logical PDF content: ledger",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 16045,
+          "errors": [
+            {
+              "location": {
+                "file": "/workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts",
+                "column": 22,
+                "line": 135
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"PDF letter page 3: marker order/distribution differs\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  133 |       ),\n  134 |     );\n> 135 |     expect(findings).toEqual([]);\n      |                      ^\n  136 |   });\n  137 | }\n  138 |\n    at /workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts:135:22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "combined long dossier preserves Web pages and logical PDF content: ribbon",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 17786,
+          "errors": [
+            {
+              "location": {
+                "file": "/workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts",
+                "column": 22,
+                "line": 135
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"PDF letter page 2: marker order/distribution differs\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  133 |       ),\n  134 |     );\n> 135 |     expect(findings).toEqual([]);\n      |                      ^\n  136 |   });\n  137 | }\n  138 |\n    at /workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts:135:22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "combined long dossier preserves Web pages and logical PDF content: gallery",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 16490,
+          "errors": [
+            {
+              "location": {
+                "file": "/workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts",
+                "column": 22,
+                "line": 135
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"PDF letter page 3: marker order/distribution differs\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  133 |       ),\n  134 |     );\n> 135 |     expect(findings).toEqual([]);\n      |                      ^\n  136 |   });\n  137 | }\n  138 |\n    at /workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts:135:22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "combined long dossier preserves Web pages and logical PDF content: brief",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 15298,
+          "errors": [
+            {
+              "location": {
+                "file": "/workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts",
+                "column": 22,
+                "line": 135
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"PDF letter page 2: marker order/distribution differs\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  133 |       ),\n  134 |     );\n> 135 |     expect(findings).toEqual([]);\n      |                      ^\n  136 |   });\n  137 | }\n  138 |\n    at /workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts:135:22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "combined long dossier preserves Web pages and logical PDF content: terracotta",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 13010,
+          "errors": [
+            {
+              "location": {
+                "file": "/workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts",
+                "column": 22,
+                "line": 135
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"PDF letter page 2: marker order/distribution differs\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  133 |       ),\n  134 |     );\n> 135 |     expect(findings).toEqual([]);\n      |                      ^\n  136 |   });\n  137 | }\n  138 |\n    at /workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-combined.qa.ts:135:22"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

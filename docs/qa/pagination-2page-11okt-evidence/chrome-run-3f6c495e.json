@@ -1,0 +1,74 @@
+{
+  "stats": {
+    "startTime": "2026-10-12T02:06:21.300Z",
+    "duration": 51754.702,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "chrome brief cv: different first-page contact header and attachments footer",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 19384,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "chrome brief letter: different first-page contact header and attachments footer",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 21570,
+          "errors": [
+            {
+              "location": {
+                "file": "/workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-chrome.qa.ts",
+                "column": 31,
+                "line": 33
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"PDF page 2: marker order/distribution differs\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  31 |       const result = await auditDocument(page, fixture, kind, `chrome-${template}-${kind}`);\n  32 |       expect.soft(result.web.length).toBeGreaterThan(1);\n> 33 |       expect(result.findings).toEqual([]);\n     |                               ^\n  34 |     });\n  35 |   }\n  36 |\n    at /workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-chrome.qa.ts:33:31"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "chrome studio3 cv: different first-page contact header and attachments footer",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 10810,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "title": "chrome studio3 letter: different first-page contact header and attachments footer",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 14356,
+          "errors": [
+            {
+              "location": {
+                "file": "/workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-chrome.qa.ts",
+                "column": 31,
+                "line": 33
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"PDF page 2: marker order/distribution differs\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  31 |       const result = await auditDocument(page, fixture, kind, `chrome-${template}-${kind}`);\n  32 |       expect.soft(result.web.length).toBeGreaterThan(1);\n> 33 |       expect(result.findings).toEqual([]);\n     |                               ^\n  34 |     });\n  35 |   }\n  36 |\n    at /workspace/scratch/0d31ce0a7bd9/cv-cover-charm/tests/qa/pagination-chrome.qa.ts:33:31"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "name": "variant-brief-custom-margins-letter",
+  "kind": "letter",
+  "status": "FAIL",
+  "sourceSha": "000867568476fcb41716ade1d2fc1fa22f8701d4",
+  "sourceDirty": true,
+  "runtimeDiff": [
+    "src/routeTree.gen.ts"
+  ],
+  "fixtureSha256": "7f59042f140439d35449bfa0d8ce6f74142dbf86a254522bb7434f37bdc950b2",
+  "storage": {
+    "titelblatt:v3": "{\"version\":7,\"template\":\"brief\",\"data\":{\"meta\":{\"title\":\"\",\"author\":\"\",\"subject\":\"\",\"keywords\":\"\"},\"kicker\":\"\",\"eyebrow\":\"\",\"beruf\":\"Informatiker/in EFZ\",\"lehrbeginn\":\"August 2027\",\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"lehrbetrieb\":\"Beispiel AG\",\"ansprechperson\":\"Herr Thomas Weber\",\"betriebAdresse\":\"Industriestrasse 8, 4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"labelKontakt\":\"\",\"labelEmpfaenger\":\"\",\"foto\":null},\"colors\":{},\"layout\":{},\"customs\":[],\"fontScale\":1.2}",
+    "anschreiben:v1": "{\"version\":1,\"data\":{\"absenderName\":\"Lea Müller\",\"absenderAdresse\":\"Dorfstrasse 12\",\"absenderPlzOrt\":\"4535 Hubersdorf\",\"absenderTelefon\":\"079 123 45 67\",\"absenderEmail\":\"lea.mueller@example.ch\",\"empfaengerFirma\":\"Beispiel AG\",\"empfaengerName\":\"Herr Thomas Weber\",\"empfaengerAdresse\":\"Industriestrasse 8\",\"empfaengerPlzOrt\":\"4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"betreff\":\"Bewerbung um eine Lehrstelle als Informatiker/in EFZ\",\"anrede\":\"QASALUTATION001 Guten Tag Herr Weber\",\"text\":\"QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001\\n\\nQAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002\\n\\nQAPARA003 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND003\\n\\nQAPARA004 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND004\\n\\nQAPARA005 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND005\\n\\nQAPARA006 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND006\\n\\nQAPARA007 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND007\\n\\nQAPARA008 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND008\\n\\nQAPARA009 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND009\\n\\nQAPARA010 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND010\\n\\nQAPARA011 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND011\\n\\nQAPARA012 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND012\\n\\nQAPARA013 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND013\\n\\nQAPARA014 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND014\",\"richTextHtml\":\"\",\"gruss\":\"QACLOSING001 Freundliche Grüsse\",\"unterschrift\":\"QASIGNATURE001 Lea Müller\",\"images\":[],\"showBeilagen\":true,\"beilagen\":[\"QAATTACHMENT001 Lebenslauf\",\"QAATTACHMENT002 Arbeitszeugnis\"]},\"design\":{\"template\":\"brief\",\"colors\":{\"bg\":\"#ffffff\",\"ink\":\"#111111\",\"primary\":\"#111111\",\"secondary\":\"#111111\",\"accent\":\"#111111\",\"cvInk\":\"#111111\",\"cvMuted\":\"#4b5563\",\"cvHeading\":\"#111111\"},\"bgOpacity\":0.25,\"paperColor\":null,\"textColor\":null,\"font\":\"freundlich\",\"fontOverride\":null,\"senderAlign\":\"left\",\"recipientAlign\":\"left\",\"dateAlign\":\"left\",\"ruleAfterSender\":false,\"ruleAfterRecipient\":false,\"ruleAfterSubject\":false,\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"chromeBorderEnabled\":false,\"chromeBorderColor\":null,\"chromeBorderWidthMm\":0.6,\"chromeTextFont\":null,\"bodyFontSizePt\":12,\"bodyFont\":\"freundlich\"}}",
+    "lebenslauf:v1": "{\"version\":6,\"data\":{\"titel\":\"Lebenslauf\",\"person\":{\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"nationalitaet\":\"\",\"untertitel\":\"\",\"foto\":\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2280%22%20height%3D%22100%22%3E%3Crect%20width%3D%2280%22%20height%3D%22100%22%20fill%3D%22%23d0c0a0%22%2F%3E%3C%2Fsvg%3E\"},\"schule\":[{\"id\":\"qa-school-0\",\"zeit\":\"2025 – 2026\",\"titel\":\"QASCHOOL001 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001\"},{\"id\":\"qa-school-1\",\"zeit\":\"2024 – 2025\",\"titel\":\"QASCHOOL002 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU002 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND002\"}],\"erfahrung\":[{\"id\":\"qa-work-0\",\"zeit\":\"2026\",\"titel\":\"QAWORK001 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001\"},{\"id\":\"qa-work-1\",\"zeit\":\"2025\",\"titel\":\"QAWORK002 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC002 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND002\"}],\"sprachen\":[{\"id\":\"demo-l1\",\"name\":\"Deutsch\",\"niveau\":\"Muttersprache\"},{\"id\":\"demo-l2\",\"name\":\"Englisch\",\"niveau\":\"Gute Schulkenntnisse (B1)\"},{\"id\":\"demo-l3\",\"name\":\"Französisch\",\"niveau\":\"Grundkenntnisse (A2)\"}],\"hobbys\":[\"Volleyball im Verein\",\"Programmieren kleiner Spiele\",\"Fotografieren\"],\"staerken\":[\"Zuverlässig und pünktlich\",\"Arbeitet gern im Team\",\"Lernt schnell Neues\"],\"referenzen\":[{\"id\":\"demo-r1\",\"name\":\"QAREF001 Thomas Weber\",\"funktion\":\"Klassenlehrer, Schulhaus Zentrum\",\"kontakt\":\"079 555 12 34\",\"email\":\"\",\"zusatz\":\"\"}],\"customSections\":[{\"id\":\"qa-projects\",\"title\":\"Projekte\",\"entries\":[{\"id\":\"qa-project\",\"zeit\":\"2026\",\"titel\":\"QAPROJECT001 Lernplattform\",\"ort\":\"Solothurn\",\"beschreibung\":\"QAPROJECTEND001 Entwicklung und Evaluation im Team.\"}]}],\"sectionOrder\":[\"person\",\"schule\",\"erfahrung\",\"sprachen\",\"hobbys\",\"staerken\",\"referenzen\",\"custom:qa-projects\"],\"labels\":{},\"hidden\":{},\"sectionLayouts\":{}},\"design\":{\"template\":\"brief\",\"colors\":{\"primary\":\"#183046\",\"accent\":\"#d99a42\",\"ink\":\"#15212c\",\"bg\":\"#ffffff\"},\"bgOpacity\":0.25,\"useElements\":false,\"sidebarPct\":22},\"elements\":[],\"elementStyles\":{}}",
+    "lebenslauf:layout:v1": "classic",
+    "lebenslauf:info-position:v1": "standard",
+    "lebenslauf:photo:v2": "{\"shape\":\"circle\",\"zoom\":1.2,\"x\":35,\"y\":65,\"borderWidth\":0.3}",
+    "lebenslauf:photo-place:v1": "{\"mode\":\"frei\",\"xMm\":150,\"yMm\":24,\"widthMm\":28,\"frameColor\":null}",
+    "lebenslauf:placement:v1": "{\"kontakt\":\"side\",\"schule\":\"main\",\"erfahrung\":\"main\",\"sprachen\":\"side\",\"hobbys\":\"side\",\"staerken\":\"side\",\"referenzen\":\"main\"}",
+    "bewerbungsdossier:page-margins:v1": "{\"cv\":{\"top\":24,\"right\":24,\"bottom\":1,\"left\":24},\"letter\":{\"top\":24,\"right\":24,\"bottom\":24,\"left\":24}}",
+    "lebenslauf:section-gap:v1": "6",
+    "lebenslauf:continuation-top-margin:v1": "18",
+    "lebenslauf:layout-mirror:v1": "false"
+  },
+  "web": [
+    {
+      "index": 0,
+      "text": "Lea Müller Dorfstrasse 12 4535 Hubersdorf 079 123 45 67 lea.mueller@example.ch Beispiel AG Herr Thomas Weber Industriestrasse 8 4535 Hubersdorf Hubersdorf ,  15.11.2026 Bewerbung um eine Lehrstelle als Informatiker/in EFZ QASALUTATION001 Guten Tag Herr Weber QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001 QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002 QAPARA003 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND003 QAPARA004 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND004",
+      "markers": [
+        "QASALUTATION001",
+        "QAPARA001",
+        "QAPARAEND001",
+        "QAPARA002",
+        "QAPARAEND002",
+        "QAPARA003",
+        "QAPARAEND003",
+        "QAPARA004",
+        "QAPARAEND004"
+      ],
+      "issues": [],
+      "main": [
+        23.989,
+        33.984,
+        163.021,
+        258.02
+      ],
+      "sidebar": null,
+      "final": "false",
+      "headerMode": "compact",
+      "footerMode": "compact",
+      "archetype": "quiet",
+      "bottomFreeMm": 6.756
+    },
+    {
+      "index": 1,
+      "text": "QAPARA005 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND005 QAPARA006 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND006 QAPARA007 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND007 QAPARA008 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND008 QAPARA009 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND009 QAPARA010 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND010",
+      "markers": [
+        "QAPARA005",
+        "QAPARAEND005",
+        "QAPARA006",
+        "QAPARAEND006",
+        "QAPARA007",
+        "QAPARAEND007",
+        "QAPARA008",
+        "QAPARAEND008",
+        "QAPARA009",
+        "QAPARAEND009",
+        "QAPARA010",
+        "QAPARAEND010"
+      ],
+      "issues": [],
+      "main": [
+        23.989,
+        39.98,
+        162.021,
+        229.035
+      ],
+      "sidebar": null,
+      "final": "false",
+      "headerMode": "compact",
+      "footerMode": "compact",
+      "archetype": "quiet",
+      "bottomFreeMm": -7.054
+    },
+    {
+      "index": 2,
+      "text": "QAPARA011 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND011 QAPARA012 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND012 QAPARA013 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND013 QAPARA014 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND014 QACLOSING001 Freundliche Grüsse QASIGNATURE001 Lea Müller Beilagen QAATTACHMENT001 Lebenslauf QAATTACHMENT002 Arbeitszeugnis",
+      "markers": [
+        "QAPARA011",
+        "QAPARAEND011",
+        "QAPARA012",
+        "QAPARAEND012",
+        "QAPARA013",
+        "QAPARAEND013",
+        "QAPARA014",
+        "QAPARAEND014",
+        "QACLOSING001",
+        "QASIGNATURE001",
+        "QAATTACHMENT001",
+        "QAATTACHMENT002"
+      ],
+      "issues": [],
+      "main": [
+        23.989,
+        39.98,
+        162.021,
+        229.035
+      ],
+      "sidebar": null,
+      "final": "true",
+      "headerMode": "compact",
+      "footerMode": "compact",
+      "archetype": "quiet",
+      "bottomFreeMm": 36.435
+    }
+  ],
+  "canonical": [
+    {
+      "index": 0,
+      "text": "Lea Müller Dorfstrasse 12 4535 Hubersdorf 079 123 45 67 lea.mueller@example.ch Beispiel AG Herr Thomas Weber Industriestrasse 8 4535 Hubersdorf Hubersdorf ,  15.11.2026 Bewerbung um eine Lehrstelle als Informatiker/in EFZ QASALUTATION001 Guten Tag Herr Weber QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001 QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002 QAPARA003 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND003 QAPARA004 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND004",
+      "markers": [
+        "QASALUTATION001",
+        "QAPARA001",
+        "QAPARAEND001",
+        "QAPARA002",
+        "QAPARAEND002",
+        "QAPARA003",
+        "QAPARAEND003",
+        "QAPARA004",
+        "QAPARAEND004"
+      ],
+      "issues": [],
+      "main": [
+        23.989,
+        33.984,
+        163.021,
+        258.02
+      ],
+      "sidebar": null,
+      "final": "false",
+      "headerMode": "compact",
+      "footerMode": "compact",
+      "archetype": "quiet",
+      "bottomFreeMm": 6.756
+    },
+    {
+      "index": 1,
+      "text": "QAPARA005 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND005 QAPARA006 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND006 QAPARA007 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND007 QAPARA008 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND008 QAPARA009 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND009 QAPARA010 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND010",
+      "markers": [
+        "QAPARA005",
+        "QAPARAEND005",
+        "QAPARA006",
+        "QAPARAEND006",
+        "QAPARA007",
+        "QAPARAEND007",
+        "QAPARA008",
+        "QAPARAEND008",
+        "QAPARA009",
+        "QAPARAEND009",
+        "QAPARA010",
+        "QAPARAEND010"
+      ],
+      "issues": [],
+      "main": [
+        23.989,
+        39.98,
+        162.021,
+        229.035
+      ],
+      "sidebar": null,
+      "final": "false",
+      "headerMode": "compact",
+      "footerMode": "compact",
+      "archetype": "quiet",
+      "bottomFreeMm": -7.054
+    },
+    {
+      "index": 2,
+      "text": "QAPARA011 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND011 QAPARA012 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND012 QAPARA013 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND013 QAPARA014 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND014 QACLOSING001 Freundliche Grüsse QASIGNATURE001 Lea Müller Beilagen QAATTACHMENT001 Lebenslauf QAATTACHMENT002 Arbeitszeugnis",
+      "markers": [
+        "QAPARA011",
+        "QAPARAEND011",
+        "QAPARA012",
+        "QAPARAEND012",
+        "QAPARA013",
+        "QAPARAEND013",
+        "QAPARA014",
+        "QAPARAEND014",
+        "QACLOSING001",
+        "QASIGNATURE001",
+        "QAATTACHMENT001",
+        "QAATTACHMENT002"
+      ],
+      "issues": [],
+      "main": [
+        23.989,
+        39.98,
+        162.021,
+        229.035
+      ],
+      "sidebar": null,
+      "final": "true",
+      "headerMode": "compact",
+      "footerMode": "compact",
+      "archetype": "quiet",
+      "bottomFreeMm": 36.435
+    }
+  ],
+  "pdf": {
+    "blocked": true,
+    "pages": [],
+    "bytes": 0,
+    "sha256": "",
+    "reason": [
+      "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enthält sichtbaren Inhalt ausserhalb des verfügbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abstände an."
+    ]
+  },
+  "findings": [
+    "production PDF blocked by preflight"
+  ]
+}

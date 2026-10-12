@@ -1,0 +1,2700 @@
+[
+  {
+    "name": "live-studio3-cv-2",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "0e546d769c6bf7df135d5c265c5b544fe97c824c75c3779d8455d42591ab770d",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 32.365
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 32.365
+      }
+    ],
+    "pdf": null,
+    "findings": []
+  },
+  {
+    "name": "live-studio3-cv-0",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "0e546d769c6bf7df135d5c265c5b544fe97c824c75c3779d8455d42591ab770d",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 32.365
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 32.365
+      }
+    ],
+    "pdf": null,
+    "findings": []
+  },
+  {
+    "name": "variant-gallery-long-word-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "d8e1d00cf8b34173952f27eb391bc982abd7a74adf5013dd5b57fb82941d7034",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [
+          "outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"
+        ],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.228
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 21.24
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [
+          "outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"
+        ],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.228
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 21.24
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    },
+    "findings": [
+      "Web page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "canonical page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "production PDF blocked by preflight"
+    ]
+  },
+  {
+    "name": "live-brief-cv-3",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "c2800677cd1d1c87dca71250584c542fb976c9e3ff0c914af88e09b8bf57bf77",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 1.417
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          9.992,
+          170.022,
+          282.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 186.224
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 1.417
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          9.992,
+          170.022,
+          282.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 186.224
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASCHOOL001",
+            "QAEDU001",
+            "QAEDUEND001",
+            "QAWORK001",
+            "QADESC001",
+            "QAEND001"
+          ]
+        },
+        {
+          "markers": [
+            "QAREF001",
+            "QAPROJECT001",
+            "QAPROJECTEND001"
+          ]
+        }
+      ],
+      "bytes": 1561483,
+      "sha256": "13b75b795e46b0088272816e711a2e74489cf25ac3ba071e5eeb15b4e00df1fa",
+      "reason": []
+    },
+    "findings": []
+  },
+  {
+    "name": "live-brief-cv-0",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "cadeb0f7c6f00b96c139b258d1138f4ba73eb04a9c7634f21cab2fefd9f997d6",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 28.707
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 28.707
+      }
+    ],
+    "pdf": null,
+    "findings": []
+  },
+  {
+    "name": "variant-gallery-custom-margins-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "ce76de4ab2515d230f132afa869a4f961cb2f3f7c2ce0a147508b452926d7def",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          39.98,
+          162.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          39.98,
+          162.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          39.98,
+          162.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          39.98,
+          162.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    },
+    "findings": [
+      "production PDF blocked by preflight"
+    ]
+  },
+  {
+    "name": "live-brief-cv-2",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "cadeb0f7c6f00b96c139b258d1138f4ba73eb04a9c7634f21cab2fefd9f997d6",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 28.707
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 28.707
+      }
+    ],
+    "pdf": null,
+    "findings": []
+  },
+  {
+    "name": "variant-studio3-custom-margins-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "487b2c8f266871af0034b0ad68ef7e5339bb31b07db961de1db54e7e531516b2",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          39.98,
+          161.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          39.98,
+          161.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          39.98,
+          161.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          39.98,
+          161.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    },
+    "findings": [
+      "production PDF blocked by preflight"
+    ]
+  },
+  {
+    "name": "variant-brief-long-word-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "6cd6db70865ee76e5f8f74849dd658964a4f49495774ea1f6403cab1d3048225",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005"
+        ],
+        "issues": [
+          "outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"
+        ],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 9.285
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 28.592
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 193.311
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005"
+        ],
+        "issues": [
+          "outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"
+        ],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 9.285
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 28.592
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 193.311
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    },
+    "findings": [
+      "Web page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "canonical page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "production PDF blocked by preflight"
+    ]
+  },
+  {
+    "name": "live-studio3-cv-3",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "01be017959bab5fdd682d58654a0f93deece30cfef2931607a3b9ea42986554f",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 5.628
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 209.184
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 5.628
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 209.184
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASCHOOL001",
+            "QAEDU001",
+            "QAEDUEND001",
+            "QAWORK001",
+            "QADESC001",
+            "QAEND001"
+          ]
+        },
+        {
+          "markers": [
+            "QAREF001",
+            "QAPROJECT001",
+            "QAPROJECTEND001"
+          ]
+        }
+      ],
+      "bytes": 1387627,
+      "sha256": "a668c0bc8b6e6d94dbaaeaf1d56d1f031de4e0d27045410d4f534338efb22811",
+      "reason": []
+    },
+    "findings": []
+  },
+  {
+    "name": "variant-brief-custom-margins-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "7f59042f140439d35449bfa0d8ce6f74142dbf86a254522bb7434f37bdc950b2",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          39.98,
+          162.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          39.98,
+          162.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          39.98,
+          162.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          39.98,
+          162.021,
+          229.035
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    },
+    "findings": [
+      "production PDF blocked by preflight"
+    ]
+  },
+  {
+    "name": "variant-studio3-long-word-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "03d502da73d0062142f39777709424aed78a56dfcadff3535cce2beb8c961026",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [
+          "outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"
+        ],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.021
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 118.747
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [
+          "outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"
+        ],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.021
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 118.747
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    },
+    "findings": [
+      "Web page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "canonical page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "production PDF blocked by preflight"
+    ]
+  },
+  {
+    "name": "live-studio3-cv-1",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "01be017959bab5fdd682d58654a0f93deece30cfef2931607a3b9ea42986554f",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 5.628
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 209.184
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 5.628
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 209.184
+      }
+    ],
+    "pdf": null,
+    "findings": []
+  },
+  {
+    "name": "live-brief-cv-1",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "c2800677cd1d1c87dca71250584c542fb976c9e3ff0c914af88e09b8bf57bf77",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 1.417
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          9.992,
+          170.022,
+          282.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 186.224
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 1.417
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          9.992,
+          170.022,
+          282.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 186.224
+      }
+    ],
+    "pdf": null,
+    "findings": []
+  },
+  {
+    "name": "chrome-brief-cv",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "02b5f5b203f8b62aa803b37b2bf0ee01b6fd57670d61a0fb7879a27145222639",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          61.973,
+          162.021,
+          214.039
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 19.248
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          17.992,
+          162.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 17.765
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          61.973,
+          162.021,
+          214.039
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 19.248
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          17.992,
+          162.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 17.765
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASCHOOL001",
+            "QAEDU001",
+            "QAEDUEND001",
+            "QASCHOOL002",
+            "QAEDU002",
+            "QAEDUEND002",
+            "QAWORK001",
+            "QADESC001",
+            "QAEND001",
+            "QAWORK002",
+            "QADESC002",
+            "QAEND002",
+            "QAWORK003",
+            "QADESC003",
+            "QAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAWORK004",
+            "QADESC004",
+            "QAEND004",
+            "QAWORK005",
+            "QADESC005",
+            "QAEND005",
+            "QAWORK006",
+            "QADESC006",
+            "QAEND006",
+            "QAREF001",
+            "QAPROJECT001",
+            "QAPROJECTEND001"
+          ]
+        }
+      ],
+      "bytes": 1728941,
+      "sha256": "e736386961ac9d0fee4ed960ec09f0b5d3e855dddd4b7395af8f41c7c8a6561d",
+      "reason": []
+    },
+    "findings": []
+  },
+  {
+    "name": "chrome-studio3-cv",
+    "kind": "cv",
+    "status": "PASS",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "410a14fa3dfb72d144fd3a3bc884943715a6398f735cd318df896ba7f9c8fe0e",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          61.973,
+          170.022,
+          214.039
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 23.633
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          17.992,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 61.138
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          61.973,
+          170.022,
+          214.039
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 23.633
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          17.992,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 61.138
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASCHOOL001",
+            "QAEDU001",
+            "QAEDUEND001",
+            "QASCHOOL002",
+            "QAEDU002",
+            "QAEDUEND002",
+            "QAWORK001",
+            "QADESC001",
+            "QAEND001",
+            "QAWORK002",
+            "QADESC002",
+            "QAEND002",
+            "QAWORK003",
+            "QADESC003",
+            "QAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAWORK004",
+            "QADESC004",
+            "QAEND004",
+            "QAWORK005",
+            "QADESC005",
+            "QAEND005",
+            "QAWORK006",
+            "QADESC006",
+            "QAEND006",
+            "QAREF001",
+            "QAPROJECT001",
+            "QAPROJECTEND001"
+          ]
+        }
+      ],
+      "bytes": 1473755,
+      "sha256": "86c877b318d6a0f07c9ee5b3e04650a3bfcb1129cf9efad9ff7fa2080c7f684b",
+      "reason": []
+    },
+    "findings": []
+  },
+  {
+    "name": "chrome-brief-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "080fa74e26f3d4832b42dc51ddf5d390c0c9628bb1354e038f6c0cede8c30424",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          61.973,
+          163.021,
+          193.047
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 10.409
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QACLOSING001",
+          "QASIGNATURE001"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          37.98,
+          162.021,
+          215.039
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "attachments",
+        "archetype": "quiet",
+        "bottomFreeMm": 8.905
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          61.973,
+          163.021,
+          193.047
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 10.409
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QACLOSING001",
+          "QASIGNATURE001"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          37.98,
+          162.021,
+          215.039
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "attachments",
+        "archetype": "quiet",
+        "bottomFreeMm": 8.905
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAATTACHMENT001",
+            "QAATTACHMENT002",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008"
+          ]
+        }
+      ],
+      "bytes": 1650591,
+      "sha256": "ee4032b977ecf18d9572e6001e5b89d25d7b928b0cfb57ae0704600439736acd",
+      "reason": []
+    },
+    "findings": [
+      "PDF page 2: marker order/distribution differs"
+    ]
+  },
+  {
+    "name": "chrome-studio3-letter",
+    "kind": "letter",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/routeTree.gen.ts"
+    ],
+    "fixtureSha256": "abd4ed4ff5bc4892b42444ae2b4664208d79df84e497bb5c9704b60ab8161aaa",
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          61.973,
+          161.021,
+          193.047
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 10.409
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QACLOSING001",
+          "QASIGNATURE001"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          37.98,
+          161.021,
+          215.039
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "attachments",
+        "archetype": "sidebar",
+        "bottomFreeMm": 8.905
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          61.973,
+          161.021,
+          193.047
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "contact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 10.409
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QACLOSING001",
+          "QASIGNATURE001"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          37.98,
+          161.021,
+          215.039
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "contact",
+        "footerMode": "attachments",
+        "archetype": "sidebar",
+        "bottomFreeMm": 8.905
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAATTACHMENT001",
+            "QAATTACHMENT002",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008"
+          ]
+        }
+      ],
+      "bytes": 1644792,
+      "sha256": "10938697b78c9cd56c451aaa93dd61ade0023a0092922dd9877d8c47077004c5",
+      "reason": []
+    },
+    "findings": [
+      "PDF page 2: marker order/distribution differs"
+    ]
+  }
+]

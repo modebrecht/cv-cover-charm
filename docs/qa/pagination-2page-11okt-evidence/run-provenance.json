@@ -1,0 +1,55 @@
+{
+  "baseSha": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
+  "primaryQaSha": "000867568476fcb41716ade1d2fc1fa22f8701d4",
+  "completionQaSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+  "ciRun": 38173193848,
+  "ciArtifact": 11715561069,
+  "archiveSha256": "4641198cf421eaae9595416ca371b8b15dbfced357713b5e020fca2ab086d206",
+  "primaryStats": {
+    "startTime": "2026-10-11T20:43:40.261Z",
+    "duration": 1139337.071,
+    "expected": 93,
+    "skipped": 0,
+    "unexpected": 99,
+    "flaky": 0
+  },
+  "productStats": {
+    "startTime": "2026-10-11T20:41:58.246Z",
+    "duration": 100988.753,
+    "expected": 21,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "imageSourceSha": "000867568476fcb41716ade1d2fc1fa22f8701d4",
+  "uniqueQaCases": 203,
+  "resolvedQaCases": {
+    "pass": 97,
+    "fail": 106
+  },
+  "primaryHarnessTimeouts": 2,
+  "completionStats": {
+    "startTime": "2026-10-12T02:06:06.712Z",
+    "duration": 52406.325999999994,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 6,
+    "flaky": 0
+  },
+  "combinedStats": {
+    "startTime": "2026-10-12T02:06:19.205Z",
+    "duration": 92392.345,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 7,
+    "flaky": 0
+  },
+  "chromeStats": {
+    "startTime": "2026-10-12T02:06:21.300Z",
+    "duration": 51754.702,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

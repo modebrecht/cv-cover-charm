@@ -1,0 +1,898 @@
+[
+  {
+    "template": "brief",
+    "kind": "cv",
+    "firstTwo": 2,
+    "firstThree": 11,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 6
+      },
+      {
+        "units": 18,
+        "pages": 3
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 2
+      },
+      {
+        "units": 2,
+        "pages": 2
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 6
+      },
+      {
+        "units": 18,
+        "pages": 3
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      },
+      {
+        "units": 11,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      }
+    ]
+  },
+  {
+    "template": "brief",
+    "kind": "letter",
+    "firstTwo": 5,
+    "firstThree": 13,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 1
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 15,
+        "pages": 3
+      },
+      {
+        "units": 12,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      }
+    ]
+  },
+  {
+    "template": "gallery",
+    "kind": "cv",
+    "firstTwo": 2,
+    "firstThree": 9,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 6
+      },
+      {
+        "units": 18,
+        "pages": 4
+      },
+      {
+        "units": 9,
+        "pages": 3
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 2
+      },
+      {
+        "units": 2,
+        "pages": 2
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 6
+      },
+      {
+        "units": 18,
+        "pages": 4
+      },
+      {
+        "units": 9,
+        "pages": 3
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 7,
+        "pages": 2
+      },
+      {
+        "units": 8,
+        "pages": 2
+      }
+    ]
+  },
+  {
+    "template": "gallery",
+    "kind": "letter",
+    "firstTwo": 4,
+    "firstThree": 11,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 7
+      },
+      {
+        "units": 20,
+        "pages": 4
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 2
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 7
+      },
+      {
+        "units": 20,
+        "pages": 4
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 15,
+        "pages": 3
+      },
+      {
+        "units": 12,
+        "pages": 3
+      },
+      {
+        "units": 11,
+        "pages": 3
+      }
+    ]
+  },
+  {
+    "template": "ledger",
+    "kind": "cv",
+    "firstTwo": 4,
+    "firstThree": 13,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 5
+      },
+      {
+        "units": 18,
+        "pages": 3
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 2
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 5
+      },
+      {
+        "units": 18,
+        "pages": 3
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      },
+      {
+        "units": 11,
+        "pages": 2
+      },
+      {
+        "units": 12,
+        "pages": 2
+      }
+    ]
+  },
+  {
+    "template": "ledger",
+    "kind": "letter",
+    "firstTwo": 4,
+    "firstThree": 11,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 7
+      },
+      {
+        "units": 20,
+        "pages": 4
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 2
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 7
+      },
+      {
+        "units": 20,
+        "pages": 4
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 15,
+        "pages": 3
+      },
+      {
+        "units": 12,
+        "pages": 3
+      },
+      {
+        "units": 11,
+        "pages": 3
+      }
+    ]
+  },
+  {
+    "template": "ribbon",
+    "kind": "cv",
+    "firstTwo": 4,
+    "firstThree": 13,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 5
+      },
+      {
+        "units": 18,
+        "pages": 3
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 2
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 5
+      },
+      {
+        "units": 18,
+        "pages": 3
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      },
+      {
+        "units": 11,
+        "pages": 2
+      },
+      {
+        "units": 12,
+        "pages": 2
+      }
+    ]
+  },
+  {
+    "template": "ribbon",
+    "kind": "letter",
+    "firstTwo": 5,
+    "firstThree": 13,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 1
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 15,
+        "pages": 3
+      },
+      {
+        "units": 12,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      }
+    ]
+  },
+  {
+    "template": "studio2",
+    "kind": "cv",
+    "firstTwo": 2,
+    "firstThree": 8,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 7
+      },
+      {
+        "units": 18,
+        "pages": 4
+      },
+      {
+        "units": 9,
+        "pages": 3
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 2
+      },
+      {
+        "units": 2,
+        "pages": 2
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 7
+      },
+      {
+        "units": 18,
+        "pages": 4
+      },
+      {
+        "units": 9,
+        "pages": 3
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 7,
+        "pages": 2
+      },
+      {
+        "units": 8,
+        "pages": 3
+      }
+    ]
+  },
+  {
+    "template": "studio2",
+    "kind": "letter",
+    "firstTwo": 5,
+    "firstThree": 13,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 1
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 15,
+        "pages": 3
+      },
+      {
+        "units": 12,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      }
+    ]
+  },
+  {
+    "template": "studio3",
+    "kind": "cv",
+    "firstTwo": 3,
+    "firstThree": 11,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 5
+      },
+      {
+        "units": 18,
+        "pages": 3
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 2
+      },
+      {
+        "units": 2,
+        "pages": 1
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 5
+      },
+      {
+        "units": 18,
+        "pages": 3
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      },
+      {
+        "units": 11,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      }
+    ]
+  },
+  {
+    "template": "studio3",
+    "kind": "letter",
+    "firstTwo": 5,
+    "firstThree": 13,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 1
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 15,
+        "pages": 3
+      },
+      {
+        "units": 12,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      }
+    ]
+  },
+  {
+    "template": "terracotta",
+    "kind": "cv",
+    "firstTwo": 4,
+    "firstThree": 11,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 6
+      },
+      {
+        "units": 18,
+        "pages": 4
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 2
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 35,
+        "pages": 6
+      },
+      {
+        "units": 18,
+        "pages": 4
+      },
+      {
+        "units": 9,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      },
+      {
+        "units": 11,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      }
+    ]
+  },
+  {
+    "template": "terracotta",
+    "kind": "letter",
+    "firstTwo": 5,
+    "firstThree": 13,
+    "observed": [
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 5,
+        "pages": 2
+      },
+      {
+        "units": 3,
+        "pages": 1
+      },
+      {
+        "units": 4,
+        "pages": 1
+      },
+      {
+        "units": 1,
+        "pages": 1
+      },
+      {
+        "units": 40,
+        "pages": 6
+      },
+      {
+        "units": 20,
+        "pages": 3
+      },
+      {
+        "units": 10,
+        "pages": 2
+      },
+      {
+        "units": 15,
+        "pages": 3
+      },
+      {
+        "units": 12,
+        "pages": 2
+      },
+      {
+        "units": 13,
+        "pages": 3
+      }
+    ]
+  }
+]

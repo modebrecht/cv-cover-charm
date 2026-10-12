@@ -1,0 +1,2811 @@
+[
+  {
+    "template": "studio3",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "fixtureSha256": "b67155ad4337c19636ee08cde42ac21c8e51d2b29b31462a0d4d7c41f421b8dc",
+    "webCv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 7.624
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 48.877
+      }
+    ],
+    "webLetter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 26.492
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.505
+      }
+    ],
+    "cv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 7.624
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 48.877
+      }
+    ],
+    "letter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 26.492
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.505
+      }
+    ],
+    "pdfPages": [
+      {
+        "markers": []
+      },
+      {
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ]
+      },
+      {
+        "markers": [
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ]
+      },
+      {
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004"
+        ]
+      },
+      {
+        "markers": [
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ]
+      }
+    ],
+    "pdfSha256": "194a9d68e5c1a7f5675601466b665bae079850abd569951010d597a14e69172c",
+    "findings": [
+      "PDF letter page 2: marker order/distribution differs"
+    ]
+  },
+  {
+    "template": "terracotta",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "fixtureSha256": "b84c87aaf75637882bed1299a4db4108eee5222cf950e684d36aab11c763c75a",
+    "webCv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          77.969,
+          33.984,
+          112.042,
+          258.02
+        ],
+        "sidebar": [
+          0,
+          0,
+          69.972,
+          297
+        ],
+        "sidebarSide": "left",
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 23.592
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          77.969,
+          9.992,
+          112.042,
+          282.012
+        ],
+        "sidebar": [
+          0,
+          0,
+          69.972,
+          297
+        ],
+        "sidebarSide": "left",
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 39.088
+      }
+    ],
+    "webLetter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          29.986,
+          33.984,
+          157.025,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 26.492
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          29.986,
+          33.984,
+          157.025,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.505
+      }
+    ],
+    "cv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          77.969,
+          33.984,
+          112.042,
+          258.02
+        ],
+        "sidebar": [
+          0,
+          0,
+          69.972,
+          297
+        ],
+        "sidebarSide": "left",
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 23.592
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          77.969,
+          9.992,
+          112.042,
+          282.012
+        ],
+        "sidebar": [
+          0,
+          0,
+          69.972,
+          297
+        ],
+        "sidebarSide": "left",
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 39.088
+      }
+    ],
+    "letter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          29.986,
+          33.984,
+          157.025,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 26.492
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          29.986,
+          33.984,
+          157.025,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.505
+      }
+    ],
+    "pdfPages": [
+      {
+        "markers": []
+      },
+      {
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ]
+      },
+      {
+        "markers": [
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ]
+      },
+      {
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ]
+      },
+      {
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ]
+      }
+    ],
+    "pdfSha256": "8eeb2e93e102430d9e97feb9c8afb0eb9fd1b6801122eab3906ffd410b470efd",
+    "findings": [
+      "PDF letter page 2: marker order/distribution differs"
+    ]
+  },
+  {
+    "template": "gallery",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "fixtureSha256": "21b74f1727a79ac423849ae9e88399aaeedf13e0ab13ea639016bc893eda3347",
+    "webCv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          154.025,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 1.141
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          154.025,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 17.058
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          154.025,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 226.977
+      }
+    ],
+    "webLetter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 57.27
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 181.84
+      }
+    ],
+    "cv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          154.025,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 1.141
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          154.025,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 17.058
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          154.025,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 226.977
+      }
+    ],
+    "letter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 57.27
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          35.986,
+          33.984,
+          151.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 181.84
+      }
+    ],
+    "pdfPages": [
+      {
+        "markers": []
+      },
+      {
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ]
+      },
+      {
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ]
+      },
+      {
+        "markers": [
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA010",
+          "QAPARAEND010"
+        ]
+      },
+      {
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ]
+      },
+      {
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008"
+        ]
+      },
+      {
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ]
+      }
+    ],
+    "pdfSha256": "9f20f8053d9ff2ff219cf6b696f23ef0014321db6aea40b162c162930828df1d",
+    "findings": [
+      "PDF letter page 3: marker order/distribution differs"
+    ]
+  },
+  {
+    "template": "studio2",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "fixtureSha256": "7265adeef67dae5dbea3c0ddd0911e964c59343f8ca6cfe787aedcf2d85870f9",
+    "webCv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002"
+        ],
+        "issues": [],
+        "main": [
+          68.972,
+          33.984,
+          123.034,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 35.968
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008"
+        ],
+        "issues": [],
+        "main": [
+          68.972,
+          16.992,
+          123.034,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 7.343
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          68.972,
+          16.992,
+          123.034,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 179.819
+      }
+    ],
+    "webLetter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 26.492
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.505
+      }
+    ],
+    "cv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002"
+        ],
+        "issues": [],
+        "main": [
+          68.972,
+          33.984,
+          123.034,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 35.968
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008"
+        ],
+        "issues": [],
+        "main": [
+          68.972,
+          16.992,
+          123.034,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 7.343
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          68.972,
+          16.992,
+          123.034,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 179.819
+      }
+    ],
+    "letter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 26.492
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          24.99,
+          33.984,
+          161.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.505
+      }
+    ],
+    "pdfPages": [
+      {
+        "markers": []
+      },
+      {
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ]
+      },
+      {
+        "markers": [
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ]
+      },
+      {
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002"
+        ]
+      },
+      {
+        "markers": [
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008"
+        ]
+      },
+      {
+        "markers": [
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ]
+      }
+    ],
+    "pdfSha256": "ddb11f9dcf6d863fb91b5b9d3c2533d3e00aa0008e9bc34f3e98251ac1b52671",
+    "findings": [
+      "PDF letter page 2: marker order/distribution differs"
+    ]
+  },
+  {
+    "template": "ribbon",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "fixtureSha256": "3fcb40db572f4b06fd4eafcafd2fb1fe403966733b3d39a7a6bf9c18e9d7840d",
+    "webCv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 4.087
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 80.415
+      }
+    ],
+    "webLetter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          25.99,
+          33.984,
+          160.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 26.492
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          25.99,
+          33.984,
+          160.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 15.505
+      }
+    ],
+    "cv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 4.087
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 80.415
+      }
+    ],
+    "letter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          25.99,
+          33.984,
+          160.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 26.492
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          25.99,
+          33.984,
+          160.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "band",
+        "bottomFreeMm": 15.505
+      }
+    ],
+    "pdfPages": [
+      {
+        "markers": []
+      },
+      {
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ]
+      },
+      {
+        "markers": [
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ]
+      },
+      {
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005"
+        ]
+      },
+      {
+        "markers": [
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ]
+      }
+    ],
+    "pdfSha256": "e0240ec45e0d7b8f79aa4d2500aba127e0f586a1dac22526c07a4aa9685fe396",
+    "findings": [
+      "PDF letter page 2: marker order/distribution differs"
+    ]
+  },
+  {
+    "template": "ledger",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "fixtureSha256": "c6e597719659949283b3f0e3fa9841947df90d2a579e22d81d12a9fd91c987c5",
+    "webCv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 4.087
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 80.415
+      }
+    ],
+    "webLetter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          32.986,
+          33.984,
+          153.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [
+          32.986,
+          33.984,
+          153.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 57.27
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          32.986,
+          33.984,
+          153.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 181.84
+      }
+    ],
+    "cv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 4.087
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          16.992,
+          170.022,
+          275.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 80.415
+      }
+    ],
+    "letter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [
+          32.986,
+          33.984,
+          153.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [
+          32.986,
+          33.984,
+          153.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 57.27
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          32.986,
+          33.984,
+          153.024,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 181.84
+      }
+    ],
+    "pdfPages": [
+      {
+        "markers": []
+      },
+      {
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ]
+      },
+      {
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ]
+      },
+      {
+        "markers": [
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA010",
+          "QAPARAEND010"
+        ]
+      },
+      {
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003",
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005"
+        ]
+      },
+      {
+        "markers": [
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ]
+      }
+    ],
+    "pdfSha256": "888e97f440b7815b3a8082891c2032da0fa77a473303079cb3da4791b5ad4575",
+    "findings": [
+      "PDF letter page 3: marker order/distribution differs"
+    ]
+  },
+  {
+    "template": "brief",
+    "status": "FAIL",
+    "sourceSha": "3f6c495e2f8d892dc62af114adaa42560e223894",
+    "fixtureSha256": "27e9fd9b5a1d83bf9f955ec1344fd7676dea0aadba78479d39b70ffd3e55f4d6",
+    "webCv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 15.641
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          9.992,
+          170.022,
+          282.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 0.591
+      }
+    ],
+    "webLetter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 20.757
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 78.597
+      }
+    ],
+    "cv": [
+      {
+        "index": 0,
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          33.984,
+          170.022,
+          258.02
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 15.641
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ],
+        "issues": [],
+        "main": [
+          19.989,
+          9.992,
+          170.022,
+          282.012
+        ],
+        "sidebar": null,
+        "final": null,
+        "headerMode": null,
+        "footerMode": null,
+        "archetype": null,
+        "bottomFreeMm": 0.591
+      }
+    ],
+    "letter": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 20.757
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [
+          23.989,
+          33.984,
+          163.021,
+          258.02
+        ],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 78.597
+      }
+    ],
+    "pdfPages": [
+      {
+        "markers": []
+      },
+      {
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005"
+        ]
+      },
+      {
+        "markers": [
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ]
+      },
+      {
+        "markers": [
+          "QASCHOOL001",
+          "QAEDU001",
+          "QAEDUEND001",
+          "QASCHOOL002",
+          "QAEDU002",
+          "QAEDUEND002",
+          "QASCHOOL003",
+          "QAEDU003",
+          "QAEDUEND003",
+          "QASCHOOL004",
+          "QAEDU004",
+          "QAEDUEND004",
+          "QAWORK001",
+          "QADESC001",
+          "QAEND001",
+          "QAWORK002",
+          "QADESC002",
+          "QAEND002",
+          "QAWORK003",
+          "QADESC003",
+          "QAEND003"
+        ]
+      },
+      {
+        "markers": [
+          "QAWORK004",
+          "QADESC004",
+          "QAEND004",
+          "QAWORK005",
+          "QADESC005",
+          "QAEND005",
+          "QAWORK006",
+          "QADESC006",
+          "QAEND006",
+          "QAWORK007",
+          "QADESC007",
+          "QAEND007",
+          "QAWORK008",
+          "QADESC008",
+          "QAEND008",
+          "QAREF001",
+          "QAPROJECT001",
+          "QAPROJECTEND001"
+        ]
+      }
+    ],
+    "pdfSha256": "f561c2871585d61a1d44fc1c6d97b7c7bfd06bf68d2014a156fcec543d12c71e",
+    "findings": [
+      "PDF letter page 2: marker order/distribution differs"
+    ]
+  }
+]
