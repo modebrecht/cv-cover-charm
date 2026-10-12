@@ -209,18 +209,25 @@ function createHeightMeasurer(sourceBody: HTMLElement) {
 
 type SplitPoint = { node: Text; offset: number };
 
-function splitPoints(element: HTMLElement): SplitPoint[] {
+function splitPoints(element: HTMLElement, graphemes = false): SplitPoint[] {
   const points: SplitPoint[] = [];
   const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
   let node = walker.nextNode();
   while (node) {
     const text = node as Text;
     const value = text.nodeValue ?? "";
-    for (const match of value.matchAll(/\s+/g)) {
-      const offset = (match.index ?? 0) + match[0].length;
-      if (offset > 0 && offset < value.length) points.push({ node: text, offset });
+    if (graphemes) {
+      const segments = new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(value);
+      for (const segment of segments) {
+        points.push({ node: text, offset: segment.index + segment.segment.length });
+      }
+    } else {
+      for (const match of value.matchAll(/\s+/g)) {
+        const offset = (match.index ?? 0) + match[0].length;
+        if (offset > 0 && offset < value.length) points.push({ node: text, offset });
+      }
+      if (value.length > 0) points.push({ node: text, offset: value.length });
     }
-    if (value.length > 0) points.push({ node: text, offset: value.length });
     node = walker.nextNode();
   }
   return points;
@@ -257,27 +264,29 @@ function splitBlockToFit(
   template.innerHTML = unit.html;
   const element = template.content.firstElementChild;
   if (!(element instanceof HTMLElement)) return null;
-  const points = splitPoints(element);
-  if (!points.length) return null;
-
-  let low = 0;
-  let high = points.length - 1;
-  let best: { prefixHtml: string; suffixHtml: string } | null = null;
-
-  while (low <= high) {
-    const mid = Math.floor((low + high) / 2);
-    const split = splitElementAt(element, points[mid]);
-    if (!split) {
-      high = mid - 1;
-      continue;
+  const search = (points: SplitPoint[]) => {
+    let low = 0;
+    let high = points.length - 1;
+    let best: { prefixHtml: string; suffixHtml: string } | null = null;
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      const split = splitElementAt(element, points[mid]);
+      if (!split) {
+        high = mid - 1;
+        continue;
+      }
+      if (measure(split.prefixHtml) <= capacityPx + FIT_EPSILON_PX) {
+        best = split;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
     }
-    if (measure(split.prefixHtml) <= capacityPx + FIT_EPSILON_PX) {
-      best = split;
-      low = mid + 1;
-    } else {
-      high = mid - 1;
-    }
-  }
+    return best;
+  };
+  // Prefer authored word boundaries. One token taller than a page also needs
+  // measured grapheme boundaries; Range cloning keeps inline formatting intact.
+  const best = search(splitPoints(element)) ?? search(splitPoints(element, true));
 
   if (!best) return null;
   return {

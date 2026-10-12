@@ -331,13 +331,17 @@ export async function auditDocument(
       .trim()
       .split("\n")
       .filter(Boolean),
-    runtimeBlobs: {
-      "src/lib/dossier-pdf.ts": execFileSync(
-        "git",
-        ["hash-object", "--", "src/lib/dossier-pdf.ts"],
-        { encoding: "utf8" },
-      ).trim(),
-    },
+    runtimeBlobs: Object.fromEntries(
+      [
+        "src/lib/dossier-pdf.ts",
+        "src/components/letter/LetterDocument.tsx",
+        "src/components/letter/letter-pagination.ts",
+        "src/components/letter/letter-pagination.css",
+      ].map((path) => [
+        path,
+        execFileSync("git", ["hash-object", "--", path], { encoding: "utf8" }).trim(),
+      ]),
+    ),
     fixtureSha256: createHash("sha256").update(JSON.stringify(fixture.storage)).digest("hex"),
     storage: fixture.storage,
     web,
