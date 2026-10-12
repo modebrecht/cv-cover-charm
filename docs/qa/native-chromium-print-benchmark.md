@@ -494,3 +494,59 @@ Additional priority Cover/Letter/CV sheets and the original scorer-generated CV 
 Only `dev-native-chromium-print` is changed. `dev`, `main` and `render` remain at their reconstructed refs. No deployment, promotion, merge, force push, rebase, amend or squash was performed.
 
 Next: either promote the proven native-print architecture, keep it optional, or close the experiment based on Package 3 evidence.
+
+## Follow-up — Native CV text order (2026-10-12)
+
+The native CV could look correct while exposing its document title after the first entry in extracted PDF text. The repaired renderer now retains title/name order in **39/39** templates. This follow-up does **not** claim to have repaired the remaining tracked-heading searches or background/gradient paint differences.
+
+### Generic renderer correction
+
+Implementation: `b93f05ba2c64ef2c038deb9654b27fd45912be99`, tree `932928245adc6d2e829207f162a6bea3a6803a52`, extending `4da4820b`. Translucent descendants of the CV header could be painted after opaque descendants of later rows. Both measured and physical CV content rows now expose `data-cv-content-row` and use `isolation: isolate`. This gives each canonical row its own paint boundary, retaining row order in the PDF content stream.
+
+The rule applies to every template and both renderer phases. No template branch, print-only data, text overlay, typography value, saved schema, pagination algorithm or export library was changed. The existing html2canvas compatibility scope remains.
+
+| Check | Before | After |
+| --- | --- | --- |
+| CV title before first entry | 1/39 | **39/39** |
+| CV name before first entry | 38/39 | **39/39** |
+| Controlled native CV raster pairs | — | **39/39 pixel-identical** |
+| Literal first CV section heading | 34/39 | **34/39 — still open** |
+
+The controlled source-`4da4820b` intervention changed only the content-row paint boundary. All 39 rendered CV arrays had maximum channel difference **0**. The production regression then tested all 39 templates through the native product action, with global HTML template identity poisoned. Both PDF.js and the unchanged scorer confirm the corrected title/name order. [Machine audit](native-chromium-print-text-order/text-order-audit.json.gz) retains the individual cases and search counterfactual.
+
+### Remaining search and paint limitations
+
+Modern, Sonne, Studio, Neon and Aurora still fail the existing default literal first-section search. Their original text and visible tracking remain intact. MuPDF inserts inferred spaces within the tracked word; disabling that inference in a **supplementary diagnosis** finds the word in all five cases. Supplementary PDFium build 6462 also fails the default literal search, and adding semantic heading/ARIA labels in the Modern counterfactual does not repair it. None of those diagnostic changes were used to rescore the benchmark or relabel the five failures as passes.
+
+No search workaround was shipped: preserving the visible tracking and the browser-owned PDF output leaves this issue unresolved. The repair addresses paint/extraction order, not a promise of universal literal search for tracked text.
+
+Five CV paint probes (Colorful, Blockig, Horizon, Warm 3, Violet Pulse) found equal representative Web/canonical computed background, opacity, filter and blend signals. Additional `contain: size paint` and printing the CV alone leave the CV raster unchanged. Replacing the existing page transform with `zoom` changes rasterization; it was not adopted as a quality fix. [Paint counterfactual data](native-chromium-print-text-order/paint-audit.json.gz) records these outcomes. These probes are limited to the sampled signals/CV pages and do not establish the precise cause of every background difference.
+
+The known Horizon/Warm 3/Violet Pulse Cover differences, Colorful header gradient and Blockig native rail patch remain open. No template paint exception or unverified geometry change was committed.
+
+### Unchanged authoritative pipeline and matched CI results
+
+[Implementation CI run 38231916466](https://github.com/modebrecht/cv-cover-charm/actions/runs/38231916466) completed **11/11 successful jobs**, including the original 39-template/234-comparison benchmark. Catalog, fixtures, current product export, native action, scorer, text checks, geometry thresholds, size and timing methods are unchanged.
+
+This CI cohort is compared with [the preceding source-`4da4820b` CI run](https://github.com/modebrecht/cv-cover-charm/actions/runs/38200208778), rather than mixed with the earlier local cohort. All **468 individual RGB/layout score values** across the 117 document pairs are exact string matches in the two original CSV outputs. [Pair verification](native-chromium-print-text-order/same-cohort-check.json) records the comparison. No visual score regression or gain is attributed to the text-order fix.
+
+| Document | Current RGB/layout | Native RGB/layout |
+| --- | --- | --- |
+| Cover | 0.988208 / 0.988878 | 0.993425 / 0.993953 |
+| Letter | 0.993525 / 0.994342 | 0.995250 / 0.995820 |
+| CV | 0.953445 / 0.954100 | 0.989463 / 0.990140 |
+| Overall | 0.978393 / 0.979107 | 0.992713 / 0.993304 |
+
+The original A4, ≤0.02 mm geometry and long-marker guards passed. Studio 3 classic/Gallery sidebar retain their 6/8 physical pages and all markers. Current export controls passed; its 117 RGB/layout results are unchanged in the matched CI comparison. Local validation additionally passed 19 browser/PDF tests, 1,105 unit tests, TypeScript and ESLint (0 errors, 21 existing warnings).
+
+Current/native means in this CI run: **1,307,823 / 303,724 bytes**, and **1931 / 640 ms**. Human print-dialog time is excluded as before.
+
+The original machine outputs are retained losslessly compressed, without rewriting source or fixture identifiers:
+
+- [117 document-pair scores](native-chromium-print-text-order/native-chromium-print-scores.csv.gz)
+- [Summary, text/search/order, pagination and timing](native-chromium-print-text-order/native-chromium-print-summary.json.gz)
+- [Source/fixture/artifact provenance](native-chromium-print-text-order/native-chromium-print-provenance.json.gz)
+- [39 template deltas](native-chromium-print-text-order/native-chromium-print-template-deltas.csv.gz)
+- [Original geometry results](native-chromium-print-text-order/native-chromium-print-geometry.csv.gz)
+
+**Recommendation remains B.** Retain automatic PDF as primary; the optional native experiment now has corrected CV text order, with the remaining search/paint constraints disclosed. No promotion, deployment, merge, protected-branch change or published-history rewrite was performed. The evidence commit changes no application source; its final CI is reported after publication.
