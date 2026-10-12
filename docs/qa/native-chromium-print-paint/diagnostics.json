@@ -1,0 +1,35 @@
+{
+  "source_sha": "c57c96c5ab35db59ddd03e6fa55f6fd74434c1e4",
+  "browser": "140.0.7339.16",
+  "classifications": {
+    "Horizon_VioletPulse_Warm3_Cover": "Chromium alpha-gradient PDF paint; Web/canonical paint state and geometry agree",
+    "Colorful_CV": "Chromium alpha-gradient PDF paint; existing header background moves to a generic artwork-only pseudo-layer",
+    "Blockig_CV": "DOM/style availability divergence: Cover conditionally injected obsolete global CV pseudo-element rules",
+    "Neon_Verlauf_Citrus": "Existing Package 3 instance-input fix remains; Web/canonical CV displacement 0 mm"
+  },
+  "primitive": "Identity-filter background layer only when locally resolved CSS contains non-opaque gradient stops. Opaque artwork receives no added filter.",
+  "minimal_reproduction": "tests/fixtures/native-alpha-gradient-paint.html",
+  "unchanged_geometry_limit_mm": 0.02,
+  "max_web_to_canonical_mm": 0,
+  "max_canonical_to_print_mm": 6.379566829295413e-05,
+  "native_wins": {
+    "rgb": {
+      "wins": 116,
+      "regressions": 1
+    },
+    "layout": {
+      "wins": 115,
+      "regressions": 2
+    }
+  },
+  "local_validation": {
+    "unit_passes": 1106,
+    "earlier_browser_pdf_passes": 20,
+    "corrected_paint_guard_passes": 1,
+    "refined_focused_passes": 6,
+    "all_cover_letter_scope_cases": 39,
+    "all_cv_dom_pseudo_parity_cases": 39
+  },
+  "saved_schema_or_pagination_changed": false,
+  "current_libraries_scope_helper_or_export_flow_changed": false
+}

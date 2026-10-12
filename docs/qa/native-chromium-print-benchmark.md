@@ -550,3 +550,142 @@ The original machine outputs are retained losslessly compressed, without rewriti
 - [Original geometry results](native-chromium-print-text-order/native-chromium-print-geometry.csv.gz)
 
 **Recommendation remains B.** Retain automatic PDF as primary; the optional native experiment now has corrected CV text order, with the remaining search/paint constraints disclosed. No promotion, deployment, merge, protected-branch change or published-history rewrite was performed. The evidence commit changes no application source; its final CI is reported after publication.
+
+
+## Follow-up — Background paint and cross-document CSS (2026-10-12)
+
+The largest remaining Cover failure is repaired through a renderer-local paint contract. Native now wins **all 39 Covers** in both RGB and layout; it also wins all 39 CVs. The small Gallery/Edel Dark Letter losses and five literal tracked-heading searches remain disclosed. Automatic PDF stays primary.
+
+Starting remote experiment HEAD: `6cd2f81a6a5a91d809d8a7e53ab342bf697c69df`. Implementation commits: `7fb866edc0c299cef5c886c3ea9241aa09753944` and `22456a1a9d7ad4239409d4ba593759ca6705f4d7`. Final capture source: `c57c96c5ab35db59ddd03e6fa55f6fd74434c1e4`, complete tree `b7bfa519512ddef115bff75b614bc51764e1323a`, **identical to the published implementation tree at `22456a1a`**. [Publication record](native-chromium-print-paint/publication.json) preserves original local commit objects and mappings; source/fixture identifiers were never retagged. Historical Package 2 and earlier Package 3 sections/files remain unchanged.
+
+### Causes and generic renderer contract
+
+**Chromium paint:** Horizon/Violet Pulse/Warm 3 Cover alpha gradients lose their intended translucent contribution in native PDF paint. Colorful's translucent header gradient gains a dark tail. The [standalone minimal fixture](../../tests/fixtures/native-alpha-gradient-paint.html) reproduces both effects without dossier code. Web and print-DOM paint agree; the produced PDF differs. The same colors/gradient stops in an artwork-only `filter: opacity(1)` layer restore the intended paint. Explicit transparent RGB, isolation, translateZ and paint containment did not fix the controlled cases. MuPDF and Poppler both reproduce the bad unfiltered minimal PDF, so this is not inferred from SSIM or one rasterizer alone. [Skia's alpha-gradient shader/soft-mask implementation](https://skia.googlesource.com/skia/+/main/src/pdf/SkPDFGradientShader.cpp) provides context; no exact internal Chromium 140 bug line is claimed instrumented.
+
+**Local state:** CoverCanvas derives `data-dossier-paint-alpha-gradient` from its own resolved background CSS, including generated artwork. It examines only the background subtree, with no template-name branch, global identity change, clone or export-specific state. Only actual non-opaque CSS gradients receive the identity-filter layer; opaque backgrounds/frames retain their existing paint. The same physical DOM/state serves Web, current PDF and native print. Existing inner blurs remain active. Colorful's existing background declaration is supplied to a generic header pseudo-layer; its text/photos stay outside that layer and remain searchable. No typography/color/spacing values changed.
+
+**Cross-document CSS availability:** CoverBackground conditionally emitted old CV `<style>` rules for Warm/Colorful/Blockig. Mounting a Cover therefore changed CV pseudo-elements despite equal ordinary DOM/computed signals. Those are obsolete adapters for the retired CoverBackground-based CV artwork. Removing them leaves the current DossierSheetBackground in control and removes Blockig's unexpected orange rail patch. This is a DOM/style divergence, not a Chromium paint limitation. The all-template CV guard now checks `::before`/`::after` paint too.
+
+The first complete controlled paint cohort used an identity filter on every Cover background. That unnecessarily rasterized opaque frames: for example Edel/Edge Cover native layout declined by 0.004305/0.002422 versus the preceding local cohort. The final contract is scoped by the actual alpha-gradient primitive, with no template exceptions. [Interim original scores](native-chromium-print-paint/interim-broad-paint-scores.csv.gz) and [summary](native-chromium-print-paint/interim-broad-paint-summary.json.gz) retain that counterfactual instead of hiding it. Its source is `45c814e7`, complete tree identical to `7fb866ed`; it is not the final benchmark.
+
+Letter localization and the existing Glow/Violet print-fitting containment fix remain intact. Neon/Verlauf/Citrus retain the previously proven instance-input correction and 0 mm Web/canonical CV displacement. Neither pagination algorithm, saved schema, current PDF library, filename/metadata/download code nor legacy html2canvas scope helper changed.
+
+### Final unchanged 39-template / 234-comparison pipeline
+
+Same authoritative catalog, fixtures, Web screenshot capture, current product action, native product action, SSIM pipeline, text/search checks, file-size and timing methods. The **≤0.02 mm** content geometry guard and existing PDF MediaBox precision are unchanged. The final local raster environment matches the historical Package 3 local cohort: Python 3.12.14, PyMuPDF 1.26.6, Pillow 12.3.0, NumPy 2.3.5, scikit-image 0.25.2; Chromium 140.0.7339.16 / Playwright 1.55.0 / Node 24.19.0. CI has its own pinned raster cohort and is not mixed into these local deltas.
+
+| Document | Current RGB/layout | Native RGB/layout |
+| --- | --- | --- |
+| Cover | 0.988208 / 0.988878 | 0.994943 / 0.995056 |
+| Letter | 0.993525 / 0.994342 | 0.995250 / 0.995820 |
+| Cv | 0.953863 / 0.954528 | 0.990112 / 0.990798 |
+| Overall | 0.978532 / 0.979249 | 0.993435 / 0.993891 |
+
+Native wins **116/117 RGB** and **115/117 layout** comparisons. Aggregate RGB/layout improves in **39/39 templates**. Cover and CV each have 39/39 wins; Letter has the remaining 1 RGB / 2 layout regressions.
+
+| Priority document | Previous native layout | Final native layout |
+| --- | --- | --- |
+| Horizon cover | 0.972157 | 0.991924 |
+| Violet Pulse cover | 0.984769 | 0.994080 |
+| Warm 3 cover | 0.988806 | 0.993181 |
+| Colorful cv | 0.976269 | 0.990532 |
+| Blockig cv | 0.982844 | 0.992259 |
+| Glow cv | 0.993914 | 0.993914 |
+| Violet Pulse cv | 0.991024 | 0.991024 |
+| Neon cv | 0.991632 | 0.991632 |
+| Citrus cv | 0.992001 | 0.992001 |
+| Verlauf cv | 0.992133 | 0.992133 |
+
+Worst five final native layout results (all still outperform current):
+
+| Template/document | Native RGB | Native layout | Native − current layout |
+| --- | --- | --- | --- |
+| Verlauf 3 / cv | 0.984206 | 0.983558 | +0.002853 |
+| Horizon / cv | 0.983318 | 0.983935 | +0.027054 |
+| Verlauf 2 / cv | 0.984606 | 0.985359 | +0.001730 |
+| Sunrise / cv | 0.984546 | 0.986314 | +0.025708 |
+| Edel Dark / cv | 0.988048 | 0.988438 | +0.003541 |
+
+Remaining native layout losses: Gallery Letter −0.000585 and Edel Dark Letter −0.000276. Remaining RGB loss: Gallery Letter −0.000381. No Cover/CV is worse than current in the final paired cohort. Residual CV background differences, especially Verlauf 3/Horizon, are not claimed eliminated.
+
+### Current control, geometry, text and cost
+
+Current product checks remain green. No content loss, physical movement, search/order regression, filename/metadata or automatic-download change was observed. Current scores are not falsely presented as byte-identical: all 117 deltas are retained in [current-control-deltas.json](native-chromium-print-paint/current-control-deltas.json). The largest current layout decline versus the earlier local cohort is Colorful CV −0.000091; Blockig CV improves +0.001052. Colorful's Web reference changes by at most 2 RGB levels (mean absolute difference 0.0312); the current raster changes by mean 0.0281 RGB levels. Manual review retains its composition/text/geometry; its pre-existing current-PDF gray tail remains. Horizon/Violet Pulse current Cover rasters are pixel-identical to the prior local cohort. No thresholds were relaxed to hide these small numeric differences.
+
+All 39 combined PDFs retain canonical A4 page count/order. Maximum Web/canonical displacement is **0 mm**, and canonical/print displacement **0.000063796 mm**. Long Studio 3 classic remains **6 pages**, Gallery sidebar **8 pages**; all 14 Letter, 18 CV and reference markers have exactly the prior canonical/current/native assignment.
+
+Literal recipient/body/name/entry searches remain **39/39** in both PDF paths. Native title/name-before-entry order remains **39/39**. Literal first-section headings remain **34/39 native versus 39/39 current** (Modern/Sonne/Studio/Neon/Aurora); no altered search flags or invisible native text layer was introduced. All normalized samples remain present. Letter body-before-closing remains native 39/39 versus the pre-existing current 0/39.
+
+| Measure | Current | Native |
+| --- | --- | --- |
+| Mean bytes | 1,308,599 | 361,773 |
+| Mean milliseconds | 1,854 | 667 |
+
+Native is **72.4% smaller on average** and headless generation **2.78× faster**. The required alpha-gradient layer increases mean native size versus the earlier ~303,537-byte local cohort to ~361,773 bytes; opaque-artwork refinement avoids the interim ~544,919-byte mean. Maximum native size remains ~1.37 MB. The same timing method excludes human print-dialog time and runs without concurrent local browser QA.
+
+Local checks: **1,106 units**, TypeScript, production build, release formatting, ESLint (0 errors / 21 existing warnings), 8 scorer audits. Earlier focused browser/PDF selection: 20 passing tests plus the corrected paint guard; final refinement selection: **6/6** including all 39 Cover/Letter scope cases, positive alpha-gradient PDF paint/search, opaque artwork and Glow/Violet physical-fitting checks. The CV DOM/clone guard passes all 39 including generated paint. [Implementation CI run 38254149099](https://github.com/modebrecht/cv-cover-charm/actions/runs/38254149099) is **11/11 successful**, including the unchanged full 234-comparison benchmark and all release groups.
+
+### All 39 per-template deltas (mean across three documents)
+
+| Template | Current RGB | Native RGB | Δ RGB | Current layout | Native layout | Δ layout |
+| --- | --- | --- | --- | --- | --- | --- |
+| Brief | 0.982041 | 0.992808 | +0.010767 | 0.982364 | 0.993217 | +0.010854 |
+| Editorial | 0.976767 | 0.994346 | +0.017579 | 0.977397 | 0.994936 | +0.017540 |
+| Modern | 0.975106 | 0.993222 | +0.018116 | 0.975098 | 0.993426 | +0.018327 |
+| Warm | 0.977931 | 0.993965 | +0.016034 | 0.979231 | 0.994534 | +0.015303 |
+| Edel | 0.970078 | 0.992887 | +0.022809 | 0.970904 | 0.993052 | +0.022148 |
+| Colorful | 0.973841 | 0.993552 | +0.019711 | 0.973730 | 0.993966 | +0.020236 |
+| Blockig | 0.983130 | 0.994062 | +0.010932 | 0.983828 | 0.995034 | +0.011206 |
+| Seriös | 0.975438 | 0.993865 | +0.018426 | 0.975649 | 0.994234 | +0.018585 |
+| Human | 0.974824 | 0.994388 | +0.019564 | 0.975177 | 0.994654 | +0.019477 |
+| Horizont | 0.974495 | 0.993624 | +0.019129 | 0.975000 | 0.994094 | +0.019094 |
+| Kolumne | 0.976018 | 0.994146 | +0.018128 | 0.976757 | 0.994682 | +0.017924 |
+| Rahmen | 0.975337 | 0.994132 | +0.018795 | 0.975876 | 0.994558 | +0.018682 |
+| Sonne | 0.976352 | 0.993400 | +0.017048 | 0.976226 | 0.993571 | +0.017345 |
+| Studio | 0.975645 | 0.994676 | +0.019031 | 0.976269 | 0.995448 | +0.019179 |
+| Neon | 0.967577 | 0.992592 | +0.025014 | 0.969921 | 0.993850 | +0.023929 |
+| Aurora | 0.974467 | 0.992976 | +0.018509 | 0.974534 | 0.993187 | +0.018653 |
+| Verlauf | 0.973166 | 0.993494 | +0.020327 | 0.974678 | 0.993939 | +0.019261 |
+| Citrus | 0.972947 | 0.993428 | +0.020481 | 0.973999 | 0.994322 | +0.020323 |
+| Edge | 0.980732 | 0.993934 | +0.013202 | 0.981483 | 0.994569 | +0.013086 |
+| Glow | 0.984488 | 0.995345 | +0.010858 | 0.984503 | 0.995551 | +0.011047 |
+| Mono Luxe | 0.981029 | 0.994863 | +0.013834 | 0.981252 | 0.995230 | +0.013978 |
+| Horizon | 0.975542 | 0.990262 | +0.014720 | 0.976912 | 0.990747 | +0.013835 |
+| Sunrise | 0.979670 | 0.991763 | +0.012093 | 0.980207 | 0.992592 | +0.012385 |
+| Forest Flow | 0.981195 | 0.994515 | +0.013320 | 0.981772 | 0.994997 | +0.013224 |
+| Violet Pulse | 0.980245 | 0.993405 | +0.013160 | 0.982436 | 0.993503 | +0.011067 |
+| Studio 2 | 0.990146 | 0.993247 | +0.003101 | 0.991069 | 0.993783 | +0.002713 |
+| Studio 3 | 0.990707 | 0.993083 | +0.002376 | 0.991580 | 0.993555 | +0.001975 |
+| Warm 2 | 0.976116 | 0.993892 | +0.017776 | 0.977576 | 0.994423 | +0.016848 |
+| Warm 3 | 0.976544 | 0.993142 | +0.016598 | 0.977384 | 0.993617 | +0.016233 |
+| Verlauf 2 | 0.983612 | 0.990862 | +0.007251 | 0.985280 | 0.991276 | +0.005996 |
+| Verlauf 3 | 0.983487 | 0.990660 | +0.007173 | 0.984779 | 0.990685 | +0.005906 |
+| Ledger | 0.976496 | 0.994063 | +0.017567 | 0.976947 | 0.994429 | +0.017482 |
+| Prism | 0.975840 | 0.994324 | +0.018484 | 0.976295 | 0.994696 | +0.018401 |
+| Gallery | 0.982827 | 0.993846 | +0.011018 | 0.983002 | 0.994043 | +0.011041 |
+| Orbit | 0.976902 | 0.994056 | +0.017154 | 0.977246 | 0.994403 | +0.017156 |
+| Ribbon | 0.978128 | 0.994649 | +0.016521 | 0.978672 | 0.995153 | +0.016482 |
+| Cove | 0.976273 | 0.992626 | +0.016353 | 0.976975 | 0.993177 | +0.016202 |
+| Diagonal | 0.991661 | 0.994800 | +0.003139 | 0.992378 | 0.995341 | +0.002963 |
+| Edel Dark | 0.985938 | 0.991062 | +0.005124 | 0.986336 | 0.991288 | +0.004953 |
+
+### Durable final evidence and decision
+
+Losslessly compressed original pipeline outputs retain source/fixture/artifact identifiers:
+
+- [117 paired rows / 234 comparisons](native-chromium-print-paint/native-chromium-print-scores.csv.gz)
+- [Summary: full text/search/order, long markers, environment, size and timing](native-chromium-print-paint/native-chromium-print-summary.json.gz)
+- [Provenance](native-chromium-print-paint/native-chromium-print-provenance.json.gz)
+- [39 template deltas](native-chromium-print-paint/native-chromium-print-template-deltas.csv.gz)
+- [Original geometry guard outputs](native-chromium-print-paint/native-chromium-print-geometry.csv.gz)
+- [Diagnosis](native-chromium-print-paint/diagnostics.json)
+
+![Alpha-gradient minimal diagnosis: Web and native](native-chromium-print-paint/alpha-gradient-mre.png)
+
+![Final Cover review](native-chromium-print-paint/review-cover.png)
+
+![Final CV review and remaining Verlauf 3 difference](native-chromium-print-paint/review-cv.png)
+
+**Decision B — keep automatic PDF primary; retain native as an optional export direction.** Native is broadly better and the largest structural/paint failures are repaired generically. The remaining small Letter differences, five literal heading searches and browser/system print-dialog choices still make automatic download the safer primary flow. No product promotion, deployment or merge was performed. Only the experiment branch changes; `dev`, `main` and `render` remain untouched. Published history was only extended by fast-forward commits.
+
+Next: either promote the proven native-print architecture, keep it optional, or close the experiment based on Package 3 evidence.
