@@ -1,6 +1,47 @@
 import { expect, test, type Page } from "@playwright/test";
 import { readFile, stat } from "node:fs/promises";
 
+async function extractPdfPages(path: string): Promise<string[]> {
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const bytes = await readFile(path);
+  await test.info().attach("downloaded-pdf", { body: bytes, contentType: "application/pdf" });
+  const loading = getDocument({
+    data: new Uint8Array(bytes),
+    disableFontFace: true,
+  });
+  const document = await loading.promise;
+  try {
+    const pages: string[] = [];
+    for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
+      const content = await (await document.getPage(pageNumber)).getTextContent();
+      pages.push(
+        content.items
+          .map((item) => ("str" in item ? item.str : ""))
+          .filter(Boolean)
+          .join(" ")
+          .replace(/\s+/g, " ")
+          .trim(),
+      );
+    }
+    await test.info().attach("pdf-logical-pages", {
+      body: JSON.stringify(pages, null, 2),
+      contentType: "application/json",
+    });
+    return pages;
+  } finally {
+    await loading.destroy();
+  }
+}
+
+function expectLetterPdfContent(text: string) {
+  const letter = letterPayload().data;
+  const sequence = [letter.betreff, letter.anrede, letter.text, letter.gruss];
+  for (const value of sequence) expect(text).toContain(value);
+  for (let index = 1; index < sequence.length; index += 1)
+    expect(text.indexOf(sequence[index])).toBeGreaterThan(text.indexOf(sequence[index - 1]));
+  expect(text.lastIndexOf(letter.unterschrift)).toBeGreaterThan(text.indexOf(letter.gruss));
+}
+
 const BASE_URL = "http://127.0.0.1:4173";
 const FAMILY_IDS = ["classic", "modern", "executive", "editorial"] as const;
 const FAMILY_TEMPLATES = {
@@ -849,9 +890,9 @@ test.describe("M5.8 dossier regression", () => {
     expect(path).not.toBeNull();
     expect((await stat(path ?? "")).size).toBeGreaterThan(5_000);
 
-    const pdfSource = (await readFile(path ?? "")).toString("latin1");
-    expect(pdfSource).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
-    expect(pdfSource).toContain("Guten Tag Herr Weber");
+    const pdfPages = await extractPdfPages(path ?? "");
+    expect(pdfPages).toHaveLength(1);
+    expectLetterPdfContent(pdfPages[0]);
   });
 
   test("Motivationsschreiben paginates long content and returns to one page after shortening", async ({
@@ -1165,6 +1206,14 @@ test.describe("M5.8 dossier regression", () => {
     await readyPdfOption.click();
     const downloadButton = dialog.getByRole("button", { name: "PDF herunterladen", exact: true });
     await expect(downloadButton).toBeEnabled({ timeout: 15_000 });
+    const expectedPdfPages =
+      1 +
+      (await page
+        .locator('[data-dossier-document="letter"] [data-letter-document-pages] [data-letter-page]')
+        .count()) +
+      (await page
+        .locator('[data-dossier-document="cv"][data-export-mode="true"] [data-cv-page]')
+        .count());
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
     await downloadButton.click();
     const download = await downloadPromise;
@@ -1173,9 +1222,10 @@ test.describe("M5.8 dossier regression", () => {
     expect(path).not.toBeNull();
     expect((await stat(path ?? "")).size).toBeGreaterThan(10_000);
 
-    const pdfSource = (await readFile(path ?? "")).toString("latin1");
-    expect(pdfSource).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
-    expect(pdfSource).toContain("Guten Tag Herr Weber");
+    const pdfPages = await extractPdfPages(path ?? "");
+    expect(pdfPages).toHaveLength(expectedPdfPages);
+    // The physical dossier order is cover, letter, then CV.
+    expectLetterPdfContent(pdfPages[1]);
   });
 
   test("editor action menus share order, wording and monochrome icon labels", async ({ page }) => {

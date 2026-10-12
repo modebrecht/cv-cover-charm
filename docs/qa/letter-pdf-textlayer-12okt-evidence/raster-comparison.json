@@ -1,0 +1,38 @@
+[
+  {
+    "name": "matrix-brief-one-letter",
+    "beforeSourceSha": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
+    "afterSourceSha": "491c8b0f7c75355f862ec934bd396041d5651a80",
+    "beforeRuntimeBlobs": {
+      "src/lib/dossier-pdf.ts": "8d236016b3577165b6a4126edfbb4cd9b189bfac"
+    },
+    "afterRuntimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "cadeb0f7c6f00b96c139b258d1138f4ba73eb04a9c7634f21cab2fefd9f997d6",
+    "sameFixture": true,
+    "beforeRasterSha256": ["72ffed5069ded50f824ea435b5d254ce597337ef66bd7ab7fc9e7acaf4785621"],
+    "afterRasterSha256": ["72ffed5069ded50f824ea435b5d254ce597337ef66bd7ab7fc9e7acaf4785621"],
+    "identicalEmbeddedRaster": true,
+    "beforeFindings": ["PDF page 1: marker order/distribution differs"],
+    "afterFindings": []
+  },
+  {
+    "name": "matrix-freundlich-one-letter",
+    "beforeSourceSha": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
+    "afterSourceSha": "491c8b0f7c75355f862ec934bd396041d5651a80",
+    "beforeRuntimeBlobs": {
+      "src/lib/dossier-pdf.ts": "8d236016b3577165b6a4126edfbb4cd9b189bfac"
+    },
+    "afterRuntimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "790f159e2591976a87163a181ad04ab1fc83f1b8c8b74c4bfed5d404cb0f3ba7",
+    "sameFixture": true,
+    "beforeRasterSha256": ["be924485e120030a947f44784019861db52fbe5fec1a107c1d1399dcf367d8b8"],
+    "afterRasterSha256": ["be924485e120030a947f44784019861db52fbe5fec1a107c1d1399dcf367d8b8"],
+    "identicalEmbeddedRaster": true,
+    "beforeFindings": ["PDF page 1: marker order/distribution differs"],
+    "afterFindings": []
+  }
+]

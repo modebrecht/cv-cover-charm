@@ -1,0 +1,37 @@
+[
+  {
+    "log": "integration-focused.log",
+    "result": "3 PASS / 1 editor readiness timeout",
+    "sha256": "7e35e59f3cb15ac3634578d3a7b4a0cba6e13a21dba85e6ad2ee977286b28384"
+  },
+  {
+    "log": "integration-studio.log",
+    "result": "1 PASS",
+    "sha256": "996dc1e02b70feade2ac83d8bb9f5a2771c7ffdf7f6063fe3b59d6012408d961"
+  },
+  {
+    "log": "integration-units.log",
+    "result": "1111 PASS / 0 FAIL",
+    "sha256": "c8c59c98a1a3c5dd0fcb67316fd827f570676433f824e9ca37c9051677f60ecd"
+  },
+  {
+    "log": "integration-typecheck.log",
+    "result": "PASS",
+    "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+  },
+  {
+    "log": "integration-lint.log",
+    "result": "PASS, existing warnings",
+    "sha256": "3dc1bcd8231f1f7323e849cf6314283561afe7c664adcf26b3d8b3510c2eeb15"
+  },
+  {
+    "log": "integration-format.log",
+    "result": "PASS",
+    "sha256": "2574595e30952c6d22e8c36e49469300e1151b49f3a70cc0dea29b85f77b1929"
+  },
+  {
+    "log": "integration-build.log",
+    "result": "PASS",
+    "sha256": "c30e5cc1fe69c07993bd03bd2d366e4aa72b334f8c884950c153ff5c6cc4e29c"
+  }
+]

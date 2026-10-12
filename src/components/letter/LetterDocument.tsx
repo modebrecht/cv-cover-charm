@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
+import { getDossierPageMargins, subscribeDossierPageMargins } from "@/lib/dossier-page-margins";
 import { LetterCanvas } from "./LetterCanvas";
 import { withLetterPaginationPageContext } from "./letter-page-context";
 import {
@@ -17,6 +18,7 @@ const PLACEHOLDER =
   "Hier entsteht dein persönliches Motivationsschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.";
 const PROBE_BODY_HTML = '<div data-align="justify">Messzeile für den Seitenumbruch</div>';
 const EMPTY_BODY_HTML = '<div data-align="justify"><br></div>';
+const letterMarginsSnapshot = () => JSON.stringify(getDossierPageMargins("letter"));
 
 type LetterPhysicalOverflowIssue = {
   code: "physical-overflow";
@@ -219,6 +221,11 @@ export function LetterDocument({
   scaledPreview = false,
   ariaLabel = "Vorschau Motivationsschreiben",
 }: Props) {
+  const marginsSnapshot = useSyncExternalStore(
+    subscribeDossierPageMargins,
+    letterMarginsSnapshot,
+    () => "null",
+  );
   const bodyHtml = useMemo(() => resolvedBodyHtml(data, exportMode), [data, exportMode]);
   const allImages = useMemo(() => data.images ?? [], [data.images]);
   const freeImages = useMemo(
@@ -303,7 +310,17 @@ export function LetterDocument({
     return () => {
       cancelled = true;
     };
-  }, [bodyHtml, chromeContact, chromeOptions, data, design, fallback, flowImages, freeImages]);
+  }, [
+    bodyHtml,
+    chromeContact,
+    chromeOptions,
+    data,
+    design,
+    fallback,
+    flowImages,
+    freeImages,
+    marginsSnapshot,
+  ]);
 
   // Pagination owns the page assignment, while interactive image geometry must
   // follow pointer updates immediately. Keep each image on its last valid page
@@ -391,7 +408,13 @@ export function LetterDocument({
         pagination.issue?.code === "physical-overflow" ? "true" : undefined
       }
     >
-      <div data-letter-document-pages className={scaledPreview ? "grid w-full gap-6" : undefined}>
+      {/* Storage-backed margins can differ from SSR. Remount both real pages and
+          probes together so retained hydration styles cannot change capacity. */}
+      <div
+        key={marginsSnapshot}
+        data-letter-document-pages
+        className={scaledPreview ? "grid w-full gap-6" : undefined}
+      >
         {renderedPages.map((fragment) => {
           const page = (
             <LetterPageShell
@@ -418,7 +441,12 @@ export function LetterDocument({
         })}
       </div>
 
-      <div ref={measurementRef} data-letter-pagination-measurements aria-hidden="true">
+      <div
+        key={`measurements:${marginsSnapshot}`}
+        ref={measurementRef}
+        data-letter-pagination-measurements
+        aria-hidden="true"
+      >
         <MeasurementProbe
           name="source"
           pageIndex={1}

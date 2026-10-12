@@ -1,0 +1,24 @@
+{
+  "documents": 2,
+  "fieldChecks": 38,
+  "pass": 1,
+  "fail": 1,
+  "rows": [
+    {
+      "name": "matrix-brief-one-letter",
+      "sourceSha": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
+      "fields": 19,
+      "findings": []
+    },
+    {
+      "name": "matrix-freundlich-one-letter",
+      "sourceSha": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
+      "fields": 19,
+      "findings": [
+        "pdf: missing logical field Dorfstrasse 12",
+        "pdf: missing logical field 079 123 45 67",
+        "pdf: missing logical field lea.mueller@example.ch"
+      ]
+    }
+  ]
+}

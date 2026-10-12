@@ -1,0 +1,98 @@
+{
+  "sourceParent": "63772eec67ac890378561b97bd2fa58c8579e8f3",
+  "branch": "qa/pdf-text-extraction-12okt",
+  "productionBlobs": {
+    "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d",
+    "src/components/cv/CvCanvasBase.tsx": "aaaf2ac992d964f7232cbc73dcbed714acdb9baf",
+    "src/components/cv/flow-pagination.ts": "687974cb6192fc9b269e24142568e06c39eb9ff4",
+    "src/components/letter/LetterDocument.tsx": "1cc902fbeed45105e34b3881eb70a257e2ae19cf",
+    "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+    "src/components/letter/letter-pagination.css": "a328282aac0b77e1b8360dcd89a5934cd6839c92"
+  },
+  "sourceDirty": true,
+  "runtimeDiff": [
+    "tests/e2e/dossier-regression.spec.ts",
+    "tests/qa/playwright.pdf-extraction.config.ts"
+  ],
+  "ciBaseline": {
+    "run": 38261801908,
+    "job": 114854281167,
+    "pass": 68,
+    "fail": 2,
+    "reason": "Two assertions search contiguous phrases in serialized PDF bytes rather than extracted PDF text."
+  },
+  "localCases": [
+    {
+      "name": "standalone Motivationsschreiben PDF downloads as a one-page text PDF",
+      "status": "passed",
+      "durationMs": 8359,
+      "attachments": [
+        {
+          "name": "downloaded-pdf",
+          "contentType": "application/pdf",
+          "sha256": "048ef390c26cd044f8bb5ca4d349911446b4019530da1a00f678fa0bb4e1320a",
+          "bytes": 345334
+        },
+        {
+          "name": "pdf-logical-pages",
+          "contentType": "application/json",
+          "sha256": "6cb3ed23f9063bf23c86bb864eb379246062a599d8f93cd910e408a1c42d39b2",
+          "bytes": 468,
+          "logicalPages": [
+            "Lea Müller Dorfstrasse 12 4535 Hubersdorf +41 79 123 45 67 lea.mueller@example.ch Beispiel AG Herr Thomas Weber Industriestrasse 8 4500 Solothurn Hubersdorf , 25.08.2026 Bewerbung um eine Lehrstelle als Informatiker/in EFZ Guten Tag Herr Weber Der Beruf Informatiker/in EFZ interessiert mich sehr. Ich arbeite gerne sorgfältig, lerne Neues und möchte Ihr Team in einer Schnupperlehre kennenlernen. Freundliche Grüsse Lea Müller Beilagen Lebenslauf Zeugnis"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "start screen keeps JSON available and unlocks finished dossier formats when complete",
+      "status": "passed",
+      "durationMs": 3738,
+      "attachments": [
+        {
+          "name": "downloaded-pdf",
+          "contentType": "application/pdf",
+          "sha256": "6682241c52e202b70d9402bdc0e53d1700f6f8277237c0f6679b0bab55e328f5",
+          "bytes": 1239421
+        },
+        {
+          "name": "pdf-logical-pages",
+          "contentType": "application/json",
+          "sha256": "03fde63c673db42eb639943dd22e25250af5a16ea65e6b67f2fdd9cbdf6decb6",
+          "bytes": 1562,
+          "logicalPages": [
+            "",
+            "Lea Müller Dorfstrasse 12 4535 Hubersdorf +41 79 123 45 67 lea.mueller@example.ch Beispiel AG Herr Thomas Weber Industriestrasse 8 4500 Solothurn Hubersdorf , 25.08.2026 Bewerbung um eine Lehrstelle als Informatiker/in EFZ Guten Tag Herr Weber Der Beruf Informatiker/in EFZ interessiert mich sehr. Ich arbeite gerne sorgfältig, lerne Neues und möchte Ihr Team in einer Schnupperlehre kennenlernen. Freundliche Grüsse Lea Müller Beilagen Lebenslauf Zeugnis",
+            "LEBENSLAUF Lea Müller Schülerin, 3. Sekundarklasse Bahnhofstrasse 42 8000 Zürich +41 79 123 45 67 lea.mueller@example.ch Geburtsdatum: 14.03.2010 Nationalität: Schweiz SCHULBILDUNG 2026 – 2027 Ausbildung und Praxiserfahrung 1 Beispielbetrieb 1, Zürich Mitarbeit an realistischen Aufgaben, selbstständige Dokumentation und Zusammenarbeit im Team. 2025 – 2026 Ausbildung und Praxiserfahrung 2 Beispielbetrieb 2, Zürich Mitarbeit an realistischen Aufgaben, selbstständige Dokumentation und Zusammenarbeit im Team. PRAKTIKA & SCHNUPPERTAGE 2024 – 2025 Ausbildung und Praxiserfahrung 3 Beispielbetrieb 3, Zürich Mitarbeit an realistischen Aufgaben, selbstständige Dokumentation und Zusammenarbeit im Team. 2023 – 2024 Ausbildung und Praxiserfahrung 4 Beispielbetrieb 4, Zürich Mitarbeit an realistischen Aufgaben, selbstständige Dokumentation und Zusammenarbeit im Team. SPRACHEN Deutsch Muttersprache Englisch B1 HOBBYS & INTERESSEN • Volleyball • Programmieren STÄRKEN • Zuverlässig • Teamfähig REFERENZEN Herr Thomas Weber Klassenlehrer +41 44 123 45 67"
+          ]
+        }
+      ]
+    }
+  ],
+  "localResults": {
+    "appTypecheck": "PASS",
+    "qaTypecheck": "PASS",
+    "unitPass": 1111,
+    "unitFail": 0,
+    "lint": "PASS (21 existing warnings)",
+    "releaseFormat": "PASS",
+    "changedFileFormat": "PASS",
+    "productionBuild": "PASS"
+  },
+  "optionalWholeE2eFileTypecheck": {
+    "result": "FAIL already on untouched baseline",
+    "diagnostic": "TS2353: pastell is not a property of the inferred modern-only colors object; baseline line 606, unchanged."
+  },
+  "setupAttempt": {
+    "result": "Browser tests not executed: missing Playwright binary after workspace maintenance. Pinned Chromium 1187 installed, then both focused cases passed."
+  },
+  "logSha256": {
+    "pdf-extraction-setup-failure.log": "d39c35c60720fc2457583aa54de50591be931684557c90e99cc57a9484f694b2",
+    "typecheck.log": "fad238134b5fd3b1fce4c0321d9a5bf51b5513c0c469dbb1b0065d80a28ba337",
+    "lint.log": "3dc1bcd8231f1f7323e849cf6314283561afe7c664adcf26b3d8b3510c2eeb15",
+    "pdf-extraction-focused.log": "24b2e488ae56ea3f111f26a2be167b305d8b038ff1d5c183a8be715b5c2eafbd",
+    "units.log": "77a211fe1529239abef1c60b71a7d0ff4dda42ffd4632baf686916ae76b4ce3d",
+    "release-format.log": "2574595e30952c6d22e8c36e49469300e1151b49f3a70cc0dea29b85f77b1929",
+    "build.log": "be66309753c6cf0ea363f1d957d3b791294b10fd44815a86d948faf99a0840b0"
+  }
+}
