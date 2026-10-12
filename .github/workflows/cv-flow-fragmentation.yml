@@ -1,0 +1,70 @@
+name: CV flow fragmentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/cv-flow-fragmentation-12okt]
+    paths:
+      - "src/components/cv/CvCanvasBase.tsx"
+      - "src/components/cv/flow-pagination.ts"
+      - "tests/qa/**"
+      - "tests/unit/cv-flow-pagination.test.ts"
+      - "tests/unit/pagination-qa-assertions.test.ts"
+      - "tests/e2e/support/cv-parity-fixture.ts"
+      - ".github/workflows/cv-flow-fragmentation.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cv-flow-fragmentation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regressions:
+    if: github.ref == 'refs/heads/fix/cv-flow-fragmentation-12okt'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install locked dependencies and pinned browser runner
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+      - name: Typecheck, unit regressions, lint, formatting and production build
+        run: |
+          bun run typecheck
+          npx tsc --noEmit -p tests/qa/tsconfig.json
+          bun test tests/unit
+          bun run lint
+          bun run format:check:release
+          npx prettier --check src/components/cv/CvCanvasBase.tsx src/components/cv/flow-pagination.ts tests/qa/*.ts tests/qa/tsconfig.json tests/unit/cv-flow-pagination.test.ts tests/unit/pagination-qa-assertions.test.ts tests/e2e/support/cv-parity-fixture.ts scripts/pagination_qa_summary.mjs scripts/pagination_qa_fields.mjs .github/workflows/cv-flow-fragmentation.yml
+          bun run build
+      - name: Install Chromium
+        run: bash scripts/qa-browser-setup.sh
+      - name: Existing affected product regressions
+        run: npx playwright test --config tests/qa/playwright.product.config.ts
+      - name: CV matrix and boundary regressions (39 production templates)
+        env:
+          PAGINATION_QA_DIR: artifacts/cv-flow-fragmentation
+        run: npx playwright test --config tests/qa/playwright.cv-fragmentation.config.ts
+      - name: Full logical field presence and evidence summary
+        env:
+          PAGINATION_QA_DIR: artifacts/cv-flow-fragmentation
+        run: |
+          bun scripts/pagination_qa_fields.mjs
+          node scripts/pagination_qa_summary.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cv-flow-fragmentation-${{ github.sha }}
+          path: |
+            artifacts/cv-flow-fragmentation
+            test-results/cv-flow-fragmentation
+            test-results/pagination-product
+          retention-days: 14

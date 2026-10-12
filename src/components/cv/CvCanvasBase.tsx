@@ -4,6 +4,7 @@ import {
   referenceContactFields,
 } from "@/lib/dossier-semantic-fields";
 import { Fragment, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { cvFlowMeasurer, paginateCvFlow, type CvFlowRow } from "./flow-pagination";
 import { PAGE } from "@/default-config";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
 import { DossierSheetBackground } from "@/components/dossier/DossierSheetBackground";
@@ -117,13 +118,7 @@ const SECTION_RESIZE_DIRECTION_LABEL: Record<SectionResizeDirection, string> = {
 
 const SHEET_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-type Row = {
-  id: string;
-  node: React.ReactNode;
-  heading?: boolean;
-  /** Früheste Seite für bewusst zugewiesene Rubriken, null = normale Paginierung. */
-  minPage?: 0 | 1;
-};
+type Row = CvFlowRow;
 
 export type CvLayoutWarning = {
   id: string;
@@ -700,8 +695,26 @@ export function CvCanvas({
     ort: string,
     text: string,
     fieldBase: string,
+    continuation = false,
   ): Row => ({
     id,
+    textFlow: text
+      ? {
+          text,
+          offset: 0,
+          continuation,
+          render: (fragment, isContinuation) =>
+            entryRow(
+              id,
+              isContinuation ? "" : zeit,
+              isContinuation ? "" : titel,
+              isContinuation ? "" : ort,
+              fragment,
+              fieldBase,
+              isContinuation,
+            ).node,
+        }
+      : undefined,
     node: (
       <div
         data-cv-entry
@@ -710,6 +723,7 @@ export function CvCanvas({
         <div
           data-dossier-field-id={`${fieldBase}.date`}
           data-cv-date
+          data-cv-flow-lead="cell"
           data-cv-rail
           data-cv-muted
           style={{
@@ -728,6 +742,7 @@ export function CvCanvas({
             <div
               data-dossier-field-id={`${fieldBase}.title`}
               data-cv-entry-title
+              data-cv-flow-lead="remove"
               style={{
                 fontSize: pt(layout === "modern" ? 11.4 : 11.5),
                 fontWeight: 700,
@@ -742,6 +757,7 @@ export function CvCanvas({
           {ort && (
             <div
               data-dossier-field-id={`${fieldBase}.place`}
+              data-cv-flow-lead="remove"
               data-cv-muted
               style={{ fontSize: pt(9.7), color: pal.muted, marginTop: "0.35mm", lineHeight: 1.3 }}
             >
@@ -752,6 +768,7 @@ export function CvCanvas({
             <div
               data-dossier-field-id={`${fieldBase}.description`}
               data-cv-body
+              data-cv-flow-text
               style={{ fontSize: pt(9.9), color: pal.ink, marginTop: "0.75mm", lineHeight: 1.35 }}
             >
               {text}
@@ -1168,7 +1185,11 @@ export function CvCanvas({
       style={{ minWidth: 0, overflowWrap: "anywhere" }}
     >
       {unit.rows.map((row) => (
-        <div key={row.id} style={{ display: "flow-root" }}>
+        <div
+          key={row.id}
+          data-cv-flow-row={row.measureKey ?? `${unit.key}:${row.id}`}
+          style={{ display: "flow-root" }}
+        >
           {row.node}
         </div>
       ))}
@@ -1184,32 +1205,46 @@ export function CvCanvas({
     const packed: Row[] = [];
     let waiting: SectionUnit | null = null;
     let masonry: SectionUnit[] = [];
+    const columnRows = (items: SectionUnit[]) =>
+      items.flatMap((item) =>
+        item.rows.map((row) => ({
+          ...row,
+          measureKey: `${item.key}:${row.id}`,
+          sectionKey: item.key,
+        })),
+      );
+    const columnSection = (unit: SectionUnit, rows: Row[]) => {
+      const selected = rows.filter((row) => row.sectionKey === unit.key);
+      return selected.length ? sectionNode({ ...unit, rows: selected }) : null;
+    };
 
     const addRow = (items: SectionUnit[]) => {
       const id = `layout-${items.map((item) => item.key).join("-")}`;
+      const render = (columns: Row[][]) => (
+        <div
+          data-cv-section-row
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            columnGap: "6mm",
+            alignItems: "start",
+          }}
+        >
+          {items.map((item, index) => (
+            <div
+              key={item.key}
+              style={{ gridColumn: item.width === "full" ? "1 / -1" : "span 1", minWidth: 0 }}
+            >
+              {columnSection(item, columns[index] ?? [])}
+            </div>
+          ))}
+        </div>
+      );
       packed.push({
         id,
         minPage: items[0].minPage,
-        node: (
-          <div
-            data-cv-section-row
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              columnGap: "6mm",
-              alignItems: "start",
-            }}
-          >
-            {items.map((item) => (
-              <div
-                key={item.key}
-                style={{ gridColumn: item.width === "full" ? "1 / -1" : "span 1", minWidth: 0 }}
-              >
-                {sectionNode(item)}
-              </div>
-            ))}
-          </div>
-        ),
+        node: render(items.map((item) => columnRows([item]))),
+        columns: { rows: items.map((item) => columnRows([item])), render },
       });
     };
 
@@ -1233,34 +1268,36 @@ export function CvCanvas({
         columns[target].push(item);
         columnWeights[target] += Math.max(1, item.rows.length);
       }
+      const render = (parts: Row[][]) => (
+        <div
+          data-cv-section-masonry
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            columnGap: "6mm",
+            alignItems: "start",
+          }}
+        >
+          {columns.map((column, index) => (
+            <div
+              key={index}
+              data-cv-masonry-column={index + 1}
+              style={{ display: "flex", flexDirection: "column", minWidth: 0 }}
+            >
+              {column.map((item) => (
+                <div key={item.key} style={{ minWidth: 0 }}>
+                  {columnSection(item, parts[index] ?? [])}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      );
       packed.push({
         id: `masonry-${masonry.map((item) => item.key).join("-")}`,
         minPage: masonry[0].minPage,
-        node: (
-          <div
-            data-cv-section-masonry
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              columnGap: "6mm",
-              alignItems: "start",
-            }}
-          >
-            {columns.map((column, index) => (
-              <div
-                key={index}
-                data-cv-masonry-column={index + 1}
-                style={{ display: "flex", flexDirection: "column", minWidth: 0 }}
-              >
-                {column.map((item) => (
-                  <div key={item.key} style={{ minWidth: 0 }}>
-                    {sectionNode(item)}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        ),
+        node: render(columns.map(columnRows)),
+        columns: { rows: columns.map(columnRows), render },
       });
       masonry = [];
     };
@@ -1597,41 +1634,12 @@ export function CvCanvas({
       const deltaMm = b.top - first.top + (b.bottom - first.bottom);
       return Math.max(0, measured - deltaMm * PX_PER_MM - paginationSafetyPx);
     };
-    const kids = Array.from(box.children) as HTMLElement[];
-    const heights = kids.map((k) => k.getBoundingClientRect().height / scale);
-    const out: Row[][] = [];
-    let current: Row[] = [];
-    let used = 0;
-    let pageIndex = 0;
-    const finishPage = () => {
-      out[pageIndex] = current;
-      pageIndex += 1;
-      current = [];
-      used = 0;
-    };
-    rows.forEach((row, i) => {
-      while (pageIndex < (row.minPage ?? 0)) finishPage();
-      const h = heights[i] ?? 0;
-      if (used + h > heightFor(pageIndex) && current.length) {
-        const last = current[current.length - 1];
-        if (last?.heading) {
-          current.pop();
-          finishPage();
-          current = [last];
-          used = heights[i - 1] ?? 0;
-        } else finishPage();
-      }
-      current.push(row);
-      used += h;
-    });
-    out[pageIndex] = current;
     const requiredPages =
       orderedSectionKeys.some((key) => cvSectionLayout(data, key).page === 2) ||
       (design.useElements && elements.some((element) => element.page === 2))
         ? 2
         : 1;
-    while (out.length < requiredPages) out.push([]);
-    setPages(out.length ? out : [[]]);
+    setPages(paginateCvFlow(rows, heightFor, cvFlowMeasurer(box, rows, scale), requiredPages));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     shape,
