@@ -1,15 +1,19 @@
 import { expect, test } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { BASE_URL } from "../e2e/support/dossier-gallery-shared";
-import { paginationFixture } from "./pagination-fixtures";
-import { collectDocument, documentRoots, loadFixture } from "./pagination-browser";
+import { paginationFixture, type FixtureOptions } from "./pagination-fixtures";
+import {
+  collectDocument,
+  documentRoots,
+  loadFixture,
+  runtimeProvenance,
+} from "./pagination-browser";
 import { contentFindings, distributionFindings, normalizeContent } from "./pagination-assertions";
 
-const directory = "artifacts/pagination-2page-combined";
-for (const template of [
+const directory = process.env.PAGINATION_COMBINED_QA_DIR ?? "artifacts/pagination-2page-combined";
+const cases: [string, string, FixtureOptions][] = [
   "studio3",
   "studio2",
   "ledger",
@@ -17,13 +21,61 @@ for (const template of [
   "gallery",
   "brief",
   "terracotta",
-]) {
-  test(`combined long dossier preserves Web pages and logical PDF content: ${template}`, async ({
+].map((template) => [template, template, { works: 8, schools: 4, paragraphs: 10 }]);
+cases.push(
+  [
+    "joint-brief-large-entry-long-word-margins",
+    "brief",
+    { works: 12, schools: 6, paragraphs: 14, largeEntry: true, longWord: true, custom: true },
+  ],
+  [
+    "joint-ledger-columns-long-word-margins",
+    "ledger",
+    {
+      works: 12,
+      schools: 6,
+      paragraphs: 14,
+      columns: true,
+      largeEntry: true,
+      longWord: true,
+      custom: true,
+    },
+  ],
+  [
+    "joint-ledger-masonry-long-word-margins",
+    "ledger",
+    {
+      works: 12,
+      schools: 6,
+      paragraphs: 14,
+      masonry: true,
+      largeEntry: true,
+      longWord: true,
+      custom: true,
+    },
+  ],
+  [
+    "joint-studio3-right-sidebar-long-word-margins",
+    "studio3",
+    {
+      works: 12,
+      schools: 6,
+      paragraphs: 14,
+      layout: "modern",
+      mirrored: true,
+      largeEntry: true,
+      longWord: true,
+      custom: true,
+    },
+  ],
+);
+for (const [name, template, options] of cases) {
+  test(`combined long dossier preserves Web pages and logical PDF content: ${name}`, async ({
     page,
   }) => {
     test.setTimeout(180_000);
     await mkdir(directory, { recursive: true });
-    const fixture = paginationFixture(template, { works: 8, schools: 4, paragraphs: 10 });
+    const fixture = paginationFixture(template, options);
     await loadFixture(page, fixture, "cv");
     const webCv = await collectDocument(page, documentRoots("cv").web, "cv");
     await loadFixture(page, fixture, "letter");
@@ -49,6 +101,10 @@ for (const template of [
       ...distributionFindings(webCv, cv, "combined CV"),
       ...distributionFindings(webLetter, letter, "combined letter"),
     ];
+    if (name.startsWith("joint-")) {
+      if (webCv.length <= 2) findings.push("joint fixture requires a genuinely long CV");
+      if (webLetter.length <= 2) findings.push("joint fixture requires a genuinely long letter");
+    }
     for (const [kind, pages, expected] of [
       ["cv", cv, webCv],
       ["letter", letter, webLetter],
@@ -77,7 +133,7 @@ for (const template of [
     }
     const promise = page.waitForEvent("download", { timeout: 120_000 });
     await button.click();
-    const pdfPath = join(directory, `${template}.pdf`);
+    const pdfPath = join(directory, `${name}.pdf`);
     await (await promise).saveAs(pdfPath);
     const bytes = await readFile(pdfPath);
     const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
@@ -113,13 +169,16 @@ for (const template of [
         ...distributionFindings(web, pages, `PDF ${kind}`),
       );
     await writeFile(
-      join(directory, `${template}.json`),
+      join(directory, `${name}.json`),
       JSON.stringify(
         {
+          name,
           template,
+          options,
           status: findings.length ? "FAIL" : "PASS",
-          sourceSha: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
+          ...runtimeProvenance(),
           fixtureSha256: createHash("sha256").update(JSON.stringify(fixture.storage)).digest("hex"),
+          storage: fixture.storage,
           webCv,
           webLetter,
           cv,

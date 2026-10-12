@@ -9,6 +9,31 @@ import { contentFindings, distributionFindings, normalizeContent } from "./pagin
 
 export type DocumentKind = "cv" | "letter";
 export const evidenceDir = process.env.PAGINATION_QA_DIR ?? "artifacts/pagination-2page";
+export function runtimeProvenance() {
+  return {
+    sourceSha: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
+    sourceDirty: !!execFileSync("git", ["status", "--porcelain", "--untracked-files=no"], {
+      encoding: "utf8",
+    }).trim(),
+    runtimeDiff: execFileSync("git", ["diff", "--name-only", "HEAD"], { encoding: "utf8" })
+      .trim()
+      .split("\n")
+      .filter(Boolean),
+    runtimeBlobs: Object.fromEntries(
+      [
+        "src/lib/dossier-pdf.ts",
+        "src/components/letter/LetterDocument.tsx",
+        "src/components/letter/letter-pagination.ts",
+        "src/components/letter/letter-pagination.css",
+        "src/components/cv/CvCanvasBase.tsx",
+        "src/components/cv/flow-pagination.ts",
+      ].map((path) => [
+        path,
+        execFileSync("git", ["hash-object", "--", path], { encoding: "utf8" }).trim(),
+      ]),
+    ),
+  };
+}
 export function documentRoots(kind: DocumentKind) {
   return kind === "cv"
     ? {
@@ -323,25 +348,7 @@ export async function auditDocument(
     name,
     kind,
     status: findings.length ? "FAIL" : "PASS",
-    sourceSha: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
-    sourceDirty: !!execFileSync("git", ["status", "--porcelain", "--untracked-files=no"], {
-      encoding: "utf8",
-    }).trim(),
-    runtimeDiff: execFileSync("git", ["diff", "--name-only", "HEAD"], { encoding: "utf8" })
-      .trim()
-      .split("\n")
-      .filter(Boolean),
-    runtimeBlobs: Object.fromEntries(
-      [
-        "src/lib/dossier-pdf.ts",
-        "src/components/letter/LetterDocument.tsx",
-        "src/components/letter/letter-pagination.ts",
-        "src/components/letter/letter-pagination.css",
-      ].map((path) => [
-        path,
-        execFileSync("git", ["hash-object", "--", path], { encoding: "utf8" }).trim(),
-      ]),
-    ),
+    ...runtimeProvenance(),
     fixtureSha256: createHash("sha256").update(JSON.stringify(fixture.storage)).digest("hex"),
     storage: fixture.storage,
     web,

@@ -4,7 +4,7 @@ const directory = process.env.PAGINATION_QA_DIR ?? "artifacts/pagination-2page";
 const rows = [];
 for (const file of (await readdir(directory)).sort()) {
   if (
-    !/^(matrix|boundary|variant|live|chrome|textlayer|flow)-.*\.json$/.test(file) ||
+    !/^(matrix|boundary|variant|live|chrome|textlayer|flow|fragmentation)-.*\.json$/.test(file) ||
     /-(search|calibration)\.json$/.test(file)
   )
     continue;
