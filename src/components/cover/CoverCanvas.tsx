@@ -4,6 +4,7 @@ import { CoverBackground } from "./CoverBackground";
 import { BlockLayer, type Point } from "./BlockLayer";
 import { hasUserStyle } from "./user-style-precedence";
 import { PAGE } from "@/default-config";
+import { resolveBackgroundPaint } from "@/lib/dossier-background-paint";
 import {
   dossierDefaultFontKey,
   dossierThemeCssVariables,
@@ -139,6 +140,10 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
 ) {
   const { editable = true, drawing = false, fontScale = 1 } = rest;
   const canvasRef = useRef<HTMLDivElement | null>(null);
+  useLayoutEffect(() => {
+    const background = canvasRef.current?.firstElementChild;
+    if (background instanceof HTMLElement) resolveBackgroundPaint(background);
+  }, [colors, template]);
   const renderBlocks = useMemo(
     () => normalizedFooterBlocks(blocks, data.labelKontakt),
     [blocks, data.labelKontakt],

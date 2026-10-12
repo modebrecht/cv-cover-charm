@@ -1,10 +1,11 @@
-/* A document's first Cover child is its artwork, never content. Keep the
- * complete background in one identity-filter paint layer: Chromium's vector
+/* A document's first Cover child is its artwork, never content. Resolved
+ * alpha-gradient artwork needs one identity-filter paint layer: Chromium's vector
  * PDF alpha-gradient path otherwise loses translucency or adds a dark tail.
  * The filter changes neither colors nor geometry. Inner blur/filter primitives
  * stay active, and searchable text remains outside this artwork-only layer.
- * Use the same contract for Web, html2canvas and native print. */
-[data-dossier-document="cover"] > div:first-child {
+ * Opaque artwork retains vector paint. The local renderer resolves this flag
+ * from CSS primitives, equally for Web, html2canvas and native print. */
+[data-dossier-document="cover"] > div[data-dossier-paint-alpha-gradient="true"] {
   filter: opacity(1);
 }
 

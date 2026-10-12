@@ -52,6 +52,10 @@ async function snapshot(page: Page, selector: string, kind: string) {
               );
         return {
           identity: sheet.getAttribute("data-dossier-template"),
+          backgroundPaint:
+            kind === "cover"
+              ? sheet.firstElementChild?.getAttribute("data-dossier-paint-alpha-gradient")
+              : null,
           variables: Object.fromEntries(
             Array.from(
               new Set([

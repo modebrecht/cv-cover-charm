@@ -133,3 +133,21 @@ test("native artwork preserves alpha gradients while content remains searchable"
     await page.evaluate(() => window.dispatchEvent(new Event("afterprint")));
   }
 });
+
+test("opaque Cover artwork retains vector paint", async ({ page }) => {
+  const stored = await seedCanonicalDossier(page);
+  for (const id of ["brief", "edel", "edge", "ribbon", "edelDark"]) {
+    const item = GALLERY_CASES.find((candidate) => candidate.id === id)!;
+    await applyGalleryCase(page, stored, item);
+    await page.goto(BASE_URL + "/titelblatt", { waitUntil: "networkidle" });
+    await waitEditorReady(page);
+    const background = page.locator('main [data-dossier-document="cover"] > div:first-child');
+    expect(
+      await background.getAttribute("data-dossier-paint-alpha-gradient"),
+      item.label,
+    ).toBeNull();
+    expect(await background.evaluate((node) => getComputedStyle(node).filter), item.label).toBe(
+      "none",
+    );
+  }
+});
