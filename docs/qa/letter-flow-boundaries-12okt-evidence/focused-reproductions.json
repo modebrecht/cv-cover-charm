@@ -1,0 +1,3831 @@
+[
+  {
+    "run": "baseline",
+    "name": "flow-custom-typography",
+    "status": "FAIL",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "7f59042f140439d35449bfa0d8ce6f74142dbf86a254522bb7434f37bdc950b2",
+    "findings": ["production PDF blocked by preflight"],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    }
+  },
+  {
+    "run": "baseline",
+    "name": "variant-gallery-custom-margins-letter",
+    "status": "FAIL",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "ce76de4ab2515d230f132afa869a4f961cb2f3f7c2ce0a147508b452926d7def",
+    "findings": ["production PDF blocked by preflight"],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    }
+  },
+  {
+    "run": "baseline",
+    "name": "variant-gallery-long-word-letter",
+    "status": "FAIL",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "d8e1d00cf8b34173952f27eb391bc982abd7a74adf5013dd5b57fb82941d7034",
+    "findings": [
+      "Web page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "canonical page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "production PDF blocked by preflight"
+    ],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": ["outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.228
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 21.24
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": ["outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.228
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 21.24
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    }
+  },
+  {
+    "run": "baseline",
+    "name": "variant-studio3-custom-margins-letter",
+    "status": "FAIL",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "487b2c8f266871af0034b0ad68ef7e5339bb31b07db961de1db54e7e531516b2",
+    "findings": ["production PDF blocked by preflight"],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 6.756
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": -7.054
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 36.435
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    }
+  },
+  {
+    "run": "baseline",
+    "name": "variant-studio3-long-word-letter",
+    "status": "FAIL",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": ["src/routeTree.gen.ts"],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "03d502da73d0062142f39777709424aed78a56dfcadff3535cce2beb8c961026",
+    "findings": [
+      "Web page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "canonical page 1: outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A",
+      "production PDF blocked by preflight"
+    ],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": ["outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.021
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 118.747
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": ["outside A4: QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die A"],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.021
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 118.747
+      }
+    ],
+    "pdf": {
+      "blocked": true,
+      "pages": [],
+      "bytes": 0,
+      "sha256": "",
+      "reason": [
+        "Inhalt kann nicht sicher umbrochen werdenMindestens eine A4-Seite enth\u00e4lt sichtbaren Inhalt ausserhalb des verf\u00fcgbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abst\u00e4nde an."
+      ]
+    }
+  },
+  {
+    "run": "focused-fix",
+    "name": "flow-custom-typography",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "7f59042f140439d35449bfa0d8ce6f74142dbf86a254522bb7434f37bdc950b2",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA009",
+            "QAPARAEND009",
+            "QAPARA010",
+            "QAPARAEND010",
+            "QAPARA011",
+            "QAPARAEND011",
+            "QAPARA012",
+            "QAPARAEND012",
+            "QAPARA013",
+            "QAPARAEND013"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA014",
+            "QAPARAEND014",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2670127,
+      "sha256": "04d1831e434035248769f5bc357cd7d11b35b52cd7b2842adf7ed4667ab8e80c",
+      "reason": []
+    }
+  },
+  {
+    "run": "focused-fix",
+    "name": "variant-brief-custom-margins-letter",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "7f59042f140439d35449bfa0d8ce6f74142dbf86a254522bb7434f37bdc950b2",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA009",
+            "QAPARAEND009",
+            "QAPARA010",
+            "QAPARAEND010",
+            "QAPARA011",
+            "QAPARAEND011",
+            "QAPARA012",
+            "QAPARAEND012",
+            "QAPARA013",
+            "QAPARAEND013"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA014",
+            "QAPARAEND014",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2670127,
+      "sha256": "fbf1a42e5dd964c2c73c9ab03680e916ee065abbbc06ba5965f3b416f30d58a1",
+      "reason": []
+    }
+  },
+  {
+    "run": "focused-fix",
+    "name": "variant-brief-long-word-letter",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "6cd6db70865ee76e5f8f74849dd658964a4f49495774ea1f6403cab1d3048225",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 15.021
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 5.649
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 187.575
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 15.021
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 5.649
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 187.575
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QALONGWORD001",
+            "QAPARA003",
+            "QAPARAEND003",
+            "QAPARA004",
+            "QAPARAEND004"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008",
+            "QAPARA009",
+            "QAPARAEND009",
+            "QAPARA010",
+            "QAPARAEND010",
+            "QAPARA011",
+            "QAPARAEND011",
+            "QAPARA012",
+            "QAPARAEND012",
+            "QAPARA013",
+            "QAPARAEND013"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA014",
+            "QAPARAEND014",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2459325,
+      "sha256": "6570a2df0fd845656635a71afde041bfbd6ffcec107f1f3d775e59b3e25fdffa",
+      "reason": []
+    }
+  },
+  {
+    "run": "focused-fix",
+    "name": "variant-gallery-custom-margins-letter",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "ce76de4ab2515d230f132afa869a4f961cb2f3f7c2ce0a147508b452926d7def",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA009",
+            "QAPARAEND009",
+            "QAPARA010",
+            "QAPARAEND010",
+            "QAPARA011",
+            "QAPARAEND011",
+            "QAPARA012",
+            "QAPARAEND012",
+            "QAPARA013",
+            "QAPARAEND013"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA014",
+            "QAPARAEND014",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2683202,
+      "sha256": "5f5c1460d88ac06269a44215de0436243dc52c86d064546690379d441f20c4b6",
+      "reason": []
+    }
+  },
+  {
+    "run": "focused-fix",
+    "name": "variant-gallery-long-word-letter",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "d8e1d00cf8b34173952f27eb391bc982abd7a74adf5013dd5b57fb82941d7034",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 11.385
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 21.24
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 11.385
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [35.986, 33.984, 151.024, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 21.24
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QALONGWORD001",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008",
+            "QAPARA009",
+            "QAPARAEND009"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA010",
+            "QAPARAEND010",
+            "QAPARA011",
+            "QAPARAEND011",
+            "QAPARA012",
+            "QAPARAEND012",
+            "QAPARA013",
+            "QAPARAEND013",
+            "QAPARA014",
+            "QAPARAEND014",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2832117,
+      "sha256": "05ce2195338ca8c6ea6291b2d37f6978e355ca8e1749d037118b2dfc18bee891",
+      "reason": []
+    }
+  },
+  {
+    "run": "focused-fix",
+    "name": "variant-studio3-custom-margins-letter",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "487b2c8f266871af0034b0ad68ef7e5339bb31b07db961de1db54e7e531516b2",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 39.98, 161.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA009",
+            "QAPARAEND009",
+            "QAPARA010",
+            "QAPARAEND010",
+            "QAPARA011",
+            "QAPARAEND011",
+            "QAPARA012",
+            "QAPARAEND012",
+            "QAPARA013",
+            "QAPARAEND013"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA014",
+            "QAPARAEND014",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2690608,
+      "sha256": "7286465f020d78b232f40c6896dd08467e2acbfa756eccbbcac8364f38dd08ee",
+      "reason": []
+    }
+  },
+  {
+    "run": "focused-fix",
+    "name": "variant-studio3-long-word-letter",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d"
+    },
+    "fixtureSha256": "03d502da73d0062142f39777709424aed78a56dfcadff3535cce2beb8c961026",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.021
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 84.333
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QALONGWORD001",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 15.021
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013",
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 84.333
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QALONGWORD001",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008",
+            "QAPARA009",
+            "QAPARAEND009",
+            "QAPARA010",
+            "QAPARAEND010"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA011",
+            "QAPARAEND011",
+            "QAPARA012",
+            "QAPARAEND012",
+            "QAPARA013",
+            "QAPARAEND013",
+            "QAPARA014",
+            "QAPARAEND014",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2793384,
+      "sha256": "c9df4f99af0cc2e09f1a71b6d18e87d2713ea7b5ac1dc7f00cdd2fe8a3fbf2f3",
+      "reason": []
+    }
+  },
+  {
+    "run": "deep-fix",
+    "name": "flow-brief-unbroken-token",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "scripts/pagination_qa_fields.mjs",
+      "scripts/pagination_qa_summary.mjs",
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts",
+      "tests/qa/pagination-browser.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d",
+      "src/components/letter/LetterDocument.tsx": "1cc902fbeed45105e34b3881eb70a257e2ae19cf",
+      "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+      "src/components/letter/letter-pagination.css": "a328282aac0b77e1b8360dcd89a5934cd6839c92"
+    },
+    "fixtureSha256": "4dfbfa41087a7812bc017b2bba8fd7f3d84715fece19b5a2ffba4a4d83d9310e",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QATOKEN001",
+          "QATOKEN002",
+          "QATOKEN003",
+          "QATOKEN004",
+          "QATOKEN005",
+          "QATOKEN006",
+          "QATOKEN007",
+          "QATOKEN008",
+          "QATOKEN009",
+          "QATOKEN010",
+          "QATOKEN011",
+          "QATOKEN012",
+          "QATOKEN013",
+          "QATOKEN014",
+          "QATOKEN015"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QATOKEN016",
+          "QATOKEN017",
+          "QATOKEN018",
+          "QATOKEN019",
+          "QATOKEN020",
+          "QATOKEN021",
+          "QATOKEN022",
+          "QATOKEN023",
+          "QATOKEN024",
+          "QATOKEN025",
+          "QATOKEN026",
+          "QATOKEN027",
+          "QATOKEN028",
+          "QATOKEN029",
+          "QATOKEN030",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 38.447
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QATOKEN001",
+          "QATOKEN002",
+          "QATOKEN003",
+          "QATOKEN004",
+          "QATOKEN005",
+          "QATOKEN006",
+          "QATOKEN007",
+          "QATOKEN008",
+          "QATOKEN009",
+          "QATOKEN010",
+          "QATOKEN011",
+          "QATOKEN012",
+          "QATOKEN013",
+          "QATOKEN014",
+          "QATOKEN015"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QATOKEN016",
+          "QATOKEN017",
+          "QATOKEN018",
+          "QATOKEN019",
+          "QATOKEN020",
+          "QATOKEN021",
+          "QATOKEN022",
+          "QATOKEN023",
+          "QATOKEN024",
+          "QATOKEN025",
+          "QATOKEN026",
+          "QATOKEN027",
+          "QATOKEN028",
+          "QATOKEN029",
+          "QATOKEN030",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 33.984, 163.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 38.447
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QATOKEN001",
+            "QATOKEN002",
+            "QATOKEN003",
+            "QATOKEN004",
+            "QATOKEN005",
+            "QATOKEN006",
+            "QATOKEN007",
+            "QATOKEN008",
+            "QATOKEN009",
+            "QATOKEN010",
+            "QATOKEN011",
+            "QATOKEN012",
+            "QATOKEN013",
+            "QATOKEN014",
+            "QATOKEN015"
+          ]
+        },
+        {
+          "markers": [
+            "QATOKEN016",
+            "QATOKEN017",
+            "QATOKEN018",
+            "QATOKEN019",
+            "QATOKEN020",
+            "QATOKEN021",
+            "QATOKEN022",
+            "QATOKEN023",
+            "QATOKEN024",
+            "QATOKEN025",
+            "QATOKEN026",
+            "QATOKEN027",
+            "QATOKEN028",
+            "QATOKEN029",
+            "QATOKEN030",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2664643,
+      "sha256": "4ef26205e2fe2ddda40f1d3e3747ecc2bd80e47478369ee8ad1a19022cb78246",
+      "reason": []
+    }
+  },
+  {
+    "run": "deep-fix",
+    "name": "flow-custom-typography",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "scripts/pagination_qa_fields.mjs",
+      "scripts/pagination_qa_summary.mjs",
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts",
+      "tests/qa/pagination-browser.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d",
+      "src/components/letter/LetterDocument.tsx": "1cc902fbeed45105e34b3881eb70a257e2ae19cf",
+      "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+      "src/components/letter/letter-pagination.css": "a328282aac0b77e1b8360dcd89a5934cd6839c92"
+    },
+    "fixtureSha256": "7f59042f140439d35449bfa0d8ce6f74142dbf86a254522bb7434f37bdc950b2",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QAPARA011",
+          "QAPARAEND011",
+          "QAPARA012",
+          "QAPARAEND012",
+          "QAPARA013",
+          "QAPARAEND013"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA014",
+          "QAPARAEND014",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 154.48
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA009",
+            "QAPARAEND009",
+            "QAPARA010",
+            "QAPARAEND010",
+            "QAPARA011",
+            "QAPARAEND011",
+            "QAPARA012",
+            "QAPARAEND012",
+            "QAPARA013",
+            "QAPARAEND013"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA014",
+            "QAPARAEND014",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2670127,
+      "sha256": "55badd54c70a47f0ff1accc66bd3632ecbf158ffdd3052d1b9aa9ddb8d18f168",
+      "reason": []
+    }
+  },
+  {
+    "run": "deep-fix",
+    "name": "flow-live-margins-0",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "scripts/pagination_qa_fields.mjs",
+      "scripts/pagination_qa_summary.mjs",
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts",
+      "tests/qa/pagination-browser.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d",
+      "src/components/letter/LetterDocument.tsx": "1cc902fbeed45105e34b3881eb70a257e2ae19cf",
+      "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+      "src/components/letter/letter-pagination.css": "a328282aac0b77e1b8360dcd89a5934cd6839c92"
+    },
+    "fixtureSha256": "c67465ef240749eba44ff559693eb1784a53b015936d206e5312afece5bfee28",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 115.131
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 115.131
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA009",
+            "QAPARAEND009",
+            "QAPARA010",
+            "QAPARAEND010",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 1993129,
+      "sha256": "9d4f5793b72e7726b93750b7f64d4cefd2116f3acb679e70599afcbd29a38073",
+      "reason": []
+    }
+  },
+  {
+    "run": "deep-fix",
+    "name": "flow-live-margins-1",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "scripts/pagination_qa_fields.mjs",
+      "scripts/pagination_qa_summary.mjs",
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts",
+      "tests/qa/pagination-browser.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d",
+      "src/components/letter/LetterDocument.tsx": "1cc902fbeed45105e34b3881eb70a257e2ae19cf",
+      "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+      "src/components/letter/letter-pagination.css": "a328282aac0b77e1b8360dcd89a5934cd6839c92"
+    },
+    "fixtureSha256": "b43e45a534c0f85b548d291fd831e764d19a156b0eb170a37d4daba34834e2d1",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": ["QASALUTATION001", "QAPARA001", "QAPARAEND001", "QAPARA002", "QAPARAEND002"],
+        "issues": [],
+        "main": [44.983, 60.973, 120.034, 208.043],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 22.36
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006"
+        ],
+        "issues": [],
+        "main": [44.983, 60.973, 120.034, 208.043],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 24.418
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [44.983, 60.973, 120.034, 208.043],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 70.324
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [44.983, 60.973, 120.034, 208.043],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 126.929
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": ["QASALUTATION001", "QAPARA001", "QAPARAEND001", "QAPARA002", "QAPARAEND002"],
+        "issues": [],
+        "main": [44.983, 60.973, 120.034, 208.043],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 22.36
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA003",
+          "QAPARAEND003",
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006"
+        ],
+        "issues": [],
+        "main": [44.983, 60.973, 120.034, 208.043],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 24.418
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008",
+          "QAPARA009",
+          "QAPARAEND009"
+        ],
+        "issues": [],
+        "main": [44.983, 60.973, 120.034, 208.043],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 70.324
+      },
+      {
+        "index": 3,
+        "markers": [
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [44.983, 60.973, 120.034, 208.043],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 126.929
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": ["QASALUTATION001", "QAPARA001", "QAPARAEND001", "QAPARA002", "QAPARAEND002"]
+        },
+        {
+          "markers": [
+            "QAPARA003",
+            "QAPARAEND003",
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008",
+            "QAPARA009",
+            "QAPARAEND009"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA010",
+            "QAPARAEND010",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 2081670,
+      "sha256": "0ba0c45e17cec3fb46af5456fc3f09c8c6de244ec0a0d53c3c069f962685a645",
+      "reason": []
+    }
+  },
+  {
+    "run": "deep-fix",
+    "name": "flow-live-margins-2",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      "scripts/pagination_qa_fields.mjs",
+      "scripts/pagination_qa_summary.mjs",
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts",
+      "tests/qa/pagination-browser.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d",
+      "src/components/letter/LetterDocument.tsx": "1cc902fbeed45105e34b3881eb70a257e2ae19cf",
+      "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+      "src/components/letter/letter-pagination.css": "a328282aac0b77e1b8360dcd89a5934cd6839c92"
+    },
+    "fixtureSha256": "c67465ef240749eba44ff559693eb1784a53b015936d206e5312afece5bfee28",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 115.131
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QAPARA001",
+          "QAPARAEND001",
+          "QAPARA002",
+          "QAPARAEND002",
+          "QAPARA003",
+          "QAPARAEND003"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 17.12
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QAPARA004",
+          "QAPARAEND004",
+          "QAPARA005",
+          "QAPARAEND005",
+          "QAPARA006",
+          "QAPARAEND006",
+          "QAPARA007",
+          "QAPARAEND007",
+          "QAPARA008",
+          "QAPARAEND008"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 32.294
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QAPARA009",
+          "QAPARAEND009",
+          "QAPARA010",
+          "QAPARAEND010",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [23.989, 39.98, 162.021, 229.035],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "quiet",
+        "bottomFreeMm": 115.131
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QAPARA003",
+            "QAPARAEND003"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA004",
+            "QAPARAEND004",
+            "QAPARA005",
+            "QAPARAEND005",
+            "QAPARA006",
+            "QAPARAEND006",
+            "QAPARA007",
+            "QAPARAEND007",
+            "QAPARA008",
+            "QAPARAEND008"
+          ]
+        },
+        {
+          "markers": [
+            "QAPARA009",
+            "QAPARAEND009",
+            "QAPARA010",
+            "QAPARAEND010",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 1993129,
+      "sha256": "1b5bb4a509e07ef988357ab523c0521fb07d2b32d4797c2de59e8596d0eec8bd",
+      "reason": []
+    }
+  },
+  {
+    "run": "rich-fix",
+    "name": "flow-studio3-unbroken-token",
+    "status": "PASS",
+    "sourceSha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0",
+    "sourceDirty": true,
+    "runtimeDiff": [
+      ".github/workflows/letter-flow-boundaries.yml",
+      "scripts/pagination_qa_fields.mjs",
+      "scripts/pagination_qa_summary.mjs",
+      "src/components/letter/LetterDocument.tsx",
+      "src/components/letter/letter-pagination.css",
+      "src/components/letter/letter-pagination.ts",
+      "src/routeTree.gen.ts",
+      "tests/qa/letter-flow-boundaries.qa.ts",
+      "tests/qa/pagination-browser.ts",
+      "tests/qa/playwright.letter-flow.config.ts"
+    ],
+    "runtimeBlobs": {
+      "src/lib/dossier-pdf.ts": "32a3bfdfc6430bfb67d39c200de87da4f3fd271d",
+      "src/components/letter/LetterDocument.tsx": "1cc902fbeed45105e34b3881eb70a257e2ae19cf",
+      "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+      "src/components/letter/letter-pagination.css": "a328282aac0b77e1b8360dcd89a5934cd6839c92"
+    },
+    "fixtureSha256": "ed726d3e845064b1ff193f9d0e9669d45abc0f4d2cf318325f81362227dca350",
+    "findings": [],
+    "web": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QATOKEN001",
+          "QATOKEN002",
+          "QATOKEN003",
+          "QATOKEN004",
+          "QATOKEN005",
+          "QATOKEN006",
+          "QATOKEN007",
+          "QATOKEN008",
+          "QATOKEN009",
+          "QATOKEN010",
+          "QATOKEN011"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QATOKEN012",
+          "QATOKEN013",
+          "QATOKEN014",
+          "QATOKEN015",
+          "QATOKEN016",
+          "QATOKEN017",
+          "QATOKEN018",
+          "QATOKEN019",
+          "QATOKEN020",
+          "QATOKEN021",
+          "QATOKEN022",
+          "QATOKEN023",
+          "QATOKEN024",
+          "QATOKEN025",
+          "QATOKEN026",
+          "QATOKEN027",
+          "QATOKEN028"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 5.649
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QATOKEN029",
+          "QATOKEN030",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 170.368
+      }
+    ],
+    "canonical": [
+      {
+        "index": 0,
+        "markers": [
+          "QASALUTATION001",
+          "QATOKEN001",
+          "QATOKEN002",
+          "QATOKEN003",
+          "QATOKEN004",
+          "QATOKEN005",
+          "QATOKEN006",
+          "QATOKEN007",
+          "QATOKEN008",
+          "QATOKEN009",
+          "QATOKEN010",
+          "QATOKEN011"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 3.55
+      },
+      {
+        "index": 1,
+        "markers": [
+          "QATOKEN012",
+          "QATOKEN013",
+          "QATOKEN014",
+          "QATOKEN015",
+          "QATOKEN016",
+          "QATOKEN017",
+          "QATOKEN018",
+          "QATOKEN019",
+          "QATOKEN020",
+          "QATOKEN021",
+          "QATOKEN022",
+          "QATOKEN023",
+          "QATOKEN024",
+          "QATOKEN025",
+          "QATOKEN026",
+          "QATOKEN027",
+          "QATOKEN028"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "false",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 5.649
+      },
+      {
+        "index": 2,
+        "markers": [
+          "QATOKEN029",
+          "QATOKEN030",
+          "QACLOSING001",
+          "QASIGNATURE001",
+          "QAATTACHMENT001",
+          "QAATTACHMENT002"
+        ],
+        "issues": [],
+        "main": [24.99, 33.984, 161.021, 258.02],
+        "sidebar": null,
+        "final": "true",
+        "headerMode": "compact",
+        "footerMode": "compact",
+        "archetype": "sidebar",
+        "bottomFreeMm": 170.368
+      }
+    ],
+    "pdf": {
+      "blocked": false,
+      "pages": [
+        {
+          "markers": [
+            "QASALUTATION001",
+            "QATOKEN001",
+            "QATOKEN002",
+            "QATOKEN003",
+            "QATOKEN004",
+            "QATOKEN005",
+            "QATOKEN006",
+            "QATOKEN007",
+            "QATOKEN008",
+            "QATOKEN009",
+            "QATOKEN010",
+            "QATOKEN011"
+          ]
+        },
+        {
+          "markers": [
+            "QATOKEN012",
+            "QATOKEN013",
+            "QATOKEN014",
+            "QATOKEN015",
+            "QATOKEN016",
+            "QATOKEN017",
+            "QATOKEN018",
+            "QATOKEN019",
+            "QATOKEN020",
+            "QATOKEN021",
+            "QATOKEN022",
+            "QATOKEN023",
+            "QATOKEN024",
+            "QATOKEN025",
+            "QATOKEN026",
+            "QATOKEN027",
+            "QATOKEN028"
+          ]
+        },
+        {
+          "markers": [
+            "QATOKEN029",
+            "QATOKEN030",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        }
+      ],
+      "bytes": 3563208,
+      "sha256": "0aac0940353c3ac9e0b7030c9091a5e814c6165e88c01204e123616101b4f188",
+      "reason": []
+    }
+  }
+]
