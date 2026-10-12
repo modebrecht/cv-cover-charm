@@ -9,7 +9,7 @@
   },
   "baseDevSha": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
   "baselineQaSha": "000867568476fcb41716ade1d2fc1fa22f8701d4",
-  "developmentMatrixNote": "Local matrix ran on dev with a working diff; do not equate its sourceSha with an unmodified baseline. Four critical comparisons were repeated on the published code SHA, with runtime blob hashes. Full exact-commit CI is pending.",
+  "developmentMatrixNote": "Local matrix ran on dev with a working diff; do not equate its sourceSha with an unmodified baseline. Four critical comparisons were repeated on the published code SHA, with runtime blob hashes. Full exact-commit CI completed successfully.",
   "uniqueNewCvBrowserTests": 104,
   "uniqueExistingBrowserTests": 21,
   "unitTestsPassed": 1111,
@@ -4736,5 +4736,13 @@
       "pageDistributionEqual": true,
       "findings": []
     }
-  ]
+  ],
+  "ci": {
+    "runId": 38197692673,
+    "sourceSha": "c9874ab5e56840a90af06d04e8518f11a240cb7b",
+    "status": "completed",
+    "conclusion": "success",
+    "artifactId": 11724507101,
+    "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38197692673"
+  }
 }

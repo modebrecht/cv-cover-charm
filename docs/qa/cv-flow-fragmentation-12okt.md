@@ -126,7 +126,7 @@ Belege: [Vergleich und Prüfmanifest](cv-flow-fragmentation-12okt-evidence/resul
 
 Dedizierter [CI-Lauf 38197692673](https://github.com/modebrecht/cv-cover-charm/actions/runs/38197692673) prüft den Codecommit `c9874ab5e56840a90af06d04e8518f11a240cb7b`. Er ist auf den separaten Fix-Branch beschränkt und verändert keine bestehenden Release-Jobs. Quellen-SHA und Renderer-Blobs werden in jedem neuen Audit gespeichert. JSON, PDFs und Fehlerbilder werden als `cv-flow-fragmentation-<SHA>` hochgeladen und 14 Tage aufbewahrt.
 
-Stand 2026-10-12, ca. 03:00 UTC: schnelle Prüfungen (Unit, beide Typechecks, Lint, Formatierung, Build) und die 21 bestehenden Produkt-E2E **PASS**. Die vollständige 104er-CV-Matrix ist **in progress**; Feldprüfung und Artefakt-Upload sind noch **pending**. Der Gesamt-CI-Erfolg ist deshalb **UNVERIFIED**.
+Aktualisiert 2026-10-12: **CI vollständig PASS** auf dem exakten Codecommit. 104 neue CV-E2E, 21 bestehende Produkt-E2E, 1’111 Unit-Tests, beide Typechecks, Lint, Formatierung, Build und die vollständige Feldprüfung bestehen. Artefakt `11724507101` wurde erfolgreich hochgeladen (145 auditierte Zustände, 125 Produktions-PDFs; Quelle `c9874ab5e56840a90af06d04e8518f11a240cb7b`).
 
 Der bisher offene ursprüngliche QA-Lauf [38194464078](https://github.com/modebrecht/cv-cover-charm/actions/runs/38194464078) ist inzwischen mit **FAIL** abgeschlossen: schnelle Prüfungen und bestehende Produkt-E2E bestanden, die strenge Defekt-QA scheiterte erwartungsgemäss an den Ausgangsbefunden. Dieser Agent hat ihn nicht neu gestartet oder abgeschwächt.
 
@@ -146,8 +146,8 @@ Der CI-Workflow dokumentiert die vollständige Installation und die schnellen Pr
 - **PASS:** Die beiden bekannten CV-Inhaltsverluste und die genannten Kombinationen sind reproduzierbar behoben. Alle 39 Vorlagen bestehen die geprüften ein-/zweiseitigen CV-Baselines.
 - **FAIL, weiterhin offen:** Briefbefunde F03–F06 aus der Ausgangs-QA, insbesondere falsche PDF-Textlayer-Reihenfolge und fehlende Senderfelder bei Warm. Die betreffenden Produktionsdateien wurden nicht geändert. Keine neue vollständige Briefabnahme wird daraus abgeleitet.
 - **UNVERIFIED:** Pixelweise Rasterabnahme sämtlicher PDFs, neue Browserfamilien, beliebig überhohe Nicht-Text-Blöcke und die Native-Chromium-Implementierung. Die PDF-Rasterprüfung ist eine gezielte Stichprobe der ursprünglichen Fehlerflächen; die Matrix prüft DOM-Glyphengrenzen und PDF-Text-/Seitenkonsistenz.
-- **UNVERIFIED bis CI-Abschluss:** Der vollständige 104er-Commitlauf auf dem CI-Runner. Lokale Matrixresultate und die erneute Prüfung der vier kritischen Fälle am veröffentlichten Commit sind bereits PASS.
+- **PASS:** Der vollständige 104er-Commitlauf auf dem CI-Runner und die erneute Prüfung der vier kritischen Fälle am veröffentlichten Commit.
 
-Empfehlung: CV-Korrektur nach abgeschlossenem CI reviewen. Anschliessend die Brief-PDF-Textlayer-Felder in logischer DOM-Reihenfolge ausgeben und die sichtbaren Senderfelder vollständig übernehmen; das ist ein separater Fix zu F03/F04. Keine pauschale Seitenbegrenzung, Inhaltskürzung oder automatische Schriftverkleinerung.
+Empfehlung: Die nun vollständig CI-grüne CV-Korrektur reviewen. Anschliessend die Brief-PDF-Textlayer-Felder in logischer DOM-Reihenfolge ausgeben und die sichtbaren Senderfelder vollständig übernehmen; das ist ein separater Fix zu F03/F04. Keine pauschale Seitenbegrenzung, Inhaltskürzung oder automatische Schriftverkleinerung.
 
 Abschliessend beobachtete Ausgangsrefs: `dev` = `e3a7bc18868e94813377db4261f7e3c180e0e6fa`; `main` = `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`; `render` = `4319c20fb85d3971ac355ae8898cdfef86ee7a8c`; Native-Experiment = `a8cd824dfe1e43fbe5fa94a0afe0d5c9e66ed864`; ursprünglicher QA-Branch = `a969351481a66c6e0eb79c7f744940bcbc851b8d`. Dieser Agent hat ausschliesslich seinen neuen Fix-Ref aktualisiert. Die Dokumentation folgt dem Codecommit in einem eigenen Commit.
