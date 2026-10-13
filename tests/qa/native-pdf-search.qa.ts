@@ -301,6 +301,16 @@ test("39-template actual-byte literal search audit preserves automatic compatibi
     await page.emulateMedia({ media: "print" });
     const printGeometry = await snapshot(page),
       native = await page.pdf(options);
+    expect(printGeometry.map((p) => p.textContent)).toEqual(canonical.map((p) => p.textContent));
+    for (const [i, sheet] of canonical.entries()) {
+      expect(printGeometry[i].nodes).toHaveLength(sheet.nodes.length);
+      for (const [j, node] of sheet.nodes.entries())
+        for (const [axis, value] of node.box.entries())
+          expect(
+            Math.abs(value - printGeometry[i].nodes[j].box[axis]),
+            item.label,
+          ).toBeLessThanOrEqual(0.02);
+    }
     await page.emulateMedia({ media: "screen" });
     await page.evaluate(() => window.dispatchEvent(new Event("afterprint")));
     await expect(page.locator("body")).not.toHaveAttribute("data-dossier-native-print", "true");

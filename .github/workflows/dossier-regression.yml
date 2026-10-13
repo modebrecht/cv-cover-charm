@@ -15,6 +15,9 @@ on:
       - main
     paths-ignore:
       - "History/**"
+      # This package's final evidence-only commits do not change executable QA.
+      - "docs/qa/native-pdf-search-13okt.md"
+      - "docs/qa/native-pdf-search-13okt/**"
 
 permissions:
   contents: read
@@ -275,6 +278,7 @@ jobs:
           python scripts/native_pdf_search_readers.py artifacts/native-pdf-search-13okt/probe
           python scripts/native_pdf_search_readers.py artifacts/native-pdf-search-13okt/focused
           python scripts/native_pdf_search_readers.py artifacts/native-pdf-search-13okt/catalog
+          python scripts/native_pdf_search_summary.py artifacts/native-pdf-search-13okt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
