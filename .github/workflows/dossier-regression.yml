@@ -9,6 +9,7 @@ on:
       - dev
       - dev-native-chromium-print
       - fix/pdf-text-search-12okt
+      - fix/docx-next-sidebar-gate-13okt
       - docx-next/integrate-39-templates
       - render
       - main

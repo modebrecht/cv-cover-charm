@@ -3,7 +3,7 @@ name: DOCX Next Stable Sidebar
 on:
   workflow_dispatch:
   push:
-    branches: [dev, docx-next/integrate-39-templates]
+    branches: [dev, docx-next/integrate-39-templates, fix/docx-next-sidebar-gate-13okt]
     paths:
       - package.json
       - bun.lock
@@ -355,7 +355,7 @@ jobs:
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 
   app-body-content:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/fix/docx-next-sidebar-gate-13okt'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
@@ -417,7 +417,7 @@ jobs:
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 
   supported-sidebar:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/fix/docx-next-sidebar-gate-13okt'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
@@ -474,7 +474,7 @@ jobs:
             ${{ env.QA_ROOT }}/fixtures/
 
   picture-identity:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/fix/docx-next-sidebar-gate-13okt'
     runs-on: ubuntu-24.04
     timeout-minutes: 18
     env:
