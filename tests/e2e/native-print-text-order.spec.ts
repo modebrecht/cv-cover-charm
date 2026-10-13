@@ -30,7 +30,7 @@ test("all 39 native CVs retain semantic title and name order with isolated conte
   const literalHeadingSearch: { template: string; literalFamilie: boolean }[] = [];
   for (const item of GALLERY_CASES) {
     await applyGalleryCase(page, stored, item);
-    await page.goto(BASE_URL, { waitUntil: "networkidle" });
+    await page.goto(`${BASE_URL}/?native-print-qa=1`, { waitUntil: "networkidle" });
     await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
     const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
     await expect(
