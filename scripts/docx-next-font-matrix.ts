@@ -127,6 +127,10 @@ try {
         fontPolicy: model.fonts,
         definitions: fonts.map(fontDefinition),
         paragraphs,
+        parts: [model.cover, model.letter, model.cv].map((part) => ({
+          id: part.id,
+          margins: part.page.margins,
+        })),
         sections: [model.cover, model.letter, model.cv].reduce(
           (n, part) => n + planPartSections(part).length,
           0,

@@ -77,11 +77,21 @@ def inspect_package(file, fixture):
 def pdf_evidence(file, fixture):
     doc = fitz.open(file)
     text = ''.join(page.get_text() for page in doc)
-    # Every source word must remain present, with at least its original multiplicity.
-    # Unique per-entry markers prevent repeated chrome replacing missing body entries.
-    expected = words(' '.join(r['text'] for p in fixture['paragraphs'] for r in p['runs']))
-    missing = expected - words(text)
-    assert not missing, f'Missing visible source words: {dict(missing)}'
+    # Inspect each complete body paragraph in its logical part, excluding running
+    # chrome. Whitespace normalization handles tracking/line breaks without
+    # reducing coverage to word sets or counting unused first/follow stories twice.
+    part_text = {part['id']: '' for part in fixture['parts']}
+    for page in doc:
+        rendered = compact(page.get_text())
+        part_id = 'cover' if page.number == 0 else 'letter' if 'letterkopfprobe' in rendered else 'cv'
+        part = next(part for part in fixture['parts'] if part['id'] == part_id)
+        box = fitz.Rect(0, max(0, part['margins']['top'] - 3) * 72 / 25.4,
+                        page.rect.width, page.rect.height - max(0, part['margins']['bottom'] - 3) * 72 / 25.4)
+        part_text[part_id] += page.get_text(clip=box)
+    for p in fixture['paragraphs']:
+        value = compact(''.join(r['text'] for r in p['runs']))
+        chrome = '.header' in p['id'] or '.footer' in p['id']
+        assert value in compact(text if chrome else part_text[p['part']]), 'Missing complete source paragraph: ' + p['id']
     spans = [(page.number, span) for page in doc for block in page.get_text('dict')['blocks']
              if block['type'] == 0 for line in block['lines'] for span in line['spans']]
     probes = []
