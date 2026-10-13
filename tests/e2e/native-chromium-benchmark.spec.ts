@@ -78,7 +78,7 @@ async function settle(page: Page, selector: string) {
 }
 
 async function openDossier(page: Page) {
-  await page.goto(BASE_URL, { waitUntil: "networkidle" });
+  await page.goto(`${BASE_URL}/?native-print-qa=1`, { waitUntil: "networkidle" });
   await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
   const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
   await expect(dialog.getByRole("button", { name: "PDF herunterladen", exact: true })).toBeEnabled({

@@ -132,7 +132,7 @@ for (const id of ["glow", "violetPulse"]) {
     test.setTimeout(120000);
     const stored = await seedCanonicalDossier(page);
     await applyGalleryCase(page, stored, GALLERY_CASES.find((item) => item.id === id)!);
-    await page.goto(BASE_URL, { waitUntil: "networkidle" });
+    await page.goto(`${BASE_URL}/?native-print-qa=1`, { waitUntil: "networkidle" });
     await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
     const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
     await expect(

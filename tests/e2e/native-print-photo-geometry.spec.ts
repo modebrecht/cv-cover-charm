@@ -109,7 +109,7 @@ test("all 39 native CVs retain live photo and sidebar geometry", async ({ browse
     );
     expect(live.filter((n) => n.role === "photo").length, item.label).toBeGreaterThan(0);
     expect(live.filter((n) => n.role === "sidebar").length, item.label).toBeGreaterThan(0);
-    await page.goto(BASE_URL, { waitUntil: "networkidle" });
+    await page.goto(`${BASE_URL}/?native-print-qa=1`, { waitUntil: "networkidle" });
     await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
     const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
     await expect(

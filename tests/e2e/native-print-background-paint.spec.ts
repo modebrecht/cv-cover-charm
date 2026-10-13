@@ -60,7 +60,7 @@ test("native artwork preserves alpha gradients while content remains searchable"
       web = createCanvas(image.width, image.height);
     web.getContext("2d").drawImage(image, 0, 0);
     const expected = sample(web, points);
-    await page.goto(BASE_URL, { waitUntil: "networkidle" });
+    await page.goto(`${BASE_URL}/?native-print-qa=1`, { waitUntil: "networkidle" });
     await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
     const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
     await expect(
