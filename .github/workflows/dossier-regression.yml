@@ -8,6 +8,7 @@ on:
       - letter-m1-m2
       - dev
       - dev-native-chromium-print
+      - fix/pdf-text-search-12okt
       - docx-next/integrate-39-templates
       - render
       - main
@@ -113,6 +114,7 @@ jobs:
               tests/e2e/dossier-native-print.spec.ts
               tests/e2e/native-print-physical-fitting.spec.ts
               tests/e2e/native-print-text-order.spec.ts
+              tests/e2e/pdf-word-boundaries.spec.ts
               tests/e2e/native-print-background-paint.spec.ts
               tests/e2e/element-ratio-lock.spec.ts
               tests/e2e/cv-edge-smoke.spec.ts

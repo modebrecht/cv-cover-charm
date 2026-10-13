@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 import type { jsPDF as JsPdf } from "jspdf";
+import { fittedPdfHorizontalScale as fittedHorizontalScale } from "./pdf-text-width";
 
 const MASK_STYLE_ID = "cv-pdf-raster-text-mask";
 const PLUGIN_FLAG = "__cvPdfTextPluginInstalled";
@@ -197,17 +198,6 @@ export function resolveCvPdfSelectionGeometry(
     fontSizePt,
     baselineMm: topMm + fontSizePt * MM_PER_PT * safeAscentRatio,
   };
-}
-
-function fittedHorizontalScale(pdf: JsPdf, text: string, targetWidthMm: number): number {
-  const renderedWidthMm = pdf.getTextWidth(text);
-  if (!Number.isFinite(renderedWidthMm) || renderedWidthMm <= 0 || targetWidthMm <= 0) return 1;
-
-  // This text is invisible, so exact browser selection geometry matters more
-  // than keeping the native font near its natural width. The old 0.5–1.5 clamp
-  // left visibly misplaced selection boxes when browser/PDF metrics diverged.
-  const scale = targetWidthMm / renderedWidthMm;
-  return Math.max(0.1, Math.min(10, scale));
 }
 
 function unionRects(rects: DOMRect[]): DOMRect {
