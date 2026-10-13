@@ -54,5 +54,12 @@ class FontCompletenessTests(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, 'Missing complete source paragraph: cv.body'):
                 qa.pdf_evidence(self.make_pdf(directory, missing=True, masked=True), self.fixture())
 
+    def test_one_occurrence_cannot_replace_two_identical_body_paragraphs(self):
+        fixture = self.fixture()
+        fixture['paragraphs'].append(paragraph('cv', 'cv.body.second', 'Vollständiger Inhalt Zürich'))
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(AssertionError, 'Missing repeated source paragraph: cv'):
+                qa.pdf_evidence(self.make_pdf(directory), fixture)
+
 
 if __name__ == '__main__': unittest.main()

@@ -26,7 +26,6 @@ PROBE = re.compile(r'Fontprobe|Fonttext|Fettprobe|Kursivprobe|Mischprobe|Normalp
 
 def digest(file): return hashlib.sha256(file.read_bytes()).hexdigest()
 def compact(text): return re.sub(r'\s+', '', unicodedata.normalize('NFKC', text).replace('\u00ad', '')).casefold()
-def words(text): return Counter(re.findall(r'\w+', unicodedata.normalize('NFKC', text).replace('\u00ad', '').casefold()))
 def font_key(font): return re.sub(r'[^a-z]', '', font.lower())
 
 
@@ -92,6 +91,11 @@ def pdf_evidence(file, fixture):
         value = compact(''.join(r['text'] for r in p['runs']))
         chrome = '.header' in p['id'] or '.footer' in p['id']
         assert value in compact(text if chrome else part_text[p['part']]), 'Missing complete source paragraph: ' + p['id']
+    for part_id, rendered in part_text.items():
+        repeated = Counter(compact(''.join(r['text'] for r in p['runs'])) for p in fixture['paragraphs']
+                           if p['part'] == part_id and '.header' not in p['id'] and '.footer' not in p['id'])
+        for value, count in repeated.items():
+            assert compact(rendered).count(value) >= count, f'Missing repeated source paragraph: {part_id} / {value}'
     spans = [(page.number, span) for page in doc for block in page.get_text('dict')['blocks']
              if block['type'] == 0 for line in block['lines'] for span in line['spans']]
     probes = []

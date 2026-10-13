@@ -68,7 +68,7 @@ jobs:
         run: |
           bash scripts/qa-browser-setup.sh
           sudo apt-get update
-          sudo apt-get install -y libreoffice-writer fonts-dejavu-core fonts-liberation fonts-liberation2
+          sudo apt-get install -y libreoffice-writer libreoffice-java-common default-jre-headless fonts-dejavu-core fonts-liberation fonts-liberation2
           python scripts/docx-next-font-matrix-font-setup.py "$QA_ROOT/narrow-fonts"
       - name: Existing LibreOffice package validator tests
         run: |
