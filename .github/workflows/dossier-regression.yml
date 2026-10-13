@@ -7,6 +7,7 @@ on:
     branches:
       - letter-m1-m2
       - dev
+      - fix/hide-native-print-ui-13okt
       - dev-native-chromium-print
       - fix/pdf-text-search-12okt
       - docx-next/integrate-39-templates
