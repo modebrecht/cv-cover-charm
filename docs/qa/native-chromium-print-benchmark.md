@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 20986)
-Total output lines: 815
-
 # Native Chromium Print Benchmark - Package 2
 
 **Latest evidence: [Package 3](#package-3--renderer-local-architecture-and-matched-source-rerun) recommends B. The Package 2 section and results below are preserved as the historical baseline.**
@@ -421,7 +418,48 @@ All 39 per-template means across three document kinds:
 
 The automatic PDF product flow remains primary and passed the browser regression selection, existing PDF/Letter/ICC/photo checks, filenames/metadata/download behavior and text-layer checks. Its CV scores are byte-for-byte the same numeric values as the historical cohort. Mean current Cover/Letter layout scores improve to 0.988878/0.994342. No missing/clipped content, page move or current searchable-text regression was observed. Export libraries, clone behavior, filenames, metadata and automatic-download implementation were not changed.
 
-Historical current-Cover score drops are disclosed rather than hidden: the largest are Modern -0.002589 and Blockig -0.002489. The Web reference itself now receives the previously picker-dependent existing theme tokens. The selected cold-editor versus activated-theme diagnostic above proves this state correction and exact legacy-preset parity. Consequently these historical deltas are not a comparison against identical …986 tokens truncated…lobal theme state | Existing preset variables emitted locally; activated legacy preset parity proven |
+Historical current-Cover score drops are disclosed rather than hidden: the largest are Modern -0.002589 and Blockig -0.002489. The Web reference itself now receives the previously picker-dependent existing theme tokens. The selected cold-editor versus activated-theme diagnostic above proves this state correction and exact legacy-preset parity. Consequently these historical deltas are not a comparison against identical unresolved Web paint. The new matched-source current-versus-Web comparison and manual review of Modern, Blockig and Brief show retained composition/content. All 117 historical changes are retained in [package2-package3-changes.json](native-chromium-print-package3/package2-package3-changes.json).
+
+Manual review covered all three documents for Glow, Violet Pulse, Neon, Citrus and Verlauf, the weakest native results and current Cover declines. Native is not universally perfect: Horizon/Warm 3/Violet Pulse Cover paint remains slightly less similar than current; Gallery/Edel Dark Letters have small losses. Colorful still has a gray/darker header gradient in both PDFs relative to Web. Blockig native shows an orange rail patch absent from Web/current; Verlauf 3 retains small background differences. These localized paint discrepancies were not corrected with template exceptions and are not excused by a high aggregate SSIM. The low-ranking CV paint differences already existed in the Package 2 native artifacts; they are not new current-PDF regressions. Exact primitive causes of those residual differences are not claimed proven here.
+
+### Pagination, physical geometry and searchable text
+
+All 39 combined PDFs in both paths have the canonical physical count/order and A4 size. Primary CV live/canonical displacement is **0 mm**, and maximum canonical/print displacement **0.000063796 mm**. The original **≤0.02 mm** tolerance is unchanged. The additional actual-glyph checks are essential because a correct print DOM had not detected the Package 2 shrink.
+
+| Long fixture | Canonical order | Current pages | Native pages |
+| --- | --- | --- | --- |
+| long-studio3-classic | cover → letter → letter → cv → cv → cv | 6 | 6 |
+| long-gallery-sidebar | cover → letter → letter → cv → cv → cv → cv → cv | 8 | 8 |
+
+All 14 Letter markers, 18 CV markers and the reference marker match canonical DOM/current/native physical page assignment. Their complete assignment maps are also **identical to Package 2**; no content was moved between pages to improve SSIM. The scorer reopened PDF bytes independently.
+
+| Search / order check | Current | Native |
+| --- | --- | --- |
+| Literal recipient/body/name/entry | 39/39 each | 39/39 each |
+| Literal first CV section heading | 39/39 | 34/39 |
+| Body before closing in extracted Letter text | 0/39 | 39/39 |
+| CV name before first entry | 39/39 | 38/39 |
+| CV title before first entry | 39/39 | 1/39 |
+
+Every normalized sample is present in all PDFs. Native still splits literal headings in Modern, Sonne, Studio, Neon and Aurora, duplicates the searchable name in Warm/Neon, and has imperfect CV extraction order. These existing limitations persist; they were not relabeled as perfect searchability. Native uses actual embedded glyph text; current keeps its existing searchable layers and Cabin fonts.
+
+### File size and timing
+
+| Measure / path | Mean | Median | Minimum | Maximum |
+| --- | --- | --- | --- | --- |
+| Bytes / current | 1,308,621 | 1,288,012 | 1,181,305 | 1,474,332 |
+| Bytes / native | 303,537 | 180,851 | 125,640 | 1,366,683 |
+| Milliseconds / current | 1,796 | 1,746 | 1,600 | 2,228 |
+| Milliseconds / native | 639 | 565 | 488 | 1,319 |
+
+Native files are **76.8% smaller on average**, and headless generation is **2.81× faster** in this cohort. Correctly painted Covers increase native mean size relative to the incomplete Package 2 output. Native maximum size remains about 1.37 MB; savings are not uniform. Timing is the unchanged DOM-ready/action/preparation → produced PDF method, excludes human print-dialog time, and was captured without concurrent local QA.
+
+### Failure classification and product decision
+
+| Failure | Classification | Package 3 result |
+| --- | --- | --- |
+| 21 missing Cover styles | Global template scope | Renderer-local selectors restore the intended Cover subtree styling |
+| Cold editor / picker-dependent Cover type | Global theme state | Existing preset variables emitted locally; activated legacy preset parity proven |
 | Violet cap / Human / Warm 2 Letter styling | Global document scope/state | Local Letter identity, palette/theme and existing cap rule |
 | Neon / Verlauf / Citrus 3 mm inset | DOM/state divergence → geometry | Instance inputs no longer shadowed by previous main output |
 | Glow / Violet whole-PDF shrink | Chromium print fitting / paint-stage sizing | Generic fixed-sheet size containment; physical glyph scale proved |
