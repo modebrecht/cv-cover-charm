@@ -54,6 +54,7 @@ export function fontMatrixFixture(templateId: string, scenario: string) {
     input.letter.design.font = key ?? "freundlich";
     input.letter.design.fontOverride = key ?? "freundlich";
   }
+  if (key) input.settings.fieldStyles = { "cover.fullName": { font: WORD_FONTS[key].font } };
   if (scenario.startsWith("selected-"))
     input.settings.fontPolicy.availableFonts = [...MATRIX_PRIMARY, ...MATRIX_ALTERNATIVES];
   if (scenario.startsWith("fallback-") || scenario.endsWith("-fallback"))

@@ -32,6 +32,15 @@ describe("39-template DOCX Next font acceptance", () => {
           expect(fontDefinition(run.style.font).name).toBe(run.style.font);
           if (supplied) expect(MATRIX_ALTERNATIVES).toContain(run.style.font);
         }
+        const selectedKey = Object.keys(WORD_FONTS).find(
+          (key) => scenario === `selected-${key}` || scenario === `fallback-${key}`,
+        );
+        if (selectedKey) {
+          const mapping = WORD_FONTS[selectedKey as keyof typeof WORD_FONTS];
+          expect(runs.find((r) => r.fieldId === "cover.fullName")?.style.font).toBe(
+            supplied ? mapping.fallback : mapping.font,
+          );
+        }
         if (scenario.startsWith("mixed")) {
           for (const [key, value] of Object.entries(WORD_FONTS)) {
             const title = runs.find((r) => r.fieldId === `cv.entry.schule:font-${key}.title`)!;
