@@ -216,6 +216,12 @@ test.describe("body alignment Web/PDF parity", () => {
     await page.waitForLoadState("networkidle");
 
     const editor = page.getByRole("textbox", { name: "Brieftext" });
+    const editorBlocks = editor.locator(":scope > :is(div, p)");
+    // The textbox exists before its saved rich text is hydrated. Network idle
+    // alone does not establish that the caret's target paragraph is ready.
+    await expect(editorBlocks).toHaveCount(2);
+    await expect(editorBlocks.nth(0)).toContainText(payload.marker);
+    await expect(editorBlocks.nth(1)).toContainText(secondMarker);
     await editor.evaluate((element) => {
       const text = element.children.item(0)?.firstChild;
       if (!text) throw new Error("Erster Brieftext-Absatz fehlt");
@@ -230,7 +236,6 @@ test.describe("body alignment Web/PDF parity", () => {
 
     await page.getByRole("button", { name: "Blocksatz" }).click();
 
-    const editorBlocks = editor.locator(":scope > :is(div, p)");
     await expect(editorBlocks).toHaveCount(2);
     await expect(editorBlocks.nth(0)).toHaveAttribute("data-align", "justify");
     await expect(editorBlocks.nth(1)).toHaveAttribute("data-align", "justify");
