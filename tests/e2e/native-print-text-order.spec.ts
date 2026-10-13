@@ -13,7 +13,11 @@ async function pdfText(bytes: Buffer) {
   const text: string[] = [];
   for (let i = 1; i <= pdf.numPages; i++) {
     const content = await (await pdf.getPage(i)).getTextContent();
-    text.push(content.items.map((item) => ("str" in item ? item.str : "")).join(" "));
+    text.push(
+      content.items
+        .map((item) => ("str" in item ? item.str + (item.hasEOL ? "\n" : "") : ""))
+        .join(""),
+    );
   }
   await task.destroy();
   return text;
@@ -23,6 +27,7 @@ test("all 39 native CVs retain semantic title and name order with isolated conte
 }) => {
   test.setTimeout(900000);
   const stored = await seedCanonicalDossier(page);
+  const literalHeadingSearch: { template: string; literalFamilie: boolean }[] = [];
   for (const item of GALLERY_CASES) {
     await applyGalleryCase(page, stored, item);
     await page.goto(BASE_URL, { waitUntil: "networkidle" });
@@ -57,6 +62,10 @@ test("all 39 native CVs retain semantic title and name order with isolated conte
     });
     const pages = await pdfText(bytes),
       cv = compact(pages.slice(2).join(" "));
+    literalHeadingSearch.push({
+      template: item.label,
+      literalFamilie: /\bfamilie\b/iu.test(pages.slice(2).join("\n")),
+    });
     const entry = cv.indexOf("sekundarschule,niveaua");
     const title = cv.indexOf("lebenslauf"),
       name = cv.indexOf("leamüller");
@@ -69,4 +78,8 @@ test("all 39 native CVs retain semantic title and name order with isolated conte
     await page.evaluate(() => window.dispatchEvent(new Event("afterprint")));
     console.log("NATIVE TEXT ORDER " + item.label + " passed");
   }
+  await test.info().attach("native-literal-heading-observations", {
+    body: JSON.stringify(literalHeadingSearch),
+    contentType: "application/json",
+  });
 });

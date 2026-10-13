@@ -1,0 +1,243 @@
+{
+  "implementation_sha": "2bb65c548362769063dfe17c67142adf0265ddb3",
+  "baseline_sha": "ba5ffae437fd3937fcfa9bc98e9078cf10b8e41d",
+  "native_heading_fixture": "tests/fixtures/native-heading-search.html",
+  "native_heading_variants": {
+    "variants": [
+      [
+        "real",
+        "800",
+        ".11em",
+        "optimizeLegibility"
+      ],
+      [
+        "fractional",
+        "800",
+        ".11em",
+        "geometricPrecision"
+      ],
+      [
+        "no-tracking",
+        "800",
+        "0",
+        "optimizeLegibility"
+      ],
+      [
+        "weight-700",
+        "700",
+        ".11em",
+        "optimizeLegibility"
+      ],
+      [
+        "fractional-700",
+        "700",
+        ".11em",
+        "geometricPrecision"
+      ],
+      [
+        "tracking-neon",
+        "800",
+        ".12em",
+        "optimizeLegibility"
+      ]
+    ],
+    "geometry": [
+      {
+        "id": "real",
+        "text": "Familie",
+        "fontFamily": "Cabin",
+        "fontSize": "16.32px",
+        "fontWeight": "800",
+        "letterSpacing": "1.7952px",
+        "textRendering": "optimizelegibility",
+        "width": 649.721923828125,
+        "height": 15.712026596069336
+      },
+      {
+        "id": "fractional",
+        "text": "Familie",
+        "fontFamily": "Cabin",
+        "fontSize": "16.32px",
+        "fontWeight": "800",
+        "letterSpacing": "1.7952px",
+        "textRendering": "geometricprecision",
+        "width": 649.721923828125,
+        "height": 15.712028503417969
+      },
+      {
+        "id": "no-tracking",
+        "text": "Familie",
+        "fontFamily": "Cabin",
+        "fontSize": "16.32px",
+        "fontWeight": "800",
+        "letterSpacing": "normal",
+        "textRendering": "optimizelegibility",
+        "width": 649.721923828125,
+        "height": 15.7120361328125
+      },
+      {
+        "id": "weight-700",
+        "text": "Familie",
+        "fontFamily": "Cabin",
+        "fontSize": "16.32px",
+        "fontWeight": "700",
+        "letterSpacing": "1.7952px",
+        "textRendering": "optimizelegibility",
+        "width": 649.721923828125,
+        "height": 15.712020874023438
+      },
+      {
+        "id": "fractional-700",
+        "text": "Familie",
+        "fontFamily": "Cabin",
+        "fontSize": "16.32px",
+        "fontWeight": "700",
+        "letterSpacing": "1.7952px",
+        "textRendering": "geometricprecision",
+        "width": 649.721923828125,
+        "height": 15.7120361328125
+      },
+      {
+        "id": "tracking-neon",
+        "text": "Familie",
+        "fontFamily": "Cabin",
+        "fontSize": "16.32px",
+        "fontWeight": "800",
+        "letterSpacing": "1.9584px",
+        "textRendering": "optimizelegibility",
+        "width": 649.721923828125,
+        "height": 15.7120361328125
+      }
+    ]
+  },
+  "native_heading_readers": [
+    {
+      "tagged": "false",
+      "mupdf": "FAM IL IE\nFAMILIE\nFAMILIE\nFAM IL IE\nFAMILIE\nFAM IL IE\n",
+      "withoutInferredSpaces": "FAMILIE\nFAMILIE\nFAMILIE\nFAMILIE\nFAMILIE\nFAMILIE\n",
+      "literalSearchHits": 3,
+      "actualTextOperators": 0,
+      "pdfium": "FAM IL IE\r\nFAMILIE\r\nFAMILIE\r\nFAM IL IE\r\nFAMILIE\r\nFAM IL IE"
+    },
+    {
+      "tagged": "true",
+      "mupdf": "FAM IL IE\nFAMILIE\nFAMILIE\nFAM IL IE\nFAMILIE\nFAM IL IE\n",
+      "withoutInferredSpaces": "FAMILIE\nFAMILIE\nFAMILIE\nFAMILIE\nFAMILIE\nFAMILIE\n",
+      "literalSearchHits": 3,
+      "actualTextOperators": 0,
+      "pdfium": "FAM IL IE\r\nFAMILIE\r\nFAMILIE\r\nFAM IL IE\r\nFAMILIE\r\nFAM IL IE"
+    }
+  ],
+  "native_heading_pdfjs_untagged_and_tagged": [
+    "FAM IL IE",
+    "FA M I L I E",
+    "FAMILIE",
+    "FAM IL IE",
+    "FA M I L I E",
+    "FA M I L I E"
+  ],
+  "inhibit_spaces_is_diagnostic_only": true,
+  "rejected_fractional_heading_advance_change_mm": 0.4794,
+  "surface_paint_probe": [
+    {
+      "id": "verlauf3",
+      "variant": "normal",
+      "style": {
+        "background": "rgb(255, 248, 245) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(123, 49, 93, 0.07) 0px 15.1181px 68.0315px 0px",
+        "borderRadius": "34.0157px",
+        "opacity": "0.875",
+        "filter": "none"
+      },
+      "box": [
+        -19954.65625,
+        2291.34375,
+        703.3125,
+        1032.3125
+      ]
+    },
+    {
+      "id": "verlauf3",
+      "variant": "isolated",
+      "style": {
+        "background": "rgb(255, 248, 245) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(123, 49, 93, 0.07) 0px 15.1181px 68.0315px 0px",
+        "borderRadius": "34.0157px",
+        "opacity": "0.875",
+        "filter": "opacity(1)"
+      },
+      "box": [
+        -19954.65625,
+        2291.34375,
+        703.3125,
+        1032.3125
+      ]
+    },
+    {
+      "id": "horizon",
+      "variant": "normal",
+      "style": {
+        "background": "rgb(246, 249, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(17, 35, 63, 0.06) 0px 11.3386px 45.3543px 0px",
+        "borderRadius": "0px 0px 26.4567px 26.4567px",
+        "opacity": "0.875",
+        "filter": "none"
+      },
+      "box": [
+        -19954.65625,
+        2291.34375,
+        703.3125,
+        1032.3125
+      ]
+    },
+    {
+      "id": "horizon",
+      "variant": "isolated",
+      "style": {
+        "background": "rgb(246, 249, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+        "boxShadow": "rgba(17, 35, 63, 0.06) 0px 11.3386px 45.3543px 0px",
+        "borderRadius": "0px 0px 26.4567px 26.4567px",
+        "opacity": "0.875",
+        "filter": "opacity(1)"
+      },
+      "box": [
+        -19954.65625,
+        2291.34375,
+        703.3125,
+        1032.3125
+      ]
+    }
+  ],
+  "surface_paint_probe_scores": [
+    {
+      "template": "verlauf3",
+      "variant": "normal",
+      "rgb": 0.9842055549058979,
+      "layout": 0.9835580419535124
+    },
+    {
+      "template": "verlauf3",
+      "variant": "isolated",
+      "rgb": 0.9812986500734601,
+      "layout": 0.9817965064414997
+    },
+    {
+      "template": "horizon",
+      "variant": "normal",
+      "rgb": 0.9833181666240621,
+      "layout": 0.9839347206526335
+    },
+    {
+      "template": "horizon",
+      "variant": "isolated",
+      "rgb": 0.9767568935677112,
+      "layout": 0.9771261008033403
+    }
+  ],
+  "production_css_changes": false,
+  "geometry_threshold_mm": 0.02,
+  "benchmark_capture": "unchanged tests/e2e/native-chromium-benchmark.spec.ts invoked directly on the committed fix branch",
+  "benchmark_scorer": "unchanged scripts/native_chromium_print_benchmark.py",
+  "branch_guard_and_ci_opt_in_unchanged": true,
+  "source_ci": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38353305578"
+}

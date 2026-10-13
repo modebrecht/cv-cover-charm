@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="de">
+  <meta charset="utf-8" />
+  <title>Native tracked heading search diagnosis</title>
+  <style>
+    @font-face {
+      font-family: Cabin;
+      src: url("/fonts/Cabin-Bold.ttf");
+      font-weight: 600 900;
+    }
+    @page { size: A4; margin: 0; }
+    body { margin: 0; }
+    .sheet {
+      width: 794px;
+      height: 1123px;
+      transform: scale(.999572293);
+      transform-origin: top left;
+      contain: size;
+      overflow: hidden;
+    }
+    .heading {
+      zoom: .9;
+      font-family: Cabin;
+      font-size: 16.32px;
+      font-weight: 800;
+      line-height: 17.4624px;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      text-rendering: optimizeLegibility;
+      margin: 30px 80px;
+    }
+  </style>
+  <!-- Serve through Vite and wait for document.fonts.ready before page.pdf().
+       Rows: production metrics; fractional advances; no tracking (diagnostic
+       only); weight 700; fractional weight 700; .12em tracking. Tagged output
+       is tested separately. None of these alternatives changes product CSS. -->
+  <div class="sheet">
+    <div class="heading">Familie</div>
+    <div class="heading" style="text-rendering: geometricPrecision">Familie</div>
+    <div class="heading" style="letter-spacing: 0">Familie</div>
+    <div class="heading" style="font-weight: 700">Familie</div>
+    <div class="heading" style="font-weight: 700; text-rendering: geometricPrecision">Familie</div>
+    <div class="heading" style="letter-spacing: .12em">Familie</div>
+  </div>
+</html>

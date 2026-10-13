@@ -5,6 +5,7 @@ import { addCvTextLayer } from "@/lib/cv-pdf-text";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
 import { downloadBlob } from "@/lib/download";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
+import { fittedPdfHorizontalScale } from "@/lib/pdf-text-width";
 
 export type DossierPdfMeta = {
   title: string;
@@ -131,7 +132,7 @@ function richTokenFragments(
     const hasFollowingFragment = index < slices.length - 1;
     if (
       hasFollowingFragment &&
-      text &&
+      text.trim() &&
       !text.endsWith("-") &&
       (explicitSoftHyphen || style.hyphens === "auto")
     ) {
@@ -180,7 +181,11 @@ function addRichLetterText(
       emittedListBlocks.add(listBlock);
     }
 
-    for (const match of raw.matchAll(/\S+/g)) {
+    // Preserve rendered source spaces, including boundaries between inline
+    // formatting nodes. Readers must not guess word breaks from font advances.
+    // Tabs/newlines may collapse to a visible space. Physical line breaks and
+    // hidden spaces have no width and are omitted by richTokenFragments.
+    for (const match of raw.matchAll(/\s+|\S+/gu)) {
       const token = match[0];
       const start = match.index ?? 0;
       const fragments = richTokenFragments(node, raw, start, start + token.length, range, style);
@@ -192,7 +197,11 @@ function addRichLetterText(
         pdf.setFont(font, pdfFontStyle(style));
         pdf.setFontSize(fontSizePt);
         pdf.setTextColor(red, green, blue);
-        pdf.text(fragment.text, x, baseline, { renderingMode: "invisible" });
+        const text = fragment.text.trim() ? fragment.text : " ";
+        pdf.text(text, x, baseline, {
+          horizontalScale: fittedPdfHorizontalScale(pdf, text, fragment.rect.width * mmX),
+          renderingMode: "invisible",
+        });
       }
     }
     node = walker.nextNode();
