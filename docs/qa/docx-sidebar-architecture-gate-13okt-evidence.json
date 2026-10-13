@@ -1,0 +1,2197 @@
+{
+  "schemaVersion": 1,
+  "outcome": "C \u2014 ARCHITECTURE NO-GO for production promotion",
+  "selectedPath": "C \u2014 retain guarded diagnostic support",
+  "baseSha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+  "ciSourceSha": "41e0bc343f18419933e4f98016ee91015f1211cc",
+  "productionSourceChanges": 0,
+  "newHypotheses": 0,
+  "newCorrectionExperiments": 0,
+  "sourceParity": {
+    "historicalCodeSha": "99437d1a956ff1a9f0a088ffaa895e89186fda6e",
+    "changedFilesInAuditedScope": 0,
+    "scopes": [
+      "src/lib/docx-next",
+      "tests/fixtures/docx-next",
+      "scripts/docx-next-sidebar-body-probe.ts",
+      "scripts/docx-next-sidebar-body-qa.py",
+      "scripts/docx-next-sidebar-save-geometry-qa.py",
+      "scripts/docx-next-body-node-worker.py"
+    ],
+    "currentOwnersSha256": {
+      "build-model.ts": "58c587996df798ae12c980d127abbdeac183d2e44dd58f9ae359a7668cb40182",
+      "cv-sidebar-composition.ts": "bdeebd01465dff493613db4c5f4579ae3cdd61d600a02e914e4d4477547995ee",
+      "cv-sidebar-body.ts": "bbac212262936909db24fb2076cb7472cf4bbcf6321421eaaa9d4f10b4c94aee",
+      "parallel-flow.ts": "e7919c0d7e578908ae547d6acae5ad7f61fb2239f5071acaf194d85d3e4e3047",
+      "native-cell.ts": "94b188c0ef2d2d253f4539bd69ebf5a836d5849c1210b750e6d3af138c5d4cd6",
+      "renderer.ts": "31ae1eecdbb6f5d3e240dd5f450d0ef55e0e3e41f36191392dc3405534f476a8",
+      "validation.ts": "fde4db09afe11b31d3c2ee62a8fe3ca49e6f51d4fc7c9f0eed70d1f79b69b8ff"
+    }
+  },
+  "artifactReaudit": {
+    "artifactId": 11674676706,
+    "bytes": 6113133,
+    "sha256": "861741bf32d8b57dd7905a189d9b81ecbdb94dbfac0a44aff6ac0584a0ce1f3b",
+    "mode": "Independent downloaded artifact, complete read-only semantic/PDF/serialized/native-attestation re-audit; no new native loads or saves",
+    "contentCases": 22,
+    "nativePhases": 66,
+    "pdfPageInstances": 564,
+    "exactStockCases": 18,
+    "failedCases": [
+      "app-body-both-long-right",
+      "app-body-right",
+      "app-body-photo-right",
+      "app-body-photo-free-mirrored-side"
+    ],
+    "strictStabilityGate": {
+      "result": "EXPECTED FAIL",
+      "message": "Exact Save/Reopen geometry is not stable"
+    },
+    "originalContentReportSha256": "813b18d93c365684be8ab8f64b4dfb2ca846e2cdf9719b59bc371adcd675d46c",
+    "replayedContentReportSha256": "f4e364b79d9cc2f25547525a7d10638760cf3cc6802e28f6cc3db0e67baf44e8",
+    "geometryReportSha256": "76aa07b1f0c59e9d1352a27d6c448a6f0c7aca835456e48f54d84db08677934c",
+    "runtimeRecordSha256": "f4c6fcc49061d9292287221e2956e23848b8f8100a0bf346425c177d62796d59",
+    "bindingRecordSha256": "290ae559f69cdf75792b5a2541ffa2a368fea18bd3adceaa10a1e3b3364ac845"
+  },
+  "localRelease": {
+    "unitTests": 1118,
+    "unitFailures": 0,
+    "releaseFormatting": "pass",
+    "typecheck": "pass",
+    "lintErrors": 0,
+    "existingLintWarnings": 21,
+    "build": "pass",
+    "logSha256": "6c4d77aa7db20013c4100fd0dd38f4b40a01089295bd0628dd234d0088d7e734",
+    "freshBrowserGeneration": "UNAVAILABLE: local Chromium singleton socket denied by execution environment",
+    "failedInitialReleaseInvocation": "bun not in PATH; corrected with local tooling path and completed release"
+  },
+  "adversarial": {
+    "groups": 15,
+    "tests": 140,
+    "results": [
+      {
+        "script": "scripts/docx-next-sidebar-body-test.py",
+        "returncode": 0,
+        "summary": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.007s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-sidebar-save-geometry-test.py",
+        "returncode": 0,
+        "summary": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.138s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-native-owner-test.py",
+        "returncode": 0,
+        "summary": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.124s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-owner-boundary-test.py",
+        "returncode": 0,
+        "summary": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.980s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-container-identity-test.py",
+        "returncode": 0,
+        "summary": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.004s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-container-span-test.py",
+        "returncode": 0,
+        "summary": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.009s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-native-identity-test.py",
+        "returncode": 0,
+        "summary": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.006s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-story-contract-test.py",
+        "returncode": 0,
+        "summary": "..................\n----------------------------------------------------------------------\nRan 18 tests in 0.011s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-native-grid-test.py",
+        "returncode": 0,
+        "summary": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.106s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-carrier-grid-test.py",
+        "returncode": 0,
+        "summary": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.012s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-native-nearest-experiment-test.py",
+        "returncode": 0,
+        "summary": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-native-photo-test.py",
+        "returncode": 0,
+        "summary": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.022s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-crop-precision-test.py",
+        "returncode": 0,
+        "summary": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.020s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-pixel-subset-test.py",
+        "returncode": 0,
+        "summary": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.322s\n\nOK\n"
+      },
+      {
+        "script": "scripts/docx-next-pdf-picture-test.py",
+        "returncode": 0,
+        "summary": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.010s\n\nOK\n"
+      }
+    ]
+  },
+  "currentPictureArtifact": {
+    "artifactId": 11833615163,
+    "bytes": 3242864,
+    "sha256": "5f9a8b408d16739b97b03022103b95e7068cb5aacfadcd67db890d498818f112",
+    "negativeResultsRetained": true,
+    "results": {
+      "fixtures": {
+        "reportSha256": "efc5a583a811e17cc9e327f66ba516c526b862a767a0bc4c4ca3f1842be16a99",
+        "plannedCases": 8,
+        "actualCases": 8,
+        "pages": 24,
+        "stoppedAfter": null,
+        "fieldIdentityFailures": 0,
+        "tableIdentityFailures": 6,
+        "originalPixelFailures": null,
+        "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word"
+      },
+      "frames": {
+        "reportSha256": "6a4397c1462047911158150be2bf628b613bd791c6c3b7bd8659caaeb5edb20f",
+        "plannedCases": 4,
+        "actualCases": 3,
+        "pages": 9,
+        "stoppedAfter": "picture-frame-cropped-rect:native-photo-frame-or-crop",
+        "fieldIdentityFailures": 0,
+        "tableIdentityFailures": 0,
+        "originalPixelFailures": 0,
+        "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word"
+      },
+      "precision": {
+        "reportSha256": "596bc0b4ad7fd5cc2e0a4ffc2d588274f1976f899a76e927440cf093da807a1f",
+        "plannedCases": 2,
+        "actualCases": 2,
+        "pages": 6,
+        "stoppedAfter": null,
+        "fieldIdentityFailures": 0,
+        "tableIdentityFailures": 0,
+        "originalPixelFailures": 0,
+        "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word"
+      },
+      "windows": {
+        "reportSha256": "b6558fa9ef931d1fb2112f2df5aca116777f14c5cd408f755b6ce8c14d99ec1c",
+        "plannedCases": 4,
+        "actualCases": 4,
+        "pages": 12,
+        "stoppedAfter": null,
+        "fieldIdentityFailures": 0,
+        "tableIdentityFailures": 0,
+        "originalPixelFailures": 0,
+        "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word"
+      },
+      "sizes": {
+        "reportSha256": "b51cb5b072f024e3c90b4fa5b93041fbe7f7a501dcd54411320419502c4fe369",
+        "plannedCases": 3,
+        "actualCases": 2,
+        "pages": 6,
+        "stoppedAfter": "picture-size-240x360:native-photo-frame-or-crop",
+        "fieldIdentityFailures": 0,
+        "tableIdentityFailures": 0,
+        "originalPixelFailures": 0,
+        "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word"
+      },
+      "sized-rectangles": {
+        "reportSha256": "29dbe9daf72e26755ba7d7a0b226959405fa810844550a102ed77f3b542aa6e9",
+        "plannedCases": 2,
+        "actualCases": 2,
+        "pages": 6,
+        "stoppedAfter": null,
+        "fieldIdentityFailures": 0,
+        "tableIdentityFailures": 0,
+        "originalPixelFailures": 0,
+        "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word"
+      },
+      "sized-shapes": {
+        "reportSha256": "cbd1c1e48f8f9ed80e22efb84e59fbc264492a3c2ff7b532b66fc057f5c5771c",
+        "plannedCases": 3,
+        "actualCases": 3,
+        "pages": 9,
+        "stoppedAfter": "picture-sized-240x360-declared-ellipse:original-photo-pixels",
+        "fieldIdentityFailures": 0,
+        "tableIdentityFailures": 0,
+        "originalPixelFailures": 1,
+        "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word"
+      }
+    }
+  },
+  "freshNativeMatrix": {
+    "artifactId": 11847349467,
+    "bytes": 6111497,
+    "sha256": "33c88af6a9953cd3af1da4cde606d43890258612fc901d5655c73f86f2d3d508",
+    "runId": 38434516695,
+    "jobId": 115529160963,
+    "attempt": 2,
+    "sourceSha": "41e0bc343f18419933e4f98016ee91015f1211cc",
+    "execution": "Fresh CI browser source generation and actual stock native source/saved1/saved2 executions; independently downloaded and re-audited here",
+    "cases": 22,
+    "phases": 66,
+    "pdfPages": 564,
+    "exactStockCases": 18,
+    "failedCases": [
+      "app-body-both-long-right",
+      "app-body-right",
+      "app-body-photo-right",
+      "app-body-photo-free-mirrored-side"
+    ],
+    "strictStabilityGate": {
+      "result": "EXPECTED FAIL",
+      "message": "Exact Save/Reopen geometry is not stable"
+    },
+    "sourcePackagesIdenticalToHistoricalArtifact": 22,
+    "finalNativeInventoriesIdentical": 66,
+    "wholeNativeParagraphInventoriesIdentical": 66,
+    "pdfPagesPixelAndWordExactToHistoricalArtifact": 564,
+    "contentReportSha256": "c90d1bf36f5849201d7067dac584739e63a74037e6e7554e4862ca4e354a5047",
+    "geometryReportSha256": "7f58f6074facfdccaa3979c31f28ac3ae1ae279ffa859bf959b6fe35eb0a4d7a",
+    "runtimeRecord": {
+      "interface": "LibreOfficeKit",
+      "version": {
+        "ProductName": "LibreOffice",
+        "ProductVersion": "25.8",
+        "ProductExtension": ".7.3",
+        "BuildId": "580(Build:3)"
+      },
+      "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+      "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+      "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+      "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+      "host": "Linux x86_64",
+      "packagesVerified": 50
+    },
+    "runtimeRecordSha256": "f4c6fcc49061d9292287221e2956e23848b8f8100a0bf346425c177d62796d59",
+    "bindingRecordSha256": "290ae559f69cdf75792b5a2541ffa2a368fea18bd3adceaa10a1e3b3364ac845",
+    "rows": [
+      {
+        "fixture": "app-body-both-long",
+        "sourceSha256": "cf49b34dc3db657a64375a0458de29ca1a8fe59fe44cd1dd9e0ce2e110476f07",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "cf49b34dc3db657a64375a0458de29ca1a8fe59fe44cd1dd9e0ce2e110476f07",
+            "pdfSha256": "a4990080388f41d0d61f23d0bcfd78507c9c9d1ed3b8e9b29bb55ce94c137437",
+            "nativeControls": 382,
+            "canonicalOwnerFieldCount": 352,
+            "pdfPages": 11,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "94c8455a30022ff06c89309bfdef51f0d52c347e11f5cec007b07667b5f6014a",
+            "pdfSha256": "bfd2737897e468092ad25c374cc68492927d739c0d383009d03bea66c8023d08",
+            "nativeControls": 382,
+            "canonicalOwnerFieldCount": 352,
+            "pdfPages": 11,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "53cb05bf741fe1abb6eff19d5f6d7f21e05befdbd6c1b18b810aad83032584b4",
+            "pdfSha256": "590b802eb345cc385c116f58ccfcdbb8728f3ff660524a731cedce5656b7b353",
+            "nativeControls": 382,
+            "canonicalOwnerFieldCount": 352,
+            "pdfPages": 11,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-both-long-right",
+        "sourceSha256": "87013e5309da0d508513097b9fb44e56d43567341927e97298b0e48da710ef6a",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "87013e5309da0d508513097b9fb44e56d43567341927e97298b0e48da710ef6a",
+            "pdfSha256": "40d973696358452f4574c7c4cc78c4be0808b2fd065b0268d658760d1d191717",
+            "nativeControls": 382,
+            "canonicalOwnerFieldCount": 352,
+            "pdfPages": 11,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6508, 341, 2789]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "b63dcc80ce1209ff27e6bcb4adadd338e04f0a4967d94c4fbc2bdf3b688325f3",
+            "pdfSha256": "f02c64df98191a1e8654e170415c7567e719025b4015a495ae4379f3aa6f0099",
+            "nativeControls": 382,
+            "canonicalOwnerFieldCount": 352,
+            "pdfPages": 11,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6507, 341, 2790]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "a3049a1cad5559f4a32be1f63141d601d030b61f9bfc5fb4d6292812764728bc",
+            "pdfSha256": "0ca5b37811faa55c173bfb5d7c32d87bdd13b7e3ae6433b71d300ce2c27f9ced",
+            "nativeControls": 382,
+            "canonicalOwnerFieldCount": 352,
+            "pdfPages": 11,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6506, 341, 2791]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": false,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [3, 4, 5, 6, 7, 8, 9],
+            "changedPixelPages": [3, 4, 5, 6, 7, 8, 9, 11],
+            "changedWords": 751,
+            "maxAbsDxMm": 0.017656114366319444,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": false,
+            "exactSerializedTables": false,
+            "exactPublicGrid": false
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [3, 4, 5, 6, 7, 8, 9],
+            "changedPixelPages": [3, 4, 5, 6, 7, 8, 9, 10, 11],
+            "changedWords": 751,
+            "maxAbsDxMm": 0.017634582519531247,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": false,
+            "exactSerializedTables": false,
+            "exactPublicGrid": false
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-left",
+        "sourceSha256": "24b5d63caf6fbfc701dc934aae19e5b2f566b7eaf8184db56f442d3d3647d563",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "24b5d63caf6fbfc701dc934aae19e5b2f566b7eaf8184db56f442d3d3647d563",
+            "pdfSha256": "c7a34e6faf9b368c7662bdea78e2060dc8f15ba2497f5b9bd714f453a463c07b",
+            "nativeControls": 77,
+            "canonicalOwnerFieldCount": 47,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "796d68345891468719cc84df14981cb2027e8b9500d86a1a388fa539b02dc9e2",
+            "pdfSha256": "0fd6e0af0024b63435c185f4e88ac968df03b9e722ba1454cf45c314099447a8",
+            "nativeControls": 77,
+            "canonicalOwnerFieldCount": 47,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "c0e517e52f7198fee4d16a197f9c32a125d08b199e0d756f597aed8843ef2e22",
+            "pdfSha256": "566288ce1c256c6eac37419e4a1702367c3d81109ad9f5a72994f346ffc7163f",
+            "nativeControls": 77,
+            "canonicalOwnerFieldCount": 47,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-right",
+        "sourceSha256": "fa8f5f8f0434b6462a28f53885eeb8748a854987b3a4813ad82345ce5af97254",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "fa8f5f8f0434b6462a28f53885eeb8748a854987b3a4813ad82345ce5af97254",
+            "pdfSha256": "86a67fc52db8bed744a763f7f74ba4f3d8f4ce074e687afe4116220deba991b8",
+            "nativeControls": 77,
+            "canonicalOwnerFieldCount": 47,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6508, 341, 2789]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "428d79426a9c18eaeb007cd4b754889f4b71c8257eed8e747fd80650b3bab1c9",
+            "pdfSha256": "4d7a1211066df7641be1a89e2d29b472a47ec82b36808dbd02adcd6b1c49aa34",
+            "nativeControls": 77,
+            "canonicalOwnerFieldCount": 47,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6507, 341, 2790]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "8a117e33366b8b16d95b214b66eac581ffc52e6c9ef916569cd04c23ba125e46",
+            "pdfSha256": "3d5a919aac6fdb3fb0956444f34f30d3cc1859a3b569f67c4d25788855e32bf0",
+            "nativeControls": 77,
+            "canonicalOwnerFieldCount": 47,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6506, 341, 2791]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": false,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [3],
+            "changedPixelPages": [3],
+            "changedWords": 43,
+            "maxAbsDxMm": 0.017656114366319444,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": false,
+            "exactSerializedTables": false,
+            "exactPublicGrid": false
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [3],
+            "changedPixelPages": [3],
+            "changedWords": 43,
+            "maxAbsDxMm": 0.017634582519531247,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": false,
+            "exactSerializedTables": false,
+            "exactPublicGrid": false
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-paragraph-long",
+        "sourceSha256": "1b525031e0229bbbffe8517dd81dbbe1e1ca0ef1fa99d72da13d855bba125b16",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "1b525031e0229bbbffe8517dd81dbbe1e1ca0ef1fa99d72da13d855bba125b16",
+            "pdfSha256": "cdd1bf0aeb5d95aa69a86d5b361fd49a0bafbed10b7f67717c3df314b496961b",
+            "nativeControls": 79,
+            "canonicalOwnerFieldCount": 49,
+            "pdfPages": 10,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "89c7c0e92181d755e058633918fd5c567feccf9aec538082c64e82193b130a9a",
+            "pdfSha256": "66b4857dcd364b3f055c72d5893ee328c2b1456f5dffdf5580a09cb808dc1236",
+            "nativeControls": 79,
+            "canonicalOwnerFieldCount": 49,
+            "pdfPages": 10,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "e0d0c24ad95bf5db097d2818fd34b7fcc65d85d20260713d0a69366445e9a86b",
+            "pdfSha256": "6df120139134a76ff982d558afae2ee677856809a166c380d664f8d1318f452a",
+            "nativeControls": 79,
+            "canonicalOwnerFieldCount": 49,
+            "pdfPages": 10,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-side-paragraph-long",
+        "sourceSha256": "1a214af8990b16fa3714f7e2708c6580664eac3e903d27cbd195df41c02bb3ff",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "1a214af8990b16fa3714f7e2708c6580664eac3e903d27cbd195df41c02bb3ff",
+            "pdfSha256": "a0f846f923bbc6419cb4ebec8794f90ee42e5976e6f7f117e8a32fe5967c4bf2",
+            "nativeControls": 79,
+            "canonicalOwnerFieldCount": 49,
+            "pdfPages": 22,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "05c68c67c4c4df2a88eeefb0e3ef4857a90abdcf00e421c7489d367d3661a262",
+            "pdfSha256": "984f032d61f090b2eed957ef67504ad34dca725d17eed3b071cf04dc947f137b",
+            "nativeControls": 79,
+            "canonicalOwnerFieldCount": 49,
+            "pdfPages": 22,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "62b1a0aa6f3993052c55a0b182df3caeae490103ac264321796d91d389048151",
+            "pdfSha256": "c2b7c2b9fc43b359f330b9623480560eeda86ffe72504fd65fdedd18ad5588a9",
+            "nativeControls": 79,
+            "canonicalOwnerFieldCount": 49,
+            "pdfPages": 22,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-side-entries-long",
+        "sourceSha256": "4785552335679918ddb77aa4c66ee2a8302db8cce05c278370dd7dc60286fe95",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "4785552335679918ddb77aa4c66ee2a8302db8cce05c278370dd7dc60286fe95",
+            "pdfSha256": "3591b324cc18890c40980c25d780acd5b0fff81bd85a1ab666cef48020a882f9",
+            "nativeControls": 330,
+            "canonicalOwnerFieldCount": 300,
+            "pdfPages": 16,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "8f50e6cba9d42005cf3189c1035ef14dfafc90cbdccfa22d9612d2f7d92eb435",
+            "pdfSha256": "0bb93862ed35fb1c588a75c251e0aba13f4f0596eaab8cd58af2316163c8926f",
+            "nativeControls": 330,
+            "canonicalOwnerFieldCount": 300,
+            "pdfPages": 16,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "6ea7ab140f08154e6dd65088be2493b5fe418939c2b590aa51f2a17680271d1e",
+            "pdfSha256": "0d4ecd7ded29e7736078f61859b2b7a122937a4e09b42f5e5c7296547278d60f",
+            "nativeControls": 330,
+            "canonicalOwnerFieldCount": 300,
+            "pdfPages": 16,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-side-entries-smaller-body",
+        "sourceSha256": "315c75f94b10b451f9e23565c5c666d65a3c8d7729d6965a5a8c48a9ac889100",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "315c75f94b10b451f9e23565c5c666d65a3c8d7729d6965a5a8c48a9ac889100",
+            "pdfSha256": "c7d4e3f89f3f9c20890a72909ac81ad25f2982ad74a7f82e8daec104bafbf79c",
+            "nativeControls": 330,
+            "canonicalOwnerFieldCount": 300,
+            "pdfPages": 19,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "9a484263b116b2b236e4ada0d2506ada6d4658756e805844cac44ecbbea5b77f",
+            "pdfSha256": "ec7453cf98ba0efc3d43c2e3ce5a7a5be952ec996619d9cc91a307e0fa4822fc",
+            "nativeControls": 330,
+            "canonicalOwnerFieldCount": 300,
+            "pdfPages": 19,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "5d31a522bbb55dffe1e6894cfa83b0e69bdba6440e5627ee06ec77b7a4efde91",
+            "pdfSha256": "54a6224ddd5ebdf4cf76d59b0845679f82acb942516c0d88c68a17ed0e671500",
+            "nativeControls": 330,
+            "canonicalOwnerFieldCount": 300,
+            "pdfPages": 19,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-placements",
+        "sourceSha256": "f40f01e3955d9c8cbf17d51d77f3fda68c85130f0fe4564863d5b56861dcdb44",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "f40f01e3955d9c8cbf17d51d77f3fda68c85130f0fe4564863d5b56861dcdb44",
+            "pdfSha256": "3dab259d1d8056ec1bd74c1c59c4b427c63b8e88b0abaabb0183970ecef3c93f",
+            "nativeControls": 80,
+            "canonicalOwnerFieldCount": 50,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "35dc8efda73dd6a2cf98f51dc33efcbd90835f807c2ec6e84e6dfdab9caf1a58",
+            "pdfSha256": "7df7d0884f935bdccda87a2b794cd0563c9b6e46e734dcf78cd1f8938c97fe93",
+            "nativeControls": 80,
+            "canonicalOwnerFieldCount": 50,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "fdb04690c541a7960c4ba6fb45cd348bf7cd72d63452103de6cc9079e973aee2",
+            "pdfSha256": "f7556ade2ab0f948bc9245cddf51dd6fad9dbdd12794cd34355425866e607d56",
+            "nativeControls": 80,
+            "canonicalOwnerFieldCount": 50,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-styled",
+        "sourceSha256": "7f7d7cd5154c4bf23171e62eb818825492f52887394985be079b6da7f54f8fe9",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "7f7d7cd5154c4bf23171e62eb818825492f52887394985be079b6da7f54f8fe9",
+            "pdfSha256": "377143bf004bf1fd8d989dc143d088fa04ff0ccf6bc99cf19f2d74bd1e7c6e12",
+            "nativeControls": 77,
+            "canonicalOwnerFieldCount": 47,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "a55235dcb065e3a7f0493f70d0829546c0e92ad2305733dda003f326b1956310",
+            "pdfSha256": "367ce443c7e0d90081feea390b0825a8349f4fbf11f56a444ac4abc3e85f6b81",
+            "nativeControls": 77,
+            "canonicalOwnerFieldCount": 47,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "c8f9387f2a2b66a0c4ea5d66bfab5f08945f45846557200da90946cedc550d7c",
+            "pdfSha256": "932a28156b8fc620f939759f710ac9e77a72cf5d2d370b0587a6c23e612ec837",
+            "nativeControls": 77,
+            "canonicalOwnerFieldCount": 47,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-left",
+        "sourceSha256": "534a8843b497a3d6be52fbb5eba0c31986f0f32a54f40001ede3d64bf6305f94",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "534a8843b497a3d6be52fbb5eba0c31986f0f32a54f40001ede3d64bf6305f94",
+            "pdfSha256": "5cbd2ba919bdea15f3fc2a003b0f404eec57968e96eb9fc30f3897d01ecd920b",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "e644ecb6fd53c020522992d71733aeb34c517fb9af415017df29f2426eb3e637",
+            "pdfSha256": "8c4530ba3e160d5f6db9ea4a13cb14e195f9c5dd698380b9b8371a271ca85ce9",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "5b1d82d19e1e95477af55808e0e55b0499138e1294ad5bad9e6c69fb1b84277e",
+            "pdfSha256": "3fae271d173c658097459cc62dcc8fcd1381c98fb694902b7cf6999b6fbd17de",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-right",
+        "sourceSha256": "224d4a72efd800e5624bf0abcd88bcc4977d5dbc2127d050b31cb9b42bca85ae",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "224d4a72efd800e5624bf0abcd88bcc4977d5dbc2127d050b31cb9b42bca85ae",
+            "pdfSha256": "c73f89ab092e054ab734092bc71fb7d0262925e72c9491bf095c300888e1b1ff",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6508, 341, 2789]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "b2282abe8fe66a8ce85295260d1cf4c34419d8dccb10547163bc77c2d7a53540",
+            "pdfSha256": "07b4a9c977f7e9cb8e7100c22fc020a9dff70c56df10253931cd2633c5533672",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6507, 341, 2790]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "a48f1fe39fb0edb97444d1aeca1344968f96077a3bd637f0eb4b3a16e59a3624",
+            "pdfSha256": "baf6c2af48ba9f56d2f299e9918350b5d829579a586ee15d11fce716185bfac8",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6506, 341, 2791]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": false,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [3],
+            "changedPixelPages": [3],
+            "changedWords": 43,
+            "maxAbsDxMm": 0.017656114366319444,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": false,
+            "exactSerializedTables": false,
+            "exactPublicGrid": false
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [3],
+            "changedPixelPages": [3],
+            "changedWords": 43,
+            "maxAbsDxMm": 0.017634582519531247,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": false,
+            "exactSerializedTables": false,
+            "exactPublicGrid": false
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-main",
+        "sourceSha256": "d2dd227f33316044bb71ecb1da8a2ca76f6dc068bae3293184015211e621bf74",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "d2dd227f33316044bb71ecb1da8a2ca76f6dc068bae3293184015211e621bf74",
+            "pdfSha256": "6757cea2a959c23a28737eee150f28b5a1740eadafdd4fc3bd45097050e329a9",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "328dcb815a30ead1b9d14ff1b1ef3c3e5c3abd7c8e4cc8383b03f5bddaacca15",
+            "pdfSha256": "72abb6fa0ce770a3ed9449a3670b79abfcc14a0a86ef324cb077f1fd00f9c9f6",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "012d1ec1478af0d1cff00a77b185a358ddce661340cf47dd8f024043ad7d889e",
+            "pdfSha256": "e9e7899645b93c9471bf038085f170c1e563fe002fe2b63e17379b2d8b4f9846",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-main",
+        "sourceSha256": "4b48e44ea089ee995f6ea7a100d8f87749c594e45dc25dbfc245ccbdacd9b96f",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "4b48e44ea089ee995f6ea7a100d8f87749c594e45dc25dbfc245ccbdacd9b96f",
+            "pdfSha256": "9dac7a540b4ddc5340542e56c4d36b837c0f74670954d2a7a5f75374006677d9",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 4,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "6c93b9136a7ebed514c90b1d45a953b8125055d28f278da70708ca94cb793cba",
+            "pdfSha256": "486e2a7ba1962293324a86ce35fc2b3dea5184c97ec74ccf12e25eafd6fbead6",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 4,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "bf388a656c57c8b2dba55f0bdb9ea34157e113fe26d60795ae665625b4fc266b",
+            "pdfSha256": "b47d004e1a613af4114c51dba0612908bc2c9b130467413c94214572d81c780d",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 4,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-side",
+        "sourceSha256": "6b020313bc51c4c4d0adc97cdce59fb86e425c75849006238191a814241ee39c",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "6b020313bc51c4c4d0adc97cdce59fb86e425c75849006238191a814241ee39c",
+            "pdfSha256": "90dc021949cc026d65fda142304cc0af6d713ab892df62e2c245fa5da88f832e",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "afcc2f37095f86a4613202ef3e5d8156df9f455138346f22816693484864af35",
+            "pdfSha256": "49fd90497007d72bafeb6a4555925d2231e5147e5751fda9fe618293255ddbc6",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "b2811c69b27a9cdacc4cd3d575c5f19802af04a64ec2869cc578a017d95b1f10",
+            "pdfSha256": "50ed46d9affa1916c0734c1505ed0d096268b2aca0f1c077fa367cb0e4d162d5",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-mirrored-side",
+        "sourceSha256": "8b216925bb1878d4e13d6f2f80051e40e00645c2c4287fa0011a0af6346923e1",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "8b216925bb1878d4e13d6f2f80051e40e00645c2c4287fa0011a0af6346923e1",
+            "pdfSha256": "02bbeecdcf15cca96db41efe2709a3ba7d7bbabd3706667c32f1db7da8e298ee",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6508, 341, 2789]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "56c2299505897c55dd4c6842ca16fc78f0b5600b74e9ccd3115d6cef7ca79a8d",
+            "pdfSha256": "e478ea312cf2d7af211869891cf3cb6f3980d662354ee2be756c90f4b50dadb1",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6507, 341, 2790]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "a32e483cbfdced8914384c2153c740d3a99d889e7cf27a7853279169a0f4da7b",
+            "pdfSha256": "5ec6cd46e8cb4d3a66fff0475e509bd210f1e34fe244ecd48addc80df56a29b0",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 3,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [6506, 341, 2791]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": false,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [3],
+            "changedPixelPages": [3],
+            "changedWords": 43,
+            "maxAbsDxMm": 0.017656114366319444,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": false,
+            "exactSerializedTables": false,
+            "exactPublicGrid": false
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [3],
+            "changedPixelPages": [3],
+            "changedWords": 43,
+            "maxAbsDxMm": 0.017634582519531247,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": false,
+            "exactSerializedTables": false,
+            "exactPublicGrid": false
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-low",
+        "sourceSha256": "1ea8187430a5add645a462773fa4b8046548c1f1a0205e8fa2e73525b1826dc1",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "1ea8187430a5add645a462773fa4b8046548c1f1a0205e8fa2e73525b1826dc1",
+            "pdfSha256": "1b80d470afbb9e2daed2a5601eb41129b9b7a02c870cab8ee168d24e3baa6214",
+            "nativeControls": 331,
+            "canonicalOwnerFieldCount": 301,
+            "pdfPages": 12,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "8c6f962f59a8b582e5b079e3ea54f1becd4e2c5184480738e9a3e5468525eaa2",
+            "pdfSha256": "f11f5d88172c5dc873fe2dc7cdf19eb02027db96abc38b1e5f74891b0731a148",
+            "nativeControls": 331,
+            "canonicalOwnerFieldCount": 301,
+            "pdfPages": 12,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "b5048c46116834b24bae1599114a37788c3056219330a5dfb1bc9831eb9a741f",
+            "pdfSha256": "62f36c38854fe523fd2d0d3c00d283ee7b27831c93d483cefbcf00765448cfa7",
+            "nativeControls": 331,
+            "canonicalOwnerFieldCount": 301,
+            "pdfPages": 12,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-portrait",
+        "sourceSha256": "699d66d9ab961a8a6714ca81ffb8924fc0628596382dccb1a3daad0e4b140efd",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "699d66d9ab961a8a6714ca81ffb8924fc0628596382dccb1a3daad0e4b140efd",
+            "pdfSha256": "2a01287bc053a5c07baf2d230f75eee232972b5b10966341ebfb8c7d08522f7e",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 4,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "c04f35ea7fae4fff46bde675a02e2b13b00234cf6d1610967fb4c96e328a508f",
+            "pdfSha256": "6150e3ad2afef345e36d3d25bab17c6b53a63f7d2d744bb867305264f6e4da04",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 4,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "8074d8391e9689f48fc7141e77f78072b80a6465c059aa4585ce3ebf05a558f3",
+            "pdfSha256": "e5bc08c2856ebf50a76f8e68ed44af17bbc313f4b847a099b08899ec2a003581",
+            "nativeControls": 78,
+            "canonicalOwnerFieldCount": 48,
+            "pdfPages": 4,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-chrome",
+        "sourceSha256": "591521331ff2538345e202759f2b94bba93a67b7967a2f205ed38c497286a157",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "591521331ff2538345e202759f2b94bba93a67b7967a2f205ed38c497286a157",
+            "pdfSha256": "1da30a7574465963185bcfc6aa5cf25acd64647ac539189ab677df628cfd9102",
+            "nativeControls": 339,
+            "canonicalOwnerFieldCount": 297,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "5f836c3bd3781a662eab8b9cb8511aff07a7698205f6fc437c4e3209a4f370da",
+            "pdfSha256": "c2c63ca2f47f29619bf782bf79d97f0c6ea99b19e1251bfe5f0ddc6b25a9ddca",
+            "nativeControls": 339,
+            "canonicalOwnerFieldCount": 297,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "591e2bb0b6365636998708529248aaeadf01fc5432a69af0568f2fb4f80e6618",
+            "pdfSha256": "f67a31eb8ee09f8c8d7ed7392b8c307e9a4d9e46f47b28ff1bbb4c1d96eebed1",
+            "nativeControls": 339,
+            "canonicalOwnerFieldCount": 297,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-contact-long",
+        "sourceSha256": "8e067cde1d456e6157644191a9d63eb40a2285a4193897b4455ef109bda1808c",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "8e067cde1d456e6157644191a9d63eb40a2285a4193897b4455ef109bda1808c",
+            "pdfSha256": "4bb7f5d5d58bf7988e968196e09577e62a2ea507ea158e0ec1c35e2ca622850e",
+            "nativeControls": 346,
+            "canonicalOwnerFieldCount": 296,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "f224441c79eafa986136d3e91bfbd00bdf418f58b69569e376535c2b2be3e77d",
+            "pdfSha256": "458e9404fa92a6d00fe8e59f11a9f5594c9a8d41c2c8469dc7a00e282ae96e76",
+            "nativeControls": 346,
+            "canonicalOwnerFieldCount": 296,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "85586b92aac9605082a19e11b94d8812ceb34eea8796918f226eab61a692fe3b",
+            "pdfSha256": "44ff5744d387a7df1091022156720eeb355688447ba1e8c31a070da93c81c235",
+            "nativeControls": 346,
+            "canonicalOwnerFieldCount": 296,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-chrome-continuation",
+        "sourceSha256": "b245d3b116dd96c91e51fdd13ee52a209bc261f6eec2d0ee1cc132f77a731b3c",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "b245d3b116dd96c91e51fdd13ee52a209bc261f6eec2d0ee1cc132f77a731b3c",
+            "pdfSha256": "f376df6f6c783d00cfdc6a3a1f770ebb4d0d4108cb55dce38134f3621f26ed3c",
+            "nativeControls": 338,
+            "canonicalOwnerFieldCount": 296,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "26605277bb7d84408a4eeb4fd811135f023448fde4a8f5bdbf5f503334e0d7d6",
+            "pdfSha256": "a6dc4d0d6c1716a0c7c9576bab61dfae32d003bbec4039383d91c5e64fb93921",
+            "nativeControls": 338,
+            "canonicalOwnerFieldCount": 296,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "e70a12b94d5987ec41292b63321ec1f8d7edb1431a37a71b2b2fca76c4bbe5dd",
+            "pdfSha256": "ff4553db5795204a1fca8cb280ee8e1cdc60edc3ae154b21f72bfda85f3fa1ba",
+            "nativeControls": 338,
+            "canonicalOwnerFieldCount": 296,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-chrome-leading",
+        "sourceSha256": "9489ac471c6a1a9fec9e56b10657662847f7721ef084e41ca3f15817cbd361cd",
+        "phases": [
+          {
+            "phase": "source",
+            "docxSha256": "9489ac471c6a1a9fec9e56b10657662847f7721ef084e41ca3f15817cbd361cd",
+            "pdfSha256": "c9e68342c92ee931ff7298d7b0e3aaf3c4e4fffe3c49c5d372da38f88885b7c4",
+            "nativeControls": 338,
+            "canonicalOwnerFieldCount": 296,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved",
+            "docxSha256": "3dbf60d985ef2e3052c0b9cd0b5688887db2e5550161771778091329408af103",
+            "pdfSha256": "9ec710755aea832196980a9ccde27824d367af19c36342a77217ab10bda8876f",
+            "nativeControls": 338,
+            "canonicalOwnerFieldCount": 296,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          },
+          {
+            "phase": "saved2",
+            "docxSha256": "441d119ce58c3f6baaf62c9cb2562440426702ef16e65d997670ab5f6a705ad4",
+            "pdfSha256": "00873719a6ee1811298e355448eee3f6db4d76c75b1d3c6d8608819b76f3a820",
+            "nativeControls": 338,
+            "canonicalOwnerFieldCount": 296,
+            "pdfPages": 13,
+            "completeTextAndFinalNativeOwners": "pass",
+            "strongOriginalControlLifetime": "UNVERIFIED",
+            "rootGrid": [2789, 340, 6509]
+          }
+        ],
+        "completeContent": "pass",
+        "exactStockGeometry": true,
+        "comparisons": [
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "source",
+            "toPhase": "saved",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          },
+          {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true,
+            "fromPhase": "saved",
+            "toPhase": "saved2",
+            "exactSerializedRoot": true,
+            "exactSerializedTables": true,
+            "exactPublicGrid": true
+          }
+        ]
+      }
+    ]
+  },
+  "strongNativeObjectLifetime": "UNVERIFIED for current body stories; historical disposal/recreation failures remain strict",
+  "wordAcceptance": "UNVERIFIED",
+  "masterlistItems": {
+    "7": "OPEN",
+    "8": "OPEN",
+    "9": "OPEN",
+    "25": "UNVERIFIED"
+  },
+  "ci": {
+    "candidateAttempt1": [
+      {
+        "id": 38434516695,
+        "name": "DOCX Next Stable Sidebar",
+        "sha": "41e0bc343f18419933e4f98016ee91015f1211cc",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38434516695",
+        "attempt": 1
+      },
+      {
+        "id": 38434516645,
+        "name": "Dossier Regression",
+        "sha": "41e0bc343f18419933e4f98016ee91015f1211cc",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38434516645",
+        "attempt": 1
+      }
+    ],
+    "nativeRunFinal": {
+      "id": 38434516695,
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 2,
+      "sha": "41e0bc343f18419933e4f98016ee91015f1211cc",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38434516695"
+    },
+    "nativeFirstAttemptJobs": [
+      {
+        "id": 115424914328,
+        "name": "picture-identity",
+        "conclusion": "success"
+      },
+      {
+        "id": 115424914824,
+        "name": "app-body-content",
+        "conclusion": "failure"
+      },
+      {
+        "id": 115424915314,
+        "name": "supported-sidebar",
+        "conclusion": "failure"
+      },
+      {
+        "id": 115424916221,
+        "name": "stable-comparison",
+        "conclusion": "skipped"
+      },
+      {
+        "id": 115424916569,
+        "name": "Integrated template - ${{ matrix.template }}",
+        "conclusion": "skipped"
+      },
+      {
+        "id": 115424917108,
+        "name": "entry-flow-content",
+        "conclusion": "skipped"
+      }
+    ],
+    "nativeFinalJobs": [
+      {
+        "id": 115529160963,
+        "name": "app-body-content",
+        "conclusion": "success"
+      },
+      {
+        "id": 115529161368,
+        "name": "supported-sidebar",
+        "conclusion": "success"
+      },
+      {
+        "id": 115529455779,
+        "name": "stable-comparison",
+        "conclusion": "skipped"
+      },
+      {
+        "id": 115529460447,
+        "name": "entry-flow-content",
+        "conclusion": "skipped"
+      },
+      {
+        "id": 115529465774,
+        "name": "picture-identity",
+        "conclusion": "success"
+      },
+      {
+        "id": 115529476665,
+        "name": "Integrated template - ${{ matrix.template }}",
+        "conclusion": "skipped"
+      }
+    ],
+    "regressionFinalJobs": [
+      {
+        "id": 115424914468,
+        "name": "fast-checks",
+        "conclusion": "success"
+      },
+      {
+        "id": 115425204543,
+        "name": "Browser smoke - cv-pdf",
+        "conclusion": "success"
+      },
+      {
+        "id": 115425204547,
+        "name": "Browser smoke - dossier-flow",
+        "conclusion": "success"
+      },
+      {
+        "id": 115425204576,
+        "name": "Browser smoke - letter-m8-edge",
+        "conclusion": "success"
+      },
+      {
+        "id": 115425204639,
+        "name": "Browser smoke - templates-layout",
+        "conclusion": "success"
+      },
+      {
+        "id": 115425204699,
+        "name": "Browser smoke - m9-responsive",
+        "conclusion": "success"
+      },
+      {
+        "id": 115425204778,
+        "name": "Browser smoke - letter-m1-m5",
+        "conclusion": "success"
+      },
+      {
+        "id": 115425204839,
+        "name": "Browser smoke - fresh-dossier-templates",
+        "conclusion": "success"
+      },
+      {
+        "id": 115425205001,
+        "name": "Browser smoke - cv-m9-pagination",
+        "conclusion": "success"
+      },
+      {
+        "id": 115425207678,
+        "name": "native-print-benchmark",
+        "conclusion": "skipped"
+      },
+      {
+        "id": 115430465224,
+        "name": "publish-regression-status",
+        "conclusion": "success"
+      }
+    ],
+    "infrastructureFailure": {
+      "runId": 38434516695,
+      "attempt": 1,
+      "jobs": [115424914824, 115424915314],
+      "stage": "Pinned Ubuntu snapshot package download",
+      "timeoutSeconds": 360,
+      "nativeCasesExecutedInFailedJobs": 0
+    },
+    "retry": {
+      "scope": "failed jobs only",
+      "unchangedSourceSha": "41e0bc343f18419933e4f98016ee91015f1211cc",
+      "attempt": 2,
+      "result": "success"
+    },
+    "initial": [
+      {
+        "id": 38412622041,
+        "name": "Dossier Web Gallery",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38412622041",
+        "attempt": 1
+      },
+      {
+        "id": 38412622300,
+        "name": "Template Contact Integrity",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38412622300",
+        "attempt": 1
+      },
+      {
+        "id": 38412622106,
+        "name": "Dossier Regression",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38412622106",
+        "attempt": 1
+      },
+      {
+        "id": 38412620528,
+        "name": "pages build and deployment",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38412620528",
+        "attempt": 1
+      }
+    ]
+  },
+  "originalControlScope": "Current native body final inventories and complete table/cell ancestry; original object lifetime not observable before first public registration. No final string/ID or caption reconstruction is counted as survival.",
+  "engineBoundary": {
+    "stockWriterLibrarySha256": "ecc533cd929a8a044129026b519a87917803e0db7eb1c6bbec84f5511231397b",
+    "experimentalLibrarySha256": "dba8422194d7326f31fabb114ca120ed5cc116e4aa36b26c6c0faa43230fee85",
+    "modifiedEngineExecutedInThisPackage": false,
+    "officialUpstreamSourceBuildExecuted": false,
+    "productionRuntimeDependencyAdded": false
+  },
+  "parallelBranchesImported": []
+}

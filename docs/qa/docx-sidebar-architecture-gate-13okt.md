@@ -65,6 +65,34 @@ The actual app-grid reference artifact `11674676706` was downloaded independentl
 
 Local and final CI results are recorded below after execution. The existing stable Sidebar workflow is scoped to this branch for app-body-content, supported-sidebar and picture-identity; its twelve historical/template jobs remain branch-restricted and are explicitly skipped here. The existing Dossier Regression workflow runs on this branch. No new workflow or deployment is introduced. The experimental engine workflow is not activated.
 
+## Completed validation
+
+Validated candidate commit: `41e0bc343f18419933e4f98016ee91015f1211cc`. All application DOCX Next owners, fixture models and current app-body workers are byte-identical to the independently verified `99437d1a` source scope. This package changes documentation and CI branch coverage only.
+
+| Check                                                     | Actual result                                                                                                                                                   |
+| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Complete local units                                      | 1,118 tests across 243 files; zero failures                                                                                                                     |
+| Release formatting / TypeScript / lint / production build | PASS; 21 existing lint warnings, zero lint errors                                                                                                               |
+| Strict adversarial Sidebar/owner/grid/photo checks        | 140 tests in 15 existing Python groups; PASS; historical negatives retained                                                                                     |
+| Existing 22-case artifact re-audit                        | Complete native/package fields, paragraph/story order, visible text/photos/Chrome, all 66 phases and 564 page instances reproduced; no new native loads claimed |
+| Fresh stock native app-body CI                            | 22 cases, source/saved1/saved2, 66 phases, 564 PDF page instances; complete content/final owners PASS                                                           |
+| Fresh exact geometry                                      | 18/22 stable; four mirrored failures; strict `require_stable` rejects the report as EXPECTED FAIL                                                               |
+| Fresh historical supported Sidebar                        | 31 cases; real render/Save/Reopen and native identity checks PASS for their separate supported scope                                                            |
+| Fresh picture identity                                    | Existing positive and strict negative reports reproduced; crop/original-pixel/container-caption failures remain blocked                                         |
+| Microsoft Word / current strong control lifetime          | UNVERIFIED; no product or lifetime acceptance inferred                                                                                                          |
+
+[Dossier Regression run 38434516645](https://github.com/modebrecht/cv-cover-charm/actions/runs/38434516645) completed successfully on attempt 1: fast checks, all eight browser groups and release-status publication. Its optional native-print benchmark is skipped by the existing branch condition, not counted as passed.
+
+[Stable Sidebar run 38434516695](https://github.com/modebrecht/cv-cover-charm/actions/runs/38434516695) completed successfully on attempt 2. Attempt 1 remains a real infrastructure failure: app-body-content and supported-sidebar each timed out at 360 seconds while downloading hash-pinned Ubuntu snapshot packages; their native tests were skipped and zero cases from those failed jobs are claimed. Picture-identity succeeded on attempt 1. One bounded unchanged-source failed-jobs-only retry succeeded for both missing jobs. No acceptance gate, source, pinned dependency or historical baseline was modified to obtain success. Stable-comparison, entry-flow-content and integrated-template jobs are explicitly skipped for this package's branch.
+
+Fresh app-body artifact `11847349467`: 6,111,497 bytes, SHA-256 `33c88af6a9953cd3af1da4cde606d43890258612fc901d5655c73f86f2d3d508`. It was independently downloaded and re-audited. All 22 generated sources are byte-identical to the earlier app-grid artifact; all 66 final native control/whole-paragraph inventories and 564 page instances have exact pixels and word coordinates against that artifact. All 44 within-current-artifact save comparisons reproduce the four mirrored failures. Fresh photo artifact `11833615163`: 3,242,864 bytes, SHA-256 `5f9a8b408d16739b97b03022103b95e7068cb5aacfadcd67db890d498818f112`, independently downloaded and verified.
+
+Stock engine: LibreOffice `25.8.7.3`, `580(Build:3)`, pinned package/font inventories and public UNO binding; exact runtime, binding, worker/source, DOCX and PDF hashes are retained in [machine evidence](docx-sidebar-architecture-gate-13okt-evidence.json). No modified Writer binary is used. Saved DOCX byte equality across environments is not asserted; native identity, visible pixels/coordinates and exact grid comparisons are measured separately.
+
+The local fresh-browser attempt was unavailable: Chromium aborted because the execution environment denied its singleton socket. The local artifact replay is labeled read-only; the CI uses fresh browser normalization and real stock native imports/saves. An initial local release invocation lacked Bun on PATH; the corrected invocation completed all release checks. Neither unavailable/failed attempt is labeled a passing execution.
+
+Fresh photo results distinguish 8/8 field-identity fixtures (24 source pages, six table-caption failures) from the stopped four-source frame plan (three actual cases/nine source pages; exact cropped-rectangle crop fails; fourth source unrendered). The separate sized-shape plan executes three actual cases/nine source pages and retains a cropped-ellipse original-pixel failure. Successful negative-contract CI does not convert these failures into product acceptance.
+
 ## Masterliste and next gate
 
 | Item                        | Implementation                                | Automated evidence                                                  | Remaining blocker                                                               | Product acceptance |
@@ -77,3 +105,15 @@ Local and final CI results are recorded below after execution. The existing stab
 Smallest valuable next task: **a separate upstream engine-maintenance package** that builds the already proposed `NewSetTabCols` correction from complete pinned LibreOffice source and runs the four established mirrored failures plus unchanged left positive controls. Require an upstream regression/test proposal and explicit official distribution/support route. Do not ship a custom Writer dependency. If an official-engine route is not viable, keep the production guard closed; another app width/owner workaround has no present evidence of value. A successful engine gate still does not close strong lifetime, photo or Word gates.
 
 Merge recommendation: merge this architecture decision and bounded CI coverage after its completed checks; do not promote Sidebar or switch DOCX Next production. No merge or deliberate deployment is performed by this package.
+
+## Changed files and isolation
+
+| File                                                         | Change                                                                     |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| `docs/qa/docx-sidebar-architecture-gate-13okt.md`            | Architecture decision, blocker/coverage/CI ledger and next gate            |
+| `docs/qa/docx-sidebar-architecture-gate-13okt-evidence.json` | Current/source/engine/output fingerprints and strict actual matrix results |
+| `docs/docx-next/next-handoff.md`                             | Current decision prepended; historical evidence retained                   |
+| `.github/workflows/docx-next-stable-sidebar.yml`             | Existing three bounded native jobs also run on this branch                 |
+| `.github/workflows/dossier-regression.yml`                   | Existing complete application regression also runs on this branch          |
+
+No `src`, unit/negative assertions, fixture model, historical evidence JSON or native worker is changed. No PDF/preflight/Native Print/dialog/pagination/font/Legacy/V2/switchover change. `dev/main/render`, Agent A and Agent B are not written by this package. Final remote HEAD, clean working tree and unchanged protected/parallel heads are verified after publication. A final documentation successor does not claim that skipped native jobs ran again; its application CI is checked separately, and native evidence is bound to the identical audited source at `41e0bc343f18419933e4f98016ee91015f1211cc`.
