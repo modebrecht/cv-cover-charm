@@ -17,10 +17,13 @@ def main():
     catalog = json.loads((args.directory / "catalog/results.json").read_text())
     readers = json.loads((args.directory / "catalog/readers.json").read_text())
     actual = {row["file"]: row for row in readers["rows"]}
+    assert len(catalog["rows"]) == 39 and len({r["id"] for r in catalog["rows"]}) == 39
+    assert len(actual) == 78, "Incomplete or duplicated actual-byte reader audit"
     rows = []
     for row in catalog["rows"]:
         results = {}
         for cap in row["captures"]:
+            assert actual[cap["file"]]["sha256"] == cap["sha256"], "Mixed PDF-byte cohorts"
             channels = {}
             for engine in ["pdfjs", "mupdf", "pdfium"]:
                 pages = cap["pages"] if engine == "pdfjs" else actual[cap["file"]]["pages"]
