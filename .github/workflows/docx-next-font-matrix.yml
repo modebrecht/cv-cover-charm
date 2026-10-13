@@ -1,0 +1,94 @@
+name: DOCX Next Font Matrix
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [qa/docx-font-matrix-13okt, dev]
+    paths:
+      - .github/workflows/docx-next-font-matrix.yml
+      - src/lib/docx-next/fonts.ts
+      - src/lib/docx-next/styles.ts
+      - src/lib/docx-next/native-text.ts
+      - src/lib/docx-next/build-model.ts
+      - src/lib/docx-next/renderer.ts
+      - src/lib/docx-next/templates.ts
+      - tests/unit/docx-next-font*.test.ts
+      - tests/fixtures/docx-next/font-matrix.ts
+      - scripts/docx-next-font-matrix*
+      - scripts/docx_next_package_qa.py
+      - bun.lock
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docx-next-font-matrix-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  font-regressions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: bun install --frozen-lockfile
+      - run: bun test tests/unit
+      - run: bun run typecheck
+      - run: bun run format:check:release
+      - run: bunx prettier --check scripts/docx-next-font-matrix.ts tests/fixtures/docx-next/font-matrix.ts tests/unit/docx-next-font-matrix.test.ts .github/workflows/docx-next-font-matrix.yml
+      - run: bun run lint
+      - run: bun run build
+
+  font-packages-and-libreoffice:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      QA_ROOT: /tmp/docx-next-font-matrix
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked application and native QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - name: Install browser and stable distribution LibreOffice with public fallback fonts
+        timeout-minutes: 8
+        run: |
+          bash scripts/qa-browser-setup.sh
+          sudo apt-get update
+          sudo apt-get install -y libreoffice-writer fonts-dejavu-core fonts-liberation fonts-liberation2
+      - name: Existing LibreOffice package validator tests
+        run: python scripts/docx-next-stable-sidebar-test.py
+      - name: Generate 1092 guarded production packages with byte-identical JSON restoration
+        run: bun scripts/docx-next-font-matrix.ts "$QA_ROOT"
+      - name: Inspect every package and verify 468 actual font renders through Save/Reopen
+        run: |
+          python scripts/docx-next-font-matrix-qa.py "$QA_ROOT" \
+            --font-directory /usr/share/fonts/truetype/liberation \
+            --font-directory /usr/share/fonts/truetype/liberation2 \
+            --font-directory /usr/share/fonts/truetype/dejavu
+      - name: Retain measured OOXML, font, reflow and completeness evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-font-matrix-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/manifest.json
+            ${{ env.QA_ROOT }}/package-results.json
+            ${{ env.QA_ROOT }}/results.json
+            ${{ env.QA_ROOT }}/*.docx
+            ${{ env.QA_ROOT }}/initial-pdf/
+            ${{ env.QA_ROOT }}/saved-docx/
+            ${{ env.QA_ROOT }}/reopened-pdf/

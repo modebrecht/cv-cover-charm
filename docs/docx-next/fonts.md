@@ -4,7 +4,7 @@ Font selection is semantic model data, resolved before Word XML. `fonts.ts` owns
 
 ## Inventory
 
-`bun scripts/docx-next-font-inventory.ts` regenerates [font-inventory.json](font-inventory.json) from the app registry, template picker, default cover blocks, dossier family stacks and distributed font files. The registry contains 41 templates; the picker retires `warm4` and `warm5`, leaving the requested 39 active templates. Default cover text uses `sans` for 32 and `serif` for seven. Family CSS stacks use sans serif for 31, Georgia/Times for three and Palatino/Book Antiqua for five. These stacks are inventory evidence, not approval of a Next template configuration. Only Brief is currently configured.
+`bun scripts/docx-next-font-inventory.ts` regenerates [font-inventory.json](font-inventory.json) from the app registry, template picker, default cover blocks, dossier family stacks and distributed font files. The registry contains 41 templates; the picker retires `warm4` and `warm5`, leaving the requested 39 active templates. Default cover text uses `sans` for 32 and `serif` for seven. Family CSS stacks use sans serif for 31, Georgia/Times for three and Palatino/Book Antiqua for five. These stacks are inventory evidence, not Microsoft Word acceptance. `NEXT_TEMPLATES` now covers all 39 active templates; the automated font matrix is documented in [the 13 October acceptance report](../qa/docx-font-matrix-13okt.md).
 
 All eight selectable app keys have an explicit Word-oriented mapping:
 
