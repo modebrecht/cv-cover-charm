@@ -11,6 +11,7 @@ import { DossierChromeDocumentContentControls } from "@/components/dossier/Dossi
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
 import { DossierNativePrintRoot } from "@/components/dossier/DossierNativePrintRoot";
 import { useDossierNativePrint } from "@/components/dossier/useDossierNativePrint";
+import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import {
   HISTORY_KEYS,
@@ -827,21 +828,23 @@ function Anschreiben() {
                   Titelblatt + Motivationsschreiben + CV
                 </span>
               </button>
-              <button
-                type="button"
-                onClick={() => void nativePrint.print()}
-                disabled={!canDownloadDossierPdf || pdfDownloading || nativePrint.printing}
-                className="flex w-full flex-col gap-1 border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:opacity-45"
-              >
-                <span>
-                  {nativePrint.printing
-                    ? "Druckdialog wird vorbereitet…"
-                    : "Drucken / als PDF speichern"}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  Experiment · öffnet den Druckdialog
-                </span>
-              </button>
+              {nativePrintUiEnabled() ? (
+                <button
+                  type="button"
+                  onClick={() => void nativePrint.print()}
+                  disabled={!canDownloadDossierPdf || pdfDownloading || nativePrint.printing}
+                  className="flex w-full flex-col gap-1 border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:opacity-45"
+                >
+                  <span>
+                    {nativePrint.printing
+                      ? "Druckdialog wird vorbereitet…"
+                      : "Drucken / als PDF speichern"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    Experiment · öffnet den Druckdialog
+                  </span>
+                </button>
+              ) : null}
               {!canDownloadDossierPdf ? (
                 <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
                   {dossierPdfHint}

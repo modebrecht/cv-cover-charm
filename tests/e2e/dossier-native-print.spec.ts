@@ -35,7 +35,7 @@ async function seed(page: Page, storage: Record<string, string>) {
 }
 
 async function open(page: Page) {
-  await page.goto(BASE, { waitUntil: "networkidle" });
+  await page.goto(`${BASE}/?native-print-qa=1`, { waitUntil: "networkidle" });
   await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
   const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
   await expect(dialog.getByRole("button", { name: "PDF herunterladen", exact: true })).toBeEnabled({
@@ -89,6 +89,23 @@ function multiStorage() {
   storage["anschreiben:v1"] = JSON.stringify(letter);
   return storage;
 }
+
+test("normal download menus do not expose native printing", async ({ page }) => {
+  await seed(page, parityStorage("brief"));
+  await page.goto(BASE, { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+  await expect(dialog.getByRole("button", { name: NATIVE_LABEL, exact: true })).toHaveCount(0);
+  await expect(dialog.getByRole("button", { name: "PDF herunterladen", exact: true })).toBeEnabled({
+    timeout: 30_000,
+  });
+
+  await page.goto(`${BASE}/anschreiben`, { waitUntil: "networkidle" });
+  const download = page.getByRole("button", { name: "Download", exact: true });
+  await expect(download).toHaveAttribute("data-editor-ready", "true", { timeout: 15_000 });
+  await download.click();
+  await expect(page.getByRole("button", { name: NATIVE_LABEL, exact: true })).toHaveCount(0);
+});
 
 for (const scenario of ["simple", "multi", "studio3", "gallery"] as const) {
   test(`native print maps canonical pages to A4 with correct order and no UI: ${scenario}`, async ({

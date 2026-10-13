@@ -15,6 +15,7 @@ import {
   LETTER_STORAGE_KEY,
   readStoredDossierPart,
 } from "@/lib/dossier-project";
+import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
 
 export type DossierExportFormat = "json" | "pdf" | "docx";
 
@@ -419,7 +420,7 @@ export function DossierExportDialog({
           </div>
         </details>
 
-        {onNativePrint ? (
+        {nativePrintUiEnabled() && onNativePrint ? (
           <div className="mt-3 rounded-lg border px-3 py-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p id="native-print-help" className="text-xs text-muted-foreground">
