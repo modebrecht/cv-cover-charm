@@ -1,0 +1,183 @@
+[
+  {
+    "name": "empty-trailing-box",
+    "baseSha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+    "template": "brief",
+    "fixture": {
+      "titelblatt:v3": "{\"version\":7,\"template\":\"brief\",\"data\":{\"meta\":{\"title\":\"\",\"author\":\"\",\"subject\":\"\",\"keywords\":\"\"},\"kicker\":\"\",\"eyebrow\":\"\",\"beruf\":\"Informatiker/in EFZ\",\"lehrbeginn\":\"August 2027\",\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"lehrbetrieb\":\"Beispiel AG\",\"ansprechperson\":\"Herr Thomas Weber\",\"betriebAdresse\":\"Industriestrasse 8, 4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"labelKontakt\":\"\",\"labelEmpfaenger\":\"\",\"foto\":null},\"colors\":{},\"layout\":{},\"customs\":[],\"fontScale\":1.2}",
+      "anschreiben:v1": "{\"version\":1,\"data\":{\"absenderName\":\"Lea Müller\",\"absenderAdresse\":\"Dorfstrasse 12\",\"absenderPlzOrt\":\"4535 Hubersdorf\",\"absenderTelefon\":\"079 123 45 67\",\"absenderEmail\":\"lea.mueller@example.ch\",\"empfaengerFirma\":\"Beispiel AG\",\"empfaengerName\":\"Herr Thomas Weber\",\"empfaengerAdresse\":\"Industriestrasse 8\",\"empfaengerPlzOrt\":\"4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"betreff\":\"Bewerbung um eine Lehrstelle als Informatiker/in EFZ\",\"anrede\":\"QASALUTATION001 Guten Tag Herr Weber\",\"text\":\"QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001\\n\\nQAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002\",\"richTextHtml\":\"\",\"gruss\":\"QACLOSING001 Freundliche Grüsse\",\"unterschrift\":\"QASIGNATURE001 Lea Müller\",\"images\":[],\"showBeilagen\":true,\"beilagen\":[\"QAATTACHMENT001 Lebenslauf\",\"QAATTACHMENT002 Arbeitszeugnis\"]},\"design\":{\"template\":\"brief\",\"colors\":{\"bg\":\"#ffffff\",\"ink\":\"#111111\",\"primary\":\"#111111\",\"secondary\":\"#111111\",\"accent\":\"#111111\",\"cvInk\":\"#111111\",\"cvMuted\":\"#4b5563\",\"cvHeading\":\"#111111\"},\"bgOpacity\":0.25,\"paperColor\":null,\"textColor\":null,\"font\":\"freundlich\",\"fontOverride\":null,\"senderAlign\":\"left\",\"recipientAlign\":\"left\",\"dateAlign\":\"left\",\"ruleAfterSender\":false,\"ruleAfterRecipient\":false,\"ruleAfterSubject\":false,\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"chromeBorderEnabled\":false,\"chromeBorderColor\":null,\"chromeBorderWidthMm\":0.6,\"chromeTextFont\":null}}",
+      "lebenslauf:v1": "{\"version\":6,\"data\":{\"titel\":\"Lebenslauf\",\"person\":{\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"nationalitaet\":\"\",\"untertitel\":\"\",\"foto\":null},\"schule\":[{\"id\":\"qa-school-0\",\"zeit\":\"2025 – 2026\",\"titel\":\"QASCHOOL001 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001\"},{\"id\":\"qa-school-1\",\"zeit\":\"2024 – 2025\",\"titel\":\"QASCHOOL002 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU002 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND002\"}],\"erfahrung\":[{\"id\":\"qa-work-0\",\"zeit\":\"2026\",\"titel\":\"QAWORK001 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001\"},{\"id\":\"qa-work-1\",\"zeit\":\"2025\",\"titel\":\"QAWORK002 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC002 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND002\"}],\"sprachen\":[{\"id\":\"demo-l1\",\"name\":\"Deutsch\",\"niveau\":\"Muttersprache\"},{\"id\":\"demo-l2\",\"name\":\"Englisch\",\"niveau\":\"Gute Schulkenntnisse (B1)\"},{\"id\":\"demo-l3\",\"name\":\"Französisch\",\"niveau\":\"Grundkenntnisse (A2)\"}],\"hobbys\":[\"Volleyball im Verein\",\"Programmieren kleiner Spiele\",\"Fotografieren\"],\"staerken\":[\"Zuverlässig und pünktlich\",\"Arbeitet gern im Team\",\"Lernt schnell Neues\"],\"referenzen\":[{\"id\":\"demo-r1\",\"name\":\"QAREF001 Thomas Weber\",\"funktion\":\"Klassenlehrer, Schulhaus Zentrum\",\"kontakt\":\"079 555 12 34\",\"email\":\"\",\"zusatz\":\"\"}],\"customSections\":[{\"id\":\"qa-projects\",\"title\":\"Projekte\",\"entries\":[{\"id\":\"qa-project\",\"zeit\":\"2026\",\"titel\":\"QAPROJECT001 Lernplattform\",\"ort\":\"Solothurn\",\"beschreibung\":\"QAPROJECTEND001 Entwicklung und Evaluation im Team.\"}]}],\"sectionOrder\":[\"person\",\"schule\",\"erfahrung\",\"sprachen\",\"hobbys\",\"staerken\",\"referenzen\",\"custom:qa-projects\"],\"labels\":{},\"hidden\":{},\"sectionLayouts\":{}},\"design\":{\"template\":\"brief\",\"colors\":{\"primary\":\"#183046\",\"accent\":\"#d99a42\",\"ink\":\"#15212c\",\"bg\":\"#ffffff\"},\"bgOpacity\":0.25,\"useElements\":false,\"sidebarPct\":22},\"elements\":[],\"elementStyles\":{}}",
+      "lebenslauf:layout:v1": "classic",
+      "lebenslauf:info-position:v1": "standard",
+      "lebenslauf:photo:v2": "{\"shape\":\"circle\",\"zoom\":1.2,\"x\":35,\"y\":65,\"borderWidth\":0.3}",
+      "lebenslauf:photo-place:v1": "{\"mode\":\"frei\",\"xMm\":150,\"yMm\":24,\"widthMm\":28,\"frameColor\":null}",
+      "lebenslauf:placement:v1": "{\"kontakt\":\"side\",\"schule\":\"main\",\"erfahrung\":\"main\",\"sprachen\":\"side\",\"hobbys\":\"side\",\"staerken\":\"side\",\"referenzen\":\"main\"}",
+      "lebenslauf:layout-mirror:v1": "false"
+    },
+    "fixtureSha256": "9106e8d80551e8f914d6bf6ac7efd4730f68d216563b9343077bc5a53f3b36f0",
+    "before": {
+      "blocked": true,
+      "boxBottom": 1269.421875,
+      "glyphBottom": 708.046875,
+      "layerHeight": 975.609375
+    },
+    "after": {
+      "blocked": false,
+      "boxBottom": 1269.421875,
+      "glyphBottom": 708.046875,
+      "layerHeight": 975.609375
+    },
+    "beforeHtmlSha256": "5bdf448b63fa1f2c0db2818bbe254f76d345a73ba5cb46079eb69db0b2e1efbb",
+    "afterHtmlSha256": "5bdf448b63fa1f2c0db2818bbe254f76d345a73ba5cb46079eb69db0b2e1efbb"
+  },
+  {
+    "name": "nested-clip",
+    "baseSha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+    "template": "brief",
+    "fixture": {
+      "titelblatt:v3": "{\"version\":7,\"template\":\"brief\",\"data\":{\"meta\":{\"title\":\"\",\"author\":\"\",\"subject\":\"\",\"keywords\":\"\"},\"kicker\":\"\",\"eyebrow\":\"\",\"beruf\":\"Informatiker/in EFZ\",\"lehrbeginn\":\"August 2027\",\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"lehrbetrieb\":\"Beispiel AG\",\"ansprechperson\":\"Herr Thomas Weber\",\"betriebAdresse\":\"Industriestrasse 8, 4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"labelKontakt\":\"\",\"labelEmpfaenger\":\"\",\"foto\":null},\"colors\":{},\"layout\":{},\"customs\":[],\"fontScale\":1.2}",
+      "anschreiben:v1": "{\"version\":1,\"data\":{\"absenderName\":\"Lea Müller\",\"absenderAdresse\":\"Dorfstrasse 12\",\"absenderPlzOrt\":\"4535 Hubersdorf\",\"absenderTelefon\":\"079 123 45 67\",\"absenderEmail\":\"lea.mueller@example.ch\",\"empfaengerFirma\":\"Beispiel AG\",\"empfaengerName\":\"Herr Thomas Weber\",\"empfaengerAdresse\":\"Industriestrasse 8\",\"empfaengerPlzOrt\":\"4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"betreff\":\"Bewerbung um eine Lehrstelle als Informatiker/in EFZ\",\"anrede\":\"QASALUTATION001 Guten Tag Herr Weber\",\"text\":\"QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001\\n\\nQAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002\",\"richTextHtml\":\"\",\"gruss\":\"QACLOSING001 Freundliche Grüsse\",\"unterschrift\":\"QASIGNATURE001 Lea Müller\",\"images\":[],\"showBeilagen\":true,\"beilagen\":[\"QAATTACHMENT001 Lebenslauf\",\"QAATTACHMENT002 Arbeitszeugnis\"]},\"design\":{\"template\":\"brief\",\"colors\":{\"bg\":\"#ffffff\",\"ink\":\"#111111\",\"primary\":\"#111111\",\"secondary\":\"#111111\",\"accent\":\"#111111\",\"cvInk\":\"#111111\",\"cvMuted\":\"#4b5563\",\"cvHeading\":\"#111111\"},\"bgOpacity\":0.25,\"paperColor\":null,\"textColor\":null,\"font\":\"freundlich\",\"fontOverride\":null,\"senderAlign\":\"left\",\"recipientAlign\":\"left\",\"dateAlign\":\"left\",\"ruleAfterSender\":false,\"ruleAfterRecipient\":false,\"ruleAfterSubject\":false,\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"chromeBorderEnabled\":false,\"chromeBorderColor\":null,\"chromeBorderWidthMm\":0.6,\"chromeTextFont\":null}}",
+      "lebenslauf:v1": "{\"version\":6,\"data\":{\"titel\":\"Lebenslauf\",\"person\":{\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"nationalitaet\":\"\",\"untertitel\":\"\",\"foto\":null},\"schule\":[{\"id\":\"qa-school-0\",\"zeit\":\"2025 – 2026\",\"titel\":\"QASCHOOL001 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001\"},{\"id\":\"qa-school-1\",\"zeit\":\"2024 – 2025\",\"titel\":\"QASCHOOL002 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU002 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND002\"}],\"erfahrung\":[{\"id\":\"qa-work-0\",\"zeit\":\"2026\",\"titel\":\"QAWORK001 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001\"},{\"id\":\"qa-work-1\",\"zeit\":\"2025\",\"titel\":\"QAWORK002 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC002 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND002\"}],\"sprachen\":[{\"id\":\"demo-l1\",\"name\":\"Deutsch\",\"niveau\":\"Muttersprache\"},{\"id\":\"demo-l2\",\"name\":\"Englisch\",\"niveau\":\"Gute Schulkenntnisse (B1)\"},{\"id\":\"demo-l3\",\"name\":\"Französisch\",\"niveau\":\"Grundkenntnisse (A2)\"}],\"hobbys\":[\"Volleyball im Verein\",\"Programmieren kleiner Spiele\",\"Fotografieren\"],\"staerken\":[\"Zuverlässig und pünktlich\",\"Arbeitet gern im Team\",\"Lernt schnell Neues\"],\"referenzen\":[{\"id\":\"demo-r1\",\"name\":\"QAREF001 Thomas Weber\",\"funktion\":\"Klassenlehrer, Schulhaus Zentrum\",\"kontakt\":\"079 555 12 34\",\"email\":\"\",\"zusatz\":\"\"}],\"customSections\":[{\"id\":\"qa-projects\",\"title\":\"Projekte\",\"entries\":[{\"id\":\"qa-project\",\"zeit\":\"2026\",\"titel\":\"QAPROJECT001 Lernplattform\",\"ort\":\"Solothurn\",\"beschreibung\":\"QAPROJECTEND001 Entwicklung und Evaluation im Team.\"}]}],\"sectionOrder\":[\"person\",\"schule\",\"erfahrung\",\"sprachen\",\"hobbys\",\"staerken\",\"referenzen\",\"custom:qa-projects\"],\"labels\":{},\"hidden\":{},\"sectionLayouts\":{}},\"design\":{\"template\":\"brief\",\"colors\":{\"primary\":\"#183046\",\"accent\":\"#d99a42\",\"ink\":\"#15212c\",\"bg\":\"#ffffff\"},\"bgOpacity\":0.25,\"useElements\":false,\"sidebarPct\":22},\"elements\":[],\"elementStyles\":{}}",
+      "lebenslauf:layout:v1": "classic",
+      "lebenslauf:info-position:v1": "standard",
+      "lebenslauf:photo:v2": "{\"shape\":\"circle\",\"zoom\":1.2,\"x\":35,\"y\":65,\"borderWidth\":0.3}",
+      "lebenslauf:photo-place:v1": "{\"mode\":\"frei\",\"xMm\":150,\"yMm\":24,\"widthMm\":28,\"frameColor\":null}",
+      "lebenslauf:placement:v1": "{\"kontakt\":\"side\",\"schule\":\"main\",\"erfahrung\":\"main\",\"sprachen\":\"side\",\"hobbys\":\"side\",\"staerken\":\"side\",\"referenzen\":\"main\"}",
+      "lebenslauf:layout-mirror:v1": "false"
+    },
+    "fixtureSha256": "9106e8d80551e8f914d6bf6ac7efd4730f68d216563b9343077bc5a53f3b36f0",
+    "before": {
+      "defect": "nested-clip",
+      "blocked": false,
+      "page": {
+        "xPx": 0,
+        "yPx": 0,
+        "widthPx": 794,
+        "heightPx": 1123,
+        "xMm": 0,
+        "yMm": 0
+      },
+      "body": {
+        "xPx": 90.703125,
+        "yPx": 483.4375,
+        "widthPx": 616.375,
+        "heightPx": 130.125,
+        "xMm": 23.989491498740556,
+        "yMm": 127.85479741763135
+      },
+      "affected": {
+        "xPx": 90.703125,
+        "yPx": 483.4375,
+        "widthPx": 616.375,
+        "heightPx": 21.6875,
+        "xMm": 23.989491498740556,
+        "yMm": 127.85479741763135
+      }
+    },
+    "after": {
+      "defect": "nested-clip",
+      "blocked": true,
+      "page": {
+        "xPx": 0,
+        "yPx": 0,
+        "widthPx": 794,
+        "heightPx": 1123,
+        "xMm": 0,
+        "yMm": 0
+      },
+      "body": {
+        "xPx": 90.703125,
+        "yPx": 483.4375,
+        "widthPx": 616.375,
+        "heightPx": 130.125,
+        "xMm": 23.989491498740556,
+        "yMm": 127.85479741763135
+      },
+      "affected": {
+        "xPx": 90.703125,
+        "yPx": 483.4375,
+        "widthPx": 616.375,
+        "heightPx": 21.6875,
+        "xMm": 23.989491498740556,
+        "yMm": 127.85479741763135
+      }
+    },
+    "beforeHtmlSha256": "07120c8dc37de64a308a68a79a0c2a7baecb0f1de14cdbef33ed0337bd9c1bed",
+    "afterHtmlSha256": "07120c8dc37de64a308a68a79a0c2a7baecb0f1de14cdbef33ed0337bd9c1bed"
+  },
+  {
+    "name": "footer-overlap",
+    "baseSha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+    "template": "brief",
+    "fixture": {
+      "titelblatt:v3": "{\"version\":7,\"template\":\"brief\",\"data\":{\"meta\":{\"title\":\"\",\"author\":\"\",\"subject\":\"\",\"keywords\":\"\"},\"kicker\":\"\",\"eyebrow\":\"\",\"beruf\":\"Informatiker/in EFZ\",\"lehrbeginn\":\"August 2027\",\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"lehrbetrieb\":\"Beispiel AG\",\"ansprechperson\":\"Herr Thomas Weber\",\"betriebAdresse\":\"Industriestrasse 8, 4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"labelKontakt\":\"\",\"labelEmpfaenger\":\"\",\"foto\":null},\"colors\":{},\"layout\":{},\"customs\":[],\"fontScale\":1.2}",
+      "anschreiben:v1": "{\"version\":1,\"data\":{\"absenderName\":\"Lea Müller\",\"absenderAdresse\":\"Dorfstrasse 12\",\"absenderPlzOrt\":\"4535 Hubersdorf\",\"absenderTelefon\":\"079 123 45 67\",\"absenderEmail\":\"lea.mueller@example.ch\",\"empfaengerFirma\":\"Beispiel AG\",\"empfaengerName\":\"Herr Thomas Weber\",\"empfaengerAdresse\":\"Industriestrasse 8\",\"empfaengerPlzOrt\":\"4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"betreff\":\"Bewerbung um eine Lehrstelle als Informatiker/in EFZ\",\"anrede\":\"QASALUTATION001 Guten Tag Herr Weber\",\"text\":\"QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001\\n\\nQAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002\",\"richTextHtml\":\"\",\"gruss\":\"QACLOSING001 Freundliche Grüsse\",\"unterschrift\":\"QASIGNATURE001 Lea Müller\",\"images\":[],\"showBeilagen\":true,\"beilagen\":[\"QAATTACHMENT001 Lebenslauf\",\"QAATTACHMENT002 Arbeitszeugnis\"]},\"design\":{\"template\":\"brief\",\"colors\":{\"bg\":\"#ffffff\",\"ink\":\"#111111\",\"primary\":\"#111111\",\"secondary\":\"#111111\",\"accent\":\"#111111\",\"cvInk\":\"#111111\",\"cvMuted\":\"#4b5563\",\"cvHeading\":\"#111111\"},\"bgOpacity\":0.25,\"paperColor\":null,\"textColor\":null,\"font\":\"freundlich\",\"fontOverride\":null,\"senderAlign\":\"left\",\"recipientAlign\":\"left\",\"dateAlign\":\"left\",\"ruleAfterSender\":false,\"ruleAfterRecipient\":false,\"ruleAfterSubject\":false,\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"chromeBorderEnabled\":false,\"chromeBorderColor\":null,\"chromeBorderWidthMm\":0.6,\"chromeTextFont\":null}}",
+      "lebenslauf:v1": "{\"version\":6,\"data\":{\"titel\":\"Lebenslauf\",\"person\":{\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"nationalitaet\":\"\",\"untertitel\":\"\",\"foto\":null},\"schule\":[{\"id\":\"qa-school-0\",\"zeit\":\"2025 – 2026\",\"titel\":\"QASCHOOL001 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001\"},{\"id\":\"qa-school-1\",\"zeit\":\"2024 – 2025\",\"titel\":\"QASCHOOL002 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU002 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND002\"}],\"erfahrung\":[{\"id\":\"qa-work-0\",\"zeit\":\"2026\",\"titel\":\"QAWORK001 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001\"},{\"id\":\"qa-work-1\",\"zeit\":\"2025\",\"titel\":\"QAWORK002 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC002 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND002\"}],\"sprachen\":[{\"id\":\"demo-l1\",\"name\":\"Deutsch\",\"niveau\":\"Muttersprache\"},{\"id\":\"demo-l2\",\"name\":\"Englisch\",\"niveau\":\"Gute Schulkenntnisse (B1)\"},{\"id\":\"demo-l3\",\"name\":\"Französisch\",\"niveau\":\"Grundkenntnisse (A2)\"}],\"hobbys\":[\"Volleyball im Verein\",\"Programmieren kleiner Spiele\",\"Fotografieren\"],\"staerken\":[\"Zuverlässig und pünktlich\",\"Arbeitet gern im Team\",\"Lernt schnell Neues\"],\"referenzen\":[{\"id\":\"demo-r1\",\"name\":\"QAREF001 Thomas Weber\",\"funktion\":\"Klassenlehrer, Schulhaus Zentrum\",\"kontakt\":\"079 555 12 34\",\"email\":\"\",\"zusatz\":\"\"}],\"customSections\":[{\"id\":\"qa-projects\",\"title\":\"Projekte\",\"entries\":[{\"id\":\"qa-project\",\"zeit\":\"2026\",\"titel\":\"QAPROJECT001 Lernplattform\",\"ort\":\"Solothurn\",\"beschreibung\":\"QAPROJECTEND001 Entwicklung und Evaluation im Team.\"}]}],\"sectionOrder\":[\"person\",\"schule\",\"erfahrung\",\"sprachen\",\"hobbys\",\"staerken\",\"referenzen\",\"custom:qa-projects\"],\"labels\":{},\"hidden\":{},\"sectionLayouts\":{}},\"design\":{\"template\":\"brief\",\"colors\":{\"primary\":\"#183046\",\"accent\":\"#d99a42\",\"ink\":\"#15212c\",\"bg\":\"#ffffff\"},\"bgOpacity\":0.25,\"useElements\":false,\"sidebarPct\":22},\"elements\":[],\"elementStyles\":{}}",
+      "lebenslauf:layout:v1": "classic",
+      "lebenslauf:info-position:v1": "standard",
+      "lebenslauf:photo:v2": "{\"shape\":\"circle\",\"zoom\":1.2,\"x\":35,\"y\":65,\"borderWidth\":0.3}",
+      "lebenslauf:photo-place:v1": "{\"mode\":\"frei\",\"xMm\":150,\"yMm\":24,\"widthMm\":28,\"frameColor\":null}",
+      "lebenslauf:placement:v1": "{\"kontakt\":\"side\",\"schule\":\"main\",\"erfahrung\":\"main\",\"sprachen\":\"side\",\"hobbys\":\"side\",\"staerken\":\"side\",\"referenzen\":\"main\"}",
+      "lebenslauf:layout-mirror:v1": "false"
+    },
+    "fixtureSha256": "9106e8d80551e8f914d6bf6ac7efd4730f68d216563b9343077bc5a53f3b36f0",
+    "before": {
+      "defect": "footer-overlap",
+      "blocked": false,
+      "page": {
+        "xPx": 0,
+        "yPx": 0,
+        "widthPx": 794,
+        "heightPx": 1123,
+        "xMm": 0,
+        "yMm": 0
+      },
+      "body": {
+        "xPx": 90.703125,
+        "yPx": 483.4375,
+        "widthPx": 616.375,
+        "heightPx": 195.1875,
+        "xMm": 23.989491498740556,
+        "yMm": 127.85479741763135
+      },
+      "affected": {
+        "xPx": 0,
+        "yPx": 1107.890625,
+        "widthPx": 794,
+        "heightPx": 15.109375,
+        "xMm": 0,
+        "yMm": 293.0040210373998
+      }
+    },
+    "after": {
+      "defect": "footer-overlap",
+      "blocked": true,
+      "page": {
+        "xPx": 0,
+        "yPx": 0,
+        "widthPx": 794,
+        "heightPx": 1123,
+        "xMm": 0,
+        "yMm": 0
+      },
+      "body": {
+        "xPx": 90.703125,
+        "yPx": 483.4375,
+        "widthPx": 616.375,
+        "heightPx": 195.1875,
+        "xMm": 23.989491498740556,
+        "yMm": 127.85479741763135
+      },
+      "affected": {
+        "xPx": 0,
+        "yPx": 1107.890625,
+        "widthPx": 794,
+        "heightPx": 15.109375,
+        "xMm": 0,
+        "yMm": 293.0040210373998
+      }
+    },
+    "beforeHtmlSha256": "761b1fc78776a4591074a4a5e239fdcdbad4f4a43c9cc4e5947b96e60efa4e11",
+    "afterHtmlSha256": "761b1fc78776a4591074a4a5e239fdcdbad4f4a43c9cc4e5947b96e60efa4e11"
+  }
+]

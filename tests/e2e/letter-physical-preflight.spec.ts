@@ -54,8 +54,9 @@ async function installAdversarialMeasurementGeometry(page: Page) {
       style.textContent = `
         /* Keep the hidden paginator stressed without changing visible A4 geometry. */
         [data-letter-pagination-measurements] [data-letter-text-layer] {
-          height: 20px !important;
-          min-height: 20px !important;
+          height: 0 !important;
+          min-height: 0 !important;
+          max-height: 0 !important;
           bottom: auto !important;
         }
       `;
@@ -66,7 +67,7 @@ async function installAdversarialMeasurementGeometry(page: Page) {
     const observer = new MutationObserver(() => {
       if (install()) observer.disconnect();
     });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
+    observer.observe(document, { childList: true, subtree: true });
   });
 }
 
@@ -112,14 +113,23 @@ test.describe("letter physical PDF preflight", () => {
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
     const pdfButton = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i });
-    await expect(pdfButton).toBeEnabled();
+    // The deliberately broken hidden probe is now an explicit advisory. The
+    // inflated aggregate scroll metric itself remains irrelevant to safety.
+    await expect(pdfButton).toBeDisabled();
+    const overrideButton = page.getByRole("button", {
+      name: "PDF trotzdem herunterladen",
+      exact: true,
+    });
+    await expect(overrideButton).toBeEnabled();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-    await pdfButton.click();
+    await overrideButton.click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toMatch(/\.pdf$/i);
   });
 
-  test("physical geometry authority rejects actual visible content outside A4", async ({ page }) => {
+  test("physical geometry authority rejects actual visible content outside A4", async ({
+    page,
+  }) => {
     const root = await seed(page);
     const recipient = root.locator('[data-letter-section="recipient"]').first();
     await expect(recipient).toBeVisible();

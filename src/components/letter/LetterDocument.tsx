@@ -10,6 +10,7 @@ import {
   type LetterPaginationIssue,
 } from "./letter-pagination";
 import { letterPageOverflows } from "./preflight";
+import { pdfContentHash } from "@/lib/pdf-preflight";
 import { letterRichHtml, plainTextToRichHtml, richHtmlToPlainText } from "./rich-text";
 import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
 import "./letter-pagination.css";
@@ -346,6 +347,18 @@ export function LetterDocument({
     );
   }, []);
 
+  // A safe complete fallback can reuse the initial page fragments. In that
+  // case LetterCanvas has no changed props/size and need not emit a second
+  // callback after the paginator clears its old measurements. Measure the
+  // committed physical pages once whenever the measurement finishes.
+  useEffect(() => {
+    if (!measurementReady) return;
+    const frame = requestAnimationFrame(() => {
+      for (const fragment of renderedPages) recordPageOverflow(fragment.pageIndex, false);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [measurementReady, recordPageOverflow, renderedPages]);
+
   // Readiness is derived from the measured pages rather than maintained by a
   // second effect that can invalidate and re-enable itself in the same commit.
   const pagination = useMemo<LetterPaginationState>(() => {
@@ -400,6 +413,8 @@ export function LetterDocument({
       data-dossier-template={design.template}
       data-letter-pagination-ready={pagination.ready ? "true" : "false"}
       data-letter-page-count={renderedPages.length}
+      data-letter-content-hash={pdfContentHash(richHtmlToPlainText(bodyHtml))}
+      data-letter-required-images={JSON.stringify(allImages.map((image) => image.id))}
       data-letter-pagination-error={pagination.issue?.code}
       data-letter-pagination-error-message={pagination.issue?.message}
       data-letter-pagination-warning={pagination.warning?.code}

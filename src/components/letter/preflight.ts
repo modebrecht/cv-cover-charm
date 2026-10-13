@@ -97,6 +97,101 @@ function visible(element: HTMLElement): boolean {
   return rect.width > 0 || rect.height > 0;
 }
 
+/** Inspect painted text through nested clipping boxes, including overflow:clip.
+ * Range boxes include unused font descent; canvas ink metrics avoid inventing
+ * clipping where the glyph itself is still fully printable.
+ */
+export function printableTextClips(page: HTMLElement): boolean {
+  const doc = page.ownerDocument;
+  if (!doc?.createTreeWalker) return false;
+  const pageRect = page.getBoundingClientRect();
+  const context = doc.createElement("canvas").getContext("2d");
+  if (!context) return true;
+  const walker = doc.createTreeWalker(page, NodeFilter.SHOW_TEXT);
+  const chromeNodes = Array.from(
+    page.querySelectorAll<HTMLElement>(
+      "[data-letter-integrated-contact], [data-dossier-header], [data-letter-footer], [data-dossier-footer]",
+    ),
+  );
+  const overlays = Array.from(
+    page.querySelectorAll<HTMLElement>('[data-letter-image-placement="free"] img, [data-cv-photo]'),
+  );
+  let node: Node | null;
+  const painted: Array<Pick<DOMRect, "left" | "right" | "top" | "bottom">> = [];
+  while ((node = walker.nextNode())) {
+    if (!node.textContent?.trim() || !node.parentElement) continue;
+    if (node.parentElement.closest("button, [data-letter-image-placement-controls]")) continue;
+    const ancestors: HTMLElement[] = [];
+    let hidden = false;
+    for (
+      let parent: HTMLElement | null = node.parentElement;
+      parent;
+      parent = parent.parentElement
+    ) {
+      ancestors.push(parent);
+      const style = getComputedStyle(parent);
+      if (style.display === "none" || style.visibility === "hidden") hidden = true;
+      if (parent === page) break;
+    }
+    if (hidden) continue;
+    const font = getComputedStyle(node.parentElement);
+    context.font =
+      font.font || `${font.fontStyle} ${font.fontWeight} ${font.fontSize} ${font.fontFamily}`;
+    const metrics = context.measureText(node.textContent);
+    const range = doc.createRange();
+    range.selectNodeContents(node);
+    for (const rect of Array.from(range.getClientRects())) {
+      if (rect.width <= 0 || rect.height <= 0) continue;
+      const height = metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+      const scale = height > 0 ? rect.height / height : 0;
+      const ink = {
+        left: rect.left,
+        right: rect.right,
+        top: rect.top + (metrics.fontBoundingBoxAscent - metrics.actualBoundingBoxAscent) * scale,
+        bottom:
+          rect.bottom - (metrics.fontBoundingBoxDescent - metrics.actualBoundingBoxDescent) * scale,
+      };
+      if (rectOutside(ink, pageRect)) return true;
+      if (painted.some((previous) => overlaps(ink, previous))) return true;
+      painted.push(ink);
+      for (const ancestor of ancestors) {
+        if (ancestor === page) break;
+        const style = getComputedStyle(ancestor),
+          box = ancestor.getBoundingClientRect();
+        if (
+          (/hidden|clip|auto|scroll/.test(style.overflowX) &&
+            (ink.left < box.left - 1.5 || ink.right > box.right + 1.5)) ||
+          (/hidden|clip|auto|scroll/.test(style.overflowY) &&
+            (ink.top < box.top - 1.5 || ink.bottom > box.bottom + 1.5))
+        )
+          return true;
+      }
+      // Chrome is reserved physical space. Its background box can contain
+      // padding; an actual body glyph inside that box must never be accepted.
+      if (
+        node.parentElement.closest("[data-letter-text-layer], [data-cv-main], [data-cv-sidebar]")
+      ) {
+        for (const chrome of chromeNodes)
+          if (
+            chrome &&
+            !chrome.contains(node) &&
+            visible(chrome) &&
+            overlaps(ink, chrome.getBoundingClientRect())
+          )
+            return true;
+        for (const overlay of overlays)
+          if (
+            !overlay.contains(node) &&
+            visible(overlay) &&
+            overlaps(ink, overlay.getBoundingClientRect())
+          )
+            return true;
+      }
+    }
+  }
+  return false;
+}
+
 /**
  * Judge the visible letter text, not the text layer's aggregate scrollHeight.
  * Images are validated separately below because freely positioned images may
@@ -110,33 +205,10 @@ export function letterRenderedTextLayerOverflows(layer: HTMLElement): boolean {
   // metric object. Keep that deterministic fallback while real browser pages use
   // descendant geometry as the final authority.
   if (typeof layer.querySelectorAll !== "function") return letterTextLayerOverflows(layer);
-
-  const meaningful = layer.querySelectorAll<HTMLElement>(
-    "[data-letter-section], [data-letter-pdf-text], [data-letter-pdf-richtext]",
-  );
-  let measured = false;
-  for (const element of Array.from(meaningful)) {
-    if (!visible(element)) continue;
-    measured = true;
-    const rect = element.getBoundingClientRect();
-    if (rectOutside(rect, layerRect)) return true;
-
-    // Width clipping on a real content node is meaningful. Height clipping on
-    // auto-sized blocks is normally equal; fixed-size content nodes must not hide text.
-    if (element.scrollWidth > element.clientWidth + 1) return true;
-    const style = window.getComputedStyle(element);
-    if (
-      style.overflowY !== "visible" &&
-      style.overflowY !== "clip" &&
-      element.scrollHeight > element.clientHeight + 1
-    ) {
-      return true;
-    }
-  }
-
-  // Empty/mock layers do not expose meaningful descendants, so preserve the
-  // deterministic scroll-metric fallback used by non-browser tests.
-  return measured ? false : letterTextLayerOverflows(layer);
+  // A semantic box can include hundreds of pixels of unused trailing height.
+  // The rendered glyphs and nested clipping ancestors are authoritative;
+  // printable images retain their independent page/text-area checks below.
+  return layer.ownerDocument ? printableTextClips(layer) : letterTextLayerOverflows(layer);
 }
 
 /**
@@ -158,12 +230,15 @@ export function letterPageOverflows(page: ParentNode): boolean {
     return letterTextLayerOverflows(layer);
   }
   if (letterRenderedTextLayerOverflows(layer)) return true;
+  if (printableTextClips(page as HTMLElement)) return true;
 
   const pageRect = measurablePage.getBoundingClientRect();
   const layerRect = layer.getBoundingClientRect();
   const contact = page.querySelector<HTMLElement>("[data-letter-integrated-contact]");
   const recipient = page.querySelector<HTMLElement>('[data-letter-section="recipient"]');
-  const footer = page.querySelector<HTMLElement>("[data-letter-footer]");
+  const footer =
+    page.querySelector<HTMLElement>("[data-letter-footer], [data-dossier-footer]") ??
+    page.querySelector<HTMLElement>("[data-letter-footer]");
 
   for (const element of [contact, footer]) {
     if (!element) continue;
@@ -196,6 +271,21 @@ export function letterPageOverflows(page: ParentNode): boolean {
     // images, on the other hand, must stay inside the text layer they wrap.
     if (rectOutside(imageRect, pageRect) || (!free && rectOutside(imageRect, layerRect))) {
       return true;
+    }
+    for (
+      let ancestor = printableImage.parentElement;
+      ancestor && ancestor !== page;
+      ancestor = ancestor.parentElement
+    ) {
+      const style = getComputedStyle(ancestor),
+        box = ancestor.getBoundingClientRect();
+      if (
+        (/hidden|clip|auto|scroll/.test(style.overflowX) &&
+          (imageRect.left < box.left - 1.5 || imageRect.right > box.right + 1.5)) ||
+        (/hidden|clip|auto|scroll/.test(style.overflowY) &&
+          (imageRect.top < box.top - 1.5 || imageRect.bottom > box.bottom + 1.5))
+      )
+        return true;
     }
     if (footer && overlaps(imageRect, footer.getBoundingClientRect())) return true;
   }
