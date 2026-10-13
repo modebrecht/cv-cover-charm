@@ -213,6 +213,14 @@ for (const sidebar of [false, true]) {
   }) => {
     test.setTimeout(180_000);
     const storage = parityStorage("gallery", true, sidebar);
+    if (sidebar) {
+      // Mirroring moves the free photo over the identity at y=24 mm. This
+      // parity fixture needs a fitting photo; the original overlap has its own
+      // hard-block regression in pdf-preflight-safety.qa.ts.
+      const photo = JSON.parse(storage["lebenslauf:photo-place:v1"]);
+      photo.yMm = 4;
+      storage["lebenslauf:photo-place:v1"] = JSON.stringify(photo);
+    }
     await seed(page, storage);
     const { cv, dialog } = await openCombined(page);
     await settled(page, cv);

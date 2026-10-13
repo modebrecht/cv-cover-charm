@@ -1,6 +1,15 @@
 import { expect, test, type Page } from "@playwright/test";
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { paginationFixture } from "./pagination-fixtures";
-import { auditDocument, documentRoots, loadFixture } from "./pagination-browser";
+import { parityStorage } from "../e2e/support/cv-parity-fixture";
+import {
+  auditDocument,
+  documentRoots,
+  evidenceDir,
+  loadFixture,
+  runtimeProvenance,
+} from "./pagination-browser";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   DOSSIER_CHROME_STORAGE_KEY,
@@ -383,6 +392,105 @@ test("combined advisory and hard CV clipping share the final policy", async ({ p
     dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
   ).toHaveCount(0);
 });
+
+test("negative mirrored free CV photo covers visible identity", async ({ page }) => {
+  await page.goto("http://127.0.0.1:4173", { waitUntil: "domcontentloaded" });
+  await page.evaluate(
+    (storage) => {
+      localStorage.clear();
+      for (const [key, value] of Object.entries(storage)) localStorage.setItem(key, value);
+    },
+    parityStorage("gallery", true, true),
+  );
+  await page.reload({ waitUntil: "networkidle" });
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+  await expect(page.locator("[data-dossier-pdf-canvas]")).toHaveAttribute(
+    "data-dossier-cv-ready",
+    "true",
+  );
+  const result = await verdict(page, "dossier");
+  expect(result.status, JSON.stringify(result.issues)).toBe("blocked");
+  expect(await directExportFailure(page, "dossier")).toContain("Lebenslauf");
+  await expect(
+    dialog.getByRole("button", { name: "PDF herunterladen", exact: true }),
+  ).toBeDisabled();
+  await expect(
+    dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+  ).toHaveCount(0);
+});
+
+for (const condition of ["text-outside", "image-outside", "image-overlap"] as const) {
+  test(`combined advisory cannot bypass cover ${condition}`, async ({ page }) => {
+    await forceAdvisory(page);
+    const fixture = paginationFixture("brief", { paragraphs: 2, works: 1, schools: 1 });
+    const cover = JSON.parse(fixture.storage["titelblatt:v3"]);
+    cover.data.foto = imageSrc;
+    fixture.storage["titelblatt:v3"] = JSON.stringify(cover);
+    await loadFixture(page, fixture, "letter");
+    await page.goto("http://127.0.0.1:4173", { waitUntil: "networkidle" });
+    await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+    const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+    await expect(
+      dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+    ).toBeVisible({ timeout: 30000 });
+    await expect(page.locator('[data-dossier-pdf-canvas] [data-block-id="foto"] img')).toHaveCount(
+      1,
+    );
+    const transform =
+      condition === "image-overlap"
+        ? await page
+            .locator('[data-dossier-pdf-canvas] [data-dossier-document="cover"]')
+            .evaluate((sheet) => {
+              const name = sheet.querySelector('[data-block-id="name"]')!.getBoundingClientRect();
+              const photo = sheet.querySelector('[data-block-id="foto"]')!.getBoundingClientRect();
+              return `translate(${name.left - photo.left}px,${name.top - photo.top}px)`;
+            })
+        : "translateY(1200px)";
+    await page.addStyleTag({
+      content: `[data-dossier-pdf-canvas] [data-dossier-document="cover"] [data-block-id="${condition === "text-outside" ? "name" : "foto"}"]{transform:${transform}!important}`,
+    });
+    const result = await verdict(page, "dossier");
+    const geometry = await page
+      .locator('[data-dossier-pdf-canvas] [data-dossier-document="cover"]')
+      .evaluate((sheet, condition) => {
+        const p = sheet.getBoundingClientRect();
+        const element = sheet.querySelector(
+          `[data-block-id="${condition === "text-outside" ? "name" : "foto"}"]`,
+        )!;
+        const r = element.getBoundingClientRect();
+        return {
+          pagePx: { width: p.width, height: p.height },
+          elementPx: {
+            left: r.left - p.left,
+            top: r.top - p.top,
+            width: r.width,
+            height: r.height,
+          },
+          elementMm: {
+            left: ((r.left - p.left) * 210) / p.width,
+            top: ((r.top - p.top) * 297) / p.height,
+            width: (r.width * 210) / p.width,
+            height: (r.height * 297) / p.height,
+          },
+          imageReady: Array.from(element.querySelectorAll("img")).map((i) => ({
+            complete: i.complete,
+            naturalWidth: i.naturalWidth,
+          })),
+        };
+      }, condition);
+    await mkdir(evidenceDir, { recursive: true });
+    await writeFile(
+      join(evidenceDir, `cover-policy-${condition}.json`),
+      JSON.stringify({ ...runtimeProvenance(), fixture, geometry, result }, null, 2),
+    );
+    expect(result.status, JSON.stringify(result.issues)).toBe("blocked");
+    expect(await directExportFailure(page, "dossier")).toContain("Titelblatt");
+    await expect(
+      dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+    ).toHaveCount(0);
+  });
+}
 
 test("final guard catches edits during actual raster generation", async ({ page }) => {
   await loadFixture(page, paginationFixture("brief", { paragraphs: 2 }), "letter");

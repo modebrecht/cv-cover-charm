@@ -416,7 +416,10 @@ function Start() {
   const nativePrint = useDossierNativePrint(dossierExportRef);
 
   const refreshDocuments = useCallback(() => {
-    setDocuments(readDossierDocuments());
+    const next = readDossierDocuments();
+    // Returning from another window must not restart a settled paginator when
+    // the saved content is unchanged. Real storage edits still replace it.
+    setDocuments((current) => (JSON.stringify(current) === JSON.stringify(next) ? current : next));
   }, []);
 
   useEffect(() => {

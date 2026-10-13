@@ -131,15 +131,28 @@ test.describe("letter physical PDF preflight", () => {
     page,
   }) => {
     const root = await seed(page);
-    const recipient = root.locator('[data-letter-section="recipient"]').first();
+    const recipient = root
+      .locator('[data-letter-document-pages] [data-letter-page] [data-letter-section="recipient"]')
+      .first();
     await expect(recipient).toBeVisible();
 
-    await recipient.evaluate((element) => {
-      (element as HTMLElement).style.transform = "translateY(900px)";
+    // Keep the fault present if React commits another physical-page render.
+    await page.addStyleTag({
+      content:
+        'main [data-letter-document-pages] [data-letter-page] [data-letter-section="recipient"]{transform:translateY(1200px)!important}',
     });
+    const geometry = await recipient.evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return {
+        glyphBottom: range.getBoundingClientRect().bottom,
+        pageBottom: element.closest("[data-letter-page]")!.getBoundingClientRect().bottom,
+      };
+    });
+    expect(geometry.glyphBottom).toBeGreaterThan(geometry.pageBottom + 1.5);
 
     const physicalOverflow = await root
-      .locator("[data-letter-page]")
+      .locator("[data-letter-document-pages] [data-letter-page]")
       .first()
       .evaluate(async (pageNode) => {
         const { letterPageOverflows } = await import("/src/components/letter/preflight.ts");

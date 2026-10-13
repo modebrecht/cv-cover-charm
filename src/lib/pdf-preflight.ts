@@ -61,6 +61,14 @@ export function inspectPdfPreflight(
   kind: PdfDocumentKind,
 ): PdfPreflightResult {
   const issues: PdfPreflightIssue[] = [];
+  // This cache belongs to one synchronous inspection, never to a saved state
+  // or consent. Every subsequent guard re-reads current computed styles.
+  const styles = new WeakMap<HTMLElement, CSSStyleDeclaration>();
+  const styleFor = (node: HTMLElement) => {
+    let style = styles.get(node);
+    if (!style) styles.set(node, (style = getComputedStyle(node)));
+    return style;
+  };
   const add = (
     code: string,
     severity: PdfPreflightIssue["severity"],
@@ -175,7 +183,7 @@ export function inspectPdfPreflight(
         parent;
         parent = parent.parentElement
       ) {
-        const css = getComputedStyle(parent);
+        const css = styleFor(parent);
         if (css.display === "none" || css.visibility === "hidden") {
           hidden = true;
           break;
@@ -183,7 +191,7 @@ export function inspectPdfPreflight(
         if (parent === sheet) break;
       }
       if (hidden) continue;
-      const style = getComputedStyle(node.parentElement);
+      const style = styleFor(node.parentElement);
       if (style.display === "none" || style.visibility === "hidden") continue;
       const font =
         style.font ||
@@ -286,24 +294,34 @@ export function inspectPdfPreflight(
           documentKind,
           pageIndex,
         );
-    } else if (documentKind === "cv") {
+    } else {
       if (printableTextClips(sheet))
         add(
           "physical-overflow",
           "blocked",
-          `Lebenslauf Seite ${pageIndex + 1}: Text wird abgeschnitten oder überlappt Kopf/Fuss.`,
+          `${documentKind === "cv" ? "Lebenslauf" : "Titelblatt"} Seite ${pageIndex + 1}: Text wird abgeschnitten oder überlappt.`,
           documentKind,
           pageIndex,
           "text",
         );
-      for (const node of sheet.querySelectorAll<HTMLElement>(
-        "[data-cv-free-section], [data-cv-elements] [data-block-id], [data-cv-photo]",
-      ))
+      const imageAndFreeBoxes =
+        documentKind === "cv"
+          ? Array.from(
+              sheet.querySelectorAll<HTMLElement>(
+                "[data-cv-free-section], [data-cv-elements] [data-block-id], [data-cv-photo]",
+              ),
+            )
+          : // Cover photos deliberately crop/zoom inside their frame. Validate
+            // that printable frame, rather than the oversized source image.
+            Array.from(sheet.querySelectorAll<HTMLImageElement>("[data-block-id] img")).map(
+              (image) => image.closest<HTMLElement>("[data-block-id]")!,
+            );
+      for (const node of imageAndFreeBoxes)
         if (outside(node.getBoundingClientRect(), rect))
           add(
             "physical-overflow",
             "blocked",
-            `Lebenslauf Seite ${pageIndex + 1}: Ein freies Element oder Foto liegt ausserhalb der Seite.`,
+            `${documentKind === "cv" ? "Lebenslauf" : "Titelblatt"} Seite ${pageIndex + 1}: Ein freies Element oder Foto liegt ausserhalb der Seite.`,
             documentKind,
             pageIndex,
             "free-element/image",
@@ -358,13 +376,13 @@ export function inspectPdfPreflight(
       sheet,
       ...Array.from(
         sheet.querySelectorAll<HTMLElement>(
-          "[data-letter-text-layer], [data-letter-pdf-text], [data-letter-pdf-richtext], [data-letter-pdf-richtext] *, [data-letter-chrome] *, [data-dossier-field-id], [data-dossier-header], [data-dossier-footer], [data-cv-main], [data-cv-sidebar], [data-cv-entry], [data-cv-body], [data-cv-photo], img",
+          "[data-letter-text-layer], [data-letter-pdf-text], [data-letter-pdf-richtext], [data-letter-pdf-richtext] *, [data-letter-chrome] *, [data-dossier-field-id], [data-dossier-header], [data-dossier-footer], [data-cv-main], [data-cv-sidebar], [data-cv-entry], [data-cv-body], [data-cv-photo], [data-block-id], [data-block-id] *, img",
         ),
       ),
     ])
     .map((node) => {
       const r = node.getBoundingClientRect(),
-        s = getComputedStyle(node);
+        s = styleFor(node);
       return [
         r.left,
         r.top,
@@ -492,15 +510,52 @@ export function observePdfPreflight(
   const schedule = () => {
     if (!frame && !cancelled) frame = requestAnimationFrame(measure);
   };
-  const observer = new MutationObserver(schedule);
+  const observer = new MutationObserver((records) => {
+    const root = getRoot();
+    if (!root || root !== observedRoot) {
+      schedule();
+      return;
+    }
+    if (
+      records.some((record) => {
+        // Global styles and inherited ancestor attributes can change the print
+        // layout. Unrelated UI widgets and html2canvas's own iframe cannot.
+        if (document.head?.contains(record.target) || root.contains(record.target)) return true;
+        if (
+          record.type === "attributes" &&
+          record.target instanceof Element &&
+          record.target.contains(root)
+        )
+          return true;
+        const targetElement =
+          record.target instanceof Element ? record.target : record.target.parentElement;
+        if (targetElement?.closest("style")) return true;
+        return [...record.addedNodes, ...record.removedNodes].some(
+          (node) =>
+            node instanceof Element &&
+            (node.matches('style,link[rel="stylesheet"]') ||
+              !!node.querySelector('style,link[rel="stylesheet"]')),
+        );
+      })
+    )
+      schedule();
+  });
   observer.observe(document.documentElement, {
     subtree: true,
     childList: true,
     attributes: true,
     characterData: true,
   });
-  document.body.addEventListener("load", schedule, true);
-  document.body.addEventListener("error", schedule, true);
+  const resourceChanged = (event: Event) => {
+    const target = event.target;
+    if (
+      target instanceof Element &&
+      (getRoot()?.contains(target) || target.matches('link[rel="stylesheet"]'))
+    )
+      schedule();
+  };
+  document.addEventListener("load", resourceChanged, true);
+  document.addEventListener("error", resourceChanged, true);
   document.fonts?.addEventListener("loading", schedule);
   document.fonts?.addEventListener("loadingdone", schedule);
   document.fonts?.addEventListener("loadingerror", schedule);
@@ -512,8 +567,8 @@ export function observePdfPreflight(
     cancelAnimationFrame(frame);
     observer.disconnect();
     resizeObserver.disconnect();
-    document.body.removeEventListener("load", schedule, true);
-    document.body.removeEventListener("error", schedule, true);
+    document.removeEventListener("load", resourceChanged, true);
+    document.removeEventListener("error", resourceChanged, true);
     document.fonts?.removeEventListener("loading", schedule);
     document.fonts?.removeEventListener("loadingdone", schedule);
     document.fonts?.removeEventListener("loadingerror", schedule);

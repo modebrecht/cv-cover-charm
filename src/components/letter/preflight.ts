@@ -90,13 +90,6 @@ function overlaps(
   );
 }
 
-function visible(element: HTMLElement): boolean {
-  const style = window.getComputedStyle(element);
-  if (style.display === "none" || style.visibility === "hidden") return false;
-  const rect = element.getBoundingClientRect();
-  return rect.width > 0 || rect.height > 0;
-}
-
 /** Inspect painted text through nested clipping boxes, including overflow:clip.
  * Range boxes include unused font descent; canvas ink metrics avoid inventing
  * clipping where the glyph itself is still fully printable.
@@ -104,6 +97,28 @@ function visible(element: HTMLElement): boolean {
 export function printableTextClips(page: HTMLElement): boolean {
   const doc = page.ownerDocument;
   if (!doc?.createTreeWalker) return false;
+  // One synchronous measurement may visit the same clipping ancestor for
+  // hundreds of glyph fragments. Cache only within this inspection; the next
+  // preflight always reads fresh styles and geometry.
+  const styles = new WeakMap<HTMLElement, CSSStyleDeclaration>();
+  const boxes = new WeakMap<HTMLElement, DOMRect>();
+  const styleFor = (node: HTMLElement) => {
+    let style = styles.get(node);
+    if (!style) styles.set(node, (style = getComputedStyle(node)));
+    return style;
+  };
+  const boxFor = (node: HTMLElement) => {
+    let box = boxes.get(node);
+    if (!box) boxes.set(node, (box = node.getBoundingClientRect()));
+    return box;
+  };
+  const visibleNode = (node: HTMLElement) => {
+    const style = styleFor(node),
+      box = boxFor(node);
+    return (
+      style.display !== "none" && style.visibility !== "hidden" && (box.width > 0 || box.height > 0)
+    );
+  };
   const pageRect = page.getBoundingClientRect();
   const context = doc.createElement("canvas").getContext("2d");
   if (!context) return true;
@@ -114,7 +129,11 @@ export function printableTextClips(page: HTMLElement): boolean {
     ),
   );
   const overlays = Array.from(
-    page.querySelectorAll<HTMLElement>('[data-letter-image-placement="free"] img, [data-cv-photo]'),
+    page.querySelectorAll<HTMLElement>(
+      '[data-letter-image-placement="free"] img, [data-cv-photo], [data-dossier-document="cover"] [data-block-id] img',
+    ),
+  ).map((node) =>
+    page.dataset.dossierDocument === "cover" ? node.closest<HTMLElement>("[data-block-id]")! : node,
   );
   let node: Node | null;
   const painted: Array<Pick<DOMRect, "left" | "right" | "top" | "bottom">> = [];
@@ -129,12 +148,12 @@ export function printableTextClips(page: HTMLElement): boolean {
       parent = parent.parentElement
     ) {
       ancestors.push(parent);
-      const style = getComputedStyle(parent);
+      const style = styleFor(parent);
       if (style.display === "none" || style.visibility === "hidden") hidden = true;
       if (parent === page) break;
     }
     if (hidden) continue;
-    const font = getComputedStyle(node.parentElement);
+    const font = styleFor(node.parentElement);
     context.font =
       font.font || `${font.fontStyle} ${font.fontWeight} ${font.fontSize} ${font.fontFamily}`;
     const metrics = context.measureText(node.textContent);
@@ -156,8 +175,8 @@ export function printableTextClips(page: HTMLElement): boolean {
       painted.push(ink);
       for (const ancestor of ancestors) {
         if (ancestor === page) break;
-        const style = getComputedStyle(ancestor),
-          box = ancestor.getBoundingClientRect();
+        const style = styleFor(ancestor),
+          box = boxFor(ancestor);
         if (
           (/hidden|clip|auto|scroll/.test(style.overflowX) &&
             (ink.left < box.left - 1.5 || ink.right > box.right + 1.5)) ||
@@ -169,22 +188,19 @@ export function printableTextClips(page: HTMLElement): boolean {
       // Chrome is reserved physical space. Its background box can contain
       // padding; an actual body glyph inside that box must never be accepted.
       if (
-        node.parentElement.closest("[data-letter-text-layer], [data-cv-main], [data-cv-sidebar]")
+        node.parentElement.closest("[data-letter-text-layer], [data-cv-main], [data-cv-sidebar]") ||
+        page.dataset.dossierDocument === "cover"
       ) {
         for (const chrome of chromeNodes)
           if (
             chrome &&
             !chrome.contains(node) &&
-            visible(chrome) &&
-            overlaps(ink, chrome.getBoundingClientRect())
+            visibleNode(chrome) &&
+            overlaps(ink, boxFor(chrome))
           )
             return true;
         for (const overlay of overlays)
-          if (
-            !overlay.contains(node) &&
-            visible(overlay) &&
-            overlaps(ink, overlay.getBoundingClientRect())
-          )
+          if (!overlay.contains(node) && visibleNode(overlay) && overlaps(ink, boxFor(overlay)))
             return true;
       }
     }

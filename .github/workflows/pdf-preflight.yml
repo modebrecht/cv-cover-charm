@@ -33,7 +33,9 @@ concurrency:
 jobs:
   acceptance:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # Includes the existing full matrix plus resource/override tests and raster
+    # inspection of every generated acceptance PDF. Individual test limits stay strict.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2

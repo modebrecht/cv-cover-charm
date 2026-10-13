@@ -1,0 +1,147 @@
+{
+  "sourceSha": "79180bacb8a6934cdad8c366732c3ff3644f5082",
+  "runId": 38433029167,
+  "jobId": 115419837901,
+  "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38433029167",
+  "counts": {
+    "unitPass": 1118,
+    "unitFail": 0,
+    "preflightPass": 26,
+    "preflightFail": 0,
+    "productPass": 20,
+    "productFail": 11,
+    "matrixStarted": false
+  },
+  "artifact": {
+    "id": 11832154638,
+    "size": 9667216,
+    "sha256": "c4c0041365db7135ac780fa6a3222f00684ce5a072c02a2044b2488f9684fec0"
+  },
+  "resultLines": [
+    "2026-10-13T16:45:22.0382290Z  1118 pass",
+    "2026-10-13T16:45:22.0382401Z  0 fail",
+    "2026-10-13T16:50:39.1480408Z   26 passed (4.4m)",
+    "2026-10-13T17:01:34.3655999Z   11 failed",
+    "2026-10-13T17:01:34.3666533Z   20 passed (10.9m)"
+  ],
+  "jobs": [
+    {
+      "id": 115419837901,
+      "name": "acceptance",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 38433029167,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Locked application and browser dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Units, types, lint, formatting and production build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Browser and PDF raster reader",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Strict preflight, resources, override and negative safety tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Existing product and editor regressions",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 9
+        },
+        {
+          "name": "Complete 39-template CV and Letter matrices and deep boundaries",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10
+        },
+        {
+          "name": "Long combined dossiers and sidebar regressions",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11
+        },
+        {
+          "name": "Literal word search across 39 automatic PDFs",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 12
+        },
+        {
+          "name": "Visible raster, logical fields and evidence summary",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 26
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 27
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        }
+      ]
+    }
+  ]
+}
