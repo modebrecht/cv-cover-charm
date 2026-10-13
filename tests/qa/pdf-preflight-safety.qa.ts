@@ -201,13 +201,20 @@ test("pending and failed actual image loading remain unsafe", async ({ page }) =
     release();
   }
   await expect.poll(async () => (await verdict(page)).status).toBe("pass");
-  await page
-    .locator(`${exportRoot} [data-letter-flow-image] img`)
-    .first()
-    .evaluate((img) => {
-      (img as HTMLImageElement).src = "data:image/png;base64,invalid";
-    });
-  await expect.poll(async () => (await verdict(page)).status).toBe("blocked");
+  // Use the persisted source for the failure: a React pagination update can
+  // replace an image whose src was changed only on the current DOM node.
+  letter.data.images[0].src = "data:image/png;base64,invalid";
+  fixture.storage["anschreiben:v1"] = JSON.stringify(letter);
+  await loadFixture(page, fixture, "letter");
+  const failedImage = page.locator(`${exportRoot} [data-letter-flow-image] img`).first();
+  await expect(failedImage).toHaveAttribute("src", "data:image/png;base64,invalid");
+  await expect
+    .poll(() =>
+      failedImage.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth === 0),
+    )
+    .toBe(true);
+  const failedVerdict = await verdict(page);
+  expect(failedVerdict.status, JSON.stringify(failedVerdict.issues)).toBe("blocked");
   expect(await directExportFailure(page)).toContain("Bild");
 });
 

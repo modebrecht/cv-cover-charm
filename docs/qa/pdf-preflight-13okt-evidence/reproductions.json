@@ -141,12 +141,12 @@
         "yMm": 127.85479741763135
       },
       "affected": {
-        "xPx": 0,
-        "yPx": 1107.890625,
-        "widthPx": 794,
-        "heightPx": 15.109375,
-        "xMm": 0,
-        "yMm": 293.0040210373998
+        "xPx": 80,
+        "yPx": 483.4375,
+        "widthPx": 634,
+        "heightPx": 40,
+        "xMm": 21.15869017632242,
+        "yMm": 127.85479741763135
       }
     },
     "after": {
@@ -169,15 +169,15 @@
         "yMm": 127.85479741763135
       },
       "affected": {
-        "xPx": 0,
-        "yPx": 1107.890625,
-        "widthPx": 794,
-        "heightPx": 15.109375,
-        "xMm": 0,
-        "yMm": 293.0040210373998
+        "xPx": 80,
+        "yPx": 483.4375,
+        "widthPx": 634,
+        "heightPx": 40,
+        "xMm": 21.15869017632242,
+        "yMm": 127.85479741763135
       }
     },
     "beforeHtmlSha256": "761b1fc78776a4591074a4a5e239fdcdbad4f4a43c9cc4e5947b96e60efa4e11",
-    "afterHtmlSha256": "761b1fc78776a4591074a4a5e239fdcdbad4f4a43c9cc4e5947b96e60efa4e11"
+    "afterHtmlSha256": "47b7a0a732b503be6cac86307d910a74fab713f2133c75751f002be6989e5a08"
   }
 ]
