@@ -1,0 +1,49 @@
+{
+  "unit": {
+    "sha256": "f211f11280119d36b75b6ad3f283f26211ef60d62d1e3dce9c1ff72ba57250b1",
+    "bytes": 143806
+  },
+  "app-typecheck": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "qa-typecheck-final": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "lint": {
+    "sha256": "7befe8b4bf20785d4f269426b8700475673947fbd2e4641e7884d6aff2788d9d",
+    "bytes": 6183
+  },
+  "format": {
+    "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "bytes": 66
+  },
+  "build": {
+    "sha256": "5f997ee002584246ff82c0502db437d3f7e37fa6fd15ef0f4944efb3f2c6862d",
+    "bytes": 17287
+  },
+  "search-run": {
+    "sha256": "d9b9740ee5d17aaac8eb63a5dee2b013e9752bdefea842348b433e184169bce0",
+    "bytes": 550745
+  },
+  "focused-corrected": {
+    "sha256": "aec3f2d1e48c56e0c68a4efc324469f1bf481674b11d9afb0d81efe37e49ada6",
+    "bytes": 199414
+  },
+  "catalog-strict-final": {
+    "sha256": "e8ffabc7da24a2fa293b9a240c56a1f2ad6c994e7ca85e45e685c5bdfb0211d6",
+    "bytes": 345704
+  },
+  "product-run": {
+    "sha256": "e8c07ba6eed3f713d1a694cac58604bc2083389b9e569304d3f5a5140c86bb48",
+    "bytes": 114418
+  },
+  "srcTree": "5861529676d8067f19c3e392ce827003ba5f2eba",
+  "baseSrcTree": "5861529676d8067f19c3e392ce827003ba5f2eba",
+  "fontsTree": "94c67822f55a9103b4efb0253b3b1b632c97b0b3",
+  "codeSha": "fcd27c2fdc5819b0888565ac0e5bc381a2090699",
+  "bunLockSha256": "674f77937d48508f17ce9f3e0633203decc525d0ec2d9a5dee68eedb83756834",
+  "alteredByteHashRejected": true,
+  "incompleteCatalogRejected": true
+}

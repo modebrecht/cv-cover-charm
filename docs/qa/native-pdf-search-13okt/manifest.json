@@ -1,0 +1,67 @@
+[
+  {
+    "file": "catalog-readers.json.gz",
+    "bytes": 61854,
+    "sha256": "bc1d601384ef8398725ad2eadf7ff83d296457e7a65077ee3228d31610a3b28a"
+  },
+  {
+    "file": "catalog-results.json.gz",
+    "bytes": 540197,
+    "sha256": "7bacfca2758e2f0e19b0fdfc8b5d0635fa06c6e5b01d70fc13a87093cad9efb5"
+  },
+  {
+    "file": "ci-provenance.json",
+    "bytes": 31869,
+    "sha256": "291ef9c93feccb850a9bb08db78138050046e72ec52144980b0aba2bed0c8d8e"
+  },
+  {
+    "file": "diagnostic-pdfs.zip",
+    "bytes": 2080386,
+    "sha256": "b115cfb973ce79f54d9da3142ac00067e65c75ac4d05f67a94a7d36fe27bac8a"
+  },
+  {
+    "file": "focused-readers.json.gz",
+    "bytes": 11114,
+    "sha256": "8bfe9fd814d074cb00559583183cdeaf1a124e31b7c9b7fc519627992d97851d"
+  },
+  {
+    "file": "focused-results.json.gz",
+    "bytes": 189630,
+    "sha256": "3983049de1159a32c402168dd21757703fe38f06609542eaa8329c6bfdb6c29d"
+  },
+  {
+    "file": "focused-review.png",
+    "bytes": 38427,
+    "sha256": "ab3721a8fe1130215793adf578231e71caaebb98219ae87ef83b62085ba096ad"
+  },
+  {
+    "file": "local-validation.json",
+    "bytes": 1636,
+    "sha256": "40d871f9578978eca61ab26cf382748649b3b44bf2ddb4a89f3c8c2e610cb5ed"
+  },
+  {
+    "file": "probe-probe.json.gz",
+    "bytes": 960,
+    "sha256": "baba02dff0bfa5d9621b2faad37224ed89b2d4974f46d3ff070b541d454283ed"
+  },
+  {
+    "file": "probe-readers.json.gz",
+    "bytes": 957,
+    "sha256": "860f2d8e7edadea3a819ba4a75c41e9ddf0daff4b64446d34571208118411194"
+  },
+  {
+    "file": "probe-review.png",
+    "bytes": 41455,
+    "sha256": "14bc152946c10f8e78345512623ba6248f2d116452a404799571af82eeef0daf"
+  },
+  {
+    "file": "product-results.json.gz",
+    "bytes": 868284,
+    "sha256": "dc35445fbd9880ed880a549b676a9343d98452af1c25cc40be639e785a3c4d43"
+  },
+  {
+    "file": "summary.json.gz",
+    "bytes": 30714,
+    "sha256": "2a62e8e209fe595d4441239a984d2f90bcb5e235894426cd18721dde291ed176"
+  }
+]
