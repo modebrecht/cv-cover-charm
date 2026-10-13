@@ -16,6 +16,7 @@ on:
       - tests/fixtures/docx-next/font-matrix.ts
       - scripts/docx-next-font-matrix*
       - scripts/docx_next_package_qa.py
+      - docs/docx-next/stable-lo-fonts.json
       - bun.lock
 
 permissions:
@@ -68,6 +69,7 @@ jobs:
           bash scripts/qa-browser-setup.sh
           sudo apt-get update
           sudo apt-get install -y libreoffice-writer fonts-dejavu-core fonts-liberation fonts-liberation2
+          python scripts/docx-next-font-matrix-font-setup.py "$QA_ROOT/narrow-fonts"
       - name: Existing LibreOffice package validator tests
         run: |
           python scripts/docx-next-stable-sidebar-test.py
@@ -79,7 +81,8 @@ jobs:
           python scripts/docx-next-font-matrix-qa.py "$QA_ROOT" \
             --font-directory /usr/share/fonts/truetype/liberation \
             --font-directory /usr/share/fonts/truetype/liberation2 \
-            --font-directory /usr/share/fonts/truetype/dejavu
+            --font-directory /usr/share/fonts/truetype/dejavu \
+            --font-directory "$QA_ROOT/narrow-fonts"
       - name: Retain measured OOXML, font, reflow and completeness evidence
         if: always()
         uses: actions/upload-artifact@v4

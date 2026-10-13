@@ -191,6 +191,7 @@ def main(args):
     assert set(inventory) == expected_fonts, f'Controlled fallback inventory incomplete or leaked: {set(inventory)}'
     summary['environment'] = {'engine': subprocess.check_output([args.soffice, '--version'], text=True).strip(),
         'fontFamilies': sorted(set(inventory)), 'fontFiles': {f.name: digest(f) for f in sorted(fonts.glob('*.ttf'))}}
+    print(json.dumps({'environment': summary['environment']}), flush=True)
     fixtures = [fixture for fixture in manifest['fixtures'] if fixture['render']]
     files = [root / (fixture['key'] + '.docx') for fixture in fixtures]
     for folder in ['initial-pdf', 'saved-docx', 'reopened-pdf']:
@@ -214,7 +215,16 @@ def main(args):
             if row['fontProbesChanged']: summary['failures'].append({'key': key, 'phase': 'save-fonts', 'error': row['fontProbesChanged']})
         summary['renders'].append(row)
     (root / 'results.json').write_text(json.dumps(summary, indent=2) + '\n')
-    print(json.dumps({'packages': len(summary['packages']), 'renders': len(summary['renders']), 'failures': len(summary['failures'])}))
+    renders = {row['key']: row for row in summary['renders']}
+    pairs = [(row, renders[key + '-fallback']) for key, row in renders.items() if key + '-fallback' in renders]
+    print(json.dumps({'packages': len(summary['packages']), 'renders': len(summary['renders']), 'failures': len(summary['failures']),
+        'savePageChanges': sum(row.get('pageCountChanged', False) for row in renders.values()),
+        'saveFontChanges': sum(bool(row.get('fontProbesChanged')) for row in renders.values()),
+        'saveProbeGeometryChangedDocuments': sum(bool(row.get('probeGeometryChanged')) for row in renders.values()),
+        'requestedFallbackPairs': len(pairs),
+        'requestedFallbackPageChanges': sum(a.get('initial', {}).get('pages') != b.get('initial', {}).get('pages') for a, b in pairs),
+        'templatePages': {template: {key.split('--')[1]: row.get('initial', {}).get('pages') for key, row in renders.items()
+                                   if key.startswith(template + '--')} for template in manifest['templates']}}))
     assert not summary['failures'], summary['failures'][:10]
 
 
