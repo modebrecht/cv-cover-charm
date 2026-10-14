@@ -98,4 +98,26 @@
   [data-native-print-active="true"] [data-cv-page-label] {
     display: none !important;
   }
+
+  /* Keep Neon foreground text semantic exactly once. An identity filter makes
+     just the visible shadow a graphic; negative stacking keeps it below the
+     untouched vector glyphs. Absolute paint cannot change wrapping/pagination. */
+  [data-native-print-active="true"] [data-native-neon-shadow] {
+    position: relative;
+    isolation: isolate;
+    text-shadow: none !important;
+  }
+
+  [data-native-print-active="true"] [data-native-neon-shadow]::before {
+    content: attr(data-native-neon-shadow);
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: var(--native-neon-text-shadow);
+    filter: opacity(1);
+    pointer-events: none;
+    user-select: none;
+  }
 }

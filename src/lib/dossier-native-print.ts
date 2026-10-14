@@ -175,6 +175,24 @@ export async function prepareDossierNativePrint(root: HTMLElement, signal?: Abor
   containers.forEach((container) => {
     container.dataset.dossierPrintContainer = "true";
   });
+  // Chromium emits Neon's text-shadow as a second PDF text run. Preserve its
+  // resolved paint on a filtered pseudo-element, below the original visible
+  // text. Only the decorative shadow is raster paint; the authored text remains
+  // the single searchable/vector run. These transient values never enter saved
+  // state or the automatic PDF path and are restored after printing.
+  const neonShadows = Array.from(
+    root.querySelectorAll<HTMLElement>(
+      '[data-cv-template="neon"] [data-cv-page="0"] :is([data-cv-name], [data-cv-doc-title], [data-cv-subtitle])',
+    ),
+  )
+    .filter((node) => root.ownerDocument.defaultView!.getComputedStyle(node).textShadow !== "none")
+    .map((node) => {
+      const style = node.getAttribute("style");
+      const shadow = root.ownerDocument.defaultView!.getComputedStyle(node).textShadow;
+      node.style.setProperty("--native-neon-text-shadow", shadow);
+      node.dataset.nativeNeonShadow = node.textContent ?? "";
+      return { node, style };
+    });
   printRoot.dataset.nativePrintActive = "true";
   printRoot.setAttribute("aria-hidden", "false");
   const body = root.ownerDocument.body;
@@ -194,6 +212,11 @@ export async function prepareDossierNativePrint(root: HTMLElement, signal?: Abor
       });
       containers.forEach((container) => {
         delete container.dataset.dossierPrintContainer;
+      });
+      neonShadows.forEach(({ node, style }) => {
+        delete node.dataset.nativeNeonShadow;
+        if (style === null) node.removeAttribute("style");
+        else node.setAttribute("style", style);
       });
     },
   };
