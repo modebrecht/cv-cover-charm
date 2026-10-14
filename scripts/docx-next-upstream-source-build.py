@@ -44,6 +44,9 @@ def run(args, cwd, log, timeout, env=None):
             code = result.returncode
         except subprocess.TimeoutExpired:
             code = 124
+        except OSError as error:
+            output.write(type(error).__name__ + ': ' + str(error) + '\n')
+            code = -error.errno
     receipt = {'argv': args, 'exitCode': code, 'seconds': round(time.time() - started, 2),
                'log': log.name, 'logSha256': digest(log)}
     print(json.dumps(receipt), flush=True)
@@ -99,7 +102,9 @@ def build(root, label, evidence):
     env = os.environ.copy()
     env.update(CCACHE_BASEDIR=str(root), CCACHE_MAXSIZE='10G', CCACHE_COMPRESS='true', LC_ALL='C.UTF-8', TZ='UTC')
     assert not env.get('CPPUNIT_TEST_NAME'), 'The full native target cannot be filtered'
-    configured = run(['./autogen.sh'] + flags, tree, root / (label + '-configure.log'), 900, env)
+    # Upstream autogen.sh is a shebangless shell/Perl wrapper beginning with ':'.
+    # POSIX shells perform the ENOEXEC fallback; Python Popen deliberately does not.
+    configured = run(['/bin/sh', './autogen.sh'] + flags, tree, root / (label + '-configure.log'), 900, env)
     evidence['trees'][label]['configure'] = configured
     assert configured['exitCode'] == 0, 'Configure failed; no dependency debugging loop is permitted'
     config = (tree / 'config_host.mk').read_text().replace(str(tree), '<SOURCE_TREE>')
