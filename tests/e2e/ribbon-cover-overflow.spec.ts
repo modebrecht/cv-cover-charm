@@ -25,6 +25,20 @@ async function seed(page: Page, item: { data: Record<string, unknown>; layout: R
   saved.data = { ...saved.data, kicker: "Bewerbung um eine Lehrstelle als", ...item.data };
   saved.layout = { ...saved.layout, ribbon: item.layout };
   f.storage["titelblatt:v3"] = JSON.stringify(saved);
+  // The application synchronizes dossier identity across document editors.
+  // A long-name fixture must use the same identity in Cover, Letter and CV,
+  // otherwise the normal shared-document sync restores the earlier name.
+  if (item.data.vorname !== undefined || item.data.nachname !== undefined) {
+    const fullName = [saved.data.vorname, saved.data.nachname].filter(Boolean).join(" ");
+    const letter = JSON.parse(f.storage["anschreiben:v1"]);
+    letter.data.absenderName = fullName;
+    letter.data.unterschrift = fullName;
+    f.storage["anschreiben:v1"] = JSON.stringify(letter);
+    const cv = JSON.parse(f.storage["lebenslauf:v1"]);
+    cv.data.person.vorname = saved.data.vorname;
+    cv.data.person.nachname = saved.data.nachname;
+    f.storage["lebenslauf:v1"] = JSON.stringify(cv);
+  }
   if (item.margins) f.storage["bewerbungsdossier:page-margins:v1"] = JSON.stringify({
     cv: { top: 24, left: 22, right: 22, bottom: 1 },
     letter: { top: 24, left: 22, right: 22, bottom: 24 },
