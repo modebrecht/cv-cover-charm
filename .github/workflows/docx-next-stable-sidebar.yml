@@ -382,6 +382,7 @@ jobs:
           python scripts/docx-next-sidebar-body-test.py
           python scripts/docx-next-sidebar-save-geometry-test.py
           python scripts/docx-next-sidebar-control-coverage-test.py
+          python scripts/docx-next-native-grid-setup-test.py
       - name: Install canonical browser decoder
         timeout-minutes: 6
         run: bash scripts/qa-browser-setup.sh
@@ -394,7 +395,7 @@ jobs:
         timeout-minutes: 12
         run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
       - name: Set up hash-pinned public UNO binding
-        run: python scripts/docx-next-native-grid-setup.py "$QA_ROOT/setup/runtime" "$QA_ROOT/uno-binding"
+        run: python scripts/docx-next-native-grid-setup.py "$QA_ROOT/setup/runtime" "$QA_ROOT/uno-binding" --fallback-package-url 'https://launchpadlibrarian.net/864715340/python3-uno_25.8.7-0ubuntu0.25.10.1~bpo24.04.1_amd64.deb'
       - name: Generate real app snapshots through the shared guarded export with fresh browser images
         run: |
           mkdir -p "$QA_ROOT/fixtures"
@@ -419,6 +420,7 @@ jobs:
             ${{ env.QA_ROOT }}/fixtures/
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
+            ${{ env.QA_ROOT }}/uno-binding/package-fetch-record.json
 
   supported-sidebar:
     if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/fix/docx-next-sidebar-gate-13okt'

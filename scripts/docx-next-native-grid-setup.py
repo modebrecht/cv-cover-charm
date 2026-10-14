@@ -6,13 +6,47 @@ from pathlib import Path
 import shlex
 import subprocess
 import sys
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlsplit
 from urllib.request import urlopen
 
 
 def digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def setup(runtime, directory):
+def fetch_archive(manifest, archive, fallback_url=None):
+    """A transport fallback must retain the exact existing official package pin."""
+    if fallback_url:
+        fallback = urlsplit(fallback_url)
+        primary = urlsplit(manifest['url'])
+        assert fallback.scheme == 'https' and fallback.netloc == 'launchpadlibrarian.net', 'Untrusted UNO fallback origin'
+        assert not fallback.query and not fallback.fragment
+        assert Path(fallback.path).name == Path(primary.path).name, 'Different UNO fallback package'
+    attempts = []
+    if archive.is_file() and archive.stat().st_size == manifest['size'] and digest(archive) == manifest['sha256']:
+        return {'source': 'verified cached package', 'attempts': attempts, 'sha256': manifest['sha256'], 'bytes': manifest['size']}
+    urls = [manifest['url']] + ([fallback_url] if fallback_url else [])
+    for index, url in enumerate(urls):
+        try:
+            with urlopen(url, timeout=30) as response:
+                data = response.read(manifest['size'] + 1)
+        except (HTTPError, URLError, TimeoutError) as error:
+            if isinstance(error, HTTPError) and error.code not in (500, 502, 503, 504):
+                raise
+            attempts.append({'url': url, 'result': type(error).__name__, 'detail': str(error)})
+            if index + 1 == len(urls):
+                raise
+            print('Pinned UNO snapshot transport failed; trying byte-identical official publisher package', file=sys.stderr)
+            continue
+        # Corruption/changed content is a hard failure, never a fallback trigger.
+        assert len(data) == manifest['size'] and hashlib.sha256(data).hexdigest() == manifest['sha256'], 'Changed UNO package bytes'
+        archive.write_bytes(data)
+        attempts.append({'url': url, 'result': 'verified'})
+        return {'source': url, 'attempts': attempts, 'sha256': manifest['sha256'], 'bytes': len(data)}
+    raise AssertionError('No verified UNO package')
+
+
+def setup(runtime, directory, fallback_url=None):
     assert sys.version_info[:2] == (3, 12), 'Pinned UNO binding requires Python 3.12'
     repository = Path(__file__).resolve().parent.parent
     runtime, directory = runtime.resolve(), directory.resolve()
@@ -24,10 +58,8 @@ def setup(runtime, directory):
     assert record['fontManifestSha256'] == digest(repository / 'docs/docx-next/stable-sidebar-fonts.json')
     directory.mkdir(parents=True, exist_ok=True)
     archive = directory / 'python3-uno.deb'
-    if not archive.is_file() or digest(archive) != manifest['sha256']:
-        with urlopen(manifest['url'], timeout=30) as response: data = response.read(manifest['size'] + 1)
-        assert len(data) == manifest['size'] and hashlib.sha256(data).hexdigest() == manifest['sha256'], 'Changed UNO package bytes'
-        archive.write_bytes(data)
+    fetch = fetch_archive(manifest, archive, fallback_url)
+    (directory / 'package-fetch-record.json').write_text(json.dumps(fetch, indent=2) + '\n')
     assert archive.stat().st_size == manifest['size'] and digest(archive) == manifest['sha256']
     fields = subprocess.check_output(['dpkg-deb', '-f', str(archive), 'Package', 'Version', 'Architecture'], text=True)
     expected = '\n'.join(key + ': ' + manifest[key.lower()] for key in ('Package', 'Version', 'Architecture'))
@@ -73,4 +105,5 @@ def setup(runtime, directory):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('runtime', type=Path); parser.add_argument('directory', type=Path)
-    args = parser.parse_args(); setup(args.runtime, args.directory)
+    parser.add_argument('--fallback-package-url', help='Optional HTTPS official Ubuntu publisher URL; existing size/hash/version checks remain mandatory')
+    args = parser.parse_args(); setup(args.runtime, args.directory, args.fallback_package_url)
