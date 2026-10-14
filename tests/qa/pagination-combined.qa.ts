@@ -76,6 +76,11 @@ for (const [name, template, options] of cases) {
     test.setTimeout(180_000);
     await mkdir(directory, { recursive: true });
     const fixture = paginationFixture(template, options);
+    // These positives stress Letter/CV fragmentation with one common safe
+    // production Cover. Original unsafe covers have separate hard-negative QA.
+    const cover = JSON.parse(fixture.storage["titelblatt:v3"]);
+    cover.template = "brief";
+    fixture.storage["titelblatt:v3"] = JSON.stringify(cover);
     await loadFixture(page, fixture, "cv");
     const webCv = await collectDocument(page, documentRoots("cv").web, "cv");
     await loadFixture(page, fixture, "letter");

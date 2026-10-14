@@ -1,11 +1,12 @@
 import type { jsPDF as JsPdf } from "jspdf";
-import { letterPageOverflows } from "@/components/letter/preflight";
+import { letterPageOverflows, printableTextClips } from "@/components/letter/preflight";
 import { PAGE, PDF } from "@/default-config";
 import { addCvTextLayer } from "@/lib/cv-pdf-text";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
 import { downloadBlob } from "@/lib/download";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
 import { fittedPdfHorizontalScale } from "@/lib/pdf-text-width";
+import { beginPdfSafetyValidation, type PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 
 export type DossierPdfMeta = {
   title: string;
@@ -333,6 +334,14 @@ async function addRasterPage(
     scrollY: 0,
     onclone: (_clonedDocument, clonedPage) => {
       normalizeCssZoomForHtml2Canvas(clonedPage as HTMLElement);
+      if (
+        rebuildLetterVectors
+          ? letterPageOverflows(clonedPage as HTMLElement)
+          : printableTextClips(clonedPage as HTMLElement)
+      )
+        throw new Error(
+          "Die PDF-Rasteransicht enthält abgeschnittenen oder überlappenden Inhalt. Bitte das Layout prüfen.",
+        );
       if (rebuildLetterVectors) {
         // Browser/html2canvas owns visible letter typography. Keep glyphs in
         // the raster; only geometry that is intentionally rebuilt as crisp
@@ -404,7 +413,14 @@ export async function downloadCombinedDossierPdf(
   root: HTMLElement,
   fileName: string,
   meta: DossierPdfMeta,
+  consent?: PdfAdvisoryConsent,
 ): Promise<void> {
+  if (!root.ownerDocument) {
+    const letterRoot = root.querySelector<HTMLElement>("[data-dossier-document='letter']");
+    if (letterRoot) assertLetterPagesFit(await resolvedLetterPages(letterRoot));
+    throw new Error("Die PDF-Exportansicht konnte nicht vermessen werden.");
+  }
+  const validate = beginPdfSafetyValidation(root, "dossier", consent);
   await document.fonts?.ready;
   await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
@@ -433,13 +449,16 @@ export async function downloadCombinedDossierPdf(
     creator: meta.author || "Bewerbungsdossier",
   });
 
+  validate();
   await addRasterPage(pdf, html2canvas, cover);
   for (const letterPage of letterPages) {
+    validate();
     pdf.addPage("a4", "portrait");
     await addRasterPage(pdf, html2canvas, letterPage, true);
     addLetterTextLayer(pdf, letterPage);
   }
   for (const cvPage of cvPages) {
+    validate();
     pdf.addPage("a4", "portrait");
     // Keep the raster on exactly the same live CSS-zoom geometry that the native
     // CV text layer measures. The former clone normalization fixed raster glyph
@@ -448,6 +467,7 @@ export async function downloadCombinedDossierPdf(
     addCvTextLayer(pdf, cvPage);
   }
 
+  validate();
   downloadBlob(pdf.output("blob"), fileName);
 }
 
@@ -456,7 +476,13 @@ export async function downloadLetterPdf(
   rootOrPage: HTMLElement,
   fileName: string,
   meta: DossierPdfMeta,
+  consent?: PdfAdvisoryConsent,
 ): Promise<void> {
+  if (!rootOrPage.ownerDocument) {
+    assertLetterPagesFit(await resolvedLetterPages(rootOrPage));
+    throw new Error("Die PDF-Exportansicht konnte nicht vermessen werden.");
+  }
+  const validate = beginPdfSafetyValidation(rootOrPage, "letter", consent);
   await document.fonts?.ready;
   await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
@@ -481,9 +507,11 @@ export async function downloadLetterPdf(
   });
 
   for (const [index, page] of pages.entries()) {
+    validate();
     if (index) pdf.addPage("a4", "portrait");
     await addRasterPage(pdf, html2canvas, page, true);
     addLetterTextLayer(pdf, page);
   }
+  validate();
   downloadBlob(pdf.output("blob"), fileName);
 }

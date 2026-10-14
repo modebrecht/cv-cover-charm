@@ -344,6 +344,8 @@ export function DossierHeaderFooterChrome({
           "--chrome-accent": colors.accent ?? secondary,
           "--chrome-paper": colors.bg ?? sourcePalette.paper,
           "--chrome-ink": colors.ink ?? sourcePalette.ink,
+          "--dossier-semantic-contact-surface": headerSurface,
+          "--dossier-semantic-contact-ink": headerTextColor,
         } as CSSProperties
       }
     >
@@ -628,17 +630,21 @@ export function DossierHeaderFooterChrome({
           data-letter-footer={letter ? "attachments" : undefined}
           data-letter-footer-height-mm={letter ? detailsHeight : undefined}
           className="absolute inset-x-0 bottom-0 leading-[1.3]"
-          style={{
-            height: `${detailsHeight}mm`,
-            padding: `2.2mm ${chromeContentRightMm}mm 2.2mm ${chromeContentLeftMm}mm`,
-            boxSizing: "border-box",
-            background: footerSurface,
-            borderTop: borderStyle,
-            color: footerTextColor,
-            fontFamily: footerTextFontFamily,
-            fontSize: `${footerFontSizePt ?? 8.5}pt`,
-            overflow: "hidden",
-          }}
+          style={
+            {
+              height: `${detailsHeight}mm`,
+              "--dossier-semantic-footer-surface": footerSurface,
+              "--dossier-semantic-footer-ink": footerTextColor,
+              padding: `2.2mm ${chromeContentRightMm}mm 2.2mm ${chromeContentLeftMm}mm`,
+              boxSizing: "border-box",
+              background: footerSurface,
+              borderTop: borderStyle,
+              color: footerTextColor,
+              fontFamily: footerTextFontFamily,
+              fontSize: `${footerFontSizePt ?? 8.5}pt`,
+              overflow: "hidden",
+            } as CSSProperties
+          }
         >
           {footerCustomValues.length ? (
             options.footerTextLayout === "stacked" ? (

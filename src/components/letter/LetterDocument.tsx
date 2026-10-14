@@ -10,6 +10,7 @@ import {
   type LetterPaginationIssue,
 } from "./letter-pagination";
 import { letterPageOverflows } from "./preflight";
+import { pdfContentHash } from "@/lib/pdf-preflight";
 import { letterRichHtml, plainTextToRichHtml, richHtmlToPlainText } from "./rich-text";
 import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
 import "./letter-pagination.css";
@@ -252,6 +253,11 @@ export function LetterDocument({
   const [pages, setPages] = useState<LetterPageFragment[]>(fallback);
   const [algorithmIssue, setAlgorithmIssue] = useState<LetterPaginationIssue | null>(null);
   const [measurementReady, setMeasurementReady] = useState(false);
+  const measurementKey = useMemo(
+    () => JSON.stringify([bodyHtml, data, design, chromeOptions, chromeContact, marginsSnapshot]),
+    [bodyHtml, data, design, chromeOptions, chromeContact, marginsSnapshot],
+  );
+  const [measuredKey, setMeasuredKey] = useState<string | null>(null);
   const [pageOverflow, setPageOverflow] = useState<Record<number, boolean>>({});
   // Measurement already waits for fonts, images and two animation frames.
   // Invalidate after commit so reporting pagination cannot replay a parent's
@@ -292,6 +298,7 @@ export function LetterDocument({
         // geometry decide whether PDF export is actually unsafe.
         setAlgorithmIssue(result.issue);
         setPages(fallback);
+        setMeasuredKey(measurementKey);
         setMeasurementReady(true);
         return;
       }
@@ -303,6 +310,7 @@ export function LetterDocument({
       );
       setAlgorithmIssue(null);
       setPages(resolvedPages);
+      setMeasuredKey(measurementKey);
       setMeasurementReady(true);
     };
 
@@ -320,6 +328,7 @@ export function LetterDocument({
     flowImages,
     freeImages,
     marginsSnapshot,
+    measurementKey,
   ]);
 
   // Pagination owns the page assignment, while interactive image geometry must
@@ -346,11 +355,25 @@ export function LetterDocument({
     );
   }, []);
 
+  // A safe complete fallback can reuse the initial page fragments. In that
+  // case LetterCanvas has no changed props/size and need not emit a second
+  // callback after the paginator clears its old measurements. Measure the
+  // committed physical pages once whenever the measurement finishes.
+  useEffect(() => {
+    if (!measurementReady) return;
+    const frame = requestAnimationFrame(() => {
+      for (const fragment of renderedPages) recordPageOverflow(fragment.pageIndex, false);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [measurementReady, recordPageOverflow, renderedPages]);
+
   // Readiness is derived from the measured pages rather than maintained by a
   // second effect that can invalidate and re-enable itself in the same commit.
   const pagination = useMemo<LetterPaginationState>(() => {
     const pending = { ready: false, pageCount: renderedPages.length, issue: null, warning: null };
-    if (!measurementReady) return pending;
+    // Invalidate during the edit's render, before an effect or observer can
+    // report an old settled result for newly changed margins/type/content.
+    if (!measurementReady || measuredKey !== measurementKey) return pending;
     const pageIndexes = renderedPages.map((fragment) => fragment.pageIndex);
     if (
       !pageIndexes.length ||
@@ -372,7 +395,7 @@ export function LetterDocument({
       issue,
       warning: issue ? null : algorithmIssue,
     };
-  }, [algorithmIssue, measurementReady, pageOverflow, renderedPages]);
+  }, [algorithmIssue, measurementReady, measuredKey, measurementKey, pageOverflow, renderedPages]);
 
   const reportedPagination = useRef<LetterPaginationState | null>(null);
   useEffect(() => {
@@ -400,6 +423,8 @@ export function LetterDocument({
       data-dossier-template={design.template}
       data-letter-pagination-ready={pagination.ready ? "true" : "false"}
       data-letter-page-count={renderedPages.length}
+      data-letter-content-hash={pdfContentHash(richHtmlToPlainText(bodyHtml))}
+      data-letter-required-images={JSON.stringify(allImages.map((image) => image.id))}
       data-letter-pagination-error={pagination.issue?.code}
       data-letter-pagination-error-message={pagination.issue?.message}
       data-letter-pagination-warning={pagination.warning?.code}

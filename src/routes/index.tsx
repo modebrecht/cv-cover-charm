@@ -30,6 +30,7 @@ import {
   type LetterPdfDocument,
 } from "@/lib/dossier-pdf-document";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
+import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { downloadDossierProjectFromBrowser } from "@/lib/dossier-project-file";
 import { downloadDossierDocx, resolveDossierDocxProfile } from "@/lib/dossier-docx-export";
 import {
@@ -415,7 +416,10 @@ function Start() {
   const nativePrint = useDossierNativePrint(dossierExportRef);
 
   const refreshDocuments = useCallback(() => {
-    setDocuments(readDossierDocuments());
+    const next = readDossierDocuments();
+    // Returning from another window must not restart a settled paginator when
+    // the saved content is unchanged. Real storage edits still replace it.
+    setDocuments((current) => (JSON.stringify(current) === JSON.stringify(next) ? current : next));
   }, []);
 
   useEffect(() => {
@@ -467,7 +471,7 @@ function Start() {
     });
   }, []);
 
-  const downloadDossier = async () => {
+  const downloadDossier = async (consent?: PdfAdvisoryConsent) => {
     const root = dossierExportRef.current;
     if (!root || !readiness.complete) {
       setDossierNote("Das Dossier ist noch nicht vollständig.");
@@ -488,12 +492,17 @@ function Start() {
 
     setDownloading(true);
     try {
-      await downloadCombinedDossierPdf(root, fileName, {
-        title: `Bewerbungsdossier – ${author}`,
-        author,
-        subject: "Lehrstellenbewerbung",
-        keywords: "Bewerbung, Titelblatt, Motivationsschreiben, Lebenslauf",
-      });
+      await downloadCombinedDossierPdf(
+        root,
+        fileName,
+        {
+          title: `Bewerbungsdossier – ${author}`,
+          author,
+          subject: "Lehrstellenbewerbung",
+          keywords: "Bewerbung, Titelblatt, Motivationsschreiben, Lebenslauf",
+        },
+        consent,
+      );
       setReviewOpen(false);
       setDossierNote("Gesamtdossier wurde als PDF erstellt.");
     } catch (error) {
@@ -562,7 +571,7 @@ function Start() {
     }
   };
 
-  const downloadExport = async (format: DossierExportFormat) => {
+  const downloadExport = async (format: DossierExportFormat, consent?: PdfAdvisoryConsent) => {
     if (format === "json") {
       downloadProject();
       return;
@@ -571,7 +580,7 @@ function Start() {
       await downloadDocx();
       return;
     }
-    await downloadDossier();
+    await downloadDossier(consent);
   };
 
   return (

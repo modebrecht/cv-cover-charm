@@ -49,6 +49,26 @@ describe("template-independent motivation-letter paper color", () => {
     expect(readable(palette.ink, palette.paper, 7)).toBe(true);
   });
 
+  test("automatic Letter ink ignores CV-only overrides on the authored writing surface", () => {
+    const design = {
+      ...emptyLetterDesign(),
+      template: "modern" as const,
+      colors: {
+        sheet: "#171716",
+        ink: "#111111",
+        cvInk: "#111111",
+        cvMuted: "#171716",
+        cvHeading: "#111111",
+      },
+    };
+    const palette = resolveLetterPalette(design);
+    expect(palette.paper).toBe(resolveLetterPaperColor(design));
+    expect(readable(palette.ink, palette.paper, 7)).toBe(true);
+    expect(readable(palette.muted, palette.paper)).toBe(true);
+    expect(resolveLetterPalette({ ...design, textColor: "#bcdfff" }).ink).toBe("#bcdfff");
+    expect(design.colors.cvInk).toBe("#111111");
+  });
+
   test("lets a custom text color override the automatic body color", () => {
     const design = {
       ...emptyLetterDesign(),

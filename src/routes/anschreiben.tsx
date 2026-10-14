@@ -39,6 +39,12 @@ import { resolveLetterPalette, resolveLetterPaperColor } from "@/components/lett
 import { DocumentTextColorControl } from "@/components/dossier/DocumentTextColorControl";
 import { downloadCombinedDossierPdf, downloadLetterPdf } from "@/lib/dossier-pdf";
 import {
+  createPdfAdvisoryConsent,
+  inspectPdfPreflight,
+  observePdfPreflight,
+  type PdfPreflightResult,
+} from "@/lib/pdf-preflight";
+import {
   coverPdfDocumentFromSaved,
   coverPdfHasContent,
   cvPdfDocumentFromSaved,
@@ -264,6 +270,33 @@ function Anschreiben() {
   });
   const [pdfDownloading, setPdfDownloading] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
+  const [pdfPreflight, setPdfPreflight] = useState<PdfPreflightResult | null>(null);
+  const [dossierPreflight, setDossierPreflight] = useState<PdfPreflightResult | null>(null);
+  useEffect(() => {
+    if (!menuOpen) {
+      setPdfPreflight(null);
+      return;
+    }
+    return observePdfPreflight(
+      () =>
+        document.querySelector<HTMLElement>(
+          "[data-letter-standalone-export] [data-letter-document-root]",
+        ),
+      "letter",
+      setPdfPreflight,
+    );
+  }, [menuOpen]);
+  useEffect(() => {
+    if (!menuOpen) {
+      setDossierPreflight(null);
+      return;
+    }
+    return observePdfPreflight(
+      () => document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]"),
+      "dossier",
+      setDossierPreflight,
+    );
+  }, [menuOpen]);
   const [source, setSource] = useState<LetterDossierSource | null>(null);
   const [transferNote, setTransferNote] = useState<{
     kind: "ok" | "error";
@@ -470,8 +503,17 @@ function Anschreiben() {
     [design.template],
   );
 
-  const storedCoverDocument = coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY));
-  const storedCvDocument = cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY));
+  const storedCoverSnapshot = JSON.stringify(readStoredDossierPart(COVER_STORAGE_KEY) ?? null);
+  const storedCvSnapshot = JSON.stringify(readStoredDossierPart(CV_STORAGE_KEY) ?? null);
+  const storedCoverDocument = useMemo(
+    () => coverPdfDocumentFromSaved(JSON.parse(storedCoverSnapshot)),
+    [storedCoverSnapshot],
+  );
+  const storedCvDocument = useMemo(
+    () => cvPdfDocumentFromSaved(JSON.parse(storedCvSnapshot)),
+    [storedCvSnapshot],
+  );
+  const currentLetterDocument = useMemo(() => ({ data, design }), [data, design]);
   const coverReadyForDossier =
     !!storedCoverDocument && coverPdfHasContent(storedCoverDocument.data);
   const cvReadyForDossier = !!storedCvDocument && cvPdfHasContent(storedCvDocument.data);
@@ -535,7 +577,7 @@ function Anschreiben() {
   };
   useTemplateQaTemplateSwitch(design.template, changeTemplate, "letter");
 
-  const downloadMotivationLetter = async () => {
+  const downloadMotivationLetter = async (override = false) => {
     if (
       pdfDownloading ||
       !letterPagination.ready ||
@@ -550,16 +592,26 @@ function Anschreiben() {
         "[data-letter-standalone-export] [data-letter-document-root]",
       );
       if (!root) throw new Error("Exportansicht ist noch nicht bereit");
+      const consent = override ? createPdfAdvisoryConsent(root, "letter") : undefined;
+      if (!override && inspectPdfPreflight(root, "letter").status !== "pass")
+        throw new Error(
+          "Bitte die aktuelle Layoutprüfung abwarten oder eine verfügbare Layoutwarnung ausdrücklich bestätigen.",
+        );
       const namePart = data.absenderName
         .trim()
         .replace(/\s+/g, "-")
         .replace(/[^A-Za-z0-9ÄÖÜäöüß_-]/g, "");
-      await downloadLetterPdf(root, `Motivationsschreiben-${namePart || "Bewerbung"}.pdf`, {
-        title: data.betreff || "Motivationsschreiben",
-        author: data.absenderName.trim(),
-        subject: "Motivationsschreiben",
-        keywords: "Bewerbung, Motivationsschreiben, Lehrstelle",
-      });
+      await downloadLetterPdf(
+        root,
+        `Motivationsschreiben-${namePart || "Bewerbung"}.pdf`,
+        {
+          title: data.betreff || "Motivationsschreiben",
+          author: data.absenderName.trim(),
+          subject: "Motivationsschreiben",
+          keywords: "Bewerbung, Motivationsschreiben, Lehrstelle",
+        },
+        consent,
+      );
     } catch (error) {
       setPdfError(error instanceof Error ? error.message : "PDF konnte nicht erstellt werden.");
     } finally {
@@ -567,13 +619,16 @@ function Anschreiben() {
     }
   };
 
-  const downloadWholeDossier = async () => {
+  const downloadWholeDossier = async (override = false) => {
     if (!dossierExportRef.current || !canDownloadDossierPdf || pdfDownloading) return;
     setMenuOpen(false);
     setPdfError(null);
     setPdfDownloading(true);
     const name = data.absenderName.trim();
     try {
+      const consent = override
+        ? createPdfAdvisoryConsent(dossierExportRef.current, "dossier")
+        : undefined;
       await downloadCombinedDossierPdf(
         dossierExportRef.current,
         `Bewerbungsdossier-${name || "Bewerbung"}.pdf`,
@@ -581,6 +636,7 @@ function Anschreiben() {
           title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
           author: name,
         },
+        consent,
       );
       setTransferNote({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
     } catch (error) {
@@ -815,7 +871,12 @@ function Anschreiben() {
               <button
                 type="button"
                 onClick={() => void downloadWholeDossier()}
-                disabled={!canDownloadDossierPdf || nativePrint.printing}
+                disabled={
+                  !canDownloadDossierPdf ||
+                  nativePrint.printing ||
+                  pdfDownloading ||
+                  dossierPreflight?.status !== "pass"
+                }
                 title={
                   canDownloadDossierPdf
                     ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen"
@@ -828,6 +889,29 @@ function Anschreiben() {
                   Titelblatt + Motivationsschreiben + CV
                 </span>
               </button>
+              {dossierPreflight?.status === "advisory" ? (
+                <div className="border-t px-3 py-2">
+                  <p className="mb-2 text-xs text-muted-foreground">
+                    {
+                      dossierPreflight.issues.find((issue) => issue.severity === "advisory")
+                        ?.message
+                    }
+                  </p>
+                  {dossierPreflight.issues.every((issue) => issue.overridePermitted) ? (
+                    <button
+                      type="button"
+                      disabled={pdfDownloading}
+                      onClick={() => {
+                        setMenuOpen(false);
+                        void downloadWholeDossier(true);
+                      }}
+                      className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
+                    >
+                      Gesamtdossier trotzdem herunterladen
+                    </button>
+                  ) : null}
+                </div>
+              ) : null}
               {nativePrintUiEnabled() ? (
                 <button
                   type="button"
@@ -857,13 +941,47 @@ function Anschreiben() {
                   void downloadMotivationLetter();
                 }}
                 disabled={
-                  !letterPagination.ready || !!letterPagination.issue || !letterHasStarted(data)
+                  !letterPagination.ready ||
+                  !!letterPagination.issue ||
+                  !letterHasStarted(data) ||
+                  pdfPreflight?.status !== "pass" ||
+                  pdfDownloading
                 }
                 className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
               >
                 <EditorMenuLabel icon={FileDown}>Nur Motivationsschreiben als PDF</EditorMenuLabel>
                 <span className="text-xs text-muted-foreground">.pdf</span>
               </button>
+              {pdfPreflight?.status === "advisory" && letterHasStarted(data) ? (
+                <div className="border-t px-3 py-2">
+                  <p className="mb-2 text-xs text-muted-foreground" data-pdf-advisory>
+                    {pdfPreflight.issues.find((issue) => issue.severity === "advisory")?.message}
+                  </p>
+                  <button
+                    type="button"
+                    disabled={pdfDownloading}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      void downloadMotivationLetter(true);
+                    }}
+                    className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
+                  >
+                    PDF trotzdem herunterladen
+                  </button>
+                </div>
+              ) : null}
+              {pdfPreflight &&
+              (pdfPreflight.status === "blocked" || pdfPreflight.status === "pending") ? (
+                <p
+                  className="border-t px-3 py-2 text-xs text-muted-foreground"
+                  data-pdf-preflight-message
+                >
+                  {
+                    pdfPreflight.issues.find((issue) => issue.severity === pdfPreflight.status)
+                      ?.message
+                  }
+                </p>
+              ) : null}
               <button
                 type="button"
                 onClick={downloadDossierProject}
@@ -1648,7 +1766,7 @@ function Anschreiben() {
             <DossierPdfCanvas
               ref={dossierExportRef}
               cover={storedCoverDocument}
-              letter={{ data, design }}
+              letter={currentLetterDocument}
               cv={storedCvDocument}
               chromeState={chromeState}
             />

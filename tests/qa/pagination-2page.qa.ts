@@ -75,19 +75,29 @@ for (const template of representatives.filter((id) => !selected || selected.incl
     }) => {
       test.setTimeout(240_000);
       const observed: { units: number; pages: number }[] = [];
+      const measuredCounts = new Map<number, number>();
       const options = (units: number) =>
         kind === "cv" ? { works: units, schools: 1 } : { paragraphs: units };
       const count = async (units: number) => {
+        // Both threshold searches inspect the same immutable saved fixture.
+        // Reuse an observed count; every boundary/export/restore below still
+        // loads and audits the physical production document independently.
+        const measured = measuredCounts.get(units);
+        if (measured !== undefined) return measured;
         await loadFixture(page, paginationFixture(template, options(units)), kind);
         const pages = await collectDocument(page, documentRoots(kind).web, kind);
         observed.push({ units, pages: pages.length });
+        measuredCounts.set(units, pages.length);
         return pages.length;
       };
       // Search observed production output, never calculate or imitate pagination.
       const firstWith = async (target: number) => {
         let low = 1,
-          high = kind === "cv" ? 35 : 40;
+          high = kind === "cv" ? 35 : 20;
         expect(await count(low)).toBeLessThan(target);
+        // Start with a smaller observed bracket, extending to the existing
+        // bound if necessary. This changes no boundary or export assertion.
+        if (kind === "letter" && (await count(high)) < target) high = 40;
         expect(await count(high)).toBeGreaterThanOrEqual(target);
         while (high - low > 1) {
           const mid = Math.floor((low + high) / 2);

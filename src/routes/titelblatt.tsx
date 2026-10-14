@@ -59,6 +59,7 @@ import {
 } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
+import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
 import {
   COVER_STORAGE_KEY,
@@ -893,22 +894,30 @@ function Titelblatt() {
     }
   };
 
-  const downloadDossierPdf = async () => {
+  const downloadDossierPdf = async (_format?: unknown, consent?: PdfAdvisoryConsent) => {
     if (!dossierExportRef.current || !canDownloadDossierPdf || downloading) return;
     setMenuOpen(false);
     setSelected(null);
     setDownloading(true);
     const name = [data.vorname, data.nachname].filter(Boolean).join(" ");
     try {
-      await downloadCombinedDossierPdf(dossierExportRef.current, `${dossierFileBase()}.pdf`, {
-        title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
-        author: name,
-      });
+      await downloadCombinedDossierPdf(
+        dossierExportRef.current,
+        `${dossierFileBase()}.pdf`,
+        {
+          title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
+          author: name,
+        },
+        consent,
+      );
       setStatus({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
       setDossierReviewOpen(false);
     } catch (error) {
       console.error(error);
-      setStatus({ kind: "error", text: "Dossier-PDF konnte nicht erstellt werden." });
+      setStatus({
+        kind: "error",
+        text: error instanceof Error ? error.message : "Dossier-PDF konnte nicht erstellt werden.",
+      });
       setDossierReviewOpen(false);
     } finally {
       setDownloading(false);

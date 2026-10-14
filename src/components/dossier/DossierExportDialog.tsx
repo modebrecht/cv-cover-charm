@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
-import { letterPageOverflows, letterReadiness } from "@/components/letter/preflight";
+import { letterReadiness } from "@/components/letter/preflight";
+import {
+  createPdfAdvisoryConsent,
+  observePdfPreflight,
+  type PdfAdvisoryConsent,
+  type PdfPreflightResult,
+} from "@/lib/pdf-preflight";
 import {
   coverPdfDocumentFromSaved,
   coverPdfHasContent,
@@ -30,7 +36,7 @@ type Props = {
   docxAvailable?: boolean;
   docxTemplateLabel?: string | null;
   onClose: () => void;
-  onDownload: (format: DossierExportFormat) => void | Promise<void>;
+  onDownload: (format: DossierExportFormat, consent?: PdfAdvisoryConsent) => void | Promise<void>;
   onNativePrint?: () => void | Promise<void>;
   nativePrinting?: boolean;
   nativePrintError?: string | null;
@@ -93,8 +99,16 @@ export function DossierExportDialog({
 }: Props) {
   const downloadRef = useRef<HTMLButtonElement>(null);
   const [format, setFormat] = useState<DossierExportFormat>("pdf");
-  const [letterOverflow, setLetterOverflow] = useState<boolean | null>(null);
-  const [letterPaginationError, setLetterPaginationError] = useState<string | null>(null);
+  const [preflight, setPreflight] = useState<PdfPreflightResult | null>(null);
+  const [overrideError, setOverrideError] = useState<string | null>(null);
+  const letterOverflow =
+    preflight?.status === "blocked"
+      ? true
+      : preflight?.status === "pending" || !preflight
+        ? null
+        : false;
+  const letterPaginationError =
+    preflight?.issues.find((issue) => issue.severity === "blocked")?.message ?? null;
   const formatSelectionEnabled =
     jsonAvailable !== undefined || pdfAvailable !== undefined || docxAvailable !== undefined;
   const canDownloadPdf = pdfAvailable ?? true;
@@ -143,55 +157,47 @@ export function DossierExportDialog({
 
   useEffect(() => {
     if (!open || !canDownloadPdf) {
-      setLetterOverflow(null);
-      setLetterPaginationError(null);
+      setPreflight(null);
+      setOverrideError(null);
       return;
     }
-    let resizeObserver: ResizeObserver | null = null;
-    let innerFrame = 0;
-    const measure = () => {
-      const documentRoot = document.querySelector<HTMLElement>(
-        "[data-dossier-document='letter'] [data-letter-document-root]",
-      );
-      if (!documentRoot || documentRoot.dataset.letterPaginationReady !== "true") {
-        setLetterOverflow(null);
-        setLetterPaginationError(null);
-        return;
-      }
-
-      const paginationError = documentRoot.dataset.letterPaginationErrorMessage?.trim() || null;
-      const pages = Array.from(documentRoot.querySelectorAll<HTMLElement>("[data-letter-page]"));
-      setLetterPaginationError(paginationError);
-      if (!pages.length) {
-        setLetterOverflow(null);
-        return;
-      }
-      setLetterOverflow(!!paginationError || pages.some(letterPageOverflows));
-
-      if (!resizeObserver) resizeObserver = new ResizeObserver(measure);
-      resizeObserver.disconnect();
-      for (const page of pages) resizeObserver.observe(page);
-    };
-    const mutationObserver = new MutationObserver(measure);
-    mutationObserver.observe(document.body, { childList: true, subtree: true, attributes: true });
-    const outerFrame = requestAnimationFrame(() => {
-      innerFrame = requestAnimationFrame(measure);
-    });
-    void document.fonts?.ready.then(measure);
-    measure();
-    return () => {
-      cancelAnimationFrame(outerFrame);
-      if (innerFrame) cancelAnimationFrame(innerFrame);
-      resizeObserver?.disconnect();
-      mutationObserver.disconnect();
-    };
+    return observePdfPreflight(
+      () => document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]"),
+      "dossier",
+      setPreflight,
+    );
   }, [canDownloadPdf, open]);
 
   if (!open) return null;
 
   const layoutPending = warnings === null || letterOverflow === null;
   const pdfBlocked =
-    !canDownloadPdf || busy || layoutPending || !letterState.readyToSend || letterOverflow === true;
+    !canDownloadPdf ||
+    busy ||
+    layoutPending ||
+    !letterState.readyToSend ||
+    letterOverflow === true ||
+    preflight?.status !== "pass";
+  const canOverride =
+    canDownloadPdf &&
+    !busy &&
+    !layoutPending &&
+    letterState.readyToSend &&
+    preflight?.status === "advisory" &&
+    preflight.issues.every((issue) => issue.overridePermitted);
+  const overrideDownload = () => {
+    try {
+      const root = document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]");
+      if (!root) throw new Error("Die Exportansicht wird noch vorbereitet.");
+      const consent = createPdfAdvisoryConsent(root, "dossier");
+      setOverrideError(null);
+      void onDownload("pdf", consent);
+    } catch (error) {
+      setOverrideError(
+        error instanceof Error ? error.message : "Bitte den aktuellen Drucksatz erneut prüfen.",
+      );
+    }
+  };
   const docxBlocked = !canDownloadDocx || busy || !letterState.readyToSend;
   const letterIssueCount =
     letterHasContent && !letterState.readyToSend ? letterState.missing.length : 0;
@@ -203,7 +209,10 @@ export function DossierExportDialog({
   const pdfOverflowIssue = canDownloadPdf && letterState.readyToSend && letterOverflow === true;
   const blockingCount =
     missingParts.length + letterIssueCount + (docxDesignIssue ? 1 : 0) + (pdfOverflowIssue ? 1 : 0);
-  const advisoryCount = (warnings?.length ?? 0) + (coverChanged ? 1 : 0);
+  const advisoryCount =
+    (warnings?.length ?? 0) +
+    (coverChanged ? 1 : 0) +
+    (preflight?.issues.filter((issue) => issue.severity === "advisory").length ?? 0);
 
   const missingPartsCompact = `${missingParts.length} Dossierteil${missingParts.length === 1 ? "" : "e"} ${
     missingParts.length === 1 ? "fehlt" : "fehlen"
@@ -219,9 +228,13 @@ export function DossierExportDialog({
         ? letterPaginationError
           ? "Briefinhalt prüfen"
           : "Briefseite prüfen"
-        : layoutPending
+        : layoutPending || !preflight || preflight.status === "pending"
           ? "Layout wird geprüft…"
-          : "Bereit";
+          : preflight.status === "blocked"
+            ? "Drucksatz prüfen"
+            : preflight?.status === "advisory"
+              ? "Layoutwarnung prüfen"
+              : "Bereit";
   const docxCompactStatus = missingParts.length
     ? missingPartsCompact
     : !letterState.readyToSend
@@ -231,11 +244,13 @@ export function DossierExportDialog({
         : "Bereit";
   const checkSummary = blockingCount
     ? `Was fehlt noch? · ${blockingCount} Punkt${blockingCount === 1 ? "" : "e"}`
-    : layoutPending && canDownloadPdf
+    : (layoutPending || !preflight || preflight.status === "pending") && canDownloadPdf
       ? "Layout wird geprüft…"
-      : advisoryCount
-        ? `Bereit · ${advisoryCount} Hinweis${advisoryCount === 1 ? "" : "e"}`
-        : "Alles bereit";
+      : preflight?.status === "blocked"
+        ? "Drucksatz prüfen"
+        : advisoryCount
+          ? `${preflight?.status === "advisory" ? "Layoutwarnung prüfen" : "Bereit"} · ${advisoryCount} Hinweis${advisoryCount === 1 ? "" : "e"}`
+          : "Alles bereit";
 
   const downloadBlocked = format === "pdf" ? pdfBlocked : format === "docx" ? docxBlocked : busy;
   const actionLabel = !formatSelectionEnabled
@@ -400,10 +415,22 @@ export function DossierExportDialog({
               {warnings?.map((warning) => (
                 <li key={warning.id}>Layout-Hinweis: {warning.message}</li>
               ))}
+              {preflight?.issues.map((issue) => (
+                <li key={issue.code} data-pdf-advisory>
+                  {issue.message}
+                </li>
+              ))}
               {!blockingCount && !layoutPending ? (
                 <>
                   <li>
-                    <span className="font-medium text-foreground">PDF:</span> bereit.
+                    <span className="font-medium text-foreground">PDF:</span>{" "}
+                    {preflight?.status === "pass"
+                      ? "bereit."
+                      : preflight?.status === "advisory"
+                        ? canOverride
+                          ? "Layoutwarnung vor dem Download bestätigen."
+                          : "Umbruchmessung erneut vorbereiten; diese Dossierwarnung kann nicht übergangen werden."
+                        : "Drucksatz wird geprüft oder muss korrigiert werden."}
                   </li>
                   {formatSelectionEnabled ? (
                     <li>
@@ -448,6 +475,15 @@ export function DossierExportDialog({
         ) : null}
 
         <div className="mt-4 flex flex-wrap items-center justify-end gap-2">
+          {canOverride && format === "pdf" ? (
+            <button
+              type="button"
+              onClick={overrideDownload}
+              className="rounded-md border border-input px-4 py-2 text-sm hover:bg-accent"
+            >
+              PDF trotzdem herunterladen
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={onClose}
@@ -466,6 +502,11 @@ export function DossierExportDialog({
             {actionLabel}
           </button>
         </div>
+        {overrideError ? (
+          <p role="alert" className="mt-2 text-sm text-destructive">
+            {overrideError}
+          </p>
+        ) : null}
       </div>
     </div>
   );

@@ -48,7 +48,7 @@ async function automaticPdf(page: import("@playwright/test").Page) {
   return { bytes, pages };
 }
 
-test("all 39 automatic PDFs preserve literal recipient, address and salutation phrases", async ({
+test("all 39 automatic Letter PDFs preserve literal recipient, address and salutation phrases", async ({
   page,
 }) => {
   test.setTimeout(900000);
@@ -56,8 +56,21 @@ test("all 39 automatic PDFs preserve literal recipient, address and salutation p
   const data = stored.letter.data;
   for (const item of GALLERY_CASES) {
     await applyGalleryCase(page, stored, item);
-    const { pages } = await automaticPdf(page);
-    const letter = pages[1];
+    // Search every Letter template through its real standalone automatic
+    // exporter. Combined covers have their own safety/ordering regressions.
+    await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "networkidle" });
+    await page.getByRole("button", { name: "Download", exact: true }).click();
+    const button = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ });
+    await expect(button).toBeEnabled({ timeout: 30000 });
+    const expectedPages = await page
+      .locator("[data-letter-standalone-export] [data-letter-document-pages] [data-letter-page]")
+      .count();
+    const promise = page.waitForEvent("download", { timeout: 120000 });
+    await button.click();
+    const download = await promise;
+    const pages = await viewerText(await readFile((await download.path())!));
+    expect(pages).toHaveLength(expectedPages);
+    const letter = pages[0];
     for (const phrase of [data.empfaengerName, data.empfaengerAdresse, data.anrede])
       expect(letter, `${item.label}: ${phrase}`).toContain(phrase);
     expect(letter.indexOf(data.anrede), item.label).toBeLessThan(letter.indexOf(data.gruss));

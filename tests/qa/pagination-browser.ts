@@ -22,6 +22,8 @@ export function runtimeProvenance() {
     runtimeBlobs: Object.fromEntries(
       [
         "src/lib/dossier-pdf.ts",
+        "src/lib/pdf-preflight.ts",
+        "src/components/letter/preflight.ts",
         "src/components/letter/LetterDocument.tsx",
         "src/components/letter/letter-pagination.ts",
         "src/components/letter/letter-pagination.css",
@@ -48,7 +50,10 @@ export function documentRoots(kind: DocumentKind) {
       };
 }
 export async function loadFixture(page: Page, fixture: PaginationFixture, kind: DocumentKind) {
-  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+  // Establish the real app origin without hydrating the previous fixture's
+  // complete dossier before replacing storage. The next navigation uses the
+  // actual production route, renderers and exporter without interception.
+  await page.goto(`${BASE_URL}/fonts/Cabin-OFL.txt`, { waitUntil: "domcontentloaded" });
   await page.evaluate((values) => {
     localStorage.clear();
     for (const [key, value] of Object.entries(values)) localStorage.setItem(key, value);
@@ -106,6 +111,7 @@ export async function collectDocument(page: Page, selector: string, kind: Docume
         const issues: string[] = [];
         const metricsContext = document.createElement("canvas").getContext("2d")!;
         const visibleText: string[] = [];
+        const markerBoxes: { marker: string; box: number[] }[] = [];
         const footerText: string[] = [];
         const walker = document.createTreeWalker(sheet, NodeFilter.SHOW_TEXT);
         let node: Node | null;
@@ -123,6 +129,14 @@ export async function collectDocument(page: Page, selector: string, kind: Docume
             ancestor = ancestor.parentElement;
           }
           if (hidden) continue;
+          for (const match of (node.textContent ?? "").matchAll(/QA[A-Z]+\d{3}/g)) {
+            const markerRange = document.createRange();
+            markerRange.setStart(node, match.index!);
+            markerRange.setEnd(node, match.index! + match[0].length);
+            for (const markerRect of Array.from(markerRange.getClientRects()))
+              if (markerRect.width > 0 && markerRect.height > 0)
+                markerBoxes.push({ marker: match[0], box: box(markerRect) });
+          }
           // Absolute chrome footers precede the body in the component DOM.
           // Compare logical header/body/footer order, retaining every visible node.
           (kind === "letter" && node.parentElement?.closest("[data-dossier-footer]")
@@ -218,6 +232,7 @@ export async function collectDocument(page: Page, selector: string, kind: Docume
           ),
           text,
           markers: text.match(/QA[A-Z]+\d{3}/g) ?? [],
+          markerBoxes,
           issues: [...new Set(issues)],
           main: main ? box(main.getBoundingClientRect()) : null,
           sidebar: sidebar ? box(sidebar.getBoundingClientRect()) : null,

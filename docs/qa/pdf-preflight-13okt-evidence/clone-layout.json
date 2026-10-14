@@ -1,0 +1,431 @@
+{
+  "sourceSha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1",
+  "sourceDirty": false,
+  "fixtureSha256": "2721c883c206615ad41017f118bfc59b52159695eabea133acd1ae0195384f10",
+  "marker": "QAEND008",
+  "fixture": "boundary-brief-cv-first-three",
+  "productionHook": "normalizeCssZoomForHtml2Canvas",
+  "measurements": {
+    "live": [
+      {
+        "text": "QADESC008 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND008",
+        "rect": {
+          "x": -9527.09375,
+          "y": 1524.09375,
+          "width": 86,
+          "height": 19,
+          "top": 1524.09375,
+          "right": -9441.09375,
+          "bottom": 1543.09375,
+          "left": -9527.09375
+        },
+        "font": "",
+        "fontFamily": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+        "zoom": "1",
+        "transform": "none",
+        "sheet": {
+          "x": -10000,
+          "y": 1139,
+          "width": 794,
+          "height": 1123,
+          "top": 1139,
+          "right": -9206,
+          "bottom": 2262,
+          "left": -10000
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "525.141px",
+            "height": "77.9523px",
+            "rect": {
+              "x": -9804.09375,
+              "y": 1465.921875,
+              "width": 522.515625,
+              "height": 77.5625,
+              "top": 1465.921875,
+              "right": -9281.578125,
+              "bottom": 1543.484375,
+              "left": -9804.09375
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "525.141px",
+            "height": "121.341px",
+            "rect": {
+              "x": -9804.09375,
+              "y": 1422.75,
+              "width": 522.515625,
+              "height": 120.734375,
+              "top": 1422.75,
+              "right": -9281.578125,
+              "bottom": 1543.484375,
+              "left": -9804.09375
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "646.074px",
+            "height": "121.341px",
+            "rect": {
+              "x": -9924.421875,
+              "y": 1422.75,
+              "width": 642.84375,
+              "height": 120.734375,
+              "top": 1422.75,
+              "right": -9281.578125,
+              "bottom": 1543.484375,
+              "left": -9924.421875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "0.995",
+            "transform": "none",
+            "width": "646.074px",
+            "height": "123.602px",
+            "rect": {
+              "x": -9924.421875,
+              "y": 1422.75,
+              "width": 642.84375,
+              "height": 122.984375,
+              "top": 1422.75,
+              "right": -9281.578125,
+              "bottom": 1545.734375,
+              "left": -9924.421875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "642.844px",
+            "height": "1066.33px",
+            "rect": {
+              "x": -9924.421875,
+              "y": 1176.78125,
+              "width": 642.84375,
+              "height": 1066.328125,
+              "top": 1176.78125,
+              "right": -9281.578125,
+              "bottom": 2243.109375,
+              "left": -9924.421875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "relative overflow-hidden shadow-2xl",
+            "zoom": "1",
+            "transform": "none",
+            "width": "794px",
+            "height": "1123px",
+            "rect": {
+              "x": -10000,
+              "y": 1139,
+              "width": 794,
+              "height": 1123,
+              "top": 1139,
+              "right": -9206,
+              "bottom": 2262,
+              "left": -10000
+            }
+          }
+        ],
+        "markerBoxMm": [125.076, 101.846, 22.746, 5.025]
+      }
+    ],
+    "before": [
+      {
+        "text": "QADESC008 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND008",
+        "rect": {
+          "x": -9527.09375,
+          "y": 1524.09375,
+          "width": 86,
+          "height": 19,
+          "top": 1524.09375,
+          "right": -9441.09375,
+          "bottom": 1543.09375,
+          "left": -9527.09375
+        },
+        "font": "",
+        "fontFamily": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+        "zoom": "1",
+        "transform": "none",
+        "sheet": {
+          "x": -10000,
+          "y": 1139,
+          "width": 794,
+          "height": 1123,
+          "top": 1139,
+          "right": -9206,
+          "bottom": 2262,
+          "left": -10000
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "525.141px",
+            "height": "77.9523px",
+            "rect": {
+              "x": -9804.09375,
+              "y": 1465.921875,
+              "width": 522.515625,
+              "height": 77.5625,
+              "top": 1465.921875,
+              "right": -9281.578125,
+              "bottom": 1543.484375,
+              "left": -9804.09375
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "525.141px",
+            "height": "121.341px",
+            "rect": {
+              "x": -9804.09375,
+              "y": 1422.75,
+              "width": 522.515625,
+              "height": 120.734375,
+              "top": 1422.75,
+              "right": -9281.578125,
+              "bottom": 1543.484375,
+              "left": -9804.09375
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "646.074px",
+            "height": "121.341px",
+            "rect": {
+              "x": -9924.421875,
+              "y": 1422.75,
+              "width": 642.84375,
+              "height": 120.734375,
+              "top": 1422.75,
+              "right": -9281.578125,
+              "bottom": 1543.484375,
+              "left": -9924.421875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "0.995",
+            "transform": "none",
+            "width": "646.074px",
+            "height": "123.602px",
+            "rect": {
+              "x": -9924.421875,
+              "y": 1422.75,
+              "width": 642.84375,
+              "height": 122.984375,
+              "top": 1422.75,
+              "right": -9281.578125,
+              "bottom": 1545.734375,
+              "left": -9924.421875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "642.844px",
+            "height": "1066.33px",
+            "rect": {
+              "x": -9924.421875,
+              "y": 1176.78125,
+              "width": 642.84375,
+              "height": 1066.328125,
+              "top": 1176.78125,
+              "right": -9281.578125,
+              "bottom": 2243.109375,
+              "left": -9924.421875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "relative overflow-hidden shadow-2xl",
+            "zoom": "1",
+            "transform": "none",
+            "width": "794px",
+            "height": "1123px",
+            "rect": {
+              "x": -10000,
+              "y": 1139,
+              "width": 794,
+              "height": 1123,
+              "top": 1139,
+              "right": -9206,
+              "bottom": 2262,
+              "left": -10000
+            }
+          }
+        ],
+        "markerBoxMm": [125.076, 101.846, 22.746, 5.025]
+      }
+    ],
+    "after": [
+      {
+        "text": "QADESC008 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND008",
+        "rect": {
+          "x": -9612.0537109375,
+          "y": 1524.08447265625,
+          "width": 85.5693359375,
+          "height": 18.905029296875,
+          "top": 1524.08447265625,
+          "right": -9526.484375,
+          "bottom": 1542.989501953125,
+          "left": -9612.0537109375
+        },
+        "font": "",
+        "fontFamily": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+        "zoom": "1",
+        "transform": "none",
+        "sheet": {
+          "x": -10000,
+          "y": 1139,
+          "width": 794,
+          "height": 1123,
+          "top": 1139,
+          "right": -9206,
+          "bottom": 2262,
+          "left": -10000
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "525.125px",
+            "height": "77.9375px",
+            "rect": {
+              "x": -9804.0888671875,
+              "y": 1465.9237060546875,
+              "width": 522.4990234375,
+              "height": 77.5477294921875,
+              "top": 1465.9237060546875,
+              "right": -9281.58984375,
+              "bottom": 1543.471435546875,
+              "left": -9804.0888671875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "525.125px",
+            "height": "121.328px",
+            "rect": {
+              "x": -9804.0888671875,
+              "y": 1422.75,
+              "width": 522.4990234375,
+              "height": 120.721435546875,
+              "top": 1422.75,
+              "right": -9281.58984375,
+              "bottom": 1543.471435546875,
+              "left": -9804.0888671875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "646.062px",
+            "height": "121.328px",
+            "rect": {
+              "x": -9924.421875,
+              "y": 1422.75,
+              "width": 642.83203125,
+              "height": 120.721435546875,
+              "top": 1422.75,
+              "right": -9281.58984375,
+              "bottom": 1543.471435546875,
+              "left": -9924.421875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "matrix(0.995, 0, 0, 0.995, 0, 0)",
+            "width": "646.062px",
+            "height": "123.594px",
+            "rect": {
+              "x": -9924.421875,
+              "y": 1422.75,
+              "width": 642.83203125,
+              "height": 122.975830078125,
+              "top": 1422.75,
+              "right": -9281.58984375,
+              "bottom": 1545.725830078125,
+              "left": -9924.421875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "",
+            "zoom": "1",
+            "transform": "none",
+            "width": "642.844px",
+            "height": "1066.33px",
+            "rect": {
+              "x": -9924.421875,
+              "y": 1176.78125,
+              "width": 642.84375,
+              "height": 1066.328125,
+              "top": 1176.78125,
+              "right": -9281.578125,
+              "bottom": 2243.109375,
+              "left": -9924.421875
+            }
+          },
+          {
+            "tag": "DIV",
+            "cls": "relative overflow-hidden shadow-2xl",
+            "zoom": "1",
+            "transform": "none",
+            "width": "794px",
+            "height": "1123px",
+            "rect": {
+              "x": -10000,
+              "y": 1139,
+              "width": 794,
+              "height": 1123,
+              "top": 1139,
+              "right": -9206,
+              "bottom": 2262,
+              "left": -10000
+            }
+          }
+        ],
+        "markerBoxMm": [102.605, 101.843, 22.632, 5.0]
+      }
+    ]
+  },
+  "note": "Measured live and in actual html2canvas-pro clone before/after existing normalization; no patched renderer or tolerances."
+}
