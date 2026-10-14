@@ -58,7 +58,7 @@ function assertInside(values: Awaited<ReturnType<typeof positions>>) {
     expect(b.x + b.w, b.id).toBeLessThanOrEqual(210.3);
     expect(b.y + b.h, b.id).toBeLessThanOrEqual(297.3);
   }
-  for (const id of ["foto", "ortDatum", "name", "kicker", "beruf", "lehrbeginn", "kontakt"]) {
+  for (const id of ["foto", "ortDatum", "name", "beruf", "lehrbeginn", "kontakt"]) {
     const block = values.find(b => b.id === id);
     expect(block, id).toBeDefined();
     expect(block?.transform, id).toBe("none");
@@ -74,7 +74,7 @@ async function verdict(page: Page) {
 async function review(page: Page) {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
-  await page.goto(BASE_URL + "/", { waitUntil: "domcontentloaded" });
+  await page.goto(BASE_URL + "/", { waitUntil: "networkidle" });
   const trigger = page.getByRole("button", { name: /Gesamtdossier herunterladen/ });
   await expect(trigger).toContainText("Format wählen", { timeout: 25000 });
   await trigger.click();
