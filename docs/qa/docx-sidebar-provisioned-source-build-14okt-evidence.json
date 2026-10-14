@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "outcome": "B — PARTIAL / GUARDED; source-build execution pending at bounded work checkpoint",
+  "outcome": "C — SOURCE GATE FAIL (baseline Writer target timed out after 9,000 seconds); CppUnit and candidate unexecuted",
   "productionArchitectureDecision": "C: guarded support; no production promotion",
   "applicationBaseSha": "7e8d5839fc5c21fd2b12fb496f3f5c07cc44961a",
   "freshRemoteDevSha": "33fa153297bc48dcf691d5a4e0112df7432ed1cb",
@@ -55,15 +55,61 @@
     "applicationSha": "ef6f6254587d3e77424bce5183fd16e7ca3eab04",
     "nativeRunId": 38582780109,
     "sourceJobId": 115916739239,
-    "conclusion": "IN_PROGRESS",
-    "nativeWorkflowConclusion": "IN_PROGRESS",
+    "conclusion": "FAILURE",
+    "nativeWorkflowConclusion": "FAILURE",
     "prerequisiteProvisioning": "PASS",
     "packetAndWorkerNegativeTests": "PASS",
-    "checkoutConfigureCompileAndNativeResult": "UNVERIFIED until retained source artifact is available",
-    "buildStep": "IN_PROGRESS",
+    "checkoutConfigureCompileAndNativeResult": "Upstream checkout and baseline configure PASS; baseline Writer/C++ target timed out after 9,000 seconds (exitCode 124) before native CppUnit; candidate not started",
+    "buildStep": "FAILURE — timeout during baseline C++ prerequisite compilation",
     "timeoutMinutes": 330,
     "haltOnFirstBuildOrContractFailure": true,
-    "furtherDependencyDebugging": "not authorized by this bounded packet"
+    "furtherDependencyDebugging": "not authorized by this bounded packet",
+    "workflowCompletedAtUtc": "2026-10-14T17:15:46Z",
+    "sourceJobCompletedAtUtc": "2026-10-14T17:15:45Z",
+    "firstConcreteFailure": "make CppunitTest_sw_ooxmlexport23 exitCode 124 after 9000.0 seconds; AssertionError: Writer/native target did not reach its test executor",
+    "sourceArtifact": {
+      "id": 11915750666,
+      "bytes": 122034,
+      "zipSha256": "1f81e87bd108a9cacd2f804931d00618f1029e3f5bc49aa24dfa0f0e420e6aa3",
+      "fileCount": 10,
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38582780109/artifacts/11915750666",
+      "baselineWriterLogReceiptSha256": "e293de42c2108c5249a98609760ae488892f23e2b663ee34b229c72dcc2ff591",
+      "receiptMatchedPrefixBytes": 744445,
+      "archivedWriterLogBytes": 744501,
+      "archivedWriterLogSha256": "77255c8239d0e7fbfcac43fd67d9ef35b31cd8edbb8f7bcbb52a659f2b2e54fc",
+      "postReceiptExtraBytes": 56
+    },
+    "upstreamSourceSha": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+    "environment": {
+      "runner": "ubuntu-24.04",
+      "compiler": "GCC 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1)",
+      "baselineConfigureExitCode": 0,
+      "baselineConfigureSeconds": 19.31,
+      "parallelism": 2,
+      "baselineNormalizedConfigSha256": "16a8a5047765edf275be116121a26f538461ab3cdee32065ffb81c37a84df4ea",
+      "candidateConfigIdentity": "UNVERIFIED — candidate configure did not execute"
+    },
+    "baseline": {
+      "target": "make CppunitTest_sw_ooxmlexport23",
+      "exitCode": 124,
+      "elapsedSeconds": 9000,
+      "compileCompleted": false,
+      "cppUnitExecuted": false,
+      "preparedCases": 6,
+      "expectedFailuresVerified": 0,
+      "passingControlsVerified": 0,
+      "lastVisibleCompilerUnit": "dbaccess/source/ui/misc/linkeddocuments.cxx",
+      "nativeBuildFingerprint": "UNAVAILABLE"
+    },
+    "candidate": {
+      "configureExecuted": false,
+      "compileStarted": false,
+      "cppUnitExecuted": false,
+      "preparedCases": 6,
+      "regressionResult": "UNVERIFIED",
+      "nativeBuildFingerprint": "UNAVAILABLE"
+    },
+    "sourceGateClassification": "C — SOURCE GATE FAIL (build timeout; no source regression assertion reached)"
   },
   "applicationCI": {
     "runId": 38582779754,
@@ -192,10 +238,12 @@
     "changedByThisPackage": false
   },
   "observedAtUtc": "2026-10-14T15:11:46.601109+00:00",
-  "nextTechnicalGate": "Read and fingerprint the already running corrected source artifact; stop at its first failure. A successful paired source grid/package/page-count target still requires official upstream/distributor delivery and separate current-body original control/container lifetime evidence before production promotion.",
+  "nextTechnicalGate": "Retain verified timeout as first concrete failure; no rerun under current handoff. New paired source-build authorization would be needed; application geometry/identity, native 22-case matrix and Word acceptance remain unverified.",
   "publication": {
-    "scope": "Documentation-only checkpoint after tested executable ef6f6254",
+    "scope": "Documentation-only final source-build result, no production/source or workflow changes",
     "ciRunsOfCheckpointCommit": "SKIPPED explicitly; no new executable change",
-    "branch": "fix/docx-next-sidebar-gate-13okt"
+    "branch": "fix/docx-next-sidebar-gate-13okt",
+    "observedSourceExecutable": "ef6f6254587d3e77424bce5183fd16e7ca3eab04",
+    "newCiRequested": false
   }
 }
