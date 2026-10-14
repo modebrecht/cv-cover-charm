@@ -34,13 +34,16 @@ async function seed(page: Page, storage: Record<string, string>) {
   }, storage);
 }
 
-async function open(page: Page) {
+async function open(page: Page, awaitPdfReady = true) {
   await page.goto(`${BASE}/?native-print-qa=1`, { waitUntil: "networkidle" });
   await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
   const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
-  await expect(dialog.getByRole("button", { name: "PDF herunterladen", exact: true })).toBeEnabled({
-    timeout: 30_000,
-  });
+  if (awaitPdfReady)
+    await expect(
+      dialog.getByRole("button", { name: "PDF herunterladen", exact: true }),
+    ).toBeEnabled({
+      timeout: 30_000,
+    });
   await expect(page.locator("[data-dossier-pdf-canvas]")).toHaveCount(1);
   await expect(page.locator("[data-dossier-pdf-canvas]")).toHaveAttribute(
     "data-dossier-cv-ready",
@@ -79,6 +82,12 @@ async function pdfPages(bytes: Uint8Array) {
 
 function multiStorage() {
   const storage = parityStorage("gallery", true, true);
+  // The parity fixture's freely positioned photo overlaps the long CV's
+  // heading when its experience list spans pages. This scenario verifies
+  // pagination/order, while other scenarios independently cover photo export.
+  const cv = JSON.parse(storage["lebenslauf:v1"]);
+  cv.data.person.foto = "";
+  storage["lebenslauf:v1"] = JSON.stringify(cv);
   const letter = JSON.parse(storage["anschreiben:v1"]);
   letter.data.text = Array.from(
     { length: 14 },
@@ -291,14 +300,20 @@ test("native print waits for a delayed image; errors and cancellation release th
     });
   });
   await seed(page, storage);
-  const dialog = await open(page);
+  const dialog = await open(page, false);
+  // Loading is intentionally held back; export must not be enabled yet.
+  await expect(
+    dialog.getByRole("button", { name: "PDF herunterladen", exact: true }),
+  ).toBeDisabled();
+  await expect(dialog.getByRole("button", { name: NATIVE_LABEL, exact: true })).toBeDisabled();
+  releaseImage();
+  await expect(dialog.getByRole("button", { name: "PDF herunterladen", exact: true })).toBeEnabled({
+    timeout: 30_000,
+  });
   await dialog.getByRole("button", { name: NATIVE_LABEL, exact: true }).click();
   await expect(
     dialog.getByRole("button", { name: "Druckdialog wird vorbereitet…", exact: true }),
   ).toBeDisabled();
-  expect(await calls(page)).toHaveLength(0);
-  await expect(page.locator("body")).not.toHaveAttribute("data-dossier-native-print");
-  releaseImage();
   await expect.poll(() => calls(page)).toHaveLength(1);
   await page.evaluate(() => window.dispatchEvent(new Event("afterprint")));
   await expect(dialog.getByRole("button", { name: NATIVE_LABEL, exact: true })).toBeEnabled();

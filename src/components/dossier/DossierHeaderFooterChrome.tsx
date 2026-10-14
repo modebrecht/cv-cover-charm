@@ -387,7 +387,14 @@ export function DossierHeaderFooterChrome({
             <div
               data-dossier-continuation-contact
               className="flex min-w-0 flex-1 flex-wrap items-center justify-center text-center opacity-95"
-              style={{ overflowWrap: "anywhere", transform: headerContentTransform }}
+              style={{
+                overflowWrap: "anywhere",
+                // An A4 continuation begins flush at page top. Without this
+                // inset, tall contact glyphs overhang the preceding page.
+                transform: letter
+                  ? `translateY(calc(3mm + ${headerContentOffsetY}mm))`
+                  : headerContentTransform,
+              }}
             >
               {continuationRows.map((row, index) => (
                 <span key={row.key} className="inline-flex min-w-0 items-center">

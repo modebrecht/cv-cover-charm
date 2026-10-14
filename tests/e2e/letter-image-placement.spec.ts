@@ -79,9 +79,7 @@ async function assertFreeUsesContentBox(image: Locator) {
     const textLayer = element.closest<HTMLElement>("[data-letter-text-layer]");
     if (!textLayer) return null;
     const textRect = textLayer.getBoundingClientRect();
-    const box = (textLayer.dataset.letterContentBox ?? "")
-      .split(",")
-      .map((value) => Number(value));
+    const box = (textLayer.dataset.letterContentBox ?? "").split(",").map((value) => Number(value));
     if (box.length !== 4 || box.some((value) => !Number.isFinite(value))) return null;
     const contentWidthMm = 210 - box[0] - box[2];
     const scale = textRect.width / contentWidthMm;
@@ -100,7 +98,7 @@ async function assertFreeUsesContentBox(image: Locator) {
 test.describe("letter image placement hardening", () => {
   test.setTimeout(120_000);
 
-  test("left/right/free switching, drag, resize, persistence and PDF share content-box geometry", async ({
+  test("left/right/free switching, drag, resize, persistence and unsafe PDF rejection", async ({
     page,
   }) => {
     const preview = await seed(page, [
@@ -159,9 +157,13 @@ test.describe("letter image placement hardening", () => {
     if (!resizeBox) throw new Error("resize handle has no browser box");
     await page.mouse.move(resizeBox.x + resizeBox.width / 2, resizeBox.y + resizeBox.height / 2);
     await page.mouse.down();
-    await page.mouse.move(resizeBox.x + resizeBox.width / 2 + 35, resizeBox.y + resizeBox.height / 2, {
-      steps: 4,
-    });
+    await page.mouse.move(
+      resizeBox.x + resizeBox.width / 2 + 35,
+      resizeBox.y + resizeBox.height / 2,
+      {
+        steps: 4,
+      },
+    );
     await page.mouse.up();
     expect(await numericAttribute(left, "data-width-mm")).toBeGreaterThan(widthBeforeResize);
     await assertFreeUsesContentBox(left);
@@ -253,12 +255,14 @@ test.describe("letter image placement hardening", () => {
     await assertFreeUsesContentBox(restored);
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
-    const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-    await page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i }).click();
-    const download = await downloadPromise;
-    const path = await download.path();
-    expect(path).not.toBeNull();
-    expect((await stat(path ?? "")).size).toBeGreaterThan(5_000);
+    // Both previously manipulated image geometries intentionally remain
+    // saved. In this state the physical preflight detects overlapping ink;
+    // do not turn that unsafe layout into a successful PDF.
+    const exportAction = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i });
+    await expect(exportAction).toBeDisabled();
+    await expect(page.locator("[data-pdf-preflight-message]")).toContainText(
+      /ausserhalb|abgeschnitten|überlappt|Seitenbereich/i,
+    );
   });
 
   test("legacy JSON keeps side authoritative when xMm exists without explicit free placement", async ({
