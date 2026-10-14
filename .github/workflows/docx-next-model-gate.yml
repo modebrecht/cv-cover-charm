@@ -1,0 +1,47 @@
+name: DOCX Next canonical model gate
+
+on:
+  push:
+    branches: ["fix/docx-next-model-gate-15okt"]
+    paths:
+      - "src/**"
+      - "tests/unit/**"
+      - "tests/fixtures/docx-next/**"
+      - "package.json"
+      - "bun.lock"
+      - ".github/workflows/docx-next-model-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docx-next-model-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  model-boundary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Locked dependencies
+        run: bun install --frozen-lockfile
+      - name: DOCX Next regressions including the canonical model gate
+        run: bun run test:docx-next
+      - name: Complete unit suite
+        run: bun test tests/unit
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Lint
+        run: bun run lint
+      - name: Formatting
+        run: |
+          bun run format:check:release
+          bunx prettier --check src/lib/docx-next/build-model.ts src/lib/docx-next/template-motifs.ts src/lib/docx-next/validation.ts tests/unit/docx-next-model-boundary.test.ts
+      - name: Production build
+        run: bun run build

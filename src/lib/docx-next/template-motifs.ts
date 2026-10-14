@@ -39,7 +39,7 @@ export function templateMotifs(
         widthMm: part.page.widthMm * policy.widthFraction,
         heightMm: policy.heightMm ?? bandHeightMm ?? 0,
         radiusMm: 0,
-        ...(policy.cornerRadiiMm ? { cornerRadiiMm: policy.cornerRadiiMm } : {}),
+        ...(policy.cornerRadiiMm ? { cornerRadiiMm: [...policy.cornerRadiiMm] } : {}),
         opacity: policy.opacity ?? 1,
         ...(hasFill
           ? {
@@ -54,7 +54,7 @@ export function templateMotifs(
                       angleDeg: policy.angleDeg ?? 135,
                     }
                   : {}),
-                ...(policy.radialFade ? { radialFade: policy.radialFade } : {}),
+                ...(policy.radialFade ? { radialFade: { ...policy.radialFade } } : {}),
                 ...(policy.endSlot
                   ? {
                       endColor: color(colors[policy.endSlot], fallback),
