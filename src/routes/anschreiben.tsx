@@ -272,27 +272,31 @@ function Anschreiben() {
   const [pdfError, setPdfError] = useState<string | null>(null);
   const [pdfPreflight, setPdfPreflight] = useState<PdfPreflightResult | null>(null);
   const [dossierPreflight, setDossierPreflight] = useState<PdfPreflightResult | null>(null);
-  useEffect(
-    () =>
-      observePdfPreflight(
-        () =>
-          document.querySelector<HTMLElement>(
-            "[data-letter-standalone-export] [data-letter-document-root]",
-          ),
-        "letter",
-        setPdfPreflight,
-      ),
-    [],
-  );
-  useEffect(
-    () =>
-      observePdfPreflight(
-        () => document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]"),
-        "dossier",
-        setDossierPreflight,
-      ),
-    [],
-  );
+  useEffect(() => {
+    if (!menuOpen) {
+      setPdfPreflight(null);
+      return;
+    }
+    return observePdfPreflight(
+      () =>
+        document.querySelector<HTMLElement>(
+          "[data-letter-standalone-export] [data-letter-document-root]",
+        ),
+      "letter",
+      setPdfPreflight,
+    );
+  }, [menuOpen]);
+  useEffect(() => {
+    if (!menuOpen) {
+      setDossierPreflight(null);
+      return;
+    }
+    return observePdfPreflight(
+      () => document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]"),
+      "dossier",
+      setDossierPreflight,
+    );
+  }, [menuOpen]);
   const [source, setSource] = useState<LetterDossierSource | null>(null);
   const [transferNote, setTransferNote] = useState<{
     kind: "ok" | "error";

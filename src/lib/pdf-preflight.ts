@@ -31,6 +31,9 @@ const outside = (a: DOMRect, b: DOMRect) =>
   a.top < b.top - 1.5 ||
   a.bottom > b.bottom + 1.5;
 
+const transparentInk = (color: string) =>
+  /^rgba\([^)]*,\s*0(?:\.0+)?\)$|\/\s*0(?:\.0+)?\s*\)$/.test(color);
+
 function requiredLetterTextIsHidden(sheet: HTMLElement) {
   for (const container of sheet.querySelectorAll<HTMLElement>(
     '[data-letter-pdf-richtext="body"], [data-letter-footer-attachments]',
@@ -45,7 +48,7 @@ function requiredLetterTextIsHidden(sheet: HTMLElement) {
           style.display === "none" ||
           style.visibility === "hidden" ||
           Number(style.opacity) === 0 ||
-          style.color === "rgba(0, 0, 0, 0)"
+          transparentInk(style.color)
         )
           return true;
         if (parent === sheet) break;
@@ -57,7 +60,7 @@ function requiredLetterTextIsHidden(sheet: HTMLElement) {
 
 /** Read the same production renderer's semantic text, ignoring only the
  * offscreen probe wrapper. Page-context selectors still apply inside it. */
-function semanticText(element: HTMLElement, boundary: HTMLElement): string {
+function semanticText(element: HTMLElement, boundary: HTMLElement, source = false): string {
   const walker = element.ownerDocument.createTreeWalker(element, NodeFilter.SHOW_TEXT);
   const text: string[] = [];
   let node: Node | null;
@@ -65,7 +68,13 @@ function semanticText(element: HTMLElement, boundary: HTMLElement): string {
     let hidden = false;
     for (let parent = node.parentElement; parent; parent = parent.parentElement) {
       const css = getComputedStyle(parent);
-      if (css.display === "none" || css.visibility === "hidden" || Number(css.opacity) === 0)
+      // Page-context display:none deliberately suppresses first/final sections.
+      // Invisible ink inside a source probe must not erase its required value.
+      if (
+        css.display === "none" ||
+        (!source &&
+          (css.visibility === "hidden" || Number(css.opacity) === 0 || transparentInk(css.color)))
+      )
         hidden = true;
       if (parent === boundary) break;
     }
@@ -94,7 +103,7 @@ function missingLetterSemantics(
   ]) {
     const expectedNodes = Array.from(probe.querySelectorAll<HTMLElement>(`[${attribute}]`));
     for (const expected of expectedNodes) {
-      const text = semanticText(expected, probe);
+      const text = semanticText(expected, probe, true);
       if (!text) continue;
       const value = expected.getAttribute(attribute)!;
       const actual = Array.from(
@@ -309,6 +318,21 @@ export function inspectPdfPreflight(
         pageIndex,
       );
     for (const image of sheet.querySelectorAll<HTMLImageElement>("img")) {
+      for (let ancestor: HTMLElement | null = image; ancestor; ancestor = ancestor.parentElement) {
+        const css = styleFor(ancestor);
+        if (css.display === "none" || css.visibility === "hidden" || Number(css.opacity) === 0) {
+          add(
+            "image-content-hidden",
+            "blocked",
+            `Seite ${pageIndex + 1}: Ein erforderliches Bild ist unsichtbar. Blende es ein oder entferne es aus dem Dokument.`,
+            documentKind,
+            pageIndex,
+            "image",
+          );
+          break;
+        }
+        if (ancestor === sheet) break;
+      }
       if (!image.complete)
         add(
           "image-pending",
@@ -340,7 +364,7 @@ export function inspectPdfPreflight(
           add(
             "semantic-content-missing",
             "blocked",
-            `Motivationsschreiben Seite ${pageIndex + 1}: Erforderliche Angaben sind im Drucksatz nicht vollständig (${missing.join(", ")}). Bitte die Ansicht erneut prüfen.`,
+            `Motivationsschreiben Seite ${pageIndex + 1}: Eine erforderliche Briefangabe fehlt oder ist unsichtbar. Prüfe Angaben und Textfarben oder öffne die Ansicht erneut.`,
             documentKind,
             pageIndex,
             missing.join(","),
@@ -534,8 +558,7 @@ export function beginPdfSafetyValidation(
   const approved = consent ? consents.get(consent) : undefined;
   if (consent) consents.delete(consent);
   const initial = inspectPdfPreflight(root, kind);
-  const validate = () => {
-    const current = inspectPdfPreflight(root, kind);
+  const enforce = (current: PdfPreflightResult) => {
     if (current.status === "blocked" || current.status === "pending")
       throw new Error(
         current.issues.find((i) => i.severity === current.status)?.message ||
@@ -560,8 +583,10 @@ export function beginPdfSafetyValidation(
         current.issues[0]?.message || "Bitte die Layoutwarnung ausdrücklich bestätigen.",
       );
   };
-  validate();
-  return validate;
+  // No asynchronous work separates the initial inspection from enforcement.
+  // Every later call still measures the current DOM independently.
+  enforce(initial);
+  return () => enforce(inspectPdfPreflight(root, kind));
 }
 
 /** Observes the canonical renderer, not an independent pagination model. */

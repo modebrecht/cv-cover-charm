@@ -74,7 +74,7 @@ jobs:
           - suite: combined
             command: npx playwright test --config tests/qa/playwright.combined.config.ts
           - suite: search
-            command: npx playwright test --config tests/qa/playwright.pdf-search.config.ts --grep 'all 39 automatic|automatic PDF retains'
+            command: npx playwright test --config tests/qa/playwright.pdf-search.config.ts --grep 'all 39 automatic Letter|automatic PDF retains'
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -113,6 +113,7 @@ jobs:
             test-results/pagination-integration
             test-results/pagination-combined
             test-results/letter-textlayer-product
+            test-results/pdf-text-search
           retention-days: 14
 
   evidence:

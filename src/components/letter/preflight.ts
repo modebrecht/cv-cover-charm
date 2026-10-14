@@ -94,7 +94,7 @@ function overlaps(
  * Range boxes include unused font descent; canvas ink metrics avoid inventing
  * clipping where the glyph itself is still fully printable.
  */
-export function printableTextClips(page: HTMLElement): boolean {
+export function printableTextClips(page: HTMLElement, textArea?: HTMLElement): boolean {
   const doc = page.ownerDocument;
   if (!doc?.createTreeWalker) return false;
   // One synchronous measurement may visit the same clipping ancestor for
@@ -120,6 +120,7 @@ export function printableTextClips(page: HTMLElement): boolean {
     );
   };
   const pageRect = page.getBoundingClientRect();
+  const textRect = textArea?.getBoundingClientRect();
   const context = doc.createElement("canvas").getContext("2d");
   if (!context) return true;
   const walker = doc.createTreeWalker(page, NodeFilter.SHOW_TEXT);
@@ -171,6 +172,7 @@ export function printableTextClips(page: HTMLElement): boolean {
           rect.bottom - (metrics.fontBoundingBoxDescent - metrics.actualBoundingBoxDescent) * scale,
       };
       if (rectOutside(ink, pageRect)) return true;
+      if (textRect && textArea?.contains(node) && rectOutside(ink, textRect)) return true;
       if (painted.some((previous) => overlaps(ink, previous))) return true;
       painted.push(ink);
       for (const ancestor of ancestors) {
@@ -245,8 +247,10 @@ export function letterPageOverflows(page: ParentNode): boolean {
   if (typeof measurablePage.getBoundingClientRect !== "function") {
     return letterTextLayerOverflows(layer);
   }
-  if (letterRenderedTextLayerOverflows(layer)) return true;
-  if (printableTextClips(page as HTMLElement)) return true;
+  if (!layer.ownerDocument && letterRenderedTextLayerOverflows(layer)) return true;
+  // One glyph walk enforces both the printable text area and physical A4.
+  // All clipping ancestors, overlaps and the existing tolerances remain intact.
+  if (printableTextClips(page as HTMLElement, layer.ownerDocument ? layer : undefined)) return true;
 
   const pageRect = measurablePage.getBoundingClientRect();
   const layerRect = layer.getBoundingClientRect();

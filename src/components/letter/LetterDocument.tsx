@@ -253,6 +253,11 @@ export function LetterDocument({
   const [pages, setPages] = useState<LetterPageFragment[]>(fallback);
   const [algorithmIssue, setAlgorithmIssue] = useState<LetterPaginationIssue | null>(null);
   const [measurementReady, setMeasurementReady] = useState(false);
+  const measurementKey = useMemo(
+    () => JSON.stringify([bodyHtml, data, design, chromeOptions, chromeContact, marginsSnapshot]),
+    [bodyHtml, data, design, chromeOptions, chromeContact, marginsSnapshot],
+  );
+  const [measuredKey, setMeasuredKey] = useState<string | null>(null);
   const [pageOverflow, setPageOverflow] = useState<Record<number, boolean>>({});
   // Measurement already waits for fonts, images and two animation frames.
   // Invalidate after commit so reporting pagination cannot replay a parent's
@@ -293,6 +298,7 @@ export function LetterDocument({
         // geometry decide whether PDF export is actually unsafe.
         setAlgorithmIssue(result.issue);
         setPages(fallback);
+        setMeasuredKey(measurementKey);
         setMeasurementReady(true);
         return;
       }
@@ -304,6 +310,7 @@ export function LetterDocument({
       );
       setAlgorithmIssue(null);
       setPages(resolvedPages);
+      setMeasuredKey(measurementKey);
       setMeasurementReady(true);
     };
 
@@ -321,6 +328,7 @@ export function LetterDocument({
     flowImages,
     freeImages,
     marginsSnapshot,
+    measurementKey,
   ]);
 
   // Pagination owns the page assignment, while interactive image geometry must
@@ -363,7 +371,9 @@ export function LetterDocument({
   // second effect that can invalidate and re-enable itself in the same commit.
   const pagination = useMemo<LetterPaginationState>(() => {
     const pending = { ready: false, pageCount: renderedPages.length, issue: null, warning: null };
-    if (!measurementReady) return pending;
+    // Invalidate during the edit's render, before an effect or observer can
+    // report an old settled result for newly changed margins/type/content.
+    if (!measurementReady || measuredKey !== measurementKey) return pending;
     const pageIndexes = renderedPages.map((fragment) => fragment.pageIndex);
     if (
       !pageIndexes.length ||
@@ -385,7 +395,7 @@ export function LetterDocument({
       issue,
       warning: issue ? null : algorithmIssue,
     };
-  }, [algorithmIssue, measurementReady, pageOverflow, renderedPages]);
+  }, [algorithmIssue, measurementReady, measuredKey, measurementKey, pageOverflow, renderedPages]);
 
   const reportedPagination = useRef<LetterPaginationState | null>(null);
   useEffect(() => {

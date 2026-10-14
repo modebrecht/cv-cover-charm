@@ -3,6 +3,12 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { paginationFixture } from "./pagination-fixtures";
 import type { PdfPreflightIssue } from "../../src/lib/pdf-preflight";
+import {
+  BASE_URL,
+  GALLERY_CASES,
+  applyGalleryCase,
+  seedCanonicalDossier,
+} from "../e2e/support/dossier-gallery-shared";
 import { parityStorage } from "../e2e/support/cv-parity-fixture";
 import {
   auditDocument,
@@ -424,6 +430,9 @@ test("negative mirrored free CV photo covers visible identity", async ({ page })
     "data-dossier-cv-ready",
     "true",
   );
+  await expect(
+    page.locator("[data-dossier-pdf-canvas] [data-letter-document-root]"),
+  ).toHaveAttribute("data-letter-pagination-ready", "true", { timeout: 30000 });
   const result = await verdict(page, "dossier");
   expect(result.status, JSON.stringify(result.issues)).toBe("blocked");
   expect(await directExportFailure(page, "dossier")).toContain("Lebenslauf");
@@ -595,6 +604,206 @@ test("missing semantic Letter content blocks before consent and disables UI", as
     expect(item.consentError, item.role).not.toBe("");
     expect(item.exportError, item.role).not.toBe("");
   }
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ }),
+  ).toBeDisabled();
+  await expect(
+    page.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+  ).toHaveCount(0);
+});
+
+for (const [condition, css, selector] of [
+  [
+    "source-and-page-zero-opacity",
+    '[data-letter-document-root] [data-letter-pdf-text="signature"]{opacity:0!important}',
+    '[data-letter-document-pages] [data-letter-pdf-text="signature"]',
+  ],
+  [
+    "transparent-signature",
+    '[data-letter-standalone-export] [data-letter-pdf-text="signature"]{color:transparent!important}',
+    '[data-letter-document-pages] [data-letter-pdf-text="signature"]',
+  ],
+  [
+    "transparent-body-white-channel",
+    '[data-letter-standalone-export] [data-letter-pdf-richtext="body"]{color:rgba(255,255,255,0)!important}',
+    '[data-letter-document-pages] [data-letter-pdf-richtext="body"]',
+  ],
+] as const) {
+  test(`negative invisible semantic ${condition}: cannot consent`, async ({ page }) => {
+    await forceAdvisory(page);
+    const fixture = paginationFixture("brief", { paragraphs: 2 });
+    await loadFixture(page, fixture, "letter");
+    await page.addStyleTag({ content: css });
+    const result = await page.locator(exportRoot).evaluate(async (root, selector) => {
+      const path = "/src/lib/pdf-preflight.ts";
+      const policy = await import(path);
+      const signature = root.querySelector<HTMLElement>(selector)!;
+      const r = signature.getBoundingClientRect(),
+        p = root.querySelector("[data-letter-page]")!.getBoundingClientRect();
+      const style = getComputedStyle(signature);
+      let consentCreated = false,
+        consentError = "";
+      try {
+        policy.createPdfAdvisoryConsent(root, "letter");
+        consentCreated = true;
+      } catch (e) {
+        consentError = String(e);
+      }
+      const { status, issues } = policy.inspectPdfPreflight(root, "letter");
+      return {
+        status,
+        issues,
+        consentCreated,
+        consentError,
+        text: signature.textContent,
+        color: style.color,
+        opacity: style.opacity,
+        boxPx: { x: r.left - p.left, y: r.top - p.top, width: r.width, height: r.height },
+        boxMm: {
+          x: ((r.left - p.left) * 210) / p.width,
+          y: ((r.top - p.top) * 297) / p.height,
+          width: (r.width * 210) / p.width,
+          height: (r.height * 297) / p.height,
+        },
+      };
+    }, selector);
+    await mkdir(evidenceDir, { recursive: true });
+    await writeFile(
+      join(evidenceDir, `invisible-semantic-${condition}.json`),
+      JSON.stringify({ ...runtimeProvenance(), fixture, result }, null, 2),
+    );
+    expect(result.status, JSON.stringify(result)).toBe("blocked");
+    expect(result.consentCreated).toBe(false);
+    expect(result.consentError).not.toBe("");
+    expect(await directExportFailure(page)).not.toBe("UNSAFE SUCCESS");
+    await page.getByRole("button", { name: "Download", exact: true }).click();
+    await expect(
+      page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ }),
+    ).toBeDisabled();
+    await expect(
+      page.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+    ).toHaveCount(0);
+  });
+}
+
+test("negative original Ribbon demo Cover has confirmed physical content loss", async ({
+  page,
+}) => {
+  const saved = await seedCanonicalDossier(page);
+  await applyGalleryCase(page, saved, GALLERY_CASES.find((item) => item.id === "ribbon")!);
+  await page.goto(BASE_URL, { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const root = page.locator("[data-dossier-pdf-canvas]");
+  await expect(root).toHaveAttribute("data-dossier-cv-ready", "true", { timeout: 30000 });
+  await expect(root.locator("[data-letter-document-root]")).toHaveAttribute(
+    "data-letter-pagination-ready",
+    "true",
+    { timeout: 30000 },
+  );
+  const geometry = await root.locator('[data-dossier-document="cover"]').evaluate((sheet) => {
+    const page = sheet.getBoundingClientRect();
+    const items = ["ortDatum", "foto"].map((id) => {
+      const block = sheet.querySelector(`[data-block-id="${id}"]`)!;
+      const range = document.createRange();
+      range.selectNodeContents(block);
+      const r = range.getBoundingClientRect();
+      return {
+        id,
+        text: block.textContent,
+        transform: getComputedStyle(block).transform,
+        boxPx: { x: r.left - page.left, y: r.top - page.top, width: r.width, height: r.height },
+        boxMm: {
+          x: ((r.left - page.left) * 210) / page.width,
+          y: ((r.top - page.top) * 297) / page.height,
+          width: (r.width * 210) / page.width,
+          height: (r.height * 297) / page.height,
+        },
+      };
+    });
+    return { pagePx: { width: page.width, height: page.height }, items };
+  });
+  expect(geometry.items[0].boxPx.x).toBeLessThan(-1.5);
+  expect(geometry.items[0].boxPx.y + geometry.items[0].boxPx.height).toBeGreaterThan(
+    geometry.pagePx.height + 1.5,
+  );
+  expect(geometry.items[1].boxPx.x).toBeLessThan(-1.5);
+  expect(geometry.items[1].boxPx.y).toBeLessThan(-1.5);
+  const result = await verdict(page, "dossier");
+  await mkdir(evidenceDir, { recursive: true });
+  await writeFile(
+    join(evidenceDir, "ribbon-original-cover-unsafe.json"),
+    JSON.stringify({ ...runtimeProvenance(), saved, geometry, result }, null, 2),
+  );
+  expect(result.status, JSON.stringify(result.issues)).toBe("blocked");
+  expect(await directExportFailure(page, "dossier")).toContain("Titelblatt");
+  const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+  await expect(
+    dialog.getByRole("button", { name: "PDF herunterladen", exact: true }),
+  ).toBeDisabled();
+  await expect(
+    dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+  ).toHaveCount(0);
+});
+
+test("negative invisible required image cannot receive advisory consent", async ({ page }) => {
+  await forceAdvisory(page);
+  const fixture = paginationFixture("brief", { paragraphs: 2 });
+  const saved = JSON.parse(fixture.storage["anschreiben:v1"]);
+  saved.data.images = [
+    {
+      id: "qa-hidden-image",
+      src: imageSrc,
+      side: "left",
+      topMm: 0,
+      widthMm: 16,
+      gapMm: 4,
+      xMm: -20,
+    },
+  ];
+  fixture.storage["anschreiben:v1"] = JSON.stringify(saved);
+  await loadFixture(page, fixture, "letter");
+  const result = await page.locator(exportRoot).evaluate(async (root) => {
+    const path = "/src/lib/pdf-preflight.ts";
+    const policy = await import(path);
+    const image = root.querySelector<HTMLImageElement>(
+      "[data-letter-document-pages] [data-letter-flow-image] img",
+    )!;
+    image.style.opacity = "0";
+    const r = image.getBoundingClientRect(),
+      p = root.querySelector("[data-letter-page]")!.getBoundingClientRect();
+    let consentError = "";
+    try {
+      policy.createPdfAdvisoryConsent(root, "letter");
+    } catch (e) {
+      consentError = String(e);
+    }
+    const { status, issues } = policy.inspectPdfPreflight(root, "letter");
+    return {
+      status,
+      issues,
+      consentError,
+      complete: image.complete,
+      naturalWidth: image.naturalWidth,
+      opacity: getComputedStyle(image).opacity,
+      boxMm: {
+        x: ((r.left - p.left) * 210) / p.width,
+        y: ((r.top - p.top) * 297) / p.height,
+        width: (r.width * 210) / p.width,
+        height: (r.height * 297) / p.height,
+      },
+    };
+  });
+  await mkdir(evidenceDir, { recursive: true });
+  await writeFile(
+    join(evidenceDir, "invisible-required-image.json"),
+    JSON.stringify({ ...runtimeProvenance(), fixture, result }, null, 2),
+  );
+  expect(result.complete).toBe(true);
+  expect(result.naturalWidth).toBeGreaterThan(0);
+  expect(result.status, JSON.stringify(result)).toBe("blocked");
+  expect(result.consentError).not.toBe("");
+  expect(await directExportFailure(page)).not.toBe("UNSAFE SUCCESS");
   await page.getByRole("button", { name: "Download", exact: true }).click();
   await expect(
     page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ }),
