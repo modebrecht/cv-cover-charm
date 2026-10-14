@@ -1,0 +1,33 @@
+# Sidebar control observation boundary — 14 October 2026
+
+**Bounded continuation; native result pending. Production decision C and all guards remain unchanged.** This packet tests an observation boundary, not an application correction or a new Sidebar structure.
+
+Fetched application base: `e1ec176d52e27ffbf46d9a326a3703f05161bfbf`, on `fix/docx-next-sidebar-gate-13okt`. Remote dev remains `1f4696ee520724466457dacbecc19fffe34ff1ff`; main `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`, render `4319c20fb85d3971ac355ae8898cdfef86ee7a8c`, and Font QA `28ea3f0b177e210f38c3b04ce44867e6618ca2bc` remain unchanged. Agent A independently advanced to `0c9abe948a29cb68261f91d6663cca338bd6a3f7`; its work is neither imported nor modified.
+
+## Hypothesis and exact bounded scope
+
+H1: The existing public status callbacks on the current shared body-stories composition might expose a strong canonical control reference before import end, enough to observe that reference through the remaining import interval. This would establish an observed interval for one control, not its unobserved creation or the original native container lifetime.
+
+The unchanged `docx-next-owner-boundary-worker.py` supplies actual UNO interface equality and disposal events. The new QA wrapper uses only `app-body-left`. It first reopens the already saved package as the early-observation control, then observes the original source. The source/saved package state is the single changed input variable. Engine, binding, worker, canonical field scope and model/renderer stay fixed. Existing executed historical disposal evidence is the strict negative control; a separately identified synthetic unit positive exercises classification without claiming a native PASS.
+
+The existing native CI job generates real current-source DOCX files and performs source/saved1/saved2 roundtrips before this measurement. The wrapper performs at most two additional read-only native loads and zero exports. It stops immediately if the saved control fails or source coverage is insufficient. It does not extend to right, long, photographs, all 22 cases or 39 templates. Existing 22-case content and exact-geometry measurements remain separate, unchanged steps.
+
+All 77 body field IDs, their order and text must match in each observed package and native inventory. A final equal tag, final equal text or final equal interface acquired only at `end` gives **INCONCLUSIVE**, never lifetime PASS. An observed disposal or changed strong interface gives **FAIL**. Even a passing observed interval leaves original control creation and original container lifetime **UNVERIFIED**. `--require-source-interval` fails strictly when the source interval is absent; ordinary CI records the diagnostic result without promoting it to product acceptance.
+
+## Local validation and execution boundary
+
+Nine new adversarial tests pass. They retain actual historical disposal failures, reject final-only promotion and forged live rows after registration at end, distinguish an unobserved interval, require complete native text/identity/order, and keep original control/container claims unverified. Existing native owner tests (6), owner-boundary tests (7), and upstream source-packet tests (9) also pass. Workflow formatting and whitespace checks pass.
+
+Two local stock-runtime setup attempts did not produce an engine or native measurement. The first failed because the managed process cannot change APT user/group IDs. A private APT configuration avoids that identity switch without changing packages, native workers or the machine installation; the second reached the existing 180-second metadata timeout. Neither is native execution or a successful setup. The already provisioned GitHub native worker is the selected execution environment; no third local bootstrap is attempted.
+
+The intervening full-source build attempt has no retained completion record after the environment reset: its process session, baseline exit record, build log and paired-build provenance are absent. No new Writer binary, source-built CppUnit result or source-built Save/Reopen acceptance can be claimed. The durable [upstream source preparation](docx-sidebar-upstream-source-gate-14okt.md) remains the reproducible starting packet; that separate engine-maintenance task is still unverified.
+
+## CI and product boundaries
+
+Initial CI was re-read from GitHub: [Dossier run 38502558343](https://github.com/modebrecht/cv-cover-charm/actions/runs/38502558343), SUCCESS attempt 1 on `889ad0a6ab2c43740944e3fc6224e833626cf9b6`. The final documentation-only base `e1ec176d` explicitly skipped CI and is not labeled tested as a new executable revision.
+
+New implementation CI and native observations are pending publication/execution. Their final receipt will record the exact tested SHA, actual outcomes and artifact fingerprints. No skipped or inconclusive native gate is counted as successful acceptance.
+
+The existing architecture report remains authoritative: 22/22 content cases, 18/22 exact stock geometry cases, four mirrored engine-owned rounding failures. This diagnostic cannot repair those divisions in the recipient's installed editor. Strict crop/pixels, original lifetime, remaining rendered Sidebar templates and Word acceptance remain separate. Items 7/8/9 stay OPEN; item 25 stays UNVERIFIED and deferred. No production source, font policy, Web/PDF geometry, Legacy/V2 export or switchover change occurs. No merge or deployment is performed.
+
+The smallest useful follow-up depends on the native result: actual observed control destruction would be a focused importer regression for this precise field/package; final-only source observation means this public callback route cannot close the original-lifetime gate and should not be expanded. The prepared paired upstream source-build regression remains the concrete geometry task on a provisioned Linux build worker, with official release/distribution required before any production compatibility claim.

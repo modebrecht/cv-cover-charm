@@ -381,6 +381,7 @@ jobs:
           bun test tests/unit/docx-next-table-grid.test.ts
           python scripts/docx-next-sidebar-body-test.py
           python scripts/docx-next-sidebar-save-geometry-test.py
+          python scripts/docx-next-sidebar-control-coverage-test.py
       - name: Install canonical browser decoder
         timeout-minutes: 6
         run: bash scripts/qa-browser-setup.sh
@@ -405,6 +406,9 @@ jobs:
       - name: Measure exact save geometry separately and retain every outstanding counterexample
         timeout-minutes: 5
         run: python scripts/docx-next-sidebar-save-geometry-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+      - name: Record bounded control identity coverage; insufficient source observation stays unverified
+        timeout-minutes: 3
+        run: python scripts/docx-next-sidebar-control-coverage-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
       - name: Retain actual app composition and outstanding geometry evidence
         if: always()
         uses: actions/upload-artifact@v4
