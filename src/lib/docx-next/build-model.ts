@@ -18,8 +18,9 @@ import {
 } from "@/components/cv/types";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
-import { coverAttachmentValues, TEMPLATES } from "@/components/cover/types";
-import { buildCustomBlocks } from "@/components/cover/layouts";
+import { coverAttachmentValues } from "@/components/cover/types";
+import { buildCustomBlocks } from "@/components/cover/layouts-base";
+import { coverTemplateSlots } from "@/components/cover/template-slots";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import type {
   DossierDocModel,
@@ -822,7 +823,7 @@ export function buildDossierDocModel(
     });
   }
   if (cv.design.useElements) {
-    const slots = TEMPLATES.find((item) => item.id === cv.design.template)?.slots ?? [];
+    const slots = coverTemplateSlots(cv.design.template);
     const customBlocks = buildCustomBlocks(
       cv.design.template,
       cv.elements,

@@ -1,0 +1,741 @@
+{
+  "roots": [
+    "src/lib/docx-next/export.ts",
+    "src/lib/docx-next/source.ts",
+    "src/lib/docx-next/source-adapter.ts",
+    "src/lib/docx-next/snapshot.ts",
+    "src/lib/docx-next/build-model.ts",
+    "src/lib/docx-next/model.ts",
+    "src/lib/docx-next/renderer.ts",
+    "src/lib/docx-next/images.ts",
+    "src/lib/docx-next/decoration.ts"
+  ],
+  "modules": {
+    "src/lib/docx-next/export.ts": [
+      {
+        "kind": "static",
+        "specifier": "./build-model",
+        "target": "src/lib/docx-next/build-model.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./renderer",
+        "target": "src/lib/docx-next/renderer.ts"
+      }
+    ],
+    "src/lib/docx-next/source.ts": [],
+    "src/lib/docx-next/source-adapter.ts": [],
+    "src/lib/docx-next/snapshot.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-chrome",
+        "target": "src/lib/dossier-chrome.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-page-margins",
+        "target": "src/lib/dossier-page-margins.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/layout",
+        "target": "src/components/cv/layout.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/placement",
+        "target": "src/components/cv/placement.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/text-alignment",
+        "target": "src/components/cv/text-alignment.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/photo",
+        "target": "src/components/cv/photo.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/photo-place",
+        "target": "src/components/cv/photo-place.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-field-typography",
+        "target": "src/lib/dossier-field-typography.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./source-adapter",
+        "target": "src/lib/docx-next/source-adapter.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./typography-bindings",
+        "target": "src/lib/docx-next/typography-bindings.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./layouts",
+        "target": "src/lib/docx-next/layouts.ts"
+      }
+    ],
+    "src/lib/docx-next/build-model.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-semantic-fields",
+        "target": "src/lib/dossier-semantic-fields.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/types",
+        "target": "src/components/cv/types.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/lib/cv-personal-info",
+        "target": "src/lib/cv-personal-info.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/citrus-rubric",
+        "target": "src/components/cv/citrus-rubric.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cover/layouts-base",
+        "target": "src/components/cover/layouts-base.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cover/template-slots",
+        "target": "src/components/cover/template-slots.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-resolved-chrome",
+        "target": "src/lib/dossier-resolved-chrome.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./templates",
+        "target": "src/lib/docx-next/templates.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./colors",
+        "target": "src/lib/docx-next/colors.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./colors",
+        "target": "src/lib/docx-next/colors.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./cover-composition",
+        "target": "src/lib/docx-next/cover-composition.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./continuation-margin",
+        "target": "src/lib/docx-next/continuation-margin.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./cv-sidebar-composition",
+        "target": "src/lib/docx-next/cv-sidebar-composition.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./template-composition",
+        "target": "src/lib/docx-next/template-composition.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./page-artwork",
+        "target": "src/lib/docx-next/page-artwork.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./template-motifs",
+        "target": "src/lib/docx-next/template-motifs.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-chrome",
+        "target": "src/lib/dossier-chrome.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./layouts",
+        "target": "src/lib/docx-next/layouts.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./fonts",
+        "target": "src/lib/docx-next/fonts.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./rich-text",
+        "target": "src/lib/docx-next/rich-text.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./elements",
+        "target": "src/lib/docx-next/elements.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-photo",
+        "target": "src/lib/dossier-photo.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/photo-place",
+        "target": "src/components/cv/photo-place.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/letter/letter-paper",
+        "target": "src/components/letter/letter-paper.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/cv-paper",
+        "target": "src/components/cv/cv-paper.ts"
+      }
+    ],
+    "src/lib/docx-next/model.ts": [],
+    "src/lib/docx-next/renderer.ts": [
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./package",
+        "target": "src/lib/docx-next/package.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./xml",
+        "target": "src/lib/docx-next/xml.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./table-grid",
+        "target": "src/lib/docx-next/table-grid.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./images",
+        "target": "src/lib/docx-next/images.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./styles",
+        "target": "src/lib/docx-next/styles.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./numbering",
+        "target": "src/lib/docx-next/numbering.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./validation",
+        "target": "src/lib/docx-next/validation.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./decoration",
+        "target": "src/lib/docx-next/decoration.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./picture-geometry",
+        "target": "src/lib/docx-next/picture-geometry.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./artwork",
+        "target": "src/lib/docx-next/artwork.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./section-plan",
+        "target": "src/lib/docx-next/section-plan.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./layouts",
+        "target": "src/lib/docx-next/layouts.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./parallel-flow",
+        "target": "src/lib/docx-next/parallel-flow.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./image-zone",
+        "target": "src/lib/docx-next/image-zone.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./native-cell",
+        "target": "src/lib/docx-next/native-cell.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./page-artwork",
+        "target": "src/lib/docx-next/page-artwork.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./native-text",
+        "target": "src/lib/docx-next/native-text.ts"
+      }
+    ],
+    "src/lib/docx-next/images.ts": [],
+    "src/lib/docx-next/decoration.ts": [],
+    "src/lib/dossier-chrome.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/template-chrome",
+        "target": "src/lib/template-chrome.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cover/types",
+        "target": "src/components/cover/types.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-default-presentation",
+        "target": "src/lib/dossier-default-presentation.ts"
+      }
+    ],
+    "src/lib/dossier-page-margins.ts": [],
+    "src/components/cv/layout.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-default-presentation",
+        "target": "src/lib/dossier-default-presentation.ts"
+      }
+    ],
+    "src/components/cv/placement.ts": [
+      {
+        "kind": "static",
+        "specifier": "./types",
+        "target": "src/components/cv/types.ts"
+      }
+    ],
+    "src/components/cv/text-alignment.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/text-alignment",
+        "target": "src/lib/text-alignment.ts"
+      }
+    ],
+    "src/components/cv/photo.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-photo",
+        "target": "src/lib/dossier-photo.ts"
+      }
+    ],
+    "src/components/cv/photo-place.ts": [],
+    "src/lib/dossier-field-typography.ts": [
+      {
+        "kind": "static",
+        "specifier": "./dossier-semantic-fields",
+        "target": "src/lib/dossier-semantic-fields.ts"
+      }
+    ],
+    "src/lib/docx-next/typography-bindings.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-semantic-fields",
+        "target": "src/lib/dossier-semantic-fields.ts"
+      }
+    ],
+    "src/lib/docx-next/layouts.ts": [],
+    "src/lib/dossier-semantic-fields.ts": [],
+    "src/components/cv/types.ts": [],
+    "src/lib/cv-personal-info.ts": [],
+    "src/components/cv/citrus-rubric.ts": [],
+    "src/components/cover/layouts-base.ts": [
+      {
+        "kind": "static",
+        "specifier": "./types",
+        "target": "src/components/cover/types.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/default-config",
+        "target": "src/default-config.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./new-element",
+        "target": "src/components/cover/new-element.ts"
+      }
+    ],
+    "src/components/cover/template-slots.ts": [
+      {
+        "kind": "static",
+        "specifier": "./types",
+        "target": "src/components/cover/types.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./fresh-template-registry",
+        "target": "src/components/cover/fresh-template-registry.ts"
+      }
+    ],
+    "src/lib/dossier-resolved-chrome.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-contact-data",
+        "target": "src/lib/dossier-contact-data.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/lib/template-chrome",
+        "target": "src/lib/template-chrome.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-chrome-content",
+        "target": "src/lib/dossier-chrome-content.ts"
+      }
+    ],
+    "src/lib/docx-next/templates.ts": [],
+    "src/lib/docx-next/colors.ts": [],
+    "src/lib/docx-next/cover-composition.ts": [
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./colors",
+        "target": "src/lib/docx-next/colors.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cover/user-style-precedence",
+        "target": "src/components/cover/user-style-precedence.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./elements",
+        "target": "src/lib/docx-next/elements.ts"
+      }
+    ],
+    "src/lib/docx-next/continuation-margin.ts": [],
+    "src/lib/docx-next/cv-sidebar-composition.ts": [
+      {
+        "kind": "static",
+        "specifier": "./colors",
+        "target": "src/lib/docx-next/colors.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./parallel-flow",
+        "target": "src/lib/docx-next/parallel-flow.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./image-zone",
+        "target": "src/lib/docx-next/image-zone.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./cv-sidebar-body",
+        "target": "src/lib/docx-next/cv-sidebar-body.ts"
+      }
+    ],
+    "src/lib/docx-next/template-composition.ts": [
+      {
+        "kind": "static",
+        "specifier": "./colors",
+        "target": "src/lib/docx-next/colors.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./page-artwork",
+        "target": "src/lib/docx-next/page-artwork.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./template-motifs",
+        "target": "src/lib/docx-next/template-motifs.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/palette",
+        "target": "src/components/cv/palette.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./layouts",
+        "target": "src/lib/docx-next/layouts.ts"
+      }
+    ],
+    "src/lib/docx-next/page-artwork.ts": [],
+    "src/lib/docx-next/template-motifs.ts": [
+      {
+        "kind": "static",
+        "specifier": "./colors",
+        "target": "src/lib/docx-next/colors.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./page-artwork",
+        "target": "src/lib/docx-next/page-artwork.ts"
+      }
+    ],
+    "src/lib/docx-next/fonts.ts": [],
+    "src/lib/docx-next/rich-text.ts": [
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      }
+    ],
+    "src/lib/docx-next/elements.ts": [
+      {
+        "kind": "static",
+        "specifier": "./fonts",
+        "target": "src/lib/docx-next/fonts.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./colors",
+        "target": "src/lib/docx-next/colors.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./layouts",
+        "target": "src/lib/docx-next/layouts.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./decoration",
+        "target": "src/lib/docx-next/decoration.ts"
+      }
+    ],
+    "src/lib/dossier-photo.ts": [],
+    "src/components/letter/letter-paper.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/components/cv/palette",
+        "target": "src/components/cv/palette.ts"
+      }
+    ],
+    "src/components/cv/cv-paper.ts": [
+      {
+        "kind": "static",
+        "specifier": "./palette",
+        "target": "src/components/cv/palette.ts"
+      }
+    ],
+    "src/lib/docx-next/package.ts": [
+      {
+        "kind": "static",
+        "specifier": "./xml",
+        "target": "src/lib/docx-next/xml.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./zip",
+        "target": "src/lib/docx-next/zip.ts"
+      }
+    ],
+    "src/lib/docx-next/xml.ts": [],
+    "src/lib/docx-next/table-grid.ts": [
+      {
+        "kind": "static",
+        "specifier": "./xml",
+        "target": "src/lib/docx-next/xml.ts"
+      }
+    ],
+    "src/lib/docx-next/styles.ts": [
+      {
+        "kind": "static",
+        "specifier": "./xml",
+        "target": "src/lib/docx-next/xml.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./fonts",
+        "target": "src/lib/docx-next/fonts.ts"
+      }
+    ],
+    "src/lib/docx-next/numbering.ts": [
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./xml",
+        "target": "src/lib/docx-next/xml.ts"
+      }
+    ],
+    "src/lib/docx-next/validation.ts": [
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./decoration",
+        "target": "src/lib/docx-next/decoration.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./fonts",
+        "target": "src/lib/docx-next/fonts.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./page-artwork",
+        "target": "src/lib/docx-next/page-artwork.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./parallel-flow",
+        "target": "src/lib/docx-next/parallel-flow.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./native-cell",
+        "target": "src/lib/docx-next/native-cell.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./image-zone",
+        "target": "src/lib/docx-next/image-zone.ts"
+      }
+    ],
+    "src/lib/docx-next/picture-geometry.ts": [],
+    "src/lib/docx-next/artwork.ts": [
+      {
+        "kind": "static",
+        "specifier": "./zip",
+        "target": "src/lib/docx-next/zip.ts"
+      }
+    ],
+    "src/lib/docx-next/section-plan.ts": [
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      }
+    ],
+    "src/lib/docx-next/parallel-flow.ts": [
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./semantic-flow-units",
+        "target": "src/lib/docx-next/semantic-flow-units.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./image-zone",
+        "target": "src/lib/docx-next/image-zone.ts"
+      }
+    ],
+    "src/lib/docx-next/image-zone.ts": [
+      {
+        "kind": "static",
+        "specifier": "./picture-geometry",
+        "target": "src/lib/docx-next/picture-geometry.ts"
+      }
+    ],
+    "src/lib/docx-next/native-cell.ts": [
+      {
+        "kind": "static",
+        "specifier": "./xml",
+        "target": "src/lib/docx-next/xml.ts"
+      }
+    ],
+    "src/lib/docx-next/native-text.ts": [
+      {
+        "kind": "static",
+        "specifier": "./xml",
+        "target": "src/lib/docx-next/xml.ts"
+      }
+    ],
+    "src/lib/template-chrome.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-default-presentation",
+        "target": "src/lib/dossier-default-presentation.ts"
+      }
+    ],
+    "src/components/cover/types.ts": [],
+    "src/lib/dossier-default-presentation.ts": [],
+    "src/lib/text-alignment.ts": [],
+    "src/default-config.ts": [
+      {
+        "kind": "static",
+        "specifier": "@/lib/dossier-default-presentation",
+        "target": "src/lib/dossier-default-presentation.ts"
+      }
+    ],
+    "src/components/cover/new-element.ts": [],
+    "src/components/cover/fresh-template-registry.ts": [],
+    "src/lib/dossier-contact-data.ts": [],
+    "src/lib/dossier-chrome-content.ts": [],
+    "src/components/cover/user-style-precedence.ts": [],
+    "src/lib/docx-next/cv-sidebar-body.ts": [
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      },
+      {
+        "kind": "static",
+        "specifier": "./parallel-flow",
+        "target": "src/lib/docx-next/parallel-flow.ts"
+      }
+    ],
+    "src/components/cv/palette.ts": [],
+    "src/lib/docx-next/zip.ts": [],
+    "src/lib/docx-next/semantic-flow-units.ts": [
+      {
+        "kind": "static",
+        "specifier": "./model",
+        "target": "src/lib/docx-next/model.ts"
+      }
+    ]
+  },
+  "externals": [],
+  "unresolved": []
+}
