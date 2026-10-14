@@ -762,6 +762,19 @@ export function buildDossierDocModel(
         message:
           "Word CV sections flow to preserve editing; absolute section positioning requires explicit acceptance.",
       });
+    if (
+      cvVariant === "classic" &&
+      key !== "person" &&
+      layout.positioning === "flow" &&
+      layout.width === "half" &&
+      layout.packing === "masonry"
+    )
+      issues.push({
+        code: "masonry-section-converted-to-rows",
+        fieldId: `cv.section.${key}`,
+        message:
+          "Word half-width sections use paired rows; independent Masonry packing requires explicit acceptance.",
+      });
     const sectionHeading = heading(`cv.section.${key}.heading`, title);
     sectionHeading.indentMm =
       cvFlow.indentMm +
@@ -1332,6 +1345,12 @@ export function buildDossierDocModel(
   }
   for (const target of [coverPart, letterPart, cvPart]) {
     for (const block of walkBlocks(target.blocks)) {
+      if (block.kind === "image" && !block.source.trim())
+        issues.push({
+          code: "missing-image-source",
+          fieldId: block.id,
+          message: "An authored image has no source. Restore or remove the image before export.",
+        });
       if (block.kind === "image" && block.opacity !== undefined && block.opacity !== 1)
         issues.push({
           code: "unsupported-image-opacity",

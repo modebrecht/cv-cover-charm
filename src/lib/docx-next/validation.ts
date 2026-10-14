@@ -230,6 +230,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next invalid image opacity ${block.id}`);
       if (block.kind === "image" && block.opacity !== undefined && block.opacity !== 1)
         throw new Error(`DOCX Next unsupported image opacity ${block.id}`);
+      if (block.kind === "image" && !block.source.trim())
+        throw new Error(`DOCX Next missing image source ${block.id}`);
 
       if (
         block.kind === "image" &&
