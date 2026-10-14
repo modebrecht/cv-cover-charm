@@ -48,11 +48,11 @@ The inspected source accepts this bounded headless starting configuration; succe
 ```sh
 ./autogen.sh --without-java --disable-gui --disable-dbus --disable-cups \
   --disable-gstreamer-1-0 --disable-odk --with-parallelism=2
-make build-nocheck
+make build
 make CppunitTest_sw_ooxmlexport23
 ```
 
-These complete-build and CppUnit commands **were not run here**. Expected baseline: four independently failing new right tests, two successful left controls, and the existing tests protected. Expected candidate: all six new tests plus the full existing target pass. Then run the existing 22-case application source/saved1/saved2 matrix with a separately declared source-engine provenance adapter and the same fonts. Existing accepted stock-worker/binary assertions must not be loosened or relabeled to accommodate it. That adapter is a concrete dependency, not implemented or claimed accepted in this hour.
+The pinned `Makefile.in` defines `build` and the generic `CppunitTest_%` target; `solenv/gbuild/Module.mk` separates product build targets from check targets. It does not define `build-nocheck`. These complete-build and CppUnit commands **were not run here**. Expected baseline: four independently failing new right tests, two successful left controls, and the existing tests protected. Expected candidate: all six new tests plus the full existing target pass. Then run the existing 22-case application source/saved1/saved2 matrix with a separately declared source-engine provenance adapter and the same fonts. Existing accepted stock-worker/binary assertions must not be loosened or relabeled to accommodate it. That adapter is a concrete dependency, not implemented or claimed accepted in this hour.
 
 Record both source diffs, complete command logs/exit codes, dependency/font/compiler manifests, output ELF build IDs/digests and actual DOCX/PDF/control/geometry evidence. A passing grid CppUnit target still cannot close original control/owner lifetime, strict photo/crop/pixels, remaining template layouts or Microsoft Word.
 
@@ -68,4 +68,10 @@ Do not bundle a modified LibreOffice library into CV Cover Charm or make this pr
 
 Local packet tests: 9 PASS. Exact source-proposal and both upstream test-patch application checks: PASS. Compiled-helper tests: 103,004 per Debug/Release PASS; expected Debug zero-divisor failure retained. Full Writer build, native CppUnit and new source-engine matrix: UNVERIFIED, not skipped-as-success.
 
-The published successor's exact HEAD and completed existing application CI are reported after commit. No new broad CI workflow is added. No merge or deliberate deployment. The prior architecture report and all historical negative evidence remain authoritative and unchanged.
+Published implementation/test-packet SHA: `889ad0a6ab2c43740944e3fc6224e833626cf9b6`. [Dossier Regression run 38502558343](https://github.com/modebrecht/cv-cover-charm/actions/runs/38502558343) completed SUCCESS, attempt 1: the nine strict packet tests, application units, formatting, TypeScript, lint, production build and all eight browser groups passed. The dispatch-only native-print benchmark was SKIPPED; no new native engine run is claimed. M6 Release Candidate reports SUCCESS on this exact SHA.
+
+Initial hour baseline CI remains separately recorded: [run 38466418350](https://github.com/modebrecht/cv-cover-charm/actions/runs/38466418350), SUCCESS on `70af3c5008939015d0e1ba4934d3310a68497bc0`. The bounded native geometry/content results from the preceding package remain in its unchanged architecture report; this preparation-only successor did not retrigger the native worker.
+
+The final documentation receipt corrects the unexecuted build command using the actual pinned Makefiles and records these completed results. It changes only this Markdown file and uses `[skip ci]`; there is no claimed final-receipt CI execution. Local formatting and whitespace checks pass. All executable files, test patches and fixtures remain byte-identical to the successfully tested successor above.
+
+No new broad CI workflow is added. No merge or deliberate deployment. The prior architecture report and all historical negative evidence remain authoritative and unchanged. The final fetch confirms protected dev/main/render and Agent B unchanged; Agent A independently advanced to `1085ef27d1ac05b53c4b85311efd667c893cefdc` and was neither imported nor modified.
