@@ -58,6 +58,10 @@ jobs:
       - name: Install application dependencies
         run: bun install --frozen-lockfile
 
+      - name: Strict prepared upstream source-packet contract
+        if: github.ref == 'refs/heads/fix/docx-next-sidebar-gate-13okt'
+        run: python3 scripts/sidebar-upstream-source-test.py
+
       - name: Unit regressions
         run: bun test tests/unit
 

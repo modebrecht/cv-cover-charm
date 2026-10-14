@@ -1,0 +1,131 @@
+{
+  "baseApplicationSha": "70af3c5008939015d0e1ba4934d3310a68497bc0",
+  "authoritativeRemoteDev": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+  "startedAtUtc": "2026-10-14T02:00:18Z",
+  "sourceTag": "libreoffice-25.8.7.3",
+  "sourceSha": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+  "sourceTreeMode": "sparse audit checkout; complete build source hydration still required",
+  "host": {
+    "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "logicalCpus": 9,
+    "ramGiB": 9.7,
+    "diskFreeGiBAtStart": 26,
+    "swapGiB": 0
+  },
+  "stages": {
+    "initialAutogen": {
+      "logSha256": "955c59ed4a954e6e7d7b0f07e6c993a4a01b04536e804467aa21931a09e4a089",
+      "result": "FAIL: pkg-config, autoconf and aclocal missing"
+    },
+    "packageIndexAttempt": {
+      "logSha256": "721c6a8d0361c81b3a5ead41f54489de1e6324259fbd39c0fe0c86328259b55a",
+      "result": "FAIL: truncated signed noble-security InRelease; not accepted"
+    },
+    "signedRetry": {
+      "logSha256": "3b683eecc4044c7b372f4bd23302dcbdc35347f045f6ef2c15fd65b4aba20981",
+      "result": "Good Ubuntu archive signature; invalid first response retained"
+    },
+    "isolatedToolBootstrap": {
+      "packages": [
+        {
+          "file": "autoconf_2.71-3_all.deb",
+          "sha256": "cc3f9f7a1e576173fb59c36652c0a67c6426feae752b352404ba92dfcb1b26c9",
+          "metadata": "Package: autoconf\nVersion: 2.71-3\nArchitecture: all\n"
+        },
+        {
+          "file": "automake_1%3a1.16.5-1.3ubuntu1_all.deb",
+          "sha256": "5ae9a98e73545002cd891f028859941af2a3c760cb6190e635c7ef36953912de",
+          "metadata": "Package: automake\nVersion: 1:1.16.5-1.3ubuntu1\nArchitecture: all\n"
+        },
+        {
+          "file": "libpkgconf3_1.8.1-2build1_amd64.deb",
+          "sha256": "fc3a57e8f931ec06cb7c51acc56878f1fec247ff02a7adcab26905c2faeb2792",
+          "metadata": "Package: libpkgconf3\nVersion: 1.8.1-2build1\nArchitecture: amd64\n"
+        },
+        {
+          "file": "libsigsegv2_2.14-1ubuntu2_amd64.deb",
+          "sha256": "889f338bea4ebfd999939d946da4ac0a45668264a5aae78e023feeb0529505b8",
+          "metadata": "Package: libsigsegv2\nVersion: 2.14-1ubuntu2\nArchitecture: amd64\n"
+        },
+        {
+          "file": "m4_1.4.19-4build1_amd64.deb",
+          "sha256": "30ea715845a1863abd55d11e47ab91513130bf347852d4cdeae69e9d98fa795c",
+          "metadata": "Package: m4\nVersion: 1.4.19-4build1\nArchitecture: amd64\n"
+        },
+        {
+          "file": "pkg-config_1.8.1-2build1_amd64.deb",
+          "sha256": "16bda455d9216da31ad55d72df5a7380cb9d5ac32a2393941cab262a4e5b526f",
+          "metadata": "Package: pkg-config\nVersion: 1.8.1-2build1\nArchitecture: amd64\n"
+        },
+        {
+          "file": "pkgconf-bin_1.8.1-2build1_amd64.deb",
+          "sha256": "7a812f05ee1610154b433e2ad54f6e4163fcbb306b9fb31afe959afb2e5e1545",
+          "metadata": "Package: pkgconf-bin\nVersion: 1.8.1-2build1\nArchitecture: amd64\n"
+        },
+        {
+          "file": "pkgconf_1.8.1-2build1_amd64.deb",
+          "sha256": "834a58031069d97d7cfb8b2f5bfd5effc69cecf7f30cc362071875f1f8dc1828",
+          "metadata": "Package: pkgconf\nVersion: 1.8.1-2build1\nArchitecture: amd64\n"
+        }
+      ],
+      "result": "PASS: local Autoconf 2.71, Automake 1.16.5 and pkg-config 1.8.1; no system/native runtime install"
+    },
+    "realConfigure": {
+      "logSha256": "cc665d285fc6992ffb44351d8ffe786bf80779163b56f617f99b808482dd7f3a",
+      "result": "FAIL: fontconfig >= 2.12.0 not available to pkg-config",
+      "writerCompilationStarted": false
+    }
+  },
+  "sourceBuildExecuted": false,
+  "sourceCppUnitExecution": "UNVERIFIED",
+  "independentCompiledHelperGate": {
+    "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "helperSourceSha256": "ae00f018cbbe9e4b37105c746610116a3cfb74eb704d76cc051dfc9511ba8f78",
+    "debugBinarySha256": "d2d9afc791c58c561c9720b46e85cfdc0c49827ca6673d42958d6bdf4b9e1152",
+    "releaseBinarySha256": "c7393ba8bb120b4e4d53beeabdce2290c9b66c73cc8f199e120121c037af12b4",
+    "positiveChecksPerBuild": 103004,
+    "debugZeroDenominator": "EXPECTED ASSERT",
+    "releaseZeroDenominatorFallback": "pass",
+    "ubsan": "pass",
+    "scope": "Actual helper bodies compiled with scalar aliases; not swtable.cxx, Writer or CppUnit",
+    "fullSourceBuildExecuted": false,
+    "productionAcceptance": "blocked"
+  },
+  "sourcePacketTests": {
+    "tests": 9,
+    "result": "PASS",
+    "logSha256": "dd0d7fb4e08fdc12bd80790c65fe60d0eee0b65cd093e08b4ec5e8a2e8ed69ad"
+  },
+  "masterSource": {
+    "sha": "44dcf332743801f2d2aa54c77f4411db0b53be18",
+    "commitDate": "2026-10-13T22:22:59Z",
+    "inspectedFileSha256": "c859eb2436ffe47eb61c808a870898e1140d47d34134f3d014b9242c6a5e2426",
+    "stillUsesOriginalTruncationAtBothSelectedCallSites": true,
+    "testsPatchApplies": true
+  },
+  "releaseBranchesObserved": [
+    "87eb99e801cf8198d766a9d82107089d1c9304fe\trefs/heads/libreoffice-25-8",
+    "60ba796664bb1e7e72985b5dd6b3d4ec63a7d301\trefs/heads/libreoffice-26-2",
+    "e08fe819c1fb055f16d632b38ec99350de7e5faf\trefs/heads/libreoffice-26-2-0",
+    "e48d6207599dd197ad14e559730589f8e586b4f9\trefs/heads/libreoffice-26-2-1",
+    "b03a3f59d71e92b398135b85567d28af117f4843\trefs/heads/libreoffice-26-2-2",
+    "ddf336719baa58684c9ab70579fa6427b60168f4\trefs/heads/libreoffice-26-2-3",
+    "cd55b12b62080668f0271c3ae0c1f1dec21836ec\trefs/heads/libreoffice-26-2-4",
+    "05e761cbd2fd004f3e94860f83e9aae32169ed3f\trefs/heads/libreoffice-26-2-5",
+    "f02fc970d621ce536b050c33429d3c76db589943\trefs/heads/libreoffice-26-2-6",
+    "7341acbc7e24f2a369fdeea095fb43e2371867ef\trefs/heads/libreoffice-26-2-7",
+    "52be5e5ccd77d0f58cc94cf92841d37d0cf02453\trefs/heads/libreoffice-26-8",
+    "77909295eab86f8712d508d80a15c2ccf247bb99\trefs/heads/libreoffice-26-8-0",
+    "38974d7254bdd335d3d400963625573f327abb71\trefs/heads/libreoffice-26-8-1",
+    "c08fec1898e7279821f9a1ab1ca0e52e0eaab061\trefs/heads/libreoffice-26-8-2"
+  ],
+  "distribution": "Upstream review/merge and officially distributed supported release required; no external issue or Gerrit submission made",
+  "sourceHelpersCompiled": true,
+  "sourceEngineBuilt": false,
+  "newNativeImportsOrExports": 0,
+  "patchedBinaryExperimentRepeated": false,
+  "productionSourceChanges": 0,
+  "productionAcceptance": "blocked",
+  "originalOwnerLifetime": "UNVERIFIED",
+  "wordAcceptance": "UNVERIFIED"
+}

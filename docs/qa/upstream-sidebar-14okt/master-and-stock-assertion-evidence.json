@@ -1,0 +1,141 @@
+{
+  "codeSourceSha": "44dcf332743801f2d2aa54c77f4411db0b53be18",
+  "sourceFileSha256": "c859eb2436ffe47eb61c808a870898e1140d47d34134f3d014b9242c6a5e2426",
+  "testSourceSha256": "b5d7bff7711dde99c803352b03b388b47bc1cd5ac4f24430751cb743125bccc9",
+  "masterRegressionPatchSha256": "db2bbb0003d39604b85135cc9411ed4b270b5082029205be629a50fcce3e40ea",
+  "engineAndTestPatchApplication": "pass",
+  "originalArithmeticHelperMatchesReleaseTagByteForByte": true,
+  "cppUnitCompilation": "UNVERIFIED",
+  "cppUnitExecution": "UNVERIFIED",
+  "readOnlyHistoricalSavedPackageAssertionCheck": {
+    "artifactId": 11847349467,
+    "codeSha": "41e0bc343f18419933e4f98016ee91015f1211cc",
+    "cases": 6,
+    "states": 12,
+    "newNativeExecutions": 0,
+    "expectedFailingCases": 4,
+    "expectedPositiveControls": 2,
+    "rows": [
+      {
+        "fixture": "app-body-right",
+        "side": "right",
+        "states": [
+          {
+            "phase": "saved",
+            "actualDocxSha256": "428d79426a9c18eaeb007cd4b754889f4b71c8257eed8e747fd80650b3bab1c9",
+            "serializedGrid": [6507, 341, 2790],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": false
+          },
+          {
+            "phase": "saved2",
+            "actualDocxSha256": "8a117e33366b8b16d95b214b66eac581ffc52e6c9ef916569cd04c23ba125e46",
+            "serializedGrid": [6506, 341, 2791],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": false
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-both-long-right",
+        "side": "right",
+        "states": [
+          {
+            "phase": "saved",
+            "actualDocxSha256": "b63dcc80ce1209ff27e6bcb4adadd338e04f0a4967d94c4fbc2bdf3b688325f3",
+            "serializedGrid": [6507, 341, 2790],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": false
+          },
+          {
+            "phase": "saved2",
+            "actualDocxSha256": "a3049a1cad5559f4a32be1f63141d601d030b61f9bfc5fb4d6292812764728bc",
+            "serializedGrid": [6506, 341, 2791],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": false
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-right",
+        "side": "right",
+        "states": [
+          {
+            "phase": "saved",
+            "actualDocxSha256": "b2282abe8fe66a8ce85295260d1cf4c34419d8dccb10547163bc77c2d7a53540",
+            "serializedGrid": [6507, 341, 2790],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": false
+          },
+          {
+            "phase": "saved2",
+            "actualDocxSha256": "a48f1fe39fb0edb97444d1aeca1344968f96077a3bd637f0eb4b3a16e59a3624",
+            "serializedGrid": [6506, 341, 2791],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": false
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-mirrored-side",
+        "side": "right",
+        "states": [
+          {
+            "phase": "saved",
+            "actualDocxSha256": "56c2299505897c55dd4c6842ca16fc78f0b5600b74e9ccd3115d6cef7ca79a8d",
+            "serializedGrid": [6507, 341, 2790],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": false
+          },
+          {
+            "phase": "saved2",
+            "actualDocxSha256": "a32e483cbfdced8914384c2153c740d3a99d889e7cf27a7853279169a0f4da7b",
+            "serializedGrid": [6506, 341, 2791],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": false
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-left",
+        "side": "left",
+        "states": [
+          {
+            "phase": "saved",
+            "actualDocxSha256": "796d68345891468719cc84df14981cb2027e8b9500d86a1a388fa539b02dc9e2",
+            "serializedGrid": [2789, 340, 6509],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": true
+          },
+          {
+            "phase": "saved2",
+            "actualDocxSha256": "c0e517e52f7198fee4d16a197f9c32a125d08b199e0d756f597aed8843ef2e22",
+            "serializedGrid": [2789, 340, 6509],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": true
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-both-long",
+        "side": "left",
+        "states": [
+          {
+            "phase": "saved",
+            "actualDocxSha256": "94c8455a30022ff06c89309bfdef51f0d52c347e11f5cec007b07667b5f6014a",
+            "serializedGrid": [2789, 340, 6509],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": true
+          },
+          {
+            "phase": "saved2",
+            "actualDocxSha256": "53cb05bf741fe1abb6eff19d5f6d7f21e05befdbd6c1b18b810aad83032584b4",
+            "serializedGrid": [2789, 340, 6509],
+            "completeOrderedOwnerFields": "pass",
+            "expectedSourceGeometryMatch": true
+          }
+        ]
+      }
+    ]
+  }
+}
