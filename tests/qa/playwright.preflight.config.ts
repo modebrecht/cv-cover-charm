@@ -4,7 +4,7 @@ import pagination from "./playwright.pagination.config";
 
 export default defineConfig({
   ...pagination,
-  testMatch: ["pdf-preflight.qa.ts", "pdf-preflight-safety.qa.ts"],
+  testMatch: ["pdf-preflight.qa.ts", "pdf-preflight-safety.qa.ts", "pdf-raster-parity.qa.ts"],
   reporter: [["line"], ["json", { outputFile: resolve("artifacts/pdf-preflight/results.json") }]],
   outputDir: resolve("test-results/pdf-preflight"),
 });

@@ -273,6 +273,96 @@ export function normalizeCssBackgroundsForHtml2Canvas(root: HTMLElement) {
   }
 }
 
+/** Preserve already rendered plain lines; this never assigns content to pages. */
+function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
+  const lines: {
+    span: HTMLElement;
+    runs: { box: HTMLElement; ink: HTMLElement; width: number; whitespace: boolean }[];
+  }[] = [];
+  const seen = new Set<HTMLElement>();
+  for (const root of roots) {
+    for (const element of [root, ...root.querySelectorAll<HTMLElement>("*")]) {
+      if (seen.has(element)) continue;
+      seen.add(element);
+      const node = element.firstChild;
+      if (element.childNodes.length !== 1 || node?.nodeType !== Node.TEXT_NODE) continue;
+      const text = node.textContent ?? "";
+      const style = view.getComputedStyle(element);
+      // Complex inline formatting, explicit lines, justification and indents
+      // retain the existing renderer. Ordinary plain blocks keep native widths.
+      if (
+        /[\r\n]/.test(text) ||
+        style.display !== "block" ||
+        !["left", "start"].includes(style.textAlign) ||
+        Number.parseFloat(style.textIndent) !== 0
+      )
+        continue;
+      const parts = [{ text: "", top: NaN, left: Infinity, right: -Infinity }];
+      let offset = 0;
+      const range = element.ownerDocument.createRange();
+      for (const character of text) {
+        range.setStart(node, offset);
+        offset += character.length;
+        range.setEnd(node, offset);
+        const rect = range.getBoundingClientRect();
+        let part = parts[parts.length - 1];
+        if (rect.width > 0 && rect.height > 0) {
+          if (Number.isFinite(part.top) && Math.abs(rect.top - part.top) > 1) {
+            part = { text: "", top: NaN, left: Infinity, right: -Infinity };
+            parts.push(part);
+          }
+          part.top = rect.top;
+          part.left = Math.min(part.left, rect.left);
+          part.right = Math.max(part.right, rect.right);
+        }
+        part.text += character;
+      }
+      if (
+        parts.some((part) => !Number.isFinite(part.left) || Math.abs(part.left - parts[0].left) > 1)
+      )
+        continue;
+      const fragment = element.ownerDocument.createDocumentFragment();
+      let lineOffset = 0;
+      for (const [index, part] of parts.entries()) {
+        if (index) fragment.append(element.ownerDocument.createElement("br"));
+        const span = element.ownerDocument.createElement("span");
+        span.style.cssText = "display:inline-block;white-space:nowrap";
+        const tokens = Array.from(part.text.matchAll(/\S+|\s+/gu)).map((match) => {
+          range.setStart(node, lineOffset + match.index!);
+          range.setEnd(node, lineOffset + match.index! + match[0].length);
+          return {
+            text: match[0],
+            rect: range.getBoundingClientRect(),
+            whitespace: !match[0].trim(),
+          };
+        });
+        const runs = tokens.map((token, tokenIndex) => {
+          const box = element.ownerDocument.createElement("span");
+          const ink = element.ownerDocument.createElement("span");
+          box.style.cssText = "display:inline-block;white-space:pre";
+          ink.style.cssText = "display:inline-block;transform-origin:left center";
+          ink.textContent = token.text;
+          box.append(ink);
+          span.append(box);
+          const previous = tokens[tokenIndex - 1],
+            next = tokens[tokenIndex + 1];
+          const width = token.whitespace
+            ? previous && next
+              ? Math.max(0, next.rect.left - previous.rect.right)
+              : 0
+            : token.rect.width;
+          return { box, ink, width, whitespace: token.whitespace };
+        });
+        fragment.append(span);
+        lines.push({ span, runs });
+        lineOffset += part.text.length;
+      }
+      element.replaceChildren(fragment);
+    }
+  }
+  return lines;
+}
+
 export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
   // Every PDF path already runs this hook on html2canvas' cloned document.
   // Resolve the document-local template there before any computed-style reads,
@@ -324,6 +414,12 @@ export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
       },
     ];
   });
+  // CSS zoom rounds text metrics differently from a transform. Keep the live
+  // line breaks and ink widths before converting zoom in this disposable clone.
+  const lines = snapshotZoomedLines(
+    boxes.map((box) => box.element),
+    view,
+  );
   for (const box of boxes) {
     const { element, zoom, transform } = box;
     element.style.setProperty("width", box.width, "important");
@@ -338,5 +434,15 @@ export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
     element.style.setProperty("zoom", "1", "important");
     element.style.setProperty("transform-origin", "0 0", "important");
     element.style.setProperty("transform", cssZoomAsTransform(zoom, transform), "important");
+  }
+  const adjustments = lines.flatMap(({ span, runs }) => {
+    const cssWidth = Number.parseFloat(view.getComputedStyle(span).width);
+    const scale = span.getBoundingClientRect().width / cssWidth;
+    if (!(scale > 0) || !Number.isFinite(scale)) return [];
+    return runs.map((run) => ({ ...run, scale, inkWidth: run.ink.getBoundingClientRect().width }));
+  });
+  for (const { box, ink, width, scale, inkWidth, whitespace } of adjustments) {
+    box.style.width = `${width / scale}px`;
+    if (!whitespace && inkWidth > 0) ink.style.transform = `scaleX(${width / inkWidth})`;
   }
 }

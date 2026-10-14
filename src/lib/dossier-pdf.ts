@@ -1,5 +1,5 @@
 import type { jsPDF as JsPdf } from "jspdf";
-import { letterPageOverflows } from "@/components/letter/preflight";
+import { letterPageOverflows, printableTextClips } from "@/components/letter/preflight";
 import { PAGE, PDF } from "@/default-config";
 import { addCvTextLayer } from "@/lib/cv-pdf-text";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
@@ -334,9 +334,13 @@ async function addRasterPage(
     scrollY: 0,
     onclone: (_clonedDocument, clonedPage) => {
       normalizeCssZoomForHtml2Canvas(clonedPage as HTMLElement);
-      if (rebuildLetterVectors && letterPageOverflows(clonedPage as HTMLElement))
+      if (
+        rebuildLetterVectors
+          ? letterPageOverflows(clonedPage as HTMLElement)
+          : printableTextClips(clonedPage as HTMLElement)
+      )
         throw new Error(
-          "Die PDF-Rasteransicht enthält abgeschnittenen Briefinhalt. Bitte das Layout prüfen.",
+          "Die PDF-Rasteransicht enthält abgeschnittenen oder überlappenden Inhalt. Bitte das Layout prüfen.",
         );
       if (rebuildLetterVectors) {
         // Browser/html2canvas owns visible letter typography. Keep glyphs in
