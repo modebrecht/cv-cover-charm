@@ -1,201 +1,223 @@
 {
-  "codeSha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1",
-  "runId": 38504447640,
+  "codeSha": "0c9abe948a29cb68261f91d6663cca338bd6a3f7",
+  "baseSha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+  "runId": 38539214888,
   "ci": [
     {
-      "id": 115658602208,
+      "id": 115769525353,
       "name": "quality",
-      "status": "completed",
-      "conclusion": "success"
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888/job/115769525353"
     },
     {
-      "id": 115658910599,
-      "name": "browser (integration-2, npx playwright test --config tests/qa/playwright.integration.config.ts --...",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 115658910690,
+      "id": 115770033416,
       "name": "browser (combined, npx playwright test --config tests/qa/playwright.combined.config.ts)",
-      "status": "completed",
-      "conclusion": "success"
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888/job/115770033416"
     },
     {
-      "id": 115658910691,
-      "name": "browser (integration-1, npx playwright test --config tests/qa/playwright.integration.config.ts --...",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 115658910698,
-      "name": "browser (product, npx playwright test --config tests/qa/playwright.letter-product.config.ts)",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 115658910766,
-      "name": "browser (safety, npx playwright test --config tests/qa/playwright.preflight.config.ts)",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 115658910788,
+      "id": 115770033538,
       "name": "browser (search, npx playwright test --config tests/qa/playwright.pdf-search.config.ts --grep 'al...",
-      "status": "completed",
-      "conclusion": "success"
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888/job/115770033538"
     },
     {
-      "id": 115664723557,
+      "id": 115770033544,
+      "name": "browser (integration-1, npx playwright test --config tests/qa/playwright.integration.config.ts --...",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888/job/115770033544"
+    },
+    {
+      "id": 115770033619,
+      "name": "browser (integration-2, npx playwright test --config tests/qa/playwright.integration.config.ts --...",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888/job/115770033619"
+    },
+    {
+      "id": 115770033668,
+      "name": "browser (product, npx playwright test --config tests/qa/playwright.letter-product.config.ts)",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888/job/115770033668"
+    },
+    {
+      "id": 115770033761,
+      "name": "browser (safety, npx playwright test --config tests/qa/playwright.preflight.config.ts)",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888/job/115770033761"
+    },
+    {
+      "id": 115778556091,
       "name": "evidence",
-      "status": "completed",
-      "conclusion": "failure"
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888/job/115778556091"
     }
   ],
   "artifacts": [
     {
-      "id": 11867769614,
-      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-integration-2",
-      "size_in_bytes": 181530460,
-      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867769614",
-      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867769614/zip",
+      "id": 11883290164,
+      "name": "pdf-preflight-0c9abe948a29cb68261f91d6663cca338bd6a3f7-evidence",
+      "size_in_bytes": 189242,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11883290164",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11883290164/zip",
       "expired": false,
-      "created_at": "2026-10-14T03:27:46Z",
-      "expires_at": "2026-10-28T03:27:38Z",
-      "updated_at": "2026-10-14T03:27:46Z",
-      "digest": "sha256:3cb724273b7472fe4e70887dde27cb93a343acd3df244dc41ccf693bc0fe8081",
+      "created_at": "2026-10-14T09:25:35Z",
+      "expires_at": "2026-10-28T09:25:34Z",
+      "updated_at": "2026-10-14T09:25:35Z",
+      "digest": "sha256:625366249255920f4d271d99ad2dbea1465307132438dbd5c272d41c746d8640",
       "workflow_run": {
-        "id": 38504447640,
+        "id": 38539214888,
         "repository_id": 1332423254,
         "head_repository_id": 1332423254,
         "head_branch": "fix/pdf-preflight-13okt",
-        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+        "head_sha": "0c9abe948a29cb68261f91d6663cca338bd6a3f7"
       }
     },
     {
-      "id": 11867768337,
-      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-integration-1",
-      "size_in_bytes": 110122459,
-      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867768337",
-      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867768337/zip",
+      "id": 11882525465,
+      "name": "pdf-preflight-0c9abe948a29cb68261f91d6663cca338bd6a3f7-integration-1",
+      "size_in_bytes": 110732096,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11882525465",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11882525465/zip",
       "expired": false,
-      "created_at": "2026-10-14T03:19:53Z",
-      "expires_at": "2026-10-28T03:19:48Z",
-      "updated_at": "2026-10-14T03:19:53Z",
-      "digest": "sha256:daa59cb61ad221699551e071c22534f6d37e6329f0292e0e872a2c6f054b2bd1",
+      "created_at": "2026-10-14T09:09:34Z",
+      "expires_at": "2026-10-28T09:09:30Z",
+      "updated_at": "2026-10-14T09:09:34Z",
+      "digest": "sha256:0ec61caba816c7383bc37286943aabe1c00aaf14b2481da4d800b595eb5a230a",
       "workflow_run": {
-        "id": 38504447640,
+        "id": 38539214888,
         "repository_id": 1332423254,
         "head_repository_id": 1332423254,
         "head_branch": "fix/pdf-preflight-13okt",
-        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+        "head_sha": "0c9abe948a29cb68261f91d6663cca338bd6a3f7"
       }
     },
     {
-      "id": 11867592151,
-      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-search",
-      "size_in_bytes": 850845,
-      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867592151",
-      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867592151/zip",
+      "id": 11882425480,
+      "name": "pdf-preflight-0c9abe948a29cb68261f91d6663cca338bd6a3f7-combined",
+      "size_in_bytes": 52004031,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11882425480",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11882425480/zip",
       "expired": false,
-      "created_at": "2026-10-14T03:10:42Z",
-      "expires_at": "2026-10-28T03:10:41Z",
-      "updated_at": "2026-10-14T03:10:42Z",
-      "digest": "sha256:fb43073fe43089546ebecaaef384bfa22e207f41bf4e2ff925cf0bff98218feb",
+      "created_at": "2026-10-14T09:08:51Z",
+      "expires_at": "2026-10-28T09:08:48Z",
+      "updated_at": "2026-10-14T09:08:51Z",
+      "digest": "sha256:ca2cc2a19a5ac566a070b15e40dee582b809784a0fe2b0a46370da6e0d5fe6e2",
       "workflow_run": {
-        "id": 38504447640,
+        "id": 38539214888,
         "repository_id": 1332423254,
         "head_repository_id": 1332423254,
         "head_branch": "fix/pdf-preflight-13okt",
-        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+        "head_sha": "0c9abe948a29cb68261f91d6663cca338bd6a3f7"
       }
     },
     {
-      "id": 11867577369,
-      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-product",
-      "size_in_bytes": 4891,
-      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867577369",
-      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867577369/zip",
+      "id": 11882096200,
+      "name": "pdf-preflight-0c9abe948a29cb68261f91d6663cca338bd6a3f7-search",
+      "size_in_bytes": 849040,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11882096200",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11882096200/zip",
       "expired": false,
-      "created_at": "2026-10-14T03:11:29Z",
-      "expires_at": "2026-10-28T03:11:29Z",
-      "updated_at": "2026-10-14T03:11:29Z",
-      "digest": "sha256:55c07c400ed041872cff232f62fea0327c4ddd4725811b844db080e77d4249c5",
+      "created_at": "2026-10-14T09:08:33Z",
+      "expires_at": "2026-10-28T09:08:32Z",
+      "updated_at": "2026-10-14T09:08:33Z",
+      "digest": "sha256:42bd91f481ed0df101f2199fcf76a0a41206790580b2058a0fa044ac6f7d6248",
       "workflow_run": {
-        "id": 38504447640,
+        "id": 38539214888,
         "repository_id": 1332423254,
         "head_repository_id": 1332423254,
         "head_branch": "fix/pdf-preflight-13okt",
-        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+        "head_sha": "0c9abe948a29cb68261f91d6663cca338bd6a3f7"
       }
     },
     {
-      "id": 11867537422,
-      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-combined",
-      "size_in_bytes": 51605359,
-      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867537422",
-      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867537422/zip",
+      "id": 11882004397,
+      "name": "pdf-preflight-0c9abe948a29cb68261f91d6663cca338bd6a3f7-integration-2",
+      "size_in_bytes": 182988492,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11882004397",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11882004397/zip",
       "expired": false,
-      "created_at": "2026-10-14T03:11:52Z",
-      "expires_at": "2026-10-28T03:11:50Z",
-      "updated_at": "2026-10-14T03:11:52Z",
-      "digest": "sha256:2cb7e40be34dd02c1308265b827e06950f4c5d868bc783c5b64d234f0bd8c249",
+      "created_at": "2026-10-14T09:23:02Z",
+      "expires_at": "2026-10-28T09:22:54Z",
+      "updated_at": "2026-10-14T09:23:02Z",
+      "digest": "sha256:308bd85cd99be6f3c18d55a15e3cb1c1124452b38b4bcba997b65f1e79c8542b",
       "workflow_run": {
-        "id": 38504447640,
+        "id": 38539214888,
         "repository_id": 1332423254,
         "head_repository_id": 1332423254,
         "head_branch": "fix/pdf-preflight-13okt",
-        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+        "head_sha": "0c9abe948a29cb68261f91d6663cca338bd6a3f7"
       }
     },
     {
-      "id": 11867087137,
-      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-safety",
-      "size_in_bytes": 4022931,
-      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867087137",
-      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867087137/zip",
+      "id": 11881289800,
+      "name": "pdf-preflight-0c9abe948a29cb68261f91d6663cca338bd6a3f7-product",
+      "size_in_bytes": 4869,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11881289800",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11881289800/zip",
       "expired": false,
-      "created_at": "2026-10-14T03:11:18Z",
-      "expires_at": "2026-10-28T03:11:17Z",
-      "updated_at": "2026-10-14T03:11:18Z",
-      "digest": "sha256:e58d3e6f481f8ef3e93b4304b3845d3dbb0dce6ab80f83700241e2fa8df54608",
+      "created_at": "2026-10-14T09:06:42Z",
+      "expires_at": "2026-10-28T09:06:41Z",
+      "updated_at": "2026-10-14T09:06:42Z",
+      "digest": "sha256:1e204f2784d2dea04c6af295cc1fbef7193b89bffdfbce11b4548f788afbc208",
       "workflow_run": {
-        "id": 38504447640,
+        "id": 38539214888,
         "repository_id": 1332423254,
         "head_repository_id": 1332423254,
         "head_branch": "fix/pdf-preflight-13okt",
-        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+        "head_sha": "0c9abe948a29cb68261f91d6663cca338bd6a3f7"
+      }
+    },
+    {
+      "id": 11880934741,
+      "name": "pdf-preflight-0c9abe948a29cb68261f91d6663cca338bd6a3f7-safety",
+      "size_in_bytes": 10337387,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11880934741",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11880934741/zip",
+      "expired": false,
+      "created_at": "2026-10-14T09:05:38Z",
+      "expires_at": "2026-10-28T09:05:37Z",
+      "updated_at": "2026-10-14T09:05:38Z",
+      "digest": "sha256:2b8be336482ea9970de330d2b51825f4ab2dfbf82e55266ce65b94fe3de411a2",
+      "workflow_run": {
+        "id": 38539214888,
+        "repository_id": 1332423254,
+        "head_repository_id": 1332423254,
+        "head_branch": "fix/pdf-preflight-13okt",
+        "head_sha": "0c9abe948a29cb68261f91d6663cca338bd6a3f7"
       }
     }
   ],
   "classification": "B — PARTIAL",
-  "mergeRecommendation": "NO-GO pending strict raster acceptance",
+  "mergeRecommendation": "YES for bounded safety/renderer corrections; no complete Item 35 acceptance or dossier override.",
   "unitTests": {
-    "pass": 1118,
-    "fail": 0
+    "passCount": 1119,
+    "failCount": 0,
+    "files": 243,
+    "assertions": 22254
   },
   "browserTests": {
-    "safety": 36,
+    "safety": 41,
     "product": 31,
     "integration": 208,
     "combined": 11,
     "search": 2,
-    "totalPass": 288,
-    "fail": 0
+    "totalPass": 293,
+    "totalFail": 0
   },
   "logicalFields": {
     "documents": 287,
     "fieldChecks": 11386,
-    "pass": 287,
-    "fail": 0
+    "passCount": 287,
+    "failCount": 0
   },
   "matrix": {
     "registryTemplates": 39,
     "standardFixtures": 156,
     "physicalPages": 234,
     "browserPass": 156,
-    "rasterPass": 152,
-    "rasterFail": 4,
-    "fullyPassingTemplateFamilies": 37,
+    "rasterPass": 156,
+    "rasterFail": 0,
+    "fullyPassingTemplateFamilies": 39,
     "templates": [
       {
         "template": "aurora",
@@ -207,7 +229,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9c62140c1c94636ac1c5dee91095be75e06d2ecff8ffee37437667f4972d45f0",
-            "pdfSha256": "836e08887c3ed533966c5df02c58aebfc450a56df11310c891ef250327a07443",
+            "pdfSha256": "57016c041b287b8ef9fe6d8c14dc6f92e653fdf16046511954c58d59b8d695df",
             "rasterVerdict": "PASS"
           },
           {
@@ -217,7 +239,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9c62140c1c94636ac1c5dee91095be75e06d2ecff8ffee37437667f4972d45f0",
-            "pdfSha256": "6ac960483c90d908eb9ca912fb8f57d5636217e322aa7874181244aae5870ecf",
+            "pdfSha256": "6ae2d98df357cc04cf4e167a826d2c69c3fa6fdee3f0549be3f13ec4418fb601",
             "rasterVerdict": "PASS"
           },
           {
@@ -227,7 +249,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "98d6c4d26194cf0b46e11f2e561c6a82e23195a4b8c06b033c18b2c0345871e7",
-            "pdfSha256": "36361689f0797ccdd90aa155e00d47c1f2cc3ade00614db0b76c688f2b1a3399",
+            "pdfSha256": "5a88d229626baacf08a0bcda49060a89bc117bdf949c50821d2de923f3de7a00",
             "rasterVerdict": "PASS"
           },
           {
@@ -237,11 +259,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "98d6c4d26194cf0b46e11f2e561c6a82e23195a4b8c06b033c18b2c0345871e7",
-            "pdfSha256": "86b34fb937ac27875344e6bc50482c1c1104d8f8fce046622ff4807c763b790d",
+            "pdfSha256": "a7d7133e3922899b250e11a7943c69ff573d940338bb22a737f8e913d5cdc6ca",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "blockig",
@@ -253,7 +274,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "5725f191bf2869680c0654b36a225173a674cbdaa2e1b1acde1efb58b98a5414",
-            "pdfSha256": "775380a664b95d8bd2aa3507a99ba5c679109d2cf1c158086c2121ff894aed2c",
+            "pdfSha256": "a1ec52d5b5c5aaf8b1e332974cb7e14465e575c01de0e371dd031450b6b54ccd",
             "rasterVerdict": "PASS"
           },
           {
@@ -263,7 +284,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "5725f191bf2869680c0654b36a225173a674cbdaa2e1b1acde1efb58b98a5414",
-            "pdfSha256": "a375af3aa1dac84c96bc729b51de052d6d0f5a8af659fb570883eed1d59f034f",
+            "pdfSha256": "7a039ceea6e3912fbc1802894a52c1728de7a05569ab0aebddcbf565bb2d3333",
             "rasterVerdict": "PASS"
           },
           {
@@ -273,7 +294,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "b37913b273ff2e366198f5e638d98020f683e68b7405209fa42e1579ad8d0509",
-            "pdfSha256": "51098e64d34657078a7e841526fc15231fd4954dcbd5c158336940f5776e4b91",
+            "pdfSha256": "7fe978990985fba47dfc9c270fcda10ba5140e61aa152108d1d67732230bdeee",
             "rasterVerdict": "PASS"
           },
           {
@@ -283,11 +304,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "b37913b273ff2e366198f5e638d98020f683e68b7405209fa42e1579ad8d0509",
-            "pdfSha256": "343d6e4c22343f1af75b3b1532a879d989dd792b23500d124eb78029e92f4b5c",
+            "pdfSha256": "bf3393dd6ec6e618b3ef394a8246113c6fed9fcd5d92e4dff6f4d3a2e7894c40",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "brief",
@@ -299,7 +319,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "cadeb0f7c6f00b96c139b258d1138f4ba73eb04a9c7634f21cab2fefd9f997d6",
-            "pdfSha256": "5cc8ffde5ad4171742c5b363f7a31bec0191c450dd58d6651b461c194367a5ca",
+            "pdfSha256": "3f409a6eac285aa3ee31c8132bd3d149936731a58c48d23a07260eb100b1f197",
             "rasterVerdict": "PASS"
           },
           {
@@ -309,7 +329,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "cadeb0f7c6f00b96c139b258d1138f4ba73eb04a9c7634f21cab2fefd9f997d6",
-            "pdfSha256": "ed615fd170320a4cbd28bacaff62e975d79b709798d5e48c14da7045e9ce5c4b",
+            "pdfSha256": "3f9553227a9763966dccc52f6d5a6195d11de9b1c4647c303d9bf330563a569d",
             "rasterVerdict": "PASS"
           },
           {
@@ -319,7 +339,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "76294f8f5294b4cc758be8d5e4585647db0e75a7361b534a1cef8df532c6bd4d",
-            "pdfSha256": "86c49bc33a8d0239b2174ed93f9cc0066b51ee438f4d59fda3ec88d9c09a9e4e",
+            "pdfSha256": "be1be02095e31e091af5faa6df393eb6523e9a31b319593c0d7711a1b91cc85c",
             "rasterVerdict": "PASS"
           },
           {
@@ -329,11 +349,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "76294f8f5294b4cc758be8d5e4585647db0e75a7361b534a1cef8df532c6bd4d",
-            "pdfSha256": "d9b4cc54843d0fc7158ab38cbc7c019b263bbcbdc1a2d39c21b5715938146cd5",
+            "pdfSha256": "ce4f14e26a89e0c5ec51d7281b71b33a7582ade798ef60d6a7a98ed06224c75b",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "citrus",
@@ -345,7 +364,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "2df6260fc3d694d964baf3ec2cc4f7cf165459af2ee1cb91027d6282fd6161e9",
-            "pdfSha256": "27dfef11477fc8e2783a3ecef87e865b2708d403271a8723b94a3b0a93d6014e",
+            "pdfSha256": "3169b502029d3005ce961256c4d57787ab4515c9ebaef11351200e728ce1750b",
             "rasterVerdict": "PASS"
           },
           {
@@ -355,7 +374,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "2df6260fc3d694d964baf3ec2cc4f7cf165459af2ee1cb91027d6282fd6161e9",
-            "pdfSha256": "862eb49f41edbfa461d978758bf4d16a04b186ee5d7be6f50efb12b3270ffd9c",
+            "pdfSha256": "1b7d85aa75138f211af24a5edc294648868f51a835241a24711e58382d3472fc",
             "rasterVerdict": "PASS"
           },
           {
@@ -365,7 +384,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "7bd91ede3aa5bad4753be13f804e792ccb720821e600ef25caa162564cce2052",
-            "pdfSha256": "3fbed57bd884f4838567689ed96a3c077b3b0de286eb2a524d46bf464f328342",
+            "pdfSha256": "90d285395af12aebefb2bf35c55c401afbb8d7cfa547d2349d70ef3f48854681",
             "rasterVerdict": "PASS"
           },
           {
@@ -375,11 +394,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "7bd91ede3aa5bad4753be13f804e792ccb720821e600ef25caa162564cce2052",
-            "pdfSha256": "2dff0390216c83e697dbb377333f56d44e90380a788da48b1ab8dc23a9969d45",
+            "pdfSha256": "9f1f58caa62fd51b85cd10be6546b8fbe550fcff821f64ac4c2a9b1e344f1dee",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "colorful",
@@ -391,7 +409,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "98fce393baf2cdd7da2f27849c1712bde1f560034b376461b58a59d2c15831b5",
-            "pdfSha256": "985fa8c522849e6b401b69040501af34f55c1e5145933104b5e467432be2456d",
+            "pdfSha256": "74a25ef9e14d6b3072c73ea4a1770a5c13ea59a00766235e4af06627be2dd06b",
             "rasterVerdict": "PASS"
           },
           {
@@ -401,7 +419,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "98fce393baf2cdd7da2f27849c1712bde1f560034b376461b58a59d2c15831b5",
-            "pdfSha256": "e258fe3f825fc00ecf27f08b0b5d247801f080a58df69b1314558edd686ef32d",
+            "pdfSha256": "fa0102804e3ee8cc65cdf815885468b7e3319a0b33b4a88ae5a701e0a3146968",
             "rasterVerdict": "PASS"
           },
           {
@@ -411,7 +429,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "b69988c6acfa767860e11647a6039291988b7415e3b56a8fb6e424ab1b235f8b",
-            "pdfSha256": "ba2a3ea268d6f81b2089b90b634e38287f9e743ed15b5c14e0097fdf9fa5b08c",
+            "pdfSha256": "a728bb04d6a64de8a0e173fb13c03a83f4c6d4d2e2f79f5f5c8477f76a0e015a",
             "rasterVerdict": "PASS"
           },
           {
@@ -421,11 +439,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "b69988c6acfa767860e11647a6039291988b7415e3b56a8fb6e424ab1b235f8b",
-            "pdfSha256": "9c0ec74daabe5af3c71db2c88ba331c7b1e7bf182adaf327cc4ce38130087337",
+            "pdfSha256": "7aa7a2e0bb83aac0c9f7f45efb2db4dc16f7efff233c2d18d573d5226584a62f",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "cove",
@@ -437,7 +454,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "df7e3486f995617f1fcbc00ae9d57faa329574156b053b9868aa76425ec68b62",
-            "pdfSha256": "856845ab15537b9b77d3df481cc62f916e43631b9515b4a0a3d854ce74046c25",
+            "pdfSha256": "c22e3a416e379bafeb46f5cf7b062b818bd1ed388406d61d57d71fa5e9ccecae",
             "rasterVerdict": "PASS"
           },
           {
@@ -447,7 +464,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "df7e3486f995617f1fcbc00ae9d57faa329574156b053b9868aa76425ec68b62",
-            "pdfSha256": "4eed75d336345fa933f6356caa60a2fb11f92d08d6996972fe9c93a348bc26ed",
+            "pdfSha256": "df9c526c23eac1f673e88c58bad2dd0cf78670644e625e6e141c139ece4a23c7",
             "rasterVerdict": "PASS"
           },
           {
@@ -457,7 +474,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "bd3aa52b7d5233d125eafb353c5850104b16e79e822804be5f9390ddf583131a",
-            "pdfSha256": "b3459a31f7685386dabb7cc3b86eca10874a67cbfd017e853845483b1fcd9c25",
+            "pdfSha256": "32de314a162cf3b01ec4cf0f845e1ee817d6a1c06628c2912ee397b1d5b7f57b",
             "rasterVerdict": "PASS"
           },
           {
@@ -467,11 +484,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "bd3aa52b7d5233d125eafb353c5850104b16e79e822804be5f9390ddf583131a",
-            "pdfSha256": "fbdb35bcb36fb9c94b505bdebe64b0d33c56d4bc912a59b9aabca5c973b5a9e8",
+            "pdfSha256": "cda62942b0ae8db9eab814c5c4fa0f0fcd967bf3d78573f3dc8a97bfc130fdbc",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "diagonal",
@@ -483,7 +499,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "16b2bd8262ab9f7e70a6449333186c966b2497c87e4c7ba985d7d9c874e07803",
-            "pdfSha256": "8f51779d35104ae81a1e99d8ffbb8aa22722a4ba05872733c5aaa3aae8929c6b",
+            "pdfSha256": "6e48daa3903527c2b38e7b2655064f0f7aff69786626302ff9dc104eb87bbd29",
             "rasterVerdict": "PASS"
           },
           {
@@ -493,7 +509,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "16b2bd8262ab9f7e70a6449333186c966b2497c87e4c7ba985d7d9c874e07803",
-            "pdfSha256": "af4f53883205f826f1284d1c6b33a80b472985f136db1198abe819352d90431a",
+            "pdfSha256": "56a6dc65bde08940fab28d9d88efb889db3b1bdea742c4364bb228df1f3b2b96",
             "rasterVerdict": "PASS"
           },
           {
@@ -503,7 +519,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "c670997b528219cdb6e219be17d271cbd64abe0909bb7b5ad4b30dd6cc017312",
-            "pdfSha256": "27ce1901a15167e0901e8f9f4f0f1c2116c198653b3f5d484d93948fa274a50f",
+            "pdfSha256": "4676929b6fb405e9b841c73629e70b2ee3b674235673f9fb74a6c24dc157bf86",
             "rasterVerdict": "PASS"
           },
           {
@@ -513,11 +529,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "c670997b528219cdb6e219be17d271cbd64abe0909bb7b5ad4b30dd6cc017312",
-            "pdfSha256": "1cca15204783972073daa6363d018a78ab453663c37cc2110f48c2c8794eed2f",
+            "pdfSha256": "7ba848cd6a7f635453a73e38c59691a595bfb1053aba4d3269197d2d677e8878",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "edel",
@@ -529,7 +544,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "d613a319a0c02b722dfd704307cac497afea6544357f0f87915fbf23edd8aae0",
-            "pdfSha256": "2bfcf642b2f6ed4894fa82e052c1ec640dd04c9e2d9c03644c3d98cb6c295ece",
+            "pdfSha256": "cc1f972d8157063fd9383523c636e4343e3c6cf015473b5f28134f2c1ccab541",
             "rasterVerdict": "PASS"
           },
           {
@@ -539,7 +554,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "d613a319a0c02b722dfd704307cac497afea6544357f0f87915fbf23edd8aae0",
-            "pdfSha256": "b4265fdb9722664eb4ceefb50bbc8a537d64414caf1acc284fc993d8a101c4cb",
+            "pdfSha256": "83de5580a588bca4bbb7a4a54ded9352f686c6ad1f76c73f13c639070a6cf018",
             "rasterVerdict": "PASS"
           },
           {
@@ -549,7 +564,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a25d935a1918729662bba0a4416c477ee960375bc27c6361d203b5df5b8e0d12",
-            "pdfSha256": "dc4f15b08f788e6e57b16c88f848bd4f9212cc87e29e2f87ffc3262e08c8eaa5",
+            "pdfSha256": "6047b9cba558a0e7fe3dfcdbd0ee6cc0b87e020197fac6e5652ba0b704ec8ca1",
             "rasterVerdict": "PASS"
           },
           {
@@ -559,11 +574,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a25d935a1918729662bba0a4416c477ee960375bc27c6361d203b5df5b8e0d12",
-            "pdfSha256": "1713a34ffeaf9ddd6f77f0bf6ac4948a1e79af6f6f9b0498e095817c0d8dbf58",
+            "pdfSha256": "8b4a27ac3fd044510a393e7303ec98de90ee4290f77c97d7d8d8d4cffe5fdf44",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "edelDark",
@@ -575,8 +589,8 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "7777e53acb4961b4c7f04c2e2ab7dab4b3bd38e4a8241f3a98528dc3e6252078",
-            "pdfSha256": "0732d5b05369e27bbd5800a380cc72b0d7465071e1910f97b067c9335b0f7911",
-            "rasterVerdict": "FAIL"
+            "pdfSha256": "35173a5f468a48e4757f212a1593e62958e4cd5c1ecdbe116622759113c02581",
+            "rasterVerdict": "PASS"
           },
           {
             "name": "matrix-edelDark-one-cv",
@@ -585,7 +599,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "7777e53acb4961b4c7f04c2e2ab7dab4b3bd38e4a8241f3a98528dc3e6252078",
-            "pdfSha256": "960d65ca6121b2ffbdb99514bef48651fe35b446d591051d17bf32d422bdc581",
+            "pdfSha256": "9aa62e02bf51cd0883e3646e1a8bc97d9d8189c2015dcd1654dd02f063fbde31",
             "rasterVerdict": "PASS"
           },
           {
@@ -595,8 +609,8 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "8e20ab58903674d7eb0a797747ae040a327ed1f92910c396a27945ad0368c202",
-            "pdfSha256": "aef445441f3a7404bdd9dcbf8bd22b7497659e8dec2e798d285ad2efaef05d7d",
-            "rasterVerdict": "FAIL"
+            "pdfSha256": "af36da702e69985ccabc3afffdadf5f6830aa9503f7fae87ed40a22668cd2583",
+            "rasterVerdict": "PASS"
           },
           {
             "name": "matrix-edelDark-two-cv",
@@ -605,11 +619,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "8e20ab58903674d7eb0a797747ae040a327ed1f92910c396a27945ad0368c202",
-            "pdfSha256": "e2bdbd19c106ea160ca380e3feb6871d2bb5103a9e7d3436bec6651762f77404",
+            "pdfSha256": "bab2cedac2d72ee1086281cc0652f0db778da1a83c210de54ba99c203e60b412",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "FAIL"
+        ]
       },
       {
         "template": "edge",
@@ -621,7 +634,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "1da9d3dbc1dfabb311022b428df5f924ead6acc672b6904ca5f9a0587f702923",
-            "pdfSha256": "8d63579fcbb17e84b04b12b0f5f0bb1225c4dc9aee4da0b14a6188c916ed42fa",
+            "pdfSha256": "cf5448e9cad172ad13fd22a542365ba99a479b327a3132561e5da184b938c638",
             "rasterVerdict": "PASS"
           },
           {
@@ -631,7 +644,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "1da9d3dbc1dfabb311022b428df5f924ead6acc672b6904ca5f9a0587f702923",
-            "pdfSha256": "73cdce3c71bc6157100fc9a2ca2692f259e2aca7527aecf694f5720be2e58cd0",
+            "pdfSha256": "1a841a2c14c54f878e9af5bf94d47716fc8c51263472b9272fbb615bd3aae417",
             "rasterVerdict": "PASS"
           },
           {
@@ -641,7 +654,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "b510fd9864852a7069fe6975c02c7b0400ceab80b7e1dfbe699e29f1f2f5017c",
-            "pdfSha256": "1fb3bf0d76cff17466422cfdedea3196f45c7cddc14bf896df6bf95b6271c35f",
+            "pdfSha256": "4f3e888cb2fa5307ffc23bcf697e6266ebd100b20315b4ce1a8499464e0d4a89",
             "rasterVerdict": "PASS"
           },
           {
@@ -651,11 +664,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "b510fd9864852a7069fe6975c02c7b0400ceab80b7e1dfbe699e29f1f2f5017c",
-            "pdfSha256": "7ba0cbddb462da4c4776704a54ecec4f847a5536468f929d3f5aadf739622740",
+            "pdfSha256": "6895ecd9432556784c1edcfed8071ca74c3a52d3ed81d5da59d06cb064f4b3c5",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "forestFlow",
@@ -667,7 +679,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "d268540e0b68a1c00f078ca3fd9d1b53558c471e712be938b9675c73d5b09277",
-            "pdfSha256": "abc8797e474e43915112b701b4671fd9f75ee09ecc3e6fe3d7233b5ee0b1d06a",
+            "pdfSha256": "9d541c2faa6f0eb2f48c852ee183f54ec1753ef509ae2f9e9c431df9f434273e",
             "rasterVerdict": "PASS"
           },
           {
@@ -677,7 +689,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "d268540e0b68a1c00f078ca3fd9d1b53558c471e712be938b9675c73d5b09277",
-            "pdfSha256": "c6057390648df1e7ac2882fc0b71086f3b31027b6c156777fe122826a1277b06",
+            "pdfSha256": "090e5088c018106e63aa1aab0cfb3d9c3ec51d821561b442a398d7ced06ae61c",
             "rasterVerdict": "PASS"
           },
           {
@@ -687,7 +699,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "e72f0f46512bb754cd92fd1e272373afb4c9f3a22490aab32201a29020583589",
-            "pdfSha256": "b5caf22630bde48071dcd7e2d4d1c2e683d90f717c1c4fd1f3540d9f4c7e4c20",
+            "pdfSha256": "ec396cc0195f2c0dbcf983a51376c260469f7209a9567f55c5f92fe5c4c15044",
             "rasterVerdict": "PASS"
           },
           {
@@ -697,11 +709,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "e72f0f46512bb754cd92fd1e272373afb4c9f3a22490aab32201a29020583589",
-            "pdfSha256": "db4f73854b1153a0776074503030fc240f5b9f78e4c86b5f5d29501af2ca9d56",
+            "pdfSha256": "226022e4477cb618944727b88817b21e09ab57ec5544968257b5d5fd57bfc573",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "freundlich",
@@ -713,7 +724,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "790f159e2591976a87163a181ad04ab1fc83f1b8c8b74c4bfed5d404cb0f3ba7",
-            "pdfSha256": "f8d111b4964dfc1d01adb2fc7f2308ea8ed57022a97d3d070c194b7234b25da4",
+            "pdfSha256": "012c18ee70b9db49d3464d1093a7f551ce4663b39c680bb6bf92b55dfbf08996",
             "rasterVerdict": "PASS"
           },
           {
@@ -723,7 +734,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "790f159e2591976a87163a181ad04ab1fc83f1b8c8b74c4bfed5d404cb0f3ba7",
-            "pdfSha256": "0a7c98c9895a6d012b40d3cffe9e208914a2b149e44b514af9e21b039bed70ad",
+            "pdfSha256": "6125d1844b81cc2fa3e5f4e66a06d64c5ab2d84add8d839868de429f84ea0fb8",
             "rasterVerdict": "PASS"
           },
           {
@@ -733,7 +744,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "c55e22cc8b52dad25b00a7a3d7096b0cf0ce309ac41529e336d51cee17b6d19c",
-            "pdfSha256": "5d3c5619a71400bd65b010429fb0cf7c763916a1edf2e32828eb8aa1187a8983",
+            "pdfSha256": "736fa3606a61fc0b1bfc8aba42f3af43dc7034254e12f1d57f2c62614236beda",
             "rasterVerdict": "PASS"
           },
           {
@@ -743,11 +754,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "c55e22cc8b52dad25b00a7a3d7096b0cf0ce309ac41529e336d51cee17b6d19c",
-            "pdfSha256": "7f6c91c99340e02e29e87f024954a020970f02f5482a6baa9a85de04050594e1",
+            "pdfSha256": "ca94135f9f20e042531fe8dc70b9feafefec23246cc694703fc1feba1048f64d",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "gallery",
@@ -759,7 +769,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "ad27cf820f8f5854a5f2dc785510f65534a0d8e383af90b309540d6036223cf0",
-            "pdfSha256": "00f0509e7b85bfab0f1e10b432fb7d11541facc2455edf7118052634cb887c9e",
+            "pdfSha256": "1a3b9c03740098d26b573250fdfd7494698ab418d922eb6b29346d74c16c7924",
             "rasterVerdict": "PASS"
           },
           {
@@ -769,7 +779,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "ad27cf820f8f5854a5f2dc785510f65534a0d8e383af90b309540d6036223cf0",
-            "pdfSha256": "fd8ab784586ddf16fa9f34c77abde2acec2a5a2cbfe0602819731b2f180807a8",
+            "pdfSha256": "43ed3823eb2362df4c66217aaaf6c5a1c548e8e2b982572877a1214f841ebd9a",
             "rasterVerdict": "PASS"
           },
           {
@@ -779,7 +789,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "55ab6c4248a2019fbe9dd7c342da5b2ba166bd1b6df9cbcc09134c2931e31642",
-            "pdfSha256": "d4e4c5480ccaad60294ba4f954bc109ca97b8231648b78ec0c6593d84a4b6312",
+            "pdfSha256": "13aa8814651edb2d9d084ab78d0933c47ec8a1cffa7cc40e695789ec29014d2a",
             "rasterVerdict": "PASS"
           },
           {
@@ -789,11 +799,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "55ab6c4248a2019fbe9dd7c342da5b2ba166bd1b6df9cbcc09134c2931e31642",
-            "pdfSha256": "c889b4b20cfa71c0ca803bd1081d8653d568342b3363e63503e89686687f276e",
+            "pdfSha256": "e2f649f2a36e7d22c47a55268cff0ad855c649d99b4d89b7e95b4793479acc53",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "glow",
@@ -805,7 +814,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9e5dfba6ef2c67cd65e165ed863f0b629e94002b9f4c049e1981f1c176111e78",
-            "pdfSha256": "3c866a18ca8997f6f7bfd7f613dfed77cfb1ed09337a9c1b99b209dd40fa41e0",
+            "pdfSha256": "d350cd74db0a2b878cdbda878016235139de32354539b345f3732416867c4dd6",
             "rasterVerdict": "PASS"
           },
           {
@@ -815,7 +824,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9e5dfba6ef2c67cd65e165ed863f0b629e94002b9f4c049e1981f1c176111e78",
-            "pdfSha256": "52e1871ab2077ff2169b96de89339821ab90758cc4d687044e052f32b33bce82",
+            "pdfSha256": "63cd123843ae3ca4f7b5780d0ac61ed0b22ba9d153bd24ae1da8a383b09859f7",
             "rasterVerdict": "PASS"
           },
           {
@@ -825,7 +834,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a7e91eb6faae5a01fe48d7f9ac9c37f8e21ace490f193068a98f77972b460c47",
-            "pdfSha256": "6328415a19ae1ca6a9212e788184a0212072528c433db84b6c22c3d8b15e4487",
+            "pdfSha256": "199fbdee28abc9f71dd9a8a84234f14ab8193618e0d2d620bdf86d23549adfe2",
             "rasterVerdict": "PASS"
           },
           {
@@ -835,11 +844,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a7e91eb6faae5a01fe48d7f9ac9c37f8e21ace490f193068a98f77972b460c47",
-            "pdfSha256": "0cf86eb1e220717457e0f617f2fbf5b7e83a5b5b913e26170aca6f286af5cedf",
+            "pdfSha256": "2626fb847f6569646cc7d9bf2cd3f1d1cfa545186fe10db01a05732008bee318",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "horizon",
@@ -851,7 +859,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "ae5144246b766a81286341e65ae01d5c56e0642bf665967dd3ac92c5791913fb",
-            "pdfSha256": "297569cde7aa03e2c4580f1fa3552ec4763c030b30003f5a2d7f2ae8b0070c50",
+            "pdfSha256": "4e530c76a4b30aa2506139a1f9bc78c60dc95ac523152ee9cf5a115788911825",
             "rasterVerdict": "PASS"
           },
           {
@@ -861,7 +869,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "ae5144246b766a81286341e65ae01d5c56e0642bf665967dd3ac92c5791913fb",
-            "pdfSha256": "7de4789e720836797c5207d422c4a50b27b132ff9616891075e022bfad3eba45",
+            "pdfSha256": "ce51c35e417ab09dc6364a8dc4f5c39904636391c6285628dfcab9d1cdd59779",
             "rasterVerdict": "PASS"
           },
           {
@@ -871,7 +879,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a26f066fee4f453c5865dc5effb343ca454dd51a248a9274f07e0c6cdeddcf03",
-            "pdfSha256": "399160fe350639c16b2c3a5c61987a8ef8928b196fac1923f319d24d16ff0602",
+            "pdfSha256": "5aa416e8591bae36d6ab79eb4f8c74a9a98305ebe385b2e5475d0237a74f31ef",
             "rasterVerdict": "PASS"
           },
           {
@@ -881,11 +889,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a26f066fee4f453c5865dc5effb343ca454dd51a248a9274f07e0c6cdeddcf03",
-            "pdfSha256": "7360ac9780b7613a405c978d6801154901b178fb8f062041e450ac5f8192b135",
+            "pdfSha256": "9a7d48d1b6768a8491914829b542cb77a4bf372af4043569924d6b0d8e044ebd",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "human",
@@ -897,7 +904,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "31e013d4b87b5b78d672f7d6b1050bd39c2084703483d712cc746deba5759756",
-            "pdfSha256": "0e766d4c1466c7d5c38d5f8ddcbb07b8005b84cedbae4ea2e5c01c8b944fb445",
+            "pdfSha256": "e0b63f3376127e952fb5c9a2df352bb1e37d02a7120cefffb4ada20936fd4d48",
             "rasterVerdict": "PASS"
           },
           {
@@ -907,7 +914,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "31e013d4b87b5b78d672f7d6b1050bd39c2084703483d712cc746deba5759756",
-            "pdfSha256": "45760af86643b64bea945aa52d740e2975705facdac8a827098201f7baae3c9a",
+            "pdfSha256": "cd8bd6aba7c086b57caac42f1c2829d4bf4ae30e124455a32d9e7b57856dc839",
             "rasterVerdict": "PASS"
           },
           {
@@ -917,7 +924,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "e48b2626f79cec8c96310d237f23da4eb6cfc31823af22398d854694f460e39b",
-            "pdfSha256": "ef5d65d9cf5e994cbdd19a9d907ecdb217c7e367e6a99e768d7d4f55ffc8d5c5",
+            "pdfSha256": "f1b87468ef47dfe9281c409e24453754c421d1963eaf44f3cef5bad67e55ab32",
             "rasterVerdict": "PASS"
           },
           {
@@ -927,11 +934,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "e48b2626f79cec8c96310d237f23da4eb6cfc31823af22398d854694f460e39b",
-            "pdfSha256": "09b37aa597dee77fb743213aefea81f14bdbc9e93c4e31aca9e2263252357372",
+            "pdfSha256": "409164dc18256cd8d8333675ca61cc97b3f9d594c6dc00262d4d72a0816e17fb",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "klassisch",
@@ -943,7 +949,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "e66d287ddd9337392bd55e575f70dd7a362d3d106a84e51da77eda1c8857c517",
-            "pdfSha256": "ec7e3356b45a0a1e2fefa14585206855f5f2219c250321e0da85b48b69258320",
+            "pdfSha256": "b1f6f6376256baac79a9307d0f286334240b7fb1e5ca96201aba8867a6bffa06",
             "rasterVerdict": "PASS"
           },
           {
@@ -953,7 +959,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "e66d287ddd9337392bd55e575f70dd7a362d3d106a84e51da77eda1c8857c517",
-            "pdfSha256": "767fdfaff5cbe51d006e7fbd61a0b6110248dabd4148a3ba9d9289d72404b308",
+            "pdfSha256": "166bb75c6d39151d686dd93ab1da79810ce4cf2ac5ef8097e9903b3e0d384e05",
             "rasterVerdict": "PASS"
           },
           {
@@ -963,7 +969,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "c20abb319e77f656d9496060179343e76e1cc838e9e9e4966868ee25cc9a7c9b",
-            "pdfSha256": "6b8e1a411f47402b571743d954bb65e5853792885abd99be0c16a3f2793ff72e",
+            "pdfSha256": "75d578735a19d61dd19c990fcfd2d1b241b6a530fbca39bc740b50a193702467",
             "rasterVerdict": "PASS"
           },
           {
@@ -973,11 +979,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "c20abb319e77f656d9496060179343e76e1cc838e9e9e4966868ee25cc9a7c9b",
-            "pdfSha256": "480319deddc14f7bbcc03c487c4e9d9102ba73cbadf3dc62d09479a62d526ecb",
+            "pdfSha256": "9afe12c0f54bd4cf935ab2159a5624992582b7a0c9dd22032eff23e1bc581117",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "ledger",
@@ -989,7 +994,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "1e051e28a8bc1ede429f621a0899fb8e69cd0a3e001101ddcd52665623a6e6ac",
-            "pdfSha256": "f444c6bfcec1e85a216e1d17c5aed273f87aa1bcf34e4a1fd3d063b694c87a7a",
+            "pdfSha256": "21a78d7cedc70b68c754920ba512764cd069d4aed9c6298a7614fde83f10b734",
             "rasterVerdict": "PASS"
           },
           {
@@ -999,7 +1004,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "1e051e28a8bc1ede429f621a0899fb8e69cd0a3e001101ddcd52665623a6e6ac",
-            "pdfSha256": "f5d15debb87cf9cc7098de100f74c7bcdc15177c9d31685b662b1f84f596aeb4",
+            "pdfSha256": "7d56829bd9f089b36fd16bd86af0f79cabd3a30756ba22788d1ce3ff92402b4e",
             "rasterVerdict": "PASS"
           },
           {
@@ -1009,7 +1014,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "cab5785ab0a5705c36cbe50969e25b1fac7b907fbf885f535fe83b41891c5343",
-            "pdfSha256": "db5fb42e743f56fb18eac8cc06ff591cacad5f30c71afd8d3139008918dd1139",
+            "pdfSha256": "e2331c5095d6cb75a8425dacffac6a7c895a1677d3e6686844fa5f9032adcf49",
             "rasterVerdict": "PASS"
           },
           {
@@ -1019,11 +1024,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "cab5785ab0a5705c36cbe50969e25b1fac7b907fbf885f535fe83b41891c5343",
-            "pdfSha256": "dce0bfaccc5c79d00da0d679038d3bbc24548b4509843c848db7ec8768d894b1",
+            "pdfSha256": "1c8ebe79fceb8a6cd0cc8c78e3676cc479b63bfb7e6dcbbec34ba017e670e91b",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "modern",
@@ -1035,7 +1039,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "36936272c03c619cdb80ebacff761e117d152f6b4b17a1223ad68ba814a7ece7",
-            "pdfSha256": "b6eb1db1bb9e3cd6ed4ec0af223479a1f9ebe8836b25e3630b8059b7f0959bcc",
+            "pdfSha256": "f6b28fe90d7fcfdc1fbbc70a7c7e0d04505a482be7582a104d769ba64e4a5c59",
             "rasterVerdict": "PASS"
           },
           {
@@ -1045,7 +1049,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "36936272c03c619cdb80ebacff761e117d152f6b4b17a1223ad68ba814a7ece7",
-            "pdfSha256": "a522f036cb8ddfbe08479a5b8c6fe13939a03ee5bb3c816edb43b85ccb129983",
+            "pdfSha256": "75fef888feb9ae001938379f4352c7b64d219e94e00846e6b2da1b7077fff22c",
             "rasterVerdict": "PASS"
           },
           {
@@ -1055,7 +1059,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "fc9c3495e7a78f7a95f92624b4dee3329dd07cba4f1cc832c8daf49926706c07",
-            "pdfSha256": "cddcab227029de638a6c1db1999e628cb93f66a064e1225ed42e2046c84aaa6d",
+            "pdfSha256": "caa6437c6a17c509c4ceb931228a3428406f005049424a89d11487db640b3ba6",
             "rasterVerdict": "PASS"
           },
           {
@@ -1065,11 +1069,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "fc9c3495e7a78f7a95f92624b4dee3329dd07cba4f1cc832c8daf49926706c07",
-            "pdfSha256": "f9464828e40dd27fec76d78a2a943f278cbb87aabb1eaa124c42fe82bcacdeed",
+            "pdfSha256": "7bbeb6364173e2d0e96ae19ae1807938125a0b207df651c9ecbeb243f2e8d02a",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "monoLuxe",
@@ -1081,7 +1084,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "3e621525982ec68a566497fe506e70c1c7d5416510b00b8efe395e2e100ec0d9",
-            "pdfSha256": "fb721a3765fc4db98ee1dcb3ad3f8adf6cc45f3a5cf4df57f4bb130961ff84f2",
+            "pdfSha256": "a642dcc309ab19dcf9dbd4f38a73cea47d698a63c231ae5b6726828c67abd46e",
             "rasterVerdict": "PASS"
           },
           {
@@ -1091,7 +1094,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "3e621525982ec68a566497fe506e70c1c7d5416510b00b8efe395e2e100ec0d9",
-            "pdfSha256": "069be4192dba11d2c3cb33060654364fa52dfd4a6db706ce76a7755cc1d4184c",
+            "pdfSha256": "52e34ed1863cbf8b3fcbd6444fc6fc0b486550e0b0e493dddb6619ce4d6d4f05",
             "rasterVerdict": "PASS"
           },
           {
@@ -1101,7 +1104,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "e2914477e6764d1eec888613874cad6f4733ed1a87903dac5e25f53367e94241",
-            "pdfSha256": "17fd7d06e2f80df11dbfcc845565d6d45f3f3729bcff87244cdab33a1e31f7c8",
+            "pdfSha256": "845798f22f3011676423f24deeaea16b3b8b8deae20b155fd3ace591d23c7923",
             "rasterVerdict": "PASS"
           },
           {
@@ -1111,11 +1114,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "e2914477e6764d1eec888613874cad6f4733ed1a87903dac5e25f53367e94241",
-            "pdfSha256": "8ba95102fb8c692b3e4baf33652d6eafd19fc94d97d44e983c335f8e20b307d4",
+            "pdfSha256": "d74e69a1d8bc36eb72ac5eba2caddb63226f29eff815135dda6f9a50834322d8",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "neon",
@@ -1127,7 +1129,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "ff1dbf554ed8cc8e64f7da888170ea167768965eda9103f0377db6fd57673b10",
-            "pdfSha256": "99737fda9e351c0c696592c3a6bc43ce0bd445aff41ccfb93b454ea9059e38bf",
+            "pdfSha256": "db180df37f194d6ad803d3b2fa1bbc81521a700674b1bc251939c71fcdfdc888",
             "rasterVerdict": "PASS"
           },
           {
@@ -1137,7 +1139,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "ff1dbf554ed8cc8e64f7da888170ea167768965eda9103f0377db6fd57673b10",
-            "pdfSha256": "30aab1b13ea5ed3818c3f07471ed29e3b868f287098da548836c4b31e8edbf7c",
+            "pdfSha256": "bb4c04e86363f9321b76ee1f6efa593f79413892782d516fe7a40e68e82bc107",
             "rasterVerdict": "PASS"
           },
           {
@@ -1147,7 +1149,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9fbdffd47d11f213393e15ab1c2982f739b1c332223e65df375701bcc963a8cc",
-            "pdfSha256": "f7cd5c16973d44e0ff347ae173989848787ff45855e0618497c39d5a243657e8",
+            "pdfSha256": "a464f01fff496b4056e72254f7450b0d0490fc9224046f8f98c79ea6d5063ddf",
             "rasterVerdict": "PASS"
           },
           {
@@ -1157,11 +1159,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9fbdffd47d11f213393e15ab1c2982f739b1c332223e65df375701bcc963a8cc",
-            "pdfSha256": "a44ddd940865c2ede85f4b64ed1f7489f7fe13e5db87c82abeac40f482103cb2",
+            "pdfSha256": "e6adad59606f89b54f7cdbd57bb99f5334dad6efa7cedf5effc75cd04579bd85",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "orbit",
@@ -1173,7 +1174,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "8cfc6a09691593c0126b6685e2e0cb8110789fd74e0dea053326e0a784a7b1b3",
-            "pdfSha256": "a749c0b5eabb6af09d8987a6eb631cb9224e665122222a37c8209cf93f1fa845",
+            "pdfSha256": "72b0f2c531b67757f0631525fc88bced563bcb5f0395c2251f04529123036804",
             "rasterVerdict": "PASS"
           },
           {
@@ -1183,7 +1184,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "8cfc6a09691593c0126b6685e2e0cb8110789fd74e0dea053326e0a784a7b1b3",
-            "pdfSha256": "99bd1da3684858860e59e497d98b136070cbacb1646047492c978903531aab8b",
+            "pdfSha256": "e9939a3145eea7cba7f60d799bf7789f7227b04de943e6e831bfa31cf41cce5b",
             "rasterVerdict": "PASS"
           },
           {
@@ -1193,7 +1194,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "563f38c967cb4965a9d4d5f5eec3b7be0a561bab84fa946a8532c7226621666b",
-            "pdfSha256": "c12fc533f967cf1c2e88cf111aba2f83b427b72dfa06407ecf1f0321c382565f",
+            "pdfSha256": "6f30a8f8c05bfde78416fcfe6bbcba45c43886a4ca2257647daa21a7a34af721",
             "rasterVerdict": "PASS"
           },
           {
@@ -1203,11 +1204,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "563f38c967cb4965a9d4d5f5eec3b7be0a561bab84fa946a8532c7226621666b",
-            "pdfSha256": "e68dd484f9ccbb295c0913a700b1e5294008761dacc9de314c90e2e62666920a",
+            "pdfSha256": "1fabee0cc9d29a2d2fcfbe147f757e64a61b92b0cb7ba0d89b81d15813aa0313",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "pastell",
@@ -1219,7 +1219,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "fdd471ee0c4f061abd9cce4a51042522d7a640d889bd2ae6ccdc344501c4a56e",
-            "pdfSha256": "a371ed99478dde7084f56e3c93c9addc0593f85688f1ec454540e0699bdff278",
+            "pdfSha256": "90ab957afc1dd0d1dc0fd4940a52dc938a0d179665f898c95053959153db750b",
             "rasterVerdict": "PASS"
           },
           {
@@ -1229,7 +1229,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "fdd471ee0c4f061abd9cce4a51042522d7a640d889bd2ae6ccdc344501c4a56e",
-            "pdfSha256": "162f459940e046b567043d259e1893e78ceefaf52561e1a039879889521a97cb",
+            "pdfSha256": "18e67aa7fb87fdf21e43277d43319e074ba80dd7cff8bddff5549d8cb0cfcd95",
             "rasterVerdict": "PASS"
           },
           {
@@ -1239,7 +1239,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "43cce53f53632f47c5d9f6ac5df0dac80198537cc1b29ceee12fc1c2ad9fbc46",
-            "pdfSha256": "e28a633a6a915289e696234c5ad9851b5918508d15676ebe4bd7a3be64e5d2a5",
+            "pdfSha256": "896cd5c32e0ba7d5c59c530a88737d3f4422f510aa5a1ad1434034ed3e8c7752",
             "rasterVerdict": "PASS"
           },
           {
@@ -1249,11 +1249,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "43cce53f53632f47c5d9f6ac5df0dac80198537cc1b29ceee12fc1c2ad9fbc46",
-            "pdfSha256": "7c97f9cf2d15db1d69b2a9b301ecb2c8a08d982cf321e0bf8c4fe29d66db58f2",
+            "pdfSha256": "488fd68265839a13ee45ae8959c8f397d82f431de23877bb7a435426099e8ea8",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "prism",
@@ -1265,7 +1264,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "da79c6f58043bf85f50c566dde6dad53466a9daf416e2341df6ea7b0f9fdd644",
-            "pdfSha256": "4f937435c779db28e6438a7747947d0d9d5d88e068b1a845f4c43dc91c819493",
+            "pdfSha256": "75fc282ed30f3eeebe0a175b98e56443cf2b8f209b1460fad969c617c5ec096d",
             "rasterVerdict": "PASS"
           },
           {
@@ -1275,7 +1274,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "da79c6f58043bf85f50c566dde6dad53466a9daf416e2341df6ea7b0f9fdd644",
-            "pdfSha256": "c50fb67c68456dd84987a72295f1b8b246fe1294c5622a6a71babf65231ad1f4",
+            "pdfSha256": "11438a3c28464685595ef6871a1a739a7bba708421044173ee695be9a4d3e8a0",
             "rasterVerdict": "PASS"
           },
           {
@@ -1285,7 +1284,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "6e95d27364064dacc7a2a671440b8e4bb84186eb1a9a3d0dea8e93602964385b",
-            "pdfSha256": "6bea3307eb34c973cfb3e7b3c0dcea80dc445d67e83093565ed795d40c87fce8",
+            "pdfSha256": "dca78200e55e14a04c220eede467b109dae6395cbac94693e24acc49399c9de6",
             "rasterVerdict": "PASS"
           },
           {
@@ -1295,11 +1294,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "6e95d27364064dacc7a2a671440b8e4bb84186eb1a9a3d0dea8e93602964385b",
-            "pdfSha256": "e37a3f576c5156d11494cf80967d5067b19ceaee18e661c9ad6b16221e4dc3aa",
+            "pdfSha256": "ea9f2eadd8bd5a771b4821de13653be52d3c9409f46bb9e6a799d69c05b90a96",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "ribbon",
@@ -1311,7 +1309,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "f2b8a407421e96aefc9c8a0e45c6bcbe31b4c4e8a65dc2ed2620010ed24a5a38",
-            "pdfSha256": "ca28e39c864b156b2bae69620683bdb27661fc52fe109bdfc6d6b8b922918e3a",
+            "pdfSha256": "d9a01b0f65dbbeb03e653e178af52695dae0fea773e75eb80544b10abc4e55ff",
             "rasterVerdict": "PASS"
           },
           {
@@ -1321,7 +1319,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "f2b8a407421e96aefc9c8a0e45c6bcbe31b4c4e8a65dc2ed2620010ed24a5a38",
-            "pdfSha256": "84fb2ba03a1b00ae2f51d898633e1b4380026fadae2456d0e380826e57ef2fc4",
+            "pdfSha256": "014ec2d0968627f06f6016bed3bfd3945823ea5c6a2ae5ec4b0cb6380fa888d3",
             "rasterVerdict": "PASS"
           },
           {
@@ -1331,7 +1329,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "fa31fcac3cccb8d56484f6932632603e21f09e331a0c492c3473106f37444c8c",
-            "pdfSha256": "1d4b37d7a7e25b92d901d9f586b6d3f0075ad3e639786431c593f1fb202837b6",
+            "pdfSha256": "18fd70d8b862b3a0a8db9217886d10ebc9e9bc9d7b708cfe97459cc7b85d108d",
             "rasterVerdict": "PASS"
           },
           {
@@ -1341,11 +1339,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "fa31fcac3cccb8d56484f6932632603e21f09e331a0c492c3473106f37444c8c",
-            "pdfSha256": "0a90123de6f7de5779ff16dc5ef5e490231df5eeeee7d8ad4bfd2d1af9ca8f5c",
+            "pdfSha256": "8e1e60bb193dc28594b8a2f216c2a09b3ac9adfea4a2f930fa499e9d33729e6a",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "serioes",
@@ -1357,7 +1354,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a4cb11efa90138833f3b3e2375ea51b6b03c8f11e9ec4460917dbf28a1b28c78",
-            "pdfSha256": "41e6f05b13361efb44bdaa6d96af330264f769b86c87cafe0adced722517c2ae",
+            "pdfSha256": "34cda39d063e2a023fc40fdda1e54696a29be66dd3b0c4ec119adca6961eb577",
             "rasterVerdict": "PASS"
           },
           {
@@ -1367,7 +1364,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a4cb11efa90138833f3b3e2375ea51b6b03c8f11e9ec4460917dbf28a1b28c78",
-            "pdfSha256": "1b40bd6f6c3c08123562a221b79127c91cc9dbe3723d1ac44bda4661617ca131",
+            "pdfSha256": "9c12906ae33cff3c819a39d5edef8458ce90c495997353451bc9803ff1922ad8",
             "rasterVerdict": "PASS"
           },
           {
@@ -1377,7 +1374,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "db9a90d1bcc8b7dfa23ee723174090da95a6d57e71f0d1add699891bc5efa3de",
-            "pdfSha256": "78b47ee11ba30041d25a65f21afd6c12628151ad583b735dd39908126ac88286",
+            "pdfSha256": "f2bd386b513939b73c08985584ca9cca108d0b71a8d37ef6dd6593dc69acaa33",
             "rasterVerdict": "PASS"
           },
           {
@@ -1387,11 +1384,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "db9a90d1bcc8b7dfa23ee723174090da95a6d57e71f0d1add699891bc5efa3de",
-            "pdfSha256": "d8ecddabb0906bee05ad839cffdce18fa3abb145c2e0deb782e5c42d88eaca75",
+            "pdfSha256": "8342e8c200d4135769c235b08368a23eb3f95e590db9ff27745db012f2e9719d",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "sonne",
@@ -1403,7 +1399,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "eea1eb2321bc9ea919948a5d45e648b4a2943c65f7a70dc7b9a791946aa2557f",
-            "pdfSha256": "434282ecaef98c39404af426540c0926aeab4c7e1177af4e1072c8fdf3acfed6",
+            "pdfSha256": "6fcac418be0064b10ba3fc6e4dbd84bd9560f296515318402f754adb8dacdc9d",
             "rasterVerdict": "PASS"
           },
           {
@@ -1413,7 +1409,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "eea1eb2321bc9ea919948a5d45e648b4a2943c65f7a70dc7b9a791946aa2557f",
-            "pdfSha256": "efdb3222ac7854362ff9fe5f7416e1092630b9a55eb292efcdd1480d0723abc1",
+            "pdfSha256": "8aa97077b2fb28f0ead3ba0cc09a6c9839843b81dfbb661e89c129102009e2ce",
             "rasterVerdict": "PASS"
           },
           {
@@ -1423,7 +1419,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "96b91fa6660f941e78a697d98fc3975a9b7bd58514ab66472a468d558d89090a",
-            "pdfSha256": "219dfccc42a4f69bd71a70c35ec7815c57be87f6202d83a387d2bc2d78d4c621",
+            "pdfSha256": "30572dc7fdb82c1617207961f659007a480e4aeaa1226dfbd7560206f1de5d82",
             "rasterVerdict": "PASS"
           },
           {
@@ -1433,11 +1429,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "96b91fa6660f941e78a697d98fc3975a9b7bd58514ab66472a468d558d89090a",
-            "pdfSha256": "d793dfd3b96ae844ab6b47f4adaf5e028d6eefecde09dc0a00947a067acb1a37",
+            "pdfSha256": "407f1ca186e9c3253dbb23e7f88ccf098771452e3fb289e6e0134d4991e322e8",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "studio",
@@ -1449,7 +1444,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "92055661e0b5ec73d548f550e74274aaf127270746637fcf24e063fd4f747ecf",
-            "pdfSha256": "2f5c37b1615fa0984dc880f7bb762dcde094bb4e40abfd29ebc5cfab7983dafb",
+            "pdfSha256": "dcd98af21606d59b4918bca337eb0c89f4cc9b0b13338c047a1fbf1fe4a06151",
             "rasterVerdict": "PASS"
           },
           {
@@ -1459,8 +1454,8 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "92055661e0b5ec73d548f550e74274aaf127270746637fcf24e063fd4f747ecf",
-            "pdfSha256": "c10fd51d909dc2ec6974dddbbaf39fbab01048900f5429c7ec022e6a829a2de2",
-            "rasterVerdict": "FAIL"
+            "pdfSha256": "bd48af884fbb7040190f4fe4c2ba4b92f14d048109287fe5c6ae6141b2d6e103",
+            "rasterVerdict": "PASS"
           },
           {
             "name": "matrix-studio-two-letter",
@@ -1469,7 +1464,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "3a7fcce6bfe2de45d4656225447ef9c39e765e656ac661f25adb37aa5737fff3",
-            "pdfSha256": "ddbf53815ee48fd3032b14f1b6f78b6f99b73e21d99188a7b589d154238d8563",
+            "pdfSha256": "f591ec482220fff5a469702cb2284cb0ac7a258a1dd588826319b5deda65b30b",
             "rasterVerdict": "PASS"
           },
           {
@@ -1479,11 +1474,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "3a7fcce6bfe2de45d4656225447ef9c39e765e656ac661f25adb37aa5737fff3",
-            "pdfSha256": "97243a12656fbf130236fc65bcf8c6b4adf7cb5bc3cd2dd177c9abd81f57820b",
-            "rasterVerdict": "FAIL"
+            "pdfSha256": "53c7aa8de2d92f60fbaead914cd709a5c9b6bc3fca95f4c16fa2613ea42410d0",
+            "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "FAIL"
+        ]
       },
       {
         "template": "studio2",
@@ -1495,7 +1489,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "131fa26031a4eac068bcf4c7a7c86db538e12fe70b295e8b13e95c3b01decc3b",
-            "pdfSha256": "68241105252dc96f2296faacecd4fb6a958d4b318be2e8cfa9f025ad08f99618",
+            "pdfSha256": "93abfe0bdea5bd0667f1ef7a0e6cc3832a26af184707332a0b2206c0b42a431a",
             "rasterVerdict": "PASS"
           },
           {
@@ -1505,7 +1499,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "131fa26031a4eac068bcf4c7a7c86db538e12fe70b295e8b13e95c3b01decc3b",
-            "pdfSha256": "7f3195cdc9543f40ece3780fa157d717068013cfbb4bd842a27dc228106ed833",
+            "pdfSha256": "25dc6ceae3468fd072154541e44d4f7942fa3769886bd53757f958b48496923c",
             "rasterVerdict": "PASS"
           },
           {
@@ -1515,7 +1509,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "8a757914d82ad7f8cba94e02568b9204a3d0e8644e1c4e82e1102663cb2f28a0",
-            "pdfSha256": "8866c7dcbd99eed800416251972346782c8a46570b1597668dc00a574a1e3f6b",
+            "pdfSha256": "16d4dea6a3d4cce770e1bae05ee8cc5d1a8db351fd59b4151c40e3a9b4837d1c",
             "rasterVerdict": "PASS"
           },
           {
@@ -1525,11 +1519,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "8a757914d82ad7f8cba94e02568b9204a3d0e8644e1c4e82e1102663cb2f28a0",
-            "pdfSha256": "72913050756ba3a0ba19c118b585c984090b30b72719effc6f55a1f9a6456ebe",
+            "pdfSha256": "f0249600bc7e1c25b3f58b7cb2a210f58eac6d1481be54b51bfbc865c3197f71",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "studio3",
@@ -1541,7 +1534,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "0e546d769c6bf7df135d5c265c5b544fe97c824c75c3779d8455d42591ab770d",
-            "pdfSha256": "b244d98def9e163ec1dd9efca60b8b8048d2db603538cf74e7f606de27277959",
+            "pdfSha256": "013a8c6af4d2b3c3ca114f6bb3a431acafd1417d1ca2f61607808e972df6fdc7",
             "rasterVerdict": "PASS"
           },
           {
@@ -1551,7 +1544,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "0e546d769c6bf7df135d5c265c5b544fe97c824c75c3779d8455d42591ab770d",
-            "pdfSha256": "f12901e54acc0851e696afd5c1d19161eac973f57eb96821c3361c955dbb9e89",
+            "pdfSha256": "d10e08e8279a9bff3ab9d0017a9356ec62da436bc0266bb50e1668b24588ca97",
             "rasterVerdict": "PASS"
           },
           {
@@ -1561,7 +1554,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "833cf898343b5d11b7d11e515a08fd28455a12998f7f036c1a238e74fd066ea7",
-            "pdfSha256": "3a2d5ad9c8d4b9d5f30ab8461f042892f149290cb2a8a7268f2ac166a737f878",
+            "pdfSha256": "683591ec76bd4402ca8204da9ba9f4c724dfc28d4c0d28cd2be684e6d3d34ee8",
             "rasterVerdict": "PASS"
           },
           {
@@ -1571,11 +1564,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "833cf898343b5d11b7d11e515a08fd28455a12998f7f036c1a238e74fd066ea7",
-            "pdfSha256": "3332dcbf06923cb110432b40d56fca013b33a3031e5fabe7722596bed5a52a4c",
+            "pdfSha256": "c18f2ea647bc4b45c08f264d223f539b9ac9b0f937e411babfddbbec6f1484b7",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "sunrise",
@@ -1587,7 +1579,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "553caa266abbb0777873389b14202fe07486de28a47ab5bbbfdd5b036d8faff3",
-            "pdfSha256": "0034dc847caafb45b65e13bd5037170f63d596664833085d49e0fb7b46036063",
+            "pdfSha256": "9d1143df8672039ca948b4dba2ba0c29026eb22216f3f162548f9029adcf5315",
             "rasterVerdict": "PASS"
           },
           {
@@ -1597,7 +1589,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "553caa266abbb0777873389b14202fe07486de28a47ab5bbbfdd5b036d8faff3",
-            "pdfSha256": "aac1da1a0fe87b96f8259e74f1428e8c39bbea6f03cf212dc16537b2034888ae",
+            "pdfSha256": "0c84edfa967c3b7e17b7c9939a8c2e19b3f8c3e61846fff688d914afcc4b0d92",
             "rasterVerdict": "PASS"
           },
           {
@@ -1607,7 +1599,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9db1b218be72c840ca7061785b84a872f11a2ca503abf4ea6a6de1cf87a91ddf",
-            "pdfSha256": "257f4aeae7a3db8e5d0c4734b468960211df175f90eb5e5a4c254d72dcd15fda",
+            "pdfSha256": "03797a061e3ddd5ab723905186fea136313901bafea960cca966c1addd3fadce",
             "rasterVerdict": "PASS"
           },
           {
@@ -1617,11 +1609,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9db1b218be72c840ca7061785b84a872f11a2ca503abf4ea6a6de1cf87a91ddf",
-            "pdfSha256": "9fbeedca1fabdcdc37883ab4266da22ad2a9b0849353b75d4993869049fc3add",
+            "pdfSha256": "c9af256c8938045a3d06f3dd9d4fefc0ab3b5c337776b8dd559af414b788c065",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "terracotta",
@@ -1633,7 +1624,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "5f3138329a1f0fa558e4d63557a3877efcc759e7ca2b61ce91c1b92528250b38",
-            "pdfSha256": "ef79cd0e1889142c6869d62099cf53cc73ba45a16501d74e8a138be3dddc4c50",
+            "pdfSha256": "6f81d2602499dcff3bccbc2659cb072e5c9a131ab33feef6f60ced698fdabb66",
             "rasterVerdict": "PASS"
           },
           {
@@ -1643,7 +1634,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "5f3138329a1f0fa558e4d63557a3877efcc759e7ca2b61ce91c1b92528250b38",
-            "pdfSha256": "78f032e58babd2cedb71884da1d05346ed55b449e8283bb52107185a4e40979a",
+            "pdfSha256": "d1574b21555b48f236349a360fbe56399f5431b46bcc549fcf1f825d0d282c78",
             "rasterVerdict": "PASS"
           },
           {
@@ -1653,7 +1644,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "5352cfaee86d13950ebabcca8e728c6e733a98d5d9a8c8107c17c2f8125860a9",
-            "pdfSha256": "a089a4ec65f8ef80d9db647be78cc1e58e3a2c580bb20864b1829811cf412f88",
+            "pdfSha256": "967f326720d7ca2f8931811d13a7af721eb6b9d62ab5a262f8f1aa3784e03a39",
             "rasterVerdict": "PASS"
           },
           {
@@ -1663,11 +1654,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "5352cfaee86d13950ebabcca8e728c6e733a98d5d9a8c8107c17c2f8125860a9",
-            "pdfSha256": "b526ca3d23f410eed94197909c3a943359f1e1f7445dc1e69f2c62f3eee368b5",
+            "pdfSha256": "8800d7ce636fd62c57da69f2c431e341d2291dc27c54ea2590a70d29deb35a52",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "verlauf",
@@ -1679,7 +1669,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "3e9c65e4dbce9c66f2b2bea42eea3907055232131c7f17c80cab43616638f786",
-            "pdfSha256": "007820eee3c1c4c92242095413ab61a81627885fabf23e71e4319c6db43a7db9",
+            "pdfSha256": "79a69acf811f1418c3c6fe6d0381ba598f9eb3a7cb2b17fa3a8781b8b8eb34e6",
             "rasterVerdict": "PASS"
           },
           {
@@ -1689,7 +1679,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "3e9c65e4dbce9c66f2b2bea42eea3907055232131c7f17c80cab43616638f786",
-            "pdfSha256": "804b779ad8057813498a51ebd17a5c5c816517abc5003847f780b9df4324e1a2",
+            "pdfSha256": "a5a5699395b58a9ffda945ac7d416996983e901c0852265e67ca6b0cf7d24778",
             "rasterVerdict": "PASS"
           },
           {
@@ -1699,7 +1689,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "6fb5528d574f63b420e3640ec81b27d4d5385c0d69527f7ff986f10374a540ed",
-            "pdfSha256": "f6cf4d2b9c759a2e06f30c17033989e331cb9bbe9fad532ada54daa38d254269",
+            "pdfSha256": "c27ee37b4018fa06bc89c04841407de829fbc88f5169515af83090bc9b1ab91e",
             "rasterVerdict": "PASS"
           },
           {
@@ -1709,11 +1699,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "6fb5528d574f63b420e3640ec81b27d4d5385c0d69527f7ff986f10374a540ed",
-            "pdfSha256": "3a8933c8ed5be5e483014f5a079d1b1065339dd9eba041552745e309a0fd82b8",
+            "pdfSha256": "053ad45775a65ba4f5c6fd6fde347ed54c0141a2cf3132d1e786899f355c6773",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "verlauf2",
@@ -1725,7 +1714,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "4facb44b1ac42c5411693c4aa391f61c13ca96d30094acc1f93e0f614778d9b4",
-            "pdfSha256": "5a9fb37f68e1c82687f3dd4322135682ba130ffd5395d650aefb60aabb6aa461",
+            "pdfSha256": "c98a026a95c9e840094201ec3d809f268034dbdb4c16aebf876e84e87ab42337",
             "rasterVerdict": "PASS"
           },
           {
@@ -1735,7 +1724,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "4facb44b1ac42c5411693c4aa391f61c13ca96d30094acc1f93e0f614778d9b4",
-            "pdfSha256": "c166ec0255fe739227e7e99555c528993e4a8a6ff029258f899c03bd551b494a",
+            "pdfSha256": "be816a66bd548b3aa5015892b445aed6733afeeedea4582697af071a67fefa24",
             "rasterVerdict": "PASS"
           },
           {
@@ -1745,7 +1734,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "7f561e68ff933d61970b7f229efd37f0f3fb4ebc9bb6850aaecaea12b65f43a6",
-            "pdfSha256": "56be32dd2b1dfe531592e9f6b55d50dbe91380597cecda96e62c104846970fd5",
+            "pdfSha256": "cfcf03608b41d55cf77358139cf6f8be7d908192fc1c8207cfd7976e091ee8a1",
             "rasterVerdict": "PASS"
           },
           {
@@ -1755,11 +1744,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "7f561e68ff933d61970b7f229efd37f0f3fb4ebc9bb6850aaecaea12b65f43a6",
-            "pdfSha256": "21a5e25aab966d12a7205712cb540577aa875ea78206026778197ec43ba3f259",
+            "pdfSha256": "c17a9c515a3952a72e6569eb2cc076bb7fc84feba91d44d819ab6459481f6264",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "verlauf3",
@@ -1771,7 +1759,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "06a1958aaafbc4ba266f57a0645f109ecb990c8f850e370fa1e9c30cacbf4719",
-            "pdfSha256": "b2a1d0f6c3a25aed5d50e66a0fdf8a3543fbf87cafacec07bc3843b8a189cba0",
+            "pdfSha256": "01f174d80ecc53cbda9252f73ac596698523174988bac56375c79fb9e792b064",
             "rasterVerdict": "PASS"
           },
           {
@@ -1781,7 +1769,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "06a1958aaafbc4ba266f57a0645f109ecb990c8f850e370fa1e9c30cacbf4719",
-            "pdfSha256": "800cbe55bc585c963212db5e8ea6044152bb50e4fddc2a6099902efd27fc45f5",
+            "pdfSha256": "9d3ea811890dccce86562940c7613461fd9a8a3bac573c9302ea25941f970914",
             "rasterVerdict": "PASS"
           },
           {
@@ -1791,7 +1779,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "2ffb5657a822eab64caa8c73a367a9b55f03d1f8ca5055aa386d66790c943297",
-            "pdfSha256": "aac9c6c4a016df3f8809897e24a1c7632a3cd5e0f82bc4fea78965396ed92fb1",
+            "pdfSha256": "2af5fb3e149cc2871ef41343f22eb880a28b04ada6d4ccd7bdf1187594888ea8",
             "rasterVerdict": "PASS"
           },
           {
@@ -1801,11 +1789,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "2ffb5657a822eab64caa8c73a367a9b55f03d1f8ca5055aa386d66790c943297",
-            "pdfSha256": "606a85770c9e059c59abfff198184934ba0969b482cfffeef2631ba6d6a0c9f8",
+            "pdfSha256": "1ec5789423b728dc75057fe2ab24a9d5ef3b3d9898591754dc5286855858a63f",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "violetPulse",
@@ -1817,7 +1804,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "6c1a2e7dec38cded0714627ffd1c421f60b843ca62303e31e78694468e0c34b4",
-            "pdfSha256": "191f5f8adb7411c0181049c22b8c8e9473ff9d17d5f27042c40bc42dd806d7fd",
+            "pdfSha256": "5ab82e79fdd7dd164503dfc86ef4cd923b88735de4288a63869b148550a5ce27",
             "rasterVerdict": "PASS"
           },
           {
@@ -1827,7 +1814,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "6c1a2e7dec38cded0714627ffd1c421f60b843ca62303e31e78694468e0c34b4",
-            "pdfSha256": "5cc9a9ac932869b129607744c235f1f04afc6a6728dc311733eae82126b61174",
+            "pdfSha256": "b62dcda629cf520b6ef33821a5b0e67720bc26d262243c2150c1bc54c1c1c0d7",
             "rasterVerdict": "PASS"
           },
           {
@@ -1837,7 +1824,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "55743bbb4bef5df42613f8837d8537b6046bb485b7508d195ee44fe050324d71",
-            "pdfSha256": "39ab8cd5f2fc9b04977d9434fd4ee6c575608b93b66e5c86598d81f4338cae8f",
+            "pdfSha256": "349aa9c1e1af6696d0296faf528bbb5e5b6003bb5bb02fde2a6cca12e4b92b04",
             "rasterVerdict": "PASS"
           },
           {
@@ -1847,11 +1834,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "55743bbb4bef5df42613f8837d8537b6046bb485b7508d195ee44fe050324d71",
-            "pdfSha256": "fa0d53d7d7c415d0d47e122b46f7e0e74747d7d75bdb0bc9cbc5a3bbe8d4644b",
+            "pdfSha256": "b96bf514ec122a811170b4d99fdae48a2ecf0346fbc20a2a622c94cfdcec7614",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "warm2",
@@ -1863,7 +1849,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "7c4973f02a6e09c8964bfd95eb2be17a3cf41415458c5158ed4653623d6d82a9",
-            "pdfSha256": "2ae9fbbaaa4a45fa11b499e0bb10e7247d3ceb4c64b015c0750fab81c628adba",
+            "pdfSha256": "aa995aaaa0e89d68801c41abec0c84ff9180662e331eb847c4fabd652b5f1cf6",
             "rasterVerdict": "PASS"
           },
           {
@@ -1873,7 +1859,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "7c4973f02a6e09c8964bfd95eb2be17a3cf41415458c5158ed4653623d6d82a9",
-            "pdfSha256": "acf0eb570fbca338cae52b79082cb244ff2333e7a8b7fd5bb466c4e4ff7252c1",
+            "pdfSha256": "f0a08f057a4d2e1cf3933dedd0ee92938f23d6fff7479295072ca7f374e85fa0",
             "rasterVerdict": "PASS"
           },
           {
@@ -1883,7 +1869,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "ad09e6e1b97b2023567536660b8579bd6be09daca28e146325f758ff90f3213a",
-            "pdfSha256": "9d6578561fe235573782d2f800e7adc7fd4a08daa75c79a7d372b143034931b6",
+            "pdfSha256": "57c99234f318f6dbeeced9faeb09a97d9c24b951a7ca8d620b362caed7c53453",
             "rasterVerdict": "PASS"
           },
           {
@@ -1893,11 +1879,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "ad09e6e1b97b2023567536660b8579bd6be09daca28e146325f758ff90f3213a",
-            "pdfSha256": "21e20377dd1b6df30e3771e3b2a3bad5fd663a5ef908f68e45417516ac0f5145",
+            "pdfSha256": "88a4d98d7a2deaeab6223dd17b9c132bd03917f636a9b090dc127a15d6e3a5ed",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "warm3",
@@ -1909,7 +1894,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9097a99adc65565980e6df2587c4c32f3f922bdc3d7622d56498ddc996351b35",
-            "pdfSha256": "2cf9bc979019f16e43ce5697a30ac9e39e7abba0fe21064d04b0d55cfaf9e257",
+            "pdfSha256": "f8276d8206c4833ae8050cdb6e7c3a14a580f68502519991ffc92c4fa40cff75",
             "rasterVerdict": "PASS"
           },
           {
@@ -1919,7 +1904,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "9097a99adc65565980e6df2587c4c32f3f922bdc3d7622d56498ddc996351b35",
-            "pdfSha256": "26aa4e9ed7a234d154ff0b9f92079ddaee152f6930266fb5c2358cf9193df733",
+            "pdfSha256": "8e6e6e7c39fb1078514f7bf9270cade59d1a52b538020dfefe21a0ce3a3102a0",
             "rasterVerdict": "PASS"
           },
           {
@@ -1929,7 +1914,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a4a00e89d3d7ea5458a360addbb4a00ea625318eabfd7f212b5837be96476c37",
-            "pdfSha256": "191810eba25a9117aa052561b4c841935751f89e9f7f379e270e29cb13961415",
+            "pdfSha256": "106aa287e68476f6be256ae8b7d4ecb2e8803e282798b57d36b02f0763d09a4f",
             "rasterVerdict": "PASS"
           },
           {
@@ -1939,11 +1924,10 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "a4a00e89d3d7ea5458a360addbb4a00ea625318eabfd7f212b5837be96476c37",
-            "pdfSha256": "bb995d8d98c0eaeb893d8879b96e47547b69da532fac68f85cc4271edc4d142f",
+            "pdfSha256": "ff4907f098f83c8dc0d2c1cbc6111ae164ee94d923157a13bd8ced0bf03494b8",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       },
       {
         "template": "welle",
@@ -1955,7 +1939,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "acc8f8612d97a67554ce654713ffc51b3a1f24c75f237018cab6875eb425e848",
-            "pdfSha256": "5779187fc84b99ad5096a2285efb3e8bb787b17605ef27b2754154b637ce4e7b",
+            "pdfSha256": "4b347dc1cc1b72ca773ce8aabd5b03682eb6950247fdb544414fa8b4179ec97a",
             "rasterVerdict": "PASS"
           },
           {
@@ -1965,7 +1949,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "acc8f8612d97a67554ce654713ffc51b3a1f24c75f237018cab6875eb425e848",
-            "pdfSha256": "ad30428fe989f9817d5043a7ddc801f8d0823b3b8bcd16abe534f267b19c2481",
+            "pdfSha256": "79c86e2414d5d4fd90e6c9bfb5cd22e2d30fc1564678bd0e8b90e9d8af384aee",
             "rasterVerdict": "PASS"
           },
           {
@@ -1975,7 +1959,7 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "25f4df4ee7de9159e5926cc277ac3f48015870e21ce6e268c020cb145db6a791",
-            "pdfSha256": "d851a7c872cb07559a754e5b82c69f217c783b63aa790d70dce6c4d8e7edbcc3",
+            "pdfSha256": "f4fdb66de6cfa435491dda50ca10cb2fd7abddc21845d741fe235df501125f71",
             "rasterVerdict": "PASS"
           },
           {
@@ -1985,24 +1969,1671 @@
             "browserVerdict": "PASS",
             "findings": [],
             "fixtureSha256": "25f4df4ee7de9159e5926cc277ac3f48015870e21ce6e268c020cb145db6a791",
-            "pdfSha256": "045e3b2817b3afe7640d583766c043498767775962f383cbe466154ae47f80f1",
+            "pdfSha256": "119a135221fbbd712752c5f857ab2a0edd2ff1bc9ea0d6c919d35d0c67168240",
             "rasterVerdict": "PASS"
           }
-        ],
-        "rasterVerdict": "PASS"
+        ]
       }
     ]
   },
+  "integrationEvidence": {
+    "documents": 292,
+    "passCount": 292,
+    "failCount": 0,
+    "pdfs": 252,
+    "sourceShas": ["0c9abe948a29cb68261f91d6663cca338bd6a3f7"]
+  },
   "raster": {
-    "status": "FAIL",
-    "pdfs": 268,
-    "pages": 565,
-    "markerBoxes": 6468,
-    "pdfPass": 260,
-    "pdfFail": 8,
-    "failedMarkerBoxes": 44,
-    "failureFile": "raster-failures.json",
-    "assertionsUnchanged": true
+    "status": "PASS",
+    "pdfs": 273,
+    "pages": 576,
+    "markerBoxes": 6594,
+    "pdfPass": 273,
+    "pdfFail": 0,
+    "failedMarkerBoxes": 0,
+    "assertionsUnchanged": true,
+    "minimumContrast": 90,
+    "minimumContrastedPixels": 10,
+    "rows": [
+      {
+        "pdf": "artifacts/pdf-preflight/preflight-empty-trailing-box.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight/preflight-header-gap-0.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 19,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight/preflight-header-gap-40.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 20,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight/preflight-image-free.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight/preflight-image-left.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight/variant-raster-brief-blank-lines-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 12,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight/variant-raster-brief-boundary-cv.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 39,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight/variant-raster-dark-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight/variant-raster-gallery-timeline-cv.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight/variant-raster-studio-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-brief-cv-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 39,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-brief-cv-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 12,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-brief-cv-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-brief-cv-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 36,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-brief-letter-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 31,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-brief-letter-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 15,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-brief-letter-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 13,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-brief-letter-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 29,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-gallery-cv-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 33,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-gallery-cv-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 12,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-gallery-cv-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-gallery-cv-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 30,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-gallery-letter-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-gallery-letter-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 13,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-gallery-letter-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 11,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-gallery-letter-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 25,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ledger-cv-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 45,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ledger-cv-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 18,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ledger-cv-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 15,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ledger-cv-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 42,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ledger-letter-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ledger-letter-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 13,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ledger-letter-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 11,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ledger-letter-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 25,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ribbon-cv-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 45,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ribbon-cv-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 18,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ribbon-cv-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 15,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ribbon-cv-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 42,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ribbon-letter-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 31,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ribbon-letter-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 15,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ribbon-letter-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 13,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-ribbon-letter-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 29,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio2-cv-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 30,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio2-cv-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 12,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio2-cv-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio2-cv-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio2-letter-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 31,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio2-letter-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 15,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio2-letter-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 13,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio2-letter-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 29,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio3-cv-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 39,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio3-cv-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 15,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio3-cv-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 12,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio3-cv-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 36,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio3-letter-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 31,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio3-letter-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 15,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio3-letter-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 13,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-studio3-letter-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 29,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-terracotta-cv-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 39,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-terracotta-cv-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 18,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-terracotta-cv-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 15,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-terracotta-cv-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 36,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-terracotta-letter-first-three.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 31,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-terracotta-letter-first-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 15,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-terracotta-letter-last-one.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 13,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/boundary-terracotta-letter-last-two.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 29,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/chrome-brief-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/chrome-brief-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/chrome-studio3-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/chrome-studio3-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/flow-brief-unbroken-token.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 39,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/flow-custom-typography.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 33,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/flow-live-margins-0.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 25,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/flow-live-margins-1.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 25,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/flow-live-margins-2.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 25,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/flow-studio3-unbroken-token.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 38,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/fragmentation-ledger-half-columns-large-entry-cv.pdf",
+        "physicalPages": 7,
+        "markerBoxes": 81,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/fragmentation-ledger-masonry-large-entry-cv.pdf",
+        "physicalPages": 7,
+        "markerBoxes": 81,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/fragmentation-studio3-right-sidebar-large-entry-custom-margins-cv.pdf",
+        "physicalPages": 6,
+        "markerBoxes": 81,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/live-brief-cv-3.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/live-brief-letter-3.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 29,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/live-studio3-cv-3.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/live-studio3-letter-3.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 29,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-aurora-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-aurora-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-aurora-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-aurora-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-blockig-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-blockig-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-blockig-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-blockig-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-brief-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-brief-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-brief-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-brief-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-citrus-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-citrus-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-citrus-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-citrus-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-colorful-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-colorful-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-colorful-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-colorful-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-cove-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-cove-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-cove-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-cove-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-diagonal-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-diagonal-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-diagonal-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-diagonal-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edel-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edel-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edel-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edel-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edelDark-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edelDark-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edelDark-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edelDark-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edge-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edge-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edge-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-edge-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-forestFlow-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-forestFlow-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-forestFlow-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-forestFlow-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-freundlich-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-freundlich-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-freundlich-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-freundlich-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-gallery-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-gallery-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-gallery-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-gallery-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-glow-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-glow-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-glow-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-glow-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-horizon-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-horizon-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-horizon-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-horizon-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-human-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-human-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-human-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-human-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-klassisch-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-klassisch-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-klassisch-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-klassisch-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-ledger-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-ledger-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-ledger-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-ledger-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-modern-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-modern-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-modern-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-modern-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-monoLuxe-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-monoLuxe-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-monoLuxe-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-monoLuxe-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-neon-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-neon-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-neon-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-neon-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-orbit-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-orbit-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-orbit-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-orbit-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-pastell-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-pastell-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-pastell-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-pastell-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-prism-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-prism-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-prism-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-prism-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-ribbon-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-ribbon-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-ribbon-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-ribbon-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-serioes-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-serioes-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-serioes-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-serioes-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-sonne-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-sonne-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-sonne-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-sonne-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio2-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio2-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio2-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio2-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio3-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio3-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio3-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-studio3-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-sunrise-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-sunrise-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-sunrise-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-sunrise-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-terracotta-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-terracotta-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-terracotta-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-terracotta-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf2-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf2-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf2-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf2-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf3-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf3-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf3-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-verlauf3-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-violetPulse-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-violetPulse-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-violetPulse-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-violetPulse-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-warm2-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-warm2-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-warm2-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-warm2-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-warm3-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-warm3-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-warm3-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-warm3-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-welle-one-cv.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-welle-one-letter.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 9,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-welle-two-cv.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 27,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/matrix-welle-two-letter.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/textlayer-brief-footer-order.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 21,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/textlayer-brief-rich-list.pdf",
+        "physicalPages": 2,
+        "markerBoxes": 26,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/textlayer-brief-role-typography.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 14,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/textlayer-freundlich-sender.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 14,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/textlayer-studio3-hidden-contact.pdf",
+        "physicalPages": 1,
+        "markerBoxes": 12,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-brief-custom-margins-cv.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-brief-custom-margins-letter.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 33,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-brief-large-entry-cv.pdf",
+        "physicalPages": 5,
+        "markerBoxes": 81,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-brief-long-word-letter.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 34,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-gallery-custom-margins-letter.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 33,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-gallery-long-word-letter.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 34,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-gallery-timeline-cv.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-ledger-half-columns-cv.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-ledger-masonry-cv.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-ribbon-editorial-cv.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-studio2-minimal-cv.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-studio3-custom-margins-letter.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 33,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-studio3-large-entry-cv.pdf",
+        "physicalPages": 5,
+        "markerBoxes": 81,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-studio3-long-word-letter.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 34,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-studio3-sidebar-left-cv.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-studio3-sidebar-right-cv.pdf",
+        "physicalPages": 4,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-terracotta-sidebar-left-cv.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-matrix/variant-terracotta-sidebar-right-cv.pdf",
+        "physicalPages": 3,
+        "markerBoxes": 57,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/brief.pdf",
+        "physicalPages": 5,
+        "markerBoxes": 64,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/gallery.pdf",
+        "physicalPages": 6,
+        "markerBoxes": 64,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/joint-brief-large-entry-long-word-margins.pdf",
+        "physicalPages": 10,
+        "markerBoxes": 115,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/joint-ledger-columns-long-word-margins.pdf",
+        "physicalPages": 12,
+        "markerBoxes": 115,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/joint-ledger-masonry-long-word-margins.pdf",
+        "physicalPages": 12,
+        "markerBoxes": 115,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/joint-studio3-right-sidebar-long-word-margins.pdf",
+        "physicalPages": 11,
+        "markerBoxes": 115,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/ledger.pdf",
+        "physicalPages": 5,
+        "markerBoxes": 64,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/ribbon.pdf",
+        "physicalPages": 5,
+        "markerBoxes": 64,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/studio2.pdf",
+        "physicalPages": 6,
+        "markerBoxes": 64,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/studio3.pdf",
+        "physicalPages": 5,
+        "markerBoxes": 64,
+        "verdict": "PASS"
+      },
+      {
+        "pdf": "artifacts/pdf-preflight-combined/terracotta.pdf",
+        "physicalPages": 5,
+        "markerBoxes": 64,
+        "verdict": "PASS"
+      }
+    ]
   },
   "combined": [
     {
@@ -2013,9 +3644,9 @@
       "letterPages": 2,
       "cvPages": 2,
       "browserVerdict": "PASS",
-      "rasterVerdict": "FAIL",
+      "rasterVerdict": "PASS",
       "fixtureSha256": "27e9fd9b5a1d83bf9f955ec1344fd7676dea0aadba78479d39b70ffd3e55f4d6",
-      "pdfSha256": "cdb6a020f20adc54da218a3ff2dcb1589f9448bd30023f1ab66acd39213f19f4"
+      "pdfSha256": "d210de07d37f5d3bc30af3b155e42c043ede2cb11b6729b23a520c5341fda96b"
     },
     {
       "fixture": "gallery",
@@ -2027,7 +3658,7 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "55755bc156da13e15b15993d35824605de8ee8882fe4ab8612c0f9bca5165182",
-      "pdfSha256": "46f388c2c2cd67d09b1a47d293a1d13546cc485ea98354146a397d508a8c7f00"
+      "pdfSha256": "82fe8badcdcba16976688b60c1b7af03c4e3fd77e153fad49094b73ece329d21"
     },
     {
       "fixture": "joint-brief-large-entry-long-word-margins",
@@ -2039,7 +3670,7 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "ae8c8190cc012e85d463d6a279b0c3e3de3dafa1a9bc391d242509da39384473",
-      "pdfSha256": "9ce5b3ad12d535e90ebbc4351d016a420e3522311be9a3e89d4dfb734f6589d9"
+      "pdfSha256": "0b298d8838cfd15a7cb32f49718d2bfdad2d2f4f5fd621dd501ed26b32855b08"
     },
     {
       "fixture": "joint-ledger-columns-long-word-margins",
@@ -2051,7 +3682,7 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "7db5229eb2fe359fae429443e4f7b3b9f040fb2046dee86e5394176bddf6e35d",
-      "pdfSha256": "ba58780bab89c189a70b5218b621b5e07816d243e545fc7c0973a77d9798aeee"
+      "pdfSha256": "47667c41e36627b53f175b5a6a5a7cce169080a6b9485fddd9bb695cade9e922"
     },
     {
       "fixture": "joint-ledger-masonry-long-word-margins",
@@ -2063,7 +3694,7 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "9c6a1ef9390702dbc2a1b58585655a693a2722c0909af8f4fd9c106e13c2d0d3",
-      "pdfSha256": "d3eae124aa4458610ec91adc3e3bf4d28aec348e9e2dfbcafa155b919768d621"
+      "pdfSha256": "b0a3a6708352342ce919cbd3a11082c747512bdf3a72331662a78929a8147e1d"
     },
     {
       "fixture": "joint-studio3-right-sidebar-long-word-margins",
@@ -2075,7 +3706,7 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "c0d763b3380ea575143d20fd8ff1af51ed38b518e77b47e20193d0a9ee842010",
-      "pdfSha256": "5e0902f6a44290b4a0b36336bdbb1d8cf38fdc005790427ed25d42b118d8689e"
+      "pdfSha256": "1a2456977f36f0c6ea2de84c58db8d0f7b63cfe477e63397b4705beb1cb44fff"
     },
     {
       "fixture": "ledger",
@@ -2087,7 +3718,7 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "980644662fa3a2dac898f32197d94213b3a088c65f053ac42d8747f5d55108f1",
-      "pdfSha256": "10b0e4bb94b113cec611961902331a5c6d68eaebd59c6979472fbc653a322873"
+      "pdfSha256": "c4950d5d3b4b0297f314375d01b0217b60780da1c6832ebe751de91858d73fc4"
     },
     {
       "fixture": "ribbon",
@@ -2099,7 +3730,7 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "dd9e9acf419fb2a7b6015e269c517b691dc3d409b5271f566e75b9521594615d",
-      "pdfSha256": "e6487d4db41bf0d0f66a45fc2868ada4520cfec2318ed868cfe6c8c1506b7c58"
+      "pdfSha256": "5c7805004a542a6c0d1680295ee72a33eee1926feb8df5e08aecba11c706b423"
     },
     {
       "fixture": "studio2",
@@ -2111,7 +3742,7 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "768c81e8962baeca84c2a2ed0fdcea2e9a4fd7f49df588cfedbb2f32ba1a6f8f",
-      "pdfSha256": "660c68972ef172e66fadfff4bd75383477ef9477efe86f3531c0f712581a14de"
+      "pdfSha256": "26a9f673c591e954072b2ab8bd0fa256a5cd4456d32e1e0aaf62c1107c4ee23a"
     },
     {
       "fixture": "studio3",
@@ -2123,7 +3754,7 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "74b65b0a265cb53f278094109f53574752e3eebef089006bf99d6c1f06204f5f",
-      "pdfSha256": "455e8e7fdb8f775d3627878349ade4fc31c9b1bb6360dac9acce14b703ea835e"
+      "pdfSha256": "87afc8c424827a84c0b68510bf37e688899be5234507b68480a49ba0d0600025"
     },
     {
       "fixture": "terracotta",
@@ -2135,17 +3766,22 @@
       "browserVerdict": "PASS",
       "rasterVerdict": "PASS",
       "fixtureSha256": "cf59ade81c7be30280d2bd5eadd149b8019783703d8e92ed653b0b2ef89875c8",
-      "pdfSha256": "dd5a6d0bb84f99b28f29b9bfff3eda7792703ea8ee19be7f7b5739a46ca94d9c"
+      "pdfSha256": "cf9933264f8cf0089c1ecc7dcebb537c7ba0d094b770ae53953f01afdfc384a7"
     }
   ],
   "combinedPhysicalPages": 82,
-  "automaticPreview": "https://vercel.com/modebrechts-projects/cv-cover-charm/EGX4FWJCQgWDAhhQwnKVXAuTuJ93",
+  "automaticPreview": [
+    {
+      "context": "Vercel",
+      "state": "success",
+      "url": "https://vercel.com/modebrechts-projects/cv-cover-charm/2nSghdz7p5bzLgSAZNuatXi9CzhL"
+    }
+  ],
   "limitations": [
-    "No complete contrast policy: edelDark Letter has dark body ink on dark paper.",
-    "Existing CSS zoom normalization changes CV wrapping in clone; visible PDF and canonical Range boxes differ.",
-    "Dossier advisory override intentionally denied.",
-    "Original Ribbon Cover geometry remains genuinely unsafe and blocked.",
-    "Standalone CV legacy exporter remains outside new Letter/Dossier override policy."
+    "Override eligible only for settled, complete, physically safe standalone Letter measurement-failed fallback; no dossier override.",
+    "Original Ribbon Cover remains physically unsafe and blocked. Combined positive fixtures use safe Brief Cover.",
+    "No universal contrast guarantee for arbitrary explicit user color choices, all browser engines or all third-party CSS.",
+    "Global format:check has 150 pre-existing untouched failures; release/touched formatting passes."
   ],
   "unchangedDevRendererProof": [
     {
@@ -2206,5 +3842,21 @@
         "status": "FAIL"
       }
     }
-  ]
+  ],
+  "previousAcceptance": {
+    "codeSha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1",
+    "runId": 38504447640,
+    "raster": {
+      "status": "FAIL",
+      "pdfs": 268,
+      "pages": 565,
+      "markerBoxes": 6468,
+      "pdfPass": 260,
+      "pdfFail": 8,
+      "failedMarkerBoxes": 44,
+      "failureFile": "raster-failures.json",
+      "assertionsUnchanged": true
+    },
+    "supersededBy": "0c9abe948a29cb68261f91d6663cca338bd6a3f7"
+  }
 }

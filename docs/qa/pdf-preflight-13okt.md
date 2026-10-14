@@ -1,38 +1,59 @@
 # Package 35 – automatischer PDF-Preflight
 
-**B — PARTIAL. Keine Merge-Freigabe.** Die reproduzierten Preflight-Fehlklassifikationen sind korrigiert, 1’118 Units und 288 Browsertests bestehen. Die unabhängige strikte Rasterabnahme scheitert weiterhin an vorhandenen Kontrast- und CV-Clone-Abweichungen. Deshalb ist Package 35 / Masterliste Item 35 ausdrücklich **nicht vollständig abgenommen**. Kein Merge, kein gezieltes Deployment, keine Promotion.
+**B — PARTIAL, grüne begrenzte Abnahme.** Die belegten Preflight-Fehlklassifikationen und die tatsächlichen Rasterabweichungen sind generisch korrigiert. 1’119 Units und 293 Browsertests bestehen; 39/39 Produktionsvorlagen bestehen alle vier Standard-Fixtures. Der Override bleibt ausdrücklich auf den geprüften Standalone-Letter-Fallback beschränkt. Für das Gesamtdossier bleibt er NO-GO. Masterliste Item 35 wird deshalb nicht als vollständige A-Abnahme ausgegeben.
 
-Geprüfter letzter **Code-SHA:** `b81289d53171b4b4b3b756bfbd9b049ce83d9ee1`. Der anschliessende Abschlusscommit ergänzt ausschliesslich diesen Bericht und seine Belege; seine exakte Remote-SHA steht in der Abschlussmeldung und Git-Historie. [Vollständiger CI-Lauf](https://github.com/modebrecht/cv-cover-charm/actions/runs/38504447640), [maschinenlesbare Abnahme](pdf-preflight-13okt-evidence/acceptance-summary.json), [unverändert strikte Rasterfehler](pdf-preflight-13okt-evidence/raster-failures.json).
+Autoritative, vor Arbeitsbeginn frisch gefetchte Basis: `dev` **`1f4696ee520724466457dacbecc19fffe34ff1ff`**. Geprüfter finaler **Code-SHA: `0c9abe948a29cb68261f91d6663cca338bd6a3f7`**; Branch `fix/pdf-preflight-13okt`. Der folgende Abschlusscommit enthält ausschliesslich diesen Bericht und seine Belege. Seine exakte Remote-SHA steht in der Abschlussmeldung und Git-Historie; sein Produktionscode ist bytegleich zum geprüften Code-SHA.
+
+[Grüner vollständiger CI-Lauf](https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888), [maschinenlesbare Abnahme](pdf-preflight-13okt-evidence/acceptance-summary.json), [Vorher-/Nachher-Clone-Messungen](pdf-preflight-13okt-evidence/follow-up-development.json). Alle acht CI-Jobs erfolgreich. Kein Merge, kein gezieltes Deployment oder Promotion; die Vercel-Git-Integration hat automatisch ein erfolgreiches [Preview](https://vercel.com/modebrechts-projects/cv-cover-charm/2nSghdz7p5bzLgSAZNuatXi9CzhL) erstellt.
 
 ## Abschliessendes Ergebnis
 
-| Prüfung                                                   | Ergebnis am geprüften Code-SHA                                                                                  |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Units                                                     | 1’118 bestanden, 0 fehlgeschlagen; 243 Dateien, 22’249 Assertions                                               |
-| TypeScript App und QA, Lint, Formatting, Produktionsbuild | Bestanden; Lint 0 Fehler / 21 bestehende Warnungen                                                              |
-| Sicherheitsfälle / Produktregressionen                    | 36/36 und 31/31 bestanden                                                                                       |
-| Vollständige Pagination-Integration                       | 208/208 bestanden, zwei Shards zu je 104                                                                        |
-| Lange Combined-Dossiers                                   | 11/11 Browserfälle bestanden, 82 physische PDF-Seiten, maximal 12 pro Dossier                                   |
-| Automatische Wortsuche                                    | 2/2 Tests bestanden: 39 reale Standalone-Letter-PDFs und Mixed-Inline Combined                                  |
-| Browsermatrix 39 Produktionsvorlagen                      | 156/156 Standard-Fixtures bestanden: Letter und CV, jeweils eine/zwei Seiten; 234 echte PDF-Seiten              |
-| Logische vollständige Felder, separater Reader            | 287/287 geeignete Audit-Dokumente, 11’386 Feldprüfungen; 0 Fehler                                               |
-| Unabhängiger Rasterreader                                 | **FAIL**: 268 PDFs, 565 Seiten, 6’468 Markerrechtecke; 260 PDFs bestehen, 8 PDFs mit 44 fehlerhaften Rechtecken |
-| Gesamt-CI                                                 | **7 Jobs erfolgreich, Evidence-Job fehlgeschlagen**; der Workflow ist rot                                       |
+| Prüfung                                                                     | Ergebnis am finalen Code-SHA                                               |
+| --------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Units                                                                       | 1’119 bestanden, 0 fehlgeschlagen; 243 Dateien, 22’254 Assertions          |
+| TypeScript App und QA, Lint, Release-/Änderungsformatting, Produktionsbuild | Bestanden; Lint 0 Fehler / 21 bestehende Warnungen                         |
+| Sicherheitsfälle einschliesslich neuer Raster-Parität / Produktregressionen | 41/41 und 31/31 bestanden                                                  |
+| Vollständige Pagination-Integration                                         | 208/208 bestanden; zwei Shards zu je 104                                   |
+| Combined-Dossiers                                                           | 11/11 bestanden; 82 physische Seiten, maximal 12 pro Dossier               |
+| Automatische Wortsuche                                                      | 2/2 bestanden: 39 echte Standalone-Letter-PDFs sowie Mixed-Inline Combined |
+| 39 Vorlagen, Letter und CV jeweils eine/zwei Seiten                         | 156/156 Standard-Fixtures und 234 physische PDF-Seiten bestanden           |
+| Integrationsevidence                                                        | 292/292 Audit-Dokumente PASS, 252 tatsächliche PDFs                        |
+| Separater vollständiger Feldreader                                          | 287/287 geeignete Dokumente; 11’386 Feldprüfungen, 0 Fehler                |
+| Separater sichtbarer Rasterreader                                           | 273/273 PDFs, 576 Seiten, 6’594 Markerrechtecke; 0 Fehler                  |
+| Gesamt-CI                                                                   | SUCCESS; 1’412 Unit-/Browsertests bestanden, 0 fehlgeschlagen              |
 
-Die Raster-Gesamtzahlen stammen aus einer separaten diagnostischen Vollauswertung derselben CI-PDFs mit **unveränderten** Grenzen (Kontrast >=90, mindestens zehn kontrastierte Pixel). Sie sammelt Fehler, damit nach dem ersten CI-Abbruch auch die übrigen PDFs beurteilt werden können. Sie macht den Produktionsreader oder CI nicht grün. Der unmodifizierte CI-Reader bricht beim ersten Fehler `boundary-brief-cv-first-three.pdf`, physische Seite 2, `QAEND008`, ab. Dadurch wurden seine folgenden Feld-/Summary-Kommandos nicht erreicht; diese beiden vorhandenen Reader wurden anschliessend lokal auf den zusammengeführten unveränderten CI-Audits separat ausgeführt. Keine Skips, Snapshots, gelockerten Toleranzen oder verschluckten CI-Fehler.
+Raster, vollständige Suchtexte und physische Marker-/Seitenverteilung sind eigenständige Prüfungen. Ihre Zahlen dürfen nicht als zusätzliche Browsertests addiert werden. Es gelten unverändert Kontrast >=90 und mindestens zehn kontrastierte Pixel; Clone-Parität maximal 0,3 mm pro Koordinate. Keine Skips, neuen Snapshots, Deadline-Verlängerungen oder gelockerten Produktionstoleranzen. Die 150 Fehler des repo-weiten `format:check` sind vorher vorhandene, nicht von diesem Paket geänderte Dateien; das bestehende Release-Formatting und sämtliche betroffenen Prüffiles bestehen CI. Eine pauschal grüne repo-weite Formatierung wird nicht behauptet.
 
-## Offene Rasterblocker und Baseline-Nachweis
+## Was tatsächlich falsch war und jetzt korrigiert ist
 
-1. **Edel Dark, beide Standard-Letter-Fixtures:** Der Körper ist auf dunklem Papier kaum lesbar. Das echte Einseiten-PDF hat im Salutationsrechteck [26,990;117,908;33,643;3,967] mm nur Kontrast 25 und null Pixel oberhalb der bestehenden Kontrastschwelle. Der Suchtext ist vollständig und die Geometrie passt; beides beweist keine sichtbare Druckqualität. [Tatsächliches Raster](pdf-preflight-13okt-evidence/edel-dark-raster.png). Dieser Kontrastfall wird vom neuen geometrischen Guard weiterhin nicht gesperrt. Eine allgemeine Farb-/Kontrastpolitik wurde nicht spekulativ ergänzt.
-2. **CV-Zoom-/Zeilenumbruchabweichung:** Die bereits bestehende `normalizeCssZoomForHtml2Canvas()` verändert im tatsächlichen html2canvas-Clone den Umbruch. `QAEND008` auf Brief-CV-Seite 2 liegt live und vor Normalisierung bei x=125,076 mm, y=101,846 mm, 22,746×5,025 mm; danach bei x=102,605 mm, y=101,843 mm, 22,632×5,000 mm. Der Marker ist sichtbar, aber um 22,471 mm verschoben. Das ursprüngliche Rechteck enthält nur sieben statt mindestens zehn kontrastierter Pixel. [Produktions-Clone-Messung](pdf-preflight-13okt-evidence/clone-layout.json), [Rasterausschnitt x=45–160 / y=90–112 mm](pdf-preflight-13okt-evidence/brief-cv-raster.png). Das ist kein belegter Glyphenverlust und keine Gelegenheit, den Reader grosszügiger zu machen; Web-/Canonical-/Raster-Positionsgleichheit ist hier nicht nachgewiesen.
+Die unabhängige Audit-Historie unten rekonstruiert Editor → Paginator → physische Seiten → gemeinsame Policy → Download → Generator → tatsächliches Raster. Der Paginator bleibt alleiniger Eigentümer der Seitenaufteilung. Die gemeinsame typed Policy in `src/lib/pdf-preflight.ts` ersetzt widersprüchliche UI-Bools; `pending` sperrt, `pass` erlaubt, `advisory` erfordert ausdrücklich zulässigen Consent, `blocked` sperrt ohne Override. `LetterDocument` invalidiert Readiness sofort nach Eingabe-/Layoutänderungen. Beide UI-Pfade beobachten das echte kanonische Dokument; der Generator prüft selbst vor Beginn, vor jeder Seite und direkt vor dem Download. Zusätzlich prüft er nun **alle tatsächlichen Cover-/CV-/Letter-Raster-Clones** nach deren Normalisierung. Ein UI-PASS ist keine Erlaubnis, einen nachträglich unsicheren Clone zu speichern.
 
-Die beiden repräsentativen Fälle wurden zusätzlich **auf einem separaten unveränderten Worktree der frisch gefetchten Dev-Basis `1f4696ee...` über die normalen automatischen Downloadaktionen** erzeugt. Dev-Edel-Dark hat dieselben Kontrastwerte 25/0; Dev-Brief-CV denselben Fehler 518/7 im Markerrechteck. Alle drei tatsächlich gerenderten CV-Seiten sind bei 1× Rasterauflösung bytegleich zu den CI-Kandidatenseiten. Dev- und Kandidaten-SHAs, PDF-Hashes, Raster-Hashes und Messungen stehen in `unchangedDevRendererProof` des Abnahmemanifests. Beim Letter sind die ganzen Raster wegen der gültigen Chrome-Korrekturen nicht bytegleich; der dunkle Body-Fehler ist dennoch vor und nach dem Paket direkt gemessen. `html2canvas-export.ts`, `CvCanvasBase.tsx` und `flow-pagination.ts` sind gegenüber Dev unverändert. Diese Befunde sind bestehende Renderer-/Designprobleme, keine eingeführten Pagination-Regressionsbelege.
+| Reproduktion / ursprünglicher Grund                              | Physischer Befund vor Änderung                                                                                    | Generische Korrektur / Endklassifikation                                                                                                                       |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Leere letzte Textbox blockierte passenden Brief                  | Boxende 1269,422 px, Glyphenende 708,047 px, Layerende 975,609 px; 293,813 px ≈77,7 mm leere Boxfläche ausserhalb | Sichtbare Glyphen und echte Clip-Ahnen messen; PASS, tatsächliches PDF vollständig                                                                             |
+| Verschachteltes Clipping und zusätzliche Footer wurden übersehen | Effektive Clip-Höhe 21,688 px ≈5,74 mm; weiterer Footer über echtem Body                                          | Alle Clip-Ahnen und Chrome-Flächen prüfen; BLOCKED                                                                                                             |
+| Fehlende Signatur / transparente Pflichtfelder oder Bilder       | Body-Hash allein bestand trotz fehlender oder unsichtbarer Inhalte                                                | Produktions-Probe-Vertrag für Letter-Semantik, Ressourcen- und Sichtbarkeitsprüfung; BLOCKED                                                                   |
+| Dunkler Letter erbte CV-spezifische Ink-Werte                    | Papier `#171716`, Body `rgb(17,17,17)`; Salutations-Raster Kontrast 25, 0 starke Pixel                            | CV-only `cvInk`/`cvMuted`/`cvHeading` nicht auf unabhängige Letter-Palette anwenden; automatischer Body `#ffffff`, explizites Letter-`textColor` bleibt gültig |
+| Zoom-Normalisierung änderte reale CV-Zeilen                      | Brief Seite 2 `QAEND008`: vorher x125,076/y101,846 mm; alter Clone x102,605/y101,843 mm, 22,471 mm Verschiebung   | Native Zeilen und Wortpositionen vor Zoom-Konvertierung im Wegwerf-Clone bewahren; final x125,069/y101,843 mm, Schrift weiter 15,84 px                         |
+| Erste Clone-Korrektur liess harte Zeilen und Blankzeilen aus     | Ledger-Clone hatte 2,689/18,188 px ≈0,712/4,81 mm tatsächliches Ancestor-Clipping; Guard blockierte korrekt       | Native Blockhöhe, Zeilentops und Wortbreiten erhalten; harte Newlines eingeschlossen, DOM-Messungen vor Mutationen gebündelt; alle langen Dossiers PASS        |
 
-Alle acht betroffenen PDFs: `boundary-brief-cv-first-three`, `boundary-brief-cv-last-two`, Combined `brief`, `matrix-edelDark-one-letter`, `matrix-edelDark-two-letter`, `matrix-studio-one-cv`, `matrix-studio-two-cv`, `variant-gallery-timeline-cv`. Für Studio/Gallery sind die strikten Rechteckfehler belegt; ohne weitergehenden Abgleich wird kein vollständiger Inhaltsverlust oder eine abschliessende gleiche Ursache behauptet. Die repräsentativen Brief- und Studio-Raster zeigen die betroffenen Marker sichtbar. Der Combined-Brief besitzt dieselbe CV-Abweichung; deshalb bestehen dort 11/11 Browserfälle, aber nur 10/11 strikte Rasterdokumente.
+Der Letter-Farbfix verwendet keine Template-ID. Der Zoom-Fix betrifft nur bereits gemessene einfache Textblöcke mit LTR/Links-Ausrichtung im verworfenen Capture-Clone. Inline-Mischformatierung, RTL und Blocksatz behalten den bisherigen Renderer. Es gibt keine neue Pagination, Quellschrift-Verkleinerung, Textkürzung oder gespeicherte Schemaänderung. Die deklarierten Fontgrössen bleiben gleich; Worttransforms rekonstruieren die nativen verwendeten Metriken. Die tatsächlichen Clone-Messungen ergeben maximal 0,030420 mm Abweichung für Brief Boundary/Blank Lines und Gallery Timeline, 0,238030 mm für Studio. Der automatische Export bleibt html2canvas/jsPDF inklusive unsichtbarer Suchtextschicht.
+
+Die früheren Rasterfehler sind weiterhin als historische Gegenbelege erhalten: [Brief vorher](pdf-preflight-13okt-evidence/brief-cv-raster.png), [Dark vorher](pdf-preflight-13okt-evidence/edel-dark-raster.png), [44 ursprüngliche fehlerhafte Rechtecke](pdf-preflight-13okt-evidence/raster-failures.json). Die finalen echten CI-PDFs wurden zusätzlich mit Poppler gerendert und visuell geprüft: [Brief nachher, Seite 2](pdf-preflight-13okt-evidence/after-brief-cv-raster.png), [Dark nachher](pdf-preflight-13okt-evidence/after-dark-raster.png). Brief-Boundary hat über alle Marker mindestens Kontrast 668 / 953 Pixel, Dark mindestens 696 / 2’340 Pixel. Die vollständigen ursprünglichen Fixture-/Template-Hashes stehen in der Abnahme und den unveränderten Reproduktionsbelegen. Der Dev-Baseline-Nachweis bleibt im Manifest erhalten.
+
+## Override und harte Sicherheitsgrenzen
+
+«PDF trotzdem herunterladen» erscheint nur für einen **fertigen Standalone-Brief** mit abgeschlossenem `measurement-failed`-Fallback, dessen tatsächliche Seiten messbar, Fonts/Bilder bereit und erforderliche Inhalte vollständig sind und dessen Geometrie keinen sichtbaren Verlust oder harten Überlapper zeigt. Die Meldung nennt Seite und Unsicherheit. Die normale PDF-Aktion bleibt primär; bei sauberem PASS gibt es keinen Override.
+
+Consent ist ein opakes, einmalig verwendbares Token für genau den validierten Root, Inhalt, Layout, Geometrie und Issue-Zustand. Content-/Typografie-/Margin-/Image-/Paginationänderungen machen es ungültig; gefälschte, veraltete oder wiederverwendete Tokens werden verweigert. Es wird niemals im Dossier gespeichert und kann keine andere Fehlerklasse freigeben. Der Generator revalidiert auch nach Raster-Wartephasen und lehnt neue harte Fehler ab.
+
+BLOCKED bleiben sichtbare Glyphen/Bilder ausserhalb A4 oder des Druckbereichs, echte Clip-Ahnen, Kontakt-/Header-/Footer-/Bildüberlappung, zu hohe unteilbare Blöcke, fehlende Pflichtinhalte, ungültige Seitenstruktur oder bekannte unsichere Geometrie. Ausstehende Pagination, benötigte Fonts oder Bilder bleiben PENDING und erlauben keinen Download. Die 41 Sicherheits-/Paritätsfälle prüfen normale UI und direkte API, darunter Hard-Overflow, Bild ausserhalb A4, Chrome-Überlappung, unteilbare Tabellenzeile, Ressourcenübergänge, stale/fake/replayed Consent und Änderungen während tatsächlicher Rastererzeugung. Ein zusätzlicher lokaler direkter API-Negativfall nur im Export-iframe wurde im vorigen Arbeitsabschnitt mit 0 Downloads verweigert; er ist gesondert protokolliert und nicht in die CI-Testzahl eingerechnet.
+
+Für **Combined-Dossier** wird keine Override-Berechtigung erteilt: Ein unabhängiger vollständiger Source-Vertrag für sämtliche CV-/Cover-Inhalte fehlt. Die normalen sicheren Cover/Letter/CV-PDFs verwenden dieselbe harte Policy und etablierte CV-Fragmentierungs-/Content-Checks. Der Legacy-Standalone-CV-Exporter bekommt keine neue Override-Berechtigung. DOCX bleibt unverändert; Native Chromium Print bleibt aus normalen Menüs verborgen.
 
 ## Finale 39er-Matrix
 
-Dies ist die vorhandene autoritative Registry, kein neuer Produktionskatalog. Jede Zeile umfasst genau die bestehenden vier Standard-Fixtures. L1/L2 und CV1/CV2 geben echte PDF-Seitenzahl plus striktes Rasterergebnis an. Alle 156 Browser-/Inhalts-/Seitenverteilungsprüfungen bestehen, alle verwendeten Audits nennen den Code-SHA und `sourceDirty=false`. **37/39 Familien bestehen alle vier Raster-Fixtures; 38/39 Letter-Familien und 38/39 CV-Familien bestehen beide.** Eine vollständige 39/39 sichtbare Exportfreigabe wird nicht behauptet.
+Quelle ist die vorhandene autoritative Produktionsregistry; diese Ergebnistabelle ist kein zweiter Produktionskatalog. Alle vier Standard-Fixtures jeder Familie bestehen Browser-Readiness, Download, echtes PDF, Seitenzahl, Vollständigkeit, Marker-Verteilung und den strikten sichtbaren Rasterreader. Alle verwendeten Audits nennen den unveränderten Code-SHA und `sourceDirty=false`.
 
 | Registry-Vorlage | Letter 1 | Letter 2 | CV 1     | CV 2     |
 | ---------------- | -------- | -------- | -------- | -------- |
@@ -44,7 +65,7 @@ Dies ist die vorhandene autoritative Registry, kein neuer Produktionskatalog. Je
 | cove             | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | diagonal         | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | edel             | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
-| edelDark         | 1 / FAIL | 2 / FAIL | 1 / PASS | 2 / PASS |
+| edelDark         | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | edge             | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | forestFlow       | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | freundlich       | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
@@ -63,7 +84,7 @@ Dies ist die vorhandene autoritative Registry, kein neuer Produktionskatalog. Je
 | ribbon           | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | serioes          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | sonne            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
-| studio           | 1 / PASS | 2 / PASS | 1 / FAIL | 2 / FAIL |
+| studio           | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | studio2          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | studio3          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | sunrise          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
@@ -76,24 +97,28 @@ Dies ist die vorhandene autoritative Registry, kein neuer Produktionskatalog. Je
 | warm3            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 | welle            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
 
-Alle elf Combined-Fälle verwenden das gleiche sichere Produktions-Cover «Brief» und unterschiedliche echte Letter-/CV-Strukturen, einschliesslich linker/rechter Sidebar, langem CV, langem Brief, freien/Flow-Bildern, langen Wörtern und Custom-Rändern. Seitenreihenfolge ist Cover → Letter → CV. Das unveränderte ursprüngliche Ribbon-Cover bleibt ein separater bestätigter harter Negativfall; die Standard-Letter-Ribbon-Fixtures bestehen. Die 39er-Suchprüfung betrifft Standalone-Letter, nicht 39 ungeprüfte Default-Cover-Dossiers.
+Die elf Combined-Fixtures verwenden das gleiche sichere Produktions-Cover «Brief» und unterschiedliche echte Letter-/CV-Strukturen einschliesslich klassischem CV, linker/rechter Sidebar, langem CV/Brief, freien/Flow-Bildern, langen Wörtern und Custom-Druckrändern. Reihenfolge Cover → Letter → CV, insgesamt 82 Seiten. Das ursprüngliche **Ribbon-Cover bleibt bestätigt unsicher und wird gesperrt**; sein Date-/Fotobereich liegt tatsächlich ausserhalb A4. Keine Preflight-Ausnahme und keine stille Benutzerdatenkorrektur. Die 39 Standalone-Letter/CV-Fixtures bestehen einschliesslich Ribbon-Letter; eine 39er-Abnahme aller unveränderten Default-Cover-Dossiers wird nicht behauptet.
 
-## Produktentscheidung und verbleibende Grenzen
+## CI-Verlauf, Risiken und Produktentscheidung
 
-Der kleine generische Preflight-Fix ist fachlich begründet: Leere Boxfläche sperrt passenden sichtbaren Text nicht mehr; tatsächliches verschachteltes Clipping, zusätzliche Chrome-Überlappungen, fehlende semantische Felder, unsichtbare erforderliche Bilder und echte Cover-/CV-Verluste bleiben gesperrt. Ressourcen und provisorische Pagination bleiben PENDING. Der Generator erzwingt die gemeinsame Entscheidung vor Beginn, vor jeder Seite und vor Download; der Letter-Raster-Clone hat zusätzlich seine echte Geometrieprüfung. Es gibt keine Template-Ausnahme, Schriftverkleinerung, Textkürzung oder zweite Pagination.
+| Code-SHA / Lauf                                                                                   | Resultat                          | Bedeutung                                                                                                   |
+| ------------------------------------------------------------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `b81289d5` / [38504447640](https://github.com/modebrecht/cv-cover-charm/actions/runs/38504447640) | Raster rot: 8 PDFs / 44 Rechtecke | Vorhandene Farb-/Clone-Probleme belegt; ursprüngliches NO-MERGE korrekt                                     |
+| `75b70118` / [38534643622](https://github.com/modebrecht/cv-cover-charm/actions/runs/38534643622) | Combined 7/11; vier echte Fehler  | Zwei bestehende Downloaddeadlines überschritten, zwei korrekt verweigerte Clone-Clips; nicht grün behauptet |
+| `0c9abe94` / [38539214888](https://github.com/modebrecht/cv-cover-charm/actions/runs/38539214888) | Alle acht Jobs SUCCESS            | Alle required bounded fixture suites und unverändert strikter Reader bestehen                               |
 
-Der implementierte Override ist **nur** für den vollständig gerenderten, inhaltlich vollständigen, geometrisch geprüften Standalone-Letter-Fallback mit `measurement-failed` vorhanden. Er ist explizit, genau einem unveränderten Root/Zustand und einem Versuch zugeordnet, wird bei Änderungen ungültig und niemals gespeichert. Bestätigungen können harte Sperren nicht ausschalten. Dossier-Override bleibt absichtlich NO-GO: Ein vollständig unabhängiger Source-Vertrag für alle CV-/Cover-Inhalte ist nicht vorhanden. Die bekannten Kontrast-/Rasterabweichungen zeigen zusätzlich, warum diese Paketfassung keine allgemeine sichere Druckfreigabe oder vollständige A-Abnahme versprechen darf.
+**Merge-Empfehlung: JA für diese begrenzten generischen Sicherheits-/Renderer-Korrekturen nach Review, ohne Dossier-Override.** Es wurde nicht gemergt. **B — PARTIAL** bleibt absichtlich bestehen: Die getesteten automatischen PDFs sind freigegeben, die gewünschte allgemeine Override-Funktion für den Dossierpfad ist nicht vollständig abgenommen. Für Masterliste Item 35 diese Einschränkung ausdrücklich führen. Das Ribbon-Cover benötigt eine separate Layoutkorrektur; Dossier-Consent benötigt zuerst einen unabhängigen CV-/Cover-Inhaltsvertrag. Beliebige ausdrückliche Benutzerfarben, sämtliche Drittanbieter-CSS, alle Fonts und Browserengines sind kein universelles Fidelity-Versprechen.
 
-**Merge-Empfehlung: derzeit nicht mergen.** Erst die vorhandene generische Zoom-Clone-Parität und eine begründete, allgemein gültige Behandlung der dunklen authored Papier-/Ink-Kombination separat klären, danach die strikte unveränderte Rasterabnahme grün nachweisen. Der echte Ribbon-Cover-Defekt benötigt eine eigene Layoutaufgabe; keine Template-spezifische Preflight-Ausnahme. Die bestätigten Preflight-Korrekturen können auf diesem Review-Branch weiter geprüft werden. Masterliste Item 35 bleibt offen; Klassifikation B bezeichnet die erzielten Teilverbesserungen und den bewusst beschränkten Override, keine erfolgreiche Gesamtfreigabe.
+Die letzten frisch gefetchten geschützten Remote-Refs sind unverändert: `dev=1f4696ee520724466457dacbecc19fffe34ff1ff`, `main=44d7eb950b4fe972d6e890a72b6d3256ce365bc9`, `render=4319c20fb85d3971ac355ae8898cdfef86ee7a8c`. Keine Änderungen an CV-Engine, Letter-Paginator, DOCX, Package-/Lockdateien oder historischen Native-Branches. Es gibt keine absichtliche Deployment-Aktion; weitere automatische Git-Previews beim Dokumentationspush sind möglich. CI-Artefakte sind für 14 Tage gespeichert (bis 28.10.2026); IDs, SHA-256-Digests und Ablaufzeit stehen im Manifest.
 
-Der Legacy-Standalone-CV-Exporter und isolierte A4-API behalten ihren bisherigen Umfang; sie erhalten keine neue Override-Berechtigung. Beliebige Drittanbieter-CSS/Farbkombinationen, alle denkbaren Fontvarianten, Firefox/Safari, OCR/Tagged PDF und Native-/Word-Fidelity sind nicht vollständig geprüft. Die vorhandene invisible Textebene und DOCX bleiben erhalten; Native Chromium bleibt im normalen Menü verborgen.
+## Vollständiger geänderter Dateiumfang
 
-Letzte Code-Preview: Vercels Git-Integration erzeugte automatisch eine erfolgreiche [Preview](https://vercel.com/modebrechts-projects/cv-cover-charm/EGX4FWJCQgWDAhhQwnKVXAuTuJ93). Auch der Dokumentationspush kann automatisch eine Preview erzeugen. Es wurde kein Deployment oder Promote-Befehl ausgeführt. Dev/Main/Render wurden nach der Abnahme erneut gefetcht und stimmen exakt mit den nachstehenden Ausgangs-SHAs überein; nur der Arbeitsbranch wird fortgeschrieben.
-
-## Vollständige geänderte Dateien
+42 Dateien gegenüber der frisch gefetchten Dev-Basis; der Abschlusscommit ändert ausschliesslich Dokumentation und Belege:
 
 - `.github/workflows/pdf-preflight.yml`
 - `docs/qa/pdf-preflight-13okt-evidence/acceptance-summary.json`
+- `docs/qa/pdf-preflight-13okt-evidence/after-brief-cv-raster.png`
+- `docs/qa/pdf-preflight-13okt-evidence/after-dark-raster.png`
 - `docs/qa/pdf-preflight-13okt-evidence/after-footer.png`
 - `docs/qa/pdf-preflight-13okt-evidence/before-footer.png`
 - `docs/qa/pdf-preflight-13okt-evidence/brief-cv-raster.png`
@@ -101,6 +126,7 @@ Letzte Code-Preview: Vercels Git-Integration erzeugte automatisch eine erfolgrei
 - `docs/qa/pdf-preflight-13okt-evidence/clone-layout.json`
 - `docs/qa/pdf-preflight-13okt-evidence/cover-policy.json`
 - `docs/qa/pdf-preflight-13okt-evidence/edel-dark-raster.png`
+- `docs/qa/pdf-preflight-13okt-evidence/follow-up-development.json`
 - `docs/qa/pdf-preflight-13okt-evidence/raster-failures.json`
 - `docs/qa/pdf-preflight-13okt-evidence/reproductions.json`
 - `docs/qa/pdf-preflight-13okt-evidence/semantic-source-safety.json`
@@ -110,8 +136,10 @@ Letzte Code-Preview: Vercels Git-Integration erzeugte automatisch eine erfolgrei
 - `src/components/dossier/DossierHeaderFooterChrome.tsx`
 - `src/components/letter/LetterDocument.tsx`
 - `src/components/letter/letter-pagination.css`
+- `src/components/letter/letter-paper.ts`
 - `src/components/letter/preflight.ts`
 - `src/lib/dossier-pdf.ts`
+- `src/lib/html2canvas-export.ts`
 - `src/lib/pdf-preflight.ts`
 - `src/routes/anschreiben.tsx`
 - `src/routes/index.tsx`
@@ -125,8 +153,10 @@ Letzte Code-Preview: Vercels Git-Integration erzeugte automatisch eine erfolgrei
 - `tests/qa/pagination-combined.qa.ts`
 - `tests/qa/pdf-preflight-safety.qa.ts`
 - `tests/qa/pdf-preflight.qa.ts`
+- `tests/qa/pdf-raster-parity.qa.ts`
 - `tests/qa/playwright.integration.config.ts`
 - `tests/qa/playwright.preflight.config.ts`
+- `tests/unit/letter-paper-color.test.tsx`
 
 ## Audit- und Entwicklungshistorie
 
@@ -210,7 +240,7 @@ Zwischenläufe enthielten einen Readiness-/Source-Identity-Loop, einen korrigier
 
 UNVERIFIED bleiben beliebige Drittanbieter-CSS, alle denkbaren Farbkombinationen/Schriften, Firefox/Safari, vollständiges OCR/Tagged-PDF/Screenreader-Verhalten und Native/Word-Visual-Fidelity. Authored colours are preserved; no general contrast redesign is claimed.
 
-Die endgültige Produktentscheidung und fehlende Merge-Freigabe stehen am Anfang dieses Berichts.
+Die endgültige Produktentscheidung und aktuelle Merge-Empfehlung stehen am Anfang dieses Berichts; die roten Zwischenläufe in dieser Historie sind durch die abschliessende grüne Abnahme ersetzt.
 
 ### Letzte Sicherheitsprüfung und begrenzte Override-Freigabe
 
