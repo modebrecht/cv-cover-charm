@@ -9,6 +9,10 @@ const css = readFileSync(
   new URL("../../src/components/cover/ribbon-cover-redesign.css", import.meta.url),
   "utf8",
 );
+const legacySignatures = readFileSync(
+  new URL("../../src/components/cover/next-signature-templates.css", import.meta.url),
+  "utf8",
+);
 const freshTemplates = readFileSync(
   new URL("../../src/components/cover/fresh-templates.ts", import.meta.url),
   "utf8",
@@ -54,4 +58,23 @@ test("Ribbon application label is direct rail typography, not another badge", ()
   expect(defaults).toContain("bg: null");
   expect(css).toContain('[data-block-id="eyebrow"]');
   expect(css).toContain("background: transparent !important;");
+});
+
+test("Ribbon's old cover-only transforms cannot displace user-owned A4 blocks", () => {
+  // Keep CV styling intact; only the historical cover-specific offsets go.
+  const ribbonCss = legacySignatures.split("/* RIBBON —")[1].split("/* COVE —")[0];
+  expect(ribbonCss).not.toMatch(/data-dossier-template="ribbon"\]\s*\[data-block-id=/);
+  expect(ribbonCss).toContain('data-cv-template="ribbon"');
+  for (const id of ["foto", "ortDatum", "name", "beruf", "lehrbeginn", "kontakt"]) {
+    expect(css).not.toContain(`[data-block-id="${id}"] {\n  transform:`);
+  }
+});
+
+test("Ribbon flows long display lines and bottom-anchors the date by declarative defaults", () => {
+  const ribbon = defaults.split("const RIBBON_COVER_DEFAULTS")[1].split("const DIAGONAL_COVER_DEFAULTS")[0];
+  expect(ribbon).toContain('follows: "name"');
+  expect(ribbon).toContain('follows: "kicker"');
+  expect(ribbon).toContain('follows: "beruf"');
+  expect(ribbon).toMatch(/ortDatum: \{[\s\S]*?y: 285,[\s\S]*?anchorBottom: true/);
+  expect(defaults).toContain('custom.y !== undefined && custom.follows === undefined');
 });
