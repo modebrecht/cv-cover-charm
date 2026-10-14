@@ -1,0 +1,92 @@
+name: Legacy Modern Sidebar Visual Audit
+
+on:
+  push:
+    branches:
+      - qa/legacy-docx-modern-parity-15okt
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  measured-legacy-modern:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout exact audit commit
+        uses: actions/checkout@v4
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+      - name: Install browser test runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Install Word and measurement dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreoffice-writer poppler-utils python3-pil python3-numpy python3-skimage
+          libreoffice --version | tee /tmp/legacy-modern-libreoffice-version.txt
+          /usr/bin/python3 -c 'from PIL import Image; import skimage, numpy'
+      - name: Source and runtime provenance
+        run: |
+          mkdir -p artifacts/legacy-modern-sidebar
+          {
+            git rev-parse HEAD
+            node --version
+            bun --version
+            npx playwright --version
+            libreoffice --version
+            /usr/bin/python3 -c 'import PIL,skimage,numpy; print(PIL.__version__,skimage.__version__,numpy.__version__)'
+          } | tee artifacts/legacy-modern-sidebar/RUNTIME.txt
+      - name: Run relevant unit and type checks
+        run: |
+          bun run typecheck
+          bun run test:unit
+      - name: Launch production development runtime
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/legacy-modern-app.log 2>&1 &
+          echo $! > /tmp/legacy-modern-app.pid
+          for attempt in {1..60}; do
+            if curl -fsS http://127.0.0.1:4173/lebenslauf >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/legacy-modern-app.log
+          exit 1
+      - name: Real Web, production PDF and Legacy DOCX — eight cases
+        run: npx playwright test tests/e2e/legacy-modern-sidebar-audit.spec.ts --reporter=line --workers=1
+      - name: Real Legacy DOCX 47mm margin stress
+        run: npx playwright test tests/e2e/legacy-modern-margin-audit.spec.ts --reporter=line --workers=1
+      - name: Convert and measure each physical CV page
+        if: always()
+        shell: bash
+        run: |
+          if test -f artifacts/legacy-modern-sidebar/results.json; then
+            /usr/bin/python3 scripts/legacy_modern_sidebar_score.py | tee artifacts/legacy-modern-sidebar/SCORER.log
+          fi
+      - name: Upload original exports, page images, overlays and JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-modern-sidebar-evidence
+          path: artifacts/legacy-modern-sidebar/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Show app log on failure
+        if: failure()
+        run: cat /tmp/legacy-modern-app.log || true
+      - name: Stop app
+        if: always()
+        run: |
+          if test -f /tmp/legacy-modern-app.pid; then
+            kill "$(cat /tmp/legacy-modern-app.pid)" || true
+          fi
