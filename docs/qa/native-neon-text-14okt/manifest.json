@@ -1,0 +1,165 @@
+{
+  "base": "96fb2b55b35cb5f021c9a4b3cb975643b6161b12",
+  "executable": "809e5981de957d7390637935a1c538a1ce45bd38",
+  "local_capture_revision": "0cfb1aa9a79d3e9dc14e302e70c7c7e9ccafd94e",
+  "runtime_source_hashes": {
+    "src/lib/dossier-native-print.ts": "447fb71f6b7bdefa9d25910402f3a9b123de85c1df5563dc4ab5b373f1afa63f",
+    "src/components/dossier/dossier-native-print.css": "cfa46bc1c68cd0b134d3686d9b1adee510e806af1e19f4a4abcead84adc4ae16"
+  },
+  "pdfs": [
+    {
+      "fixture": "neon",
+      "variant": "baseline",
+      "filename": "neon-baseline.pdf",
+      "sha256": "5de61feb6502de7cc9f0f6e15e9f4a216978d6dd55bc3b0d09522eb7d8954c30",
+      "pages": 3
+    },
+    {
+      "fixture": "neon",
+      "variant": "no-shadow",
+      "filename": "neon-no-shadow.pdf",
+      "sha256": "17fb0afc3b908e0bfdb0e8e72eae181dedbef068d36980686fc2dd92c66a084b",
+      "pages": 3
+    },
+    {
+      "fixture": "neon",
+      "variant": "fixed",
+      "filename": "neon-fixed.pdf",
+      "sha256": "91e368dca5bbdc7d7cf5fdeb2362d53e63693864bdc1fce095be1e7d7ef96a70",
+      "pages": 3
+    },
+    {
+      "fixture": "neon-unicode",
+      "variant": "baseline",
+      "filename": "neon-unicode-baseline.pdf",
+      "sha256": "cc3d43cd42753260160136ba0619ab6c9d5fe99d4676d6737918a33b0c2525bf",
+      "pages": 3
+    },
+    {
+      "fixture": "neon-unicode",
+      "variant": "no-shadow",
+      "filename": "neon-unicode-no-shadow.pdf",
+      "sha256": "6c2625c1b4c866db092f785adb2a2b9b57e19cca5450c8d732a06599f0cc881a",
+      "pages": 3
+    },
+    {
+      "fixture": "neon-unicode",
+      "variant": "fixed",
+      "filename": "neon-unicode-fixed.pdf",
+      "sha256": "85881f8f1019295337f6a130238ea0cb0f08b19c899909fc5e99f5e0bef8e262",
+      "pages": 3
+    },
+    {
+      "fixture": "neon-long",
+      "variant": "baseline",
+      "filename": "neon-long-baseline.pdf",
+      "sha256": "38f21a34953be50072569ad72a3fc683a9b33ab034ef742ce0adfdd70ea96c96",
+      "pages": 5
+    },
+    {
+      "fixture": "neon-long",
+      "variant": "no-shadow",
+      "filename": "neon-long-no-shadow.pdf",
+      "sha256": "6872b92f67e4f1f44b25cd730af76b600b153d31db8d68a39920998591e686d7",
+      "pages": 5
+    },
+    {
+      "fixture": "neon-long",
+      "variant": "fixed",
+      "filename": "neon-long-fixed.pdf",
+      "sha256": "a9ad44902318186f4b3922b27eeae53d6a5a01e550fde3236319ed949fea6032",
+      "pages": 5
+    },
+    {
+      "fixture": "brief",
+      "variant": "baseline",
+      "filename": "brief-baseline.pdf",
+      "sha256": "946cd6c17b01faf9a6a0eb404923f23a1310ff1ecd28a3404237f83d7cb95cc8",
+      "pages": 3
+    },
+    {
+      "fixture": "brief",
+      "variant": "fixed",
+      "filename": "brief-fixed.pdf",
+      "sha256": "131cc4d1ec81da85f14b5ef8ae9e48e134d0949363772f67de97301482919ce2",
+      "pages": 3
+    },
+    {
+      "fixture": "modern",
+      "variant": "baseline",
+      "filename": "modern-baseline.pdf",
+      "sha256": "1fcc7f2b660d2a3339f50ca6f873239a3ba172264498767d81fc7ac263809c07",
+      "pages": 3
+    },
+    {
+      "fixture": "modern",
+      "variant": "fixed",
+      "filename": "modern-fixed.pdf",
+      "sha256": "9c25c97cede3f777b991db0a4a4067d73c808ca85e42bc9f739795c498bae5d3",
+      "pages": 3
+    },
+    {
+      "fixture": "prism",
+      "variant": "baseline",
+      "filename": "prism-baseline.pdf",
+      "sha256": "838327f72369196837129a8d3cd8da2c18581a99db79b4a14dd8b089ccc57734",
+      "pages": 3
+    },
+    {
+      "fixture": "prism",
+      "variant": "fixed",
+      "filename": "prism-fixed.pdf",
+      "sha256": "976cbbb8ae84732285b05ab97068c9e6182d66f3f618e2c74134307954185c99",
+      "pages": 3
+    },
+    {
+      "fixture": "aurora",
+      "variant": "baseline",
+      "filename": "aurora-baseline.pdf",
+      "sha256": "2682201b0daa883597d8c264f3edbe15f15592119badfcca7a56ee536ae09180",
+      "pages": 3
+    },
+    {
+      "fixture": "aurora",
+      "variant": "fixed",
+      "filename": "aurora-fixed.pdf",
+      "sha256": "e125f3d1b3ae6a4995a208021d5c7e7d4c6ec866e0c6f9477a3622e4c2440c44",
+      "pages": 3
+    },
+    {
+      "fixture": "glow",
+      "variant": "baseline",
+      "filename": "glow-baseline.pdf",
+      "sha256": "683d8a68409f9215491c2b4efb470542a65e88320286f2c1bc5e2ecd002bb743",
+      "pages": 3
+    },
+    {
+      "fixture": "glow",
+      "variant": "fixed",
+      "filename": "glow-fixed.pdf",
+      "sha256": "978c2c8ab198ebba244e51382f3c268e984f27a13926a31473eaa9d1bf80b1ad",
+      "pages": 3
+    },
+    {
+      "fixture": "ribbon",
+      "variant": "baseline",
+      "filename": "ribbon-baseline.pdf",
+      "sha256": "529e0a27e1885494a12ccd7a8f1a150a4eb2c344cadf0d33ecb86682a75c614e",
+      "pages": 3
+    },
+    {
+      "fixture": "ribbon",
+      "variant": "fixed",
+      "filename": "ribbon-fixed.pdf",
+      "sha256": "cdb3c26a25d9030c11175bbfef54ef8bb99745cdf6677f967688d58033bab71e",
+      "pages": 3
+    }
+  ],
+  "tests": {
+    "unit": 1121,
+    "browser": 14,
+    "reader_fixtures": 9,
+    "reader_checks": 27
+  },
+  "retention": "All 21 raw PDFs and both full JSON files are in the branch-scoped GitHub Actions artifact; the retained capture summary keeps full geometry, text and name items."
+}
