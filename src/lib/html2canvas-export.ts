@@ -277,8 +277,9 @@ export function normalizeCssBackgroundsForHtml2Canvas(root: HTMLElement) {
 function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
   const lines: {
     span: HTMLElement;
-    runs: { box: HTMLElement; ink: HTMLElement; width: number; whitespace: boolean }[];
+    runs: { ink: HTMLElement; width: number; top: number; whitespace: boolean }[];
   }[] = [];
+  const replacements: { element: HTMLElement; fragment: DocumentFragment; height: string }[] = [];
   const seen = new Set<HTMLElement>();
   for (const root of roots) {
     for (const element of [root, ...root.querySelectorAll<HTMLElement>("*")]) {
@@ -288,11 +289,11 @@ function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
       if (element.childNodes.length !== 1 || node?.nodeType !== Node.TEXT_NODE) continue;
       const text = node.textContent ?? "";
       const style = view.getComputedStyle(element);
-      // Complex inline formatting, explicit lines, justification and indents
+      // Complex inline formatting, justification, RTL and indents
       // retain the existing renderer. Ordinary plain blocks keep native widths.
       if (
-        /[\r\n]/.test(text) ||
         style.display !== "block" ||
+        style.direction !== "ltr" ||
         !["left", "start"].includes(style.textAlign) ||
         Number.parseFloat(style.textIndent) !== 0
       )
@@ -337,13 +338,10 @@ function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
           };
         });
         const runs = tokens.map((token, tokenIndex) => {
-          const box = element.ownerDocument.createElement("span");
           const ink = element.ownerDocument.createElement("span");
-          box.style.cssText = "display:inline-block;white-space:pre";
-          ink.style.cssText = "display:inline-block;transform-origin:left center";
+          ink.style.cssText = "display:inline-block;white-space:pre;transform-origin:left top";
           ink.textContent = token.text;
-          box.append(ink);
-          span.append(box);
+          span.append(ink);
           const previous = tokens[tokenIndex - 1],
             next = tokens[tokenIndex + 1];
           const width = token.whitespace
@@ -351,14 +349,24 @@ function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
               ? Math.max(0, next.rect.left - previous.rect.right)
               : 0
             : token.rect.width;
-          return { box, ink, width, whitespace: token.whitespace };
+          if (token.whitespace) {
+            ink.style.whiteSpace = "normal";
+            ink.style.height = "0px";
+          }
+          return { ink, width, top: token.rect.top, whitespace: token.whitespace };
         });
         fragment.append(span);
         lines.push({ span, runs });
         lineOffset += part.text.length;
       }
-      element.replaceChildren(fragment);
+      // Preserve the measured flow footprint, including authored blank lines.
+      replacements.push({ element, fragment, height: style.height });
     }
+  }
+  // Read every original line before changing intrinsic grid/flex sizing.
+  for (const { element, fragment, height } of replacements) {
+    element.style.setProperty("height", height, "important");
+    element.replaceChildren(fragment);
   }
   return lines;
 }
@@ -439,10 +447,19 @@ export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
     const cssWidth = Number.parseFloat(view.getComputedStyle(span).width);
     const scale = span.getBoundingClientRect().width / cssWidth;
     if (!(scale > 0) || !Number.isFinite(scale)) return [];
-    return runs.map((run) => ({ ...run, scale, inkWidth: run.ink.getBoundingClientRect().width }));
+    return runs.map((run) => {
+      const range = run.ink.ownerDocument.createRange();
+      range.selectNodeContents(run.ink);
+      return { ...run, scale, rect: range.getBoundingClientRect() };
+    });
   });
-  for (const { box, ink, width, scale, inkWidth, whitespace } of adjustments) {
-    box.style.width = `${width / scale}px`;
-    if (!whitespace && inkWidth > 0) ink.style.transform = `scaleX(${width / inkWidth})`;
+  for (const { ink, width, top, scale, rect, whitespace } of adjustments) {
+    if (whitespace) ink.style.width = `${width / scale}px`;
+    else if (rect.width > 0) {
+      ink.style.marginRight = `${(width - rect.width) / scale}px`;
+      ink.style.transform = `scaleX(${width / rect.width})`;
+      ink.style.position = "relative";
+      ink.style.top = `${(top - rect.top) / scale}px`;
+    }
   }
 }

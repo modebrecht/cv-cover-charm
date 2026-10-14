@@ -5,11 +5,20 @@ import { auditDocument, evidenceDir, loadFixture } from "./pagination-browser";
 
 for (const [template, label, options] of [
   ["brief", "boundary", { works: 11, schools: 1 }],
+  ["brief", "blank-lines", { works: 2, schools: 1 }],
   ["studio", "one", { works: 1, schools: 1 }],
   ["gallery", "timeline", { works: 12, schools: 6, layout: "timeline" }],
 ] as [string, string, FixtureOptions][]) {
   test(`raster clone retains measured plain CV lines: ${template} ${label}`, async ({ page }) => {
     const fixture = paginationFixture(template, options);
+    if (label === "blank-lines") {
+      const stored = JSON.parse(fixture.storage["lebenslauf:v1"]);
+      stored.data.erfahrung[0].beschreibung = stored.data.erfahrung[0].beschreibung.replace(
+        "Ich prüfte",
+        "\n\nIch prüfte",
+      );
+      fixture.storage["lebenslauf:v1"] = JSON.stringify(stored);
+    }
     await loadFixture(page, fixture, "cv");
     const clones = await page
       .locator('[data-dossier-document="cv"][data-export-mode="true"]')
