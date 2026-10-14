@@ -151,7 +151,7 @@ for (const item of cases) {
       extracted.push((await p.getTextContent()).items.map(t => "str" in t ? t.str : "").join(" "));
     }
     const contents = extracted.join(" ").replace(/\s+/g, "");
-    const name = String(item.data.vorname ?? "Lea") + String(item.data.nachname ?? "Müller");
+    const name = (String(item.data.vorname ?? "Lea") + String(item.data.nachname ?? "Müller")).replace(/\s+/g, "");
     expect(contents).toContain(name);
     expect(contents).toContain("QASALUTATION001");
     expect(contents).toContain("QASCHOOL001");
