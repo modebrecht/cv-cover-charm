@@ -177,13 +177,14 @@ export function DossierExportDialog({
     layoutPending ||
     !letterState.readyToSend ||
     letterOverflow === true ||
-    preflight?.status === "advisory";
+    preflight?.status !== "pass";
   const canOverride =
     canDownloadPdf &&
     !busy &&
     !layoutPending &&
     letterState.readyToSend &&
-    preflight?.status === "advisory";
+    preflight?.status === "advisory" &&
+    preflight.issues.every((issue) => issue.overridePermitted);
   const overrideDownload = () => {
     try {
       const root = document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]");
@@ -227,11 +228,13 @@ export function DossierExportDialog({
         ? letterPaginationError
           ? "Briefinhalt prüfen"
           : "Briefseite prüfen"
-        : layoutPending
+        : layoutPending || !preflight || preflight.status === "pending"
           ? "Layout wird geprüft…"
-          : preflight?.status === "advisory"
-            ? "Layoutwarnung prüfen"
-            : "Bereit";
+          : preflight.status === "blocked"
+            ? "Drucksatz prüfen"
+            : preflight?.status === "advisory"
+              ? "Layoutwarnung prüfen"
+              : "Bereit";
   const docxCompactStatus = missingParts.length
     ? missingPartsCompact
     : !letterState.readyToSend
@@ -241,11 +244,13 @@ export function DossierExportDialog({
         : "Bereit";
   const checkSummary = blockingCount
     ? `Was fehlt noch? · ${blockingCount} Punkt${blockingCount === 1 ? "" : "e"}`
-    : layoutPending && canDownloadPdf
+    : (layoutPending || !preflight || preflight.status === "pending") && canDownloadPdf
       ? "Layout wird geprüft…"
-      : advisoryCount
-        ? `${preflight?.status === "advisory" ? "Layoutwarnung prüfen" : "Bereit"} · ${advisoryCount} Hinweis${advisoryCount === 1 ? "" : "e"}`
-        : "Alles bereit";
+      : preflight?.status === "blocked"
+        ? "Drucksatz prüfen"
+        : advisoryCount
+          ? `${preflight?.status === "advisory" ? "Layoutwarnung prüfen" : "Bereit"} · ${advisoryCount} Hinweis${advisoryCount === 1 ? "" : "e"}`
+          : "Alles bereit";
 
   const downloadBlocked = format === "pdf" ? pdfBlocked : format === "docx" ? docxBlocked : busy;
   const actionLabel = !formatSelectionEnabled
@@ -410,20 +415,22 @@ export function DossierExportDialog({
               {warnings?.map((warning) => (
                 <li key={warning.id}>Layout-Hinweis: {warning.message}</li>
               ))}
-              {preflight?.issues
-                .filter((issue) => issue.severity === "advisory")
-                .map((issue) => (
-                  <li key={issue.code} data-pdf-advisory>
-                    {issue.message}
-                  </li>
-                ))}
+              {preflight?.issues.map((issue) => (
+                <li key={issue.code} data-pdf-advisory>
+                  {issue.message}
+                </li>
+              ))}
               {!blockingCount && !layoutPending ? (
                 <>
                   <li>
                     <span className="font-medium text-foreground">PDF:</span>{" "}
-                    {preflight?.status === "advisory"
-                      ? "Layoutwarnung vor dem Download bestätigen."
-                      : "bereit."}
+                    {preflight?.status === "pass"
+                      ? "bereit."
+                      : preflight?.status === "advisory"
+                        ? canOverride
+                          ? "Layoutwarnung vor dem Download bestätigen."
+                          : "Umbruchmessung erneut vorbereiten; diese Dossierwarnung kann nicht übergangen werden."
+                        : "Drucksatz wird geprüft oder muss korrigiert werden."}
                   </li>
                   {formatSelectionEnabled ? (
                     <li>

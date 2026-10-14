@@ -893,17 +893,19 @@ function Anschreiben() {
                         ?.message
                     }
                   </p>
-                  <button
-                    type="button"
-                    disabled={pdfDownloading}
-                    onClick={() => {
-                      setMenuOpen(false);
-                      void downloadWholeDossier(true);
-                    }}
-                    className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
-                  >
-                    Gesamtdossier trotzdem herunterladen
-                  </button>
+                  {dossierPreflight.issues.every((issue) => issue.overridePermitted) ? (
+                    <button
+                      type="button"
+                      disabled={pdfDownloading}
+                      onClick={() => {
+                        setMenuOpen(false);
+                        void downloadWholeDossier(true);
+                      }}
+                      className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
+                    >
+                      Gesamtdossier trotzdem herunterladen
+                    </button>
+                  ) : null}
                 </div>
               ) : null}
               {nativePrintUiEnabled() ? (

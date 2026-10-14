@@ -2,6 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { paginationFixture } from "./pagination-fixtures";
+import type { PdfPreflightIssue } from "../../src/lib/pdf-preflight";
 import { parityStorage } from "../e2e/support/cv-parity-fixture";
 import {
   auditDocument,
@@ -370,19 +371,33 @@ test("combined advisory and hard CV clipping share the final policy", async ({ p
   await page.goto("http://127.0.0.1:4173", { waitUntil: "networkidle" });
   await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
   const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+  await dialog.locator("summary").click();
+  await expect(
+    dialog.locator("[data-pdf-advisory]").filter({ hasText: /Umbruchmessung/ }),
+  ).toBeVisible({ timeout: 30000 });
   await expect(
     dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
-  ).toBeVisible({ timeout: 30000 });
+  ).toHaveCount(0);
   await expect(
     dialog.getByRole("button", { name: "PDF herunterladen", exact: true }),
   ).toBeDisabled();
-  const download = page.waitForEvent("download", { timeout: 90000 });
-  await dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }).click();
-  await (await download).saveAs("artifacts/pdf-preflight/advisory-dossier.pdf");
-  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
-  await expect(
-    dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
-  ).toBeVisible({ timeout: 30000 });
+  const consentFailure = await page.locator("[data-dossier-pdf-canvas]").evaluate(async (root) => {
+    const path = "/src/lib/pdf-preflight.ts";
+    const policy = await import(path);
+    const result = policy.inspectPdfPreflight(root, "dossier");
+    try {
+      policy.createPdfAdvisoryConsent(root, "dossier");
+      return { status: result.status, issues: result.issues, error: "UNSAFE CONSENT" };
+    } catch (e) {
+      return { status: result.status, issues: result.issues, error: String(e) };
+    }
+  });
+  expect(consentFailure.status).toBe("advisory");
+  expect(consentFailure.issues.every((issue: PdfPreflightIssue) => !issue.overridePermitted)).toBe(
+    true,
+  );
+  expect(consentFailure.error).not.toBe("UNSAFE CONSENT");
+  expect(await directExportFailure(page, "dossier")).not.toBe("UNSAFE SUCCESS");
   await page.addStyleTag({
     content: "[data-dossier-pdf-canvas] [data-cv-main]{transform:translateY(1200px)!important}",
   });
@@ -431,8 +446,9 @@ for (const condition of ["text-outside", "image-outside", "image-overlap"] as co
     await page.goto("http://127.0.0.1:4173", { waitUntil: "networkidle" });
     await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
     const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+    await dialog.locator("summary").click();
     await expect(
-      dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+      dialog.locator("[data-pdf-advisory]").filter({ hasText: /Umbruchmessung/ }),
     ).toBeVisible({ timeout: 30000 });
     await expect(page.locator('[data-dossier-pdf-canvas] [data-block-id="foto"] img')).toHaveCount(
       1,
@@ -506,4 +522,84 @@ test("final guard catches edits during actual raster generation", async ({ page 
     }).observe(document.body, { childList: true, subtree: true });
   });
   expect(await directExportFailure(page)).toMatch(/abgeschnitten|verändert/);
+});
+
+test("missing semantic Letter content blocks before consent and disables UI", async ({ page }) => {
+  await forceAdvisory(page);
+  const fixture = paginationFixture("brief", { paragraphs: 2 });
+  await loadFixture(page, fixture, "letter");
+  const result = await page.locator(exportRoot).evaluate(async (root) => {
+    const policyPath = "/src/lib/pdf-preflight.ts",
+      apiPath = "/src/lib/dossier-pdf.ts";
+    const policy = await import(policyPath),
+      api = await import(apiPath);
+    const results = [];
+    for (const role of [
+      "sender",
+      "recipient",
+      "date",
+      "subject",
+      "salutation",
+      "closing",
+      "signature",
+      "attachments-heading",
+      "attachments-body",
+    ]) {
+      const node = root.querySelector(
+        `[data-letter-document-pages] [data-letter-pdf-text="${role}"]`,
+      )!;
+      const parent = node.parentElement!,
+        next = node.nextSibling;
+      const original = node.textContent;
+      const r = node.getBoundingClientRect();
+      node.remove();
+      const { status, issues } = policy.inspectPdfPreflight(root, "letter");
+      let consentError = "",
+        exportError = "";
+      try {
+        policy.createPdfAdvisoryConsent(root, "letter");
+      } catch (e) {
+        consentError = String(e);
+      }
+      try {
+        await api.downloadLetterPdf(root, "must-not-download.pdf", { title: "QA", author: "QA" });
+      } catch (e) {
+        exportError = String(e);
+      }
+      results.push({
+        role,
+        original,
+        geometryPx: { width: r.width, height: r.height },
+        status,
+        issues,
+        consentError,
+        exportError,
+      });
+      parent.insertBefore(node, next);
+    }
+    root.querySelector('[data-letter-document-pages] [data-letter-pdf-text="signature"]')!.remove();
+    return results;
+  });
+  await mkdir(evidenceDir, { recursive: true });
+  await writeFile(
+    join(evidenceDir, "missing-letter-semantics.json"),
+    JSON.stringify({ ...runtimeProvenance(), fixture, result }, null, 2),
+  );
+  for (const item of result) {
+    expect(item.original, item.role).toBeTruthy();
+    expect(item.status, item.role).toBe("blocked");
+    expect(
+      item.issues.some((issue: PdfPreflightIssue) => issue.code === "semantic-content-missing"),
+      item.role,
+    ).toBe(true);
+    expect(item.consentError, item.role).not.toBe("");
+    expect(item.exportError, item.role).not.toBe("");
+  }
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ }),
+  ).toBeDisabled();
+  await expect(
+    page.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+  ).toHaveCount(0);
 });

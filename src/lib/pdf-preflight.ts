@@ -55,6 +55,58 @@ function requiredLetterTextIsHidden(sheet: HTMLElement) {
   return false;
 }
 
+/** Read the same production renderer's semantic text, ignoring only the
+ * offscreen probe wrapper. Page-context selectors still apply inside it. */
+function semanticText(element: HTMLElement, boundary: HTMLElement): string {
+  const walker = element.ownerDocument.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+  const text: string[] = [];
+  let node: Node | null;
+  while ((node = walker.nextNode())) {
+    let hidden = false;
+    for (let parent = node.parentElement; parent; parent = parent.parentElement) {
+      const css = getComputedStyle(parent);
+      if (css.display === "none" || css.visibility === "hidden" || Number(css.opacity) === 0)
+        hidden = true;
+      if (parent === boundary) break;
+    }
+    if (!hidden) text.push(node.textContent ?? "");
+  }
+  return text.join("").replace(/\s+/g, "");
+}
+
+function missingLetterSemantics(
+  letter: HTMLElement,
+  sheet: HTMLElement,
+  index: number,
+  final: boolean,
+) {
+  const name = `${index === 0 ? "first" : "continuation"}-${final ? "final" : "flow"}`;
+  const probe = letter.querySelector<HTMLElement>(`[data-letter-pagination-probe="${name}"]`);
+  if (!probe) return ["measurement-source"];
+  const missing: string[] = [];
+  for (const attribute of [
+    "data-letter-pdf-text",
+    "data-letter-integrated-contact",
+    "data-dossier-continuation-contact",
+    "data-dossier-header",
+    "data-dossier-footer",
+    "data-dossier-field-id",
+  ]) {
+    const expectedNodes = Array.from(probe.querySelectorAll<HTMLElement>(`[${attribute}]`));
+    for (const expected of expectedNodes) {
+      const text = semanticText(expected, probe);
+      if (!text) continue;
+      const value = expected.getAttribute(attribute)!;
+      const actual = Array.from(
+        sheet.querySelectorAll<HTMLElement>(`[${attribute}="${CSS.escape(value)}"]`),
+      );
+      if (!actual.some((node) => semanticText(node, sheet) === text))
+        missing.push(value || attribute);
+    }
+  }
+  return missing;
+}
+
 /** One safety policy for menu eligibility, explicit consent and final export. */
 export function inspectPdfPreflight(
   root: HTMLElement | null,
@@ -84,7 +136,10 @@ export function inspectPdfPreflight(
       documentKind,
       pageIndex,
       element,
-      overridePermitted: severity === "advisory",
+      // The Letter has a complete body/image contract plus semantic source
+      // probes. Cover and CV lack an equivalent full source contract (including
+      // sidebar/free elements), so combined uncertainty cannot be consented away.
+      overridePermitted: severity === "advisory" && kind === "letter",
     });
   if (!root || !root.isConnected)
     return {
@@ -170,6 +225,16 @@ export function inspectPdfPreflight(
         "Die Lebenslaufseiten sind nicht vollständig.",
         "cv",
       );
+  }
+  // A provisional fallback can contain the entire long source before the
+  // paginator splits it. Scanning its glyphs here delays that very measurement
+  // and cannot authorize export. Settled pages are always fully inspected.
+  if (issues.some((issue) => issue.severity === "pending" || issue.severity === "blocked")) {
+    return {
+      status: issues.some((issue) => issue.severity === "blocked") ? "blocked" : "pending",
+      issues,
+      signature: JSON.stringify(issues),
+    };
   }
   const requiredFonts = new Map<string, string>();
   for (const sheet of physical) {
@@ -264,6 +329,23 @@ export function inspectPdfPreflight(
         );
     }
     if (documentKind === "letter") {
+      if (letter) {
+        const missing = missingLetterSemantics(
+          letter,
+          sheet,
+          pageIndex,
+          pageIndex === pages.length - 1,
+        );
+        if (missing.length)
+          add(
+            "semantic-content-missing",
+            "blocked",
+            `Motivationsschreiben Seite ${pageIndex + 1}: Erforderliche Angaben sind im Drucksatz nicht vollständig (${missing.join(", ")}). Bitte die Ansicht erneut prüfen.`,
+            documentKind,
+            pageIndex,
+            missing.join(","),
+          );
+      }
       if (requiredLetterTextIsHidden(sheet))
         add(
           "content-hidden",
@@ -359,7 +441,9 @@ export function inspectPdfPreflight(
       warning === "measurement-failed" ? "measurement-advisory" : "pagination-unsafe",
       warning === "measurement-failed" ? "advisory" : "blocked",
       warning === "measurement-failed"
-        ? `Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Drucksatz passt sichtbar; bitte die Vorschau prüfen.`
+        ? kind === "letter"
+          ? `Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Drucksatz passt sichtbar; bitte die Vorschau prüfen.`
+          : `Briefseite 1: Die Umbruchmessung war uneindeutig. Für das Gesamtdossier ist diese Warnung nicht übersteuerbar. Bitte die Ansicht erneut öffnen oder Abstände/Inhalt anpassen und die neue Messung abwarten.`
         : letter?.dataset.letterPaginationWarningMessage || "Die Seitenaufteilung ist unsicher.",
       "letter",
       0,
@@ -435,7 +519,7 @@ export function createPdfAdvisoryConsent(
   kind: PdfDocumentKind,
 ): PdfAdvisoryConsent {
   const result = inspectPdfPreflight(root, kind);
-  if (result.status !== "advisory")
+  if (result.status !== "advisory" || !result.issues.every((issue) => issue.overridePermitted))
     throw new Error("Ein Override ist nur für eine vollständig geprüfte Layoutwarnung verfügbar.");
   const consent = Object.freeze({}) as PdfAdvisoryConsent;
   consents.set(consent, { root, kind, signature: result.signature });

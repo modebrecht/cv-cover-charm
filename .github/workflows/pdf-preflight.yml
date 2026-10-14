@@ -31,11 +31,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  acceptance:
+  quality:
     runs-on: ubuntu-latest
-    # Includes the existing full matrix plus resource/override tests and raster
-    # inspection of every generated acceptance PDF. Individual test limits stay strict.
-    timeout-minutes: 60
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -56,27 +54,82 @@ jobs:
           bun run format:check:release
           npx prettier --check src/lib/pdf-preflight.ts src/components/letter/LetterDocument.tsx src/routes/anschreiben.tsx src/routes/index.tsx src/routes/lebenslauf.tsx src/routes/titelblatt.tsx tests/qa/pdf-preflight*.ts tests/qa/playwright.preflight.config.ts tests/qa/pagination-browser.ts tests/e2e/letter-physical-preflight.spec.ts .github/workflows/pdf-preflight.yml
           bun run build
+
+  browser:
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suite: safety
+            command: npx playwright test --config tests/qa/playwright.preflight.config.ts
+          - suite: product
+            command: npx playwright test --config tests/qa/playwright.letter-product.config.ts
+          - suite: integration-1
+            command: npx playwright test --config tests/qa/playwright.integration.config.ts --shard=1/2
+          - suite: integration-2
+            command: npx playwright test --config tests/qa/playwright.integration.config.ts --shard=2/2
+          - suite: combined
+            command: npx playwright test --config tests/qa/playwright.combined.config.ts
+          - suite: search
+            command: npx playwright test --config tests/qa/playwright.pdf-search.config.ts --grep 'all 39 automatic|automatic PDF retains'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Locked application and browser dependencies
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
       - name: Browser and PDF raster reader
         run: |
           bash scripts/qa-browser-setup.sh
           python -m pip install PyMuPDF==1.26.6
-      - name: Strict preflight, resources, override and negative safety tests
+      # Separate runners prevent the cumulative suites from exhausting one job.
+      # Playwright's existing deadlines and strict assertions are unchanged.
+      - name: Production browser acceptance (${{ matrix.suite }})
         env:
-          PAGINATION_QA_DIR: artifacts/pdf-preflight
-        run: npx playwright test --config tests/qa/playwright.preflight.config.ts
-      - name: Existing product and editor regressions
-        run: npx playwright test --config tests/qa/playwright.letter-product.config.ts
-      - name: Complete 39-template CV and Letter matrices and deep boundaries
-        env:
-          PAGINATION_QA_DIR: artifacts/pdf-preflight-matrix
-        run: npx playwright test --config tests/qa/playwright.integration.config.ts
-      - name: Long combined dossiers and sidebar regressions
-        env:
+          PAGINATION_QA_DIR: ${{ startsWith(matrix.suite, 'integration-') && 'artifacts/pdf-preflight-matrix' || 'artifacts/pdf-preflight' }}
+          PAGINATION_QA_REPORT: artifacts/pagination-integration/${{ matrix.suite }}.json
           PAGINATION_COMBINED_QA_DIR: artifacts/pdf-preflight-combined
-        run: npx playwright test --config tests/qa/playwright.combined.config.ts
-      - name: Literal word search across 39 automatic PDFs
-        run: npx playwright test --config tests/qa/playwright.pdf-search.config.ts --grep 'all 39 automatic|automatic PDF retains'
-      - name: Visible raster, logical fields and evidence summary
+        run: ${{ matrix.command }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pdf-preflight-${{ github.sha }}-${{ matrix.suite }}
+          path: |
+            artifacts/pdf-preflight*
+            artifacts/pagination-integration/*.json
+            artifacts/letter-textlayer/product-results.json
+            artifacts/pdf-text-search
+            tests/qa/artifacts/pdf-preflight
+            tests/qa/test-results/pdf-preflight
+            test-results/pdf-preflight
+            test-results/pagination-integration
+            test-results/pagination-combined
+            test-results/letter-textlayer-product
+          retention-days: 14
+
+  evidence:
+    needs: [quality, browser]
+    if: always() && needs.quality.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: pdf-preflight-${{ github.sha }}-*
+          merge-multiple: true
+      - name: PDF raster reader
+        run: python -m pip install PyMuPDF==1.26.6
+      - name: Visible raster, logical fields and full matrix evidence
         env:
           PAGINATION_QA_DIR: artifacts/pdf-preflight-matrix
         run: |
@@ -86,16 +139,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: pdf-preflight-${{ github.sha }}
+          name: pdf-preflight-${{ github.sha }}-evidence
           path: |
-            artifacts/pdf-preflight*
-            artifacts/pagination-integration/results.json
-            artifacts/letter-textlayer/product-results.json
-            artifacts/pdf-text-search
-            tests/qa/artifacts/pdf-preflight
-            tests/qa/test-results/pdf-preflight
-            test-results/pdf-preflight
-            test-results/pagination-integration
-            test-results/pagination-combined
-            test-results/letter-textlayer-product
+            artifacts/pdf-preflight/raster-results.json
+            artifacts/pdf-preflight-matrix/summary.json
+            artifacts/pdf-preflight-matrix/logical-fields.json
           retention-days: 14

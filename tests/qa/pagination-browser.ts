@@ -50,7 +50,10 @@ export function documentRoots(kind: DocumentKind) {
       };
 }
 export async function loadFixture(page: Page, fixture: PaginationFixture, kind: DocumentKind) {
-  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+  // Establish the real app origin without hydrating the previous fixture's
+  // complete dossier before replacing storage. The next navigation uses the
+  // actual production route, renderers and exporter without interception.
+  await page.goto(`${BASE_URL}/fonts/Cabin-OFL.txt`, { waitUntil: "domcontentloaded" });
   await page.evaluate((values) => {
     localStorage.clear();
     for (const [key, value] of Object.entries(values)) localStorage.setItem(key, value);

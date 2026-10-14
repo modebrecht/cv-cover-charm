@@ -14,7 +14,14 @@ export default defineConfig({
   ],
   reporter: [
     ["line"],
-    ["json", { outputFile: resolve("artifacts/pagination-integration/results.json") }],
+    [
+      "json",
+      {
+        outputFile: resolve(
+          process.env.PAGINATION_QA_REPORT ?? "artifacts/pagination-integration/results.json",
+        ),
+      },
+    ],
   ],
   outputDir: resolve("test-results/pagination-integration"),
 });
