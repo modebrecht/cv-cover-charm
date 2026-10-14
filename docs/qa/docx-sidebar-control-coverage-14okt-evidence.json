@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "outcome": "B — PARTIAL / GUARDED; diagnostic and transport correction verified",
+  "productionArchitectureDecision": "C — retain guarded support; production promotion remains blocked",
+  "applicationBaseSha": "e1ec176d52e27ffbf46d9a326a3703f05161bfbf",
+  "remoteDevSha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+  "testedSourceSha": "3f225a0793ebdff30e7fe45e946ae875abf3ee08",
+  "productionSourceChanges": 0,
+  "nativeMeasurementWorkersChanged": 0,
+  "enginePackagesModified": 0,
+  "hypotheses": [
+    {
+      "id": "H1",
+      "scope": "Public original import control observation",
+      "result": "INCONCLUSIVE; stop after one short-left saved/source pair"
+    },
+    {
+      "id": "H2",
+      "scope": "Original official UNO package transport",
+      "result": "PASS; native CI uses same pinned official bytes after HTTP 502"
+    }
+  ],
+  "nativeArtifact": {
+    "runId": 38570725770,
+    "attempt": 1,
+    "jobId": 115874901578,
+    "artifactId": 11897557479,
+    "bytes": 6130068,
+    "sha256": "42706d63a772b8e28590bf75cc4fe9fe0ea611f4fdee41373b744c2ea5a083ac",
+    "controlReportSha256": "1660eefea2308a6ae49bff800b968b6017306f7d6abbd7c5336b59326d591bfc",
+    "contentReportSha256": "8559c65e29342fc8fd2414e9bcfbbbe157c6b28b4b65ca49cb3994a91e454555",
+    "geometryReportSha256": "a5a2ee649046977851cd007ac25177e8ed1a1122aae5bdf496029e16c863cb62"
+  },
+  "controlObservation": {
+    "newReadonlyNativeLoads": 2,
+    "newNativeExports": 0,
+    "newPreparedSources": 0,
+    "canonicalTag": "cv.person.address",
+    "bodyFieldsPerPhase": 77,
+    "workerSha256": "185f0b93e00d65914f6aa2968669b446b63d72bf8b693f7545207dfd0e6e4dda",
+    "phases": [
+      {
+        "fixture": "app-body-left",
+        "phase": "saved",
+        "canonicalTag": "cv.person.address",
+        "inputSha256": "0cf7eb182aea168f2cd50b106683f6385b4aecffbbc6b366e507ad40b7b0569f",
+        "registrationEvent": "value",
+        "liveControlChecks": 45,
+        "controlDisposals": 0,
+        "sameRegisteredInterfaceAtEnd": true,
+        "observedControlInterval": "PASS",
+        "reason": "Same strong UNO control reference across the observed import interval",
+        "originalControlCreationLifetime": "UNVERIFIED",
+        "originalContainerLifetime": "UNVERIFIED"
+      },
+      {
+        "fixture": "app-body-left",
+        "phase": "source",
+        "canonicalTag": "cv.person.address",
+        "inputSha256": "24b5d63caf6fbfc701dc934aae19e5b2f566b7eaf8184db56f442d3d3647d563",
+        "registrationEvent": "end",
+        "liveControlChecks": 0,
+        "controlDisposals": 0,
+        "sameRegisteredInterfaceAtEnd": true,
+        "observedControlInterval": "INCONCLUSIVE",
+        "reason": "No control identity observation before import end",
+        "originalControlCreationLifetime": "UNVERIFIED",
+        "originalContainerLifetime": "UNVERIFIED"
+      }
+    ],
+    "originalControlCreationLifetime": "UNVERIFIED",
+    "originalContainerLifetime": "UNVERIFIED",
+    "strictSourceIntervalGate": "EXPECTED FAIL: source interval not observed"
+  },
+  "nativeMatrix": {
+    "cases": 22,
+    "phases": 66,
+    "pdfPageInstances": 564,
+    "contentAcceptance": "PASS",
+    "exactStockGeometryCases": 18,
+    "failedCases": [
+      "app-body-both-long-right",
+      "app-body-right",
+      "app-body-photo-right",
+      "app-body-photo-free-mirrored-side"
+    ],
+    "strictGeometryGate": "EXPECTED FAIL: Exact Save/Reopen geometry is not stable",
+    "renderedSidebarTemplates": "Existing Brief fixtures only; no new 39-template rendering acceptance"
+  },
+  "engineRecord": {
+    "interface": "LibreOfficeKit",
+    "version": {
+      "ProductName": "LibreOffice",
+      "ProductVersion": "25.8",
+      "ProductExtension": ".7.3",
+      "BuildId": "580(Build:3)"
+    },
+    "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+    "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+    "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+    "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "host": "Linux x86_64",
+    "packagesVerified": 50
+  },
+  "bindingPackageSha256": "77dd1d628d2d0b9a37477167e0f205378d86a549bca19cb2349afa29bd5b0331",
+  "packageFetch": {
+    "source": "https://launchpadlibrarian.net/864715340/python3-uno_25.8.7-0ubuntu0.25.10.1~bpo24.04.1_amd64.deb",
+    "attempts": [
+      {
+        "url": "https://snapshot.ubuntu.com/ubuntu/20260828T000000Z/pool/main/libr/libreoffice/python3-uno_25.8.7-0ubuntu0.25.10.1~bpo24.04.1_amd64.deb",
+        "result": "HTTPError",
+        "detail": "HTTP Error 502: Bad Gateway"
+      },
+      {
+        "url": "https://launchpadlibrarian.net/864715340/python3-uno_25.8.7-0ubuntu0.25.10.1~bpo24.04.1_amd64.deb",
+        "result": "verified"
+      }
+    ],
+    "sha256": "77dd1d628d2d0b9a37477167e0f205378d86a549bca19cb2349afa29bd5b0331",
+    "bytes": 147944
+  },
+  "initialImplementationCI": {
+    "sha": "f25d59d18f7aa5e1f6e1df3e854b49ce002c90fd",
+    "dossierRunId": 38568394901,
+    "dossierConclusion": "success",
+    "nativeRunId": 38568394904,
+    "nativeConclusion": "failure",
+    "nativeAttempts": [
+      {
+        "attempt": 1,
+        "jobId": 115866853097,
+        "error": "HTTP 500 before new fixtures/measurements"
+      },
+      {
+        "attempt": 2,
+        "jobId": 115868419745,
+        "error": "HTTP 502 before new fixtures/measurements"
+      }
+    ]
+  },
+  "finalExecutableCI": {
+    "dossierRunId": 38570725772,
+    "dossierConclusion": "success",
+    "nativeRunId": 38570725770,
+    "nativeConclusion": "success",
+    "unitTests": 1118,
+    "unitFailures": 0,
+    "lintWarnings": 21,
+    "lintErrors": 0,
+    "nativeSkippedJobs": ["entry-flow-content", "stable-comparison", "integrated-template-qa"],
+    "nativePrintBenchmark": "SKIPPED",
+    "dossierAttempt": 1,
+    "browserGroupsPassed": 8,
+    "m6ReleaseCandidate": "success",
+    "formatting": "pass",
+    "typescript": "pass",
+    "productionBuild": "pass",
+    "vercelStatus": "success reported by existing Git integration; no deployment command or production promotion issued"
+  },
+  "localPythonTests": 69,
+  "sourceBuiltWriterCompletion": "UNVERIFIED; no retained completion/provenance after environment reset",
+  "microsoftWordAcceptance": "UNVERIFIED",
+  "masterlistItems7_8_9": "OPEN",
+  "finalDocxNextSwitchover": "unchanged guarded configuration",
+  "parallelBranchesImported": [],
+  "nextTechnicalGate": "Provisioned paired upstream source build with six prepared native regressions and official distribution; source-control creation/container observation needs a targeted native import test, not a larger public-callback sampler matrix",
+  "finalProtectedRefs": {
+    "dev": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9",
+    "render": "4319c20fb85d3971ac355ae8898cdfef86ee7a8c",
+    "fix/pdf-preflight-13okt": "c9a03d9f29aeb29a5c632024c2c3f951b86eac89",
+    "qa/docx-font-matrix-13okt": "28ea3f0b177e210f38c3b04ce44867e6618ca2bc"
+  },
+  "finalPublication": {
+    "branch": "fix/docx-next-sidebar-gate-13okt",
+    "validatedExecutableSha": "3f225a0793ebdff30e7fe45e946ae875abf3ee08",
+    "receiptOnly": "documentation/evidence child commit uses [skip ci]; no new executable CI claimed",
+    "merged": false,
+    "deliberateDeployment": false
+  }
+}
