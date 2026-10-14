@@ -2,7 +2,7 @@
 
 ## Decision
 
-**Item 11: PASS locally; remote CI pending the implementation push.**
+**Item 11: PASS — local verification and remote CI completed successfully.**
 
 The existing architecture is retained. Three bounded boundary defects were reproduced and corrected. No replacement model, renderer, template-specific exception or export promotion is introduced.
 
@@ -84,7 +84,9 @@ The new `tests/unit/docx-next-model-boundary.test.ts` adds 45 tests and is inclu
 
 The existing broad regression workflow does not trigger on this working branch. A focused, read-only workflow, `.github/workflows/docx-next-model-gate.yml`, runs the same DOCX suite, complete unit suite, typecheck, lint, formatting and production build on pushes to this branch. It performs no deployment and starts no LibreOffice source build.
 
-Remote run status will be recorded after pushing the implementation. Local results above are completed results, not inferred CI results.
+**Remote result: SUCCESS.** [DOCX Next canonical model gate — run 38629873048](https://github.com/modebrecht/cv-cover-charm/actions/runs/38629873048) verified implementation commit `74f0a72275a1bcf35cd7650481fb915eacf31846`. The DOCX regressions, complete unit suite, typecheck, lint, formatting and production build all passed on GitHub Actions.
+
+The following report-only commit records this completed result. It changes no code, test or workflow; the focused workflow intentionally does not rerun for a documentation-only push. The implementation and verification inputs remain identical to the successful run.
 
 ## Scope and acceptance limits
 
