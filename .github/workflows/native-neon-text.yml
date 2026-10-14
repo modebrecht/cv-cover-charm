@@ -1,0 +1,58 @@
+name: Native Neon semantic text acceptance
+
+on:
+  push:
+    branches: ["fix/native-neon-duplicate-text-14okt"]
+    paths:
+      - "src/**"
+      - "tests/qa/native-neon-text.qa.ts"
+      - "tests/qa/playwright.native-neon.config.ts"
+      - "scripts/native_neon_pdf_acceptance.py"
+      - ".github/workflows/native-neon-text.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Locked application and pinned PDF readers
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+          python -m pip install pymupdf==1.26.6 pypdfium2==5.14.0 pypdf==6.10.0 numpy==2.2.6 pillow==11.3.0 scikit-image==0.25.2
+      - name: Unit, types, lint, formatting and production build
+        run: |
+          bun test tests/unit
+          bun run typecheck
+          npx tsc --noEmit -p tests/qa/tsconfig.json
+          bun run lint
+          bun run format:check:release
+          npx prettier --check src/lib/dossier-native-print.ts src/components/dossier/dossier-native-print.css tests/qa/native-neon-text.qa.ts tests/qa/playwright.native-neon.config.ts
+          bun run build
+      - name: Chromium
+        run: bash scripts/qa-browser-setup.sh
+      - name: Production PDFs, clipboard, geometry, identity and representative regressions
+        run: npx playwright test --config tests/qa/playwright.native-neon.config.ts
+      - name: Strict PDF.js, MuPDF and PDFium acceptance on the same PDF bytes
+        run: python scripts/native_neon_pdf_acceptance.py artifacts/native-neon-14okt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-neon-${{ github.sha }}
+          path: |
+            artifacts/native-neon-14okt
+            test-results/native-neon
+          retention-days: 14

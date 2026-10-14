@@ -3,6 +3,7 @@
   "git": {
     "deploymentEnabled": {
       "*": false,
+      "fix/native-neon-duplicate-text-14okt": false,
       "main": true
     }
   }
