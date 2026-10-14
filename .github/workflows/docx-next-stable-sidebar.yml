@@ -65,6 +65,44 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  upstream-source-regression:
+    if: github.ref == 'refs/heads/fix/docx-next-sidebar-gate-13okt' && contains(github.event.head_commit.message, '[sidebar-source-build]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    env:
+      SOURCE_QA_ROOT: /tmp/docx-sidebar-upstream-source
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify immutable source packet and strict result classification
+        run: |
+          python3 scripts/sidebar-upstream-source-test.py
+          python3 scripts/docx-next-upstream-source-build-test.py
+      - name: Provision normal Ubuntu source-build dependencies
+        timeout-minutes: 20
+        run: |
+          sudo sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+          sudo apt-get update
+          sudo apt-get build-dep -y libreoffice
+          sudo apt-get install -y ccache gperf bison flex libfontconfig-dev libfreetype-dev libnss3-dev libnspr4-dev python3-dev libtool-bin nasm
+          mkdir -p "$SOURCE_QA_ROOT"
+          dpkg-query -W > "$SOURCE_QA_ROOT/dependencies.txt"
+          gcc --version > "$SOURCE_QA_ROOT/compiler.txt"
+          df -h > "$SOURCE_QA_ROOT/disk-before.txt"
+          free -h > "$SOURCE_QA_ROOT/memory-before.txt"
+      - name: Build paired pinned Writer sources and execute native regression target
+        run: python3 scripts/docx-next-upstream-source-build.py "$SOURCE_QA_ROOT"
+      - name: Retain source evidence and failure logs; no modified engine distribution
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-sidebar-upstream-source-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.SOURCE_QA_ROOT }}/*.json
+            ${{ env.SOURCE_QA_ROOT }}/*.log
+            ${{ env.SOURCE_QA_ROOT }}/*.txt
+            ${{ env.SOURCE_QA_ROOT }}/*.diff
+
   stable-comparison:
     if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
     runs-on: ubuntu-24.04
