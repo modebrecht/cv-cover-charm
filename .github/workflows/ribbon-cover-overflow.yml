@@ -35,7 +35,7 @@ jobs:
           bun run typecheck
           npx tsc --noEmit -p tests/qa/tsconfig.json
           bun run lint
-          npx prettier --check src/components/cover/forest-flow-cover-defaults.ts src/components/cover/next-signature-templates.css tests/unit/ribbon-cover-redesign.test.ts tests/e2e/ribbon-cover-overflow.spec.ts tests/qa/playwright.ribbon-cover.config.ts
+          bun run format:check:release
           bun run build
 
   browser:
