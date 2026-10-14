@@ -33,7 +33,7 @@ async function seed(page: Page, item: { data: Record<string, unknown>; layout: R
 }
 
 async function positions(page: Page, selector: string) {
-  return page.locator(selector).evaluate(root => {
+  return page.locator(selector).first().evaluate(root => {
     const pageBox = root.getBoundingClientRect();
     const sx = 210 / pageBox.width, sy = 297 / pageBox.height;
     return Array.from(root.querySelectorAll<HTMLElement>("[data-block-id]"))
@@ -73,9 +73,11 @@ async function verdict(page: Page) {
 }
 async function review(page: Page) {
   await page.goto(BASE_URL + "/", { waitUntil: "domcontentloaded" });
-  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const trigger = page.getByRole("button", { name: /Gesamtdossier herunterladen/ });
+  await expect(trigger).toContainText("Format wählen", { timeout: 25000 });
+  await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
-  await expect(dialog).toBeVisible();
+  await expect(dialog).toBeVisible({ timeout: 15000 });
   await expect(page.locator(canonical)).toHaveCount(1);
   await expect.poll(async () => (await verdict(page)).status, { timeout: 60_000 }).not.toBe("pending");
   return dialog;
