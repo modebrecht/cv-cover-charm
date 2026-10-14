@@ -1,0 +1,67 @@
+name: Ribbon cover overflow acceptance
+
+on:
+  push:
+    branches: ["fix/ribbon-cover-overflow-14okt"]
+    paths:
+      - "src/components/cover/**"
+      - "tests/e2e/ribbon-cover-overflow.spec.ts"
+      - "tests/qa/playwright.ribbon-cover.config.ts"
+      - "tests/unit/ribbon-cover-redesign.test.ts"
+      - ".github/workflows/ribbon-cover-overflow.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Locked dependencies and Playwright runner
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+      - name: Unit regression, types, lint, formatting and production build
+        run: |
+          bun test tests/unit/ribbon-cover-redesign.test.ts
+          bun run typecheck
+          npx tsc --noEmit -p tests/qa/tsconfig.json
+          bun run lint
+          npx prettier --check src/components/cover/forest-flow-cover-defaults.ts src/components/cover/next-signature-templates.css tests/unit/ribbon-cover-redesign.test.ts tests/e2e/ribbon-cover-overflow.spec.ts tests/qa/playwright.ribbon-cover.config.ts
+          bun run build
+
+  browser:
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Locked dependencies and Playwright runner
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+      - name: Production browser
+        run: bash scripts/qa-browser-setup.sh
+      - name: Strict A4 geometry, PDF preflight and real combined PDFs
+        run: npx playwright test --config tests/qa/playwright.ribbon-cover.config.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ribbon-cover-${{ github.sha }}
+          path: |
+            artifacts/ribbon-cover-overflow
+            test-results/ribbon-cover-overflow
+          retention-days: 14
