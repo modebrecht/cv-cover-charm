@@ -22,7 +22,7 @@ async function seed(page: Page, item: { data: Record<string, unknown>; layout: R
   const f = paginationFixture("brief", { schools: 1, works: 1, paragraphs: 2 });
   const saved = JSON.parse(f.storage["titelblatt:v3"]);
   saved.template = "ribbon";
-  saved.data = { ...saved.data, ...item.data };
+  saved.data = { ...saved.data, kicker: "Bewerbung um eine Lehrstelle als", ...item.data };
   saved.layout = { ...saved.layout, ribbon: item.layout };
   f.storage["titelblatt:v3"] = JSON.stringify(saved);
   if (item.margins) f.storage["bewerbungsdossier:page-margins:v1"] = JSON.stringify({
@@ -72,12 +72,17 @@ async function verdict(page: Page) {
   });
 }
 async function review(page: Page) {
+  const errors: string[] = [];
+  page.on("pageerror", error => errors.push(error.message));
   await page.goto(BASE_URL + "/", { waitUntil: "domcontentloaded" });
   const trigger = page.getByRole("button", { name: /Gesamtdossier herunterladen/ });
   await expect(trigger).toContainText("Format wählen", { timeout: 25000 });
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
-  await expect(dialog).toBeVisible({ timeout: 15000 });
+  await expect(dialog).toBeVisible({ timeout: 15000 }).catch(async error => {
+    const snapshot = (await page.locator("body").innerText()).slice(0, 2500);
+    throw new Error(`${error.message}\nBrowser exceptions: ${errors.join(" | ")}\nVisible page: ${snapshot}`);
+  });
   await expect(page.locator(canonical)).toHaveCount(1);
   await expect.poll(async () => (await verdict(page)).status, { timeout: 60_000 }).not.toBe("pending");
   return dialog;
