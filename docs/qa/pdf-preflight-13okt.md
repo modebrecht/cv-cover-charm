@@ -1,6 +1,136 @@
 # Package 35 – automatischer PDF-Preflight
 
-**Abnahme läuft.** Die abschliessende A/B/C-Einstufung, der geprüfte Code-SHA und CI-Belege werden nach dem vollständigen Lauf eingetragen. Kein Merge und kein gezieltes Deployment.
+**B — PARTIAL. Keine Merge-Freigabe.** Die reproduzierten Preflight-Fehlklassifikationen sind korrigiert, 1’118 Units und 288 Browsertests bestehen. Die unabhängige strikte Rasterabnahme scheitert weiterhin an vorhandenen Kontrast- und CV-Clone-Abweichungen. Deshalb ist Package 35 / Masterliste Item 35 ausdrücklich **nicht vollständig abgenommen**. Kein Merge, kein gezieltes Deployment, keine Promotion.
+
+Geprüfter letzter **Code-SHA:** `b81289d53171b4b4b3b756bfbd9b049ce83d9ee1`. Der anschliessende Abschlusscommit ergänzt ausschliesslich diesen Bericht und seine Belege; seine exakte Remote-SHA steht in der Abschlussmeldung und Git-Historie. [Vollständiger CI-Lauf](https://github.com/modebrecht/cv-cover-charm/actions/runs/38504447640), [maschinenlesbare Abnahme](pdf-preflight-13okt-evidence/acceptance-summary.json), [unverändert strikte Rasterfehler](pdf-preflight-13okt-evidence/raster-failures.json).
+
+## Abschliessendes Ergebnis
+
+| Prüfung                                                   | Ergebnis am geprüften Code-SHA                                                                                  |
+| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Units                                                     | 1’118 bestanden, 0 fehlgeschlagen; 243 Dateien, 22’249 Assertions                                               |
+| TypeScript App und QA, Lint, Formatting, Produktionsbuild | Bestanden; Lint 0 Fehler / 21 bestehende Warnungen                                                              |
+| Sicherheitsfälle / Produktregressionen                    | 36/36 und 31/31 bestanden                                                                                       |
+| Vollständige Pagination-Integration                       | 208/208 bestanden, zwei Shards zu je 104                                                                        |
+| Lange Combined-Dossiers                                   | 11/11 Browserfälle bestanden, 82 physische PDF-Seiten, maximal 12 pro Dossier                                   |
+| Automatische Wortsuche                                    | 2/2 Tests bestanden: 39 reale Standalone-Letter-PDFs und Mixed-Inline Combined                                  |
+| Browsermatrix 39 Produktionsvorlagen                      | 156/156 Standard-Fixtures bestanden: Letter und CV, jeweils eine/zwei Seiten; 234 echte PDF-Seiten              |
+| Logische vollständige Felder, separater Reader            | 287/287 geeignete Audit-Dokumente, 11’386 Feldprüfungen; 0 Fehler                                               |
+| Unabhängiger Rasterreader                                 | **FAIL**: 268 PDFs, 565 Seiten, 6’468 Markerrechtecke; 260 PDFs bestehen, 8 PDFs mit 44 fehlerhaften Rechtecken |
+| Gesamt-CI                                                 | **7 Jobs erfolgreich, Evidence-Job fehlgeschlagen**; der Workflow ist rot                                       |
+
+Die Raster-Gesamtzahlen stammen aus einer separaten diagnostischen Vollauswertung derselben CI-PDFs mit **unveränderten** Grenzen (Kontrast >=90, mindestens zehn kontrastierte Pixel). Sie sammelt Fehler, damit nach dem ersten CI-Abbruch auch die übrigen PDFs beurteilt werden können. Sie macht den Produktionsreader oder CI nicht grün. Der unmodifizierte CI-Reader bricht beim ersten Fehler `boundary-brief-cv-first-three.pdf`, physische Seite 2, `QAEND008`, ab. Dadurch wurden seine folgenden Feld-/Summary-Kommandos nicht erreicht; diese beiden vorhandenen Reader wurden anschliessend lokal auf den zusammengeführten unveränderten CI-Audits separat ausgeführt. Keine Skips, Snapshots, gelockerten Toleranzen oder verschluckten CI-Fehler.
+
+## Offene Rasterblocker und Baseline-Nachweis
+
+1. **Edel Dark, beide Standard-Letter-Fixtures:** Der Körper ist auf dunklem Papier kaum lesbar. Das echte Einseiten-PDF hat im Salutationsrechteck [26,990;117,908;33,643;3,967] mm nur Kontrast 25 und null Pixel oberhalb der bestehenden Kontrastschwelle. Der Suchtext ist vollständig und die Geometrie passt; beides beweist keine sichtbare Druckqualität. [Tatsächliches Raster](pdf-preflight-13okt-evidence/edel-dark-raster.png). Dieser Kontrastfall wird vom neuen geometrischen Guard weiterhin nicht gesperrt. Eine allgemeine Farb-/Kontrastpolitik wurde nicht spekulativ ergänzt.
+2. **CV-Zoom-/Zeilenumbruchabweichung:** Die bereits bestehende `normalizeCssZoomForHtml2Canvas()` verändert im tatsächlichen html2canvas-Clone den Umbruch. `QAEND008` auf Brief-CV-Seite 2 liegt live und vor Normalisierung bei x=125,076 mm, y=101,846 mm, 22,746×5,025 mm; danach bei x=102,605 mm, y=101,843 mm, 22,632×5,000 mm. Der Marker ist sichtbar, aber um 22,471 mm verschoben. Das ursprüngliche Rechteck enthält nur sieben statt mindestens zehn kontrastierter Pixel. [Produktions-Clone-Messung](pdf-preflight-13okt-evidence/clone-layout.json), [Rasterausschnitt x=45–160 / y=90–112 mm](pdf-preflight-13okt-evidence/brief-cv-raster.png). Das ist kein belegter Glyphenverlust und keine Gelegenheit, den Reader grosszügiger zu machen; Web-/Canonical-/Raster-Positionsgleichheit ist hier nicht nachgewiesen.
+
+Die beiden repräsentativen Fälle wurden zusätzlich **auf einem separaten unveränderten Worktree der frisch gefetchten Dev-Basis `1f4696ee...` über die normalen automatischen Downloadaktionen** erzeugt. Dev-Edel-Dark hat dieselben Kontrastwerte 25/0; Dev-Brief-CV denselben Fehler 518/7 im Markerrechteck. Alle drei tatsächlich gerenderten CV-Seiten sind bei 1× Rasterauflösung bytegleich zu den CI-Kandidatenseiten. Dev- und Kandidaten-SHAs, PDF-Hashes, Raster-Hashes und Messungen stehen in `unchangedDevRendererProof` des Abnahmemanifests. Beim Letter sind die ganzen Raster wegen der gültigen Chrome-Korrekturen nicht bytegleich; der dunkle Body-Fehler ist dennoch vor und nach dem Paket direkt gemessen. `html2canvas-export.ts`, `CvCanvasBase.tsx` und `flow-pagination.ts` sind gegenüber Dev unverändert. Diese Befunde sind bestehende Renderer-/Designprobleme, keine eingeführten Pagination-Regressionsbelege.
+
+Alle acht betroffenen PDFs: `boundary-brief-cv-first-three`, `boundary-brief-cv-last-two`, Combined `brief`, `matrix-edelDark-one-letter`, `matrix-edelDark-two-letter`, `matrix-studio-one-cv`, `matrix-studio-two-cv`, `variant-gallery-timeline-cv`. Für Studio/Gallery sind die strikten Rechteckfehler belegt; ohne weitergehenden Abgleich wird kein vollständiger Inhaltsverlust oder eine abschliessende gleiche Ursache behauptet. Die repräsentativen Brief- und Studio-Raster zeigen die betroffenen Marker sichtbar. Der Combined-Brief besitzt dieselbe CV-Abweichung; deshalb bestehen dort 11/11 Browserfälle, aber nur 10/11 strikte Rasterdokumente.
+
+## Finale 39er-Matrix
+
+Dies ist die vorhandene autoritative Registry, kein neuer Produktionskatalog. Jede Zeile umfasst genau die bestehenden vier Standard-Fixtures. L1/L2 und CV1/CV2 geben echte PDF-Seitenzahl plus striktes Rasterergebnis an. Alle 156 Browser-/Inhalts-/Seitenverteilungsprüfungen bestehen, alle verwendeten Audits nennen den Code-SHA und `sourceDirty=false`. **37/39 Familien bestehen alle vier Raster-Fixtures; 38/39 Letter-Familien und 38/39 CV-Familien bestehen beide.** Eine vollständige 39/39 sichtbare Exportfreigabe wird nicht behauptet.
+
+| Registry-Vorlage | Letter 1 | Letter 2 | CV 1     | CV 2     |
+| ---------------- | -------- | -------- | -------- | -------- |
+| aurora           | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| blockig          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| brief            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| citrus           | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| colorful         | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| cove             | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| diagonal         | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| edel             | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| edelDark         | 1 / FAIL | 2 / FAIL | 1 / PASS | 2 / PASS |
+| edge             | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| forestFlow       | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| freundlich       | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| gallery          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| glow             | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| horizon          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| human            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| klassisch        | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| ledger           | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| modern           | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| monoLuxe         | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| neon             | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| orbit            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| pastell          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| prism            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| ribbon           | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| serioes          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| sonne            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| studio           | 1 / PASS | 2 / PASS | 1 / FAIL | 2 / FAIL |
+| studio2          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| studio3          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| sunrise          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| terracotta       | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| verlauf          | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| verlauf2         | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| verlauf3         | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| violetPulse      | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| warm2            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| warm3            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+| welle            | 1 / PASS | 2 / PASS | 1 / PASS | 2 / PASS |
+
+Alle elf Combined-Fälle verwenden das gleiche sichere Produktions-Cover «Brief» und unterschiedliche echte Letter-/CV-Strukturen, einschliesslich linker/rechter Sidebar, langem CV, langem Brief, freien/Flow-Bildern, langen Wörtern und Custom-Rändern. Seitenreihenfolge ist Cover → Letter → CV. Das unveränderte ursprüngliche Ribbon-Cover bleibt ein separater bestätigter harter Negativfall; die Standard-Letter-Ribbon-Fixtures bestehen. Die 39er-Suchprüfung betrifft Standalone-Letter, nicht 39 ungeprüfte Default-Cover-Dossiers.
+
+## Produktentscheidung und verbleibende Grenzen
+
+Der kleine generische Preflight-Fix ist fachlich begründet: Leere Boxfläche sperrt passenden sichtbaren Text nicht mehr; tatsächliches verschachteltes Clipping, zusätzliche Chrome-Überlappungen, fehlende semantische Felder, unsichtbare erforderliche Bilder und echte Cover-/CV-Verluste bleiben gesperrt. Ressourcen und provisorische Pagination bleiben PENDING. Der Generator erzwingt die gemeinsame Entscheidung vor Beginn, vor jeder Seite und vor Download; der Letter-Raster-Clone hat zusätzlich seine echte Geometrieprüfung. Es gibt keine Template-Ausnahme, Schriftverkleinerung, Textkürzung oder zweite Pagination.
+
+Der implementierte Override ist **nur** für den vollständig gerenderten, inhaltlich vollständigen, geometrisch geprüften Standalone-Letter-Fallback mit `measurement-failed` vorhanden. Er ist explizit, genau einem unveränderten Root/Zustand und einem Versuch zugeordnet, wird bei Änderungen ungültig und niemals gespeichert. Bestätigungen können harte Sperren nicht ausschalten. Dossier-Override bleibt absichtlich NO-GO: Ein vollständig unabhängiger Source-Vertrag für alle CV-/Cover-Inhalte ist nicht vorhanden. Die bekannten Kontrast-/Rasterabweichungen zeigen zusätzlich, warum diese Paketfassung keine allgemeine sichere Druckfreigabe oder vollständige A-Abnahme versprechen darf.
+
+**Merge-Empfehlung: derzeit nicht mergen.** Erst die vorhandene generische Zoom-Clone-Parität und eine begründete, allgemein gültige Behandlung der dunklen authored Papier-/Ink-Kombination separat klären, danach die strikte unveränderte Rasterabnahme grün nachweisen. Der echte Ribbon-Cover-Defekt benötigt eine eigene Layoutaufgabe; keine Template-spezifische Preflight-Ausnahme. Die bestätigten Preflight-Korrekturen können auf diesem Review-Branch weiter geprüft werden. Masterliste Item 35 bleibt offen; Klassifikation B bezeichnet die erzielten Teilverbesserungen und den bewusst beschränkten Override, keine erfolgreiche Gesamtfreigabe.
+
+Der Legacy-Standalone-CV-Exporter und isolierte A4-API behalten ihren bisherigen Umfang; sie erhalten keine neue Override-Berechtigung. Beliebige Drittanbieter-CSS/Farbkombinationen, alle denkbaren Fontvarianten, Firefox/Safari, OCR/Tagged PDF und Native-/Word-Fidelity sind nicht vollständig geprüft. Die vorhandene invisible Textebene und DOCX bleiben erhalten; Native Chromium bleibt im normalen Menü verborgen.
+
+Letzte Code-Preview: Vercels Git-Integration erzeugte automatisch eine erfolgreiche [Preview](https://vercel.com/modebrechts-projects/cv-cover-charm/EGX4FWJCQgWDAhhQwnKVXAuTuJ93). Auch der Dokumentationspush kann automatisch eine Preview erzeugen. Es wurde kein Deployment oder Promote-Befehl ausgeführt. Dev/Main/Render wurden nach der Abnahme erneut gefetcht und stimmen exakt mit den nachstehenden Ausgangs-SHAs überein; nur der Arbeitsbranch wird fortgeschrieben.
+
+## Vollständige geänderte Dateien
+
+- `.github/workflows/pdf-preflight.yml`
+- `docs/qa/pdf-preflight-13okt-evidence/acceptance-summary.json`
+- `docs/qa/pdf-preflight-13okt-evidence/after-footer.png`
+- `docs/qa/pdf-preflight-13okt-evidence/before-footer.png`
+- `docs/qa/pdf-preflight-13okt-evidence/brief-cv-raster.png`
+- `docs/qa/pdf-preflight-13okt-evidence/ci-initial-failures.json`
+- `docs/qa/pdf-preflight-13okt-evidence/clone-layout.json`
+- `docs/qa/pdf-preflight-13okt-evidence/cover-policy.json`
+- `docs/qa/pdf-preflight-13okt-evidence/edel-dark-raster.png`
+- `docs/qa/pdf-preflight-13okt-evidence/raster-failures.json`
+- `docs/qa/pdf-preflight-13okt-evidence/reproductions.json`
+- `docs/qa/pdf-preflight-13okt-evidence/semantic-source-safety.json`
+- `docs/qa/pdf-preflight-13okt.md`
+- `scripts/pdf_preflight_raster.py`
+- `src/components/dossier/DossierExportDialog.tsx`
+- `src/components/dossier/DossierHeaderFooterChrome.tsx`
+- `src/components/letter/LetterDocument.tsx`
+- `src/components/letter/letter-pagination.css`
+- `src/components/letter/preflight.ts`
+- `src/lib/dossier-pdf.ts`
+- `src/lib/pdf-preflight.ts`
+- `src/routes/anschreiben.tsx`
+- `src/routes/index.tsx`
+- `src/routes/lebenslauf.tsx`
+- `src/routes/titelblatt.tsx`
+- `tests/e2e/cv-combined-parity.spec.ts`
+- `tests/e2e/letter-physical-preflight.spec.ts`
+- `tests/e2e/pdf-word-boundaries.spec.ts`
+- `tests/qa/pagination-2page.qa.ts`
+- `tests/qa/pagination-browser.ts`
+- `tests/qa/pagination-combined.qa.ts`
+- `tests/qa/pdf-preflight-safety.qa.ts`
+- `tests/qa/pdf-preflight.qa.ts`
+- `tests/qa/playwright.integration.config.ts`
+- `tests/qa/playwright.preflight.config.ts`
+
+## Audit- und Entwicklungshistorie
+
+Die folgenden Abschnitte bewahren die ursprüngliche Entscheidungsrekonstruktion, Vorher-/Nachher-Belege und rote Zwischenläufe. Für die abschliessende Einstufung gelten die Ergebnisse oben.
 
 ## Basis und Schutz der Branches
 
@@ -52,7 +182,7 @@ Die vorhandenen 12-pt/24-mm-F06-Fixtures sind bereits auf Dev korrekt. Ihre tats
 - Die normale PDF-Aktion bleibt optisch primär. Bei ADVISORY ist sie gesperrt; ein zusätzlicher ausdrücklich beschrifteter Knopf «PDF trotzdem herunterladen» bestätigt genau diesen Versuch. PASS zeigt keinen solchen Knopf.
 - Die Bestätigung ist ein nicht serialisierbares, in einer WeakMap geprüftes Token: exakte Root-Identität, Dokumentart, DOM, gemessene Geometrie und berechnete relevante Stile. Keine gespeicherte boolesche Ausnahme. Verbrauch beim Exportbeginn; Replay, neuer Inhalt, Ränder, Schrift, Bildzustand, Root-Tausch oder Geometrieänderung invalidieren sie.
 - Die PDF-Erzeugung prüft unabhängig erneut. Eine spätere harte Sperre gewinnt immer; Änderungen während der Erzeugung verhindern den Download.
-- Die UI beobachtet kanonisches DOM, globale Template-/Stylesheet-Änderungen, Ressourcenereignisse und Größenänderungen. Fehlermeldungen nennen Dokument/Seite und die sinnvolle nächste Handlung.
+- Die UI beobachtet bei geöffneten Downloadaktionen kanonisches DOM, globale Template-/Stylesheet-Änderungen, Ressourcenereignisse und Größenänderungen; ein erneutes Öffnen startet ohne altes Urteil. Fehlermeldungen nennen Dokument/Seite und die sinnvolle nächste Handlung.
 
 ## Validierung
 
@@ -80,7 +210,7 @@ Zwischenläufe enthielten einen Readiness-/Source-Identity-Loop, einen korrigier
 
 UNVERIFIED bleiben beliebige Drittanbieter-CSS, alle denkbaren Farbkombinationen/Schriften, Firefox/Safari, vollständiges OCR/Tagged-PDF/Screenreader-Verhalten und Native/Word-Visual-Fidelity. Authored colours are preserved; no general contrast redesign is claimed.
 
-Die endgültige Produkt- und Merge-Empfehlung folgt nach CI und der vollständigen Matrix.
+Die endgültige Produktentscheidung und fehlende Merge-Freigabe stehen am Anfang dieses Berichts.
 
 ### Letzte Sicherheitsprüfung und begrenzte Override-Freigabe
 
@@ -108,4 +238,4 @@ Damit die positiven Prüfungen keine tatsächlich unsichere Cover-Fixture export
 
 Zwei redundante synchrone Messungen wurden zusammengeführt: Ein Glyphenlauf prüft Textlayer **und** A4 mit denselben Grenzen/Clip-Ahnen/Überlappungen, und der initiale Export-Guard setzt seine gerade gemessene Entscheidung direkt durch. Jeder spätere Guard misst weiterhin frisch. Menüprüfungen abonnieren das DOM nur solange die entsprechenden Aktionen sichtbar sind; Schliessen löscht das Urteil, Öffnen startet gesperrt und misst neu. Preview/Paginator und jeder direkte Export behalten ihre Guards. Die Pagination-Readiness vergleicht während des Renders den aktuellen vollständigen Inputschlüssel mit dem zuletzt gemessenen Schlüssel; ein Edit kann deshalb vor dem nächsten Effekt kein altes Ready-Ergebnis übernehmen. Keine zweite Pagination, kein Schemafeld, keine gelockerte Toleranz.
 
-Ein zusätzliches echtes erforderliches Bild war trotz `complete=true`, `naturalWidth=120` und `opacity=0` noch bestätigbar. Seine unveränderte Geometrie x=23,989 mm, y=127,855 mm, 15,993×10,661 mm passte vollständig. Der Guard prüft jetzt die Sichtbarkeit des Bildes und seiner Ahnen bis zur physischen Seite unabhängig von Ladezustand und Bounds. Der Vorher-Test schlug erwartungsgemäss fehl; nach der Korrektur bestehen unsichtbares Bild, beide unsichtbaren Unterschriften, transparente weisse Body-Tinte und beide positiven realen Bild-PDFs (6/6). Die zwei zuvor gescheiterten Live-/Grenzfälle bestehen ebenfalls zusammen (2/2, 5,1 min insgesamt, bestehende einzelne Fristen 180/240 s). Alle drei Live-Rand-PDFs wurden tatsächlich erzeugt. 1’118 Units, App-/QA-Typechecks, Lint (0 Fehler/21 bestehende Warnungen), Formatting und Build bestanden für diesen Entwicklungsstand; die abschliessende CI validiert den unveränderlichen Commit erneut.
+Ein zusätzliches echtes erforderliches Bild war trotz `complete=true`, `naturalWidth=120` und `opacity=0` noch bestätigbar. Seine unveränderte Geometrie x=23,989 mm, y=127,855 mm, 15,993×10,661 mm passte vollständig. Der Guard prüft jetzt die Sichtbarkeit des Bildes und seiner Ahnen bis zur physischen Seite unabhängig von Ladezustand und Bounds. Der Vorher-Test schlug erwartungsgemäss fehl; nach der Korrektur bestehen unsichtbares Bild, beide unsichtbaren Unterschriften, transparente weisse Body-Tinte und beide positiven realen Bild-PDFs (6/6). Die zwei zuvor gescheiterten Live-/Grenzfälle bestehen ebenfalls zusammen (2/2, 5,1 min insgesamt, bestehende einzelne Fristen 180/240 s). Alle drei Live-Rand-PDFs wurden tatsächlich erzeugt. 1’118 Units, App-/QA-Typechecks, Lint (0 Fehler/21 bestehende Warnungen), Formatting und Build bestanden für diesen Entwicklungsstand; die oben ausgewiesene abschliessende CI validierte den unveränderlichen Commit erneut; ihr Raster-Evidence-Job blieb rot.

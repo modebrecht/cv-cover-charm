@@ -1,0 +1,2210 @@
+{
+  "codeSha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1",
+  "runId": 38504447640,
+  "ci": [
+    {
+      "id": 115658602208,
+      "name": "quality",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115658910599,
+      "name": "browser (integration-2, npx playwright test --config tests/qa/playwright.integration.config.ts --...",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115658910690,
+      "name": "browser (combined, npx playwright test --config tests/qa/playwright.combined.config.ts)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115658910691,
+      "name": "browser (integration-1, npx playwright test --config tests/qa/playwright.integration.config.ts --...",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115658910698,
+      "name": "browser (product, npx playwright test --config tests/qa/playwright.letter-product.config.ts)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115658910766,
+      "name": "browser (safety, npx playwright test --config tests/qa/playwright.preflight.config.ts)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115658910788,
+      "name": "browser (search, npx playwright test --config tests/qa/playwright.pdf-search.config.ts --grep 'al...",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115664723557,
+      "name": "evidence",
+      "status": "completed",
+      "conclusion": "failure"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11867769614,
+      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-integration-2",
+      "size_in_bytes": 181530460,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867769614",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867769614/zip",
+      "expired": false,
+      "created_at": "2026-10-14T03:27:46Z",
+      "expires_at": "2026-10-28T03:27:38Z",
+      "updated_at": "2026-10-14T03:27:46Z",
+      "digest": "sha256:3cb724273b7472fe4e70887dde27cb93a343acd3df244dc41ccf693bc0fe8081",
+      "workflow_run": {
+        "id": 38504447640,
+        "repository_id": 1332423254,
+        "head_repository_id": 1332423254,
+        "head_branch": "fix/pdf-preflight-13okt",
+        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+      }
+    },
+    {
+      "id": 11867768337,
+      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-integration-1",
+      "size_in_bytes": 110122459,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867768337",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867768337/zip",
+      "expired": false,
+      "created_at": "2026-10-14T03:19:53Z",
+      "expires_at": "2026-10-28T03:19:48Z",
+      "updated_at": "2026-10-14T03:19:53Z",
+      "digest": "sha256:daa59cb61ad221699551e071c22534f6d37e6329f0292e0e872a2c6f054b2bd1",
+      "workflow_run": {
+        "id": 38504447640,
+        "repository_id": 1332423254,
+        "head_repository_id": 1332423254,
+        "head_branch": "fix/pdf-preflight-13okt",
+        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+      }
+    },
+    {
+      "id": 11867592151,
+      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-search",
+      "size_in_bytes": 850845,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867592151",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867592151/zip",
+      "expired": false,
+      "created_at": "2026-10-14T03:10:42Z",
+      "expires_at": "2026-10-28T03:10:41Z",
+      "updated_at": "2026-10-14T03:10:42Z",
+      "digest": "sha256:fb43073fe43089546ebecaaef384bfa22e207f41bf4e2ff925cf0bff98218feb",
+      "workflow_run": {
+        "id": 38504447640,
+        "repository_id": 1332423254,
+        "head_repository_id": 1332423254,
+        "head_branch": "fix/pdf-preflight-13okt",
+        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+      }
+    },
+    {
+      "id": 11867577369,
+      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-product",
+      "size_in_bytes": 4891,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867577369",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867577369/zip",
+      "expired": false,
+      "created_at": "2026-10-14T03:11:29Z",
+      "expires_at": "2026-10-28T03:11:29Z",
+      "updated_at": "2026-10-14T03:11:29Z",
+      "digest": "sha256:55c07c400ed041872cff232f62fea0327c4ddd4725811b844db080e77d4249c5",
+      "workflow_run": {
+        "id": 38504447640,
+        "repository_id": 1332423254,
+        "head_repository_id": 1332423254,
+        "head_branch": "fix/pdf-preflight-13okt",
+        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+      }
+    },
+    {
+      "id": 11867537422,
+      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-combined",
+      "size_in_bytes": 51605359,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867537422",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867537422/zip",
+      "expired": false,
+      "created_at": "2026-10-14T03:11:52Z",
+      "expires_at": "2026-10-28T03:11:50Z",
+      "updated_at": "2026-10-14T03:11:52Z",
+      "digest": "sha256:2cb7e40be34dd02c1308265b827e06950f4c5d868bc783c5b64d234f0bd8c249",
+      "workflow_run": {
+        "id": 38504447640,
+        "repository_id": 1332423254,
+        "head_repository_id": 1332423254,
+        "head_branch": "fix/pdf-preflight-13okt",
+        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+      }
+    },
+    {
+      "id": 11867087137,
+      "name": "pdf-preflight-b81289d53171b4b4b3b756bfbd9b049ce83d9ee1-safety",
+      "size_in_bytes": 4022931,
+      "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867087137",
+      "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/11867087137/zip",
+      "expired": false,
+      "created_at": "2026-10-14T03:11:18Z",
+      "expires_at": "2026-10-28T03:11:17Z",
+      "updated_at": "2026-10-14T03:11:18Z",
+      "digest": "sha256:e58d3e6f481f8ef3e93b4304b3845d3dbb0dce6ab80f83700241e2fa8df54608",
+      "workflow_run": {
+        "id": 38504447640,
+        "repository_id": 1332423254,
+        "head_repository_id": 1332423254,
+        "head_branch": "fix/pdf-preflight-13okt",
+        "head_sha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1"
+      }
+    }
+  ],
+  "classification": "B — PARTIAL",
+  "mergeRecommendation": "NO-GO pending strict raster acceptance",
+  "unitTests": {
+    "pass": 1118,
+    "fail": 0
+  },
+  "browserTests": {
+    "safety": 36,
+    "product": 31,
+    "integration": 208,
+    "combined": 11,
+    "search": 2,
+    "totalPass": 288,
+    "fail": 0
+  },
+  "logicalFields": {
+    "documents": 287,
+    "fieldChecks": 11386,
+    "pass": 287,
+    "fail": 0
+  },
+  "matrix": {
+    "registryTemplates": 39,
+    "standardFixtures": 156,
+    "physicalPages": 234,
+    "browserPass": 156,
+    "rasterPass": 152,
+    "rasterFail": 4,
+    "fullyPassingTemplateFamilies": 37,
+    "templates": [
+      {
+        "template": "aurora",
+        "fixtures": [
+          {
+            "name": "matrix-aurora-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9c62140c1c94636ac1c5dee91095be75e06d2ecff8ffee37437667f4972d45f0",
+            "pdfSha256": "836e08887c3ed533966c5df02c58aebfc450a56df11310c891ef250327a07443",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-aurora-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9c62140c1c94636ac1c5dee91095be75e06d2ecff8ffee37437667f4972d45f0",
+            "pdfSha256": "6ac960483c90d908eb9ca912fb8f57d5636217e322aa7874181244aae5870ecf",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-aurora-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "98d6c4d26194cf0b46e11f2e561c6a82e23195a4b8c06b033c18b2c0345871e7",
+            "pdfSha256": "36361689f0797ccdd90aa155e00d47c1f2cc3ade00614db0b76c688f2b1a3399",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-aurora-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "98d6c4d26194cf0b46e11f2e561c6a82e23195a4b8c06b033c18b2c0345871e7",
+            "pdfSha256": "86b34fb937ac27875344e6bc50482c1c1104d8f8fce046622ff4807c763b790d",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "blockig",
+        "fixtures": [
+          {
+            "name": "matrix-blockig-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "5725f191bf2869680c0654b36a225173a674cbdaa2e1b1acde1efb58b98a5414",
+            "pdfSha256": "775380a664b95d8bd2aa3507a99ba5c679109d2cf1c158086c2121ff894aed2c",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-blockig-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "5725f191bf2869680c0654b36a225173a674cbdaa2e1b1acde1efb58b98a5414",
+            "pdfSha256": "a375af3aa1dac84c96bc729b51de052d6d0f5a8af659fb570883eed1d59f034f",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-blockig-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "b37913b273ff2e366198f5e638d98020f683e68b7405209fa42e1579ad8d0509",
+            "pdfSha256": "51098e64d34657078a7e841526fc15231fd4954dcbd5c158336940f5776e4b91",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-blockig-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "b37913b273ff2e366198f5e638d98020f683e68b7405209fa42e1579ad8d0509",
+            "pdfSha256": "343d6e4c22343f1af75b3b1532a879d989dd792b23500d124eb78029e92f4b5c",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "brief",
+        "fixtures": [
+          {
+            "name": "matrix-brief-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "cadeb0f7c6f00b96c139b258d1138f4ba73eb04a9c7634f21cab2fefd9f997d6",
+            "pdfSha256": "5cc8ffde5ad4171742c5b363f7a31bec0191c450dd58d6651b461c194367a5ca",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-brief-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "cadeb0f7c6f00b96c139b258d1138f4ba73eb04a9c7634f21cab2fefd9f997d6",
+            "pdfSha256": "ed615fd170320a4cbd28bacaff62e975d79b709798d5e48c14da7045e9ce5c4b",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-brief-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "76294f8f5294b4cc758be8d5e4585647db0e75a7361b534a1cef8df532c6bd4d",
+            "pdfSha256": "86c49bc33a8d0239b2174ed93f9cc0066b51ee438f4d59fda3ec88d9c09a9e4e",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-brief-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "76294f8f5294b4cc758be8d5e4585647db0e75a7361b534a1cef8df532c6bd4d",
+            "pdfSha256": "d9b4cc54843d0fc7158ab38cbc7c019b263bbcbdc1a2d39c21b5715938146cd5",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "citrus",
+        "fixtures": [
+          {
+            "name": "matrix-citrus-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "2df6260fc3d694d964baf3ec2cc4f7cf165459af2ee1cb91027d6282fd6161e9",
+            "pdfSha256": "27dfef11477fc8e2783a3ecef87e865b2708d403271a8723b94a3b0a93d6014e",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-citrus-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "2df6260fc3d694d964baf3ec2cc4f7cf165459af2ee1cb91027d6282fd6161e9",
+            "pdfSha256": "862eb49f41edbfa461d978758bf4d16a04b186ee5d7be6f50efb12b3270ffd9c",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-citrus-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "7bd91ede3aa5bad4753be13f804e792ccb720821e600ef25caa162564cce2052",
+            "pdfSha256": "3fbed57bd884f4838567689ed96a3c077b3b0de286eb2a524d46bf464f328342",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-citrus-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "7bd91ede3aa5bad4753be13f804e792ccb720821e600ef25caa162564cce2052",
+            "pdfSha256": "2dff0390216c83e697dbb377333f56d44e90380a788da48b1ab8dc23a9969d45",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "colorful",
+        "fixtures": [
+          {
+            "name": "matrix-colorful-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "98fce393baf2cdd7da2f27849c1712bde1f560034b376461b58a59d2c15831b5",
+            "pdfSha256": "985fa8c522849e6b401b69040501af34f55c1e5145933104b5e467432be2456d",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-colorful-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "98fce393baf2cdd7da2f27849c1712bde1f560034b376461b58a59d2c15831b5",
+            "pdfSha256": "e258fe3f825fc00ecf27f08b0b5d247801f080a58df69b1314558edd686ef32d",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-colorful-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "b69988c6acfa767860e11647a6039291988b7415e3b56a8fb6e424ab1b235f8b",
+            "pdfSha256": "ba2a3ea268d6f81b2089b90b634e38287f9e743ed15b5c14e0097fdf9fa5b08c",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-colorful-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "b69988c6acfa767860e11647a6039291988b7415e3b56a8fb6e424ab1b235f8b",
+            "pdfSha256": "9c0ec74daabe5af3c71db2c88ba331c7b1e7bf182adaf327cc4ce38130087337",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "cove",
+        "fixtures": [
+          {
+            "name": "matrix-cove-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "df7e3486f995617f1fcbc00ae9d57faa329574156b053b9868aa76425ec68b62",
+            "pdfSha256": "856845ab15537b9b77d3df481cc62f916e43631b9515b4a0a3d854ce74046c25",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-cove-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "df7e3486f995617f1fcbc00ae9d57faa329574156b053b9868aa76425ec68b62",
+            "pdfSha256": "4eed75d336345fa933f6356caa60a2fb11f92d08d6996972fe9c93a348bc26ed",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-cove-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "bd3aa52b7d5233d125eafb353c5850104b16e79e822804be5f9390ddf583131a",
+            "pdfSha256": "b3459a31f7685386dabb7cc3b86eca10874a67cbfd017e853845483b1fcd9c25",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-cove-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "bd3aa52b7d5233d125eafb353c5850104b16e79e822804be5f9390ddf583131a",
+            "pdfSha256": "fbdb35bcb36fb9c94b505bdebe64b0d33c56d4bc912a59b9aabca5c973b5a9e8",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "diagonal",
+        "fixtures": [
+          {
+            "name": "matrix-diagonal-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "16b2bd8262ab9f7e70a6449333186c966b2497c87e4c7ba985d7d9c874e07803",
+            "pdfSha256": "8f51779d35104ae81a1e99d8ffbb8aa22722a4ba05872733c5aaa3aae8929c6b",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-diagonal-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "16b2bd8262ab9f7e70a6449333186c966b2497c87e4c7ba985d7d9c874e07803",
+            "pdfSha256": "af4f53883205f826f1284d1c6b33a80b472985f136db1198abe819352d90431a",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-diagonal-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "c670997b528219cdb6e219be17d271cbd64abe0909bb7b5ad4b30dd6cc017312",
+            "pdfSha256": "27ce1901a15167e0901e8f9f4f0f1c2116c198653b3f5d484d93948fa274a50f",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-diagonal-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "c670997b528219cdb6e219be17d271cbd64abe0909bb7b5ad4b30dd6cc017312",
+            "pdfSha256": "1cca15204783972073daa6363d018a78ab453663c37cc2110f48c2c8794eed2f",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "edel",
+        "fixtures": [
+          {
+            "name": "matrix-edel-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "d613a319a0c02b722dfd704307cac497afea6544357f0f87915fbf23edd8aae0",
+            "pdfSha256": "2bfcf642b2f6ed4894fa82e052c1ec640dd04c9e2d9c03644c3d98cb6c295ece",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-edel-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "d613a319a0c02b722dfd704307cac497afea6544357f0f87915fbf23edd8aae0",
+            "pdfSha256": "b4265fdb9722664eb4ceefb50bbc8a537d64414caf1acc284fc993d8a101c4cb",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-edel-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a25d935a1918729662bba0a4416c477ee960375bc27c6361d203b5df5b8e0d12",
+            "pdfSha256": "dc4f15b08f788e6e57b16c88f848bd4f9212cc87e29e2f87ffc3262e08c8eaa5",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-edel-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a25d935a1918729662bba0a4416c477ee960375bc27c6361d203b5df5b8e0d12",
+            "pdfSha256": "1713a34ffeaf9ddd6f77f0bf6ac4948a1e79af6f6f9b0498e095817c0d8dbf58",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "edelDark",
+        "fixtures": [
+          {
+            "name": "matrix-edelDark-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "7777e53acb4961b4c7f04c2e2ab7dab4b3bd38e4a8241f3a98528dc3e6252078",
+            "pdfSha256": "0732d5b05369e27bbd5800a380cc72b0d7465071e1910f97b067c9335b0f7911",
+            "rasterVerdict": "FAIL"
+          },
+          {
+            "name": "matrix-edelDark-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "7777e53acb4961b4c7f04c2e2ab7dab4b3bd38e4a8241f3a98528dc3e6252078",
+            "pdfSha256": "960d65ca6121b2ffbdb99514bef48651fe35b446d591051d17bf32d422bdc581",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-edelDark-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "8e20ab58903674d7eb0a797747ae040a327ed1f92910c396a27945ad0368c202",
+            "pdfSha256": "aef445441f3a7404bdd9dcbf8bd22b7497659e8dec2e798d285ad2efaef05d7d",
+            "rasterVerdict": "FAIL"
+          },
+          {
+            "name": "matrix-edelDark-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "8e20ab58903674d7eb0a797747ae040a327ed1f92910c396a27945ad0368c202",
+            "pdfSha256": "e2bdbd19c106ea160ca380e3feb6871d2bb5103a9e7d3436bec6651762f77404",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "FAIL"
+      },
+      {
+        "template": "edge",
+        "fixtures": [
+          {
+            "name": "matrix-edge-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "1da9d3dbc1dfabb311022b428df5f924ead6acc672b6904ca5f9a0587f702923",
+            "pdfSha256": "8d63579fcbb17e84b04b12b0f5f0bb1225c4dc9aee4da0b14a6188c916ed42fa",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-edge-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "1da9d3dbc1dfabb311022b428df5f924ead6acc672b6904ca5f9a0587f702923",
+            "pdfSha256": "73cdce3c71bc6157100fc9a2ca2692f259e2aca7527aecf694f5720be2e58cd0",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-edge-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "b510fd9864852a7069fe6975c02c7b0400ceab80b7e1dfbe699e29f1f2f5017c",
+            "pdfSha256": "1fb3bf0d76cff17466422cfdedea3196f45c7cddc14bf896df6bf95b6271c35f",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-edge-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "b510fd9864852a7069fe6975c02c7b0400ceab80b7e1dfbe699e29f1f2f5017c",
+            "pdfSha256": "7ba0cbddb462da4c4776704a54ecec4f847a5536468f929d3f5aadf739622740",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "forestFlow",
+        "fixtures": [
+          {
+            "name": "matrix-forestFlow-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "d268540e0b68a1c00f078ca3fd9d1b53558c471e712be938b9675c73d5b09277",
+            "pdfSha256": "abc8797e474e43915112b701b4671fd9f75ee09ecc3e6fe3d7233b5ee0b1d06a",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-forestFlow-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "d268540e0b68a1c00f078ca3fd9d1b53558c471e712be938b9675c73d5b09277",
+            "pdfSha256": "c6057390648df1e7ac2882fc0b71086f3b31027b6c156777fe122826a1277b06",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-forestFlow-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "e72f0f46512bb754cd92fd1e272373afb4c9f3a22490aab32201a29020583589",
+            "pdfSha256": "b5caf22630bde48071dcd7e2d4d1c2e683d90f717c1c4fd1f3540d9f4c7e4c20",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-forestFlow-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "e72f0f46512bb754cd92fd1e272373afb4c9f3a22490aab32201a29020583589",
+            "pdfSha256": "db4f73854b1153a0776074503030fc240f5b9f78e4c86b5f5d29501af2ca9d56",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "freundlich",
+        "fixtures": [
+          {
+            "name": "matrix-freundlich-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "790f159e2591976a87163a181ad04ab1fc83f1b8c8b74c4bfed5d404cb0f3ba7",
+            "pdfSha256": "f8d111b4964dfc1d01adb2fc7f2308ea8ed57022a97d3d070c194b7234b25da4",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-freundlich-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "790f159e2591976a87163a181ad04ab1fc83f1b8c8b74c4bfed5d404cb0f3ba7",
+            "pdfSha256": "0a7c98c9895a6d012b40d3cffe9e208914a2b149e44b514af9e21b039bed70ad",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-freundlich-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "c55e22cc8b52dad25b00a7a3d7096b0cf0ce309ac41529e336d51cee17b6d19c",
+            "pdfSha256": "5d3c5619a71400bd65b010429fb0cf7c763916a1edf2e32828eb8aa1187a8983",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-freundlich-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "c55e22cc8b52dad25b00a7a3d7096b0cf0ce309ac41529e336d51cee17b6d19c",
+            "pdfSha256": "7f6c91c99340e02e29e87f024954a020970f02f5482a6baa9a85de04050594e1",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "gallery",
+        "fixtures": [
+          {
+            "name": "matrix-gallery-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "ad27cf820f8f5854a5f2dc785510f65534a0d8e383af90b309540d6036223cf0",
+            "pdfSha256": "00f0509e7b85bfab0f1e10b432fb7d11541facc2455edf7118052634cb887c9e",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-gallery-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "ad27cf820f8f5854a5f2dc785510f65534a0d8e383af90b309540d6036223cf0",
+            "pdfSha256": "fd8ab784586ddf16fa9f34c77abde2acec2a5a2cbfe0602819731b2f180807a8",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-gallery-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "55ab6c4248a2019fbe9dd7c342da5b2ba166bd1b6df9cbcc09134c2931e31642",
+            "pdfSha256": "d4e4c5480ccaad60294ba4f954bc109ca97b8231648b78ec0c6593d84a4b6312",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-gallery-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "55ab6c4248a2019fbe9dd7c342da5b2ba166bd1b6df9cbcc09134c2931e31642",
+            "pdfSha256": "c889b4b20cfa71c0ca803bd1081d8653d568342b3363e63503e89686687f276e",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "glow",
+        "fixtures": [
+          {
+            "name": "matrix-glow-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9e5dfba6ef2c67cd65e165ed863f0b629e94002b9f4c049e1981f1c176111e78",
+            "pdfSha256": "3c866a18ca8997f6f7bfd7f613dfed77cfb1ed09337a9c1b99b209dd40fa41e0",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-glow-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9e5dfba6ef2c67cd65e165ed863f0b629e94002b9f4c049e1981f1c176111e78",
+            "pdfSha256": "52e1871ab2077ff2169b96de89339821ab90758cc4d687044e052f32b33bce82",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-glow-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a7e91eb6faae5a01fe48d7f9ac9c37f8e21ace490f193068a98f77972b460c47",
+            "pdfSha256": "6328415a19ae1ca6a9212e788184a0212072528c433db84b6c22c3d8b15e4487",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-glow-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a7e91eb6faae5a01fe48d7f9ac9c37f8e21ace490f193068a98f77972b460c47",
+            "pdfSha256": "0cf86eb1e220717457e0f617f2fbf5b7e83a5b5b913e26170aca6f286af5cedf",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "horizon",
+        "fixtures": [
+          {
+            "name": "matrix-horizon-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "ae5144246b766a81286341e65ae01d5c56e0642bf665967dd3ac92c5791913fb",
+            "pdfSha256": "297569cde7aa03e2c4580f1fa3552ec4763c030b30003f5a2d7f2ae8b0070c50",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-horizon-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "ae5144246b766a81286341e65ae01d5c56e0642bf665967dd3ac92c5791913fb",
+            "pdfSha256": "7de4789e720836797c5207d422c4a50b27b132ff9616891075e022bfad3eba45",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-horizon-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a26f066fee4f453c5865dc5effb343ca454dd51a248a9274f07e0c6cdeddcf03",
+            "pdfSha256": "399160fe350639c16b2c3a5c61987a8ef8928b196fac1923f319d24d16ff0602",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-horizon-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a26f066fee4f453c5865dc5effb343ca454dd51a248a9274f07e0c6cdeddcf03",
+            "pdfSha256": "7360ac9780b7613a405c978d6801154901b178fb8f062041e450ac5f8192b135",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "human",
+        "fixtures": [
+          {
+            "name": "matrix-human-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "31e013d4b87b5b78d672f7d6b1050bd39c2084703483d712cc746deba5759756",
+            "pdfSha256": "0e766d4c1466c7d5c38d5f8ddcbb07b8005b84cedbae4ea2e5c01c8b944fb445",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-human-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "31e013d4b87b5b78d672f7d6b1050bd39c2084703483d712cc746deba5759756",
+            "pdfSha256": "45760af86643b64bea945aa52d740e2975705facdac8a827098201f7baae3c9a",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-human-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "e48b2626f79cec8c96310d237f23da4eb6cfc31823af22398d854694f460e39b",
+            "pdfSha256": "ef5d65d9cf5e994cbdd19a9d907ecdb217c7e367e6a99e768d7d4f55ffc8d5c5",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-human-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "e48b2626f79cec8c96310d237f23da4eb6cfc31823af22398d854694f460e39b",
+            "pdfSha256": "09b37aa597dee77fb743213aefea81f14bdbc9e93c4e31aca9e2263252357372",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "klassisch",
+        "fixtures": [
+          {
+            "name": "matrix-klassisch-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "e66d287ddd9337392bd55e575f70dd7a362d3d106a84e51da77eda1c8857c517",
+            "pdfSha256": "ec7e3356b45a0a1e2fefa14585206855f5f2219c250321e0da85b48b69258320",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-klassisch-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "e66d287ddd9337392bd55e575f70dd7a362d3d106a84e51da77eda1c8857c517",
+            "pdfSha256": "767fdfaff5cbe51d006e7fbd61a0b6110248dabd4148a3ba9d9289d72404b308",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-klassisch-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "c20abb319e77f656d9496060179343e76e1cc838e9e9e4966868ee25cc9a7c9b",
+            "pdfSha256": "6b8e1a411f47402b571743d954bb65e5853792885abd99be0c16a3f2793ff72e",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-klassisch-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "c20abb319e77f656d9496060179343e76e1cc838e9e9e4966868ee25cc9a7c9b",
+            "pdfSha256": "480319deddc14f7bbcc03c487c4e9d9102ba73cbadf3dc62d09479a62d526ecb",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "ledger",
+        "fixtures": [
+          {
+            "name": "matrix-ledger-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "1e051e28a8bc1ede429f621a0899fb8e69cd0a3e001101ddcd52665623a6e6ac",
+            "pdfSha256": "f444c6bfcec1e85a216e1d17c5aed273f87aa1bcf34e4a1fd3d063b694c87a7a",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-ledger-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "1e051e28a8bc1ede429f621a0899fb8e69cd0a3e001101ddcd52665623a6e6ac",
+            "pdfSha256": "f5d15debb87cf9cc7098de100f74c7bcdc15177c9d31685b662b1f84f596aeb4",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-ledger-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "cab5785ab0a5705c36cbe50969e25b1fac7b907fbf885f535fe83b41891c5343",
+            "pdfSha256": "db5fb42e743f56fb18eac8cc06ff591cacad5f30c71afd8d3139008918dd1139",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-ledger-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "cab5785ab0a5705c36cbe50969e25b1fac7b907fbf885f535fe83b41891c5343",
+            "pdfSha256": "dce0bfaccc5c79d00da0d679038d3bbc24548b4509843c848db7ec8768d894b1",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "modern",
+        "fixtures": [
+          {
+            "name": "matrix-modern-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "36936272c03c619cdb80ebacff761e117d152f6b4b17a1223ad68ba814a7ece7",
+            "pdfSha256": "b6eb1db1bb9e3cd6ed4ec0af223479a1f9ebe8836b25e3630b8059b7f0959bcc",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-modern-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "36936272c03c619cdb80ebacff761e117d152f6b4b17a1223ad68ba814a7ece7",
+            "pdfSha256": "a522f036cb8ddfbe08479a5b8c6fe13939a03ee5bb3c816edb43b85ccb129983",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-modern-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "fc9c3495e7a78f7a95f92624b4dee3329dd07cba4f1cc832c8daf49926706c07",
+            "pdfSha256": "cddcab227029de638a6c1db1999e628cb93f66a064e1225ed42e2046c84aaa6d",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-modern-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "fc9c3495e7a78f7a95f92624b4dee3329dd07cba4f1cc832c8daf49926706c07",
+            "pdfSha256": "f9464828e40dd27fec76d78a2a943f278cbb87aabb1eaa124c42fe82bcacdeed",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "monoLuxe",
+        "fixtures": [
+          {
+            "name": "matrix-monoLuxe-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "3e621525982ec68a566497fe506e70c1c7d5416510b00b8efe395e2e100ec0d9",
+            "pdfSha256": "fb721a3765fc4db98ee1dcb3ad3f8adf6cc45f3a5cf4df57f4bb130961ff84f2",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-monoLuxe-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "3e621525982ec68a566497fe506e70c1c7d5416510b00b8efe395e2e100ec0d9",
+            "pdfSha256": "069be4192dba11d2c3cb33060654364fa52dfd4a6db706ce76a7755cc1d4184c",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-monoLuxe-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "e2914477e6764d1eec888613874cad6f4733ed1a87903dac5e25f53367e94241",
+            "pdfSha256": "17fd7d06e2f80df11dbfcc845565d6d45f3f3729bcff87244cdab33a1e31f7c8",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-monoLuxe-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "e2914477e6764d1eec888613874cad6f4733ed1a87903dac5e25f53367e94241",
+            "pdfSha256": "8ba95102fb8c692b3e4baf33652d6eafd19fc94d97d44e983c335f8e20b307d4",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "neon",
+        "fixtures": [
+          {
+            "name": "matrix-neon-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "ff1dbf554ed8cc8e64f7da888170ea167768965eda9103f0377db6fd57673b10",
+            "pdfSha256": "99737fda9e351c0c696592c3a6bc43ce0bd445aff41ccfb93b454ea9059e38bf",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-neon-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "ff1dbf554ed8cc8e64f7da888170ea167768965eda9103f0377db6fd57673b10",
+            "pdfSha256": "30aab1b13ea5ed3818c3f07471ed29e3b868f287098da548836c4b31e8edbf7c",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-neon-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9fbdffd47d11f213393e15ab1c2982f739b1c332223e65df375701bcc963a8cc",
+            "pdfSha256": "f7cd5c16973d44e0ff347ae173989848787ff45855e0618497c39d5a243657e8",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-neon-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9fbdffd47d11f213393e15ab1c2982f739b1c332223e65df375701bcc963a8cc",
+            "pdfSha256": "a44ddd940865c2ede85f4b64ed1f7489f7fe13e5db87c82abeac40f482103cb2",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "orbit",
+        "fixtures": [
+          {
+            "name": "matrix-orbit-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "8cfc6a09691593c0126b6685e2e0cb8110789fd74e0dea053326e0a784a7b1b3",
+            "pdfSha256": "a749c0b5eabb6af09d8987a6eb631cb9224e665122222a37c8209cf93f1fa845",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-orbit-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "8cfc6a09691593c0126b6685e2e0cb8110789fd74e0dea053326e0a784a7b1b3",
+            "pdfSha256": "99bd1da3684858860e59e497d98b136070cbacb1646047492c978903531aab8b",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-orbit-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "563f38c967cb4965a9d4d5f5eec3b7be0a561bab84fa946a8532c7226621666b",
+            "pdfSha256": "c12fc533f967cf1c2e88cf111aba2f83b427b72dfa06407ecf1f0321c382565f",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-orbit-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "563f38c967cb4965a9d4d5f5eec3b7be0a561bab84fa946a8532c7226621666b",
+            "pdfSha256": "e68dd484f9ccbb295c0913a700b1e5294008761dacc9de314c90e2e62666920a",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "pastell",
+        "fixtures": [
+          {
+            "name": "matrix-pastell-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "fdd471ee0c4f061abd9cce4a51042522d7a640d889bd2ae6ccdc344501c4a56e",
+            "pdfSha256": "a371ed99478dde7084f56e3c93c9addc0593f85688f1ec454540e0699bdff278",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-pastell-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "fdd471ee0c4f061abd9cce4a51042522d7a640d889bd2ae6ccdc344501c4a56e",
+            "pdfSha256": "162f459940e046b567043d259e1893e78ceefaf52561e1a039879889521a97cb",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-pastell-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "43cce53f53632f47c5d9f6ac5df0dac80198537cc1b29ceee12fc1c2ad9fbc46",
+            "pdfSha256": "e28a633a6a915289e696234c5ad9851b5918508d15676ebe4bd7a3be64e5d2a5",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-pastell-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "43cce53f53632f47c5d9f6ac5df0dac80198537cc1b29ceee12fc1c2ad9fbc46",
+            "pdfSha256": "7c97f9cf2d15db1d69b2a9b301ecb2c8a08d982cf321e0bf8c4fe29d66db58f2",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "prism",
+        "fixtures": [
+          {
+            "name": "matrix-prism-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "da79c6f58043bf85f50c566dde6dad53466a9daf416e2341df6ea7b0f9fdd644",
+            "pdfSha256": "4f937435c779db28e6438a7747947d0d9d5d88e068b1a845f4c43dc91c819493",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-prism-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "da79c6f58043bf85f50c566dde6dad53466a9daf416e2341df6ea7b0f9fdd644",
+            "pdfSha256": "c50fb67c68456dd84987a72295f1b8b246fe1294c5622a6a71babf65231ad1f4",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-prism-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "6e95d27364064dacc7a2a671440b8e4bb84186eb1a9a3d0dea8e93602964385b",
+            "pdfSha256": "6bea3307eb34c973cfb3e7b3c0dcea80dc445d67e83093565ed795d40c87fce8",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-prism-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "6e95d27364064dacc7a2a671440b8e4bb84186eb1a9a3d0dea8e93602964385b",
+            "pdfSha256": "e37a3f576c5156d11494cf80967d5067b19ceaee18e661c9ad6b16221e4dc3aa",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "ribbon",
+        "fixtures": [
+          {
+            "name": "matrix-ribbon-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "f2b8a407421e96aefc9c8a0e45c6bcbe31b4c4e8a65dc2ed2620010ed24a5a38",
+            "pdfSha256": "ca28e39c864b156b2bae69620683bdb27661fc52fe109bdfc6d6b8b922918e3a",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-ribbon-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "f2b8a407421e96aefc9c8a0e45c6bcbe31b4c4e8a65dc2ed2620010ed24a5a38",
+            "pdfSha256": "84fb2ba03a1b00ae2f51d898633e1b4380026fadae2456d0e380826e57ef2fc4",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-ribbon-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "fa31fcac3cccb8d56484f6932632603e21f09e331a0c492c3473106f37444c8c",
+            "pdfSha256": "1d4b37d7a7e25b92d901d9f586b6d3f0075ad3e639786431c593f1fb202837b6",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-ribbon-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "fa31fcac3cccb8d56484f6932632603e21f09e331a0c492c3473106f37444c8c",
+            "pdfSha256": "0a90123de6f7de5779ff16dc5ef5e490231df5eeeee7d8ad4bfd2d1af9ca8f5c",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "serioes",
+        "fixtures": [
+          {
+            "name": "matrix-serioes-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a4cb11efa90138833f3b3e2375ea51b6b03c8f11e9ec4460917dbf28a1b28c78",
+            "pdfSha256": "41e6f05b13361efb44bdaa6d96af330264f769b86c87cafe0adced722517c2ae",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-serioes-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a4cb11efa90138833f3b3e2375ea51b6b03c8f11e9ec4460917dbf28a1b28c78",
+            "pdfSha256": "1b40bd6f6c3c08123562a221b79127c91cc9dbe3723d1ac44bda4661617ca131",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-serioes-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "db9a90d1bcc8b7dfa23ee723174090da95a6d57e71f0d1add699891bc5efa3de",
+            "pdfSha256": "78b47ee11ba30041d25a65f21afd6c12628151ad583b735dd39908126ac88286",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-serioes-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "db9a90d1bcc8b7dfa23ee723174090da95a6d57e71f0d1add699891bc5efa3de",
+            "pdfSha256": "d8ecddabb0906bee05ad839cffdce18fa3abb145c2e0deb782e5c42d88eaca75",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "sonne",
+        "fixtures": [
+          {
+            "name": "matrix-sonne-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "eea1eb2321bc9ea919948a5d45e648b4a2943c65f7a70dc7b9a791946aa2557f",
+            "pdfSha256": "434282ecaef98c39404af426540c0926aeab4c7e1177af4e1072c8fdf3acfed6",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-sonne-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "eea1eb2321bc9ea919948a5d45e648b4a2943c65f7a70dc7b9a791946aa2557f",
+            "pdfSha256": "efdb3222ac7854362ff9fe5f7416e1092630b9a55eb292efcdd1480d0723abc1",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-sonne-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "96b91fa6660f941e78a697d98fc3975a9b7bd58514ab66472a468d558d89090a",
+            "pdfSha256": "219dfccc42a4f69bd71a70c35ec7815c57be87f6202d83a387d2bc2d78d4c621",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-sonne-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "96b91fa6660f941e78a697d98fc3975a9b7bd58514ab66472a468d558d89090a",
+            "pdfSha256": "d793dfd3b96ae844ab6b47f4adaf5e028d6eefecde09dc0a00947a067acb1a37",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "studio",
+        "fixtures": [
+          {
+            "name": "matrix-studio-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "92055661e0b5ec73d548f550e74274aaf127270746637fcf24e063fd4f747ecf",
+            "pdfSha256": "2f5c37b1615fa0984dc880f7bb762dcde094bb4e40abfd29ebc5cfab7983dafb",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-studio-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "92055661e0b5ec73d548f550e74274aaf127270746637fcf24e063fd4f747ecf",
+            "pdfSha256": "c10fd51d909dc2ec6974dddbbaf39fbab01048900f5429c7ec022e6a829a2de2",
+            "rasterVerdict": "FAIL"
+          },
+          {
+            "name": "matrix-studio-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "3a7fcce6bfe2de45d4656225447ef9c39e765e656ac661f25adb37aa5737fff3",
+            "pdfSha256": "ddbf53815ee48fd3032b14f1b6f78b6f99b73e21d99188a7b589d154238d8563",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-studio-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "3a7fcce6bfe2de45d4656225447ef9c39e765e656ac661f25adb37aa5737fff3",
+            "pdfSha256": "97243a12656fbf130236fc65bcf8c6b4adf7cb5bc3cd2dd177c9abd81f57820b",
+            "rasterVerdict": "FAIL"
+          }
+        ],
+        "rasterVerdict": "FAIL"
+      },
+      {
+        "template": "studio2",
+        "fixtures": [
+          {
+            "name": "matrix-studio2-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "131fa26031a4eac068bcf4c7a7c86db538e12fe70b295e8b13e95c3b01decc3b",
+            "pdfSha256": "68241105252dc96f2296faacecd4fb6a958d4b318be2e8cfa9f025ad08f99618",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-studio2-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "131fa26031a4eac068bcf4c7a7c86db538e12fe70b295e8b13e95c3b01decc3b",
+            "pdfSha256": "7f3195cdc9543f40ece3780fa157d717068013cfbb4bd842a27dc228106ed833",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-studio2-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "8a757914d82ad7f8cba94e02568b9204a3d0e8644e1c4e82e1102663cb2f28a0",
+            "pdfSha256": "8866c7dcbd99eed800416251972346782c8a46570b1597668dc00a574a1e3f6b",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-studio2-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "8a757914d82ad7f8cba94e02568b9204a3d0e8644e1c4e82e1102663cb2f28a0",
+            "pdfSha256": "72913050756ba3a0ba19c118b585c984090b30b72719effc6f55a1f9a6456ebe",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "studio3",
+        "fixtures": [
+          {
+            "name": "matrix-studio3-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "0e546d769c6bf7df135d5c265c5b544fe97c824c75c3779d8455d42591ab770d",
+            "pdfSha256": "b244d98def9e163ec1dd9efca60b8b8048d2db603538cf74e7f606de27277959",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-studio3-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "0e546d769c6bf7df135d5c265c5b544fe97c824c75c3779d8455d42591ab770d",
+            "pdfSha256": "f12901e54acc0851e696afd5c1d19161eac973f57eb96821c3361c955dbb9e89",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-studio3-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "833cf898343b5d11b7d11e515a08fd28455a12998f7f036c1a238e74fd066ea7",
+            "pdfSha256": "3a2d5ad9c8d4b9d5f30ab8461f042892f149290cb2a8a7268f2ac166a737f878",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-studio3-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "833cf898343b5d11b7d11e515a08fd28455a12998f7f036c1a238e74fd066ea7",
+            "pdfSha256": "3332dcbf06923cb110432b40d56fca013b33a3031e5fabe7722596bed5a52a4c",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "sunrise",
+        "fixtures": [
+          {
+            "name": "matrix-sunrise-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "553caa266abbb0777873389b14202fe07486de28a47ab5bbbfdd5b036d8faff3",
+            "pdfSha256": "0034dc847caafb45b65e13bd5037170f63d596664833085d49e0fb7b46036063",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-sunrise-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "553caa266abbb0777873389b14202fe07486de28a47ab5bbbfdd5b036d8faff3",
+            "pdfSha256": "aac1da1a0fe87b96f8259e74f1428e8c39bbea6f03cf212dc16537b2034888ae",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-sunrise-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9db1b218be72c840ca7061785b84a872f11a2ca503abf4ea6a6de1cf87a91ddf",
+            "pdfSha256": "257f4aeae7a3db8e5d0c4734b468960211df175f90eb5e5a4c254d72dcd15fda",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-sunrise-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9db1b218be72c840ca7061785b84a872f11a2ca503abf4ea6a6de1cf87a91ddf",
+            "pdfSha256": "9fbeedca1fabdcdc37883ab4266da22ad2a9b0849353b75d4993869049fc3add",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "terracotta",
+        "fixtures": [
+          {
+            "name": "matrix-terracotta-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "5f3138329a1f0fa558e4d63557a3877efcc759e7ca2b61ce91c1b92528250b38",
+            "pdfSha256": "ef79cd0e1889142c6869d62099cf53cc73ba45a16501d74e8a138be3dddc4c50",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-terracotta-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "5f3138329a1f0fa558e4d63557a3877efcc759e7ca2b61ce91c1b92528250b38",
+            "pdfSha256": "78f032e58babd2cedb71884da1d05346ed55b449e8283bb52107185a4e40979a",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-terracotta-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "5352cfaee86d13950ebabcca8e728c6e733a98d5d9a8c8107c17c2f8125860a9",
+            "pdfSha256": "a089a4ec65f8ef80d9db647be78cc1e58e3a2c580bb20864b1829811cf412f88",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-terracotta-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "5352cfaee86d13950ebabcca8e728c6e733a98d5d9a8c8107c17c2f8125860a9",
+            "pdfSha256": "b526ca3d23f410eed94197909c3a943359f1e1f7445dc1e69f2c62f3eee368b5",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "verlauf",
+        "fixtures": [
+          {
+            "name": "matrix-verlauf-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "3e9c65e4dbce9c66f2b2bea42eea3907055232131c7f17c80cab43616638f786",
+            "pdfSha256": "007820eee3c1c4c92242095413ab61a81627885fabf23e71e4319c6db43a7db9",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-verlauf-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "3e9c65e4dbce9c66f2b2bea42eea3907055232131c7f17c80cab43616638f786",
+            "pdfSha256": "804b779ad8057813498a51ebd17a5c5c816517abc5003847f780b9df4324e1a2",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-verlauf-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "6fb5528d574f63b420e3640ec81b27d4d5385c0d69527f7ff986f10374a540ed",
+            "pdfSha256": "f6cf4d2b9c759a2e06f30c17033989e331cb9bbe9fad532ada54daa38d254269",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-verlauf-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "6fb5528d574f63b420e3640ec81b27d4d5385c0d69527f7ff986f10374a540ed",
+            "pdfSha256": "3a8933c8ed5be5e483014f5a079d1b1065339dd9eba041552745e309a0fd82b8",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "verlauf2",
+        "fixtures": [
+          {
+            "name": "matrix-verlauf2-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "4facb44b1ac42c5411693c4aa391f61c13ca96d30094acc1f93e0f614778d9b4",
+            "pdfSha256": "5a9fb37f68e1c82687f3dd4322135682ba130ffd5395d650aefb60aabb6aa461",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-verlauf2-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "4facb44b1ac42c5411693c4aa391f61c13ca96d30094acc1f93e0f614778d9b4",
+            "pdfSha256": "c166ec0255fe739227e7e99555c528993e4a8a6ff029258f899c03bd551b494a",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-verlauf2-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "7f561e68ff933d61970b7f229efd37f0f3fb4ebc9bb6850aaecaea12b65f43a6",
+            "pdfSha256": "56be32dd2b1dfe531592e9f6b55d50dbe91380597cecda96e62c104846970fd5",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-verlauf2-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "7f561e68ff933d61970b7f229efd37f0f3fb4ebc9bb6850aaecaea12b65f43a6",
+            "pdfSha256": "21a5e25aab966d12a7205712cb540577aa875ea78206026778197ec43ba3f259",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "verlauf3",
+        "fixtures": [
+          {
+            "name": "matrix-verlauf3-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "06a1958aaafbc4ba266f57a0645f109ecb990c8f850e370fa1e9c30cacbf4719",
+            "pdfSha256": "b2a1d0f6c3a25aed5d50e66a0fdf8a3543fbf87cafacec07bc3843b8a189cba0",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-verlauf3-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "06a1958aaafbc4ba266f57a0645f109ecb990c8f850e370fa1e9c30cacbf4719",
+            "pdfSha256": "800cbe55bc585c963212db5e8ea6044152bb50e4fddc2a6099902efd27fc45f5",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-verlauf3-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "2ffb5657a822eab64caa8c73a367a9b55f03d1f8ca5055aa386d66790c943297",
+            "pdfSha256": "aac9c6c4a016df3f8809897e24a1c7632a3cd5e0f82bc4fea78965396ed92fb1",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-verlauf3-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "2ffb5657a822eab64caa8c73a367a9b55f03d1f8ca5055aa386d66790c943297",
+            "pdfSha256": "606a85770c9e059c59abfff198184934ba0969b482cfffeef2631ba6d6a0c9f8",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "violetPulse",
+        "fixtures": [
+          {
+            "name": "matrix-violetPulse-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "6c1a2e7dec38cded0714627ffd1c421f60b843ca62303e31e78694468e0c34b4",
+            "pdfSha256": "191f5f8adb7411c0181049c22b8c8e9473ff9d17d5f27042c40bc42dd806d7fd",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-violetPulse-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "6c1a2e7dec38cded0714627ffd1c421f60b843ca62303e31e78694468e0c34b4",
+            "pdfSha256": "5cc9a9ac932869b129607744c235f1f04afc6a6728dc311733eae82126b61174",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-violetPulse-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "55743bbb4bef5df42613f8837d8537b6046bb485b7508d195ee44fe050324d71",
+            "pdfSha256": "39ab8cd5f2fc9b04977d9434fd4ee6c575608b93b66e5c86598d81f4338cae8f",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-violetPulse-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "55743bbb4bef5df42613f8837d8537b6046bb485b7508d195ee44fe050324d71",
+            "pdfSha256": "fa0d53d7d7c415d0d47e122b46f7e0e74747d7d75bdb0bc9cbc5a3bbe8d4644b",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "warm2",
+        "fixtures": [
+          {
+            "name": "matrix-warm2-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "7c4973f02a6e09c8964bfd95eb2be17a3cf41415458c5158ed4653623d6d82a9",
+            "pdfSha256": "2ae9fbbaaa4a45fa11b499e0bb10e7247d3ceb4c64b015c0750fab81c628adba",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-warm2-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "7c4973f02a6e09c8964bfd95eb2be17a3cf41415458c5158ed4653623d6d82a9",
+            "pdfSha256": "acf0eb570fbca338cae52b79082cb244ff2333e7a8b7fd5bb466c4e4ff7252c1",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-warm2-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "ad09e6e1b97b2023567536660b8579bd6be09daca28e146325f758ff90f3213a",
+            "pdfSha256": "9d6578561fe235573782d2f800e7adc7fd4a08daa75c79a7d372b143034931b6",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-warm2-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "ad09e6e1b97b2023567536660b8579bd6be09daca28e146325f758ff90f3213a",
+            "pdfSha256": "21e20377dd1b6df30e3771e3b2a3bad5fd663a5ef908f68e45417516ac0f5145",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "warm3",
+        "fixtures": [
+          {
+            "name": "matrix-warm3-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9097a99adc65565980e6df2587c4c32f3f922bdc3d7622d56498ddc996351b35",
+            "pdfSha256": "2cf9bc979019f16e43ce5697a30ac9e39e7abba0fe21064d04b0d55cfaf9e257",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-warm3-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "9097a99adc65565980e6df2587c4c32f3f922bdc3d7622d56498ddc996351b35",
+            "pdfSha256": "26aa4e9ed7a234d154ff0b9f92079ddaee152f6930266fb5c2358cf9193df733",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-warm3-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a4a00e89d3d7ea5458a360addbb4a00ea625318eabfd7f212b5837be96476c37",
+            "pdfSha256": "191810eba25a9117aa052561b4c841935751f89e9f7f379e270e29cb13961415",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-warm3-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "a4a00e89d3d7ea5458a360addbb4a00ea625318eabfd7f212b5837be96476c37",
+            "pdfSha256": "bb995d8d98c0eaeb893d8879b96e47547b69da532fac68f85cc4271edc4d142f",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      },
+      {
+        "template": "welle",
+        "fixtures": [
+          {
+            "name": "matrix-welle-one-letter",
+            "kind": "letter",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "acc8f8612d97a67554ce654713ffc51b3a1f24c75f237018cab6875eb425e848",
+            "pdfSha256": "5779187fc84b99ad5096a2285efb3e8bb787b17605ef27b2754154b637ce4e7b",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-welle-one-cv",
+            "kind": "cv",
+            "physicalPages": 1,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "acc8f8612d97a67554ce654713ffc51b3a1f24c75f237018cab6875eb425e848",
+            "pdfSha256": "ad30428fe989f9817d5043a7ddc801f8d0823b3b8bcd16abe534f267b19c2481",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-welle-two-letter",
+            "kind": "letter",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "25f4df4ee7de9159e5926cc277ac3f48015870e21ce6e268c020cb145db6a791",
+            "pdfSha256": "d851a7c872cb07559a754e5b82c69f217c783b63aa790d70dce6c4d8e7edbcc3",
+            "rasterVerdict": "PASS"
+          },
+          {
+            "name": "matrix-welle-two-cv",
+            "kind": "cv",
+            "physicalPages": 2,
+            "browserVerdict": "PASS",
+            "findings": [],
+            "fixtureSha256": "25f4df4ee7de9159e5926cc277ac3f48015870e21ce6e268c020cb145db6a791",
+            "pdfSha256": "045e3b2817b3afe7640d583766c043498767775962f383cbe466154ae47f80f1",
+            "rasterVerdict": "PASS"
+          }
+        ],
+        "rasterVerdict": "PASS"
+      }
+    ]
+  },
+  "raster": {
+    "status": "FAIL",
+    "pdfs": 268,
+    "pages": 565,
+    "markerBoxes": 6468,
+    "pdfPass": 260,
+    "pdfFail": 8,
+    "failedMarkerBoxes": 44,
+    "failureFile": "raster-failures.json",
+    "assertionsUnchanged": true
+  },
+  "combined": [
+    {
+      "fixture": "brief",
+      "letterCvTemplate": "brief",
+      "coverTemplate": "brief",
+      "physicalPages": 5,
+      "letterPages": 2,
+      "cvPages": 2,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "FAIL",
+      "fixtureSha256": "27e9fd9b5a1d83bf9f955ec1344fd7676dea0aadba78479d39b70ffd3e55f4d6",
+      "pdfSha256": "cdb6a020f20adc54da218a3ff2dcb1589f9448bd30023f1ab66acd39213f19f4"
+    },
+    {
+      "fixture": "gallery",
+      "letterCvTemplate": "gallery",
+      "coverTemplate": "brief",
+      "physicalPages": 6,
+      "letterPages": 2,
+      "cvPages": 3,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "55755bc156da13e15b15993d35824605de8ee8882fe4ab8612c0f9bca5165182",
+      "pdfSha256": "46f388c2c2cd67d09b1a47d293a1d13546cc485ea98354146a397d508a8c7f00"
+    },
+    {
+      "fixture": "joint-brief-large-entry-long-word-margins",
+      "letterCvTemplate": "brief",
+      "coverTemplate": "brief",
+      "physicalPages": 10,
+      "letterPages": 4,
+      "cvPages": 5,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "ae8c8190cc012e85d463d6a279b0c3e3de3dafa1a9bc391d242509da39384473",
+      "pdfSha256": "9ce5b3ad12d535e90ebbc4351d016a420e3522311be9a3e89d4dfb734f6589d9"
+    },
+    {
+      "fixture": "joint-ledger-columns-long-word-margins",
+      "letterCvTemplate": "ledger",
+      "coverTemplate": "brief",
+      "physicalPages": 12,
+      "letterPages": 4,
+      "cvPages": 7,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "7db5229eb2fe359fae429443e4f7b3b9f040fb2046dee86e5394176bddf6e35d",
+      "pdfSha256": "ba58780bab89c189a70b5218b621b5e07816d243e545fc7c0973a77d9798aeee"
+    },
+    {
+      "fixture": "joint-ledger-masonry-long-word-margins",
+      "letterCvTemplate": "ledger",
+      "coverTemplate": "brief",
+      "physicalPages": 12,
+      "letterPages": 4,
+      "cvPages": 7,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "9c6a1ef9390702dbc2a1b58585655a693a2722c0909af8f4fd9c106e13c2d0d3",
+      "pdfSha256": "d3eae124aa4458610ec91adc3e3bf4d28aec348e9e2dfbcafa155b919768d621"
+    },
+    {
+      "fixture": "joint-studio3-right-sidebar-long-word-margins",
+      "letterCvTemplate": "studio3",
+      "coverTemplate": "brief",
+      "physicalPages": 11,
+      "letterPages": 4,
+      "cvPages": 6,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "c0d763b3380ea575143d20fd8ff1af51ed38b518e77b47e20193d0a9ee842010",
+      "pdfSha256": "5e0902f6a44290b4a0b36336bdbb1d8cf38fdc005790427ed25d42b118d8689e"
+    },
+    {
+      "fixture": "ledger",
+      "letterCvTemplate": "ledger",
+      "coverTemplate": "brief",
+      "physicalPages": 5,
+      "letterPages": 2,
+      "cvPages": 2,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "980644662fa3a2dac898f32197d94213b3a088c65f053ac42d8747f5d55108f1",
+      "pdfSha256": "10b0e4bb94b113cec611961902331a5c6d68eaebd59c6979472fbc653a322873"
+    },
+    {
+      "fixture": "ribbon",
+      "letterCvTemplate": "ribbon",
+      "coverTemplate": "brief",
+      "physicalPages": 5,
+      "letterPages": 2,
+      "cvPages": 2,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "dd9e9acf419fb2a7b6015e269c517b691dc3d409b5271f566e75b9521594615d",
+      "pdfSha256": "e6487d4db41bf0d0f66a45fc2868ada4520cfec2318ed868cfe6c8c1506b7c58"
+    },
+    {
+      "fixture": "studio2",
+      "letterCvTemplate": "studio2",
+      "coverTemplate": "brief",
+      "physicalPages": 6,
+      "letterPages": 2,
+      "cvPages": 3,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "768c81e8962baeca84c2a2ed0fdcea2e9a4fd7f49df588cfedbb2f32ba1a6f8f",
+      "pdfSha256": "660c68972ef172e66fadfff4bd75383477ef9477efe86f3531c0f712581a14de"
+    },
+    {
+      "fixture": "studio3",
+      "letterCvTemplate": "studio3",
+      "coverTemplate": "brief",
+      "physicalPages": 5,
+      "letterPages": 2,
+      "cvPages": 2,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "74b65b0a265cb53f278094109f53574752e3eebef089006bf99d6c1f06204f5f",
+      "pdfSha256": "455e8e7fdb8f775d3627878349ade4fc31c9b1bb6360dac9acce14b703ea835e"
+    },
+    {
+      "fixture": "terracotta",
+      "letterCvTemplate": "terracotta",
+      "coverTemplate": "brief",
+      "physicalPages": 5,
+      "letterPages": 2,
+      "cvPages": 2,
+      "browserVerdict": "PASS",
+      "rasterVerdict": "PASS",
+      "fixtureSha256": "cf59ade81c7be30280d2bd5eadd149b8019783703d8e92ed653b0b2ef89875c8",
+      "pdfSha256": "dd5a6d0bb84f99b28f29b9bfff3eda7792703ea8ee19be7f7b5739a46ca94d9c"
+    }
+  ],
+  "combinedPhysicalPages": 82,
+  "automaticPreview": "https://vercel.com/modebrechts-projects/cv-cover-charm/EGX4FWJCQgWDAhhQwnKVXAuTuJ93",
+  "limitations": [
+    "No complete contrast policy: edelDark Letter has dark body ink on dark paper.",
+    "Existing CSS zoom normalization changes CV wrapping in clone; visible PDF and canonical Range boxes differ.",
+    "Dossier advisory override intentionally denied.",
+    "Original Ribbon Cover geometry remains genuinely unsafe and blocked.",
+    "Standalone CV legacy exporter remains outside new Letter/Dossier override policy."
+  ],
+  "unchangedDevRendererProof": [
+    {
+      "fixture": "matrix-edelDark-one-letter",
+      "devSha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+      "candidateSha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1",
+      "devPdfSha256": "a284cc2acfc634cdb4edb44cef9c8bf5e78f7917759ac09d3a53490c59c79f25",
+      "physicalPages": 1,
+      "rasters": [
+        {
+          "page": 1,
+          "identicalRaster": false,
+          "devRasterSha256": "859778257030385986728e691502b1292518dcc2c84ac2891d08fa5669b9934e",
+          "candidateRasterSha256": "8e1d4e1332893510704738105e9c296a0b679a9c9e4dba03e75ff653b6690c07"
+        }
+      ],
+      "devStrictRasterProbe": {
+        "marker": "QASALUTATION001",
+        "physicalPage": 1,
+        "boxMm": [26.99, 117.908, 33.643, 3.967],
+        "contrast": 25,
+        "contrastedPixels": 0,
+        "status": "FAIL"
+      }
+    },
+    {
+      "fixture": "boundary-brief-cv-first-three",
+      "devSha": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+      "candidateSha": "b81289d53171b4b4b3b756bfbd9b049ce83d9ee1",
+      "devPdfSha256": "2a0a199c2e30ec473239b40961463fd9a96e83a23f6cca1250271c76fe7a6b6e",
+      "physicalPages": 3,
+      "rasters": [
+        {
+          "page": 1,
+          "identicalRaster": true,
+          "devRasterSha256": "e62afedcccebd460699f8ffb336ad6d1f8a6c3f75c68af3844825361d36da87f",
+          "candidateRasterSha256": "e62afedcccebd460699f8ffb336ad6d1f8a6c3f75c68af3844825361d36da87f"
+        },
+        {
+          "page": 2,
+          "identicalRaster": true,
+          "devRasterSha256": "1566eedfa560ba6e726831404855858b5a1257c919d6b62fa0f441fb4c8106eb",
+          "candidateRasterSha256": "1566eedfa560ba6e726831404855858b5a1257c919d6b62fa0f441fb4c8106eb"
+        },
+        {
+          "page": 3,
+          "identicalRaster": true,
+          "devRasterSha256": "f38afb6a8af72f016f74c1908742ab6122953a675c15f308dc025020719d5400",
+          "candidateRasterSha256": "f38afb6a8af72f016f74c1908742ab6122953a675c15f308dc025020719d5400"
+        }
+      ],
+      "devStrictRasterProbe": {
+        "marker": "QAEND008",
+        "physicalPage": 2,
+        "boxMm": [125.076, 101.846, 22.746, 5.025],
+        "contrast": 518,
+        "contrastedPixels": 7,
+        "status": "FAIL"
+      }
+    }
+  ]
+}
