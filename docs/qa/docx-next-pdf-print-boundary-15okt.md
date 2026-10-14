@@ -2,7 +2,7 @@
 
 ## Decision and provenance
 
-**Item 12: PASS locally. Remote verification is pending the implementation push.**
+**Item 12: PASS — local verification and the dedicated remote CI completed successfully.**
 
 The existing native pipeline is retained:
 
@@ -77,6 +77,8 @@ The unchanged migration moves into `cv/legacy-type-scales.ts`, imported by the e
 
 No native renderer, package validator, asset normalization algorithm or export interface is replaced or relaxed.
 
+A TypeScript AST comparison against the fetched base confirms that both relocated template definitions, all four relocated contact functions and the CV migration function are unchanged declarations after formatting/comments are excluded.
+
 ## 4. Evidence of independent native package generation
 
 `tests/unit/docx-next-pdf-print-boundary.test.ts` adds six focused checks:
@@ -121,7 +123,12 @@ Browser integrations reuse `dossier-chrome-document-content.spec.ts` and `dossie
 
 The existing `.github/workflows/docx-next-model-gate.yml` is extended to this branch and the runtime guard. It runs DOCX and complete unit suites, typecheck, lint, formatting and build; a dependent job runs the three existing browser integrations. It neither deploys nor starts LibreOffice source experiments.
 
-**Candidate CI:** pending implementation push; exact run URL and conclusion will be recorded after completion.
+**Candidate CI: SUCCESS.** [DOCX Next model and runtime gates — run 38636695750](https://github.com/modebrecht/cv-cover-charm/actions/runs/38636695750) verified implementation commit `2211819a80a49344fa1289f4d787df7930683193`.
+
+- [Model/runtime job 116101567874](https://github.com/modebrecht/cv-cover-charm/actions/runs/38636695750/job/116101567874): SUCCESS; 359 DOCX tests and 1,172 unit tests completed with zero failures, followed by successful typecheck, lint, formatting and build.
+- [Shared-state browser job 116102142621](https://github.com/modebrecht/cv-cover-charm/actions/runs/38636695750/job/116102142621): SUCCESS; all three selected existing integration tests passed.
+
+The following report-only commit records this completed result and changes no code, tests or workflow. The workflow intentionally excludes documentation-only pushes; all executable inputs remain those of the successful implementation run.
 
 **Post-Item-11 merge checks on the actual base:**
 
