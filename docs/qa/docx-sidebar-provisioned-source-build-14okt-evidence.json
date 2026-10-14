@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "outcome": "B — PARTIAL / GUARDED; source-build execution pending at bounded work checkpoint",
+  "productionArchitectureDecision": "C: guarded support; no production promotion",
+  "applicationBaseSha": "7e8d5839fc5c21fd2b12fb496f3f5c07cc44961a",
+  "freshRemoteDevSha": "33fa153297bc48dcf691d5a4e0112df7432ed1cb",
+  "testedApplicationSha": "ef6f6254587d3e77424bce5183fd16e7ca3eab04",
+  "upstreamSourceSha": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+  "newArchitectureHypotheses": 0,
+  "productionSourceChanges": 0,
+  "initialSourceAttempt": {
+    "applicationSha": "7917ba051f0806a548fe29b9f303aab6cf95b8b6",
+    "nativeRunId": 38581038237,
+    "sourceJobId": 115910695727,
+    "sourceConclusion": "FAIL: direct launch of upstream shebangless wrapper; configure never executed",
+    "applicationRunId": 38581038048,
+    "applicationConclusion": "cancelled",
+    "artifact": {
+      "id": 11903800659,
+      "bytes": 25563,
+      "sha256": "140626cee6bf19be50e4448e351e033d4ac029905e59d9436fcfdb1378cc1244"
+    },
+    "sourceResult": {
+      "scope": "Paired complete upstream checkout; Writer target and native CppUnit, not full product build or application matrix",
+      "applicationSourceSha": "7917ba051f0806a548fe29b9f303aab6cf95b8b6",
+      "upstreamSourceSha": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+      "trees": {
+        "baseline": {
+          "sourceSha": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+          "engineFileSha256": "699f8f4ddbfdc97207c66588afc3c4ac02859f801d69a132433b6c214055fe56",
+          "testFileSha256": "f9d5ff7ee3d0f2e361ec6bfc698a1cddf823070115b23080312abe16e7cac8e8",
+          "sourceDiffSha256": "9323c6bbc1267b983d4a798607c6f2230d22b47fc1c20def02fbd9b74953584d"
+        },
+        "candidate": {
+          "sourceSha": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+          "engineFileSha256": "8e6fe703e3f59519ba577a39382ae4a80cfcbe4c6b5a60d2ee1d57b48ed1c1ba",
+          "testFileSha256": "f9d5ff7ee3d0f2e361ec6bfc698a1cddf823070115b23080312abe16e7cac8e8",
+          "sourceDiffSha256": "2d14d4b4678fab70d46d462b54fb85481c5c6975d0c298c3423f970b05144621"
+        }
+      },
+      "status": "FAIL / INCONCLUSIVE: stopped at first build or contract failure",
+      "productionAcceptance": "blocked",
+      "originalControlCreationLifetime": "UNVERIFIED",
+      "originalContainerLifetime": "UNVERIFIED",
+      "microsoftWordAcceptance": "UNVERIFIED",
+      "applicationRuntimeDependency": false,
+      "newArchitectureHypotheses": 0,
+      "sourceEngineMatrix22": "UNEXECUTED",
+      "fixtureArchiveSha256": "57a10181c92c907b304f63664b3ba812175c1c87a485674649926fce2c6a197b",
+      "preparedCases": 6,
+      "failure": "OSError: [Errno 8] Exec format error: './autogen.sh'"
+    }
+  },
+  "correctedSourceAttempt": {
+    "applicationSha": "ef6f6254587d3e77424bce5183fd16e7ca3eab04",
+    "nativeRunId": 38582780109,
+    "sourceJobId": 115916739239,
+    "conclusion": "IN_PROGRESS",
+    "nativeWorkflowConclusion": "IN_PROGRESS",
+    "prerequisiteProvisioning": "PASS",
+    "packetAndWorkerNegativeTests": "PASS",
+    "checkoutConfigureCompileAndNativeResult": "UNVERIFIED until retained source artifact is available",
+    "buildStep": "IN_PROGRESS",
+    "timeoutMinutes": 330,
+    "haltOnFirstBuildOrContractFailure": true,
+    "furtherDependencyDebugging": "not authorized by this bounded packet"
+  },
+  "applicationCI": {
+    "runId": 38582779754,
+    "conclusion": "success",
+    "unitTests": 1118,
+    "testFiles": 243,
+    "browserGroupsPassed": 8,
+    "typescript": "PASS",
+    "formatting": "PASS",
+    "lint": "PASS, 0 errors and 21 existing warnings",
+    "build": "PASS",
+    "releaseCandidateStatus": "success",
+    "nativePrintBenchmark": "SKIPPED"
+  },
+  "stockNativeCI": {
+    "runId": 38582780109,
+    "supportedSidebar": "success",
+    "pictureIdentity": "success",
+    "appBodyContent": "success",
+    "historicalExperiments": "SKIPPED",
+    "artifact": {
+      "id": 11903662982,
+      "bytes": 6120411,
+      "sha256": "cbeb3f831010520ee6b1bcfe3057ae9176652ed2682308abcd0a4d52b1accb0a",
+      "contentReportSha256": "7b8b253f945d82d6bc8a89f790ea562293de632e8c5ca8fd0a796c1bd514dc16",
+      "geometryReportSha256": "d027d89bed4d48c30c39fb6f3d2185281389f7ce9e7c828fd22397b6b84d2c8b",
+      "controlReportSha256": "6d346a5ed2a7fff8ee383320bb76280336a9a400e72d2829ebeaa8d6d93ff7b4"
+    },
+    "matrix": {
+      "cases": 22,
+      "phases": 66,
+      "pdfPageInstances": 564,
+      "contentRoundtripAcceptance": "pass",
+      "emptyCvPages": 0,
+      "outOfBoundsWords": 0,
+      "exactGeometryCases": 18,
+      "failedGeometryCases": [
+        "app-body-both-long-right",
+        "app-body-right",
+        "app-body-photo-right",
+        "app-body-photo-free-mirrored-side"
+      ]
+    },
+    "engine": {
+      "interface": "LibreOfficeKit",
+      "version": {
+        "ProductName": "LibreOffice",
+        "ProductVersion": "25.8",
+        "ProductExtension": ".7.3",
+        "BuildId": "580(Build:3)"
+      },
+      "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+      "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+      "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+      "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+      "host": "Linux x86_64",
+      "packagesVerified": 50
+    },
+    "controlObservation": [
+      {
+        "fixture": "app-body-left",
+        "phase": "saved",
+        "canonicalTag": "cv.person.address",
+        "inputSha256": "a8609f7e6be8624370aab40ae95a988149df25ef1ddbd94650b69b271dbcd85b",
+        "registrationEvent": "value",
+        "liveControlChecks": 45,
+        "controlDisposals": 0,
+        "sameRegisteredInterfaceAtEnd": true,
+        "observedControlInterval": "PASS",
+        "reason": "Same strong UNO control reference across the observed import interval",
+        "originalControlCreationLifetime": "UNVERIFIED",
+        "originalContainerLifetime": "UNVERIFIED"
+      },
+      {
+        "fixture": "app-body-left",
+        "phase": "source",
+        "canonicalTag": "cv.person.address",
+        "inputSha256": "24b5d63caf6fbfc701dc934aae19e5b2f566b7eaf8184db56f442d3d3647d563",
+        "registrationEvent": "end",
+        "liveControlChecks": 0,
+        "controlDisposals": 0,
+        "sameRegisteredInterfaceAtEnd": true,
+        "observedControlInterval": "INCONCLUSIVE",
+        "reason": "No control identity observation before import end",
+        "originalControlCreationLifetime": "UNVERIFIED",
+        "originalContainerLifetime": "UNVERIFIED"
+      }
+    ],
+    "originalControlCreationLifetime": "UNVERIFIED",
+    "originalContainerLifetime": "UNVERIFIED",
+    "strictGates": [
+      {
+        "gate": "require_stable",
+        "result": "EXPECTED FAIL",
+        "reason": "Exact Save/Reopen geometry is not stable"
+      },
+      {
+        "gate": "require_source_interval",
+        "result": "EXPECTED FAIL",
+        "reason": "Source original-control interval is not observed"
+      }
+    ]
+  },
+  "microsoftWordAcceptance": "UNVERIFIED",
+  "sourceEngineMatrix22": "UNEXECUTED",
+  "applicationRuntimeDependency": false,
+  "modifiedEngineBinariesDistributed": false,
+  "merge": false,
+  "manualDeployment": false,
+  "existingAutomaticVercelStatus": "success",
+  "localVerification": {
+    "pythonTestsPassed": 77,
+    "groups": 9,
+    "initialSourceWorkerTests": 6,
+    "correctedSourceWorkerTests": 8,
+    "immutablePacketTests": 9,
+    "strongNativeLifetimeAcceptance": "UNVERIFIED",
+    "stockStrictNegativeGates": "EXPECTED FAIL"
+  },
+  "finalRemoteRefObservation": {
+    "dev": "33fa153297bc48dcf691d5a4e0112df7432ed1cb",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9",
+    "render": "4319c20fb85d3971ac355ae8898cdfef86ee7a8c",
+    "agentA": "c9a03d9f29aeb29a5c632024c2c3f951b86eac89",
+    "agentB": "28ea3f0b177e210f38c3b04ce44867e6618ca2bc",
+    "changedByThisPackage": false
+  },
+  "observedAtUtc": "2026-10-14T15:11:46.601109+00:00",
+  "nextTechnicalGate": "Read and fingerprint the already running corrected source artifact; stop at its first failure. A successful paired source grid/package/page-count target still requires official upstream/distributor delivery and separate current-body original control/container lifetime evidence before production promotion.",
+  "publication": {
+    "scope": "Documentation-only checkpoint after tested executable ef6f6254",
+    "ciRunsOfCheckpointCommit": "SKIPPED explicitly; no new executable change",
+    "branch": "fix/docx-next-sidebar-gate-13okt"
+  }
+}
