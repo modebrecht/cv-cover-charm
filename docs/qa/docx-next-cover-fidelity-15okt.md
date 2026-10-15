@@ -229,3 +229,24 @@ Execution commit: `dae206cddacd8398a14e667594ae04e1c8d93f78`.
 
 There is no production source, test, dependency, protected-branch or export-toggle change.
 The patch is inert unless explicitly applied in an isolated checkout.
+
+## Final verified CI result
+
+[Run 38738169017](https://github.com/modebrecht/cv-cover-charm/actions/runs/38738169017)
+checks execution commit `eaa91374ba4d01dd07ab451d1c035942e10952bc` including the engine-provenance correction.
+
+- [Unchanged runtime job 116432695806](https://github.com/modebrecht/cv-cover-charm/actions/runs/38738169017/job/116432695806): **SUCCESS**.
+  359 DOCX tests / 5,720 assertions; 1,172 complete unit tests / 22,801 assertions;
+  typecheck, lint, formatting and build PASS; **3 browser integrations PASS** in 24.1 seconds.
+- [Native experiment job 116432695583](https://github.com/modebrecht/cv-cover-charm/actions/runs/38738169017/job/116432695583): **FAILURE at the strict visual placement gate**, after successful patch application,
+  seven tests / 213 assertions, typecheck and 117 package generations across all 39 templates.
+  Stock LibreOffice **24.2.7.2 420(Build:2)** again reports **38 native layout failures**;
+  Brief remains 4 → 5 pages with contact/attachment fields missing from page 1.
+- [Final rejected diagnostic artifacts](https://github.com/modebrecht/cv-cover-charm/actions/runs/38738169017/artifacts/11973964480)
+  contain the corrected actual-engine provenance. These fixtures remain rejected.
+- Final branch-versus-dev comparison contains exactly the nine listed evidence/QA/config files.
+  No source or production test file differs. The exact branch's deployment list is still empty.
+- The subsequent report-only commit records these completed results and changes no executable input.
+  It does not claim a separate CI execution for its own future SHA.
+
+**Final engineering verdict: BLOCKED. Item 37 remains open at P1. Desktop Word acceptance is UNVERIFIED.**
