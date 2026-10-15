@@ -190,6 +190,42 @@ The titleblatt goal remains valid; the attempted generic placement mechanism is 
 - Local shared-state browser invocation was blocked by the already running port 4173.
   It is not recorded as three passing tests. The independent CI job uses a clean server.
 - Changed-file formatting, patch application and final diff are checked before publication.
-- Remote CI: pending first publication. Its final status is recorded in a report-only follow-up.
+- First remote CI completed: unchanged runtime SUCCESS; native placement candidate rejected. See the run and job records below.
 - This is a diagnostic evidence branch. The native placement gate is deliberately strict and
   the failed candidate remains rejected; no accepted implementation is claimed.
+
+## Remote CI evidence
+
+Execution commit: `dae206cddacd8398a14e667594ae04e1c8d93f78`.
+[Run 38737583996](https://github.com/modebrecht/cv-cover-charm/actions/runs/38737583996):
+
+- [Unchanged runtime job 116430712795](https://github.com/modebrecht/cv-cover-charm/actions/runs/38737583996/job/116430712795): **SUCCESS**.
+  359 DOCX tests / 5,720 assertions; 1,172 full-suite tests / 22,801 assertions;
+  typecheck, lint, both formatting gates and build pass; **3 browser integrations PASS** in 24.7 seconds.
+- [Rejected native job 116430712948](https://github.com/modebrecht/cv-cover-charm/actions/runs/38737583996/job/116430712948): **FAILURE at the visual placement gate**.
+  Patch application, seven candidate tests, typecheck and all 117 package generations succeed.
+  The 39-template native render independently reproduces **38 failures**, including Brief 4 → 5 pages.
+  Exit code 1 is the intended rejection of this failed experiment.
+- CI used **LibreOffice 24.2.7.2 420(Build:2)**; the local sandbox used **25.2.7.2**.
+  Both produce the same rejection count. The initial helper's static engine label is corrected
+  in the following provenance commit; the job's actual version log is authoritative.
+- [Rejected diagnostic artifacts](https://github.com/modebrecht/cv-cover-charm/actions/runs/38737583996/artifacts/11974078658)
+  contain both package sets, PDFs and machine measurements. They expire on 29 October 2026.
+  These are failed diagnostic fixtures, not Word acceptance candidates.
+- The branch-filtered Vercel deployment listing is empty after publication.
+  A live project listing filtered by GitHub repository ID also returns the expected linked project.
+
+## Exact branch files
+
+1. `.github/workflows/docx-next-cover-fidelity.yml`
+2. `scripts/docx-next-cover-fidelity-qa.ts`
+3. `scripts/docx-next-cover-render-qa.py`
+4. `scripts/docx-next-cover-web-reference.cjs`
+5. `docs/qa/docx-next-cover-fidelity-15okt.md`
+6. `docs/qa/docx-next-cover-fidelity-15okt-evidence.json`
+7. `docs/qa/docx-next-cover-fidelity-15okt-comparison.jpg`
+8. `docs/qa/docx-next-cover-fidelity-15okt-rejected-experiment.patch`
+9. `vercel.json`
+
+There is no production source, test, dependency, protected-branch or export-toggle change.
+The patch is inert unless explicitly applied in an isolated checkout.

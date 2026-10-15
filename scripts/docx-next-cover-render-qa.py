@@ -40,7 +40,7 @@ def main():
                      "missingCoverFieldsOnPage1":missing,
                      "layout":"FAIL" if missing or new!=old else "UNVERIFIED"})
     result={"status":"BLOCKED" if any(r["layout"]=="FAIL" for r in rows) else "UNVERIFIED",
-            "engine":"LibreOffice 25.2.7.2 (not Microsoft Word)",
+            "engine":run("soffice","--version").strip()+" (not Microsoft Word)",
             "templates":rows,"failed":sum(r["layout"]=="FAIL" for r in rows),
             "wordVisualAcceptance":"UNVERIFIED"}
     (args.packages/"native-layout.json").write_text(json.dumps(result,indent=2)+"\n")
