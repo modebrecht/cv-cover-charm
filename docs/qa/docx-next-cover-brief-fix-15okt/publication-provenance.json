@@ -1,0 +1,16 @@
+{
+  "destination": "https://github.com/modebrecht/cv-cover-charm",
+  "destinationUserSpecified": true,
+  "repositoryVisibility": "public",
+  "source": "authoredCoverFixture variants of existing public briefFixture and DEMO constants",
+  "imageSource": "Existing synthetic 120x180 red/blue chart from the audit reproduction; no actual applicant photo",
+  "newStrings": "Invented test names/address variations, not actual applicant records",
+  "originalUserAttachmentsAdded": false,
+  "privateProjectDataAdded": false,
+  "devHead": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "parentAudit": "b6bbd8fb91adbb5143bde5e347b99af98728418c",
+  "vercelExactBranchDisabled": true,
+  "vercelWildcardDisabled": true,
+  "prePublicationBranchDeployments": 0,
+  "workflowDispatches": 0
+}

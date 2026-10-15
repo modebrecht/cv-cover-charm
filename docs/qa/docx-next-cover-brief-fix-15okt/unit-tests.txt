@@ -1,0 +1,1675 @@
+bun test v1.3.11 (af24e281)
+
+tests/unit/docx-next-editorial-templates.test.ts:
+(pass) Edge and Gallery declarative template migration > Edge: stress models retain unique editable fields after portable JSON [59.22ms]
+(pass) Edge and Gallery declarative template migration > Edge: authored fonts, semantic typography and saved photo frame override defaults [6.28ms]
+(pass) Edge and Gallery declarative template migration > Gallery: stress models retain unique editable fields after portable JSON [37.84ms]
+(pass) Edge and Gallery declarative template migration > Gallery: authored fonts, semantic typography and saved photo frame override defaults [5.36ms]
+(pass) Edge and Gallery declarative template migration > Edge rail and connected corner follow user palette without painting a second masthead [1.31ms]
+(pass) Edge and Gallery declarative template migration > Gallery keeps the date with the portrait tower and grows a semantic contact row [1.17ms]
+(pass) Edge and Gallery declarative template migration > background visibility and explicit chrome surfaces keep existing gates [12.33ms]
+
+tests/unit/dossier-motif-parity.test.tsx:
+(pass) CV / letter background motif parity > keeps the established CV 0-100 motif control [0.35ms]
+(pass) CV / letter background motif parity > letter exposes the same semantic 0-100 control [8.67ms]
+(pass) CV / letter background motif parity > normalizes motif visibility and migrates old letter saves to 25 percent [0.36ms]
+(pass) CV / letter background motif parity > Warm keeps its band structural and its authored decorative baseline [1.42ms]
+(pass) CV / letter background motif parity > Fresh keeps full-height rails structural while motifs remain user-controlled [0.64ms]
+(pass) CV / letter background motif parity > Ledger keeps its full-height index sidebar structural [0.38ms]
+(pass) CV / letter background motif parity > generic dossier backgrounds remain on the shared motif layer [1.68ms]
+(pass) CV / letter background motif parity > letter canvas, pagination/export and dossier transfer share bgOpacity [0.32ms]
+
+tests/unit/docx-next-container-identity.test.ts:
+(pass) native table identity annotations cannot bypass the diagnostic export gate by removing issues [7.18ms]
+(pass) malformed native identity carrier declarations fail explicitly [11.97ms]
+
+tests/unit/dossier-docx-lazy-loader.test.ts:
+(pass) lazy DOCX template modules > registers exactly the 39 active DOCX dossier templates [0.23ms]
+(pass) lazy DOCX template modules > keeps Word renderers out of the synchronous export router [0.10ms]
+
+tests/unit/docx-next-human.test.ts:
+(pass) Human native candidate and shared page paint > all scenarios retain semantic identities and deterministic portable data [26.70ms]
+(pass) Human native candidate and shared page paint > photo-left hero preserves native image crop and independently styled profession [1.04ms]
+(pass) Human native candidate and shared page paint > quiet page motifs remain on first/continuation pages when running chrome is disabled [14.23ms]
+(pass) Human native candidate and shared page paint > CV motif opacity scales paint independently and zero disables it [2.15ms]
+(pass) Human native candidate and shared page paint > shared renderer/model modules remain template-ID-free with no repair chain [0.61ms]
+
+tests/unit/cover-decoration-drag-bounds.test.ts:
+(pass) cover decoration drag bounds > keeps ordinary content completely inside the A4 page [0.09ms]
+(pass) cover decoration drag bounds > allows a decoration to be dragged halfway beyond every paper edge [0.03ms]
+(pass) cover decoration drag bounds > preserves the intentional overflow of the friendly template circles [0.01ms]
+
+tests/unit/edel-dark.test.ts:
+(pass) Edel light/dark dossier contract > registers Edel Dark after the established template catalogue [0.07ms]
+(pass) Edel light/dark dossier contract > makes Edel the warm-white counterpart to the true dark variant [0.27ms]
+(pass) Edel light/dark dossier contract > shares Edel geometry and executive typography family [0.05ms]
+
+tests/unit/dossier-docx-neon-surface.test.ts:
+(pass) legacy DOCX light-card surfaces > uses LibreOffice-safe Neon rectangles above the dark page background [0.09ms]
+(pass) legacy DOCX light-card surfaces > keeps card reserve while allowing LibreOffice CV pagination headroom [0.05ms]
+
+tests/unit/dossier-docx-cv-section-order.test.ts:
+(pass) DOCX CV section order > moves the fixed family rubric directly after personal data by default [1.23ms]
+(pass) DOCX CV section order > respects an explicitly saved rubric order instead of forcing family second [0.30ms]
+(pass) DOCX CV section order > never cuts nested sidebar tables while scanning rubric headings [0.12ms]
+
+tests/unit/dossier-docx-v2-cover-justify.test.ts:
+(pass) DOCX V2 cover text alignment > maps editor justify alignment to Word both [2.19ms]
+
+tests/unit/templatefix-violet-pulse-cleanup.test.ts:
+(pass) Violet Pulse interior cleanup > keeps the title page untouched and loads only interior overrides [0.02ms]
+(pass) Violet Pulse interior cleanup > motivation letter uses one calm top signature and global rule suppression [0.03ms]
+(pass) Violet Pulse interior cleanup > CV removes old giant motif treatment and decorative heading dashes [0.31ms]
+
+tests/unit/cv-section-layout-controls.test.ts:
+(pass) CV section position and layout controls > combines placement and layout in one always-visible panel [0.03ms]
+(pass) CV section position and layout controls > gives fixed and custom rubrics the same Side/Main placement model [0.02ms]
+(pass) CV section position and layout controls > renders custom rubrics in the sidebar and preserves their portable placement [0.16ms]
+(pass) CV section position and layout controls > removes the duplicated standalone position control [0.09ms]
+
+tests/unit/docx-next-body-attachment.test.ts:
+(pass) body attachment ownership controls preserve complete paragraphs, flags and the same text lane [71.62ms]
+(pass) all 24 ownership controls retain immutable unique identities and byte-identical JSON packages [209.91ms]
+
+tests/unit/docx-next-klassisch.test.ts:
+(pass) Editorial native hero and outline stationery > portable stress inputs preserve native text and validated paint [27.97ms]
+(pass) Editorial native hero and outline stationery > outlined frames repeat without filling the editable writing surface [3.63ms]
+(pass) Editorial native hero and outline stationery > no-photo spacing precedes the configured semantic hero, independently of name visibility [0.78ms]
+(pass) Editorial native hero and outline stationery > saved field styles, photos and rich tables stay native; sidebar uses shared flow [2.93ms]
+
+tests/unit/m13-visual-fixes.test.tsx:
+(pass) M13 visual acceptance fixes > Studio attachments stay above the A4 bottom edge [0.63ms]
+(pass) M13 visual acceptance fixes > legacy column letters use narrow safe rails instead of CV-width columns [1.47ms]
+
+tests/unit/dossier-docx-sonne-contrast.test.ts:
+(pass) Sonne DOCX contrast > keeps the dark cover but uses readable white letter/CV paper [35.21ms]
+(pass) Sonne DOCX contrast > keeps all cover contact details white and matches the PDF CV accent circle [13.72ms]
+(pass) Sonne DOCX contrast > uses dedicated PDF-like editable cover overlays [17.80ms]
+
+tests/unit/docx-next-edel-dark.test.ts:
+(pass) Edel Dark reuses native Edel composition with its authored sheet palette > stress snapshots keep complete editable text and deterministic portable models [27.74ms]
+(pass) Edel Dark reuses native Edel composition with its authored sheet palette > dark sheet, contrast and gold frames are distinct from light Edel without new geometry [0.85ms]
+(pass) Edel Dark reuses native Edel composition with its authored sheet palette > saved paper and CV motif visibility remain independent of cover palette [1.48ms]
+(pass) Edel Dark reuses native Edel composition with its authored sheet palette > existing photo frames, explicit field styling and rich native content survive [2.32ms]
+(pass) Edel Dark reuses native Edel composition with its authored sheet palette > new gradient candidates explicitly opt into composed decorative paint [0.06ms]
+
+tests/unit/letter-color-selection-bookmark.test.ts:
+(pass) letter colour selection bookmark > keeps saved ranges typed and rebases them after editor sanitization [0.12ms]
+
+tests/unit/docx-next-mono-luxe.test.ts:
+(pass) motif-only running chrome and Mono Luxe candidate > surface is generic and leaves the same native header geometry with or without a band [0.97ms]
+(pass) motif-only running chrome and Mono Luxe candidate > all fixtures are portable, deterministic and retain explicit identities [20.65ms]
+(pass) motif-only running chrome and Mono Luxe candidate > cap/rule repeat without a second masthead, and editable contact ink is readable on paper [1.87ms]
+(pass) motif-only running chrome and Mono Luxe candidate > authored custom surfaces and field styles override motif-only defaults [0.96ms]
+(pass) motif-only running chrome and Mono Luxe candidate > editable pictures/rich tables remain native and sidebar requests use shared flow [2.56ms]
+
+tests/unit/diagonal-template.test.tsx:
+(pass) Diagonal standalone template > is the sole active corner-diagonal template; Frame is retired [0.16ms]
+(pass) Diagonal standalone template > cover exposes two Word-sized same-colour triangles as editable blocks [0.79ms]
+(pass) Diagonal standalone template > manual triangle geometry and colour overrides remain authoritative [0.04ms]
+(pass) Diagonal standalone template > editable cover defaults keep lower-right metadata readable on colour [0.07ms]
+(pass) Diagonal standalone template > CV and letter repeat the same-colour diagonal identity without a third bar [0.03ms]
+
+tests/unit/fresh-cover-content.test.ts:
+(pass) Fresh cover content contract > all templates 21-42 use a stable cover label instead of leaking legacy eyebrow copy [1.05ms]
+(pass) Fresh cover content contract > all templates 21-42 keep application kicker and profession on separate logical lines [0.81ms]
+(pass) Fresh cover content contract > legacy templates retain their editable eyebrow and established Warm profession line [0.15ms]
+
+tests/unit/docx-next-serioes.test.ts:
+(pass) Serioes navy stationery and native flowing separators > portable stress inputs retain deterministic native content and validated paint [48.29ms]
+(pass) Serioes navy stationery and native flowing separators > source separator follows the hero in native flow with authored thickness and palette [7.48ms]
+(pass) Serioes navy stationery and native flowing separators > navy source bands stay editable geometry and interior bands repeat independently [4.51ms]
+(pass) Serioes navy stationery and native flowing separators > authored semantic typography, native photos and rich tables remain independent [2.58ms]
+(pass) Serioes navy stationery and native flowing separators > native sidebar and out-of-range native rule widths fail explicitly [1.93ms]
+
+tests/unit/dossier-docx-studio2-parity.test.ts:
+(pass) Studio 2 DOCX PDF parity > uses the PDF-like split cover and editable hero overlays [27.16ms]
+(pass) Studio 2 DOCX PDF parity > matches the PDF letter masthead and CV sidebar geometry [16.03ms]
+
+tests/unit/cv-continuation-header.test.tsx:
+(pass) shared dossier continuation headers > compact means a decorative band without contact data in both documents [3.68ms]
+(pass) shared dossier continuation headers > legacy contact uses a reduced identity header on continuation pages [21.65ms]
+(pass) shared dossier continuation headers > turning first-page-different off repeats the selected contact header [1.82ms]
+(pass) shared dossier continuation headers > legacy contact continuation respects the existing visibility switches [0.82ms]
+(pass) shared dossier continuation headers > none removes the header in both documents [0.56ms]
+
+tests/unit/dossier-docx-legacy-sender.test.ts:
+(pass) Seriös keeps the editable sender visible inside the letter section [11.79ms]
+
+tests/unit/templatefix-pastell-consistency.test.ts:
+(pass) Rahmen/Pastell dossier consistency > the cover keeps only the restrained inset top signature [0.35ms]
+(pass) Rahmen/Pastell dossier consistency > letter and CV use the same frame/top geometry and a quiet sidebar tint [0.08ms]
+
+tests/unit/dossier-form-ui-sync.test.ts:
+(pass) shared dossier form UI > all three document editors use the same resizable left form panel [0.24ms]
+(pass) shared dossier form UI > the shared shell owns width, spacing, scrolling and control rhythm [0.05ms]
+(pass) shared dossier form UI > sections share content, design and advanced hierarchy without ellipsis [0.06ms]
+(pass) shared dossier form UI > CV chrome controls have one visible owner instead of a duplicate panel host [0.06ms]
+(pass) shared dossier form UI > CV and letter share the same common header/footer control structure [0.11ms]
+(pass) shared dossier form UI > letter-only geometry is grouped below the shared chrome controls [0.08ms]
+
+tests/unit/resizable-editor-panel.test.ts:
+(pass) Resizable editor panel > keeps 640–767 px in overlay mode and starts split view at md [0.09ms]
+(pass) Resizable editor panel > gives users a wide split range with mouse, touch and pen resizing [0.06ms]
+(pass) Resizable editor panel > polishes dragging feedback and keyboard resizing [0.09ms]
+(pass) Resizable editor panel > aligns route controls and backdrops with the md overlay breakpoint [0.31ms]
+
+tests/unit/docx-next-parallel-flow.test.ts:
+(pass) parallel tracks retain semantic IDs, editable native paragraphs and independent splittable flow [14.07ms]
+(pass) parallel flow rejects unusable tracks and unsupported explicit pagination/floating content [1.17ms]
+(pass) semantic row alignment retains identity, groups entry metadata and leaves exhausted tracks empty [5.50ms]
+(pass) semantic rows attach section heading to its first entry using one native outer row [15.49ms]
+(pass) asymmetric cell padding rejects invalid geometry rather than dropping it [1.20ms]
+(pass) leading inset belongs only to the first semantic row and rejects unsupported geometry [1.85ms]
+(pass) a spanning track retains one uninterrupted semantic cell beside native entry rows [24.96ms]
+(pass) spans reject overlapping content, overflow, count mismatches and invalid track selection [1.87ms]
+(pass) atomic groups explicitly reject spanning-cell composition instead of losing or ungrouping text [1.12ms]
+(pass) section continuations retain authored indentation and emit their semantic heading once [2.15ms]
+
+tests/unit/letter-compact-header.test.tsx:
+(pass) compact letter presentation > letter canvas renders shared dossier paper for every template [36.86ms]
+(pass) compact letter presentation > all header modes work for every selectable letter style [88.81ms]
+(pass) compact letter presentation > all footer modes work for every selectable letter style without duplicating attachments [69.75ms]
+(pass) compact letter presentation > attachments footer grows with its editable attachment content [1.21ms]
+(pass) compact letter presentation > attachments footer also grows when the item count stays the same but a label wraps [0.79ms]
+(pass) compact letter presentation > contact header keeps long real-world contact values wrap-capable instead of truncating them [0.90ms]
+(pass) compact letter presentation > meaningful contact and attachment chrome stays in the accessibility tree [0.63ms]
+(pass) compact letter presentation > header and footer settings survive design normalization [0.12ms]
+(pass) compact letter presentation > retired Edel blockig and Bogen saves fall back instead of reviving removed templates [0.05ms]
+(pass) compact letter presentation > contact header uses automatic readable contrast on a light header color [0.57ms]
+
+tests/unit/docx-next-warm3.test.ts:
+(pass) Warm 3 shared organic counter-field and per-part stationery > all portable stress fixtures retain deterministic models and valid nonsemantic curves [25.86ms]
+(pass) Warm 3 shared organic counter-field and per-part stationery > curved teal and amber fields follow custom palettes without semantic text [0.78ms]
+(pass) Warm 3 shared organic counter-field and per-part stationery > quiet motifs repeat beside native contact stories and background visibility is independent [2.89ms]
+(pass) Warm 3 shared organic counter-field and per-part stationery > native photos, rich tables and explicit user typography survive; CV sidebar uses shared flow [2.68ms]
+
+tests/unit/shared-editor-controls-consistency.test.ts:
+(pass) shared CV / letter editor control ownership > renders exactly one dedicated Header & Footer section and one chrome control per editor [0.34ms]
+(pass) shared CV / letter editor control ownership > exposes exactly one shared page-margin control for each document scope [0.15ms]
+(pass) shared CV / letter editor control ownership > keeps CV-only document-title spacing under CV Schrift while Letter has no global Schrift section [0.98ms]
+(pass) shared CV / letter editor control ownership > keeps document-specific Layout controls in their owning editor [0.18ms]
+(pass) shared CV / letter editor control ownership > keeps Package 1 motif controls under Vorlage in both editors [0.08ms]
+
+tests/unit/photo-pdf-rasterization.test.ts:
+(pass) uploaded CV photos are always browser-normalized before they enter saved state [0.04ms]
+(pass) legacy JPEG ICC profiles are detected without flagging browser-normalized JPEGs [0.44ms]
+(pass) PDF clone uses the loaded live ICC photo when the cloned image is not decoded yet [0.61ms]
+
+tests/unit/letter-image-geometry.test.ts:
+(pass) letter image geometry > keeps legacy left/right saves in text-flow mode even when stale xMm exists [0.50ms]
+(pass) letter image geometry > uses explicit modern placement for true free coordinates [0.02ms]
+(pass) letter image geometry > switching between flow and free placement clears stale coordinates deterministically [0.07ms]
+(pass) letter image geometry > free dragging is clamped to the letter content box and updates the semantic side [0.07ms]
+(pass) letter image geometry > free and flow resizing share the same width bounds [0.17ms]
+(pass) letter image geometry > pixel conversion is based only on the measured letter content-box width [0.05ms]
+(pass) letter image geometry > explicit free placement survives a JSON roundtrip [0.05ms]
+
+tests/unit/docx-next-aurora.test.ts:
+(pass) Aurora approved flowing solid hero adaptation > complete stress models and semantic title survive portable restoration [44.98ms]
+(pass) Aurora approved flowing solid hero adaptation > source photo and explicit semantic style keep precedence [1.19ms]
+(pass) Aurora approved flowing solid hero adaptation > gradient is a finite banner and name uses flow rather than absolute compensation [0.03ms]
+
+tests/unit/dossier-chrome-policy.test.ts:
+(pass) global quiet chrome policy > shared chrome loads the global policy [0.03ms]
+(pass) global quiet chrome policy > detached Fresh header micro-rules are suppressed centrally [0.18ms]
+(pass) global quiet chrome policy > Edge CV contact text clears its template-owned top signature [0.03ms]
+(pass) global quiet chrome policy > template contrast colors yield to explicit header and footer colors [0.06ms]
+(pass) global quiet chrome policy > Ribbon eyebrow stays readable across the sidebar seam [0.03ms]
+(pass) global quiet chrome policy > Neon and Verlauf hero clearance only applies to contact headers [0.11ms]
+
+tests/unit/docx-next-pdf-print-boundary.test.ts:
+(pass) Item 12 PDF/Print runtime boundary > all nine entry closures exclude PDF/Print, browser CSS and legacy packages [2654.71ms]
+(pass) Item 12 PDF/Print runtime boundary > saved CV scale migration stays at the existing design entry, outside semantic data [18.19ms]
+(pass) Item 12 PDF/Print runtime boundary > guard follows re-exports, transitive dynamic imports and require, but erases types [21.32ms]
+(pass) Item 12 PDF/Print runtime boundary > cove: cold import and native package with PDF/Print services unavailable [86.46ms]
+(pass) Item 12 PDF/Print runtime boundary > diagonal: cold import and native package with PDF/Print services unavailable [95.67ms]
+(pass) Item 12 PDF/Print runtime boundary > edelDark: cold import and native package with PDF/Print services unavailable [94.75ms]
+
+tests/unit/letter-body-font-size.test.ts:
+(pass) letter body font size > keeps template size as the default and normalizes explicit overrides [0.25ms]
+(pass) letter body font size > offers the shared 5–30 pt control with half-point steps [0.09ms]
+(pass) letter body font size > applies an explicit body-size override to preview, measurement and PDF markup [0.07ms]
+
+tests/unit/docx-next-carrier-story.test.ts:
+(pass) whole carrier cells preserve every original authored block and portable diagnostic guard [43.11ms]
+(pass) source integer tracks preserve original native edges without changing any other package part [184.94ms]
+
+tests/unit/devtools-reset-hotfix.test.ts:
+(pass) normal editor resets clear the hidden Dev Tools translation layer [0.22ms]
+(pass) opening the destructive reset confirmation alone does not clear QA positions [0.03ms]
+
+tests/unit/docx-next-floating-continuation.test.ts:
+(pass) native document continuation stays guarded even without a positioned table or issues, and after JSON [1.75ms]
+(pass) restored native continuation rejects unknown policies rather than silently treating them as default [3.32ms]
+(pass) all twelve mirrored native controls alter only the one documented setting and retain immutable JSON [345.79ms]
+
+tests/unit/docx-next-violet-pulse.test.ts:
+(pass) Violet Pulse reuses shared contours and native paper chrome > all portable stress fixtures retain deterministic models and valid nonsemantic curves [29.72ms]
+(pass) Violet Pulse reuses shared contours and native paper chrome > palette-bound diagonal contour and radial motifs contain no semantic text [0.78ms]
+(pass) Violet Pulse reuses shared contours and native paper chrome > quiet motifs repeat beside native contact stories and background visibility is independent [3.65ms]
+(pass) Violet Pulse reuses shared contours and native paper chrome > native photos, rich tables and explicit user typography survive; CV sidebar uses shared flow [2.83ms]
+
+tests/unit/cv-local-theme.test.tsx:
+(pass) CV local theme contract > presentation snapshot getters never mutate the root [0.41ms]
+(pass) CV local theme contract > serializes every semantic theme role and preserves legacy global values [0.62ms]
+(pass) CV local theme contract > hidden CV includes the complete theme in its initial markup without writing any global presentation state [6.77ms]
+(pass) CV local theme contract > explicit fonts override family fonts while other theme roles remain unchanged [0.21ms]
+
+tests/unit/dossier-package2.test.tsx:
+(pass) Package 2 continuation header model > legacy JSON without continuation field preserves reduced contact behavior [0.44ms]
+(pass) Package 2 continuation header model > explicit continuation choices survive normalization [0.04ms]
+(pass) Package 2 continuation header model > page 1 contact can switch to compact on page 2 [0.44ms]
+(pass) Package 2 continuation header model > page 1 compact can switch to full contact on page 2 [0.88ms]
+(pass) Package 2 continuation header model > continuation header can be disabled independently [0.29ms]
+(pass) Package 2 continuation header model > first-page-different off ignores but preserves dormant continuation choice [0.51ms]
+(pass) Package 2 continuation header model > DOCX inline separator mapping reflects every existing separator choice [0.17ms]
+
+tests/unit/dossier-chrome-positioning.test.ts:
+(pass) dossier vertical positioning > signed offsets default to zero and clamp to safe ranges [0.09ms]
+(pass) dossier vertical positioning > letter recipient offset survives re-enabling sync from the CV [0.17ms]
+(pass) dossier vertical positioning > shared chrome exposes only shared content positioning [0.08ms]
+(pass) dossier vertical positioning > letter-only recipient positioning lives in the letter-specific layout block [0.03ms]
+(pass) dossier vertical positioning > both editors expose their vertical-position controls in the visible UI [0.15ms]
+(pass) dossier vertical positioning > renderers move content rather than header/footer surfaces [0.08ms]
+
+tests/unit/cv-saved-design-parity.test.ts:
+(pass) canonical print uses the editor migration for absent, explicit and legacy saved design values [0.76ms]
+
+tests/unit/docx-next-image-zone.test.ts:
+(pass) free photo owns a native zone and retains authored coordinates, frame and source identity [3.55ms]
+(pass) physical mirroring chooses the matching track and below-header photos begin at its body start [2.89ms]
+(pass) a native picture before a later spanning track rejects the known blank-body counterexample [2.82ms]
+(pass) free-photo render fixtures declare following content fields, beyond an opening label [10.36ms]
+(pass) invalid or unrepresentable image zones fail without resizing, crossing a gutter or losing the picture [2.76ms]
+(pass) the shared renderer emits one native picture with its source identity, crop, frame and flow-zone cell [6.84ms]
+
+tests/unit/dossier-text-alignment.test.ts:
+(pass) shared dossier text alignment > global layout stays four-way while body prose is exactly left or justify [0.13ms]
+(pass) shared dossier text alignment > body editors share the control while title-page alignment stays template-internal [0.06ms]
+(pass) shared dossier text alignment > CV and motivation-letter body controls and models expose only left and justify [0.05ms]
+(pass) shared dossier text alignment > multi-column letter blocks never combine with justification [0.09ms]
+(pass) shared dossier text alignment > letter alignment is document-wide and normalized before persistence [0.06ms]
+(pass) shared dossier text alignment > CV alignment lives in the Layout form and reaches preview/PDF body roles [0.07ms]
+(pass) shared dossier text alignment > CV choice is portable and DOCX maps justification to Word both [0.05ms]
+
+tests/unit/docx-next-populated-row.test.ts:
+(pass) main-ending controls change only opening ending scope, retaining every native row, span and paragraph [19.00ms]
+(pass) main-only JSON packages stay guarded and original all-cell packages remain byte-identical [64.38ms]
+(pass) populated controls preserve complete native paragraphs and physical widths across ownership and orientation [22.61ms]
+(pass) populated native packages retain all ten field IDs through immutable JSON and guarded selective emission [48.98ms]
+(pass) short-row together controls change only cantSplit while both complete descriptions remain splittable [73.91ms]
+
+tests/unit/cv-page-fit-one-shot.test.ts:
+(pass) CV page-fit one-shot action > consumes the runtime request without persisting an active mode [0.17ms]
+(pass) CV page-fit one-shot action > does not serialize or restore pageFitMode in portable CV state [0.09ms]
+(pass) CV page-fit one-shot action > persists fitted typography before consuming the request [0.17ms]
+(pass) CV page-fit one-shot action > keeps page-fit as button semantics and never writes the legacy mode [0.04ms]
+
+tests/unit/docx-next-picture.test.ts:
+(pass) native picture geometry > unframed photos retain intrinsic aspect ratio within width/height constraints [0.09ms]
+(pass) native picture geometry > circle crops rather than stretching the source [0.04ms]
+(pass) native picture geometry > zoom/pan match the editor's centered object-fit crop at each extreme [0.04ms]
+(pass) native picture geometry > nonfinite and unsafe dimensions cannot enter a picture package [0.08ms]
+(pass) native picture geometry > CV page placement and picture frame are deterministic explicit model metadata [1.86ms]
+
+tests/unit/cv-sidebar-width.test.ts:
+(pass) CV sidebar width > allows an even 50/50 page split and clamps larger saved values [0.04ms]
+
+tests/unit/pdf-text-rendering-ownership.test.ts:
+(pass) PDF visible-text ownership > keeps the CV raster mask inert and native CV text invisible [0.08ms]
+(pass) PDF visible-text ownership > keeps motivation-letter browser glyphs in the raster [0.04ms]
+(pass) PDF visible-text ownership > does not install a global jsPDF hook that turns invisible text visible [0.02ms]
+(pass) PDF visible-text ownership > keeps title-page rendering outside this regression fix [0.03ms]
+
+tests/unit/dossier-docx-portability.test.ts:
+(pass) DOCX Cabin portability > OOXML font obfuscation changes only the first 32 bytes and round-trips [0.38ms]
+(pass) DOCX Cabin portability > embeds all four Cabin faces with Word font relationships [1.05ms]
+
+tests/unit/dossier-background-paint.test.ts:
+(pass) resolved paint distinguishes translucent gradient stops from opaque artwork [0.09ms]
+
+tests/unit/cover-attachments-layout.test.ts:
+(pass) optional cover attachments > hidden company keeps attachments in the bottom-right cover slot for every template [2.80ms]
+(pass) optional cover attachments > the existing checkbox still removes cover attachments completely [1.89ms]
+
+tests/unit/dossier-docx-export.test.ts:
+(pass) generic DOCX export profiles > registry exposes the three reviewed visual models [0.08ms]
+(pass) generic DOCX export profiles > Brief resolves through the shared registry and creates a real DOCX [17.32ms]
+(pass) generic DOCX export profiles > Warm resolves through the shared registry and creates a real DOCX [10.19ms]
+(pass) generic DOCX export profiles > Studio 3 resolves through the shared registry and creates a real DOCX [20.10ms]
+(pass) generic DOCX export profiles > mixed template families remain unsupported [0.57ms]
+(pass) DOCX family fallback coverage > classifies all 39 selectable templates with an individual safety valve [0.08ms]
+(pass) DOCX family fallback coverage > keeps every geometry family populated [0.46ms]
+(pass) DOCX family fallback coverage > all 39 template plans resolve and produce structurally valid DOCX packages [498.54ms]
+(pass) shared stored-DOCX transform core > round-trips package entries while replacing editable document XML [0.27ms]
+(pass) resolved Word section chrome > explicit modes preserve contact visibility, neutral borders and attachments [5.76ms]
+(pass) resolved Word section chrome > Warm recipe surfaces follow resolved modes while native continuation chrome remains [5.70ms]
+(pass) Word Sidebar preserves editable content while populating the side column [5.46ms]
+(pass) Word details footer keeps attachments on the final flowed letter page [5.84ms]
+
+tests/unit/dossier-chrome-geometry.test.ts:
+(pass) pure dossier chrome geometry > option helpers need no browser/store state [0.05ms]
+(pass) pure dossier chrome geometry > CV geometry follows the explicit chrome snapshot with the global 1 mm bottom margin [0.26ms]
+(pass) pure dossier chrome geometry > explicit contact height still overrides the 32 mm default [0.02ms]
+(pass) pure dossier chrome geometry > stacked contact headers use the visible slider range through 80 mm [0.04ms]
+(pass) pure dossier chrome geometry > persisted header heights are normalized to the new 80 mm ceiling [0.06ms]
+
+tests/unit/templatefix-sonne-studio-cleanup.test.ts:
+(pass) Sonne and Studio template cleanup > Sonne drops the oversized lower cover circle and uses a calmer letter header [0.03ms]
+(pass) Sonne and Studio template cleanup > Studio removes isolated cover/letter dashes and lengthens the letter accent [0.03ms]
+(pass) Sonne and Studio template cleanup > Studio suppresses the legacy CV footer and modern CV micro-dashes stay hidden [0.02ms]
+
+tests/unit/dossier-project-field-typography.test.ts:
+(pass) dossier project field typography > keeps portable field typography as an additive v1 field [0.47ms]
+(pass) dossier project field typography > drops malformed typography buckets without rejecting the project [0.05ms]
+
+tests/unit/dossier-docx-document-colors.test.ts:
+(pass) DOCX document color parity > applies explicit paper and semantic text colors to their own dossier sections [1.85ms]
+(pass) DOCX document color parity > is a no-op when no explicit document colors exist [0.06ms]
+
+tests/unit/dossier-docx-v2-flow.test.ts:
+(pass) DOCX V2 semantic Letter/CV flow foundation > builds the letter from semantic content instead of a Warm text skeleton [0.98ms]
+(pass) DOCX V2 semantic Letter/CV flow foundation > honours explicit CV page assignment and half-width flow grouping [1.75ms]
+(pass) DOCX V2 semantic Letter/CV flow foundation > fails closed for user-owned CV geometry that V2 cannot preserve yet [0.54ms]
+(pass) DOCX V2 semantic Letter/CV flow foundation > replaces only semantic letter/CV bodies while preserving section boundaries and skin [7.53ms]
+(pass) DOCX V2 semantic Letter/CV flow foundation > removes Warm metadata identity from non-Warm V2 packages [0.18ms]
+(pass) DOCX V2 semantic Letter/CV flow foundation > keeps V2 flow strictly behind the shadow preview entry point [0.94ms]
+(pass) DOCX V2 browser-measured flow calibration > replaces heuristic letter body pagination with measured LetterDocument fragments [0.97ms]
+(pass) DOCX V2 browser-measured flow calibration > uses the real CvCanvas photo rectangle instead of the auto-placement approximation [1.05ms]
+(pass) DOCX V2 browser-measured flow calibration > moves a classic CV page break to the browser-measured row boundary [0.66ms]
+(pass) DOCX V2 browser-measured flow calibration > replaces Modern/sidebar heuristics with page-bound browser overlays [0.57ms]
+(pass) DOCX V2 browser-measured flow calibration > renders browser-measured Modern overlays on their physical Word pages [2.57ms]
+
+tests/unit/docx-next-sidebar.test.ts:
+(pass) native continuation diagnostics survive model JSON roundtrip without changing their packages [167.02ms]
+(pass) Brief sidebar keeps explicit source data deterministic and immutable [59.88ms]
+(pass) default and custom placements route semantic rubrics into declared native tracks [2.54ms]
+(pass) mirroring changes physical track order and border, without changing ownership [2.43ms]
+(pass) sidebar photographs become native inline pictures in their selected physical track [1.43ms]
+(pass) photos crossing tracks, page starts, and widths fail before output [1.41ms]
+(pass) running headers use semantic rows and still reject unsupported independent-cell flow [48.11ms]
+(pass) the renderer requires first-class sidebar flow and never accepts a classic substitute [4.72ms]
+(pass) native entry grouping keeps short entries together and oversized descriptions remain splittable [5.45ms]
+(pass) differing page margins declare a first-row inset and stored field styles remain native [3.44ms]
+
+tests/unit/docx-next-dual-story.test.ts:
+(pass) adjacent floating ownership rejects missing, nonadjacent, inline and conflicting anchors [10.78ms]
+(pass) both complete floating owners remain blocked after restoring JSON and clearing issue lists [4.57ms]
+(pass) explicit adjacency changes exactly one empty boundary and preserves all authored blocks and package parts [153.89ms]
+
+tests/unit/dossier.test.ts:
+(pass) dossier families > every cover template belongs to exactly one premium family [0.13ms]
+(pass) dossier families > each family exposes templates and its curated default belongs to that family [0.22ms]
+(pass) dossier families > family themes expose distinct, production-safe design tokens [0.09ms]
+(pass) responsive dossier typography > long names scale down monotonically without becoming unreadably small [0.05ms]
+(pass) unified photo model > all four dossier photo shapes stay available [0.03ms]
+(pass) unified photo model > normalization clamps unsafe values but preserves real zero positions [0.14ms]
+(pass) unified photo model > shape geometry round-trips through title-page BlockStyle [0.16ms]
+(pass) unified photo model > crop math is deterministic for title page and CV [0.09ms]
+(pass) unified photo model > cover photo reader restores current title-page crop and shape [0.17ms]
+(pass) title-page change detection > transferable changes produce a new stable fingerprint [0.27ms]
+(pass) combined dossier project > keeps title page and CV in one versioned file [0.48ms]
+(pass) combined dossier project > round-trips title page, motivation letter and CV without losing document-local state [0.20ms]
+(pass) combined dossier project > stores all three parts and legacy cover+cv projects leave an existing letter untouched [0.87ms]
+(pass) combined dossier project > rejects unrelated JSON but accepts empty project snapshots [0.04ms]
+(pass) combined dossier PDF availability > requires meaningful content in both document parts [0.42ms]
+
+tests/unit/docx-next-verlauf2.test.ts:
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > long editable cover flow owns paint on first and continuation stories [2.25ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > literal inline colors and saved element colors override default palette roles [1.02ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > every portable fixture retains deterministic semantic models and valid paint [28.73ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > cover slots resolve all three stops, while fixed white blooms ignore palette edits [1.00ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > explicit paper, text and canonical field overrides retain precedence [0.94ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > strict stop validation rejects ambiguity, invalid ranges and ordering; assets include every stop [0.93ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > native images/rich content and independent header visibility survive; sidebar uses shared flow [3.83ms]
+
+tests/unit/docx-next-heading-prefix.test.ts:
+(pass) native heading prefix attaches declared metadata and leaves the description outside the atomic prefix [5.40ms]
+(pass) prefix keeps the heading at section origin and preserves body inset on metadata and following entries [0.59ms]
+(pass) native prefix rejects undeclared or unusable boundaries instead of estimating content size [0.63ms]
+
+tests/unit/dossier-docx-v2-flow-normalization.test.ts:
+(pass) DOCX V2 measured flow normalization > turns measured empty browser paragraphs into compact explicit spacers [0.07ms]
+(pass) DOCX V2 measured flow normalization > collapses incidental browser line breaks inside measured CV text [0.08ms]
+(pass) DOCX V2 measured flow normalization > normalizes measured CV text recursively inside browser grid cells [0.08ms]
+
+tests/unit/docx-next-diagonal.test.ts:
+(pass) Diagonal authored geometry and reusable native callout surfaces > all portable stress models retain native content and validated paint [28.46ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > bounded polygon shorthand closes correctly and rejects unsupported SVG grammar [0.27ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > source triangles remain authoritative after user position, size and palette edits [0.83ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > right contact cell provides a native growing backdrop; saved typography wins [0.84ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > interior corner pairs repeat independently of contact chrome and CV visibility [4.24ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > photos and rich tables remain native; sidebar uses shared flow [2.86ms]
+
+tests/unit/docx-next-sunrise.test.ts:
+(pass) shared cubic contours and Sunrise candidate > bounded absolute cubic geometry fails explicitly for unsupported or malformed paths [0.32ms]
+(pass) shared cubic contours and Sunrise candidate > all portable stress scenarios preserve native semantic identities and deterministic models [29.52ms]
+(pass) shared cubic contours and Sunrise candidate > both broad fields use generic palette-bound curves while native user content remains editable [3.68ms]
+(pass) shared cubic contours and Sunrise candidate > authored custom contact surfaces take precedence and sidebar uses shared native flow [2.08ms]
+
+tests/unit/cv-editor-rubric-tone.test.ts:
+(pass) CV editor rubric orientation tones > uses actual form order for alternating subtle rubric tones [0.06ms]
+(pass) CV editor rubric orientation tones > document rubric order cannot reorder the editor form [0.14ms]
+
+tests/unit/cover-attachments-color.test.ts:
+(pass) Kolumne cover attachments > attachments moved from the dark sidebar use readable ink on the light page area [0.28ms]
+(pass) Kolumne cover attachments > a manual attachment color override still wins [0.13ms]
+
+tests/unit/docx-next-composite-paint.test.ts:
+(pass) opt-in nonsemantic composite page paint > keeps authored layer order, page clipping and first/continuation scopes [1.73ms]
+(pass) opt-in nonsemantic composite page paint > asset reuse ignores identities, retaining relative geometry and paint order [0.71ms]
+(pass) opt-in nonsemantic composite page paint > rejects nested, excessive or semantic layers [0.86ms]
+(pass) opt-in nonsemantic composite page paint > uses one behind-text anchor per story and retains native semantic text [7.79ms]
+(pass) opt-in nonsemantic composite page paint > a failed required composite never silently drops the page background [1.83ms]
+(pass) opt-in nonsemantic composite page paint > templates without the opt-in retain their existing package serialization [7.02ms]
+
+tests/unit/docx-next-cell-ending.test.ts:
+(pass) unaccepted cell-ending attachment cannot bypass export guards through JSON or another story [6.34ms]
+(pass) cell-ending declarations reject malformed counts and non-boolean flags without changing the model [3.57ms]
+(pass) 12 controls preserve all semantic paragraphs, physical lanes and deterministic native cell endings [117.07ms]
+
+tests/unit/html2canvas-export.test.ts:
+(pass) html2canvas CSS zoom normalization > gradient physical lengths become CSS pixels while percentages, colours and URLs stay intact [0.48ms]
+(pass) html2canvas CSS zoom normalization > sharp inset compatibility preserves the edge and leaves blurred/multiple shadows intact [0.13ms]
+(pass) html2canvas CSS zoom normalization > opacity compatibility accepts CSS numbers and percentages without dropping other filters [0.16ms]
+(pass) html2canvas CSS zoom normalization > CV capture keeps deliberately wrong clone html identity untouched [0.06ms]
+(pass) html2canvas CSS zoom normalization > Cover/Letter keep their legacy clone-only template scope [0.03ms]
+(pass) html2canvas CSS zoom normalization > preserves compact CV zoom as an equivalent transform [0.02ms]
+(pass) html2canvas CSS zoom normalization > normalizes capture clones in combined and standalone PDFs [0.08ms]
+(pass) html2canvas CSS zoom normalization > isolates mixed-template dossier captures from the live html template scope [0.09ms]
+
+tests/unit/legacy-pdf-review-refinements.test.ts:
+(pass) legacy PDF review refinements > Blockig starts from a real modular grid while keeping every module editable [0.65ms]
+(pass) legacy PDF review refinements > Blockig user geometry overrides still win over the redesigned defaults [0.26ms]
+(pass) legacy PDF review refinements > Human CV removes the clipped lower dot but keeps the general Human motif available elsewhere [0.02ms]
+(pass) legacy PDF review refinements > Colorful keeps its geometric CV card without reviving the detached blue/yellow bar [0.05ms]
+(pass) legacy PDF review refinements > Kolumne starts as Sidebar and uses one modern heading family [0.10ms]
+
+tests/unit/cv-rubric-offset-clipping.test.ts:
+(pass) CV rubric horizontal offset clipping > lets rubric rows cross the main box without changing pagination geometry [0.04ms]
+
+tests/unit/dossier-chrome-document-content.test.tsx:
+(pass) dossier chrome document content > title and custom text coexist with a stacked contact header [1.15ms]
+(pass) dossier chrome document content > custom footer text replaces automatic detail payload in the renderer [0.32ms]
+
+tests/unit/letter-context-font-sizes.test.ts:
+(pass) contextual letter typography > keeps all new role typography optional and normalizes explicit values [0.16ms]
+(pass) contextual letter typography > places font family and size controls in the matching form accordions [0.43ms]
+(pass) contextual letter typography > removes duplicate font family and size controls from Layout [0.04ms]
+(pass) contextual letter typography > renders the new role sizes in the shared canvas used by preview, pagination and PDF [0.09ms]
+
+tests/unit/final-pdf-polish.test.ts:
+(pass) final 39-PDF visual polish > loads the final polish after the established template systems [0.03ms]
+(pass) final 39-PDF visual polish > keeps Horizon contact rows on a full-height colour surface [0.02ms]
+(pass) final 39-PDF visual polish > moves only Gallery place text away from the portrait-tower clipping edge [0.03ms]
+(pass) final 39-PDF visual polish > keeps Forest Flow place/date marker inside the grove with breathing room [0.02ms]
+(pass) final 39-PDF visual polish > restores Ribbon hero height for its complete identity stack [0.02ms]
+(pass) final 39-PDF visual polish > uses live dossier ink for 34-38 CV headings without defeating user colour [0.06ms]
+(pass) final 39-PDF visual polish > keeps compact CV contact mastheads inside a print-safe top zone [0.06ms]
+
+tests/unit/dossier-docx.test.ts:
+(pass) Brief DOCX reference export > creates a readable OpenXML package with editable text and Cabin -> Trebuchet fallback [2.08ms]
+(pass) Brief DOCX reference export > refuses non-Brief dossiers until their visual contract is implemented [0.25ms]
+
+tests/unit/docx-next-edel.test.ts:
+(pass) Edel light stationery and independently editable content > portable stress models retain deterministic native blocks and valid paint [27.06ms]
+(pass) Edel light stationery and independently editable content > light picker palette replaces historical dark defaults; authored palettes and frames survive [2.19ms]
+(pass) Edel light stationery and independently editable content > both interior frame stories remain independent of contact chrome and CV visibility [5.00ms]
+(pass) Edel light stationery and independently editable content > source circle crop and semantic styles remain native; rich content and blockers are explicit [2.70ms]
+
+tests/unit/cv-continuation-spacing.test.ts:
+(pass) CV continuation page top margin > page 2 owns one independent top margin instead of inheriting the page-1 gap [0.31ms]
+(pass) CV continuation page top margin > allows a true 0 mm start when no continuation header or frame needs protection [0.04ms]
+(pass) CV continuation page top margin > allows 0–40 mm while keeping visible continuation chrome protected [0.08ms]
+(pass) CV continuation page top margin > keeps structural card and framed-template interiors as safety floors [0.02ms]
+(pass) CV continuation page top margin > exposes one clear page-2 top-margin control and persists it portably [0.11ms]
+
+tests/unit/docx-next-elements.test.ts:
+(pass) semantic custom elements and nonsemantic decoration > equal values keep saved identities, independent styles and deterministic portable JSON [2.76ms]
+(pass) semantic custom elements and nonsemantic decoration > native flowing boxes retain width/indent/shading/padding/borders without fixed-height text boxes [5.11ms]
+(pass) semantic custom elements and nonsemantic decoration > page-two groups retain their native break and share it with page-two sections [2.96ms]
+(pass) semantic custom elements and nonsemantic decoration > hidden, empty and disabled elements do not create media, paragraphs or a second-page group [4.04ms]
+(pass) semantic custom elements and nonsemantic decoration > custom images reuse normalized pixels while retaining their own frame geometry [4.22ms]
+(pass) semantic custom elements and nonsemantic decoration > decorations reuse assets across parts and attach behind body content, without user text [4.60ms]
+(pass) semantic custom elements and nonsemantic decoration > failed decorative assets leave native content and a valid package, with explicit diagnostics [7.00ms]
+(pass) semantic custom elements and nonsemantic decoration > invalid geometry and arbitrary path markup are rejected before asset generation [1.13ms]
+
+tests/unit/cv-refresh-template-scope.test.ts:
+(pass) CvCanvas is the single live CV template-theme authority before pagination [0.42ms]
+
+tests/unit/cv-photo-frame.test.ts:
+(pass) CV photo defaults and frame > fresh CV photo placement is freely adjustable while legacy auto stays valid [0.12ms]
+(pass) CV photo defaults and frame > photo frame is drawn inside the crop so clipped edges stay even [0.03ms]
+
+tests/unit/docx-next-parallel-pagination.test.ts:
+(pass) native pagination counterexamples retain the source tail and vary only declared geometry/chrome/grouping [103.04ms]
+
+tests/unit/docx-next-table-grid.test.ts:
+(pass) shared integer column edges conserve total width in both physical orientations [0.60ms]
+(pass) inconsistent, nonfinite and collapsed table grids fail instead of redistributing width [0.18ms]
+(pass) guarded application serialization uses equal declared, grid and cell widths [12.24ms]
+(pass) the guarded body scope also conserves nested date columns without changing model content [4.74ms]
+
+tests/unit/cv-rubric-color-control.test.ts:
+(pass) CV rubric color discovery > exposes the shared rubric color under the CV color controls [0.15ms]
+
+tests/unit/dossier-contact.test.ts:
+(pass) shared dossier contact > resolves one field-wise contact with cover -> CV -> letter priority [0.20ms]
+(pass) shared dossier contact > falls back to the motivation letter when no cover or CV contact exists [0.06ms]
+(pass) shared dossier contact > returns a stable empty contact when the dossier has no personal source [0.02ms]
+
+tests/unit/cover-decorations.test.ts:
+(pass) cover decoration single source > CoverBackground contains structural artwork only [3.94ms]
+(pass) cover decoration single source > editable decoration ids are unique within every template [0.28ms]
+(pass) cover decoration single source > edge-bound editable blocks reset exactly onto the A4 edges [0.43ms]
+(pass) cover decoration single source > Warm and Colorful CVs keep real header fields and print-safe geometry [0.54ms]
+(pass) cover decoration single source > reported Modern, Blockig, Warm and Edel regressions stay guarded [0.42ms]
+
+tests/unit/templatefix-19-22-cover.test.ts:
+(pass) Fresh cover acceptance repair > the late acceptance layer neutralizes shared negative title transforms [0.08ms]
+(pass) Fresh cover acceptance repair > Glow gets a saturated bounded masthead and stronger stationery echoes [0.03ms]
+
+tests/unit/docx-next-entry-flow.test.ts:
+(pass) entry flow preserves complete paragraph policies and both physical lanes in all six cases [201.10ms]
+(pass) keeping the real boundary with its table changes only that nonsemantic paragraph [64.75ms]
+(pass) boundary attachment rejects malformed values or a missing real body boundary [13.64ms]
+
+tests/unit/cv-document-title-style.test.ts:
+(pass) CV document title style controls > loads the explicit user title override after the shared CV geometry contract [0.04ms]
+(pass) CV document title style controls > shared chrome geometry owns CV main top instead of template-specific offsets [0.02ms]
+(pass) CV document title style controls > explicit Fett, Kursiv and Unterstrichen choices outrank template defaults [0.02ms]
+(pass) CV document title style controls > offers one global document-title top-spacing control for all header modes [0.03ms]
+
+tests/unit/docx-next-sonne.test.ts:
+(pass) Sonne growing native hero and image zone > portable stress models preserve deterministic semantic content and valid paint [36.32ms]
+(pass) Sonne growing native hero and image zone > authored yellow rectangle becomes a growing native row while the dark photo zone replaces fixed halo paint [3.25ms]
+(pass) Sonne growing native hero and image zone > native lower fields have explicit light palette defaults and literal saved overrides win [1.52ms]
+(pass) Sonne growing native hero and image zone > circular editable pictures survive and unsupported authored surfaces fail explicitly; Sidebar uses shared flow [1.97ms]
+
+tests/unit/cv-top-area-package1.test.ts:
+(pass) Package 1 CV top-area semantics > a contact header containing the name never suppresses the CV body identity [0.05ms]
+(pass) Package 1 CV top-area semantics > body identity is unchanged whether the contact header shows its own name or not [4.51ms]
+(pass) Package 1 CV top-area semantics > an empty line-under-name does not affect the body name [0.08ms]
+
+tests/unit/docx-next-model-boundary.test.ts:
+(pass) Item 11 canonical model boundary > construction needs no browser state, clock, randomness or Word package [45.86ms]
+(pass) Item 11 canonical model boundary > models own nested motif data independently of templates and other builds [4.34ms]
+(pass) Item 11 canonical model boundary > renderer uses only the detached model after editor state changes [58.21ms]
+(pass) Item 11 canonical model boundary > authored content, stable IDs, styles, layout and images survive the snapshot [1.49ms]
+(pass) Item 11 canonical model boundary > active masonry packing is diagnosed without dropping semantic sections [1.88ms]
+(pass) Item 11 canonical model boundary > missing image bytes are model issues; empty optional placeholders remain valid [1.46ms]
+(pass) Item 11 canonical model boundary > brief: frozen source → portable model → independent Word package [12.20ms]
+(pass) Item 11 canonical model boundary > freundlich: frozen source → portable model → independent Word package [11.62ms]
+(pass) Item 11 canonical model boundary > prism: frozen source → portable model → independent Word package [14.69ms]
+(pass) Item 11 canonical model boundary > human: frozen source → portable model → independent Word package [12.02ms]
+(pass) Item 11 canonical model boundary > orbit: frozen source → portable model → independent Word package [9.96ms]
+(pass) Item 11 canonical model boundary > cove: frozen source → portable model → independent Word package [10.14ms]
+(pass) Item 11 canonical model boundary > glow: frozen source → portable model → independent Word package [10.93ms]
+(pass) Item 11 canonical model boundary > horizon: frozen source → portable model → independent Word package [9.38ms]
+(pass) Item 11 canonical model boundary > monoLuxe: frozen source → portable model → independent Word package [9.95ms]
+(pass) Item 11 canonical model boundary > ledger: frozen source → portable model → independent Word package [10.98ms]
+(pass) Item 11 canonical model boundary > ribbon: frozen source → portable model → independent Word package [9.32ms]
+(pass) Item 11 canonical model boundary > sunrise: frozen source → portable model → independent Word package [8.73ms]
+(pass) Item 11 canonical model boundary > forestFlow: frozen source → portable model → independent Word package [9.76ms]
+(pass) Item 11 canonical model boundary > violetPulse: frozen source → portable model → independent Word package [9.34ms]
+(pass) Item 11 canonical model boundary > studio3: frozen source → portable model → independent Word package [8.47ms]
+(pass) Item 11 canonical model boundary > warm2: frozen source → portable model → independent Word package [8.84ms]
+(pass) Item 11 canonical model boundary > warm3: frozen source → portable model → independent Word package [8.85ms]
+(pass) Item 11 canonical model boundary > verlauf2: frozen source → portable model → independent Word package [8.70ms]
+(pass) Item 11 canonical model boundary > verlauf3: frozen source → portable model → independent Word package [9.03ms]
+(pass) Item 11 canonical model boundary > diagonal: frozen source → portable model → independent Word package [9.42ms]
+(pass) Item 11 canonical model boundary > klassisch: frozen source → portable model → independent Word package [9.40ms]
+(pass) Item 11 canonical model boundary > edel: frozen source → portable model → independent Word package [8.58ms]
+(pass) Item 11 canonical model boundary > serioes: frozen source → portable model → independent Word package [8.76ms]
+(pass) Item 11 canonical model boundary > colorful: frozen source → portable model → independent Word package [8.97ms]
+(pass) Item 11 canonical model boundary > blockig: frozen source → portable model → independent Word package [9.05ms]
+(pass) Item 11 canonical model boundary > welle: frozen source → portable model → independent Word package [9.63ms]
+(pass) Item 11 canonical model boundary > modern: frozen source → portable model → independent Word package [8.65ms]
+(pass) Item 11 canonical model boundary > pastell: frozen source → portable model → independent Word package [8.76ms]
+(pass) Item 11 canonical model boundary > sonne: frozen source → portable model → independent Word package [8.47ms]
+(pass) Item 11 canonical model boundary > edelDark: frozen source → portable model → independent Word package [9.36ms]
+(pass) Item 11 canonical model boundary > studio2: frozen source → portable model → independent Word package [9.67ms]
+(pass) Item 11 canonical model boundary > studio: frozen source → portable model → independent Word package [9.62ms]
+(pass) Item 11 canonical model boundary > edge: frozen source → portable model → independent Word package [9.50ms]
+(pass) Item 11 canonical model boundary > gallery: frozen source → portable model → independent Word package [18.40ms]
+(pass) Item 11 canonical model boundary > terracotta: frozen source → portable model → independent Word package [10.40ms]
+(pass) Item 11 canonical model boundary > citrus: frozen source → portable model → independent Word package [10.59ms]
+(pass) Item 11 canonical model boundary > neon: frozen source → portable model → independent Word package [10.46ms]
+(pass) Item 11 canonical model boundary > verlauf: frozen source → portable model → independent Word package [10.18ms]
+(pass) Item 11 canonical model boundary > aurora: frozen source → portable model → independent Word package [9.03ms]
+
+tests/unit/templatefix-warm-letter-header.test.ts:
+(pass) templateFIX Warm motivation letter header > Warm owns the first-page compact header without a shared chrome border [0.07ms]
+(pass) templateFIX Warm motivation letter header > Warm sender is structurally centred inside the masthead without fixed transform hacks [0.06ms]
+(pass) templateFIX Warm motivation letter header > Warm sender PDF text owns the full masthead text width [0.02ms]
+(pass) templateFIX Warm motivation letter header > Warm masthead height has one shared geometry source [0.02ms]
+(pass) templateFIX Warm motivation letter header > Warm ring and orb remain explicit named motifs [0.02ms]
+
+tests/unit/dossier-field-typography.test.ts:
+(pass) dossier field typography > formats letter and CV sections without touching the cover section [0.90ms]
+(pass) dossier field typography > supports explicit off overrides [0.08ms]
+(pass) dossier field typography > stable field ids keep equal visible text as different fields [0.09ms]
+(pass) dossier field typography > normalizes portable stable-field metadata [0.10ms]
+(pass) dossier field typography > context selects only the intended duplicate DOCX paragraph [0.62ms]
+
+tests/unit/docx-next-studio-family.test.ts:
+(pass) studio2 declarative migration > stress inputs retain deterministic editable models and valid paint [29.99ms]
+(pass) studio2 declarative migration > saved text styles and photo frames survive shared compositions [1.17ms]
+(pass) studio2 declarative migration > custom rich text remains semantic rather than decorative artwork [1.10ms]
+(pass) studio declarative migration > stress inputs retain deterministic editable models and valid paint [38.44ms]
+(pass) studio declarative migration > saved text styles and photo frames survive shared compositions [0.87ms]
+(pass) studio declarative migration > custom rich text remains semantic rather than decorative artwork [0.98ms]
+(pass) Studio 2 owns its navy/yellow split and 58 mm stationery signal [0.86ms]
+(pass) Studio retains authored cover paint and independently repeating narrow rails [1.64ms]
+(pass) Kolumne uses the subsequently verified native contact surface [0.04ms]
+
+tests/unit/cv-reset-positions.test.ts:
+(pass) CV position reset > returns free sections to flow and clears only their geometry [0.05ms]
+
+tests/unit/templatefix-sunrise-forest-flow.test.ts:
+(pass) templateFIX Sunrise + Forest Flow > Sunrise orphan-rule suppression is global, not a local template patch [0.03ms]
+(pass) templateFIX Sunrise + Forest Flow > Forest Flow has one final vertical-grove geometry owner [0.10ms]
+(pass) templateFIX Sunrise + Forest Flow > Forest Flow cover keeps its deliberate grid without pinning editable blocks in CSS [0.06ms]
+(pass) templateFIX Sunrise + Forest Flow > Forest Flow CV owns only its two strong direct signature siblings [0.03ms]
+(pass) templateFIX Sunrise + Forest Flow > Forest Flow CV is a quiet vertical-grove family and does not force layout [0.03ms]
+(pass) templateFIX Sunrise + Forest Flow > override stylesheet loads in cover/CV and letter render paths [0.01ms]
+
+tests/unit/forest-flow-cover-editability.test.ts:
+(pass) Forest Flow cover editability > keeps the reviewed cover composition as normal editor defaults [0.26ms]
+(pass) Forest Flow cover editability > Edge uses its editorial grid as editable defaults [0.14ms]
+(pass) Forest Flow cover editability > explicit user drag and resize geometry already merged into the block always wins [0.04ms]
+(pass) Forest Flow cover editability > late Forest CSS no longer owns editable cover geometry [0.09ms]
+(pass) Forest Flow cover editability > explicit Forest Flow alignment overrides remain authoritative [0.03ms]
+
+tests/unit/templatefix-neon-cleanup.test.ts:
+(pass) Neon template cleanup > cover hides the legacy separator above Kontakt [0.02ms]
+(pass) Neon template cleanup > CV removes the old inner card that covered the white hero heading [0.01ms]
+(pass) Neon template cleanup > Neon modern CV hides sidebar and header micro-rules without route-only attrs [0.01ms]
+
+tests/unit/mobile-editor-content-safety.test.ts:
+(pass) mobile editor content safety > shared panel styling never treats the first child as disposable intro chrome [0.02ms]
+(pass) mobile editor content safety > legacy letter/CV first-child hiding is neutralized after the app stylesheet [0.05ms]
+
+tests/unit/docx-next-heading-badges.test.ts:
+(pass) saved current and historic badge choices override declarative defaults, including false [0.59ms]
+(pass) template defaults shade editable semantic headings without changing layout, fields or input [10.72ms]
+(pass) explicit saved off and legacy off both suppress a template badge default [2.16ms]
+
+tests/unit/photo-controls-consistency.test.ts:
+(pass) shared cover and CV photo controls > keeps crop and directional controls in the shared component [0.07ms]
+(pass) shared cover and CV photo controls > uses the same control surface in title page and CV [0.03ms]
+
+tests/unit/letter-font-transition.test.ts:
+(pass) motivation-letter font template transitions > a Brief font choice stays standalone instead of leaking into the next template [0.08ms]
+(pass) motivation-letter font template transitions > normalization removes buggy persisted Brief overrides [0.11ms]
+
+tests/unit/docx-next-final-graphics.test.ts:
+(pass) completed declarative graphic templates > registry covers 39 active candidates and excludes retired designs [0.18ms]
+(pass) completed declarative graphic templates > neon: all shared stress models validate and survive portable restoration [42.06ms]
+(pass) completed declarative graphic templates > verlauf: all shared stress models validate and survive portable restoration [40.69ms]
+(pass) completed declarative graphic templates > Neon and Verlauf retain translucent authored signatures above their underlay [1.87ms]
+(pass) completed declarative graphic templates > saved photo geometry, semantic field styles and independent paper choices prevail [1.99ms]
+
+tests/unit/dossier-portable-state.test.ts:
+(pass) portable CV dossier state > embeds legacy sidecars in the dossier and restores them on import [5.89ms]
+(pass) portable CV dossier state > legacy CV projects without portableState leave current sidecars untouched [0.05ms]
+
+tests/unit/dossier-semantic-parity.test.tsx:
+(pass) header/footer semantic precedence > partial options inherit the canonical compact footer, including an empty shared object [0.10ms]
+(pass) header/footer semantic precedence > missing design modes use template defaults, but every explicit mode survives [0.25ms]
+(pass) header/footer semantic precedence > different-first-page false reserves the full contact header on letter continuation [0.17ms]
+(pass) header/footer semantic precedence > contact visibility applies to first and continuation chrome, with address controlling place [1.57ms]
+(pass) Warm owns only its compact masthead while none/contact retain the paper [0.50ms]
+
+tests/unit/cv-custom-section-presets.test.ts:
+(pass) CV custom section presets > offers digital skills and a blank custom section [0.06ms]
+(pass) CV custom section presets > creates an editable familie section without fake content [0.11ms]
+(pass) CV custom section presets > creates an editable digitale-kenntnisse section without fake content
+(pass) CV custom section presets > creates an editable eigene-rubrik section without fake content
+(pass) CV custom section presets > keeps family fixed and migrates older CV data [0.26ms]
+(pass) CV custom section presets > inserts a missing legacy family directly after personal info without resetting custom order [0.10ms]
+(pass) CV custom section presets > keeps an explicitly positioned family where the user put it [0.03ms]
+(pass) CV custom section presets > uses family as the second default rubric [0.01ms]
+(pass) CV custom section presets > uses the requested family example in the demo CV [0.04ms]
+
+tests/unit/dossier-hyphenation.test.ts:
+(pass) retired dossier hyphenation > is permanently disabled, including legacy and imported true values [0.03ms]
+(pass) retired dossier hyphenation > suppresses automatic hyphenation in every Word paragraph [0.18ms]
+(pass) retired dossier hyphenation > Word settings never enable auto-hyphenation [0.02ms]
+(pass) retired dossier hyphenation > Web/PDF policy stays no-hyphenation while the retired control slot hosts title spacing [0.06ms]
+
+tests/unit/docx-next-forest-flow.test.ts:
+(pass) Forest Flow native cover columns and independent interior gutters > portable stress scenarios preserve deterministic native models [24.00ms]
+(pass) Forest Flow native cover columns and independent interior gutters > the cover rail contains semantic fields in native cells with a separate gutter and main column [1.02ms]
+(pass) Forest Flow native cover columns and independent interior gutters > native canonical styles retain precedence over palette defaults [1.88ms]
+(pass) Forest Flow native cover columns and independent interior gutters > quiet page paint repeats independently of native contact chrome and respects CV visibility [3.23ms]
+(pass) Forest Flow native cover columns and independent interior gutters > a decorative rail never masquerades as an accepted CV sidebar [0.84ms]
+
+tests/unit/dossier-docx-studio3-pagination-guard.test.ts:
+(pass) Studio 3 DOCX CV pagination polish > compacts the masthead intro instead of consuming a fourth dossier page [0.06ms]
+(pass) Studio 3 DOCX CV pagination polish > keeps the pagination correction isolated to the Studio 3 polish layer [0.03ms]
+
+tests/unit/docx-next-renderer.test.ts:
+(pass) DOCX Next independent renderer > creates native three-part Word package: minimal [5.14ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: normal [6.68ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: long-letter [13.76ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: long-cv [23.61ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: long-values [6.14ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: no-photo [5.41ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: repeated-values [6.73ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: empty-optional [2.97ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: custom-sections [8.58ms]
+(pass) DOCX Next independent renderer > image bytes are normalized once and reused with independent geometry [3.51ms]
+(pass) DOCX Next independent renderer > normalization failure is visible and never silently removes the photo [0.80ms]
+(pass) DOCX Next independent renderer > native sidebar and unresolved identities stay explicit [1.13ms]
+(pass) DOCX Next independent renderer > native half sections and explicit second page produce tables/breaks without heading searches [4.57ms]
+(pass) DOCX Next independent renderer > duplicate package parts and relationships are rejected [0.10ms]
+(pass) DOCX Next independent renderer > image cache rejects invalid normalized dimensions [0.10ms]
+
+tests/unit/dossier-docx-alignment-output.test.ts:
+(pass) DOCX body alignment output parity > different letter alignments split without leaking into CV [4.97ms]
+(pass) DOCX body alignment output parity > uniform Blocksatz stays one Word paragraph and maps to both [0.13ms]
+
+tests/unit/docx-next-colorful.test.ts:
+(pass) Colorful shared geometric composition > all stress models are deterministic and paint is nonsemantic [27.23ms]
+(pass) Colorful shared geometric composition > source rectangles and native metadata cells preserve three independent palette slots [1.73ms]
+(pass) Colorful shared geometric composition > native circular photo, canonical typography and rich tables stay editable [2.77ms]
+
+tests/unit/warm-contact-header.test.tsx:
+(pass) Warm contact header > keeps stacked contact details and approved gold ring/orb decoration together [5.51ms]
+(pass) Warm contact header > uses the requested Warm header height through 80 mm [0.60ms]
+(pass) Warm contact header > does not force Warm decoration into compact, none or continuation headers [0.96ms]
+
+tests/unit/docx-next-studio3.test.ts:
+(pass) Studio 3 declarative editorial composition > portable stress models preserve native fields and validated paint [23.30ms]
+(pass) Studio 3 declarative editorial composition > palette roles drive polygon and independently rounded mint counter-field [0.79ms]
+(pass) Studio 3 declarative editorial composition > native first/continuation chrome and header-off paint preserve background settings [3.60ms]
+(pass) Studio 3 declarative editorial composition > explicit style overrides and native photos survive; sidebar uses shared flow [1.58ms]
+
+tests/unit/dossier-page-margins.test.ts:
+(pass) configurable CV and motivation-letter page margins > normalizes four safe millimetre values without inventing a default override [0.17ms]
+(pass) configurable CV and motivation-letter page margins > CV keeps template top/side geometry while the global bottom margin stays at 1 mm [0.14ms]
+(pass) configurable CV and motivation-letter page margins > CV renderer owns the resolved page-margin edges while variants stay internal [0.29ms]
+(pass) configurable CV and motivation-letter page margins > Luftig keeps Standard's reading direction and adds only moderate measured spacing [0.05ms]
+(pass) configurable CV and motivation-letter page margins > mirror uses physical geometry, shared state and identical measurement geometry [0.26ms]
+(pass) configurable CV and motivation-letter page margins > CV custom margins respect template structure while chrome reserve stays separate [0.22ms]
+(pass) configurable CV and motivation-letter page margins > card and framed CV templates retain side/top structure but share the 1 mm bottom rule [0.10ms]
+(pass) configurable CV and motivation-letter page margins > Neon first-page headroom stays shared by default and custom-margin geometry [0.06ms]
+(pass) configurable CV and motivation-letter page margins > wide structural sidebars clamp custom margins to their safe minimum [0.05ms]
+(pass) configurable CV and motivation-letter page margins > motivation-letter custom margins compose with header and footer reserve [0.64ms]
+(pass) configurable CV and motivation-letter page margins > Warm compact masthead is a shared reserve, not a second page-margin minimum [0.10ms]
+(pass) configurable CV and motivation-letter page margins > letter controls use pure geometry defaults from current data and chrome [0.09ms]
+(pass) configurable CV and motivation-letter page margins > both editors expose the same secondary collapsed control through their current owners [0.11ms]
+(pass) configurable CV and motivation-letter page margins > margin inputs keep a draft while typing and commit on blur or Enter [0.03ms]
+(pass) configurable CV and motivation-letter page margins > page-margin getters are pure reads; DOM mirroring is explicit [0.03ms]
+(pass) configurable CV and motivation-letter page margins > the margin override changes content geometry, not template artwork [0.10ms]
+(pass) configurable CV and motivation-letter page margins > letter custom top margin receives the header reserve and configured gap exactly once [0.12ms]
+(pass) configurable CV and motivation-letter page margins > CV custom margins receive shared header and footer reserve exactly once [0.05ms]
+(pass) configurable CV and motivation-letter page margins > page margins travel with the dossier project without changing v1 compatibility [0.03ms]
+(pass) configurable CV and motivation-letter page margins > DOCX patches the final letter/CV sections robustly and leaves every cover section untouched [0.67ms]
+
+tests/unit/docx-next-layout-settings.test.ts:
+(pass) native Brief CV presentation and letter separators > every presentation fixture builds deterministically without mutation or unresolved issues [13.63ms]
+(pass) native Brief CV presentation and letter separators > aligned personal values retain their identity and independent styles, including identical text [1.57ms]
+(pass) native Brief CV presentation and letter separators > missing contact fields create no empty rows or empty personal section [1.11ms]
+(pass) native Brief CV presentation and letter separators > references pair by source identity; odd and half-width entries stay editable [1.26ms]
+(pass) native Brief CV presentation and letter separators > contact chrome removes its owned fields from aligned cells without orphan tables or rules [1.19ms]
+(pass) native Brief CV presentation and letter separators > rubric offsets, spacing, badges and content indents resolve before XML and respect half-width boundaries [1.87ms]
+(pass) native Brief CV presentation and letter separators > native geometry survives packaging without changing the semantic model [4.79ms]
+(pass) native Brief CV presentation and letter separators > sender, recipient and subject rules attach to known paragraphs; empty groups leave no rule [3.55ms]
+(pass) native Brief CV presentation and letter separators > invalid shared geometry fails before packaging [1.70ms]
+(pass) native Brief CV presentation and letter separators > entry metadata stays attached to description start while long descriptions remain splittable [1.09ms]
+
+tests/unit/dossier-chrome-customization.test.tsx:
+(pass) dossier chrome customization > new defaults use stacked header text, inline footer text and no automatic border [0.10ms]
+(pass) dossier chrome customization > automatic header height grows for document content while explicit height wins [0.09ms]
+(pass) dossier chrome customization > legacy persisted branches keep first-page behavior while fresh partial state is identical [0.11ms]
+(pass) dossier chrome customization > legacy saved state without text-color keys stays automatic [0.16ms]
+(pass) dossier chrome customization > legacy inline headers keep their historical midpoint separator [0.10ms]
+(pass) dossier chrome customization > normalization keeps customization and lets old branches inherit shared border settings [0.25ms]
+(pass) dossier chrome customization > custom heights reserve matching CV content space [0.06ms]
+(pass) dossier chrome customization > letter geometry follows the same custom heights [0.19ms]
+(pass) dossier chrome customization > renderer applies font, gradients, explicit text colors and an explicitly enabled custom border [1.09ms]
+(pass) dossier chrome customization > automatic text colors still use the readable surface contrast [0.53ms]
+(pass) dossier chrome customization > inline contact icons inherit the computed header contrast [0.70ms]
+(pass) dossier chrome customization > automatic border color avoids matching either default surface [0.27ms]
+
+tests/unit/letter-adversarial-content.test.ts:
+(pass) M8 adversarial motivation-letter boundaries > filters blank attachments without losing real Unicode labels [0.11ms]
+(pass) M8 adversarial motivation-letter boundaries > many and very long attachment names reserve space but stay capped inside A4 [0.19ms]
+(pass) M8 adversarial motivation-letter boundaries > an attachment footer with intentionally hidden attachments collapses to its minimum band [0.06ms]
+(pass) M8 adversarial motivation-letter boundaries > plain-text conversion preserves accents while escaping user-supplied markup [0.09ms]
+(pass) M8 adversarial motivation-letter boundaries > inline letter colors accept only canonical opaque RGB values [0.35ms]
+
+tests/unit/docx-next-template-primitives.test.ts:
+(pass) shared native template primitives > opt-in page paint serializes native anchors by layer, scopes stories and keeps earlier packages unchanged [6.42ms]
+(pass) shared native template primitives > explicit paint stacking is independent of global DrawingML IDs in both native stories [6.87ms]
+(pass) shared native template primitives > palette-bound outline motifs retain transparent centers and scoped native stories [0.92ms]
+(pass) shared native template primitives > unpainted and fill-less gradient descriptors fail explicitly [0.59ms]
+(pass) shared native template primitives > page intersection retains visible circle viewport and rejects unspecified clipping [0.66ms]
+(pass) shared native template primitives > scoped paint creates explicit stories with reusable assets and owned relationships [3.56ms]
+(pass) shared native template primitives > Warm scenarios preserve identities and portable deterministic models [28.23ms]
+(pass) shared native template primitives > compact sender stays native and growing with saved style and dossier font [6.51ms]
+(pass) shared native template primitives > default contact keeps reviewed 44mm policy and none keeps sender flow [1.66ms]
+(pass) shared native template primitives > cover rows are native and light palette chrome has readable editable ink [5.35ms]
+(pass) shared native template primitives > first paint clearance and continuation margin use one spacer [0.97ms]
+(pass) shared native template primitives > wrapped contact chrome with signed offsets reserves native text safety [1.08ms]
+(pass) shared native template primitives > custom flow boxes keep content and native padding in one row at a page boundary [7.87ms]
+(pass) shared native template primitives > disabled chrome ignores dormant height and unsupported inputs block [1.47ms]
+
+tests/unit/docx-next-sidebar-body.test.ts:
+(pass) shared sidebar lowering preserves authored paragraphs, physical tracks and immutable inputs [159.68ms]
+(pass) first-page lead rejects invalid geometry and a missing real kept boundary [23.16ms]
+(pass) diagnostic composition uses the shared export path and stays blocked without its explicit gate [55.05ms]
+(pass) whole stories keep native picture ownership and reject invalid source geometry [2.44ms]
+(pass) a malformed body table cannot bypass the sidebar structure gate [7.80ms]
+
+tests/unit/dossier-header-gap.test.ts:
+(pass) dossier header spacing > defaults to 12 mm and clamps persisted values to 0–40 mm [0.11ms]
+(pass) dossier header spacing > adds the selected whitespace after an enabled header [0.04ms]
+(pass) dossier header spacing > moves every formerly overridden CV template by the selected gap [0.11ms]
+(pass) dossier header spacing > keeps CV header spacing with page margins and links there from Header & Footer [0.14ms]
+(pass) dossier header spacing > retains the 0–40 mm control in the shared chrome UI for the letter [0.07ms]
+(pass) dossier header spacing > routes the shared gap through the motivation-letter geometry source of truth [0.05ms]
+(pass) dossier header spacing > keeps renderer-resolved CV geometry authoritative over every template [0.03ms]
+
+tests/unit/header-production-polish.test.ts:
+(pass) header production polish > icon separator is no longer user-selectable and old values migrate to midpoint [0.07ms]
+(pass) header production polish > normal template switches preserve chrome while Warm alone uses shared recommendation [0.03ms]
+(pass) header production polish > Citrus keeps its light contact text without overriding Edel's compact standard [0.07ms]
+
+tests/unit/cv-local-css-scope.test.ts:
+(pass) no application CV selector relies on html template or presentation identity [2.99ms]
+
+tests/unit/dossier-project-file.test.ts:
+(pass) dossier JSON project files > serializes, parses and derives a safe filename [0.40ms]
+(pass) dossier JSON project files > rejects malformed or unrelated JSON before changing browser state [0.06ms]
+(pass) dossier JSON project files > replace restore removes stale parts and portable CV sidecars [0.60ms]
+
+tests/unit/fresh-modern-sidebar-geometry.test.ts:
+(pass) Fresh modern sidebar geometry guard > the CV renderer publishes its actual adjustable modern content box [0.03ms]
+(pass) Fresh modern sidebar geometry guard > all known Fresh overlap templates consume renderer geometry in Sidebar mode [0.05ms]
+
+tests/unit/cv-contact-tabulator.test.ts:
+(pass) CV contact tabulator layout > pairs address/place and phone/email without legacy middle dots [0.09ms]
+(pass) CV contact tabulator layout > uses one shared grid axis for contact and personal values [0.12ms]
+(pass) CV contact tabulator layout > lets incomplete contact pairs span the full shared grid [0.05ms]
+
+tests/unit/docx-next-owner-boundary.test.ts:
+(pass) all six declared boundaries preserve JSON, model and every other package part [151.13ms]
+(pass) floating boundaries reject malformed JSON and conflicting adjacency [7.95ms]
+(pass) owner boundary cannot enable production export through portable JSON or cleared issues [2.76ms]
+
+tests/unit/docx-next-prism.test.ts:
+(pass) Prism declarative architecture stress > a shared band may combine circles and polygons without discarding either primitive [1.64ms]
+(pass) Prism declarative architecture stress > all authored scenarios retain canonical identity and deterministic source snapshots [26.96ms]
+(pass) Prism declarative architecture stress > shared page-relative motifs use existing validated polygon paint and growing band height [0.91ms]
+(pass) Prism declarative architecture stress > native cover cells group title fields while preserving independent saved formatting [5.78ms]
+(pass) Prism declarative architecture stress > disabled chrome retains native sender and suppresses every interior motif [0.78ms]
+(pass) Prism declarative architecture stress > explicit custom header surface replaces template motifs and foreground stays authoritative [0.75ms]
+(pass) Prism declarative architecture stress > wrapped signed-offset contact enlarges both polygon and paint with one CV first spacer [0.90ms]
+(pass) Prism declarative architecture stress > registration introduces no template-ID condition or alternative renderer [0.49ms]
+(pass) Prism declarative architecture stress > a short semantic closing/signature/attachment tail stays attached without fixed heights [0.90ms]
+(pass) Prism declarative architecture stress > an oversized semantic tail remains splittable instead of moving a giant keep group [0.75ms]
+
+tests/unit/docx-next-blockig.test.ts:
+(pass) Blockig native modular flow and decorative rail > multi-page contact uses native shaded cells and editable semantic content [8.57ms]
+(pass) Blockig native modular flow and decorative rail > stress models are deterministic and never request a sidebar [27.53ms]
+(pass) Blockig native modular flow and decorative rail > authored contact rectangle becomes a native cell; source color/opacity and hidden paint are honored [1.83ms]
+(pass) Blockig native modular flow and decorative rail > grouped hero lead follows actual photo presence and source typography stays native [1.68ms]
+(pass) Blockig native modular flow and decorative rail > unsupported native surfaces and explicit sidebar requests fail visibly [1.30ms]
+
+tests/unit/template-chrome.test.ts:
+(pass) template-owned dossier chrome > Brief uses the shared compact header/footer fallback [0.08ms]
+(pass) template-owned dossier chrome > all normal visual templates default to compact headers [0.16ms]
+(pass) template-owned dossier chrome > Warm alone intentionally recommends the reviewed stacked contact header [0.08ms]
+(pass) template-owned dossier chrome > contact gradient families inherit both template colours when contact is explicit [0.08ms]
+(pass) template-owned dossier chrome > explicit contact background colours remain authoritative [0.04ms]
+(pass) template-owned dossier chrome > Modern mirrors compact header and footer without changing their geometry [0.07ms]
+(pass) template-owned dossier chrome > Modern compact pair follows customized template colours [0.03ms]
+(pass) template-owned dossier chrome > Modern never overrides explicit contact / none / details mode choices [0.05ms]
+(pass) template-owned dossier chrome > ordinary templates keep the shared chrome contract except for the dossier-wide header default [0.02ms]
+
+tests/unit/templatefix-studio2-studio3-interiors.test.ts:
+(pass) templateFIX Studio 2 / Studio 3 interiors > loads the interior-only cleanup after the legacy studio variant CSS [0.04ms]
+(pass) templateFIX Studio 2 / Studio 3 interiors > does not target either title page [0.02ms]
+(pass) templateFIX Studio 2 / Studio 3 interiors > Studio 2 letter and CV use one two-tone contact masthead [0.04ms]
+(pass) templateFIX Studio 2 / Studio 3 interiors > Studio 3 letter and CV use the deep-green/mint masthead [0.03ms]
+(pass) templateFIX Studio 2 / Studio 3 interiors > both CV interiors remove decorative heading strokes [0.06ms]
+
+tests/unit/docx-next-horizon.test.ts:
+(pass) Horizon shared gradient stationery > all cases preserve portable identities and deterministic native models [22.56ms]
+(pass) Horizon shared gradient stationery > horizontal gradients retain palette roles and independent scoped ownership [2.66ms]
+(pass) Horizon shared gradient stationery > photo, letter-rich content, lists and CV date tracks remain native and field-addressable [1.93ms]
+(pass) Horizon shared gradient stationery > all three candidate templates remain independent of the single renderer [1.65ms]
+
+tests/unit/red-dossier-coherence.test.ts:
+(pass) final red dossier coherence fixes > Glow keeps its CV accent inside the violet/blue cover family [0.08ms]
+(pass) final red dossier coherence fixes > Studio PDF scale targets the actual rendered CV root and loads last [0.04ms]
+(pass) final red dossier coherence fixes > Studio body is lifted close to the 10.5 pt letter without loose pagination [0.03ms]
+
+tests/unit/letter-selection-toolbar.test.ts:
+(pass) letter inline typography appears only for a real text selection [0.18ms]
+
+tests/unit/docx-next-modern.test.ts:
+(pass) Modern template is independent of the blocked Sidebar layout > portable stress models retain native fields and valid nonsemantic paint [25.65ms]
+(pass) Modern template is independent of the blocked Sidebar layout > authored halo stays quiet and the hero uses semantic fallback when photo/name are absent [1.50ms]
+(pass) Modern template is independent of the blocked Sidebar layout > default decorative visibility never suppresses semantic fields or explicit saved intent [1.45ms]
+(pass) Modern template is independent of the blocked Sidebar layout > compact source-owned dark footer has readable native ink; plain footer remains dark [1.29ms]
+(pass) Modern template is independent of the blocked Sidebar layout > circle photo and explicit typography remain native, and Sidebar requests use shared flow [1.91ms]
+
+tests/unit/dossier-docx-warm.test.ts:
+(pass) Warm DOCX reference export > creates editable OpenXML with Warm vector motifs and Cabin fallback [9.81ms]
+(pass) Warm DOCX reference export > requires Warm in all three dossier parts [0.30ms]
+
+tests/unit/cv-family-alignment.test.ts:
+(pass) CV family compact rows > defaults to one-line rows with colons, shared alignment and compact spacing [0.08ms]
+(pass) CV family compact rows > keeps all family presentation controls together [0.08ms]
+(pass) CV family compact rows > renders colon and shared tab stop directly from family row state [0.17ms]
+(pass) CV family compact rows > keeps family layout out of generic editor section CSS [0.02ms]
+
+tests/unit/m12-dossier-consistency.test.tsx:
+(pass) M12 Fresh dossier consistency > all 21 active Fresh templates have one cross-document identity contract [0.41ms]
+(pass) M12 Fresh dossier consistency > compact, contact and no-header mean the same thing in CV and letter for every Fresh template [28.86ms]
+(pass) M12 Fresh dossier consistency > compact, detailed and no-footer stay synchronized while document-specific details remain appropriate [17.56ms]
+(pass) M12 Fresh dossier consistency > default contact repeats the full shared header and CV never falls back to Seite N [24.43ms]
+
+tests/unit/cover-footer-consistency.test.ts:
+(pass) global cover footer consistency > Kontakt and Beilagen start at exactly the same resolved height in every template [6.95ms]
+(pass) global cover footer consistency > empty contact keeps the default attachments inside the print-safe lower edge [24.87ms]
+(pass) global cover footer consistency > Kontakt and Beilagen share one uppercase, non-spaced label convention [0.17ms]
+(pass) global cover footer consistency > manual attachment positioning remains opt-out from automatic vertical synchronization [0.21ms]
+(pass) global cover footer consistency > footer realignment restores geometry links without deleting visual choices [0.22ms]
+
+tests/unit/dossier-docx-legacy-recipes.test.ts:
+(pass) legacy individual DOCX recipes > Seriös routes through its individual Word recipe [10.34ms]
+(pass) legacy individual DOCX recipes > Rahmen routes through its individual Word recipe [9.11ms]
+(pass) legacy individual DOCX recipes > Kolumne routes through its individual Word recipe [9.21ms]
+(pass) legacy individual DOCX recipes > Human routes through its individual Word recipe [8.71ms]
+(pass) legacy individual DOCX recipes > Horizont routes through its individual Word recipe [9.46ms]
+(pass) legacy individual DOCX recipes > Modern routes through its individual Word recipe [9.01ms]
+(pass) legacy individual DOCX recipes > Editorial routes through its individual Word recipe [8.91ms]
+(pass) legacy individual DOCX recipes > Edel routes through its individual Word recipe [8.45ms]
+(pass) legacy individual DOCX recipes > Colorful routes through its individual Word recipe [9.52ms]
+(pass) legacy individual DOCX recipes > Blockig routes through its individual Word recipe [9.17ms]
+(pass) legacy individual DOCX recipes > Sonne routes through its individual Word recipe [20.55ms]
+(pass) legacy individual DOCX recipes > Studio routes through its individual Word recipe [9.70ms]
+(pass) legacy individual DOCX recipes > Neon routes through its individual Word recipe [8.33ms]
+(pass) legacy individual DOCX recipes > Aurora routes through its individual Word recipe [8.47ms]
+(pass) legacy individual DOCX recipes > Verlauf routes through its individual Word recipe [9.42ms]
+(pass) legacy individual DOCX recipes > Citrus routes through its individual Word recipe [8.84ms]
+(pass) legacy individual DOCX recipes > Edel Dark routes through its individual Word recipe [8.18ms]
+(pass) legacy individual DOCX recipes > Edge routes through its individual Word recipe [9.79ms]
+(pass) legacy individual DOCX recipes > Glow routes through its individual Word recipe [9.09ms]
+(pass) legacy individual DOCX recipes > Mono Luxe routes through its individual Word recipe [11.54ms]
+(pass) legacy individual DOCX recipes > Horizon routes through its individual Word recipe [12.10ms]
+(pass) legacy individual DOCX recipes > Sunrise routes through its individual Word recipe [15.17ms]
+(pass) legacy individual DOCX recipes > Forest Flow routes through its individual Word recipe [8.95ms]
+(pass) legacy individual DOCX recipes > Violet Pulse routes through its individual Word recipe [8.45ms]
+(pass) legacy individual DOCX recipes > Studio 2 routes through its individual Word recipe [15.29ms]
+(pass) legacy individual DOCX recipes > Warm 2 routes through its individual Word recipe [9.98ms]
+(pass) legacy individual DOCX recipes > Warm 3 routes through its individual Word recipe [8.19ms]
+(pass) legacy individual DOCX recipes > Warm 4 routes through its individual Word recipe [14.74ms]
+(pass) legacy individual DOCX recipes > Warm 5 routes through its individual Word recipe [9.17ms]
+(pass) legacy individual DOCX recipes > Verlauf 2 routes through its individual Word recipe [9.03ms]
+(pass) legacy individual DOCX recipes > Verlauf 3 routes through its individual Word recipe [8.68ms]
+(pass) legacy individual DOCX recipes > Ledger routes through its individual Word recipe [8.92ms]
+(pass) legacy individual DOCX recipes > Prism routes through its individual Word recipe [8.91ms]
+(pass) legacy individual DOCX recipes > Gallery routes through its individual Word recipe [12.00ms]
+(pass) legacy individual DOCX recipes > Orbit routes through its individual Word recipe [9.03ms]
+(pass) legacy individual DOCX recipes > Ribbon routes through its individual Word recipe [12.18ms]
+(pass) legacy individual DOCX recipes > Cove routes through its individual Word recipe [8.62ms]
+(pass) legacy individual DOCX recipes > Studio 3 keeps its reviewed dedicated DOCX profile ahead of its safety recipe [0.34ms]
+(pass) legacy individual DOCX recipes > Modern keeps its real paper and floats initials inside its photo frame [13.17ms]
+(pass) legacy individual DOCX recipes > Neon keeps a dark page around a real white edit surface [8.82ms]
+
+tests/unit/dossier-docx-final-visual-fixes.test.ts:
+(pass) final DOCX visual fixes > Studio keeps cover attachments readable over the pale circle [4.61ms]
+(pass) final DOCX visual fixes > Aurora keeps the profession visible on the cyan hero [3.52ms]
+(pass) final DOCX visual fixes > Verlauf uses a transparent white portrait ring instead of covering title text [3.64ms]
+(pass) final DOCX visual fixes > verlauf2 places the name fully below the hard hero boundary [3.86ms]
+(pass) final DOCX visual fixes > verlauf3 places the name fully below the hard hero boundary [3.60ms]
+
+tests/unit/letter-preflight.test.ts:
+(pass) letter preflight > distinguishes an untouched letter from a started draft [0.19ms]
+(pass) letter preflight > requires only the minimum professional sending fields [0.07ms]
+(pass) letter preflight > recipient person may replace company but whitespace never counts [0.05ms]
+(pass) letter preflight > uses one deterministic one-page overflow tolerance [0.09ms]
+(pass) letter preflight > PDF exporters reject an overflowing letter before rasterization [1.34ms]
+
+tests/unit/cv-top-area-package15.test.ts:
+(pass) Package 1.5 CV top-area state > explicit photo positions are mutually exclusive and survive normalization [2.01ms]
+(pass) Package 1.5 CV top-area state > legacy automatic Brief/Standard appearance maps right normally and left mirrored [0.06ms]
+(pass) Package 1.5 CV top-area state > legacy classic non-Brief and Sidebar mappings preserve their old visual side [0.03ms]
+(pass) Package 1.5 CV top-area state > explicit photo side ignores legacy mirror and free stays free [0.07ms]
+(pass) Package 1.5 CV top-area state > new info position wins over legacy mirror fallback [0.03ms]
+
+tests/unit/letter-fragment-free-header.test.ts:
+(pass) fragment-free compact letter headers > every selectable design globally forbids detached compact header fragments [0.45ms]
+(pass) fragment-free compact letter headers > compact mode keeps only coherent edge-anchored structural chrome [0.37ms]
+
+tests/unit/docx-next-fonts.test.ts:
+(pass) DOCX Next explicit font policy > sans: requested font and declared unavailable-font alternative [0.20ms]
+(pass) DOCX Next explicit font policy > serif: requested font and declared unavailable-font alternative [0.02ms]
+(pass) DOCX Next explicit font policy > times: requested font and declared unavailable-font alternative [0.01ms]
+(pass) DOCX Next explicit font policy > humanist: requested font and declared unavailable-font alternative
+(pass) DOCX Next explicit font policy > freundlich: requested font and declared unavailable-font alternative
+(pass) DOCX Next explicit font policy > schmal: requested font and declared unavailable-font alternative
+(pass) DOCX Next explicit font policy > maschine: requested font and declared unavailable-font alternative
+(pass) DOCX Next explicit font policy > plakativ: requested font and declared unavailable-font alternative [0.01ms]
+(pass) DOCX Next explicit font policy > Brief letter base font stays independent of CV and rich/chrome/role text inherits it [2.10ms]
+(pass) DOCX Next explicit font policy > selection happens before XML and is deterministic through portable JSON, including field and chrome overrides [6.65ms]
+(pass) DOCX Next explicit font policy > unsupported keys/families and unavailable alternatives fail explicitly without a generic sans mapping [1.18ms]
+(pass) DOCX Next explicit font policy > disabled embedding has no asset fetch, font payload or embed relationship and unsupported embedding cannot leak [3.28ms]
+
+tests/unit/dossier-docx-fresh-recipes.test.ts:
+(pass) Fresh DOCX recipe registry > all active Fresh templates are connected to an individual Word recipe [0.20ms]
+(pass) Fresh DOCX recipe registry > Fresh templates resolve through template-recipe instead of family-fallback [0.54ms]
+(pass) Fresh DOCX recipe registry > reviewed Fresh Word geometry keeps the visual QA fixes [0.20ms]
+(pass) Fresh DOCX recipe registry > Orbit Word motifs preserve circular rings instead of rectangular frames [0.32ms]
+
+tests/unit/cover-header-layout.test.ts:
+(pass) cover header geometry > Brief and Modern share the corrected 20mm application-label margin [2.49ms]
+(pass) cover header geometry > manual application-label positioning still wins [0.15ms]
+(pass) cover header geometry > every registered template keeps its header block inside the A4 page width [1.87ms]
+
+tests/unit/letter-bottom-page-margin.test.ts:
+(pass) motivation-letter physical bottom margin > defaults to 1 mm while footer reserve stays separate [0.28ms]
+(pass) motivation-letter physical bottom margin > a custom 1 mm letter bottom margin survives storage and rendering [0.10ms]
+
+tests/unit/docx-next-control-placement.test.ts:
+(pass) placement changes only the first whole control and survives portable JSON [148.57ms]
+(pass) malformed placement values fail validation [15.91ms]
+(pass) clearing issues and floating options cannot bypass the inline placement gate [2.85ms]
+
+tests/unit/cv-family-layout.test.ts:
+(pass) family editor does not expose the generic Zeitraum field [0.08ms]
+(pass) family rows render flush with the rubric instead of reserving a date rail [0.19ms]
+(pass) family uses one compact control block for labels and spacing [0.15ms]
+(pass) structured family rows default and migrate to the compact one-line contract [0.09ms]
+
+tests/unit/cv-section-rule.test.ts:
+(pass) CV section rule contract > missing and legacy short settings render as full-width rules [0.04ms]
+(pass) CV section rule contract > full stays full and none remains the explicit opt-out [0.04ms]
+
+tests/unit/cv-paper-color.test.tsx:
+(pass) template-independent CV paper color > resolves the chosen paper color for every selectable template [0.98ms]
+(pass) template-independent CV paper color > renders the chosen paper color into CV preview and PDF canvas markup [4.84ms]
+(pass) template-independent CV paper color > automatically keeps body text readable on dark custom paper [0.10ms]
+(pass) template-independent CV paper color > lets a custom CV text color override the automatic body color [2.67ms]
+(pass) template-independent CV paper color > old and malformed saves safely fall back to the template paper [0.06ms]
+
+tests/unit/docx-next-sections.test.ts:
+(pass) native flowing columns and physical section ownership > deterministic planning keeps the before/column/after content in order [1.22ms]
+(pass) native flowing columns and physical section ownership > native column definitions reset before the CV, with one header/footer package per logical part [4.16ms]
+(pass) native flowing columns and physical section ownership > nested/table-cell column sections fail rather than producing invalid Word sections [0.94ms]
+(pass) native flowing columns and physical section ownership > alternating flow restores normal width and owns first-page chrome once per dossier part [3.78ms]
+(pass) native flowing columns and physical section ownership > unsafe column geometry is rejected before a package is returned [0.57ms]
+
+tests/unit/compact-header-cleanup.test.ts:
+(pass) compact CV header cleanup > full motif suppression is compact-only and limited to the approved five templates [0.17ms]
+(pass) compact CV header cleanup > presentation override never rewrites the user's motif state [0.04ms]
+(pass) compact CV header cleanup > selective compact cleanup preserves Glow/Cove/Aurora identity [0.03ms]
+(pass) compact CV header cleanup > Colorful removes the legacy blue/yellow CV-header fragment at the source [0.05ms]
+(pass) compact CV header cleanup > Colorful contact and continuation typography are intentionally white [0.03ms]
+(pass) compact CV header cleanup > Edel Light leaves the shared compact header artwork untouched [0.02ms]
+
+tests/unit/pagination-qa-assertions.test.ts:
+(pass) pagination audit detects missing, duplicated, reordered and empty-page evidence [0.40ms]
+(pass) pagination fixtures are deterministic and markers are unique [1.25ms]
+
+tests/unit/dossier-docx-kolumne-structure.test.ts:
+(pass) Kolumne DOCX structure > keeps all CV rubrics inside valid nested sidebar table XML [13.19ms]
+
+tests/unit/template-typography.test.ts:
+(pass) template typography contracts > Fresh forestFlow resolves through its real dossier family [0.30ms]
+(pass) template typography contracts > Fresh monoLuxe resolves through its real dossier family [0.05ms]
+(pass) template typography contracts > Fresh edge resolves through its real dossier family [0.13ms]
+(pass) template typography contracts > 02 Editorial uses one restrained serif hierarchy [0.42ms]
+(pass) template typography contracts > explicit Editorial element typography still wins over the new defaults [0.12ms]
+
+tests/unit/docx-next-cover-authored.test.ts:
+(pass) authored page uses shared visible labels and typography without altering authored text [3.17ms]
+(pass) explicit saved element styles and manual coordinates win over role defaults [0.91ms]
+(pass) photo uses saved native page geometry and original source without cover width cap [0.87ms]
+(pass) native package stays opt-in, JSON-stable and preserves adjacent models [7.75ms]
+(pass) bounded Brief cases build; clipping, collisions and undeclared templates fail explicitly [6.38ms]
+
+tests/unit/docx-next-kolumne.test.ts:
+(pass) Kolumne stress models retain immutable semantic source and valid paint [35.59ms]
+(pass) long contacts own the native column fill; source color and semantic IDs stay intact [1.69ms]
+(pass) saved photos, typography and existing CV compositions remain generic [4.01ms]
+
+tests/unit/templatefix-cover-letter-cleanup.test.ts:
+(pass) templateFIX visual cleanup > Colorful cover has no orphan accent bar [0.14ms]
+(pass) templateFIX visual cleanup > Horizont motivation letter leaves footer ownership to shared chrome [0.04ms]
+
+tests/unit/dossier-content-geometry-ownership.test.ts:
+(pass) Package 4 dossier content geometry ownership > layout variants no longer expand the outer CV content box with magic offsets [0.06ms]
+(pass) Package 4 dossier content geometry ownership > Citrus no longer reclaims page-level space above Package 3 geometry [0.02ms]
+(pass) Package 4 dossier content geometry ownership > Package 3 remains the vertical CV page authority [0.02ms]
+(pass) Package 4 dossier content geometry ownership > document-title top spacing stays local inside the resolved CV box [0.01ms]
+(pass) Package 4 dossier content geometry ownership > Letter outer geometry stays owned by letterPageGeometry while recipient offset stays local [0.09ms]
+
+tests/unit/templatefix-32-36-cv-masthead.test.ts:
+(pass) 32-36 CV masthead DOM repair > loads after the original 32-36 cleanup [0.04ms]
+(pass) 32-36 CV masthead DOM repair > targets the real DossierSheetSignature sibling contract [0.06ms]
+(pass) 32-36 CV masthead DOM repair > Gallery owns the current motif-wrapper contract instead of the generic masthead [0.05ms]
+(pass) 32-36 CV masthead DOM repair > Orbit cannot stretch its ring into a rectangular frame [0.04ms]
+(pass) 32-36 CV masthead DOM repair > retires the third signature colour from the compact families and Gallery [0.02ms]
+
+tests/unit/docx-next-ledger.test.ts:
+(pass) Ledger native cover columns and quiet index paint > all cases preserve portable identities and deterministic models [28.51ms]
+(pass) Ledger native cover columns and quiet index paint > left photo and native hero group share one declarative cover row [1.74ms]
+(pass) Ledger native cover columns and quiet index paint > quiet rails repeat independently of running text and retain palette/background control [1.97ms]
+(pass) Ledger native cover columns and quiet index paint > CV sidebar remains unsupported; date rows and rich content use the single renderer [2.94ms]
+
+tests/unit/prism-neon-header-identity.test.ts:
+(pass) Prism + Neon header identity rework > loads the isolated identity layer through the established Prism interior module [0.02ms]
+(pass) Prism + Neon header identity rework > Prism uses default-only faceted chrome for compact and contact surfaces [0.04ms]
+(pass) Prism + Neon header identity rework > Neon keeps a coherent gradient masthead instead of a solid pink block [0.03ms]
+(pass) Prism + Neon header identity rework > the identity layer never rewrites stored motif or chrome state [0.03ms]
+
+tests/unit/demo-place-consistency.test.ts:
+(pass) editor demo place consistency > title page, letter and CV use the same Hubersdorf example world [0.07ms]
+(pass) editor demo place consistency > former mixed demo locations cannot return [0.06ms]
+
+tests/unit/role-typography-controls.test.ts:
+(pass) user-owned typography roles > document-title explicit color, size and spacing outrank template rules [0.02ms]
+(pass) user-owned typography roles > CV name exposes font, size, color and emphasis controls [0.03ms]
+(pass) user-owned typography roles > stacked contact header groups address/place and phone/email with configurable separator [0.09ms]
+(pass) user-owned typography roles > header and footer expose independent font-size and text-color controls [0.07ms]
+(pass) user-owned typography roles > letter role typography is normalized and clamped without changing untouched defaults [0.27ms]
+(pass) user-owned typography roles > letter UI and renderer expose sender, recipient and subject roles [0.06ms]
+
+tests/unit/docx-next-active-registry.test.ts:
+(pass) DOCX Next registry exactly covers the 39 active picker templates [0.28ms]
+
+tests/unit/cv-bottom-margin-reference-guard.test.ts:
+(pass) CV bottom-margin reference guard > migrates every stored CV bottom margin to 1 mm without changing the letter [0.06ms]
+(pass) CV bottom-margin reference guard > keeps 1 mm as a valid hard CV bottom floor [0.03ms]
+(pass) CV bottom-margin reference guard > all CV archetypes override their physical bottom margin to 1 mm [0.12ms]
+(pass) CV bottom-margin reference guard > footer reserve stays separate from the forced 1 mm physical margin [0.05ms]
+
+tests/unit/cover-element-typography-precedence.test.ts:
+(pass) cover element typography precedence > untouched cover roles stay owned by the dossier family [0.02ms]
+(pass) cover element typography precedence > explicit element edits receive a higher-priority cover-only contract [0.18ms]
+(pass) cover element typography precedence > late layout defaults no longer overwrite deliberate user typography [0.04ms]
+(pass) cover element typography precedence > one custom element font does not cancel the document-wide font [0.01ms]
+(pass) cover element typography precedence > CV typography contract remains hardened [0.01ms]
+
+tests/unit/docx-next-glow.test.ts:
+(pass) Glow generic luminous stationery > scenarios preserve editable semantic models and portable identities [23.24ms]
+(pass) Glow generic luminous stationery > radial color-to-transparency is validated, palette-bound, and scopes native stories [3.49ms]
+(pass) Glow generic luminous stationery > explicit header surfaces replace default paint and retain native user colors [0.75ms]
+(pass) Glow generic luminous stationery > native photo crop and unsupported sidebar stay explicit [1.38ms]
+
+tests/unit/citrus-rubric.test.ts:
+(pass) shared CV rubric options > an untouched CV resolves to neutral defaults [0.05ms]
+(pass) shared CV rubric options > generic values are preserved and malformed/out-of-range values are clamped [0.07ms]
+(pass) shared CV rubric options > explicit values from older Citrus saves remain readable [0.02ms]
+(pass) shared CV rubric options > stored generic and legacy rubric settings survive the dossier export adapter [0.20ms]
+
+tests/unit/template-chrome-warm.test.ts:
+(pass) Warm 1 dossier chrome > defaults to the reviewed stacked-contact geometry [0.03ms]
+(pass) Warm 1 dossier chrome > preserves an explicit contact header and user geometry [0.03ms]
+(pass) Warm 1 dossier chrome > still respects an explicit no-header choice [0.01ms]
+(pass) Warm 1 dossier chrome > does not rewrite contact mode for templates that genuinely own it [0.01ms]
+
+tests/unit/templatefix-kolumne-contact-rail.test.ts:
+(pass) Kolumne contact rail cleanup > suppresses the legacy Terracotta contact rail in the CV [0.02ms]
+(pass) Kolumne contact rail cleanup > suppresses the same rail in the motivation letter [0.02ms]
+(pass) Kolumne contact rail cleanup > keeps default rubric titles readable on the configurable dark column [0.05ms]
+(pass) Kolumne contact rail cleanup > lets an explicit full rubric rule override template suppression without changing colour [0.12ms]
+
+tests/unit/cv-reference-columns.test.ts:
+(pass) CV reference columns > defaults side-by-side references to on [0.06ms]
+(pass) CV reference columns > places the control in the references section and explains the half-width fallback [0.09ms]
+(pass) CV reference columns > renders pairs only when references have full section width [0.12ms]
+
+tests/unit/docx-next-ribbon.test.ts:
+(pass) Ribbon shared native hero and scoped paint > scenarios preserve deterministic portable models with native field identity [23.15ms]
+(pass) Ribbon shared native hero and scoped paint > the growing hero has editable photo/text and a gutter, never baked-in text [0.96ms]
+(pass) Ribbon shared native hero and scoped paint > semantic palette defaults keep contact text readable and preserve both override sources [2.28ms]
+(pass) Ribbon shared native hero and scoped paint > disabled header uses quiet ribbons on both stories; CV opacity and palette are independent [2.64ms]
+(pass) Ribbon shared native hero and scoped paint > custom header surfaces retain precedence; native CV and rich letter content remain shared [2.32ms]
+(pass) Ribbon shared native hero and scoped paint > sidebar uses shared native flow and the single renderer has no candidate-ID branches [1.56ms]
+
+tests/unit/templatefix-29-31.test.ts:
+(pass) templateFIX 29-31 > keeps Warm 2 to coral/apricot geometry while rule suppression stays global [0.07ms]
+(pass) templateFIX 29-31 > keeps Warm 3 to teal/amber geometry without a local chrome-line patch [0.04ms]
+(pass) templateFIX 29-31 > turns Ledger into a full-width readable CV in classic layout [0.05ms]
+
+tests/unit/templatefix-edge-consistency.test.ts:
+(pass) Fresh dossier rebuild > unsaved CVs default to Standard with a Sidebar default for Kolumne [0.06ms]
+(pass) Fresh dossier rebuild > Kolumne uses the rail instead of accidental horizontal chrome rules [0.05ms]
+(pass) Fresh dossier rebuild > Edge uses one compact masthead signature across cover, letter and CV [0.08ms]
+(pass) Fresh dossier rebuild > Edge cover uses a full corner signature and editor-owned content geometry [0.07ms]
+(pass) Fresh dossier rebuild > Glow is restrained and does not use page-filling blobs or card shadows [0.10ms]
+(pass) Fresh dossier rebuild > Mono Luxe stays typographic and removes the old filled CV card treatment [0.05ms]
+
+tests/unit/dossier-sheet-background.test.tsx:
+(pass) shared dossier sheet background > Brief is selectable from the shared dossier template catalogue [0.08ms]
+(pass) shared dossier sheet background > every dossier template renders a motif-only shared non-brief background [5.02ms]
+(pass) shared dossier sheet background > established templates keep their structural geometry while shared chrome owns top spacing [0.88ms]
+(pass) shared dossier sheet background > continuation pages collapse large CV headers without overlapping content [0.63ms]
+(pass) shared dossier sheet background > Brief remains the deliberate plain-white alternative [0.10ms]
+
+tests/unit/docx-next-cove.test.ts:
+(pass) Cove shared asymmetric stationery > fixtures retain semantic identities and portable deterministic data [30.68ms]
+(pass) Cove shared asymmetric stationery > independent rectangle corners survive validation and asset identity [0.90ms]
+(pass) Cove shared asymmetric stationery > disabled header has quiet paint, while first/contact and continuation own one bay [2.67ms]
+(pass) Cove shared asymmetric stationery > sidebar uses shared native flow and template descriptors cannot inject renderer code [1.18ms]
+
+tests/unit/docx-next-floating.test.ts:
+(pass) floating native tables require diagnostic opt-in, including after model JSON restoration [6.13ms]
+(pass) diagnostic floating tables validate fixed page geometry and reject nested placement [4.13ms]
+(pass) 20 native placement controls preserve editable paragraphs and immutable model JSON packages [343.56ms]
+
+tests/unit/docx-next-orbit.test.ts:
+(pass) Orbit native candidate and reusable outline paint > positive scenarios retain identities and deterministic portable data [45.08ms]
+(pass) Orbit native candidate and reusable outline paint > right photo and no-photo clearance reuse native composition without fixed text heights [1.40ms]
+(pass) Orbit native candidate and reusable outline paint > configured alignment respects explicit saved alignment and independent field styles [0.73ms]
+(pass) Orbit native candidate and reusable outline paint > ring remains transparent, palette-bound and first/continuation scoped with chrome off [6.14ms]
+(pass) Orbit native candidate and reusable outline paint > sidebar uses shared flow and shared rendering stays template-ID-free [1.21ms]
+
+tests/unit/cv-page-fit.test.ts:
+(pass) CV pupil page fit > moves every rubric back to page 1 in one-page mode [0.97ms]
+(pass) CV pupil page fit > uses Masonry for safe compact rubrics before shrinking one-page content [0.15ms]
+(pass) CV pupil page fit > does not split an already narrow sidebar into Masonry columns [0.10ms]
+(pass) CV pupil page fit > keeps personal data on page 1 and gives real content to page 2 [0.26ms]
+(pass) CV pupil page fit > keeps legacy section layouts on normal rows and preserves explicit Masonry [0.05ms]
+(pass) CV pupil page fit > tightens dense one-page content without crossing the safe scale floor [0.28ms]
+(pass) dossier header default typography > uses 14 pt by default in every template resolver [0.04ms]
+(pass) dossier header default typography > keeps an explicit user header size [0.02ms]
+
+tests/unit/letter-layout-system.test.ts:
+(pass) central motivation-letter layout system > every selectable letter style and every header/footer mode yields one usable content box [2.50ms]
+(pass) central motivation-letter layout system > established templates stay archetype-based without copying per-template CV dimensions [0.21ms]
+(pass) central motivation-letter layout system > Warm compact first page reserves its real visual masthead [0.11ms]
+(pass) central motivation-letter layout system > Fresh templates use their explicit letter insets instead of a legacy CV fallback [0.16ms]
+(pass) central motivation-letter layout system > band, sidebar, frame, quiet and fresh references are all represented [0.17ms]
+(pass) central motivation-letter layout system > fresh structural references are deterministic and independent of import order [0.05ms]
+(pass) central motivation-letter layout system > a zero-height CV band remains a quiet letter reference
+(pass) central motivation-letter layout system > legacy/SSR geometry reuses the shared semantic chrome heights [0.04ms]
+(pass) central motivation-letter layout system > no-footer and attachment-footer reserve only their functional bottom space [0.05ms]
+(pass) central motivation-letter layout system > multi-page context repeats the selected contact header by default [0.07ms]
+
+tests/unit/docx-next-verlauf3.test.ts:
+(pass) Verlauf 3 reuse of semantic palettes and multi-stop composition > all stress snapshots produce deterministic native models and valid geometry [23.66ms]
+(pass) Verlauf 3 reuse of semantic palettes and multi-stop composition > warm three-color stops, independent white blooms and light-paper native ink match roles [0.82ms]
+(pass) Verlauf 3 reuse of semantic palettes and multi-stop composition > custom slots and editable colors remain independent of native first/continuation paint [3.56ms]
+(pass) Verlauf 3 reuse of semantic palettes and multi-stop composition > native photos, rich content and explicit sidebar rejection use the same renderer [2.15ms]
+
+tests/unit/cv-editor-copy.test.ts:
+(pass) CV editor top-area copy > keeps title and autosave status while removing redundant copy [0.12ms]
+
+tests/unit/cv-section-title-style.test.ts:
+(pass) CV rubric title styling > explicit text overrides beat DOCX template defaults and line none stays independent [0.93ms]
+(pass) CV rubric title styling > explicit underline off does not disable the right rule [0.20ms]
+(pass) CV rubric title styling > explicit full creates a Word rubric rule when the template has none [0.35ms]
+(pass) CV rubric title styling > missing rubric overrides preserve the DOCX template exactly [0.03ms]
+(pass) CV rubric title styling > rubric overrides survive dossier JSON export and import [0.25ms]
+
+tests/unit/docx-next-source.test.ts:
+(pass) DOCX Next source boundary and saved identity binding > historical PDF adapter copies authored data and excludes print/measurement state [1.42ms]
+(pass) DOCX Next source boundary and saved identity binding > anonymous records require explicit stable-key bindings even with unique matching text [0.33ms]
+(pass) DOCX Next source boundary and saved identity binding > anonymous random field IDs bind by their saved ID; wrong scope remains blocking [0.06ms]
+(pass) DOCX Next source boundary and saved identity binding > canonical identities cannot be redirected and conflicts cannot overwrite saved styles [0.19ms]
+(pass) DOCX Next source boundary and saved identity binding > compatible duplicate bindings preserve independent properties deterministically [0.09ms]
+(pass) authored semantic opacity > native ink composites against the declared paper/cell color without raster text [0.55ms]
+(pass) authored semantic opacity > translucent semantic images block explicitly until native alpha is accepted [0.61ms]
+
+tests/unit/dossier-canonical-default.test.ts:
+(pass) canonical neutral dossier fallback > one contract owns the fresh template and neutral chrome [0.05ms]
+(pass) canonical neutral dossier fallback > fresh and raw Brief designs keep the same compact chrome on every page [0.13ms]
+(pass) canonical neutral dossier fallback > partial chrome state recovers to the fresh Brief contract, not legacy chrome [0.03ms]
+(pass) canonical neutral dossier fallback > fresh CV resolves to Brief + Standard without a sidebar frame [0.05ms]
+(pass) canonical neutral dossier fallback > PDF document fallbacks resolve all dossier parts to Brief [0.19ms]
+(pass) canonical neutral dossier fallback > retired Frame data has one deterministic Brief fallback through PDF and DOCX [0.16ms]
+(pass) canonical neutral dossier fallback > explicit legacy choices remain authoritative [0.10ms]
+
+tests/unit/dossier-docx-v2-cover-scene.test.ts:
+(pass) DOCX V2 canonical cover scene > Warm consumes the user's edited decoration geometry instead of recipe defaults [0.65ms]
+(pass) DOCX V2 canonical cover scene > Neon keeps canonical hero geometry and real gradient stops [0.36ms]
+(pass) DOCX V2 canonical cover scene > VML renderer emits the scene geometry instead of Warm geometry [0.94ms]
+(pass) DOCX V2 canonical cover scene > real photo nodes retain canonical crop controls [0.27ms]
+(pass) DOCX V2 canonical cover scene > hidden editor elements stay hidden in the Word scene [0.17ms]
+(pass) DOCX V2 canonical cover scene > builds a finite baseline scene for every active cover template [4.81ms]
+(pass) DOCX V2 cover package adapter > replaces only cover body and preserves the letter/CV sections [2.10ms]
+(pass) DOCX V2 cover package adapter > embeds photo media and maps zoom/pan into DrawingML crop [1.24ms]
+(pass) DOCX V2 cover package adapter > packages freehand paths as SVG media instead of silently dropping them [1.19ms]
+
+tests/unit/download-file-names.test.ts:
+(pass) extracts Lehrberuf from EFZ/EBA application subjects [0.20ms]
+(pass) uses the current editor name for module JSON files [3.41ms]
+(pass) names individual PDFs by module and combined PDFs as Dossier [0.07ms]
+(pass) falls back without throwing when job or name are missing [0.03ms]
+
+tests/unit/docx-next-model.test.ts:
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: minimal [1.65ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: normal [1.80ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: long-letter [2.40ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: long-cv [2.96ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: long-values [1.23ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: no-photo [1.34ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: repeated-values [1.27ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: empty-optional [1.11ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: custom-sections [2.43ms]
+(pass) DOCX Next canonical model > equal visible values have independently styled stable fields [1.17ms]
+(pass) DOCX Next canonical model > ordered half-width custom sections and empty sections are semantic [1.25ms]
+(pass) DOCX Next canonical model > unresolved legacy identity is reported without text matching [0.51ms]
+(pass) DOCX Next canonical model > paper and saved CV custom text have explicit semantic identities [0.74ms]
+(pass) DOCX Next canonical model > absent photos disappear and present photos retain semantic native frame geometry [0.97ms]
+(pass) DOCX Next canonical model > contact chrome owns duplicate source fields and preserves their semantic typography [0.88ms]
+(pass) DOCX Next canonical model > compact chrome and absent optional content never fabricate contact fields [0.55ms]
+(pass) DOCX Next canonical model > supported font keys all have documented deterministic fallbacks [0.09ms]
+(pass) DOCX Next canonical model > templates are configuration and unreviewed templates cannot silently fallback [0.31ms]
+(pass) DOCX Next canonical model > Next has no dependency on any legacy/V2 DOCX module or post-render text heuristic [2.03ms]
+(pass) DOCX Next canonical model > rich text remains deterministic with native runs, alignment, lists and tables [0.30ms]
+(pass) DOCX Next canonical model > rich table cells preserve paragraph boundaries, nested tables and padded short rows [0.23ms]
+(pass) DOCX Next canonical model > all editor list variants retain their semantic kind [0.12ms]
+(pass) DOCX Next canonical model > balanced column flow retains native semantic content instead of splitting text into table cells [0.64ms]
+
+tests/unit/letter-brief-default.test.tsx:
+(pass) plain letter default > fresh Brief template renders the shared compact header and footer [6.03ms]
+(pass) plain letter default > an un-normalized fresh Brief design keeps the compact canonical chrome in SSR [0.80ms]
+(pass) plain letter default > an explicitly selected shared contact header still renders on the Brief template [1.02ms]
+(pass) plain letter default > missing saved modes inherit Brief while explicit legacy settings remain supported [0.61ms]
+
+tests/unit/app-theme.test.ts:
+(pass) three-mode application theme > keeps stored light/dark values compatible and accepts grey [0.05ms]
+(pass) three-mode application theme > falls back to the system preference only without a valid stored mode [0.02ms]
+(pass) three-mode application theme > cycles light to grey to dark to light [0.03ms]
+(pass) three-mode application theme > dark and grey classes are mutually exclusive [0.11ms]
+(pass) three-mode application theme > persists the selected mode under the established storage key [0.04ms]
+(pass) three-mode application theme > initializes the shell before hydration instead of inside the toggle [0.05ms]
+(pass) three-mode application theme > bootstrap reads storage and clears competing theme classes [0.02ms]
+
+tests/unit/cv-pdf-selection-geometry.test.ts:
+(pass) CV PDF selection geometry > uses the browser Range height instead of the CSS font-size guess [0.07ms]
+(pass) CV PDF selection geometry > keeps a safe fallback when a DOM rectangle cannot be measured [0.02ms]
+
+tests/unit/dossier-document-colors.test.ts:
+(pass) semantic document color precedence > carries explicit title-page paper and text colors into a new template palette [0.10ms]
+(pass) semantic document color precedence > keeps CV text overrides while allowing the next template to own its accents [0.04ms]
+(pass) semantic document color precedence > does not preserve automatic empty overrides [0.03ms]
+
+tests/unit/dossier-semantic-fields.test.ts:
+(pass) persistent semantic field typography > saved-project adapters preserve document title, heading and chrome settings [1.28ms]
+(pass) persistent semantic field typography > reload and changed text/labels resolve only the persisted field ID [0.15ms]
+(pass) persistent semantic field typography > an empty semantic field keeps formatting through portable normalization [0.05ms]
+(pass) persistent semantic field typography > names and date components style independently before rendering [0.64ms]
+(pass) persistent semantic field typography > reordering identical line items keeps style and empty items do not renumber identities [0.84ms]
+(pass) persistent semantic field typography > JSON projects keep additive list identities and canonical portable styles [0.24ms]
+(pass) persistent semantic field typography > reference contact composite is split by its explicit semantic fields once [0.69ms]
+
+tests/unit/dossier-chrome-sync.test.ts:
+(pass) shared CV and motivation-letter header/footer settings > synchronization is enabled by default [0.04ms]
+(pass) shared CV and motivation-letter header/footer settings > with sync enabled either editor changes the one shared configuration [0.10ms]
+(pass) shared CV and motivation-letter header/footer settings > resetting explicit text colors stores null and returns to automatic mode [0.09ms]
+(pass) shared CV and motivation-letter header/footer settings > turning sync off clones the current shared settings into both documents [0.04ms]
+(pass) shared CV and motivation-letter header/footer settings > with sync off CV and motivation letter can diverge [0.08ms]
+(pass) shared CV and motivation-letter header/footer settings > turning sync back on uses the document where the checkbox was enabled [0.03ms]
+(pass) shared CV and motivation-letter header/footer settings > letter history stores only the effective letter chrome, never CV or sync state [0.09ms]
+(pass) shared CV and motivation-letter header/footer settings > restoring letter history with sync off cannot roll back independent CV settings [0.15ms]
+(pass) shared CV and motivation-letter header/footer settings > restoring letter history with sync on changes only the shared effective chrome [0.07ms]
+
+tests/unit/letter-preflight-geometry.test.ts:
+(pass) M8 full-page motivation-letter preflight > rejects a footer whose attachment content is internally clipped [2.98ms]
+(pass) M8 full-page motivation-letter preflight > rejects a long contact header that grows into the recipient block [0.07ms]
+(pass) M8 full-page motivation-letter preflight > rejects a floated image that crosses the safe text area [0.04ms]
+(pass) M8 full-page motivation-letter preflight > accepts healthy chrome and images inside their measured boxes [0.04ms]
+
+tests/unit/cv-flow-pagination.test.ts:
+(pass) CV measured flow pagination > preserves fitted rows and moves a normal entry intact with its heading [0.32ms]
+(pass) CV measured flow pagination > retains every character and unique fragment offset across three or more pages [0.97ms]
+(pass) CV measured flow pagination > keeps a heading with a real fragment when the combined entry exceeds a page [1.36ms]
+(pass) CV measured flow pagination > uses continuation-page capacity without limiting the total number of pages [0.33ms]
+(pass) CV measured flow pagination > splits unbroken text at grapheme boundaries without separating joined Unicode [0.25ms]
+(pass) CV measured flow pagination > flows independent columns in sequence and retains an empty exhausted column [0.37ms]
+(pass) CV measured flow pagination > fragments an oversized entry within a column and preserves its heading [0.62ms]
+(pass) CV measured flow pagination > does not orphan column headings when the following entry only fits alone [0.35ms]
+(pass) CV measured flow pagination > respects explicit page-two placement and intentional required pages [0.06ms]
+(pass) CV measured flow pagination > starts from fresh state for repeated short and long changes [0.59ms]
+
+tests/unit/attachment-list-values.test.ts:
+(pass) custom attachment lists > keeps every user-defined cover attachment [0.09ms]
+(pass) custom attachment lists > keeps every user-defined letter attachment [0.04ms]
+(pass) custom attachment lists > respects an explicitly empty attachment list [0.02ms]
+(pass) custom attachment lists > migrates old documents without an attachment field [0.02ms]
+
+tests/unit/studio-cover-hierarchy.test.ts:
+(pass) Studio cover hierarchy > keeps application kicker and profession together in the yellow band [0.30ms]
+(pass) Studio cover hierarchy > explicit editor geometry still wins over the new defaults [0.18ms]
+
+tests/unit/dossier-page-geometry-foundation.test.ts:
+(pass) shared dossier page geometry foundation > composes physical page margin, header reserve, header gap and footer reserve exactly once [0.09ms]
+(pass) shared dossier page geometry foundation > a missing header reserve suppresses phantom header gap [0.10ms]
+(pass) shared dossier page geometry foundation > CV and Letter custom margins use the same top-level composition contract [0.23ms]
+(pass) shared dossier page geometry foundation > explicit continuation header mode drives the same reserve as rendered shared chrome [0.13ms]
+(pass) shared dossier page geometry foundation > dynamic attachment footer reserve grows the bottom safe edge without changing page-margin storage [0.12ms]
+(pass) shared dossier page geometry foundation > Warm keeps its structural first-page masthead reserve on top of the physical margin [0.08ms]
+
+tests/unit/dossier-chrome-renderer-boundary.test.ts:
+(pass) dossier chrome renderer boundary > renderers consume explicit snapshots and never subscribe to the global chrome store [0.40ms]
+(pass) dossier chrome renderer boundary > shared chrome is presentational and receives options explicitly [0.08ms]
+(pass) dossier chrome renderer boundary > CV geometry and visual chrome use the same explicit snapshot [0.21ms]
+(pass) dossier chrome renderer boundary > chrome controls derive every field from their subscribed state snapshot [0.13ms]
+
+tests/unit/cv-layout.test.ts:
+(pass) CV rubric layout > legacy documents receive the historic rubric order [0.15ms]
+(pass) CV rubric layout > custom rubrics are appended once and stale persisted keys are ignored [0.09ms]
+(pass) CV rubric layout > reordering is recognized without changing page, width or positioning [0.03ms]
+(pass) CV rubric layout > unsafe saved geometry is clamped while independent choices survive [0.06ms]
+(pass) CV rubric layout > global vertical rubric spacing keeps template default optional and clamps custom values [0.05ms]
+(pass) CV rubric layout > exposes Sidebar links and Sidebar rechts as explicit picker choices [0.15ms]
+(pass) CV rubric layout > Kolumne defaults to Sidebar and preserves explicit saved layouts [0.02ms]
+
+tests/unit/letter-context-font-families.test.ts:
+(pass) contextual letter font families > offers the font selector beside every contextual size control [0.02ms]
+(pass) contextual letter font families > keeps contact header and attachment footer font overrides independent [0.09ms]
+(pass) contextual letter font families > forces an explicit body font through rich text descendants [0.02ms]
+
+tests/unit/letter-backwards-compat.test.ts:
+(pass) M7 legacy motivation-letter compatibility > old designs without header/footer fields receive current safe defaults [0.13ms]
+(pass) M7 legacy motivation-letter compatibility > legacy data gains additive fields without overwriting existing content [0.06ms]
+(pass) M7 legacy motivation-letter compatibility > explicit modern header/footer choices remain unchanged [0.07ms]
+(pass) M7 legacy motivation-letter compatibility > an explicitly saved compact header remains compact [0.03ms]
+
+tests/unit/dossier-docx-v2-cover-qa.test.ts:
+(pass) DOCX V2 cover acceptance gate > all active templates have a structurally acceptable canonical scene [4.44ms]
+(pass) DOCX V2 cover acceptance gate > browser mode fails closed when a visible node was not measured [0.71ms]
+(pass) DOCX V2 cover acceptance gate > structural templates cannot silently lose their background capture [0.24ms]
+(pass) DOCX V2 cover acceptance gate > late browser/PDF layout changes are reported instead of mistaken for canonical data [0.32ms]
+(pass) DOCX V2 cover acceptance gate > real content completely outside A4 is a blocker while decoration may bleed [0.30ms]
+
+tests/unit/docx-next-body-carrier.test.ts:
+(pass) body table retains whole cells, exact lane widths and portable source data [42.20ms]
+(pass) body boundaries reject malformed, nested, floating and out-of-page indentation [59.76ms]
+(pass) body boundary cannot enable export after issues and floating options are cleared [13.35ms]
+
+tests/unit/docx-next-first-footer.test.ts:
+(pass) first footers preserve source fields and styles while declaring distinct native identities [43.58ms]
+(pass) first footer stories reject missing first-page scope, duplicate identities and malformed options [4.73ms]
+
+tests/unit/docx-next-cv-variants.test.ts:
+(pass) shared native CV compositions > all variants are deterministic and preserve unique identities without mutating app data [11.08ms]
+(pass) shared native CV compositions > classic remains flow; compact and retired sidebar aliases cannot silently become classic [0.93ms]
+(pass) shared native CV compositions > dated entries use fixed date tracks, semantic fields and native row pagination [4.87ms]
+(pass) shared native CV compositions > missing date and date-only entries flow without empty table columns [0.64ms]
+(pass) shared native CV compositions > user spacing, heading offsets, half-width placement and order survive composition [3.35ms]
+(pass) shared native CV compositions > fixed tracks reject mismatched arrays, narrow parent widths and invalid border edges [0.74ms]
+(pass) native CV continuation margin policy > 0/10/40 mm margins use one section and a first-page flow spacer where needed [38.49ms]
+(pass) native CV continuation margin policy > larger continuation margin is captured and blocks an unaccepted adaptation [1.05ms]
+
+tests/unit/ribbon-cover-redesign.test.ts:
+(pass) Ribbon cover is reduced to a straight rail and one rounded ribbon [0.52ms]
+(pass) Ribbon portrait and content positions are editor defaults, not CSS pins [0.07ms]
+(pass) Ribbon application label is direct rail typography, not another badge [0.02ms]
+(pass) Ribbon's old cover-only transforms cannot displace user-owned A4 blocks [0.17ms]
+(pass) Ribbon flows long display lines and bottom-anchors the date by declarative defaults [0.07ms]
+
+tests/unit/letter-font-size-range.test.tsx:
+(pass) letter font-size range > uses one shared 5–30 pt range for body and role typography [0.03ms]
+(pass) letter font-size range > normalization preserves the shared range across saves and reloads [0.08ms]
+(pass) letter font-size range > legacy narrower control bounds cannot shrink the shared slider range [0.79ms]
+
+tests/unit/letter-signature-spacing.test.tsx:
+(pass) motivation-letter closing and signature spacing > uses the compact spacing defaults when no saved spacing exists [0.83ms]
+(pass) motivation-letter closing and signature spacing > renders both user-defined distances independently [0.51ms]
+(pass) motivation-letter closing and signature spacing > clamps invalid and extreme values to printable limits [0.04ms]
+
+tests/unit/element-ratio-lock.test.ts:
+(pass) element proportion lock regression > keeps the UI defaults and writes the persistent proportion control [0.14ms]
+(pass) element proportion lock regression > guards direct preview resize handles with the same effective lock [0.04ms]
+(pass) element proportion lock regression > persists explicit lock choices through saved layout data [0.04ms]
+(pass) element proportion lock regression > does not lose the lock choice when only geometry is reset [0.03ms]
+
+tests/unit/docx-next-artwork.test.ts:
+(pass) declarative paper and native chrome geometry > paint assets are deterministic valid PNGs, with exact solid/gradient endpoints [1.29ms]
+(pass) declarative paper and native chrome geometry > independent part papers repeat in known header stories, behind native text [5.95ms]
+(pass) declarative paper and native chrome geometry > gradient bands use the same declarative artwork/picture primitive [4.34ms]
+(pass) declarative paper and native chrome geometry > the entire signed offset range becomes native section distances and a flowing recipient gap [11.53ms]
+(pass) declarative paper and native chrome geometry > empty recipient creates no spacer; actual large chrome font sizes reserve body space [1.30ms]
+(pass) declarative paper and native chrome geometry > invalid artwork and chrome geometry fail explicitly before returning a package [4.75ms]
+
+tests/unit/fresh-letter-system.test.ts:
+(pass) Fresh motivation-letter visual system > all 21 active Fresh templates have one dedicated letter specification [7.60ms]
+(pass) Fresh motivation-letter visual system > every Fresh motif stays on-page and outside the maximal reading box [0.45ms]
+(pass) Fresh motivation-letter visual system > Fresh identity is varied without using cover-sized decoration [0.14ms]
+
+tests/unit/docx-next-warm2.test.ts:
+(pass) Warm 2 shared curved stationery and native centered hero > all portable stress fixtures retain deterministic models and valid nonsemantic curves [25.45ms]
+(pass) Warm 2 shared curved stationery and native centered hero > curved teal and amber fields follow custom palettes without semantic text [0.75ms]
+(pass) Warm 2 shared curved stationery and native centered hero > quiet motifs repeat beside native contact stories and background visibility is independent [2.67ms]
+(pass) Warm 2 shared curved stationery and native centered hero > native photos, rich tables and explicit user typography survive; CV sidebar uses shared flow [2.52ms]
+
+tests/unit/docx-next-selective-row.test.ts:
+(pass) outer opening rows retain every semantic paragraph and detach lead/tail endings [49.98ms]
+(pass) all outer-row controls roundtrip without mutation and diagnostic endings remain export-blocked [168.57ms]
+
+tests/unit/docx-next-cover-typography.test.ts:
+(pass) semantic cover typography and independent list counters > relative tracking follows the resolved user font size and respects an explicit point override [1.38ms]
+(pass) semantic cover typography and independent list counters > casing, em tracking and line height are resolved deterministically before XML; original text stays intact [3.67ms]
+(pass) semantic cover typography and independent list counters > negative tracking and explicit non-uppercase styles transfer without rewriting text [3.27ms]
+(pass) semantic cover typography and independent list counters > each nonempty list item has native paragraphs, stable source field identity and independent rich runs [0.93ms]
+(pass) semantic cover typography and independent list counters > new cover lists and letter lists restart independently without affecting item text [4.09ms]
+(pass) semantic cover typography and independent list counters > inconsistent list groups and invalid paragraph/run geometry fail explicitly [1.05ms]
+
+tests/unit/fresh-cover-background.test.tsx:
+(pass) Fresh title-page background contract > canonical Fresh registry remains complete after retired templates are removed [1.01ms]
+(pass) Fresh title-page background contract > every Fresh template renders the shared three-field structural scaffold [7.11ms]
+(pass) Fresh title-page background contract > legacy title-page templates do not receive the Fresh scaffold [0.15ms]
+
+tests/unit/m14-regression-hardening.test.tsx:
+(pass) M14 Fresh renderer boundaries > every Fresh letter renders its dedicated semantic motif contract [3.96ms]
+(pass) M14 Fresh renderer boundaries > legacy letter-only rails expose their current semantic motif markers [0.44ms]
+
+tests/unit/templatefix-prism-cleanup.test.ts:
+(pass) Prism interior cleanup > leaves the title page untouched and loads only interior overrides [0.03ms]
+(pass) Prism interior cleanup > motivation letter uses one compact two-tone masthead without the cyan micro-rule [0.02ms]
+(pass) Prism interior cleanup > CV removes the large diagonal hero and decorative heading rules [0.03ms]
+
+tests/unit/dossier-font-sync.test.ts:
+(pass) CV and motivation-letter font sync > copies the CV dossier font into a missing motivation letter [0.23ms]
+(pass) CV and motivation-letter font sync > copies an existing motivation-letter font into a CV without a concrete font [0.06ms]
+(pass) CV and motivation-letter font sync > uses the CV as the one-time tie-breaker for an old conflicting pair [0.03ms]
+(pass) CV and motivation-letter font sync > ignores invalid font values instead of spreading corrupted data [0.08ms]
+(pass) CV and motivation-letter font sync > keeps the semantic dossier default mapped to Cabin [0.05ms]
+
+tests/unit/docx-next-pastell.test.ts:
+(pass) Rahmen shared framed serif composition > portable stress models are deterministic with validated nonsemantic artwork [28.14ms]
+(pass) Rahmen shared framed serif composition > secondary frame repeats on all stories without filling native writing surfaces [1.47ms]
+(pass) Rahmen shared framed serif composition > authored contact separator becomes editable-content flow, and explicit styles prevail [0.88ms]
+(pass) Rahmen shared framed serif composition > native long text and tables stay semantic; unsupported Sidebar remains explicit [2.47ms]
+
+tests/unit/docx-next-frame.test.ts:
+(pass) automatic-height paragraph frames remain blocked after model JSON restoration [2.99ms]
+(pass) paragraph frame diagnostics reject invalid geometry, nested frames and overflowing paragraph indents [5.59ms]
+(pass) four bounded frame controls preserve native fields, adjacent paragraph ownership, lists and immutable JSON packages [46.80ms]
+
+tests/unit/letter-preflight-export-geometry.test.ts:
+(pass) M8 PDF export rejects clipped attachment chrome before rasterization [0.45ms]
+
+tests/unit/dossier-docx-letter-images.test.ts:
+(pass) DOCX letter image parity > keeps legacy flow images wrapping and maps explicit free placement to page anchors [1.26ms]
+(pass) DOCX letter image parity > legacy side plus xMm remains a text-flow anchor instead of becoming free [0.35ms]
+
+tests/unit/docx-next-welle.test.ts:
+(pass) Horizont split hero and native horizon contact surface > all stress models stay deterministic with validated nonsemantic paint [29.44ms]
+(pass) Horizont split hero and native horizon contact surface > source field/rule are consumed as a growing native row with a top border [0.89ms]
+(pass) Horizont split hero and native horizon contact surface > native split photo and independent footer contrast respect hidden motifs and saved colors [3.05ms]
+(pass) Horizont split hero and native horizon contact surface > unsupported border gradients/thickness and sidebar requests use shared flow [1.14ms]
+
+tests/unit/docx-next-floating-anchor.test.ts:
+(pass) declared floating anchors reject wrong, missing, nested and nonadjacent native paragraph IDs [5.47ms]
+(pass) native paragraph ownership remains diagnostically blocked after JSON with cleared issues [2.27ms]
+(pass) all twelve explicit anchors preserve whole native stories and every part except one unowned separator [306.94ms]
+
+tests/unit/letter-font-control.test.ts:
+(pass) motivation-letter font control > keeps the established standalone Brief font behavior [0.04ms]
+(pass) motivation-letter font control > shows template typography when a designed template has no override [0.03ms]
+(pass) motivation-letter font control > stores an explicit selection in the field used by designed templates [6.29ms]
+(pass) motivation-letter font control > can return a designed template to its own typography [0.10ms]
+
+tests/unit/forest-flow-rail-seam.test.ts:
+(pass) Forest Flow cover rail keeps one straight 52 mm edge [0.05ms]
+
+tests/unit/compact-header-quick-wins.test.ts:
+(pass) compact header quick wins > package is limited to Edge, Forest Flow and Ledger [0.09ms]
+(pass) compact header quick wins > Edge rebuild stays compact-only and preserves geometry [0.11ms]
+(pass) compact header quick wins > Forest uses one family treatment for compact and contact [0.08ms]
+(pass) compact header quick wins > Ledger compact echoes the existing book spine and ruled paper [0.04ms]
+
+tests/unit/cv-dev-recovery.test.ts:
+(pass) CV template state stays neutral while missing and legacy section rules render full width [0.26ms]
+(pass) document title has independent persisted style controls in preview/PDF renderer [0.41ms]
+(pass) rubric title formatting is global and includes side/custom render paths [0.47ms]
+(pass) explicit typography controls outrank template defaults without breaking the PDF raster mask [0.18ms]
+(pass) demo CV no longer adds a redundant subtitle below the candidate name [0.02ms]
+(pass) optional personal details are separate, left-aligned and not prefilled [0.23ms]
+
+tests/unit/docx-next-citrus-template.test.ts:
+(pass) Citrus stress inputs restore the same immutable semantic models and valid contours [34.51ms]
+(pass) default rubric shading stays editable; both saved off policies take precedence [2.38ms]
+(pass) saved photo frames and field styles retain precedence; existing CV layouts stay shared [3.28ms]
+
+tests/unit/docx-next-chrome.test.tsx:
+(pass) semantic custom header/footer content > editor and preview own every field independently of repeated visible values [4.39ms]
+(pass) semantic custom header/footer content > first and continuation headers resolve the same canonical style before rendering, even after edits [4.89ms]
+(pass) semantic custom header/footer content > native footer layout preserves separate run styles and custom content replaces automatic contact text [1.49ms]
+(pass) semantic custom header/footer content > different first-page headers explicitly reuse their logical part footer [3.63ms]
+
+tests/unit/cv-pagination-design-invalidation.test.ts:
+(pass) design-only edits invalidate cached CV pagination rows [0.09ms]
+
+tests/unit/dossier-native-print.test.ts:
+(pass) native dossier preparation > collects the original canonical pages in DOM order without copies [0.31ms]
+(pass) native dossier preparation > waits for CV pagination and matching mounted counts [0.05ms]
+(pass) native dossier preparation > waits for Letter pagination and matching mounted counts [0.06ms]
+(pass) native dossier preparation > blocks actual Letter overflow even when pagination reports ready [0.03ms]
+(pass) native dossier preparation > preserves a blocking Letter error for the user [0.04ms]
+(pass) native dossier preparation > does not accept a dossier with missing physical parts [0.06ms]
+
+tests/unit/templatefix-32-36.test.ts:
+(pass) templateFIX 32–36 dossier rebuild > loads the late override after the legacy signature systems [0.03ms]
+(pass) templateFIX 32–36 dossier rebuild > defines cover, letter and CV treatment for every rebuilt family [0.09ms]
+(pass) templateFIX 32–36 dossier rebuild > uses harmonized default palettes instead of unrelated third hues [0.13ms]
+
+tests/unit/cv-content-geometry-ownership.test.ts:
+(pass) CV renderer owns vertical geometry globally and Sidebar horizontal clearance [0.16ms]
+(pass) Sidebar pinning resolves the live rail, reviewed gutter and persisted margins [0.08ms]
+
+tests/unit/letter-paper-color.test.tsx:
+(pass) template-independent motivation-letter paper color > renders the chosen paper color for every selectable template [28.66ms]
+(pass) template-independent motivation-letter paper color > automatically keeps body text readable on a dark custom paper [0.12ms]
+(pass) template-independent motivation-letter paper color > automatic Letter ink ignores CV-only overrides on the authored writing surface [0.12ms]
+(pass) template-independent motivation-letter paper color > lets a custom text color override the automatic body color [0.57ms]
+(pass) template-independent motivation-letter paper color > old saves keep their template paper until the user chooses an override [0.13ms]
+
+ 1177 pass
+ 0 fail
+ 22832 expect() calls
+Ran 1177 tests across 246 files. [12.87s]

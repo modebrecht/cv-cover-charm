@@ -35,6 +35,7 @@ import { walkBlocks } from "./model";
 import { nextTemplate } from "./templates";
 import { color, compositeTextColor } from "./colors";
 export { color } from "./colors";
+import { composeAuthoredCover } from "./cover-authored";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin } from "./continuation-margin";
 import { composeCvSidebar } from "./cv-sidebar-composition";
@@ -66,6 +67,8 @@ export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 export type BuildModelOptions = {
+  /** Guarded fixed-page candidate; not a production export switch. */
+  coverComposition?: "authored-frames";
   /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
   cvSidebarComposition?: "body-stories";
   /** Unaccepted native identity separation for first-page header/footer stories. */
@@ -89,6 +92,8 @@ export function buildDossierDocModel(
     (options.cvSidebarComposition !== "body-stories" || cvVariant !== "sidebar")
   )
     throw new Error("DOCX Next invalid diagnostic Sidebar composition");
+  if (options.coverComposition !== undefined && options.coverComposition !== "authored-frames")
+    throw Error("DOCX Next invalid authored cover composition");
   const cvFlow = CV_FLOW_LAYOUTS[cvVariant];
   const placements =
     cvVariant === "sidebar"
@@ -235,18 +240,25 @@ export function buildDossierDocModel(
     style,
     fieldStyles: settings.fieldStyles,
   });
-  coverPart.blocks = composeCover(
-    cover,
-    template,
-    coverPart.page,
-    elementContext(cover.colors, theme.font, cover.fontScale),
-    theme.accent,
-    color,
-    p("cover.fullName", name(cover.data.vorname, cover.data.nachname), {
-      sizePt: template.typography.namePt,
-      bold: true,
-    }),
-  );
+  coverPart.blocks =
+    options.coverComposition === "authored-frames"
+      ? composeAuthoredCover(
+          cover,
+          coverPart.page,
+          elementContext(cover.colors, theme.font, cover.fontScale),
+        )
+      : composeCover(
+          cover,
+          template,
+          coverPart.page,
+          elementContext(cover.colors, theme.font, cover.fontScale),
+          theme.accent,
+          color,
+          p("cover.fullName", name(cover.data.vorname, cover.data.nachname), {
+            sizePt: template.typography.namePt,
+            bold: true,
+          }),
+        );
 
   if (template.cover.decorationPlacement === "first-header") {
     coverPart.headerShapes = coverPart.blocks.flatMap((block) =>

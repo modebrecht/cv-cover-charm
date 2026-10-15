@@ -1,3 +1,5 @@
+import { TEMPLATES } from "./types";
+import { normalizedCoverLabels } from "./presentation";
 import { forwardRef, useLayoutEffect, useMemo, useRef } from "react";
 import type { Block, BlockStyle, CoverData, FontKey, TemplateId } from "./types";
 import { CoverBackground } from "./CoverBackground";
@@ -56,30 +58,6 @@ function sharedDossierBlockFont(blocks: Block[]): FontKey | null {
  *
  * A user-supplied Kontakt label remains authoritative.
  */
-function normalizedFooterBlocks(blocks: Block[], contactLabel: string): Block[] {
-  const hasCustomContactLabel = Boolean(contactLabel.trim());
-
-  return blocks.map((block) => {
-    if (block.kind !== "text") return block;
-
-    if (block.id === "kontaktTitel" && !hasCustomContactLabel && block.lines.length > 0) {
-      return { ...block, lines: ["Kontakt"] };
-    }
-
-    if (block.id !== "beilagenTitel") return block;
-
-    let changed = false;
-    const lines = block.lines.map((line) => {
-      if (typeof line !== "string" || line.trim().toLocaleLowerCase("de-CH") !== "beilagen:") {
-        return line;
-      }
-      changed = true;
-      return line.replace(/:\s*$/, "");
-    });
-
-    return changed ? { ...block, lines } : block;
-  });
-}
 
 /**
  * The automatic pair is deliberately opt-out. Dragging Beilagen in the editor
@@ -145,7 +123,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     if (background instanceof HTMLElement) resolveBackgroundPaint(background);
   }, [colors, template]);
   const renderBlocks = useMemo(
-    () => normalizedFooterBlocks(blocks, data.labelKontakt),
+    () => normalizedCoverLabels(blocks, data.labelKontakt),
     [blocks, data.labelKontakt],
   );
   const automaticFooterPair = usesAutomaticFooterPair(renderBlocks);
@@ -287,6 +265,9 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
         onSelect={onSelect}
         onMove={onMove}
         dossierFont={dossierFont}
+        textPresentationTemplate={
+          TEMPLATES.find((t) => t.id === template)?.authoredCoverPresentation ? template : undefined
+        }
         data={data}
         {...rest}
       />
