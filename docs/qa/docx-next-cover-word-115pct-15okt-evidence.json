@@ -1,0 +1,91 @@
+{
+  "item": 37,
+  "qaType": "desktop-word-115pct-brief-save-stability",
+  "checkedAt": "2026-10-15",
+  "sourceBranch": "investigate/docx-next-cover-fidelity-15okt",
+  "candidateRevision": "4c0687e0c44bf072fa9225de82e79eb61ae38665",
+  "candidatePublishedGenerationMatched": true,
+  "status": "PASS_SINGLE_CASE_WORD_SAVE_STABILITY",
+  "masterlistStatus": "PARTIAL",
+  "files": [
+    {
+      "name": "candidate.docx",
+      "fileBytes": 75965,
+      "sha256": "6727e12e327672fc2349fd972b6a891a9f0236ceaa839461cc8943879c64f7f7",
+      "zipParts": 16,
+      "stored": 16,
+      "deflated": 0,
+      "uncompressedBytes": 74109,
+      "semanticControls": 79,
+      "coverFrames": 10,
+      "documentXmlSha256": "1964841393eae52b2e76d77bfe0720840b1d8006d5a57732ccee181b63665b17"
+    },
+    {
+      "name": "candidate-1.docx",
+      "fileBytes": 31501,
+      "sha256": "77ea94fc8b5378f530e0617190c4166b7f2bc321ab51f7e21d14261191831e14",
+      "zipParts": 21,
+      "stored": 1,
+      "deflated": 20,
+      "uncompressedBytes": 131856,
+      "semanticControls": 79,
+      "coverFrames": 10,
+      "documentXmlSha256": "e23096e665c2ffcfc7b1af914229e04a32adb9888ba837d2695345896a01bf7d"
+    },
+    {
+      "name": "candidate-2.docx",
+      "fileBytes": 31521,
+      "sha256": "e15fa4ecd5437ff70e9fed6034397e9c6599b86ee8252c690f8c08cb3c04f223",
+      "zipParts": 21,
+      "stored": 1,
+      "deflated": 20,
+      "uncompressedBytes": 131935,
+      "semanticControls": 79,
+      "coverFrames": 10,
+      "documentXmlSha256": "e23096e665c2ffcfc7b1af914229e04a32adb9888ba837d2695345896a01bf7d"
+    },
+    {
+      "name": "candidate-1.pdf",
+      "sha256": "d90932d3e4525f9d0887d5a7d7a0a76c97c80b9e6e9638a866d6d89291ef3369",
+      "pages": 4
+    },
+    {
+      "name": "candidate-2.pdf",
+      "sha256": "c0b11d2b8fd370277347ee2f8a41114304ea2a820b53a5f6833f6a95aaacd87d",
+      "pages": 4
+    }
+  ],
+  "media": {
+    "sourceName": "word/media/decoration-1.png",
+    "savedName": "word/media/image1.png",
+    "bytes": 5096,
+    "sha256": "9e68fe8a4a8ed3c331c36d9d100986969615e568b37f764c278dbdd1fd641dde",
+    "preservedByteExact": true
+  },
+  "checks": {
+    "all79SemanticControlTagsTextAndOrderUnchanged": true,
+    "all10CoverFrameXYZWidthUnchanged": true,
+    "save1Save2DocumentXmlByteIdentical": true,
+    "sourceImageBytesUnchanged": true,
+    "wordPdfPagesEqual": true,
+    "wordPdfWordPositionsEqual": true,
+    "wordPdfPagePixelsEqual": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "wordPdfProducer": "Microsoft Word for Microsoft 365",
+    "lowerLeftContactVisible": true,
+    "lowerRightAttachmentsVisible": true
+  },
+  "limitations": [
+    "Only single scaled Brief case",
+    "User supplied Word-save files; no independent close/reopen UI observation",
+    "Practical text and photo editing not tested",
+    "Original saved Web project state unavailable for exact pixel parity",
+    "Placeholder outline and installed Word font equivalence not accepted",
+    "Browser metrics not integrated into product export",
+    "Remaining 38 templates not tested"
+  ]
+}
