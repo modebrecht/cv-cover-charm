@@ -113,3 +113,13 @@ Investigation and the isolated estimator/leading correction: **PASS**. Controlle
 4. Then expand by demonstrated cover capabilities to all 39 and stress scenarios. Keep Sidebar/#14/#38 isolated. Do not promote from unit tests or the matched-font supplementary comparison alone.
 
 Publication remains confined to the requested investigation branch. Exact-branch and wildcard Vercel deployment disabling and workflow filters are checked before branch update; no merge, deployment or workflow dispatch is authorized or performed. The final delivery records the resulting remote commit SHA and post-publication checks.
+
+
+## Follow-up: real Microsoft Word save evidence (2026-10-15)
+
+After this original controlled-font report, the user supplied the **published 115%-scaled candidate** (SHA-256 `6727e12e327672fc2349fd972b6a891a9f0236ceaa839461cc8943879c64f7f7`), two saved DOCX files and two Word-generated PDFs. Independent OOXML/PDF comparison confirms **79/79 semantic controls**, **10/10 cover frame coordinates/widths** and the original PNG payload preserved; both Word PDF versions have four pages, matching word positions and pixel-identical page rasters. Word's smaller DOCX packages reflect ZIP deflation, not demonstrated image or field loss. This is a **bounded real-Word save-stability PASS for one Brief case**, not a complete Word editability, font, Web pixel-parity or all-39 acceptance. The user-supplied files are not republished in GitHub. Whether Word was actually closed and reopened between saves was not independently observable.
+
+- [Independent Word QA report](docx-next-cover-word-115pct-15okt.md)
+- [Machine evidence and hashes](docx-next-cover-word-115pct-15okt-evidence.json)
+
+**Item #37 remains PARTIAL / P1.** Existing experimental guard, non-production status and open product-integration gates are unchanged. This follow-up was evidence-only: no product-code change, CI restart, merge or deployment.
