@@ -1,0 +1,511 @@
+{
+  "item": 14,
+  "date": "2026-10-15",
+  "verdict": "PARTIAL",
+  "localTestExtension": "PASS",
+  "baseDev": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "branch": "qa/docx-next-stress-edge-15okt",
+  "ciStartedOrRestarted": false,
+  "productionSourceChanged": false,
+  "runtime": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "runtimeVersionMatchesBaseline": false,
+  "physicalAcceptance": "NOT_ACCEPTED: diagnostic evidence; pinned runtime/fonts and Word not verified by this runner",
+  "wordTestPerformed": false,
+  "browserGeneration": {
+    "fixtures": 6,
+    "packagesRendered": 12,
+    "decorationAssets": 6,
+    "browser": "140.0.7339.16"
+  },
+  "fixtures": [
+    {
+      "fixture": "brief-minimal-combined",
+      "template": "brief",
+      "layout": "minimal",
+      "sourceSha256": "c2160456a7a66aa5db6da0c91b1cf4f63ba8ba307cc81748b1e49d00df53a0f3",
+      "savedSha256": "a53dea0754d4b815d58767330f7a9b9d93aa02992a8dab6fc35503a61517d502",
+      "sourceFieldContractCount": 404,
+      "sourceFieldContractSha256": "5af64be6e2921bbf9ddc1d15ee4b0e642e76dc9d60d59c999040caeddccaa156",
+      "sourceTaggedIdentities": 469,
+      "savedTaggedIdentities": 1,
+      "letterParagraphs": 70,
+      "cvEntries": 66,
+      "source": {
+        "pages": 27,
+        "letterPages": 11,
+        "cvPages": 15,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [56.70000076293945, 41.750762939453125, 204.09999084472656, 262.85076904296875]
+          },
+          {
+            "page": 1,
+            "bbox": [56.70000076293945, 399.05078125, 107.69999694824219, 475.60076904296875]
+          },
+          {
+            "page": 12,
+            "bbox": [442.20001220703125, 189.85079956054688, 538.6000366210938, 286.25079345703125]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "saved": {
+        "pages": 27,
+        "letterPages": 11,
+        "cvPages": 15,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [56.70000076293945, 41.750762939453125, 204.09999084472656, 262.85076904296875]
+          },
+          {
+            "page": 1,
+            "bbox": [56.70000076293945, 399.05078125, 107.69999694824219, 475.60076904296875]
+          },
+          {
+            "page": 12,
+            "bbox": [442.20001220703125, 189.85079956054688, 538.6000366210938, 286.25079345703125]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "diagnosticFlow": "pass",
+      "savedFieldIdentity": "fail",
+      "missingOrChangedTaggedIdentityCount": 468,
+      "missingOrChangedTaggedIdentityListSha256": "c679a176f4546f79aae8f900e30107e3c96048efa40fec8e70a118c33e89346a",
+      "missingOrChangedTaggedIdentitySample": ["cover.photo", "cover.profession", "cover.fullName"]
+    },
+    {
+      "fixture": "brief-editorial-combined",
+      "template": "brief",
+      "layout": "editorial",
+      "sourceSha256": "f3ebc99f6a9b57793b62087f4285fb0c3d1581d3953ac77a84e06b7ccf59ab6b",
+      "savedSha256": "e7a72d43864bbf557e122ed344cb7da490952b32266313ee77e28254b145d5b7",
+      "sourceFieldContractCount": 404,
+      "sourceFieldContractSha256": "ef8b70c23cb8e95911f07a957066560e8940adf6ec0a5a7934955381fed94472",
+      "sourceTaggedIdentities": 469,
+      "savedTaggedIdentities": 1,
+      "letterParagraphs": 70,
+      "cvEntries": 66,
+      "source": {
+        "pages": 27,
+        "letterPages": 11,
+        "cvPages": 15,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [56.70000076293945, 41.750762939453125, 204.09999084472656, 262.85076904296875]
+          },
+          {
+            "page": 1,
+            "bbox": [56.70000076293945, 399.05078125, 107.69999694824219, 475.60076904296875]
+          },
+          {
+            "page": 12,
+            "bbox": [442.20001220703125, 189.85079956054688, 538.6000366210938, 286.25079345703125]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "saved": {
+        "pages": 27,
+        "letterPages": 11,
+        "cvPages": 15,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [56.70000076293945, 41.750762939453125, 204.09999084472656, 262.85076904296875]
+          },
+          {
+            "page": 1,
+            "bbox": [56.70000076293945, 399.05078125, 107.69999694824219, 475.60076904296875]
+          },
+          {
+            "page": 12,
+            "bbox": [442.20001220703125, 189.85079956054688, 538.6000366210938, 286.25079345703125]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "diagnosticFlow": "pass",
+      "savedFieldIdentity": "fail",
+      "missingOrChangedTaggedIdentityCount": 468,
+      "missingOrChangedTaggedIdentityListSha256": "c679a176f4546f79aae8f900e30107e3c96048efa40fec8e70a118c33e89346a",
+      "missingOrChangedTaggedIdentitySample": ["cover.photo", "cover.profession", "cover.fullName"]
+    },
+    {
+      "fixture": "cove-minimal-combined",
+      "template": "cove",
+      "layout": "minimal",
+      "sourceSha256": "eed356435d7a08d452cca5e2c278547a284ad2f050d52f2182c34270cc233e4c",
+      "savedSha256": "4aed9f28c9226c24b559c507256f985a5003c4989be9ef610b57f5f97831297f",
+      "sourceFieldContractCount": 404,
+      "sourceFieldContractSha256": "07453f41b250bcabef53c1375e4fbf2134e687787330fda1396e38302cbae907",
+      "sourceTaggedIdentities": 471,
+      "savedTaggedIdentities": 3,
+      "letterParagraphs": 70,
+      "cvEntries": 66,
+      "source": {
+        "pages": 29,
+        "letterPages": 11,
+        "cvPages": 17,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [357.1499938964844, 211.75076293945312, 527.25, 381.85076904296875]
+          },
+          {
+            "page": 1,
+            "bbox": [73.69999694824219, 397.55078125, 124.69999694824219, 474.10076904296875]
+          },
+          {
+            "page": 12,
+            "bbox": [430.8500061035156, 206.90078735351562, 527.25, 303.30078125]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "saved": {
+        "pages": 29,
+        "letterPages": 11,
+        "cvPages": 17,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [357.1499938964844, 211.75076293945312, 527.25, 381.85076904296875]
+          },
+          {
+            "page": 1,
+            "bbox": [73.69999694824219, 397.55078125, 124.69999694824219, 474.10076904296875]
+          },
+          {
+            "page": 12,
+            "bbox": [430.8500061035156, 206.90078735351562, 527.25, 303.30078125]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "diagnosticFlow": "pass",
+      "savedFieldIdentity": "fail",
+      "missingOrChangedTaggedIdentityCount": 468,
+      "missingOrChangedTaggedIdentityListSha256": "23bfe1291a83415fc8f838d04a00e2808417710f359d6b55fdb34d89bae54e67",
+      "missingOrChangedTaggedIdentitySample": ["cover.photo", "cover.fullName", "cover.profession"]
+    },
+    {
+      "fixture": "cove-editorial-combined",
+      "template": "cove",
+      "layout": "editorial",
+      "sourceSha256": "7bf50cce5b339998a9e88716cb9d44a8254d7603fe221b130146462b88872bd4",
+      "savedSha256": "4fe21df68e52001734cd30044929de53ea5e56fbb8611929d40b02452907e751",
+      "sourceFieldContractCount": 404,
+      "sourceFieldContractSha256": "1f4459eb7faa98cc8e34d9ec6cfd1f8da6370465ec1f695709496a99afc880a4",
+      "sourceTaggedIdentities": 471,
+      "savedTaggedIdentities": 3,
+      "letterParagraphs": 70,
+      "cvEntries": 66,
+      "source": {
+        "pages": 29,
+        "letterPages": 11,
+        "cvPages": 17,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [357.1499938964844, 211.75076293945312, 527.25, 381.85076904296875]
+          },
+          {
+            "page": 1,
+            "bbox": [73.69999694824219, 397.55078125, 124.69999694824219, 474.10076904296875]
+          },
+          {
+            "page": 12,
+            "bbox": [430.8500061035156, 206.90078735351562, 527.25, 303.30078125]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "saved": {
+        "pages": 29,
+        "letterPages": 11,
+        "cvPages": 17,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [357.1499938964844, 211.75076293945312, 527.25, 381.85076904296875]
+          },
+          {
+            "page": 1,
+            "bbox": [73.69999694824219, 397.55078125, 124.69999694824219, 474.10076904296875]
+          },
+          {
+            "page": 12,
+            "bbox": [430.8500061035156, 206.90078735351562, 527.25, 303.30078125]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "diagnosticFlow": "pass",
+      "savedFieldIdentity": "fail",
+      "missingOrChangedTaggedIdentityCount": 468,
+      "missingOrChangedTaggedIdentityListSha256": "23bfe1291a83415fc8f838d04a00e2808417710f359d6b55fdb34d89bae54e67",
+      "missingOrChangedTaggedIdentitySample": ["cover.photo", "cover.fullName", "cover.profession"]
+    },
+    {
+      "fixture": "neon-minimal-combined",
+      "template": "neon",
+      "layout": "minimal",
+      "sourceSha256": "00dd3cec5397b1ea8a24362c63931d15ed6ab544ecbf0cda235ef2f986d3b4b5",
+      "savedSha256": "799c3dc1d34ccd8e89bd780f61b0b215666f98ac33676c75531a86c9bb1cea2b",
+      "sourceFieldContractCount": 404,
+      "sourceFieldContractSha256": "b2ab5bd5efa0c56f018394bb7a9a139c65c4f6c7f17c08b728505c80155ea3eb",
+      "sourceTaggedIdentities": 471,
+      "savedTaggedIdentities": 6,
+      "letterParagraphs": 70,
+      "cvEntries": 66,
+      "source": {
+        "pages": 29,
+        "letterPages": 11,
+        "cvPages": 17,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [391.1499938964844, 195.55078125, 532.9000244140625, 337.30078125]
+          },
+          {
+            "page": 1,
+            "bbox": [79.3499984741211, 400.4007568359375, 130.35000610351562, 476.95074462890625]
+          },
+          {
+            "page": 12,
+            "bbox": [419.5, 209.75076293945312, 515.9000244140625, 306.1507568359375]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "saved": {
+        "pages": 29,
+        "letterPages": 11,
+        "cvPages": 17,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [391.1499938964844, 195.55078125, 532.9000244140625, 337.30078125]
+          },
+          {
+            "page": 1,
+            "bbox": [79.3499984741211, 400.4007568359375, 130.35000610351562, 476.95074462890625]
+          },
+          {
+            "page": 12,
+            "bbox": [419.5, 209.75076293945312, 515.9000244140625, 306.1507568359375]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "diagnosticFlow": "pass",
+      "savedFieldIdentity": "fail",
+      "missingOrChangedTaggedIdentityCount": 465,
+      "missingOrChangedTaggedIdentityListSha256": "2b610f8d166f930dac0181afa76e2839403bbd0d145b4e111f1aa97ac8727e81",
+      "missingOrChangedTaggedIdentitySample": [
+        "cover.photo",
+        "cover.composition.lead:2",
+        "cover.kontaktTitel"
+      ]
+    },
+    {
+      "fixture": "neon-editorial-combined",
+      "template": "neon",
+      "layout": "editorial",
+      "sourceSha256": "548382de348a2c20dd5c08c19dfd2ae3fdb0e18dc8280dbdf643b6f2cd34daec",
+      "savedSha256": "52a64d8b2ac52a2bf7ff4deb68a35a58788db3751ff6a82c10e5dc11a2cf1eec",
+      "sourceFieldContractCount": 404,
+      "sourceFieldContractSha256": "f4a340ab8293988566d9c06b2371f9f3eb658a468ec9663fe5d409c3c16202c3",
+      "sourceTaggedIdentities": 471,
+      "savedTaggedIdentities": 6,
+      "letterParagraphs": 70,
+      "cvEntries": 66,
+      "source": {
+        "pages": 29,
+        "letterPages": 11,
+        "cvPages": 17,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [391.1499938964844, 195.55078125, 532.9000244140625, 337.30078125]
+          },
+          {
+            "page": 1,
+            "bbox": [79.3499984741211, 400.4007568359375, 130.35000610351562, 476.95074462890625]
+          },
+          {
+            "page": 12,
+            "bbox": [419.5, 209.75076293945312, 515.9000244140625, 306.1507568359375]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "saved": {
+        "pages": 29,
+        "letterPages": 11,
+        "cvPages": 17,
+        "photoPlacements": 3,
+        "photoRegions": [
+          {
+            "page": 0,
+            "bbox": [391.1499938964844, 195.55078125, 532.9000244140625, 337.30078125]
+          },
+          {
+            "page": 1,
+            "bbox": [79.3499984741211, 400.4007568359375, 130.35000610351562, 476.95074462890625]
+          },
+          {
+            "page": 12,
+            "bbox": [419.5, 209.75076293945312, 515.9000244140625, 306.1507568359375]
+          }
+        ],
+        "completeText": "pass",
+        "chromeOwnership": "pass",
+        "pageBounds": "pass"
+      },
+      "diagnosticFlow": "pass",
+      "savedFieldIdentity": "fail",
+      "missingOrChangedTaggedIdentityCount": 465,
+      "missingOrChangedTaggedIdentityListSha256": "2b610f8d166f930dac0181afa76e2839403bbd0d145b4e111f1aa97ac8727e81",
+      "missingOrChangedTaggedIdentitySample": [
+        "cover.photo",
+        "cover.composition.lead:2",
+        "cover.kontaktTitel"
+      ]
+    }
+  ],
+  "sourcePages": 170,
+  "savedPages": 170,
+  "renderQaExitCode": 1,
+  "pdfReanalysis": "All 12 PDFs pass strengthened repeated-occurrence assertions after conversion; blank-region photo negative control rejected.",
+  "checks": {
+    "typecheck": "PASS",
+    "lint": {
+      "errors": 0,
+      "inheritedWarnings": 21
+    },
+    "releaseFormatting": "PASS",
+    "changedTsFormatting": "PASS",
+    "productionBuild": "PASS"
+  },
+  "logs": {
+    "focused": {
+      "sha256": "7be5ca163a41a5017e4771ec510889c14e7ee6d34345d1927a71fa4de062df23",
+      "pass": 10,
+      "fail": 0,
+      "assertions": 309,
+      "tests": 10,
+      "files": 2
+    },
+    "docx-final": {
+      "sha256": "61f414537f150e0812505108594c342e4e9280ccec6caee8fd8ab9a6a283f82b",
+      "pass": 369,
+      "fail": 0,
+      "assertions": 6029,
+      "tests": 369,
+      "files": 57
+    },
+    "units": {
+      "sha256": "171d9f64c258c7f0d952e217c09d825973f4f96496b3f26d8a8e1bd3b6829294",
+      "pass": 1179,
+      "fail": 0,
+      "assertions": 23014,
+      "tests": 1179,
+      "files": 246
+    },
+    "typecheck": {
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "lint": {
+      "sha256": "6b8c62f8da3a1732df172834e8e998fc1f3e5274bdbe86899e1fb3e70a3a9ed7"
+    },
+    "format": {
+      "sha256": "2574595e30952c6d22e8c36e49469300e1151b49f3a70cc0dea29b85f77b1929"
+    },
+    "build": {
+      "sha256": "0df89301495ebc114531455a71f4268c588fbfe720e5d04bc9123dca7f1e3872"
+    },
+    "generation": {
+      "sha256": "c2ca89ef1cad8e93afe15d08189b52d51b6c323ca6495e54d32956d298b6ecea"
+    },
+    "aurora-negative": {
+      "sha256": "54c146f57ab0322269d13f751c447746747ac09153b0fbdbfdfec636717e35e4"
+    },
+    "stable-runtime-guard": {
+      "sha256": "ae3ecfd3f1b273d1d05abbea2c38639510ce0092ac484c2283123df069ae2c36"
+    },
+    "render-final": {
+      "sha256": "3cd42a879df15eab9ba7c70c2509e593b2c598eaacc19f8e5a9b494a4b54f211"
+    }
+  },
+  "historicalCi": {
+    "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/38666878073",
+    "integratedTemplateJobs": 10,
+    "integratedTemplateJobsConclusion": "success",
+    "stableComparisonConclusion": "failure",
+    "readOnlyInspection": true
+  },
+  "limitations": [
+    "No pinned stable runtime or font verification for these six cases",
+    "No Microsoft Word test in this work",
+    "Visible photo pixels do not prove saved original-media or crop editability",
+    "Representative visual samples only; no exhaustive pixel golden",
+    "No new browser UI/end-to-end suite run",
+    "No Sidebar investigation or acceptance"
+  ],
+  "verificationBaseHead": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "verificationWasUncommitted": true,
+  "publicationPlan": {
+    "branch": "qa/docx-next-stress-edge-15okt",
+    "authorization": "Subsequent user request to continue and push this branch",
+    "automaticVercelDeployment": false,
+    "ciDispatchOrRestart": false,
+    "merge": false,
+    "productionDeployment": false
+  },
+  "vercelPrePushCheck": {
+    "projectId": "prj_Ip4lHR688tFQ4QZXCrOZ4OfXo6Im",
+    "teamId": "team_bgCMPzd6v634brLp9mvGrngl",
+    "linkedRepository": "modebrecht/cv-cover-charm",
+    "branchDeploymentEnabled": false,
+    "configurationFile": "vercel.json",
+    "rule": "Exact branch entry, not wildcard inference"
+  }
+}

@@ -38,7 +38,7 @@ describe("Aurora approved flowing solid hero adaptation", () => {
   test("source photo and explicit semantic style keep precedence", () => {
     const input = graphicCandidateFixture("aurora", "images", "data:image/png;base64/test");
     input.settings.fieldStyles = {
-      "cover.profession": { font: "Georgia", color: "112233", fontSizePt: 18 },
+      "cover.profession": { font: "Georgia", color: "112233", sizePt: 18 },
     };
     const blocks = walkBlocks(buildDossierDocModel(input).cover.blocks);
     expect(blocks.find((b) => b.id === "cover.photo")).toMatchObject({
@@ -49,6 +49,7 @@ describe("Aurora approved flowing solid hero adaptation", () => {
     expect(title?.kind === "paragraph" && title.runs[0].style).toMatchObject({
       font: "Georgia",
       color: "112233",
+      sizePt: 18,
     });
   });
   test("gradient is a finite banner and name uses flow rather than absolute compensation", () => {
