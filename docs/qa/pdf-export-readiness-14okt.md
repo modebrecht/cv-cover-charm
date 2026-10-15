@@ -3,8 +3,9 @@
 ## Scope and provenance
 Repository: modebrecht/cv-cover-charm
 Base: dev @ 04beb438c59edefc974a2aa7d43af3d754f5a051
-Local isolated working branch: fix/pdf-export-readiness-14okt
-No merge, no Native promotion, no Vercel deployment, no remote push.
+Isolated working branch: fix/pdf-export-readiness-14okt
+Published implementation: `10e16fa18561cd3001c07be308f98b47dbb98e5c` (based on updated `dev` `5301dff892c741fe9fcb460a637a874673b89b40`).
+No Native promotion or deliberate Vercel deployment. Branch publication and completed CI are recorded below.
 
 ## Baseline
 Dossier Regression workflow 38592561124: FAILURE.
@@ -29,12 +30,19 @@ The fixture withheld the image response but the common open() helper awaited a P
 - TypeScript: PASS (tsc --noEmit).
 - Unit suite: 1,121 PASS / 0 FAIL.
 - Lint: exit 0, 21 existing warnings, 0 errors.
-- Main/dev CI at baseline: FAILURE. No post-fix remote CI (branch not pushed).
+- Main/dev CI at initial baseline: FAILURE. Post-fix remote CI: SUCCESS; see the separate GitHub verification below.
 - Browser PDF evidence exists for the Native multi scenario via test's actual generated PDF assertions. A standalone multi-page Letter PDF was not separately extracted in this bounded local run.
 
 ## Safety controls
 Unmodified: src/lib/pdf-preflight.ts, src/components/letter/preflight.ts, src/lib/dossier-pdf.ts, src/lib/dossier-native-print.ts, and DossierExportDialog. Final PDF safety revalidation remains enforced, as do all blocked/pending checks, source-content requirements, and advisory rules. The invalid image overlap is now explicitly tested as blocked.
 
-## Publication boundary and release judgment
-Vercel deployment history confirms pushes to fix/ branches create preview deployments; the existing user instruction prohibits unwanted deployment. Thus local changes must NOT be pushed until preview branch protection/ignore policy is safely established without changing global settings. No remote branch or new CI was created.
-**Status: PARTIAL** — 4/4 targeted browser checks and local static/unit checks pass; remote CI and the full affected suite remain unverified. Do not merge or promote Native.
+## GitHub publication, CI and release judgment
+
+- Implementation branch pushed at `10e16fa18561cd3001c07be308f98b47dbb98e5c`, based on current `dev` `5301dff892c741fe9fcb460a637a874673b89b40`.
+- Post-rebase targeted scenarios: **4/4 PASS**; TypeScript PASS.
+- The branch's `vercel.json` explicitly disables deployment for `fix/pdf-export-readiness-14okt` and retains the existing `*`/`main` deployment controls. No deliberate deployment is authorized by this QA gate.
+- [GitHub Actions Dossier Regression run 38635277487](https://github.com/modebrecht/cv-cover-charm/actions/runs/38635277487) completed **SUCCESS** at 2026-10-14 21:06 UTC against the implementation SHA `10e16fa18561cd3001c07be308f98b47dbb98e5c`.
+- Successful jobs: `fast-checks`, `cv-m9-pagination`, `letter-m8-edge`, `dossier-flow`, `letter-m1-m5`, `cv-pdf`, `m9-responsive`, `fresh-dossier-templates`, `templates-layout`, and `publish-regression-status` (**10 SUCCESS**). Optional `native-print-benchmark` was **SKIPPED**, not passed.
+- This QA-report update is **documentation only**, after the validated executable. It does not modify the code or tests verified by run 38635277487.
+
+**Final status: PASS for the PDF Export Readiness repair and its regression gate.** Eligible for a controlled merge to `dev`. This does **not** certify or enable the optional Native Chromium PDF exporter. No `main`/`render` change or Native promotion is authorized.
