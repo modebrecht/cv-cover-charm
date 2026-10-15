@@ -6,6 +6,7 @@ import {
   type FreshTemplateId,
 } from "./fresh-template-registry";
 import { TEMPLATES, type TemplateDefinition, type TemplateId } from "./types";
+import { ADDITIONAL_TEMPLATE_DEFINITIONS } from "./template-slots";
 import { CANONICAL_DOSSIER_PRESENTATION } from "@/lib/dossier-default-presentation";
 import "./gradient-templates.css";
 import "./studio-warm-variants.css";
@@ -117,52 +118,10 @@ for (let index = TEMPLATES.length - 1; index >= 0; index -= 1) {
   if (RETIRED_TEMPLATE_IDS.has(TEMPLATES[index].id as string)) TEMPLATES.splice(index, 1);
 }
 
-/**
- * Diagonal is the surviving geometric corner template. It is a standalone
- * dossier style with two equal, same-colour diagonal masses and a quiet paper
- * centre.
- */
-const diagonalDefinition: TemplateDefinition = {
-  id: "diagonal" as TemplateId,
-  name: "Diagonal",
-  description: "Klare blaue Diagonalen, modern und editorial",
-  slots: [
-    { key: "bg", label: "Papier", default: "#f8fafc" },
-    { key: "primary", label: "Fläche", default: "#156082" },
-    { key: "secondary", label: "Akzent", default: "#0f4c5c" },
-    { key: "accent", label: "Akzent 2", default: "#2b7a9b" },
-    { key: "ink", label: "Text", default: "#172033" },
-  ],
-};
-
-/**
- * Edel Dark deliberately reuses the proven Edel composition instead of
- * entering the Fresh geometry system. Its extra `sheet` slot is semantic:
- * title page and text-heavy interior pages can share a genuinely dark surface
- * without changing the established light-interior Edel template.
- */
-const edelDarkDefinition: TemplateDefinition = {
-  id: "edelDark" as TemplateId,
-  name: "Edel Dark",
-  description: "Vollflächiges Anthrazit, warmes Weiss und feine Goldlinien",
-  slots: [
-    { key: "bg", label: "Hintergrund", default: "#171716" },
-    { key: "sheet", label: "Innenfläche", default: "#171716" },
-    { key: "ink", label: "Text", default: "#f3eee5" },
-    { key: "accent", label: "Gold", default: "#c7a35a" },
-  ],
-};
-
 // Module evaluation happens before the route modules initialise their color
 // maps. Guarding by id keeps Vite HMR from registering duplicates.
-for (const definition of freshDefinitions) {
+for (const definition of [...freshDefinitions, ...ADDITIONAL_TEMPLATE_DEFINITIONS]) {
   if (!TEMPLATES.some((template) => template.id === definition.id)) TEMPLATES.push(definition);
-}
-if (!TEMPLATES.some((template) => (template.id as string) === "diagonal")) {
-  TEMPLATES.push(diagonalDefinition);
-}
-if (!TEMPLATES.some((template) => (template.id as string) === "edelDark")) {
-  TEMPLATES.push(edelDarkDefinition);
 }
 
 /**

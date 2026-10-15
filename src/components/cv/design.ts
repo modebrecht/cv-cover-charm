@@ -1,3 +1,4 @@
+import "./legacy-type-scales";
 import { FONT_LABELS } from "@/components/cover/types";
 import { normalizeActiveTemplateId } from "@/components/cover/fresh-templates";
 import { normalizeCvPaperColor } from "./cv-paper";

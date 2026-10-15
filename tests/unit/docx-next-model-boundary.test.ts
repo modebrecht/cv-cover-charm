@@ -8,6 +8,8 @@ import { paintPng } from "../../src/lib/docx-next/artwork";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import { briefFixture, briefElementsFixture } from "../fixtures/docx-next/brief";
 import { graphicCandidateFixture } from "../fixtures/docx-next/graphic-candidate";
+import { coverTemplateSlots } from "../../src/components/cover/template-slots";
+import { TEMPLATES } from "../../src/components/cover/types";
 
 function freeze(value: unknown): void {
   if (!value || typeof value !== "object" || Object.isFrozen(value)) return;
@@ -223,6 +225,13 @@ describe("Item 11 canonical model boundary", () => {
   for (const template of Object.keys(NEXT_TEMPLATES))
     test(`${template}: frozen source → portable model → independent Word package`, async () => {
       const input = graphicCandidateFixture(template, "images", "snapshot-image-bytes");
+      expect(coverTemplateSlots(input.cv.design.template).map((slot) => slot.key)).toEqual(
+        TEMPLATES.find((definition) => definition.id === template)!.slots.map((slot) => slot.key),
+      );
+      input.cv.design.useElements = true;
+      input.cv.elements = [
+        { id: "model-boundary-note", kind: "text", label: "Note", text: "Editable custom element" },
+      ];
       const before = JSON.stringify(input);
       freeze(input);
       const model = buildDossierDocModel(input);
@@ -263,6 +272,7 @@ describe("Item 11 canonical model boundary", () => {
       );
       expect(document).toContain('w:tag w:val="letter.subject"');
       expect(document).toContain('w:tag w:val="cv.person.name"');
+      expect(document).toContain('w:val="cv.element:model-boundary-note"');
       expect(document).toContain("<w:sectPr>");
       expect(entries.some((entry) => entry.name.startsWith("word/media/"))).toBe(true);
     });
