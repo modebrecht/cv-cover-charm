@@ -1,0 +1,156 @@
+{
+  "measuredBrowserProfile": {
+    "purpose": "Controlled Liberation Sans availability in Web and native supplementary renderer; not proof of the user's original Web font or Microsoft Word availability",
+    "aliases": [
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial"
+    ],
+    "faces": [
+      {
+        "face": "Regular",
+        "sha256": "76d04c18ea243f426b7de1f3ad208e927008f961dc5945e5aad352d0dfde8ee8"
+      },
+      {
+        "face": "Bold",
+        "sha256": "788abee4c806d660e8aee46689dd8540cd4bb98da03dcc9d171ce3efd99a9173"
+      },
+      {
+        "face": "Italic",
+        "sha256": "e5bae5c4cde31f22142753855f4f8fb86da6ff39955ed3c0a11248b0d16948b0"
+      },
+      {
+        "face": "BoldItalic",
+        "sha256": "698da70fc191cc5f33ad4d6d3fe830fe4624b898ea2e3169955928b7c491f1ee"
+      }
+    ]
+  },
+  "nativeContract": [
+    {
+      "fieldId": "cover.eyebrow",
+      "requestedFont": "Arial",
+      "modelSizePt": 12.075,
+      "serializedSizePt": 12.0,
+      "bold": true,
+      "alignment": "left",
+      "modelTrackingPt": 1.026375,
+      "serializedTrackingPt": 1.05,
+      "minimumLeadingPt": 13.524000000000001
+    },
+    {
+      "fieldId": "cover.ortDatum",
+      "requestedFont": "Arial",
+      "modelSizePt": 13.225,
+      "serializedSizePt": 13.0,
+      "bold": false,
+      "alignment": "right",
+      "modelTrackingPt": 0,
+      "serializedTrackingPt": 0.0,
+      "minimumLeadingPt": 18.2505
+    },
+    {
+      "fieldId": "cover.photo.initials",
+      "requestedFont": "Arial",
+      "modelSizePt": 25.116,
+      "serializedSizePt": 25.0,
+      "bold": false,
+      "alignment": "center",
+      "modelTrackingPt": 0,
+      "serializedTrackingPt": 0.0,
+      "minimumLeadingPt": null
+    },
+    {
+      "fieldId": "cover.profession",
+      "requestedFont": "Arial",
+      "modelSizePt": 41.4,
+      "serializedSizePt": 41.5,
+      "bold": true,
+      "alignment": "left",
+      "modelTrackingPt": 0.207,
+      "serializedTrackingPt": 0.2,
+      "minimumLeadingPt": 52.164
+    },
+    {
+      "fieldId": "cover.fullName",
+      "requestedFont": "Arial",
+      "modelSizePt": 18.974999999999998,
+      "serializedSizePt": 19.0,
+      "bold": true,
+      "alignment": "left",
+      "modelTrackingPt": -0.28462499999999996,
+      "serializedTrackingPt": -0.3,
+      "minimumLeadingPt": 19.544249999999998
+    },
+    {
+      "fieldId": "cover.lehrbeginn",
+      "requestedFont": "Arial",
+      "modelSizePt": 13.799999999999999,
+      "serializedSizePt": 14.0,
+      "bold": false,
+      "alignment": "left",
+      "modelTrackingPt": 0,
+      "serializedTrackingPt": 0.0,
+      "minimumLeadingPt": 19.043999999999997
+    },
+    {
+      "fieldId": "cover.kontaktTitel",
+      "requestedFont": "Arial",
+      "modelSizePt": 11.5,
+      "serializedSizePt": 11.5,
+      "bold": true,
+      "alignment": "left",
+      "modelTrackingPt": 0,
+      "serializedTrackingPt": 0.0,
+      "minimumLeadingPt": 12.88
+    },
+    {
+      "fieldId": "cover.kontakt",
+      "requestedFont": "Arial",
+      "modelSizePt": 13.225,
+      "serializedSizePt": 13.0,
+      "bold": false,
+      "alignment": "left",
+      "modelTrackingPt": 0,
+      "serializedTrackingPt": 0.0,
+      "minimumLeadingPt": 18.2505
+    },
+    {
+      "fieldId": "cover.beilagenTitel",
+      "requestedFont": "Arial",
+      "modelSizePt": 11.5,
+      "serializedSizePt": 11.5,
+      "bold": true,
+      "alignment": "right",
+      "modelTrackingPt": 0,
+      "serializedTrackingPt": 0.0,
+      "minimumLeadingPt": 12.88
+    },
+    {
+      "fieldId": "cover.beilagen",
+      "requestedFont": "Arial",
+      "modelSizePt": 13.225,
+      "serializedSizePt": 13.0,
+      "bold": false,
+      "alignment": "right",
+      "modelTrackingPt": 0,
+      "serializedTrackingPt": 0.0,
+      "minimumLeadingPt": 18.2505
+    }
+  ],
+  "observedWordCoverFonts": [
+    "Arial-BoldMT",
+    "ArialMT"
+  ],
+  "observedWordCoverSizesPt": [
+    10.5,
+    11.5,
+    12.0,
+    13.0,
+    14.0,
+    19.0,
+    25.024999618530273,
+    41.525001525878906
+  ],
+  "targetFontFileIdentity": "UNVERIFIED; family names and metric similarity do not establish font-file identity",
+  "postMeasurementFieldTypographyOverrides": "REJECTED in measured composition; use authored block edits and fresh capture"
+}

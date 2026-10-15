@@ -12,6 +12,33 @@ import { paragraph } from "../../src/lib/docx-next/native-text";
 const option = { coverComposition: "authored-frames" as const };
 const find = (m: ReturnType<typeof buildDossierDocModel>, id: string) =>
   walkBlocks(m.cover.blocks).find((b) => b.id === id) as Paragraph;
+test("measured cover rejects later typography overrides instead of trusting incompatible font metrics", () => {
+  const metrics = captured.cases.scaled as CoverTextMetrics;
+  for (const id of ["cover.profession", "cover.photo.initials"]) {
+    for (const patch of [
+      { font: "Courier New" },
+      { sizePt: 40 },
+      { bold: false },
+      { italic: true },
+      { allCaps: true },
+      { trackingPt: 3 },
+    ]) {
+      const input = authoredCoverFixture("scaled");
+      input.settings.fieldStyles = { [id]: patch };
+      expect(() => buildDossierDocModel(input, { ...option, coverTextMetrics: metrics })).toThrow(
+        "exclude field typography overrides: " + id,
+      );
+    }
+  }
+  const input = authoredCoverFixture("scaled");
+  input.settings.fieldStyles = { "cover.profession": { color: "123456", underline: true } };
+  const model = buildDossierDocModel(input, { ...option, coverTextMetrics: metrics });
+  expect(find(model, "cover.profession").runs[0].style).toMatchObject({
+    color: "123456",
+    underline: true,
+    font: "Arial",
+  });
+});
 test("font-metric model construction does not read browser state or a clock", () => {
   const result = Bun.spawnSync({
     cmd: [

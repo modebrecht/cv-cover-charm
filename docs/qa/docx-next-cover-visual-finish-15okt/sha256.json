@@ -1,0 +1,22 @@
+{
+  "brief-115pct-word.docx": "6727e12e327672fc2349fd972b6a891a9f0236ceaa839461cc8943879c64f7f7",
+  "brief-before-after-a4.pdf": "57952c77f3025b73d9326ad2839f9a66581c02a7f92fb850ad8cde8a45c6cef6",
+  "brief-long-title-word.docx": "6af9885b695ec13c2fe3d71a63d2c6372520b7021ad87d5ccde3daf1479318f2",
+  "brief-normal-word.docx": "56099ee50a3a9277493d9153a2a9d3abf17e7e3c15d3aa5ab963c07fd308e704",
+  "candidate-sha256.json": "49d0731b28a8cf96a29ecc440efd3c3973b051f20047a616e9436d50f630dddf",
+  "evidence.json": "dddc5db7d1b08ea4a8e6864e4f298c3ed1c3cf9bf0a5e4187a4786c2b808863c",
+  "font-profile.json": "968dc5af61e6c25bcf44ed0dd47afb770dd2177e4cac23af76627a8d223d96c0",
+  "outline-supplementary.png": "600c993d73acb7aa5af25ca9d286f95ca82705a82b93a2dbc607f27a5a94ae45",
+  "outline-word.png": "f41baa7877b8e3900a8cc87e1686d26ba7aaad8082f527e09cf0254ffe56b6ec",
+  "physical-geometry.json": "77a13afda260275a3b59d644ffc1ddc8aa0956b9e901dab1a3655cf9451e3d16",
+  "rejected-font-override.json": "284c3f42457999e89b05cad5895e8267b2f6e41da68b515d51b3f75fc8e4fc7f",
+  "rejected-font-override.png": "0a6109254eb9655696c9fb8594c3787dd37f64a60dd9ae1c19c728c67b9c9bd0",
+  "test-results.json": "47275c0b2f33184805bc2952815fad1a4e789d9258494d73e15ad8003851f8ff",
+  "web-evidence/hidden.json": "ac097ed34caefcba00e968cc0778efb7f6e99e676338004c5c407f7c1d078dcf",
+  "web-evidence/long.json": "f95947ae8759ee4015abbf8bf6ec6fdec889c7f1dadd38db87304ae0e8fad835",
+  "web-evidence/moved.json": "fe8652a9fc27db5b0bb8b9b605c5bc41c81f50bc5159c592500c477d3ec71762",
+  "web-evidence/normal.json": "ec25938f516667cbf76b78e629ace5d407285cd7f8c2c2d8e98e4d4a6e0765ab",
+  "web-evidence/photo-circle.json": "60f9415aaa9e36499adebc7e54c9a3dcab8086cbb8499baa5a89d52544d71303",
+  "web-evidence/photo-portrait.json": "c0fe9e6ee5e392ec9bb9f20370d73ad2585a11a54e991be996354b0a929dd199",
+  "web-evidence/scaled.json": "3993331a5e671e83a3af682f47fe1e0c89d96bbc9778edbd20251bfacfa715f3"
+}

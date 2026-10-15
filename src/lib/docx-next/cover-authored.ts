@@ -33,6 +33,18 @@ export function composeAuthoredCover(
     throw Error("DOCX Next stale or invalid cover font metrics");
   const aliases: Record<string, string> = { name: "fullName", beruf: "profession", foto: "photo" };
   const key = (b: Block) => "cover." + (aliases[b.id] ?? b.id);
+  // The packet measures authored cover blocks, not later generic field overrides.
+  // Color/underline do not change advances. Font, emphasis, case and spacing can.
+  const assertMeasuredTypography = (id: string) => {
+    if (!fontMetrics) return;
+    const keys = (["font", "sizePt", "bold", "italic", "allCaps", "trackingPt"] as const).filter(
+      (key) => context.fieldStyles?.[id]?.[key] !== undefined,
+    );
+    if (keys.length)
+      throw Error(
+        `DOCX Next cover font metrics exclude field typography overrides: ${id} (${keys.join(", ")}). Apply the edit to the authored cover block and recapture metrics.`,
+      );
+  };
   const metrics = new Map<string, { size: number; height: number }>();
   for (const b of blocks) {
     let size =
@@ -203,6 +215,7 @@ export function composeAuthoredCover(
           .join("")
           .toUpperCase();
         if (!initials) continue;
+        assertMeasuredTypography(id + ".initials");
         result.push({
           kind: "decorative-shape",
           id: id + ".placeholder-paint",
@@ -254,6 +267,7 @@ export function composeAuthoredCover(
     }
     if (b.src || s.bg || (s.borderWidth ?? 0) > 0 || (s.h ?? 0) > 0 || s.list !== "none")
       throw Error("DOCX Next authored cover text box paint/list needs separate acceptance: " + id);
+    assertMeasuredTypography(id);
     const visual = coverTextPresentation(b, cover.template, cover.colors);
     const colorOverride = hasUserStyle(b, "color") || !!cover.colors.coverInk;
     const lines = b.lines.map((line) =>

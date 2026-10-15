@@ -5,6 +5,7 @@ import type { UserStyledBlock } from "./user-style-precedence";
 export type CoverTextMetrics = {
   version: 1;
   sourceKey: string;
+  /** Measured browser profile identifier, not proof of installed target-application fonts. */
   profile: string;
   blocks: Record<string, { sizePt: number; lines: number }>;
 };

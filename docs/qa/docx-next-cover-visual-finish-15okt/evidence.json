@@ -1,0 +1,374 @@
+{
+  "fetchedHead": "b2609c694cb436b16920c99c05328f0de9e139da",
+  "sevenCases": [
+    {
+      "case": "normal",
+      "candidateSha256": "56099ee50a3a9277493d9153a2a9d3abf17e7e3c15d3aa5ab963c07fd308e704",
+      "candidateByteIdenticalToAcceptedProducer": true,
+      "sourceSnapshotIdentical": true,
+      "baselineByteIdentical": true,
+      "webSha256": "bcb67fd31349500fce8aae9476cd162035032493e4a943814c6914f4dcddae94",
+      "webErrors": [],
+      "generation": {
+        "name": "normal",
+        "candidateSha256": "56099ee50a3a9277493d9153a2a9d3abf17e7e3c15d3aa5ab963c07fd308e704",
+        "neighborModelsIdentical": true,
+        "sourceImmutable": true,
+        "jsonPackageIdentical": true,
+        "productionRenderGuard": true
+      },
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      }
+    },
+    {
+      "case": "scaled",
+      "candidateSha256": "6727e12e327672fc2349fd972b6a891a9f0236ceaa839461cc8943879c64f7f7",
+      "candidateByteIdenticalToAcceptedProducer": true,
+      "sourceSnapshotIdentical": true,
+      "baselineByteIdentical": true,
+      "webSha256": "dab7a73903a31b34523c4d67311acf937cd4f72d4fe42f3499231b70bae51d83",
+      "webErrors": [],
+      "generation": {
+        "name": "scaled",
+        "candidateSha256": "6727e12e327672fc2349fd972b6a891a9f0236ceaa839461cc8943879c64f7f7",
+        "neighborModelsIdentical": true,
+        "sourceImmutable": true,
+        "jsonPackageIdentical": true,
+        "productionRenderGuard": true
+      },
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      }
+    },
+    {
+      "case": "long",
+      "candidateSha256": "6af9885b695ec13c2fe3d71a63d2c6372520b7021ad87d5ccde3daf1479318f2",
+      "candidateByteIdenticalToAcceptedProducer": true,
+      "sourceSnapshotIdentical": true,
+      "baselineByteIdentical": true,
+      "webSha256": "eb694fae3d71ee8b3035eaf9b480794a32cf0788b79f1d08d8225889ffc2b23a",
+      "webErrors": [],
+      "generation": {
+        "name": "long",
+        "candidateSha256": "6af9885b695ec13c2fe3d71a63d2c6372520b7021ad87d5ccde3daf1479318f2",
+        "neighborModelsIdentical": true,
+        "sourceImmutable": true,
+        "jsonPackageIdentical": true,
+        "productionRenderGuard": true
+      },
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 2,
+        "actualProfessionLines": 2,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": -0.003525624593097021
+      }
+    },
+    {
+      "case": "moved",
+      "candidateSha256": "8512e13fe6ac3a5cbdeeb621fc77ef4d01ab777e56f587bb62f24ecf340959c9",
+      "candidateByteIdenticalToAcceptedProducer": true,
+      "sourceSnapshotIdentical": true,
+      "baselineByteIdentical": true,
+      "webSha256": "838f7baa25edb03619206bc1bf98849732fc54904404570e4e2b8eb4dc5bef99",
+      "webErrors": [],
+      "generation": {
+        "name": "moved",
+        "candidateSha256": "8512e13fe6ac3a5cbdeeb621fc77ef4d01ab777e56f587bb62f24ecf340959c9",
+        "neighborModelsIdentical": true,
+        "sourceImmutable": true,
+        "jsonPackageIdentical": true,
+        "productionRenderGuard": true
+      },
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0,
+          "beruf": 0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      }
+    },
+    {
+      "case": "photo-portrait",
+      "candidateSha256": "ba68efc425a3786eedd5383fb389522a5c04c49822dd97fb6ae6b7832ece1a52",
+      "candidateByteIdenticalToAcceptedProducer": true,
+      "sourceSnapshotIdentical": true,
+      "baselineByteIdentical": true,
+      "webSha256": "d0b80891c433202b980f5b43cb4ae663b33592dd925062ca05796a733c1ccb33",
+      "webErrors": [],
+      "generation": {
+        "name": "photo-portrait",
+        "candidateSha256": "ba68efc425a3786eedd5383fb389522a5c04c49822dd97fb6ae6b7832ece1a52",
+        "neighborModelsIdentical": true,
+        "sourceImmutable": true,
+        "jsonPackageIdentical": true,
+        "productionRenderGuard": true
+      },
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      }
+    },
+    {
+      "case": "photo-circle",
+      "candidateSha256": "80b49c974e4506c975a1713c68cf2f39b54a86245c0f41957e4b5b2968f6ee2a",
+      "candidateByteIdenticalToAcceptedProducer": true,
+      "sourceSnapshotIdentical": true,
+      "baselineByteIdentical": true,
+      "webSha256": "c8ea3357ccacd414945a56f62051ff10ac1019c0b7ca9e2db4a70f678882ba89",
+      "webErrors": [],
+      "generation": {
+        "name": "photo-circle",
+        "candidateSha256": "80b49c974e4506c975a1713c68cf2f39b54a86245c0f41957e4b5b2968f6ee2a",
+        "neighborModelsIdentical": true,
+        "sourceImmutable": true,
+        "jsonPackageIdentical": true,
+        "productionRenderGuard": true
+      },
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      }
+    },
+    {
+      "case": "hidden",
+      "candidateSha256": "366908d655f83edc956f1dbbccf49dea198e12f3c039a4c1b5c6ffbe9a4be574",
+      "candidateByteIdenticalToAcceptedProducer": true,
+      "sourceSnapshotIdentical": true,
+      "baselineByteIdentical": true,
+      "webSha256": "2b8940e35745bd482d1f706c00e0349cac08239ec10bd179f3e1e22ce7f5f43e",
+      "webErrors": [],
+      "generation": {
+        "name": "hidden",
+        "candidateSha256": "366908d655f83edc956f1dbbccf49dea198e12f3c039a4c1b5c6ffbe9a4be574",
+        "neighborModelsIdentical": true,
+        "sourceImmutable": true,
+        "jsonPackageIdentical": true,
+        "productionRenderGuard": true
+      },
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      }
+    }
+  ],
+  "outline": {
+    "sourcePngSha256": "9e68fe8a4a8ed3c331c36d9d100986969615e568b37f764c278dbdd1fd641dde",
+    "sourceEdgesSymmetric": true,
+    "sourceFullyOpaque": true,
+    "wordPdfDecodedImagePixelsIdentical": true,
+    "edgeMethod": "9-pixel strips around each image edge, vertical corners excluded; relative ink integral, not a physical stroke-width estimator",
+    "edgeMeasurements": {
+      "Word365": {
+        "120": {
+          "left": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 1.1804
+          },
+          "right": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 1.1804
+          }
+        },
+        "240": {
+          "left": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 2.3647
+          },
+          "right": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 2.3608
+          }
+        },
+        "600": {
+          "left": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 4.6667
+          },
+          "right": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 4.6667
+          }
+        }
+      },
+      "LibreOfficeDev": {
+        "120": {
+          "left": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 1.1843
+          },
+          "right": {
+            "minimumMeanGray": 192.0,
+            "inkIntegralPx": 0.251
+          }
+        },
+        "240": {
+          "left": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 1.4392
+          },
+          "right": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 1.4314
+          }
+        },
+        "600": {
+          "left": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 4.6667
+          },
+          "right": {
+            "minimumMeanGray": 17.0,
+            "inkIntegralPx": 3.7333
+          }
+        }
+      }
+    },
+    "verdict": "No confirmed Word/application-side light-edge defect for the supplied square placeholder; supplementary renderer/sampling discrepancy. Exact engine mechanism not investigated."
+  },
+  "wordStatus": {
+    "priorScaledSaveStability": "PASS from supplied evidence",
+    "newNormalAndLongWordTest": "UNVERIFIED",
+    "practicalEditingAndObservedCloseReopen": "UNVERIFIED"
+  },
+  "candidateHashes": {
+    "brief-normal-word.docx": "56099ee50a3a9277493d9153a2a9d3abf17e7e3c15d3aa5ab963c07fd308e704",
+    "brief-115pct-word.docx": "6727e12e327672fc2349fd972b6a891a9f0236ceaa839461cc8943879c64f7f7",
+    "brief-long-title-word.docx": "6af9885b695ec13c2fe3d71a63d2c6372520b7021ad87d5ccde3daf1479318f2"
+  },
+  "productionActivation": false
+}

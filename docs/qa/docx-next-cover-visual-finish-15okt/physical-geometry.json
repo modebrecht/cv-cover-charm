@@ -1,0 +1,2299 @@
+{
+  "normal": {
+    "measurements": "glyph ink bounds [x0,y0,x1,y1] in mm; not interchangeable with frame/CSS origins",
+    "fields": [
+      {
+        "fieldId": "cover.eyebrow",
+        "frameOriginMm": [
+          20,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          19.6315,
+          47.2338,
+          23.7653
+        ]
+      },
+      {
+        "fieldId": "cover.ortDatum",
+        "frameOriginMm": [
+          110,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          147.4435,
+          137.0871,
+          190.0049,
+          141.6146
+        ],
+        "candidateGlyphBoundsMm": [
+          147.4258,
+          20.5646,
+          189.9872,
+          25.0921
+        ]
+      },
+      {
+        "fieldId": "cover.photo.initials",
+        "frameOriginMm": [
+          129,
+          62.3772
+        ],
+        "frameWidthMm": 52,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          149.6483,
+          62.6148,
+          160.4208,
+          71.2762
+        ]
+      },
+      {
+        "fieldId": "cover.profession",
+        "frameOriginMm": [
+          20,
+          129
+        ],
+        "frameWidthMm": 155,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          28.1766,
+          131.2898,
+          42.3498
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          130.8173,
+          136.7762,
+          144.9905
+        ]
+      },
+      {
+        "fieldId": "cover.fullName",
+        "frameOriginMm": [
+          20,
+          150.335
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          45.2678,
+          49.8754,
+          51.7639
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          150.5367,
+          48.0185,
+          157.0328
+        ]
+      },
+      {
+        "fieldId": "cover.lehrbeginn",
+        "frameOriginMm": [
+          20,
+          161.193125
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          59.2458,
+          69.3603,
+          63.9702
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          162.3098,
+          66.1134,
+          167.0342
+        ]
+      },
+      {
+        "fieldId": "cover.kontaktTitel",
+        "frameOriginMm": [
+          20,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          251.4779,
+          37.2639,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.kontakt",
+        "frameOriginMm": [
+          20,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          75.2628,
+          64.6966,
+          104.9786
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          258.6719,
+          64.6966,
+          285.5656
+        ]
+      },
+      {
+        "fieldId": "cover.beilagenTitel",
+        "frameOriginMm": [
+          110,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          171.8204,
+          251.4779,
+          190.0237,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.beilagen",
+        "frameOriginMm": [
+          110,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          151.959,
+          116.2026,
+          190.0528,
+          133.3243
+        ],
+        "candidateGlyphBoundsMm": [
+          151.9414,
+          258.6719,
+          190.0352,
+          274.3825
+        ]
+      }
+    ],
+    "webElements": [
+      {
+        "id": "eyebrow",
+        "xMm": 19.9891766372796,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 4.144954345088161,
+        "text": "BEWERBUNG",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 10.5,
+        "weight": "700",
+        "lineHeight": "15.68px",
+        "tracking": "1.19px",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "ortDatum",
+        "xMm": 109.95493545340051,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 5.591349181360202,
+        "text": "Hubersdorf, 15.11.2026",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "foto",
+        "xMm": 128.94816593198993,
+        "yMm": 40.9825645465995,
+        "widthMm": 51.97929785894207,
+        "heightMm": 51.97929785894207,
+        "text": "LM",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 21.84,
+        "weight": "400",
+        "lineHeight": "43.68px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beruf",
+        "xMm": 19.9891766372796,
+        "yMm": 128.94816593198993,
+        "widthMm": 154.93781486146096,
+        "heightMm": 15.992994332493703,
+        "text": "Informatiker/in EFZ",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 36,
+        "weight": "600",
+        "lineHeight": "60.48px",
+        "tracking": "0.24px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "name",
+        "xMm": 19.9891766372796,
+        "yMm": 150.27629093198993,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.99220717884131,
+        "text": "Lea M\u00fcller",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 16.5,
+        "weight": "700",
+        "lineHeight": "22.66px",
+        "tracking": "-0.33px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "lehrbeginn",
+        "xMm": 19.9891766372796,
+        "yMm": 161.1283847607053,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.83930258186398,
+        "text": "Lehrbeginn August 2027",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12,
+        "weight": "400",
+        "lineHeight": "22.08px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontaktTitel",
+        "xMm": 19.9891766372796,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "KONTAKT",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontakt",
+        "xMm": 19.9891766372796,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 27.956745906801007,
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagenTitel",
+        "xMm": 109.95493545340051,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "BEILAGEN",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagen",
+        "xMm": 109.95493545340051,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 16.774047544080606,
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      }
+    ]
+  },
+  "scaled": {
+    "measurements": "glyph ink bounds [x0,y0,x1,y1] in mm; not interchangeable with frame/CSS origins",
+    "fields": [
+      {
+        "fieldId": "cover.eyebrow",
+        "frameOriginMm": [
+          20,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          19.6465,
+          51.1739,
+          24.3709
+        ]
+      },
+      {
+        "fieldId": "cover.ortDatum",
+        "frameOriginMm": [
+          110,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          141.8872,
+          151.1426,
+          190.0414,
+          156.2607
+        ],
+        "candidateGlyphBoundsMm": [
+          141.8696,
+          20.8089,
+          190.0238,
+          25.927
+        ]
+      },
+      {
+        "fieldId": "cover.photo.initials",
+        "frameOriginMm": [
+          129,
+          61.68378
+        ],
+        "frameWidthMm": 52,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          148.9075,
+          61.9745,
+          161.1577,
+          71.817
+        ]
+      },
+      {
+        "fieldId": "cover.profession",
+        "frameOriginMm": [
+          20,
+          129
+        ],
+        "frameWidthMm": 155,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          29.0312,
+          148.0378,
+          45.3698
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          131.0369,
+          154.4355,
+          147.3755
+        ]
+      },
+      {
+        "fieldId": "cover.fullName",
+        "frameOriginMm": [
+          20,
+          152.33525
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          48.4384,
+          54.3828,
+          55.9187
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          152.5608,
+          52.2178,
+          160.0411
+        ]
+      },
+      {
+        "fieldId": "cover.lehrbeginn",
+        "frameOriginMm": [
+          20,
+          164.37209375
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          63.7931,
+          77.5956,
+          69.3049
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          165.5871,
+          73.7877,
+          171.0989
+        ]
+      },
+      {
+        "fieldId": "cover.kontaktTitel",
+        "frameOriginMm": [
+          20,
+          246.53109375
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          246.6775,
+          39.8519,
+          251.205
+        ]
+      },
+      {
+        "fieldId": "cover.kontakt",
+        "frameOriginMm": [
+          20,
+          253.50796875
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          81.7159,
+          70.5309,
+          115.4091
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          254.8064,
+          70.5309,
+          285.6772
+        ]
+      },
+      {
+        "fieldId": "cover.beilagenTitel",
+        "frameOriginMm": [
+          110,
+          246.53109375
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          169.0864,
+          246.6775,
+          190.0324,
+          251.205
+        ]
+      },
+      {
+        "fieldId": "cover.beilagen",
+        "frameOriginMm": [
+          110,
+          253.50796875
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          146.9849,
+          127.7182,
+          190.0506,
+          147.1238
+        ],
+        "candidateGlyphBoundsMm": [
+          146.9672,
+          254.8064,
+          190.0329,
+          272.8009
+        ]
+      }
+    ],
+    "webElements": [
+      {
+        "id": "eyebrow",
+        "xMm": 19.9891766372796,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 4.764837846347607,
+        "text": "BEWERBUNG",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12.075000000000001,
+        "weight": "700",
+        "lineHeight": "18.032px",
+        "tracking": "1.3685px",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "ortDatum",
+        "xMm": 109.95493545340051,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 6.438523299748111,
+        "text": "Hubersdorf, 15.11.2026",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 13.224974999999999,
+        "weight": "400",
+        "lineHeight": "24.334px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "foto",
+        "xMm": 128.94816593198993,
+        "yMm": 40.9825645465995,
+        "widthMm": 51.97929785894207,
+        "heightMm": 51.97929785894207,
+        "text": "LM",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 25.116,
+        "weight": "400",
+        "lineHeight": "50.232px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beruf",
+        "xMm": 19.9891766372796,
+        "yMm": 128.94816593198993,
+        "widthMm": 154.93781486146096,
+        "heightMm": 18.39400976070529,
+        "text": "Informatiker/in EFZ",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 41.4,
+        "weight": "600",
+        "lineHeight": "69.552px",
+        "tracking": "0.276px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "name",
+        "xMm": 19.9891766372796,
+        "yMm": 152.2764483627204,
+        "widthMm": 149.94155384130983,
+        "heightMm": 6.888971977329975,
+        "text": "Lea M\u00fcller",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 18.975,
+        "weight": "700",
+        "lineHeight": "26.059px",
+        "tracking": "-0.3795px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "lehrbeginn",
+        "xMm": 19.9891766372796,
+        "yMm": 164.30632084382873,
+        "widthMm": 149.94155384130983,
+        "heightMm": 6.71540459697733,
+        "text": "Lehrbeginn August 2027",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 13.799999999999999,
+        "weight": "400",
+        "lineHeight": "25.392px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontaktTitel",
+        "xMm": 19.9891766372796,
+        "yMm": 246.43675220403023,
+        "widthMm": 79.96910421914357,
+        "heightMm": 4.537547229219144,
+        "text": "KONTAKT",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "700",
+        "lineHeight": "17.1733px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontakt",
+        "xMm": 19.9891766372796,
+        "yMm": 253.40837531486147,
+        "widthMm": 79.96910421914357,
+        "heightMm": 32.192616498740556,
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 13.224974999999999,
+        "weight": "400",
+        "lineHeight": "24.334px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagenTitel",
+        "xMm": 109.95493545340051,
+        "yMm": 246.43675220403023,
+        "widthMm": 79.96910421914357,
+        "heightMm": 4.537547229219144,
+        "text": "BEILAGEN",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "700",
+        "lineHeight": "17.1733px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagen",
+        "xMm": 109.95493545340051,
+        "yMm": 253.40837531486147,
+        "widthMm": 79.96910421914357,
+        "heightMm": 19.315569899244334,
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 13.224974999999999,
+        "weight": "400",
+        "lineHeight": "24.334px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      }
+    ]
+  },
+  "long": {
+    "measurements": "glyph ink bounds [x0,y0,x1,y1] in mm; not interchangeable with frame/CSS origins",
+    "fields": [
+      {
+        "fieldId": "cover.eyebrow",
+        "frameOriginMm": [
+          20,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          19.6315,
+          47.2338,
+          23.7653
+        ]
+      },
+      {
+        "fieldId": "cover.ortDatum",
+        "frameOriginMm": [
+          110,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          147.4435,
+          152.4153,
+          190.0049,
+          156.9428
+        ],
+        "candidateGlyphBoundsMm": [
+          147.4258,
+          20.5646,
+          189.9872,
+          25.0921
+        ]
+      },
+      {
+        "fieldId": "cover.photo.initials",
+        "frameOriginMm": [
+          129,
+          62.3772
+        ],
+        "frameWidthMm": 52,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          149.6483,
+          62.6148,
+          160.4208,
+          71.2762
+        ]
+      },
+      {
+        "fieldId": "cover.profession",
+        "frameOriginMm": [
+          20,
+          129
+        ],
+        "frameWidthMm": 155,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          28.1766,
+          179.88,
+          57.678
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          130.8173,
+          119.6185,
+          160.989
+        ]
+      },
+      {
+        "fieldId": "cover.fullName",
+        "frameOriginMm": [
+          20,
+          163.67000000000002
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          60.596,
+          89.5793,
+          67.0921
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          163.8558,
+          80.9957,
+          169.9582
+        ]
+      },
+      {
+        "fieldId": "cover.lehrbeginn",
+        "frameOriginMm": [
+          20,
+          173.97805625
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          74.574,
+          69.3603,
+          79.2984
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          175.0804,
+          66.1134,
+          179.8048
+        ]
+      },
+      {
+        "fieldId": "cover.kontaktTitel",
+        "frameOriginMm": [
+          20,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          251.4779,
+          37.2639,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.kontakt",
+        "frameOriginMm": [
+          20,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          90.5909,
+          71.1837,
+          120.3068
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          258.6719,
+          71.1837,
+          285.5656
+        ]
+      },
+      {
+        "fieldId": "cover.beilagenTitel",
+        "frameOriginMm": [
+          110,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          171.8204,
+          251.4779,
+          190.0237,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.beilagen",
+        "frameOriginMm": [
+          110,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          151.959,
+          131.5308,
+          190.0528,
+          148.6525
+        ],
+        "candidateGlyphBoundsMm": [
+          151.9414,
+          258.6719,
+          190.0352,
+          274.3825
+        ]
+      }
+    ],
+    "webElements": [
+      {
+        "id": "eyebrow",
+        "xMm": 19.9891766372796,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 4.144954345088161,
+        "text": "BEWERBUNG",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 10.5,
+        "weight": "700",
+        "lineHeight": "15.68px",
+        "tracking": "1.19px",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "ortDatum",
+        "xMm": 109.95493545340051,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 5.591349181360202,
+        "text": "Hubersdorf, 15.11.2026",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "foto",
+        "xMm": 128.94816593198993,
+        "yMm": 40.9825645465995,
+        "widthMm": 51.97929785894207,
+        "heightMm": 51.97929785894207,
+        "text": "LM",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 21.84,
+        "weight": "400",
+        "lineHeight": "43.68px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beruf",
+        "xMm": 19.9891766372796,
+        "yMm": 128.94816593198993,
+        "widthMm": 154.93781486146096,
+        "heightMm": 31.985988664987406,
+        "text": "Fachmann/-frau Betreuung EFZ",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 36,
+        "weight": "600",
+        "lineHeight": "60.48px",
+        "tracking": "0.24px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "name",
+        "xMm": 19.9891766372796,
+        "yMm": 163.60791876574308,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.570686397984887,
+        "text": "Lea Sophie M\u00fcller-Meier",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 15.345,
+        "weight": "700",
+        "lineHeight": "21.0738px",
+        "tracking": "-0.3069px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "lehrbeginn",
+        "xMm": 19.9891766372796,
+        "yMm": 173.91038255667507,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.83930258186398,
+        "text": "Lehrbeginn August 2027",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12,
+        "weight": "400",
+        "lineHeight": "22.08px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontaktTitel",
+        "xMm": 19.9891766372796,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "KONTAKT",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontakt",
+        "xMm": 19.9891766372796,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 27.956745906801007,
+        "text": "L\u00e4ngere Beispielstrasse 123\n8000 Z\u00fcrich\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagenTitel",
+        "xMm": 109.95493545340051,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "BEILAGEN",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagen",
+        "xMm": 109.95493545340051,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 16.774047544080606,
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      }
+    ]
+  },
+  "moved": {
+    "measurements": "glyph ink bounds [x0,y0,x1,y1] in mm; not interchangeable with frame/CSS origins",
+    "fields": [
+      {
+        "fieldId": "cover.eyebrow",
+        "frameOriginMm": [
+          20,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          19.6315,
+          47.2338,
+          23.7653
+        ]
+      },
+      {
+        "fieldId": "cover.ortDatum",
+        "frameOriginMm": [
+          105,
+          28
+        ],
+        "frameWidthMm": 85,
+        "baselineGlyphBoundsMm": [
+          143.704,
+          123.0465,
+          189.8761,
+          127.5741
+        ],
+        "candidateGlyphBoundsMm": [
+          143.704,
+          29.5428,
+          189.8761,
+          34.0703
+        ]
+      },
+      {
+        "fieldId": "cover.photo.initials",
+        "frameOriginMm": [
+          129,
+          62.3772
+        ],
+        "frameWidthMm": 52,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          149.6483,
+          62.6148,
+          160.4208,
+          71.2762
+        ]
+      },
+      {
+        "fieldId": "cover.profession",
+        "frameOriginMm": [
+          20,
+          129
+        ],
+        "frameWidthMm": 155,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          28.1766,
+          131.2898,
+          42.3498
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          130.8173,
+          136.7762,
+          144.9905
+        ]
+      },
+      {
+        "fieldId": "cover.lehrbeginn",
+        "frameOriginMm": [
+          20,
+          161.193125
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          45.2052,
+          69.3603,
+          49.9296
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          162.3098,
+          66.1134,
+          167.0342
+        ]
+      },
+      {
+        "fieldId": "cover.kontaktTitel",
+        "frameOriginMm": [
+          20,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          251.4779,
+          37.2639,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.kontakt",
+        "frameOriginMm": [
+          20,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          61.2222,
+          64.6966,
+          90.9381
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          258.6719,
+          64.6966,
+          285.5656
+        ]
+      },
+      {
+        "fieldId": "cover.beilagenTitel",
+        "frameOriginMm": [
+          110,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          171.8204,
+          251.4779,
+          190.0237,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.beilagen",
+        "frameOriginMm": [
+          110,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          151.959,
+          102.1621,
+          190.0528,
+          119.2838
+        ],
+        "candidateGlyphBoundsMm": [
+          151.9414,
+          258.6719,
+          190.0352,
+          274.3825
+        ]
+      }
+    ],
+    "webElements": [
+      {
+        "id": "eyebrow",
+        "xMm": 19.9891766372796,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 4.144954345088161,
+        "text": "BEWERBUNG",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 10.5,
+        "weight": "700",
+        "lineHeight": "15.68px",
+        "tracking": "1.19px",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "ortDatum",
+        "xMm": 104.95867443324937,
+        "yMm": 27.98567380352645,
+        "widthMm": 84.96536523929471,
+        "heightMm": 6.078990869017632,
+        "text": "Hubersdorf, 15.11.2026",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "700",
+        "lineHeight": "23px",
+        "tracking": "0.306667px",
+        "transform": "none",
+        "opacity": "0.8",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "foto",
+        "xMm": 128.94816593198993,
+        "yMm": 40.9825645465995,
+        "widthMm": 51.97929785894207,
+        "heightMm": 51.97929785894207,
+        "text": "LM",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 21.84,
+        "weight": "400",
+        "lineHeight": "43.68px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beruf",
+        "xMm": 19.9891766372796,
+        "yMm": 128.94816593198993,
+        "widthMm": 154.93781486146096,
+        "heightMm": 15.992994332493703,
+        "text": "Informatiker/in EFZ",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 36,
+        "weight": "600",
+        "lineHeight": "60.48px",
+        "tracking": "0.24px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "lehrbeginn",
+        "xMm": 19.9891766372796,
+        "yMm": 161.1283847607053,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.83930258186398,
+        "text": "Lehrbeginn August 2027",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12,
+        "weight": "400",
+        "lineHeight": "22.08px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontaktTitel",
+        "xMm": 19.9891766372796,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "KONTAKT",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontakt",
+        "xMm": 19.9891766372796,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 27.956745906801007,
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagenTitel",
+        "xMm": 109.95493545340051,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "BEILAGEN",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagen",
+        "xMm": 109.95493545340051,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 16.774047544080606,
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      }
+    ]
+  },
+  "photo-portrait": {
+    "measurements": "glyph ink bounds [x0,y0,x1,y1] in mm; not interchangeable with frame/CSS origins",
+    "fields": [
+      {
+        "fieldId": "cover.eyebrow",
+        "frameOriginMm": [
+          20,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          19.6315,
+          47.2338,
+          23.7653
+        ]
+      },
+      {
+        "fieldId": "cover.ortDatum",
+        "frameOriginMm": [
+          110,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          147.4435,
+          200.9398,
+          190.0049,
+          205.4674
+        ],
+        "candidateGlyphBoundsMm": [
+          147.4258,
+          20.5646,
+          189.9872,
+          25.0921
+        ]
+      },
+      {
+        "fieldId": "cover.profession",
+        "frameOriginMm": [
+          20,
+          129
+        ],
+        "frameWidthMm": 155,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          92.0294,
+          131.2898,
+          106.2026
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          130.8173,
+          136.7762,
+          144.9905
+        ]
+      },
+      {
+        "fieldId": "cover.fullName",
+        "frameOriginMm": [
+          20,
+          150.335
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          109.1206,
+          49.8754,
+          115.6167
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          150.5367,
+          48.0185,
+          157.0328
+        ]
+      },
+      {
+        "fieldId": "cover.lehrbeginn",
+        "frameOriginMm": [
+          20,
+          161.193125
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          123.0986,
+          69.3603,
+          127.823
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          162.3098,
+          66.1134,
+          167.0342
+        ]
+      },
+      {
+        "fieldId": "cover.kontaktTitel",
+        "frameOriginMm": [
+          20,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          251.4779,
+          37.2639,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.kontakt",
+        "frameOriginMm": [
+          20,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          139.1155,
+          64.6966,
+          168.8314
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          258.6719,
+          64.6966,
+          285.5656
+        ]
+      },
+      {
+        "fieldId": "cover.beilagenTitel",
+        "frameOriginMm": [
+          110,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          171.8204,
+          251.4779,
+          190.0237,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.beilagen",
+        "frameOriginMm": [
+          110,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          151.959,
+          180.0554,
+          190.0528,
+          197.1771
+        ],
+        "candidateGlyphBoundsMm": [
+          151.9414,
+          258.6719,
+          190.0352,
+          274.3825
+        ]
+      }
+    ],
+    "webElements": [
+      {
+        "id": "eyebrow",
+        "xMm": 19.9891766372796,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 4.144954345088161,
+        "text": "BEWERBUNG",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 10.5,
+        "weight": "700",
+        "lineHeight": "15.68px",
+        "tracking": "1.19px",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "ortDatum",
+        "xMm": 109.95493545340051,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 5.591349181360202,
+        "text": "Hubersdorf, 15.11.2026",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "foto",
+        "xMm": 124.95198362720403,
+        "yMm": 44.982879408060455,
+        "widthMm": 39.98248583123426,
+        "heightMm": 59.975795025188916,
+        "text": "",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12,
+        "weight": "400",
+        "lineHeight": "24px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "1",
+        "color": "oklch(0.129 0.042 264.695)"
+      },
+      {
+        "id": "beruf",
+        "xMm": 19.9891766372796,
+        "yMm": 128.94816593198993,
+        "widthMm": 154.93781486146096,
+        "heightMm": 15.992994332493703,
+        "text": "Informatiker/in EFZ",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 36,
+        "weight": "600",
+        "lineHeight": "60.48px",
+        "tracking": "0.24px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "name",
+        "xMm": 19.9891766372796,
+        "yMm": 150.27629093198993,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.99220717884131,
+        "text": "Lea M\u00fcller",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 16.5,
+        "weight": "700",
+        "lineHeight": "22.66px",
+        "tracking": "-0.33px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "lehrbeginn",
+        "xMm": 19.9891766372796,
+        "yMm": 161.1283847607053,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.83930258186398,
+        "text": "Lehrbeginn August 2027",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12,
+        "weight": "400",
+        "lineHeight": "22.08px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontaktTitel",
+        "xMm": 19.9891766372796,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "KONTAKT",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontakt",
+        "xMm": 19.9891766372796,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 27.956745906801007,
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagenTitel",
+        "xMm": 109.95493545340051,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "BEILAGEN",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagen",
+        "xMm": 109.95493545340051,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 16.774047544080606,
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      }
+    ]
+  },
+  "photo-circle": {
+    "measurements": "glyph ink bounds [x0,y0,x1,y1] in mm; not interchangeable with frame/CSS origins",
+    "fields": [
+      {
+        "fieldId": "cover.eyebrow",
+        "frameOriginMm": [
+          20,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          19.6315,
+          47.2338,
+          23.7653
+        ]
+      },
+      {
+        "fieldId": "cover.ortDatum",
+        "frameOriginMm": [
+          110,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          147.4435,
+          180.955,
+          190.0049,
+          185.4825
+        ],
+        "candidateGlyphBoundsMm": [
+          147.4258,
+          20.5646,
+          189.9872,
+          25.0921
+        ]
+      },
+      {
+        "fieldId": "cover.profession",
+        "frameOriginMm": [
+          20,
+          129
+        ],
+        "frameWidthMm": 155,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          72.0446,
+          131.2898,
+          86.2178
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          130.8173,
+          136.7762,
+          144.9905
+        ]
+      },
+      {
+        "fieldId": "cover.fullName",
+        "frameOriginMm": [
+          20,
+          150.335
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          89.1358,
+          49.8754,
+          95.6318
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          150.5367,
+          48.0185,
+          157.0328
+        ]
+      },
+      {
+        "fieldId": "cover.lehrbeginn",
+        "frameOriginMm": [
+          20,
+          161.193125
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          103.1137,
+          69.3603,
+          107.8381
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          162.3098,
+          66.1134,
+          167.0342
+        ]
+      },
+      {
+        "fieldId": "cover.kontaktTitel",
+        "frameOriginMm": [
+          20,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          251.4779,
+          37.2639,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.kontakt",
+        "frameOriginMm": [
+          20,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          119.1307,
+          64.6966,
+          148.8466
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          258.6719,
+          64.6966,
+          285.5656
+        ]
+      },
+      {
+        "fieldId": "cover.beilagenTitel",
+        "frameOriginMm": [
+          110,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          171.8204,
+          251.4779,
+          190.0237,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.beilagen",
+        "frameOriginMm": [
+          110,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          151.959,
+          160.0705,
+          190.0528,
+          177.1923
+        ],
+        "candidateGlyphBoundsMm": [
+          151.9414,
+          258.6719,
+          190.0352,
+          274.3825
+        ]
+      }
+    ],
+    "webElements": [
+      {
+        "id": "eyebrow",
+        "xMm": 19.9891766372796,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 4.144954345088161,
+        "text": "BEWERBUNG",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 10.5,
+        "weight": "700",
+        "lineHeight": "15.68px",
+        "tracking": "1.19px",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "ortDatum",
+        "xMm": 109.95493545340051,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 5.591349181360202,
+        "text": "Hubersdorf, 15.11.2026",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "foto",
+        "xMm": 124.95198362720403,
+        "yMm": 44.982879408060455,
+        "widthMm": 39.98248583123426,
+        "heightMm": 39.98248583123426,
+        "text": "",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12,
+        "weight": "400",
+        "lineHeight": "24px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "1",
+        "color": "oklch(0.129 0.042 264.695)"
+      },
+      {
+        "id": "beruf",
+        "xMm": 19.9891766372796,
+        "yMm": 128.94816593198993,
+        "widthMm": 154.93781486146096,
+        "heightMm": 15.992994332493703,
+        "text": "Informatiker/in EFZ",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 36,
+        "weight": "600",
+        "lineHeight": "60.48px",
+        "tracking": "0.24px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "name",
+        "xMm": 19.9891766372796,
+        "yMm": 150.27629093198993,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.99220717884131,
+        "text": "Lea M\u00fcller",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 16.5,
+        "weight": "700",
+        "lineHeight": "22.66px",
+        "tracking": "-0.33px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "lehrbeginn",
+        "xMm": 19.9891766372796,
+        "yMm": 161.1283847607053,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.83930258186398,
+        "text": "Lehrbeginn August 2027",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12,
+        "weight": "400",
+        "lineHeight": "22.08px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontaktTitel",
+        "xMm": 19.9891766372796,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "KONTAKT",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontakt",
+        "xMm": 19.9891766372796,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 27.956745906801007,
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagenTitel",
+        "xMm": 109.95493545340051,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "BEILAGEN",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagen",
+        "xMm": 109.95493545340051,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 16.774047544080606,
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      }
+    ]
+  },
+  "hidden": {
+    "measurements": "glyph ink bounds [x0,y0,x1,y1] in mm; not interchangeable with frame/CSS origins",
+    "fields": [
+      {
+        "fieldId": "cover.eyebrow",
+        "frameOriginMm": [
+          20,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          19.6315,
+          47.2338,
+          23.7653
+        ]
+      },
+      {
+        "fieldId": "cover.ortDatum",
+        "frameOriginMm": [
+          110,
+          19.5
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          147.4435,
+          108.7414,
+          190.0049,
+          113.2689
+        ],
+        "candidateGlyphBoundsMm": [
+          147.4258,
+          20.5646,
+          189.9872,
+          25.0921
+        ]
+      },
+      {
+        "fieldId": "cover.profession",
+        "frameOriginMm": [
+          20,
+          129
+        ],
+        "frameWidthMm": 155,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          28.1766,
+          131.2898,
+          42.3498
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          130.8173,
+          136.7762,
+          144.9905
+        ]
+      },
+      {
+        "fieldId": "cover.fullName",
+        "frameOriginMm": [
+          20,
+          150.335
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          45.2678,
+          49.8754,
+          51.7639
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          150.5367,
+          48.0185,
+          157.0328
+        ]
+      },
+      {
+        "fieldId": "cover.lehrbeginn",
+        "frameOriginMm": [
+          20,
+          161.193125
+        ],
+        "frameWidthMm": 150,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          59.2458,
+          69.3603,
+          63.9702
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          162.3098,
+          66.1134,
+          167.0342
+        ]
+      },
+      {
+        "fieldId": "cover.kontaktTitel",
+        "frameOriginMm": [
+          20,
+          251.35312500000003
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": null,
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          251.4779,
+          37.2639,
+          255.4149
+        ]
+      },
+      {
+        "fieldId": "cover.kontakt",
+        "frameOriginMm": [
+          20,
+          257.615625
+        ],
+        "frameWidthMm": 80,
+        "baselineGlyphBoundsMm": [
+          20.0378,
+          75.2628,
+          64.6966,
+          104.9786
+        ],
+        "candidateGlyphBoundsMm": [
+          20.0378,
+          258.6719,
+          64.6966,
+          285.5656
+        ]
+      }
+    ],
+    "webElements": [
+      {
+        "id": "eyebrow",
+        "xMm": 19.9891766372796,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 4.144954345088161,
+        "text": "BEWERBUNG",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 10.5,
+        "weight": "700",
+        "lineHeight": "15.68px",
+        "tracking": "1.19px",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "ortDatum",
+        "xMm": 109.95493545340051,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 5.591349181360202,
+        "text": "Hubersdorf, 15.11.2026",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beruf",
+        "xMm": 19.9891766372796,
+        "yMm": 128.94816593198993,
+        "widthMm": 154.93781486146096,
+        "heightMm": 15.992994332493703,
+        "text": "Informatiker/in EFZ",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 36,
+        "weight": "600",
+        "lineHeight": "60.48px",
+        "tracking": "0.24px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "name",
+        "xMm": 19.9891766372796,
+        "yMm": 150.27629093198993,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.99220717884131,
+        "text": "Lea M\u00fcller",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 16.5,
+        "weight": "700",
+        "lineHeight": "22.66px",
+        "tracking": "-0.33px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "lehrbeginn",
+        "xMm": 19.9891766372796,
+        "yMm": 161.1283847607053,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.83930258186398,
+        "text": "Lehrbeginn August 2027",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12,
+        "weight": "400",
+        "lineHeight": "22.08px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontaktTitel",
+        "xMm": 19.9891766372796,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "KONTAKT",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "kontakt",
+        "xMm": 19.9891766372796,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 27.956745906801007,
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagenTitel",
+        "xMm": 109.95493545340051,
+        "yMm": 251.25531328715365,
+        "widthMm": 79.96910421914357,
+        "heightMm": 3.9465916246851385,
+        "text": "BEILAGEN",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 9.999975,
+        "weight": "700",
+        "lineHeight": "14.9333px",
+        "tracking": "normal",
+        "transform": "uppercase",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      {
+        "id": "beilagen",
+        "xMm": 109.95493545340051,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 16.774047544080606,
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      }
+    ]
+  }
+}

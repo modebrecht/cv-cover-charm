@@ -1,0 +1,31 @@
+{
+  "baseProducer": "b2609c694cb436b16920c99c05328f0de9e139da",
+  "fixture": "scaled",
+  "override": {
+    "cover.profession": {
+      "font": "Courier New"
+    }
+  },
+  "capturedPacket": "unchanged scaled Sans capture",
+  "before": {
+    "acceptedByBuilder": true,
+    "nativeFont": "LiberationMono-Bold",
+    "titleSecondLineBboxPt": [
+      56.79999923706055,
+      422.9727783203125,
+      131.83200073242188,
+      469.9507751464844
+    ],
+    "nameBboxPt": [
+      56.79999923706055,
+      432.45574951171875,
+      148.0189971923828,
+      453.6597595214844
+    ],
+    "overlapWidthMm": 26.469622749752467,
+    "overlapHeightMm": 7.480303531222873
+  },
+  "after": "explicit model-construction rejection, covered by unit regression",
+  "renderer": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "wordReproduction": "UNVERIFIED; no desktop Word available"
+}

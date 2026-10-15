@@ -1,0 +1,71 @@
+{
+  "fullUnitSuite": {
+    "command": "bun test tests/unit",
+    "pass": 1182,
+    "fail": 0,
+    "assertions": 22872,
+    "files": 246
+  },
+  "dedicatedDocxSuite": {
+    "command": "bun run test:docx-next",
+    "pass": 369,
+    "fail": 0,
+    "assertions": 5791,
+    "files": 56,
+    "overlapsFullSuite": true
+  },
+  "focusedAuthoredCover": {
+    "command": "bun test tests/unit/docx-next-cover-authored.test.ts",
+    "pass": 10,
+    "fail": 0,
+    "assertions": 69
+  },
+  "typecheck": {
+    "command": "tsc --noEmit",
+    "exitCode": 0
+  },
+  "changedFileLint": {
+    "command": "eslint src/lib/docx-next/cover-authored.ts src/components/cover/text-metrics.ts tests/unit/docx-next-cover-authored.test.ts",
+    "exitCode": 0
+  },
+  "fullLint": {
+    "command": "eslint .",
+    "exitCode": 0,
+    "errors": 0,
+    "warningsOutsideChangedFiles": 21
+  },
+  "productionBuild": {
+    "command": "vite build",
+    "exitCode": 0,
+    "deployment": false
+  },
+  "nativeChecks": {
+    "fixtures": 7,
+    "renders": 14,
+    "coverPagesPerDossier": 1,
+    "dossierPagesPerFixture": 4,
+    "unchangedAdjacentPageRasters": 21,
+    "byteIdenticalBaselines": 7,
+    "byteIdenticalValidCandidatesTo4c0687e": 7
+  },
+  "web": {
+    "browser": "Chromium 143.0.7499.0",
+    "captures": 7,
+    "errors": 0,
+    "reference": "real CoverCanvas mounted with frozen snapshot and declared Liberation Sans profile; not product editor restoration"
+  },
+  "supplementaryRenderer": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "word": {
+    "suppliedScaledSaveSequence": "PASS bounded observed evidence",
+    "newNormalLongAndPracticalEditing": "UNVERIFIED",
+    "desktopAvailable": false
+  },
+  "all39": "NOT RUN",
+  "productionActivation": false,
+  "publicationPreflight": {
+    "exactBranchVercelDeploymentEnabled": false,
+    "wildcardDeploymentEnabled": false,
+    "matchingPushWorkflowFilters": 0,
+    "branchDeployments": 0
+  }
+}
