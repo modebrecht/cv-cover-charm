@@ -1,0 +1,78 @@
+name: DOCX Next Cover Fidelity Item 37
+on:
+  push:
+    branches: ["fix/docx-next-cover-bottom-zones-15okt"]
+    paths:
+      - ".github/workflows/docx-next-cover-fidelity.yml"
+      - "scripts/docx-next-cover*"
+      - "docs/qa/docx-next-cover-fidelity-15okt-rejected-experiment.patch"
+      - "vercel.json"
+permissions:
+  contents: read
+concurrency:
+  group: cover-fidelity-37-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  unchanged-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: bun install --frozen-lockfile
+      - run: bun run test:docx-next
+      - run: bun test tests/unit
+      - run: bun run typecheck
+      - run: bun run lint
+      - run: bun run format:check:release
+      - run: bunx prettier --check scripts/docx-next-cover-fidelity-qa.ts docs/qa/docx-next-cover-fidelity-15okt.md vercel.json
+      - run: bun run build
+      - run: |
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+          bash scripts/qa-browser-setup.sh
+      - run: npx playwright test --config tests/qa/playwright.docx-boundary.config.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cover-37-unchanged-runtime
+          path: artifacts/docx-next-boundary
+  rejected-native-experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+          bash scripts/qa-browser-setup.sh
+          sudo apt-get update
+          sudo apt-get install -y libreoffice-writer poppler-utils fonts-liberation
+          soffice --version
+      - name: Apply rejected experiment only inside this ephemeral checkout
+        run: |
+          git apply --unidiff-zero --check docs/qa/docx-next-cover-fidelity-15okt-rejected-experiment.patch
+          git apply --unidiff-zero docs/qa/docx-next-cover-fidelity-15okt-rejected-experiment.patch
+      - run: bun test tests/unit/docx-next-cover-regions.test.ts
+      - run: bun run typecheck
+      - run: bun scripts/docx-next-cover-fidelity-qa.ts artifacts/cover-37/packages
+      - name: Render both sides for every template
+        run: |
+          mkdir -p artifacts/cover-37/pdf
+          soffice -env:UserInstallation=file:///tmp/cover37-profile --headless --convert-to pdf --outdir artifacts/cover-37/pdf artifacts/cover-37/packages/*.docx
+      - name: Visual placement gate must reject lost first-page content
+        run: python3 scripts/docx-next-cover-render-qa.py artifacts/cover-37/packages artifacts/cover-37/pdf --check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cover-37-rejected-experiment
+          path: artifacts/cover-37
+          retention-days: 14

@@ -1,0 +1,2413 @@
+{
+  "status": "BLOCKED",
+  "engine": "LibreOffice 25.2.7.2 (not Microsoft Word)",
+  "templates": [
+    {
+      "id": "brief",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "freundlich",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "prism",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "human",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "orbit",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "cove",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "glow",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "horizon",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "monoLuxe",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "ledger",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "ribbon",
+      "beforePages": 4,
+      "candidatePages": 6,
+      "missingCoverFieldsOnPage1": [
+        "cover.ortDatum",
+        "cover.fullName",
+        "cover.profession",
+        "cover.lehrbeginn",
+        "cover.kontaktTitel",
+        "cover.kontakt",
+        "cover.beilagenTitel",
+        "cover.beilagen"
+      ],
+      "layout": "FAIL"
+    },
+    {
+      "id": "sunrise",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "forestFlow",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": [
+        "cover.ortDatum",
+        "cover.fullName",
+        "cover.profession",
+        "cover.lehrbeginn",
+        "cover.kontaktTitel",
+        "cover.kontakt",
+        "cover.beilagenTitel",
+        "cover.beilagen"
+      ],
+      "layout": "FAIL"
+    },
+    {
+      "id": "violetPulse",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "studio3",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "warm2",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "warm3",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "verlauf2",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "verlauf3",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "diagonal",
+      "beforePages": 4,
+      "candidatePages": 4,
+      "missingCoverFieldsOnPage1": ["cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "klassisch",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "edel",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "serioes",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "colorful",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "blockig",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "welle",
+      "beforePages": 4,
+      "candidatePages": 4,
+      "missingCoverFieldsOnPage1": [],
+      "layout": "UNVERIFIED"
+    },
+    {
+      "id": "modern",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "pastell",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "sonne",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "edelDark",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "studio2",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "studio",
+      "beforePages": 4,
+      "candidatePages": 4,
+      "missingCoverFieldsOnPage1": ["cover.kontakt"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "edge",
+      "beforePages": 4,
+      "candidatePages": 4,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "gallery",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "terracotta",
+      "beforePages": 4,
+      "candidatePages": 4,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "citrus",
+      "beforePages": 4,
+      "candidatePages": 4,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "neon",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "verlauf",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    },
+    {
+      "id": "aurora",
+      "beforePages": 4,
+      "candidatePages": 5,
+      "missingCoverFieldsOnPage1": ["cover.kontakt", "cover.beilagenTitel", "cover.beilagen"],
+      "layout": "FAIL"
+    }
+  ],
+  "failed": 38,
+  "wordVisualAcceptance": "UNVERIFIED",
+  "sourceDev": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "packages": {
+    "generated": 117,
+    "decorativeAssets": 170,
+    "structuralTemplates": 39
+  },
+  "webPrincipalZones": [
+    {
+      "id": "brief",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 109.95493545340051,
+          "yMm": 19.489137279596978,
+          "widthMm": 79.96910421914357,
+          "heightMm": 5.591349181360202
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 134.42380352644838,
+          "widthMm": 154.93781486146096,
+          "heightMm": 15.992994332493703
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 155.75192852644838,
+          "widthMm": 149.94155384130983,
+          "heightMm": 5.99220717884131
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9465916246851385
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 27.956745906801007
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9465916246851385
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.774047544080606
+        }
+      ]
+    },
+    {
+      "id": "freundlich",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.5086980478589425
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 149.94155384130983,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.294041246851386
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 163.36823047858942,
+          "widthMm": 169.9348630352645,
+          "heightMm": 6.335209382871537
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.8060846977329974
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 28.783257241813605
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.8060846977329974
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 17.269954345088163
+        }
+      ]
+    },
+    {
+      "id": "prism",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 16.990312629142398,
+          "yMm": 138.94569224014091,
+          "widthMm": 149.94153769851033,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 16.990312629142398,
+          "yMm": 152.3723688774205,
+          "widthMm": 149.94153769851033,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "human",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 119.95159005037783,
+          "yMm": 17.993151763224184,
+          "widthMm": 69.97244962216625,
+          "heightMm": 4.376377518891688
+        },
+        {
+          "id": "beruf",
+          "xMm": 79.96910421914357,
+          "yMm": 55.715129093198996,
+          "widthMm": 107.95891057934509,
+          "heightMm": 11.550495906801007
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 115.95540774559194,
+          "widthMm": 169.9348630352645,
+          "heightMm": 6.719537153652393
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 248.259209697733,
+          "widthMm": 81.965129093199,
+          "heightMm": 3.9465916246851385
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 254.51590050377834,
+          "widthMm": 81.965129093199,
+          "heightMm": 27.956745906801007
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 248.259209697733,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9465916246851385
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 254.51590050377834,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.774047544080606
+        }
+      ]
+    },
+    {
+      "id": "orbit",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 101.95934228392633,
+          "yMm": 22.98944506897434,
+          "widthMm": 67.97229219143577,
+          "heightMm": 10.314861460957179
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 124.9509827736343,
+          "widthMm": 149.94155384130983,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 141.3765234190511,
+          "widthMm": 149.94155384130983,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "cove",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 111.95587580990731,
+          "widthMm": 147.94139641057936,
+          "heightMm": 8.376684308952889
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 128.38142452672386,
+          "widthMm": 147.94139641057936,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "glow",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 149.94155384130983,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 163.36823047858942,
+          "widthMm": 169.9348630352645,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "horizon",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 139.9453189571198,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 155.37124902835723,
+          "widthMm": 169.9348630352645,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "monoLuxe",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.5086980478589425
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 149.94155384130983,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.294041246851386
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 163.36823047858942,
+          "widthMm": 169.9348630352645,
+          "heightMm": 12.670418765743074
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.8060846977329974
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 28.783257241813605
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.8060846977329974
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 17.269954345088163
+        }
+      ]
+    },
+    {
+      "id": "ledger",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 76.967705791483,
+          "yMm": 104.95851300525426,
+          "widthMm": 111.95509288413099,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 76.967705791483,
+          "yMm": 118.38518964253385,
+          "widthMm": 111.95509288413099,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 16.990312629142398,
+          "yMm": 251.25531328715365,
+          "widthMm": 41.98262711916522,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 16.990312629142398,
+          "yMm": 257.51613664987406,
+          "widthMm": 41.98262711916522,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "ribbon",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 6.996418450881612,
+          "yMm": 277.27389011335015,
+          "widthMm": 33.986146095717885,
+          "heightMm": 7.504722921914358
+        },
+        {
+          "id": "name",
+          "xMm": 75.96878935768262,
+          "yMm": 100.95835957178842,
+          "widthMm": 109.95493545340051,
+          "heightMm": 6.9798882241813605
+        },
+        {
+          "id": "beruf",
+          "xMm": 75.96878935768262,
+          "yMm": 132.9484807934509,
+          "widthMm": 109.95493545340051,
+          "heightMm": 28.378266687657433
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 6.996418450881612,
+          "yMm": 209.91734886649874,
+          "widthMm": 33.986146095717885,
+          "heightMm": 3.0167663727959697
+        },
+        {
+          "id": "kontakt",
+          "xMm": 6.996418450881612,
+          "yMm": 220.9140821788413,
+          "widthMm": 33.986146095717885,
+          "heightMm": 19.918923173803528
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 209.91734886649874,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.0167663727959697
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 215.22768419395467,
+          "widthMm": 79.96910421914357,
+          "heightMm": 12.658021095717885
+        }
+      ]
+    },
+    {
+      "id": "sunrise",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 136.94645494898262,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 153.3719955943994,
+          "widthMm": 169.9348630352645,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "forestFlow",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 6.996418450881612,
+          "yMm": 267.89711901763224,
+          "widthMm": 37.98232840050378,
+          "heightMm": 9.141215365239296
+        },
+        {
+          "id": "name",
+          "xMm": 71.97260705289673,
+          "yMm": 110.95501416876574,
+          "widthMm": 111.95509288413099,
+          "heightMm": 8.463476070528968
+        },
+        {
+          "id": "beruf",
+          "xMm": 71.97260705289673,
+          "yMm": 136.9446630982368,
+          "widthMm": 111.95509288413099,
+          "heightMm": 12.77786523929471
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 6.996418450881612,
+          "yMm": 191.92419710327457,
+          "widthMm": 37.98232840050378,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "kontakt",
+          "xMm": 6.996418450881612,
+          "yMm": 202.92093041561714,
+          "widthMm": 37.98232840050378,
+          "heightMm": 20.538806675062972
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 191.92419710327457,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 198.18502046599497,
+          "widthMm": 79.96910421914357,
+          "heightMm": 17.14597764483627
+        }
+      ]
+    },
+    {
+      "id": "violetPulse",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 137.94608166596151,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 154.3716223113783,
+          "widthMm": 169.9348630352645,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "studio3",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 17.98992320332179,
+          "yMm": 141.94457239107763,
+          "widthMm": 153.9418687027708,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 17.98992320332179,
+          "yMm": 158.37011303649442,
+          "widthMm": 153.9418687027708,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "warm2",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 149.94155384130983,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 163.36823047858942,
+          "widthMm": 169.9348630352645,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "warm3",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 138.94569224014091,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 155.37124902835723,
+          "widthMm": 169.9348630352645,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "verlauf2",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 138.94569224014091,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 155.37124902835723,
+          "widthMm": 169.9348630352645,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "verlauf3",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 139.9453189571198,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 156.37087574533612,
+          "widthMm": 169.9348630352645,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "diagonal",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 125.95206234256928,
+          "yMm": 17.993151763224184,
+          "widthMm": 63.97197732997481,
+          "heightMm": 3.9837846347607053
+        },
+        {
+          "id": "name",
+          "xMm": 83.96528652392948,
+          "yMm": 168.93478431989925,
+          "widthMm": 105.95875314861462,
+          "heightMm": 6.281486146095718
+        },
+        {
+          "id": "beruf",
+          "xMm": 83.96528652392948,
+          "yMm": 133.94855950881612,
+          "widthMm": 105.95875314861462,
+          "heightMm": 17.76999370277078
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 225.91447575566752,
+          "widthMm": 71.97260705289673,
+          "heightMm": 3.0167663727959697
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 236.90707651133502,
+          "widthMm": 71.97260705289673,
+          "heightMm": 19.918923173803528
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 141.94505667506297,
+          "yMm": 225.91447575566752,
+          "widthMm": 47.97898299748111,
+          "heightMm": 3.0167663727959697
+        },
+        {
+          "id": "beilagen",
+          "xMm": 141.94505667506297,
+          "yMm": 231.22067852644838,
+          "widthMm": 47.97898299748111,
+          "heightMm": 12.658021095717885
+        }
+      ]
+    },
+    {
+      "id": "klassisch",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 99.95828085642317,
+          "yMm": 19.9891766372796,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.756651448362721
+        },
+        {
+          "id": "beruf",
+          "xMm": 24.989570214105793,
+          "yMm": 149.94155384130983,
+          "widthMm": 159.93820843828715,
+          "heightMm": 10.492561397984886
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 187.92801479848868,
+          "widthMm": 169.9348630352645,
+          "heightMm": 6.736067380352645
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 247.25913098236776,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.8060846977329974
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 253.51995434508817,
+          "widthMm": 79.96910421914357,
+          "heightMm": 28.783257241813605
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 247.25913098236776,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.8060846977329974
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 253.51995434508817,
+          "widthMm": 79.96910421914357,
+          "heightMm": 17.269954345088163
+        }
+      ]
+    },
+    {
+      "id": "edel",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 94.96201983627205,
+          "yMm": 21.989334068010077,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.467372481108312
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 131.94840207808565,
+          "widthMm": 169.9348630352645,
+          "heightMm": 13.224181360201511
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 171.93502046599497,
+          "widthMm": 169.9348630352645,
+          "heightMm": 4.760705289672544
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 24.989570214105793,
+          "yMm": 242.25873740554158,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "kontakt",
+          "xMm": 24.989570214105793,
+          "yMm": 248.51956076826198,
+          "widthMm": 79.96910421914357,
+          "heightMm": 28.576629408060455
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 242.25873740554158,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 248.51956076826198,
+          "widthMm": 79.96910421914357,
+          "heightMm": 17.14597764483627
+        }
+      ]
+    },
+    {
+      "id": "serioes",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 94.96201983627205,
+          "yMm": 23.989491498740556,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.35166089420655
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 138.94482052896726,
+          "widthMm": 169.9348630352645,
+          "heightMm": 11.104179785894207
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 171.93502046599497,
+          "widthMm": 169.9348630352645,
+          "heightMm": 5.264877204030227
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 24.989570214105793,
+          "yMm": 252.2553920025189,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9465916246851385
+        },
+        {
+          "id": "kontakt",
+          "xMm": 24.989570214105793,
+          "yMm": 258.5162153652393,
+          "widthMm": 79.96910421914357,
+          "heightMm": 27.956745906801007
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 252.2553920025189,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9465916246851385
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 258.5162153652393,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.774047544080606
+        }
+      ]
+    },
+    {
+      "id": "colorful",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 101.95843828715365,
+          "yMm": 15.992994332493703,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.864097921914358
+        },
+        {
+          "id": "beruf",
+          "xMm": 17.993151763224184,
+          "yMm": 125.95206234256928,
+          "widthMm": 149.94155384130983,
+          "heightMm": 14.62511807304786
+        },
+        {
+          "id": "name",
+          "xMm": 17.993151763224184,
+          "yMm": 171.93502046599497,
+          "widthMm": 149.94155384130983,
+          "heightMm": 6.107918765743073
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 17.993151763224184,
+          "yMm": 249.2551558564232,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 17.993151763224184,
+          "yMm": 255.5159792191436,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 249.2551558564232,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 255.5159792191436,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "blockig",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 125.95206234256928,
+          "yMm": 17.993151763224184,
+          "widthMm": 65.97213476070529,
+          "heightMm": 4.219340365239295
+        },
+        {
+          "id": "beruf",
+          "xMm": 85.96544395465995,
+          "yMm": 105.95875314861462,
+          "widthMm": 107.95891057934509,
+          "heightMm": 24.952377204030228
+        },
+        {
+          "id": "name",
+          "xMm": 85.96544395465995,
+          "yMm": 163.93439074307307,
+          "widthMm": 103.95859571788414,
+          "heightMm": 5.235949307304786
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 14.992915617128464,
+          "yMm": 247.23020308564233,
+          "widthMm": 47.97898299748111,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 14.992915617128464,
+          "yMm": 253.49102644836273,
+          "widthMm": 47.97898299748111,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 247.23020308564233,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 253.49102644836273,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "welle",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 97.96225598236776,
+          "yMm": 27.98567380352645,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.467372481108312
+        },
+        {
+          "id": "beruf",
+          "xMm": 21.989334068010077,
+          "yMm": 73.9727644836272,
+          "widthMm": 105.95875314861462,
+          "heightMm": 13.224181360201511
+        },
+        {
+          "id": "name",
+          "xMm": 21.989334068010077,
+          "yMm": 127.94808721662469,
+          "widthMm": 139.9448992443325,
+          "heightMm": 5.111972607052897
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 21.989334068010077,
+          "yMm": 195.92451196473553,
+          "widthMm": 59.975795025188916,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "kontakt",
+          "xMm": 21.989334068010077,
+          "yMm": 201.9208517002519,
+          "widthMm": 59.975795025188916,
+          "heightMm": 28.576629408060455
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 195.92451196473553,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 202.18533532745593,
+          "widthMm": 79.96910421914357,
+          "heightMm": 17.14597764483627
+        }
+      ]
+    },
+    {
+      "id": "modern",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 109.95493545340051,
+          "yMm": 19.489137279596978,
+          "widthMm": 79.96910421914357,
+          "heightMm": 5.388853904282116
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 134.42380352644838,
+          "widthMm": 154.93781486146096,
+          "heightMm": 15.484689861460957
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 155.75192852644838,
+          "widthMm": 149.94155384130983,
+          "heightMm": 5.756651448362721
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "pastell",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 97.96225598236776,
+          "yMm": 21.989334068010077,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.467372481108312
+        },
+        {
+          "id": "beruf",
+          "xMm": 27.98567380352645,
+          "yMm": 120.95166876574308,
+          "widthMm": 153.9418687027708,
+          "heightMm": 11.459579659949622
+        },
+        {
+          "id": "name",
+          "xMm": 27.98567380352645,
+          "yMm": 157.93805100755668,
+          "widthMm": 153.9418687027708,
+          "heightMm": 5.467372481108312
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 23.989491498740556,
+          "yMm": 246.44914987405542,
+          "widthMm": 69.97244962216625,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "kontakt",
+          "xMm": 23.989491498740556,
+          "yMm": 252.70997323677582,
+          "widthMm": 74.96871064231738,
+          "heightMm": 27.336862405541563
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 246.44914987405542,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 252.70997323677582,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.402117443324936
+        }
+      ]
+    },
+    {
+      "id": "sonne",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 19.9891766372796,
+          "yMm": 25.989648929471034,
+          "widthMm": 79.96910421914357,
+          "heightMm": 5.388853904282116
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 43.982800692695214,
+          "widthMm": 83.96528652392948,
+          "heightMm": 10.471898614609572
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 70.72044238035265,
+          "widthMm": 83.96528652392948,
+          "heightMm": 7.959304156171285
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 242.25873740554158,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 248.51956076826198,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 242.25873740554158,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 248.51956076826198,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "edelDark",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 94.96201983627205,
+          "yMm": 21.989334068010077,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.467372481108312
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 131.94840207808565,
+          "widthMm": 169.9348630352645,
+          "heightMm": 13.224181360201511
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 171.93502046599497,
+          "widthMm": 169.9348630352645,
+          "heightMm": 4.760705289672544
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 24.989570214105793,
+          "yMm": 242.25873740554158,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "kontakt",
+          "xMm": 24.989570214105793,
+          "yMm": 248.51956076826198,
+          "widthMm": 79.96910421914357,
+          "heightMm": 28.576629408060455
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 242.25873740554158,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.9796520780856426
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 248.51956076826198,
+          "widthMm": 79.96910421914357,
+          "heightMm": 17.14597764483627
+        }
+      ]
+    },
+    {
+      "id": "studio2",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 103.95859571788414,
+          "yMm": 13.992836901763225,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.157430730478589
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 131.9483375068876,
+          "widthMm": 149.94155384130983,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 149.3735048692833,
+          "widthMm": 149.94155384130983,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 251.25531328715365,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 257.51613664987406,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "studio",
+      "fields": [
+        {
+          "id": "name",
+          "xMm": 83.96528652392948,
+          "yMm": 71.97260705289673,
+          "widthMm": 99.95828085642317,
+          "heightMm": 7.678290302267003
+        },
+        {
+          "id": "beruf",
+          "xMm": 83.96528652392948,
+          "yMm": 39.98248583123426,
+          "widthMm": 99.95828085642317,
+          "heightMm": 7.740278652392948
+        },
+        {
+          "id": "ortDatum",
+          "xMm": 83.96528652392948,
+          "yMm": 103.95859571788414,
+          "widthMm": 99.95828085642317,
+          "heightMm": 4.219340365239295
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 11.992679471032746,
+          "yMm": 83.96528652392948,
+          "widthMm": 49.979140428211586,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 11.992679471032746,
+          "yMm": 90.7261492443325,
+          "widthMm": 49.979140428211586,
+          "heightMm": 25.78715365239295
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 83.96528652392948,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 90.22610988664988,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.873228904282115
+        }
+      ]
+    },
+    {
+      "id": "edge",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 123.9519049118388,
+          "yMm": 9.992522040302267,
+          "widthMm": 69.97244962216625,
+          "heightMm": 3.9837846347607053
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 123.9519049118388,
+          "widthMm": 111.95509288413099,
+          "heightMm": 9.075094458438288
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 145.94123897984886,
+          "widthMm": 111.95509288413099,
+          "heightMm": 10.323126574307306
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 250.6023693324937,
+          "widthMm": 73.96863192695214,
+          "heightMm": 3.0167663727959697
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 255.91270465994964,
+          "widthMm": 73.96863192695214,
+          "heightMm": 19.918923173803528
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 250.6023693324937,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.0167663727959697
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 255.91270465994964,
+          "widthMm": 79.96910421914357,
+          "heightMm": 11.951353904282117
+        }
+      ]
+    },
+    {
+      "id": "gallery",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 121.95181205230637,
+          "yMm": 95.96193712364216,
+          "widthMm": 57.97563759445844,
+          "heightMm": 10.314861460957179
+        },
+        {
+          "id": "name",
+          "xMm": 17.98992320332179,
+          "yMm": 77.96868850362091,
+          "widthMm": 101.95843828715365,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "beruf",
+          "xMm": 17.98992320332179,
+          "yMm": 91.39536514090051,
+          "widthMm": 101.95843828715365,
+          "heightMm": 12.47205604534005
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 250.25568657017476,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 256.51650993289513,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 250.25523457178844,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 256.5160579345088,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "terracotta",
+      "fields": [
+        {
+          "id": "kontaktTitel",
+          "xMm": 13.992836901763225,
+          "yMm": 71.97260705289673,
+          "widthMm": 47.97898299748111,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 13.992836901763225,
+          "yMm": 78.72933721662469,
+          "widthMm": 47.97898299748111,
+          "heightMm": 25.78715365239295
+        },
+        {
+          "id": "ortDatum",
+          "xMm": 13.992836901763225,
+          "yMm": 267.89711901763224,
+          "widthMm": 47.97898299748111,
+          "heightMm": 4.921875
+        },
+        {
+          "id": "beruf",
+          "xMm": 81.965129093199,
+          "yMm": 129.94824464735518,
+          "widthMm": 105.95875314861462,
+          "heightMm": 11.612484256926953
+        },
+        {
+          "id": "name",
+          "xMm": 81.965129093199,
+          "yMm": 199.92069426952142,
+          "widthMm": 105.95875314861462,
+          "heightMm": 5.058249370277078
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 71.97260705289673,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 78.22929785894206,
+          "widthMm": 79.96910421914357,
+          "heightMm": 15.472292191435768
+        }
+      ]
+    },
+    {
+      "id": "citrus",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 99.95828085642317,
+          "yMm": 19.9891766372796,
+          "widthMm": 79.96910421914357,
+          "heightMm": 5.624409634760705
+        },
+        {
+          "id": "beruf",
+          "xMm": 27.98567380352645,
+          "yMm": 123.1915144836272,
+          "widthMm": 153.9418687027708,
+          "heightMm": 12.042270151133502
+        },
+        {
+          "id": "name",
+          "xMm": 27.98567380352645,
+          "yMm": 138.85390428211588,
+          "widthMm": 153.9418687027708,
+          "heightMm": 5.756651448362721
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 27.98567380352645,
+          "yMm": 234.26224023929473,
+          "widthMm": 73.96863192695214,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 27.98567380352645,
+          "yMm": 240.52306360201513,
+          "widthMm": 73.96863192695214,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 234.26224023929473,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 240.52306360201513,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "neon",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 99.95828085642317,
+          "yMm": 99.95828085642317,
+          "widthMm": 87.96560138539043,
+          "heightMm": 5.388853904282116
+        },
+        {
+          "id": "name",
+          "xMm": 21.989334068010077,
+          "yMm": 115.95540774559194,
+          "widthMm": 165.93454817380353,
+          "heightMm": 11.864570214105793
+        },
+        {
+          "id": "beruf",
+          "xMm": 21.989334068010077,
+          "yMm": 139.53990869017633,
+          "widthMm": 149.94155384130983,
+          "heightMm": 8.389090050377835
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 21.989334068010077,
+          "yMm": 248.259209697733,
+          "widthMm": 77.9689467884131,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 21.989334068010077,
+          "yMm": 254.51590050377834,
+          "widthMm": 77.9689467884131,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 248.259209697733,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 254.51590050377834,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "verlauf",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 97.96225598236776,
+          "yMm": 19.9891766372796,
+          "widthMm": 89.96575881612091,
+          "heightMm": 5.624409634760705
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 133.18816908060455,
+          "widthMm": 169.9348630352645,
+          "heightMm": 13.76554628463476
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 151.03254880352645,
+          "widthMm": 169.9348630352645,
+          "heightMm": 5.756651448362721
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 21.989334068010077,
+          "yMm": 248.259209697733,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 21.989334068010077,
+          "yMm": 254.51590050377834,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 248.259209697733,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 254.51590050377834,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    },
+    {
+      "id": "aurora",
+      "fields": [
+        {
+          "id": "ortDatum",
+          "xMm": 99.95828085642317,
+          "yMm": 17.993151763224184,
+          "widthMm": 79.96910421914357,
+          "heightMm": 5.624409634760705
+        },
+        {
+          "id": "beruf",
+          "xMm": 19.9891766372796,
+          "yMm": 63.211586901763226,
+          "widthMm": 127.94808721662469,
+          "heightMm": 13.76554628463476
+        },
+        {
+          "id": "name",
+          "xMm": 19.9891766372796,
+          "yMm": 157.93805100755668,
+          "widthMm": 169.9348630352645,
+          "heightMm": 8.376692380352646
+        },
+        {
+          "id": "kontaktTitel",
+          "xMm": 19.9891766372796,
+          "yMm": 244.25889483627205,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "kontakt",
+          "xMm": 19.9891766372796,
+          "yMm": 250.51971819899245,
+          "widthMm": 79.96910421914357,
+          "heightMm": 26.94426952141058
+        },
+        {
+          "id": "beilagenTitel",
+          "xMm": 109.95493545340051,
+          "yMm": 244.25889483627205,
+          "widthMm": 79.96910421914357,
+          "heightMm": 3.768891687657431
+        },
+        {
+          "id": "beilagen",
+          "xMm": 109.95493545340051,
+          "yMm": 250.51971819899245,
+          "widthMm": 79.96910421914357,
+          "heightMm": 16.16656171284635
+        }
+      ]
+    }
+  ]
+}

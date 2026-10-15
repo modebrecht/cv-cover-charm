@@ -1,0 +1,323 @@
+diff --git a/src/lib/docx-next/build-model.ts b/src/lib/docx-next/build-model.ts
+index 93dc8f9..a30b7f1 100644
+--- a/src/lib/docx-next/build-model.ts
++++ b/src/lib/docx-next/build-model.ts
+@@ -68,0 +69,2 @@
++  /** Isolated Item 37 placement candidate; native renderer diagnostic opt-in is required. */
++  coverComposition?: "authored-regions";
+@@ -80,0 +83,2 @@
++  if (options.coverComposition !== undefined && options.coverComposition !== "authored-regions")
++    throw new Error("DOCX Next invalid authored cover composition");
+@@ -248,0 +253,1 @@
++    options.coverComposition === "authored-regions",
+diff --git a/src/lib/docx-next/cover-composition.ts b/src/lib/docx-next/cover-composition.ts
+index 406c0de..eb63506 100644
+--- a/src/lib/docx-next/cover-composition.ts
++++ b/src/lib/docx-next/cover-composition.ts
+@@ -8,0 +9,2 @@
++import { authoredCoverRegions } from "./cover-regions";
++
+@@ -18,0 +21,1 @@
++  authoredRegions = false,
+@@ -42,0 +46,11 @@
++    if (authoredRegions) {
++      if (source.kind === "shape") {
++        const paint = shapeElement(source, `cover.${id}`, coverContext);
++        if (paint.fill)
++          surfaces.set(
++            id,
++            compositeTextColor(paint.fill.color, coverContext.paper ?? "FFFFFF", paint.opacity),
++          );
++      }
++      continue;
++    }
+@@ -116,2 +130,2 @@
+-      if (surfaceIds.has(block.id) || borderIds.has(block.id)) continue;
+-      const rule = template.cover.flowingRules?.[block.id];
++      if (!authoredRegions && (surfaceIds.has(block.id) || borderIds.has(block.id))) continue;
++      const rule = authoredRegions ? undefined : template.cover.flowingRules?.[block.id];
+@@ -260,0 +275,1 @@
++  if (authoredRegions) return authoredCoverRegions([...coverDecoration, ...blocks], cover, page);
+diff --git a/src/lib/docx-next/cover-regions.ts b/src/lib/docx-next/cover-regions.ts
+new file mode 100644
+index 0000000..edf2350
+--- /dev/null
++++ b/src/lib/docx-next/cover-regions.ts
+@@ -0,0 +1,115 @@
++import type { DossierCoverSource } from "./source";
++import type { DocBlock, DocumentPart, Paragraph } from "./model";
++import { walkBlocks } from "./model";
++import { nativeTextHeightMm } from "./layouts";
++
++/** Diagnostic cover placement from saved design intent, never measured Web/PDF rectangles. */
++export function authoredCoverRegions(
++  blocks: DocBlock[],
++  cover: DossierCoverSource,
++  page: DocumentPart["page"],
++): DocBlock[] {
++  const aliases: Record<string, string> = { name: "fullName", beruf: "profession", foto: "photo" };
++  const key = (id: string) => "cover." + (aliases[id] ?? id);
++  const byId = new Map(cover.blocks.map((block) => [block.id, block]));
++  const fieldBlocks = (id: string) =>
++    blocks.filter((block) => block.id === key(id) || block.id.startsWith(key(id) + "."));
++  const fieldParagraphs = (id: string) =>
++    walkBlocks(fieldBlocks(id)).filter((block): block is Paragraph => block.kind === "paragraph");
++  const heights = new Map(
++    cover.blocks.map((block): [string, number] => [
++      block.id,
++      block.kind === "shape" || block.kind === "photo" || block.kind === "image"
++        ? block.style.w * (block.style.ratio ?? 1)
++        : nativeTextHeightMm(
++            fieldParagraphs(block.id).map((p) => ({ ...p, beforeMm: 0, afterMm: 0 })),
++            block.style.w,
++          ),
++    ]),
++  );
++  const positions = new Map<string, number>();
++  const visiting = new Set<string>();
++  const top = (id: string): number => {
++    const cached = positions.get(id);
++    if (cached !== undefined) return cached;
++    const source = byId.get(id);
++    if (!source) throw new Error("DOCX Next missing authored cover anchor " + id);
++    if (visiting.has(id)) throw new Error("DOCX Next cyclic authored cover anchor " + id);
++    visiting.add(id);
++    const s = source.style;
++    const height = heights.get(id) ?? 0;
++    let y = s.anchorBottom ? s.y - height : s.y;
++    const target = s.follows || s.above;
++    if (target && byId.has(target))
++      y = s.follows
++        ? top(target) + (heights.get(target) ?? 0) + (s.gap ?? 4)
++        : top(target) - height - (s.gap ?? 2);
++    visiting.delete(id);
++    positions.set(id, y);
++    return y;
++  };
++  for (const source of cover.blocks) top(source.id);
++  const contact = byId.get("kontaktTitel");
++  const title = byId.get("beilagenTitel");
++  const body = byId.get("beilagen");
++  // Same automatic semantic relationship as the editor; explicit moves clear these links.
++  if (
++    contact &&
++    title &&
++    body &&
++    fieldParagraphs(contact.id).length &&
++    title.style.above === "beilagen" &&
++    !title.style.follows &&
++    body.style.anchorBottom
++  ) {
++    positions.set(title.id, top(contact.id));
++    positions.set(body.id, top(contact.id) + (heights.get(title.id) ?? 0) + (title.style.gap ?? 2));
++  }
++  const result: DocBlock[] = blocks.filter((block) => block.kind === "decorative-shape");
++  for (const source of cover.blocks) {
++    if (source.kind === "shape") continue;
++    const content = fieldBlocks(source.id);
++    if (!content.length) continue;
++    const y = top(source.id);
++    const height = heights.get(source.id) ?? 0;
++    const s = source.style;
++    if (
++      ![s.x, y, s.w, height].every(Number.isFinite) ||
++      s.x < 0 ||
++      y < 0 ||
++      s.w < 10 ||
++      s.x + s.w > page.widthMm + 0.01 ||
++      y + height > page.heightMm + 0.01
++    )
++      throw new Error(
++        "DOCX Next authored cover region exceeds physical page bounds: " + key(source.id),
++      );
++    const clearFlowLeads = (values: DocBlock[]): DocBlock[] =>
++      values.map((block) => {
++        if (block.kind === "paragraph") return { ...block, beforeMm: 0, afterMm: 0 };
++        if (block.kind === "image")
++          return { ...block, widthMm: s.w, maxHeightMm: s.w * (s.ratio ?? 1) };
++        if (block.kind === "table")
++          return {
++            ...block,
++            widthMm: s.w,
++            indentMm: 0,
++            rows: block.rows.map((row) => ({
++              ...row,
++              cells: row.cells.map(clearFlowLeads),
++            })),
++          };
++        return block;
++      });
++    result.push({
++      kind: "table",
++      id: key(source.id) + ".region",
++      widths: [1],
++      widthMm: s.w,
++      pageRegion: { xMm: s.x, yMm: y, bottomMm: page.heightMm },
++      rows: [{ cells: [clearFlowLeads(content)], keepTogether: true }],
++      decoration: { borderColor: "000000", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
++    });
++  }
++  return result;
++}
+diff --git a/src/lib/docx-next/model.ts b/src/lib/docx-next/model.ts
+index 9ddb41f..a454dbb 100644
+--- a/src/lib/docx-next/model.ts
++++ b/src/lib/docx-next/model.ts
+@@ -131,0 +132,2 @@
++  /** Unaccepted bounded cover placement; no change to native Sidebar position semantics. */
++  pageRegion?: { xMm: number; yMm: number; bottomMm: number };
+diff --git a/src/lib/docx-next/renderer.ts b/src/lib/docx-next/renderer.ts
+index 7cab540..972e9e8 100644
+--- a/src/lib/docx-next/renderer.ts
++++ b/src/lib/docx-next/renderer.ts
+@@ -105,0 +106,5 @@
++  if (
++    blocks.some((block) => block.kind === "table" && block.pageRegion) &&
++    !options.allowUnacceptedModelIssues
++  )
++    throw new Error("DOCX Next authored cover regions are unaccepted; diagnostic opt-in required");
+@@ -366,1 +371,1 @@
+-      (!value.position && tableWidth + (value.indentMm ?? 0) > widthMm + 0.001)
++      (!value.position && !value.pageRegion && tableWidth + (value.indentMm ?? 0) > widthMm + 0.001)
+@@ -369,2 +374,3 @@
+-    const position = value.position
+-      ? `<w:tblpPr w:leftFromText="0" w:rightFromText="0" w:topFromText="0" w:bottomFromText="0" w:vertAnchor="page" w:horzAnchor="page" w:tblpX="${twips(value.position.xMm)}" w:tblpY="${twips(value.position.yMm)}"/><w:tblOverlap w:val="never"/>`
++    const anchor = value.pageRegion ?? value.position;
++    const position = anchor
++      ? `<w:tblpPr w:leftFromText="0" w:rightFromText="0" w:topFromText="0" w:bottomFromText="0" w:vertAnchor="page" w:horzAnchor="page" w:tblpX="${twips(anchor.xMm)}" w:tblpY="${twips(anchor.yMm)}"/><w:tblOverlap w:val="never"/>`
+diff --git a/src/lib/docx-next/validation.ts b/src/lib/docx-next/validation.ts
+index 43ab3ab..6f2e09c 100644
+--- a/src/lib/docx-next/validation.ts
++++ b/src/lib/docx-next/validation.ts
+@@ -0,0 +1,1 @@
++import { nativeTextHeightMm } from "./layouts";
+@@ -257,0 +259,24 @@
++        if (block.pageRegion) {
++          const region = block.pageRegion;
++          const paragraphs = walkBlocks(block.rows.flatMap((row) => row.cells.flat())).filter(
++            (child): child is import("./model").Paragraph => child.kind === "paragraph",
++          );
++          if (
++            part.id !== "cover" ||
++            !part.blocks.includes(block) ||
++            block.position ||
++            block.bodyBoundary ||
++            block.widthMm === undefined ||
++            block.rows.length !== 1 ||
++            block.widths.length !== 1 ||
++            (block.indentMm ?? 0) !== 0 ||
++            ![region.xMm, region.yMm, region.bottomMm, block.widthMm].every(Number.isFinite) ||
++            region.xMm < 0 ||
++            region.yMm < 0 ||
++            region.bottomMm > part.page.heightMm ||
++            region.bottomMm <= region.yMm ||
++            region.xMm + block.widthMm > part.page.widthMm + 0.01 ||
++            region.yMm + nativeTextHeightMm(paragraphs, block.widthMm) > region.bottomMm + 0.01
++          )
++            throw new Error(`DOCX Next invalid authored cover region ${block.id}`);
++        }
+diff --git a/tests/unit/docx-next-cover-regions.test.ts b/tests/unit/docx-next-cover-regions.test.ts
+new file mode 100644
+index 0000000..b22e1b0
+--- /dev/null
++++ b/tests/unit/docx-next-cover-regions.test.ts
+@@ -0,0 +1,99 @@
++import { describe, expect, test } from "bun:test";
++import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
++import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
++import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
++import { NEXT_TEMPLATES } from "../../src/lib/docx-next/templates";
++import { walkBlocks, type TableBlock } from "../../src/lib/docx-next/model";
++import { graphicCandidateFixture } from "../fixtures/docx-next/graphic-candidate";
++
++const option = { coverComposition: "authored-regions" as const };
++const region = (model: ReturnType<typeof buildDossierDocModel>, id: string) =>
++  model.cover.blocks.find((b) => b.id === id + ".region") as TableBlock;
++const fields = (model: ReturnType<typeof buildDossierDocModel>) =>
++  walkBlocks(model.cover.blocks)
++    .filter((b) => b.kind === "paragraph")
++    .map((b) => ({ id: b.id, runs: b.runs }))
++    .sort((a, b) => a.id.localeCompare(b.id));
++
++describe("Item 37 authored cover candidate", () => {
++  test("all 39 candidates retain semantic runs, source JSON and both neighboring models", () => {
++    expect(Object.keys(NEXT_TEMPLATES)).toHaveLength(39);
++    for (const id of Object.keys(NEXT_TEMPLATES)) {
++      const input = graphicCandidateFixture(id);
++      const before = JSON.stringify(input);
++      const base = buildDossierDocModel(input);
++      const model = buildDossierDocModel(input, option);
++      validateDossierDocModel(model);
++      expect(fields(model), id).toEqual(fields(base));
++      expect(model.letter, id).toEqual(base.letter);
++      expect(model.cv, id).toEqual(base.cv);
++      expect(buildDossierDocModel(JSON.parse(before), option), id).toEqual(model);
++      expect(JSON.stringify(input), id).toBe(before);
++    }
++  });
++  test("Brief restores independent top date and both authored lower lanes", () => {
++    const model = buildDossierDocModel(graphicCandidateFixture("brief"), option);
++    expect(region(model, "cover.ortDatum").pageRegion).toMatchObject({ xMm: 110, yMm: 19.5 });
++    const left = region(model, "cover.kontaktTitel").pageRegion!;
++    const right = region(model, "cover.beilagenTitel").pageRegion!;
++    expect(left.xMm).toBe(20);
++    expect(right.xMm).toBe(110);
++    expect(left.yMm).toBeGreaterThan(240);
++    expect(right.yMm).toBe(left.yMm);
++    expect(region(model, "cover.profession").pageRegion!.yMm).toBeGreaterThan(120);
++    expect(walkBlocks(model.cover.blocks).filter((b) => b.kind === "spacer")).toHaveLength(0);
++  });
++  test("manual saved attachment coordinates override automatic anchor links", () => {
++    const input = graphicCandidateFixture("brief");
++    for (const id of ["beilagenTitel", "beilagen"])
++      Object.assign(input.cover.blocks.find((b) => b.id === id)!.style, {
++        x: 120,
++        y: id === "beilagenTitel" ? 210 : 220,
++        w: 65,
++        above: null,
++        follows: null,
++        anchorBottom: false,
++      });
++    const model = buildDossierDocModel(input, option);
++    expect(region(model, "cover.beilagen").pageRegion).toMatchObject({ xMm: 120, yMm: 220 });
++    expect(region(model, "cover.beilagen").widthMm).toBe(65);
++  });
++  test("hidden attachments remain stored but emit no native region", () => {
++    const input = graphicCandidateFixture("brief");
++    input.cover.data.beilagen = ["Eigene Beilage"];
++    input.cover.data.showBeilagenOnCover = false;
++    const model = buildDossierDocModel(input, option);
++    expect(region(model, "cover.beilagen")).toBeUndefined();
++    expect(input.cover.data.beilagen?.length).toBeGreaterThan(0);
++  });
++  test("an oversized authored attachment region fails explicitly without clipping or shrink", () => {
++    const input = graphicCandidateFixture("brief");
++    input.cover.blocks.find((b) => b.id === "beilagen")!.lines = Array.from(
++      { length: 80 },
++      (_, i) => "Unterlage " + i,
++    );
++    expect(() => buildDossierDocModel(input, option)).toThrow("exceeds physical page bounds");
++  });
++  test("native ownership rejects invalid, nested and cross-document regions", () => {
++    const model = buildDossierDocModel(graphicCandidateFixture("brief"), option);
++    const invalid = structuredClone(model);
++    region(invalid, "cover.beilagen").pageRegion!.xMm = 250;
++    expect(() => validateDossierDocModel(invalid)).toThrow("invalid authored cover region");
++    const foreign = structuredClone(model);
++    foreign.cv.blocks.push(structuredClone(region(model, "cover.beilagen")));
++    expect(() => validateDossierDocModel(foreign)).toThrow();
++    const nested = structuredClone(model);
++    region(nested, "cover.kontakt").rows[0].cells[0].push(
++      structuredClone(region(model, "cover.beilagen")),
++    );
++    expect(() => validateDossierDocModel(nested)).toThrow();
++  });
++  test("the candidate remains renderer-guarded and the default cover retains flow", async () => {
++    const input = graphicCandidateFixture("brief");
++    const base = buildDossierDocModel(input);
++    expect(base.cover.blocks.some((b) => b.kind === "table" && b.pageRegion)).toBe(false);
++    await expect(renderDossierDocx(buildDossierDocModel(input, option))).rejects.toThrow(
++      "authored cover regions are unaccepted",
++    );
++  });
++});

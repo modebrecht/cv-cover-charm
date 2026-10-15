@@ -5,7 +5,8 @@
       "*": false,
       "fix/native-neon-duplicate-text-14okt": false,
       "main": true,
-      "fix/pdf-export-readiness-14okt": false
+      "fix/pdf-export-readiness-14okt": false,
+      "fix/docx-next-cover-bottom-zones-15okt": false
     }
   }
 }
