@@ -2,7 +2,7 @@
 
 ## Decision
 
-**Local architecture verdict: PASS — NO CODE CHANGE REQUIRED for production. Remote candidate CI pending.**
+**Item 13: PASS — NO CODE CHANGE REQUIRED for production. Local verification and remote CI both succeed.**
 
 The current primitives are sufficient for the 39 configured templates. No new primitive,
 template engine, renderer, schema version or template-specific repair is justified by this
@@ -147,8 +147,31 @@ Item 12. This package does not claim to repair it.
 The existing focused workflow registers this branch. It runs the dedicated DOCX and complete
 unit suites, runtime-boundary negative controls, typecheck, lint, release/changed formatting,
 production build, the three existing browser integrations and the exact base/candidate parity
-comparison. Documentation-only result updates do not trigger another run. Remote run/SHA and
-conclusion will be recorded below after the authorized feature-branch publication.
+comparison. Documentation-only result updates do not trigger another run.
+
+**Remote CI: SUCCESS.** [Run 38707821118](https://github.com/modebrecht/cv-cover-charm/actions/runs/38707821118)
+verifies execution commit **`31e6f3f18af59aaf5fea2c71fbe18b022df36af2`**.
+
+- [Model/runtime job 116331508082](https://github.com/modebrecht/cv-cover-charm/actions/runs/38707821118/job/116331508082):
+  SUCCESS; 359 DOCX tests / 5,720 assertions and 1,172 complete unit tests / 22,801 assertions,
+  followed by typecheck, lint, release/changed formatting and build.
+- [Browser/parity job 116331986105](https://github.com/modebrecht/cv-cover-charm/actions/runs/38707821118/job/116331986105):
+  SUCCESS; three integrations pass in 22.2 seconds. Base and candidate each produce
+  156 cases, 312 packages and 164 real decorative assets, followed by successful exact `cmp`.
+- The subsequent report-only commit records this completed result. It changes no executable
+  inputs; it does not claim that a separate run checked its own future commit SHA.
+
+Exact changed files:
+
+1. `scripts/docx-next-primitives-audit.ts` — read-only inventory and parity harness.
+2. `docs/qa/docx-next-declarative-primitives-15okt-evidence.json` — measured local hashes and provenance.
+3. `docs/qa/docx-next-declarative-primitives-15okt.md` — audit, decision and acceptance report.
+4. `.github/workflows/docx-next-model-gate.yml` — bounded branch registration and parity check.
+5. `vercel.json` — exact branch deployment prohibition.
+
+After publication the Vercel branch deployment listing is empty. No merge, deployment,
+export enablement or Sidebar workflow dispatch occurred. `src/` has the same tree object
+`3dbd331089e2de798ec31d6ea6df152517ddde9c` on the base and execution commit.
 
 ## Architectural invariants and senior review
 
