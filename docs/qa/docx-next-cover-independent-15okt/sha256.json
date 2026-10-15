@@ -1,0 +1,17 @@
+{
+  ".gitattributes": "547f59603028195ff9f8a87d04c4651551e8bd0d68f075257dfd549cd846b25b",
+  "brief-a4-comparison.pdf": "3be2fc6fc184461ad624891c0b3e913b3b8c3252fab9c04ddd4828cbb8c0eaab",
+  "brief-a4-comparison.png": "440894f3209f25a52aa756ad1370ee230f7a8ecc141f63f5a70108d2c539a3ff",
+  "brief-baseline.docx": "224d4a72efd800e5624bf0abcd88bcc4977d5dbc2127d050b31cb9b42bca85ae",
+  "brief-frame-probe.docx": "ee38dd444145c92165be40eebbd019344b54c9c6d4f8fc2927d5b21a7e9ad3ef",
+  "brief-moved-date-probe.docx": "4658f729c0b28d4d01ca514efc8b07b6dd02659bf0d58cc2747d7f88ea675b0e",
+  "brief-same-snapshot-web.png": "d44a43c8c8138b138285581e0adbd9192df2b4e0f52d0dc2e133e4241eb379fc",
+  "docx-tests.txt": "4756d9fcb2650c9b9d15565905c24bad32e4fe91a44b8b7ecdba89626dcac2f3",
+  "measurements.json": "8971c2a64173c49551f242015acc2ede3bdbbfd6559e9746d5b357fe3032b001",
+  "model-evidence.json": "850244a0ae77de960585f68628c32e5ba5eab6ed5784c08d215cee7d2c9b4638",
+  "native-evidence.json": "89b8072842612c5529dd5c59864a4aa3d9bf833e7caa1deecf5993db82821c19",
+  "publication-provenance.json": "6c61b39f4c9c67f04bf8ddce78be5824c22349456881c539f81b9f1fde1143a5",
+  "snapshot.json": "65f2567c8ecedc5d997f827cdeebe8df09100bfa2e1327d40f1f416beddd428c",
+  "validation.json": "be175eb685a58064c6a330b14343b29ad6ce32796bb6161f6affd5b627bcf06b",
+  "web-evidence.json": "c8abdea5fb7270181f0eda8ab092808734a84243e331b7b182f939f82b0373dd"
+}

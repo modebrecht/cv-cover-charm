@@ -1,0 +1,475 @@
+bun test v1.3.11 (af24e281)
+
+tests/unit/docx-next-pdf-print-boundary.test.ts:
+(pass) Item 12 PDF/Print runtime boundary > all nine entry closures exclude PDF/Print, browser CSS and legacy packages [13333.02ms]
+(pass) Item 12 PDF/Print runtime boundary > saved CV scale migration stays at the existing design entry, outside semantic data [110.64ms]
+(pass) Item 12 PDF/Print runtime boundary > guard follows re-exports, transitive dynamic imports and require, but erases types [89.88ms]
+(pass) Item 12 PDF/Print runtime boundary > cove: cold import and native package with PDF/Print services unavailable [426.54ms]
+(pass) Item 12 PDF/Print runtime boundary > diagonal: cold import and native package with PDF/Print services unavailable [356.11ms]
+(pass) Item 12 PDF/Print runtime boundary > edelDark: cold import and native package with PDF/Print services unavailable [350.64ms]
+
+tests/unit/docx-next-cove.test.ts:
+(pass) Cove shared asymmetric stationery > fixtures retain semantic identities and portable deterministic data [224.35ms]
+(pass) Cove shared asymmetric stationery > independent rectangle corners survive validation and asset identity [7.24ms]
+(pass) Cove shared asymmetric stationery > disabled header has quiet paint, while first/contact and continuation own one bay [11.79ms]
+(pass) Cove shared asymmetric stationery > sidebar uses shared native flow and template descriptors cannot inject renderer code [8.45ms]
+
+tests/unit/docx-next-prism.test.ts:
+(pass) Prism declarative architecture stress > a shared band may combine circles and polygons without discarding either primitive [7.28ms]
+(pass) Prism declarative architecture stress > all authored scenarios retain canonical identity and deterministic source snapshots [187.73ms]
+(pass) Prism declarative architecture stress > shared page-relative motifs use existing validated polygon paint and growing band height [6.90ms]
+(pass) Prism declarative architecture stress > native cover cells group title fields while preserving independent saved formatting [170.16ms]
+(pass) Prism declarative architecture stress > disabled chrome retains native sender and suppresses every interior motif [4.80ms]
+(pass) Prism declarative architecture stress > explicit custom header surface replaces template motifs and foreground stays authoritative [4.34ms]
+(pass) Prism declarative architecture stress > wrapped signed-offset contact enlarges both polygon and paint with one CV first spacer [3.97ms]
+(pass) Prism declarative architecture stress > registration introduces no template-ID condition or alternative renderer [3.00ms]
+(pass) Prism declarative architecture stress > a short semantic closing/signature/attachment tail stays attached without fixed heights [5.27ms]
+(pass) Prism declarative architecture stress > an oversized semantic tail remains splittable instead of moving a giant keep group [3.92ms]
+
+tests/unit/docx-next-chrome.test.tsx:
+(pass) semantic custom header/footer content > editor and preview own every field independently of repeated visible values [104.46ms]
+(pass) semantic custom header/footer content > first and continuation headers resolve the same canonical style before rendering, even after edits [48.36ms]
+(pass) semantic custom header/footer content > native footer layout preserves separate run styles and custom content replaces automatic contact text [7.63ms]
+(pass) semantic custom header/footer content > different first-page headers explicitly reuse their logical part footer [19.18ms]
+
+tests/unit/docx-next-heading-prefix.test.ts:
+(pass) native heading prefix attaches declared metadata and leaves the description outside the atomic prefix [59.35ms]
+(pass) prefix keeps the heading at section origin and preserves body inset on metadata and following entries [4.80ms]
+(pass) native prefix rejects undeclared or unusable boundaries instead of estimating content size [5.12ms]
+
+tests/unit/docx-next-body-attachment.test.ts:
+(pass) body attachment ownership controls preserve complete paragraphs, flags and the same text lane [421.73ms]
+(pass) all 24 ownership controls retain immutable unique identities and byte-identical JSON packages [967.92ms]
+
+tests/unit/docx-next-sunrise.test.ts:
+(pass) shared cubic contours and Sunrise candidate > bounded absolute cubic geometry fails explicitly for unsupported or malformed paths [3.06ms]
+(pass) shared cubic contours and Sunrise candidate > all portable stress scenarios preserve native semantic identities and deterministic models [121.51ms]
+(pass) shared cubic contours and Sunrise candidate > both broad fields use generic palette-bound curves while native user content remains editable [15.27ms]
+(pass) shared cubic contours and Sunrise candidate > authored custom contact surfaces take precedence and sidebar uses shared native flow [9.37ms]
+
+tests/unit/docx-next-mono-luxe.test.ts:
+(pass) motif-only running chrome and Mono Luxe candidate > surface is generic and leaves the same native header geometry with or without a band [5.43ms]
+(pass) motif-only running chrome and Mono Luxe candidate > all fixtures are portable, deterministic and retain explicit identities [137.52ms]
+(pass) motif-only running chrome and Mono Luxe candidate > cap/rule repeat without a second masthead, and editable contact ink is readable on paper [7.51ms]
+(pass) motif-only running chrome and Mono Luxe candidate > authored custom surfaces and field styles override motif-only defaults [5.95ms]
+(pass) motif-only running chrome and Mono Luxe candidate > editable pictures/rich tables remain native and sidebar requests use shared flow [14.62ms]
+
+tests/unit/docx-next-warm3.test.ts:
+(pass) Warm 3 shared organic counter-field and per-part stationery > all portable stress fixtures retain deterministic models and valid nonsemantic curves [118.96ms]
+(pass) Warm 3 shared organic counter-field and per-part stationery > curved teal and amber fields follow custom palettes without semantic text [5.07ms]
+(pass) Warm 3 shared organic counter-field and per-part stationery > quiet motifs repeat beside native contact stories and background visibility is independent [18.71ms]
+(pass) Warm 3 shared organic counter-field and per-part stationery > native photos, rich tables and explicit user typography survive; CV sidebar uses shared flow [15.62ms]
+
+tests/unit/docx-next-serioes.test.ts:
+(pass) Serioes navy stationery and native flowing separators > portable stress inputs retain deterministic native content and validated paint [105.29ms]
+(pass) Serioes navy stationery and native flowing separators > source separator follows the hero in native flow with authored thickness and palette [25.76ms]
+(pass) Serioes navy stationery and native flowing separators > navy source bands stay editable geometry and interior bands repeat independently [19.98ms]
+(pass) Serioes navy stationery and native flowing separators > authored semantic typography, native photos and rich tables remain independent [10.36ms]
+(pass) Serioes navy stationery and native flowing separators > native sidebar and out-of-range native rule widths fail explicitly [6.92ms]
+
+tests/unit/docx-next-pastell.test.ts:
+(pass) Rahmen shared framed serif composition > portable stress models are deterministic with validated nonsemantic artwork [192.50ms]
+(pass) Rahmen shared framed serif composition > secondary frame repeats on all stories without filling native writing surfaces [7.03ms]
+(pass) Rahmen shared framed serif composition > authored contact separator becomes editable-content flow, and explicit styles prevail [5.81ms]
+(pass) Rahmen shared framed serif composition > native long text and tables stay semantic; unsupported Sidebar remains explicit [36.35ms]
+
+tests/unit/dossier-semantic-fields.test.ts:
+(pass) persistent semantic field typography > saved-project adapters preserve document title, heading and chrome settings [6.07ms]
+(pass) persistent semantic field typography > reload and changed text/labels resolve only the persisted field ID [2.67ms]
+(pass) persistent semantic field typography > an empty semantic field keeps formatting through portable normalization [1.25ms]
+(pass) persistent semantic field typography > names and date components style independently before rendering [10.60ms]
+(pass) persistent semantic field typography > reordering identical line items keeps style and empty items do not renumber identities [3.53ms]
+(pass) persistent semantic field typography > JSON projects keep additive list identities and canonical portable styles [1.79ms]
+(pass) persistent semantic field typography > reference contact composite is split by its explicit semantic fields once [10.45ms]
+
+tests/unit/docx-next-modern.test.ts:
+(pass) Modern template is independent of the blocked Sidebar layout > portable stress models retain native fields and valid nonsemantic paint [127.29ms]
+(pass) Modern template is independent of the blocked Sidebar layout > authored halo stays quiet and the hero uses semantic fallback when photo/name are absent [8.43ms]
+(pass) Modern template is independent of the blocked Sidebar layout > default decorative visibility never suppresses semantic fields or explicit saved intent [8.55ms]
+(pass) Modern template is independent of the blocked Sidebar layout > compact source-owned dark footer has readable native ink; plain footer remains dark [7.22ms]
+(pass) Modern template is independent of the blocked Sidebar layout > circle photo and explicit typography remain native, and Sidebar requests use shared flow [8.76ms]
+
+tests/unit/docx-next-ledger.test.ts:
+(pass) Ledger native cover columns and quiet index paint > all cases preserve portable identities and deterministic models [108.28ms]
+(pass) Ledger native cover columns and quiet index paint > left photo and native hero group share one declarative cover row [8.63ms]
+(pass) Ledger native cover columns and quiet index paint > quiet rails repeat independently of running text and retain palette/background control [8.11ms]
+(pass) Ledger native cover columns and quiet index paint > CV sidebar remains unsupported; date rows and rich content use the single renderer [15.76ms]
+
+tests/unit/docx-next-parallel-pagination.test.ts:
+(pass) native pagination counterexamples retain the source tail and vary only declared geometry/chrome/grouping [480.15ms]
+
+tests/unit/docx-next-image-zone.test.ts:
+(pass) free photo owns a native zone and retains authored coordinates, frame and source identity [29.70ms]
+(pass) physical mirroring chooses the matching track and below-header photos begin at its body start [5.97ms]
+(pass) a native picture before a later spanning track rejects the known blank-body counterexample [10.69ms]
+(pass) free-photo render fixtures declare following content fields, beyond an opening label [26.67ms]
+(pass) invalid or unrepresentable image zones fail without resizing, crossing a gutter or losing the picture [8.77ms]
+(pass) the shared renderer emits one native picture with its source identity, crop, frame and flow-zone cell [17.39ms]
+
+tests/unit/docx-next-template-primitives.test.ts:
+(pass) shared native template primitives > opt-in page paint serializes native anchors by layer, scopes stories and keeps earlier packages unchanged [18.35ms]
+(pass) shared native template primitives > explicit paint stacking is independent of global DrawingML IDs in both native stories [18.66ms]
+(pass) shared native template primitives > palette-bound outline motifs retain transparent centers and scoped native stories [3.78ms]
+(pass) shared native template primitives > unpainted and fill-less gradient descriptors fail explicitly [3.29ms]
+(pass) shared native template primitives > page intersection retains visible circle viewport and rejects unspecified clipping [5.56ms]
+(pass) shared native template primitives > scoped paint creates explicit stories with reusable assets and owned relationships [16.25ms]
+(pass) shared native template primitives > Warm scenarios preserve identities and portable deterministic models [130.74ms]
+(pass) shared native template primitives > compact sender stays native and growing with saved style and dossier font [19.27ms]
+(pass) shared native template primitives > default contact keeps reviewed 44mm policy and none keeps sender flow [5.76ms]
+(pass) shared native template primitives > cover rows are native and light palette chrome has readable editable ink [33.43ms]
+(pass) shared native template primitives > first paint clearance and continuation margin use one spacer [7.55ms]
+(pass) shared native template primitives > wrapped contact chrome with signed offsets reserves native text safety [6.29ms]
+(pass) shared native template primitives > custom flow boxes keep content and native padding in one row at a page boundary [22.26ms]
+(pass) shared native template primitives > disabled chrome ignores dormant height and unsupported inputs block [5.39ms]
+
+tests/unit/docx-next-model-boundary.test.ts:
+(pass) Item 11 canonical model boundary > construction needs no browser state, clock, randomness or Word package [251.18ms]
+(pass) Item 11 canonical model boundary > models own nested motif data independently of templates and other builds [16.18ms]
+(pass) Item 11 canonical model boundary > renderer uses only the detached model after editor state changes [185.17ms]
+(pass) Item 11 canonical model boundary > authored content, stable IDs, styles, layout and images survive the snapshot [5.31ms]
+(pass) Item 11 canonical model boundary > active masonry packing is diagnosed without dropping semantic sections [7.48ms]
+(pass) Item 11 canonical model boundary > missing image bytes are model issues; empty optional placeholders remain valid [5.84ms]
+(pass) Item 11 canonical model boundary > brief: frozen source → portable model → independent Word package [51.59ms]
+(pass) Item 11 canonical model boundary > freundlich: frozen source → portable model → independent Word package [69.83ms]
+(pass) Item 11 canonical model boundary > prism: frozen source → portable model → independent Word package [44.02ms]
+(pass) Item 11 canonical model boundary > human: frozen source → portable model → independent Word package [36.34ms]
+(pass) Item 11 canonical model boundary > orbit: frozen source → portable model → independent Word package [37.43ms]
+(pass) Item 11 canonical model boundary > cove: frozen source → portable model → independent Word package [49.52ms]
+(pass) Item 11 canonical model boundary > glow: frozen source → portable model → independent Word package [42.17ms]
+(pass) Item 11 canonical model boundary > horizon: frozen source → portable model → independent Word package [41.64ms]
+(pass) Item 11 canonical model boundary > monoLuxe: frozen source → portable model → independent Word package [38.34ms]
+(pass) Item 11 canonical model boundary > ledger: frozen source → portable model → independent Word package [52.95ms]
+(pass) Item 11 canonical model boundary > ribbon: frozen source → portable model → independent Word package [37.65ms]
+(pass) Item 11 canonical model boundary > sunrise: frozen source → portable model → independent Word package [39.77ms]
+(pass) Item 11 canonical model boundary > forestFlow: frozen source → portable model → independent Word package [40.85ms]
+(pass) Item 11 canonical model boundary > violetPulse: frozen source → portable model → independent Word package [35.40ms]
+(pass) Item 11 canonical model boundary > studio3: frozen source → portable model → independent Word package [40.02ms]
+(pass) Item 11 canonical model boundary > warm2: frozen source → portable model → independent Word package [39.26ms]
+(pass) Item 11 canonical model boundary > warm3: frozen source → portable model → independent Word package [36.28ms]
+(pass) Item 11 canonical model boundary > verlauf2: frozen source → portable model → independent Word package [199.34ms]
+(pass) Item 11 canonical model boundary > verlauf3: frozen source → portable model → independent Word package [92.94ms]
+(pass) Item 11 canonical model boundary > diagonal: frozen source → portable model → independent Word package [67.27ms]
+(pass) Item 11 canonical model boundary > klassisch: frozen source → portable model → independent Word package [60.52ms]
+(pass) Item 11 canonical model boundary > edel: frozen source → portable model → independent Word package [41.55ms]
+(pass) Item 11 canonical model boundary > serioes: frozen source → portable model → independent Word package [38.87ms]
+(pass) Item 11 canonical model boundary > colorful: frozen source → portable model → independent Word package [68.66ms]
+(pass) Item 11 canonical model boundary > blockig: frozen source → portable model → independent Word package [46.09ms]
+(pass) Item 11 canonical model boundary > welle: frozen source → portable model → independent Word package [67.78ms]
+(pass) Item 11 canonical model boundary > modern: frozen source → portable model → independent Word package [54.51ms]
+(pass) Item 11 canonical model boundary > pastell: frozen source → portable model → independent Word package [41.85ms]
+(pass) Item 11 canonical model boundary > sonne: frozen source → portable model → independent Word package [53.76ms]
+(pass) Item 11 canonical model boundary > edelDark: frozen source → portable model → independent Word package [95.90ms]
+(pass) Item 11 canonical model boundary > studio2: frozen source → portable model → independent Word package [45.56ms]
+(pass) Item 11 canonical model boundary > studio: frozen source → portable model → independent Word package [36.38ms]
+(pass) Item 11 canonical model boundary > edge: frozen source → portable model → independent Word package [45.98ms]
+(pass) Item 11 canonical model boundary > gallery: frozen source → portable model → independent Word package [42.23ms]
+(pass) Item 11 canonical model boundary > terracotta: frozen source → portable model → independent Word package [35.34ms]
+(pass) Item 11 canonical model boundary > citrus: frozen source → portable model → independent Word package [59.85ms]
+(pass) Item 11 canonical model boundary > neon: frozen source → portable model → independent Word package [42.68ms]
+(pass) Item 11 canonical model boundary > verlauf: frozen source → portable model → independent Word package [41.05ms]
+(pass) Item 11 canonical model boundary > aurora: frozen source → portable model → independent Word package [36.64ms]
+
+tests/unit/docx-next-artwork.test.ts:
+(pass) declarative paper and native chrome geometry > paint assets are deterministic valid PNGs, with exact solid/gradient endpoints [8.99ms]
+(pass) declarative paper and native chrome geometry > independent part papers repeat in known header stories, behind native text [42.72ms]
+(pass) declarative paper and native chrome geometry > gradient bands use the same declarative artwork/picture primitive [30.91ms]
+(pass) declarative paper and native chrome geometry > the entire signed offset range becomes native section distances and a flowing recipient gap [70.60ms]
+(pass) declarative paper and native chrome geometry > empty recipient creates no spacer; actual large chrome font sizes reserve body space [8.84ms]
+(pass) declarative paper and native chrome geometry > invalid artwork and chrome geometry fail explicitly before returning a package [3.93ms]
+
+tests/unit/docx-next-elements.test.ts:
+(pass) semantic custom elements and nonsemantic decoration > equal values keep saved identities, independent styles and deterministic portable JSON [33.29ms]
+(pass) semantic custom elements and nonsemantic decoration > native flowing boxes retain width/indent/shading/padding/borders without fixed-height text boxes [29.70ms]
+(pass) semantic custom elements and nonsemantic decoration > page-two groups retain their native break and share it with page-two sections [31.99ms]
+(pass) semantic custom elements and nonsemantic decoration > hidden, empty and disabled elements do not create media, paragraphs or a second-page group [26.34ms]
+(pass) semantic custom elements and nonsemantic decoration > custom images reuse normalized pixels while retaining their own frame geometry [26.88ms]
+(pass) semantic custom elements and nonsemantic decoration > decorations reuse assets across parts and attach behind body content, without user text [25.33ms]
+(pass) semantic custom elements and nonsemantic decoration > failed decorative assets leave native content and a valid package, with explicit diagnostics [20.22ms]
+(pass) semantic custom elements and nonsemantic decoration > invalid geometry and arbitrary path markup are rejected before asset generation [5.63ms]
+
+tests/unit/docx-next-sections.test.ts:
+(pass) native flowing columns and physical section ownership > deterministic planning keeps the before/column/after content in order [8.94ms]
+(pass) native flowing columns and physical section ownership > native column definitions reset before the CV, with one header/footer package per logical part [26.03ms]
+(pass) native flowing columns and physical section ownership > nested/table-cell column sections fail rather than producing invalid Word sections [8.18ms]
+(pass) native flowing columns and physical section ownership > alternating flow restores normal width and owns first-page chrome once per dossier part [39.86ms]
+(pass) native flowing columns and physical section ownership > unsafe column geometry is rejected before a package is returned [7.71ms]
+
+tests/unit/docx-next-renderer.test.ts:
+(pass) DOCX Next independent renderer > creates native three-part Word package: minimal [17.13ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: normal [31.99ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: long-letter [60.12ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: long-cv [237.83ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: long-values [27.20ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: no-photo [25.99ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: repeated-values [25.92ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: empty-optional [10.75ms]
+(pass) DOCX Next independent renderer > creates native three-part Word package: custom-sections [32.02ms]
+(pass) DOCX Next independent renderer > image bytes are normalized once and reused with independent geometry [12.40ms]
+(pass) DOCX Next independent renderer > normalization failure is visible and never silently removes the photo [16.84ms]
+(pass) DOCX Next independent renderer > native sidebar and unresolved identities stay explicit [6.40ms]
+(pass) DOCX Next independent renderer > native half sections and explicit second page produce tables/breaks without heading searches [17.25ms]
+(pass) DOCX Next independent renderer > duplicate package parts and relationships are rejected [0.45ms]
+(pass) DOCX Next independent renderer > image cache rejects invalid normalized dimensions [0.27ms]
+
+tests/unit/docx-next-fonts.test.ts:
+(pass) DOCX Next explicit font policy > sans: requested font and declared unavailable-font alternative [1.13ms]
+(pass) DOCX Next explicit font policy > serif: requested font and declared unavailable-font alternative [1.72ms]
+(pass) DOCX Next explicit font policy > times: requested font and declared unavailable-font alternative [0.02ms]
+(pass) DOCX Next explicit font policy > humanist: requested font and declared unavailable-font alternative [22.68ms]
+(pass) DOCX Next explicit font policy > freundlich: requested font and declared unavailable-font alternative [0.13ms]
+(pass) DOCX Next explicit font policy > schmal: requested font and declared unavailable-font alternative [0.05ms]
+(pass) DOCX Next explicit font policy > maschine: requested font and declared unavailable-font alternative [0.02ms]
+(pass) DOCX Next explicit font policy > plakativ: requested font and declared unavailable-font alternative [0.02ms]
+(pass) DOCX Next explicit font policy > Brief letter base font stays independent of CV and rich/chrome/role text inherits it [36.73ms]
+(pass) DOCX Next explicit font policy > selection happens before XML and is deterministic through portable JSON, including field and chrome overrides [28.96ms]
+(pass) DOCX Next explicit font policy > unsupported keys/families and unavailable alternatives fail explicitly without a generic sans mapping [5.45ms]
+(pass) DOCX Next explicit font policy > disabled embedding has no asset fetch, font payload or embed relationship and unsupported embedding cannot leak [14.50ms]
+
+tests/unit/docx-next-human.test.ts:
+(pass) Human native candidate and shared page paint > all scenarios retain semantic identities and deterministic portable data [126.80ms]
+(pass) Human native candidate and shared page paint > photo-left hero preserves native image crop and independently styled profession [7.75ms]
+(pass) Human native candidate and shared page paint > quiet page motifs remain on first/continuation pages when running chrome is disabled [23.49ms]
+(pass) Human native candidate and shared page paint > CV motif opacity scales paint independently and zero disables it [8.38ms]
+(pass) Human native candidate and shared page paint > shared renderer/model modules remain template-ID-free with no repair chain [2.42ms]
+
+tests/unit/docx-next-cv-variants.test.ts:
+(pass) shared native CV compositions > all variants are deterministic and preserve unique identities without mutating app data [66.44ms]
+(pass) shared native CV compositions > classic remains flow; compact and retired sidebar aliases cannot silently become classic [4.66ms]
+(pass) shared native CV compositions > dated entries use fixed date tracks, semantic fields and native row pagination [21.82ms]
+(pass) shared native CV compositions > missing date and date-only entries flow without empty table columns [17.64ms]
+(pass) shared native CV compositions > user spacing, heading offsets, half-width placement and order survive composition [13.71ms]
+(pass) shared native CV compositions > fixed tracks reject mismatched arrays, narrow parent widths and invalid border edges [4.14ms]
+(pass) native CV continuation margin policy > 0/10/40 mm margins use one section and a first-page flow spacer where needed [119.68ms]
+(pass) native CV continuation margin policy > larger continuation margin is captured and blocks an unaccepted adaptation [15.52ms]
+
+tests/unit/docx-next-violet-pulse.test.ts:
+(pass) Violet Pulse reuses shared contours and native paper chrome > all portable stress fixtures retain deterministic models and valid nonsemantic curves [104.71ms]
+(pass) Violet Pulse reuses shared contours and native paper chrome > palette-bound diagonal contour and radial motifs contain no semantic text [5.69ms]
+(pass) Violet Pulse reuses shared contours and native paper chrome > quiet motifs repeat beside native contact stories and background visibility is independent [13.09ms]
+(pass) Violet Pulse reuses shared contours and native paper chrome > native photos, rich tables and explicit user typography survive; CV sidebar uses shared flow [13.10ms]
+
+tests/unit/docx-next-diagonal.test.ts:
+(pass) Diagonal authored geometry and reusable native callout surfaces > all portable stress models retain native content and validated paint [194.53ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > bounded polygon shorthand closes correctly and rejects unsupported SVG grammar [1.65ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > source triangles remain authoritative after user position, size and palette edits [5.64ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > right contact cell provides a native growing backdrop; saved typography wins [5.54ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > interior corner pairs repeat independently of contact chrome and CV visibility [16.73ms]
+(pass) Diagonal authored geometry and reusable native callout surfaces > photos and rich tables remain native; sidebar uses shared flow [12.09ms]
+
+tests/unit/docx-next-klassisch.test.ts:
+(pass) Editorial native hero and outline stationery > portable stress inputs preserve native text and validated paint [125.71ms]
+(pass) Editorial native hero and outline stationery > outlined frames repeat without filling the editable writing surface [16.69ms]
+(pass) Editorial native hero and outline stationery > no-photo spacing precedes the configured semantic hero, independently of name visibility [4.74ms]
+(pass) Editorial native hero and outline stationery > saved field styles, photos and rich tables stay native; sidebar uses shared flow [13.04ms]
+
+tests/unit/docx-next-verlauf3.test.ts:
+(pass) Verlauf 3 reuse of semantic palettes and multi-stop composition > all stress snapshots produce deterministic native models and valid geometry [127.08ms]
+(pass) Verlauf 3 reuse of semantic palettes and multi-stop composition > warm three-color stops, independent white blooms and light-paper native ink match roles [4.59ms]
+(pass) Verlauf 3 reuse of semantic palettes and multi-stop composition > custom slots and editable colors remain independent of native first/continuation paint [20.39ms]
+(pass) Verlauf 3 reuse of semantic palettes and multi-stop composition > native photos, rich content and explicit sidebar rejection use the same renderer [18.95ms]
+
+tests/unit/docx-next-sidebar.test.ts:
+(pass) native continuation diagnostics survive model JSON roundtrip without changing their packages [1111.70ms]
+(pass) Brief sidebar keeps explicit source data deterministic and immutable [373.46ms]
+(pass) default and custom placements route semantic rubrics into declared native tracks [7.59ms]
+(pass) mirroring changes physical track order and border, without changing ownership [9.15ms]
+(pass) sidebar photographs become native inline pictures in their selected physical track [5.24ms]
+(pass) photos crossing tracks, page starts, and widths fail before output [5.66ms]
+(pass) running headers use semantic rows and still reject unsupported independent-cell flow [134.63ms]
+(pass) the renderer requires first-class sidebar flow and never accepts a classic substitute [10.30ms]
+(pass) native entry grouping keeps short entries together and oversized descriptions remain splittable [14.66ms]
+(pass) differing page margins declare a first-row inset and stored field styles remain native [14.92ms]
+
+tests/unit/docx-next-studio3.test.ts:
+(pass) Studio 3 declarative editorial composition > portable stress models preserve native fields and validated paint [179.84ms]
+(pass) Studio 3 declarative editorial composition > palette roles drive polygon and independently rounded mint counter-field [4.10ms]
+(pass) Studio 3 declarative editorial composition > native first/continuation chrome and header-off paint preserve background settings [17.11ms]
+(pass) Studio 3 declarative editorial composition > explicit style overrides and native photos survive; sidebar uses shared flow [8.87ms]
+
+tests/unit/docx-next-welle.test.ts:
+(pass) Horizont split hero and native horizon contact surface > all stress models stay deterministic with validated nonsemantic paint [110.26ms]
+(pass) Horizont split hero and native horizon contact surface > source field/rule are consumed as a growing native row with a top border [3.58ms]
+(pass) Horizont split hero and native horizon contact surface > native split photo and independent footer contrast respect hidden motifs and saved colors [10.58ms]
+(pass) Horizont split hero and native horizon contact surface > unsupported border gradients/thickness and sidebar requests use shared flow [4.56ms]
+
+tests/unit/docx-next-selective-row.test.ts:
+(pass) outer opening rows retain every semantic paragraph and detach lead/tail endings [177.72ms]
+(pass) all outer-row controls roundtrip without mutation and diagnostic endings remain export-blocked [947.96ms]
+
+tests/unit/docx-next-frame.test.ts:
+(pass) automatic-height paragraph frames remain blocked after model JSON restoration [13.92ms]
+(pass) paragraph frame diagnostics reject invalid geometry, nested frames and overflowing paragraph indents [26.49ms]
+(pass) four bounded frame controls preserve native fields, adjacent paragraph ownership, lists and immutable JSON packages [197.62ms]
+
+tests/unit/docx-next-cell-ending.test.ts:
+(pass) unaccepted cell-ending attachment cannot bypass export guards through JSON or another story [28.66ms]
+(pass) cell-ending declarations reject malformed counts and non-boolean flags without changing the model [13.31ms]
+(pass) 12 controls preserve all semantic paragraphs, physical lanes and deterministic native cell endings [1105.81ms]
+
+tests/unit/docx-next-glow.test.ts:
+(pass) Glow generic luminous stationery > scenarios preserve editable semantic models and portable identities [160.46ms]
+(pass) Glow generic luminous stationery > radial color-to-transparency is validated, palette-bound, and scopes native stories [15.63ms]
+(pass) Glow generic luminous stationery > explicit header surfaces replace default paint and retain native user colors [5.06ms]
+(pass) Glow generic luminous stationery > native photo crop and unsupported sidebar stay explicit [5.64ms]
+
+tests/unit/docx-next-owner-boundary.test.ts:
+(pass) all six declared boundaries preserve JSON, model and every other package part [521.14ms]
+(pass) floating boundaries reject malformed JSON and conflicting adjacency [31.94ms]
+(pass) owner boundary cannot enable production export through portable JSON or cleared issues [19.53ms]
+
+tests/unit/docx-next-verlauf2.test.ts:
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > long editable cover flow owns paint on first and continuation stories [24.76ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > literal inline colors and saved element colors override default palette roles [9.64ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > every portable fixture retains deterministic semantic models and valid paint [1214.84ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > cover slots resolve all three stops, while fixed white blooms ignore palette edits [127.89ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > explicit paper, text and canonical field overrides retain precedence [5.97ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > strict stop validation rejects ambiguity, invalid ranges and ordering; assets include every stop [3.89ms]
+(pass) Verlauf 2 declarative multi-stop paint and semantic interior palettes > native images/rich content and independent header visibility survive; sidebar uses shared flow [26.28ms]
+
+tests/unit/docx-next-blockig.test.ts:
+(pass) Blockig native modular flow and decorative rail > multi-page contact uses native shaded cells and editable semantic content [86.32ms]
+(pass) Blockig native modular flow and decorative rail > stress models are deterministic and never request a sidebar [444.54ms]
+(pass) Blockig native modular flow and decorative rail > authored contact rectangle becomes a native cell; source color/opacity and hidden paint are honored [5.73ms]
+(pass) Blockig native modular flow and decorative rail > grouped hero lead follows actual photo presence and source typography stays native [5.73ms]
+(pass) Blockig native modular flow and decorative rail > unsupported native surfaces and explicit sidebar requests fail visibly [3.68ms]
+
+tests/unit/docx-next-orbit.test.ts:
+(pass) Orbit native candidate and reusable outline paint > positive scenarios retain identities and deterministic portable data [124.95ms]
+(pass) Orbit native candidate and reusable outline paint > right photo and no-photo clearance reuse native composition without fixed text heights [8.59ms]
+(pass) Orbit native candidate and reusable outline paint > configured alignment respects explicit saved alignment and independent field styles [3.50ms]
+(pass) Orbit native candidate and reusable outline paint > ring remains transparent, palette-bound and first/continuation scoped with chrome off [30.01ms]
+(pass) Orbit native candidate and reusable outline paint > sidebar uses shared flow and shared rendering stays template-ID-free [7.74ms]
+
+tests/unit/docx-next-horizon.test.ts:
+(pass) Horizon shared gradient stationery > all cases preserve portable identities and deterministic native models [178.44ms]
+(pass) Horizon shared gradient stationery > horizontal gradients retain palette roles and independent scoped ownership [22.39ms]
+(pass) Horizon shared gradient stationery > photo, letter-rich content, lists and CV date tracks remain native and field-addressable [23.45ms]
+(pass) Horizon shared gradient stationery > all three candidate templates remain independent of the single renderer [10.30ms]
+
+tests/unit/docx-next-layout-settings.test.ts:
+(pass) native Brief CV presentation and letter separators > every presentation fixture builds deterministically without mutation or unresolved issues [48.22ms]
+(pass) native Brief CV presentation and letter separators > aligned personal values retain their identity and independent styles, including identical text [7.70ms]
+(pass) native Brief CV presentation and letter separators > missing contact fields create no empty rows or empty personal section [1.34ms]
+(pass) native Brief CV presentation and letter separators > references pair by source identity; odd and half-width entries stay editable [11.15ms]
+(pass) native Brief CV presentation and letter separators > contact chrome removes its owned fields from aligned cells without orphan tables or rules [7.36ms]
+(pass) native Brief CV presentation and letter separators > rubric offsets, spacing, badges and content indents resolve before XML and respect half-width boundaries [4.58ms]
+(pass) native Brief CV presentation and letter separators > native geometry survives packaging without changing the semantic model [17.06ms]
+(pass) native Brief CV presentation and letter separators > sender, recipient and subject rules attach to known paragraphs; empty groups leave no rule [13.45ms]
+(pass) native Brief CV presentation and letter separators > invalid shared geometry fails before packaging [29.29ms]
+(pass) native Brief CV presentation and letter separators > entry metadata stays attached to description start while long descriptions remain splittable [6.73ms]
+
+tests/unit/docx-next-populated-row.test.ts:
+(pass) main-ending controls change only opening ending scope, retaining every native row, span and paragraph [223.77ms]
+(pass) main-only JSON packages stay guarded and original all-cell packages remain byte-identical [296.84ms]
+(pass) populated controls preserve complete native paragraphs and physical widths across ownership and orientation [101.71ms]
+(pass) populated native packages retain all ten field IDs through immutable JSON and guarded selective emission [439.81ms]
+(pass) short-row together controls change only cantSplit while both complete descriptions remain splittable [395.47ms]
+
+tests/unit/docx-next-colorful.test.ts:
+(pass) Colorful shared geometric composition > all stress models are deterministic and paint is nonsemantic [136.87ms]
+(pass) Colorful shared geometric composition > source rectangles and native metadata cells preserve three independent palette slots [13.23ms]
+(pass) Colorful shared geometric composition > native circular photo, canonical typography and rich tables stay editable [12.18ms]
+
+tests/unit/docx-next-warm2.test.ts:
+(pass) Warm 2 shared curved stationery and native centered hero > all portable stress fixtures retain deterministic models and valid nonsemantic curves [150.55ms]
+(pass) Warm 2 shared curved stationery and native centered hero > curved teal and amber fields follow custom palettes without semantic text [6.56ms]
+(pass) Warm 2 shared curved stationery and native centered hero > quiet motifs repeat beside native contact stories and background visibility is independent [28.46ms]
+(pass) Warm 2 shared curved stationery and native centered hero > native photos, rich tables and explicit user typography survive; CV sidebar uses shared flow [17.77ms]
+
+tests/unit/docx-next-floating.test.ts:
+(pass) floating native tables require diagnostic opt-in, including after model JSON restoration [20.13ms]
+(pass) diagnostic floating tables validate fixed page geometry and reject nested placement [27.47ms]
+(pass) 20 native placement controls preserve editable paragraphs and immutable model JSON packages [1428.74ms]
+
+tests/unit/docx-next-sonne.test.ts:
+(pass) Sonne growing native hero and image zone > portable stress models preserve deterministic semantic content and valid paint [326.21ms]
+(pass) Sonne growing native hero and image zone > authored yellow rectangle becomes a growing native row while the dark photo zone replaces fixed halo paint [8.36ms]
+(pass) Sonne growing native hero and image zone > native lower fields have explicit light palette defaults and literal saved overrides win [4.87ms]
+(pass) Sonne growing native hero and image zone > circular editable pictures survive and unsupported authored surfaces fail explicitly; Sidebar uses shared flow [7.65ms]
+
+tests/unit/docx-next-cover-typography.test.ts:
+(pass) semantic cover typography and independent list counters > relative tracking follows the resolved user font size and respects an explicit point override [7.19ms]
+(pass) semantic cover typography and independent list counters > casing, em tracking and line height are resolved deterministically before XML; original text stays intact [16.97ms]
+(pass) semantic cover typography and independent list counters > negative tracking and explicit non-uppercase styles transfer without rewriting text [11.68ms]
+(pass) semantic cover typography and independent list counters > each nonempty list item has native paragraphs, stable source field identity and independent rich runs [3.55ms]
+(pass) semantic cover typography and independent list counters > new cover lists and letter lists restart independently without affecting item text [14.81ms]
+(pass) semantic cover typography and independent list counters > inconsistent list groups and invalid paragraph/run geometry fail explicitly [3.93ms]
+
+tests/unit/docx-next-ribbon.test.ts:
+(pass) Ribbon shared native hero and scoped paint > scenarios preserve deterministic portable models with native field identity [268.05ms]
+(pass) Ribbon shared native hero and scoped paint > the growing hero has editable photo/text and a gutter, never baked-in text [14.03ms]
+(pass) Ribbon shared native hero and scoped paint > semantic palette defaults keep contact text readable and preserve both override sources [22.53ms]
+(pass) Ribbon shared native hero and scoped paint > disabled header uses quiet ribbons on both stories; CV opacity and palette are independent [14.83ms]
+(pass) Ribbon shared native hero and scoped paint > custom header surfaces retain precedence; native CV and rich letter content remain shared [70.62ms]
+(pass) Ribbon shared native hero and scoped paint > sidebar uses shared native flow and the single renderer has no candidate-ID branches [19.52ms]
+
+tests/unit/docx-next-picture.test.ts:
+(pass) native picture geometry > unframed photos retain intrinsic aspect ratio within width/height constraints [3.00ms]
+(pass) native picture geometry > circle crops rather than stretching the source [0.32ms]
+(pass) native picture geometry > zoom/pan match the editor's centered object-fit crop at each extreme [0.71ms]
+(pass) native picture geometry > nonfinite and unsafe dimensions cannot enter a picture package [0.28ms]
+(pass) native picture geometry > CV page placement and picture frame are deterministic explicit model metadata [36.38ms]
+
+tests/unit/docx-next-forest-flow.test.ts:
+(pass) Forest Flow native cover columns and independent interior gutters > portable stress scenarios preserve deterministic native models [304.55ms]
+(pass) Forest Flow native cover columns and independent interior gutters > the cover rail contains semantic fields in native cells with a separate gutter and main column [16.67ms]
+(pass) Forest Flow native cover columns and independent interior gutters > native canonical styles retain precedence over palette defaults [20.64ms]
+(pass) Forest Flow native cover columns and independent interior gutters > quiet page paint repeats independently of native contact chrome and respects CV visibility [93.70ms]
+(pass) Forest Flow native cover columns and independent interior gutters > a decorative rail never masquerades as an accepted CV sidebar [16.68ms]
+
+tests/unit/docx-next-parallel-flow.test.ts:
+(pass) parallel tracks retain semantic IDs, editable native paragraphs and independent splittable flow [110.99ms]
+(pass) parallel flow rejects unusable tracks and unsupported explicit pagination/floating content [6.54ms]
+(pass) semantic row alignment retains identity, groups entry metadata and leaves exhausted tracks empty [46.27ms]
+(pass) semantic rows attach section heading to its first entry using one native outer row [63.27ms]
+(pass) asymmetric cell padding rejects invalid geometry rather than dropping it [5.20ms]
+(pass) leading inset belongs only to the first semantic row and rejects unsupported geometry [14.42ms]
+(pass) a spanning track retains one uninterrupted semantic cell beside native entry rows [222.56ms]
+(pass) spans reject overlapping content, overflow, count mismatches and invalid track selection [41.89ms]
+(pass) atomic groups explicitly reject spanning-cell composition instead of losing or ungrouping text [9.58ms]
+(pass) section continuations retain authored indentation and emit their semantic heading once [23.32ms]
+
+tests/unit/docx-next-model.test.ts:
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: minimal [13.66ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: normal [19.10ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: long-letter [25.99ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: long-cv [29.82ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: long-values [12.40ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: no-photo [6.61ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: repeated-values [17.59ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: empty-optional [16.08ms]
+(pass) DOCX Next canonical model > deterministic, immutable and unique semantic identities: custom-sections [13.86ms]
+(pass) DOCX Next canonical model > equal visible values have independently styled stable fields [5.00ms]
+(pass) DOCX Next canonical model > ordered half-width custom sections and empty sections are semantic [6.48ms]
+(pass) DOCX Next canonical model > unresolved legacy identity is reported without text matching [6.90ms]
+(pass) DOCX Next canonical model > paper and saved CV custom text have explicit semantic identities [4.06ms]
+(pass) DOCX Next canonical model > absent photos disappear and present photos retain semantic native frame geometry [6.61ms]
+(pass) DOCX Next canonical model > contact chrome owns duplicate source fields and preserves their semantic typography [8.67ms]
+(pass) DOCX Next canonical model > compact chrome and absent optional content never fabricate contact fields [4.96ms]
+(pass) DOCX Next canonical model > supported font keys all have documented deterministic fallbacks [0.57ms]
+(pass) DOCX Next canonical model > templates are configuration and unreviewed templates cannot silently fallback [1.05ms]
+(pass) DOCX Next canonical model > Next has no dependency on any legacy/V2 DOCX module or post-render text heuristic [13.34ms]
+(pass) DOCX Next canonical model > rich text remains deterministic with native runs, alignment, lists and tables [1.74ms]
+(pass) DOCX Next canonical model > rich table cells preserve paragraph boundaries, nested tables and padded short rows [0.84ms]
+(pass) DOCX Next canonical model > all editor list variants retain their semantic kind [1.96ms]
+(pass) DOCX Next canonical model > balanced column flow retains native semantic content instead of splitting text into table cells [1.80ms]
+
+tests/unit/docx-next-edel.test.ts:
+(pass) Edel light stationery and independently editable content > portable stress models retain deterministic native blocks and valid paint [270.96ms]
+(pass) Edel light stationery and independently editable content > light picker palette replaces historical dark defaults; authored palettes and frames survive [25.90ms]
+(pass) Edel light stationery and independently editable content > both interior frame stories remain independent of contact chrome and CV visibility [64.54ms]
+(pass) Edel light stationery and independently editable content > source circle crop and semantic styles remain native; rich content and blockers are explicit [99.53ms]
+
+tests/unit/docx-next-source.test.ts:
+(pass) DOCX Next source boundary and saved identity binding > historical PDF adapter copies authored data and excludes print/measurement state [19.06ms]
+(pass) DOCX Next source boundary and saved identity binding > anonymous records require explicit stable-key bindings even with unique matching text [1.66ms]
+(pass) DOCX Next source boundary and saved identity binding > anonymous random field IDs bind by their saved ID; wrong scope remains blocking [2.17ms]
+(pass) DOCX Next source boundary and saved identity binding > canonical identities cannot be redirected and conflicts cannot overwrite saved styles [4.46ms]
+(pass) DOCX Next source boundary and saved identity binding > compatible duplicate bindings preserve independent properties deterministically [1.33ms]
+(pass) authored semantic opacity > native ink composites against the declared paper/cell color without raster text [5.53ms]
+(pass) authored semantic opacity > translucent semantic images block explicitly until native alpha is accepted [8.77ms]
+
+ 359 pass
+ 0 fail
+ 5720 expect() calls
+Ran 359 tests across 55 files. [45.16s]

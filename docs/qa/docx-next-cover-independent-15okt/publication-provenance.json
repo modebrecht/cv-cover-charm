@@ -1,0 +1,17 @@
+{
+  "purpose": "Resolve automatic publication-review concern using independently verified provenance",
+  "destination": "https://github.com/modebrecht/cv-cover-charm.git",
+  "destinationUserSpecified": true,
+  "repositoryVisibility": "public",
+  "snapshotProvenance": "JSON-normalized exact equality with existing sidebarFixture(photo-right, syntheticImage)",
+  "publishedFixtureSources": [
+    "tests/fixtures/docx-next/sidebar.ts",
+    "tests/fixtures/docx-next/brief.ts",
+    "src/components/cover/types.ts",
+    "src/components/cv/types.ts",
+    "src/components/letter/types.ts"
+  ],
+  "imageProvenance": "120x180 synthetic red/blue chart; every row identical; no EXIF or personal author/comment metadata",
+  "imageGenerator": "scripts/docx-next-fixture-images.py",
+  "privateProjectDataAdded": false
+}

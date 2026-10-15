@@ -1,0 +1,224 @@
+{
+  "status": "PARTIAL",
+  "wordPrototypeAcceptance": "UNVERIFIED",
+  "fullVisualGate": "NOT ACCEPTED: effective style and absent-photo mismatch",
+  "engine": "LibreOfficeDev 26.8.0.0.alpha0 (X86_64)",
+  "originalBaselineSha256": "224d4a72efd800e5624bf0abcd88bcc4977d5dbc2127d050b31cb9b42bca85ae",
+  "originalSourceProject": "UNAVAILABLE; recovered generator fixture is package-equivalent",
+  "webReference": "Real CoverCanvas is mounted from the actual app module and receives unchanged snapshot props. Remote network fonts are blocked; local fonts/fallback apply. This is a controlled component reference, not a recovered original editor project or a successful live-editor restore test.",
+  "wordSavePdfSameGeometry": [
+    true,
+    true,
+    true
+  ],
+  "wordSavePdfSamePixels": [
+    true,
+    true,
+    true
+  ],
+  "pageCounts": {
+    "baseline": 3,
+    "probe": 3,
+    "moved": 3
+  },
+  "neighborPixelsIdentical": [
+    true,
+    true
+  ],
+  "movedDateGlyphMm": {
+    "xMm": 152.99972652859157,
+    "yMm": 28.116667726304794,
+    "widthMm": 37.03809238009982,
+    "heightMm": 3.9370012919108075
+  },
+  "measurements": [
+    {
+      "field": "beruf",
+      "webElement": {
+        "id": "beruf",
+        "xMm": 19.9891766372796,
+        "yMm": 128.94816593198993,
+        "widthMm": 154.93781486146096,
+        "heightMm": 15.992994332493703,
+        "text": "Informatiker/in EFZ",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 36,
+        "weight": "600",
+        "lineHeight": "60.48px",
+        "tracking": "0.24px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      "actualWordGlyph": {
+        "xMm": 19.949583064185248,
+        "yMm": 28.214244672987192,
+        "widthMm": 111.41823818418715,
+        "heightMm": 14.17033445570204
+      },
+      "probeLibreOfficeGlyph": {
+        "xMm": 20.03777750862969,
+        "yMm": 129.42386152479384,
+        "widthMm": 111.25202309290567,
+        "heightMm": 14.173198191324868
+      }
+    },
+    {
+      "field": "name",
+      "webElement": {
+        "id": "name",
+        "xMm": 19.9891766372796,
+        "yMm": 150.27629093198993,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.99220717884131,
+        "text": "Lea Müller",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 16.5,
+        "weight": "700",
+        "lineHeight": "22.66px",
+        "tracking": "-0.33px",
+        "transform": "none",
+        "opacity": "1",
+        "color": "rgb(17, 17, 17)"
+      },
+      "actualWordGlyph": {
+        "xMm": 19.949583064185248,
+        "yMm": 45.38398691813151,
+        "widthMm": 29.91327021916707,
+        "heightMm": 6.490226152208116
+      },
+      "probeLibreOfficeGlyph": {
+        "xMm": 20.03777750862969,
+        "yMm": 150.5367201063368,
+        "widthMm": 29.837596543629964,
+        "heightMm": 6.496050516764323
+      }
+    },
+    {
+      "field": "lehrbeginn",
+      "webElement": {
+        "id": "lehrbeginn",
+        "xMm": 19.9891766372796,
+        "yMm": 161.1283847607053,
+        "widthMm": 149.94155384130983,
+        "heightMm": 5.83930258186398,
+        "text": "Lehrbeginn August 2027",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 12,
+        "weight": "400",
+        "lineHeight": "22.08px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      "actualWordGlyph": {
+        "xMm": 19.949583064185248,
+        "yMm": 59.35132450527615,
+        "widthMm": 49.41147175894843,
+        "heightMm": 4.720168389214409
+      },
+      "probeLibreOfficeGlyph": {
+        "xMm": 20.03777750862969,
+        "yMm": 161.33966751098632,
+        "widthMm": 49.322566763559976,
+        "heightMm": 4.724399397108289
+      }
+    },
+    {
+      "field": "kontakt",
+      "webElement": {
+        "id": "kontakt",
+        "xMm": 19.9891766372796,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 27.956745906801007,
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      },
+      "actualWordGlyph": {
+        "xMm": 19.949583064185248,
+        "yMm": 75.39301868014864,
+        "widthMm": 26.56081012090047,
+        "heightMm": 4.523491117689344
+      },
+      "probeLibreOfficeGlyph": {
+        "xMm": 20.03777750862969,
+        "yMm": 257.75472344292535,
+        "widthMm": 26.341734345753984,
+        "heightMm": 4.527544487847222
+      }
+    },
+    {
+      "field": "beilagen",
+      "webElement": {
+        "id": "beilagen",
+        "xMm": 109.95493545340051,
+        "yMm": 257.51613664987406,
+        "widthMm": 79.96910421914357,
+        "heightMm": 16.774047544080606,
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.85",
+        "color": "rgb(17, 17, 17)"
+      },
+      "actualWordGlyph": {
+        "xMm": 152.00489061143662,
+        "yMm": 116.34346915351018,
+        "widthMm": 38.18395267062717,
+        "heightMm": 4.523496500651041
+      },
+      "probeLibreOfficeGlyph": {
+        "xMm": 151.94139319525823,
+        "yMm": 257.75472344292535,
+        "widthMm": 38.07037217881944,
+        "heightMm": 4.527544487847222
+      }
+    },
+    {
+      "field": "ortDatum",
+      "webElement": {
+        "id": "ortDatum",
+        "xMm": 109.95493545340051,
+        "yMm": 19.489137279596978,
+        "widthMm": 79.96910421914357,
+        "heightMm": 5.591349181360202,
+        "text": "Hubersdorf, 15.11.2026",
+        "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+        "sizePt": 11.499975,
+        "weight": "400",
+        "lineHeight": "21.16px",
+        "tracking": "normal",
+        "transform": "none",
+        "opacity": "0.72",
+        "color": "rgb(17, 17, 17)"
+      },
+      "actualWordGlyph": {
+        "xMm": 147.40819659762911,
+        "yMm": 137.3407986111111,
+        "widthMm": 42.756164974636505,
+        "heightMm": 4.523496500651041
+      },
+      "probeLibreOfficeGlyph": {
+        "xMm": 147.42583118014863,
+        "yMm": 19.64734725952148,
+        "widthMm": 42.561409420437286,
+        "heightMm": 4.527549870808919
+      }
+    }
+  ],
+  "measurementCaveat": "Web element boxes and PDF glyph bounds differ; do not interpret submillimetre differences as exact parity.",
+  "all39PrototypeRun": false
+}

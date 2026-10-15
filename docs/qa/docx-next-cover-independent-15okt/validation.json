@@ -1,0 +1,18 @@
+{
+  "baseDev": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "status": "PARTIAL",
+  "docxTests": {
+    "pass": 359,
+    "fail": 0,
+    "assertions": 5720,
+    "files": 55
+  },
+  "typecheck": "PASS",
+  "changedTextFormatting": "PASS",
+  "productionSourceAndExistingTests": "IDENTICAL_TO_DEV",
+  "chromiumVersion": "143.0.7499.0",
+  "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "wordVisualAcceptance": "UNVERIFIED",
+  "all39TemplateAcceptance": "NOT_RUN",
+  "vercelExactBranchDeploymentEnabled": false
+}
