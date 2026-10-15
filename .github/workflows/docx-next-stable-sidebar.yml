@@ -3,7 +3,7 @@ name: DOCX Next Stable Sidebar
 on:
   workflow_dispatch:
   push:
-    branches: [dev, docx-next/integrate-39-templates]
+    branches: [dev, docx-next/integrate-39-templates, fix/docx-next-sidebar-geometry-gate-15okt]
     paths:
       - package.json
       - bun.lock
@@ -355,7 +355,7 @@ jobs:
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 
   app-body-content:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/fix/docx-next-sidebar-geometry-gate-15okt'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
@@ -405,6 +405,23 @@ jobs:
       - name: Measure exact save geometry separately and retain every outstanding counterexample
         timeout-minutes: 5
         run: python scripts/docx-next-sidebar-save-geometry-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+      - name: Require every exact geometry gate on the isolated decision branch
+        if: github.ref == 'refs/heads/fix/docx-next-sidebar-geometry-gate-15okt'
+        run: |
+          python - <<'PY'
+          import json, runpy
+          from pathlib import Path
+          import os
+          root = Path(os.environ['QA_ROOT']) / 'fixtures'
+          report = json.loads((root / 'app-save-geometry-report.json').read_text())
+          for case in report['cases']:
+              print(json.dumps({'fixture': case['fixture'],
+                  'phases': [{'phase': p['phase'], 'serializedRoot': p['serializedRoot'],
+                      'nativeWidthMm100': p['native']['widthMm100'],
+                      'nativeSeparators': p['native']['tableSeparators']} for p in case['phases']],
+                  'comparisons': case['comparisons']}), flush=True)
+          runpy.run_path('scripts/docx-next-sidebar-save-geometry-qa.py')['require_stable'](report)
+          PY
       - name: Retain actual app composition and outstanding geometry evidence
         if: always()
         uses: actions/upload-artifact@v4
