@@ -1,0 +1,350 @@
+{
+  "scope": "Brief only, seven controlled fixtures",
+  "engine": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "browser": "Chromium 143.0.7499.0",
+  "wordAcceptance": "UNVERIFIED",
+  "fullItem37": "PARTIAL",
+  "cases": [
+    {
+      "case": "normal",
+      "baselinePages": 4,
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webPixelsIdenticalToBase": null,
+      "browserActualFonts": {
+        "fonts": [
+          {
+            "familyName": "Liberation Sans",
+            "postScriptName": "LiberationSans-Bold",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "nativePdfFonts": [
+        "LiberationSans",
+        "LiberationSans-Bold"
+      ],
+      "webProfessionElementHeightMm": 15.992994332493703,
+      "nativeProfessionLines": [
+        "Informatiker/in EFZ"
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      },
+      "visualGate": "PARTIAL: measured composition checks pass; Word and thin outline remain",
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "case": "moved",
+      "baselinePages": 4,
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webPixelsIdenticalToBase": null,
+      "browserActualFonts": {
+        "fonts": [
+          {
+            "familyName": "Liberation Sans",
+            "postScriptName": "LiberationSans-Bold",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "nativePdfFonts": [
+        "LiberationSans",
+        "LiberationSans-Bold"
+      ],
+      "webProfessionElementHeightMm": 15.992994332493703,
+      "nativeProfessionLines": [
+        "Informatiker/in EFZ"
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0,
+          "beruf": 0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      },
+      "visualGate": "PARTIAL: measured composition checks pass; Word and thin outline remain",
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "case": "long",
+      "baselinePages": 4,
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webPixelsIdenticalToBase": null,
+      "browserActualFonts": {
+        "fonts": [
+          {
+            "familyName": "Liberation Sans",
+            "postScriptName": "LiberationSans-Bold",
+            "isCustomFont": true,
+            "glyphCount": 28
+          }
+        ]
+      },
+      "nativePdfFonts": [
+        "LiberationSans",
+        "LiberationSans-Bold"
+      ],
+      "webProfessionElementHeightMm": 31.985988664987406,
+      "nativeProfessionLines": [
+        "Fachmann/-frau ",
+        "Betreuung EFZ"
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 2,
+        "actualProfessionLines": 2,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": -0.003525624593097021
+      },
+      "visualGate": "PARTIAL: measured composition checks pass; Word and thin outline remain",
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "case": "scaled",
+      "baselinePages": 4,
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webPixelsIdenticalToBase": null,
+      "browserActualFonts": {
+        "fonts": [
+          {
+            "familyName": "Liberation Sans",
+            "postScriptName": "LiberationSans-Bold",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "nativePdfFonts": [
+        "LiberationSans",
+        "LiberationSans-Bold"
+      ],
+      "webProfessionElementHeightMm": 18.39400976070529,
+      "nativeProfessionLines": [
+        "Informatiker/in EFZ"
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      },
+      "visualGate": "PARTIAL: measured composition checks pass; Word and thin outline remain",
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "case": "photo-portrait",
+      "baselinePages": 4,
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webPixelsIdenticalToBase": null,
+      "browserActualFonts": {
+        "fonts": [
+          {
+            "familyName": "Liberation Sans",
+            "postScriptName": "LiberationSans-Bold",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "nativePdfFonts": [
+        "LiberationSans",
+        "LiberationSans-Bold"
+      ],
+      "webProfessionElementHeightMm": 15.992994332493703,
+      "nativeProfessionLines": [
+        "Informatiker/in EFZ"
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      },
+      "visualGate": "PARTIAL: measured composition checks pass; Word and thin outline remain",
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "case": "photo-circle",
+      "baselinePages": 4,
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webPixelsIdenticalToBase": null,
+      "browserActualFonts": {
+        "fonts": [
+          {
+            "familyName": "Liberation Sans",
+            "postScriptName": "LiberationSans-Bold",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "nativePdfFonts": [
+        "LiberationSans",
+        "LiberationSans-Bold"
+      ],
+      "webProfessionElementHeightMm": 15.992994332493703,
+      "nativeProfessionLines": [
+        "Informatiker/in EFZ"
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0,
+          "beilagenTitel": 0.0,
+          "beilagen": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      },
+      "visualGate": "PARTIAL: measured composition checks pass; Word and thin outline remain",
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "case": "hidden",
+      "baselinePages": 4,
+      "candidatePages": 4,
+      "missingCoverText": [],
+      "allCoverGlyphsWithinPage": true,
+      "neighborPopplerPixelsIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webPixelsIdenticalToBase": null,
+      "browserActualFonts": {
+        "fonts": [
+          {
+            "familyName": "Liberation Sans",
+            "postScriptName": "LiberationSans-Bold",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "nativePdfFonts": [
+        "LiberationSans",
+        "LiberationSans-Bold"
+      ],
+      "webProfessionElementHeightMm": 15.992994332493703,
+      "nativeProfessionLines": [
+        "Informatiker/in EFZ"
+      ],
+      "measuredComposition": {
+        "expectedProfessionLines": 1,
+        "actualProfessionLines": 1,
+        "frameVsResolverYDeltaMm": {
+          "eyebrow": 0.0,
+          "ortDatum": 0.0,
+          "beruf": 0,
+          "name": 0.0,
+          "lehrbeginn": 0.0,
+          "kontaktTitel": 0.0,
+          "kontakt": 0.0
+        },
+        "twoLineProfessionLeadingDeltaMm": null
+      },
+      "visualGate": "PARTIAL: measured composition checks pass; Word and thin outline remain",
+      "wordAcceptance": "UNVERIFIED"
+    }
+  ]
+}

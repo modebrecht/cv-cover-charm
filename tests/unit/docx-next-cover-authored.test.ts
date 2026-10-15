@@ -5,9 +5,108 @@ import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import { authoredCoverFixture, AUTHORED_COVER_CASES } from "../fixtures/docx-next/cover-authored";
 import { graphicCandidateFixture } from "../fixtures/docx-next/graphic-candidate";
+import captured from "../fixtures/docx-next/cover-text-metrics.json";
+import type { CoverTextMetrics } from "../../src/components/cover/text-metrics";
+import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
+import { paragraph } from "../../src/lib/docx-next/native-text";
 const option = { coverComposition: "authored-frames" as const };
 const find = (m: ReturnType<typeof buildDossierDocModel>, id: string) =>
   walkBlocks(m.cover.blocks).find((b) => b.id === id) as Paragraph;
+test("font-metric model construction does not read browser state or a clock", () => {
+  const result = Bun.spawnSync({
+    cmd: [
+      process.execPath,
+      "-e",
+      `
+    import { authoredCoverFixture } from "./tests/fixtures/docx-next/cover-authored.ts";
+    import captured from "./tests/fixtures/docx-next/cover-text-metrics.json";
+    const input=authoredCoverFixture("scaled");
+    const fail=()=>{throw Error("ambient state read during measured cover build")};
+    for(const key of ["window","document","localStorage","fetch","Blob"])Object.defineProperty(globalThis,key,{configurable:true,get:fail});
+    Date.now=fail;Math.random=fail;
+    const { buildDossierDocModel }=await import("./src/lib/docx-next/build-model.ts");
+    const options={coverComposition:"authored-frames",coverTextMetrics:captured.cases.scaled};
+    const model=JSON.stringify(buildDossierDocModel(input,options));
+    if(model!==JSON.stringify(buildDossierDocModel(structuredClone(input),structuredClone(options))))throw Error("Nondeterministic measured model");
+  `,
+    ],
+    cwd: process.cwd(),
+  });
+  expect(new TextDecoder().decode(result.stderr)).toBe("");
+  expect(result.exitCode).toBe(0);
+});
+test("captured font metrics remove the reproduced 115% name displacement without browser access", () => {
+  const input = authoredCoverFixture("scaled"),
+    metrics = captured.cases.scaled as CoverTextMetrics;
+  const before = JSON.stringify({ input, metrics });
+  const model = buildDossierDocModel(input, { ...option, coverTextMetrics: metrics });
+  const previous = buildDossierDocModel(input, option);
+  const frame = model.cover.blocks.find((b) => b.id === "cover.fullName.frame");
+  const old = previous.cover.blocks.find((b) => b.id === "cover.fullName.frame");
+  if (frame?.kind !== "paragraph-frame" || old?.kind !== "paragraph-frame")
+    throw Error("Missing name frame");
+  expect(frame.yMm).toBeCloseTo(152.33525, 5);
+  expect(old.yMm - frame.yMm).toBeCloseTo(15.33525, 5);
+  expect(find(model, "cover.profession").minimumLineHeightPt).toBeCloseTo(52.164, 5);
+  expect(model.letter).toEqual(previous.letter);
+  expect(model.cv).toEqual(previous.cv);
+  expect(JSON.stringify({ input, metrics })).toBe(before);
+  expect(
+    buildDossierDocModel(JSON.parse(JSON.stringify(input)), {
+      ...option,
+      coverTextMetrics: JSON.parse(JSON.stringify(metrics)),
+    }),
+  ).toEqual(model);
+});
+test("font packets reject stale authored data, missing measurements, invalid metrics and wrong composition", () => {
+  const input = authoredCoverFixture("scaled"),
+    metrics = captured.cases.scaled as CoverTextMetrics;
+  expect(() => buildDossierDocModel(input, { coverTextMetrics: metrics })).toThrow(
+    "require authored frame",
+  );
+  for (const change of [
+    (s: typeof input) => (s.cover.fontScale = 1),
+    (s: typeof input) => (s.cover.blocks.find((b) => b.id === "beruf")!.lines = ["Changed title"]),
+    (s: typeof input) => (s.cover.blocks.find((b) => b.id === "name")!.style.w = 70),
+  ]) {
+    const stale = structuredClone(input);
+    change(stale);
+    expect(() => buildDossierDocModel(stale, { ...option, coverTextMetrics: metrics })).toThrow(
+      "stale",
+    );
+  }
+  for (const patch of [
+    { sizePt: NaN },
+    { sizePt: 0 },
+    { sizePt: 100 },
+    { lines: 0 },
+    { lines: 1.5 },
+    { lines: 99 },
+  ]) {
+    const invalid = structuredClone(metrics);
+    Object.assign(invalid.blocks.beruf, patch);
+    expect(() => buildDossierDocModel(input, { ...option, coverTextMetrics: invalid })).toThrow();
+  }
+  const missing = structuredClone(metrics);
+  delete missing.blocks.beruf;
+  expect(() => buildDossierDocModel(input, { ...option, coverTextMetrics: missing })).toThrow(
+    "measurement",
+  );
+});
+test("minimum leading remains growing native paragraph spacing and does not change the legacy auto rule", () => {
+  const base = buildDossierDocModel(authoredCoverFixture(), option),
+    p = find(base, "cover.profession");
+  expect(paragraph(p)).toContain('w:line="302" w:lineRule="auto"');
+  expect(paragraph({ ...p, minimumLineHeightPt: 45.36 })).toContain(
+    'w:line="907" w:lineRule="atLeast"',
+  );
+  expect(paragraph({ ...p, minimumLineHeightPt: 45.36 })).not.toContain('w:lineRule="exact"');
+  for (const value of [0, -1, NaN, Infinity]) {
+    const invalid = structuredClone(base);
+    find(invalid, "cover.profession").minimumLineHeightPt = value;
+    expect(() => validateDossierDocModel(invalid)).toThrow("invalid paragraph geometry");
+  }
+});
 test("authored page uses shared visible labels and typography without altering authored text", () => {
   const input = authoredCoverFixture(),
     before = structuredClone(input),

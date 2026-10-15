@@ -1,6 +1,7 @@
 /* Actual product CoverCanvas from the exact package-equivalent snapshot. */
 const fs = require("node:fs");
 const path = require("node:path");
+const { createHash } = require("node:crypto");
 const { spawn } = require("node:child_process");
 const { chromium } = require(
   path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES, "playwright"),
@@ -43,6 +44,37 @@ const { chromium } = require(
       timeout: 60000,
     });
     await page.locator('main [data-dossier-document="cover"]').first().waitFor({ timeout: 45000 });
+    // QA-only availability profile. No application styles or saved font keys are changed.
+    let fontProfile = null;
+    if (process.env.DOCX_NEXT_MATCHED_FONT_DIR) {
+      const faces = ["Regular", "Bold", "Italic", "BoldItalic"].map((face) => {
+        const bytes = fs.readFileSync(
+          path.join(process.env.DOCX_NEXT_MATCHED_FONT_DIR, `LiberationSans-${face}.ttf`),
+        );
+        return {
+          face,
+          base64: bytes.toString("base64"),
+          sha256: createHash("sha256").update(bytes).digest("hex"),
+        };
+      });
+      await page.evaluate(async (faces) => {
+        for (const alias of ["Helvetica Neue", "Helvetica", "Arial"]) {
+          for (const face of faces) {
+            const font = new FontFace(alias, `url(data:font/ttf;base64,${face.base64})`, {
+              weight: face.face.includes("Bold") ? "700" : "400",
+              style: face.face.includes("Italic") ? "italic" : "normal",
+            });
+            document.fonts.add(await font.load());
+          }
+        }
+      }, faces);
+      fontProfile = {
+        purpose:
+          "Controlled Liberation Sans availability in Web and native supplementary renderer; not proof of the user's original Web font or Microsoft Word availability",
+        aliases: ["Helvetica Neue", "Helvetica", "Arial"],
+        faces: faces.map(({ base64, ...face }) => face),
+      };
+    }
     const measure = async (locator) =>
       locator.evaluate((root) => {
         const r = root.getBoundingClientRect(),
@@ -69,7 +101,7 @@ const { chromium } = require(
           };
         });
       });
-    for (const name of [
+    for (const name of process.env.DOCX_NEXT_COVER_CASES?.split(",") ?? [
       "normal",
       "moved",
       "long",
@@ -112,6 +144,26 @@ const { chromium } = require(
         animations: "disabled",
       });
       const exactFields = await measure(exact);
+      const { resolverPositions, textMetrics } = await page.evaluate(
+        async ({ input, profile }) => {
+          const [{ resolveLayout, captureCoverTextMetrics }, { normalizedCoverLabels }] =
+            await Promise.all([
+              import("/src/components/cover/resolve.ts"),
+              import("/src/components/cover/presentation.ts"),
+            ]);
+          const blocks = normalizedCoverLabels(input.cover.blocks, input.cover.data.labelKontakt);
+          return {
+            resolverPositions: resolveLayout(blocks, input.cover.fontScale),
+            textMetrics: captureCoverTextMetrics(blocks, input.cover.fontScale, profile),
+          };
+        },
+        {
+          input,
+          profile: fontProfile
+            ? "Liberation Sans / " + fontProfile.faces.map((f) => f.sha256).join("/")
+            : "Uncontrolled local font availability",
+        },
+      );
       const session = await page.context().newCDPSession(page);
       await session.send("DOM.enable");
       await session.send("CSS.enable");
@@ -128,6 +180,9 @@ const { chromium } = require(
             errors,
             exactFields,
             platformFonts,
+            resolverPositions,
+            textMetrics,
+            fontProfile,
             provenance:
               "Real CoverCanvas is mounted from the actual app module and receives unchanged snapshot props. Remote network fonts are blocked; local fonts/fallback apply. This is a controlled component reference, not a recovered original editor project or a successful live-editor restore test.",
           },

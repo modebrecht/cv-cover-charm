@@ -173,6 +173,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           ![block.beforeMm, block.afterMm, block.lineHeight].every(Number.isFinite) ||
           Math.min(block.beforeMm, block.afterMm) < 0 ||
           block.lineHeight <= 0 ||
+          (block.minimumLineHeightPt !== undefined &&
+            (!Number.isFinite(block.minimumLineHeightPt) || block.minimumLineHeightPt <= 0)) ||
           (block.indentMm !== undefined &&
             (!Number.isFinite(block.indentMm) ||
               block.indentMm < -margins.left ||

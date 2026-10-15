@@ -7,6 +7,7 @@ import type { DossierCoverSource } from "./source";
 import type { DocBlock, DocumentPart } from "./model";
 import { textElement, shapeElement } from "./elements";
 import { nativeTextHeightMm } from "./layouts";
+import { coverTextMetricsKey, type CoverTextMetrics } from "@/components/cover/text-metrics";
 
 type Context = Parameters<typeof textElement>[2];
 /** Guarded fixed-page composition using existing native paragraphs, images and paint.
@@ -16,10 +17,20 @@ export function composeAuthoredCover(
   cover: DossierCoverSource,
   page: DocumentPart["page"],
   context: Context,
+  fontMetrics?: CoverTextMetrics,
 ): DocBlock[] {
   if (!TEMPLATES.find((t) => t.id === cover.template)?.authoredCoverPresentation)
     throw Error("DOCX Next authored cover presentation is not declared for this template");
   const blocks = normalizedCoverLabels(cover.blocks, cover.data.labelKontakt);
+  if (
+    fontMetrics &&
+    (fontMetrics.version !== 1 ||
+      typeof fontMetrics.profile !== "string" ||
+      !fontMetrics.profile.trim() ||
+      !fontMetrics.blocks ||
+      fontMetrics.sourceKey !== coverTextMetricsKey(blocks, cover.fontScale))
+  )
+    throw Error("DOCX Next stale or invalid cover font metrics");
   const aliases: Record<string, string> = { name: "fullName", beruf: "profession", foto: "photo" };
   const key = (b: Block) => "cover." + (aliases[b.id] ?? b.id);
   const metrics = new Map<string, { size: number; height: number }>();
@@ -28,7 +39,23 @@ export function composeAuthoredCover(
       b.style.size *
       cover.fontScale *
       (b.id === "name" ? dossierNameScale(b.lines.map(lineText).join("\n")) : 1);
-    if (b.kind === "text" && b.style.maxLines) {
+    const measured = b.kind === "text" ? fontMetrics?.blocks[b.id] : undefined;
+    if (fontMetrics && b.kind === "text") {
+      if (
+        !measured ||
+        !Number.isFinite(measured.sizePt) ||
+        measured.sizePt <= 0 ||
+        measured.sizePt > size + 0.1 ||
+        measured.sizePt < size * 0.55 - 0.1 ||
+        !Number.isInteger(measured.lines) ||
+        measured.lines < (b.lines.length ? 1 : 0) ||
+        (!b.lines.length && measured.lines !== 0)
+      )
+        throw Error("DOCX Next invalid cover font measurement: " + b.id);
+      if (b.style.maxLines && measured.lines > b.style.maxLines)
+        throw Error("DOCX Next measured cover exceeds line budget: " + b.id);
+      size = measured.sizePt;
+    } else if (b.kind === "text" && b.style.maxLines) {
       const linesAt = (pt: number) =>
         b.lines.reduce(
           (n, line) =>
@@ -66,7 +93,9 @@ export function composeAuthoredCover(
         b.kind === "shape" || b.kind === "photo" || b.kind === "image"
           ? b.style.w * (b.style.ratio ?? 1)
           : b.lines.length
-            ? nativeTextHeightMm(paragraphs, b.style.w)
+            ? measured
+              ? (measured.lines * size * b.style.lineHeight * 25.4) / 72
+              : nativeTextHeightMm(paragraphs, b.style.w)
             : 0,
     });
   }
@@ -250,7 +279,17 @@ export function composeAuthoredCover(
       { ...context, fontScale: 1 },
       { beforeMm: 0, afterMm: 0, keepNext: false, keepLines: true },
     );
-    check(id, s.x, pos.y, s.w, nativeTextHeightMm(paragraphs, s.w));
+    const measured = fontMetrics?.blocks[b.id];
+    if (measured)
+      for (const p of paragraphs) {
+        if (p.runs.some((r) => r.style.sizePt !== pos.size))
+          throw Error("DOCX Next cover metrics do not include field size override: " + id);
+        p.minimumLineHeightPt = Math.max(...p.runs.map((r) => r.style.sizePt)) * p.lineHeight;
+      }
+    const height = measured
+      ? (measured.lines * pos.size * visual.style.lineHeight * 25.4) / 72
+      : nativeTextHeightMm(paragraphs, s.w);
+    check(id, s.x, pos.y, s.w, height);
     result.push({
       kind: "paragraph-frame",
       id: id + ".frame",

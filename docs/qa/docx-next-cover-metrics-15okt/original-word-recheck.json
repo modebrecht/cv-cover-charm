@@ -1,0 +1,22 @@
+{
+  "originalFilesRecovered": true,
+  "fileHashes": {
+    "app-body-photo-right.docx": "224d4a72efd800e5624bf0abcd88bcc4977d5dbc2127d050b31cb9b42bca85ae",
+    "saved2.pdf": "f78962b580152f79a5d2ddf7723847f2cb40b9ff4fca117386a1e609c5988ae2",
+    "saved1.pdf": "a5186aebe6477604724393788fde776dab206b3446595245c5cbd132778ad97f",
+    "saved2.docx": "340a4f64b714a62ad829ac8528e268eff9d022e09197a8fed81c84e27cfb429c",
+    "saved1.docx": "bdd0efb935ac2144a317f359503e5e1d344d7758b8f6e2b44c16a8451a64b97e"
+  },
+  "originalReconstructionByteIdentical": true,
+  "wordPdfPages": 3,
+  "wordSave1Save2RasterIdentical": [
+    true,
+    true,
+    true
+  ],
+  "coverPdfFonts": [
+    "Arial-BoldMT",
+    "ArialMT"
+  ],
+  "candidateWordAcceptance": "UNVERIFIED: supplied PDFs belong to original generator output, not the new candidate"
+}

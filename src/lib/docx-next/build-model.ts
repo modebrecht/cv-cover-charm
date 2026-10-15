@@ -36,6 +36,7 @@ import { nextTemplate } from "./templates";
 import { color, compositeTextColor } from "./colors";
 export { color } from "./colors";
 import { composeAuthoredCover } from "./cover-authored";
+import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin } from "./continuation-margin";
 import { composeCvSidebar } from "./cv-sidebar-composition";
@@ -69,6 +70,8 @@ const name = (first: string, last: string) => [first, last].filter(Boolean).join
 export type BuildModelOptions = {
   /** Guarded fixed-page candidate; not a production export switch. */
   coverComposition?: "authored-frames";
+  /** Diagnostic font measurements only; source/renderer never read live browser state. */
+  coverTextMetrics?: CoverTextMetrics;
   /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
   cvSidebarComposition?: "body-stories";
   /** Unaccepted native identity separation for first-page header/footer stories. */
@@ -81,6 +84,8 @@ export function buildDossierDocModel(
   options: BuildModelOptions = {},
 ): DossierDocModel {
   const { cover, letter, cv, settings } = input;
+  if (options.coverTextMetrics && options.coverComposition !== "authored-frames")
+    throw Error("DOCX Next cover metrics require authored frame composition");
   const cvVariant = cvWordLayout(settings.cvLayout);
   if (
     options.chromeFirstPageIdentity !== undefined &&
@@ -246,6 +251,7 @@ export function buildDossierDocModel(
           cover,
           coverPart.page,
           elementContext(cover.colors, theme.font, cover.fontScale),
+          options.coverTextMetrics,
         )
       : composeCover(
           cover,

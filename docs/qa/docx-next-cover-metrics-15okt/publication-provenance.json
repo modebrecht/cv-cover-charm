@@ -1,0 +1,16 @@
+{
+  "destination": "https://github.com/modebrecht/cv-cover-charm",
+  "destinationUserSpecified": true,
+  "branch": "investigate/docx-next-cover-fidelity-15okt",
+  "repositoryVisibility": "public",
+  "parent": "e51b1b739b003cc8149c0243674c020a5d5a8f42",
+  "fixtureSource": "Existing public DEMO authoredCoverFixture variations; byte-identical snapshots to preceding packet",
+  "imageSource": "Existing public synthetic red/blue chart",
+  "privateDataAdded": false,
+  "originalAttachmentsAdded": false,
+  "originalUserMetadataAdded": false,
+  "fontBinariesAdded": false,
+  "productionExportActivated": false,
+  "wordAcceptance": "UNVERIFIED",
+  "all39Acceptance": "NOT RUN"
+}

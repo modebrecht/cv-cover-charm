@@ -1,0 +1,2642 @@
+{
+  "version": 1,
+  "metadata": {
+    "title": "Bewerbungsdossier",
+    "author": "Lea Müller",
+    "subject": "",
+    "keywords": ""
+  },
+  "templateId": "brief",
+  "theme": {
+    "font": "Arial",
+    "ink": "111111",
+    "accent": "111111",
+    "paper": "FFFFFF"
+  },
+  "fonts": {
+    "embedding": "disabled",
+    "availability": "target-application",
+    "selections": [
+      {
+        "requested": "Arial",
+        "selected": "Arial",
+        "fallback": "Liberation Sans",
+        "reason": "requested"
+      },
+      {
+        "requested": "Trebuchet MS",
+        "selected": "Trebuchet MS",
+        "fallback": "Liberation Sans",
+        "reason": "requested"
+      }
+    ]
+  },
+  "cover": {
+    "id": "cover",
+    "blocks": [
+      {
+        "kind": "paragraph-frame",
+        "id": "cover.eyebrow.frame",
+        "xMm": 20,
+        "yMm": 19.5,
+        "widthMm": 80,
+        "paragraphs": [
+          {
+            "kind": "paragraph",
+            "id": "cover.eyebrow",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cover.eyebrow.line:0.run:0",
+                "fieldId": "cover.eyebrow",
+                "text": "Bewerbung",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 10.5,
+                  "color": "4A4A4A",
+                  "bold": true,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": true,
+                  "trackingPt": 0.8925000000000001
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 0,
+            "lineHeight": 1.12,
+            "keepNext": false,
+            "keepLines": true,
+            "minimumLineHeightPt": 11.760000000000002
+          }
+        ]
+      },
+      {
+        "kind": "paragraph-frame",
+        "id": "cover.ortDatum.frame",
+        "xMm": 110,
+        "yMm": 19.5,
+        "widthMm": 80,
+        "paragraphs": [
+          {
+            "kind": "paragraph",
+            "id": "cover.ortDatum",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cover.ortDatum.line:0.run:0",
+                "fieldId": "cover.ortDatum",
+                "text": "Hubersdorf, 15.11.2026",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 11.5,
+                  "color": "545454",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              }
+            ],
+            "align": "right",
+            "beforeMm": 0,
+            "afterMm": 0,
+            "lineHeight": 1.38,
+            "keepNext": false,
+            "keepLines": true,
+            "minimumLineHeightPt": 15.87
+          }
+        ]
+      },
+      {
+        "kind": "decorative-shape",
+        "id": "cover.photo.mat",
+        "semanticText": false,
+        "shape": "circle",
+        "xMm": 123.90625,
+        "yMm": 43.90625,
+        "widthMm": 42.1875,
+        "heightMm": 42.1875,
+        "radiusMm": 0,
+        "opacity": 1,
+        "fill": {
+          "color": "FFFFFF"
+        },
+        "stroke": {
+          "color": "111111",
+          "widthMm": 0.6
+        }
+      },
+      {
+        "kind": "image",
+        "id": "cover.photo",
+        "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAC0CAYAAABfTugdAAADsUlEQVR4AezTQW4UMRCF4VHOAbOF3IA7sIA1XJE1p0HsIrhFJ7GUXStqyy67/PuPNBNp1O3ye5/q4d/n+0H6PD3ej9fP/0/34/Xzlu3p8ePx+8v349vXX8f9x9/y+fDzz8t/9ufh5h+6AYHRvLebwALDG4DHc4MFhjcAj+cGC4xsYJtQbjCcWmCB4Q3A47nBAsMbgMdzgwWGNwCP5wbvBQxPu2E8NxiOLrDA8Abg8dxggeENwOO5wQLDG4DHc4MLMPdLYK5tSSZwqYH7JTDXtiQTuNTA/RKYa1uSCVxq4H4JzLUtyQQuNXC/3gfm5t4mmcBwaoEFhjcAj+cGCwxvAB7PDRYY3gA8nht8Bgz6TWAQ5lkUgc9aAf0mMAjzLIrAZ62AfhMYhHkWReCzVkC/CQzCPIsi8FkroN+qgEG5t4kiMJxaYIHhDcDjucECwxuAx3ODBYY3AI/nBl8AXvkRgVfWu3B3gS+UtPIjAq+sd+HuAl8oaeVHBF5Z78LdBb5Q0sqPCLyy3oW7C3yhpJUfaQFeOfc2dxcYTi2wwPAG4PHcYIHhDcDjucECwxuAx3OD64GXekPgpbjqLytwfWdLvSHwUlz1lxW4vrOl3hB4Ka76ywpc39lSbwi8FFf9ZQWu72ypNzoCL5V7m8sKDKcWWGB4A/B4brDA8Abg8dxggeENwOO5wc3AuQ8QOLdP8+0Ebq4w9wEC5/Zpvp3AzRXmPkDg3D7NtxO4ucLcBwic26f5dgI3V5j7gDjg3Lm3uZ3AcGqBBYY3AI/nBgsMbwAezw0WGN4APJ4b3Bs42XkCJwPpfR2Bezea7DyBk4H0vo7AvRtNdp7AyUB6X0fg3o0mO0/gZCC9ryNw70aTnTcMOFnuba4jMJxaYIHhDcDjucECwxuAx3ODBYY3AI/nBgcDzz5e4NkCwfMFDi549vECzxYIni9wcMGzjxd4tkDwfIGDC559vMCzBYLnCxxc8OzjZwHPzr3NfIHh1AILDG8AHs8NFhjeADyeGywwvAF4PDd4LPDwaQIPr3zsQIHH9j18msDDKx87UOCxfQ+fJvDwyscOFHhs38OnCTy88rEDBR7b9/BpSYCH595moMBwaoEFhjcAj+cGCwxvAB7PDRYY3gA8nhs8FTh+uMDxHU+dIPDU+uOHCxzf8dQJAk+tP364wPEdT50g8NT644cLHN/x1AkCT60/fnhO4Pjc20wQGE4tsMDwBuDx3GCB4Q3A47nBAsMbgMdzgzMBB9xF4IBSMx35DAAA///hPgD5AAAABklEQVQDAGw4Dz6rE5aZAAAAAElFTkSuQmCC",
+        "alt": "Foto",
+        "widthMm": 40,
+        "maxHeightMm": 40,
+        "placement": "free",
+        "coordinateOrigin": "page",
+        "xMm": 125,
+        "yMm": 45,
+        "gapMm": 0,
+        "opacity": 1,
+        "frame": {
+          "heightRatio": 1,
+          "radiusMm": 999,
+          "zoom": 1.3,
+          "xPct": 30,
+          "yPct": 65,
+          "borderWidthMm": 0,
+          "borderColor": "111111"
+        }
+      },
+      {
+        "kind": "paragraph-frame",
+        "id": "cover.profession.frame",
+        "xMm": 20,
+        "yMm": 129,
+        "widthMm": 155,
+        "paragraphs": [
+          {
+            "kind": "paragraph",
+            "id": "cover.profession",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cover.profession.line:0.run:0",
+                "fieldId": "cover.profession",
+                "text": "Informatiker/in EFZ",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 36,
+                  "color": "111111",
+                  "bold": true,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0.18
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 0,
+            "lineHeight": 1.26,
+            "keepNext": false,
+            "keepLines": true,
+            "minimumLineHeightPt": 45.36
+          }
+        ]
+      },
+      {
+        "kind": "paragraph-frame",
+        "id": "cover.fullName.frame",
+        "xMm": 20,
+        "yMm": 150.335,
+        "widthMm": 150,
+        "paragraphs": [
+          {
+            "kind": "paragraph",
+            "id": "cover.fullName",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cover.fullName.line:0.run:0",
+                "fieldId": "cover.fullName",
+                "text": "Lea Müller",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 16.5,
+                  "color": "111111",
+                  "bold": true,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": -0.2475
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 0,
+            "lineHeight": 1.03,
+            "keepNext": false,
+            "keepLines": true,
+            "minimumLineHeightPt": 16.995
+          }
+        ]
+      },
+      {
+        "kind": "paragraph-frame",
+        "id": "cover.lehrbeginn.frame",
+        "xMm": 20,
+        "yMm": 161.193125,
+        "widthMm": 150,
+        "paragraphs": [
+          {
+            "kind": "paragraph",
+            "id": "cover.lehrbeginn",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cover.lehrbeginn.line:0.run:0",
+                "fieldId": "cover.lehrbeginn",
+                "text": "Lehrbeginn August 2027",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 12,
+                  "color": "545454",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 0,
+            "lineHeight": 1.38,
+            "keepNext": false,
+            "keepLines": true,
+            "minimumLineHeightPt": 16.56
+          }
+        ]
+      },
+      {
+        "kind": "paragraph-frame",
+        "id": "cover.kontaktTitel.frame",
+        "xMm": 20,
+        "yMm": 251.35312500000003,
+        "widthMm": 80,
+        "paragraphs": [
+          {
+            "kind": "paragraph",
+            "id": "cover.kontaktTitel",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cover.kontaktTitel.line:0.run:0",
+                "fieldId": "cover.kontaktTitel",
+                "text": "Kontakt",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 10,
+                  "color": "4A4A4A",
+                  "bold": true,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": true,
+                  "trackingPt": 0
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 0,
+            "lineHeight": 1.12,
+            "keepNext": false,
+            "keepLines": true,
+            "minimumLineHeightPt": 11.200000000000001
+          }
+        ]
+      },
+      {
+        "kind": "paragraph-frame",
+        "id": "cover.kontakt.frame",
+        "xMm": 20,
+        "yMm": 257.615625,
+        "widthMm": 80,
+        "paragraphs": [
+          {
+            "kind": "paragraph",
+            "id": "cover.kontakt",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cover.kontakt.line:0.run:0",
+                "fieldId": "cover.kontakt",
+                "text": "Dorfstrasse 12",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 11.5,
+                  "color": "353535",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              },
+              {
+                "id": "cover.kontakt.line:1.run:0",
+                "fieldId": "cover.kontakt",
+                "text": "\n4535 Hubersdorf",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 11.5,
+                  "color": "353535",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              },
+              {
+                "id": "cover.kontakt.line:2.run:0",
+                "fieldId": "cover.kontakt",
+                "text": "\n079 123 45 67",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 11.5,
+                  "color": "353535",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              },
+              {
+                "id": "cover.kontakt.line:3.run:0",
+                "fieldId": "cover.kontakt",
+                "text": "\nlea.mueller@example.ch",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 11.5,
+                  "color": "353535",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              },
+              {
+                "id": "cover.kontakt.line:4.run:0",
+                "fieldId": "cover.kontakt",
+                "text": "\n14.03.2010",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 11.5,
+                  "color": "353535",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 0,
+            "lineHeight": 1.38,
+            "keepNext": false,
+            "keepLines": true,
+            "minimumLineHeightPt": 15.87
+          }
+        ]
+      },
+      {
+        "kind": "paragraph-frame",
+        "id": "cover.beilagenTitel.frame",
+        "xMm": 110,
+        "yMm": 251.35312500000003,
+        "widthMm": 80,
+        "paragraphs": [
+          {
+            "kind": "paragraph",
+            "id": "cover.beilagenTitel",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cover.beilagenTitel.line:0.run:0",
+                "fieldId": "cover.beilagenTitel",
+                "text": "Beilagen",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 10,
+                  "color": "4A4A4A",
+                  "bold": true,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": true,
+                  "trackingPt": 0
+                }
+              }
+            ],
+            "align": "right",
+            "beforeMm": 0,
+            "afterMm": 0,
+            "lineHeight": 1.12,
+            "keepNext": false,
+            "keepLines": true,
+            "minimumLineHeightPt": 11.200000000000001
+          }
+        ]
+      },
+      {
+        "kind": "paragraph-frame",
+        "id": "cover.beilagen.frame",
+        "xMm": 110,
+        "yMm": 257.615625,
+        "widthMm": 80,
+        "paragraphs": [
+          {
+            "kind": "paragraph",
+            "id": "cover.beilagen",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cover.beilagen.line:0.run:0",
+                "fieldId": "cover.beilagen",
+                "text": "Motivationsschreiben",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 11.5,
+                  "color": "353535",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              },
+              {
+                "id": "cover.beilagen.line:1.run:0",
+                "fieldId": "cover.beilagen",
+                "text": "\nLebenslauf",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 11.5,
+                  "color": "353535",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              },
+              {
+                "id": "cover.beilagen.line:2.run:0",
+                "fieldId": "cover.beilagen",
+                "text": "\nZeugnis",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 11.5,
+                  "color": "353535",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false,
+                  "allCaps": false,
+                  "trackingPt": 0
+                }
+              }
+            ],
+            "align": "right",
+            "beforeMm": 0,
+            "afterMm": 0,
+            "lineHeight": 1.38,
+            "keepNext": false,
+            "keepLines": true,
+            "minimumLineHeightPt": 15.87
+          }
+        ]
+      }
+    ],
+    "page": {
+      "widthMm": 210,
+      "heightMm": 297,
+      "margins": {
+        "top": 20,
+        "right": 20,
+        "bottom": 18,
+        "left": 20
+      },
+      "headerDistanceMm": 16,
+      "footerDistanceMm": 12
+    },
+    "artwork": [],
+    "header": [],
+    "footer": [],
+    "chrome": {
+      "borderWidthMm": 0
+    },
+    "layout": {
+      "mode": "classic",
+      "side": "left",
+      "sidebarFraction": 0.3
+    }
+  },
+  "letter": {
+    "id": "letter",
+    "blocks": [
+      {
+        "kind": "paragraph",
+        "id": "letter.sender.name",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.sender.name.value",
+            "fieldId": "letter.sender.name",
+            "text": "Lea Müller",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 0.5,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.sender.address",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.sender.address.value",
+            "fieldId": "letter.sender.address",
+            "text": "Dorfstrasse 12",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 0.5,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.sender.place",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.sender.place.value",
+            "fieldId": "letter.sender.place",
+            "text": "4535 Hubersdorf",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 0.5,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.sender.phone",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.sender.phone.value",
+            "fieldId": "letter.sender.phone",
+            "text": "079 123 45 67",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 0.5,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.sender.email",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.sender.email.value",
+            "fieldId": "letter.sender.email",
+            "text": "lea.mueller@example.ch",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 5,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.recipient.company",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.recipient.company.value",
+            "fieldId": "letter.recipient.company",
+            "text": "Beispiel AG",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 0.5,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.recipient.name",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.recipient.name.value",
+            "fieldId": "letter.recipient.name",
+            "text": "Herr Thomas Weber",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 0.5,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.recipient.address",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.recipient.address.value",
+            "fieldId": "letter.recipient.address",
+            "text": "Industriestrasse 8",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 0.5,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.recipient.place",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.recipient.place.value",
+            "fieldId": "letter.recipient.place",
+            "text": "4535 Hubersdorf",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 5,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.date",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.date.place.value",
+            "fieldId": "letter.date.place",
+            "text": "Hubersdorf",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          },
+          {
+            "id": "letter.date.separator:1",
+            "text": ", ",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          },
+          {
+            "id": "letter.date.value.value",
+            "fieldId": "letter.date.value",
+            "text": "15.11.2026",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 5,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.subject",
+        "role": "heading",
+        "runs": [
+          {
+            "id": "letter.subject.value",
+            "fieldId": "letter.subject",
+            "text": "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": true,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 5,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.salutation",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.salutation.value",
+            "fieldId": "letter.salutation",
+            "text": "Guten Tag Herr Weber",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 3,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.body.paragraph:0",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.body.paragraph:0.run:0",
+            "text": "Die Informatik begeistert mich, weil ich gerne logisch denke, Probleme löse und Neues ausprobiere. Deshalb bewerbe ich mich mit grossem Interesse um die Lehrstelle als Informatikerin EFZ bei der Beispiel AG.",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "justify",
+        "beforeMm": 0,
+        "afterMm": 3,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.body.paragraph:1",
+        "role": "body",
+        "runs": [],
+        "align": "justify",
+        "beforeMm": 0,
+        "afterMm": 3,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.body.paragraph:2",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.body.paragraph:2.run:0",
+            "text": "In der Schule arbeite ich besonders gerne an Aufgaben, bei denen ich selbstständig Lösungen entwickeln kann. Ich bin zuverlässig, lerne schnell und arbeite gerne im Team.",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "justify",
+        "beforeMm": 0,
+        "afterMm": 3,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.body.paragraph:3",
+        "role": "body",
+        "runs": [],
+        "align": "justify",
+        "beforeMm": 0,
+        "afterMm": 3,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.body.paragraph:4",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.body.paragraph:4.run:0",
+            "text": "Gerne möchte ich Ihr Unternehmen und den Beruf bei einem persönlichen Gespräch oder einer Schnupperlehre näher kennenlernen. Ich freue mich über Ihre Rückmeldung.",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "justify",
+        "beforeMm": 0,
+        "afterMm": 3,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.closing",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.closing.value",
+            "fieldId": "letter.closing",
+            "text": "Freundliche Grüsse",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 4,
+        "afterMm": 1.5,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.signature",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.signature.value",
+            "fieldId": "letter.signature",
+            "text": "Lea Müller",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 10.5,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 1,
+        "afterMm": 5,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.attachment:0",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.attachment:0.value",
+            "fieldId": "letter.attachment:0",
+            "text": "Lebenslauf",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 9,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 1.5,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      },
+      {
+        "kind": "paragraph",
+        "id": "letter.attachment:1",
+        "role": "body",
+        "runs": [
+          {
+            "id": "letter.attachment:1.value",
+            "fieldId": "letter.attachment:1",
+            "text": "Zeugnis",
+            "style": {
+              "font": "Trebuchet MS",
+              "sizePt": 9,
+              "color": "111111",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 1.5,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false
+      }
+    ],
+    "page": {
+      "widthMm": 210,
+      "heightMm": 297,
+      "margins": {
+        "top": 20,
+        "right": 20,
+        "bottom": 18,
+        "left": 20
+      },
+      "headerDistanceMm": 16,
+      "footerDistanceMm": 12
+    },
+    "artwork": [],
+    "header": [],
+    "footer": [],
+    "chrome": {
+      "borderWidthMm": 0
+    },
+    "layout": {
+      "mode": "classic",
+      "side": "left",
+      "sidebarFraction": 0.3
+    }
+  },
+  "cv": {
+    "id": "cv",
+    "blocks": [
+      {
+        "kind": "paragraph",
+        "id": "cv.documentTitle",
+        "role": "title",
+        "runs": [
+          {
+            "id": "cv.documentTitle.value",
+            "fieldId": "cv.documentTitle",
+            "text": "Lebenslauf",
+            "style": {
+              "font": "Arial",
+              "sizePt": 13.5,
+              "color": "244A61",
+              "bold": true,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 2.6458333333333335,
+        "lineHeight": 1.2,
+        "keepNext": true,
+        "keepLines": false,
+        "indentMm": 0
+      },
+      {
+        "kind": "paragraph",
+        "id": "cv.person.name",
+        "role": "heading",
+        "runs": [
+          {
+            "id": "cv.person.firstName.value",
+            "fieldId": "cv.person.firstName",
+            "text": "Lea",
+            "style": {
+              "font": "Arial",
+              "sizePt": 24,
+              "color": "111111",
+              "bold": true,
+              "italic": false,
+              "underline": false
+            }
+          },
+          {
+            "id": "cv.person.name.separator:1",
+            "text": " ",
+            "style": {
+              "font": "Arial",
+              "sizePt": 24,
+              "color": "111111",
+              "bold": true,
+              "italic": false,
+              "underline": false
+            }
+          },
+          {
+            "id": "cv.person.lastName.value",
+            "fieldId": "cv.person.lastName",
+            "text": "Müller",
+            "style": {
+              "font": "Arial",
+              "sizePt": 24,
+              "color": "111111",
+              "bold": true,
+              "italic": false,
+              "underline": false
+            }
+          }
+        ],
+        "align": "left",
+        "beforeMm": 0,
+        "afterMm": 1.5,
+        "lineHeight": 1.2,
+        "keepNext": false,
+        "keepLines": false,
+        "indentMm": 0
+      },
+      {
+        "kind": "section",
+        "id": "cv.section.person",
+        "heading": {
+          "kind": "paragraph",
+          "id": "cv.section.person.heading",
+          "role": "heading",
+          "runs": [
+            {
+              "id": "cv.section.person.heading.value",
+              "fieldId": "cv.section.person.heading",
+              "text": "Kontakt",
+              "style": {
+                "font": "Arial",
+                "sizePt": 12,
+                "color": "244A61",
+                "bold": true,
+                "italic": false,
+                "underline": false
+              }
+            }
+          ],
+          "align": "left",
+          "beforeMm": 4,
+          "afterMm": 1.852083333333333,
+          "lineHeight": 1.2,
+          "keepNext": true,
+          "keepLines": true,
+          "ruleColor": "244A61",
+          "indentMm": 0
+        },
+        "blocks": [
+          {
+            "kind": "table",
+            "id": "cv.person.contact",
+            "widths": [
+              1,
+              1
+            ],
+            "rows": [
+              {
+                "cells": [
+                  [
+                    {
+                      "kind": "paragraph",
+                      "id": "cv.person.address",
+                      "role": "body",
+                      "runs": [
+                        {
+                          "id": "cv.person.address.value",
+                          "fieldId": "cv.person.address",
+                          "text": "Dorfstrasse 12",
+                          "style": {
+                            "font": "Arial",
+                            "sizePt": 10.5,
+                            "color": "111111",
+                            "bold": false,
+                            "italic": false,
+                            "underline": false
+                          }
+                        }
+                      ],
+                      "align": "left",
+                      "beforeMm": 0,
+                      "afterMm": 1.5,
+                      "lineHeight": 1.2,
+                      "keepNext": false,
+                      "keepLines": false
+                    }
+                  ],
+                  [
+                    {
+                      "kind": "paragraph",
+                      "id": "cv.person.place",
+                      "role": "body",
+                      "runs": [
+                        {
+                          "id": "cv.person.place.value",
+                          "fieldId": "cv.person.place",
+                          "text": "4535 Hubersdorf",
+                          "style": {
+                            "font": "Arial",
+                            "sizePt": 10.5,
+                            "color": "111111",
+                            "bold": false,
+                            "italic": false,
+                            "underline": false
+                          }
+                        }
+                      ],
+                      "align": "left",
+                      "beforeMm": 0,
+                      "afterMm": 1.5,
+                      "lineHeight": 1.2,
+                      "keepNext": false,
+                      "keepLines": false
+                    }
+                  ]
+                ],
+                "keepTogether": false
+              },
+              {
+                "cells": [
+                  [
+                    {
+                      "kind": "paragraph",
+                      "id": "cv.person.phone",
+                      "role": "body",
+                      "runs": [
+                        {
+                          "id": "cv.person.phone.value",
+                          "fieldId": "cv.person.phone",
+                          "text": "079 123 45 67",
+                          "style": {
+                            "font": "Arial",
+                            "sizePt": 10.5,
+                            "color": "111111",
+                            "bold": false,
+                            "italic": false,
+                            "underline": false
+                          }
+                        }
+                      ],
+                      "align": "left",
+                      "beforeMm": 0,
+                      "afterMm": 1.5,
+                      "lineHeight": 1.2,
+                      "keepNext": false,
+                      "keepLines": false
+                    }
+                  ],
+                  [
+                    {
+                      "kind": "paragraph",
+                      "id": "cv.person.email",
+                      "role": "body",
+                      "runs": [
+                        {
+                          "id": "cv.person.email.value",
+                          "fieldId": "cv.person.email",
+                          "text": "lea.mueller@example.ch",
+                          "style": {
+                            "font": "Arial",
+                            "sizePt": 10.5,
+                            "color": "111111",
+                            "bold": false,
+                            "italic": false,
+                            "underline": false
+                          }
+                        }
+                      ],
+                      "align": "left",
+                      "beforeMm": 0,
+                      "afterMm": 1.5,
+                      "lineHeight": 1.2,
+                      "keepNext": false,
+                      "keepLines": false
+                    }
+                  ]
+                ],
+                "keepTogether": false
+              }
+            ],
+            "decoration": {
+              "borderColor": "244A61",
+              "borderWidthMm": 0,
+              "paddingXMm": 1.25,
+              "paddingYMm": 0
+            }
+          },
+          {
+            "kind": "table",
+            "id": "cv.person.details",
+            "widths": [
+              0.3,
+              0.7
+            ],
+            "rows": [
+              {
+                "cells": [
+                  [
+                    {
+                      "kind": "paragraph",
+                      "id": "cv.person.geburtsdatum.label",
+                      "role": "body",
+                      "runs": [
+                        {
+                          "id": "cv.person.geburtsdatum.label.value",
+                          "fieldId": "cv.person.geburtsdatum.label",
+                          "text": "Geburtsdatum:",
+                          "style": {
+                            "font": "Arial",
+                            "sizePt": 10.5,
+                            "color": "111111",
+                            "bold": false,
+                            "italic": false,
+                            "underline": false
+                          }
+                        }
+                      ],
+                      "align": "left",
+                      "beforeMm": 0,
+                      "afterMm": 1.5,
+                      "lineHeight": 1.2,
+                      "keepNext": false,
+                      "keepLines": false
+                    }
+                  ],
+                  [
+                    {
+                      "kind": "paragraph",
+                      "id": "cv.person.geburtsdatum",
+                      "role": "body",
+                      "runs": [
+                        {
+                          "id": "cv.person.geburtsdatum.value",
+                          "fieldId": "cv.person.geburtsdatum",
+                          "text": "14.03.2010",
+                          "style": {
+                            "font": "Arial",
+                            "sizePt": 10.5,
+                            "color": "111111",
+                            "bold": false,
+                            "italic": false,
+                            "underline": false
+                          }
+                        }
+                      ],
+                      "align": "left",
+                      "beforeMm": 0,
+                      "afterMm": 1.5,
+                      "lineHeight": 1.2,
+                      "keepNext": false,
+                      "keepLines": false
+                    }
+                  ]
+                ],
+                "keepTogether": false
+              }
+            ],
+            "decoration": {
+              "borderColor": "244A61",
+              "borderWidthMm": 0,
+              "paddingXMm": 1.25,
+              "paddingYMm": 0
+            }
+          }
+        ],
+        "placement": "main",
+        "width": "full",
+        "startPage": 1,
+        "contentIndentMm": 0
+      },
+      {
+        "kind": "section",
+        "id": "cv.section.custom:familie",
+        "heading": {
+          "kind": "paragraph",
+          "id": "cv.section.custom:familie.heading",
+          "role": "heading",
+          "runs": [
+            {
+              "id": "cv.section.custom:familie.heading.value",
+              "fieldId": "cv.section.custom:familie.heading",
+              "text": "Familie",
+              "style": {
+                "font": "Arial",
+                "sizePt": 12,
+                "color": "244A61",
+                "bold": true,
+                "italic": false,
+                "underline": false
+              }
+            }
+          ],
+          "align": "left",
+          "beforeMm": 4,
+          "afterMm": 1.852083333333333,
+          "lineHeight": 1.2,
+          "keepNext": true,
+          "keepLines": true,
+          "ruleColor": "244A61",
+          "indentMm": 0
+        },
+        "blocks": [
+          {
+            "kind": "entry",
+            "id": "cv.entry.custom:familie:demo-familie",
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.custom:familie:demo-familie.place",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.custom:familie:demo-familie.place.value",
+                    "fieldId": "cv.entry.custom:familie:demo-familie.place",
+                    "text": "Sohn von Monika Müller, Detailhandelsfachfrau und Peter Müller, Maurer",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.custom:familie:demo-familie.description",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.custom:familie:demo-familie.description.value",
+                    "fieldId": "cv.entry.custom:familie:demo-familie.description",
+                    "text": "Bruder von Aline, 2004, Medizinische Praxisassistentin und Jaro, 2015, Schüler",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 3,
+                "lineHeight": 1.2,
+                "keepNext": false,
+                "keepLines": false
+              }
+            ]
+          }
+        ],
+        "placement": "main",
+        "width": "full",
+        "startPage": 1,
+        "contentIndentMm": 0
+      },
+      {
+        "kind": "section",
+        "id": "cv.section.schule",
+        "heading": {
+          "kind": "paragraph",
+          "id": "cv.section.schule.heading",
+          "role": "heading",
+          "runs": [
+            {
+              "id": "cv.section.schule.heading.value",
+              "fieldId": "cv.section.schule.heading",
+              "text": "Schulbildung",
+              "style": {
+                "font": "Arial",
+                "sizePt": 12,
+                "color": "244A61",
+                "bold": true,
+                "italic": false,
+                "underline": false
+              }
+            }
+          ],
+          "align": "left",
+          "beforeMm": 4,
+          "afterMm": 1.852083333333333,
+          "lineHeight": 1.2,
+          "keepNext": true,
+          "keepLines": true,
+          "ruleColor": "244A61",
+          "indentMm": 0
+        },
+        "blocks": [
+          {
+            "kind": "entry",
+            "id": "cv.entry.schule:demo-s1",
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.schule:demo-s1.date",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.schule:demo-s1.date.value",
+                    "fieldId": "cv.entry.schule:demo-s1.date",
+                    "text": "2023 – heute",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": true,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.schule:demo-s1.title",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.schule:demo-s1.title.value",
+                    "fieldId": "cv.entry.schule:demo-s1.title",
+                    "text": "Sekundarschule, Niveau A",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.schule:demo-s1.place",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.schule:demo-s1.place.value",
+                    "fieldId": "cv.entry.schule:demo-s1.place",
+                    "text": "Schulhaus Zentrum, Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.schule:demo-s1.description",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.schule:demo-s1.description.value",
+                    "fieldId": "cv.entry.schule:demo-s1.description",
+                    "text": "Schwerpunkt Mathematik und Informatik",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 3,
+                "lineHeight": 1.2,
+                "keepNext": false,
+                "keepLines": false
+              }
+            ]
+          },
+          {
+            "kind": "entry",
+            "id": "cv.entry.schule:demo-s2",
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.schule:demo-s2.date",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.schule:demo-s2.date.value",
+                    "fieldId": "cv.entry.schule:demo-s2.date",
+                    "text": "2017 – 2023",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": true,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.schule:demo-s2.title",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.schule:demo-s2.title.value",
+                    "fieldId": "cv.entry.schule:demo-s2.title",
+                    "text": "Primarschule",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.schule:demo-s2.place",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.schule:demo-s2.place.value",
+                    "fieldId": "cv.entry.schule:demo-s2.place",
+                    "text": "Primarschule Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 3,
+                "lineHeight": 1.2,
+                "keepNext": false,
+                "keepLines": false
+              }
+            ]
+          }
+        ],
+        "placement": "main",
+        "width": "full",
+        "startPage": 1,
+        "contentIndentMm": 0
+      },
+      {
+        "kind": "section",
+        "id": "cv.section.erfahrung",
+        "heading": {
+          "kind": "paragraph",
+          "id": "cv.section.erfahrung.heading",
+          "role": "heading",
+          "runs": [
+            {
+              "id": "cv.section.erfahrung.heading.value",
+              "fieldId": "cv.section.erfahrung.heading",
+              "text": "Praktika & Schnuppertage",
+              "style": {
+                "font": "Arial",
+                "sizePt": 12,
+                "color": "244A61",
+                "bold": true,
+                "italic": false,
+                "underline": false
+              }
+            }
+          ],
+          "align": "left",
+          "beforeMm": 4,
+          "afterMm": 1.852083333333333,
+          "lineHeight": 1.2,
+          "keepNext": true,
+          "keepLines": true,
+          "ruleColor": "244A61",
+          "indentMm": 0
+        },
+        "blocks": [
+          {
+            "kind": "entry",
+            "id": "cv.entry.erfahrung:demo-p1",
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.erfahrung:demo-p1.date",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.erfahrung:demo-p1.date.value",
+                    "fieldId": "cv.entry.erfahrung:demo-p1.date",
+                    "text": "Sept. 2026",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": true,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.erfahrung:demo-p1.title",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.erfahrung:demo-p1.title.value",
+                    "fieldId": "cv.entry.erfahrung:demo-p1.title",
+                    "text": "Schnupperlehre Informatik",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.erfahrung:demo-p1.place",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.erfahrung:demo-p1.place.value",
+                    "fieldId": "cv.entry.erfahrung:demo-p1.place",
+                    "text": "Beispiel AG, Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.erfahrung:demo-p1.description",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.erfahrung:demo-p1.description.value",
+                    "fieldId": "cv.entry.erfahrung:demo-p1.description",
+                    "text": "Support, kleine Automatisierungen mit Python",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 3,
+                "lineHeight": 1.2,
+                "keepNext": false,
+                "keepLines": false
+              }
+            ]
+          },
+          {
+            "kind": "entry",
+            "id": "cv.entry.erfahrung:demo-p2",
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.erfahrung:demo-p2.date",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.erfahrung:demo-p2.date.value",
+                    "fieldId": "cv.entry.erfahrung:demo-p2.date",
+                    "text": "März 2026",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": true,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.erfahrung:demo-p2.title",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.erfahrung:demo-p2.title.value",
+                    "fieldId": "cv.entry.erfahrung:demo-p2.title",
+                    "text": "Schnupperlehre Mediamatik",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.erfahrung:demo-p2.place",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.erfahrung:demo-p2.place.value",
+                    "fieldId": "cv.entry.erfahrung:demo-p2.place",
+                    "text": "Muster GmbH, Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.erfahrung:demo-p2.description",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.erfahrung:demo-p2.description.value",
+                    "fieldId": "cv.entry.erfahrung:demo-p2.description",
+                    "text": "Website-Pflege, Bildbearbeitung",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 3,
+                "lineHeight": 1.2,
+                "keepNext": false,
+                "keepLines": false
+              }
+            ]
+          }
+        ],
+        "placement": "main",
+        "width": "full",
+        "startPage": 1,
+        "contentIndentMm": 0
+      },
+      {
+        "kind": "section",
+        "id": "cv.section.sprachen",
+        "heading": {
+          "kind": "paragraph",
+          "id": "cv.section.sprachen.heading",
+          "role": "heading",
+          "runs": [
+            {
+              "id": "cv.section.sprachen.heading.value",
+              "fieldId": "cv.section.sprachen.heading",
+              "text": "Sprachen",
+              "style": {
+                "font": "Arial",
+                "sizePt": 12,
+                "color": "244A61",
+                "bold": true,
+                "italic": false,
+                "underline": false
+              }
+            }
+          ],
+          "align": "left",
+          "beforeMm": 4,
+          "afterMm": 1.852083333333333,
+          "lineHeight": 1.2,
+          "keepNext": true,
+          "keepLines": true,
+          "ruleColor": "244A61",
+          "indentMm": 0
+        },
+        "blocks": [
+          {
+            "kind": "entry",
+            "id": "cv.entry.sprachen:demo-l1",
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.sprachen:demo-l1.name",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.sprachen:demo-l1.name.value",
+                    "fieldId": "cv.entry.sprachen:demo-l1.name",
+                    "text": "Deutsch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 1.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.sprachen:demo-l1.level",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.sprachen:demo-l1.level.value",
+                    "fieldId": "cv.entry.sprachen:demo-l1.level",
+                    "text": "Muttersprache",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 1.5,
+                "lineHeight": 1.2,
+                "keepNext": false,
+                "keepLines": false
+              }
+            ]
+          },
+          {
+            "kind": "entry",
+            "id": "cv.entry.sprachen:demo-l2",
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.sprachen:demo-l2.name",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.sprachen:demo-l2.name.value",
+                    "fieldId": "cv.entry.sprachen:demo-l2.name",
+                    "text": "Englisch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 1.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.sprachen:demo-l2.level",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.sprachen:demo-l2.level.value",
+                    "fieldId": "cv.entry.sprachen:demo-l2.level",
+                    "text": "Gute Schulkenntnisse (B1)",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 1.5,
+                "lineHeight": 1.2,
+                "keepNext": false,
+                "keepLines": false
+              }
+            ]
+          },
+          {
+            "kind": "entry",
+            "id": "cv.entry.sprachen:demo-l3",
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.sprachen:demo-l3.name",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.sprachen:demo-l3.name.value",
+                    "fieldId": "cv.entry.sprachen:demo-l3.name",
+                    "text": "Französisch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 1.5,
+                "lineHeight": 1.2,
+                "keepNext": true,
+                "keepLines": false
+              },
+              {
+                "kind": "paragraph",
+                "id": "cv.entry.sprachen:demo-l3.level",
+                "role": "body",
+                "runs": [
+                  {
+                    "id": "cv.entry.sprachen:demo-l3.level.value",
+                    "fieldId": "cv.entry.sprachen:demo-l3.level",
+                    "text": "Grundkenntnisse (A2)",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 10.5,
+                      "color": "111111",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 1.5,
+                "lineHeight": 1.2,
+                "keepNext": false,
+                "keepLines": false
+              }
+            ]
+          }
+        ],
+        "placement": "main",
+        "width": "full",
+        "startPage": 1,
+        "contentIndentMm": 0
+      },
+      {
+        "kind": "section",
+        "id": "cv.section.hobbys",
+        "heading": {
+          "kind": "paragraph",
+          "id": "cv.section.hobbys.heading",
+          "role": "heading",
+          "runs": [
+            {
+              "id": "cv.section.hobbys.heading.value",
+              "fieldId": "cv.section.hobbys.heading",
+              "text": "Hobbys & Interessen",
+              "style": {
+                "font": "Arial",
+                "sizePt": 12,
+                "color": "244A61",
+                "bold": true,
+                "italic": false,
+                "underline": false
+              }
+            }
+          ],
+          "align": "left",
+          "beforeMm": 4,
+          "afterMm": 1.852083333333333,
+          "lineHeight": 1.2,
+          "keepNext": true,
+          "keepLines": true,
+          "ruleColor": "244A61",
+          "indentMm": 0
+        },
+        "blocks": [
+          {
+            "kind": "paragraph",
+            "id": "cv.entry.hobbys:0",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cv.entry.hobbys:0.value",
+                "fieldId": "cv.entry.hobbys:0",
+                "text": "Volleyball im Verein",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 10.5,
+                  "color": "111111",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 1.5,
+            "lineHeight": 1.2,
+            "keepNext": false,
+            "keepLines": false
+          },
+          {
+            "kind": "paragraph",
+            "id": "cv.entry.hobbys:1",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cv.entry.hobbys:1.value",
+                "fieldId": "cv.entry.hobbys:1",
+                "text": "Programmieren kleiner Spiele",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 10.5,
+                  "color": "111111",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 1.5,
+            "lineHeight": 1.2,
+            "keepNext": false,
+            "keepLines": false
+          },
+          {
+            "kind": "paragraph",
+            "id": "cv.entry.hobbys:2",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cv.entry.hobbys:2.value",
+                "fieldId": "cv.entry.hobbys:2",
+                "text": "Fotografieren",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 10.5,
+                  "color": "111111",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 1.5,
+            "lineHeight": 1.2,
+            "keepNext": false,
+            "keepLines": false
+          }
+        ],
+        "placement": "main",
+        "width": "full",
+        "startPage": 1,
+        "contentIndentMm": 0
+      },
+      {
+        "kind": "section",
+        "id": "cv.section.staerken",
+        "heading": {
+          "kind": "paragraph",
+          "id": "cv.section.staerken.heading",
+          "role": "heading",
+          "runs": [
+            {
+              "id": "cv.section.staerken.heading.value",
+              "fieldId": "cv.section.staerken.heading",
+              "text": "Stärken",
+              "style": {
+                "font": "Arial",
+                "sizePt": 12,
+                "color": "244A61",
+                "bold": true,
+                "italic": false,
+                "underline": false
+              }
+            }
+          ],
+          "align": "left",
+          "beforeMm": 4,
+          "afterMm": 1.852083333333333,
+          "lineHeight": 1.2,
+          "keepNext": true,
+          "keepLines": true,
+          "ruleColor": "244A61",
+          "indentMm": 0
+        },
+        "blocks": [
+          {
+            "kind": "paragraph",
+            "id": "cv.entry.staerken:0",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cv.entry.staerken:0.value",
+                "fieldId": "cv.entry.staerken:0",
+                "text": "Zuverlässig und pünktlich",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 10.5,
+                  "color": "111111",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 1.5,
+            "lineHeight": 1.2,
+            "keepNext": false,
+            "keepLines": false
+          },
+          {
+            "kind": "paragraph",
+            "id": "cv.entry.staerken:1",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cv.entry.staerken:1.value",
+                "fieldId": "cv.entry.staerken:1",
+                "text": "Arbeitet gern im Team",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 10.5,
+                  "color": "111111",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 1.5,
+            "lineHeight": 1.2,
+            "keepNext": false,
+            "keepLines": false
+          },
+          {
+            "kind": "paragraph",
+            "id": "cv.entry.staerken:2",
+            "role": "body",
+            "runs": [
+              {
+                "id": "cv.entry.staerken:2.value",
+                "fieldId": "cv.entry.staerken:2",
+                "text": "Lernt schnell Neues",
+                "style": {
+                  "font": "Arial",
+                  "sizePt": 10.5,
+                  "color": "111111",
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                }
+              }
+            ],
+            "align": "left",
+            "beforeMm": 0,
+            "afterMm": 1.5,
+            "lineHeight": 1.2,
+            "keepNext": false,
+            "keepLines": false
+          }
+        ],
+        "placement": "main",
+        "width": "full",
+        "startPage": 1,
+        "contentIndentMm": 0
+      },
+      {
+        "kind": "section",
+        "id": "cv.section.referenzen",
+        "heading": {
+          "kind": "paragraph",
+          "id": "cv.section.referenzen.heading",
+          "role": "heading",
+          "runs": [
+            {
+              "id": "cv.section.referenzen.heading.value",
+              "fieldId": "cv.section.referenzen.heading",
+              "text": "Referenzen",
+              "style": {
+                "font": "Arial",
+                "sizePt": 12,
+                "color": "244A61",
+                "bold": true,
+                "italic": false,
+                "underline": false
+              }
+            }
+          ],
+          "align": "left",
+          "beforeMm": 4,
+          "afterMm": 1.852083333333333,
+          "lineHeight": 1.2,
+          "keepNext": true,
+          "keepLines": true,
+          "ruleColor": "244A61",
+          "indentMm": 0
+        },
+        "blocks": [
+          {
+            "kind": "table",
+            "id": "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1",
+            "widths": [
+              1,
+              1
+            ],
+            "rows": [
+              {
+                "cells": [
+                  [
+                    {
+                      "kind": "entry",
+                      "id": "cv.entry.referenzen:demo-r1",
+                      "blocks": [
+                        {
+                          "kind": "paragraph",
+                          "id": "cv.entry.referenzen:demo-r1.name",
+                          "role": "body",
+                          "runs": [
+                            {
+                              "id": "cv.entry.referenzen:demo-r1.name.value",
+                              "fieldId": "cv.entry.referenzen:demo-r1.name",
+                              "text": "Herr Thomas Weber",
+                              "style": {
+                                "font": "Arial",
+                                "sizePt": 10.5,
+                                "color": "111111",
+                                "bold": true,
+                                "italic": false,
+                                "underline": false
+                              }
+                            }
+                          ],
+                          "align": "left",
+                          "beforeMm": 0,
+                          "afterMm": 1.5,
+                          "lineHeight": 1.2,
+                          "keepNext": true,
+                          "keepLines": false
+                        },
+                        {
+                          "kind": "paragraph",
+                          "id": "cv.entry.referenzen:demo-r1.role",
+                          "role": "body",
+                          "runs": [
+                            {
+                              "id": "cv.entry.referenzen:demo-r1.role.value",
+                              "fieldId": "cv.entry.referenzen:demo-r1.role",
+                              "text": "Klassenlehrer, Schulhaus Zentrum",
+                              "style": {
+                                "font": "Arial",
+                                "sizePt": 10.5,
+                                "color": "111111",
+                                "bold": false,
+                                "italic": false,
+                                "underline": false
+                              }
+                            }
+                          ],
+                          "align": "left",
+                          "beforeMm": 0,
+                          "afterMm": 1.5,
+                          "lineHeight": 1.2,
+                          "keepNext": false,
+                          "keepLines": false
+                        },
+                        {
+                          "kind": "paragraph",
+                          "id": "cv.entry.referenzen:demo-r1.contact",
+                          "role": "body",
+                          "runs": [
+                            {
+                              "id": "cv.entry.referenzen:demo-r1.contact.value",
+                              "fieldId": "cv.entry.referenzen:demo-r1.contact",
+                              "text": "079 555 12 34",
+                              "style": {
+                                "font": "Arial",
+                                "sizePt": 10.5,
+                                "color": "111111",
+                                "bold": false,
+                                "italic": false,
+                                "underline": false
+                              }
+                            }
+                          ],
+                          "align": "left",
+                          "beforeMm": 0,
+                          "afterMm": 1.5,
+                          "lineHeight": 1.2,
+                          "keepNext": false,
+                          "keepLines": false
+                        }
+                      ]
+                    }
+                  ],
+                  []
+                ],
+                "keepTogether": false
+              }
+            ],
+            "decoration": {
+              "borderColor": "244A61",
+              "borderWidthMm": 0,
+              "paddingXMm": 3,
+              "paddingYMm": 0
+            }
+          }
+        ],
+        "placement": "main",
+        "width": "full",
+        "startPage": 1,
+        "contentIndentMm": 0
+      }
+    ],
+    "page": {
+      "widthMm": 210,
+      "heightMm": 297,
+      "margins": {
+        "top": 20,
+        "right": 20,
+        "bottom": 18,
+        "left": 20
+      },
+      "headerDistanceMm": 16,
+      "footerDistanceMm": 12
+    },
+    "artwork": [],
+    "header": [],
+    "footer": [],
+    "chrome": {
+      "borderWidthMm": 0
+    },
+    "layout": {
+      "mode": "classic",
+      "variant": "classic",
+      "side": "left",
+      "sidebarFraction": 0.3
+    }
+  },
+  "issues": []
+}

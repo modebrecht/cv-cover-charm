@@ -68,13 +68,29 @@ const renderOptions = {
 const hash = (b: Uint8Array) => createHash("sha256").update(b).digest("hex");
 const evidence: unknown[] = [];
 try {
-  for (const name of AUTHORED_COVER_CASES) {
+  for (const name of process.env.DOCX_NEXT_COVER_CASES?.split(",") ?? AUTHORED_COVER_CASES) {
     const dir = path.join(out, name);
     await mkdir(dir, { recursive: true });
-    const input = authoredCoverFixture(name, photo),
+    const input = authoredCoverFixture(name as (typeof AUTHORED_COVER_CASES)[number], photo),
       before = JSON.stringify(input);
+    const measured = process.env.DOCX_NEXT_COVER_METRICS_DIR
+      ? JSON.parse(
+          await readFile(
+            path.join(process.env.DOCX_NEXT_COVER_METRICS_DIR, name, "web-evidence.json"),
+            "utf8",
+          ),
+        )
+      : undefined;
+    if (measured)
+      assert(
+        measured.fontProfile && measured.textMetrics,
+        "Measured candidate requires a declared font profile and text metrics",
+      );
     const baseline = buildDossierDocModel(input),
-      candidate = buildDossierDocModel(input, { coverComposition: "authored-frames" });
+      candidate = buildDossierDocModel(input, {
+        coverComposition: "authored-frames",
+        ...(measured ? { coverTextMetrics: measured.textMetrics } : {}),
+      });
     assert.deepEqual(candidate.letter, baseline.letter);
     assert.deepEqual(candidate.cv, baseline.cv);
     await assert.rejects(renderDossierDocx(candidate), /paragraph frame pagination is unaccepted/);

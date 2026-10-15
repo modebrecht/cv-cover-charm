@@ -1,0 +1,62 @@
+{
+  "cases": [
+    {
+      "name": "normal",
+      "candidateSha256": "56099ee50a3a9277493d9153a2a9d3abf17e7e3c15d3aa5ab963c07fd308e704",
+      "neighborModelsIdentical": true,
+      "sourceImmutable": true,
+      "jsonPackageIdentical": true,
+      "productionRenderGuard": true
+    },
+    {
+      "name": "moved",
+      "candidateSha256": "8512e13fe6ac3a5cbdeeb621fc77ef4d01ab777e56f587bb62f24ecf340959c9",
+      "neighborModelsIdentical": true,
+      "sourceImmutable": true,
+      "jsonPackageIdentical": true,
+      "productionRenderGuard": true
+    },
+    {
+      "name": "long",
+      "candidateSha256": "6af9885b695ec13c2fe3d71a63d2c6372520b7021ad87d5ccde3daf1479318f2",
+      "neighborModelsIdentical": true,
+      "sourceImmutable": true,
+      "jsonPackageIdentical": true,
+      "productionRenderGuard": true
+    },
+    {
+      "name": "scaled",
+      "candidateSha256": "6727e12e327672fc2349fd972b6a891a9f0236ceaa839461cc8943879c64f7f7",
+      "neighborModelsIdentical": true,
+      "sourceImmutable": true,
+      "jsonPackageIdentical": true,
+      "productionRenderGuard": true
+    },
+    {
+      "name": "photo-portrait",
+      "candidateSha256": "ba68efc425a3786eedd5383fb389522a5c04c49822dd97fb6ae6b7832ece1a52",
+      "neighborModelsIdentical": true,
+      "sourceImmutable": true,
+      "jsonPackageIdentical": true,
+      "productionRenderGuard": true
+    },
+    {
+      "name": "photo-circle",
+      "candidateSha256": "80b49c974e4506c975a1713c68cf2f39b54a86245c0f41957e4b5b2968f6ee2a",
+      "neighborModelsIdentical": true,
+      "sourceImmutable": true,
+      "jsonPackageIdentical": true,
+      "productionRenderGuard": true
+    },
+    {
+      "name": "hidden",
+      "candidateSha256": "366908d655f83edc956f1dbbccf49dea198e12f3c039a4c1b5c6ffbe9a4be574",
+      "neighborModelsIdentical": true,
+      "sourceImmutable": true,
+      "jsonPackageIdentical": true,
+      "productionRenderGuard": true
+    }
+  ],
+  "wordVisualAcceptance": "UNVERIFIED",
+  "all39": "NOT RUN"
+}

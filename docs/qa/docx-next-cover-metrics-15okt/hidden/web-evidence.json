@@ -1,0 +1,308 @@
+{
+  "errors": [],
+  "exactFields": [
+    {
+      "id": "eyebrow",
+      "xMm": 19.9891766372796,
+      "yMm": 19.489137279596978,
+      "widthMm": 79.96910421914357,
+      "heightMm": 4.144954345088161,
+      "text": "BEWERBUNG",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePt": 10.5,
+      "weight": "700",
+      "lineHeight": "15.68px",
+      "tracking": "1.19px",
+      "transform": "uppercase",
+      "opacity": "1",
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "id": "ortDatum",
+      "xMm": 109.95493545340051,
+      "yMm": 19.489137279596978,
+      "widthMm": 79.96910421914357,
+      "heightMm": 5.591349181360202,
+      "text": "Hubersdorf, 15.11.2026",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePt": 11.499975,
+      "weight": "400",
+      "lineHeight": "21.16px",
+      "tracking": "normal",
+      "transform": "none",
+      "opacity": "0.72",
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "id": "beruf",
+      "xMm": 19.9891766372796,
+      "yMm": 128.94816593198993,
+      "widthMm": 154.93781486146096,
+      "heightMm": 15.992994332493703,
+      "text": "Informatiker/in EFZ",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePt": 36,
+      "weight": "600",
+      "lineHeight": "60.48px",
+      "tracking": "0.24px",
+      "transform": "none",
+      "opacity": "1",
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "id": "name",
+      "xMm": 19.9891766372796,
+      "yMm": 150.27629093198993,
+      "widthMm": 149.94155384130983,
+      "heightMm": 5.99220717884131,
+      "text": "Lea Müller",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePt": 16.5,
+      "weight": "700",
+      "lineHeight": "22.66px",
+      "tracking": "-0.33px",
+      "transform": "none",
+      "opacity": "1",
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "id": "lehrbeginn",
+      "xMm": 19.9891766372796,
+      "yMm": 161.1283847607053,
+      "widthMm": 149.94155384130983,
+      "heightMm": 5.83930258186398,
+      "text": "Lehrbeginn August 2027",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePt": 12,
+      "weight": "400",
+      "lineHeight": "22.08px",
+      "tracking": "normal",
+      "transform": "none",
+      "opacity": "0.72",
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "id": "kontaktTitel",
+      "xMm": 19.9891766372796,
+      "yMm": 251.25531328715365,
+      "widthMm": 79.96910421914357,
+      "heightMm": 3.9465916246851385,
+      "text": "KONTAKT",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePt": 9.999975,
+      "weight": "700",
+      "lineHeight": "14.9333px",
+      "tracking": "normal",
+      "transform": "uppercase",
+      "opacity": "1",
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "id": "kontakt",
+      "xMm": 19.9891766372796,
+      "yMm": 257.51613664987406,
+      "widthMm": 79.96910421914357,
+      "heightMm": 27.956745906801007,
+      "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePt": 11.499975,
+      "weight": "400",
+      "lineHeight": "21.16px",
+      "tracking": "normal",
+      "transform": "none",
+      "opacity": "0.85",
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "id": "beilagenTitel",
+      "xMm": 109.95493545340051,
+      "yMm": 251.25531328715365,
+      "widthMm": 79.96910421914357,
+      "heightMm": 3.9465916246851385,
+      "text": "BEILAGEN",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePt": 9.999975,
+      "weight": "700",
+      "lineHeight": "14.9333px",
+      "tracking": "normal",
+      "transform": "uppercase",
+      "opacity": "1",
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "id": "beilagen",
+      "xMm": 109.95493545340051,
+      "yMm": 257.51613664987406,
+      "widthMm": 79.96910421914357,
+      "heightMm": 16.774047544080606,
+      "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePt": 11.499975,
+      "weight": "400",
+      "lineHeight": "21.16px",
+      "tracking": "normal",
+      "transform": "none",
+      "opacity": "0.85",
+      "color": "rgb(17, 17, 17)"
+    }
+  ],
+  "platformFonts": {
+    "fonts": [
+      {
+        "familyName": "Liberation Sans",
+        "postScriptName": "LiberationSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 19
+      }
+    ]
+  },
+  "resolverPositions": {
+    "eyebrow": {
+      "size": 10.5,
+      "y": 19.5,
+      "height": 5.000624999999999
+    },
+    "ortDatum": {
+      "size": 11.5,
+      "y": 19.5,
+      "height": 5.476875
+    },
+    "foto": {
+      "size": 13.5,
+      "y": 41,
+      "height": 52
+    },
+    "kicker": {
+      "size": 11.5,
+      "y": 128,
+      "height": 0
+    },
+    "beruf": {
+      "size": 36,
+      "y": 129,
+      "height": 13.335
+    },
+    "name": {
+      "size": 16.5,
+      "y": 150.335,
+      "height": 7.858125
+    },
+    "lehrbeginn": {
+      "size": 12,
+      "y": 161.193125,
+      "height": 5.715000000000001
+    },
+    "kontakt": {
+      "size": 11.5,
+      "y": 257.615625,
+      "height": 27.384375
+    },
+    "kontaktTitel": {
+      "size": 10,
+      "y": 251.35312500000003,
+      "height": 4.762499999999999
+    },
+    "anTitel": {
+      "size": 10,
+      "y": 256.115625,
+      "height": 0
+    },
+    "empfaenger": {
+      "size": 11.5,
+      "y": 257.615625,
+      "height": 0
+    },
+    "beilagen": {
+      "size": 11.5,
+      "y": 257.615625,
+      "height": 16.430625
+    },
+    "beilagenTitel": {
+      "size": 10,
+      "y": 251.35312500000003,
+      "height": 4.762499999999999
+    }
+  },
+  "textMetrics": {
+    "version": 1,
+    "sourceKey": "{\"fontScale\":1,\"blocks\":[{\"id\":\"eyebrow\",\"kind\":\"text\",\"lines\":[\"Bewerbung\"],\"style\":{\"x\":20,\"y\":19.5,\"w\":80,\"size\":10.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.35,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"ortDatum\",\"kind\":\"text\",\"lines\":[\"Hubersdorf, 15.11.2026\"],\"style\":{\"x\":110,\"y\":19.5,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.6,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"foto\",\"kind\":\"photo\",\"lines\":[],\"style\":{\"x\":129,\"y\":41,\"w\":52,\"size\":13.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":true,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"ratio\":1,\"radius\":0,\"fill\":\"bg\"}},{\"id\":\"kicker\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":20,\"y\":128,\"w\":150,\"size\":11.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.25,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"beruf\",\"kind\":\"text\",\"lines\":[\"Informatiker/in EFZ\"],\"style\":{\"x\":20,\"y\":20,\"w\":155,\"size\":36,\"color\":\"ink\",\"align\":\"left\",\"weight\":700,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":-0.02,\"lineHeight\":1.05,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"kicker\",\"gap\":1,\"maxLines\":3}},{\"id\":\"name\",\"kind\":\"text\",\"lines\":[\"Lea Müller\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":16.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.02,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"beruf\",\"gap\":8,\"maxLines\":2}},{\"id\":\"lehrbeginn\",\"kind\":\"text\",\"lines\":[\"Lehrbeginn August 2027\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":12,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.6,\"bgRadius\":999,\"follows\":\"name\",\"gap\":3}},{\"id\":\"kontaktTitel\",\"kind\":\"text\",\"lines\":[\"Kontakt\"],\"style\":{\"x\":20,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"kontakt\",\"kind\":\"text\",\"lines\":[\"Dorfstrasse 12\",\"4535 Hubersdorf\",\"079 123 45 67\",\"lea.mueller@example.ch\",\"14.03.2010\"],\"style\":{\"x\":20,\"y\":285,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"anchorBottom\":true}},{\"id\":\"anTitel\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"empfaenger\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"anTitel\",\"gap\":1.5}},{\"id\":\"beilagenTitel\",\"kind\":\"text\",\"lines\":[\"Beilagen\"],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"beilagen\",\"gap\":1.5,\"follows\":null,\"anchorBottom\":false}},{\"id\":\"beilagen\",\"kind\":\"text\",\"lines\":[\"Motivationsschreiben\",\"Lebenslauf\",\"Zeugnis\"],\"style\":{\"x\":110,\"y\":276,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":null,\"gap\":1.5,\"above\":null,\"anchorBottom\":true}}]}",
+    "profile": "Liberation Sans / 76d04c18ea243f426b7de1f3ad208e927008f961dc5945e5aad352d0dfde8ee8/788abee4c806d660e8aee46689dd8540cd4bb98da03dcc9d171ce3efd99a9173/e5bae5c4cde31f22142753855f4f8fb86da6ff39955ed3c0a11248b0d16948b0/698da70fc191cc5f33ad4d6d3fe830fe4624b898ea2e3169955928b7c491f1ee",
+    "blocks": {
+      "eyebrow": {
+        "sizePt": 10.5,
+        "lines": 1
+      },
+      "ortDatum": {
+        "sizePt": 11.5,
+        "lines": 1
+      },
+      "kicker": {
+        "sizePt": 11.5,
+        "lines": 0
+      },
+      "beruf": {
+        "sizePt": 36,
+        "lines": 1
+      },
+      "name": {
+        "sizePt": 16.5,
+        "lines": 1
+      },
+      "lehrbeginn": {
+        "sizePt": 12,
+        "lines": 1
+      },
+      "kontaktTitel": {
+        "sizePt": 10,
+        "lines": 1
+      },
+      "kontakt": {
+        "sizePt": 11.5,
+        "lines": 5
+      },
+      "anTitel": {
+        "sizePt": 10,
+        "lines": 0
+      },
+      "empfaenger": {
+        "sizePt": 11.5,
+        "lines": 0
+      },
+      "beilagenTitel": {
+        "sizePt": 10,
+        "lines": 1
+      },
+      "beilagen": {
+        "sizePt": 11.5,
+        "lines": 3
+      }
+    }
+  },
+  "fontProfile": {
+    "purpose": "Controlled Liberation Sans availability in Web and native supplementary renderer; not proof of the user's original Web font or Microsoft Word availability",
+    "aliases": [
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial"
+    ],
+    "faces": [
+      {
+        "face": "Regular",
+        "sha256": "76d04c18ea243f426b7de1f3ad208e927008f961dc5945e5aad352d0dfde8ee8"
+      },
+      {
+        "face": "Bold",
+        "sha256": "788abee4c806d660e8aee46689dd8540cd4bb98da03dcc9d171ce3efd99a9173"
+      },
+      {
+        "face": "Italic",
+        "sha256": "e5bae5c4cde31f22142753855f4f8fb86da6ff39955ed3c0a11248b0d16948b0"
+      },
+      {
+        "face": "BoldItalic",
+        "sha256": "698da70fc191cc5f33ad4d6d3fe830fe4624b898ea2e3169955928b7c491f1ee"
+      }
+    ]
+  },
+  "provenance": "Real CoverCanvas is mounted from the actual app module and receives unchanged snapshot props. Remote network fonts are blocked; local fonts/fallback apply. This is a controlled component reference, not a recovered original editor project or a successful live-editor restore test."
+}
