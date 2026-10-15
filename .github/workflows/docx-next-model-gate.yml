@@ -2,13 +2,20 @@ name: DOCX Next model and runtime gates
 
 on:
   push:
-    branches: ["fix/docx-next-model-gate-15okt", "fix/docx-next-pdf-print-boundary-15okt"]
+    branches:
+      [
+        "fix/docx-next-model-gate-15okt",
+        "fix/docx-next-pdf-print-boundary-15okt",
+        "fix/docx-next-declarative-primitives-15okt",
+      ]
     paths:
       - "src/**"
       - "tests/unit/**"
       - "tests/fixtures/docx-next/**"
       - "tests/support/docx-next-runtime-graph.ts"
       - "tests/qa/playwright.docx-boundary.config.ts"
+      - "scripts/docx-next-primitives-audit.ts"
+      - "vercel.json"
       - "package.json"
       - "bun.lock"
       - ".github/workflows/docx-next-model-gate.yml"
@@ -46,11 +53,14 @@ jobs:
           bun run format:check:release
           bunx prettier --check src/lib/docx-next/build-model.ts src/lib/docx-next/template-motifs.ts src/lib/docx-next/validation.ts tests/unit/docx-next-model-boundary.test.ts
           bunx prettier --check src/lib/dossier-contact-data.ts src/lib/dossier-contact.ts src/lib/dossier-resolved-chrome.ts src/components/cover/template-slots.ts src/components/cover/fresh-templates.ts src/components/cv/types.ts src/components/cv/design.ts src/components/cv/legacy-type-scales.ts tests/support/docx-next-runtime-graph.ts tests/unit/docx-next-pdf-print-boundary.test.ts tests/qa/playwright.docx-boundary.config.ts
+      - name: Item 13 audit harness formatting
+        if: github.ref == 'refs/heads/fix/docx-next-declarative-primitives-15okt'
+        run: bunx prettier --check scripts/docx-next-primitives-audit.ts vercel.json .github/workflows/docx-next-model-gate.yml
       - name: Production build
         run: bun run build
 
   shared-state-browser:
-    if: github.ref == 'refs/heads/fix/docx-next-pdf-print-boundary-15okt'
+    if: github.ref == 'refs/heads/fix/docx-next-pdf-print-boundary-15okt' || github.ref == 'refs/heads/fix/docx-next-declarative-primitives-15okt'
     needs: model-boundary
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -69,6 +79,17 @@ jobs:
         run: bash scripts/qa-browser-setup.sh
       - name: Existing contact/chrome and dossier state roundtrip integrations
         run: npx playwright test --config tests/qa/playwright.docx-boundary.config.ts
+      - name: Item 13 existing-primitives parity against authoritative base
+        if: github.ref == 'refs/heads/fix/docx-next-declarative-primitives-15okt'
+        shell: bash
+        run: |
+          git fetch --depth=1 origin 8901a830a792d75e9e792345c5180827218b4e1e
+          base="$RUNNER_TEMP/docx-primitives-base"
+          git worktree add --detach "$base" 8901a830a792d75e9e792345c5180827218b4e1e
+          ln -s "$GITHUB_WORKSPACE/node_modules" "$base/node_modules"
+          bun scripts/docx-next-primitives-audit.ts "$base" artifacts/docx-next-boundary/primitives-base.json
+          bun scripts/docx-next-primitives-audit.ts . artifacts/docx-next-boundary/primitives-candidate.json
+          cmp artifacts/docx-next-boundary/primitives-base.json artifacts/docx-next-boundary/primitives-candidate.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
