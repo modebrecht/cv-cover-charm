@@ -36,6 +36,7 @@ import { nextTemplate } from "./templates";
 import { color, compositeTextColor } from "./colors";
 export { color } from "./colors";
 import { composeAuthoredCover } from "./cover-authored";
+import { composeSourceCompactBands } from "./compact-chrome";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin } from "./continuation-margin";
@@ -68,6 +69,8 @@ export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 export type BuildModelOptions = {
+  /** Explicit candidate only: source-sized empty compact chrome, declared per template. */
+  compactChromeComposition?: "source-bands";
   /** Guarded fixed-page candidate; not a production export switch. */
   coverComposition?: "authored-frames";
   /** Diagnostic font measurements only; source/renderer never read live browser state. */
@@ -105,6 +108,14 @@ export function buildDossierDocModel(
       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
       : settings.placements;
   const template = nextTemplate(String(cover.template));
+  if (
+    options.compactChromeComposition !== undefined &&
+    (options.compactChromeComposition !== "source-bands" ||
+      options.coverComposition !== "authored-frames" ||
+      !template.chrome.sourceCompactBands)
+  )
+    throw Error("DOCX Next source compact chrome requires a declared authored candidate");
+  const sourceCompactBands = options.compactChromeComposition === "source-bands";
   if (String(letter.design.template) !== template.id || String(cv.design.template) !== template.id)
     throw new Error("DOCX Next requires matching dossier templates.");
   const fonts = createFontResolver(settings.fontPolicy);
@@ -1295,6 +1306,8 @@ export function buildDossierDocModel(
             heightMm: gapMm,
           });
       }
+      if (sourceCompactBands)
+        composeSourceCompactBands(target, options, content, template.chrome.sourceCompactBands!);
     }
   }
   issues.push(

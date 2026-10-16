@@ -188,6 +188,7 @@ export async function createSavedAuthoredCoverDocxNext(
     const model = buildDossierDocModel(snapshot, {
       coverComposition: "authored-frames",
       coverTextMetrics: metrics,
+      ...(template === "modern" ? { compactChromeComposition: "source-bands" as const } : {}),
     });
     validateBriefIntegrationModel(model, template);
     const blob = await renderDossierDocx(model, {

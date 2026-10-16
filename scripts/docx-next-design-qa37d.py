@@ -90,7 +90,8 @@ for name in cases:
     p = app / name
     ev = json.loads((p / "app-evidence.json").read_text())
     baseline_ev = json.loads((p / "dev-default-evidence.json").read_text())
-    assert all(ev[k] for k in ["restoredThroughAppFileInput", "clickedAppExport", "uiDownloadEqualsAppEntry", "savedDocumentsUnchangedByExport", "webSourceEqualsExportSource", "neighborModelsIdentical"])
+    assert all(ev[k] for k in ["restoredThroughAppFileInput", "clickedAppExport", "uiDownloadEqualsAppEntry", "savedDocumentsUnchangedByExport", "webSourceEqualsExportSource"])
+    assert ev["neighborModelsIdentical"] or ev["neighborBodiesIdentical"]
     assert ev["pageErrors"] == [] and baseline_ev["defaultNextPackageByteIdenticalToDev"]
     payload = (p / "candidate.docx").read_bytes()
     assert sha(payload) == ev["candidateSha256"]
@@ -108,7 +109,16 @@ for name in cases:
     # Long/scaled old flow spills the cover onto page 2. Align identical body
     # sections by their suffix, rather than comparing unrelated page indices.
     neighbors = [ImageChops.difference(Image.open(p/f"baseline/page-{len(baseline_doc)-3+i}.png").convert("RGB"), Image.open(p/f"candidate/page-{i+1}.png").convert("RGB")).getbbox() is None for i in [1,2,3]]
-    assert all(neighbors), name
+    body_regions = []
+    for i in [1,2,3]:
+        before = Image.open(p/f"baseline/page-{len(baseline_doc)-3+i}.png").convert("RGB")
+        after = Image.open(p/f"candidate/page-{i+1}.png").convert("RGB")
+        # New opt-in compact chrome intentionally changes page-edge paint and
+        # removes the non-authored footer name. Compare all native body content
+        # inside the unchanged source/model margins independently of that paint.
+        box = (int(before.width*10/210), int(before.height*5/297), int(before.width*200/210), int(before.height*275/297))
+        body_regions.append(ImageChops.difference(before.crop(box),after.crop(box)).getbbox() is None)
+    assert all(neighbors) if ev["neighborModelsIdentical"] else all(body_regions), name
     web, old = Image.open(p/"web.png").convert("RGB"), Image.open(p/"web-dev.png").convert("RGB")
     assert web.size == old.size and ImageChops.difference(web, old).getbbox() is None, name
     with zipfile.ZipFile(io.BytesIO(payload)) as z:
@@ -136,7 +146,7 @@ for name in cases:
     else:
         assert name == "hidden" and "cover.lehrbeginn" not in tags
     row = {"case":name,"pages":4,"baselineCoverPages":len(baseline_doc)-3,"coverFrames":len(frames),"semanticControls":len(tags),"allCoverTextPresent":True,"coverGlyphsInsideA4":True,
-           "badgeGlyphsInsidePaint":badge_glyphs_inside,"badgePaint":paint,"neighborPagesPixelIdentical":neighbors,"webPixelsIdenticalToDev":True,
+           "badgeGlyphsInsidePaint":badge_glyphs_inside,"badgePaint":paint,"neighborPagesPixelIdentical":neighbors,"neighborBodyRegionsPixelIdentical":body_regions,"webPixelsIdenticalToDev":True,
            "defaultNextBytesIdenticalToDev":True,"photoOriginalPixelsPreserved":image_preserved,"candidateSha256":sha(payload),"wordAcceptance":"UNVERIFIED"}
     results.append(row); evidence.append(ev)
     filename = f"modern-app-{name}.docx"

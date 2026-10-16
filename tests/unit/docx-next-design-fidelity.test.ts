@@ -19,6 +19,67 @@ const options = (coverTextMetrics = packet()) => ({
   coverTextMetrics,
 });
 
+test("controlled compact chrome matches Web band geometry without inventing footer text or moving body content", () => {
+  const source = input();
+  const before = JSON.stringify(source);
+  const old = buildDossierDocModel(source, options());
+  const model = buildDossierDocModel(source, {
+    ...options(),
+    compactChromeComposition: "source-bands",
+  });
+  expect(model.cover).toEqual(old.cover);
+  expect(JSON.stringify(source)).toBe(before);
+  for (const scope of ["letter", "cv"] as const) {
+    const part = model[scope];
+    expect(part.blocks).toEqual(old[scope].blocks);
+    expect(part.page).toEqual(old[scope].page);
+    expect(part.footer).toEqual([]);
+    expect(part.header).toEqual(old[scope].header);
+    expect(part.chrome.borderColor).toBeUndefined();
+    expect(part.artwork.some((p) => p.id === `${scope}.artwork.footer`)).toBe(false);
+    const paints = part.headerShapes!.filter((p) => p.id.startsWith(`${scope}.compact.`));
+    const strip = paints.find((p) => p.id.endsWith(".footer"))!;
+    const edge = paints.find((p) => p.id.endsWith(".footer-edge"))!;
+    expect(strip.yMm + strip.heightMm).toBe(297);
+    expect(strip.heightMm + edge.heightMm).toBe(4);
+    expect(edge.yMm).toBe(293);
+    expect(strip.opacity).toBe(0.92);
+    expect(strip.fill?.color).toBe(scope === "letter" ? "111827" : "111111");
+    expect(paints.find((p) => p.id.endsWith(".header"))!.yMm).toBe(0);
+  }
+});
+
+test("compact chrome retains saved heights and palette and rejects semantic content or unsupported modes", () => {
+  const source = input();
+  const chrome = source.settings.chrome!.shared;
+  chrome.headerHeightMm = 6;
+  chrome.footerHeightMm = 8;
+  source.letter.design.colors.primary = "#005577";
+  const opts = { ...options(), compactChromeComposition: "source-bands" as const };
+  const part = buildDossierDocModel(source, opts).letter;
+  const footer = part.headerShapes!.find((p) => p.id === "letter.compact.footer")!;
+  expect(footer.fill?.color).toBe("005577");
+  expect(footer.heightMm).toBe(7.4);
+  expect(footer.yMm + footer.heightMm).toBe(297);
+  const height = part.headerShapes!.find((p) => p.id === "letter.compact.header")!;
+  expect(height.heightMm).toBe(5.4);
+  for (const patch of [
+    { headerMode: "contact" },
+    { footerMode: "details" },
+    { footerMode: "none" },
+  ]) {
+    const s = input();
+    Object.assign(s.settings.chrome!.shared, patch);
+    expect(() => buildDossierDocModel(s, opts)).toThrow("compact chrome");
+  }
+  const custom = input();
+  custom.letter.design.chromeContent = { footerTextEnabled: true, footerText: "Keep this text" };
+  expect(() => buildDossierDocModel(custom, opts)).toThrow("Benutzertexte");
+  expect(() => buildDossierDocModel(input(), { compactChromeComposition: "source-bands" })).toThrow(
+    "declared authored candidate",
+  );
+});
+
 test("real app metrics reproduce a compact rounded badge and semantic initials without changing neighbors", async () => {
   const source = input();
   const before = JSON.stringify(source);

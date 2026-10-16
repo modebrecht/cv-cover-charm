@@ -164,11 +164,16 @@ try {
         neighborsIdentical:
           JSON.stringify(result.model.letter) === JSON.stringify(baseline.letter) &&
           JSON.stringify(result.model.cv) === JSON.stringify(baseline.cv),
+        neighborBodiesIdentical: (["letter", "cv"] as const).every(
+          (part) =>
+            JSON.stringify(result.model[part].blocks) === JSON.stringify(baseline[part].blocks) &&
+            JSON.stringify(result.model[part].page) === JSON.stringify(baseline[part].page),
+        ),
         bytes,
         baselineBytes,
       };
     }, modern);
-    assert(captured.neighborsIdentical);
+    assert(modern ? captured.neighborBodiesIdentical : captured.neighborsIdentical);
     assert.deepEqual(captured.snapshot.cover.data, project.cover!.data);
     const candidate = new Uint8Array(await readFile(path.join(folder, "candidate.docx")));
     assert.deepEqual(candidate, Uint8Array.from(captured.bytes));
@@ -217,6 +222,40 @@ try {
         };
       });
     });
+    if (modern)
+      for (const [part, route, selector] of [
+        ["letter", "anschreiben", "[data-letter-page]"],
+        ["cv", "lebenslauf", "[data-cv-page]"],
+      ]) {
+        await page.goto(base + "/" + route + "/?" + query, { waitUntil: "networkidle" });
+        await page.evaluate(() => document.fonts.ready);
+        const sheet = page.locator(selector + ":visible").first();
+        await sheet.screenshot({ path: path.join(folder, `web-${part}.png`) });
+        const chrome = await sheet.evaluate((root: HTMLElement) => {
+          const r = root.getBoundingClientRect();
+          return Array.from(
+            root.querySelectorAll<HTMLElement>(
+              "[data-dossier-footer], [data-dossier-compact-header]",
+            ),
+          ).map((el) => {
+            const b = el.getBoundingClientRect(),
+              s = getComputedStyle(el);
+            return {
+              text: el.innerText,
+              yMm: ((b.y - r.y) / r.height) * 297,
+              heightMm: (b.height / r.height) * 297,
+              background: s.backgroundColor,
+              opacity: s.opacity,
+              borderTop: s.borderTop,
+              borderBottom: s.borderBottom,
+            };
+          });
+        });
+        await writeFile(
+          path.join(folder, `web-${part}-chrome.json`),
+          JSON.stringify(chrome, null, 2),
+        );
+      }
     assert.deepEqual(errors, []);
     const evidence = {
       name,
@@ -227,7 +266,8 @@ try {
       webSourceEqualsExportSource: true,
       platformFonts,
       uiDownloadEqualsAppEntry: true,
-      neighborModelsIdentical: true,
+      neighborModelsIdentical: captured.neighborsIdentical,
+      neighborBodiesIdentical: captured.neighborBodiesIdentical,
       candidateSha256: sha(candidate),
       measuredProfile: captured.metrics.profile,
       web,
@@ -256,9 +296,15 @@ try {
             "placeholder-opacity",
             "css-hidden-decoration",
             "non-cohort",
+            "chrome-content",
+            "chrome-mode",
           ]
         : []),
-    ]) {
+    ].filter(
+      (scenario) =>
+        !process.env.DOCX_NEXT_NEGATIVE_CASES ||
+        process.env.DOCX_NEXT_NEGATIVE_CASES.split(",").includes(scenario),
+    )) {
       const context = await browser.newContext();
       const page = await context.newPage();
       await page.goto(base + "/?" + query, { waitUntil: "networkidle" });
@@ -269,6 +315,19 @@ try {
       await page.reload({ waitUntil: "networkidle" });
       await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
       await page.evaluate(async (scenario) => {
+        if (scenario === "chrome-content") {
+          const l = JSON.parse(localStorage.getItem("anschreiben:v1")!);
+          l.design.chromeContent = { footerTextEnabled: true, footerText: "Keep this footer" };
+          localStorage.setItem("anschreiben:v1", JSON.stringify(l));
+        }
+        if (scenario === "chrome-mode") {
+          const { DEFAULT_DOSSIER_CHROME_STATE, DOSSIER_CHROME_STORAGE_KEY } =
+            await import("/src/lib/dossier-chrome.ts");
+          const state = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+          state.shared.footerMode = "details";
+          localStorage.setItem(DOSSIER_CHROME_STORAGE_KEY, JSON.stringify(state));
+          // The saved store owns its cache; reload below before capturing it.
+        }
         const mutate = () => {
           const c = JSON.parse(localStorage.getItem("titelblatt:v3")!);
           c.data.vorname += " changed";
@@ -344,6 +403,10 @@ try {
           };
         }
       }, scenario);
+      if (scenario === "chrome-mode") {
+        await page.reload({ waitUntil: "networkidle" });
+        await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
+      }
       if (scenario === "non-cohort") {
         await page.reload({ waitUntil: "networkidle" });
         await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
@@ -368,8 +431,9 @@ try {
       const alert = page.locator(qaSelector + ' [role="alert"]');
       await alert.waitFor({ state: "visible" });
       const message = await alert.innerText();
-      const expected =
-        scenario === "css-hidden-decoration"
+      const expected = scenario.startsWith("chrome-")
+        ? "compact chrome"
+        : scenario === "css-hidden-decoration"
           ? "CSS-hidden decoration"
           : scenario.startsWith("badge-")
             ? scenario === "badge-artwork"

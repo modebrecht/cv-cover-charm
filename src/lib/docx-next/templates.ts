@@ -88,6 +88,8 @@ export type TemplateDefinition = {
     keepTailTogether?: boolean;
   };
   chrome: {
+    /** Opt-in native paint for the source's empty compact header/footer bands. */
+    sourceCompactBands?: { footerOpacity: number };
     /** Readable native footer ink on descriptor-owned footer artwork. Explicit text colors win. */
     footerSurfaceSlot?: string;
     headerDistanceMm: number;
@@ -3183,6 +3185,7 @@ export const MODERN: TemplateDefinition = {
   },
   letter: { ...BRIEF.letter, fontSource: "dossier", keepTailTogether: true },
   chrome: {
+    sourceCompactBands: { footerOpacity: 0.92 },
     headerDistanceMm: 12,
     footerDistanceMm: 12,
     footerSurfaceSlot: "bg",

@@ -458,7 +458,8 @@ export function DossierExportDialog({
         {designDocxNextUiEnabled() && cover?.template === "modern" && onDesignDocxNext ? (
           <div className="mt-3 rounded-lg border px-3 py-2" data-design-docx-next-qa>
             <p id="design-docx-next-help" className="text-xs text-muted-foreground">
-              Modern-Testexport · editierbares Word-Dossier. Vor der Verwendung in Word prüfen.
+              Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und
+              Fussstreifen. Vor der Verwendung in Word prüfen.
             </p>
             <button
               type="button"

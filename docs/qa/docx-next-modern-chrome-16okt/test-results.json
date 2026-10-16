@@ -1,0 +1,23 @@
+{
+  "unit": {
+    "pass": 1191,
+    "fail": 0,
+    "assertions": 22967,
+    "files": 248
+  },
+  "docx": {
+    "pass": 378,
+    "fail": 0,
+    "assertions": 5886,
+    "files": 58
+  },
+  "typecheck": "PASS",
+  "formatting": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "build": "PASS",
+  "briefNormalBytesEqual37C": true,
+  "wordAcceptance": "UNVERIFIED"
+}

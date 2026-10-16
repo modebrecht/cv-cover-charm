@@ -1,0 +1,20 @@
+[
+  {
+    "text": "",
+    "yMm": 0,
+    "heightMm": 3.995979545042687,
+    "background": "rgb(17, 17, 17)",
+    "opacity": "1",
+    "borderTop": "0px solid oklch(0.929 0.013 255.508)",
+    "borderBottom": "2px solid rgb(36, 74, 97)"
+  },
+  {
+    "text": "",
+    "yMm": 293.0040391430412,
+    "heightMm": 3.9959608569587632,
+    "background": "rgb(17, 17, 17)",
+    "opacity": "0.92",
+    "borderTop": "2px solid rgb(36, 74, 97)",
+    "borderBottom": "0px solid oklch(0.929 0.013 255.508)"
+  }
+]
