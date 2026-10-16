@@ -1,5 +1,7 @@
 # Modern compact chrome correction after screenshot review
 
+**Later pill follow-up:** [Body-story badge candidate](docx-next-modern-pill-body-16okt.md) addresses editing-view dimming while preserving this compact-chrome correction.
+
 **Later screenshot triage:** [Pill display and right-edge investigation](docx-next-modern-edge-review-16okt.md) records the user's Word Print screen and two PDF-renderer checks. The exact Word PDF is still unavailable; no additional product change was made.
 
 **PARTIAL. The bounded Modern app candidate now follows the actual Web compact header/footer geometry. Supplementary visual and regression checks pass. New desktop Microsoft Word acceptance remains UNVERIFIED.** This follow-up stays on `investigate/docx-next-design-fidelity-16okt`, after the four-template investigation commit `13145d71e34f85ba07af68d9be125bec2627e459`. Remote dev remains `8901a830a792d75e9e792345c5180827218b4e1e`.

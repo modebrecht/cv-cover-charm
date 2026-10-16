@@ -133,7 +133,7 @@ for name in cases:
             native = Image.open(io.BytesIO(z.read("word/media/image-1.png"))).convert("RGB")
             image_preserved = original.size == native.size and ImageChops.difference(original,native).getbbox() is None
             assert image_preserved
-    paint = next((b for b in model["cover"].get("headerShapes",[]) if b["id"] == "cover.lehrbeginn.badge-paint"),None)
+    paint = next((b for b in [*model["cover"].get("headerShapes",[]), *model["cover"]["blocks"]] if b["id"] == "cover.lehrbeginn.badge-paint"),None)
     badge_glyphs_inside = None
     if paint:
         b = next(b for b in source["cover"]["blocks"] if b["id"] == "lehrbeginn")

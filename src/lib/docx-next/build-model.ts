@@ -73,6 +73,8 @@ export type BuildModelOptions = {
   compactChromeComposition?: "source-bands";
   /** Guarded fixed-page candidate; not a production export switch. */
   coverComposition?: "authored-frames";
+  /** Explicit candidate: keep authored text badge paint in the active body story. */
+  coverBadgePlacement?: "body";
   /** Diagnostic font measurements only; source/renderer never read live browser state. */
   coverTextMetrics?: CoverTextMetrics;
   /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
@@ -102,6 +104,11 @@ export function buildDossierDocModel(
     throw new Error("DOCX Next invalid diagnostic Sidebar composition");
   if (options.coverComposition !== undefined && options.coverComposition !== "authored-frames")
     throw Error("DOCX Next invalid authored cover composition");
+  if (
+    options.coverBadgePlacement !== undefined &&
+    (options.coverBadgePlacement !== "body" || options.coverComposition !== "authored-frames")
+  )
+    throw Error("DOCX Next body badge paint requires an authored candidate");
   const cvFlow = CV_FLOW_LAYOUTS[cvVariant];
   const placements =
     cvVariant === "sidebar"
@@ -279,10 +286,20 @@ export function buildDossierDocModel(
         );
 
   if (template.cover.decorationPlacement === "first-header") {
+    // composeAuthoredCover owns this generated identity; user shapes retain their
+    // existing header placement. Only the explicitly selected candidate changes story.
+    const bodyBadge = (block: DocBlock) =>
+      options.coverBadgePlacement === "body" &&
+      block.kind === "decorative-shape" &&
+      block.id.endsWith(".badge-paint");
     coverPart.headerShapes = coverPart.blocks.flatMap((block) =>
-      block.kind === "decorative-shape" ? [{ ...block, repeat: "first" as const }] : [],
+      block.kind === "decorative-shape" && !bodyBadge(block)
+        ? [{ ...block, repeat: "first" as const }]
+        : [],
     );
-    coverPart.blocks = coverPart.blocks.filter((block) => block.kind !== "decorative-shape");
+    coverPart.blocks = coverPart.blocks.filter(
+      (block) => block.kind !== "decorative-shape" || bodyBadge(block),
+    );
     ensureFirstHeader(coverPart);
   }
   if (template.cover.motifs) {

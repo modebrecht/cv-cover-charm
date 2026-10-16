@@ -18,6 +18,53 @@ const options = (coverTextMetrics = packet()) => ({
   coverComposition: "authored-frames" as const,
   coverTextMetrics,
 });
+const rasterizeDecoration = async () => ({
+  bytes: Uint8Array.from(
+    Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLttAAAAABJRU5ErkJggg==",
+      "base64",
+    ),
+  ),
+  widthPx: 1,
+  heightPx: 1,
+  extension: "png" as const,
+  contentType: "image/png",
+});
+
+test("explicit body badge avoids an inactive header while preserving text frames, artwork and neighbors", async () => {
+  const old = buildDossierDocModel(input(), options());
+  const model = buildDossierDocModel(input(), { ...options(), coverBadgePlacement: "body" });
+  const badgeId = "cover.lehrbeginn.badge-paint";
+  const oldPaint = old.cover.headerShapes!.find((b) => b.id === badgeId)!;
+  const { repeat: _, ...paint } = oldPaint;
+  expect(model.cover.blocks.filter((b) => b.kind === "decorative-shape")).toEqual([paint]);
+  expect(model.cover.blocks.filter((b) => b.kind !== "decorative-shape")).toEqual(old.cover.blocks);
+  expect(model.cover.headerShapes).toEqual(old.cover.headerShapes!.filter((b) => b.id !== badgeId));
+  expect(model.cover.page).toEqual(old.cover.page);
+  expect(model.letter).toEqual(old.letter);
+  expect(model.cv).toEqual(old.cv);
+  expect(() => buildDossierDocModel(input(), { coverBadgePlacement: "body" })).toThrow(
+    "authored candidate",
+  );
+  const entries = readZipEntries(
+    new Uint8Array(
+      await (
+        await renderDossierDocx(model, {
+          allowUnacceptedModelIssues: true,
+          rasterizeDecoration,
+        })
+      ).arrayBuffer(),
+    ),
+  );
+  const decode = (bytes: Uint8Array) => new TextDecoder().decode(bytes);
+  const body = decode(entries.find((e) => e.name === "word/document.xml")!.bytes);
+  expect(body).toContain(`name="${badgeId}"`);
+  expect(body).toContain('w:val="cover.lehrbeginn"');
+  expect(body).toContain("Lehrbeginn August 2028");
+  expect((body.match(/<w:sectPr>/g) ?? []).length).toBe(3);
+  for (const entry of entries.filter((e) => /^word\/header\d+\.xml$/.test(e.name)))
+    expect(decode(entry.bytes)).not.toContain(badgeId);
+});
 
 test("controlled compact chrome matches Web band geometry without inventing footer text or moving body content", () => {
   const source = input();
@@ -102,18 +149,7 @@ test("real app metrics reproduce a compact rounded badge and semantic initials w
       await (
         await renderDossierDocx(model, {
           allowUnacceptedModelIssues: true,
-          rasterizeDecoration: async () => ({
-            bytes: Uint8Array.from(
-              Buffer.from(
-                "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLttAAAAABJRU5ErkJggg==",
-                "base64",
-              ),
-            ),
-            widthPx: 1,
-            heightPx: 1,
-            extension: "png",
-            contentType: "image/png",
-          }),
+          rasterizeDecoration,
         })
       ).arrayBuffer(),
     ),
