@@ -1,5 +1,7 @@
 # Modern Word preview and right band edge review
 
+**New actual Word evidence:** [Returned Word file and shared-background trial](docx-next-modern-word-return-16okt.md) confirms unequal band/rule widths in the user's Word-generated PDF. The earlier read-only findings below are historical and do not rule out this now-proven Word output defect.
+
 **Later bounded fix:** [Body-story badge candidate](docx-next-modern-pill-body-16okt.md) moves only Modern badge paint into the document body. The right-edge diagnosis below remains open; it is not claimed fixed.
 
 **PARTIAL: read-only diagnosis. No product or renderer change.** Examined candidate commit `6a007acccfe57019fbe82a75d0f26227398fe334`, after fetching current remote dev (`8901a830a792d75e9e792345c5180827218b4e1e`) and this investigation branch. Root AGENTS.md remains applicable. Work stays on `investigate/docx-next-design-fidelity-16okt`.

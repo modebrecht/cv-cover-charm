@@ -1,5 +1,7 @@
 # Modern badge paint in the body story
 
+**Returned normal Word evidence:** [Word return review](docx-next-modern-word-return-16okt.md) verifies retained text, controls, badge asset and frame geometry, and confirms the separate right-edge defect. A later shared-background candidate requires its own Word gate; the historical test results below concern the pill-body candidate.
+
 **PARTIAL — bounded fix integrated; supplementary checks PASS. Desktop Microsoft Word editing and Save/Reopen remain UNVERIFIED.** This changes only the existing Modern opt-in candidate on `investigate/docx-next-design-fidelity-16okt`. Fresh fetch confirmed remote dev `8901a830a792d75e9e792345c5180827218b4e1e` and investigation parent `cf16595b16b75ba0334b0477c79cce775d71b1f9`. `AGENTS.md` was reread; published history is preserved.
 
 ## Finding and correction

@@ -1,0 +1,35 @@
+{
+  "status": "PARTIAL",
+  "parent": "c9476b3618265c8e9e111c7fd59d0a1e3f38002e",
+  "branch": "investigate/docx-next-design-fidelity-16okt",
+  "dev": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "unit": {
+    "pass": 1193,
+    "fail": 0,
+    "assertions": 22998,
+    "files": 248
+  },
+  "docx": {
+    "pass": 380,
+    "fail": 0,
+    "assertions": 5917,
+    "files": 58,
+    "overlapsUnit": true
+  },
+  "typecheck": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "build": "PASS",
+  "formatting": "PASS",
+  "actualAppCases": 1,
+  "nativeA4Pages": 4,
+  "allPageGlyphCoordinatesUnchanged": true,
+  "newCandidateWordAcceptance": "UNVERIFIED",
+  "priorWordNormalNativeControlsPreserved": 82,
+  "priorWordPdfEdgeDefect": "CONFIRMED",
+  "newContactDesignImplemented": false,
+  "sharedPillColorChangeImplemented": false,
+  "userOriginalAttachmentsRepublished": false
+}

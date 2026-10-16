@@ -81,6 +81,7 @@ test("controlled compact chrome matches Web band geometry without inventing foot
     expect(part.blocks).toEqual(old[scope].blocks);
     expect(part.page).toEqual(old[scope].page);
     expect(part.footer).toEqual([]);
+    expect(part.pagePaintComposition).toBe("single-asset");
     expect(part.header).toEqual(old[scope].header);
     expect(part.chrome.borderColor).toBeUndefined();
     expect(part.artwork.some((p) => p.id === `${scope}.artwork.footer`)).toBe(false);
@@ -125,6 +126,39 @@ test("compact chrome retains saved heights and palette and rejects semantic cont
   expect(() => buildDossierDocModel(input(), { compactChromeComposition: "source-bands" })).toThrow(
     "declared authored candidate",
   );
+});
+
+test("Modern compact surfaces and rules share one native transform without flattening semantic body text", async () => {
+  const model = buildDossierDocModel(input(), {
+    ...options(),
+    compactChromeComposition: "source-bands",
+    coverBadgePlacement: "body",
+  });
+  expect(model.cover.pagePaintComposition).toBeUndefined();
+  const entries = new Map(
+    readZipEntries(
+      new Uint8Array(
+        await (
+          await renderDossierDocx(model, {
+            allowUnacceptedModelIssues: true,
+            rasterizeDecoration,
+          })
+        ).arrayBuffer(),
+      ),
+    ).map((e) => [e.name, new TextDecoder().decode(e.bytes)]),
+  );
+  for (const scope of ["letter", "cv"])
+    for (const suffix of ["", "-first"]) {
+      const xml = entries.get(`word/${scope}-header${suffix}.xml`)!;
+      expect((xml.match(/<wp:anchor /g) ?? []).length).toBe(1);
+      expect(xml).toContain(`${scope}.page-paint.`);
+      expect(xml).not.toContain(`${scope}.compact.`);
+    }
+  const body = entries.get("word/document.xml")!;
+  for (const field of ["cover.lehrbeginn", "letter.sender.name", "cv.person.email"])
+    expect(body).toContain(`w:val="${field}"`);
+  expect(body).toContain("lea.mueller@example.ch");
+  expect(body).toContain('name="cover.lehrbeginn.badge-paint"');
 });
 
 test("real app metrics reproduce a compact rounded badge and semantic initials without changing neighbors", async () => {

@@ -62,6 +62,10 @@ export function composeSourceCompactBands(
       "DOCX Next compact chrome: Nichtleere Kopfzeile benötigt eine eigene Layoutprüfung.",
     );
   part.footer = [];
+  // Word PDF output can scale separately anchored shallow paint differently
+  // despite equal saved extents. Reuse the existing single decorative page
+  // asset so compact surfaces and their edge rules share one native transform.
+  part.pagePaintComposition = "single-asset";
   // Source borders are horizontal band edges, never a full Word page border.
   part.chrome.borderColor = undefined;
   part.artwork = part.artwork.filter(
