@@ -466,7 +466,7 @@ export function DossierExportDialog({
               {designNativeBadgeUiEnabled()
                 ? NATIVE_BADGE_WORD_REJECTION
                 : designInteriorAuditUiEnabled()
-                  ? "Diagnoseexport für Kontaktheader und Rubrik-Pills. Bekannte Designabweichungen; noch nicht zur Verwendung freigegeben."
+                  ? "Modern-Innenlayout-Test · gemessene Kontakt-Header und native Rubrik-Pills. Benötigt Sans im Lebenslauf. Bearbeitung und Speichern in Word sind noch zu prüfen."
                   : "Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen."}
             </p>
             <button

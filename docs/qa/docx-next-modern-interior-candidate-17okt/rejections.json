@@ -1,0 +1,77 @@
+[
+  {
+    "scenario": "mixed-layout-trials",
+    "messages": [
+      "Error: Design DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden.",
+      "Error: Brief DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden."
+    ],
+    "disabledButton": true,
+    "downloads": 0,
+    "savedDocumentsUnchanged": true,
+    "result": "PASS Word-rejected trial blocked"
+  },
+  {
+    "scenario": "rejected-native-badge",
+    "messages": [
+      "Error: Design DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden.",
+      "Error: Brief DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden."
+    ],
+    "disabledButton": true,
+    "downloads": 0,
+    "savedDocumentsUnchanged": true,
+    "result": "PASS Word-rejected trial blocked"
+  },
+  {
+    "scenario": "interior-cv-font",
+    "message": "DOCX Next: Header-/Rubriktest unterstützt nur ausdrücklich gespeichertes Sans im Lebenslauf; Cabin wird nicht durch Arial ersetzt.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "interior-header-font",
+    "message": "DOCX Next: Nicht unterstützte Header-Schrift. Bitte Sans verwenden.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "interior-header-overflow",
+    "message": "DOCX Next: Headertext überschreitet seine Fläche.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "interior-rubric-multiline",
+    "message": "DOCX Next: Mehrzeilige Rubrik benötigt eine eigene Word-Prüfung.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "interior-mixed-modes",
+    "message": "DOCX Next: Dieser Test benötigt Kontakt-Header in beiden Dossierteilen; gemischte Modi sind noch nicht geprüft.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "interior-rubric-script",
+    "message": "DOCX Next: Nicht unterstützte Schriftzeichen in Rubrik.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "interior-reduced-overflow",
+    "message": "DOCX Next: Headertext überschreitet seine Fläche.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "opt-in-off",
+    "message": "Error: Design DOCX Next: Testexport ist nicht aktiviert.",
+    "result": "PASS hidden and rejected"
+  },
+  {
+    "scenario": "interior-contact-source",
+    "message": "DOCX Next: Abweichende CV-Kontaktdaten benötigen eine eigene Header-Prüfung; die gespeicherten Werte werden nicht überschrieben.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  }
+]

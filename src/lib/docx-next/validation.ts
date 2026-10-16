@@ -36,6 +36,15 @@ export function validateDossierDocModel(model: DossierDocModel): void {
   const ids = new Set<string>();
   for (const part of [model.cover, model.letter, model.cv]) {
     if (
+      (part.headerFrames?.length || part.headerImages?.length) &&
+      (part.id === "cover" ||
+        !part.firstHeader ||
+        [...(part.headerFrames ?? []), ...(part.headerImages ?? [])].some(
+          (b) => !["first", "continuation"].includes(b.repeat),
+        ))
+    )
+      throw Error("DOCX Next invalid measured header story");
+    if (
       part.firstFooter !== undefined &&
       (!part.firstHeader ||
         !Array.isArray(part.firstFooter) ||
@@ -125,15 +134,64 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       ...part.footer,
       ...(part.firstFooter ?? []),
       ...(part.headerShapes ?? []),
+      ...(part.headerFrames ?? []),
+      ...(part.headerImages ?? []),
     ])) {
       if (ids.has(block.id)) throw new Error(`DOCX Next duplicate semantic identity ${block.id}`);
       ids.add(block.id);
+      if (
+        block.kind === "paragraph" &&
+        (block.fieldControls !== undefined || block.tabStopsMm !== undefined)
+      ) {
+        if (
+          !part.headerFrames?.some((f) => f.paragraphs.includes(block)) ||
+          block.fieldControls !== true ||
+          block.tabStopsMm?.some(
+            (n, i, a) => !Number.isFinite(n) || n <= 0 || (i > 0 && n <= a[i - 1]),
+          )
+        )
+          throw Error("DOCX Next invalid authored header tabs");
+      }
+      if (block.kind === "paragraph" && block.flowSurface) {
+        const s = block.flowSurface;
+        if (
+          part.id !== "cv" ||
+          block.role !== "heading" ||
+          block.align !== "left" ||
+          block.list ||
+          ![s.widthMm, s.rowWidthMm, s.heightMm, s.paddingXMm, s.paddingYMm, s.outlineMm].every(
+            Number.isFinite,
+          ) ||
+          s.widthMm <= 2 * s.paddingXMm ||
+          s.rowWidthMm < s.widthMm ||
+          s.heightMm <= 2 * s.paddingYMm ||
+          Math.min(s.paddingXMm, s.paddingYMm, s.outlineMm) < 0 ||
+          s.outlineMm >= s.heightMm ||
+          !/^[0-9A-F]{6}$/.test(s.ink) ||
+          part.page.margins.left + (block.indentMm ?? 0) < 0 ||
+          block.runs.some((r) => r.style.font !== "Arial" || /[\r\n\t]/.test(r.text))
+        )
+          throw Error("DOCX Next invalid flowing rubric surface");
+        if (
+          s.rule &&
+          (![s.rule.gapMm, s.rule.heightMm, s.rule.opacity].every(Number.isFinite) ||
+            s.rule.gapMm < 0 ||
+            s.rule.heightMm <= 0 ||
+            s.rule.opacity < 0 ||
+            s.rule.opacity > 1 ||
+            !/^[0-9A-F]{6}$/.test(s.rule.color))
+        )
+          throw Error("DOCX Next invalid flowing rubric rule");
+      }
       if (block.kind === "paragraph-frame") {
-        if (!part.blocks.includes(block))
+        const inHeader = part.headerFrames?.includes(
+          block as NonNullable<typeof part.headerFrames>[number],
+        );
+        if (!part.blocks.includes(block) && !inHeader)
           throw new Error(`DOCX Next nested paragraph frame is unsupported ${block.id}`);
         if (
           ![block.xMm, block.yMm, block.widthMm].every(Number.isFinite) ||
-          block.widthMm < 10 ||
+          block.widthMm < (inHeader ? 0.2 : 10) ||
           block.xMm < 0 ||
           block.yMm < 0 ||
           block.xMm + block.widthMm > part.page.widthMm ||
@@ -143,7 +201,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
             (paragraph) =>
               paragraph.kind !== "paragraph" ||
               (paragraph.indentMm ?? 0) < 0 ||
-              (paragraph.indentMm ?? 0) >= block.widthMm - 10,
+              (paragraph.indentMm ?? 0) >= block.widthMm - (inHeader ? 0 : 10),
           )
         )
           throw new Error(`DOCX Next invalid paragraph frame ${block.id}`);

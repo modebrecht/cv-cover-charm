@@ -216,7 +216,17 @@ export async function createSavedAuthoredCoverDocxNext(
         (options) =>
           options.headerMode === "contact" || options.headerContinuationMode === "contact",
       );
+    const interiorMetrics =
+      candidate.inspectNativeInteriors &&
+      (contactHeaderAudit || resolveCvRubricOptions(snapshot.cv.design).pill)
+        ? await (
+            await import("./docx-next-interior-metrics.browser")
+          ).captureInteriorTextMetrics(snapshot, fonts.profile)
+        : undefined;
+    unchanged();
+    fonts.verify();
     const model = buildDossierDocModel(snapshot, {
+      ...(interiorMetrics ? { interiorTextMetrics: interiorMetrics } : {}),
       coverComposition: "authored-frames",
       coverTextMetrics: metrics,
       ...(candidate.coverBadgeComposition
@@ -243,7 +253,7 @@ export async function createSavedAuthoredCoverDocxNext(
     });
     unchanged();
     fonts.verify();
-    return { blob, snapshot, metrics, model };
+    return { blob, snapshot, metrics, model, interiorMetrics };
   } finally {
     fonts.dispose();
   }

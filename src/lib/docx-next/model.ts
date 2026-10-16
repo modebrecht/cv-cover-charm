@@ -36,6 +36,22 @@ export type Paragraph = {
   indentMm?: number;
   /** Unaccepted native run-level control placement; the whole paragraph remains intact. */
   controlPlacement?: "inline";
+  /** Authored native tab stops within one measured line; no spacer paragraphs. */
+  tabStopsMm?: number[];
+  /** Native inline controls retain each source field inside an authored row. */
+  fieldControls?: boolean;
+  /** Explicit flow candidate. Native heading text owns a line-relative
+   * decorative capsule; it does not become a fixed-page textbox. */
+  flowSurface?: {
+    widthMm: number;
+    rowWidthMm: number;
+    heightMm: number;
+    paddingXMm: number;
+    paddingYMm: number;
+    ink: string;
+    outlineMm: number;
+    rule?: { color: string; gapMm: number; heightMm: number; opacity: number };
+  };
 };
 export type ImageBlock = {
   /** Authored alpha is retained; anything except full opacity currently blocks export. */
@@ -268,6 +284,10 @@ export type DocumentPart = {
   };
   artwork: DecorativeArtwork[];
   headerShapes?: DecorativeShape[];
+  /** Explicit measured chrome candidate; same native frames as the cover. */
+  headerFrames?: (ParagraphFrameBlock & { repeat: "first" | "continuation" })[];
+  /** Nonsemantic contact icons only; header text always remains native. */
+  headerImages?: (ImageBlock & { repeat: "first" | "continuation" })[];
   header: Paragraph[];
   firstHeader?: Paragraph[];
   footer: Paragraph[];

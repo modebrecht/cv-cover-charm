@@ -27,6 +27,15 @@ export function paragraph(
   numberingId?: number,
   frame?: Pick<ParagraphFrameBlock, "xMm" | "yMm" | "widthMm">,
 ): string {
+  if (value.flowSurface) {
+    const s = value.flowSurface;
+    value = {
+      ...value,
+      indentMm: (value.indentMm ?? 0) + s.paddingXMm,
+      beforeMm: value.beforeMm + s.paddingYMm,
+      afterMm: value.afterMm + s.paddingYMm,
+    };
+  }
   if (value.list && !numberingId) throw new Error(`DOCX Next unplanned list ${value.id}`);
   const style = value.role === "heading" ? "Heading1" : value.role === "title" ? "Title" : "Normal";
   const rule = value.ruleColor
@@ -40,14 +49,17 @@ export function paragraph(
       ? `w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"`
       : `w:line="${Math.max(1, Math.round(value.minimumLineHeightPt * 20))}" w:lineRule="atLeast"`;
   // Follow schema ordering (numPr, borders/shading, spacing, alignment) for Word compatibility.
-  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/>${frameProperties}<w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numberingId}"/></w:numPr>` : ""}${rule}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" ${lineSpacing}/>${value.indentMm !== undefined ? `<w:ind w:left="${twips(value.indentMm)}"/>` : ""}<w:jc w:val="${value.align === "justify" ? "both" : value.align}"/>${value.list && value.runs[0] ? runProperties(value.runs[0].style) : ""}</w:pPr>`;
+  const tabs = value.tabStopsMm?.length
+    ? `<w:tabs>${value.tabStopsMm.map((pos) => `<w:tab w:val="left" w:pos="${twips(pos)}"/>`).join("")}</w:tabs>`
+    : "";
+  const runs = value.runs
+    .map((r) => (value.fieldControls && r.fieldId ? control(r.fieldId, run(r)) : run(r)))
+    .join("");
+  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/>${frameProperties}<w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numberingId}"/></w:numPr>` : ""}${rule}${tabs}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" ${lineSpacing}/>${value.indentMm !== undefined ? `<w:ind w:left="${twips(value.indentMm)}"/>` : ""}<w:jc w:val="${value.align === "justify" ? "both" : value.align}"/>${value.list && value.runs[0] ? runProperties(value.runs[0].style) : ""}</w:pPr>`;
   if (frame || value.controlPlacement === "inline")
     // Keep the complete field inside its native paragraph for frames or guarded placement probes.
-    return `<w:p>${props}${control(value.id, drawingRuns + (value.runs.map(run).join("") || "<w:r/>"))}</w:p>`;
-  return control(
-    value.id,
-    `<w:p>${props}${drawingRuns}${value.runs.map(run).join("") || "<w:r/>"}</w:p>`,
-  );
+    return `<w:p>${props}${control(value.id, drawingRuns + (runs || "<w:r/>"))}</w:p>`;
+  return control(value.id, `<w:p>${props}${drawingRuns}${runs || "<w:r/>"}</w:p>`);
 }
 export function emptyParagraphWithRuns(runs = "", keepNext?: boolean, lineTwips = 20) {
   return `<w:p><w:pPr>${keepNext === undefined ? "" : `<w:keepNext w:val="${keepNext ? 1 : 0}"/>`}<w:spacing w:after="0" w:line="${lineTwips}" w:lineRule="exact"/></w:pPr>${runs}</w:p>`;

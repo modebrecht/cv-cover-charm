@@ -31,6 +31,6 @@ export async function downloadSavedDesignDocxNext() {
     .join(" ");
   downloadBlob(
     blob,
-    `${safeFileName(`Bewerbungsdossier-${name}-Modern-${designNativeBadgeUiEnabled() ? "Pille" : designInteriorAuditUiEnabled() ? "Innenlayout-Diagnose" : "Test"}`)}.docx`,
+    `${safeFileName(`Bewerbungsdossier-${name}-Modern-${designNativeBadgeUiEnabled() ? "Pille" : designInteriorAuditUiEnabled() ? "Innenlayout-Test" : "Test"}`)}.docx`,
   );
 }

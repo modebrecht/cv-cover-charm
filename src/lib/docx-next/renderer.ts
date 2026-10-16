@@ -33,6 +33,7 @@ import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
 import { nativeTextShapeRun } from "./native-text-shape";
+import { flowSurfacePaint } from "./flow-surface";
 import { parallelFlowTable } from "./parallel-flow";
 import { imageZoneTable } from "./image-zone";
 import { cellProperties, planCellRowSpans } from "./native-cell";
@@ -89,6 +90,8 @@ export async function renderDossierDocx(
   const blocks = [model.cover, model.letter, model.cv].flatMap((part) => [
     ...walkBlocks(part.blocks),
     ...(part.headerShapes ?? []),
+    ...(part.headerFrames ?? []),
+    ...(part.headerImages ?? []),
   ]);
   if (
     blocks.some((block) => block.kind === "paragraph-frame") &&
@@ -112,8 +115,17 @@ export async function renderDossierDocx(
       ...part.footer,
       ...(part.firstFooter ?? []),
       ...(part.headerShapes ?? []),
+      ...(part.headerFrames ?? []),
+      ...(part.headerImages ?? []),
     ]),
   );
+  if (
+    storyBlocks.some(
+      (b) => b.kind === "paragraph" && (b.flowSurface || b.fieldControls || b.tabStopsMm),
+    ) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next measured interior composition requires the explicit candidate gate");
   if (
     storyBlocks.some((block) => block.kind === "table" && block.bodyBoundary !== undefined) &&
     !options.allowUnacceptedModelIssues
@@ -165,7 +177,11 @@ export async function renderDossierDocx(
   }
   for (const part of [model.cover, model.letter, model.cv])
     for (const block of [
-      ...walkBlocks(part.blocks),
+      ...walkBlocks(part.blocks).flatMap((block) =>
+        block.kind === "paragraph" && block.flowSurface
+          ? [block, flowSurfacePaint(block)]
+          : [block],
+      ),
       ...(part.pagePaintComposition
         ? [...composedPaint.values()].filter((p) => p.id.startsWith(part.id + "."))
         : (part.headerShapes ?? [])),
@@ -211,6 +227,7 @@ export async function renderDossierDocx(
     page: DocumentPart["page"],
     behind = false,
     paintLayer?: number,
+    authoredParagraphOffsets = false,
   ): string {
     if (
       paintLayer !== undefined &&
@@ -241,17 +258,20 @@ export async function renderDossierDocx(
       const pageOrigin = value.coordinateOrigin === "page";
       const originWidth = pageOrigin ? page.widthMm : widthMm;
       const inset = geometry.borderWidthMm / 2;
-      const x =
-        value.placement === "free"
+      const x = authoredParagraphOffsets
+        ? value.xMm
+        : value.placement === "free"
           ? Math.max(inset, Math.min(originWidth - finalWidth - inset, value.xMm))
           : value.placement === "right"
             ? widthMm - finalWidth
             : 0;
-      const y = Math.max(
-        pageOrigin ? inset : 0,
-        Math.min(page.heightMm - finalHeight - inset, value.yMm),
-      );
-      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="1" allowOverlap="${behind ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
+      const y = authoredParagraphOffsets
+        ? value.yMm
+        : Math.max(
+            pageOrigin ? inset : 0,
+            Math.min(page.heightMm - finalHeight - inset, value.yMm),
+          );
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="1" allowOverlap="${behind ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
     }
     return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
   }
@@ -435,7 +455,45 @@ export async function renderDossierDocx(
     indentMm = 0,
     cumulativeGrid = false,
   ): string {
-    if (block.kind === "paragraph") return renderParagraph(block, "", indentMm);
+    if (block.kind === "paragraph") {
+      let surface = "";
+      if (block.flowSurface) {
+        const s = block.flowSurface,
+          media = decorationIds.get(block.id + ".flow-paint");
+        if (!media) throw Error("DOCX Next: Rubrikfläche konnte nicht erstellt werden.");
+        surface = pictureRun(
+          {
+            kind: "image",
+            id: block.id + ".flow-paint",
+            source: "",
+            alt: "",
+            widthMm: s.rowWidthMm,
+            maxHeightMm: s.heightMm,
+            placement: "free",
+            coordinateOrigin: "content",
+            xMm: (block.indentMm ?? 0) + indentMm,
+            yMm: -s.paddingYMm,
+            gapMm: 0,
+          },
+          media.rid,
+          {
+            widthMm: s.rowWidthMm,
+            heightMm: s.heightMm,
+            crop: { left: 0, top: 0, right: 0, bottom: 0 },
+            shape: "rect",
+            cornerAdjustment: 0,
+            borderWidthMm: 0,
+            borderColor: "000000",
+          },
+          widthMm,
+          page,
+          true,
+          undefined,
+          true,
+        );
+      }
+      return renderParagraph(block, surface, indentMm);
+    }
     if (block.kind === "paragraph-frame")
       return block.surface
         ? emptyParagraphWithRuns(nativeTextShapeRun(block, ++drawingId, renderParagraph))
@@ -513,7 +571,7 @@ export async function renderDossierDocx(
       return renderBlocks(block.blocks, widthMm, page, indentMm, cumulativeGrid);
     if (block.kind === "column-flow")
       throw new Error("Column flow must be planned before Word rendering.");
-    return `${block.heading ? renderParagraph(block.heading, "", indentMm) : ""}${renderBlocks(block.blocks, widthMm, page, indentMm + (block.contentIndentMm ?? 0), cumulativeGrid)}`;
+    return `${block.heading ? renderBlock(block.heading, widthMm, page, indentMm, cumulativeGrid) : ""}${renderBlocks(block.blocks, widthMm, page, indentMm + (block.contentIndentMm ?? 0), cumulativeGrid)}`;
   }
   const rendersContent = (value: DocBlock): boolean =>
     value.kind === "decorative-shape"
@@ -624,9 +682,40 @@ export async function renderDossierDocx(
             )
             .join("")
         : "";
-    const paragraphs = content.length
-      ? content.map((value, index) => renderParagraph(value, index === 0 ? drawings : "")).join("")
-      : emptyParagraphWithRuns(drawings);
+    const headerIcons =
+      scope === "header"
+        ? (part.headerImages ?? [])
+            .filter((value) => value.repeat === (first ? "first" : "continuation"))
+            .map((value) => {
+              const media = sources.get(value.source)!;
+              if (!pkg.relationships.some((rel) => rel.source === story && rel.id === media.rid))
+                pkg.relate(story, media.rid, "image", media.file);
+              return pictureRun(
+                value,
+                media.rid,
+                pictureGeometry(value, media.asset, part.page.widthMm),
+                part.page.widthMm,
+                part.page,
+                true,
+              );
+            })
+            .join("")
+        : "";
+    const frames =
+      scope === "header"
+        ? (part.headerFrames ?? [])
+            .filter((value) => value.repeat === (first ? "first" : "continuation"))
+            .map((frame) => frame.paragraphs.map((p) => renderParagraph(p, "", 0, frame)).join(""))
+            .join("")
+        : "";
+    const paragraphs =
+      (content.length
+        ? content
+            .map((value, index) => renderParagraph(value, index === 0 ? drawings : ""))
+            .join("")
+        : emptyParagraphWithRuns(drawings + headerIcons)) +
+      frames +
+      (frames ? emptyParagraph : "");
     pkg.add(
       story,
       WORD_PART_TYPES[scope],
@@ -693,6 +782,7 @@ export async function renderDossierDocx(
       ...(part.firstHeader ?? []),
       ...part.footer,
       ...(part.firstFooter ?? []),
+      ...(part.headerFrames ?? []),
     ]))
       if (block.kind === "paragraph") block.runs.forEach((value) => fonts.add(value.style.font));
   pkg.add("word/fontTable.xml", WORD_PART_TYPES.fontTable, fontTableXml(fonts));

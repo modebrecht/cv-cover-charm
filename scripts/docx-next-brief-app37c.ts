@@ -14,7 +14,7 @@ import {
 } from "../tests/fixtures/docx-next/modern-project";
 import {
   modernInteriorProjectFixture,
-  MODERN_INTERIOR_CASES,
+  MODERN_INTERIOR_CANDIDATE_CASES,
 } from "../tests/fixtures/docx-next/modern-interior-project";
 
 const modern = process.env.DOCX_NEXT_QA_TEMPLATE === "modern";
@@ -25,7 +25,7 @@ assert(
 );
 const interiorAudit = modern && process.env.DOCX_NEXT_INTERIOR_AUDIT === "1";
 const cases = interiorAudit
-  ? MODERN_INTERIOR_CASES
+  ? MODERN_INTERIOR_CANDIDATE_CASES
   : modern
     ? MODERN_PROJECT_CASES
     : BRIEF_PROJECT_CASES;
@@ -192,6 +192,7 @@ try {
       return {
         snapshot: result.snapshot,
         metrics: result.metrics,
+        interiorMetrics: result.interiorMetrics,
         model: result.model,
         neighborsIdentical:
           JSON.stringify(result.model.letter) === JSON.stringify(baseline.letter) &&
@@ -207,16 +208,51 @@ try {
           JSON.stringify(withoutContact(result.model.cv.blocks)) ===
             JSON.stringify(withoutContact(baseline.cv.blocks)) &&
           JSON.stringify(result.model.cv.page) === JSON.stringify(baseline.cv.page),
+        measuredHeaderNeighborBodiesPreserved:
+          !!result.model.letter.headerFrames &&
+          !!result.model.cv.headerFrames &&
+          JSON.stringify(result.model.letter.blocks) === JSON.stringify(baseline.letter.blocks) &&
+          JSON.stringify(
+            withoutContact(result.model.cv.blocks).filter((b) => b.id !== "cv.firstPageLead"),
+          ) ===
+            JSON.stringify(
+              withoutContact(baseline.cv.blocks).filter((b) => b.id !== "cv.firstPageLead"),
+            ),
+        measuredRubricNonHeadingBodiesPreserved:
+          !!result.interiorMetrics?.rubrics &&
+          JSON.stringify(result.model.letter.blocks) === JSON.stringify(baseline.letter.blocks) &&
+          JSON.stringify(
+            withoutContact(result.model.cv.blocks).map((b) =>
+              b.kind === "section" ? { ...b, heading: undefined } : b,
+            ),
+          ) ===
+            JSON.stringify(
+              withoutContact(baseline.cv.blocks).map((b) =>
+                b.kind === "section" ? { ...b, heading: undefined } : b,
+              ),
+            ),
         bytes,
         baselineBytes,
       };
     }, modern);
-    assert(modern ? captured.neighborBodiesExceptContactIdentical : captured.neighborsIdentical);
+    assert(
+      modern
+        ? captured.neighborBodiesExceptContactIdentical ||
+            (interiorAudit &&
+              (captured.measuredHeaderNeighborBodiesPreserved ||
+                captured.measuredRubricNonHeadingBodiesPreserved))
+        : captured.neighborsIdentical,
+    );
     assert.deepEqual(captured.snapshot.cover.data, project.cover!.data);
     const candidate = new Uint8Array(await readFile(path.join(folder, "candidate.docx")));
     assert.deepEqual(candidate, Uint8Array.from(captured.bytes));
     for (const key of ["snapshot", "metrics", "model"] as const)
       await writeFile(path.join(folder, key + ".json"), JSON.stringify(captured[key], null, 2));
+    if (captured.interiorMetrics)
+      await writeFile(
+        path.join(folder, "interior-metrics.json"),
+        JSON.stringify(captured.interiorMetrics, null, 2),
+      );
     await writeFile(path.join(folder, "baseline.docx"), Uint8Array.from(captured.baselineBytes));
     // Capture the real visible editor after restore, not a synthetic mounted canvas.
     await page.goto(base + "/titelblatt?" + query, { waitUntil: "networkidle" });
@@ -359,6 +395,8 @@ try {
       neighborModelsIdentical: captured.neighborsIdentical,
       neighborBodiesIdentical: captured.neighborBodiesIdentical,
       neighborBodiesExceptContactIdentical: captured.neighborBodiesExceptContactIdentical,
+      measuredHeaderNeighborBodiesPreserved: captured.measuredHeaderNeighborBodiesPreserved,
+      measuredRubricNonHeadingBodiesPreserved: captured.measuredRubricNonHeadingBodiesPreserved,
       candidateSha256: sha(candidate),
       measuredProfile: captured.metrics.profile,
       web,
@@ -393,12 +431,25 @@ try {
             "rubric-pills",
             "mixed-layout-trials",
             "rejected-native-badge",
+            ...(interiorAudit
+              ? [
+                  "interior-cv-font",
+                  "interior-header-font",
+                  "interior-header-overflow",
+                  "interior-rubric-multiline",
+                  "interior-mixed-modes",
+                  "interior-rubric-script",
+                  "interior-reduced-overflow",
+                  "interior-contact-source",
+                ]
+              : []),
           ]
         : []),
     ].filter(
       (scenario) =>
-        !process.env.DOCX_NEXT_NEGATIVE_CASES ||
-        process.env.DOCX_NEXT_NEGATIVE_CASES.split(",").includes(scenario),
+        !(interiorAudit && scenario === "rubric-pills") &&
+        (!process.env.DOCX_NEXT_NEGATIVE_CASES ||
+          process.env.DOCX_NEXT_NEGATIVE_CASES.split(",").includes(scenario)),
     )) {
       const context = await browser.newContext();
       const page = await context.newPage();
@@ -410,6 +461,44 @@ try {
       await page.reload({ waitUntil: "networkidle" });
       await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
       await page.evaluate(async (scenario) => {
+        if (scenario.startsWith("interior-")) {
+          const { DEFAULT_DOSSIER_CHROME_STATE, DOSSIER_CHROME_STORAGE_KEY } =
+            await import("/src/lib/dossier-chrome.ts");
+          const state = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+          Object.assign(state.shared, {
+            headerMode: "contact",
+            headerTextLayout: "inline",
+            headerDifferentFirstPage: false,
+            textFont: "sans",
+          });
+          const cv = JSON.parse(localStorage.getItem("lebenslauf:v1")!);
+          if (scenario === "interior-contact-source") cv.data.person.email = "cv-only@example.ch";
+          if (scenario === "interior-cv-font") delete cv.design.font;
+          if (scenario === "interior-header-font") state.shared.textFont = "serif";
+          if (scenario === "interior-header-overflow") state.shared.headerContentOffsetYMm = 20;
+          if (scenario === "interior-reduced-overflow")
+            state.shared.headerDifferentFirstPage = true;
+          if (scenario === "interior-rubric-script") {
+            state.shared.headerMode = "compact";
+            cv.design.sectionTitlePill = true;
+            cv.data.labels.schule = "学校";
+          }
+          if (scenario === "interior-rubric-multiline") {
+            state.shared.headerMode = "compact";
+            cv.design.sectionTitlePill = true;
+            cv.data.labels.schule =
+              "Eine sehr lange Rubrik mit mehreren Zeilen und sehr vielen zusätzlichen Wörtern ".repeat(
+                8,
+              );
+          }
+          if (scenario === "interior-mixed-modes") {
+            state.sync = false;
+            state.letter.headerMode = "compact";
+            state.cv = { ...state.shared };
+          }
+          localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
+          localStorage.setItem(DOSSIER_CHROME_STORAGE_KEY, JSON.stringify(state));
+        }
         if (scenario === "rubric-pills") {
           const c = JSON.parse(localStorage.getItem("lebenslauf:v1")!);
           c.design.sectionTitlePill = true;
@@ -515,7 +604,7 @@ try {
           };
         }
       }, scenario);
-      if (scenario === "chrome-mode") {
+      if (scenario === "chrome-mode" || scenario.startsWith("interior-")) {
         await page.reload({ waitUntil: "networkidle" });
         await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
       }
@@ -608,35 +697,49 @@ try {
       await alert.waitFor({ state: "visible" });
       const message = await alert.innerText();
       const expected =
-        scenario === "rubric-pills"
-          ? "Rubrik-Pills"
-          : scenario === "contact-layout"
-            ? "ganze Breite"
-            : scenario.startsWith("chrome-")
-              ? "compact chrome"
-              : scenario === "css-hidden-decoration"
-                ? "CSS-hidden decoration"
-                : scenario.startsWith("badge-")
-                  ? scenario === "badge-artwork"
-                    ? "over artwork"
-                    : "Badges unterstützen"
-                  : scenario === "placeholder-opacity"
-                    ? "placeholder opacity"
-                    : scenario === "non-cohort"
-                      ? "Vorlage Modern"
-                      : scenario === "unsupported-font"
-                        ? "Nicht unterstützte Schrift"
-                        : scenario === "substituted-font"
-                          ? "Browser-Ersatzschrift"
-                          : scenario === "missing-measurements"
-                            ? "nicht verfügbar"
-                            : scenario.startsWith("stale")
-                              ? "Daten haben sich"
-                              : scenario === "overflow"
-                                ? "Feldbreite"
-                                : modern
-                                  ? "Vorlage Modern"
-                                  : "Vorlage Brief";
+        scenario === "interior-cv-font"
+          ? "ausdrücklich gespeichertes Sans"
+          : scenario === "interior-contact-source"
+            ? "Abweichende CV-Kontaktdaten"
+            : scenario === "interior-header-font"
+              ? "Header-Schrift"
+              : scenario === "interior-header-overflow" || scenario === "interior-reduced-overflow"
+                ? "Headertext überschreitet"
+                : scenario === "interior-rubric-multiline"
+                  ? "Mehrzeilige Rubrik"
+                  : scenario === "interior-rubric-script"
+                    ? "Nicht unterstützte Schriftzeichen"
+                    : scenario === "interior-mixed-modes"
+                      ? "gemischte Modi"
+                      : scenario === "rubric-pills"
+                        ? "Rubrik-Pills"
+                        : scenario === "contact-layout"
+                          ? "ganze Breite"
+                          : scenario.startsWith("chrome-")
+                            ? "compact chrome"
+                            : scenario === "css-hidden-decoration"
+                              ? "CSS-hidden decoration"
+                              : scenario.startsWith("badge-")
+                                ? scenario === "badge-artwork"
+                                  ? "over artwork"
+                                  : "Badges unterstützen"
+                                : scenario === "placeholder-opacity"
+                                  ? "placeholder opacity"
+                                  : scenario === "non-cohort"
+                                    ? "Vorlage Modern"
+                                    : scenario === "unsupported-font"
+                                      ? "Nicht unterstützte Schrift"
+                                      : scenario === "substituted-font"
+                                        ? "Browser-Ersatzschrift"
+                                        : scenario === "missing-measurements"
+                                          ? "nicht verfügbar"
+                                          : scenario.startsWith("stale")
+                                            ? "Daten haben sich"
+                                            : scenario === "overflow"
+                                              ? "Feldbreite"
+                                              : modern
+                                                ? "Vorlage Modern"
+                                                : "Vorlage Brief";
       assert(message.includes(expected), `${scenario}: unexpected diagnostic ${message}`);
       assert.equal(downloads, 0);
       rejected.push({ scenario, message, downloads, result: "PASS explicit rejection" });

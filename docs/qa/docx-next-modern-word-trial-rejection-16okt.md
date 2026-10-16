@@ -2,6 +2,8 @@
 
 **PARTIAL overall. Word feedback rejects the grouped-pill trial. The failed application download is blocked explicitly. The previously reviewed Modern export remains byte-identical in three actual application exports. Contact headers and CV rubric pills remain known fidelity failures, not new passing candidates.**
 
+Subsequent work: [three measured Modern interior candidates](docx-next-modern-interior-candidate-17okt.md) now pass bounded application/supplementary checks and are prepared for Word testing. This failure receipt remains historical; the grouped cover pill stays rejected and blocked.
+
 Branch: `investigate/docx-next-design-fidelity-16okt`. Reviewed parent: `d972bb15180776febc8c198c0812aa3624cbe64d`. Remote dev re-fetched and verified at `8901a830a792d75e9e792345c5180827218b4e1e`. No work is rebased onto another investigation or protected branch.
 
 ## What the new evidence actually establishes

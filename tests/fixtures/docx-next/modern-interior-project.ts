@@ -10,9 +10,17 @@ export const MODERN_INTERIOR_CASES = [
   "cv-pills-offset",
 ] as const;
 
+// The reduced-continuation stress case has a measured Web overflow and belongs
+// to explicit rejection testing, not the passing candidate default.
+export const MODERN_INTERIOR_CANDIDATE_CASES = MODERN_INTERIOR_CASES.filter(
+  (kind) => kind !== "header-reduced",
+);
+
 /** New audit cases only; the reviewed normal/Brief saved fixtures stay unchanged. */
 export function modernInteriorProjectFixture(kind: string, photo?: string) {
   const project = modernProjectFixture("normal", photo);
+  // Explicit test input, not an export-time substitution of the Cabin default.
+  project.cv!.design.font = "sans";
   if (kind.startsWith("header-")) {
     project.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
     Object.assign(project.chrome.shared, {

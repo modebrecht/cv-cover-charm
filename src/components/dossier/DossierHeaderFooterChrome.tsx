@@ -404,7 +404,10 @@ export function DossierHeaderFooterChrome({
                     index={index}
                     compact
                   />
-                  <span className={row.strong ? "min-w-0 font-semibold" : "min-w-0"}>
+                  <span
+                    data-dossier-contact-field={row.key}
+                    className={row.strong ? "min-w-0 font-semibold" : "min-w-0"}
+                  >
                     {row.value}
                   </span>
                 </span>
@@ -481,6 +484,7 @@ export function DossierHeaderFooterChrome({
                 >
                   {stackedName ? (
                     <div
+                      data-dossier-contact-field="name"
                       className="font-semibold"
                       style={{
                         fontSize: `${headerFontSizePt ?? 9.5}pt`,
@@ -503,7 +507,11 @@ export function DossierHeaderFooterChrome({
                             index={index}
                             compact
                           />
-                          <span className="min-w-0" style={{ overflowWrap: "anywhere" }}>
+                          <span
+                            data-dossier-contact-field={row.key}
+                            className="min-w-0"
+                            style={{ overflowWrap: "anywhere" }}
+                          >
                             {row.value}
                           </span>
                         </span>
@@ -525,6 +533,7 @@ export function DossierHeaderFooterChrome({
                         index={index}
                       />
                       <span
+                        data-dossier-contact-field={row.key}
                         className={row.strong ? "min-w-0 font-semibold" : "min-w-0 opacity-95"}
                         style={{ overflowWrap: "anywhere" }}
                       >

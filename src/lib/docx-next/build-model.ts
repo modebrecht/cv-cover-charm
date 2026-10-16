@@ -37,6 +37,8 @@ import { color, compositeTextColor } from "./colors";
 export { color } from "./colors";
 import { composeAuthoredCover } from "./cover-authored";
 import { composeSourceCompactBands } from "./compact-chrome";
+import { composeMeasuredHeaders } from "./interior-composition";
+import type { InteriorTextMetrics } from "./interior-metrics";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin } from "./continuation-margin";
@@ -69,6 +71,8 @@ export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 export type BuildModelOptions = {
+  /** Separate measured header candidate, captured at the app boundary. */
+  interiorTextMetrics?: InteriorTextMetrics;
   /** Explicit candidate only: source-sized empty compact chrome, declared per template. */
   compactChromeComposition?: "source-bands";
   /** Guarded fixed-page candidate; not a production export switch. */
@@ -93,6 +97,16 @@ export function buildDossierDocModel(
   options: BuildModelOptions = {},
 ): DossierDocModel {
   const { cover, letter, cv, settings } = input;
+  const capturedInteriorMetrics = options.interiorTextMetrics;
+  if (
+    capturedInteriorMetrics &&
+    (capturedInteriorMetrics.version !== 1 ||
+      capturedInteriorMetrics.sourceKey !== JSON.stringify(input) ||
+      !capturedInteriorMetrics.profile.startsWith("brief-sans-v1;"))
+  )
+    throw Error("DOCX Next: Innenlayout-Messwerte fehlen oder sind veraltet.");
+  if (options.interiorTextMetrics && options.coverComposition !== "authored-frames")
+    throw Error("DOCX Next measured headers require an authored candidate");
   if (options.coverTextMetrics && options.coverComposition !== "authored-frames")
     throw Error("DOCX Next cover metrics require authored frame composition");
   const cvVariant = cvWordLayout(settings.cvLayout);
@@ -899,7 +913,42 @@ export function buildDossierDocModel(
     sectionHeading.indentMm =
       cvFlow.indentMm +
       (layout.width === "half" ? Math.max(0, rubric.horizontalMm) : rubric.horizontalMm);
-    if (rubric.pill) {
+    if (rubric.pill && capturedInteriorMetrics?.rubrics) {
+      const measured = capturedInteriorMetrics.rubrics[sectionHeading.id];
+      // The generic native CV retains its contact metadata label. The Web
+      // personal header is not one of the user's rubric capsules.
+      if (!measured && key === "person") {
+        // Preserve the existing native label and all personal fields as-is.
+      } else {
+        if (
+          !measured ||
+          layout.width !== "full" ||
+          layout.positioning !== "flow" ||
+          sectionHeading.runs
+            .map((r) => r.text)
+            .join("")
+            .toUpperCase() !== measured.text.toUpperCase()
+        )
+          throw Error(
+            `DOCX Next: Rubrik-Messwerte stimmen nicht mit der fliessenden Rubrik «${sectionHeading.id}» überein (${JSON.stringify(sectionHeading.runs.map((r) => r.text).join(""))} / ${JSON.stringify(measured?.text)}).`,
+          );
+        sectionHeading.runs = sectionHeading.runs.map((run) => ({
+          ...run,
+          style: { ...measured.style },
+        }));
+        sectionHeading.minimumLineHeightPt = measured.lineHeightPt;
+        sectionHeading.lineHeight = measured.lineHeightPt / measured.style.sizePt;
+        sectionHeading.flowSurface = {
+          ...structuredClone(measured.surface),
+          rowWidthMm:
+            cvPart.page.widthMm -
+            cvPart.page.margins.left -
+            cvPart.page.margins.right -
+            (sectionHeading.indentMm ?? 0),
+        };
+        delete sectionHeading.ruleColor;
+      }
+    } else if (rubric.pill) {
       for (const run of sectionHeading.runs) {
         const ink = run.style.color;
         const paper = color(cd.paperColor, "FFFFFF");
@@ -916,7 +965,7 @@ export function buildDossierDocModel(
           .toUpperCase();
       }
     }
-    if (cd.headingRule === "short") {
+    if (cd.headingRule === "short" && !sectionHeading.flowSurface) {
       const afterMm = sectionHeading.afterMm;
       sectionHeading.afterMm = 0;
       delete sectionHeading.ruleColor;
@@ -1397,17 +1446,22 @@ export function buildDossierDocModel(
       }
       if (sourceCompactBands)
         composeSourceCompactBands(target, options, content, template.chrome.sourceCompactBands!);
+      if (capturedInteriorMetrics?.headers[scope]) {
+        composeMeasuredHeaders(target, input, capturedInteriorMetrics, contact, options);
+        if (scope === "cv") cvHeaderReserveMm = target.page.margins.top;
+      }
     }
   }
-  issues.push(
-    ...applyContinuationMargin(
-      cvPart,
-      settings.cvContinuationTopMarginMm,
-      cvFirstTopMargin,
-      cvHeaderReserveMm,
-      cvMinimumFirstTopMm,
-    ),
-  );
+  if (!capturedInteriorMetrics?.headers.cv)
+    issues.push(
+      ...applyContinuationMargin(
+        cvPart,
+        settings.cvContinuationTopMarginMm,
+        cvFirstTopMargin,
+        cvHeaderReserveMm,
+        cvMinimumFirstTopMm,
+      ),
+    );
   composeCvSidebar(
     cvPart,
     cvAccent,

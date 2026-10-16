@@ -16,6 +16,7 @@ const PROBE = "MWil 0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuv
 // glyphs. A wider script/font policy needs its own Word acceptance evidence.
 const LATIN =
   /^[\t\n\r\x20-\x7e\u00a0-\u00ac\u00ae-\u00ff\u0152\u0153\u2010-\u201f\u2022\u2026\u20ac]*$/u;
+export const briefFontTextSupported = (text: string) => LATIN.test(text);
 
 export async function fontDeadline<T>(promise: Promise<T>, timeoutMs = 8000): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -50,7 +51,7 @@ export async function prepareBriefFontProfile(blocks: Block[], allowedWeights = 
       b.style.font !== "sans" ||
       b.style.italic ||
       !allowedWeights.includes(b.style.weight) ||
-      !LATIN.test(text) ||
+      !briefFontTextSupported(text) ||
       b.lines.some(
         (line) =>
           typeof line !== "string" &&
