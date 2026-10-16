@@ -1,0 +1,383 @@
+[
+  {
+    "case": "normal",
+    "pages": 4,
+    "baselineCoverPages": 1,
+    "coverFrames": 11,
+    "semanticControls": 82,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": true,
+    "badgePaint": {
+      "kind": "decorative-shape",
+      "id": "cover.lehrbeginn.badge-paint",
+      "semanticText": false,
+      "shape": "rect",
+      "xMm": 20,
+      "yMm": 166.67000000000002,
+      "widthMm": 53.901074218750004,
+      "heightMm": 8.830333333333334,
+      "radiusMm": 4.415166666666667,
+      "opacity": 0.68,
+      "fill": {
+        "color": "F43F5E"
+      },
+      "stroke": {
+        "color": "000000",
+        "widthMm": 0
+      },
+      "repeat": "first"
+    },
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": null,
+    "candidateSha256": "b595d1d3558dadeeff7eb9312cbf1b5d2ee0746cbea0adb0a6e6e4c958a63c2f",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "scaled",
+    "pages": 4,
+    "baselineCoverPages": 2,
+    "coverFrames": 11,
+    "semanticControls": 82,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": true,
+    "badgePaint": {
+      "kind": "decorative-shape",
+      "id": "cover.lehrbeginn.badge-paint",
+      "semanticText": false,
+      "shape": "rect",
+      "xMm": 20,
+      "yMm": 170.6705,
+      "widthMm": 60.759243297576894,
+      "heightMm": 9.674883333333334,
+      "radiusMm": 4.837441666666667,
+      "opacity": 0.68,
+      "fill": {
+        "color": "F43F5E"
+      },
+      "stroke": {
+        "color": "000000",
+        "widthMm": 0
+      },
+      "repeat": "first"
+    },
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": null,
+    "candidateSha256": "0ee6a07440607ac8446adb4230f587d77b69e7026a3ac21ee8059365bbcb0979",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "long",
+    "pages": 4,
+    "baselineCoverPages": 2,
+    "coverFrames": 11,
+    "semanticControls": 82,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": true,
+    "badgePaint": {
+      "kind": "decorative-shape",
+      "id": "cover.lehrbeginn.badge-paint",
+      "semanticText": false,
+      "shape": "rect",
+      "xMm": 20,
+      "yMm": 179.45493125000002,
+      "widthMm": 53.901074218750004,
+      "heightMm": 8.830333333333334,
+      "radiusMm": 4.415166666666667,
+      "opacity": 0.68,
+      "fill": {
+        "color": "F43F5E"
+      },
+      "stroke": {
+        "color": "000000",
+        "widthMm": 0
+      },
+      "repeat": "first"
+    },
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": null,
+    "candidateSha256": "1dd3a11c1cef8e309e6895c3d8dc2f6a9a19942825e5072eb0e9ba8f7c5183ff",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "moved",
+    "pages": 4,
+    "baselineCoverPages": 1,
+    "coverFrames": 10,
+    "semanticControls": 81,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": true,
+    "badgePaint": {
+      "kind": "decorative-shape",
+      "id": "cover.lehrbeginn.badge-paint",
+      "semanticText": false,
+      "shape": "rect",
+      "xMm": 20,
+      "yMm": 166.67000000000002,
+      "widthMm": 53.901074218750004,
+      "heightMm": 8.830333333333334,
+      "radiusMm": 4.415166666666667,
+      "opacity": 0.68,
+      "fill": {
+        "color": "F43F5E"
+      },
+      "stroke": {
+        "color": "000000",
+        "widthMm": 0
+      },
+      "repeat": "first"
+    },
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": null,
+    "candidateSha256": "deea83921f5cd8cc9dde521ea5b7a0678419548508a9d0d706699c72ba3f52df",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "photo-portrait",
+    "pages": 4,
+    "baselineCoverPages": 1,
+    "coverFrames": 10,
+    "semanticControls": 81,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": true,
+    "badgePaint": {
+      "kind": "decorative-shape",
+      "id": "cover.lehrbeginn.badge-paint",
+      "semanticText": false,
+      "shape": "rect",
+      "xMm": 20,
+      "yMm": 166.67000000000002,
+      "widthMm": 53.901074218750004,
+      "heightMm": 8.830333333333334,
+      "radiusMm": 4.415166666666667,
+      "opacity": 0.68,
+      "fill": {
+        "color": "F43F5E"
+      },
+      "stroke": {
+        "color": "000000",
+        "widthMm": 0
+      },
+      "repeat": "first"
+    },
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": true,
+    "candidateSha256": "46d7b97f6b0819e8cc9fe95c4f3b0a83e5bd04fa1558c0af9fb3541d7a19567d",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "photo-circle",
+    "pages": 4,
+    "baselineCoverPages": 1,
+    "coverFrames": 10,
+    "semanticControls": 81,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": true,
+    "badgePaint": {
+      "kind": "decorative-shape",
+      "id": "cover.lehrbeginn.badge-paint",
+      "semanticText": false,
+      "shape": "rect",
+      "xMm": 20,
+      "yMm": 166.67000000000002,
+      "widthMm": 53.901074218750004,
+      "heightMm": 8.830333333333334,
+      "radiusMm": 4.415166666666667,
+      "opacity": 0.68,
+      "fill": {
+        "color": "F43F5E"
+      },
+      "stroke": {
+        "color": "000000",
+        "widthMm": 0
+      },
+      "repeat": "first"
+    },
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": true,
+    "candidateSha256": "bb39152ba39216e7dc8887e4a89ab1700f5a89c8a88581d737f23a30ecd5d02a",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "hidden",
+    "pages": 4,
+    "baselineCoverPages": 1,
+    "coverFrames": 7,
+    "semanticControls": 78,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": null,
+    "badgePaint": null,
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": null,
+    "candidateSha256": "ba8abaadf4a3eba8c6cddbc4916164eb6628c5e94fe9f569afde83c7ce148e8c",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "badge-center",
+    "pages": 4,
+    "baselineCoverPages": 1,
+    "coverFrames": 11,
+    "semanticControls": 82,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": true,
+    "badgePaint": {
+      "kind": "decorative-shape",
+      "id": "cover.lehrbeginn.badge-paint",
+      "semanticText": false,
+      "shape": "rect",
+      "xMm": 76.049462890625,
+      "yMm": 184,
+      "widthMm": 57.901074218750004,
+      "heightMm": 9.630333333333333,
+      "radiusMm": 2,
+      "opacity": 0.8,
+      "fill": {
+        "color": "204080"
+      },
+      "stroke": {
+        "color": "000000",
+        "widthMm": 0
+      },
+      "repeat": "first"
+    },
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": null,
+    "candidateSha256": "c7242804fcd9223ea6d00154e4bd495be3235fc240ec286521dbad51c403efc1",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "badge-right",
+    "pages": 4,
+    "baselineCoverPages": 1,
+    "coverFrames": 11,
+    "semanticControls": 82,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": true,
+    "badgePaint": {
+      "kind": "decorative-shape",
+      "id": "cover.lehrbeginn.badge-paint",
+      "semanticText": false,
+      "shape": "rect",
+      "xMm": 127.09892578124999,
+      "yMm": 184,
+      "widthMm": 57.901074218750004,
+      "heightMm": 9.630333333333333,
+      "radiusMm": 4.815166666666666,
+      "opacity": 0.8,
+      "fill": {
+        "color": "204080"
+      },
+      "stroke": {
+        "color": "000000",
+        "widthMm": 0
+      },
+      "repeat": "first"
+    },
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": null,
+    "candidateSha256": "a3a1b2188081f4cb8aae0240af65ffc42d1cd8fb1f71759f687994b78dc2ff99",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "badge-long",
+    "pages": 4,
+    "baselineCoverPages": 1,
+    "coverFrames": 11,
+    "semanticControls": 82,
+    "allCoverTextPresent": true,
+    "coverGlyphsInsideA4": true,
+    "badgeGlyphsInsidePaint": true,
+    "badgePaint": {
+      "kind": "decorative-shape",
+      "id": "cover.lehrbeginn.badge-paint",
+      "semanticText": false,
+      "shape": "rect",
+      "xMm": 20,
+      "yMm": 166.67000000000002,
+      "widthMm": 117.91163736979166,
+      "heightMm": 8.830333333333334,
+      "radiusMm": 4.415166666666667,
+      "opacity": 0.68,
+      "fill": {
+        "color": "F43F5E"
+      },
+      "stroke": {
+        "color": "000000",
+        "widthMm": 0
+      },
+      "repeat": "first"
+    },
+    "neighborPagesPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "webPixelsIdenticalToDev": true,
+    "defaultNextBytesIdenticalToDev": true,
+    "photoOriginalPixelsPreserved": null,
+    "candidateSha256": "f30aff970b60a855669086de92e1c74bec29b114400b670ef7529e4b7bc3f6ba",
+    "wordAcceptance": "UNVERIFIED"
+  }
+]

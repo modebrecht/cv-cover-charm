@@ -35,8 +35,12 @@ export function paragraph(
   const frameProperties = frame
     ? `<w:framePr w:w="${twips(frame.widthMm)}" w:hRule="auto" w:hSpace="0" w:vSpace="0" w:wrap="around" w:vAnchor="page" w:hAnchor="page" w:x="${twips(frame.xMm)}" w:y="${twips(frame.yMm)}"/>`
     : "";
+  const lineSpacing =
+    value.minimumLineHeightPt === undefined
+      ? `w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"`
+      : `w:line="${Math.max(1, Math.round(value.minimumLineHeightPt * 20))}" w:lineRule="atLeast"`;
   // Follow schema ordering (numPr, borders/shading, spacing, alignment) for Word compatibility.
-  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/>${frameProperties}<w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numberingId}"/></w:numPr>` : ""}${rule}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" w:line="${Math.round(240 * value.lineHeight)}" w:lineRule="auto"/>${value.indentMm !== undefined ? `<w:ind w:left="${twips(value.indentMm)}"/>` : ""}<w:jc w:val="${value.align === "justify" ? "both" : value.align}"/>${value.list && value.runs[0] ? runProperties(value.runs[0].style) : ""}</w:pPr>`;
+  const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/>${frameProperties}<w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numberingId}"/></w:numPr>` : ""}${rule}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" ${lineSpacing}/>${value.indentMm !== undefined ? `<w:ind w:left="${twips(value.indentMm)}"/>` : ""}<w:jc w:val="${value.align === "justify" ? "both" : value.align}"/>${value.list && value.runs[0] ? runProperties(value.runs[0].style) : ""}</w:pPr>`;
   if (frame || value.controlPlacement === "inline")
     // Keep the complete field inside its native paragraph for frames or guarded placement probes.
     return `<w:p>${props}${control(value.id, drawingRuns + (value.runs.map(run).join("") || "<w:r/>"))}</w:p>`;

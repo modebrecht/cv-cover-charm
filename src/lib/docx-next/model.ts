@@ -26,6 +26,8 @@ export type Paragraph = {
   beforeMm: number;
   afterMm: number;
   lineHeight: number;
+  /** Absolute minimum leading in points; content may grow to avoid clipping. */
+  minimumLineHeightPt?: number;
   keepNext: boolean;
   keepLines: boolean;
   list?: (typeof SEMANTIC_LIST_KINDS)[number];

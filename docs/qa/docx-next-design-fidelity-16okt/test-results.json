@@ -1,0 +1,31 @@
+{
+  "unit": {
+    "pass": 1189,
+    "fail": 0,
+    "assertions": 22930,
+    "files": 248,
+    "timeoutMs": 30000
+  },
+  "docx": {
+    "pass": 376,
+    "fail": 0,
+    "assertions": 5849,
+    "files": 58,
+    "timeoutMs": 30000
+  },
+  "typecheck": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "build": "PASS",
+  "modernAppCases": 10,
+  "modernNegativeCases": 14,
+  "modernNeighborPageRastersIdentical": 30,
+  "modernWebCasesPixelIdenticalToDev": 10,
+  "modernDefaultNextPackagesByteIdenticalToDev": 10,
+  "briefAppCandidatesByteIdenticalTo37C": 7,
+  "briefWebCasesPixelIdenticalTo37C": 7,
+  "newMicrosoftWordAcceptance": "UNVERIFIED",
+  "all10AppModelsUnchangedAfterCapsuleGuards": true
+}
