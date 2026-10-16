@@ -12,7 +12,10 @@ import { paintPng } from "../../src/lib/docx-next/artwork";
 import {
   designNativeBadgeUiEnabled,
   designInteriorAuditUiEnabled,
+  NATIVE_BADGE_WORD_REJECTION,
 } from "../../src/lib/docx-next/design-visibility";
+import { createSavedAuthoredCoverDocxNext } from "../../src/lib/brief-docx-next-export";
+import { createSavedDesignDocxNext } from "../../src/lib/design-docx-next-export";
 
 const input = () => structuredClone(snapshot) as unknown as DossierAppSnapshot;
 const options = () => ({
@@ -127,6 +130,32 @@ test("the extra badge trial requires both explicit query flags", () => {
       expect(designInteriorAuditUiEnabled()).toBe(
         search.includes("design-qa=1&docx-next-interior-qa=1"),
       );
+    }
+  } finally {
+    if (before) Object.defineProperty(globalThis, "window", before);
+    else Reflect.deleteProperty(globalThis, "window");
+  }
+});
+
+test("Word-rejected badge requests fail before accessing saved data or fonts, without fallback", async () => {
+  for (const template of ["brief", "modern"] as const)
+    for (const inspectNativeInteriors of [false, true])
+      await expect(
+        createSavedAuthoredCoverDocxNext(template, true, {
+          coverBadgeComposition: "native-shape",
+          inspectNativeInteriors,
+        }),
+      ).rejects.toThrow(NATIVE_BADGE_WORD_REJECTION);
+  const before = Object.getOwnPropertyDescriptor(globalThis, "window");
+  try {
+    for (const extra of ["", "&docx-next-interior-qa=1"]) {
+      Object.defineProperty(globalThis, "window", {
+        configurable: true,
+        value: {
+          location: { search: "?docx-next-design-qa=1&docx-next-badge-qa=1" + extra },
+        },
+      });
+      await expect(createSavedDesignDocxNext()).rejects.toThrow(NATIVE_BADGE_WORD_REJECTION);
     }
   } finally {
     if (before) Object.defineProperty(globalThis, "window", before);

@@ -27,6 +27,7 @@ import {
   designDocxNextUiEnabled,
   designNativeBadgeUiEnabled,
   designInteriorAuditUiEnabled,
+  NATIVE_BADGE_WORD_REJECTION,
 } from "@/lib/docx-next/design-visibility";
 
 export type DossierExportFormat = "json" | "pdf" | "docx";
@@ -463,7 +464,7 @@ export function DossierExportDialog({
           <div className="mt-3 rounded-lg border px-3 py-2" data-design-docx-next-qa>
             <p id="design-docx-next-help" className="text-xs text-muted-foreground">
               {designNativeBadgeUiEnabled()
-                ? "Modern-Testexport · Pille und Text gemeinsam verschiebbar. In Word prüfen; neue Textlängen passen die Form nicht automatisch an."
+                ? NATIVE_BADGE_WORD_REJECTION
                 : designInteriorAuditUiEnabled()
                   ? "Diagnoseexport für Kontaktheader und Rubrik-Pills. Bekannte Designabweichungen; noch nicht zur Verwendung freigegeben."
                   : "Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen."}
@@ -471,14 +472,19 @@ export function DossierExportDialog({
             <button
               type="button"
               onClick={() => void onDesignDocxNext()}
-              disabled={busy || missingParts.length > 0 || !letterState.readyToSend}
+              disabled={
+                busy ||
+                missingParts.length > 0 ||
+                !letterState.readyToSend ||
+                designNativeBadgeUiEnabled()
+              }
               aria-describedby="design-docx-next-help"
               className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
             >
               {downloading
                 ? "Dossier wird erstellt…"
                 : designNativeBadgeUiEnabled()
-                  ? "Modern Pille gemeinsam testen"
+                  ? "Pillenversuch gesperrt"
                   : designInteriorAuditUiEnabled()
                     ? "Modern Header und Rubriken prüfen"
                     : "Modern DOCX Next testen"}

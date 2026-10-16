@@ -1,0 +1,30 @@
+{
+  "userReport": "oh nicht gut pille / header sehe nur strich. brauche insg 3 test dokumente ?",
+  "images": [
+    {
+      "name": "image(20261016-212255).png",
+      "sha256": "fa628f2546ec270e5912457701a7252a986b6b5d0cb119850fa054df7a3f3910",
+      "bytes": 24615,
+      "actuallyInspected": true,
+      "observed": "Filled pink capsule; visible Lehrbeginn August; expected 2028 absent from crop. No proof of underlying text deletion.",
+      "attachmentRepublished": false
+    },
+    {
+      "name": "image(20261016-212343).png",
+      "sha256": "6297d2234b5fa8415db053628dd56ccdff6422557012f857a6cae18d0c18524f",
+      "bytes": 30791,
+      "actuallyInspected": true,
+      "observed": "Narrow gray page-edge bands; CV body contact values present; no contact header visible. DOCX identity unknown.",
+      "attachmentRepublished": false
+    }
+  ],
+  "groupedPillVisualStatus": "FAIL reported Word trial",
+  "exactReturnedDocxIdentity": "UNVERIFIED",
+  "newReturnedDocxAvailable": false,
+  "newWordPdfAvailable": false,
+  "desktopWordAvailable": false,
+  "wordRootCause": "UNVERIFIED; shape text layout boundary suspected",
+  "oldReviewedExportChanged": false,
+  "nextHumanRoundDocuments": 3,
+  "newFixedDocumentsDelivered": 0
+}

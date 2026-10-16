@@ -19,6 +19,10 @@ import {
 
 const modern = process.env.DOCX_NEXT_QA_TEMPLATE === "modern";
 const nativeBadge = modern && process.env.DOCX_NEXT_NATIVE_BADGE === "1";
+assert(
+  !nativeBadge,
+  "Native badge trial withdrawn after Word failure; run rejected-native-badge negatives instead.",
+);
 const interiorAudit = modern && process.env.DOCX_NEXT_INTERIOR_AUDIT === "1";
 const cases = interiorAudit
   ? MODERN_INTERIOR_CASES
@@ -388,6 +392,7 @@ try {
             "contact-layout",
             "rubric-pills",
             "mixed-layout-trials",
+            "rejected-native-badge",
           ]
         : []),
     ].filter(
@@ -410,11 +415,12 @@ try {
           c.design.sectionTitlePill = true;
           localStorage.setItem("lebenslauf:v1", JSON.stringify(c));
         }
-        if (scenario === "mixed-layout-trials")
+        if (scenario === "mixed-layout-trials" || scenario === "rejected-native-badge")
           history.replaceState(
             null,
             "",
-            "/?docx-next-design-qa=1&docx-next-badge-qa=1&docx-next-interior-qa=1",
+            "/?docx-next-design-qa=1&docx-next-badge-qa=1" +
+              (scenario === "mixed-layout-trials" ? "&docx-next-interior-qa=1" : ""),
           );
         if (scenario === "contact-layout") {
           const c = JSON.parse(localStorage.getItem("lebenslauf:v1")!);
@@ -533,6 +539,70 @@ try {
       }
       let downloads = 0;
       page.on("download", () => downloads++);
+      if (scenario === "rejected-native-badge" || scenario === "mixed-layout-trials") {
+        await page.reload({ waitUntil: "networkidle" });
+        await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
+        const storedBefore = await page.evaluate(() =>
+          ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"].map((key) =>
+            localStorage.getItem(key),
+          ),
+        );
+        assert(
+          await page
+            .getByRole("button", { name: "Pillenversuch gesperrt", exact: true })
+            .isDisabled(),
+        );
+        const helper = await page.locator("#design-docx-next-help").innerText();
+        assert(helper.includes("Microsoft Word zeigt den Text unvollständig"));
+        const messages = await page.evaluate(async () => {
+          const entry = await import("/src/lib/design-docx-next-export.ts");
+          const direct = await import("/src/lib/brief-docx-next-export.ts");
+          const messages: string[] = [];
+          for (const call of [
+            () => entry.createSavedDesignDocxNext(),
+            () =>
+              direct.createSavedAuthoredCoverDocxNext("modern", true, {
+                coverBadgeComposition: "native-shape",
+              }),
+          ]) {
+            try {
+              await call();
+              messages.push("unexpected success");
+            } catch (error) {
+              messages.push(String(error));
+            }
+          }
+          return messages;
+        });
+        assert(
+          messages.every((message) =>
+            message.includes("Microsoft Word zeigt den Text unvollständig"),
+          ),
+        );
+        assert.equal(downloads, 0);
+        assert.deepEqual(
+          await page.evaluate(() =>
+            ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"].map((key) =>
+              localStorage.getItem(key),
+            ),
+          ),
+          storedBefore,
+        );
+        await page
+          .getByRole("dialog", { name: "Dossier herunterladen" })
+          .screenshot({ path: path.join(out, scenario + ".png") });
+        rejected.push({
+          scenario,
+          messages,
+          disabledButton: true,
+          downloads,
+          savedDocumentsUnchanged: true,
+          result: "PASS Word-rejected trial blocked",
+        });
+        console.log(JSON.stringify({ scenario, result: "rejection PASS" }));
+        await context.close();
+        continue;
+      }
       await page.getByRole("button", { name: label, exact: true }).click();
       const alert = page.locator(qaSelector + ' [role="alert"]');
       await alert.waitFor({ state: "visible" });
@@ -540,35 +610,33 @@ try {
       const expected =
         scenario === "rubric-pills"
           ? "Rubrik-Pills"
-          : scenario === "mixed-layout-trials"
-            ? "getrennt geprüft"
-            : scenario === "contact-layout"
-              ? "ganze Breite"
-              : scenario.startsWith("chrome-")
-                ? "compact chrome"
-                : scenario === "css-hidden-decoration"
-                  ? "CSS-hidden decoration"
-                  : scenario.startsWith("badge-")
-                    ? scenario === "badge-artwork"
-                      ? "over artwork"
-                      : "Badges unterstützen"
-                    : scenario === "placeholder-opacity"
-                      ? "placeholder opacity"
-                      : scenario === "non-cohort"
-                        ? "Vorlage Modern"
-                        : scenario === "unsupported-font"
-                          ? "Nicht unterstützte Schrift"
-                          : scenario === "substituted-font"
-                            ? "Browser-Ersatzschrift"
-                            : scenario === "missing-measurements"
-                              ? "nicht verfügbar"
-                              : scenario.startsWith("stale")
-                                ? "Daten haben sich"
-                                : scenario === "overflow"
-                                  ? "Feldbreite"
-                                  : modern
-                                    ? "Vorlage Modern"
-                                    : "Vorlage Brief";
+          : scenario === "contact-layout"
+            ? "ganze Breite"
+            : scenario.startsWith("chrome-")
+              ? "compact chrome"
+              : scenario === "css-hidden-decoration"
+                ? "CSS-hidden decoration"
+                : scenario.startsWith("badge-")
+                  ? scenario === "badge-artwork"
+                    ? "over artwork"
+                    : "Badges unterstützen"
+                  : scenario === "placeholder-opacity"
+                    ? "placeholder opacity"
+                    : scenario === "non-cohort"
+                      ? "Vorlage Modern"
+                      : scenario === "unsupported-font"
+                        ? "Nicht unterstützte Schrift"
+                        : scenario === "substituted-font"
+                          ? "Browser-Ersatzschrift"
+                          : scenario === "missing-measurements"
+                            ? "nicht verfügbar"
+                            : scenario.startsWith("stale")
+                              ? "Daten haben sich"
+                              : scenario === "overflow"
+                                ? "Feldbreite"
+                                : modern
+                                  ? "Vorlage Modern"
+                                  : "Vorlage Brief";
       assert(message.includes(expected), `${scenario}: unexpected diagnostic ${message}`);
       assert.equal(downloads, 0);
       rejected.push({ scenario, message, downloads, result: "PASS explicit rejection" });

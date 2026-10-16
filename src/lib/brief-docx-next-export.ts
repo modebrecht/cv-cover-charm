@@ -25,6 +25,7 @@ import { prepareBriefFontProfile } from "./docx-next/brief-fonts.browser";
 import { briefDocxNextUiEnabled } from "./docx-next/brief-visibility";
 import { captureCoverBadgeAdvances } from "./docx-next/cover-badges.browser";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
+import { NATIVE_BADGE_WORD_REJECTION } from "./docx-next/design-visibility";
 
 /** Capture the same saved application inputs used by the actual dossier workflow. */
 export function captureSavedBriefSnapshot() {
@@ -105,10 +106,11 @@ export async function createSavedAuthoredCoverDocxNext(
   candidate: { coverBadgeComposition?: "native-shape"; inspectNativeInteriors?: boolean } = {},
 ) {
   if (!enabled) throw new Error("Brief DOCX Next: Testexport ist nicht aktiviert.");
-  if (candidate.coverBadgeComposition && template !== "modern")
-    throw Error(
-      "Brief DOCX Next: Die gemeinsam verschiebbare Pille ist nur für Modern freigegeben.",
-    );
+  // Word feedback rejects the grouped surface, despite complete package text
+  // and passing supplementary renders. Do not capture data or substitute the
+  // previously reviewed composition when a caller explicitly requests it.
+  if (candidate.coverBadgeComposition)
+    throw Error(`Brief DOCX Next: ${NATIVE_BADGE_WORD_REJECTION}`);
   const snapshot = captureSavedAuthoredSnapshot(template);
   if (
     template === "modern" &&

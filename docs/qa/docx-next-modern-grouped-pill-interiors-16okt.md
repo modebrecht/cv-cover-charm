@@ -1,6 +1,8 @@
 # Modern grouped pill and interior-layout audit
 
-**PARTIAL. A bounded application candidate puts the date text and pill surface in one native Word shape. Thirteen app cases pass structural and supplementary visual checks; actual Word dragging, editing and Save/Reopen remain UNVERIFIED. The requested horizontal/stacked headers and CV rubric pills were tested in six actual app diagnostic exports and fail design fidelity. They are not promoted to the reviewed export.**
+**SUBSEQUENT WORD FEEDBACK: FAIL. The user's later Word screenshot shows “Lehrbeginn August” with “2028” missing. The grouped-pill app trial is withdrawn and explicitly blocked; it must not be downloaded as a passing candidate. Exact returned-file identity and the Word-specific mechanism remain unverified. See [the failure receipt and test plan](docx-next-modern-word-trial-rejection-16okt.md).**
+
+The results below describe the earlier, historical candidate: thirteen app cases passed structural and supplementary visual checks, while Word acceptance was unverified. Those results did not establish Word fidelity. The requested horizontal/stacked headers and CV rubric pills also failed the six actual app diagnostic exports and remain unaccepted.
 
 Continuation on `investigate/docx-next-design-fidelity-16okt`, parent `82f979ed0cab55e0124e1eee76b09b8b90900276`. Fetched dev remains `8901a830a792d75e9e792345c5180827218b4e1e`; own remote HEAD and clean working tree were checked before editing. `AGENTS.md` was reread. No history rewrite, merge, deployment or protected-branch write. The publication SHA is supplied in the handoff and is the commit containing this report.
 

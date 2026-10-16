@@ -1,0 +1,32 @@
+[
+  {
+    "case": "normal",
+    "sha256": "9acb8eab1036519a5a201439403f581c13dea5c58c4e6c51a3ef69feb9bbb770",
+    "sameAppDownloadAsParent": true,
+    "webByteIdentical": {
+      "web.png": "007ed3a78baa6095a56605363923cea83144789a185c618f40c6809e3ddff6f4",
+      "web-letter.png": "56415aea93f4293006c75f9ca2dbc67cd33f7dc2c25aac91c549871397df8dbc",
+      "web-cv.png": "2e8559b17997c6a5aa1b6c2537308464ca5bbbd97b6190bc865cb40802a183ba"
+    }
+  },
+  {
+    "case": "scaled",
+    "sha256": "91e9d717fe3bd85bb254fbfda60fc25242bb75806962ee114ec13a2f26084fef",
+    "sameAppDownloadAsParent": true,
+    "webByteIdentical": {
+      "web.png": "94471bfa31b3569d7292fecd563f4bd0ea30f51e49eca5517159331abdbbb6ae",
+      "web-letter.png": "56415aea93f4293006c75f9ca2dbc67cd33f7dc2c25aac91c549871397df8dbc",
+      "web-cv.png": "2e8559b17997c6a5aa1b6c2537308464ca5bbbd97b6190bc865cb40802a183ba"
+    }
+  },
+  {
+    "case": "long",
+    "sha256": "0e33848a2d7047d2bb5a6eda86f3734dd720f771ffe9cc7c8228c01d2e37bb07",
+    "sameAppDownloadAsParent": true,
+    "webByteIdentical": {
+      "web.png": "ed36a4f573c0e90c6888d747dceaac12091728c71a2ee2fa9357691838914518",
+      "web-letter.png": "56415aea93f4293006c75f9ca2dbc67cd33f7dc2c25aac91c549871397df8dbc",
+      "web-cv.png": "2e8559b17997c6a5aa1b6c2537308464ca5bbbd97b6190bc865cb40802a183ba"
+    }
+  }
+]
