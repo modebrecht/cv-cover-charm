@@ -23,7 +23,11 @@ import {
 } from "@/lib/dossier-project";
 import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
 import { briefDocxNextUiEnabled } from "@/lib/docx-next/brief-visibility";
-import { designDocxNextUiEnabled } from "@/lib/docx-next/design-visibility";
+import {
+  designDocxNextUiEnabled,
+  designNativeBadgeUiEnabled,
+  designInteriorAuditUiEnabled,
+} from "@/lib/docx-next/design-visibility";
 
 export type DossierExportFormat = "json" | "pdf" | "docx";
 
@@ -458,8 +462,11 @@ export function DossierExportDialog({
         {designDocxNextUiEnabled() && cover?.template === "modern" && onDesignDocxNext ? (
           <div className="mt-3 rounded-lg border px-3 py-2" data-design-docx-next-qa>
             <p id="design-docx-next-help" className="text-xs text-muted-foreground">
-              Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und
-              Fussstreifen. Vor der Verwendung in Word prüfen.
+              {designNativeBadgeUiEnabled()
+                ? "Modern-Testexport · Pille und Text gemeinsam verschiebbar. In Word prüfen; neue Textlängen passen die Form nicht automatisch an."
+                : designInteriorAuditUiEnabled()
+                  ? "Diagnoseexport für Kontaktheader und Rubrik-Pills. Bekannte Designabweichungen; noch nicht zur Verwendung freigegeben."
+                  : "Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen."}
             </p>
             <button
               type="button"
@@ -468,7 +475,13 @@ export function DossierExportDialog({
               aria-describedby="design-docx-next-help"
               className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
             >
-              {downloading ? "Dossier wird erstellt…" : "Modern DOCX Next testen"}
+              {downloading
+                ? "Dossier wird erstellt…"
+                : designNativeBadgeUiEnabled()
+                  ? "Modern Pille gemeinsam testen"
+                  : designInteriorAuditUiEnabled()
+                    ? "Modern Header und Rubriken prüfen"
+                    : "Modern DOCX Next testen"}
             </button>
             {briefDocxNextError ? (
               <p role="alert" className="mt-2 text-sm text-destructive">

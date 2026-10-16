@@ -75,6 +75,8 @@ export type BuildModelOptions = {
   coverComposition?: "authored-frames";
   /** Explicit candidate: keep authored text badge paint in the active body story. */
   coverBadgePlacement?: "body";
+  /** Explicit candidate: one native shape contains badge paint and editable text. */
+  coverBadgeComposition?: "native-shape";
   /** Explicit classic-CV candidate: one shared native content-sized contact grid. */
   cvContactComposition?: "compact-grid";
   /** Diagnostic font measurements only; source/renderer never read live browser state. */
@@ -112,6 +114,13 @@ export function buildDossierDocModel(
   )
     throw Error("DOCX Next body badge paint requires an authored candidate");
   const cvFlow = CV_FLOW_LAYOUTS[cvVariant];
+  if (
+    options.coverBadgeComposition !== undefined &&
+    (options.coverBadgeComposition !== "native-shape" ||
+      options.coverComposition !== "authored-frames" ||
+      !options.coverTextMetrics)
+  )
+    throw Error("DOCX Next native badge requires fresh authored cover metrics");
   if (
     options.cvContactComposition !== undefined &&
     (options.cvContactComposition !== "compact-grid" || cvVariant !== "classic")
@@ -278,6 +287,7 @@ export function buildDossierDocModel(
           elementContext(cover.colors, theme.font, cover.fontScale),
           options.coverTextMetrics,
           template.cover.hiddenDecorationIds,
+          options.coverBadgeComposition,
         )
       : composeCover(
           cover,

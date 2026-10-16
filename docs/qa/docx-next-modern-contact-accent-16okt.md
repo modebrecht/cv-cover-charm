@@ -1,5 +1,7 @@
 # Modern contact, accent and second Word return
 
+**Later follow-up:** [Modern grouped pill and interior-layout audit](docx-next-modern-grouped-pill-interiors-16okt.md) records the user's visual feedback, a separately gated single-object pill candidate and the requested contact-header/rubric tests. The results below describe the preceding candidate.
+
 **PARTIAL. The second returned Microsoft Word PDF confirms that the shared background fixes the unequal header/footer lengths in the normal dossier. The remaining reported Modern contact and pill-color defects are corrected in the controlled application export. Their new Word visual/editing/Save/Reopen acceptance is UNVERIFIED.** Other templates and the ordinary export remain outside this integration.
 
 Parent: `560345bb39042da0c15909a78673a235740a1ac7`. Own branch: `investigate/docx-next-design-fidelity-16okt`. Latest fetched remote dev: `8901a830a792d75e9e792345c5180827218b4e1e`. `AGENTS.md` was reread; no published history is rewritten. The publication SHA is the commit containing this report, supplied in the handoff and recoverable with `git log -1 --format=%H` on this branch.

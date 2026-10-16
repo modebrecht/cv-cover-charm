@@ -32,6 +32,7 @@ import { pictureGeometry } from "./picture-geometry";
 import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
+import { nativeTextShapeRun } from "./native-text-shape";
 import { parallelFlowTable } from "./parallel-flow";
 import { imageZoneTable } from "./image-zone";
 import { cellProperties, planCellRowSpans } from "./native-cell";
@@ -436,7 +437,9 @@ export async function renderDossierDocx(
   ): string {
     if (block.kind === "paragraph") return renderParagraph(block, "", indentMm);
     if (block.kind === "paragraph-frame")
-      return block.paragraphs.map((value) => renderParagraph(value, "", 0, block)).join("");
+      return block.surface
+        ? emptyParagraphWithRuns(nativeTextShapeRun(block, ++drawingId, renderParagraph))
+        : block.paragraphs.map((value) => renderParagraph(value, "", 0, block)).join("");
     if (block.kind === "image") return image(block, widthMm, page);
     if (block.kind === "decorative-shape")
       return emptyParagraphWithRuns(decorationRun(block, page));

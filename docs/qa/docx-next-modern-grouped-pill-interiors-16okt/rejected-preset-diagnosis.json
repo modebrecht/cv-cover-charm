@@ -1,0 +1,9 @@
+{
+  "candidateSha256": "1e67f7ede9f0f0085a3509cb51bed93bec0a80ecf6917dba45c82a2086f47718",
+  "engine": "unchanged supplementary LibreOffice",
+  "result": "REJECTED visible clipping; stopped after normal",
+  "oldTextOriginPt": [68.1500015258789, 490.4007568359375],
+  "presetTextOriginPt": [71.80000305175781, 494.05078125],
+  "correctedTextOriginPt": [68.1500015258789, 490.4007568359375],
+  "correction": "explicit full text rectangle and circular-arc native contour; authored padding unchanged"
+}

@@ -147,6 +147,32 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           )
         )
           throw new Error(`DOCX Next invalid paragraph frame ${block.id}`);
+        if (block.surface) {
+          const s = block.surface;
+          if (
+            ![s.heightMm, s.radiusMm, s.paddingXMm, s.paddingYMm].every(Number.isFinite) ||
+            s.heightMm <= 0 ||
+            Math.min(s.radiusMm, s.paddingXMm, s.paddingYMm) < 0 ||
+            2 * s.radiusMm > Math.min(block.widthMm, s.heightMm) ||
+            2 * s.paddingXMm >= block.widthMm ||
+            2 * s.paddingYMm >= s.heightMm ||
+            block.yMm + s.heightMm > part.page.heightMm ||
+            !/^[0-9A-F]{6}$/.test(s.fillColor) ||
+            block.paragraphs.length !== 1 ||
+            block.paragraphs.some(
+              (p) =>
+                p.beforeMm +
+                  p.afterMm +
+                  ((p.minimumLineHeightPt ??
+                    Math.max(...p.runs.map((r) => r.style.sizePt)) * p.lineHeight) *
+                    25.4) /
+                    72 >
+                s.heightMm - 2 * s.paddingYMm + 1e-7,
+            ) ||
+            block.paragraphs.some((p) => p.list || p.runs.some((r) => /[\r\n\t]/.test(r.text)))
+          )
+            throw Error(`DOCX Next invalid native text-shape surface ${block.id}`);
+        }
       }
       if (block.kind === "parallel-flow")
         parallelFlowTable(block, part.page.widthMm - margins.left - margins.right);

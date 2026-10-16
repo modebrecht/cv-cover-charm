@@ -20,6 +20,7 @@ export function composeAuthoredCover(
   context: Context,
   fontMetrics?: CoverTextMetrics,
   hiddenDecorationIds: readonly string[] = [],
+  badgeComposition?: "native-shape",
 ): DocBlock[] {
   if (!TEMPLATES.find((t) => t.id === cover.template)?.authoredCoverPresentation)
     throw Error("DOCX Next authored cover presentation is not declared for this template");
@@ -317,6 +318,7 @@ export function composeAuthoredCover(
         );
     }
     let badge: { x: number; width: number; height: number } | undefined;
+    let badgeSurface: Extract<DocBlock, { kind: "paragraph-frame" }>["surface"];
     if (s.bg) {
       const advance = measured?.badgeAdvanceMm;
       if (
@@ -338,7 +340,7 @@ export function composeAuthoredCover(
         width,
         height: (pos.size * visual.style.lineHeight * 25.4) / 72 + 2 * s.padY,
       };
-      result.push({
+      const paint: Extract<DocBlock, { kind: "decorative-shape" }> = {
         kind: "decorative-shape",
         id: id + ".badge-paint",
         semanticText: false,
@@ -364,7 +366,18 @@ export function composeAuthoredCover(
               : context.color(cover.colors[s.bg] ?? s.bg, context.paper ?? "FFFFFF"),
         },
         stroke: { color: "000000", widthMm: 0 },
-      });
+      };
+      if (badgeComposition === "native-shape") {
+        if (paint.opacity !== 1)
+          throw Error("DOCX Next native badge requires opaque solid-paper paint: " + id);
+        badgeSurface = {
+          heightMm: badge.height,
+          radiusMm: paint.radiusMm,
+          fillColor: paint.fill!.color,
+          paddingXMm: s.padX,
+          paddingYMm: s.padY,
+        };
+      } else result.push(paint);
     }
     const colorOverride = hasUserStyle(b, "color") || !!cover.colors.coverInk;
     const lines = b.lines.map((line) =>
@@ -412,10 +425,11 @@ export function composeAuthoredCover(
     result.push({
       kind: "paragraph-frame",
       id: id + ".frame",
-      xMm: s.x + (badge ? s.padX : 0),
-      yMm: pos.y + (badge ? s.padY : 0),
-      widthMm: s.w - (badge ? 2 * s.padX : 0),
-      paragraphs,
+      xMm: badgeSurface ? badge!.x : s.x + (badge ? s.padX : 0),
+      yMm: pos.y + (badge && !badgeSurface ? s.padY : 0),
+      widthMm: badgeSurface ? badge!.width : s.w - (badge ? 2 * s.padX : 0),
+      paragraphs: badgeSurface ? paragraphs.map((p) => ({ ...p, align: "left" })) : paragraphs,
+      ...(badgeSurface ? { surface: badgeSurface } : {}),
     });
   }
   return result;

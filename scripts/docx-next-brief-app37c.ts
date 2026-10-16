@@ -12,12 +12,36 @@ import {
   modernProjectFixture,
   MODERN_PROJECT_CASES,
 } from "../tests/fixtures/docx-next/modern-project";
+import {
+  modernInteriorProjectFixture,
+  MODERN_INTERIOR_CASES,
+} from "../tests/fixtures/docx-next/modern-interior-project";
 
 const modern = process.env.DOCX_NEXT_QA_TEMPLATE === "modern";
-const cases = modern ? MODERN_PROJECT_CASES : BRIEF_PROJECT_CASES;
-const fixture = modern ? modernProjectFixture : briefProjectFixture;
-const query = modern ? "docx-next-design-qa=1" : "docx-next-brief-qa=1";
-const label = modern ? "Modern DOCX Next testen" : "Brief DOCX Next testen";
+const nativeBadge = modern && process.env.DOCX_NEXT_NATIVE_BADGE === "1";
+const interiorAudit = modern && process.env.DOCX_NEXT_INTERIOR_AUDIT === "1";
+const cases = interiorAudit
+  ? MODERN_INTERIOR_CASES
+  : modern
+    ? MODERN_PROJECT_CASES
+    : BRIEF_PROJECT_CASES;
+const fixture = interiorAudit
+  ? modernInteriorProjectFixture
+  : modern
+    ? modernProjectFixture
+    : briefProjectFixture;
+const query = modern
+  ? "docx-next-design-qa=1" +
+    (nativeBadge ? "&docx-next-badge-qa=1" : "") +
+    (interiorAudit ? "&docx-next-interior-qa=1" : "")
+  : "docx-next-brief-qa=1";
+const label = nativeBadge
+  ? "Modern Pille gemeinsam testen"
+  : interiorAudit
+    ? "Modern Header und Rubriken prüfen"
+    : modern
+      ? "Modern DOCX Next testen"
+      : "Brief DOCX Next testen";
 const qaSelector = modern ? "[data-design-docx-next-qa]" : "[data-brief-docx-next-qa]";
 
 const require = createRequire(import.meta.url);
@@ -265,6 +289,58 @@ try {
           path.join(folder, `web-${part}-chrome.json`),
           JSON.stringify(chrome, null, 2),
         );
+        if (interiorAudit) {
+          const pages = page.locator(selector + ":visible");
+          const geometry = [];
+          // Offscreen export canvases also satisfy Playwright :visible. Keep
+          // real editor pages, including those below the viewport vertically.
+          const visibleIndexes = await pages.evaluateAll((elements) =>
+            elements.flatMap((el, index) => {
+              const r = el.getBoundingClientRect();
+              return r.right > 0 && r.left < innerWidth ? [index] : [];
+            }),
+          );
+          for (let i = 0; i < visibleIndexes.length; i++) {
+            const sheet = pages.nth(visibleIndexes[i]);
+            await sheet.screenshot({ path: path.join(folder, `web-${part}-page-${i + 1}.png`) });
+            geometry.push(
+              await sheet.evaluate((root: HTMLElement) => {
+                const r = root.getBoundingClientRect();
+                return Array.from(
+                  root.querySelectorAll<HTMLElement>(
+                    "[data-dossier-integrated-contact], [data-dossier-continuation-contact], [data-cv-section-title], [data-dossier-contact-header-background], [data-dossier-continuation-contact-header]",
+                  ),
+                ).map((el) => {
+                  const b = el.getBoundingClientRect(),
+                    s = getComputedStyle(el);
+                  return {
+                    tag: el.tagName,
+                    attributes: Array.from(el.attributes)
+                      .filter((a) => a.name.startsWith("data-"))
+                      .map((a) => [a.name, a.value]),
+                    text: el.innerText,
+                    xMm: ((b.x - r.x) * 210) / r.width,
+                    yMm: ((b.y - r.y) * 297) / r.height,
+                    widthMm: (b.width * 210) / r.width,
+                    heightMm: (b.height * 297) / r.height,
+                    font: s.fontFamily,
+                    sizePx: s.fontSize,
+                    lineHeight: s.lineHeight,
+                    align: s.textAlign,
+                    padding: s.padding,
+                    radius: s.borderRadius,
+                    background: s.backgroundColor,
+                    shadow: s.boxShadow,
+                  };
+                });
+              }),
+            );
+          }
+          await writeFile(
+            path.join(folder, `web-${part}-interior-geometry.json`),
+            JSON.stringify(geometry, null, 2),
+          );
+        }
       }
     assert.deepEqual(errors, []);
     const evidence = {
@@ -310,6 +386,8 @@ try {
             "chrome-content",
             "chrome-mode",
             "contact-layout",
+            "rubric-pills",
+            "mixed-layout-trials",
           ]
         : []),
     ].filter(
@@ -327,6 +405,17 @@ try {
       await page.reload({ waitUntil: "networkidle" });
       await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
       await page.evaluate(async (scenario) => {
+        if (scenario === "rubric-pills") {
+          const c = JSON.parse(localStorage.getItem("lebenslauf:v1")!);
+          c.design.sectionTitlePill = true;
+          localStorage.setItem("lebenslauf:v1", JSON.stringify(c));
+        }
+        if (scenario === "mixed-layout-trials")
+          history.replaceState(
+            null,
+            "",
+            "/?docx-next-design-qa=1&docx-next-badge-qa=1&docx-next-interior-qa=1",
+          );
         if (scenario === "contact-layout") {
           const c = JSON.parse(localStorage.getItem("lebenslauf:v1")!);
           c.data.sectionLayouts = { ...c.data.sectionLayouts, person: { width: "half" } };
@@ -449,33 +538,37 @@ try {
       await alert.waitFor({ state: "visible" });
       const message = await alert.innerText();
       const expected =
-        scenario === "contact-layout"
-          ? "ganze Breite"
-          : scenario.startsWith("chrome-")
-            ? "compact chrome"
-            : scenario === "css-hidden-decoration"
-              ? "CSS-hidden decoration"
-              : scenario.startsWith("badge-")
-                ? scenario === "badge-artwork"
-                  ? "over artwork"
-                  : "Badges unterstützen"
-                : scenario === "placeholder-opacity"
-                  ? "placeholder opacity"
-                  : scenario === "non-cohort"
-                    ? "Vorlage Modern"
-                    : scenario === "unsupported-font"
-                      ? "Nicht unterstützte Schrift"
-                      : scenario === "substituted-font"
-                        ? "Browser-Ersatzschrift"
-                        : scenario === "missing-measurements"
-                          ? "nicht verfügbar"
-                          : scenario.startsWith("stale")
-                            ? "Daten haben sich"
-                            : scenario === "overflow"
-                              ? "Feldbreite"
-                              : modern
-                                ? "Vorlage Modern"
-                                : "Vorlage Brief";
+        scenario === "rubric-pills"
+          ? "Rubrik-Pills"
+          : scenario === "mixed-layout-trials"
+            ? "getrennt geprüft"
+            : scenario === "contact-layout"
+              ? "ganze Breite"
+              : scenario.startsWith("chrome-")
+                ? "compact chrome"
+                : scenario === "css-hidden-decoration"
+                  ? "CSS-hidden decoration"
+                  : scenario.startsWith("badge-")
+                    ? scenario === "badge-artwork"
+                      ? "over artwork"
+                      : "Badges unterstützen"
+                    : scenario === "placeholder-opacity"
+                      ? "placeholder opacity"
+                      : scenario === "non-cohort"
+                        ? "Vorlage Modern"
+                        : scenario === "unsupported-font"
+                          ? "Nicht unterstützte Schrift"
+                          : scenario === "substituted-font"
+                            ? "Browser-Ersatzschrift"
+                            : scenario === "missing-measurements"
+                              ? "nicht verfügbar"
+                              : scenario.startsWith("stale")
+                                ? "Daten haben sich"
+                                : scenario === "overflow"
+                                  ? "Feldbreite"
+                                  : modern
+                                    ? "Vorlage Modern"
+                                    : "Vorlage Brief";
       assert(message.includes(expected), `${scenario}: unexpected diagnostic ${message}`);
       assert.equal(downloads, 0);
       rejected.push({ scenario, message, downloads, result: "PASS explicit rejection" });

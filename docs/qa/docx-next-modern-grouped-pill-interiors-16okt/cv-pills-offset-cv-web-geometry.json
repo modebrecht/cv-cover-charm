@@ -1,0 +1,151 @@
+[
+  [
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.custom:familie.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "FAMILIE",
+      "xMm": 23.58782190525621,
+      "yMm": 73.32022110457272,
+      "widthMm": 21.5884690797947,
+      "heightMm": 5.591063572205219,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.schule.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "SCHULBILDUNG",
+      "xMm": 23.58782190525621,
+      "yMm": 90.58516071752175,
+      "widthMm": 39.06505172056584,
+      "heightMm": 5.591072916247181,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.erfahrung.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "PRAKTIKA & SCHNUPPERTAGE",
+      "xMm": 23.58782190525621,
+      "yMm": 123.3877283784532,
+      "widthMm": 68.26156477405492,
+      "heightMm": 5.591063572205219,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.sprachen.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "SPRACHEN",
+      "xMm": 23.58782190525621,
+      "yMm": 161.49623551516189,
+      "widthMm": 27.836885851653925,
+      "heightMm": 5.591063572205219,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.hobbys.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "HOBBYS & INTERESSEN",
+      "xMm": 23.58782190525621,
+      "yMm": 183.53815773246214,
+      "widthMm": 55.01672134543956,
+      "heightMm": 5.591063572205219,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.staerken.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "STÄRKEN",
+      "xMm": 23.58782190525621,
+      "yMm": 206.16275571842783,
+      "widthMm": 23.968816546309288,
+      "heightMm": 5.591063572205219,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.referenzen.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "REFERENZEN",
+      "xMm": 23.58782190525621,
+      "yMm": 228.78735370439352,
+      "widthMm": 32.92407820346057,
+      "heightMm": 5.591063572205219,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    }
+  ]
+]

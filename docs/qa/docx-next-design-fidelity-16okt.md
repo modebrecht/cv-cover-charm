@@ -1,5 +1,7 @@
 # Package 37D cover design fidelity
 
+**Latest follow-up:** [Modern grouped pill and interior-layout audit](docx-next-modern-grouped-pill-interiors-16okt.md): separate native pill ownership trial and six requested interior audit cases; no all-template acceptance.
+
 **Current follow-up:** [Modern contact, accent and second Word return](docx-next-modern-contact-accent-16okt.md) records the later Word-confirmed header/footer correction and new controlled contact/pill candidate. The original cohort findings below remain historical evidence, not current acceptance of all templates.
 
 **Follow-up:** The user identified poor existing Letter/CV compact chrome in the first candidate. The current opt-in now includes the bounded correction in [the screenshot-review report](docx-next-modern-chrome-16okt.md). Counts and whole-neighbor equality below describe the original investigation commit; the follow-up reports current body-only regression and deliberate chrome changes.

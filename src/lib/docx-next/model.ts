@@ -72,6 +72,14 @@ export type ParagraphFrameBlock = {
   yMm: number;
   widthMm: number;
   paragraphs: Paragraph[];
+  /** Explicit candidate: one native editable shape owns text and its solid surface. */
+  surface?: {
+    heightMm: number;
+    radiusMm: number;
+    fillColor: string;
+    paddingXMm: number;
+    paddingYMm: number;
+  };
 };
 /** An editable picture in a native flow zone; authored coordinates remain inspectable. */
 export type ImageZoneBlock = {

@@ -24,6 +24,7 @@ import { walkBlocks, type DossierDocModel } from "./docx-next/model";
 import { prepareBriefFontProfile } from "./docx-next/brief-fonts.browser";
 import { briefDocxNextUiEnabled } from "./docx-next/brief-visibility";
 import { captureCoverBadgeAdvances } from "./docx-next/cover-badges.browser";
+import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
 
 /** Capture the same saved application inputs used by the actual dossier workflow. */
 export function captureSavedBriefSnapshot() {
@@ -101,9 +102,29 @@ export async function createSavedBriefDocxNext() {
 export async function createSavedAuthoredCoverDocxNext(
   template: "brief" | "modern",
   enabled: boolean,
+  candidate: { coverBadgeComposition?: "native-shape"; inspectNativeInteriors?: boolean } = {},
 ) {
   if (!enabled) throw new Error("Brief DOCX Next: Testexport ist nicht aktiviert.");
+  if (candidate.coverBadgeComposition && template !== "modern")
+    throw Error(
+      "Brief DOCX Next: Die gemeinsam verschiebbare Pille ist nur für Modern freigegeben.",
+    );
   const snapshot = captureSavedAuthoredSnapshot(template);
+  if (
+    template === "modern" &&
+    resolveCvRubricOptions(snapshot.cv.design).pill &&
+    !candidate.inspectNativeInteriors
+  )
+    throw Error(
+      "Brief DOCX Next: Rubrik-Pills benötigen eine eigene Word-Layoutprüfung. Dafür ist der getrennte Diagnoseexport verfügbar.",
+    );
+  if (
+    candidate.inspectNativeInteriors &&
+    (template !== "modern" || candidate.coverBadgeComposition)
+  )
+    throw Error(
+      "Brief DOCX Next: Innenlayout-Diagnose und Pillenversuch müssen getrennt geprüft werden.",
+    );
   const source = JSON.stringify(snapshot);
   const unchanged = () => {
     if (JSON.stringify(captureSavedAuthoredSnapshot(template)) !== source)
@@ -185,12 +206,25 @@ export async function createSavedAuthoredCoverDocxNext(
           `Brief DOCX Next: Ein Wort in «${b.id}» überschreitet die Feldbreite. Bitte Text oder Breite anpassen.`,
         );
     }
+    const chrome = snapshot.settings.chrome;
+    const contactHeaderAudit =
+      candidate.inspectNativeInteriors &&
+      chrome &&
+      (chrome.sync ? [chrome.shared] : [chrome.letter, chrome.cv]).some(
+        (options) =>
+          options.headerMode === "contact" || options.headerContinuationMode === "contact",
+      );
     const model = buildDossierDocModel(snapshot, {
       coverComposition: "authored-frames",
       coverTextMetrics: metrics,
+      ...(candidate.coverBadgeComposition
+        ? { coverBadgeComposition: candidate.coverBadgeComposition }
+        : {}),
       ...(template === "modern"
         ? {
-            compactChromeComposition: "source-bands" as const,
+            // Audit the existing contact-header composition explicitly; the
+            // visually reviewed Modern path continues rejecting these modes.
+            ...(contactHeaderAudit ? {} : { compactChromeComposition: "source-bands" as const }),
             coverBadgePlacement: "body" as const,
             cvContactComposition: "compact-grid" as const,
           }

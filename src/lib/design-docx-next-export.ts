@@ -1,11 +1,18 @@
 import { createSavedAuthoredCoverDocxNext } from "./brief-docx-next-export";
-import { designDocxNextUiEnabled } from "./docx-next/design-visibility";
+import {
+  designDocxNextUiEnabled,
+  designNativeBadgeUiEnabled,
+  designInteriorAuditUiEnabled,
+} from "./docx-next/design-visibility";
 import { downloadBlob, safeFileName } from "./download";
 
 /** Modern only. Other audited templates remain explicitly outside this candidate. */
 export async function createSavedDesignDocxNext() {
   try {
-    return await createSavedAuthoredCoverDocxNext("modern", designDocxNextUiEnabled());
+    return await createSavedAuthoredCoverDocxNext("modern", designDocxNextUiEnabled(), {
+      ...(designNativeBadgeUiEnabled() ? { coverBadgeComposition: "native-shape" as const } : {}),
+      ...(designInteriorAuditUiEnabled() ? { inspectNativeInteriors: true } : {}),
+    });
   } catch (error) {
     if (error instanceof Error)
       throw new Error(
@@ -22,5 +29,8 @@ export async function downloadSavedDesignDocxNext() {
   const name = [snapshot.cover.data.vorname, snapshot.cover.data.nachname]
     .filter(Boolean)
     .join(" ");
-  downloadBlob(blob, `${safeFileName(`Bewerbungsdossier-${name}-Modern-Test`)}.docx`);
+  downloadBlob(
+    blob,
+    `${safeFileName(`Bewerbungsdossier-${name}-Modern-${designNativeBadgeUiEnabled() ? "Pille" : designInteriorAuditUiEnabled() ? "Innenlayout-Diagnose" : "Test"}`)}.docx`,
+  );
 }
