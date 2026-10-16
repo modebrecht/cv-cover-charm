@@ -51,7 +51,7 @@ import {
 import { ensureFirstHeader } from "./page-artwork";
 import { templateMotifs, composePageMotifs } from "./template-motifs";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
-import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks } from "./layouts";
+import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks, nativeTextWidthMm } from "./layouts";
 import { wordFont as fontForKey, createFontResolver } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
 import { textElement, imageElement, shapeElement, flowingElementBox } from "./elements";
@@ -75,6 +75,8 @@ export type BuildModelOptions = {
   coverComposition?: "authored-frames";
   /** Explicit candidate: keep authored text badge paint in the active body story. */
   coverBadgePlacement?: "body";
+  /** Explicit classic-CV candidate: one shared native content-sized contact grid. */
+  cvContactComposition?: "compact-grid";
   /** Diagnostic font measurements only; source/renderer never read live browser state. */
   coverTextMetrics?: CoverTextMetrics;
   /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
@@ -110,6 +112,11 @@ export function buildDossierDocModel(
   )
     throw Error("DOCX Next body badge paint requires an authored candidate");
   const cvFlow = CV_FLOW_LAYOUTS[cvVariant];
+  if (
+    options.cvContactComposition !== undefined &&
+    (options.cvContactComposition !== "compact-grid" || cvVariant !== "classic")
+  )
+    throw Error("DOCX Next compact contact grid requires a classic CV candidate");
   const placements =
     cvVariant === "sidebar"
       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
@@ -684,7 +691,7 @@ export function buildDossierDocModel(
           .map((pair) =>
             pair
               .map((field) => blocks.find((block) => block.id === `cv.person.${field}`))
-              .map((block) => (block ? [block] : [])),
+              .map((block) => (block?.kind === "paragraph" ? [block] : [])),
           )
           .filter((cells) => cells.some((cell) => cell.length));
         const details = cvPersonalInfoRows(person).map((row) => [
@@ -734,6 +741,61 @@ export function buildDossierDocModel(
               ]
             : []),
         ];
+        if (options.cvContactComposition === "compact-grid") {
+          const contactLayout = cvSectionLayout(data, "person");
+          if (contactLayout.width !== "full" || contactLayout.positioning !== "flow")
+            throw Error(
+              "DOCX Next: Der Kontaktblock muss für diesen Test die ganze Breite verwenden und im Textfluss liegen.",
+            );
+          const pairedRows = contactPairs.map(([left, right]) =>
+            left.length ? [left, right] : [right, []],
+          );
+          const rows = [...pairedRows, ...details].map((cells, index) => ({
+            cells: cells.map((cell) =>
+              cell.map((paragraph) => ({
+                ...paragraph,
+                beforeMm: index === contactPairs.length && contactPairs.length ? 1.35 : 0,
+                afterMm: 0.6,
+              })),
+            ),
+            keepTogether: false,
+          }));
+          // Reuse the canonical conservative text reservation, not a template
+          // percentage or example-specific width. Word rows stay automatic and
+          // wrap when actual target-font advances exceed this estimate.
+          const padding = 1.25;
+          const columns = [0, 1].map((column) =>
+            Math.max(
+              10,
+              ...rows.flatMap((row) =>
+                row.cells[column].map((paragraph) => nativeTextWidthMm(paragraph) + 2 * padding),
+              ),
+            ),
+          );
+          const contentWidth =
+            cvPart.page.widthMm -
+            cvPart.page.margins.left -
+            cvPart.page.margins.right -
+            cvFlow.indentMm -
+            rubric.contentIndentMm;
+          blocks = rows.length
+            ? [
+                {
+                  kind: "table",
+                  id: "cv.person.contact",
+                  widths: columns,
+                  widthMm: Math.min(contentWidth, columns[0] + columns[1]),
+                  rows,
+                  decoration: {
+                    borderColor: cvAccent,
+                    borderWidthMm: 0,
+                    paddingXMm: 1.25,
+                    paddingYMm: 0,
+                  },
+                },
+              ]
+            : [];
+        }
       }
     } else if (isCustomSectionKey(key)) {
       const section = customSectionForKey(data, key);

@@ -192,6 +192,7 @@ export async function createSavedAuthoredCoverDocxNext(
         ? {
             compactChromeComposition: "source-bands" as const,
             coverBadgePlacement: "body" as const,
+            cvContactComposition: "compact-grid" as const,
           }
         : {}),
     });

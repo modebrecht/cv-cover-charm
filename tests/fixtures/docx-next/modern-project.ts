@@ -5,6 +5,9 @@ export const MODERN_PROJECT_CASES = [
   "badge-center",
   "badge-right",
   "badge-long",
+  "contact-long",
+  "contact-partial",
+  "contact-unaligned",
 ] as const;
 export function modernProjectFixture(kind: string, photo?: string) {
   const base = BRIEF_PROJECT_CASES.includes(kind as (typeof BRIEF_PROJECT_CASES)[number])
@@ -37,5 +40,26 @@ export function modernProjectFixture(kind: string, photo?: string) {
   }
   if (kind === "badge-long")
     project.cover!.data.lehrbeginn = "August 2028 – Ausbildungsstart am 15. August";
+  if (kind === "contact-long") {
+    Object.assign(project.cv!.data.person, {
+      adresse: "An der langen Schulhausstrasse 123, Haus B",
+      plzOrt: "9999 Oberdorf bei der langen Flusslandschaft",
+      email: "lea.sophie.mueller.meier.bewerbung@example.ch",
+      geburtsort: "Solothurn",
+      heimatort: "Olten und Langendorf",
+      nationalitaet: "Schweiz / Deutschland",
+    });
+    project.cv!.design.bodyScale = 1.15;
+  }
+  if (kind === "contact-partial") {
+    Object.assign(project.cv!.data.person, {
+      adresse: "",
+      telefon: "",
+      geburtsdatum: "",
+      nationalitaet: "Schweiz",
+    });
+    project.cv!.design.personalInfoColons = false;
+  }
+  if (kind === "contact-unaligned") project.cv!.design.personalInfoAligned = false;
   return project;
 }

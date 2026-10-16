@@ -1,5 +1,28 @@
 import type { DocBlock, Paragraph, TableBlock } from "./model";
 
+/** Same conservative advance reservation as nativeTextHeightMm, not a font
+ * measurement. Fixed native cells may wrap and grow with target-font metrics.
+ */
+export function nativeTextWidthMm(paragraph: Paragraph): number {
+  let width = 0,
+    line = 0;
+  for (const run of paragraph.runs) {
+    const tracking = run.style.trackingPt ?? 0;
+    if (!Number.isFinite(tracking)) throw Error("DOCX Next invalid contact text tracking");
+    const advance = Math.max(
+      0,
+      ((Math.max(10, run.style.sizePt) * 25.4) / 72) * 0.6 + (tracking * 25.4) / 72,
+    );
+    for (const character of run.text) {
+      if (character === "\n") {
+        width = Math.max(width, line);
+        line = 0;
+      } else line += advance;
+    }
+  }
+  return Math.max(width, line);
+}
+
 /** Conservative authored-text reservation; no browser/PDF measurements. */
 export function nativeTextHeightMm(
   paragraphs: Paragraph[],

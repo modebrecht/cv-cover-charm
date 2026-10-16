@@ -1,5 +1,7 @@
 # Modern Word return and shared background candidate
 
+**Later evidence and current candidate:** the second Word return confirms the normal shared-edge correction; the controlled contact/accent follow-up is documented in [Modern contact, accent and second Word return](docx-next-modern-contact-accent-16okt.md). Results below describe the preceding candidate and first Word return.
+
 **PARTIAL. The returned normal Word file preserves content, frames and badge paint. The right-edge defect is confirmed in the actual Microsoft Word PDF. A bounded replacement uses the existing shared-background primitive; its new Word acceptance is UNVERIFIED.** No other template is enabled. This follow-up starts at `c9476b3618265c8e9e111c7fd59d0a1e3f38002e`, after fetching remote dev (`8901a830a792d75e9e792345c5180827218b4e1e`) and the own investigation branch. `AGENTS.md` was reread; published history is preserved.
 
 ## Actual user evidence

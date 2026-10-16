@@ -157,6 +157,10 @@ try {
       const baselineBytes = Array.from(
         new Uint8Array(await (await renderDossierDocx(baseline)).arrayBuffer()),
       );
+      const withoutContact = (blocks: typeof baseline.cv.blocks) =>
+        blocks.map((b) =>
+          b.kind === "section" && b.id === "cv.section.person" ? { ...b, blocks: [] } : b,
+        );
       return {
         snapshot: result.snapshot,
         metrics: result.metrics,
@@ -169,11 +173,17 @@ try {
             JSON.stringify(result.model[part].blocks) === JSON.stringify(baseline[part].blocks) &&
             JSON.stringify(result.model[part].page) === JSON.stringify(baseline[part].page),
         ),
+        neighborBodiesExceptContactIdentical:
+          JSON.stringify(result.model.letter.blocks) === JSON.stringify(baseline.letter.blocks) &&
+          JSON.stringify(result.model.letter.page) === JSON.stringify(baseline.letter.page) &&
+          JSON.stringify(withoutContact(result.model.cv.blocks)) ===
+            JSON.stringify(withoutContact(baseline.cv.blocks)) &&
+          JSON.stringify(result.model.cv.page) === JSON.stringify(baseline.cv.page),
         bytes,
         baselineBytes,
       };
     }, modern);
-    assert(modern ? captured.neighborBodiesIdentical : captured.neighborsIdentical);
+    assert(modern ? captured.neighborBodiesExceptContactIdentical : captured.neighborsIdentical);
     assert.deepEqual(captured.snapshot.cover.data, project.cover!.data);
     const candidate = new Uint8Array(await readFile(path.join(folder, "candidate.docx")));
     assert.deepEqual(candidate, Uint8Array.from(captured.bytes));
@@ -268,6 +278,7 @@ try {
       uiDownloadEqualsAppEntry: true,
       neighborModelsIdentical: captured.neighborsIdentical,
       neighborBodiesIdentical: captured.neighborBodiesIdentical,
+      neighborBodiesExceptContactIdentical: captured.neighborBodiesExceptContactIdentical,
       candidateSha256: sha(candidate),
       measuredProfile: captured.metrics.profile,
       web,
@@ -298,6 +309,7 @@ try {
             "non-cohort",
             "chrome-content",
             "chrome-mode",
+            "contact-layout",
           ]
         : []),
     ].filter(
@@ -315,6 +327,11 @@ try {
       await page.reload({ waitUntil: "networkidle" });
       await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
       await page.evaluate(async (scenario) => {
+        if (scenario === "contact-layout") {
+          const c = JSON.parse(localStorage.getItem("lebenslauf:v1")!);
+          c.data.sectionLayouts = { ...c.data.sectionLayouts, person: { width: "half" } };
+          localStorage.setItem("lebenslauf:v1", JSON.stringify(c));
+        }
         if (scenario === "chrome-content") {
           const l = JSON.parse(localStorage.getItem("anschreiben:v1")!);
           l.design.chromeContent = { footerTextEnabled: true, footerText: "Keep this footer" };
@@ -431,31 +448,34 @@ try {
       const alert = page.locator(qaSelector + ' [role="alert"]');
       await alert.waitFor({ state: "visible" });
       const message = await alert.innerText();
-      const expected = scenario.startsWith("chrome-")
-        ? "compact chrome"
-        : scenario === "css-hidden-decoration"
-          ? "CSS-hidden decoration"
-          : scenario.startsWith("badge-")
-            ? scenario === "badge-artwork"
-              ? "over artwork"
-              : "Badges unterstützen"
-            : scenario === "placeholder-opacity"
-              ? "placeholder opacity"
-              : scenario === "non-cohort"
-                ? "Vorlage Modern"
-                : scenario === "unsupported-font"
-                  ? "Nicht unterstützte Schrift"
-                  : scenario === "substituted-font"
-                    ? "Browser-Ersatzschrift"
-                    : scenario === "missing-measurements"
-                      ? "nicht verfügbar"
-                      : scenario.startsWith("stale")
-                        ? "Daten haben sich"
-                        : scenario === "overflow"
-                          ? "Feldbreite"
-                          : modern
-                            ? "Vorlage Modern"
-                            : "Vorlage Brief";
+      const expected =
+        scenario === "contact-layout"
+          ? "ganze Breite"
+          : scenario.startsWith("chrome-")
+            ? "compact chrome"
+            : scenario === "css-hidden-decoration"
+              ? "CSS-hidden decoration"
+              : scenario.startsWith("badge-")
+                ? scenario === "badge-artwork"
+                  ? "over artwork"
+                  : "Badges unterstützen"
+                : scenario === "placeholder-opacity"
+                  ? "placeholder opacity"
+                  : scenario === "non-cohort"
+                    ? "Vorlage Modern"
+                    : scenario === "unsupported-font"
+                      ? "Nicht unterstützte Schrift"
+                      : scenario === "substituted-font"
+                        ? "Browser-Ersatzschrift"
+                        : scenario === "missing-measurements"
+                          ? "nicht verfügbar"
+                          : scenario.startsWith("stale")
+                            ? "Daten haben sich"
+                            : scenario === "overflow"
+                              ? "Feldbreite"
+                              : modern
+                                ? "Vorlage Modern"
+                                : "Vorlage Brief";
       assert(message.includes(expected), `${scenario}: unexpected diagnostic ${message}`);
       assert.equal(downloads, 0);
       rejected.push({ scenario, message, downloads, result: "PASS explicit rejection" });

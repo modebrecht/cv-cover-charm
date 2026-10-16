@@ -480,7 +480,7 @@ export function BlockLayer({
         const { size, y } = layout[b.id];
         const hasBadge = b.kind === "text" && !!st.bg;
         const textBorder = st.borderWidth ?? 0;
-        const role = coverTextRole(b);
+        const role = coverTextRole(b, textPresentationTemplate);
         const customLayer = b.id.startsWith("custom-")
           ? ((st as LayeredStyle).layer ?? "front")
           : "content";
@@ -532,6 +532,12 @@ export function BlockLayer({
             className="absolute"
             style={{
               left: `${st.x}mm`,
+              ...(textPresentationTemplate === "modern" && hasBadge
+                ? {
+                    ["--cover-badge-radius" as string]:
+                      st.bgRadius >= 999 ? "9999px" : `${st.bgRadius}mm`,
+                  }
+                : {}),
               top: `${y}mm`,
               width: bleedRight ? `calc(${st.w}mm + ${EDGE_BLEED_PX}px)` : `${st.w}mm`,
               ["--dossier-font" as string]:

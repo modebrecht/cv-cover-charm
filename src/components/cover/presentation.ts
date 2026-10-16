@@ -2,8 +2,9 @@ import type { Block, BlockStyle, TemplateId } from "./types";
 import { dossierThemeFor } from "@/lib/dossier-theme";
 import { hasUserStyle } from "./user-style-precedence";
 
-export function coverTextRole(block: Block) {
+export function coverTextRole(block: Block, template?: TemplateId) {
   if (block.kind !== "text") return undefined;
+  if (template === "modern" && block.id === "lehrbeginn" && block.style.bg) return "badge";
   if (block.id === "name") return "name";
   if (block.id === "beruf") return "subtitle";
   if (["eyebrow", "kicker", "kontaktTitel", "anTitel", "beilagenTitel"].includes(block.id))
@@ -40,7 +41,7 @@ export function coverTextPresentation(
   template: TemplateId,
   colors: Record<string, string>,
 ) {
-  const role = coverTextRole(block),
+  const role = coverTextRole(block, template),
     style = { ...block.style };
   const theme = dossierThemeFor(template),
     t = theme.typography;
@@ -63,7 +64,7 @@ export function coverTextPresentation(
     set("lineHeight", theme.headingStyle.lineHeight);
     set("uppercase", theme.headingStyle.uppercase);
   }
-  if (role === "body" || role === "muted") {
+  if (role === "body" || role === "muted" || role === "badge") {
     set("weight", t.bodyWeight);
     set("lineHeight", t.bodyLineHeight);
   }
@@ -76,6 +77,8 @@ export function coverTextPresentation(
   return {
     style,
     paintOpacity:
-      role === "heading" && !hasUserStyle(block, "opacity") ? theme.accentTreatment.opacity : 1,
+      (role === "heading" || role === "badge") && !hasUserStyle(block, "opacity")
+        ? theme.accentTreatment.opacity
+        : 1,
   };
 }

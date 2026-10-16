@@ -349,8 +349,20 @@ export function composeAuthoredCover(
         heightMm: badge.height,
         radiusMm:
           s.bgRadius >= 999 ? badge.height / 2 : Math.min(s.bgRadius, badge.height / 2, width / 2),
-        opacity: visual.style.opacity * visual.paintOpacity,
-        fill: { color: context.color(cover.colors[s.bg] ?? s.bg, context.paper ?? "FFFFFF") },
+        // Alpha over artwork is rejected above and semantic/photo overlaps are
+        // rejected by check(). Flatten the solid-paper composite once so Word
+        // cannot blend this badge differently from editable accent text.
+        opacity: cover.template === "modern" ? 1 : visual.style.opacity * visual.paintOpacity,
+        fill: {
+          color:
+            cover.template === "modern"
+              ? compositeTextColor(
+                  context.color(cover.colors[s.bg] ?? s.bg, context.paper ?? "FFFFFF"),
+                  context.paper ?? "FFFFFF",
+                  visual.style.opacity * visual.paintOpacity,
+                )
+              : context.color(cover.colors[s.bg] ?? s.bg, context.paper ?? "FFFFFF"),
+        },
         stroke: { color: "000000", widthMm: 0 },
       });
     }

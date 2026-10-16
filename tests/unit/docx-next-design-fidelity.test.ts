@@ -173,7 +173,8 @@ test("real app metrics reproduce a compact rounded badge and semantic initials w
   expect(paint.widthMm).toBeCloseTo(53.90107421875, 6);
   expect(paint.heightMm).toBeCloseTo(8.8303333333, 6);
   expect(paint.radiusMm).toBeCloseTo(paint.heightMm / 2, 6);
-  expect(paint.opacity).toBe(0.68);
+  expect(paint.opacity).toBe(1);
+  expect(paint.fill?.color).toBe("F44664");
   expect(model.cover.headerShapes!.some((b) => b.id === "cover.trenner")).toBe(false);
   validateBriefIntegrationModel(model, "modern");
   expect(() => validateBriefIntegrationModel(model)).toThrow("Nicht freigegebene");

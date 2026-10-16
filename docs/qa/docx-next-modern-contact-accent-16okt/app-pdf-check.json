@@ -1,0 +1,8 @@
+{
+  "clickedActualAppPdfButton": true,
+  "sourceProject": "normal-project.json",
+  "pages": 3,
+  "sha256": "b92453726c17e7956ca6bf87d4861f875b0d746b846a1088243684a693f663d9",
+  "sharedDesignChange": "Modern badge accent treatment; PDF exporter implementation unchanged",
+  "pixelHexIdentity": "Not claimed: existing PDF image compression alters individual RGB levels"
+}
