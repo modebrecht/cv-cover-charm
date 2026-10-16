@@ -1,0 +1,858 @@
+[
+  {
+    "name": "normal",
+    "restoredThroughAppFileInput": true,
+    "clickedAppExport": true,
+    "defaultFormatStillPdf": true,
+    "savedDocumentsUnchangedByExport": true,
+    "webSourceEqualsExportSource": true,
+    "platformFonts": {
+      "fonts": []
+    },
+    "uiDownloadEqualsAppEntry": true,
+    "neighborModelsIdentical": true,
+    "candidateSha256": "dfe4357557483bff32edee86349a9f978c5e26f02ef315f416ca7d418723ccb3",
+    "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "web": [
+      {
+        "id": "eyebrow",
+        "text": "BEWERBUNG",
+        "xMm": 19.98917370976251,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.96910435742831,
+        "heightMm": 4.1447413650984615,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "ortDatum",
+        "text": "Hubersdorf, 15.11.2026",
+        "xMm": 109.95493006029618,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.9690856683946,
+        "heightMm": 5.5910682442262,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "foto",
+        "text": "LM",
+        "xMm": 128.94816516406834,
+        "yMm": 40.9804778580813,
+        "widthMm": 51.97928614298926,
+        "heightMm": 51.976658567448254,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kicker",
+        "text": "BEWERBUNG UM EINE LEHRSTELLE ALS",
+        "xMm": 19.98917370976251,
+        "yMm": 127.94157526075224,
+        "widthMm": 149.94153803271757,
+        "heightMm": 4.537317272068299,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beruf",
+        "text": "Informatiker/in EFZ",
+        "xMm": 19.98917370976251,
+        "yMm": 134.41695896423968,
+        "widthMm": 154.93778954652927,
+        "heightMm": 15.992178313265141,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "name",
+        "text": "Lea Müller",
+        "xMm": 19.98917370976251,
+        "yMm": 155.74400590719637,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.991904284290432,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "lehrbeginn",
+        "text": "Lehrbeginn August 2027",
+        "xMm": 19.98917370976251,
+        "yMm": 166.59554084699178,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.839017069708441,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontaktTitel",
+        "text": "KONTAKT",
+        "xMm": 19.98917370976251,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.96910435742831,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontakt",
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "xMm": 19.98917370976251,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.96910435742831,
+        "heightMm": 27.955317861026096,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagenTitel",
+        "text": "BEILAGEN",
+        "xMm": 109.95493006029618,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.9690856683946,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagen",
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "xMm": 109.95493006029618,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.9690856683946,
+        "heightMm": 16.773190716615655,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      }
+    ],
+    "pageErrors": []
+  },
+  {
+    "name": "scaled",
+    "restoredThroughAppFileInput": true,
+    "clickedAppExport": true,
+    "defaultFormatStillPdf": true,
+    "savedDocumentsUnchangedByExport": true,
+    "webSourceEqualsExportSource": true,
+    "platformFonts": {
+      "fonts": []
+    },
+    "uiDownloadEqualsAppEntry": true,
+    "neighborModelsIdentical": true,
+    "candidateSha256": "4e1e0e311fc6f798cf769fb141c95a60b35c3f3b3f00b069134bc75e49b8a4f4",
+    "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "web": [
+      {
+        "id": "eyebrow",
+        "text": "BEWERBUNG",
+        "xMm": 19.98917370976251,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.96910435742831,
+        "heightMm": 4.76459707673063,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "ortDatum",
+        "text": "Hubersdorf, 15.11.2026",
+        "xMm": 109.95493006029618,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.9690856683946,
+        "heightMm": 6.438199088499718,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "foto",
+        "text": "LM",
+        "xMm": 128.94816516406834,
+        "yMm": 40.9804778580813,
+        "widthMm": 51.97928614298926,
+        "heightMm": 51.976658567448254,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kicker",
+        "text": "BEWERBUNG UM EINE LEHRSTELLE ALS",
+        "xMm": 19.98917370976251,
+        "yMm": 127.94157526075224,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.223291424623469,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beruf",
+        "text": "Informatiker/in EFZ",
+        "xMm": 19.98917370976251,
+        "yMm": 135.23930940923003,
+        "widthMm": 154.93778954652927,
+        "heightMm": 18.393073831145294,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "name",
+        "text": "Lea Müller",
+        "xMm": 19.98917370976251,
+        "yMm": 158.56226240335053,
+        "widthMm": 149.94153803271757,
+        "heightMm": 6.88861461521424,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "lehrbeginn",
+        "text": "Lehrbeginn August 2027",
+        "xMm": 19.98917370976251,
+        "yMm": 170.59565045858164,
+        "widthMm": 149.94153803271757,
+        "heightMm": 6.715077067896263,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontaktTitel",
+        "text": "KONTAKT",
+        "xMm": 19.98917370976251,
+        "yMm": 246.4242142195554,
+        "widthMm": 79.96910435742831,
+        "heightMm": 4.537317272068299,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontakt",
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "xMm": 19.98917370976251,
+        "yMm": 253.39548622996537,
+        "widthMm": 79.96910435742831,
+        "heightMm": 32.190972082393685,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagenTitel",
+        "text": "BEILAGEN",
+        "xMm": 109.95493006029618,
+        "yMm": 246.4242142195554,
+        "widthMm": 79.9690856683946,
+        "heightMm": 4.537317272068299,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagen",
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "xMm": 109.95493006029618,
+        "yMm": 253.39548622996537,
+        "widthMm": 79.9690856683946,
+        "heightMm": 19.31458324943621,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      }
+    ],
+    "pageErrors": []
+  },
+  {
+    "name": "long",
+    "restoredThroughAppFileInput": true,
+    "clickedAppExport": true,
+    "defaultFormatStillPdf": true,
+    "savedDocumentsUnchangedByExport": true,
+    "webSourceEqualsExportSource": true,
+    "platformFonts": {
+      "fonts": []
+    },
+    "uiDownloadEqualsAppEntry": true,
+    "neighborModelsIdentical": true,
+    "candidateSha256": "575fe432700b630d474e7667a79252ed73e89eb6398ec98b029400669dde570a",
+    "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "web": [
+      {
+        "id": "eyebrow",
+        "text": "BEWERBUNG",
+        "xMm": 19.98917370976251,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.96910435742831,
+        "heightMm": 4.1447413650984615,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "ortDatum",
+        "text": "Hubersdorf, 15.11.2026",
+        "xMm": 109.95493006029618,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.9690856683946,
+        "heightMm": 5.5910682442262,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "foto",
+        "text": "LM",
+        "xMm": 128.94816516406834,
+        "yMm": 40.9804778580813,
+        "widthMm": 51.97928614298926,
+        "heightMm": 51.976658567448254,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kicker",
+        "text": "BEWERBUNG UM EINE LEHRSTELLE ALS",
+        "xMm": 19.98917370976251,
+        "yMm": 127.94157526075224,
+        "widthMm": 149.94153803271757,
+        "heightMm": 4.537317272068299,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beruf",
+        "text": "Fachmann/-frau Betreuung EFZ",
+        "xMm": 19.98917370976251,
+        "yMm": 134.41695896423968,
+        "widthMm": 154.93778954652927,
+        "heightMm": 31.984356626530282,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "name",
+        "text": "Lea Sophie Müller-Meier",
+        "xMm": 19.98917370976251,
+        "yMm": 169.07081493888933,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.570413239469233,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "lehrbeginn",
+        "text": "Lehrbeginn August 2027",
+        "xMm": 19.98917370976251,
+        "yMm": 179.37690077319587,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.838998381624516,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontaktTitel",
+        "text": "KONTAKT",
+        "xMm": 19.98917370976251,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.96910435742831,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontakt",
+        "text": "Längere Beispielstrasse 123\n8000 Zürich\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "xMm": 19.98917370976251,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.96910435742831,
+        "heightMm": 27.955317861026096,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagenTitel",
+        "text": "BEILAGEN",
+        "xMm": 109.95493006029618,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.9690856683946,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagen",
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "xMm": 109.95493006029618,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.9690856683946,
+        "heightMm": 16.773190716615655,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      }
+    ],
+    "pageErrors": []
+  },
+  {
+    "name": "moved",
+    "restoredThroughAppFileInput": true,
+    "clickedAppExport": true,
+    "defaultFormatStillPdf": true,
+    "savedDocumentsUnchangedByExport": true,
+    "webSourceEqualsExportSource": true,
+    "platformFonts": {
+      "fonts": []
+    },
+    "uiDownloadEqualsAppEntry": true,
+    "neighborModelsIdentical": true,
+    "candidateSha256": "61815029f0ed439e61fb5d4e18bf3745e8fe48599c400707709464fb4767f01d",
+    "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "web": [
+      {
+        "id": "eyebrow",
+        "text": "BEWERBUNG",
+        "xMm": 19.98917370976251,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.96910435742831,
+        "heightMm": 4.1447413650984615,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "ortDatum",
+        "text": "Hubersdorf, 15.11.2026",
+        "xMm": 104.95865985745073,
+        "yMm": 27.9842470149404,
+        "widthMm": 84.96535587124004,
+        "heightMm": 6.078682401991382,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "foto",
+        "text": "LM",
+        "xMm": 128.94816516406834,
+        "yMm": 40.9804778580813,
+        "widthMm": 51.97928614298926,
+        "heightMm": 51.976658567448254,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kicker",
+        "text": "BEWERBUNG UM EINE LEHRSTELLE ALS",
+        "xMm": 19.98917370976251,
+        "yMm": 127.94157526075224,
+        "widthMm": 149.94153803271757,
+        "heightMm": 4.537317272068299,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beruf",
+        "text": "Informatiker/in EFZ",
+        "xMm": 19.98917370976251,
+        "yMm": 134.41695896423968,
+        "widthMm": 154.93778954652927,
+        "heightMm": 15.992178313265141,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "lehrbeginn",
+        "text": "Lehrbeginn August 2027",
+        "xMm": 19.98917370976251,
+        "yMm": 166.59554084699178,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.839017069708441,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontaktTitel",
+        "text": "KONTAKT",
+        "xMm": 19.98917370976251,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.96910435742831,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontakt",
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "xMm": 19.98917370976251,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.96910435742831,
+        "heightMm": 27.955317861026096,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagenTitel",
+        "text": "BEILAGEN",
+        "xMm": 109.95493006029618,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.9690856683946,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagen",
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "xMm": 109.95493006029618,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.9690856683946,
+        "heightMm": 16.773190716615655,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      }
+    ],
+    "pageErrors": []
+  },
+  {
+    "name": "photo-portrait",
+    "restoredThroughAppFileInput": true,
+    "clickedAppExport": true,
+    "defaultFormatStillPdf": true,
+    "savedDocumentsUnchangedByExport": true,
+    "webSourceEqualsExportSource": true,
+    "platformFonts": {
+      "fonts": []
+    },
+    "uiDownloadEqualsAppEntry": true,
+    "neighborModelsIdentical": true,
+    "candidateSha256": "92839b7322059502dc7afe052de0f49c4cbd8573917a47db7ada45f108710e4a",
+    "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "web": [
+      {
+        "id": "eyebrow",
+        "text": "BEWERBUNG",
+        "xMm": 19.98917370976251,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.96910435742831,
+        "heightMm": 4.1447413650984615,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "ortDatum",
+        "text": "Hubersdorf, 15.11.2026",
+        "xMm": 109.95493006029618,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.9690856683946,
+        "heightMm": 5.5910682442262,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "foto",
+        "text": "",
+        "xMm": 124.95196384366142,
+        "yMm": 44.98059214169217,
+        "widthMm": 39.98249638500691,
+        "heightMm": 59.97274305205984,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kicker",
+        "text": "BEWERBUNG UM EINE LEHRSTELLE ALS",
+        "xMm": 19.98917370976251,
+        "yMm": 127.94157526075224,
+        "widthMm": 149.94153803271757,
+        "heightMm": 4.537317272068299,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beruf",
+        "text": "Informatiker/in EFZ",
+        "xMm": 19.98917370976251,
+        "yMm": 134.41695896423968,
+        "widthMm": 154.93778954652927,
+        "heightMm": 15.992178313265141,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "name",
+        "text": "Lea Müller",
+        "xMm": 19.98917370976251,
+        "yMm": 155.74400590719637,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.991904284290432,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "lehrbeginn",
+        "text": "Lehrbeginn August 2027",
+        "xMm": 19.98917370976251,
+        "yMm": 166.59554084699178,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.839017069708441,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontaktTitel",
+        "text": "KONTAKT",
+        "xMm": 19.98917370976251,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.96910435742831,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontakt",
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "xMm": 19.98917370976251,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.96910435742831,
+        "heightMm": 27.955317861026096,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagenTitel",
+        "text": "BEILAGEN",
+        "xMm": 109.95493006029618,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.9690856683946,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagen",
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "xMm": 109.95493006029618,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.9690856683946,
+        "heightMm": 16.773190716615655,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      }
+    ],
+    "pageErrors": []
+  },
+  {
+    "name": "photo-circle",
+    "restoredThroughAppFileInput": true,
+    "clickedAppExport": true,
+    "defaultFormatStillPdf": true,
+    "savedDocumentsUnchangedByExport": true,
+    "webSourceEqualsExportSource": true,
+    "platformFonts": {
+      "fonts": []
+    },
+    "uiDownloadEqualsAppEntry": true,
+    "neighborModelsIdentical": true,
+    "candidateSha256": "37143b8fb11c490e711644457389ba3780da25c54a1e170a5e5977341ddd72d9",
+    "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "web": [
+      {
+        "id": "eyebrow",
+        "text": "BEWERBUNG",
+        "xMm": 19.98917370976251,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.96910435742831,
+        "heightMm": 4.1447413650984615,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "ortDatum",
+        "text": "Hubersdorf, 15.11.2026",
+        "xMm": 109.95493006029618,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.9690856683946,
+        "heightMm": 5.5910682442262,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "foto",
+        "text": "",
+        "xMm": 124.95196384366142,
+        "yMm": 44.98059214169217,
+        "widthMm": 39.98249638500691,
+        "heightMm": 39.98044578316285,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kicker",
+        "text": "BEWERBUNG UM EINE LEHRSTELLE ALS",
+        "xMm": 19.98917370976251,
+        "yMm": 127.94157526075224,
+        "widthMm": 149.94153803271757,
+        "heightMm": 4.537317272068299,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beruf",
+        "text": "Informatiker/in EFZ",
+        "xMm": 19.98917370976251,
+        "yMm": 134.41695896423968,
+        "widthMm": 154.93778954652927,
+        "heightMm": 15.992178313265141,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "name",
+        "text": "Lea Müller",
+        "xMm": 19.98917370976251,
+        "yMm": 155.74400590719637,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.991904284290432,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "lehrbeginn",
+        "text": "Lehrbeginn August 2027",
+        "xMm": 19.98917370976251,
+        "yMm": 166.59554084699178,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.839017069708441,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontaktTitel",
+        "text": "KONTAKT",
+        "xMm": 19.98917370976251,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.96910435742831,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontakt",
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "xMm": 19.98917370976251,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.96910435742831,
+        "heightMm": 27.955317861026096,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagenTitel",
+        "text": "BEILAGEN",
+        "xMm": 109.95493006029618,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.9690856683946,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beilagen",
+        "text": "Motivationsschreiben\nLebenslauf\nZeugnis",
+        "xMm": 109.95493006029618,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.9690856683946,
+        "heightMm": 16.773190716615655,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      }
+    ],
+    "pageErrors": []
+  },
+  {
+    "name": "hidden",
+    "restoredThroughAppFileInput": true,
+    "clickedAppExport": true,
+    "defaultFormatStillPdf": true,
+    "savedDocumentsUnchangedByExport": true,
+    "webSourceEqualsExportSource": true,
+    "platformFonts": {
+      "fonts": []
+    },
+    "uiDownloadEqualsAppEntry": true,
+    "neighborModelsIdentical": true,
+    "candidateSha256": "5d27c388cac1646e6272cb6cb880d7fbf1cce8bb699d9ea029b3e29bc5b790fc",
+    "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "web": [
+      {
+        "id": "eyebrow",
+        "text": "BEWERBUNG",
+        "xMm": 19.98917370976251,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.96910435742831,
+        "heightMm": 4.1447413650984615,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "ortDatum",
+        "text": "Hubersdorf, 15.11.2026",
+        "xMm": 109.95493006029618,
+        "yMm": 19.488144156859093,
+        "widthMm": 79.9690856683946,
+        "heightMm": 5.5910682442262,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kicker",
+        "text": "BEWERBUNG UM EINE LEHRSTELLE ALS",
+        "xMm": 19.98917370976251,
+        "yMm": 127.94157526075224,
+        "widthMm": 149.94153803271757,
+        "heightMm": 4.537317272068299,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "beruf",
+        "text": "Informatiker/in EFZ",
+        "xMm": 19.98917370976251,
+        "yMm": 134.41695896423968,
+        "widthMm": 154.93778954652927,
+        "heightMm": 15.992178313265141,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "name",
+        "text": "Lea Müller",
+        "xMm": 19.98917370976251,
+        "yMm": 155.74400590719637,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.991904284290432,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "lehrbeginn",
+        "text": "Lehrbeginn August 2027",
+        "xMm": 19.98917370976251,
+        "yMm": 166.59554084699178,
+        "widthMm": 149.94153803271757,
+        "heightMm": 5.839017069708441,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontaktTitel",
+        "text": "KONTAKT",
+        "xMm": 19.98917370976251,
+        "yMm": 251.2425255215045,
+        "widthMm": 79.96910435742831,
+        "heightMm": 3.946400058392397,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      },
+      {
+        "id": "kontakt",
+        "text": "Dorfstrasse 12\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch\n14.03.2010",
+        "xMm": 19.98917370976251,
+        "yMm": 257.50303363603416,
+        "widthMm": 79.96910435742831,
+        "heightMm": 27.955317861026096,
+        "font": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "sizePx": "16px"
+      }
+    ],
+    "pageErrors": []
+  }
+]

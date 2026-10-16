@@ -412,6 +412,7 @@ function Start() {
   const [cvPageCount, setCvPageCount] = useState(0);
   const [downloading, setDownloading] = useState(false);
   const [dossierNote, setDossierNote] = useState<string | null>(null);
+  const [briefDocxNextError, setBriefDocxNextError] = useState<string | null>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
   const nativePrint = useDossierNativePrint(dossierExportRef);
 
@@ -454,6 +455,7 @@ function Start() {
     const freshDocuments = readDossierDocuments();
     setDocuments(freshDocuments);
     setDossierNote(null);
+    setBriefDocxNextError(null);
     setWarnings(null);
     setCvPageCount(0);
     setReviewOpen(true);
@@ -571,6 +573,24 @@ function Start() {
     }
   };
 
+  const downloadBriefDocxNext = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    setBriefDocxNextError(null);
+    try {
+      const { downloadSavedBriefDocxNext } = await import("@/lib/brief-docx-next-export");
+      await downloadSavedBriefDocxNext();
+      setReviewOpen(false);
+      setDossierNote("Brief DOCX Next Testdatei wurde erstellt. Bitte in Word prüfen.");
+    } catch (error) {
+      setBriefDocxNextError(
+        error instanceof Error ? error.message : "Brief DOCX Next konnte nicht erstellt werden.",
+      );
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   const downloadExport = async (format: DossierExportFormat, consent?: PdfAdvisoryConsent) => {
     if (format === "json") {
       downloadProject();
@@ -668,6 +688,8 @@ function Start() {
         pdfAvailable={readiness.complete}
         docxAvailable={docxAvailable}
         docxTemplateLabel={docxProfile?.label ?? null}
+        onBriefDocxNext={downloadBriefDocxNext}
+        briefDocxNextError={briefDocxNextError}
         onNativePrint={nativePrint.print}
         nativePrinting={nativePrint.printing}
         nativePrintError={nativePrint.error}

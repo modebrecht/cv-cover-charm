@@ -1,0 +1,21 @@
+{
+  ".gitattributes": "547f59603028195ff9f8a87d04c4651551e8bd0d68f075257dfd549cd846b25b",
+  "app-export-evidence.json": "aa584ac30a61d358007442510d7ca034ca31ff92f49b93595f91549df7ad8b5f",
+  "brief-app-a4-comparison.pdf": "d4681af0a237eb1dffb0f404b2a040302be7f77686676fd40cb3a9d5726b7888",
+  "brief-app-hidden.docx": "5d27c388cac1646e6272cb6cb880d7fbf1cce8bb699d9ea029b3e29bc5b790fc",
+  "brief-app-long.docx": "575fe432700b630d474e7667a79252ed73e89eb6398ec98b029400669dde570a",
+  "brief-app-moved.docx": "61815029f0ed439e61fb5d4e18bf3745e8fe48599c400707709464fb4767f01d",
+  "brief-app-normal.docx": "dfe4357557483bff32edee86349a9f978c5e26f02ef315f416ca7d418723ccb3",
+  "brief-app-photo-circle.docx": "37143b8fb11c490e711644457389ba3780da25c54a1e170a5e5977341ddd72d9",
+  "brief-app-photo-portrait.docx": "92839b7322059502dc7afe052de0f49c4cbd8573917a47db7ada45f108710e4a",
+  "brief-app-scaled.docx": "4e1e0e311fc6f798cf769fb141c95a60b35c3f3b3f00b069134bc75e49b8a4f4",
+  "candidate-sha256.json": "832f43dd40351a902c9dccf34b38c060194cba5ff01b22a04aabec768e1c4a00",
+  "changed-files.json": "da3b60c3669a7c758b1fb1dd528ed5b7a44f6610575742d5866436ebd6129a33",
+  "font-profile.json": "2952e65913099eae114a1cd31f4f383a203f854ebbe08ff3f9af11a9c82824c0",
+  "normal-metrics.json": "14edcdcccd23a362952050d298937590f27be115826867ae713571825e8d5c50",
+  "normal-project.json": "4180802b2676f0f32cdd555d997212e86b5c54ff0b2a0716e8486eb8b47c3bfa",
+  "normal-snapshot.json": "6d41c4afd0c0ebc39baeaea05473edbe0fa0c919a410474f4f97da1443c8b6db",
+  "rejections.json": "6b5421d39508197f909a52b08246c0fed1c57c91373aeba5c77e272392c02ada",
+  "test-results.json": "82c1c2c644867ff2a1aaa28b757f774bf713af4a1e8cabbbccbdb45fae6da8d6",
+  "validation.json": "ae2ea100c9704a10a237eb5f687e148e1a936cbdc93ee35c49f7440f7341f253"
+}

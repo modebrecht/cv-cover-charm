@@ -1,0 +1,40 @@
+{
+  "fullUnits": {
+    "pass": 1185,
+    "fail": 0,
+    "assertions": 22890,
+    "files": 247
+  },
+  "dedicatedDocx": {
+    "pass": 372,
+    "fail": 0,
+    "assertions": 5809,
+    "files": 57,
+    "overlapsFullSuite": true
+  },
+  "typecheck": "PASS",
+  "fullLint": {
+    "exitCode": 0,
+    "errors": 0,
+    "unchangedFileWarnings": 21
+  },
+  "changedFileLint": "PASS",
+  "productionBuild": "PASS; no deployment",
+  "actualApp": {
+    "fileRestores": 7,
+    "buttonDownloads": 7,
+    "sameSourceWebChecks": 7,
+    "cdpFontChecks": 7,
+    "rejections": 8,
+    "defaultDocxByteIdenticalToDev": 7,
+    "webEditorRastersPixelIdenticalToDev": 7,
+    "nativeRenders": 14,
+    "adjacentPagesPixelIdentical": 21
+  },
+  "word": {
+    "priorPrototypes": "User reports normal/long visual success; bounded 115% save evidence preserved on reference branch",
+    "theseAppGeneratedFiles": "UNVERIFIED editing and Save/Reopen; no desktop Word available"
+  },
+  "all39": "NOT RUN",
+  "deploymentEnabled": false
+}

@@ -14,9 +14,11 @@ export function nativeTextHeightMm(
       .join("")
       .split("\n")
       .reduce((n, line) => n + Math.max(1, Math.ceil(line.length / chars)), 0);
-    return (
-      sum + p.beforeMm + p.afterMm + ((lines * pt * 25.4) / 72) * p.lineHeight * lineMetricFactor
-    );
+    const height =
+      p.minimumLineHeightPt === undefined
+        ? ((lines * pt * 25.4) / 72) * p.lineHeight * lineMetricFactor
+        : ((lines * p.minimumLineHeightPt * 25.4) / 72) * lineMetricFactor;
+    return sum + p.beforeMm + p.afterMm + height;
   }, 0);
 }
 

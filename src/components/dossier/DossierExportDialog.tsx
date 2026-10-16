@@ -22,6 +22,7 @@ import {
   readStoredDossierPart,
 } from "@/lib/dossier-project";
 import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
+import { briefDocxNextUiEnabled } from "@/lib/docx-next/brief-visibility";
 
 export type DossierExportFormat = "json" | "pdf" | "docx";
 
@@ -40,6 +41,8 @@ type Props = {
   onNativePrint?: () => void | Promise<void>;
   nativePrinting?: boolean;
   nativePrintError?: string | null;
+  onBriefDocxNext?: () => void | Promise<void>;
+  briefDocxNextError?: string | null;
 };
 
 function joinParts(parts: string[]) {
@@ -96,6 +99,8 @@ export function DossierExportDialog({
   onNativePrint,
   nativePrinting = false,
   nativePrintError,
+  onBriefDocxNext,
+  briefDocxNextError,
 }: Props) {
   const downloadRef = useRef<HTMLButtonElement>(null);
   const [format, setFormat] = useState<DossierExportFormat>("pdf");
@@ -446,6 +451,29 @@ export function DossierExportDialog({
             </p>
           </div>
         </details>
+
+        {briefDocxNextUiEnabled() && cover?.template === "brief" && onBriefDocxNext ? (
+          <div className="mt-3 rounded-lg border px-3 py-2" data-brief-docx-next-qa>
+            <p id="brief-docx-next-help" className="text-xs text-muted-foreground">
+              Brief-Testexport · editierbares Word-Dossier. Schriftprofil Arial/Liberation Sans; vor
+              der Verwendung in Word prüfen.
+            </p>
+            <button
+              type="button"
+              onClick={() => void onBriefDocxNext()}
+              disabled={busy || missingParts.length > 0 || !letterState.readyToSend}
+              aria-describedby="brief-docx-next-help"
+              className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
+            >
+              {downloading ? "Dossier wird erstellt…" : "Brief DOCX Next testen"}
+            </button>
+            {briefDocxNextError ? (
+              <p role="alert" className="mt-2 text-sm text-destructive">
+                {briefDocxNextError}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
 
         {nativePrintUiEnabled() && onNativePrint ? (
           <div className="mt-3 rounded-lg border px-3 py-2">

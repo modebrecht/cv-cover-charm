@@ -1,0 +1,629 @@
+{
+  "scope": "Brief only",
+  "cases": [
+    {
+      "case": "normal",
+      "pages": 4,
+      "coverFrameCount": 11,
+      "semanticControls": 82,
+      "missingCoverText": [],
+      "coverGlyphsWithinA4": true,
+      "professionLines": 1,
+      "neighborPagesPixelIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webEditorPixelsIdenticalToDev": true,
+      "defaultNextPackageByteIdenticalToDev": true,
+      "candidateSha256": "dfe4357557483bff32edee86349a9f978c5e26f02ef315f416ca7d418723ccb3",
+      "sourceSnapshotSha256": "6d41c4afd0c0ebc39baeaea05473edbe0fa0c919a410474f4f97da1443c8b6db",
+      "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+      "framesMm": [
+        {
+          "id": "cover.eyebrow.frame",
+          "xMm": 20,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.ortDatum.frame",
+          "xMm": 110,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.photo.initials.frame",
+          "xMm": 129,
+          "yMm": 62.3772,
+          "widthMm": 52
+        },
+        {
+          "id": "cover.kicker.frame",
+          "xMm": 20,
+          "yMm": 128,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.profession.frame",
+          "xMm": 20,
+          "yMm": 134.476875,
+          "widthMm": 155
+        },
+        {
+          "id": "cover.fullName.frame",
+          "xMm": 20,
+          "yMm": 155.81187500000001,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.lehrbeginn.frame",
+          "xMm": 20,
+          "yMm": 166.67000000000002,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.kontaktTitel.frame",
+          "xMm": 20,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kontakt.frame",
+          "xMm": 20,
+          "yMm": 257.615625,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagenTitel.frame",
+          "xMm": 110,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagen.frame",
+          "xMm": 110,
+          "yMm": 257.615625,
+          "widthMm": 80
+        }
+      ],
+      "photoOriginalPixelsPreserved": null,
+      "photoGeometry": null,
+      "wordAcceptance": "UNVERIFIED for these app-generated packages"
+    },
+    {
+      "case": "scaled",
+      "pages": 4,
+      "coverFrameCount": 11,
+      "semanticControls": 82,
+      "missingCoverText": [],
+      "coverGlyphsWithinA4": true,
+      "professionLines": 1,
+      "neighborPagesPixelIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webEditorPixelsIdenticalToDev": true,
+      "defaultNextPackageByteIdenticalToDev": true,
+      "candidateSha256": "4e1e0e311fc6f798cf769fb141c95a60b35c3f3b3f00b069134bc75e49b8a4f4",
+      "sourceSnapshotSha256": "23308e3b1d70a9168f6382e239ee51d3903195468194da3461b642e214f4f7d1",
+      "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+      "framesMm": [
+        {
+          "id": "cover.eyebrow.frame",
+          "xMm": 20,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.ortDatum.frame",
+          "xMm": 110,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.photo.initials.frame",
+          "xMm": 129,
+          "yMm": 61.68378,
+          "widthMm": 52
+        },
+        {
+          "id": "cover.kicker.frame",
+          "xMm": 20,
+          "yMm": 128,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.profession.frame",
+          "xMm": 20,
+          "yMm": 135.29840625,
+          "widthMm": 155
+        },
+        {
+          "id": "cover.fullName.frame",
+          "xMm": 20,
+          "yMm": 158.63365625,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.lehrbeginn.frame",
+          "xMm": 20,
+          "yMm": 170.6705,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.kontaktTitel.frame",
+          "xMm": 20,
+          "yMm": 246.53109375,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kontakt.frame",
+          "xMm": 20,
+          "yMm": 253.50796875,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagenTitel.frame",
+          "xMm": 110,
+          "yMm": 246.53109375,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagen.frame",
+          "xMm": 110,
+          "yMm": 253.50796875,
+          "widthMm": 80
+        }
+      ],
+      "photoOriginalPixelsPreserved": null,
+      "photoGeometry": null,
+      "wordAcceptance": "UNVERIFIED for these app-generated packages"
+    },
+    {
+      "case": "long",
+      "pages": 4,
+      "coverFrameCount": 11,
+      "semanticControls": 82,
+      "missingCoverText": [],
+      "coverGlyphsWithinA4": true,
+      "professionLines": 2,
+      "neighborPagesPixelIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webEditorPixelsIdenticalToDev": true,
+      "defaultNextPackageByteIdenticalToDev": true,
+      "candidateSha256": "575fe432700b630d474e7667a79252ed73e89eb6398ec98b029400669dde570a",
+      "sourceSnapshotSha256": "b6dd1e2870bdf7cfde4c2e638eaf569929945f06dce9ffad2423a1504f8fc419",
+      "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+      "framesMm": [
+        {
+          "id": "cover.eyebrow.frame",
+          "xMm": 20,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.ortDatum.frame",
+          "xMm": 110,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.photo.initials.frame",
+          "xMm": 129,
+          "yMm": 62.3772,
+          "widthMm": 52
+        },
+        {
+          "id": "cover.kicker.frame",
+          "xMm": 20,
+          "yMm": 128,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.profession.frame",
+          "xMm": 20,
+          "yMm": 134.476875,
+          "widthMm": 155
+        },
+        {
+          "id": "cover.fullName.frame",
+          "xMm": 20,
+          "yMm": 169.14687500000002,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.lehrbeginn.frame",
+          "xMm": 20,
+          "yMm": 179.45493125000002,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.kontaktTitel.frame",
+          "xMm": 20,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kontakt.frame",
+          "xMm": 20,
+          "yMm": 257.615625,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagenTitel.frame",
+          "xMm": 110,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagen.frame",
+          "xMm": 110,
+          "yMm": 257.615625,
+          "widthMm": 80
+        }
+      ],
+      "photoOriginalPixelsPreserved": null,
+      "photoGeometry": null,
+      "wordAcceptance": "UNVERIFIED for these app-generated packages"
+    },
+    {
+      "case": "moved",
+      "pages": 4,
+      "coverFrameCount": 10,
+      "semanticControls": 81,
+      "missingCoverText": [],
+      "coverGlyphsWithinA4": true,
+      "professionLines": 1,
+      "neighborPagesPixelIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webEditorPixelsIdenticalToDev": true,
+      "defaultNextPackageByteIdenticalToDev": true,
+      "candidateSha256": "61815029f0ed439e61fb5d4e18bf3745e8fe48599c400707709464fb4767f01d",
+      "sourceSnapshotSha256": "81d68232e1db0ae7aa028405b47d95cdac440977bc64e0274f39776fc39472dc",
+      "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+      "framesMm": [
+        {
+          "id": "cover.eyebrow.frame",
+          "xMm": 20,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.ortDatum.frame",
+          "xMm": 105,
+          "yMm": 28,
+          "widthMm": 85
+        },
+        {
+          "id": "cover.photo.initials.frame",
+          "xMm": 129,
+          "yMm": 62.3772,
+          "widthMm": 52
+        },
+        {
+          "id": "cover.kicker.frame",
+          "xMm": 20,
+          "yMm": 128,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.profession.frame",
+          "xMm": 20,
+          "yMm": 134.476875,
+          "widthMm": 155
+        },
+        {
+          "id": "cover.lehrbeginn.frame",
+          "xMm": 20,
+          "yMm": 166.67000000000002,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.kontaktTitel.frame",
+          "xMm": 20,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kontakt.frame",
+          "xMm": 20,
+          "yMm": 257.615625,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagenTitel.frame",
+          "xMm": 110,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagen.frame",
+          "xMm": 110,
+          "yMm": 257.615625,
+          "widthMm": 80
+        }
+      ],
+      "photoOriginalPixelsPreserved": null,
+      "photoGeometry": null,
+      "wordAcceptance": "UNVERIFIED for these app-generated packages"
+    },
+    {
+      "case": "photo-portrait",
+      "pages": 4,
+      "coverFrameCount": 10,
+      "semanticControls": 81,
+      "missingCoverText": [],
+      "coverGlyphsWithinA4": true,
+      "professionLines": 1,
+      "neighborPagesPixelIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webEditorPixelsIdenticalToDev": true,
+      "defaultNextPackageByteIdenticalToDev": true,
+      "candidateSha256": "92839b7322059502dc7afe052de0f49c4cbd8573917a47db7ada45f108710e4a",
+      "sourceSnapshotSha256": "b7f988ad3fcb64acab8d200ed32fd2811f2ccfeeba3c359d61d012e97ab1b655",
+      "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+      "framesMm": [
+        {
+          "id": "cover.eyebrow.frame",
+          "xMm": 20,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.ortDatum.frame",
+          "xMm": 110,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kicker.frame",
+          "xMm": 20,
+          "yMm": 128,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.profession.frame",
+          "xMm": 20,
+          "yMm": 134.476875,
+          "widthMm": 155
+        },
+        {
+          "id": "cover.fullName.frame",
+          "xMm": 20,
+          "yMm": 155.81187500000001,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.lehrbeginn.frame",
+          "xMm": 20,
+          "yMm": 166.67000000000002,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.kontaktTitel.frame",
+          "xMm": 20,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kontakt.frame",
+          "xMm": 20,
+          "yMm": 257.615625,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagenTitel.frame",
+          "xMm": 110,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagen.frame",
+          "xMm": 110,
+          "yMm": 257.615625,
+          "widthMm": 80
+        }
+      ],
+      "photoOriginalPixelsPreserved": true,
+      "photoGeometry": {
+        "xMm": 125,
+        "yMm": 45,
+        "widthMm": 40,
+        "frame": {
+          "heightRatio": 1.5,
+          "radiusMm": 0,
+          "zoom": 1.3,
+          "xPct": 30,
+          "yPct": 65,
+          "borderWidthMm": 0,
+          "borderColor": "111111"
+        }
+      },
+      "wordAcceptance": "UNVERIFIED for these app-generated packages"
+    },
+    {
+      "case": "photo-circle",
+      "pages": 4,
+      "coverFrameCount": 10,
+      "semanticControls": 81,
+      "missingCoverText": [],
+      "coverGlyphsWithinA4": true,
+      "professionLines": 1,
+      "neighborPagesPixelIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webEditorPixelsIdenticalToDev": true,
+      "defaultNextPackageByteIdenticalToDev": true,
+      "candidateSha256": "37143b8fb11c490e711644457389ba3780da25c54a1e170a5e5977341ddd72d9",
+      "sourceSnapshotSha256": "b70a09ef5f93bce7e52c14208130918eeca46ca66b99bc4fd5acb5d7495713fd",
+      "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+      "framesMm": [
+        {
+          "id": "cover.eyebrow.frame",
+          "xMm": 20,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.ortDatum.frame",
+          "xMm": 110,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kicker.frame",
+          "xMm": 20,
+          "yMm": 128,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.profession.frame",
+          "xMm": 20,
+          "yMm": 134.476875,
+          "widthMm": 155
+        },
+        {
+          "id": "cover.fullName.frame",
+          "xMm": 20,
+          "yMm": 155.81187500000001,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.lehrbeginn.frame",
+          "xMm": 20,
+          "yMm": 166.67000000000002,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.kontaktTitel.frame",
+          "xMm": 20,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kontakt.frame",
+          "xMm": 20,
+          "yMm": 257.615625,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagenTitel.frame",
+          "xMm": 110,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.beilagen.frame",
+          "xMm": 110,
+          "yMm": 257.615625,
+          "widthMm": 80
+        }
+      ],
+      "photoOriginalPixelsPreserved": true,
+      "photoGeometry": {
+        "xMm": 125,
+        "yMm": 45,
+        "widthMm": 40,
+        "frame": {
+          "heightRatio": 1,
+          "radiusMm": 999,
+          "zoom": 1.3,
+          "xPct": 30,
+          "yPct": 65,
+          "borderWidthMm": 0,
+          "borderColor": "111111"
+        }
+      },
+      "wordAcceptance": "UNVERIFIED for these app-generated packages"
+    },
+    {
+      "case": "hidden",
+      "pages": 4,
+      "coverFrameCount": 8,
+      "semanticControls": 79,
+      "missingCoverText": [],
+      "coverGlyphsWithinA4": true,
+      "professionLines": 1,
+      "neighborPagesPixelIdentical": [
+        true,
+        true,
+        true
+      ],
+      "webEditorPixelsIdenticalToDev": true,
+      "defaultNextPackageByteIdenticalToDev": true,
+      "candidateSha256": "5d27c388cac1646e6272cb6cb880d7fbf1cce8bb699d9ea029b3e29bc5b790fc",
+      "sourceSnapshotSha256": "9ddc128b8da2d0c271217b83b855adf614bf281a44cebc2c179244727c411e29",
+      "measuredProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+      "framesMm": [
+        {
+          "id": "cover.eyebrow.frame",
+          "xMm": 20,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.ortDatum.frame",
+          "xMm": 110,
+          "yMm": 19.5,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kicker.frame",
+          "xMm": 20,
+          "yMm": 128,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.profession.frame",
+          "xMm": 20,
+          "yMm": 134.476875,
+          "widthMm": 155
+        },
+        {
+          "id": "cover.fullName.frame",
+          "xMm": 20,
+          "yMm": 155.81187500000001,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.lehrbeginn.frame",
+          "xMm": 20,
+          "yMm": 166.67000000000002,
+          "widthMm": 150
+        },
+        {
+          "id": "cover.kontaktTitel.frame",
+          "xMm": 20,
+          "yMm": 251.35312500000003,
+          "widthMm": 80
+        },
+        {
+          "id": "cover.kontakt.frame",
+          "xMm": 20,
+          "yMm": 257.615625,
+          "widthMm": 80
+        }
+      ],
+      "photoOriginalPixelsPreserved": null,
+      "photoGeometry": null,
+      "wordAcceptance": "UNVERIFIED for these app-generated packages"
+    }
+  ],
+  "adjacentPagesPixelIdentical": 21,
+  "webEditorCasesPixelIdenticalToDev": 7,
+  "defaultNextPackagesByteIdenticalToDev": 7,
+  "fullItem37": "PARTIAL"
+}

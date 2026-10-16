@@ -1,0 +1,24 @@
+{
+  "profile": "brief-sans-v1",
+  "acceptedBrowserRealizations": [
+    "Arial",
+    "Liberation Sans"
+  ],
+  "nativeRequestedFont": "Arial",
+  "actualQaBrowserRealization": "Liberation Sans / LiberationSans-Bold, CDP system font",
+  "supportedWeights": [
+    400,
+    600,
+    700
+  ],
+  "native600Mapping": "bold",
+  "unsupported": "other keys, italic, mixed weights and scripts outside the bounded western text repertoire",
+  "fontIdentityInWord": "UNVERIFIED; no target font binary attestation",
+  "fontconfigXml": "<?xml version=\"1.0\"?><!DOCTYPE fontconfig SYSTEM \"fonts.dtd\"><fontconfig><include ignore_missing=\"yes\">/etc/fonts/fonts.conf</include><dir>/opt/codex/runtimes/codex-primary-runtime/dependencies/native/libreoffice-headless/libreoffice/share/fonts/truetype</dir><cachedir>/tmp/37c-font-cache</cachedir></fontconfig>",
+  "availableQaFiles": {
+    "LiberationSans-Regular.ttf": "76d04c18ea243f426b7de1f3ad208e927008f961dc5945e5aad352d0dfde8ee8",
+    "LiberationSans-Bold.ttf": "788abee4c806d660e8aee46689dd8540cd4bb98da03dcc9d171ce3efd99a9173"
+  },
+  "browser": "Chromium 143.0.7499.0",
+  "supplementaryRenderer": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5"
+}

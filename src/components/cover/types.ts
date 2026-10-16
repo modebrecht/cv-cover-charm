@@ -90,6 +90,8 @@ export type TemplateDefinition = {
   name: string;
   description: string;
   slots: ColorSlot[];
+  /** Shared semantic-role contract; not native Word acceptance. */
+  authoredCoverPresentation?: "semantic-roles";
 };
 
 /** Aufzählungszeichen für mehrzeilige Textblöcke. */
@@ -312,6 +314,7 @@ export const FONT_LABELS: Record<FontKey, string> = {
 export const TEMPLATES: TemplateDefinition[] = [
   {
     id: "brief",
+    authoredCoverPresentation: "semantic-roles",
     name: "Brief",
     description: "Reinweisses Papier, schwarze Typografie, ohne Gestaltungselemente",
     slots: [
