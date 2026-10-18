@@ -28,6 +28,12 @@ import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { CvPageMarginsControl } from "@/components/cv/CvPageMarginsControl";
 import { CitrusRubricControls } from "@/components/cv/CitrusRubricControls";
+import { cvReadingDefaults } from "@/components/cv/reading-defaults";
+import {
+  getCvLayoutChoiceForTemplate,
+  defaultCvLayoutForTemplate,
+  subscribeCvLayout,
+} from "@/components/cv/layout";
 import { ElementBar } from "@/components/cover/ElementBar";
 import { dossierElementFieldId } from "@/lib/dossier-semantic-fields";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
@@ -274,6 +280,16 @@ function Lebenslauf() {
     };
   });
   const chromeOptions = useSynchronizedContactChrome("cv", design, chromeState);
+  const getReadingLayout = useCallback(
+    () => getCvLayoutChoiceForTemplate(design.template),
+    [design.template],
+  );
+  const readingLayout = useSyncExternalStore(subscribeCvLayout, getReadingLayout, () =>
+    defaultCvLayoutForTemplate(design.template),
+  );
+  const rubricDefaultPx =
+    cvReadingDefaults(design.template, readingLayout).sectionTitleFontSizePx ??
+    CV_SECTION_TITLE_DEFAULTS.fontSizePx;
   useTemplateQaTemplateSwitch(
     design.template,
     (template) =>
@@ -2356,17 +2372,14 @@ function Lebenslauf() {
 
                     <label className="flex flex-col gap-1 text-xs">
                       <span className="text-muted-foreground">
-                        Schriftgrösse{" "}
-                        {design.sectionTitleFontSizePx ?? CV_SECTION_TITLE_DEFAULTS.fontSizePx} px
+                        Schriftgrösse {design.sectionTitleFontSizePx ?? rubricDefaultPx} px
                       </span>
                       <input
                         type="range"
                         min={CV_SECTION_TITLE_FONT_SIZE_MIN}
                         max={CV_SECTION_TITLE_FONT_SIZE_MAX}
                         step={1}
-                        value={
-                          design.sectionTitleFontSizePx ?? CV_SECTION_TITLE_DEFAULTS.fontSizePx
-                        }
+                        value={design.sectionTitleFontSizePx ?? rubricDefaultPx}
                         onChange={(event) =>
                           setDesign((current) => ({
                             ...current,

@@ -1,0 +1,217 @@
+{
+  "classification": "PARTIAL; scoped defaults PASS; native footer coverage candidate Word UNVERIFIED",
+  "wordProducer": "Microsoft® Word for Microsoft 365",
+  "word05Rubrics": [
+    {
+      "label": "FAMILIE",
+      "page": 3,
+      "contained": true,
+      "pdfFontPt": 10.5600004196167,
+      "textBox": [74.90399932861328, 218.82321166992188, 123.76513671875, 230.5976104736328],
+      "paintBox": [68.05000305175781, 216.22998046875, 532.3300170898438, 231.97998046875]
+    },
+    {
+      "label": "SCHULBILDUNG",
+      "page": 3,
+      "contained": true,
+      "pdfFontPt": 10.5600004196167,
+      "textBox": [74.90399932861328, 282.3331604003906, 171.60194396972656, 294.1075439453125],
+      "paintBox": [68.05000305175781, 279.77996826171875, 532.3300170898438, 295.52996826171875]
+    },
+    {
+      "label": "PRAKTIKA & SCHNUPPERTAGE",
+      "page": 3,
+      "contained": true,
+      "pdfFontPt": 10.5600004196167,
+      "textBox": [74.90399932861328, 432.4731750488281, 264.0335998535156, 444.24755859375],
+      "paintBox": [68.05000305175781, 429.8799743652344, 532.3300170898438, 445.6299743652344]
+    },
+    {
+      "label": "SPRACHEN",
+      "page": 3,
+      "contained": true,
+      "pdfFontPt": 10.5600004196167,
+      "textBox": [74.90399932861328, 598.4331665039062, 142.00225830078125, 610.2075805664062],
+      "paintBox": [68.05000305175781, 595.8599853515625, 532.3300170898438, 611.6099853515625]
+    },
+    {
+      "label": "HOBBYS & INTERESSEN",
+      "page": 4,
+      "contained": true,
+      "pdfFontPt": 10.5600004196167,
+      "textBox": [74.90399932861328, 56.923179626464844, 220.96994018554688, 68.69757843017578],
+      "paintBox": [68.05000305175781, 54.45001220703125, 532.3300170898438, 70.20001220703125]
+    },
+    {
+      "label": "STÄRKEN",
+      "page": 4,
+      "contained": true,
+      "pdfFontPt": 10.5600004196167,
+      "textBox": [74.90399932861328, 142.14321899414062, 132.63552856445312, 153.91761779785156],
+      "paintBox": [68.05000305175781, 139.5899658203125, 532.3300170898438, 155.3399658203125]
+    },
+    {
+      "label": "REFERENZEN",
+      "page": 4,
+      "contained": true,
+      "pdfFontPt": 10.5600004196167,
+      "textBox": [74.90399932861328, 227.34317016601562, 156.50112915039062, 239.11756896972656],
+      "paintBox": [68.05000305175781, 224.72998046875, 532.3300170898438, 240.47998046875]
+    }
+  ],
+  "newNativeRubrics": [
+    {
+      "label": "FAMILIE",
+      "page": 3,
+      "contained": true,
+      "pdfFontPt": 10.5,
+      "textBox": [74.94999694824219, 218.89825439453125, 123.73300170898438, 230.6162567138672],
+      "paintBox": [68.05000305175781, 216.25079345703125, 532.9500122070312, 232.00079345703125]
+    },
+    {
+      "label": "SCHULBILDUNG",
+      "page": 3,
+      "contained": true,
+      "pdfFontPt": 10.5,
+      "textBox": [74.94999694824219, 282.498291015625, 171.43446350097656, 294.21630859375],
+      "paintBox": [68.05000305175781, 279.85076904296875, 532.9500122070312, 295.60076904296875]
+    },
+    {
+      "label": "PRAKTIKA & SCHNUPPERTAGE",
+      "page": 3,
+      "contained": true,
+      "pdfFontPt": 10.5,
+      "textBox": [74.94999694824219, 432.6982727050781, 263.8869323730469, 444.416259765625],
+      "paintBox": [68.05000305175781, 430.05078125, 532.9500122070312, 445.80078125]
+    },
+    {
+      "label": "SPRACHEN",
+      "page": 3,
+      "contained": true,
+      "pdfFontPt": 10.5,
+      "textBox": [74.94999694824219, 598.7982788085938, 141.80348205566406, 610.5162963867188],
+      "paintBox": [68.05000305175781, 596.1507568359375, 532.9500122070312, 611.9007568359375]
+    },
+    {
+      "label": "HOBBYS & INTERESSEN",
+      "page": 4,
+      "contained": true,
+      "pdfFontPt": 10.5,
+      "textBox": [74.94999694824219, 57.048282623291016, 220.8894500732422, 68.76628112792969],
+      "paintBox": [68.05000305175781, 54.4007568359375, 532.9500122070312, 70.1507568359375]
+    },
+    {
+      "label": "STÄRKEN",
+      "page": 4,
+      "contained": true,
+      "pdfFontPt": 10.5,
+      "textBox": [74.94999694824219, 142.248291015625, 132.510986328125, 153.96629333496094],
+      "paintBox": [68.05000305175781, 139.60076904296875, 532.9500122070312, 155.35076904296875]
+    },
+    {
+      "label": "REFERENZEN",
+      "page": 4,
+      "contained": true,
+      "pdfFontPt": 10.5,
+      "textBox": [74.94999694824219, 227.4482421875, 156.33547973632812, 239.16624450683594],
+      "paintBox": [68.05000305175781, 224.80078125, 532.9500122070312, 240.55078125]
+    }
+  ],
+  "word05EdgeMeasurements": [
+    {
+      "page": 2,
+      "wordPaperPt": [0.0, 0.0, 595.3200073242188, 841.9199829101562],
+      "wordImagePt": [0.0, -0.00018310546875, 595.25, 841.8497924804688],
+      "rightGapPt": 0.07000732421875,
+      "bottomGapPt": 0.0701904296875,
+      "rightGapMm": 0.02469702826605903,
+      "bottomGapMm": 0.024761623806423612,
+      "newSupplementaryImagePt": [0.0, -0.04925537109375, 595.3499755859375, 841.9007568359375]
+    },
+    {
+      "page": 3,
+      "wordPaperPt": [0.0, 0.0, 595.3200073242188, 841.9199829101562],
+      "wordImagePt": [0.0, -0.00018310546875, 595.25, 841.8497924804688],
+      "rightGapPt": 0.07000732421875,
+      "bottomGapPt": 0.0701904296875,
+      "rightGapMm": 0.02469702826605903,
+      "bottomGapMm": 0.024761623806423612,
+      "newSupplementaryImagePt": [0.0, -0.04925537109375, 595.3499755859375, 841.9007568359375]
+    },
+    {
+      "page": 4,
+      "wordPaperPt": [0.0, 0.0, 595.3200073242188, 841.9199829101562],
+      "wordImagePt": [0.0, -0.00018310546875, 595.25, 841.8497924804688],
+      "rightGapPt": 0.07000732421875,
+      "bottomGapPt": 0.0701904296875,
+      "rightGapMm": 0.02469702826605903,
+      "bottomGapMm": 0.024761623806423612,
+      "newSupplementaryImagePt": [0.0, -0.04925537109375, 595.3499755859375, 841.9007568359375]
+    }
+  ],
+  "newNativePaintExtents": [
+    {
+      "part": "word/letter-header.xml",
+      "widthEmu": 7560945,
+      "heightEmu": 10692765,
+      "rightPt": 595.35,
+      "bottomPt": 841.95
+    },
+    {
+      "part": "word/letter-header-first.xml",
+      "widthEmu": 7560945,
+      "heightEmu": 10692765,
+      "rightPt": 595.35,
+      "bottomPt": 841.95
+    },
+    {
+      "part": "word/cv-header.xml",
+      "widthEmu": 7560945,
+      "heightEmu": 10692765,
+      "rightPt": 595.35,
+      "bottomPt": 841.95
+    },
+    {
+      "part": "word/cv-header-first.xml",
+      "widthEmu": 7560945,
+      "heightEmu": 10692765,
+      "rightPt": 595.35,
+      "bottomPt": 841.95
+    }
+  ],
+  "changedPackageParts": [
+    "word/letter-header.xml",
+    "word/letter-header-first.xml",
+    "word/cv-header.xml",
+    "word/cv-header-first.xml"
+  ],
+  "onlyPaintExtentAttributesChange": true,
+  "allOtherPackagePartsByteIdentical": true,
+  "allTextPositionsIdenticalToPriorSupplementary": true,
+  "newNativeA4Pages": 4,
+  "webRegression": [
+    {
+      "file": "web.png",
+      "sha256": "007ed3a78baa6095a56605363923cea83144789a185c618f40c6809e3ddff6f4",
+      "byteIdenticalToReviewedSettings": true
+    },
+    {
+      "file": "web-letter.png",
+      "sha256": "56415aea93f4293006c75f9ca2dbc67cd33f7dc2c25aac91c549871397df8dbc",
+      "byteIdenticalToReviewedSettings": true
+    },
+    {
+      "file": "web-cv.png",
+      "sha256": "ddb7833624ac524d556748e477ef8546f5883b08aac4fcb37bd26cd448bcc3d6",
+      "byteIdenticalToReviewedSettings": true
+    }
+  ],
+  "ordinaryNextBaselineByteIdenticalToExplicitReviewedSettings": true,
+  "defaultSourceEqualsReviewedExplicitSettings": true,
+  "customSavedValuesPreserved": {
+    "marginMm": 12,
+    "rubricPx": 18
+  },
+  "newFooterWordVisualSaveReopen": "UNVERIFIED; no returned DOCX supplied in this round",
+  "productionExportEngineDefaultSwitched": false
+}

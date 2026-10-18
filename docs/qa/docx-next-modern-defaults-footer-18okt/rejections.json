@@ -1,0 +1,19 @@
+[
+  {
+    "scenario": "stale-before-capture",
+    "message": "Design DOCX Next: Gespeicherte Daten haben sich während des Exports geändert. Bitte erneut exportieren.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "stale-after-render",
+    "message": "Design DOCX Next: Gespeicherte Daten haben sich während des Exports geändert. Bitte erneut exportieren.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "opt-in-off",
+    "message": "Error: Design DOCX Next: Testexport ist nicht aktiviert.",
+    "result": "PASS hidden and rejected"
+  }
+]

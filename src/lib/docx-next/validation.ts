@@ -84,6 +84,13 @@ export function validateDossierDocModel(model: DossierDocModel): void {
     if (part.pagePaintComposition !== undefined && part.pagePaintComposition !== "single-asset")
       throw new Error(`DOCX Next invalid page paint composition ${part.id}`);
     if (
+      part.pagePaintCoverage !== undefined &&
+      (part.pagePaintCoverage !== "native-grid" ||
+        part.pagePaintComposition !== "single-asset" ||
+        part.id === "cover")
+    )
+      throw Error("DOCX Next invalid native page paint coverage");
+    if (
       [...part.artwork, ...(part.headerShapes ?? [])].some((value) => value.repeat) &&
       !part.firstHeader
     )

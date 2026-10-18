@@ -1,18 +1,14 @@
-import { useSyncExternalStore } from "react";
+import { useCallback, useSyncExternalStore } from "react";
+import { cvReadingDefaults } from "./reading-defaults";
 import { DossierPageMarginsControl } from "@/components/dossier/DossierPageMarginsControl";
 import { patchDossierChrome, type DossierChromeOptions } from "@/lib/dossier-chrome";
+import { cvDefaultContentBox, cvFrameFor, cvSafePageMarginMinimums } from "./archetype";
 import {
-  cvDefaultContentBox,
-  cvFrameFor,
-  cvSafePageMarginMinimums,
-  type CvRenderLayout,
-} from "./archetype";
-import {
-  CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM,
   CV_CONTINUATION_TOP_MARGIN_MAX_MM,
   CV_CONTINUATION_TOP_MARGIN_MIN_MM,
   getCvContinuationTopMarginMm,
-  getCvLayout,
+  getCvLayoutChoiceForTemplate,
+  defaultCvLayoutForTemplate,
   setCvContinuationTopMarginMm,
   subscribeCvContinuationTopMargin,
   subscribeCvLayout,
@@ -31,15 +27,23 @@ export function CvPageMarginsControl({
   design: CvDesign;
   chromeOptions: DossierChromeOptions;
 }) {
-  const layout = useSyncExternalStore<CvRenderLayout>(
-    subscribeCvLayout,
-    getCvLayout,
-    () => "classic",
+  const getChoice = useCallback(
+    () => getCvLayoutChoiceForTemplate(design.template),
+    [design.template],
+  );
+  const choice = useSyncExternalStore(subscribeCvLayout, getChoice, () =>
+    defaultCvLayoutForTemplate(design.template),
+  );
+  const layout = choice === "modern" || choice === "executive" ? "modern" : "classic";
+  const continuationDefault = cvReadingDefaults(design.template, choice).continuationTopMm;
+  const getContinuation = useCallback(
+    () => getCvContinuationTopMarginMm(design.template, choice),
+    [design.template, choice],
   );
   const continuationTopMargin = useSyncExternalStore(
     subscribeCvContinuationTopMargin,
-    getCvContinuationTopMarginMm,
-    () => CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM,
+    getContinuation,
+    () => continuationDefault,
   );
   const frame = cvFrameFor(design.template);
   const defaultMargins = cvDefaultContentBox(frame, 0, layout, design.sidebarPct, chromeOptions);
@@ -83,15 +87,13 @@ export function CvPageMarginsControl({
                 Ersetzt im Lebenslauf ab Seite 2 den normalen oberen Seitenrand. Ein vorhandener
                 Fortsetzungs-Header bleibt automatisch geschützt.
               </span>
-              {continuationTopMargin !== CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM ? (
+              {continuationTopMargin !== continuationDefault ? (
                 <button
                   type="button"
                   className="justify-self-start rounded border border-input bg-background px-2 py-1 text-[11px] font-medium hover:bg-accent"
-                  onClick={() =>
-                    setCvContinuationTopMarginMm(CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM)
-                  }
+                  onClick={() => setCvContinuationTopMarginMm(continuationDefault)}
                 >
-                  Standardrand (10 mm)
+                  Standardrand ({continuationDefault} mm)
                 </button>
               ) : null}
             </label>

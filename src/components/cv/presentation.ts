@@ -31,6 +31,7 @@ import {
 import { getCvPlacements, subscribeCvPlacements } from "./placement";
 import { getCvTextAlignment, subscribeCvTextAlignment } from "./text-alignment";
 import { DEFAULT_CV_PLACEMENTS, type CvPlacements } from "./types";
+import { cvReadingDefaults } from "./reading-defaults";
 
 /** Complete presentation snapshot shared by measurement, preview and export. */
 export type CvPresentation = {
@@ -61,10 +62,15 @@ export function useCvPresentation(
     () => "standard" as const,
   );
   const sectionGapMm = useSyncExternalStore(subscribeCvLayout, getCvSectionGapMm, () => null);
+  const effectiveLayout = overrides?.layoutChoice ?? layoutChoice;
+  const getContinuation = useCallback(
+    () => getCvContinuationTopMarginMm(template, effectiveLayout),
+    [template, effectiveLayout],
+  );
   const continuationTopMarginMm = useSyncExternalStore(
     subscribeCvLayout,
-    getCvContinuationTopMarginMm,
-    () => 10,
+    getContinuation,
+    () => cvReadingDefaults(template, effectiveLayout).continuationTopMm,
   );
   const photoStyle = useSyncExternalStore(
     subscribeCvPhotoStyle,

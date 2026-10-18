@@ -1,5 +1,7 @@
 # Modern CV continuation margin and rubric typography
 
+Follow-up: the user approved candidate 05 in Word and supplied a PDF showing a real narrow footer paint gap. The [scoped Web defaults and candidate 06 coverage trial](docx-next-modern-defaults-footer-18okt.md) now supersede the earlier decision to leave defaults unchanged. The original packet below remains immutable; no returned DOCX was supplied for candidate 05.
+
 **Recommendation: use the existing saved controls with a 20-mm continuation top margin and 14-px rubric text (10.5 pt native Word). No production layout code or global default change is needed for this comparison. Overall PARTIAL: the returned candidate 04 passes bounded Word rendering/save checks; new settings candidate 05 still needs Word visual acceptance.**
 
 Branch: `investigate/docx-next-design-fidelity-16okt`. Parent: `df72489a5d5c1fec4daf43309df0f8dfeb1987c0`. Remote dev re-fetched at `8901a830a792d75e9e792345c5180827218b4e1e`. The header/footer dimming request remains cancelled. This work stays on the normal Modern CV; there is no stress/template expansion or default export promotion.

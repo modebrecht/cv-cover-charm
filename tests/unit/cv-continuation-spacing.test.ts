@@ -79,7 +79,7 @@ describe("CV continuation page top margin", () => {
     expect(control).toContain("Oberer Rand ab Seite 2");
     expect(control).toContain("data-cv-continuation-top-margin-control");
     expect(control).toContain('scope="cv"');
-    expect(control).toContain("Standardrand (10 mm)");
+    expect(control).toContain("Standardrand ({continuationDefault} mm)");
     expect(portable).toContain("continuationTopMarginMm");
     expect(portable).toContain("CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY");
     expect(portable).toContain("continuationGapMm");

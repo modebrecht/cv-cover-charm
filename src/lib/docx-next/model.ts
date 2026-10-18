@@ -277,6 +277,9 @@ export type DocumentPart = {
   paintOrder?: "layer";
   /** Opt-in decorative composition; semantic text/pictures are never included. */
   pagePaintComposition?: "single-asset";
+  /** Controlled chrome trial: cover the serialized native page plus one twip
+   * of rounding allowance at its right/bottom edges. Semantic content is unchanged. */
+  pagePaintCoverage?: "native-grid";
   id: "cover" | "letter" | "cv";
   blocks: DocBlock[];
   page: {

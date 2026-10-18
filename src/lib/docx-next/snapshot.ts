@@ -20,6 +20,7 @@ import type { DossierAppSnapshot } from "./source";
 import { toDossierSource } from "./source-adapter";
 import { bindSavedTypography } from "./typography-bindings";
 import { cvWordLayout } from "./layouts";
+import { cvSectionTitleFontSizePx } from "@/components/cv/reading-defaults";
 
 /** Capture ambient state once. Old anonymous field IDs require explicit semantic bindings. */
 export function captureDossierDocxNextSnapshot(
@@ -34,17 +35,24 @@ export function captureDossierDocxNextSnapshot(
     letter: {},
   };
   const { fieldStyles, unresolvedTypography } = bindSavedTypography(typography, bindings);
+  const layoutChoice = getCvLayoutChoiceForTemplate(cv.design.template);
+  const source = toDossierSource(cover, letter, cv);
+  const sectionSize = cvSectionTitleFontSizePx(cv.design, layoutChoice);
+  // Resolve the same Web default before metric keys are captured. A packet
+  // measured against the former implicit size must not match this source.
+  if (cv.design.sectionTitleFontSizePx === undefined && sectionSize !== undefined)
+    source.cv.design = { ...source.cv.design, sectionTitleFontSizePx: sectionSize };
   return structuredClone({
-    ...toDossierSource(cover, letter, cv),
+    ...source,
     settings: {
       chrome: getDossierChromeState(),
       margins: getDossierPageMarginsState(),
-      cvLayout: cvWordLayout(getCvLayoutChoiceForTemplate(cv.design.template)),
+      cvLayout: cvWordLayout(layoutChoice),
       sidebarSide: getCvInfoPosition() === "mirrored" ? "right" : "left",
       placements: getCvPlacements(),
       cvAlignment: getCvTextAlignment(),
       cvSectionGapMm: getCvSectionGapMm(),
-      cvContinuationTopMarginMm: getCvContinuationTopMarginMm(),
+      cvContinuationTopMarginMm: getCvContinuationTopMarginMm(cv.design.template, layoutChoice),
       cvPhotoStyle: getCvPhotoStyle(),
       cvPhotoPlacement: getCvPhotoPlacement(),
       fieldStyles,

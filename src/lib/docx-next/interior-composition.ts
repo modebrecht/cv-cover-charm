@@ -31,6 +31,7 @@ export function composeMeasuredHeaders(
     (a) => ![`${part.id}.artwork.header`, `${part.id}.artwork.footer`].includes(a.id),
   );
   part.pagePaintComposition = "single-asset";
+  part.pagePaintCoverage = "native-grid";
   part.headerFrames = [];
   part.headerImages = [];
   const paint = (

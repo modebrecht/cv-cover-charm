@@ -37,7 +37,12 @@ import { flowSurfacePaint } from "./flow-surface";
 import { parallelFlowTable } from "./parallel-flow";
 import { imageZoneTable } from "./image-zone";
 import { cellProperties, planCellRowSpans } from "./native-cell";
-import { decorationPageGeometry, orderedPagePaint, compositePagePaint } from "./page-artwork";
+import {
+  decorationPageGeometry,
+  orderedPagePaint,
+  compositePagePaint,
+  nativePagePaintGeometry,
+} from "./page-artwork";
 import {
   control,
   paragraph,
@@ -150,6 +155,11 @@ export async function renderDossierDocx(
     !options.allowUnacceptedModelIssues
   )
     throw new Error("DOCX Next table identity carrier is unaccepted; diagnostic opt-in required");
+  if (
+    [model.cover, model.letter, model.cv].some((part) => part.pagePaintCoverage) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next native page coverage requires the explicit candidate gate");
   if (
     storyBlocks.some(
       (block) =>
@@ -294,11 +304,14 @@ export async function renderDossierDocx(
     value: DecorativeShape,
     page: DocumentPart["page"],
     story = "word/document.xml",
+    nativeCoverage = false,
   ): string {
     const media = decorationIds.get(value.id);
     if (!media) return "";
     const { rid } = media;
-    const geometry = decorationPageGeometry(value, page);
+    const geometry = nativeCoverage
+      ? nativePagePaintGeometry(page)
+      : decorationPageGeometry(value, page);
     if (
       story !== "word/document.xml" &&
       !pkg.relationships.some((rel) => rel.source === story && rel.id === rid)
@@ -683,7 +696,7 @@ export async function renderDossierDocx(
             .map((value) =>
               value.kind === "decorative-artwork"
                 ? artwork(value, part, story)
-                : decorationRun(value, part.page, story),
+                : decorationRun(value, part.page, story, !!part.pagePaintCoverage),
             )
             .join("")
         : "";

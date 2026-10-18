@@ -1,4 +1,5 @@
 import { CANONICAL_DOSSIER_PRESENTATION } from "@/lib/dossier-default-presentation";
+import { cvReadingDefaults } from "./reading-defaults";
 
 export type CvLayoutId = "classic" | "modern" | "minimal" | "timeline" | "executive" | "editorial";
 export type CvRenderLayoutId = "classic" | "modern";
@@ -212,19 +213,17 @@ function readSectionGap(): number | null {
   }
 }
 
-function readContinuationTopMargin(): number {
-  if (typeof window === "undefined") return CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM;
+function readContinuationTopMargin(fallback = CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM): number {
+  if (typeof window === "undefined") return fallback;
   try {
     const raw = window.localStorage.getItem(CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY);
     if (raw !== null) return normalizeCvContinuationTopMarginMm(raw);
     // The old control stored a 0–20 mm continuation gap. Treat that value
     // as the new top margin once, so recent project files remain predictable.
     const legacy = window.localStorage.getItem(CV_CONTINUATION_GAP_STORAGE_KEY);
-    return legacy === null
-      ? CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM
-      : normalizeCvContinuationTopMarginMm(legacy);
+    return legacy === null ? fallback : normalizeCvContinuationTopMarginMm(legacy);
   } catch {
-    return CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM;
+    return fallback;
   }
 }
 
@@ -291,8 +290,8 @@ export function getCvSectionGapMm(): number | null {
 }
 
 /** Independent CV top margin from page 2 onward. */
-export function getCvContinuationTopMarginMm(): number {
-  return readContinuationTopMargin();
+export function getCvContinuationTopMarginMm(template?: string, layout = "classic"): number {
+  return readContinuationTopMargin(cvReadingDefaults(template, layout).continuationTopMm);
 }
 
 export function setCvLayout(layout: CvLayoutId) {

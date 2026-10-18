@@ -581,7 +581,7 @@ try {
           const { replaceDossierProject } = await import("/src/lib/dossier-project.ts");
           replaceDossierProject(project);
         },
-        scenario === "rejected-rubric-anchor"
+        scenario === "rejected-rubric-anchor" || (rubricSpacing && scenario.startsWith("stale-"))
           ? modernInteriorProjectFixture("cv-pills")
           : fixture("normal"),
       );

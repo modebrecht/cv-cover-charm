@@ -18,6 +18,7 @@ import {
 } from "@/components/cover/types";
 import { resolveCvPlacement } from "./placement";
 import type { CvPresentation } from "./presentation";
+import { cvSectionTitleFontSizePx } from "./reading-defaults";
 import { alphaHex, cvVisualPolicy, sidebarPlan, smartNameSize } from "./intelligence";
 import { onColorRoles, type CvOnColor } from "./palette";
 import { normalizeCvPaperColor, resolveCvPalette } from "./cv-paper";
@@ -49,8 +50,6 @@ import {
   CV_DOC_TITLE_FONT_SIZE_MAX,
   CV_DOC_TITLE_FONT_SIZE_MIN,
   CV_DOC_TITLE_MARGIN_BOTTOM_MAX,
-  CV_SECTION_TITLE_FONT_SIZE_MAX,
-  CV_SECTION_TITLE_FONT_SIZE_MIN,
   CV_SECTION_TITLE_MARGIN_BOTTOM_MAX,
   CV_TYPE_DEFAULTS,
   customSectionForKey,
@@ -246,14 +245,7 @@ export function CvCanvas({
    */
   const theme = useMemo(() => dossierThemeFor(design.template), [design.template]);
   const headingStyle = theme.headingStyle;
-  const sectionTitleFontSizePx =
-    typeof design.sectionTitleFontSizePx === "number" &&
-    Number.isFinite(design.sectionTitleFontSizePx)
-      ? Math.max(
-          CV_SECTION_TITLE_FONT_SIZE_MIN,
-          Math.min(CV_SECTION_TITLE_FONT_SIZE_MAX, design.sectionTitleFontSizePx),
-        )
-      : null;
+  const sectionTitleFontSizePx = cvSectionTitleFontSizePx(design, layoutChoice) ?? null;
   const sectionTitleMarginBottomPx =
     typeof design.sectionTitleMarginBottomPx === "number" &&
     Number.isFinite(design.sectionTitleMarginBottomPx)
