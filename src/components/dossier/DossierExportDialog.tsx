@@ -27,6 +27,7 @@ import {
   designDocxNextUiEnabled,
   designNativeBadgeUiEnabled,
   designInteriorAuditUiEnabled,
+  designRubricSpacingUiEnabled,
   NATIVE_BADGE_WORD_REJECTION,
 } from "@/lib/docx-next/design-visibility";
 
@@ -465,9 +466,11 @@ export function DossierExportDialog({
             <p id="design-docx-next-help" className="text-xs text-muted-foreground">
               {designNativeBadgeUiEnabled()
                 ? NATIVE_BADGE_WORD_REJECTION
-                : designInteriorAuditUiEnabled()
-                  ? "Modern-Innenlayout-Test · gemessene Kontakt-Header und native Rubrik-Pills. Benötigt Sans im Lebenslauf. Bearbeitung und Speichern in Word sind noch zu prüfen."
-                  : "Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen."}
+                : designRubricSpacingUiEnabled()
+                  ? "Modern CV-Pills · neuer Abstandstest nach Word-Rückmeldung. Benötigt Sans. Darstellung, Bearbeitung und Speichern in Word sind noch zu prüfen."
+                  : designInteriorAuditUiEnabled()
+                    ? "Modern-Innenlayout-Test · gemessene Kontakt-Header. Bisherige CV-Rubrik-Pills sind nach der Word-Prüfung gesperrt. Benötigt Sans im Lebenslauf."
+                    : "Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen."}
             </p>
             <button
               type="button"
@@ -485,9 +488,11 @@ export function DossierExportDialog({
                 ? "Dossier wird erstellt…"
                 : designNativeBadgeUiEnabled()
                   ? "Pillenversuch gesperrt"
-                  : designInteriorAuditUiEnabled()
-                    ? "Modern Header und Rubriken prüfen"
-                    : "Modern DOCX Next testen"}
+                  : designRubricSpacingUiEnabled()
+                    ? "Modern CV-Pills Abstand testen"
+                    : designInteriorAuditUiEnabled()
+                      ? "Modern Header und Rubriken prüfen"
+                      : "Modern DOCX Next testen"}
             </button>
             {briefDocxNextError ? (
               <p role="alert" className="mt-2 text-sm text-destructive">

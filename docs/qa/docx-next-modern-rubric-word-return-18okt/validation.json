@@ -1,0 +1,459 @@
+{
+  "classification": "PARTIAL; old Word trial rejected; new Word acceptance UNVERIFIED",
+  "inputDocxMatchesOriginal": true,
+  "originalDocxSha256": "c8e997cae9725dcffafbe45dcae0e10d890dfdca2b1aebc036db134daf7c2a75",
+  "wordPdfMetadata": {
+    "format": "PDF 1.7",
+    "title": "Bewerbungsdossier",
+    "author": "Lea Müller",
+    "subject": "",
+    "keywords": "",
+    "creator": "Microsoft® Word for Microsoft 365",
+    "producer": "Microsoft® Word for Microsoft 365",
+    "creationDate": "D:20261018115423+02'00'",
+    "modDate": "D:20261018115423+02'00'",
+    "trapped": "",
+    "encryption": null
+  },
+  "wordPdfSha256": "e6a170ccbdf0a9f18f2d08b633dd07dcb2b35a68c532feb4f5b10346682fda21",
+  "oldWordPillsContained": 1,
+  "oldWordPillsFailed": 6,
+  "newLibreOfficePillsContained": 7,
+  "candidatePages": 4,
+  "fourPageRastersPixelIdentical": true,
+  "coverLetterModelsUnchanged": true,
+  "allSemanticParagraphsRunsStylesUnchanged": true,
+  "noNewParagraphsOrTables": true,
+  "changedPackageParts": ["word/document.xml"],
+  "spacingChanges": [
+    {
+      "spacingIndex": 67,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "20",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "exact"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "20",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "exact"
+      }
+    },
+    {
+      "spacingIndex": 68,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      }
+    },
+    {
+      "spacingIndex": 71,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "170",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      }
+    },
+    {
+      "spacingIndex": 72,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      }
+    },
+    {
+      "spacingIndex": 80,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "170",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      }
+    },
+    {
+      "spacingIndex": 81,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      }
+    },
+    {
+      "spacingIndex": 90,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "170",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      }
+    },
+    {
+      "spacingIndex": 91,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      }
+    },
+    {
+      "spacingIndex": 98,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "85",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      }
+    },
+    {
+      "spacingIndex": 99,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      }
+    },
+    {
+      "spacingIndex": 103,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "85",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      }
+    },
+    {
+      "spacingIndex": 104,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      }
+    },
+    {
+      "spacingIndex": 108,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "85",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "288",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "auto"
+      }
+    },
+    {
+      "spacingIndex": 109,
+      "old": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "272",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      },
+      "new": {
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}before": "0",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after": "150",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}line": "262",
+        "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}lineRule": "atLeast"
+      }
+    }
+  ],
+  "pillMeasurements": [
+    {
+      "id": "cv.section.custom:familie.heading",
+      "label": "FAMILIE",
+      "wordBefore": {
+        "page": 3,
+        "textBox": [74.90399932861328, 220.99998474121094, 130.83599853515625, 234.37998962402344],
+        "paintBox": [68.05000305175781, 204.69998168945312, 532.0800170898438, 222.29998779296875],
+        "contained": false,
+        "textMinusPaintTopPt": 16.300003051757812
+      },
+      "priorLibreOffice": {
+        "page": 3,
+        "textBox": [74.94999694824219, 220.9907684326172, 130.9300079345703, 234.3827667236328],
+        "paintBox": [68.05000305175781, 218.30075073242188, 532.9500122070312, 235.95074462890625],
+        "contained": true,
+        "textMinusPaintTopPt": 2.6900177001953125
+      },
+      "candidateLibreOffice": {
+        "page": 3,
+        "textBox": [74.94999694824219, 220.9907684326172, 130.9300079345703, 234.3827667236328],
+        "paintBox": [68.05000305175781, 218.30075073242188, 532.9500122070312, 235.95074462890625],
+        "contained": true,
+        "textMinusPaintTopPt": 2.6900177001953125
+      },
+      "beforePt": 13.6,
+      "previousAfterPt": 0.0,
+      "startsWordPage": false,
+      "observedExtraWordOffsetPt": 13.6099853515625,
+      "predictedMissingCollapsedGapPt": 13.6,
+      "residualPt": 0.009985351562500355
+    },
+    {
+      "id": "cv.section.schule.heading",
+      "label": "SCHULBILDUNG",
+      "wordBefore": {
+        "page": 3,
+        "textBox": [74.90399932861328, 286.30999755859375, 185.50799560546875, 299.6899719238281],
+        "paintBox": [68.05000305175781, 278.4799499511719, 532.0800170898438, 296.0799560546875],
+        "contained": false,
+        "textMinusPaintTopPt": 7.830047607421875
+      },
+      "priorLibreOffice": {
+        "page": 3,
+        "textBox": [74.94999694824219, 286.290771484375, 185.63803100585938, 299.6827697753906],
+        "paintBox": [68.05000305175781, 283.6007995605469, 532.9500122070312, 301.25079345703125],
+        "contained": true,
+        "textMinusPaintTopPt": 2.689971923828125
+      },
+      "candidateLibreOffice": {
+        "page": 3,
+        "textBox": [74.94999694824219, 286.290771484375, 185.63803100585938, 299.6827697753906],
+        "paintBox": [68.05000305175781, 283.6007995605469, 532.9500122070312, 301.25079345703125],
+        "contained": true,
+        "textMinusPaintTopPt": 2.689971923828125
+      },
+      "beforePt": 13.6,
+      "previousAfterPt": 8.5,
+      "startsWordPage": false,
+      "observedExtraWordOffsetPt": 5.14007568359375,
+      "predictedMissingCollapsedGapPt": 5.1,
+      "residualPt": 0.040075683593750355
+    },
+    {
+      "id": "cv.section.erfahrung.heading",
+      "label": "PRAKTIKA & SCHNUPPERTAGE",
+      "wordBefore": {
+        "page": 3,
+        "textBox": [74.90399932861328, 438.25, 291.55194091796875, 451.6299743652344],
+        "paintBox": [68.05000305175781, 430.29998779296875, 532.0800170898438, 447.8999938964844],
+        "contained": false,
+        "textMinusPaintTopPt": 7.95001220703125
+      },
+      "priorLibreOffice": {
+        "page": 3,
+        "textBox": [74.94999694824219, 438.1907958984375, 291.7060852050781, 451.5827941894531],
+        "paintBox": [68.05000305175781, 435.5007629394531, 532.9500122070312, 453.1507568359375],
+        "contained": true,
+        "textMinusPaintTopPt": 2.690032958984375
+      },
+      "candidateLibreOffice": {
+        "page": 3,
+        "textBox": [74.94999694824219, 438.1907958984375, 291.7060852050781, 451.5827941894531],
+        "paintBox": [68.05000305175781, 435.5007629394531, 532.9500122070312, 453.1507568359375],
+        "contained": true,
+        "textMinusPaintTopPt": 2.690032958984375
+      },
+      "beforePt": 13.6,
+      "previousAfterPt": 8.5,
+      "startsWordPage": false,
+      "observedExtraWordOffsetPt": 5.259979248046875,
+      "predictedMissingCollapsedGapPt": 5.1,
+      "residualPt": 0.15997924804687536
+    },
+    {
+      "id": "cv.section.sprachen.heading",
+      "label": "SPRACHEN",
+      "wordBefore": {
+        "page": 3,
+        "textBox": [74.90399932861328, 605.8900146484375, 151.52398681640625, 619.27001953125],
+        "paintBox": [68.05000305175781, 598.010009765625, 532.0800170898438, 615.6099853515625],
+        "contained": false,
+        "textMinusPaintTopPt": 7.8800048828125
+      },
+      "priorLibreOffice": {
+        "page": 3,
+        "textBox": [74.94999694824219, 605.9907836914062, 151.6179962158203, 619.3827514648438],
+        "paintBox": [68.05000305175781, 603.30078125, 532.9500122070312, 620.9508056640625],
+        "contained": true,
+        "textMinusPaintTopPt": 2.69000244140625
+      },
+      "candidateLibreOffice": {
+        "page": 3,
+        "textBox": [74.94999694824219, 605.9907836914062, 151.6179962158203, 619.3827514648438],
+        "paintBox": [68.05000305175781, 603.30078125, 532.9500122070312, 620.9508056640625],
+        "contained": true,
+        "textMinusPaintTopPt": 2.69000244140625
+      },
+      "beforePt": 13.6,
+      "previousAfterPt": 8.5,
+      "startsWordPage": false,
+      "observedExtraWordOffsetPt": 5.19000244140625,
+      "predictedMissingCollapsedGapPt": 5.1,
+      "residualPt": 0.09000244140625036
+    },
+    {
+      "id": "cv.section.hobbys.heading",
+      "label": "HOBBYS & INTERESSEN",
+      "wordBefore": {
+        "page": 4,
+        "textBox": [74.90399932861328, 28.739974975585938, 242.35194396972656, 42.11997604370117],
+        "paintBox": [68.05000305175781, 26.100011825561523, 532.0800170898438, 43.70001220703125],
+        "contained": true,
+        "textMinusPaintTopPt": 2.639963150024414
+      },
+      "priorLibreOffice": {
+        "page": 4,
+        "textBox": [74.94999694824219, 28.740768432617188, 242.32601928710938, 42.13277053833008],
+        "paintBox": [68.05000305175781, 26.050745010375977, 532.9500122070312, 43.70074462890625],
+        "contained": true,
+        "textMinusPaintTopPt": 2.690023422241211
+      },
+      "candidateLibreOffice": {
+        "page": 4,
+        "textBox": [74.94999694824219, 28.740768432617188, 242.32601928710938, 42.13277053833008],
+        "paintBox": [68.05000305175781, 26.050745010375977, 532.9500122070312, 43.70074462890625],
+        "contained": true,
+        "textMinusPaintTopPt": 2.690023422241211
+      },
+      "beforePt": 13.6,
+      "previousAfterPt": 4.25,
+      "startsWordPage": true,
+      "observedExtraWordOffsetPt": -0.050060272216796875,
+      "predictedMissingCollapsedGapPt": 0,
+      "residualPt": -0.050060272216796875
+    },
+    {
+      "id": "cv.section.staerken.heading",
+      "label": "STÄRKEN",
+      "wordBefore": {
+        "page": 4,
+        "textBox": [74.90399932861328, 115.63999938964844, 140.85598754882812, 129.02000427246094],
+        "paintBox": [68.05000305175781, 103.6199722290039, 532.0800170898438, 121.219970703125],
+        "contained": false,
+        "textMinusPaintTopPt": 12.020027160644531
+      },
+      "priorLibreOffice": {
+        "page": 4,
+        "textBox": [74.94999694824219, 115.64079284667969, 140.93798828125, 129.0327911376953],
+        "paintBox": [68.05000305175781, 112.95076751708984, 532.9500122070312, 130.60076904296875],
+        "contained": true,
+        "textMinusPaintTopPt": 2.6900253295898438
+      },
+      "candidateLibreOffice": {
+        "page": 4,
+        "textBox": [74.94999694824219, 115.64079284667969, 140.93798828125, 129.0327911376953],
+        "paintBox": [68.05000305175781, 112.95076751708984, 532.9500122070312, 130.60076904296875],
+        "contained": true,
+        "textMinusPaintTopPt": 2.6900253295898438
+      },
+      "beforePt": 13.6,
+      "previousAfterPt": 4.25,
+      "startsWordPage": false,
+      "observedExtraWordOffsetPt": 9.330001831054688,
+      "predictedMissingCollapsedGapPt": 9.35,
+      "residualPt": -0.019998168945312145
+    },
+    {
+      "id": "cv.section.referenzen.heading",
+      "label": "REFERENZEN",
+      "wordBefore": {
+        "page": 4,
+        "textBox": [74.90399932861328, 202.52000427246094, 168.17999267578125, 215.90000915527344],
+        "paintBox": [68.05000305175781, 190.47994995117188, 532.0800170898438, 208.0799560546875],
+        "contained": false,
+        "textMinusPaintTopPt": 12.040054321289062
+      },
+      "priorLibreOffice": {
+        "page": 4,
+        "textBox": [74.94999694824219, 202.54075622558594, 168.28599548339844, 215.93275451660156],
+        "paintBox": [68.05000305175781, 199.85079956054688, 532.9500122070312, 217.50079345703125],
+        "contained": true,
+        "textMinusPaintTopPt": 2.6899566650390625
+      },
+      "candidateLibreOffice": {
+        "page": 4,
+        "textBox": [74.94999694824219, 202.54075622558594, 168.28599548339844, 215.93275451660156],
+        "paintBox": [68.05000305175781, 199.85079956054688, 532.9500122070312, 217.50079345703125],
+        "contained": true,
+        "textMinusPaintTopPt": 2.6899566650390625
+      },
+      "beforePt": 13.6,
+      "previousAfterPt": 4.25,
+      "startsWordPage": false,
+      "observedExtraWordOffsetPt": 9.35009765625,
+      "predictedMissingCollapsedGapPt": 9.35,
+      "residualPt": 9.765625000035527e-5
+    }
+  ],
+  "candidateSha256": "22babce0e1893557011e65384e151711d98913f1cefd2a3ea08563e0d2c7c39c",
+  "WordVisualEditingSaveReopen": "UNVERIFIED for new candidate"
+}

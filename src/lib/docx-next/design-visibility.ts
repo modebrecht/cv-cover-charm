@@ -25,3 +25,14 @@ export function designInteriorAuditUiEnabled() {
     new URLSearchParams(window.location.search).get("docx-next-interior-qa") === "1"
   );
 }
+
+/** One normal Modern CV proof after Word rejected the original line-anchor trial. */
+export function designRubricSpacingUiEnabled() {
+  return (
+    designInteriorAuditUiEnabled() &&
+    new URLSearchParams(window.location.search).get("docx-next-rubric-spacing-qa") === "1"
+  );
+}
+
+export const RUBRIC_ANCHOR_WORD_REJECTION =
+  "Rubrik-Pills sind in diesem Test gesperrt: Microsoft Word verschiebt Rubrik-Hintergründe. Bitte den getrennten Rubrik-Abstandstest verwenden.";

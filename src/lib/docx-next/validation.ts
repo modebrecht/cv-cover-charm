@@ -159,6 +159,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           block.role !== "heading" ||
           block.align !== "left" ||
           block.list ||
+          (s.spacingOwner !== undefined && s.spacingOwner !== "previous-block") ||
+          (s.spacingOwner === "previous-block" && block.beforeMm !== 0) ||
           ![s.widthMm, s.rowWidthMm, s.heightMm, s.paddingXMm, s.paddingYMm, s.outlineMm].every(
             Number.isFinite,
           ) ||
@@ -341,6 +343,14 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
+        if (
+          block.afterMm !== undefined &&
+          (!Number.isFinite(block.afterMm) ||
+            block.afterMm < 0 ||
+            block.afterMm > part.page.heightMm ||
+            block.position)
+        )
+          throw Error("DOCX Next invalid table after-spacing");
         if (
           block.columnRounding !== undefined &&
           (block.columnRounding !== "cumulative" || block.bodyBoundary !== "paragraph")

@@ -10,10 +10,10 @@ export const MODERN_INTERIOR_CASES = [
   "cv-pills-offset",
 ] as const;
 
-// The reduced-continuation stress case has a measured Web overflow and belongs
-// to explicit rejection testing, not the passing candidate default.
+// The reduced-continuation case overflows its Web header. Original line-anchored
+// rubric pills failed Word; they require the separate spacing trial flag.
 export const MODERN_INTERIOR_CANDIDATE_CASES = MODERN_INTERIOR_CASES.filter(
-  (kind) => kind !== "header-reduced",
+  (kind) => kind.startsWith("header-") && kind !== "header-reduced",
 );
 
 /** New audit cases only; the reviewed normal/Brief saved fixtures stay unchanged. */

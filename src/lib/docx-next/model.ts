@@ -43,6 +43,8 @@ export type Paragraph = {
   /** Explicit flow candidate. Native heading text owns a line-relative
    * decorative capsule; it does not become a fixed-page textbox. */
   flowSurface?: {
+    /** Explicit trial: preceding flow block owns the collapsed before-gap. */
+    spacingOwner?: "previous-block";
     widthMm: number;
     rowWidthMm: number;
     heightMm: number;
@@ -138,6 +140,8 @@ export type TableBlock = {
   /** Flowing boxes keep width/padding, with no fixed height or text clipping. */
   widthMm?: number;
   indentMm?: number;
+  /** Spacing after the existing native table-ending paragraph; no new paragraph. */
+  afterMm?: number;
   /** Guarded body paragraph before a natural-flow table; no semantic text or fixed table height. */
   bodyBoundary?: "paragraph";
   /** Guarded native attachment of the real boundary paragraph to the following table. */

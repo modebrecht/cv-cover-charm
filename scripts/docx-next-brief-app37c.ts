@@ -24,11 +24,14 @@ assert(
   "Native badge trial withdrawn after Word failure; run rejected-native-badge negatives instead.",
 );
 const interiorAudit = modern && process.env.DOCX_NEXT_INTERIOR_AUDIT === "1";
-const cases = interiorAudit
-  ? MODERN_INTERIOR_CANDIDATE_CASES
-  : modern
-    ? MODERN_PROJECT_CASES
-    : BRIEF_PROJECT_CASES;
+const rubricSpacing = interiorAudit && process.env.DOCX_NEXT_RUBRIC_SPACING === "1";
+const cases = rubricSpacing
+  ? ["cv-pills"]
+  : interiorAudit
+    ? MODERN_INTERIOR_CANDIDATE_CASES
+    : modern
+      ? MODERN_PROJECT_CASES
+      : BRIEF_PROJECT_CASES;
 const fixture = interiorAudit
   ? modernInteriorProjectFixture
   : modern
@@ -37,15 +40,18 @@ const fixture = interiorAudit
 const query = modern
   ? "docx-next-design-qa=1" +
     (nativeBadge ? "&docx-next-badge-qa=1" : "") +
-    (interiorAudit ? "&docx-next-interior-qa=1" : "")
+    (interiorAudit ? "&docx-next-interior-qa=1" : "") +
+    (rubricSpacing ? "&docx-next-rubric-spacing-qa=1" : "")
   : "docx-next-brief-qa=1";
 const label = nativeBadge
   ? "Modern Pille gemeinsam testen"
-  : interiorAudit
-    ? "Modern Header und Rubriken prüfen"
-    : modern
-      ? "Modern DOCX Next testen"
-      : "Brief DOCX Next testen";
+  : rubricSpacing
+    ? "Modern CV-Pills Abstand testen"
+    : interiorAudit
+      ? "Modern Header und Rubriken prüfen"
+      : modern
+        ? "Modern DOCX Next testen"
+        : "Brief DOCX Next testen";
 const qaSelector = modern ? "[data-design-docx-next-qa]" : "[data-brief-docx-next-qa]";
 
 const require = createRequire(import.meta.url);
@@ -231,6 +237,21 @@ try {
                 b.kind === "section" ? { ...b, heading: undefined } : b,
               ),
             ),
+        rubricSpacingChangesOnlyGaps:
+          JSON.stringify(result.model.letter.blocks) === JSON.stringify(baseline.letter.blocks) &&
+          JSON.stringify(result.model.letter.page) === JSON.stringify(baseline.letter.page) &&
+          JSON.stringify(
+            withoutContact(result.model.cv.blocks).map((b) =>
+              b.kind === "section" ? { ...b, heading: undefined } : b,
+            ),
+            (k, v) => (k === "afterMm" ? undefined : v),
+          ) ===
+            JSON.stringify(
+              withoutContact(baseline.cv.blocks).map((b) =>
+                b.kind === "section" ? { ...b, heading: undefined } : b,
+              ),
+              (k, v) => (k === "afterMm" ? undefined : v),
+            ),
         bytes,
         baselineBytes,
       };
@@ -240,7 +261,8 @@ try {
         ? captured.neighborBodiesExceptContactIdentical ||
             (interiorAudit &&
               (captured.measuredHeaderNeighborBodiesPreserved ||
-                captured.measuredRubricNonHeadingBodiesPreserved))
+                captured.measuredRubricNonHeadingBodiesPreserved ||
+                (rubricSpacing && captured.rubricSpacingChangesOnlyGaps)))
         : captured.neighborsIdentical,
     );
     assert.deepEqual(captured.snapshot.cover.data, project.cover!.data);
@@ -437,6 +459,7 @@ try {
       neighborBodiesExceptContactIdentical: captured.neighborBodiesExceptContactIdentical,
       measuredHeaderNeighborBodiesPreserved: captured.measuredHeaderNeighborBodiesPreserved,
       measuredRubricNonHeadingBodiesPreserved: captured.measuredRubricNonHeadingBodiesPreserved,
+      rubricSpacingChangesOnlyGaps: captured.rubricSpacingChangesOnlyGaps,
       candidateSha256: sha(candidate),
       measuredProfile: captured.metrics.profile,
       web,
@@ -471,6 +494,7 @@ try {
             "rubric-pills",
             "mixed-layout-trials",
             "rejected-native-badge",
+            "rejected-rubric-anchor",
             ...(interiorAudit
               ? [
                   "interior-cv-font",
@@ -494,10 +518,15 @@ try {
       const context = await browser.newContext();
       const page = await context.newPage();
       await page.goto(base + "/?" + query, { waitUntil: "networkidle" });
-      await page.evaluate(async (project) => {
-        const { replaceDossierProject } = await import("/src/lib/dossier-project.ts");
-        replaceDossierProject(project);
-      }, fixture("normal"));
+      await page.evaluate(
+        async (project) => {
+          const { replaceDossierProject } = await import("/src/lib/dossier-project.ts");
+          replaceDossierProject(project);
+        },
+        scenario === "rejected-rubric-anchor"
+          ? modernInteriorProjectFixture("cv-pills")
+          : fixture("normal"),
+      );
       await page.reload({ waitUntil: "networkidle" });
       await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
       await page.evaluate(async (scenario) => {
@@ -737,49 +766,52 @@ try {
       await alert.waitFor({ state: "visible" });
       const message = await alert.innerText();
       const expected =
-        scenario === "interior-cv-font"
-          ? "ausdrücklich gespeichertes Sans"
-          : scenario === "interior-contact-source"
-            ? "Abweichende CV-Kontaktdaten"
-            : scenario === "interior-header-font"
-              ? "Header-Schrift"
-              : scenario === "interior-header-overflow" || scenario === "interior-reduced-overflow"
-                ? "Headertext überschreitet"
-                : scenario === "interior-rubric-multiline"
-                  ? "Mehrzeilige Rubrik"
-                  : scenario === "interior-rubric-script"
-                    ? "Nicht unterstützte Schriftzeichen"
-                    : scenario === "interior-mixed-modes"
-                      ? "gemischte Modi"
-                      : scenario === "rubric-pills"
-                        ? "Rubrik-Pills"
-                        : scenario === "contact-layout"
-                          ? "ganze Breite"
-                          : scenario.startsWith("chrome-")
-                            ? "compact chrome"
-                            : scenario === "css-hidden-decoration"
-                              ? "CSS-hidden decoration"
-                              : scenario.startsWith("badge-")
-                                ? scenario === "badge-artwork"
-                                  ? "over artwork"
-                                  : "Badges unterstützen"
-                                : scenario === "placeholder-opacity"
-                                  ? "placeholder opacity"
-                                  : scenario === "non-cohort"
-                                    ? "Vorlage Modern"
-                                    : scenario === "unsupported-font"
-                                      ? "Nicht unterstützte Schrift"
-                                      : scenario === "substituted-font"
-                                        ? "Browser-Ersatzschrift"
-                                        : scenario === "missing-measurements"
-                                          ? "nicht verfügbar"
-                                          : scenario.startsWith("stale")
-                                            ? "Daten haben sich"
-                                            : scenario === "overflow"
-                                              ? "Feldbreite"
-                                              : modern
-                                                ? "Vorlage Modern"
-                                                : "Vorlage Brief";
+        scenario === "rejected-rubric-anchor"
+          ? "Rubrik-Pills sind in diesem Test gesperrt"
+          : scenario === "interior-cv-font"
+            ? "ausdrücklich gespeichertes Sans"
+            : scenario === "interior-contact-source"
+              ? "Abweichende CV-Kontaktdaten"
+              : scenario === "interior-header-font"
+                ? "Header-Schrift"
+                : scenario === "interior-header-overflow" ||
+                    scenario === "interior-reduced-overflow"
+                  ? "Headertext überschreitet"
+                  : scenario === "interior-rubric-multiline"
+                    ? "Mehrzeilige Rubrik"
+                    : scenario === "interior-rubric-script"
+                      ? "Nicht unterstützte Schriftzeichen"
+                      : scenario === "interior-mixed-modes"
+                        ? "gemischte Modi"
+                        : scenario === "rubric-pills"
+                          ? "Rubrik-Pills"
+                          : scenario === "contact-layout"
+                            ? "ganze Breite"
+                            : scenario.startsWith("chrome-")
+                              ? "compact chrome"
+                              : scenario === "css-hidden-decoration"
+                                ? "CSS-hidden decoration"
+                                : scenario.startsWith("badge-")
+                                  ? scenario === "badge-artwork"
+                                    ? "over artwork"
+                                    : "Badges unterstützen"
+                                  : scenario === "placeholder-opacity"
+                                    ? "placeholder opacity"
+                                    : scenario === "non-cohort"
+                                      ? "Vorlage Modern"
+                                      : scenario === "unsupported-font"
+                                        ? "Nicht unterstützte Schrift"
+                                        : scenario === "substituted-font"
+                                          ? "Browser-Ersatzschrift"
+                                          : scenario === "missing-measurements"
+                                            ? "nicht verfügbar"
+                                            : scenario.startsWith("stale")
+                                              ? "Daten haben sich"
+                                              : scenario === "overflow"
+                                                ? "Feldbreite"
+                                                : modern
+                                                  ? "Vorlage Modern"
+                                                  : "Vorlage Brief";
       assert(message.includes(expected), `${scenario}: unexpected diagnostic ${message}`);
       assert.equal(downloads, 0);
       rejected.push({ scenario, message, downloads, result: "PASS explicit rejection" });

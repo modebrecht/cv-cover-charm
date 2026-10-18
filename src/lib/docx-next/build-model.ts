@@ -38,6 +38,7 @@ export { color } from "./colors";
 import { composeAuthoredCover } from "./cover-authored";
 import { composeSourceCompactBands } from "./compact-chrome";
 import { composeMeasuredHeaders } from "./interior-composition";
+import { ownFlowSurfaceSpacing } from "./flow-surface-spacing";
 import type { InteriorTextMetrics } from "./interior-metrics";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
@@ -71,6 +72,8 @@ export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 export type BuildModelOptions = {
+  /** Explicit one-template Word trial; no default serialization change. */
+  cvRubricSpacing?: "previous-block";
   /** Separate measured header candidate, captured at the app boundary. */
   interiorTextMetrics?: InteriorTextMetrics;
   /** Explicit candidate only: source-sized empty compact chrome, declared per template. */
@@ -1557,6 +1560,15 @@ export function buildDossierDocModel(
           })),
         }));
     }
+  if (options.cvRubricSpacing) {
+    if (
+      template.id !== "modern" ||
+      options.coverComposition !== "authored-frames" ||
+      !capturedInteriorMetrics?.rubrics
+    )
+      throw Error("DOCX Next: Rubrik-Abstandstest benötigt Modern und frische Messwerte.");
+    ownFlowSurfaceSpacing(cvPart);
+  }
   return {
     version: 1,
     metadata: {

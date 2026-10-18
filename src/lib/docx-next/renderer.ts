@@ -120,6 +120,11 @@ export async function renderDossierDocx(
     ]),
   );
   if (
+    storyBlocks.some((b) => b.kind === "table" && b.afterMm !== undefined) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next table after-spacing requires the explicit candidate gate");
+  if (
     storyBlocks.some(
       (b) => b.kind === "paragraph" && (b.flowSurface || b.fieldControls || b.tabStopsMm),
     ) &&
@@ -446,7 +451,7 @@ export async function renderDossierDocx(
         : value.position?.leadingBoundary === "paragraph"
           ? emptyParagraph
           : "";
-    return `${leading}<w:tbl><w:tblPr>${position}<w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${gridWidths.map((width) => `<w:gridCol w:w="${width}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${value.position?.anchorParagraphId || value.position?.nextFloatingTableId ? "" : emptyParagraph}`;
+    return `${leading}<w:tbl><w:tblPr>${position}<w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${gridWidths.map((width) => `<w:gridCol w:w="${width}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${value.position?.anchorParagraphId || value.position?.nextFloatingTableId ? "" : value.afterMm === undefined ? emptyParagraph : emptyParagraphWithRuns("", undefined, 20, twips(value.afterMm))}`;
   }
   function renderBlock(
     block: DocBlock,

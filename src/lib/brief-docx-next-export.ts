@@ -25,7 +25,10 @@ import { prepareBriefFontProfile } from "./docx-next/brief-fonts.browser";
 import { briefDocxNextUiEnabled } from "./docx-next/brief-visibility";
 import { captureCoverBadgeAdvances } from "./docx-next/cover-badges.browser";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
-import { NATIVE_BADGE_WORD_REJECTION } from "./docx-next/design-visibility";
+import {
+  NATIVE_BADGE_WORD_REJECTION,
+  RUBRIC_ANCHOR_WORD_REJECTION,
+} from "./docx-next/design-visibility";
 
 /** Capture the same saved application inputs used by the actual dossier workflow. */
 export function captureSavedBriefSnapshot() {
@@ -103,7 +106,11 @@ export async function createSavedBriefDocxNext() {
 export async function createSavedAuthoredCoverDocxNext(
   template: "brief" | "modern",
   enabled: boolean,
-  candidate: { coverBadgeComposition?: "native-shape"; inspectNativeInteriors?: boolean } = {},
+  candidate: {
+    coverBadgeComposition?: "native-shape";
+    inspectNativeInteriors?: boolean;
+    cvRubricSpacing?: "previous-block";
+  } = {},
 ) {
   if (!enabled) throw new Error("Brief DOCX Next: Testexport ist nicht aktiviert.");
   // Word feedback rejects the grouped surface, despite complete package text
@@ -112,6 +119,21 @@ export async function createSavedAuthoredCoverDocxNext(
   if (candidate.coverBadgeComposition)
     throw Error(`Brief DOCX Next: ${NATIVE_BADGE_WORD_REJECTION}`);
   const snapshot = captureSavedAuthoredSnapshot(template);
+  const hasRubricPills = resolveCvRubricOptions(snapshot.cv.design).pill;
+  if (
+    candidate.cvRubricSpacing &&
+    (template !== "modern" || !candidate.inspectNativeInteriors || !hasRubricPills)
+  )
+    throw Error(
+      "DOCX Next: Der Rubrik-Abstandstest benötigt Modern, Innenlayout-Test und aktivierte CV-Pills.",
+    );
+  if (
+    template === "modern" &&
+    candidate.inspectNativeInteriors &&
+    hasRubricPills &&
+    !candidate.cvRubricSpacing
+  )
+    throw Error(`DOCX Next: ${RUBRIC_ANCHOR_WORD_REJECTION}`);
   if (
     template === "modern" &&
     resolveCvRubricOptions(snapshot.cv.design).pill &&
@@ -226,6 +248,7 @@ export async function createSavedAuthoredCoverDocxNext(
     unchanged();
     fonts.verify();
     const model = buildDossierDocModel(snapshot, {
+      ...(candidate.cvRubricSpacing ? { cvRubricSpacing: candidate.cvRubricSpacing } : {}),
       ...(interiorMetrics ? { interiorTextMetrics: interiorMetrics } : {}),
       coverComposition: "authored-frames",
       coverTextMetrics: metrics,

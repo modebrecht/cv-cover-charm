@@ -32,7 +32,7 @@ export function paragraph(
     value = {
       ...value,
       indentMm: (value.indentMm ?? 0) + s.paddingXMm,
-      beforeMm: value.beforeMm + s.paddingYMm,
+      beforeMm: value.beforeMm + (s.spacingOwner === "previous-block" ? 0 : s.paddingYMm),
       afterMm: value.afterMm + s.paddingYMm,
     };
   }
@@ -61,8 +61,13 @@ export function paragraph(
     return `<w:p>${props}${control(value.id, drawingRuns + (runs || "<w:r/>"))}</w:p>`;
   return control(value.id, `<w:p>${props}${drawingRuns}${runs || "<w:r/>"}</w:p>`);
 }
-export function emptyParagraphWithRuns(runs = "", keepNext?: boolean, lineTwips = 20) {
-  return `<w:p><w:pPr>${keepNext === undefined ? "" : `<w:keepNext w:val="${keepNext ? 1 : 0}"/>`}<w:spacing w:after="0" w:line="${lineTwips}" w:lineRule="exact"/></w:pPr>${runs}</w:p>`;
+export function emptyParagraphWithRuns(
+  runs = "",
+  keepNext?: boolean,
+  lineTwips = 20,
+  afterTwips = 0,
+) {
+  return `<w:p><w:pPr>${keepNext === undefined ? "" : `<w:keepNext w:val="${keepNext ? 1 : 0}"/>`}<w:spacing w:after="${afterTwips}" w:line="${lineTwips}" w:lineRule="exact"/></w:pPr>${runs}</w:p>`;
 }
 export const emptyParagraph = emptyParagraphWithRuns();
 export const pageBreak = '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
