@@ -210,6 +210,7 @@ describe("central motivation-letter layout system", () => {
     expect(finalContinuation.effectiveHeaderMode).toBe("contact");
     expect(finalContinuation.effectiveFooterMode).toBe("attachments");
     expect(finalContinuation.footer.showAttachments).toBe(true);
-    expect(finalContinuation.content.top).toBe(firstOfTwo.content.top);
+    expect(firstOfTwo.content.top).toBe(41);
+    expect(finalContinuation.content.top).toBe(36);
   });
 });

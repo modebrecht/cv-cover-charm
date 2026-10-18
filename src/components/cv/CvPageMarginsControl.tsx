@@ -1,11 +1,15 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { cvReadingDefaults } from "./reading-defaults";
+import { ContinuationTopMarginControl } from "@/components/dossier/ContinuationTopMarginControl";
 import { DossierPageMarginsControl } from "@/components/dossier/DossierPageMarginsControl";
 import { patchDossierChrome, type DossierChromeOptions } from "@/lib/dossier-chrome";
-import { cvDefaultContentBox, cvFrameFor, cvSafePageMarginMinimums } from "./archetype";
 import {
-  CV_CONTINUATION_TOP_MARGIN_MAX_MM,
-  CV_CONTINUATION_TOP_MARGIN_MIN_MM,
+  cvDefaultPageMargins,
+  cvFrameFor,
+  cvSafePageMarginMinimums,
+  cvContinuationContentTopMm,
+} from "./archetype";
+import {
   getCvContinuationTopMarginMm,
   getCvLayoutChoiceForTemplate,
   defaultCvLayoutForTemplate,
@@ -46,7 +50,7 @@ export function CvPageMarginsControl({
     () => continuationDefault,
   );
   const frame = cvFrameFor(design.template);
-  const defaultMargins = cvDefaultContentBox(frame, 0, layout, design.sidebarPct, chromeOptions);
+  const defaultMargins = cvDefaultPageMargins(frame, 0, layout, design.sidebarPct, chromeOptions);
   const minimumMargins = cvSafePageMarginMinimums(
     frame,
     0,
@@ -66,37 +70,20 @@ export function CvPageMarginsControl({
         accentColor={accentColor}
         extraControls={
           <>
-            <label className="grid gap-1 text-xs">
-              <span className="flex items-center justify-between gap-2 text-muted-foreground">
-                <span>Oberer Rand ab Seite 2</span>
-                <span>{continuationTopMargin.toFixed(continuationTopMargin % 1 ? 1 : 0)} mm</span>
-              </span>
-              <input
-                data-cv-continuation-top-margin-control
-                data-cv-continuation-gap-control
-                type="range"
-                min={CV_CONTINUATION_TOP_MARGIN_MIN_MM}
-                max={CV_CONTINUATION_TOP_MARGIN_MAX_MM}
-                step={1}
-                value={continuationTopMargin}
-                onChange={(event) => setCvContinuationTopMarginMm(Number(event.target.value))}
-                className="w-full accent-primary"
-                aria-label="Oberer Rand ab Seite 2"
-              />
-              <span className="text-[11px] leading-relaxed text-muted-foreground">
-                Ersetzt im Lebenslauf ab Seite 2 den normalen oberen Seitenrand. Ein vorhandener
-                Fortsetzungs-Header bleibt automatisch geschützt.
-              </span>
-              {continuationTopMargin !== continuationDefault ? (
-                <button
-                  type="button"
-                  className="justify-self-start rounded border border-input bg-background px-2 py-1 text-[11px] font-medium hover:bg-accent"
-                  onClick={() => setCvContinuationTopMarginMm(continuationDefault)}
-                >
-                  Standardrand ({continuationDefault} mm)
-                </button>
-              ) : null}
-            </label>
+            <ContinuationTopMarginControl
+              scope="cv"
+              value={continuationTopMargin}
+              defaultValue={continuationDefault}
+              effectiveTopMm={cvContinuationContentTopMm(
+                frame,
+                continuationTopMargin,
+                chromeOptions,
+                1,
+                layout === "modern",
+              )}
+              onChange={setCvContinuationTopMarginMm}
+              onReset={() => setCvContinuationTopMarginMm(null)}
+            />
 
             <label className="grid gap-1 text-xs">
               <span className="flex items-center justify-between gap-2 text-muted-foreground">

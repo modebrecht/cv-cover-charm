@@ -42,6 +42,7 @@ import {
   isWarmFirstPageCompactHeader,
   WARM_FIRST_PAGE_HEADER_HEIGHT_MM,
 } from "./warm-letter-layout";
+import "./fresh-letter-integrity.css";
 import "./letter-user-typography.css";
 
 function Lines({

@@ -75,8 +75,10 @@ describe("header/footer semantic precedence", () => {
       expect(dossierHeaderVisualHeightMmForOptions(options, 1)).toBe(
         headerDifferentFirstPage ? 8 : 32,
       );
-      if (!headerDifferentFirstPage) expect(next.content.top).toBe(first.content.top);
-      else expect(next.content.top).toBeLessThan(first.content.top);
+      if (!headerDifferentFirstPage) {
+        expect(first.content.top).toBe(41);
+        expect(next.content.top).toBe(36);
+      } else expect(next.content.top).toBeLessThan(first.content.top);
     }
   });
 

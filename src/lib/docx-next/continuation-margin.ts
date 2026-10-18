@@ -1,5 +1,35 @@
 import type { DocumentPart, ModelIssue } from "./model";
 
+/** Reuse the existing first-page lead for resolved flowing CV and Letter geometry.
+ * A single native section cannot express a smaller first-page body margin. */
+export function applyFlowPageTops(
+  part: DocumentPart,
+  tops: { firstMm: number; continuationMm: number },
+) {
+  const { firstMm, continuationMm } = tops;
+  if (![firstMm, continuationMm].every((n) => Number.isFinite(n) && n >= 0 && n <= 120))
+    throw Error(`DOCX Next: Ungültige Seitengeometrie (${part.id}).`);
+  if (continuationMm > firstMm)
+    throw Error(
+      `DOCX Next: ${part.id === "cv" ? "Lebenslauf" : "Anschreiben"} benötigt auf Seite 1 einen kleineren Rand als auf Folgeseiten. Diese Word-Geometrie ist noch nicht unterstützt.`,
+    );
+  if (part.layout.mode === "sidebar")
+    throw Error("DOCX Next: Sidebar-Geometrie bleibt eingefroren.");
+  // Measured headers may already have inserted the same existing primitive.
+  const leadId = part.id === "cv" ? "cv.firstPageLead" : `${part.id}.measured.firstPageLead`;
+  part.blocks = part.blocks.filter((block) => block.id !== leadId);
+  const lead = firstMm - continuationMm;
+  part.page.margins.top = continuationMm;
+  if (![...part.header, ...(part.firstHeader ?? [])].some((p) => p.runs.some((r) => r.text.trim())))
+    part.page.headerDistanceMm = 0;
+  part.layout.pagination = {
+    firstTopMarginMm: firstMm,
+    continuationTopMarginMm: continuationMm,
+    firstPageLeadMm: lead,
+  };
+  if (lead) part.blocks.unshift({ kind: "spacer", id: leadId, heightMm: lead });
+}
+
 /** Native flowing-section policy, after chrome reservation. No measured pagination. */
 export function applyContinuationMargin(
   part: DocumentPart,

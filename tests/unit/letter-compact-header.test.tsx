@@ -75,7 +75,7 @@ describe("compact letter presentation", () => {
       expect(none).toContain('data-letter-header-mode="none"');
       expect(none).not.toContain("data-letter-integrated-contact");
       expect(none).toContain('data-letter-section="sender"');
-      expect(none).toContain("top:18mm");
+      expect(none).toContain("top:20mm");
     }
   });
 

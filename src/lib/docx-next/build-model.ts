@@ -42,7 +42,7 @@ import { ownFlowSurfaceSpacing } from "./flow-surface-spacing";
 import type { InteriorTextMetrics } from "./interior-metrics";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
-import { applyContinuationMargin } from "./continuation-margin";
+import { applyContinuationMargin, applyFlowPageTops } from "./continuation-margin";
 import { composeCvSidebar } from "./cv-sidebar-composition";
 import {
   chromeTextHeight,
@@ -68,6 +68,7 @@ import { resolveLetterPalette, resolveLetterPaperColor } from "@/components/lett
 import { resolveCvPalette } from "@/components/cv/cv-paper";
 
 import type { DossierAppSnapshot } from "./source";
+import { DOSSIER_LETTER_BODY_PT } from "@/lib/dossier-reading-settings";
 export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
@@ -455,7 +456,7 @@ export function buildDossierDocModel(
   const bodyStyle = style("letter.body", {
     color: letterInk,
     font: wordFont(design.bodyFont, letterFont),
-    sizePt: design.bodyFontSizePt ?? 10.5,
+    sizePt: design.bodyFontSizePt ?? DOSSIER_LETTER_BODY_PT,
   });
   letterPart.blocks.push(
     ...(ld.images ?? []).map((image) => ({
@@ -1455,7 +1456,22 @@ export function buildDossierDocModel(
       }
     }
   }
-  if (!capturedInteriorMetrics?.headers.cv)
+  for (const target of [letterPart, cvPart]) {
+    const tops = settings.flowPageTops?.[target.id as "letter" | "cv"];
+    if (tops) {
+      const measured = capturedInteriorMetrics?.headers[target.id as "letter" | "cv"];
+      if (
+        measured &&
+        (measured.first.bodyTopMm !== tops.firstMm ||
+          measured.continuation.bodyTopMm !== tops.continuationMm)
+      )
+        throw Error(
+          "DOCX Next: Header-Messgeometrie stimmt nicht mit den gespeicherten Seitenrändern überein.",
+        );
+      applyFlowPageTops(target, tops);
+    }
+  }
+  if (!settings.flowPageTops?.cv && !capturedInteriorMetrics?.headers.cv)
     issues.push(
       ...applyContinuationMargin(
         cvPart,

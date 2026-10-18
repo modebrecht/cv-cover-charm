@@ -352,7 +352,9 @@ function Lebenslauf() {
   const dossierExportRef = useRef<HTMLDivElement>(null);
   const nativePrint = useDossierNativePrint(dossierExportRef);
   const menuRef = useRef<HTMLDivElement>(null);
-  const restored = useRef(false);
+  // State gates autosave until the loaded payload has committed. A mutable ref
+  // becomes visible to the initial empty render's effects too early.
+  const [restored, setRestored] = useState(false);
 
   /** Einen gespeicherten oder importierten Lebenslauf übernehmen. */
   const applySaved = useCallback((p: Partial<Saved>) => {
@@ -533,7 +535,7 @@ function Lebenslauf() {
   }, [markWritten, applySaved]);
 
   useEffect(() => {
-    restored.current = true;
+    setRestored(true);
     setHistory(readHistory(HISTORY_KEYS.cv));
     const draft = readCoverDraft();
     setCover(draft);
@@ -553,14 +555,14 @@ function Lebenslauf() {
   }, [applyEverythingFromCover]);
 
   useEffect(() => {
-    if (!visible || !restored.current) return;
+    if (!visible || !restored) return;
     if (changedElsewhere()) {
       loadFromStorage();
       setHistory(readHistory(HISTORY_KEYS.cv));
       setStatus({ kind: "ok", text: "Neuerer Stand aus einem anderen Fenster geladen" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
+  }, [visible, restored]);
 
   useEffect(() => {
     const refreshCover = () => {
@@ -603,7 +605,7 @@ function Lebenslauf() {
   );
 
   useEffect(() => {
-    if (!restored.current) return;
+    if (!restored) return;
     if (!visible) return;
     setSaveState("saving");
     const id = setTimeout(() => {
@@ -618,7 +620,7 @@ function Lebenslauf() {
       keepSnapshot("Automatisch");
     }, 400);
     return () => clearTimeout(id);
-  }, [payload, keepSnapshot, visible, markWritten]);
+  }, [payload, keepSnapshot, visible, markWritten, restored]);
 
   useEffect(() => {
     const onDown = (e: MouseEvent) => {

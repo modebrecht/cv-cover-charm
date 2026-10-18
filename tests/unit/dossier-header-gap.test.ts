@@ -93,8 +93,13 @@ describe("dossier header spacing", () => {
     expect(cvMargins).toContain(
       "Wird im Lebenslauf auf Seite 1 zusätzlich zum oberen Seitenrand gerechnet.",
     );
-    expect(cvMargins).toContain("data-cv-continuation-top-margin-control");
-    expect(cvMargins).toContain("Oberer Rand ab Seite 2");
+    expect(
+      readFileSync(
+        new URL("../../src/components/dossier/ContinuationTopMarginControl.tsx", import.meta.url),
+        "utf8",
+      ),
+    ).toContain("data-cv-continuation-top-margin-control");
+    expect(cvMargins).toContain("<ContinuationTopMarginControl");
     expect(cvMargins).toContain("min={0}");
     expect(cvMargins).toContain("max={40}");
 

@@ -51,7 +51,7 @@ describe("CV continuation page top margin", () => {
   test("allows 0–40 mm while keeping visible continuation chrome protected", () => {
     expect(CV_CONTINUATION_TOP_MARGIN_MIN_MM).toBe(0);
     expect(CV_CONTINUATION_TOP_MARGIN_MAX_MM).toBe(40);
-    expect(CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM).toBe(10);
+    expect(CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM).toBe(20);
     expect(normalizeCvContinuationTopMarginMm(-4)).toBe(0);
     expect(normalizeCvContinuationTopMarginMm(7.26)).toBe(7.5);
     expect(normalizeCvContinuationTopMarginMm(99)).toBe(40);
@@ -64,7 +64,7 @@ describe("CV continuation page top margin", () => {
       headerGapMm: 0,
     };
     const headerHeight = dossierHeaderVisualHeightMmForOptions(chrome, 1);
-    expect(cvContinuationContentTopMm(cvFrameFor("brief"), 0, chrome, 1)).toBe(headerHeight);
+    expect(cvContinuationContentTopMm(cvFrameFor("brief"), 0, chrome, 1)).toBe(headerHeight + 4);
   });
 
   test("keeps structural card and framed-template interiors as safety floors", () => {
@@ -74,12 +74,13 @@ describe("CV continuation page top margin", () => {
 
   test("exposes one clear page-2 top-margin control and persists it portably", () => {
     const control = read("src/components/cv/CvPageMarginsControl.tsx");
+    const sharedControl = read("src/components/dossier/ContinuationTopMarginControl.tsx");
     const portable = read("src/components/cv/portable-state.ts");
 
-    expect(control).toContain("Oberer Rand ab Seite 2");
-    expect(control).toContain("data-cv-continuation-top-margin-control");
+    expect(sharedControl).toContain("Oberer Rand ab Seite 2");
+    expect(sharedControl).toContain("data-cv-continuation-top-margin-control");
     expect(control).toContain('scope="cv"');
-    expect(control).toContain("Standardrand ({continuationDefault} mm)");
+    expect(sharedControl).toContain("Standardrand ({defaultValue} mm)");
     expect(portable).toContain("continuationTopMarginMm");
     expect(portable).toContain("CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY");
     expect(portable).toContain("continuationGapMm");

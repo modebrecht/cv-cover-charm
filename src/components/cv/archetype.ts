@@ -21,6 +21,10 @@ import {
   type DossierPageMargins,
 } from "@/lib/dossier-page-margins";
 import { getCvContinuationTopMarginMm } from "./layout";
+import {
+  dossierContinuationContentTopMm,
+  DOSSIER_DEFAULT_CONTENT_TOP_MM,
+} from "@/lib/dossier-reading-settings";
 
 /**
  * Bauformen des Lebenslaufs.
@@ -194,6 +198,7 @@ export function cvContinuationContentTopMm(
   requestedTopMm: number,
   chrome: DossierChromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS,
   pageIndex = 1,
+  preserveFrozenClearance = false,
 ): number {
   const pageChrome = cvChromeForPage(chrome, pageIndex);
   const headerFloor = dossierHeaderVisualHeightMmForOptions(pageChrome, pageIndex);
@@ -203,7 +208,9 @@ export function cvContinuationContentTopMm(
       : frame.id === "quiet" && frame.borderInsetMm > 0
         ? frame.borderInsetMm + 7
         : 0;
-  return roundHalfMm(Math.max(0, requestedTopMm, headerFloor, structuralFloor));
+  return preserveFrozenClearance
+    ? roundHalfMm(Math.max(0, requestedTopMm, headerFloor, structuralFloor))
+    : dossierContinuationContentTopMm(requestedTopMm, headerFloor, structuralFloor);
 }
 
 export function cvSurface(
@@ -377,9 +384,12 @@ export function cvDefaultPageMargins(
   chrome: DossierChromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS,
 ): DossierPageMargins {
   const minimums = cvSafePageMarginMinimums(frame, pageIndex, layout, sidebarPct, chrome);
+  const contentBox = cvDefaultContentBox(frame, pageIndex, layout, sidebarPct, chrome);
   const resolved =
     dossierPageMarginsFromContentMargins(
-      cvDefaultContentBox(frame, pageIndex, layout, sidebarPct, chrome),
+      pageIndex === 0 && layout !== "modern"
+        ? { ...contentBox, top: Math.max(contentBox.top, DOSSIER_DEFAULT_CONTENT_TOP_MM) }
+        : contentBox,
       minimums,
       cvPageReserves(chrome, pageIndex),
     ) ?? minimums;
@@ -425,9 +435,10 @@ export function cvContentBox(
     ...guarded,
     top: cvContinuationContentTopMm(
       frame,
-      presentation?.continuationTopMarginMm ?? getCvContinuationTopMarginMm(),
+      presentation?.continuationTopMarginMm ?? getCvContinuationTopMarginMm(undefined, layout),
       chrome,
       pageIndex,
+      layout === "modern",
     ),
   };
 }

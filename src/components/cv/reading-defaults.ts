@@ -3,13 +3,20 @@ import {
   CV_SECTION_TITLE_FONT_SIZE_MIN,
   type CvDesign,
 } from "./types";
+import {
+  DOSSIER_CONTINUATION_TOP_MM,
+  DOSSIER_CV_RUBRIC_PX,
+  frozenCvReadingLayout,
+} from "@/lib/dossier-reading-settings";
 
-/** The Word-reviewed Modern standard layout only. Other layouts retain their
- * existing template defaults, including the frozen native Sidebar geometry. */
-export function cvReadingDefaults(template?: string, layout = "classic") {
-  return template === "modern" && layout === "classic"
-    ? { continuationTopMm: 20, sectionTitleFontSizePx: 14 }
-    : { continuationTopMm: 10, sectionTitleFontSizePx: undefined };
+/** All flowing CV layouts share defaults. Sidebar retains its frozen baseline. */
+export function cvReadingDefaults(_template?: string, layout = "classic") {
+  return frozenCvReadingLayout(layout)
+    ? { continuationTopMm: 10, sectionTitleFontSizePx: undefined }
+    : {
+        continuationTopMm: DOSSIER_CONTINUATION_TOP_MM,
+        sectionTitleFontSizePx: DOSSIER_CV_RUBRIC_PX,
+      };
 }
 
 export function cvSectionTitleFontSizePx(design: CvDesign, layout: string) {

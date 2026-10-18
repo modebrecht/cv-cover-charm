@@ -536,6 +536,8 @@ try {
       "missing-measurements",
       "stale-before-capture",
       "stale-after-render",
+      "first-page-letter",
+      "first-page-cv",
       "overflow",
       "non-brief",
       ...(modern
@@ -588,6 +590,13 @@ try {
       await page.reload({ waitUntil: "networkidle" });
       await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
       await page.evaluate(async (scenario) => {
+        if (scenario === "first-page-letter") {
+          const letter = JSON.parse(localStorage.getItem("anschreiben:v1")!);
+          letter.design.continuationTopMarginMm = 40;
+          localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
+        }
+        if (scenario === "first-page-cv")
+          localStorage.setItem("lebenslauf:continuation-top-margin:v1", "40");
         if (scenario.startsWith("interior-")) {
           const { DEFAULT_DOSSIER_CHROME_STATE, DOSSIER_CHROME_STORAGE_KEY } =
             await import("/src/lib/dossier-chrome.ts");
@@ -823,8 +832,9 @@ try {
       const alert = page.locator(qaSelector + ' [role="alert"]');
       await alert.waitFor({ state: "visible" });
       const message = await alert.innerText();
-      const expected =
-        scenario === "rejected-rubric-anchor"
+      const expected = scenario.startsWith("first-page-")
+        ? "kleineren Rand"
+        : scenario === "rejected-rubric-anchor"
           ? "Rubrik-Pills sind in diesem Test gesperrt"
           : scenario === "interior-cv-font"
             ? "ausdrücklich gespeichertes Sans"

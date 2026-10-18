@@ -17,19 +17,25 @@ import { paintPng } from "../../src/lib/docx-next/artwork";
 import { briefFixture } from "../fixtures/docx-next/brief";
 import type { CvDesign } from "../../src/components/cv/types";
 
-test("reviewed reading defaults apply to Modern classic and preserve explicit typography and frozen layouts", () => {
+test("flowing reading defaults preserve explicit typography and frozen layouts", () => {
   const design = { template: "modern", colors: {}, bgOpacity: 0.25 } as CvDesign;
   expect(cvReadingDefaults("modern", "classic")).toEqual({
     continuationTopMm: 20,
     sectionTitleFontSizePx: 14,
   });
+  for (const template of ["brief", "modern", "freundlich", "verlauf", "neon"]) {
+    for (const layout of ["classic", "minimal", "timeline", "editorial"]) {
+      expect(cvReadingDefaults(template, layout)).toEqual({
+        continuationTopMm: 20,
+        sectionTitleFontSizePx: 14,
+      });
+    }
+  }
   expect(cvSectionTitleFontSizePx(design, "classic")).toBe(14);
   expect(cvSectionTitleFontSizePx({ ...design, sectionTitleFontSizePx: 19 }, "classic")).toBe(19);
   for (const [template, layout] of [
     ["modern", "modern"],
     ["modern", "executive"],
-    ["modern", "timeline"],
-    ["brief", "classic"],
     ["sidebar", "modern"],
   ]) {
     expect(cvReadingDefaults(template, layout)).toEqual({

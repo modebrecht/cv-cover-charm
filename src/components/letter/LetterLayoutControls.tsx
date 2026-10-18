@@ -1,7 +1,10 @@
 import { useSyncExternalStore } from "react";
 import { DossierPageMarginsControl } from "@/components/dossier/DossierPageMarginsControl";
+import { ContinuationTopMarginControl } from "@/components/dossier/ContinuationTopMarginControl";
+import { DOSSIER_CONTINUATION_TOP_MM } from "@/lib/dossier-reading-settings";
 import {
   letterDefaultPageMargins,
+  letterPageGeometry,
   letterSafePageMarginMinimums,
 } from "@/components/letter/layout-system";
 import {
@@ -17,6 +20,12 @@ import {
   subscribeDossierChrome,
   type DossierChromeOptions,
 } from "@/lib/dossier-chrome";
+
+import {
+  getDossierPageMargins,
+  getDossierPageMarginsSnapshot,
+  subscribeDossierPageMargins,
+} from "@/lib/dossier-page-margins";
 
 const buttonClass =
   "rounded-md border px-2.5 py-1.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring";
@@ -242,6 +251,8 @@ export function LetterLayoutControls({
     getDossierChromeState,
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
+  useSyncExternalStore(subscribeDossierPageMargins, getDossierPageMarginsSnapshot, () => "{}");
+  const storedMargins = getDossierPageMargins("letter");
   const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.letter;
   const geometryContext = { chromeOptions };
   const defaultMargins = letterDefaultPageMargins(data, design, geometryContext);
@@ -349,6 +360,21 @@ export function LetterLayoutControls({
         minimumMargins={minimumMargins}
         accentColor={accentColor}
         onApplied={() => onChange({})}
+        extraControls={
+          <ContinuationTopMarginControl
+            scope="letter"
+            value={
+              design.continuationTopMarginMm === undefined
+                ? (storedMargins?.top ?? DOSSIER_CONTINUATION_TOP_MM)
+                : (design.continuationTopMarginMm ?? DOSSIER_CONTINUATION_TOP_MM)
+            }
+            effectiveTopMm={
+              letterPageGeometry(data, design, { ...geometryContext, pageIndex: 1 }).content.top
+            }
+            onChange={(continuationTopMarginMm) => onChange({ continuationTopMarginMm })}
+            onReset={() => onChange({ continuationTopMarginMm: null })}
+          />
+        }
       />
     </div>
   );
