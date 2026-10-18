@@ -43,8 +43,8 @@ export type Paragraph = {
   /** Explicit flow candidate. Native heading text owns a line-relative
    * decorative capsule; it does not become a fixed-page textbox. */
   flowSurface?: {
-    /** Explicit trial: preceding flow block owns the collapsed before-gap. */
-    spacingOwner?: "previous-block";
+    /** Explicit trial: a preceding flow block or the cell/page origin owns the before-gap. */
+    spacingOwner?: "previous-block" | "origin";
     widthMm: number;
     rowWidthMm: number;
     heightMm: number;

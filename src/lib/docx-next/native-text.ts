@@ -32,7 +32,7 @@ export function paragraph(
     value = {
       ...value,
       indentMm: (value.indentMm ?? 0) + s.paddingXMm,
-      beforeMm: value.beforeMm + (s.spacingOwner === "previous-block" ? 0 : s.paddingYMm),
+      beforeMm: value.beforeMm + (s.spacingOwner ? 0 : s.paddingYMm),
       afterMm: value.afterMm + s.paddingYMm,
     };
   }

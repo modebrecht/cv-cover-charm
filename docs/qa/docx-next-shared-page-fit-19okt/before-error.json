@@ -1,0 +1,53 @@
+{
+  "mode": "one",
+  "web": {
+    "pages": 1,
+    "columns": [
+      {
+        "column": "1",
+        "sections": [
+          "sprachen",
+          "staerken"
+        ]
+      },
+      {
+        "column": "2",
+        "sections": [
+          "hobbys"
+        ]
+      },
+      {
+        "column": "1",
+        "sections": [
+          "sprachen",
+          "staerken"
+        ]
+      },
+      {
+        "column": "2",
+        "sections": [
+          "hobbys"
+        ]
+      }
+    ]
+  },
+  "restored": true,
+  "issues": [
+    {
+      "code": "masonry-section-converted-to-rows",
+      "fieldId": "cv.section.sprachen",
+      "message": "Word half-width sections use paired rows; independent Masonry packing requires explicit acceptance."
+    },
+    {
+      "code": "masonry-section-converted-to-rows",
+      "fieldId": "cv.section.hobbys",
+      "message": "Word half-width sections use paired rows; independent Masonry packing requires explicit acceptance."
+    },
+    {
+      "code": "masonry-section-converted-to-rows",
+      "fieldId": "cv.section.staerken",
+      "message": "Word half-width sections use paired rows; independent Masonry packing requires explicit acceptance."
+    }
+  ],
+  "error": "DOCX Next: Rubrik-Messwerte stimmen nicht mit der fliessenden Rubrik «cv.section.sprachen.heading» überein (\"Sprachen\" / \"Sprachen\")."
+}

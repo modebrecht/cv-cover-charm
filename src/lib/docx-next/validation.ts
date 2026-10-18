@@ -166,8 +166,9 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           block.role !== "heading" ||
           block.align !== "left" ||
           block.list ||
-          (s.spacingOwner !== undefined && s.spacingOwner !== "previous-block") ||
-          (s.spacingOwner === "previous-block" && block.beforeMm !== 0) ||
+          (s.spacingOwner !== undefined &&
+            !["previous-block", "origin"].includes(s.spacingOwner)) ||
+          (s.spacingOwner !== undefined && block.beforeMm !== 0) ||
           ![s.widthMm, s.rowWidthMm, s.heightMm, s.paddingXMm, s.paddingYMm, s.outlineMm].every(
             Number.isFinite,
           ) ||

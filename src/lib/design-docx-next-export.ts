@@ -4,6 +4,7 @@ import {
   designNativeBadgeUiEnabled,
   designInteriorAuditUiEnabled,
   designRubricSpacingUiEnabled,
+  designReadingRowsUiEnabled,
 } from "./docx-next/design-visibility";
 import { downloadBlob, safeFileName } from "./download";
 
@@ -13,7 +14,10 @@ export async function createSavedDesignDocxNext() {
     return await createSavedAuthoredCoverDocxNext("modern", designDocxNextUiEnabled(), {
       ...(designNativeBadgeUiEnabled() ? { coverBadgeComposition: "native-shape" as const } : {}),
       ...(designInteriorAuditUiEnabled() ? { inspectNativeInteriors: true } : {}),
-      ...(designRubricSpacingUiEnabled() ? { cvRubricSpacing: "previous-block" as const } : {}),
+      ...(designRubricSpacingUiEnabled() || designReadingRowsUiEnabled()
+        ? { cvRubricSpacing: "previous-block" as const }
+        : {}),
+      ...(designReadingRowsUiEnabled() ? { cvContentComposition: "reading-rows" as const } : {}),
     });
   } catch (error) {
     if (error instanceof Error)
@@ -33,6 +37,6 @@ export async function downloadSavedDesignDocxNext() {
     .join(" ");
   downloadBlob(
     blob,
-    `${safeFileName(`Bewerbungsdossier-${name}-Modern-${designNativeBadgeUiEnabled() ? "Pille" : designRubricSpacingUiEnabled() ? "CV-Pills-Abstand-Test" : designInteriorAuditUiEnabled() ? "Innenlayout-Test" : "Test"}`)}.docx`,
+    `${safeFileName(`Bewerbungsdossier-${name}-Modern-${designNativeBadgeUiEnabled() ? "Pille" : designReadingRowsUiEnabled() ? "CV-Zeilen-Test" : designRubricSpacingUiEnabled() ? "CV-Pills-Abstand-Test" : designInteriorAuditUiEnabled() ? "Innenlayout-Test" : "Test"}`)}.docx`,
   );
 }

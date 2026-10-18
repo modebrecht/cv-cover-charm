@@ -34,5 +34,13 @@ export function designRubricSpacingUiEnabled() {
   );
 }
 
+/** Shared classic-CV row/column trial, exposed only inside the interior QA route. */
+export function designReadingRowsUiEnabled() {
+  return (
+    designInteriorAuditUiEnabled() &&
+    new URLSearchParams(window.location.search).get("docx-next-reading-rows-qa") === "1"
+  );
+}
+
 export const RUBRIC_ANCHOR_WORD_REJECTION =
   "Rubrik-Pills sind in diesem Test gesperrt: Microsoft Word verschiebt Rubrik-Hintergründe. Bitte den getrennten Rubrik-Abstandstest verwenden.";

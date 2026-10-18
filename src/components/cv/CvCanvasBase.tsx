@@ -38,6 +38,7 @@ import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-c
 import type { DossierChromeDocumentContent } from "@/lib/dossier-chrome-content";
 import { cvBodyData } from "@/lib/dossier-body-contact";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
+import { cvFlowColumns } from "@/lib/cv-flow-columns";
 import { dossierPhotoCropStyle, dossierPhotoRadius, dossierPhotoRatio } from "@/lib/dossier-photo";
 import {
   normalizeCvPhotoPlacement,
@@ -1253,13 +1254,7 @@ export function CvCanvas({
         masonry = [];
         return;
       }
-      const columns: [SectionUnit[], SectionUnit[]] = [[], []];
-      const columnWeights: [number, number] = [0, 0];
-      for (const item of masonry) {
-        const target: 0 | 1 = columnWeights[0] <= columnWeights[1] ? 0 : 1;
-        columns[target].push(item);
-        columnWeights[target] += Math.max(1, item.rows.length);
-      }
+      const columns = cvFlowColumns(masonry, (item) => item.rows.length);
       const render = (parts: Row[][]) => (
         <div
           data-cv-section-masonry

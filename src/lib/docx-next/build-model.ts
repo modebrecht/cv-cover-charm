@@ -39,6 +39,7 @@ import { composeAuthoredCover } from "./cover-authored";
 import { composeSourceCompactBands } from "./compact-chrome";
 import { composeMeasuredHeaders } from "./interior-composition";
 import { ownFlowSurfaceSpacing } from "./flow-surface-spacing";
+import { composeCvReadingColumns } from "./cv-reading-columns";
 import type { InteriorTextMetrics } from "./interior-metrics";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
@@ -991,7 +992,8 @@ export function buildDossierDocModel(
       key !== "person" &&
       layout.positioning === "flow" &&
       layout.width === "half" &&
-      layout.packing === "masonry"
+      layout.packing === "masonry" &&
+      !readingRows
     )
       issues.push({
         code: "masonry-section-converted-to-rows",
@@ -1012,7 +1014,7 @@ export function buildDossierDocModel(
       } else {
         if (
           !measured ||
-          layout.width !== "full" ||
+          (!readingRows && layout.width !== "full") ||
           layout.positioning !== "flow" ||
           sectionHeading.runs
             .map((r) => r.text)
@@ -1669,8 +1671,9 @@ export function buildDossierDocModel(
       !capturedInteriorMetrics?.rubrics
     )
       throw Error("DOCX Next: Rubrik-Abstandstest benötigt Modern und frische Messwerte.");
-    ownFlowSurfaceSpacing(cvPart);
-  }
+    if (readingRows) composeCvReadingColumns(cvPart, data);
+    ownFlowSurfaceSpacing(cvPart, { readingColumns: readingRows });
+  } else if (readingRows) composeCvReadingColumns(cvPart, data);
   return {
     version: 1,
     metadata: {

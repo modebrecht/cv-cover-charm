@@ -1,5 +1,7 @@
 # Gemeinsame CV Zeilen und Listen
 
+Nachtrag vom 19. Oktober: Der Nutzer hat präzisiert, dass zwei CV-Seiten ohne Einseiten-Aktion allein kein Blocker sind. Die vorhandene Seitenauswahl ist inzwischen bis zum echten PDF-/DOCX-Download angebunden; [Kandidat 10 und Nachweis](docx-next-shared-page-fit-19okt.md). Die nachstehenden Zahlen beschreiben unverändert den historischen Kandidaten 09.
+
 **PARTIAL. Die gemeinsame native Zeilenkomposition ist technisch geprüft; vollständige Web-/Word-Paginierung und Microsoft-Word-Abnahme bleiben offen.** Grundlage ist der veröffentlichte Farbstand `fc1a0caecc9eca9138444f9776342aefd8466ef0` auf `fix/docx-next-shared-fidelity-18okt`.
 
 ## Verhalten und gemeinsame Ursache
