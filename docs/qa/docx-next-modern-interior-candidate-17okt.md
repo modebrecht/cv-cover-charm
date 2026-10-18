@@ -1,5 +1,7 @@
 # Modern contact headers and CV rubric capsules
 
+Follow-up: [18 October colour/sync/plain-separator correction](docx-next-modern-contact-colors-18okt.md) replaces the two header handoffs after real Word PDF evidence. The packet below remains an immutable historical baseline; the rubric DOCX is byte-identical.
+
 **PARTIAL. The bounded application integration and supplementary native rendering pass. Three real app-generated dossiers are ready for human Microsoft Word testing. Word visual/editing/Save/Reopen acceptance is UNVERIFIED. Other templates and full Item 37 acceptance are not included.**
 
 Working branch: `investigate/docx-next-design-fidelity-16okt`. Parent: `706f71db52da7d001b470ee1f307007bebd23f1c`. Remote dev re-fetched at `8901a830a792d75e9e792345c5180827218b4e1e`; no dev/main/render writes or history rewrite.

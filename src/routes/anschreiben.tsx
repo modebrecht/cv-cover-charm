@@ -1,3 +1,4 @@
+import { useSynchronizedContactChrome } from "@/lib/dossier-chrome-contact-sync.browser";
 import { LETTER_FIELD_IDS } from "@/lib/dossier-semantic-fields";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
@@ -246,7 +247,7 @@ function Anschreiben() {
     getDossierChromeState,
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
-  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.letter;
+  const chromeOptions = useSynchronizedContactChrome("letter", design, chromeState);
   const syncLegacyChromeDesign = useCallback((patch: Partial<DossierChromeOptions>) => {
     const values = legacyLetterChromePatch(patch);
     setDesign((current) =>

@@ -89,7 +89,7 @@ export const DEFAULT_DOSSIER_CHROME_OPTIONS: DossierChromeOptions = {
   headerContentOffsetYMm: 0,
   letterRecipientOffsetYMm: 0,
   headerTextLayout: "stacked",
-  headerInlineSeparator: "icons",
+  headerInlineSeparator: "dot",
   headerBackgroundColor: null,
   headerGradientColor: null,
   headerTextColor: null,
@@ -166,13 +166,10 @@ function normalizedBorderWidth(value: unknown, fallback: number): number {
 
 function normalizedHeaderInlineSeparator(
   value: unknown,
-  fallback: DossierChromeInlineSeparator = "icons",
+  fallback: DossierChromeInlineSeparator = "dot",
 ): DossierChromeInlineSeparator {
-  return value === "dot" ||
-    value === "icons" ||
-    value === "slash" ||
-    value === "pipe" ||
-    value === "space"
+  if (value === "icons") return "dot";
+  return value === "dot" || value === "slash" || value === "pipe" || value === "space"
     ? value
     : fallback;
 }
@@ -226,7 +223,7 @@ function normalizeOptions(
         ? "dot"
         : normalizedHeaderInlineSeparator(
             value.headerInlineSeparator,
-            fallback.headerInlineSeparator ?? "icons",
+            fallback.headerInlineSeparator ?? "dot",
           ),
     headerBackgroundColor: normalizedColor(value.headerBackgroundColor),
     headerGradientColor: normalizedColor(value.headerGradientColor),
@@ -443,7 +440,7 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
       design.headerHeightMm === options.headerHeightMm &&
       design.headerGapMm === (options.headerGapMm ?? 12) &&
       design.headerTextLayout === options.headerTextLayout &&
-      design.headerInlineSeparator === (options.headerInlineSeparator ?? "icons") &&
+      design.headerInlineSeparator === (options.headerInlineSeparator ?? "dot") &&
       design.headerBackgroundColor === options.headerBackgroundColor &&
       design.headerGradientColor === options.headerGradientColor &&
       design.chromeHeaderTextColor === options.headerTextColor &&
@@ -475,7 +472,7 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
         headerHeightMm: options.headerHeightMm,
         headerGapMm: options.headerGapMm ?? 12,
         headerTextLayout: options.headerTextLayout,
-        headerInlineSeparator: options.headerInlineSeparator ?? "icons",
+        headerInlineSeparator: options.headerInlineSeparator ?? "dot",
         headerBackgroundColor: options.headerBackgroundColor,
         headerGradientColor: options.headerGradientColor,
         chromeHeaderTextColor: options.headerTextColor,

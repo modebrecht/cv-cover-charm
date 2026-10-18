@@ -38,6 +38,27 @@ export function modernInteriorProjectFixture(kind: string, photo?: string) {
       project.cv!.design.sectionContentIndentMm = 6;
     }
   }
+  if (kind === "header-inline-custom-colors") {
+    Object.assign(project.chrome!.shared, {
+      headerBackgroundColor: "#183447",
+      footerBackgroundColor: "#315665",
+      borderEnabled: true,
+      borderColor: "#e8bf75",
+    });
+  }
+  if (kind === "header-inline-unsynced") {
+    project.chrome!.sync = false;
+    project.chrome!.letter = {
+      ...project.chrome!.shared,
+      headerBackgroundColor: "#183447",
+      footerBackgroundColor: "#315665",
+    };
+    project.chrome!.cv = {
+      ...project.chrome!.shared,
+      headerBackgroundColor: "#413054",
+      footerBackgroundColor: "#765a64",
+    };
+  }
   if (kind === "header-reduced") {
     const example = project.cv!.data.erfahrung[0];
     project.cv!.data.erfahrung.push(

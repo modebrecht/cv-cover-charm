@@ -1,0 +1,45 @@
+{
+  "classification": "PARTIAL; bounded engineering PASS; new desktop Word acceptance UNVERIFIED",
+  "unit": {
+    "pass": 1214,
+    "fail": 0,
+    "assertions": 23263,
+    "files": 252
+  },
+  "docx": {
+    "pass": 401,
+    "fail": 0,
+    "assertions": 6180,
+    "files": 62,
+    "overlapsUnit": true
+  },
+  "typecheck": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "build": "PASS complete Nitro build",
+  "actualAppPositiveCases": 7,
+  "nativeA4Pages": 28,
+  "actualAppNegativeCases": 11,
+  "WordVisualEditingSaveReopen": "UNVERIFIED for revised candidates",
+  "nativeCVPagination": "existing 2 pages vs Web 1 preserved",
+  "newHeaderDocx": 2,
+  "rubricControlByteIdentical": true,
+  "otherTemplateFidelityExpanded": false,
+  "runtime": {
+    "Bun": "1.3.0",
+    "Chromium": "143.0.7499.0",
+    "font": "Liberation Sans 2.1.5 via fontconfig; Word requests Arial; target font identity unverified"
+  },
+  "publication": {
+    "branch": "investigate/docx-next-design-fidelity-16okt",
+    "parent": "c0ee86028f020e6948f0bb44826ac129f2eca34b",
+    "productionDefaultSwitched": false,
+    "deploymentRequested": false,
+    "exactBranchAndWildcardDeploymentDisabled": true,
+    "workflowBranchExclusions": 16,
+    "liveBranchDeploymentsBefore": 0,
+    "liveBranchWorkflowRunsBefore": 0
+  }
+}

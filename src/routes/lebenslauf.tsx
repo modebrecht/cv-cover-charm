@@ -1,3 +1,4 @@
+import { useSynchronizedContactChrome } from "@/lib/dossier-chrome-contact-sync.browser";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
@@ -260,7 +261,6 @@ function Lebenslauf() {
     getDossierChromeState,
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
-  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
   const [data, setData] = useState<CvData>(emptyCv);
   const [design, setDesign] = useState<CvDesign>(() => {
     const d = emptyCoverDraft();
@@ -273,6 +273,7 @@ function Lebenslauf() {
       useElements: false,
     };
   });
+  const chromeOptions = useSynchronizedContactChrome("cv", design, chromeState);
   useTemplateQaTemplateSwitch(
     design.template,
     (template) =>

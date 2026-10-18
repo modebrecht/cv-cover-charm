@@ -343,6 +343,46 @@ try {
           for (let i = 0; i < visibleIndexes.length; i++) {
             const sheet = pages.nth(visibleIndexes[i]);
             await sheet.screenshot({ path: path.join(folder, `web-${part}-page-${i + 1}.png`) });
+            const measured = captured.interiorMetrics?.headers[part as "letter" | "cv"];
+            if (measured) {
+              const expected = i === 0 ? measured.first : measured.continuation;
+              const actual = await sheet.evaluate((root: HTMLElement) => {
+                const header = root.querySelector<HTMLElement>(
+                  "[data-dossier-contact-header-background], [data-dossier-continuation-contact-header]",
+                )!;
+                const footer = root.querySelector<HTMLElement>('[data-dossier-footer="compact"]')!;
+                const hex = (rgb: string) =>
+                  rgb
+                    .match(/[\d.]+/g)!
+                    .slice(0, 3)
+                    .map((n) => Number(n).toString(16).padStart(2, "0"))
+                    .join("")
+                    .toUpperCase();
+                return {
+                  header: hex(getComputedStyle(header).backgroundColor),
+                  footer: hex(getComputedStyle(footer).backgroundColor),
+                  opacity: Number(getComputedStyle(footer).opacity),
+                  icons: root.querySelectorAll(
+                    "[data-dossier-integrated-contact] svg, [data-dossier-continuation-contact] svg",
+                  ).length,
+                };
+              });
+              assert.deepEqual(
+                actual,
+                {
+                  header: expected.background,
+                  footer: expected.footer.background,
+                  opacity: expected.footer.opacity,
+                  icons: 0,
+                },
+                "Live editor chrome must match the fresh export capture without icons",
+              );
+              assert.equal(actual.opacity, 1, "Modern contact footer must be opaque");
+              await writeFile(
+                path.join(folder, `web-${part}-contact-colors-${i + 1}.json`),
+                JSON.stringify(actual, null, 2),
+              );
+            }
             geometry.push(
               await sheet.evaluate((root: HTMLElement) => {
                 const r = root.getBoundingClientRect();
