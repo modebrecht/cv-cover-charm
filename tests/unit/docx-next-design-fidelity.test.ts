@@ -91,8 +91,8 @@ test("controlled compact chrome matches Web band geometry without inventing foot
     expect(strip.yMm + strip.heightMm).toBe(297);
     expect(strip.heightMm + edge.heightMm).toBe(4);
     expect(edge.yMm).toBe(293);
-    expect(strip.opacity).toBe(0.92);
-    expect(strip.fill?.color).toBe(scope === "letter" ? "111827" : "111111");
+    expect(strip.opacity).toBe(1);
+    expect(strip.fill?.color).toBe("111827");
     expect(paints.find((p) => p.id.endsWith(".header"))!.yMm).toBe(0);
   }
 });

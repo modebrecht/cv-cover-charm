@@ -9,7 +9,7 @@ import {
   dossierContactFromLetter,
   resolveDossierContact,
 } from "@/lib/dossier-contact-data";
-import { resolveSynchronizedContactChrome } from "./dossier-chrome-contact-sync";
+import { resolveDossierChromePalette } from "./dossier-chrome-palette";
 import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
 import {
   resolveDossierChromeDocumentContent,
@@ -44,7 +44,7 @@ export function resolveDossierChromeSnapshot(
       resolveTemplateChromeOptions(
         document?.design.template ?? "brief",
         document?.design.colors ?? {},
-        resolveSynchronizedContactChrome(
+        resolveDossierChromePalette(
           { letter: documents.letter?.design, cv: documents.cv?.design },
           state,
           scope,

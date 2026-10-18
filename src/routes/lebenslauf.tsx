@@ -1,4 +1,4 @@
-import { useSynchronizedContactChrome } from "@/lib/dossier-chrome-contact-sync.browser";
+import { useDossierChromePalette } from "@/lib/dossier-chrome-palette.browser";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
@@ -279,7 +279,7 @@ function Lebenslauf() {
       useElements: false,
     };
   });
-  const chromeOptions = useSynchronizedContactChrome("cv", design, chromeState);
+  const chromeOptions = useDossierChromePalette("cv", design, chromeState);
   const getReadingLayout = useCallback(
     () => getCvLayoutChoiceForTemplate(design.template),
     [design.template],

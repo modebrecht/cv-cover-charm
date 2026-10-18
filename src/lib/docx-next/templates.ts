@@ -3185,7 +3185,7 @@ export const MODERN: TemplateDefinition = {
   },
   letter: { ...BRIEF.letter, fontSource: "dossier", keepTailTogether: true },
   chrome: {
-    sourceCompactBands: { footerOpacity: 0.92 },
+    sourceCompactBands: { footerOpacity: 1 },
     headerDistanceMm: 12,
     footerDistanceMm: 12,
     footerSurfaceSlot: "bg",

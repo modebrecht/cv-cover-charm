@@ -17,6 +17,7 @@ import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
 import { dossierChromeFieldId } from "@/lib/dossier-semantic-fields";
 import { automaticBorderColor } from "@/lib/dossier-chrome-colors";
 import "./chrome-policy.css";
+import "./chrome-template-surfaces.css";
 
 function surfaceBackground(first: string, second: string | null): string {
   return second ? `linear-gradient(90deg, ${first}, ${second})` : first;
@@ -97,6 +98,8 @@ export function DossierHeaderFooterChrome({
   headerFontOverride?: FontKey;
   footerFontOverride?: FontKey;
 }) {
+  colors = options.resolvedPalette?.colors ?? colors;
+  const paletteTemplate = options.resolvedPalette?.template ?? template;
   const resolvedContact = contact;
   const headerMode = effectiveDossierHeaderModeForOptions(options, pageIndex);
   const differentFirstPage = options.headerDifferentFirstPage !== false;
@@ -128,11 +131,13 @@ export function DossierHeaderFooterChrome({
   const continuationContact = hasReducedContinuationHeader(options, pageIndex);
   const sourcePalette = cvPalette(colors);
   const primary =
-    template === "brief"
+    paletteTemplate === "brief"
       ? "#111111"
       : (colors.primary ?? colors.accent ?? colors.secondary ?? sourcePalette.accent);
   const secondary =
-    template === "brief" ? "#4b5563" : (colors.accent ?? colors.secondary ?? sourcePalette.accent);
+    paletteTemplate === "brief"
+      ? "#4b5563"
+      : (colors.accent ?? colors.secondary ?? sourcePalette.accent);
   const headerBackground = headerVisualOptions.headerBackgroundColor ?? primary;
   const footerBackground = visualOptions.footerBackgroundColor ?? secondary;
   const headerRoles = onColorRoles(
@@ -525,12 +530,7 @@ export function DossierHeaderFooterChrome({
             boxSizing: "border-box",
             background: footerSurface,
             borderTop: borderStyle,
-            opacity:
-              template === "modern" && options.headerMode === "contact"
-                ? 1
-                : template === "brief"
-                  ? 0.75
-                  : 0.92,
+            opacity: 1,
           }}
           aria-hidden="true"
         />

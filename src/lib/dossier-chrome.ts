@@ -9,6 +9,9 @@ export type DossierChromeTextLayout = "stacked" | "inline";
 export type DossierChromeInlineSeparator = "dot" | "icons" | "slash" | "pipe" | "space";
 
 export type DossierChromeOptions = {
+  /** Derived colour authority, shared by Web and export. Normalization strips
+   * this provenance; it must never replace authored document/store colours. */
+  resolvedPalette?: { template: string; colors: Record<string, string> };
   headerMode: DossierHeaderMode;
   headerShowName: boolean;
   headerShowAddress: boolean;

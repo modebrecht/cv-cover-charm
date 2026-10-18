@@ -94,6 +94,8 @@ export function resolveTemplateChromeOptions(
   colors: Record<string, string>,
   options: DossierChromeOptions,
 ): DossierChromeOptions {
+  template = options.resolvedPalette?.template ?? template;
+  colors = options.resolvedPalette?.colors ?? colors;
   const primary = colors.primary ?? colors.ink ?? "#334155";
   const secondary = colors.secondary ?? colors.accent ?? primary;
 
@@ -127,12 +129,12 @@ export function resolveTemplateChromeOptions(
     ...resolvedOptions,
     // Keep the canonical mode and geometry values untouched. Only the visual
     // treatment changes while both compact zones are active.
-    headerBackgroundColor: primary,
-    headerGradientColor: null,
-    footerBackgroundColor: primary,
-    footerGradientColor: null,
+    headerBackgroundColor: resolvedOptions.headerBackgroundColor ?? primary,
+    headerGradientColor: resolvedOptions.headerGradientColor,
+    footerBackgroundColor: resolvedOptions.footerBackgroundColor ?? primary,
+    footerGradientColor: resolvedOptions.footerGradientColor,
     borderEnabled: true,
-    borderColor: accent,
+    borderColor: resolvedOptions.borderColor ?? accent,
     borderWidthMm: 0.6,
   };
 }

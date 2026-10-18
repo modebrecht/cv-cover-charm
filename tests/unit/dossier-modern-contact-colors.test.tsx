@@ -2,7 +2,6 @@ import { expect, test } from "bun:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { DossierHeaderFooterChrome } from "../../src/components/dossier/DossierHeaderFooterChrome";
-import { resolveTemplateChromeOptions } from "../../src/lib/template-chrome";
 import { normalizeDossierChromeState } from "../../src/lib/dossier-chrome";
 import { resolveDossierChromeSnapshot } from "../../src/lib/dossier-resolved-chrome";
 import savedSource from "../fixtures/docx-next/modern-header-snapshot.json";
@@ -29,13 +28,17 @@ test("Modern contact sync uses one actual header/footer/border palette despite d
   expect(source.letter.design.colors.primary).not.toBe(source.cv.design.colors.primary);
   const resolved = resolveDossierChromeSnapshot(source, source.settings.chrome!);
   expect(resolved.cv.options).toEqual(resolved.letter.options);
-  expect(resolved.cv.options.headerBackgroundColor).toBe(source.letter.design.colors.primary);
-  expect(resolved.cv.options.footerBackgroundColor).toBe(source.letter.design.colors.accent);
+  expect(resolved.cv.options.resolvedPalette?.colors.primary).toBe(
+    source.letter.design.colors.primary,
+  );
+  expect(resolved.cv.options.resolvedPalette?.colors.accent).toBe(
+    source.letter.design.colors.accent,
+  );
   for (const scope of ["letter", "cv"] as const)
     for (const page of [0, 1]) {
       const html = markup(source, scope, page);
-      expect(html).toContain(`background:${resolved.letter.options.headerBackgroundColor}`);
-      expect(html).toContain(`background:${resolved.letter.options.footerBackgroundColor}`);
+      expect(html).toContain(`background:${source.letter.design.colors.primary}`);
+      expect(html).toContain(`background:${source.letter.design.colors.accent}`);
       expect(html).toMatch(/data-dossier-footer="compact"[^>]*opacity:1/);
       expect(html).not.toContain("<svg");
       for (const value of Object.values(resolved[scope].contact)) expect(html).toContain(value);
@@ -70,7 +73,7 @@ test("explicit shared surface/text/gradient/border colours survive sync and JSON
   }
 });
 
-test("sync off retains independently authored document colours; compact and other templates retain prior policy", () => {
+test("sync off retains independent colours; compact and mixed templates share the Letter palette", () => {
   const source = input();
   const state = source.settings.chrome!;
   state.sync = false;
@@ -82,16 +85,12 @@ test("sync off retains independently authored document colours; compact and othe
   state.sync = true;
   state.shared.headerMode = "compact";
   const compact = resolveDossierChromeSnapshot(source, state);
-  expect(compact.cv.options).toEqual(
-    resolveTemplateChromeOptions("modern", source.cv.design.colors, state.shared),
-  );
-  expect(compact.letter.options).toEqual(
-    resolveTemplateChromeOptions("modern", source.letter.design.colors, state.shared),
-  );
+  expect(compact.cv.options).toEqual(compact.letter.options);
+  expect(compact.cv.options.headerBackgroundColor).toBe(source.letter.design.colors.primary);
   source.cv.design.template = "brief";
   state.shared.headerMode = "contact";
   const other = resolveDossierChromeSnapshot(source, state);
-  expect(other.cv.options.headerBackgroundColor).toBeNull();
+  expect(other.cv.options.resolvedPalette).toEqual(other.letter.options.resolvedPalette);
 });
 
 test("restoring a legacy icon selection removes icons in all stored branches before export", () => {

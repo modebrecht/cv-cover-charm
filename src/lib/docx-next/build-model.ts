@@ -1083,7 +1083,7 @@ export function buildDossierDocModel(
         bandPolicy?.surfaceSource === "descriptor"
           ? !!(authoredChrome.headerBackgroundColor || authoredChrome.headerGradientColor)
           : !!(options.headerBackgroundColor || options.headerGradientColor);
-      const partColors = input[scope].design.colors;
+      const partColors = options.resolvedPalette?.colors ?? input[scope].design.colors;
       const partInk =
         template.interiorPaletteSource === "dossier"
           ? scope === "letter"
