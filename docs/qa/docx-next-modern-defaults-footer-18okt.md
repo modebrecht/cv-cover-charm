@@ -1,5 +1,7 @@
 # Modern reading defaults and native footer edge coverage
 
+Historical bounded preparation record, preserved at `ec8ac3bca9e6e1e8063444c01c57f5c5e4d41360` (tree `15d47d6dc9f58b06e731f46d7978619384000ba6`). Branch/scope statements below describe that earlier preparation; candidate 06 and its raw evidence remain unchanged. The subsequent common CV/Letter policy and candidate 07 are documented in [shared settings QA](docx-next-shared-settings-18okt.md). Do not apply this old Modern-only scope description to the current shared implementation.
+
 **PARTIAL. The approved 20-mm / 14-px settings are now code defaults for Modern in the classic CV layout, with explicit saved values preserved. A real right/bottom paint gap is confirmed in the returned Word PDF. One bounded native coverage candidate passes engineering and supplementary checks; its Word visual/editing/Save/Reopen acceptance remains UNVERIFIED.**
 
 Branch: `investigate/docx-next-design-fidelity-16okt`. Parent: `719e6da6c1c6117ea111129d5af65b56ed47ae87`. Remote dev was re-fetched at `8901a830a792d75e9e792345c5180827218b4e1e`. No merge, deployment, PR, CI dispatch or export-engine-default switch. The Web changes are saved on this branch, not deployed to the live application.

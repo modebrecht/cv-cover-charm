@@ -15,6 +15,7 @@ const out = path.resolve(output),
   base = "http://127.0.0.1:4174";
 await mkdir(out, { recursive: true });
 const project = JSON.parse(await readFile(projectPath, "utf8"));
+type SavedFixture = typeof project;
 const server = Bun.spawn({
   cwd: path.resolve(checkout),
   cmd: [
@@ -56,7 +57,7 @@ try {
   ] as const) {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1200 } });
     await context.addInitScript(
-      ({ project, scope, key }: { project: typeof project; scope: string; key: string }) => {
+      ({ project, scope, key }: { project: SavedFixture; scope: string; key: string }) => {
         localStorage.setItem("titelblatt:v3", JSON.stringify(project.cover));
         localStorage.setItem("anschreiben:v1", JSON.stringify(project.letter));
         localStorage.setItem("lebenslauf:v1", JSON.stringify(project.cv));

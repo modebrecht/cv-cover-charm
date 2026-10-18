@@ -1,0 +1,28 @@
+[
+  {
+    "scope": "cover",
+    "earlyTimerInjection": true,
+    "lostAuthoredState": false,
+    "records": [
+      {
+        "template": "neon",
+        "entries": 0,
+        "firstName": "Lea",
+        "valid": true
+      }
+    ]
+  },
+  {
+    "scope": "cv",
+    "earlyTimerInjection": true,
+    "lostAuthoredState": false,
+    "records": [
+      {
+        "template": "neon",
+        "entries": 5,
+        "firstName": "Lea",
+        "valid": true
+      }
+    ]
+  }
+]

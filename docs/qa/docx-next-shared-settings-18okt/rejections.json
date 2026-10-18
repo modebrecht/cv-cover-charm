@@ -1,0 +1,49 @@
+[
+  {
+    "scenario": "unsupported-font",
+    "message": "Brief DOCX Next: Nicht unterstützte Schrift oder Textformatierung in «eyebrow». Der Test unterstützt Sans, normal/fett und westeuropäische Zeichen.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "substituted-font",
+    "message": "Brief DOCX Next: Die aktuelle Browser-Ersatzschrift passt nicht zum geprüften Arial-/Liberation-Sans-Profil. Bitte Sans mit Arial oder Liberation Sans verwenden.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "missing-measurements",
+    "message": "Brief DOCX Next: Schriftmessung ist nicht verfügbar.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "stale-before-capture",
+    "message": "Brief DOCX Next: Gespeicherte Daten haben sich während des Exports geändert. Bitte erneut exportieren.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "stale-after-render",
+    "message": "Brief DOCX Next: Gespeicherte Daten haben sich während des Exports geändert. Bitte erneut exportieren.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "first-page-letter",
+    "message": "DOCX Next: Anschreiben benötigt auf Seite 1 einen kleineren Rand als auf Folgeseiten. Diese Word-Geometrie ist noch nicht unterstützt.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "first-page-cv",
+    "message": "DOCX Next: Lebenslauf benötigt auf Seite 1 einen kleineren Rand als auf Folgeseiten. Diese Word-Geometrie ist noch nicht unterstützt.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "opt-in-off",
+    "message": "Error: Brief DOCX Next: Testexport ist nicht aktiviert.",
+    "result": "PASS hidden and rejected"
+  }
+]
