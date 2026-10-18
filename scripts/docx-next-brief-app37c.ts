@@ -134,7 +134,11 @@ try {
       x.fillRect(10, 10, 20, 20);
       return c.toDataURL("image/png");
     });
-    const project = fixture(name as (typeof BRIEF_PROJECT_CASES)[number], photo);
+    // Optional saved QA project: restore authored settings through the same
+    // application file input, without changing production defaults or fixtures.
+    const project: ReturnType<typeof briefProjectFixture> = process.env.DOCX_NEXT_PROJECT_PATH
+      ? JSON.parse(await readFile(process.env.DOCX_NEXT_PROJECT_PATH, "utf8"))
+      : fixture(name as (typeof BRIEF_PROJECT_CASES)[number], photo);
     await writeFile(path.join(folder, "project.json"), JSON.stringify(project, null, 2));
     await Promise.all([
       page.waitForEvent("load"),
@@ -145,6 +149,12 @@ try {
       }),
     ]);
     await page.waitForLoadState("networkidle");
+    // Mount the CV before freezing custom-project export state. Its existing
+    // dossier-font synchronization must settle before the immutable capture.
+    if (process.env.DOCX_NEXT_PROJECT_PATH) {
+      await page.goto(base + "/lebenslauf/?" + query, { waitUntil: "networkidle" });
+      await page.goto(base + "/?" + query, { waitUntil: "networkidle" });
+    }
     const storedBefore = await page.evaluate(() =>
       ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"].map((key) => localStorage.getItem(key)),
     );
@@ -327,6 +337,54 @@ try {
         await page.evaluate(() => document.fonts.ready);
         const sheet = page.locator(selector + ":visible").first();
         await sheet.screenshot({ path: path.join(folder, `web-${part}.png`) });
+        if (part === "cv" && process.env.DOCX_NEXT_PROJECT_PATH) {
+          for (const title of ["Layout", "Schrift"]) {
+            const section = page.locator(`[data-editor-section-title="${title}"]`);
+            if ((await section.getAttribute("data-editor-section-open")) !== "true")
+              await section.locator("[data-editor-section-toggle]").click();
+          }
+          const margins = page.locator('[data-editor-section-title="Layout"] details').first();
+          if (!(await margins.evaluate((element: HTMLDetailsElement) => element.open)))
+            await margins.locator("summary").click();
+          const controls = {
+            continuationTopMarginMm: Number(
+              await page
+                .getByRole("slider", { name: "Oberer Rand ab Seite 2", exact: true })
+                .inputValue(),
+            ),
+            rubricFontSizePx: Number(
+              await page
+                .getByRole("slider", { name: "Schriftgrösse Rubriktitel", exact: true })
+                .inputValue(),
+            ),
+          };
+          assert.equal(
+            controls.continuationTopMarginMm,
+            captured.snapshot.settings.cvContinuationTopMarginMm,
+          );
+          assert.equal(
+            controls.rubricFontSizePx,
+            captured.snapshot.cv.design.sectionTitleFontSizePx,
+          );
+          const current = await page.evaluate(async () =>
+            (await import("/src/lib/brief-docx-next-export.ts")).captureSavedAuthoredSnapshot(
+              "modern",
+            ),
+          );
+          await writeFile(
+            path.join(folder, "editor-controls.json"),
+            JSON.stringify(controls, null, 2),
+          );
+          await writeFile(
+            path.join(folder, "editor-settings-snapshot.json"),
+            JSON.stringify(current, null, 2),
+          );
+          assert.equal(
+            JSON.stringify(current),
+            JSON.stringify(captured.snapshot),
+            "Inspecting controls must preserve the exported saved state",
+          );
+        }
         const chrome = await sheet.evaluate((root: HTMLElement) => {
           const r = root.getBoundingClientRect();
           return Array.from(

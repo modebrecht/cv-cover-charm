@@ -1,0 +1,65 @@
+{
+  "classification": "PARTIAL; returned 04 bounded Word render/save PASS; new 05 Word UNVERIFIED",
+  "unit": {
+    "pass": 1218,
+    "fail": 0,
+    "assertions": 23341,
+    "files": 253
+  },
+  "docx": {
+    "pass": 405,
+    "fail": 0,
+    "assertions": 6258,
+    "files": 63,
+    "overlapsUnit": true
+  },
+  "typecheck": "PASS",
+  "changedQaRunnerLint": "PASS no warnings",
+  "changedCodeFormatting": "PASS",
+  "actualAppCases": 1,
+  "visibleSavedControlValues": {
+    "continuationTopMarginMm": 20,
+    "rubricFontSizePx": 14
+  },
+  "productionCodeChanged": false,
+  "productionDefaultsChanged": false,
+  "newProductionBuild": "not repeated; no production code/config/dependency changes",
+  "pagesIndividuallyInspected": 4,
+  "newSupplementaryRubricContainment": 7,
+  "returnedWordRubricContainment": 7,
+  "logSha256": {
+    "unit": "eb702ad0a63eb6f02d1b2a3b3543d2c62618462a6eba856c202df339b6edf0a8",
+    "docx": "bcb19524bf82979308db00b28691e6a0a62f0060ae5c0e99952daf1f06801793",
+    "typecheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "publication": {
+    "branch": "investigate/docx-next-design-fidelity-16okt",
+    "parent": "df72489a5d5c1fec4daf43309df0f8dfeb1987c0",
+    "exactAndWildcardVercelDisabled": true,
+    "workflowExclusions": [
+      ".github/workflows/docx-next-model-gate.yml",
+      ".github/workflows/docx-next-nearest-engine.yml",
+      ".github/workflows/docx-next-stable-sidebar.yml",
+      ".github/workflows/dossier-docx-gallery.yml",
+      ".github/workflows/dossier-pdf-gallery.yml",
+      ".github/workflows/dossier-regression.yml",
+      ".github/workflows/dossier-visual-parity.yml",
+      ".github/workflows/dossier-web-gallery.yml",
+      ".github/workflows/letter-flow-boundaries.yml",
+      ".github/workflows/letter-pdf-textlayer.yml",
+      ".github/workflows/native-neon-text.yml",
+      ".github/workflows/pagination-integration.yml",
+      ".github/workflows/pdf-preflight.yml",
+      ".github/workflows/ribbon-cover-overflow.yml",
+      ".github/workflows/template-contact-integrity.yml",
+      ".github/workflows/template-font-audit.yml"
+    ],
+    "deploymentRequested": false,
+    "liveBranchDeploymentsBefore": 0,
+    "liveBranchWorkflowRunsBefore": 0,
+    "dev": "8901a830a792d75e9e792345c5180827218b4e1e",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9",
+    "render": "4319c20fb85d3971ac355ae8898cdfef86ee7a8c"
+  }
+}

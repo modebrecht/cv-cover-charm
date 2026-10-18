@@ -1,5 +1,7 @@
 # Modern CV rubric pills: returned Word evidence and bounded spacing trial
 
+Follow-up: the [returned candidate 04 now has bounded Word evidence](docx-next-modern-cv-spacing-settings-18okt.md): seven of seven capsules contain their text, native controls and picture bytes survive saving, and a native title edit is retained. Candidate 05 compares the existing 20-mm continuation margin and smaller rubric text. The unverified wording below records the original handoff state; it does not describe the later returned PDF.
+
 **PARTIAL. The old rubric trial fails actual Word rendering (six of seven backgrounds are displaced). One new actual app-generated Modern CV spacing candidate passes structural and supplementary rendering checks. Its desktop Word visual, editing and Save/Reopen acceptance is UNVERIFIED.**
 
 Working branch: `investigate/docx-next-design-fidelity-16okt`. Parent: `6130fb4cb8504e535142189af192cec5ac4c2533`. Remote dev was fetched and remains `8901a830a792d75e9e792345c5180827218b4e1e`. The user cancelled further work on Word's inactive header/footer dimming. This change concerns CV rubric positioning only; it does not reopen that request, change the default export, or expand template coverage.
