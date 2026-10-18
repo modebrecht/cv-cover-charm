@@ -110,6 +110,7 @@ export async function createSavedAuthoredCoverDocxNext(
     coverBadgeComposition?: "native-shape";
     inspectNativeInteriors?: boolean;
     cvRubricSpacing?: "previous-block";
+    cvContentComposition?: "reading-rows";
   } = {},
 ) {
   if (!enabled) throw new Error("Brief DOCX Next: Testexport ist nicht aktiviert.");
@@ -248,6 +249,9 @@ export async function createSavedAuthoredCoverDocxNext(
     unchanged();
     fonts.verify();
     const model = buildDossierDocModel(snapshot, {
+      ...(candidate.cvContentComposition
+        ? { cvContentComposition: candidate.cvContentComposition }
+        : {}),
       ...(candidate.cvRubricSpacing ? { cvRubricSpacing: candidate.cvRubricSpacing } : {}),
       ...(interiorMetrics ? { interiorTextMetrics: interiorMetrics } : {}),
       coverComposition: "authored-frames",

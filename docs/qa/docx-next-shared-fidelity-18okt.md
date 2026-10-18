@@ -10,6 +10,8 @@ Opening-checkpoint status: **planning and branch setup complete**. The subsequen
 
 ## Shared mechanisms to implement
 
+Current continuation: the shared palette is published at `fc1a0caecc9eca9138444f9776342aefd8466ef0`; [colour evidence and its publication limits](docx-next-shared-chrome-18okt.md). A shared classic-CV row/list candidate is documented in [reading rows and remaining pagination](docx-next-shared-reading-rows-18okt.md). Neither grants Word or all-template acceptance.
+
 | Workstream                          | Shared responsibility                                                                                                                                                           | Evidence required before expansion                                                                                                                    |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Resolved reading settings           | One policy for missing/default/explicit/legacy values, consumed by CV and Letter controls, Web rendering and export snapshot; values retain their physical units and text roles | New, saved and restored projects; explicit values and reset; no store mutation during export; fresh metrics reflect resolved values                   |

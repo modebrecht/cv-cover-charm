@@ -52,7 +52,13 @@ export type CvFlowDefinition = {
   headerGapMm: number;
   entryGapMm: number;
   indentMm: number;
-  dateRail?: { textWidthMm: number; paddingXMm: number; axisWidthMm: number };
+  dateRail?: {
+    textWidthMm: number;
+    paddingXMm: number;
+    axisWidthMm: number;
+    contentGapMm?: number;
+    allowSplit?: boolean;
+  };
 };
 
 /** Shared Word compositions; no template IDs, XML or visible-text matching. */
@@ -98,7 +104,20 @@ export function datedEntryBlocks(
       id: `${id}.dateRail`,
       widths: [1, 1],
       columnWidthsMm: [rail.textWidthMm + rail.paddingXMm * 2, null],
-      rows: [{ cells: [[{ ...date, keepNext: false }], content], keepTogether: true }],
+      rows: [
+        {
+          cells: [
+            [{ ...date, keepNext: false }],
+            content.map((paragraph) => ({
+              ...paragraph,
+              ...(rail.contentGapMm
+                ? { indentMm: (paragraph.indentMm ?? 0) + rail.contentGapMm }
+                : {}),
+            })),
+          ],
+          keepTogether: !rail.allowSplit,
+        },
+      ],
       decoration: {
         borderColor: accent,
         borderWidthMm: rail.axisWidthMm,

@@ -1,0 +1,42 @@
+[
+  {
+    "template": "brief",
+    "webPages": 1,
+    "unchangedFields": true,
+    "unchangedSource": true,
+    "unchangedCoverLetter": true,
+    "appExport": false
+  },
+  {
+    "template": "modern",
+    "webPages": 1,
+    "unchangedFields": true,
+    "unchangedSource": true,
+    "unchangedCoverLetter": true,
+    "appExport": true
+  },
+  {
+    "template": "freundlich",
+    "webPages": 1,
+    "unchangedFields": true,
+    "unchangedSource": true,
+    "unchangedCoverLetter": true,
+    "appExport": false
+  },
+  {
+    "template": "verlauf",
+    "webPages": 1,
+    "unchangedFields": true,
+    "unchangedSource": true,
+    "unchangedCoverLetter": true,
+    "appExport": false
+  },
+  {
+    "template": "neon",
+    "webPages": 1,
+    "unchangedFields": true,
+    "unchangedSource": true,
+    "unchangedCoverLetter": true,
+    "appExport": false
+  }
+]

@@ -73,6 +73,8 @@ export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 export type BuildModelOptions = {
+  /** Shared flowing-CV trial: native date/language rows and semantic lists. */
+  cvContentComposition?: "reading-rows";
   /** Explicit one-template Word trial; no default serialization change. */
   cvRubricSpacing?: "previous-block";
   /** Separate measured header candidate, captured at the app boundary. */
@@ -131,7 +133,39 @@ export function buildDossierDocModel(
     (options.coverBadgePlacement !== "body" || options.coverComposition !== "authored-frames")
   )
     throw Error("DOCX Next body badge paint requires an authored candidate");
-  const cvFlow = CV_FLOW_LAYOUTS[cvVariant];
+  const readingRows = options.cvContentComposition === "reading-rows";
+  if (
+    options.cvContentComposition !== undefined &&
+    (!readingRows || cvVariant !== "classic" || cv.design.useElements)
+  )
+    throw Error("DOCX Next: Lesefluss-Test benötigt ein klassisches CV ohne freie Elemente.");
+  if (readingRows) {
+    const personLayout = cvSectionLayout(cv.data, "person");
+    if (
+      cvSectionOrder(cv.data)[0] !== "person" ||
+      personLayout.page !== 1 ||
+      personLayout.width !== "full" ||
+      personLayout.positioning !== "flow" ||
+      personLayout.packing !== "rows"
+    )
+      throw Error(
+        "DOCX Next: Verschobene persönliche Angaben benötigen eine eigene Lesefluss-Prüfung.",
+      );
+  }
+  const cvFlow = readingRows
+    ? {
+        ...CV_FLOW_LAYOUTS.classic,
+        entryGapMm: 0.6,
+        sectionGapMm: 1.2,
+        dateRail: {
+          textWidthMm: 27,
+          paddingXMm: 0,
+          axisWidthMm: 0,
+          contentGapMm: 5,
+          allowSplit: true,
+        },
+      }
+    : CV_FLOW_LAYOUTS[cvVariant];
   if (
     options.coverBadgeComposition !== undefined &&
     (options.coverBadgeComposition !== "native-shape" ||
@@ -834,7 +868,7 @@ export function buildDossierDocModel(
       if (data.hidden[key]) continue;
       title = data.labels[key] || CV_SECTION_LABELS[key];
       if (key === "schule" || key === "erfahrung") blocks = entries(data[key], key);
-      if (key === "sprachen")
+      if (key === "sprachen") {
         blocks = data.sprachen
           .filter((e) => e.name.trim() || e.niveau.trim())
           .map((e) => ({
@@ -845,16 +879,68 @@ export function buildDossierDocModel(
                 `cv.entry.sprachen:${e.id}.name`,
                 e.name,
                 { ...body, bold: true },
-                { keepNext: !!e.niveau },
+                {
+                  keepNext: !!e.niveau,
+                  ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
+                },
               ),
-              ...(e.niveau ? [p(`cv.entry.sprachen:${e.id}.level`, e.niveau, body)] : []),
+              ...(e.niveau
+                ? [
+                    p(`cv.entry.sprachen:${e.id}.level`, e.niveau, body, {
+                      ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
+                    }),
+                  ]
+                : []),
             ],
           }));
+        if (readingRows)
+          blocks = blocks.map((entry) => {
+            if (entry.kind !== "entry") return entry;
+            const [language, level] = entry.blocks;
+            if (language?.kind !== "paragraph" || level?.kind !== "paragraph") return entry;
+            return {
+              ...entry,
+              blocks: [
+                {
+                  kind: "table",
+                  id: `${entry.id}.languageRow`,
+                  widths: [1, 1],
+                  columnWidthsMm: [27, null],
+                  rows: [
+                    {
+                      cells: [
+                        [{ ...language, keepNext: false }],
+                        [{ ...level, indentMm: 5, keepNext: false }],
+                      ],
+                      keepTogether: false,
+                    },
+                  ],
+                  decoration: {
+                    borderColor: cvAccent,
+                    borderWidthMm: 0,
+                    paddingXMm: 0,
+                    paddingYMm: 0,
+                  },
+                },
+              ],
+            };
+          });
+      }
       if (key === "hobbys" || key === "staerken")
         blocks = data[key]
           .map((text, index) => ({ text, index }))
           .filter(({ text }) => text.trim())
-          .map(({ text, index }) => p(cvLineFieldId(key, index, data.lineIds?.[key]), text, body));
+          .map(({ text, index }) =>
+            p(cvLineFieldId(key, index, data.lineIds?.[key]), text, body, {
+              ...(readingRows
+                ? {
+                    list: "bullet",
+                    listGroupId: `cv.section.${key}.list`,
+                    afterMm: cvFlow.entryGapMm,
+                  }
+                : {}),
+            }),
+          );
       if (key === "referenzen")
         blocks = data.referenzen
           .filter((e) =>
@@ -874,7 +960,7 @@ export function buildDossierDocModel(
                   `cv.entry.referenzen:${e.id}.${field}`,
                   text,
                   { ...body, bold: field === "name" },
-                  { keepNext: index === 0 },
+                  { keepNext: index === 0, ...(readingRows ? { afterMm: 0.35 } : {}) },
                 ),
               ),
           }));
@@ -986,7 +1072,7 @@ export function buildDossierDocModel(
     cvPart.blocks.push({
       kind: "section",
       id: `cv.section.${key}`,
-      heading: sectionHeading,
+      ...(readingRows && key === "person" ? {} : { heading: sectionHeading }),
       blocks,
       placement: placements?.[key === "person" ? "kontakt" : key] ?? "main",
       width: layout.width,
