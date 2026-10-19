@@ -3,6 +3,7 @@ import {
   semanticListItemIds,
   CV_PERSON_FIELD_IDS,
   referenceContactFields,
+  referenceHasContent,
   dossierChromeFieldId,
   dossierElementFieldId,
 } from "@/lib/dossier-semantic-fields";
@@ -15,6 +16,7 @@ import {
   entryFilled,
   isCustomSectionKey,
   type CvEntry,
+  type CvLayoutSectionKey,
 } from "@/components/cv/types";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
@@ -684,7 +686,7 @@ export function buildDossierDocModel(
       },
     });
   }
-  const entries = (values: CvEntry[], section: string): DocBlock[] =>
+  const entries = (values: CvEntry[], section: CvLayoutSectionKey): DocBlock[] =>
     values.filter(entryFilled).map((entry) => {
       const id = `cv.entry.${section}:${entry.id}`;
       const fields = Object.entries({
@@ -716,7 +718,9 @@ export function buildDossierDocModel(
               },
             ),
           ),
-          cvFlow,
+          readingRows && cvSectionLayout(data, section).width === "half"
+            ? { ...cvFlow, dateRail: { ...cvFlow.dateRail!, textWidthMm: 20 } }
+            : cvFlow,
           cvAccent,
         ),
       };
@@ -906,7 +910,7 @@ export function buildDossierDocModel(
                   kind: "table",
                   id: `${entry.id}.languageRow`,
                   widths: [1, 1],
-                  columnWidthsMm: [27, null],
+                  columnWidthsMm: [cvSectionLayout(data, key).width === "half" ? 20 : 27, null],
                   rows: [
                     {
                       cells: [
@@ -943,28 +947,24 @@ export function buildDossierDocModel(
             }),
           );
       if (key === "referenzen")
-        blocks = data.referenzen
-          .filter((e) =>
-            [e.name, e.funktion, e.kontakt, e.email, e.zusatz].some((text) => text?.trim()),
-          )
-          .map((e) => ({
-            kind: "entry",
-            id: `cv.entry.referenzen:${e.id}`,
-            blocks: Object.entries({
-              name: e.name,
-              role: e.funktion,
-              ...referenceContactFields(e),
-            })
-              .filter(([, text]) => text.trim())
-              .map(([field, text], index) =>
-                p(
-                  `cv.entry.referenzen:${e.id}.${field}`,
-                  text,
-                  { ...body, bold: field === "name" },
-                  { keepNext: index === 0, ...(readingRows ? { afterMm: 0.35 } : {}) },
-                ),
+        blocks = data.referenzen.filter(referenceHasContent).map((e) => ({
+          kind: "entry",
+          id: `cv.entry.referenzen:${e.id}`,
+          blocks: Object.entries({
+            name: e.name,
+            role: e.funktion,
+            ...referenceContactFields(e),
+          })
+            .filter(([, text]) => text.trim())
+            .map(([field, text], index) =>
+              p(
+                `cv.entry.referenzen:${e.id}.${field}`,
+                text,
+                { ...body, bold: field === "name" },
+                { keepNext: index === 0, ...(readingRows ? { afterMm: 0.35 } : {}) },
               ),
-          }));
+            ),
+        }));
     }
     if (!blocks.length) continue;
     const layout = cvSectionLayout(data, key);

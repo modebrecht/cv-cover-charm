@@ -1,3 +1,4 @@
+import { referenceHasContent } from "@/lib/dossier-semantic-fields";
 import {
   cvSectionOrder,
   customSectionForKey,
@@ -88,7 +89,9 @@ const textWeight = (...values: unknown[]) =>
 
 function entryWeight(entry: CvData["schule"][number]) {
   if (!entryFilled(entry)) return 0;
-  return 2.1 + textWeight(entry.zeit, entry.titel, entry.ort) + entry.beschreibung.trim().length / 38;
+  return (
+    2.1 + textWeight(entry.zeit, entry.titel, entry.ort) + entry.beschreibung.trim().length / 38
+  );
 }
 
 /**
@@ -144,16 +147,12 @@ export function cvPageFitSectionWeight(data: CvData, key: CvLayoutSectionKey): n
       : 0;
   }
 
-  const rows = data.referenzen.filter((row) =>
-    [row.name, row.funktion, row.kontakt, row.email, row.zusatz].some((value) => value?.trim()),
-  );
+  const rows = data.referenzen.filter(referenceHasContent);
   return rows.length
     ? 1.2 +
         rows.reduce(
           (sum, row) =>
-            sum +
-            1.65 +
-            textWeight(row.name, row.funktion, row.kontakt, row.email, row.zusatz),
+            sum + 1.65 + textWeight(row.name, row.funktion, row.kontakt, row.email, row.zusatz),
           0,
         )
     : 0;
@@ -199,11 +198,7 @@ function twoPageScale(weight: number) {
  * Chronological sections need their date/title rail, while references already
  * have their own two-up layout when they have the full section width.
  */
-function canCompactToHalf(
-  data: CvData,
-  key: CvLayoutSectionKey,
-  weight: number,
-): boolean {
+function canCompactToHalf(data: CvData, key: CvLayoutSectionKey, weight: number): boolean {
   if (weight <= 0 || key === "person" || key === "schule" || key === "erfahrung") return false;
   if (key === "referenzen") return false;
 

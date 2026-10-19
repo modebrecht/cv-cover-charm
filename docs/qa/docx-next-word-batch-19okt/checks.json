@@ -1,0 +1,27 @@
+{
+  "unit": {
+    "passed": 1246,
+    "failed": 0,
+    "docxSubset": 433,
+    "runs": 1
+  },
+  "targeted": {
+    "passed": 28,
+    "failed": 0
+  },
+  "typecheck": "PASS",
+  "lintChangedFiles": "PASS",
+  "formatChangedFiles": "PASS",
+  "build": "PASS",
+  "actualUiExports": 10,
+  "actualPrimaryPdfDownloads": 10,
+  "renderedPages": 39,
+  "nativeSemanticTextFields": 805,
+  "cvPillContainmentChecks": 49,
+  "wordAcceptance": "UNVERIFIED",
+  "page05NormalizedMarginReproduction": "byte-identical DOCX with explicit supported CV bottom margin 1 mm",
+  "ciDispatch": false,
+  "merge": false,
+  "deployment": false,
+  "defaultExportSwitch": false
+}

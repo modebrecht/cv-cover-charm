@@ -2,6 +2,7 @@ import {
   CV_PERSON_FIELD_IDS,
   cvLineFieldId,
   referenceContactFields,
+  referenceHasContent,
 } from "@/lib/dossier-semantic-fields";
 import { Fragment, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { cvFlowMeasurer, paginateCvFlow, type CvFlowRow } from "./flow-pagination";
@@ -841,9 +842,7 @@ export function CvCanvas({
   };
 
   const referenceRows = (): Row[] => {
-    const list = data.referenzen.filter(
-      (r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim(),
-    );
+    const list = data.referenzen.filter(referenceHasContent);
     if (!list.length || data.hidden.referenzen) return [];
 
     const referenceCard = (
@@ -874,7 +873,7 @@ export function CvCanvas({
             {r.funktion}
           </div>
         )}
-        {r.kontakt && (
+        {Object.values(referenceContactFields(r)).some((text) => text.trim()) && (
           <div
             data-cv-body
             style={{

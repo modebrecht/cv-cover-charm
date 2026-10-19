@@ -1,5 +1,7 @@
 # Gemeinsame Standards und offene DOCX Abnahme
 
+**Aktueller Arbeitsmodus ab 19. Oktober: gemeinsame Batch-Abnahme.** Der [erste Zehnerbatch](docx-next-word-batch-19okt.md) enthält zehn echte App-Dossiers aus Brief/Modern mit Seitenpresets, Pills, Farben, eigenen Einstellungen, längeren Texten und Fotocrops. 1246 Unit-Tests inklusive 433 DOCX-Tests bestanden; Microsoft Word bleibt offen. Keine Einzelabnahmen pro kosmetischem Fix oder Commit. Die gesperrten Familien und die Native Sidebar bleiben getrennte Blocker.
+
 Arbeitsauftrag am 18. Oktober erweitert und bestätigt: neuer Branch `fix/docx-next-shared-fidelity-18okt`, ab jetzt gemeinsame Lösungen für CV und Anschreiben. Die Liste ist die Grundlage für die weitere Arbeit. Technischer Arbeitsvertrag und Prüfgates: [gemeinsame Design-Fidelity](docx-next-shared-fidelity-18okt.md).
 
 Die vorherige Begrenzung auf Modern folgte dem bisherigen Auftrag: erst eine repräsentative Vorlage in Word beweisen, danach 3–5 unterschiedliche Vorlagen und schliesslich alle 39. Der neue Auftrag erweitert die gemeinsame Standardregel auf CV und Anschreiben. Die Werte dürfen dabei nicht ungeprüft auf verschiedene Textrollen und Seitenzonen übertragen werden.
@@ -45,6 +47,8 @@ Die vorherige Begrenzung auf Modern folgte dem bisherigen Auftrag: erst eine rep
 - Gemeinsamer Stand: 1230 Unit- und 417 DOCX-Tests, 10 Browserfälle, 10 pixelgleiche Web-Erstseiten im Vergleich zu äquivalenten alten Vorgaben, acht tatsächliche Ablehnungen ohne Download, Typecheck/Lint/Build bestanden. Das ist keine Word- oder All-39-Freigabe.
 
 ## Nächste Arbeitsfolge
+
+Die nachstehende historische Reihenfolge wird für die Benutzerabnahme durch den Zehnerbatch ersetzt: Dateien 01-10 gemeinsam visuell ansehen; Bearbeiten/Speichern/Wiederöffnen nur zunächst an 06 und 10, dann eine gemeinsame Rückmeldung. Technische Zwischenentscheidungen und Tests bleiben bei Codex. Eine positive Batch-Rückmeldung ist keine All-39- oder Sidebar-Freigabe.
 
 1. Gemeinsame Default-/Geometrie-Auflösung und erste Fünferkohorte sind geprüft. Den aktuellen Nachweis und seine Grenzen als Ausgangspunkt verwenden.
 2. Gemeinsame Palette ist veröffentlicht; Kandidat 08 ist bytegleich reproduziert. Word-Abnahme und der unvollständig übertragene historische QA-Anhang bleiben explizit offen.
