@@ -256,6 +256,9 @@ export async function createSavedAuthoredCoverDocxNext(
       ...(interiorMetrics ? { interiorTextMetrics: interiorMetrics } : {}),
       coverComposition: "authored-frames",
       coverTextMetrics: metrics,
+      // Contact pairs and personal details share one value column, as in Web.
+      // Separate tables shifted birthdays in the Brief Word export.
+      cvContactComposition: "compact-grid",
       ...(candidate.coverBadgeComposition
         ? { coverBadgeComposition: candidate.coverBadgeComposition }
         : {}),
@@ -265,7 +268,6 @@ export async function createSavedAuthoredCoverDocxNext(
             // visually reviewed Modern path continues rejecting these modes.
             ...(contactHeaderAudit ? {} : { compactChromeComposition: "source-bands" as const }),
             coverBadgePlacement: "body" as const,
-            cvContactComposition: "compact-grid" as const,
           }
         : {}),
     });

@@ -1,5 +1,7 @@
 # Gemeinsame Standards und offene DOCX Abnahme
 
+**Rückmeldung zum Zehnerbatch und Revision 2:** [Befunde und Korrekturen](docx-next-word-feedback-19okt-v2.md). 01/07/08/10 optisch positiv, 02 ohne automatische Aufblähung. Headerabstände 03/04 respektieren den vorhandenen Web-Folgeseitenregler. Unbeauftragte QA-Farb-/Pill-/Fotovarianten korrigiert; Brief-DOCX verwendet die bestehende gemeinsame Kontaktwertspalte. Fünf echte Word-Rückgaben sichern begrenzte Bearbeitungs-/Medien-Evidenz; die Korrekturen bleiben ohne neue Word-Abnahme. 434 gezielte DOCX-Tests bestanden, keine Wiederholung der vollständigen Unit-Suite.
+
 **Aktueller Arbeitsmodus ab 19. Oktober: gemeinsame Batch-Abnahme.** Der [erste Zehnerbatch](docx-next-word-batch-19okt.md) enthält zehn echte App-Dossiers aus Brief/Modern mit Seitenpresets, Pills, Farben, eigenen Einstellungen, längeren Texten und Fotocrops. 1246 Unit-Tests inklusive 433 DOCX-Tests bestanden; Microsoft Word bleibt offen. Keine Einzelabnahmen pro kosmetischem Fix oder Commit. Die gesperrten Familien und die Native Sidebar bleiben getrennte Blocker.
 
 Arbeitsauftrag am 18. Oktober erweitert und bestätigt: neuer Branch `fix/docx-next-shared-fidelity-18okt`, ab jetzt gemeinsame Lösungen für CV und Anschreiben. Die Liste ist die Grundlage für die weitere Arbeit. Technischer Arbeitsvertrag und Prüfgates: [gemeinsame Design-Fidelity](docx-next-shared-fidelity-18okt.md).

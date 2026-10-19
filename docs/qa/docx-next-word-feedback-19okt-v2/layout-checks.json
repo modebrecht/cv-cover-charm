@@ -1,0 +1,154 @@
+{
+  "status": "PASS; revised Microsoft Word rendering still pending",
+  "checks": [
+    {
+      "case": "03",
+      "resolvedBodyTopsMm": {
+        "letter": {
+          "firstMm": 47,
+          "continuationMm": 30
+        },
+        "cv": {
+          "firstMm": 47,
+          "continuationMm": 30
+        }
+      },
+      "samples": {
+        "Web-PDF": {
+          "firstCvTitleInkTopMm": 46.0514,
+          "letterCvHeaderPixelRGB": [
+            [
+              24,
+              53,
+              71
+            ],
+            [
+              24,
+              53,
+              71
+            ]
+          ]
+        },
+        "native-preview": {
+          "firstCvTitleInkTopMm": 47.1781,
+          "letterCvHeaderPixelRGB": [
+            [
+              24,
+              53,
+              71
+            ],
+            [
+              24,
+              53,
+              71
+            ]
+          ]
+        }
+      },
+      "note": "First/continuation settings preserved. Ink bounds differ with native font/line metrics; no pixel identity claimed."
+    },
+    {
+      "case": "04",
+      "resolvedBodyTopsMm": {
+        "letter": {
+          "firstMm": 53,
+          "continuationMm": 36
+        },
+        "cv": {
+          "firstMm": 53,
+          "continuationMm": 36
+        }
+      },
+      "samples": {
+        "Web-PDF": {
+          "firstCvTitleInkTopMm": 52.0516,
+          "letterCvHeaderPixelRGB": [
+            [
+              24,
+              53,
+              71
+            ],
+            [
+              24,
+              53,
+              71
+            ]
+          ]
+        },
+        "native-preview": {
+          "firstCvTitleInkTopMm": 53.1753,
+          "letterCvHeaderPixelRGB": [
+            [
+              24,
+              53,
+              71
+            ],
+            [
+              24,
+              53,
+              71
+            ]
+          ]
+        }
+      },
+      "note": "First/continuation settings preserved. Ink bounds differ with native font/line metrics; no pixel identity claimed."
+    },
+    {
+      "case": "06",
+      "photoCenterMm": [
+        155.0,
+        73.0
+      ],
+      "decorationCenterMm": [
+        155.0,
+        73.0
+      ],
+      "badgeLeftMm": 20
+    },
+    {
+      "case": "08",
+      "contactValueXmm": {
+        "Web-PDF": {
+          "4535 Hubersdorf": 49.0245,
+          "lea.mueller@example.ch": 49.0245,
+          "14.03.2010": 49.0245
+        },
+        "native-preview": {
+          "4535 Hubersdorf": 54.8922,
+          "lea.mueller@example.ch": 54.8922,
+          "14.03.2010": 54.8922
+        }
+      }
+    },
+    {
+      "case": "09",
+      "contactValueXmm": {
+        "Web-PDF": {
+          "4535 Hubersdorf": 49.0245,
+          "lea.mueller@example.ch": 49.0245,
+          "14.03.2010": 49.0245
+        },
+        "native-preview": {
+          "4535 Hubersdorf": 54.8922,
+          "lea.mueller@example.ch": 54.8922,
+          "14.03.2010": 54.8922
+        }
+      }
+    },
+    {
+      "case": "10",
+      "contactValueXmm": {
+        "Web-PDF": {
+          "4535 Hubersdorf": 49.0245,
+          "lea.mueller@example.ch": 49.0245,
+          "14.03.2010": 49.0245
+        },
+        "native-preview": {
+          "4535 Hubersdorf": 54.8922,
+          "lea.mueller@example.ch": 54.8922,
+          "14.03.2010": 54.8922
+        }
+      }
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import { readZipEntries } from "../../src/lib/docx-next/zip";
 import { walkBlocks } from "../../src/lib/docx-next/model";
 import { paintPng } from "../../src/lib/docx-next/artwork";
 import { validateBriefIntegrationModel } from "../../src/lib/brief-docx-next-export";
+import { briefFixture } from "../fixtures/docx-next/brief";
 
 const input = () => structuredClone(snapshot) as unknown as DossierAppSnapshot;
 const opts = () => ({
@@ -25,6 +26,36 @@ const rasterizeDecoration = async () => ({
   heightPx: 1,
   extension: "png" as const,
   contentType: "image/png",
+});
+
+test("Brief contact values and birthday occupy the same editable native table column", async () => {
+  const source = briefFixture();
+  source.settings.cvLayout = "classic";
+  const model = buildDossierDocModel(source, { cvContactComposition: "compact-grid" });
+  validateBriefIntegrationModel(model);
+  const entries = readZipEntries(
+    new Uint8Array(
+      await (
+        await renderDossierDocx(model, {
+          rasterizeDecoration,
+        })
+      ).arrayBuffer(),
+    ),
+  );
+  const xml = new TextDecoder().decode(entries.find((e) => e.name === "word/document.xml")!.bytes);
+  const table = xml
+    .match(/<w:tbl>.*?<\/w:tbl>/g)!
+    .find((t) => t.includes('w:val="cv.person.contact"'))!;
+  const rows = table.match(/<w:tr>.*?<\/w:tr>/g)!;
+  for (const field of ["place", "email", "geburtsdatum"]) {
+    const row = rows.find((r) => r.includes(`w:val="cv.person.${field}"`))!;
+    expect(row).toBeDefined();
+    const cells = row.match(/<w:tc>.*?<\/w:tc>/g)!;
+    expect(cells).toHaveLength(2);
+    expect(cells[1]).toContain(`w:val="cv.person.${field}"`);
+  }
+  expect(xml).not.toContain('w:val="cv.person.details"');
+  expect(xml).not.toContain("w:tblpPr");
 });
 
 test("only the explicit candidate combines contact and personal details into one native grid", () => {

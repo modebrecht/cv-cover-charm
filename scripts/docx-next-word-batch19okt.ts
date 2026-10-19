@@ -34,22 +34,22 @@ const cases = [
   {
     id: "03-Modern-Kontakt-waagrecht",
     template: "modern",
-    purpose: "Kontakt-Header waagrecht, eigene deckende Kopf-/Fussfarben",
+    purpose: "Kontakt-Header waagrecht, synchronisierte Farben; erster/Folgerand 47/30 mm",
   },
   {
     id: "04-Modern-Kontakt-senkrecht",
     template: "modern",
-    purpose: "Kontakt-Header senkrecht, verschiedene Letter-/CV-Farben",
+    purpose: "Kontakt-Header senkrecht, synchronisierte Farben; erster/Folgerand 53/36 mm",
   },
   {
     id: "05-Modern-Eigene-Werte-Referenzen",
     template: "modern",
-    purpose: "Eigene Ränder, 18-px-Rubriken, Einzug, E-Mail-/Zusatz-Referenzen",
+    purpose: "Eigene Ränder, 18-px-Rubriken; zweite Referenz mit Name/E-Mail ohne Telefon",
   },
   {
-    id: "06-Modern-Foto-Pille-rechts",
+    id: "06-Modern-Foto-Standard",
     template: "modern",
-    purpose: "Rundes Foto mit Crop-Testkarte, rechtsbündige bearbeitbare Datum-Pille",
+    purpose: "Standard-Pille links; zentriertes Kreisfoto mit Zoom und Bildausschnitt",
   },
   {
     id: "07-Modern-Lang-115-Prozent",
@@ -160,9 +160,8 @@ try {
       x.fillText("UNTEN", 76, 320);
       return c.toDataURL("image/png");
     });
-    const kind = item.id.startsWith("06")
-      ? "badge-right"
-      : item.id.startsWith("07") || item.id.startsWith("09")
+    const kind =
+      item.id.startsWith("07") || item.id.startsWith("09")
         ? "long"
         : item.id.startsWith("10")
           ? "photo-portrait"
@@ -181,7 +180,7 @@ try {
     if (item.id.startsWith("06")) {
       project.cover!.data.foto = photo;
       project.cover!.layout!.modern!.foto = {
-        w: 44,
+        w: 52,
         ratio: 1,
         radius: 999,
         imgZoom: 1.3,
@@ -207,15 +206,6 @@ try {
         borderEnabled: true,
         borderColor: "#e8bf75",
       });
-      if (item.id.startsWith("04")) {
-        project.chrome.sync = false;
-        project.chrome.letter = { ...project.chrome.shared };
-        project.chrome.cv = {
-          ...project.chrome.shared,
-          headerBackgroundColor: "#413054",
-          footerBackgroundColor: "#765a64",
-        };
-      }
     }
     if (item.id.startsWith("05")) {
       project.pageMargins = {
@@ -228,24 +218,14 @@ try {
         sectionContentIndentMm: 6,
         sectionTitleMarginBottomPx: 9,
       });
-      project.cv!.data.referenzen.push(
-        {
-          id: "batch-email",
-          name: "",
-          funktion: "",
-          kontakt: "",
-          email: "referenz@example.ch",
-          zusatz: "",
-        },
-        {
-          id: "batch-extra",
-          name: "",
-          funktion: "",
-          kontakt: "",
-          email: "",
-          zusatz: "Weitere Kontakte auf Anfrage",
-        },
-      );
+      project.cv!.data.referenzen.push({
+        id: "batch-email",
+        name: "Frau Anna Keller",
+        funktion: "Berufsberatung",
+        kontakt: "",
+        email: "referenz@example.ch",
+        zusatz: "",
+      });
     }
     await writeFile(path.join(folder, "project.json"), JSON.stringify(project, null, 2));
     await Promise.all([
@@ -320,7 +300,7 @@ try {
       if (item.id.startsWith("05") && label === "CV") {
         const text = await root.innerText();
         assert(
-          text.includes("referenz@example.ch") && text.includes("Weitere Kontakte auf Anfrage"),
+          text.includes("referenz@example.ch") && text.includes("Frau Anna Keller"),
           "Partial references missing in visible CV",
         );
       }
