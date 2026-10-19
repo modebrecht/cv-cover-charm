@@ -39,7 +39,8 @@ const cases = [
   {
     id: "04-Modern-Kontakt-senkrecht",
     template: "modern",
-    purpose: "Kontakt-Header senkrecht, synchronisierte Farben; erster/Folgerand 53/36 mm",
+    purpose:
+      "Kontakt-Header senkrecht; Referenzen auf Seite 2, Folgerand 40 mm (8 mm unter Header)",
   },
   {
     id: "05-Modern-Eigene-Werte-Referenzen",
@@ -206,6 +207,16 @@ try {
         borderEnabled: true,
         borderColor: "#e8bf75",
       });
+      if (item.id.startsWith("04")) {
+        project.cv!.portableState = {
+          ...project.cv!.portableState,
+          continuationTopMarginMm: 40,
+        };
+        project.cv!.data.sectionLayouts = {
+          ...project.cv!.data.sectionLayouts,
+          referenzen: { ...project.cv!.data.sectionLayouts?.referenzen, page: 2 },
+        };
+      }
     }
     if (item.id.startsWith("05")) {
       project.pageMargins = {
@@ -306,6 +317,7 @@ try {
       }
     }
     if ("mode" in item) assert.equal(webCvPages, item.mode === "one" ? 1 : 2);
+    if (item.id.startsWith("04")) assert.equal(webCvPages, 2);
     await page.goto(base + "/" + query, { waitUntil: "networkidle" });
     console.log(`${item.id}: restored and Web references captured`);
     const savedBeforeExport = await storage();
@@ -328,6 +340,7 @@ try {
         model: result.model,
         metrics: result.metrics,
         interiorMetrics: result.interiorMetrics,
+        cvPersonalHeaderMetrics: result.cvPersonalHeaderMetrics,
         bytes: Array.from(new Uint8Array(await result.blob.arrayBuffer())),
         restoredProject: createDossierProject({
           cover: readStoredDossierPart(COVER_STORAGE_KEY),

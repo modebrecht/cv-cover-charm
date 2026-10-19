@@ -248,7 +248,13 @@ export async function createSavedAuthoredCoverDocxNext(
         : undefined;
     unchanged();
     fonts.verify();
+    const cvPersonalHeaderMetrics = await (
+      await import("./docx-next-cv-personal-metrics.browser")
+    ).captureCvPersonalHeaderMetrics(snapshot, fonts.profile);
+    unchanged();
+    fonts.verify();
     const model = buildDossierDocModel(snapshot, {
+      ...(cvPersonalHeaderMetrics ? { cvPersonalHeaderMetrics } : {}),
       ...(candidate.cvContentComposition
         ? { cvContentComposition: candidate.cvContentComposition }
         : {}),
@@ -282,7 +288,7 @@ export async function createSavedAuthoredCoverDocxNext(
     });
     unchanged();
     fonts.verify();
-    return { blob, snapshot, metrics, model, interiorMetrics };
+    return { blob, snapshot, metrics, model, interiorMetrics, cvPersonalHeaderMetrics };
   } finally {
     fonts.dispose();
   }

@@ -17,6 +17,12 @@ for item in json.loads((app / "results.json").read_text()):
     proof = json.loads((folder / "proof.json").read_text())
     native = fitz.open(renders / number / (item["id"] + ".pdf"))
     web = fitz.open(folder / "Web-PDF.pdf")
+    personal = proof.get("cvPersonalHeaderMetrics")
+    if personal and proof["snapshot"]["cv"]["data"]["person"]["geburtsdatum"]:
+        label = native[2].search_for("Geburtsdatum:")
+        assert len(label) == 1, (number, "personal label wrapped", label)
+        checks.append({"case": number, "personalLabelSingleLine": True,
+                       "physicalValueColumnMm": personal["valueOffsetMm"]})
     if number in ("08", "09", "10"):
         columns = {}
         for label, doc in (("Web-PDF", web), ("native-preview", native)):
@@ -28,9 +34,14 @@ for item in json.loads((app / "results.json").read_text()):
         checks.append({"case": number, "contactValueXmm": columns})
     if number in ("03", "04"):
         tops = proof["snapshot"]["settings"]["flowPageTops"]
-        assert tops["cv"] == tops["letter"]
-        expected = {"firstMm": 47, "continuationMm": 30} if number == "03" else {"firstMm": 53, "continuationMm": 36}
+        expected = {"firstMm": 47, "continuationMm": 30} if number == "03" else {"firstMm": 53, "continuationMm": 40}
         assert tops["cv"] == expected
+        if number == "04":
+            assert proof["restoredProject"]["cv"]["portableState"]["continuationTopMarginMm"] == 40
+            assert len(web) == len(native) == 4
+            for doc in (web, native):
+                title = doc[3].search_for("REFERENZEN")[0]
+                assert 38 <= title.y0 * 25.4 / 72 <= 42
         samples = {}
         for label, doc in (("Web-PDF", web), ("native-preview", native)):
             colors = []

@@ -36,3 +36,14 @@ export type InteriorTextMetrics = {
   >;
 };
 export const interiorMetricsKey = (source: DossierAppSnapshot) => JSON.stringify(source);
+
+/** Fresh measurements of the existing classic personal header, never saved data. */
+export type CvPersonalHeaderMetrics = {
+  version: 1;
+  sourceKey: string;
+  profile: string;
+  valueOffsetMm: number;
+  personalGapMm: number;
+  contactTopGapMm: number;
+  paragraphs: Record<string, { style: TextStyle; lineHeightPt: number; afterMm: number }>;
+};

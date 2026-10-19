@@ -11,6 +11,8 @@ import { walkBlocks } from "../../src/lib/docx-next/model";
 import { paintPng } from "../../src/lib/docx-next/artwork";
 import { validateBriefIntegrationModel } from "../../src/lib/brief-docx-next-export";
 import { briefFixture } from "../fixtures/docx-next/brief";
+import type { CvPersonalHeaderMetrics } from "../../src/lib/docx-next/interior-metrics";
+import { captureCvPersonalHeaderMetrics } from "../../src/lib/docx-next-cv-personal-metrics.browser";
 
 const input = () => structuredClone(snapshot) as unknown as DossierAppSnapshot;
 const opts = () => ({
@@ -26,6 +28,107 @@ const rasterizeDecoration = async () => ({
   heightPx: 1,
   extension: "png" as const,
   contentType: "image/png",
+});
+
+const measuredContact = (source: DossierAppSnapshot): CvPersonalHeaderMetrics => ({
+  version: 1,
+  sourceKey: JSON.stringify(source),
+  profile: "brief-sans-v1; test-packet",
+  valueOffsetMm: 29.5,
+  personalGapMm: 1.35,
+  contactTopGapMm: 2.5,
+  paragraphs: Object.fromEntries(
+    ["address", "place", "phone", "email", "geburtsdatum", "geburtsdatum.label"].map((key) => [
+      `cv.person.${key}`,
+      {
+        style: {
+          font: "Arial",
+          sizePt: 11,
+          color: "111111",
+          bold: false,
+          italic: false,
+          underline: false,
+        },
+        lineHeightPt: 15,
+        afterMm: 0,
+      },
+    ]),
+  ),
+});
+
+test("personal-header measurement never mounts the frozen Sidebar or unsupported authored header compositions", async () => {
+  for (const kind of ["sidebar", "moved", "photo", "elements"] as const) {
+    const source = briefFixture();
+    source.cv.design.font = "sans";
+    if (kind === "sidebar") source.settings.cvLayout = "sidebar";
+    if (kind === "moved") source.cv.data.sectionLayouts.person = { page: 2 };
+    if (kind === "photo") source.cv.data.person.foto = "pixels";
+    if (kind === "elements") source.cv.design.useElements = true;
+    // No browser globals exist in this unit process; touching the DOM would fail.
+    expect(
+      await captureCvPersonalHeaderMetrics(source, "brief-sans-v1; test-packet"),
+    ).toBeUndefined();
+  }
+});
+
+test("fresh Web contact geometry removes the invented rubric and extra row gaps without changing adjacent documents", () => {
+  const source = briefFixture();
+  const before = JSON.stringify(source);
+  const ordinary = buildDossierDocModel(source, { cvContactComposition: "compact-grid" });
+  const model = buildDossierDocModel(source, {
+    cvContactComposition: "compact-grid",
+    cvPersonalHeaderMetrics: measuredContact(source),
+  });
+  expect(JSON.stringify(source)).toBe(before);
+  expect(model.cover).toEqual(ordinary.cover);
+  expect(model.letter).toEqual(ordinary.letter);
+  const table = contact(model);
+  if (table.kind !== "table") throw Error("missing native contact table");
+  expect(table.columnWidthsMm).toEqual([29.5, null]);
+  expect(table.decoration?.paddingXMm).toBe(0);
+  const blocks = walkBlocks(model.cv.blocks);
+  expect(blocks.some((b) => b.id === "cv.section.person.heading")).toBe(false);
+  const phone = blocks.find((b) => b.id === "cv.person.phone");
+  const birthday = blocks.find((b) => b.id === "cv.person.geburtsdatum");
+  if (phone?.kind !== "paragraph" || birthday?.kind !== "paragraph")
+    throw Error("missing contact text");
+  expect(phone.afterMm).toBe(0);
+  expect(birthday.beforeMm).toBe(1.35);
+  expect(birthday.minimumLineHeightPt).toBe(15);
+  expect(birthday.runs[0].style.sizePt).toBe(11);
+  expect(blocks.find((b) => b.id === "cv.person.name")).toMatchObject({ afterMm: 2.5 });
+  expect(
+    ordinary.cv.blocks.filter(
+      (b) => !["cv.person.name", "cv.person.subtitle", "cv.section.person"].includes(b.id),
+    ),
+  ).toEqual(
+    model.cv.blocks.filter(
+      (b) => !["cv.person.name", "cv.person.subtitle", "cv.section.person"].includes(b.id),
+    ),
+  );
+});
+
+test("contact measurements cannot be reused after source edits or bypass supported font/layout guards", () => {
+  const source = briefFixture();
+  const measurement = measuredContact(source);
+  source.cv.data.person.adresse += " changed";
+  expect(() =>
+    buildDossierDocModel(source, {
+      cvContactComposition: "compact-grid",
+      cvPersonalHeaderMetrics: measurement,
+    }),
+  ).toThrow("veraltet");
+  const valid = measuredContact(source);
+  expect(() => buildDossierDocModel(source, { cvPersonalHeaderMetrics: valid })).toThrow(
+    "Messwerte",
+  );
+  for (const patch of [{ valueOffsetMm: NaN }, { valueOffsetMm: -1 }, { profile: "unverified" }])
+    expect(() =>
+      buildDossierDocModel(source, {
+        cvContactComposition: "compact-grid",
+        cvPersonalHeaderMetrics: { ...valid, ...patch },
+      }),
+    ).toThrow("Messwerte");
 });
 
 test("Brief contact values and birthday occupy the same editable native table column", async () => {

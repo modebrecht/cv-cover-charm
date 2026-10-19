@@ -42,7 +42,7 @@ import { composeSourceCompactBands } from "./compact-chrome";
 import { composeMeasuredHeaders } from "./interior-composition";
 import { ownFlowSurfaceSpacing } from "./flow-surface-spacing";
 import { composeCvReadingColumns } from "./cv-reading-columns";
-import type { InteriorTextMetrics } from "./interior-metrics";
+import type { InteriorTextMetrics, CvPersonalHeaderMetrics } from "./interior-metrics";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin, applyFlowPageTops } from "./continuation-margin";
@@ -82,6 +82,7 @@ export type BuildModelOptions = {
   cvRubricSpacing?: "previous-block";
   /** Separate measured header candidate, captured at the app boundary. */
   interiorTextMetrics?: InteriorTextMetrics;
+  cvPersonalHeaderMetrics?: CvPersonalHeaderMetrics;
   /** Explicit candidate only: source-sized empty compact chrome, declared per template. */
   compactChromeComposition?: "source-bands";
   /** Guarded fixed-page candidate; not a production export switch. */
@@ -107,6 +108,33 @@ export function buildDossierDocModel(
 ): DossierDocModel {
   const { cover, letter, cv, settings } = input;
   const capturedInteriorMetrics = options.interiorTextMetrics;
+  const personalMetrics = options.cvPersonalHeaderMetrics;
+  if (
+    personalMetrics &&
+    (personalMetrics.version !== 1 ||
+      personalMetrics.sourceKey !== JSON.stringify(input) ||
+      !personalMetrics.profile.startsWith("brief-sans-v1;") ||
+      options.cvContactComposition !== "compact-grid" ||
+      ![
+        personalMetrics.valueOffsetMm,
+        personalMetrics.personalGapMm,
+        personalMetrics.contactTopGapMm,
+      ].every((v) => Number.isFinite(v) && v >= 0 && v < 170) ||
+      personalMetrics.valueOffsetMm <= 0 ||
+      Object.entries(personalMetrics.paragraphs).some(
+        ([id, v]) =>
+          !id.startsWith("cv.person.") ||
+          ["cv.person.name", "cv.person.subtitle"].includes(id) ||
+          !Number.isFinite(v.lineHeightPt) ||
+          v.lineHeightPt <= 0 ||
+          !Number.isFinite(v.style.sizePt) ||
+          v.style.sizePt < 5 ||
+          v.style.sizePt > 72 ||
+          !Number.isFinite(v.afterMm) ||
+          v.afterMm < 0,
+      ))
+  )
+    throw Error("DOCX Next: Persönliche Header-Messwerte fehlen oder sind veraltet.");
   if (
     capturedInteriorMetrics &&
     (capturedInteriorMetrics.version !== 1 ||
@@ -235,6 +263,7 @@ export function buildDossierDocModel(
       italic: false,
       underline: false,
       ...patch,
+      ...personalMetrics?.paragraphs[id]?.style,
       ...settings.fieldStyles?.[id],
     };
     return {
@@ -263,6 +292,21 @@ export function buildDossierDocModel(
     keepNext: false,
     keepLines: false,
     ...layout,
+    ...(personalMetrics?.paragraphs[id]
+      ? {
+          minimumLineHeightPt: personalMetrics.paragraphs[id].lineHeightPt,
+          lineHeight:
+            personalMetrics.paragraphs[id].lineHeightPt /
+            personalMetrics.paragraphs[id].style.sizePt,
+          afterMm: personalMetrics.paragraphs[id].afterMm,
+        }
+      : {}),
+    ...(personalMetrics &&
+    ((id === "cv.person.name" && !input.cv.data.person.untertitel) || id === "cv.person.subtitle")
+      ? {
+          afterMm: personalMetrics.contactTopGapMm,
+        }
+      : {}),
   });
   const compound = (
     paragraph: Paragraph,
@@ -821,15 +865,18 @@ export function buildDossierDocModel(
             cells: cells.map((cell) =>
               cell.map((paragraph) => ({
                 ...paragraph,
-                beforeMm: index === contactPairs.length && contactPairs.length ? 1.35 : 0,
-                afterMm: 0.6,
+                beforeMm:
+                  index === contactPairs.length && contactPairs.length
+                    ? (personalMetrics?.personalGapMm ?? 1.35)
+                    : 0,
+                afterMm: personalMetrics ? 0 : 0.6,
               })),
             ),
             keepTogether: false,
           }));
-          // Reuse the canonical conservative text reservation, not a template
-          // percentage or example-specific width. Word rows stay automatic and
-          // wrap when actual target-font advances exceed this estimate.
+          // Fresh Web column geometry takes precedence when available. The
+          // independent native composition retains its conservative fallback.
+          // Rows always grow with text; no measured fixed row heights.
           const padding = 1.25;
           const columns = [0, 1].map((column) =>
             Math.max(
@@ -845,6 +892,8 @@ export function buildDossierDocModel(
             cvPart.page.margins.right -
             cvFlow.indentMm -
             rubric.contentIndentMm;
+          if (personalMetrics && personalMetrics.valueOffsetMm >= contentWidth)
+            throw Error("DOCX Next: Die gemessene Kontaktspalte überschreitet den Textbereich.");
           blocks = rows.length
             ? [
                 {
@@ -852,11 +901,17 @@ export function buildDossierDocModel(
                   id: "cv.person.contact",
                   widths: columns,
                   widthMm: Math.min(contentWidth, columns[0] + columns[1]),
+                  ...(personalMetrics
+                    ? {
+                        widthMm: contentWidth,
+                        columnWidthsMm: [personalMetrics.valueOffsetMm, null],
+                      }
+                    : {}),
                   rows,
                   decoration: {
                     borderColor: cvAccent,
                     borderWidthMm: 0,
-                    paddingXMm: 1.25,
+                    paddingXMm: personalMetrics ? 0 : 1.25,
                     paddingYMm: 0,
                   },
                 },
@@ -1074,7 +1129,7 @@ export function buildDossierDocModel(
     cvPart.blocks.push({
       kind: "section",
       id: `cv.section.${key}`,
-      ...(readingRows && key === "person" ? {} : { heading: sectionHeading }),
+      ...((readingRows || personalMetrics) && key === "person" ? {} : { heading: sectionHeading }),
       blocks,
       placement: placements?.[key === "person" ? "kontakt" : key] ?? "main",
       width: layout.width,
