@@ -1,0 +1,25 @@
+{
+  "base": "3f845b75082a47aa57672d5c814fceae238364ce",
+  "unitTests": 1254,
+  "unitFailures": 0,
+  "unitFiles": 259,
+  "assertions": 25594,
+  "typecheck": "PASS",
+  "lint": "PASS; 0 errors, 21 existing warnings",
+  "format": "PASS",
+  "build": "PASS",
+  "actualAppDownloads": 8,
+  "exactModelRebuilds": 8,
+  "supplementalRenderedPages": 31,
+  "uniquePageRastersReviewed": 22,
+  "nativeFieldContentsChecked": 649,
+  "Word": "UNVERIFIED",
+  "knownNativeExtraCvPageWithoutPreset": [
+    "05",
+    "08",
+    "09",
+    "10"
+  ],
+  "sidebar": "frozen",
+  "deployment": "none"
+}

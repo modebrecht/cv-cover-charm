@@ -73,6 +73,18 @@ const cases = [
     template: "brief",
     purpose: "Hochformat-Foto, Zoom und Bildposition, Originalbild erhalten",
   },
+  {
+    id: "11-Brief-Eine-CV-Seite",
+    template: "brief",
+    mode: "one",
+    purpose: "Brief mit echter Einseitenaktion, schmalen Datums-/Sprachspalten und Referenzen",
+  },
+  {
+    id: "12-Brief-Zwei-CV-Seiten",
+    template: "brief",
+    mode: "two",
+    purpose: "Brief mit echter Zweiseitenaktion, Rubriken und unveränderten Benutzerwerten",
+  },
 ] as const;
 await mkdir(out, { recursive: true });
 const server = process.env.DOCX_NEXT_APP_URL

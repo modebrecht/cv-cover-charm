@@ -100,7 +100,9 @@ export function validateBriefIntegrationModel(
 
 /** Fresh, uncached capture at the application export boundary. No caller-supplied packet. */
 export async function createSavedBriefDocxNext() {
-  return createSavedAuthoredCoverDocxNext("brief", briefDocxNextUiEnabled());
+  return createSavedAuthoredCoverDocxNext("brief", briefDocxNextUiEnabled(), {
+    cvContentComposition: "reading-rows",
+  });
 }
 
 export async function createSavedAuthoredCoverDocxNext(
