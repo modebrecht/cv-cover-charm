@@ -1,5 +1,4 @@
 import { useCallback, useSyncExternalStore } from "react";
-import { cvReadingDefaults } from "./reading-defaults";
 import { ContinuationTopMarginControl } from "@/components/dossier/ContinuationTopMarginControl";
 import { DossierPageMarginsControl } from "@/components/dossier/DossierPageMarginsControl";
 import { patchDossierChrome, type DossierChromeOptions } from "@/lib/dossier-chrome";
@@ -7,16 +6,21 @@ import {
   cvDefaultPageMargins,
   cvFrameFor,
   cvSafePageMarginMinimums,
-  cvContinuationContentTopMm,
+  cvContentBox,
 } from "./archetype";
 import {
-  getCvContinuationTopMarginMm,
+  getCvContinuationTopMarginOverrideMm,
   getCvLayoutChoiceForTemplate,
   defaultCvLayoutForTemplate,
   setCvContinuationTopMarginMm,
   subscribeCvContinuationTopMargin,
   subscribeCvLayout,
 } from "./layout";
+import {
+  getDossierPageMargins,
+  getDossierPageMarginsSnapshot,
+  subscribeDossierPageMargins,
+} from "@/lib/dossier-page-margins";
 import type { CvDesign } from "./types";
 
 /**
@@ -39,16 +43,14 @@ export function CvPageMarginsControl({
     defaultCvLayoutForTemplate(design.template),
   );
   const layout = choice === "modern" || choice === "executive" ? "modern" : "classic";
-  const continuationDefault = cvReadingDefaults(design.template, choice).continuationTopMm;
-  const getContinuation = useCallback(
-    () => getCvContinuationTopMarginMm(design.template, choice),
-    [design.template, choice],
-  );
+  const getContinuation = getCvContinuationTopMarginOverrideMm;
   const continuationTopMargin = useSyncExternalStore(
     subscribeCvContinuationTopMargin,
     getContinuation,
-    () => continuationDefault,
+    () => null,
   );
+  useSyncExternalStore(subscribeDossierPageMargins, getDossierPageMarginsSnapshot, () => "{}");
+  const pageMargins = getDossierPageMargins("cv");
   const frame = cvFrameFor(design.template);
   const defaultMargins = cvDefaultPageMargins(frame, 0, layout, design.sidebarPct, chromeOptions);
   const minimumMargins = cvSafePageMarginMinimums(
@@ -58,6 +60,14 @@ export function CvPageMarginsControl({
     design.sidebarPct,
     chromeOptions,
   );
+  const continuationDefault = cvContentBox(frame, 1, layout, design.sidebarPct, chromeOptions, {
+    pageMargins,
+    continuationTopMarginMm: null,
+  }).top;
+  const effectiveTop = cvContentBox(frame, 1, layout, design.sidebarPct, chromeOptions, {
+    pageMargins,
+    continuationTopMarginMm: continuationTopMargin,
+  }).top;
   const accentColor = design.colors.accent ?? design.colors.primary ?? design.colors.ink;
   const headerGap = Math.min(40, Math.max(0, chromeOptions.headerGapMm ?? 12));
 
@@ -72,15 +82,10 @@ export function CvPageMarginsControl({
           <>
             <ContinuationTopMarginControl
               scope="cv"
-              value={continuationTopMargin}
+              value={continuationTopMargin ?? continuationDefault}
+              automatic={continuationTopMargin === null}
               defaultValue={continuationDefault}
-              effectiveTopMm={cvContinuationContentTopMm(
-                frame,
-                continuationTopMargin,
-                chromeOptions,
-                1,
-                layout === "modern",
-              )}
+              effectiveTopMm={effectiveTop}
               onChange={setCvContinuationTopMarginMm}
               onReset={() => setCvContinuationTopMarginMm(null)}
             />
@@ -104,8 +109,8 @@ export function CvPageMarginsControl({
                 aria-label="Zusätzlicher Abstand nach Header"
               />
               <span className="text-[11px] leading-relaxed text-muted-foreground">
-                Wird im Lebenslauf auf Seite 1 zusätzlich zum oberen Seitenrand gerechnet. Ab Seite
-                2 gilt der separate Regler oben.
+                Gilt auf allen Seiten zusätzlich zum oberen Seitenrand. Ein eigener Folgeseitenrand
+                hat ab Seite 2 Vorrang.
               </span>
               {headerGap !== 12 ? (
                 <button

@@ -15,7 +15,6 @@ import { dossierContactFromCv } from "./dossier-contact-data";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
 import { cvContentBox, cvFrameFor } from "@/components/cv/archetype";
 import { letterPageGeometry } from "@/components/letter/layout-system";
-import { DOSSIER_CONTINUATION_TOP_MM } from "@/lib/dossier-reading-settings";
 import { briefFontTextSupported } from "./docx-next/brief-fonts.browser";
 
 const mm = (px: number) => (px * 25.4) / 96;
@@ -146,8 +145,7 @@ export async function captureInteriorTextMetrics(
                   options,
                   {
                     pageMargins: source.settings.margins?.cv ?? null,
-                    continuationTopMarginMm:
-                      source.settings.cvContinuationTopMarginMm ?? DOSSIER_CONTINUATION_TOP_MM,
+                    continuationTopMarginMm: source.settings.cvContinuationTopMarginMm ?? null,
                   },
                 ).top
               : letterPageGeometry(source.letter.data, source.letter.design, {

@@ -23,8 +23,7 @@ import {
 import { freshLetterSpec } from "./fresh-letter-system";
 import { letterPaginationPageContext } from "./letter-page-context";
 import {
-  DOSSIER_CONTINUATION_TOP_MM,
-  DOSSIER_DEFAULT_CONTENT_TOP_MM,
+  dossierDefaultContentTopMm,
   dossierContinuationContentTopMm,
 } from "@/lib/dossier-reading-settings";
 import {
@@ -267,22 +266,11 @@ function letterContentTopMm(
   mode: LetterHeaderMode,
   context: LetterPageContext,
 ): number {
-  if (mode === "none") return pageIndex > 0 ? 16 : 18;
-
-  // Warm's first page deliberately owns a 52 mm masthead. Reserve the actual
-  // masthead instead of a generic compact-header value.
-  if (isWarmFirstPageCompactHeader(design.template, mode, pageIndex)) {
-    return WARM_FIRST_PAGE_HEADER_HEIGHT_MM;
-  }
-
-  const height = letterHeaderVisualHeightMm(design, pageIndex, mode, context);
-  const differentFirstPage = context.chromeOptions
-    ? context.chromeOptions.headerDifferentFirstPage !== false
-    : design.headerDifferentFirstPage !== false;
-  if (pageIndex > 0 && differentFirstPage) {
-    return mode === "contact" ? Math.max(18, height + 10) : Math.max(18, height + 15);
-  }
-  return mode === "contact" ? Math.max(18, height + 9) : Math.max(18, height + 18);
+  return dossierDefaultContentTopMm(
+    letterHeaderReserveMm(design, pageIndex, mode, context),
+    letterHeaderGapMm(mode, { ...context, headerGapMm: context.headerGapMm ?? 12 }),
+    letterContentMarginMinimums(design).top,
+  );
 }
 
 function letterPageReservesMm(
@@ -378,11 +366,7 @@ export function letterDefaultPageMargins(
   const contentMargins: DossierPageMargins = {
     left: insets.left,
     right: insets.right,
-    top: Math.max(
-      DOSSIER_DEFAULT_CONTENT_TOP_MM,
-      letterContentTopMm(design, pageIndex, headerMode, context) +
-        letterHeaderGapMm(headerMode, context),
-    ),
+    top: letterContentTopMm(design, pageIndex, headerMode, context),
     bottom: CV_PAGE_MARGIN_BOTTOM_MM + footerHeight,
   };
   const minimums = letterSafePageMarginMinimums(data, design, context);
@@ -416,8 +400,7 @@ export function letterPageGeometry(
   const defaultInsets = fresh
     ? { left: fresh.left, right: fresh.right }
     : CONTENT_INSETS[archetype];
-  const headerGapMm = letterHeaderGapMm(headerMode, context);
-  const defaultTop = letterContentTopMm(design, pageIndex, headerMode, context) + headerGapMm;
+  const defaultTop = letterContentTopMm(design, pageIndex, headerMode, context);
   const defaultBottom = CV_PAGE_MARGIN_BOTTOM_MM + footerHeight;
   const storedCustomMargins =
     "pageMargins" in context ? context.pageMargins : getDossierPageMargins("letter");
@@ -431,16 +414,14 @@ export function letterPageGeometry(
   const insets = customContentMargins
     ? { left: customContentMargins.left, right: customContentMargins.right }
     : defaultInsets;
-  const continuationTop = design.continuationTopMarginMm ?? DOSSIER_CONTINUATION_TOP_MM;
-  const top = firstPage
-    ? (customContentMargins?.top ?? Math.max(defaultTop, DOSSIER_DEFAULT_CONTENT_TOP_MM))
-    : design.continuationTopMarginMm === undefined && customContentMargins
-      ? customContentMargins.top
-      : dossierContinuationContentTopMm(
-          continuationTop,
+  const top =
+    !firstPage && typeof design.continuationTopMarginMm === "number"
+      ? dossierContinuationContentTopMm(
+          design.continuationTopMarginMm,
           letterHeaderVisualHeightMm(design, pageIndex, headerMode, context),
           letterContentMarginMinimums(design).top,
-        );
+        )
+      : (customContentMargins?.top ?? defaultTop);
   const bottom = customContentMargins?.bottom ?? defaultBottom;
   const width = LETTER_PAGE_MM.width - insets.left - insets.right;
   const height = LETTER_PAGE_MM.height - top - bottom;

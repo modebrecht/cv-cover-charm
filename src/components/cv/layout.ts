@@ -114,7 +114,7 @@ export const CV_SECTION_GAP_CUSTOM_DEFAULT_MM = 4;
  * protected separately by the renderer.
  */
 export const CV_CONTINUATION_TOP_MARGIN_MIN_MM = 0;
-export const CV_CONTINUATION_TOP_MARGIN_MAX_MM = 40;
+export const CV_CONTINUATION_TOP_MARGIN_MAX_MM = 120;
 export const CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM = DOSSIER_CONTINUATION_TOP_MM;
 
 function valid(value: string | null): value is CvLayoutId {
@@ -207,6 +207,21 @@ function readSectionGap(): number | null {
     const raw = window.localStorage.getItem(SECTION_GAP_STORAGE_KEY);
     if (raw === null || raw.trim() === "") return null;
     return normalizeCvSectionGapMm(raw);
+  } catch {
+    return null;
+  }
+}
+
+/** Null is automatic. Never persist a resolved default as an authored override. */
+export function getCvContinuationTopMarginOverrideMm(): number | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return (
+      normalizeDossierContinuationTopMm(
+        window.localStorage.getItem(CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY) ??
+          window.localStorage.getItem(CV_CONTINUATION_GAP_STORAGE_KEY),
+      ) ?? null
+    );
   } catch {
     return null;
   }

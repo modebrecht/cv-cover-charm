@@ -76,8 +76,8 @@ describe("header/footer semantic precedence", () => {
         headerDifferentFirstPage ? 8 : 32,
       );
       if (!headerDifferentFirstPage) {
-        expect(first.content.top).toBe(41);
-        expect(next.content.top).toBe(36);
+        expect(first.content.top).toBe(52);
+        expect(next.content.top).toBe(52);
       } else expect(next.content.top).toBeLessThan(first.content.top);
     }
   });

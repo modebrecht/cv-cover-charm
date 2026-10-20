@@ -13,7 +13,7 @@ import {
 import { DEFAULT_DOSSIER_PHOTO_STYLE, type DossierPhotoStyle } from "@/lib/dossier-photo";
 import {
   defaultCvLayoutForTemplate,
-  getCvContinuationTopMarginMm,
+  getCvContinuationTopMarginOverrideMm,
   getCvInfoPosition,
   getCvLayoutChoiceForTemplate,
   getCvSectionGapMm,
@@ -31,7 +31,6 @@ import {
 import { getCvPlacements, subscribeCvPlacements } from "./placement";
 import { getCvTextAlignment, subscribeCvTextAlignment } from "./text-alignment";
 import { DEFAULT_CV_PLACEMENTS, type CvPlacements } from "./types";
-import { cvReadingDefaults } from "./reading-defaults";
 
 /** Complete presentation snapshot shared by measurement, preview and export. */
 export type CvPresentation = {
@@ -42,7 +41,7 @@ export type CvPresentation = {
   placements: CvPlacements;
   sectionGapMm: number | null;
   documentTitleMarginTopPx: number;
-  continuationTopMarginMm: number;
+  continuationTopMarginMm: number | null;
   pageMargins: DossierPageMargins | null;
   bodyAlignment: ReturnType<typeof getCvTextAlignment>;
 };
@@ -62,15 +61,11 @@ export function useCvPresentation(
     () => "standard" as const,
   );
   const sectionGapMm = useSyncExternalStore(subscribeCvLayout, getCvSectionGapMm, () => null);
-  const effectiveLayout = overrides?.layoutChoice ?? layoutChoice;
-  const getContinuation = useCallback(
-    () => getCvContinuationTopMarginMm(template, effectiveLayout),
-    [template, effectiveLayout],
-  );
+  const getContinuation = getCvContinuationTopMarginOverrideMm;
   const continuationTopMarginMm = useSyncExternalStore(
     subscribeCvLayout,
     getContinuation,
-    () => cvReadingDefaults(template, effectiveLayout).continuationTopMm,
+    () => null,
   );
   const photoStyle = useSyncExternalStore(
     subscribeCvPhotoStyle,

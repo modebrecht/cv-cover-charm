@@ -40,7 +40,10 @@ export function applyContinuationMargin(
 ): ModelIssue[] {
   const issues: ModelIssue[] = [];
   if (requested !== undefined || minimumFirstTopMm !== undefined) {
-    if (requested !== undefined && (!Number.isFinite(requested) || requested < 0 || requested > 40))
+    if (
+      requested !== undefined &&
+      (!Number.isFinite(requested) || requested < 0 || requested > 120)
+    )
       throw new Error("DOCX Next invalid CV continuation top margin");
     // An empty header still owns a boundary paragraph. Place it at the page
     // edge so its distance cannot impose an unrelated minimum body margin.

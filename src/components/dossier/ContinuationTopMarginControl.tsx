@@ -11,6 +11,7 @@ export function ContinuationTopMarginControl({
   onChange,
   onReset,
   effectiveTopMm,
+  automatic = false,
 }: {
   scope: "cv" | "letter";
   value: number;
@@ -18,6 +19,7 @@ export function ContinuationTopMarginControl({
   onChange: (value: number) => void;
   onReset: () => void;
   effectiveTopMm?: number;
+  automatic?: boolean;
 }) {
   return (
     <div className="grid gap-1 text-xs">
@@ -42,7 +44,8 @@ export function ContinuationTopMarginControl({
       />
       <span className="text-[11px] leading-relaxed text-muted-foreground">
         Abstand vom oberen Papierrand zum Inhalt ab Seite 2. Sichtbare Kopfzeilen und Vorlagenrahmen
-        bleiben automatisch geschützt.
+        bleiben automatisch geschützt. Ohne eigenen Wert gilt auf allen Seiten derselbe Abstand
+        unter dem Header.
       </span>
       {effectiveTopMm !== undefined && effectiveTopMm !== value ? (
         <span className="text-[11px] text-muted-foreground">
@@ -54,7 +57,8 @@ export function ContinuationTopMarginControl({
         className="justify-self-start rounded border border-input bg-background px-2 py-1 text-[11px] font-medium hover:bg-accent"
         onClick={onReset}
       >
-        Standardrand ({defaultValue} mm)
+        {automatic ? "Standard aktiv: gleicher Headerabstand" : "Standard: gleicher Headerabstand"}{" "}
+        ({defaultValue} mm)
       </button>
     </div>
   );

@@ -1,0 +1,18 @@
+{
+  "base": "47a97df96e932509108525e57dbb1c888912ca8d",
+  "unitTests": 1254,
+  "unitFailures": 0,
+  "unitFiles": 259,
+  "assertions": 25594,
+  "unitJunitExit": 0,
+  "typecheck": "PASS",
+  "lint": "PASS 0 errors; 21 existing warnings",
+  "build": "PASS",
+  "sameSourceAppExports": 4,
+  "supplementalRenderedPages": 16,
+  "nativeFieldsChecked": 322,
+  "geometryMatrix": "41 selectable styles, compact/contact, full/reduced, 3 pages, classic/Sidebar Web layouts; explicit values/reset/legacy portable values",
+  "wordAcceptance": "UNVERIFIED",
+  "nativeSidebar": "frozen; no release or native geometry changes",
+  "deployment": "none"
+}

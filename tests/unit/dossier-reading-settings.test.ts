@@ -69,7 +69,10 @@ test("five template families use the same CV and Letter continuation policy acro
       expect(cv.top).toBe(
         headerMode === "contact" ? 36 : ["verlauf", "neon"].includes(template) ? 23 : 20,
       );
-      expect(letter.content.top).toBe(headerMode === "contact" ? 36 : 20);
+      // CV above deliberately authors 20 mm; Letter is automatic.
+      expect(letter.content.top).toBe(
+        headerMode === "contact" ? 52 : headerMode === "compact" ? 24 : 20,
+      );
       expect(cvReadingDefaults(template, "classic").sectionTitleFontSizePx).toBe(14);
     }
 });
@@ -86,7 +89,7 @@ test("existing Letter margins keep their reserved meaning; explicit continuation
     JSON.parse(JSON.stringify({ ...authored, continuationTopMarginMm: null })),
   );
   expect(reset.continuationTopMarginMm).toBeNull();
-  expect(letterPageGeometry(DEMO_LETTER, reset, context).content.top).toBe(36);
+  expect(letterPageGeometry(DEMO_LETTER, reset, context).content.top).toBe(56);
   expect(letterPageGeometry(DEMO_LETTER, reset, { ...context, pageIndex: 0 }).content.top).toBe(56);
 });
 
@@ -160,4 +163,148 @@ test("capturing shared settings cannot change the frozen Sidebar CV model", () =
     if (previous) Object.defineProperty(globalThis, "window", previous);
     else Reflect.deleteProperty(globalThis, "window");
   }
+});
+
+test("all selectable styles and flowing CV layouts inherit one header clearance on pages 1, 2 and 3", async () => {
+  await import("../../src/components/cover/fresh-templates");
+  const { TEMPLATES } = await import("../../src/components/cover/types");
+  const { dossierHeaderVisualHeightMmForOptions } = await import("../../src/lib/dossier-chrome");
+  for (const { id } of TEMPLATES) {
+    for (const headerMode of ["compact", "contact"] as const) {
+      for (const reduced of [false, true]) {
+        const chrome = {
+          ...DEFAULT_DOSSIER_CHROME_OPTIONS,
+          headerMode,
+          headerDifferentFirstPage: reduced,
+        };
+        for (const pageIndex of [0, 1, 2]) {
+          const height = dossierHeaderVisualHeightMmForOptions(chrome, pageIndex);
+          for (const layout of ["classic", "modern"] as const) {
+            const cv = cvContentBox(cvFrameFor(id), pageIndex, layout, undefined, chrome, {
+              pageMargins: null,
+              continuationTopMarginMm: null,
+            });
+            expect(cv.top - height).toBe(20);
+          }
+          const letter = letterPageGeometry(
+            DEMO_LETTER,
+            { ...emptyLetterDesign(), template: id },
+            { pageIndex, chromeOptions: chrome, pageMargins: null },
+          );
+          // Warm retains its real first-page masthead (also 20 mm clearance).
+          const letterHeight =
+            id === "freundlich" && headerMode === "compact" && pageIndex === 0 ? 52 : height;
+          expect(letter.content.top - letterHeight).toBe(20);
+        }
+      }
+    }
+  }
+});
+
+test("authored CV/Letter margins and explicit continuation values win; reset rejoins inheritance", () => {
+  const chrome = {
+    ...DEFAULT_DOSSIER_CHROME_OPTIONS,
+    headerMode: "contact" as const,
+    headerDifferentFirstPage: false,
+    headerGapMm: 7,
+  };
+  const pageMargins = { top: 28, right: 24, bottom: 1, left: 24 };
+  const design = { ...emptyLetterDesign(), template: "modern" as const };
+  for (const pageIndex of [0, 1, 2]) {
+    const cv = cvContentBox(cvFrameFor("modern"), pageIndex, "classic", undefined, chrome, {
+      pageMargins,
+      continuationTopMarginMm: null,
+    });
+    const letter = letterPageGeometry(DEMO_LETTER, design, {
+      pageIndex,
+      chromeOptions: chrome,
+      pageMargins,
+    });
+    expect(cv.top).toBe(67); // 28 authored + 32 header + 7 authored extra gap.
+    expect(letter.content.top).toBe(67);
+  }
+  expect(
+    cvContentBox(cvFrameFor("modern"), 1, "classic", undefined, chrome, {
+      pageMargins,
+      continuationTopMarginMm: 45,
+    }).top,
+  ).toBe(45);
+  expect(
+    letterPageGeometry(
+      DEMO_LETTER,
+      { ...design, continuationTopMarginMm: 45 },
+      { pageIndex: 1, chromeOptions: chrome, pageMargins },
+    ).content.top,
+  ).toBe(45);
+  expect(
+    letterPageGeometry(
+      DEMO_LETTER,
+      { ...design, continuationTopMarginMm: null },
+      { pageIndex: 1, chromeOptions: chrome, pageMargins },
+    ).content.top,
+  ).toBe(67);
+});
+
+test("automatic CV margins remain absent through save; new and legacy authored values survive, reset removes both", async () => {
+  const {
+    getCvContinuationTopMarginOverrideMm,
+    setCvContinuationTopMarginMm,
+    CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY: current,
+    CV_CONTINUATION_GAP_STORAGE_KEY: legacy,
+  } = await import("../../src/components/cv/layout");
+  const { readPortableCvState } = await import("../../src/components/cv/portable-state");
+  const previous = Object.getOwnPropertyDescriptor(globalThis, "window");
+  const values = new Map<string, string>([["lebenslauf:layout:v1", "classic"]]);
+  try {
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      value: {
+        localStorage: {
+          getItem: (k: string) => values.get(k) ?? null,
+          setItem: (k: string, v: string) => values.set(k, v),
+          removeItem: (k: string) => values.delete(k),
+        },
+        dispatchEvent: () => true,
+      },
+    });
+    expect(getCvContinuationTopMarginOverrideMm()).toBeNull();
+    expect(readPortableCvState()?.continuationTopMarginMm).toBeUndefined();
+    values.set(legacy, "17");
+    expect(getCvContinuationTopMarginOverrideMm()).toBe(17);
+    setCvContinuationTopMarginMm(52);
+    expect(readPortableCvState()?.continuationTopMarginMm).toBe(52);
+    expect(values.has(legacy)).toBe(false);
+    setCvContinuationTopMarginMm(null);
+    expect(values.has(current)).toBe(false);
+    expect(getCvContinuationTopMarginOverrideMm()).toBeNull();
+    expect(readPortableCvState()?.continuationTopMarginMm).toBeUndefined();
+  } finally {
+    if (previous) Object.defineProperty(globalThis, "window", previous);
+    else Reflect.deleteProperty(globalThis, "window");
+  }
+});
+
+test("captured contact-page starts have no second template lead before the first native Letter text", () => {
+  const input = briefFixture();
+  input.settings.chrome = {
+    sync: true,
+    shared: {
+      ...DEFAULT_DOSSIER_CHROME_OPTIONS,
+      headerMode: "contact",
+      headerDifferentFirstPage: false,
+    },
+    cv: {},
+    letter: {},
+  };
+  input.settings.flowPageTops = { letter: { firstMm: 52, continuationMm: 52 } };
+  const model = buildDossierDocModel(input);
+  expect(model.letter.blocks[0].id).toBe("letter.recipient.company");
+  expect(model.letter.blocks.some((b) => b.id === "letter.recipient.gap")).toBe(false);
+  expect(model.letter.layout.pagination?.firstPageLeadMm).toBe(0);
+  expect(model.letter.page.margins.top).toBe(52);
+  input.settings.chrome.shared.letterRecipientOffsetYMm = 3;
+  const authored = buildDossierDocModel(input).letter.blocks.find(
+    (b) => b.id === "letter.recipient.gap",
+  );
+  expect(authored?.kind === "spacer" && authored.heightMm).toBe(15);
 });

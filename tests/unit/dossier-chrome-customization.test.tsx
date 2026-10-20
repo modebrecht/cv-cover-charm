@@ -213,7 +213,7 @@ describe("dossier chrome customization", () => {
     };
     const geometry = letterPageGeometry(DEMO_LETTER, design);
 
-    expect(geometry.content.top).toBe(39);
+    expect(geometry.content.top).toBe(50);
     expect(geometry.footer.height).toBe(18);
     expect(geometry.content.bottom).toBe(19);
   });

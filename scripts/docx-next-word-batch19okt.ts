@@ -12,6 +12,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require(
   path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES!, "playwright"),
 );
+const headerStandards = process.env.WORD_HEADER_STANDARD === "1";
 const out = path.resolve(process.argv[2]!);
 const base = process.env.DOCX_NEXT_APP_URL ?? "http://127.0.0.1:4173";
 const modernQuery = "?docx-next-design-qa=1&docx-next-interior-qa=1&docx-next-reading-rows-qa=1";
@@ -210,7 +211,7 @@ try {
       if (item.id.startsWith("04")) {
         project.cv!.portableState = {
           ...project.cv!.portableState,
-          continuationTopMarginMm: 40,
+          ...(headerStandards ? {} : { continuationTopMarginMm: 40 }),
         };
         project.cv!.data.sectionLayouts = {
           ...project.cv!.data.sectionLayouts,
@@ -237,6 +238,12 @@ try {
         email: "referenz@example.ch",
         zusatz: "",
       });
+    }
+    if (headerStandards && item.id.startsWith("04")) {
+      delete project.cv!.portableState!.continuationTopMarginMm;
+      delete project.letter!.design.continuationTopMarginMm;
+      project.letter!.data.text = Array(5).fill(project.letter!.data.text).join("\n\n");
+      project.letter!.data.richTextHtml = "";
     }
     await writeFile(path.join(folder, "project.json"), JSON.stringify(project, null, 2));
     await Promise.all([
@@ -283,6 +290,7 @@ try {
     assert.deepEqual(await storage(), beforeReload, "Saved settings changed on reload");
     let webCvPages = 0;
     const captures = [];
+    const webPageGeometry: unknown[] = [];
     for (const [route, selector, label] of [
       ["/lebenslauf", "[data-cv-page]", "CV"],
       ["/anschreiben", "[data-letter-page]", "Letter"],
@@ -302,7 +310,30 @@ try {
         if (label === "Cover") sheets = page.locator('[data-testid="cover-canvas"]');
         if (!(await sheets.count())) throw Error(`No ${label} pages found`);
       }
+      if (label === "Letter")
+        await page
+          .locator('main [data-letter-document-root][data-letter-pagination-ready="true"]')
+          .waitFor();
       if (label === "CV") webCvPages = await sheets.count();
+      if (headerStandards && label !== "Cover") {
+        const geometry = await sheets.evaluateAll(
+          (nodes, scope) =>
+            nodes.map((node, pageIndex) => {
+              const body = node.querySelector<HTMLElement>(
+                scope === "CV" ? "[data-cv-main]" : "[data-letter-text-layer]",
+              )!;
+              const header = node.querySelector<HTMLElement>("[data-dossier-header-height-mm]");
+              const topMm = (parseFloat(getComputedStyle(body).top) * 25.4) / 96;
+              const heightMm = Number(header?.getAttribute("data-dossier-header-height-mm") ?? 0);
+              return { scope, pageIndex, topMm, heightMm, gapMm: topMm - heightMm };
+            }),
+          label,
+        );
+        if (!item.id.startsWith("05"))
+          for (const g of geometry) assert(Math.abs(g.gapMm - 20) < 0.02, JSON.stringify(g));
+        if (item.id.startsWith("04") && label === "Letter") assert(geometry.length >= 2);
+        webPageGeometry.push(...geometry);
+      }
       for (let i = 0; i < (await sheets.count()); i++) {
         const file = `Web-${label}-${String(i + 1).padStart(2, "0")}.png`;
         await sheets.nth(i).screenshot({ path: path.join(folder, file) });
@@ -377,8 +408,17 @@ try {
     assert.deepEqual(errors, []);
     const result = {
       ...item,
+      ...(headerStandards && item.id.startsWith("04")
+        ? {
+            purpose:
+              "Gleicher 20-mm-Headerabstand auf je zwei Letter-/CV-Seiten ohne Rand-Override",
+          }
+        : {}),
       file,
       webCvPages,
+      ...(headerStandards
+        ? { webPageGeometry, headerPolicy: "20 mm visible; authored overrides win" }
+        : {}),
       captures,
       restoredThroughApp: true,
       reloadPreservedState: true,

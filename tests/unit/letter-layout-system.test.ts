@@ -42,10 +42,10 @@ function designFor(
 
 function minimumContentHeightFor(template: LetterTemplateId, headerMode: LetterHeaderMode) {
   if (template === "freundlich" && headerMode === "compact") {
-    return 220;
+    return 200;
   }
   if (headerMode === "contact") {
-    return 230;
+    return 220;
   }
   return 240;
 }
@@ -107,7 +107,7 @@ describe("central motivation-letter layout system", () => {
       { pageIndex: 1 },
     );
 
-    expect(compact.content.top).toBe(WARM_FIRST_PAGE_HEADER_HEIGHT_MM);
+    expect(compact.content.top).toBe(WARM_FIRST_PAGE_HEADER_HEIGHT_MM + 20);
     expect(contact.content.top).toBeLessThan(compact.content.top);
     expect(continuation.content.top).toBeLessThan(compact.content.top);
   });
@@ -170,9 +170,9 @@ describe("central motivation-letter layout system", () => {
     });
 
     expect(compact.footer.height).toBe(4);
-    expect(compact.content.top).toBe(22);
-    expect(stackedContact.content.top).toBe(41);
-    expect(inlineContact.content.top).toBe(35);
+    expect(compact.content.top).toBe(24);
+    expect(stackedContact.content.top).toBe(52);
+    expect(inlineContact.content.top).toBe(46);
   });
 
   test("no-footer and attachment-footer reserve only their functional bottom space", () => {
@@ -210,7 +210,7 @@ describe("central motivation-letter layout system", () => {
     expect(finalContinuation.effectiveHeaderMode).toBe("contact");
     expect(finalContinuation.effectiveFooterMode).toBe("attachments");
     expect(finalContinuation.footer.showAttachments).toBe(true);
-    expect(firstOfTwo.content.top).toBe(41);
-    expect(finalContinuation.content.top).toBe(36);
+    expect(firstOfTwo.content.top).toBe(52);
+    expect(finalContinuation.content.top).toBe(52);
   });
 });

@@ -20,7 +20,7 @@ import {
 const read = (path: string) => readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 
 describe("CV continuation page top margin", () => {
-  test("page 2 owns one independent top margin instead of inheriting the page-1 gap", () => {
+  test("page 2 inherits the same header gap unless its own top margin is authored", () => {
     const chrome = {
       ...DEFAULT_DOSSIER_CHROME_OPTIONS,
       headerMode: "compact" as const,
@@ -30,10 +30,8 @@ describe("CV continuation page top margin", () => {
     const frame = cvFrameFor("brief");
 
     expect(cvPageReserves(chrome, 0).headerGapMm).toBe(12);
-    expect(cvPageReserves(chrome, 1).headerGapMm).toBe(0);
-    expect(cvContentBox(frame, 1, "classic", undefined, chrome).top).toBe(
-      CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM,
-    );
+    expect(cvPageReserves(chrome, 1).headerGapMm).toBe(12);
+    expect(cvContentBox(frame, 1, "classic", undefined, chrome).top).toBe(24);
   });
 
   test("allows a true 0 mm start when no continuation header or frame needs protection", () => {
@@ -48,13 +46,13 @@ describe("CV continuation page top margin", () => {
     expect(cvContinuationContentTopMm(cvFrameFor("brief"), 40, chrome, 1)).toBe(40);
   });
 
-  test("allows 0–40 mm while keeping visible continuation chrome protected", () => {
+  test("allows 0–120 mm while keeping visible continuation chrome protected", () => {
     expect(CV_CONTINUATION_TOP_MARGIN_MIN_MM).toBe(0);
-    expect(CV_CONTINUATION_TOP_MARGIN_MAX_MM).toBe(40);
+    expect(CV_CONTINUATION_TOP_MARGIN_MAX_MM).toBe(120);
     expect(CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM).toBe(20);
     expect(normalizeCvContinuationTopMarginMm(-4)).toBe(0);
     expect(normalizeCvContinuationTopMarginMm(7.26)).toBe(7.5);
-    expect(normalizeCvContinuationTopMarginMm(99)).toBe(40);
+    expect(normalizeCvContinuationTopMarginMm(199)).toBe(120);
 
     const chrome = {
       ...DEFAULT_DOSSIER_CHROME_OPTIONS,
@@ -80,7 +78,7 @@ describe("CV continuation page top margin", () => {
     expect(sharedControl).toContain("Oberer Rand ab Seite 2");
     expect(sharedControl).toContain("data-cv-continuation-top-margin-control");
     expect(control).toContain('scope="cv"');
-    expect(sharedControl).toContain("Standardrand ({defaultValue} mm)");
+    expect(sharedControl).toContain("Standard: gleicher Headerabstand");
     expect(portable).toContain("continuationTopMarginMm");
     expect(portable).toContain("CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY");
     expect(portable).toContain("continuationGapMm");

@@ -1583,7 +1583,15 @@ export function buildDossierDocModel(
         const recipient = target.blocks.findIndex((block) =>
           block.id.startsWith("letter.recipient."),
         );
-        const gapMm = template.letter.recipientGapMm + (options.letterRecipientOffsetYMm ?? 0);
+        // Captured Web geometry already owns the leading content start. When
+        // contact chrome removes the sender, do not add the old template lead
+        // once more before the now-leading recipient. Explicit recipient
+        // offsets retain their existing authored composition.
+        const leadingStartOwned =
+          settings.flowPageTops?.letter && recipient === 0 && !options.letterRecipientOffsetYMm;
+        const gapMm = leadingStartOwned
+          ? 0
+          : template.letter.recipientGapMm + (options.letterRecipientOffsetYMm ?? 0);
         if (recipient >= 0 && gapMm > 0)
           target.blocks.splice(recipient, 0, {
             kind: "spacer",

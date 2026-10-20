@@ -10,6 +10,7 @@ import {
   getCvInfoPosition,
   getCvSectionGapMm,
   getCvContinuationTopMarginMm,
+  getCvContinuationTopMarginOverrideMm,
 } from "@/components/cv/layout";
 import { getCvPlacements } from "@/components/cv/placement";
 import { getCvTextAlignment } from "@/components/cv/text-alignment";
@@ -49,7 +50,9 @@ export function captureDossierDocxNextSnapshot(
   const chrome = getDossierChromeState();
   const margins = getDossierPageMarginsState();
   const resolvedChrome = resolveDossierChromeSnapshot(source, chrome);
-  const continuationTopMarginMm = getCvContinuationTopMarginMm(cv.design.template, layoutChoice);
+  const continuationTopMarginMm = frozenCvReadingLayout(layoutChoice)
+    ? getCvContinuationTopMarginMm(cv.design.template, layoutChoice)
+    : getCvContinuationTopMarginOverrideMm();
   const letterTops = [0, 1].map(
     (pageIndex) =>
       letterPageGeometry(letter.data, letter.design, {
@@ -85,7 +88,7 @@ export function captureDossierDocxNextSnapshot(
       placements: getCvPlacements(),
       cvAlignment: getCvTextAlignment(),
       cvSectionGapMm: getCvSectionGapMm(),
-      cvContinuationTopMarginMm: continuationTopMarginMm,
+      cvContinuationTopMarginMm: continuationTopMarginMm ?? undefined,
       cvPhotoStyle: getCvPhotoStyle(),
       cvPhotoPlacement: getCvPhotoPlacement(),
       fieldStyles,

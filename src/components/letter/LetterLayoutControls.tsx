@@ -1,7 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { DossierPageMarginsControl } from "@/components/dossier/DossierPageMarginsControl";
 import { ContinuationTopMarginControl } from "@/components/dossier/ContinuationTopMarginControl";
-import { DOSSIER_CONTINUATION_TOP_MM } from "@/lib/dossier-reading-settings";
 import {
   letterDefaultPageMargins,
   letterPageGeometry,
@@ -364,9 +363,16 @@ export function LetterLayoutControls({
           <ContinuationTopMarginControl
             scope="letter"
             value={
-              design.continuationTopMarginMm === undefined
-                ? (storedMargins?.top ?? DOSSIER_CONTINUATION_TOP_MM)
-                : (design.continuationTopMarginMm ?? DOSSIER_CONTINUATION_TOP_MM)
+              design.continuationTopMarginMm ??
+              letterPageGeometry(data, design, { ...geometryContext, pageIndex: 1 }).content.top
+            }
+            automatic={design.continuationTopMarginMm == null}
+            defaultValue={
+              letterPageGeometry(
+                data,
+                { ...design, continuationTopMarginMm: null },
+                { ...geometryContext, pageIndex: 1 },
+              ).content.top
             }
             effectiveTopMm={
               letterPageGeometry(data, design, { ...geometryContext, pageIndex: 1 }).content.top
