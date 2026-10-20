@@ -11,7 +11,8 @@
   },
   {
     "id": "05-Modern-Eigene-Werte-Referenzen",
-    "exactCapturedModel": true,
+    "exactCapturedModel": false,
+    "onlyDeclaredContactIndentCorrection": true,
     "sourcePreserved": true
   },
   {

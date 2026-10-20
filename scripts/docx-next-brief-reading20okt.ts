@@ -1,4 +1,4 @@
-/** Rebuild every captured App model without recapturing or changing saved data. */
+/** Compare captured App models; retain the declared 05 contact-indent correction. */
 import assert from "node:assert/strict";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -32,13 +32,25 @@ for (const item of items) {
         }
       : {}),
   });
+  if (item.id.startsWith("05")) {
+    const person = proof.model.cv.blocks.find((b: { id: string }) => b.id === "cv.section.person");
+    const indent = person.contentIndentMm;
+    person.contentIndentMm = 0;
+    const contact = person.blocks.find((b: { id: string }) => b.id === "cv.person.contact");
+    contact.widthMm += indent;
+  }
   assert.deepEqual(
     JSON.parse(JSON.stringify(model)),
     proof.model,
     item.id + ": captured App model differs",
   );
   assert.equal(JSON.stringify(proof.snapshot), before, item.id + ": source changed");
-  results.push({ id: item.id, exactCapturedModel: true, sourcePreserved: true });
+  results.push({
+    id: item.id,
+    exactCapturedModel: !item.id.startsWith("05"),
+    ...(item.id.startsWith("05") ? { onlyDeclaredContactIndentCorrection: true } : {}),
+    sourcePreserved: true,
+  });
 }
 await writeFile(path.join(folder, "model-rebuild.json"), JSON.stringify(results, null, 2) + "\n");
 console.log(JSON.stringify(results));

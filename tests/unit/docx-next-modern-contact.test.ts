@@ -108,6 +108,34 @@ test("fresh Web contact geometry removes the invented rubric and extra row gaps 
   );
 });
 
+test("authored rubric indents cannot shift the shared personal header or shrink its measured grid", () => {
+  for (const source of [briefFixture(), input()]) {
+    source.cv.design.sectionContentIndentMm = 6;
+    source.cv.design.sectionTitleOffsetMm = 4;
+    const before = JSON.stringify(source);
+    const legacy = buildDossierDocModel(source);
+    const model = buildDossierDocModel(source, {
+      cvContactComposition: "compact-grid",
+      cvPersonalHeaderMetrics: measuredContact(source),
+    });
+    expect(JSON.stringify(source)).toBe(before);
+    expect(model.cover).toEqual(legacy.cover);
+    expect(model.letter).toEqual(legacy.letter);
+    expect(model.cv.page).toEqual(legacy.cv.page);
+    const person = model.cv.blocks.find((b) => b.id === "cv.section.person");
+    const school = model.cv.blocks.find((b) => b.id === "cv.section.schule");
+    expect(person?.kind === "section" && person.contentIndentMm).toBe(0);
+    expect(school?.kind === "section" && school.contentIndentMm).toBe(6);
+    const table = contact(model);
+    expect(table.kind === "table" && table.widthMm).toBe(
+      model.cv.page.widthMm - model.cv.page.margins.left - model.cv.page.margins.right,
+    );
+    // Ordinary export and its established layout policy are unchanged.
+    const oldPerson = legacy.cv.blocks.find((b) => b.id === "cv.section.person");
+    expect(oldPerson?.kind === "section" && oldPerson.contentIndentMm).toBe(6);
+  }
+});
+
 test("contact measurements cannot be reused after source edits or bypass supported font/layout guards", () => {
   const source = briefFixture();
   const measurement = measuredContact(source);
@@ -302,7 +330,7 @@ test("Modern badge uses the same default accent alpha as labels and retains auth
   expect(paint.fill?.color).toBe("F44664");
 });
 
-test("compact contact respects the available indented body width and rejects half-width contact blocks", () => {
+test("compact contact retains the full header width despite rubric indentation and rejects half-width contact blocks", () => {
   const source = input();
   source.cv.design.sectionContentIndentMm = 12;
   source.cv.data.person.adresse = "A long address ".repeat(12);
@@ -311,7 +339,7 @@ test("compact contact respects the available indented body width and rejects hal
   const table = contact(model);
   if (table.kind !== "table") throw Error("missing table");
   expect(table.widthMm).toBeCloseTo(
-    model.cv.page.widthMm - model.cv.page.margins.left - model.cv.page.margins.right - 12,
+    model.cv.page.widthMm - model.cv.page.margins.left - model.cv.page.margins.right,
     6,
   );
   source.cv.data.sectionLayouts.person = { width: "half" };

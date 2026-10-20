@@ -890,8 +890,7 @@ export function buildDossierDocModel(
             cvPart.page.widthMm -
             cvPart.page.margins.left -
             cvPart.page.margins.right -
-            cvFlow.indentMm -
-            rubric.contentIndentMm;
+            cvFlow.indentMm;
           if (personalMetrics && personalMetrics.valueOffsetMm >= contentWidth)
             throw Error("DOCX Next: Die gemessene Kontaktspalte überschreitet den Textbereich.");
           blocks = rows.length
@@ -1134,7 +1133,13 @@ export function buildDossierDocModel(
       placement: placements?.[key === "person" ? "kontakt" : key] ?? "main",
       width: layout.width,
       startPage: layout.page,
-      contentIndentMm: cvFlow.indentMm + rubric.contentIndentMm,
+      // Rubric content indentation belongs to the CV sections, not the
+      // personal header. Its compact contact grid shares the name's origin.
+      contentIndentMm:
+        cvFlow.indentMm +
+        (key === "person" && options.cvContactComposition === "compact-grid"
+          ? 0
+          : rubric.contentIndentMm),
     });
   }
   if (cv.design.useElements) {
