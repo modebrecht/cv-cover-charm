@@ -25,6 +25,10 @@ export type InteriorTextMetrics = {
   headers: Partial<
     Record<"letter" | "cv", { first: HeaderMeasurement; continuation: HeaderMeasurement }>
   >;
+  textRoles?: Record<
+    string,
+    { text: string; style: TextStyle; lineHeightPt: number; afterMm?: number }
+  >;
   rubrics?: Record<
     string,
     {
