@@ -4,6 +4,13 @@ import { xml, twips } from "./xml";
 export function control(id: string, content: string) {
   return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
 }
+
+/** One native picture owns its drawing; its semantic tag is separate from the Word instance ID. */
+export function pictureControl(id: string, content: string, instanceId: number) {
+  if (!Number.isSafeInteger(instanceId) || instanceId <= 0 || instanceId > 2147483647)
+    throw new Error("DOCX Next invalid picture control identity");
+  return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/><w:id w:val="${instanceId}"/><w:picture/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
+}
 function runProperties(style: TextRun["style"]): string {
   return `<w:rPr><w:rFonts w:ascii="${xml(style.font)}" w:hAnsi="${xml(style.font)}"/><w:b w:val="${style.bold ? 1 : 0}"/><w:i w:val="${style.italic ? 1 : 0}"/>${style.allCaps !== undefined ? `<w:caps w:val="${style.allCaps ? 1 : 0}"/>` : ""}<w:color w:val="${xml(style.color)}"/>${style.trackingPt !== undefined ? `<w:spacing w:val="${Math.round(style.trackingPt * 20)}"/>` : ""}<w:sz w:val="${Math.round(style.sizePt * 2)}"/><w:szCs w:val="${Math.round(style.sizePt * 2)}"/><w:u w:val="${style.underline ? "single" : "none"}"/>${style.backgroundColor ? `<w:shd w:val="clear" w:color="auto" w:fill="${style.backgroundColor}"/>` : ""}</w:rPr>`;
 }

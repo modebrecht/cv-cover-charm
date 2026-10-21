@@ -38,6 +38,7 @@ import { cellProperties, planCellRowSpans } from "./native-cell";
 import { decorationPageGeometry, orderedPagePaint, compositePagePaint } from "./page-artwork";
 import {
   control,
+  pictureControl,
   paragraph,
   emptyParagraph,
   emptyParagraphWithRuns,
@@ -349,10 +350,8 @@ export async function renderDossierDocx(
     );
   }
   function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
-    return control(
-      value.id,
-      `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}<w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
-    );
+    const drawing = imageRun(value, widthMm, page);
+    return `<w:p><w:pPr><w:spacing w:after="${twips(3)}" w:line="240" w:lineRule="auto"/>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}</w:pPr>${pictureControl(value.id, drawing, drawingId)}</w:p>`;
   }
   function table(
     value: TableBlock,
@@ -500,7 +499,12 @@ export async function renderDossierDocx(
           widths: [1],
           indentMm,
           rows: [{ cells: [block.blocks], keepTogether: true }],
-          decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
+          decoration: {
+            borderColor: "FFFFFF",
+            borderWidthMm: 0,
+            paddingXMm: 0,
+            paddingYMm: 0,
+          },
         },
         widthMm,
         page,
@@ -680,7 +684,7 @@ export async function renderDossierDocx(
   pkg.add(
     "word/settings.xml",
     WORD_PART_TYPES.settings,
-    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat></w:settings>`,
+    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat>${sources.size ? "<w:doNotAutoCompressPictures/>" : ""}</w:settings>`,
   );
   const fonts = new Set<string>([model.theme.font]);
   for (const part of parts)

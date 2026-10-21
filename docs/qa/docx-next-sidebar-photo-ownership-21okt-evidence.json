@@ -1,0 +1,505 @@
+{
+  "baseSha": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "runtime": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5 / soffice CLI",
+  "scope": "Six newly generated application controls with an explicit synthetic full PNG, not a replay of the official browser-normalized 22-case packet",
+  "unitTests": {
+    "runner": "Bun 1.3.11",
+    "tests": 51,
+    "failures": 0,
+    "files": 8,
+    "expectCalls": 1213
+  },
+  "pythonAdversarialTests": 5,
+  "focusedTypecheck": "PASS: two changed production modules and their transitive types; no full application build claimed",
+  "format": "PASS: five changed TypeScript files, Prettier 3.7.3",
+  "comparisons": [
+    {
+      "fixture": "left",
+      "baselineSourceSha256": "24b5d63caf6fbfc701dc934aae19e5b2f566b7eaf8184db56f442d3d3647d563",
+      "finalSourceSha256": "24b5d63caf6fbfc701dc934aae19e5b2f566b7eaf8184db56f442d3d3647d563",
+      "baselineFirstSaveFieldCount": 77,
+      "finalFirstSaveFieldCount": 77,
+      "finalSecondSaveFieldCount": 77,
+      "sourceDocxByteIdenticalToBaseline": true,
+      "sourcePageCounts": [
+        3,
+        3
+      ],
+      "finalSecondSavePages": 3,
+      "baselineVsFinalSourcePixelsIdentical": true,
+      "baselineVsFinalMaxWordDeltaPt": [
+        0,
+        0
+      ]
+    },
+    {
+      "fixture": "both-long-right",
+      "baselineSourceSha256": "87013e5309da0d508513097b9fb44e56d43567341927e97298b0e48da710ef6a",
+      "finalSourceSha256": "87013e5309da0d508513097b9fb44e56d43567341927e97298b0e48da710ef6a",
+      "baselineFirstSaveFieldCount": 382,
+      "finalFirstSaveFieldCount": 382,
+      "finalSecondSaveFieldCount": 382,
+      "sourceDocxByteIdenticalToBaseline": true,
+      "sourcePageCounts": [
+        11,
+        11
+      ],
+      "finalSecondSavePages": 11,
+      "baselineVsFinalSourcePixelsIdentical": true,
+      "baselineVsFinalMaxWordDeltaPt": [
+        0,
+        0
+      ]
+    },
+    {
+      "fixture": "photo-left",
+      "baselineSourceSha256": "6e9c985cd97dd802950ab1389bdc179e9ad18face3535cffff3f8bd5b2cae55b",
+      "finalSourceSha256": "b17ad42ea9b2c7d6dfec13d549731cd28e1504093f65c979b220d7102b8df095",
+      "baselineFirstSaveFieldCount": 30,
+      "finalFirstSaveFieldCount": 78,
+      "finalSecondSaveFieldCount": 78,
+      "sourceDocxByteIdenticalToBaseline": false,
+      "sourcePageCounts": [
+        3,
+        3
+      ],
+      "finalSecondSavePages": 3,
+      "baselineVsFinalSourcePixelsIdentical": false,
+      "baselineVsFinalMaxWordDeltaPt": [
+        0,
+        0.1500244140625
+      ]
+    },
+    {
+      "fixture": "photo-right",
+      "baselineSourceSha256": "56847c5dbf452215b3ed450ea6b9ff395868eaf822f29e74ce4575262149c4e9",
+      "finalSourceSha256": "1f80e080375bd7556345e34528b9e32916351ad22b921d87918758963a0f26d3",
+      "baselineFirstSaveFieldCount": 56,
+      "finalFirstSaveFieldCount": 78,
+      "finalSecondSaveFieldCount": 78,
+      "sourceDocxByteIdenticalToBaseline": false,
+      "sourcePageCounts": [
+        3,
+        3
+      ],
+      "finalSecondSavePages": 3,
+      "baselineVsFinalSourcePixelsIdentical": false,
+      "baselineVsFinalMaxWordDeltaPt": [
+        0,
+        0.1500244140625
+      ]
+    },
+    {
+      "fixture": "photo-free-mirrored-side",
+      "baselineSourceSha256": "744991b89ccf54d2525b9940a9cd59f4a57ec7ac7a7a930e110c0f06ee8ef1a8",
+      "finalSourceSha256": "a108f1f097498b07e8ca75fe44476d478fa8952f32dd4acfd459352f47c7c455",
+      "baselineFirstSaveFieldCount": 56,
+      "finalFirstSaveFieldCount": 78,
+      "finalSecondSaveFieldCount": 78,
+      "sourceDocxByteIdenticalToBaseline": false,
+      "sourcePageCounts": [
+        3,
+        3
+      ],
+      "finalSecondSavePages": 3,
+      "baselineVsFinalSourcePixelsIdentical": false,
+      "baselineVsFinalMaxWordDeltaPt": [
+        0,
+        0.1500244140625
+      ]
+    },
+    {
+      "fixture": "photo-free-portrait",
+      "baselineSourceSha256": "df4503edadc32b18a95e2da86360b14e420667a2c870b8c2db2dfcf97443315c",
+      "finalSourceSha256": "59b5a3b58e648b3866de119fb60825d66668206cfd360d7a2294e62d7755106c",
+      "baselineFirstSaveFieldCount": 51,
+      "finalFirstSaveFieldCount": 78,
+      "finalSecondSaveFieldCount": 78,
+      "sourceDocxByteIdenticalToBaseline": false,
+      "sourcePageCounts": [
+        4,
+        4
+      ],
+      "finalSecondSavePages": 4,
+      "baselineVsFinalSourcePixelsIdentical": false,
+      "baselineVsFinalMaxWordDeltaPt": [
+        0,
+        0.1500244140625
+      ]
+    }
+  ],
+  "native": {
+    "runtime": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5 / soffice CLI",
+    "manifest": {
+      "imageAdapter": "Explicit full PNG; not a browser-normalized official fixture replay",
+      "photoSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+      "widthPx": 120,
+      "heightPx": 180,
+      "fixtures": [
+        {
+          "fixture": "left",
+          "docxSha256": "24b5d63caf6fbfc701dc934aae19e5b2f566b7eaf8184db56f442d3d3647d563",
+          "photo": false
+        },
+        {
+          "fixture": "both-long-right",
+          "docxSha256": "87013e5309da0d508513097b9fb44e56d43567341927e97298b0e48da710ef6a",
+          "photo": false
+        },
+        {
+          "fixture": "photo-left",
+          "docxSha256": "b17ad42ea9b2c7d6dfec13d549731cd28e1504093f65c979b220d7102b8df095",
+          "photo": true
+        },
+        {
+          "fixture": "photo-right",
+          "docxSha256": "1f80e080375bd7556345e34528b9e32916351ad22b921d87918758963a0f26d3",
+          "photo": true
+        },
+        {
+          "fixture": "photo-free-mirrored-side",
+          "docxSha256": "a108f1f097498b07e8ca75fe44476d478fa8952f32dd4acfd459352f47c7c455",
+          "photo": true
+        },
+        {
+          "fixture": "photo-free-portrait",
+          "docxSha256": "59b5a3b58e648b3866de119fb60825d66668206cfd360d7a2294e62d7755106c",
+          "photo": true
+        }
+      ]
+    },
+    "cases": [
+      {
+        "fixture": "left",
+        "phases": {
+          "saved1": {
+            "sourceFieldCount": 77,
+            "savedFieldCount": 77,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": true,
+            "pictures": {},
+            "savedDocxSha256": "fe5a2d18db00b526596be088f01841f739fd4e936dbd0bd8dfd651dcd13708fd"
+          },
+          "saved2": {
+            "sourceFieldCount": 77,
+            "savedFieldCount": 77,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": true,
+            "pictures": {},
+            "savedDocxSha256": "479ccd8986395e7ef83e0f0282438d87ec78ab83ec55af5627b9cbdcba331d5c"
+          }
+        }
+      },
+      {
+        "fixture": "both-long-right",
+        "phases": {
+          "saved1": {
+            "sourceFieldCount": 382,
+            "savedFieldCount": 382,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {},
+            "savedDocxSha256": "bfbdc625b25e08a5a9f39c7ed364fdb12a3b0cd9b4737b9583b9bf3ce670edae"
+          },
+          "saved2": {
+            "sourceFieldCount": 382,
+            "savedFieldCount": 382,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {},
+            "savedDocxSha256": "467ffdb5da1470fb4af305f6dbca68992006a108942ee05570dcd8b2ce89e07e"
+          }
+        }
+      },
+      {
+        "fixture": "photo-left",
+        "phases": {
+          "saved1": {
+            "sourceFieldCount": 78,
+            "savedFieldCount": 78,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": true,
+            "pictures": {
+              "cv.person.photo": {
+                "ownsDrawing": true,
+                "fullPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "srcRect": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "width": 96,
+                  "height": 96,
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "srcRect": null
+                }
+              }
+            },
+            "savedDocxSha256": "4692d51984745a700556b852e214c680959797a9ae2d82fbd3f2e920d08afae9"
+          },
+          "saved2": {
+            "sourceFieldCount": 78,
+            "savedFieldCount": 78,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": true,
+            "pictures": {
+              "cv.person.photo": {
+                "ownsDrawing": true,
+                "fullPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "srcRect": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "width": 96,
+                  "height": 96,
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "srcRect": null
+                }
+              }
+            },
+            "savedDocxSha256": "06861fee6a73d5a94ec2d8a814528202e663fc4d7fb6a709661091bb37a39a2d"
+          }
+        }
+      },
+      {
+        "fixture": "photo-right",
+        "phases": {
+          "saved1": {
+            "sourceFieldCount": 78,
+            "savedFieldCount": 78,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "ownsDrawing": true,
+                "fullPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "srcRect": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "width": 96,
+                  "height": 96,
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "srcRect": null
+                }
+              }
+            },
+            "savedDocxSha256": "f754cc30095d8a70ebc2ee54d5cbe84c422abe9ec725503899e58d81bdbc7397"
+          },
+          "saved2": {
+            "sourceFieldCount": 78,
+            "savedFieldCount": 78,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "ownsDrawing": true,
+                "fullPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "srcRect": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "width": 96,
+                  "height": 96,
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "srcRect": null
+                }
+              }
+            },
+            "savedDocxSha256": "737b56fb9b69433f133da677421da5035798522e229fd5af1e4f9e5352bbe9c2"
+          }
+        }
+      },
+      {
+        "fixture": "photo-free-mirrored-side",
+        "phases": {
+          "saved1": {
+            "sourceFieldCount": 78,
+            "savedFieldCount": 78,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "ownsDrawing": true,
+                "fullPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "srcRect": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "width": 96,
+                  "height": 96,
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "srcRect": null
+                }
+              }
+            },
+            "savedDocxSha256": "1dc248a7b1993bf07682f07db84789bc48c83e924f22e4a43a473837cd60865b"
+          },
+          "saved2": {
+            "sourceFieldCount": 78,
+            "savedFieldCount": 78,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "ownsDrawing": true,
+                "fullPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "srcRect": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "width": 96,
+                  "height": 96,
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "srcRect": null
+                }
+              }
+            },
+            "savedDocxSha256": "0553ed2039bbe0ab93e4fcdeeb8d1ea432846a628fe5b1c7516ad337f9f43947"
+          }
+        }
+      },
+      {
+        "fixture": "photo-free-portrait",
+        "phases": {
+          "saved1": {
+            "sourceFieldCount": 78,
+            "savedFieldCount": 78,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": true,
+            "pictures": {
+              "cv.person.photo": {
+                "ownsDrawing": true,
+                "fullPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "srcRect": {
+                    "l": "11818",
+                    "t": "31313",
+                    "r": "27576",
+                    "b": "18182"
+                  }
+                },
+                "saved": {
+                  "width": 73,
+                  "height": 91,
+                  "rgbaSha256": "5c487ed740920bb94e9e42091e6e43ba5d31fc6a0194e3dca1cf14a489d48082",
+                  "srcRect": null
+                }
+              }
+            },
+            "savedDocxSha256": "77d665f35aa6316e02af0451791d6240d267204366cbd9f4294189fbfabc73a5"
+          },
+          "saved2": {
+            "sourceFieldCount": 78,
+            "savedFieldCount": 78,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": true,
+            "pictures": {
+              "cv.person.photo": {
+                "ownsDrawing": true,
+                "fullPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "srcRect": {
+                    "l": "11818",
+                    "t": "31313",
+                    "r": "27576",
+                    "b": "18182"
+                  }
+                },
+                "saved": {
+                  "width": 73,
+                  "height": 91,
+                  "rgbaSha256": "5c487ed740920bb94e9e42091e6e43ba5d31fc6a0194e3dca1cf14a489d48082",
+                  "srcRect": null
+                }
+              }
+            },
+            "savedDocxSha256": "c8cd5f9a3e29491347cf1ca6abdd4b93ceca4f4347c45248c1c9febc3461414c"
+          }
+        }
+      }
+    ],
+    "ownershipGate": "PASS",
+    "originalPixelGate": "FAIL",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  "overall": "PARTIAL: ownership repaired, original pixels and mirrored exact grids remain failed in Writer; desktop Word unverified",
+  "strictPixelAssertion": {
+    "exitCode": 1,
+    "failure": "Full original picture pixels did not survive",
+    "expected": true
+  }
+}
