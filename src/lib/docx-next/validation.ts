@@ -194,6 +194,9 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw Error("DOCX Next invalid flowing rubric rule");
       }
       if (block.kind === "paragraph-frame") {
+        if (block.wrapMode !== undefined &&
+            (block.wrapMode !== "none" || block.surface !== undefined))
+          throw Error(`DOCX Next invalid native page frame wrap ${block.id}`);
         const inHeader = part.headerFrames?.includes(
           block as NonNullable<typeof part.headerFrames>[number],
         );
