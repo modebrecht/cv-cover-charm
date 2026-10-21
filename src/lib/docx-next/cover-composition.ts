@@ -16,7 +16,7 @@ export function composeCover(
   accent: string,
   color: CoverContext["color"],
   fallbackName: Paragraph,
-  avatarComposition?: "single-owner" | "writer-vml",
+  avatarComposition?: "writer-vml",
   photoPlacement?: "authored-page",
 ): DocBlock[] {
   if (
@@ -222,7 +222,7 @@ export function composeCover(
             !style.follows &&
             !style.above &&
             !style.anchorBottom;
-          const singleOwner = avatarComposition === "single-owner" || avatarComposition === "writer-vml";
+          const singleOwner = avatarComposition === "writer-vml";
           if (singleOwner && (!roundPaint || style.opacity !== 1))
             throw Error("DOCX Next single-owner avatar requires an opaque, unanchored round source");
           if (roundPaint && !singleOwner) {
