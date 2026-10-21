@@ -263,3 +263,39 @@ manual review of the generated comparison image before Word acceptance.
 This check was source-reviewed and locally syntax/smoke tested; the
 real 10-case application batch has **not** been rerun with this new
 auditor because the Sandbox quota is exhausted.
+
+
+## Full genuine Word acceptance package produced — 21 October evening
+
+A fresh, separate Vercel sandbox with Node/Bun/Chromium (not a copied
+snapshot) checked out branch revision `dfa787f983166d9b3b4831069f306819c6de4a4f`. The real gated
+`DOCX_NEXT_FULL_APP_QA=1` browser runner completed and reported
+`count=10; passed=10; failed=0; realNativeApplicationDocxFiles=10`.
+All 10 documents were downloaded through the actual application
+download control. No generated DOCX was altered.
+
+Two ZIP archives were created from those originals, and were checked
+with `ZipFile.testzip`; each included DOCX was SHA-256 compared to the
+actual browser-downloaded file:
+
+- **Five-case acceptance ZIP** (V01, N01, W01, V03, N03):
+  23,556,076 bytes; SHA-256
+  `5cfaf343b617b8e337cf15c102b278e8bf01ee5812792f0fa57ae70ee85f28b2`.
+- **Ten-case full ZIP** (V01–V04, N01–N03, W01–W03):
+  43,938,017 bytes; SHA-256
+  `69c5f9d2b44216987194d19b23e6b095572a6723081d1b38e4aeda1628c2ecb3`.
+
+Packages contain the unmodified four-part dossier DOCX files (cover,
+letter, CV assembled into one editable document), their saved Web cover
+reference images, a case manifest and instructions. The five-case
+package is the recommended minimal Microsoft Word acceptance set.
+
+**Delivery limitation:** the archives were made temporarily available
+from the user's own disposable Vercel Sandbox download route. This is
+NOT durable artifact storage; the route expires when that session
+stops. Do not replace an unavailable ZIP with the earlier synthetic
+avatar tests. The files have not been checked in to Git history.
+
+**Product gate remains NO-GO:** 10/10 real application download checks
+and archive-integrity checks PASS; 0/10 Microsoft Word edit/save/reopen
+acceptance. No merge, deployment or changes to main/dev/render.
