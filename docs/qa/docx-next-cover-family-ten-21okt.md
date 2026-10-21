@@ -93,3 +93,18 @@ gate; this patch alone **does not enable** Verlauf/Neon/Warm native DOCX.
 Added pure/unit assertions for 150×130 and 40×60 contour geometry, two
 picture corner behaviours, and authored gradient and picture-frame preservation.
 **Not run in GPT-6 Chat:** Bun, screenshot comparisons, real app DOCX/PDF, Word.
+
+
+## Corrected image-height anchor parity
+
+The same Web `resolveLayout()` used by Cover and the PDF view previously
+reserved height for `photo` and `shape` only. A user-inserted `image` has
+the same real rendered height of `width × ratio`, but contributed **zero**
+to `follows` / `above` geometry when the image had no text lines. The
+authored native compositor already reserved that image height, creating a
+Web-versus-Word position discrepancy. The shared Web resolver now includes
+`image`. A regression test checks a 24 × 36 mm image followed with 3 mm gap,
+requiring the next field to start at 49 mm and the source to remain unchanged.
+
+This corrects a real source-level mismatch, but is not a new app export or
+Word acceptance result. Users' explicit coordinates and links still win.

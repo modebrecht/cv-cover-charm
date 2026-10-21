@@ -151,6 +151,24 @@ test("authored page uses shared visible labels and typography without altering a
   expect(m.letter).toEqual(buildDossierDocModel(input).letter);
   expect(m.cv).toEqual(buildDossierDocModel(input).cv);
 });
+test("Web layout reserves the real frame height for uploaded image elements", () => {
+  const input = briefElementsFixture("empty-disabled");
+  const picture = input.cover.blocks.find((block) => block.id === "missing-image")!;
+  const follower = input.cover.blocks.find((block) => block.id === "kicker")!;
+  Object.assign(picture.style, { x: 5, y: 10, w: 24, ratio: 1.5 });
+  Object.assign(follower.style, {
+    follows: "missing-image",
+    above: null,
+    anchorBottom: false,
+    gap: 3,
+  });
+  const source = structuredClone(input.cover.blocks);
+  const layout = resolveLayout([picture, follower], input.cover.fontScale);
+  expect(layout["missing-image"].height).toBe(36);
+  expect(layout.kicker.y).toBe(49);
+  expect(input.cover.blocks).toEqual(source);
+});
+
 test("authored shape anchor geometry agrees with the Web and preserves user positions", () => {
   const input = authoredCoverFixture();
   const shapes = briefElementsFixture("shapes").cover.blocks;

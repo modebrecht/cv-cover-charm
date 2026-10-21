@@ -45,7 +45,7 @@ export function resolveLayout(
         : fitFontSize({ ...metrics, sizePt: wanted, maxLines: st.maxLines });
 
     const height =
-      b.kind === "photo" || b.kind === "shape"
+      b.kind === "photo" || b.kind === "shape" || b.kind === "image"
         ? st.w * (st.ratio ?? 1)
         : b.lines.length === 0
           ? 0
