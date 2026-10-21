@@ -16,7 +16,7 @@ export function composeCover(
   accent: string,
   color: CoverContext["color"],
   fallbackName: Paragraph,
-  avatarComposition?: "single-owner",
+  avatarComposition?: "single-owner" | "writer-vml",
 ): DocBlock[] {
   if (
     Object.values(template.cover.fieldSpaceBeforeMm ?? {}).some(
@@ -181,7 +181,7 @@ export function composeCover(
             !style.follows &&
             !style.above &&
             !style.anchorBottom;
-          const singleOwner = avatarComposition === "single-owner";
+          const singleOwner = avatarComposition === "single-owner" || avatarComposition === "writer-vml";
           if (singleOwner && (!roundPaint || style.opacity !== 1))
             throw Error("DOCX Next single-owner avatar requires an opaque, unanchored round source");
           if (roundPaint && !singleOwner) {
@@ -253,6 +253,9 @@ export function composeCover(
                 ),
                 borderWidthMm: style.borderWidth ?? 25.4 / 96,
                 verticalAlign: "center",
+                ...(avatarComposition === "writer-vml"
+                  ? { diagnosticShapeFormat: "legacy-vml" as const }
+                  : {}),
                 paddingXMm: 0,
                 paddingYMm: 0,
               },

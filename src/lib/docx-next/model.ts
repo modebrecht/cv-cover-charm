@@ -99,6 +99,8 @@ export type ParagraphFrameBlock = {
     borderColor?: string;
     borderWidthMm?: number;
     verticalAlign?: "top" | "center";
+    /** Unaccepted Writer-compatible VML diagnostic owner; never standard. */
+    diagnosticShapeFormat?: "legacy-vml";
     paddingXMm: number;
     paddingYMm: number;
   };

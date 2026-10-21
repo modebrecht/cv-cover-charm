@@ -92,7 +92,7 @@ export type BuildModelOptions = {
   /** Explicit candidate: one native shape contains badge paint and editable text. */
   coverBadgeComposition?: "native-shape";
   /** Diagnostic no-photo candidate: one anchored Word shape owns outline and editable initials. */
-  nativeAvatarComposition?: "single-owner";
+  nativeAvatarComposition?: "single-owner" | "writer-vml";
   /** Explicit classic-CV candidate: one shared native content-sized contact grid. */
   cvContactComposition?: "compact-grid";
   /** Diagnostic font measurements only; source/renderer never read live browser state. */
@@ -217,7 +217,7 @@ export function buildDossierDocModel(
       : settings.placements;
   const template = nextTemplate(String(cover.template));
   if (options.nativeAvatarComposition !== undefined &&
-      (options.nativeAvatarComposition !== "single-owner" ||
+      (!["single-owner", "writer-vml"].includes(options.nativeAvatarComposition) ||
         options.coverComposition !== undefined ||
         template.cover.nativePhotoPlaceholder !== "editable-initials" ||
         !!cover.data.foto))
