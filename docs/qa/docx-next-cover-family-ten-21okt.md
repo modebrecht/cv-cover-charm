@@ -270,3 +270,14 @@ focused DOCX test script silently omitted these new regressions.
 
 No test result is claimed from making the runner portable or adding tests to
 the command. This chat has no checked-out Vite app or Bun/Chromium installation.
+
+## Executed native-shape smoke (21 October)
+
+Node-only smoke is available as `npm run test:docx-next-avatar-native-smoke`.
+It runs the real `src/lib/docx-next/native-text-shape.ts` and `xml.ts` through
+the existing TypeScript dev dependency, with no Bun/Playwright/Vite needed.
+The exact script was executed in Node 22 using source files verified against
+their GitHub blob SHAs; Verlauf, Neon and Warm/Freundlich: **3/3 PASS**.
+The missing-surface guard also passed and generated XML fragments were
+independently parsed as well-formed XML. This does not validate app DOCX
+export, pagination, Microsoft Word display, or Save/Reopen.
