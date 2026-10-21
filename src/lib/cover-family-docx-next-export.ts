@@ -31,15 +31,12 @@ export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {
   if (cvWordLayout(snapshot.settings.cvLayout) !== "classic")
     throw Error("DOCX Next Cover QA: Das Sidebar-CV ist hier nicht freigegeben.");
 
-  const photo = snapshot.cover.blocks.find((block) => block.kind === "photo");
-  const emptyVisiblePhoto = !snapshot.cover.data.foto && !!photo && !photo.style.hidden;
-  const model = buildDossierDocModel(snapshot,
-    emptyVisiblePhoto
-      ? { nativeAvatarComposition: "writer-frame" }
-      : snapshot.cover.data.foto
-        ? { coverPhotoPlacement: "authored-page" }
-        : {},
-  );
+  // Entire graphical cover, including source-positioned text and native
+  // editable initials, must follow the SAVED Web geometry. Never pass this
+  // experimental composition to the default product exporter.
+  const model = buildDossierDocModel(snapshot, {
+    coverComposition: "graphic-family-qa",
+  });
   if (model.issues.length || model.templateId !== family)
     throw Error("DOCX Next Cover QA: Nicht unterstützte Modell-Einstellungen.");
 
@@ -50,8 +47,10 @@ export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {
         walkBlocks(part.blocks).some((block) =>
           (block.kind === "paragraph-frame" &&
             (part.id !== "cover" ||
-              block.id !== "cover.photo.native-avatar" ||
-              (block.surface !== undefined || block.wrapMode !== "none"))) ||
+              !block.id.startsWith("cover.") ||
+              !block.id.endsWith(".frame") ||
+              block.wrapMode !== "none" ||
+              block.surface !== undefined)) ||
           (block.kind === "table" &&
             (block.position !== undefined ||
               block.bodyBoundary !== undefined ||
