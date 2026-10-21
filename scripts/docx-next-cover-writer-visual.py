@@ -133,6 +133,22 @@ def check_case(folder, soffice, pages_required, image_size):
     web_image = Image.open(files[3]).convert("RGB").resize(image_size)
     word_image = Image.open(png).convert("RGB").resize(image_size)
     mae = sum(ImageStat.Stat(ImageChops.difference(web_image, word_image)).mean) / 3
+    photo_region_difference = None
+    if photo and source["data"].get("foto") and not photo["style"].get("hidden"):
+        # A missing or wrongly cropped portrait affects only a small fraction
+        # of A4. Whole-page pixel similarity can hide a significant failure.
+        style = photo["style"]
+        x = style["x"] / 210 * image_size[0]
+        y = style["y"] / 297 * image_size[1]
+        w = style["w"] / 210 * image_size[0]
+        h = style["w"] * style.get("ratio", 1) / 297 * image_size[1]
+        crop = (max(0, int(x)), max(0, int(y)),
+                min(image_size[0], int(x + w)), min(image_size[1], int(y + h)))
+        if crop[2] <= crop[0] or crop[3] <= crop[1]:
+            raise ValueError("Actual uploaded photo has no valid on-page region")
+        a = web_image.crop(crop)
+        z = word_image.crop(crop)
+        photo_region_difference = sum(ImageStat.Stat(ImageChops.difference(a, z)).mean) / 3
     side = Image.new("RGB", (image_size[0] * 2, image_size[1]), "white")
     side.paste(web_image, (0, 0))
     side.paste(word_image, (image_size[0], 0))
@@ -142,6 +158,8 @@ def check_case(folder, soffice, pages_required, image_size):
         reasons.append(f"page-count {pages} vs {pages_required}")
     if expect_initials and (error is None or any(abs(x) > 2 for x in error)):
         reasons.append("editable initials missing or >2mm from saved avatar center")
+    if photo_region_difference is not None and photo_region_difference > 35:
+        reasons.append("uploaded photo region differs from Web by >35/255 RGB MAE")
     reasons.extend("cover text " + x["status"].lower() + ": " + x["id"]
                    for x in text_results if x["status"] != "PASS")
     if not text_results:
@@ -150,7 +168,10 @@ def check_case(folder, soffice, pages_required, image_size):
         "case": folder.name, "status": "REVIEW" if reasons else "PASS_WITH_LIMITATIONS",
         "pages": pages, "initials": initials if expect_initials else None,
         "initialsErrorMm": error, "textMetrics": text_results,
-        "meanPixelDifference": round(mae, 2), "reasons": reasons,
+        "meanPixelDifference": round(mae, 2),
+        "photoRegionPixelDifference": round(photo_region_difference, 2)
+        if photo_region_difference is not None else None,
+        "reasons": reasons,
         "preview": str((output / "web-vs-writer.jpg").relative_to(folder.parent)),
     }
 
