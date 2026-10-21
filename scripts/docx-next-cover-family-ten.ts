@@ -15,7 +15,9 @@ const appBase = process.env.DOCX_NEXT_APP_URL ?? "http://127.0.0.1:4173";
 // Explicitly diagnostic; never switches the actual application export path.
 const exportAvatarTrials = process.env.DOCX_NEXT_AVATAR_EXPERIMENT === "1";
 const require = createRequire(import.meta.url);
-let chromium: typeof import("playwright").chromium;
+// The project intentionally does not declare Playwright as a dependency.
+// Use the runtime-loaded module shape so TypeScript does not require its types.
+let chromium: ReturnType<typeof require>["chromium"];
 try {
   // Existing Codex runtime takes precedence; ordinary QA can use a local
   // Playwright installation without CODEX_PRIMARY_* environment variables.
