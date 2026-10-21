@@ -1,38 +1,66 @@
-# Pinned app export handoff for the CV pagination repair
+# CV pagination app exports and Word handoff
 
 ## Current result
 
-The code repair is commit `1ae6bd9a155d179b146aee4c99fed18a1aa647c2` on `fix/docx-next-word-pagination-21okt`. It changes the shared reading-row CV rubric default from 7 px to 0.5 mm, while preserving explicit user values. Its 87 focused tests and supplementary native before/after renders are recorded in `docx-next-word-pagination-takeover-21okt.md`.
+The browser blocker is resolved. Twelve fresh DOCX files and twelve matching application PDFs were downloaded through the application using official Chrome for Testing headless shell 156.0.8078.47. Modern 02 and Brief 12, using the real automatic-fit action, each contain one complete CV page including References in the supplementary LibreOffice rendering. Their complete dossiers have three pages: cover, letter, CV.
 
-**Fresh app exports remain pending. No new DOCX or app PDF was generated in this continuation. No new Desktop Word acceptance exists. Do not merge or declare this P1 closed.**
+**Desktop Word acceptance remains UNVERIFIED. This is not a batch-wide pagination PASS and does not authorize a merge.** Cases 03, 05 and 07 still have one CV page in the browser and two in LibreOffice. These open discrepancies are retained in the evidence and packet, not hidden by changing the gate.
 
-## What this continuation verified
+The repair remains product commit `1ae6bd9a155d179b146aee4c99fed18a1aa647c2` on `fix/docx-next-word-pagination-21okt`. This continuation changes documentation only. The shared reading-row CV heading fallback now matches the browser's 0.5 mm default instead of adding 7 px, while respecting explicit user values, including zero. Seven default headings previously added approximately 9.46 mm of surplus native spacing. No further font shrinking, compensating offsets or user-value overrides were introduced.
 
-- Materialized 431 source/configuration/fixture files from the repair commit through GitHub. Every file's Git blob SHA matches the authoritative tree; zero mismatches remain. Manifest digest: `727f062b86373f8092e05f87f8f3f37781c2fa54a072f965e17e650a43c1a57c`.
-- Restored cached frontend dependencies, exact React Query 5.101.1 and html2canvas-pro 2.3.0 sources, and the official jsPDF 4.2.1 browser distribution for local QA. A QA-only SPA bootstrap compiled 2,450 modules successfully.
-- This is **not** the original Lovable/TanStack production build. Cached tooling differs from the repository's pinned runtime, and the production Vite configuration was not changed or committed. It does not replace browser execution or Word acceptance.
-- The local environment has no Chromium executable. The separate cloud browser cannot connect to the local HTTP server (`ERR_CONNECTION_REFUSED`). It explicitly rejected opening the local QA HTML because its URL policy allows only HTTP/HTTPS. That denial was not bypassed. The temporary QA server was stopped.
+## What was executed
 
-## Execute in an environment with a functioning app browser
+The existing `scripts/docx-next-word-batch19okt.ts` restored each project through the actual JSON file input, clicked the applicable page-fit control, captured live layout metrics, reloaded the saved project, and downloaded the native DOCX through the guarded export dialog. Each downloaded DOCX was byte-identical to the app's captured native export. Saved state survived reload and export; every model had zero issues. The matching normal app PDF was also downloaded through the dialog.
 
-Use the repair branch, not the active Fidelity branch by itself. At the last check, Fidelity was `b70fd0861acf97b5503fc77bd812b368d77b6662`; its newer changes concern native title-page text frames and still retain the incorrect CV 7 px default. Do not overwrite that parallel work or silently treat its exports as containing this repair.
+The batch used `WORD_BATCH_SMART_FIT=1`, so the historical case IDs `02-Modern-Zwei-CV-Seiten` and `12-Brief-Zwei-CV-Seiten` are automatic-fit cases here. Their acceptance copies are named `02-Modern-Automatik-CV-ab-Seite-3.docx` and `12-Brief-Automatik-CV-ab-Seite-3.docx`. This renaming does not change their bytes. The verifier expects one page for those auto cases; the original two-page verifier was used unchanged for the separate explicit-two-page controls. No product gate was relaxed.
 
-1. Read `AGENTS.md` and verify the source contains the repaired `readingRows` default. Use the existing lockfile, installation policy and normal application configuration. Do not carry the temporary QA SPA bootstrap or vendored runtime into product code.
-2. Run the existing full-app batch, applying automatic fit to cases 02 and 12:
+The separate control run used `WORD_BATCH_CASES=02,12 WORD_BATCH_SMART_FIT=0`. Both Modern and Brief retained two CV pages in the browser, application PDF and native rendering. These controls are internal evidence, not another user micro-test.
 
-   ```bash
-   WORD_BATCH_SMART_FIT=1 bun scripts/docx-next-word-batch19okt.ts /absolute/output/word-pagination-auto
-   ```
+## Results
 
-   The existing runner starts the app when `DOCX_NEXT_APP_URL` is unset. It uses the configured Playwright runtime and optionally `DOCX_NEXT_CHROMIUM_PATH` for an installed browser. All twelve cases form one consolidated packet; 02 and 12 are the changed CV acceptance targets. Capture each actual post-action fitted project, source, current live metrics, model, downloaded DOCX, app PDF and proof. The runner's old case folder names still contain `Zwei-CV-Seiten`; in Smart Fit mode that name does **not** certify the resulting page count. Label final acceptance copies clearly as automatic-fit cases.
-3. Verify the explicit two-page command independently as an automated control, retaining the resulting control files separately:
+The native column below refers to unmodified LibreOfficeDev 26.8. No row claims Microsoft Word acceptance.
 
-   ```bash
-   WORD_BATCH_CASES=02,12 WORD_BATCH_SMART_FIT=0 bun scripts/docx-next-word-batch19okt.ts /absolute/output/word-pagination-exact-two-control
-   ```
+| Case | Page action in runner | Web CV pages | Native CV pages | Result |
+| --- | --- | ---: | ---: | --- |
+| 01 Modern | Explicit one | 1 | 1 | Supplementary page check passes |
+| 02 Modern | Auto | 1 | 1 | Target passes supplementary check; References included |
+| 03 Modern contact inline | None | 1 | 2 | OPEN page-count mismatch |
+| 04 Modern contact stacked | References assigned to page 2 | 2 | 2 | Explicit section page retained |
+| 05 Modern custom values | None | 1 | 2 | OPEN page-count mismatch; explicit spacing retained |
+| 06 Modern photo | None | 1 | 1 | Supplementary page check passes |
+| 07 Modern long description | None | 1 | 2 | OPEN page-count mismatch |
+| 08 Brief standard | None | 1 | 1 | Supplementary page check passes |
+| 09 Brief long cover | None | 1 | 1 | Supplementary page check passes |
+| 10 Brief portrait cover | None | 1 | 1 | Supplementary page check passes |
+| 11 Brief | Explicit one | 1 | 1 | Supplementary page check passes |
+| 12 Brief | Auto | 1 | 1 | Target passes supplementary check; References included |
 
-4. Verify every canonical CV field and all content, expected page assignments, typography, source immutability and actual downloaded bytes. Inspect the complete current outputs. Treat additional native-render results as supplementary only. If the real Modern pill/personal-header capture still overflows, diagnose those actual metrics before changing more defaults; the earlier generic reproduction is insufficient to certify that path.
-5. Include the fresh cases in one consolidated Word acceptance packet. Ask for **no intermediate micro-test**. The outstanding acceptance concerns the CV in 02 and 12: one complete readable CV page including all References fields, then save/reopen. Cover/title-page appearance is a separate workstream. Already-confirmed Sidebar photos need no repeat test merely because this spacing patch exists.
-6. After current full-app Word acceptance, prepare the isolated combined integration branch with the Sidebar repair and latest Fidelity work, rechecking the old Sidebar transport against the new base. No merge, deployment, CI dispatch or production export switch is authorized by this handoff.
+All 979 checked model text fields occur in the supplementary native PDFs. The twelve document bodies contain 954 content controls. CV controls were additionally checked against the existing exporter ownership mappings: joined first/last name owns `cv.person.name`, and Brief's footer name owns `cv.footer.content`. Contact values placed in first/continuation headers were checked in those parts, not mistaken for missing body fields. This confirms initial export structure and text; Word save/reopen ownership is still unverified.
 
-The runtime evidence is in `docx-next-word-pagination-app-export-21okt-evidence.json`. This handoff preserves a concrete next action; it is not a completed export packet or an application regression verdict.
+Original PNG bytes were preserved for the two cover test cards in 06 and 10. That is not a new Sidebar-photo acceptance result. Modern's native heading pills passed the existing ink-containment checks. All 40 rendered dossier pages were inspected; 25 distinct PNGs covered the byte-identical duplicates. Some normal app-PDF cover text remains non-extractable because it is painted in an image layer; those gaps remain recorded rather than presented as searchable-text PASS.
+
+The three unfitted mismatches do not establish that the 0.5 mm repair regressed their layout. They also do not establish safe native page capacity for arbitrary headers, long descriptions or explicit large spacing. Their current result stays OPEN. The repair should not be described as a general solution for every one-page browser CV.
+
+## Source and runtime scope
+
+All 416 application `src` files match the pinned repair commit. The final projection contains 436 exact authoritative files, including the missing fixture and four repository Cabin fonts. During execution, `brief.ts` had one extra EOF newline; its executable contents were unchanged, and the final file was restored to the authoritative blob. The original 431-file source manifest and its digest remain historical evidence.
+
+The test uses a temporary QA-only SPA bootstrap and cached frontend tooling, not the original Lovable/TanStack production build. React is 19.2.8, Vite 8.2.1, React Router 1.170.30 and React Start 1.168.47. Exact upstream sources supplied React Query 5.101.1, html2canvas-pro 2.3.0 and the official jsPDF 4.2.1 UMD. No QA bootstrap, vendor source or dependency change was committed as product code. The known Tailwind import-order warning concerns the temporary bootstrap; it is not a production-build certification.
+
+The app's Sans metric gate passed with legitimate local Liberation Sans fonts. Word requests Arial; the actual Windows font identity remains unverified. Four exact repository Cabin TTFs were restored before the final batch so the normal PDF export also registers its fonts without the earlier missing-font errors. The earlier targeted smoke exports are not the delivered batch.
+
+The standard Playwright CDN returned an HTML outage page instead of a ZIP. The official Google Chrome for Testing download succeeded and ran against the local HTTP app using explicit Playwright `executablePath`. No cloud-browser local-file policy was bypassed. The official browser ZIP SHA-256 is recorded in the evidence JSON.
+
+## Parallel work and packet
+
+The active Fidelity branch was rechecked at `cefa83256a8f60f9c206b8728ee6b72bb1d09e17`, sixteen commits after the export base `99e053068bbe28f39fda3861591be997b1bb0b09`. Its newer work concerns title pages and authored graphics; its CV heading fallback still reads 7 px. Those commits were not overwritten or silently treated as part of this export. This packet tests the isolated CV repair and does not re-open title-page acceptance.
+
+`CV-Pagination-App-Exporte-21okt.zip` contains twelve unchanged app DOCX downloads, twelve same-state app PDFs, importable fitted projects and evidence. The two target DOCX files are in the root, with the other ten under `Weitere-Faelle`. It contains no browser screenshots and no reconstructed DOCX. Size: 13,125,260 bytes. SHA-256: `f131fe112e208d356f65d2c58ac3689fe67b911af713f0712ce6990aec5850e2`.
+
+## Smallest remaining Word acceptance
+
+In one consolidated response, check 02 Modern and 12 Brief in Desktop Word, focusing on the CV from dossier page 3. The CV must remain one readable page, with the complete References heading, name, role and contact. Save and reopen both files and verify that this remains true and that native CV text remains editable. A returned saved DOCX and Word PDF can then establish actual pagination and control retention. No intermediate Word micro-test was requested during this continuation.
+
+After that result, classify the targeted CV repair independently from the three open unfitted cases. Only then prepare the isolated integration with current Fidelity and the previously confirmed Sidebar repair, rechecking its old transport against the current base. No merge, deployment, CI dispatch, production export switch or active-branch modification was performed.
+
+Machine-readable evidence is in `docx-next-word-pagination-app-export-21okt-evidence.json`. The earlier 87 focused tests and strict focused TypeScript check remain recorded in `docx-next-word-pagination-takeover-21okt.md`; unchanged code did not justify rerunning them merely for this documentation update.
