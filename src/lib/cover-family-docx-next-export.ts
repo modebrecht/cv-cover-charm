@@ -35,7 +35,7 @@ export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {
   const emptyVisiblePhoto = !snapshot.cover.data.foto && !!photo && !photo.style.hidden;
   const model = buildDossierDocModel(snapshot,
     emptyVisiblePhoto
-      ? { nativeAvatarComposition: "writer-vml" }
+      ? { nativeAvatarComposition: "writer-frame" }
       : snapshot.cover.data.foto
         ? { coverPhotoPlacement: "authored-page" }
         : {},
@@ -51,7 +51,7 @@ export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {
           (block.kind === "paragraph-frame" &&
             (part.id !== "cover" ||
               block.id !== "cover.photo.native-avatar" ||
-              block.surface?.diagnosticShapeFormat !== "legacy-vml")) ||
+              (block.surface !== undefined || block.wrapMode !== "none"))) ||
           (block.kind === "table" &&
             (block.position !== undefined ||
               block.bodyBoundary !== undefined ||
