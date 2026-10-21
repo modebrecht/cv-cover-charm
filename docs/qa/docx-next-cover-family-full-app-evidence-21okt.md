@@ -121,3 +121,60 @@ uploaded photo positions are still rejected.
 photo crop/overlap visual reviews, Microsoft Word Save/Reopen, and
 user-facing product export enablement. Writer is not Desktop Word.
 No merge, main/dev changes, CI run, or Vercel deployment.
+
+
+## Final 10-case authored-page visual QA — 21 October 2026
+
+**Tested code revision:** `29116c7f715f487381330e6654e7027a5e4c6a3f`
+(`fix/docx-next-shared-fidelity-18okt`, QA mode only).
+**Isolated environment:** separate Vercel Sandbox from an existing QA
+snapshot, clean detached Git worktree, Bun, Playwright/Chromium, LibreOffice
+Writer 26.2.6. No production deployment, merge, or CI rerun.
+
+The final **true application download test ran to completion**:
+**10/10 downloaded**, **0 failures**, 10/10 full DOCX Writer→PDF
+conversions, **four pages each**. All eight no-photo cases contained
+visible editable initials with measured circle-centering deviations
+between **0.03–0.09 mm**. The other two cases preserved source photos.
+The full focused DOCX suite previously ran **492/492 PASS** (8,817
+assertions), and this exact branch revision also passed **TypeScript
+`--noEmit`** and the application **production build** (both exit 0).
+
+The previous severe vertical collapse of title/date/contact was corrected
+by the *source-positioned* `coverComposition: "graphic-family-qa"`
+composition; the source palette, circle/gradient motif, date pill,
+photo and contact/bottom-zone positions now closely track the Web.
+The common code gates this behind a declared template capability, not
+per-template ID branches. Production DOCX/PDF remain unchanged.
+
+| Case | Saved cover | Writer pages | Web/Writer page-1 pixel agreement* |
+|---|---|---:|---:|
+| V01 | Verlauf baseline | 4 | 99.26% |
+| V02 | Verlauf 115% | 4 | 99.09% |
+| V03 | Verlauf photo | 4 | 99.23% |
+| V04 | Verlauf long date | 4 | 98.93% |
+| N01 | Neon baseline | 4 | 99.06% |
+| N02 | Neon hidden rule | 4 | 99.09% |
+| N03 | Neon photo | 4 | 99.04% |
+| W01 | Freundlich baseline | 4 | 99.12% |
+| W02 | Freundlich long name | 4 | 98.91% |
+| W03 | Freundlich long contact | 4 | 99.00% |
+
+*Simple normalized RGB pixel similarity after matching each full A4
+render to the **actual saved Web screenshot at 686×970**; this is
+not SSIM, font identity proof, or pixel-perfect Word acceptance. Low-frequency
+background graphics strongly influence this score, so visual spot checks
+remain necessary. Five paired screenshots are preserved under
+`docs/qa/docx-next-cover-graphic-visual-21okt/` with Web on the **left**
+and Writer on the **right**:
+[V01](docx-next-cover-graphic-visual-21okt/V01-web-vs-writer.jpg),
+[N01](docx-next-cover-graphic-visual-21okt/N01-web-vs-writer.jpg),
+[W01](docx-next-cover-graphic-visual-21okt/W01-web-vs-writer.jpg),
+[V03 photo](docx-next-cover-graphic-visual-21okt/V03-web-vs-writer.jpg),
+[N03 photo](docx-next-cover-graphic-visual-21okt/N03-web-vs-writer.jpg).
+[All ten machine-readable results](docx-next-cover-graphic-visual-21okt/writer-visual-report.json).
+
+**Remaining NO-GO:** No Microsoft Word desktop edit/save/reopen acceptance,
+no 10-case Word visual confirmation, no production export activation.
+Writer visual agreement is valuable evidence, not a replacement for Word.
+No user test is requested at this stage.
