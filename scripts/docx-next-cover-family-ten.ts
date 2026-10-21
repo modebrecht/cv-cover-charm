@@ -573,12 +573,14 @@ try {
         for (const identity of ["cover.fullName", "letter.", "cv."])
           assert(xml.includes(identity), "UI DOCX missing entire document identity: " + identity);
         if (!project.cover!.data.foto) {
-          assert(xml.includes('id="cover.photo.native-avatar-'),
-            "Full application DOCX does not contain editable VML avatar");
-          assert(xml.includes('cover.photo.initials'),
-            "Full application DOCX avatar initials are not editable");
-          assert(xml.includes('<w:vAlign w:val="center"/>'),
-            "Full application DOCX avatar lost vertical centering");
+          assert(xml.includes('<w:framePr w:w="') &&
+            xml.includes('w:wrap="none" w:vAnchor="page" w:hAnchor="page"'),
+            "Full application DOCX lost foreground editable Word frame");
+          assert(xml.includes("cover.photo.initials") &&
+            xml.includes('<w:t xml:space="preserve">LM</w:t>'),
+            "Full application DOCX avatar initials are missing or not editable");
+          assert(!xml.includes('id="cover.photo.native-avatar-'),
+            "Full application DOCX still contains rejected VML avatar paint");
         } else {
           const marker = xml.indexOf('name="cover.photo"');
           assert(marker >= 0, "Full application DOCX lost uploaded source photo");
