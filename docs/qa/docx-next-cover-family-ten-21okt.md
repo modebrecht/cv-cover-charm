@@ -312,3 +312,34 @@ python scripts/docx-next-avatar-writer-gate.py --packet /tmp/docx-next-cover-fam
 
 The isolated 3-family diagnostic DOCX packet is available in this chat for
 testing in **desktop Microsoft Word**; it is not a product release artifact.
+
+
+## Optional Writer-readable VML circle candidate (gated, 21 October)
+
+In addition to the original DrawingML single-owner candidate, a second
+explicit trial `nativeAvatarComposition: "writer-vml"` now uses a **single
+editable VML circle** with an exact-height native Word table inside its
+textbox. The table's cell has `w:vAlign="center"`, with the original
+`cover.photo.initials` text control retained. Source palette/position/
+size, PDF and CV/Letter source states remain unchanged.
+
+The standalone `native-vml-avatar.ts` source was copied byte-for-byte
+from GitHub (blob SHA b2e5a9500f41a1402d6069128586e793914be4d2), then
+transpiled/executed with Node. Its generated XML was placed into three
+isolated DOCX wrappers with ordinary editability controls **and with a
+native `w:sdt` text content control**. Writer-rendering and geometric
+text placement check returned **3/3 PASS**: Verlauf, Neon, Freundlich.
+This is genuinely executed Writer QA, but **not** the full three-part
+application export and **not Microsoft Word Save/Reopen acceptance**.
+
+The saved-state ten-case runner now permits a caller-selected experimental
+format:
+
+```bash
+DOCX_NEXT_AVATAR_EXPERIMENT=1 DOCX_NEXT_AVATAR_FORMAT=writer-vml bun scripts/docx-next-cover-family-ten.ts /tmp/docx-next-cover-family-ten
+```
+
+Only those explicitly requesting the trial receive VML. Normal app
+exports, non-photo badges, source JSON, default SVG/DrawingML and the
+feature gates remain unchanged. The full 10-case app run remains 0/10
+and desktop Word 0/10 in this chat.

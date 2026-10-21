@@ -14,6 +14,9 @@ const out = path.resolve(process.argv[2] ?? "/tmp/docx-next-cover-family-ten");
 const appBase = process.env.DOCX_NEXT_APP_URL ?? "http://127.0.0.1:4173";
 // Explicitly diagnostic; never switches the actual application export path.
 const exportAvatarTrials = process.env.DOCX_NEXT_AVATAR_EXPERIMENT === "1";
+const avatarFormat = process.env.DOCX_NEXT_AVATAR_FORMAT ?? "single-owner";
+assert(["single-owner", "writer-vml"].includes(avatarFormat),
+  "Unknown diagnostic avatar format; use single-owner or writer-vml");
 const require = createRequire(import.meta.url);
 // The project intentionally does not declare Playwright as a dependency.
 // Use the runtime-loaded module shape so TypeScript does not require its types.
@@ -227,18 +230,22 @@ try {
         status: "DIAGNOSTIC_DOCX_GENERATED" | "NOT_REQUESTED";
         sha256?: string;
         sizeBytes?: number;
-        mode?: "single-owner" | "photo-flow";
+        mode?: "single-owner" | "writer-vml" | "photo-flow";
         nativeTextShape?: boolean;
         file?: string;
       } = { status: "NOT_REQUESTED" };
       if (exportAvatarTrials) {
-        const result = await page.evaluate(async (snapshot: typeof captured.snapshot) => {
+        const result = await page.evaluate(async (arg: {
+          snapshot: typeof captured.snapshot;
+          avatarFormat: string;
+        }) => {
+          const { snapshot, avatarFormat } = arg;
           const { buildDossierDocModel } = await import("/src/lib/docx-next/build-model.ts");
           const { renderDossierDocx } = await import("/src/lib/docx-next/renderer.ts");
           const { readZipEntries } = await import("/src/lib/docx-next/zip.ts");
           const candidate = !snapshot.cover.data.foto;
           const model = buildDossierDocModel(snapshot,
-            candidate ? { nativeAvatarComposition: "single-owner" } : {});
+            candidate ? { nativeAvatarComposition: avatarFormat as "single-owner" | "writer-vml" } : {});
           const bytes = new Uint8Array(await (await renderDossierDocx(model, {
             // Explicitly allow the isolated Word shape candidate; NO production gate change.
             allowUnacceptedModelIssues: true,
@@ -247,8 +254,15 @@ try {
           if (!part) throw Error("Diagnostic DOCX missing the actual Word document part");
           const xml = new TextDecoder().decode(part.bytes);
           const avatarCount = xml.split('name="cover.photo.native-avatar"').length - 1;
-          const hasAvatar = avatarCount > 0;
-          if (candidate) {
+          const vmlAvatar = xml.includes('id="cover.photo.native-avatar-');
+          const hasAvatar = avatarCount > 0 || vmlAvatar;
+          if (candidate && avatarFormat === "writer-vml") {
+            if (!vmlAvatar || avatarCount !== 0 ||
+                !xml.includes('<w:txbxContent><w:tbl>') ||
+                !xml.includes('<w:vAlign w:val="center"/>') ||
+                !xml.includes("cover.photo.initials"))
+              throw Error("Writer VML DOCX must contain exactly one editable centered avatar");
+          } else if (candidate) {
             if (avatarCount !== 1 || !xml.includes("<wps:txbx><w:txbxContent>") ||
                 !xml.includes("cover.photo.initials") || !xml.includes("<a:arcTo"))
               throw Error("Single-owner DOCX must have exactly one editable circular avatar");
@@ -270,9 +284,9 @@ try {
           for (let offset = 0; offset < bytes.length; offset += 8192)
             fragments.push(String.fromCharCode(...bytes.subarray(offset, offset + 8192)));
           const base64 = btoa(fragments.join(""));
-          return { base64, mode: candidate ? "single-owner" : "photo-flow",
+          return { base64, mode: candidate ? avatarFormat : "photo-flow",
             nativeTextShape: hasAvatar };
-        }, captured.snapshot);
+        }, { snapshot: captured.snapshot, avatarFormat });
         const bytes = Buffer.from(result.base64, "base64");
         assert(bytes.length > 2000 && bytes.subarray(0, 2).toString() === "PK",
           "Diagnostic DOCX is not a real ZIP package");
@@ -281,7 +295,7 @@ try {
         avatarTrial = {
           status: "DIAGNOSTIC_DOCX_GENERATED",
           sha256: sha256(bytes), sizeBytes: bytes.length,
-          mode: result.mode as "single-owner" | "photo-flow",
+          mode: result.mode as "single-owner" | "writer-vml" | "photo-flow",
           nativeTextShape: result.nativeTextShape, file: name,
         };
         await writeFile(path.join(folder, "diagnostic-avatar.json"),

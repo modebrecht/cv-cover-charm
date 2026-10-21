@@ -192,3 +192,63 @@ describe("single-owner native avatar experiment (never the default export)", () 
     })).toThrow("requires an opaque, unanchored round source");
   });
 });
+
+
+describe("guarded Writer-compatible VML avatar candidate", () => {
+  for (const template of ["verlauf", "neon", "freundlich"] as const) {
+    test(template + " produces one editable circle with a vertically centered native table", async () => {
+      const input = graphicCandidateFixture(template);
+      const previous = structuredClone(input);
+      const normal = buildDossierDocModel(input);
+      const diagnostic = buildDossierDocModel(input, {
+        nativeAvatarComposition: "writer-vml",
+      });
+      const owner = diagnostic.cover.blocks.find(
+        (block) => block.id === "cover.photo.native-avatar",
+      );
+      expect(owner?.kind).toBe("paragraph-frame");
+      if (owner?.kind !== "paragraph-frame") throw Error("Missing VML diagnostic owner");
+      expect(owner.surface).toMatchObject({
+        diagnosticShapeFormat: "legacy-vml",
+        verticalAlign: "center",
+      });
+      expect(diagnostic.cover.blocks.some((block) =>
+        block.id === "cover.photo.placeholder-paint")).toBe(false);
+      expect(diagnostic.letter).toEqual(normal.letter);
+      expect(diagnostic.cv).toEqual(normal.cv);
+      expect(input).toEqual(previous);
+      validateDossierDocModel(diagnostic);
+      await expect(renderDossierDocx(diagnostic)).rejects.toThrow(
+        "paragraph frame pagination is unaccepted",
+      );
+      const bytes = new Uint8Array(await (await renderDossierDocx(diagnostic, {
+        allowUnacceptedModelIssues: true,
+        rasterizeDecoration: async () => ({
+          bytes: paintPng({ color: "FFFFFF" }),
+          widthPx: 1, heightPx: 1,
+          extension: "png" as const, contentType: "image/png" as const,
+        }),
+      })).arrayBuffer());
+      const xml = new TextDecoder().decode(readZipEntries(bytes).find(
+        (entry) => entry.name === "word/document.xml",
+      )!.bytes);
+      expect(xml).toContain('<w:pict><v:oval');
+      expect(xml).toContain('id="cover.photo.native-avatar-');
+      expect(xml).toContain('<w:txbxContent><w:tbl>');
+      expect(xml).toContain('<w:vAlign w:val="center"/>');
+      expect(xml).toContain('cover.photo.initials');
+      expect(xml).toContain('<w:t xml:space="preserve">LM</w:t>');
+      expect(xml).not.toContain('name="cover.photo.placeholder-paint"');
+      expect(xml).not.toContain('name="cover.photo.native-avatar"');
+    });
+  }
+  test("VML trial stays gated on explicit option and safe source geometry", () => {
+    const original = graphicCandidateFixture("freundlich");
+    expect(walkBlocks(buildDossierDocModel(original).cover.blocks)
+      .some((block) => block.id === "cover.photo.native-avatar")).toBe(false);
+    original.cover.blocks.find((block) => block.id === "foto")!.style.above = "name";
+    expect(() => buildDossierDocModel(original, {
+      nativeAvatarComposition: "writer-vml",
+    })).toThrow("requires an opaque, unanchored round source");
+  });
+});

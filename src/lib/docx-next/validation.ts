@@ -232,6 +232,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
                 s.borderWidthMm >= Math.min(block.widthMm, s.heightMm))) ||
             (!!s.borderWidthMm && !s.borderColor) ||
             (s.verticalAlign !== undefined && !["top", "center"].includes(s.verticalAlign)) ||
+            (s.diagnosticShapeFormat !== undefined &&
+              s.diagnosticShapeFormat !== "legacy-vml") ||
             block.paragraphs.length !== 1 ||
             block.paragraphs.some(
               (p) =>
