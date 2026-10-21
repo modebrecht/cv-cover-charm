@@ -80,6 +80,8 @@ export type ImageBlock = {
     borderColor: string;
   };
   coordinateOrigin?: "content" | "page";
+  /** Explicitly opted-in QA page picture: no Word text wrap. */
+  wrapMode?: "none";
   sourceLayout?: ElementSourceLayout;
 };
 /** Unaccepted automatic-height native paragraph frame; diagnostic flow only. */
