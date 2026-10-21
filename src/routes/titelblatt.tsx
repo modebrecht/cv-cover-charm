@@ -59,6 +59,7 @@ import {
 } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
+import { downloadSavedCoverFamilyDocxNext } from "@/lib/cover-family-docx-next-export";
 import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
 import {
@@ -926,6 +927,24 @@ function Titelblatt() {
     }
   };
 
+  const downloadCoverFamilyDocxNext = async () => {
+    if (downloading) return;
+    setMenuOpen(false);
+    setSelected(null);
+    setDownloading(true);
+    try {
+      await downloadSavedCoverFamilyDocxNext();
+      setStatus({ kind: "ok", text: "Vollständiges DOCX-Dossier (QA) heruntergeladen" });
+    } catch (error) {
+      setStatus({
+        kind: "error",
+        text: error instanceof Error ? error.message : "DOCX-Testexport konnte nicht erstellt werden.",
+      });
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   const downloadDossier = () => {
     setMenuOpen(false);
     const project = createDossierProject({
@@ -1744,6 +1763,7 @@ function Titelblatt() {
         nativePrintError={nativePrint.error}
         onClose={closeDossierReview}
         onDownload={downloadDossierPdf}
+        onCoverFamilyDocxNext={downloadCoverFamilyDocxNext}
       />
 
       {/*

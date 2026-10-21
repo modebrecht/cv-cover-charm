@@ -23,6 +23,7 @@ import {
 } from "@/lib/dossier-project";
 import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
 import { briefDocxNextUiEnabled } from "@/lib/docx-next/brief-visibility";
+import { coverFamilyDocxQaEnabled, isCoverFamilyDocxQaTemplate } from "@/lib/cover-family-docx-next-export";
 import {
   designDocxNextUiEnabled,
   designNativeBadgeUiEnabled,
@@ -51,6 +52,7 @@ type Props = {
   nativePrintError?: string | null;
   onBriefDocxNext?: () => void | Promise<void>;
   onDesignDocxNext?: () => void | Promise<void>;
+  onCoverFamilyDocxNext?: () => void | Promise<void>;
   briefDocxNextError?: string | null;
 };
 
@@ -110,6 +112,7 @@ export function DossierExportDialog({
   nativePrintError,
   onBriefDocxNext,
   onDesignDocxNext,
+  onCoverFamilyDocxNext,
   briefDocxNextError,
 }: Props) {
   const downloadRef = useRef<HTMLButtonElement>(null);
@@ -527,6 +530,25 @@ export function DossierExportDialog({
                 {briefDocxNextError}
               </p>
             ) : null}
+          </div>
+        ) : null}
+
+        {coverFamilyDocxQaEnabled() &&
+        isCoverFamilyDocxQaTemplate(cover?.template) &&
+        onCoverFamilyDocxNext ? (
+          <div className="mt-3 rounded-lg border px-3 py-2" data-cover-family-docx-next-qa>
+            <p className="text-xs text-muted-foreground">
+              Vollständiges DOCX-Testdossier mit Titelblatt, Anschreiben und CV
+              aus dem gespeicherten Projekt. Nur QA, keine Produktfreigabe.
+            </p>
+            <button
+              type="button"
+              onClick={() => void onCoverFamilyDocxNext()}
+              disabled={busy || missingParts.length > 0 || !letterState.readyToSend}
+              className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
+            >
+              {downloading ? "Dossier wird erstellt…" : "Ganzes DOCX-Testdossier herunterladen"}
+            </button>
           </div>
         ) : null}
 

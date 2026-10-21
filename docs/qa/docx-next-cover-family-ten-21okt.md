@@ -377,3 +377,26 @@ gradient cover rendering.
 **Status:** Writer isolated visual geometry 3/3; Writer Save/Reopen 3/3;
 full app ten-case exports 0/10; Desktop Microsoft Word 0/10. NO-GO
 production until a complete native DOCX/Word acceptance pass.
+
+
+## Full saved-app three-part DOCX candidate (QA-only, 21 October)
+
+A real application download entry has been wired into the cover editor's
+combined dossier dialog. The button is visible ONLY for Verlauf, Neon and
+Freundlich and ONLY with the explicit URL opt-in
+`?docx-next-cover-family-qa=1`. It captures all three stored dossier parts
+at the moment of export (cover/letter/CV), checks completeness, matching
+template identity and classic CV, creates one full document through the
+existing shared `buildDossierDocModel` and `renderDossierDocx`, and
+checks saved-state immutability. Where a no-photo avatar needs initials,
+the already gated Writer-readable VML Word shape is selected automatically.
+Uploaded photos use the original image path.
+
+This is NOT a production DOCX release: default PDF and DOCX buttons stay
+unchanged, and the new path rejects other unaccepted structures rather than
+using the renderer's broad allowance for arbitrary native features.
+Errors are reported in the editor, not replaced by fake files. Test cases
+cover the full model for three families, photo/no-photo and template mismatch.
+No full-app browser runtime was available for execution in this chat.
+Do not hand the diagnostic button to the user until verified with a complete
+saved project, actual app download and Desktop Word roundtrip.
