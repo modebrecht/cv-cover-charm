@@ -14,6 +14,8 @@ const out = path.resolve(process.argv[2] ?? "/tmp/docx-next-cover-family-ten");
 const appBase = process.env.DOCX_NEXT_APP_URL ?? "http://127.0.0.1:4173";
 // Explicitly diagnostic; never switches the actual application export path.
 const exportAvatarTrials = process.env.DOCX_NEXT_AVATAR_EXPERIMENT === "1";
+// A real full three-part DOCX downloaded by clicking the app's QA UI button.
+const exportFullAppDocx = process.env.DOCX_NEXT_FULL_APP_QA === "1";
 const avatarFormat = process.env.DOCX_NEXT_AVATAR_FORMAT ?? "single-owner";
 assert(["single-owner", "writer-vml"].includes(avatarFormat),
   "Unknown diagnostic avatar format; use single-owner or writer-vml");
@@ -530,7 +532,67 @@ try {
         await writeFile(path.join(folder, `web-${part}-pages.json`),
           JSON.stringify({ observedPages: n, screenshots: Math.min(n, 4) }, null, 2));
       }
-      await page.goto(appBase + "/titelblatt", { waitUntil: "networkidle" });
+      const coverUrl = appBase + "/titelblatt" +
+        (exportFullAppDocx ? "?docx-next-cover-family-qa=1" : "");
+      await page.goto(coverUrl, { waitUntil: "networkidle" });
+      let nativeDocx: {
+        status: "GATED_UNAVAILABLE" | "ACTUAL_APP_QA_DOWNLOAD";
+        file?: string; sha256?: string; sizeBytes?: number; reason?: string;
+      } = {
+        status: "GATED_UNAVAILABLE",
+        reason: "Opt-in full application QA download not requested",
+      };
+      if (exportFullAppDocx) {
+        const savedBeforeDocx = await page.evaluate(() =>
+          ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"]
+            .map((key) => localStorage.getItem(key)),
+        );
+        await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
+        const exportDialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+        const qaButton = exportDialog.locator(
+          "[data-cover-family-docx-next-qa] button",
+        );
+        await qaButton.waitFor({ state: "visible", timeout: 30000 });
+        assert(await qaButton.isEnabled(),
+          "Actual full DOCX QA download blocked by application preflight");
+        const dlEvent = page.waitForEvent("download", { timeout: 120000 });
+        await qaButton.click();
+        const download = await dlEvent;
+        const file = "full-app-native.docx";
+        await download.saveAs(path.join(folder, file));
+        const bytes = new Uint8Array(await readFile(path.join(folder, file)));
+        const { readZipEntries } = await import("../src/lib/docx-next/zip");
+        const zipEntries = readZipEntries(bytes, item.id + " app download");
+        const documentXml = zipEntries.find((entry) =>
+          entry.name === "word/document.xml");
+        assert(documentXml && zipEntries.some((entry) => entry.name === "word/styles.xml"),
+          "UI download does not contain a real DOCX document and styles part");
+        const xml = new TextDecoder().decode(documentXml.bytes);
+        for (const identity of ["cover.fullName", "letter.", "cv."])
+          assert(xml.includes(identity), "UI DOCX missing entire document identity: " + identity);
+        if (!project.cover!.data.foto) {
+          assert(xml.includes('id="cover.photo.native-avatar-'),
+            "Full application DOCX does not contain editable VML avatar");
+          assert(xml.includes('cover.photo.initials'),
+            "Full application DOCX avatar initials are not editable");
+          assert(xml.includes('<w:vAlign w:val="center"/>'),
+            "Full application DOCX avatar lost vertical centering");
+        } else {
+          assert(xml.includes('name="cover.photo"'),
+            "Full application DOCX lost uploaded source photo");
+        }
+        assert.deepEqual(await page.evaluate(() =>
+          ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"]
+            .map((key) => localStorage.getItem(key))),
+          savedBeforeDocx,
+          "Full application DOCX download mutated saved dossier source");
+        nativeDocx = {
+          status: "ACTUAL_APP_QA_DOWNLOAD", file,
+          sha256: sha256(bytes), sizeBytes: bytes.length,
+        };
+        // The normal PDF download below opens its own fresh dialog.
+        await page.goto(coverUrl, { waitUntil: "networkidle" });
+      }
       const beforePdf = await page.evaluate(() =>
         ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"]
           .map((key) => localStorage.getItem(key)),
@@ -573,10 +635,7 @@ try {
         fidelityGaps: gaps,
         pdf,
         diagnosticDocx: avatarTrial,
-        nativeDocx: {
-          status: "GATED_UNAVAILABLE",
-          reason: "Current application allows native authored DOCX only for Brief/Modern",
-        },
+        nativeDocx,
         wordAcceptance: "UNVERIFIED",
       };
       await writeFile(path.join(folder, "manifest.json"), JSON.stringify(result, null, 2));
@@ -598,16 +657,21 @@ try {
   const generated = results.filter((result) =>
     (result as { diagnosticDocx?: { status?: string } }).diagnosticDocx?.status ===
       "DIAGNOSTIC_DOCX_GENERATED");
+  const fullAppDownloads = results.filter((result) =>
+    (result as { nativeDocx?: { status?: string } }).nativeDocx?.status ===
+      "ACTUAL_APP_QA_DOWNLOAD");
   await writeFile(path.join(out, "manifest.json"), JSON.stringify({
-    type: exportAvatarTrials
-      ? "cover-family-experimental-diagnostic-docx"
-      : "cover-family-reference-only",
+    type: exportFullAppDocx
+      ? "cover-family-full-application-docx-qa"
+      : exportAvatarTrials
+        ? "cover-family-experimental-diagnostic-docx"
+        : "cover-family-reference-only",
     count: results.length,
     passed: passed.length,
     failed: results.length - passed.length,
     diagnosticDocxGenerated: generated.length,
     experimentalAvatarMode: exportAvatarTrials,
-    realNativeApplicationDocxFiles: 0,
+    realNativeApplicationDocxFiles: fullAppDownloads.length,
     desktopWordAccepted: 0,
     notAnAcceptancePackage: true,
     results,

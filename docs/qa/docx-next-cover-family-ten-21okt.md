@@ -400,3 +400,27 @@ cover the full model for three families, photo/no-photo and template mismatch.
 No full-app browser runtime was available for execution in this chat.
 Do not hand the diagnostic button to the user until verified with a complete
 saved project, actual app download and Desktop Word roundtrip.
+
+
+## Real three-part application QA download (not isolated avatar)
+
+The 10-case browser runner can now opt into the actual saved-app DOCX
+download, with:
+
+```bash
+DOCX_NEXT_FULL_APP_QA=1 bun scripts/docx-next-cover-family-ten.ts /tmp/docx-next-full-app-10
+```
+
+For each saved-state case it opens the real `/titelblatt` dossier dialog,
+clicks the gated **whole DOCX dossier** button, receives Playwright's
+actual UI download event, saves `full-app-native.docx` and checks native
+cover/letter/CV identities, main DOCX package parts, photo OR editable
+VML avatar, and unchanged local storage. The existing productive app PDF
+download is run separately in the SAME restored saved project state.
+Manifest reports real QA UI downloads separately from diagnostic model
+exports and never declares Microsoft Word acceptance.
+
+No browser or Bun execution happened in this Chat environment. This is a
+real app integration path prepared for the 10-case batch, **not a successful
+export or release**. Production export remains unchanged and feature URL
+gated. Do not ask the user to test isolated assets.
