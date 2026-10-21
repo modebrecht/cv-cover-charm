@@ -250,3 +250,16 @@ combined into an imaginary new test execution.
 
 **Status: Writer visual evidence 10/10; Desktop Microsoft Word 0/10;
 production still NO-GO.** No CI rerun, branch merge, or deployment.
+
+
+### Follow-up QA safeguard: uploaded-photo region
+
+The independent visual audit now measures the **uploaded-photo rectangle
+separately** from whole-A4 similarity, using the saved cover photo x/y,
+width and ratio. A photo-region RGB mean absolute difference exceeding
+35/255 is marked for review instead of being concealed by the large
+shared background. The Web/photo appearance and exact crop still need
+manual review of the generated comparison image before Word acceptance.
+This check was source-reviewed and locally syntax/smoke tested; the
+real 10-case application batch has **not** been rerun with this new
+auditor because the Sandbox quota is exhausted.
