@@ -2,9 +2,30 @@
 
 21 October 2026. Branch: `fix/docx-next-sidebar-word-layout-21okt`. This continues `9c6fcece1f212f6315f519d4db20e24d633951e2`. Scope is the **CV**: photos, native ownership, reference alignment and pagination. Cover and letter appearance are not under acceptance here.
 
-**Result:** the user's Microsoft Word returns confirm original-image preservation in portrait case 04 and resolve the blank-page failure in long case 06. They also demonstrate a real visible photo-outline clipping defect. The shared serializer now reserves the outline's painted bounds. A remaining automatic inset on general half-width sections is removed. The new candidate is locally verified; its desktop Word render remains **UNVERIFIED**. Production remains **NO-GO** pending the outstanding acceptance gates.
+**Updated result after the V3 Word returns:** both repaired CV photo cases now pass the focused desktop Word check for visible outlines, original image bytes/pixels, crop, typed picture ownership and field identities. Each remains one page. The edited title survives in its original field. This closes the demonstrated visible photo-outline defect in 04/05. Production remains **NO-GO** pending the broader acceptance gates; manual picture replacement/crop reset and repeated Word save/reopen are not established by these returns.
 
-## What desktop Word now proves
+## V3 desktop Word returns on 21 October at 16:42
+
+Both supplied V3 PDFs identify Microsoft Word for Microsoft 365 as creator and producer. They were inspected as complete pages and as enlarged photo crops. The original cut-flat top of the circle and the missing top/side portrait border are no longer visibly present. Both saved DOCX files differ from their generated sources and retain the corrected effect extents.
+
+| Check                                                            | 04 portrait                    | 05 free right photo            |
+| ---------------------------------------------------------------- | ------------------------------ | ------------------------------ |
+| Visible picture contour in Word PDF                              | PASS                           | PASS                           |
+| PDF page count                                                   | 1                              | 1                              |
+| Canonical field IDs                                              | 48/48, no missing or added IDs | 48/48, no missing or added IDs |
+| Original embedded PNG bytes and decoded pixels                   | Exact match                    | Exact match                    |
+| Crop, picture dimensions, shape and effect extents               | Exact match                    | Exact match                    |
+| Typed picture control owns one inline drawing, not its paragraph | Retained                       | Retained                       |
+| Table grids after Word save                                      | Exact match                    | Exact match                    |
+| Reference text versus heading left edge                          | 0 pt difference                | 0 pt difference                |
+
+In both files the only text change is `cv.documentTitle: Lebenslauf → Lebenslaufi`. It remains inside the same canonical field. All other 47 field values and all remaining document text are unchanged. The evidence retains the raw whole-text equality result as false, alongside the exact observed edit; it does not reinterpret an edited document as byte-identical.
+
+This is focused visual and structural acceptance of two Word-saved documents. No manual picture replacement, crop reset, confirmed close/reopen cycle, complete 22-case Word matrix or exact raster identity is inferred. The PDFs retain tiny theoretical stroke/clip-edge differences of roughly 0.09–0.14 pt (about 0.03–0.05 mm), recorded separately in the evidence. These do not reproduce the former visible truncation and do not justify a new compensation-offset investigation. The historical exact-geometry gate is not waived.
+
+Only this report and its evidence are updated for the return. No new product change, fixture packet, test request, CI run, merge or deployment is required for this review.
+
+## Earlier V2 desktop Word evidence
 
 The four returned PDFs identify Microsoft Word for Microsoft 365 as their creator/producer. Their fingerprints and the two saved DOCX comparisons are recorded in [the evidence file](docx-next-sidebar-word-photo-21okt-evidence.json). The Word returns concern the preceding V2 candidate, not this new source revision.
 
@@ -27,7 +48,7 @@ Microsoft's [effectExtent documentation](https://learn.microsoft.com/en-us/dotne
 
 The native wrapping frame encloses this complete paint box, with zero duplicate textbox padding. Its outer origin moves with the border reserve so the picture fill retains its authored location. Flow-zone tables likewise reserve the complete outline once; their cells do not add the border padding a second time. Native-track fit guards include the painted width and reject an outline crossing a track boundary. No template-specific or save-cycle compensation is added.
 
-Local Writer renders now show complete circular and rounded portrait contours. That verifies the new source in Writer; it does not replace the outstanding new-candidate Word check. Writer still rewrites original picture pixels during its own saves.
+Local Writer renders and the subsequent V3 desktop Word PDFs both show the repaired circular and rounded portrait contours. Both Word-saved DOCX also retain the complete original image bytes and native picture structure. Writer still rewrites original picture pixels during its own saves; its failure is not attributed to Word.
 
 ## Half-width text must keep its left edge
 
@@ -50,4 +71,4 @@ The active Fidelity branch was independently checked at `5bb37a9eceb5325c8cfa576
 
 ## Decision
 
-Proceed with the shared primitive repair. The supplied Word evidence does not currently justify replacing the whole Sidebar architecture to solve Writer's original-pixel behavior. Keep manual Word picture replacement, crop reset, further save/reopen, the complete acceptance matrix and the existing exact geometry gate explicitly open. No further files are needed to establish the defects repaired here.
+Retain the shared primitive repair and record the focused Word acceptance of 04/05. No additional image workaround or micro-packet is justified by these returns. The supplied Word evidence does not currently justify replacing the whole Sidebar architecture to solve Writer's original-pixel behavior. Keep manual Word picture replacement, crop reset, repeated save/reopen, the complete acceptance matrix and the existing exact geometry gate explicitly open. No further files are needed for this focused review, and no new intermediate user test is requested.

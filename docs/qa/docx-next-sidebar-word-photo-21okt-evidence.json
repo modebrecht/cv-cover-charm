@@ -172,7 +172,7 @@
       "completeContourVisuallyInspected": true
     }
   ],
-  "v3WordAcceptance": "UNVERIFIED",
+  "v3WordAcceptance": "FOCUSED PASS for visible picture outlines, original assets, crops, ownership and field identities in 04/05; observed title edit preserved",
   "writerOriginalPixelGate": "Not waived; still distinct from Word",
   "productionVerdict": "NO-GO until remaining Word edit/reopen and full acceptance gates pass",
   "v3Tests": {
@@ -396,5 +396,289 @@
         }
       ]
     }
+  },
+  "v3DesktopWordReturns": [
+    {
+      "case": "04-NUR-CV-Portrait-V3",
+      "sourceSha256": "71657436d41ccc5e7b7c94190afbe19606d663e33d2edb5f3bea67a2e3ff4bb6",
+      "savedSha256": "aee546054f5c9a4f8d83a2417573709ed6e9839d1dac7c83a5769bb867164b98",
+      "savedBytesChanged": true,
+      "pdfSha256": "2504c564692a6eb3478fb3344184480393e7e9b7cb5135e0fc1404576786e3a7",
+      "pdfMetadata": {
+        "format": "PDF 1.7",
+        "title": "Bewerbungsdossier",
+        "author": "Lea Müller",
+        "subject": "",
+        "keywords": "",
+        "creator": "Microsoft® Word for Microsoft 365",
+        "producer": "Microsoft® Word for Microsoft 365",
+        "creationDate": "D:20261021164220+02'00'",
+        "modDate": "D:20261021164220+02'00'",
+        "trapped": "",
+        "encryption": null
+      },
+      "pdfPages": 1,
+      "pdfImageBboxes": [[425.1499938964844, 137.04998779296875, 521.5, 257.489990234375]],
+      "referenceTextMinusHeadingXPt": 0.0,
+      "comparison": {
+        "sourceFields": 48,
+        "savedFields": 48,
+        "fieldIdsAndTextPreserved": false,
+        "completeTextPreserved": false,
+        "exactGridsPreserved": true,
+        "pictures": {
+          "cv.person.photo": {
+            "pictureControlContainsImage": true,
+            "originalDrawingMLPreserved": true,
+            "originalPixelsPreserved": true,
+            "exactCropMarkupPreserved": true,
+            "source": {
+              "representation": "DrawingML",
+              "width": 120,
+              "height": 180,
+              "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+              "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+              "crop": {
+                "l": "11818",
+                "t": "31313",
+                "r": "27576",
+                "b": "18182"
+              }
+            },
+            "saved": {
+              "representation": "DrawingML",
+              "width": 120,
+              "height": 180,
+              "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+              "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+              "crop": {
+                "l": "11818",
+                "t": "31313",
+                "r": "27576",
+                "b": "18182"
+              }
+            }
+          }
+        }
+      },
+      "missingIds": [],
+      "addedIds": [],
+      "changedText": {
+        "cv.documentTitle": ["Lebenslauf", "Lebenslaufi"]
+      },
+      "savedPictureEffectExtents": [
+        {
+          "l": "43200",
+          "t": "43200",
+          "r": "43200",
+          "b": "43200"
+        }
+      ],
+      "observedEditedField": "cv.documentTitle",
+      "other47FieldValuesExactlyPreserved": true,
+      "allTextExactlyPreservedExceptObservedTitleEdit": true,
+      "sourceStructure": {
+        "typedPictureControl": true,
+        "drawingsOwned": 1,
+        "paragraphOwnedByControl": false,
+        "inlineExtent": {
+          "cx": "1224000",
+          "cy": "1530000"
+        },
+        "effectExtent": {
+          "l": "43200",
+          "t": "43200",
+          "r": "43200",
+          "b": "43200"
+        },
+        "transformExtent": {
+          "cx": "1224000",
+          "cy": "1530000"
+        },
+        "shape": {
+          "prst": "roundRect"
+        }
+      },
+      "savedStructure": {
+        "typedPictureControl": true,
+        "drawingsOwned": 1,
+        "paragraphOwnedByControl": false,
+        "inlineExtent": {
+          "cx": "1224000",
+          "cy": "1530000"
+        },
+        "effectExtent": {
+          "l": "43200",
+          "t": "43200",
+          "r": "43200",
+          "b": "43200"
+        },
+        "transformExtent": {
+          "cx": "1224000",
+          "cy": "1530000"
+        },
+        "shape": {
+          "prst": "roundRect"
+        }
+      },
+      "pictureStructureExactlyPreserved": true,
+      "visualOutline": "PASS for visible truncation at enlarged and complete-page review",
+      "strictRasterPixelIdentity": "NOT CLAIMED",
+      "pdfStrokeClipResidualPt": {
+        "top": 0.0908,
+        "left": 0.1108
+      },
+      "manualPictureReplacementOrCropReset": "UNVERIFIED",
+      "repeatedWordSaveReopen": "UNVERIFIED"
+    },
+    {
+      "case": "05-NUR-CV-Foto-rechts-V3",
+      "sourceSha256": "b27ef3ecf48c6ccd337bb1a6e9b1782c3facfaa545dfb5e540802a0830835c9f",
+      "savedSha256": "c06c6d9bf310d52d632792faf908bca2917850b59b9a18b1403a33e0cf1ad3ab",
+      "savedBytesChanged": true,
+      "pdfSha256": "d892d1802ad65905fbfc8d61cf80f76dc4a8100d7690e67295e8699bfd8fb76c",
+      "pdfMetadata": {
+        "format": "PDF 1.7",
+        "title": "Bewerbungsdossier",
+        "author": "Lea Müller",
+        "subject": "",
+        "keywords": "",
+        "creator": "Microsoft® Word for Microsoft 365",
+        "producer": "Microsoft® Word for Microsoft 365",
+        "creationDate": "D:20261021164245+02'00'",
+        "modDate": "D:20261021164245+02'00'",
+        "trapped": "",
+        "encryption": null
+      },
+      "pdfPages": 1,
+      "pdfImageBboxes": [
+        [428.04998779296875, 67.29996490478516, 524.3999633789062, 163.64996337890625]
+      ],
+      "referenceTextMinusHeadingXPt": 0.0,
+      "comparison": {
+        "sourceFields": 48,
+        "savedFields": 48,
+        "fieldIdsAndTextPreserved": false,
+        "completeTextPreserved": false,
+        "exactGridsPreserved": true,
+        "pictures": {
+          "cv.person.photo": {
+            "pictureControlContainsImage": true,
+            "originalDrawingMLPreserved": true,
+            "originalPixelsPreserved": true,
+            "exactCropMarkupPreserved": true,
+            "source": {
+              "representation": "DrawingML",
+              "width": 120,
+              "height": 180,
+              "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+              "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+              "crop": {
+                "l": "8400",
+                "t": "24400",
+                "r": "11600",
+                "b": "22267"
+              }
+            },
+            "saved": {
+              "representation": "DrawingML",
+              "width": 120,
+              "height": 180,
+              "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+              "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+              "crop": {
+                "l": "8400",
+                "t": "24400",
+                "r": "11600",
+                "b": "22267"
+              }
+            }
+          }
+        }
+      },
+      "missingIds": [],
+      "addedIds": [],
+      "changedText": {
+        "cv.documentTitle": ["Lebenslauf", "Lebenslaufi"]
+      },
+      "savedPictureEffectExtents": [
+        {
+          "l": "14400",
+          "t": "14400",
+          "r": "14400",
+          "b": "14400"
+        }
+      ],
+      "observedEditedField": "cv.documentTitle",
+      "other47FieldValuesExactlyPreserved": true,
+      "allTextExactlyPreservedExceptObservedTitleEdit": true,
+      "sourceStructure": {
+        "typedPictureControl": true,
+        "drawingsOwned": 1,
+        "paragraphOwnedByControl": false,
+        "inlineExtent": {
+          "cx": "1224000",
+          "cy": "1224000"
+        },
+        "effectExtent": {
+          "l": "14400",
+          "t": "14400",
+          "r": "14400",
+          "b": "14400"
+        },
+        "transformExtent": {
+          "cx": "1224000",
+          "cy": "1224000"
+        },
+        "shape": {
+          "prst": "ellipse"
+        }
+      },
+      "savedStructure": {
+        "typedPictureControl": true,
+        "drawingsOwned": 1,
+        "paragraphOwnedByControl": false,
+        "inlineExtent": {
+          "cx": "1224000",
+          "cy": "1224000"
+        },
+        "effectExtent": {
+          "l": "14400",
+          "t": "14400",
+          "r": "14400",
+          "b": "14400"
+        },
+        "transformExtent": {
+          "cx": "1224000",
+          "cy": "1224000"
+        },
+        "shape": {
+          "prst": "ellipse"
+        }
+      },
+      "pictureStructureExactlyPreserved": true,
+      "visualOutline": "PASS for visible truncation at enlarged and complete-page review",
+      "strictRasterPixelIdentity": "NOT CLAIMED",
+      "pdfStrokeClipResidualPt": {
+        "top": 0.137,
+        "left": 0.1069
+      },
+      "manualPictureReplacementOrCropReset": "UNVERIFIED",
+      "repeatedWordSaveReopen": "UNVERIFIED"
+    }
+  ],
+  "v3WordReturnVerdict": {
+    "visiblePhotoOutlineFix": "PASS in both returned Word PDFs",
+    "originalImageBytesAndPixels": "PASS in both Word-saved DOCX",
+    "exactCropAndPictureStructure": "PASS in both Word-saved DOCX",
+    "canonicalIds": "48/48 per case; no missing or added IDs",
+    "textEditing": "Lebenslauf → Lebenslaufi retained in the same canonical field; all other text unchanged",
+    "referenceAlignment": "0 pt text-to-heading horizontal displacement in both PDFs",
+    "pages": "one page per case",
+    "strictRasterIdentity": "NOT CLAIMED; residual PDF stroke-edge clip deltas approx 0.03–0.05 mm",
+    "manualPictureEditing": "UNVERIFIED",
+    "complete22CaseAcceptance": "UNVERIFIED",
+    "nextAction": "Record focused acceptance and retain the existing source fix; no new export or workaround is required for these supplied cases",
+    "productionSwitch": "NOT AUTHORIZED / NOT PERFORMED"
   }
 }
