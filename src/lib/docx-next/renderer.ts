@@ -33,6 +33,7 @@ import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
 import { nativeTextShapeRun } from "./native-text-shape";
+import { nativePictureFrameRun } from "./native-picture-frame";
 import { flowSurfacePaint } from "./flow-surface";
 import { parallelFlowTable } from "./parallel-flow";
 import { imageZoneTable } from "./image-zone";
@@ -45,6 +46,7 @@ import {
 } from "./page-artwork";
 import {
   control,
+  pictureControl,
   paragraph,
   emptyParagraph,
   emptyParagraphWithRuns,
@@ -300,6 +302,23 @@ export async function renderDossierDocx(
       page,
     );
   }
+  function ownedImageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
+    if (value.placement === "free" && value.coordinateOrigin === "content" && value.sourceLayout) {
+      const media = sources.get(value.source)!;
+      const geometry = pictureGeometry(value, media.asset, widthMm);
+      const inline = pictureRun(
+        { ...value, placement: "inline", gapMm: 0 },
+        media.rid,
+        geometry,
+        widthMm,
+        page,
+      );
+      const owned = pictureControl(value.id, inline, drawingId);
+      return nativePictureFrameRun(value, geometry.heightMm, owned, ++drawingId);
+    }
+    const drawing = imageRun(value, widthMm, page);
+    return value.placement === "inline" ? pictureControl(value.id, drawing, drawingId) : drawing;
+  }
   function decorationRun(
     value: DecorativeShape,
     page: DocumentPart["page"],
@@ -388,10 +407,8 @@ export async function renderDossierDocx(
     );
   }
   function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
-    return control(
-      value.id,
-      `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}<w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
-    );
+    const drawing = ownedImageRun(value, widthMm, page);
+    return `<w:p><w:pPr><w:spacing w:after="${twips(3)}" w:line="240" w:lineRule="auto"/>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}</w:pPr>${drawing}</w:p>`;
   }
   function table(
     value: TableBlock,
@@ -441,11 +458,15 @@ export async function renderDossierDocx(
                 "",
                 row.cellEndKeepNext?.[index] ?? undefined,
               );
+              const cellStart =
+                value.bodyBoundary === "section-start" && rowIndex === 0 && cell.length
+                  ? emptyParagraphWithRuns("", true, 20 + twips(value.bodyBoundaryLeadMm ?? 0))
+                  : "";
               const ending =
                 value.identityCarrier === "cell-ending" && rowIndex === 0 && index === 0
                   ? control(value.id, emptyEnding)
                   : emptyEnding;
-              return `<w:tc><w:tcPr><w:tcW w:w="${gridWidths[index]}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page, 0, cumulativeGrid)}${ending}</w:tc>`;
+              return `<w:tc><w:tcPr><w:tcW w:w="${gridWidths[index]}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${cellStart}${renderBlocks(cell, Math.max(10, contentWidth), page, 0, cumulativeGrid)}${ending}</w:tc>`;
             })
             .join("")}</w:tr>`,
       )
@@ -616,6 +637,7 @@ export async function renderDossierDocx(
         (block.kind === "image" && block.placement !== "inline")
       ) {
         const drawings: string[] = [];
+        let ownsPicture = false;
         let cursor = index;
         while (
           values[cursor]?.kind === "decorative-shape" ||
@@ -623,16 +645,23 @@ export async function renderDossierDocx(
             (values[cursor] as ImageBlock).placement !== "inline")
         ) {
           const value = values[cursor];
+          if (value.kind === "image" && value.coordinateOrigin === "content" && value.sourceLayout)
+            ownsPicture = true;
           drawings.push(
             value.kind === "decorative-shape"
               ? decorationRun(value, page)
-              : imageRun(value as ImageBlock, widthMm, page),
+              : ownedImageRun(value as ImageBlock, widthMm, page),
           );
           cursor++;
         }
         const anchor = values[cursor];
         if (anchor?.kind === "paragraph") {
-          result += renderParagraph(anchor, drawings.join(""), indentMm);
+          // Keep text ownership separate from the native picture frame anchored here.
+          result += renderParagraph(
+            ownsPicture ? { ...anchor, controlPlacement: "inline" } : anchor,
+            drawings.join(""),
+            indentMm,
+          );
           index = cursor;
           continue;
         }
@@ -790,7 +819,7 @@ export async function renderDossierDocx(
   pkg.add(
     "word/settings.xml",
     WORD_PART_TYPES.settings,
-    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat></w:settings>`,
+    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat>${sources.size ? "<w:doNotAutoCompressPictures/>" : ""}</w:settings>`,
   );
   const fonts = new Set<string>([model.theme.font]);
   for (const part of parts)

@@ -216,11 +216,13 @@ export function buildDossierDocModel(
       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
       : settings.placements;
   const template = nextTemplate(String(cover.template));
-  if (options.nativeAvatarComposition !== undefined &&
-      (options.nativeAvatarComposition !== "single-owner" ||
-        options.coverComposition !== undefined ||
-        template.cover.nativePhotoPlaceholder !== "editable-initials" ||
-        !!cover.data.foto))
+  if (
+    options.nativeAvatarComposition !== undefined &&
+    (options.nativeAvatarComposition !== "single-owner" ||
+      options.coverComposition !== undefined ||
+      template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+      !!cover.data.foto)
+  )
     throw Error("DOCX Next native avatar trial requires an approved no-photo flow family");
   if (
     options.compactChromeComposition !== undefined &&
@@ -1048,9 +1050,11 @@ export function buildDossierDocModel(
         return {
           kind: "table",
           id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
-          widths: [1, 1],
-          rows: [{ cells: [pair.slice(0, 1), pair.slice(1)], keepTogether: false }],
-          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 3, paddingYMm: 0 },
+          // Match the preview's two equal tracks and 6 mm gap without an outer inset.
+          widths: [1, 1, 1],
+          columnWidthsMm: [null, 6, null],
+          rows: [{ cells: [pair.slice(0, 1), [], pair.slice(1)], keepTogether: false }],
+          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
         };
       });
     }

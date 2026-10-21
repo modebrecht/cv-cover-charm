@@ -85,3 +85,17 @@ export function imageZoneTable(zone: ImageZoneBlock, availableWidthMm: number): 
     ],
   };
 }
+
+/** Preserve a free picture's coordinates while letting its track's text wrap around it. */
+export function imageZoneAnchor(zone: ImageZoneBlock, availableWidthMm: number): ImageBlock {
+  imageZoneTable(zone, availableWidthMm);
+  const { borderInsetMm } = imageZoneExtent(zone.image);
+  return {
+    ...zone.image,
+    placement: "free",
+    coordinateOrigin: "content",
+    xMm: zone.leftInsetMm + borderInsetMm,
+    yMm: zone.topInsetMm + borderInsetMm,
+    sourceLayout: zone.sourceLayout,
+  };
+}

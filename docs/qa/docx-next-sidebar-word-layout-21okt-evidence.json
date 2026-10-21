@@ -1,0 +1,493 @@
+{
+  "base": "bc26a9472cf802828b5cd7e92d885954d82cec3c",
+  "branch": "fix/docx-next-sidebar-word-layout-21okt",
+  "unitTests": {
+    "passed": 78,
+    "failed": 0,
+    "suites": 11,
+    "expectCalls": 1498
+  },
+  "markupReaderTests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "focusedTypecheck": "PASS",
+  "fullApplicationBuild": "NOT RUN",
+  "strictPixelAssertion": "FAIL as recorded; no gate waived",
+  "sourceRegenerationByteIdentical": true,
+  "saves": {
+    "runtime": "LibreOfficeDev 26.8.0.0.alpha0",
+    "wordAcceptance": "UNVERIFIED",
+    "semanticSurvival": "PASS",
+    "originalPixelGate": "FAIL",
+    "cases": [
+      {
+        "file": "01-Links-ohne-Foto.docx",
+        "phases": {
+          "save1": {
+            "sourceFields": 79,
+            "savedFields": 79,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {}
+          },
+          "save2": {
+            "sourceFields": 79,
+            "savedFields": 79,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {}
+          }
+        }
+      },
+      {
+        "file": "02-Foto-rechts.docx",
+        "phases": {
+          "save1": {
+            "sourceFields": 80,
+            "savedFields": 80,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "pictureControlContainsImage": true,
+                "originalDrawingMLPreserved": true,
+                "originalPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "representation": "DrawingML",
+                  "width": 120,
+                  "height": 180,
+                  "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "crop": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "representation": "DrawingML",
+                  "width": 96,
+                  "height": 96,
+                  "embeddedFileSha256": "e03bd8e511b18bc850305389d41126ec66d4e00a4eaf09fe5a53a70be7ea72b5",
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "crop": null
+                }
+              }
+            }
+          },
+          "save2": {
+            "sourceFields": 80,
+            "savedFields": 80,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "pictureControlContainsImage": true,
+                "originalDrawingMLPreserved": true,
+                "originalPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "representation": "DrawingML",
+                  "width": 120,
+                  "height": 180,
+                  "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "crop": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "representation": "DrawingML",
+                  "width": 96,
+                  "height": 96,
+                  "embeddedFileSha256": "e03bd8e511b18bc850305389d41126ec66d4e00a4eaf09fe5a53a70be7ea72b5",
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "crop": null
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "file": "03-Foto-links.docx",
+        "phases": {
+          "save1": {
+            "sourceFields": 80,
+            "savedFields": 80,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "pictureControlContainsImage": true,
+                "originalDrawingMLPreserved": true,
+                "originalPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "representation": "DrawingML",
+                  "width": 120,
+                  "height": 180,
+                  "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "crop": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "representation": "DrawingML",
+                  "width": 96,
+                  "height": 96,
+                  "embeddedFileSha256": "e03bd8e511b18bc850305389d41126ec66d4e00a4eaf09fe5a53a70be7ea72b5",
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "crop": null
+                }
+              }
+            }
+          },
+          "save2": {
+            "sourceFields": 80,
+            "savedFields": 80,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "pictureControlContainsImage": true,
+                "originalDrawingMLPreserved": true,
+                "originalPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "representation": "DrawingML",
+                  "width": 120,
+                  "height": 180,
+                  "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "crop": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "representation": "DrawingML",
+                  "width": 96,
+                  "height": 96,
+                  "embeddedFileSha256": "e03bd8e511b18bc850305389d41126ec66d4e00a4eaf09fe5a53a70be7ea72b5",
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "crop": null
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "file": "04-Foto-Portrait.docx",
+        "phases": {
+          "save1": {
+            "sourceFields": 80,
+            "savedFields": 80,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "pictureControlContainsImage": true,
+                "originalDrawingMLPreserved": false,
+                "originalPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "representation": "DrawingML",
+                  "width": 120,
+                  "height": 180,
+                  "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "crop": {
+                    "l": "11818",
+                    "t": "31313",
+                    "r": "27576",
+                    "b": "18182"
+                  }
+                },
+                "saved": {
+                  "representation": "VML",
+                  "width": 73,
+                  "height": 91,
+                  "embeddedFileSha256": "de07abf4466ea0207ae2b800673a7212ba4b82e91454908848dcbf2a83174ee4",
+                  "rgbaSha256": "5c487ed740920bb94e9e42091e6e43ba5d31fc6a0194e3dca1cf14a489d48082",
+                  "crop": null
+                }
+              }
+            }
+          },
+          "save2": {
+            "sourceFields": 80,
+            "savedFields": 80,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "pictureControlContainsImage": true,
+                "originalDrawingMLPreserved": false,
+                "originalPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "representation": "DrawingML",
+                  "width": 120,
+                  "height": 180,
+                  "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "crop": {
+                    "l": "11818",
+                    "t": "31313",
+                    "r": "27576",
+                    "b": "18182"
+                  }
+                },
+                "saved": {
+                  "representation": "VML",
+                  "width": 73,
+                  "height": 91,
+                  "embeddedFileSha256": "de07abf4466ea0207ae2b800673a7212ba4b82e91454908848dcbf2a83174ee4",
+                  "rgbaSha256": "5c487ed740920bb94e9e42091e6e43ba5d31fc6a0194e3dca1cf14a489d48082",
+                  "crop": null
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "file": "05-Freies-Foto-rechts.docx",
+        "phases": {
+          "save1": {
+            "sourceFields": 80,
+            "savedFields": 80,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "pictureControlContainsImage": true,
+                "originalDrawingMLPreserved": true,
+                "originalPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "representation": "DrawingML",
+                  "width": 120,
+                  "height": 180,
+                  "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "crop": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "representation": "DrawingML",
+                  "width": 96,
+                  "height": 96,
+                  "embeddedFileSha256": "e03bd8e511b18bc850305389d41126ec66d4e00a4eaf09fe5a53a70be7ea72b5",
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "crop": null
+                }
+              }
+            }
+          },
+          "save2": {
+            "sourceFields": 80,
+            "savedFields": 80,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {
+              "cv.person.photo": {
+                "pictureControlContainsImage": true,
+                "originalDrawingMLPreserved": true,
+                "originalPixelsPreserved": false,
+                "exactCropMarkupPreserved": false,
+                "source": {
+                  "representation": "DrawingML",
+                  "width": 120,
+                  "height": 180,
+                  "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                  "crop": {
+                    "l": "8400",
+                    "t": "24400",
+                    "r": "11600",
+                    "b": "22267"
+                  }
+                },
+                "saved": {
+                  "representation": "DrawingML",
+                  "width": 96,
+                  "height": 96,
+                  "embeddedFileSha256": "e03bd8e511b18bc850305389d41126ec66d4e00a4eaf09fe5a53a70be7ea72b5",
+                  "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                  "crop": null
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "file": "06-Langer-CV-rechts.docx",
+        "phases": {
+          "save1": {
+            "sourceFields": 384,
+            "savedFields": 384,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {}
+          },
+          "save2": {
+            "sourceFields": 384,
+            "savedFields": 384,
+            "fieldIdsAndTextPreserved": true,
+            "completeTextPreserved": true,
+            "exactGridsPreserved": false,
+            "pictures": {}
+          }
+        }
+      }
+    ],
+    "manifest": {
+      "sourceBase": "bc26a9472cf802828b5cd7e92d885954d82cec3c",
+      "coverComposition": "authored-frames",
+      "imageAdapter": "Explicit complete PNG; not browser-normalized acceptance fixtures",
+      "photoSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+      "widthPx": 120,
+      "heightPx": 180,
+      "fixtures": [
+        {
+          "fixture": "left",
+          "filename": "01-Links-ohne-Foto.docx",
+          "photo": false,
+          "docxSha256": "d219c0bbdb9d7a1f1be2e264da465f07fe14e157dadfcd7755c37eb23cf18491"
+        },
+        {
+          "fixture": "photo-right",
+          "filename": "02-Foto-rechts.docx",
+          "photo": true,
+          "docxSha256": "d735fdcb4a356f2ab174975f00fd121cba7a35c1676d3996a00427e2b37adc16"
+        },
+        {
+          "fixture": "photo-left",
+          "filename": "03-Foto-links.docx",
+          "photo": true,
+          "docxSha256": "b075e5bc261b689cb200015beff4e86278f335488ee753467d2df23cd35a4364"
+        },
+        {
+          "fixture": "photo-free-portrait",
+          "filename": "04-Foto-Portrait.docx",
+          "photo": true,
+          "docxSha256": "4dc3cabda398e7a8976d1905debcf4e9999f4d78e58eafe6dfa63f4ca872e5c0"
+        },
+        {
+          "fixture": "photo-free-mirrored-side",
+          "filename": "05-Freies-Foto-rechts.docx",
+          "photo": true,
+          "docxSha256": "fdb85f20e0caf982b873baaaa80cdfe9426c40e63ccb1839622cceedb86372d3"
+        },
+        {
+          "fixture": "both-long-right",
+          "filename": "06-Langer-CV-rechts.docx",
+          "photo": false,
+          "docxSha256": "c57b8f66e6f7885b928ed81ab28645f4fa0c9cade5d706fbee4aab033172189a"
+        }
+      ]
+    }
+  },
+  "renders": [
+    {
+      "file": "01-Links-ohne-Foto",
+      "pages": 3,
+      "blankPages": [],
+      "cvTitlePage3": [[213.25, 66.68325805664062, 284.4355163574219, 81.74925994873047]],
+      "referenceNamePage3": [[213.25, 588.8982543945312, 312.9055480957031, 600.6162719726562]],
+      "coverPngSha256": "65fb5ebee867233b03272565ad1feb406a60c85ff3ea10aa72bd98c6a66c73ae",
+      "letterPngSha256": "cf6b17ecb99b05edee995b07b1861e418a73703f8c5e5a54cabed4ec2dbf0c9d"
+    },
+    {
+      "file": "02-Foto-rechts",
+      "pages": 3,
+      "blankPages": [],
+      "cvTitlePage3": [
+        [56.79999923706055, 66.68325805664062, 127.98550415039062, 81.74925994873047]
+      ],
+      "referenceNamePage3": [
+        [56.79999923706055, 588.8982543945312, 156.4554901123047, 600.6162719726562]
+      ],
+      "coverPngSha256": "65fb5ebee867233b03272565ad1feb406a60c85ff3ea10aa72bd98c6a66c73ae",
+      "letterPngSha256": "cf6b17ecb99b05edee995b07b1861e418a73703f8c5e5a54cabed4ec2dbf0c9d"
+    },
+    {
+      "file": "03-Foto-links",
+      "pages": 3,
+      "blankPages": [],
+      "cvTitlePage3": [[213.25, 66.68325805664062, 284.4355163574219, 81.74925994873047]],
+      "referenceNamePage3": [[213.25, 588.8982543945312, 312.9055480957031, 600.6162719726562]],
+      "coverPngSha256": "65fb5ebee867233b03272565ad1feb406a60c85ff3ea10aa72bd98c6a66c73ae",
+      "letterPngSha256": "cf6b17ecb99b05edee995b07b1861e418a73703f8c5e5a54cabed4ec2dbf0c9d"
+    },
+    {
+      "file": "04-Foto-Portrait",
+      "pages": 3,
+      "blankPages": [],
+      "cvTitlePage3": [[213.25, 66.68325805664062, 284.4355163574219, 81.74925994873047]],
+      "referenceNamePage3": [[213.25, 603.3982543945312, 312.9055480957031, 615.1162719726562]],
+      "coverPngSha256": "65fb5ebee867233b03272565ad1feb406a60c85ff3ea10aa72bd98c6a66c73ae",
+      "letterPngSha256": "cf6b17ecb99b05edee995b07b1861e418a73703f8c5e5a54cabed4ec2dbf0c9d"
+    },
+    {
+      "file": "05-Freies-Foto-rechts",
+      "pages": 3,
+      "blankPages": [],
+      "cvTitlePage3": [
+        [56.79999923706055, 66.68325805664062, 127.98550415039062, 81.74925994873047]
+      ],
+      "referenceNamePage3": [
+        [56.79999923706055, 588.8982543945312, 156.4554901123047, 600.6162719726562]
+      ],
+      "coverPngSha256": "65fb5ebee867233b03272565ad1feb406a60c85ff3ea10aa72bd98c6a66c73ae",
+      "letterPngSha256": "cf6b17ecb99b05edee995b07b1861e418a73703f8c5e5a54cabed4ec2dbf0c9d"
+    },
+    {
+      "file": "06-Langer-CV-rechts",
+      "pages": 11,
+      "blankPages": [],
+      "cvTitlePage3": [
+        [56.79999923706055, 66.68325805664062, 127.98550415039062, 81.74925994873047]
+      ],
+      "referenceNamePage3": [],
+      "coverPngSha256": "65fb5ebee867233b03272565ad1feb406a60c85ff3ea10aa72bd98c6a66c73ae",
+      "letterPngSha256": "cf6b17ecb99b05edee995b07b1861e418a73703f8c5e5a54cabed4ec2dbf0c9d",
+      "schoolNumbers": [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48,
+        49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65
+      ]
+    }
+  ]
+}

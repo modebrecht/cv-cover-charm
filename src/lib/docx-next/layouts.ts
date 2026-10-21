@@ -148,7 +148,16 @@ export function tableColumnWidths(value: TableBlock, tableWidthMm: number): numb
     (width, index) => width ?? (remaining * value.widths[index]) / flexibleWeight,
   );
   const padding = (value.decoration?.paddingXMm ?? 2) * 2;
-  if (value.columnWidthsMm && widths.some((width) => width - padding < 10))
+  if (
+    value.columnWidthsMm &&
+    widths.some(
+      (width, index) =>
+        !Number.isFinite(width) ||
+        width <= 0 ||
+        // Empty spacer tracks need no text width; populated tracks retain the existing gate.
+        (width - padding < 10 && value.rows.some((row) => row.cells[index]?.length)),
+    )
+  )
     throw new Error(`DOCX Next fixed column leaves insufficient text width ${value.id}`);
   return widths;
 }

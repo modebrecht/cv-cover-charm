@@ -115,5 +115,10 @@ export function composeCvSidebar(
   };
   // Explicit page starts/nested columns/floating semantic content fail at this boundary.
   if (composition === "semantic-rows") parallelFlowTable(flow, width);
-  part.blocks = [...outside, composition === "body-stories" ? sidebarBodyTable(flow, width) : flow];
+  part.blocks = [
+    ...outside,
+    composition === "body-stories"
+      ? sidebarBodyTable(flow, width, part.layout.side === "left" ? 1 : 0)
+      : flow,
+  ];
 }
