@@ -32,9 +32,13 @@ export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {
 
   const photo = snapshot.cover.blocks.find((block) => block.kind === "photo");
   const emptyVisiblePhoto = !snapshot.cover.data.foto && !!photo && !photo.style.hidden;
-  const model = buildDossierDocModel(snapshot, emptyVisiblePhoto
-    ? { nativeAvatarComposition: "writer-vml" }
-    : {});
+  const model = buildDossierDocModel(snapshot,
+    emptyVisiblePhoto
+      ? { nativeAvatarComposition: "writer-vml" }
+      : snapshot.cover.data.foto
+        ? { coverPhotoPlacement: "authored-page" }
+        : {},
+  );
   if (model.issues.length || model.templateId !== family)
     throw Error("DOCX Next Cover QA: Nicht unterstützte Modell-Einstellungen.");
 
